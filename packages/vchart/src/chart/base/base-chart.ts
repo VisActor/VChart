@@ -815,10 +815,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (result.reMake) {
       return result;
     }
-    this.updateDataSpec(result);
-    if (result.reMake) {
-      return result;
-    }
+    /**
+     * 当图表不是`remake`，而是部分更新的时候，所有的model需要`reInit`
+     * 由于 data 最终是挂在到model上的，data的transform又依赖model中的`spec`，
+     * 所以在更新model前需要调用`reInit`确保`spec`和内部变量已经更新
+     */
+    this.reInit();
+    this.updateDataSpec();
     // ensure that the domain of the scale follows the data change
     this.updateGlobalScaleDomain();
     return result;
@@ -837,7 +840,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
-  updateDataSpec(result: IUpdateSpecResult) {
+  updateDataSpec() {
     if (!this._spec.data) {
       return;
     }
@@ -941,7 +944,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     // 设置色板，只设置 colorScale 的 range
     this.updateGlobalScaleTheme();
+    this.reInit();
+  }
 
+  reInit() {
     [...this._regions, ...this._series, ...this._components].forEach(model => {
       const specInfo = model.getSpecInfo();
 
@@ -1115,6 +1121,37 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     region?: IRegionQuerier
   ): void {
     this._setStateInDatum(STATE_VALUE_ENUM.STATE_HOVER, true, datum, filter, region);
+  }
+
+  /**
+   * 清除所有图元的状态
+   *
+   * @since 1.11.0
+   */
+  clearState(state: string) {
+    this.getAllRegions().forEach(r => {
+      r.interaction.clearEventElement(state, true);
+      r.interaction.resetInteraction(state, null);
+      return;
+    });
+  }
+
+  /**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected() {
+    this.clearState(STATE_VALUE_ENUM.STATE_SELECTED);
+  }
+
+  /**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered() {
+    this.clearState(STATE_VALUE_ENUM.STATE_HOVER);
   }
 
   private _initEvent() {

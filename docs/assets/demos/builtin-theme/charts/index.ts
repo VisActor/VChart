@@ -9,7 +9,7 @@ import scatter from './scatter';
 import heatmap from './heatmap';
 import markArea from './mark-area';
 import markLine from './mark-line';
-import markPoint from './mark-point';
+import markPoint from './cartesian-mark-point';
 import gauge from './gauge';
 import funnel from './funnel';
 

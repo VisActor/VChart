@@ -60,10 +60,18 @@ import { CorrelationChart, registerCorrelationChart } from './correlation';
 import type { ILiquidChartSpec } from './liquid';
 import { LiquidChart, registerLiquidChart } from './liquid';
 import type { IWordCloudChartSpec, IWordCloud3dChartSpec } from './word-cloud';
-import { WordCloudChart, WordCloud3dChart, registerWordCloudChart, registerWordCloud3dChart } from './word-cloud';
+import {
+  WordCloudChart,
+  WordCloud3dChart,
+  registerWordCloudChart,
+  registerWordCloudShapeChart,
+  registerWordCloud3dChart
+} from './word-cloud';
 import { BaseChart } from './base/base-chart';
 import type { ICartesianChartSpec } from './cartesian';
 import type { IPolarChartSpec } from './polar';
+import type { IVennChartSpec } from './venn';
+import { VennChart, registerVennChart } from './venn';
 export {
   AreaChart,
   BarChart,
@@ -98,6 +106,7 @@ export {
   WordCloudChart,
   WordCloud3dChart,
   TreemapChart,
+  VennChart,
   BaseChart
 };
 
@@ -134,7 +143,9 @@ export {
   registerWordCloud3dChart,
   registerWordCloudChart,
   registerCorrelationChart,
-  registerLiquidChart
+  registerLiquidChart,
+  registerWordCloudShapeChart,
+  registerVennChart
 };
 
 export type {
@@ -172,5 +183,6 @@ export type {
   IWordCloud3dChartSpec,
   IWordCloudChartSpec,
   IPolarChartSpec,
-  ICartesianChartSpec
+  ICartesianChartSpec,
+  IVennChartSpec
 };

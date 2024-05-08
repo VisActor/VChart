@@ -43,10 +43,18 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
   if (!isEmpty(item.focusIconStyle)) {
     transformToGraphic(item.focusIconStyle);
   }
-  item.shape = transformComponentStyle(item.shape);
-  item.label = transformComponentStyle(item.label);
-  item.value = transformComponentStyle(item.value);
-  item.background = transformComponentStyle(item.background);
+  if (item.shape) {
+    item.shape = transformComponentStyle(item.shape);
+  }
+  if (item.label) {
+    item.label = transformComponentStyle(item.label);
+  }
+  if (item.value) {
+    item.value = transformComponentStyle(item.value);
+  }
+  if (item.background) {
+    item.background = transformComponentStyle(item.background);
+  }
 
   if (isPercent(item.maxWidth)) {
     item.maxWidth = (Number(item.maxWidth.substring(0, item.maxWidth.length - 1)) * rect.width) / 100;
@@ -71,7 +79,10 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
     if (!isEmpty((pager as IPager).textStyle)) {
       transformToGraphic((pager as IPager).textStyle);
     }
-    transformComponentStyle((pager as IPager).handler);
+
+    if ((pager as IPager).handler) {
+      transformComponentStyle((pager as IPager).handler);
+    }
   }
 
   attrs.pager = pager;

@@ -11,6 +11,7 @@ import type { IAreaSeriesSpec } from '../area/interface';
 import { rangeAreaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { couldBeValidNumber } from '../../util';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends AreaSeries<T> {
   static readonly type: string = SeriesTypeEnum.rangeArea;
@@ -90,22 +91,11 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
     }
     return false;
   }
-
-  protected _getInvalidDefined(datum: Datum) {
-    if (!super._getInvalidDefined(datum)) {
-      return false;
-    }
-
-    if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._specYField[1]])) {
-        return false;
-      }
-    }
-    return true;
-  }
 }
 
 export const registerRangeAreaSeries = () => {
   registerAreaMark();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(RangeAreaSeries.type, RangeAreaSeries);
 };

@@ -805,6 +805,13 @@
             "zh": "函数",
             "en": "Function"
           }
+        },
+        {
+          "path": "Richtext_and_Dom",
+          "title": {
+            "zh": "富文本和 Dom 扩展",
+            "en": "Richtext and dom extension"
+          }
         }
       ]
     }

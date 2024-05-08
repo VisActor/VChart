@@ -4,6 +4,7 @@ export interface IBasePlugin<T = any> {
     name: string;
     onAdd: (service: T) => void;
     init?: () => void;
+    clear?: (service: T) => void;
     release?: (service: T) => void;
     onInit?: (service: T, ...params: any) => MaybePromise<void>;
     onDidCompile?: (service: T, ...params: any) => MaybePromise<void>;
@@ -17,6 +18,8 @@ export interface IBasePluginService<T = any> {
     getAll: () => T[];
     release: (pluginsId: UniqueId) => void;
     releaseAll: () => void;
+    clear: (pluginsId: UniqueId) => void;
+    clearAll: () => void;
 }
 export type UniqueId = number;
 export type MaybePromise<T> = T | PromiseLike<T>;

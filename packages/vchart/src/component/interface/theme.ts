@@ -66,14 +66,18 @@ export interface IComponentTheme {
    * markLine 标记配置
    */
   [ComponentTypeEnum.markLine]?: IMarkLineTheme;
+  [ComponentTypeEnum.polarMarkLine]?: IMarkLineTheme;
   /**
    * markArea 标记配置
    */
   [ComponentTypeEnum.markArea]?: IMarkAreaTheme;
+  [ComponentTypeEnum.polarMarkArea]?: IMarkAreaTheme;
   /**
    * markPoint 标记配置
    */
   [ComponentTypeEnum.markPoint]?: IMarkPointTheme;
+  [ComponentTypeEnum.polarMarkPoint]?: IMarkPointTheme;
+  [ComponentTypeEnum.geoMarkPoint]?: IMarkPointTheme;
   /**
    * tooltip 组件配置
    */

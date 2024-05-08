@@ -36,6 +36,7 @@ import { Factory } from '../../core/factory';
 import { registerRectMark } from '../../mark/rect';
 import { getGroupAnimationParams } from '../util/utils';
 import { WaterfallSeriesSpecTransformer } from './waterfall-transformer';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { stackLabel } from '../../component/label/util';
 import type { ILabelInfo } from '../../component/label/label';
 
@@ -341,5 +342,7 @@ export const registerWaterfallSeries = () => {
   registerRectMark();
   registerWaterfallAnimation();
   registerFadeInOutAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(WaterfallSeries.type, WaterfallSeries);
 };

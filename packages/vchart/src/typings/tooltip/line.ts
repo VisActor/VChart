@@ -70,3 +70,8 @@ export interface ITooltipLineActual extends ITooltipShapeActual, ITooltipLabelAc
    */
   datum?: any;
 }
+
+export type TooltipActualTitleContent = {
+  title?: ITooltipLineActual;
+  content?: ITooltipLineActual[];
+};

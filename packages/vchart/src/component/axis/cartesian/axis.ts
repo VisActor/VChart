@@ -331,7 +331,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   protected _tickTransformOption() {
     return {
       ...super._tickTransformOption(),
-      noDecimals: this._tick.noDecimals,
+      noDecimals: this._tick?.noDecimals,
       labelLastVisible: this._spec.label?.lastVisible,
       labelFlush: this._spec.label?.flush
     } as ICartesianTickDataOpt;
@@ -394,17 +394,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this.callPlugin(plugin => {
       this.pluginService && plugin.onDidCompile && plugin.onDidCompile(this.pluginService, this);
     });
-  }
-
-  onLayoutEnd(ctx: any): void {
-    const isRangeChange = this.updateScaleRange();
-    if (isRangeChange) {
-      this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
-      // 这里会执行 computeData ，会执行系列scale更新
-    } else {
-      this.updateSeriesScale();
-    }
-    super.onLayoutEnd(ctx);
   }
 
   onRender(ctx: any): void {

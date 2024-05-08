@@ -22,6 +22,8 @@ import type { MarkClip } from '../../compile/mark';
 
 export interface ISeriesSeriesInfo {
   key: string;
+  /** 直接取 datum 里的原始值 */
+  originalKey: any;
   index?: number;
   // 样式的值类型可能是 StringOrNumber | number[] | xxxx
   style: (attribute: string) => any;

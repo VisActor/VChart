@@ -203,7 +203,8 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     if (!this._markerComponents) {
       this._markerComponents = this._data?.getLatestData().map((data: Datum, index: number) => {
         const cmp = new MarkPoint({
-          position: undefined
+          position: undefined,
+          animation: false // 地图标签使用的是markPoint, 暂不开启动画, 待优化@chensiji
         });
         if (cmp) {
           cmp.name = `${this.name}_marker_${index}`;

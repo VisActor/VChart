@@ -12,20 +12,20 @@ export class RangeColumnSeriesTooltipHelper extends BaseSeriesTooltipHelper impl
       activeType,
       title: {
         key: undefined,
-        value: this.titleValueCallback,
+        value: this.dimensionTooltipTitleCallback,
         hasShape: false
       },
       content: [
         {
-          key: this.contentKeyCallback,
+          key: this.markTooltipKeyCallback,
           value: (datum: Datum) =>
             this.series.getSpec().direction === Direction.horizontal
               ? datum[this.series.getSpec().xField[0]] + '-' + datum[this.series.getSpec().xField[1]]
               : datum[this.series.getSpec().yField[0]] + '-' + datum[this.series.getSpec().yField[1]],
           hasShape: true,
-          shapeType: this.contentShapeTypeCallback,
-          shapeColor: this.contentShapeColorCallback,
-          shapeStroke: this.contentShapeColorCallback,
+          shapeType: this.shapeTypeCallback,
+          shapeColor: this.shapeColorCallback,
+          shapeStroke: this.shapeStrokeCallback,
           shapeHollow: false
         }
       ]

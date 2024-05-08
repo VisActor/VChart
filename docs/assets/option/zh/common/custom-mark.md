@@ -16,6 +16,8 @@
 - `image` 图片
 - `group` 组，可以将其他 mark 放到组下
 
+注意：布局相关配置自`1.11.0`版本后支持
+
 ## customMark.symbol(Object)
 
 图形类型 `symbol`
@@ -30,6 +32,14 @@
 
 {{ use: graphic-symbol(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.rule(Object)
@@ -50,6 +60,14 @@
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.text(Object)
 
 图形类型 `text`
@@ -66,6 +84,14 @@
 
 {{ use: graphic-text(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.rect(Object)
@@ -86,6 +112,14 @@
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.path(Object)
 
 图形类型 `path`
@@ -102,6 +136,14 @@
 
 {{ use: graphic-path(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.arc(Object)
@@ -122,6 +164,14 @@
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.polygon(Object)
 
 图形类型 `polygon`
@@ -138,6 +188,14 @@
 
 {{ use: graphic-polygon(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.image(Object)
@@ -158,6 +216,14 @@
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.group(Object)
 
 图形类型 `group`
@@ -173,3 +239,11 @@
 ### children(Array)
 
 group 作为特殊的 mark。允许在 group 的 children 下配置新的 mark
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}

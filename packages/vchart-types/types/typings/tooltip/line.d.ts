@@ -24,3 +24,7 @@ export interface ITooltipLineActual extends ITooltipShapeActual, ITooltipLabelAc
     spaceRow?: number;
     datum?: any;
 }
+export type TooltipActualTitleContent = {
+    title?: ITooltipLineActual;
+    content?: ITooltipLineActual[];
+};

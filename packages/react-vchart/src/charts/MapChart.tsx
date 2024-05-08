@@ -1,13 +1,18 @@
 import React from 'react';
-import type { IMapChartSpec } from '@visactor/vchart';
-import { default as VChart } from '@visactor/vchart';
+import type { IMapChartSpec, IVChartConstructor } from '@visactor/vchart';
+import { VChart, registerMapChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { simpleComponentsRegisters } from './register';
 
 export interface MapChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IMapChartSpec, 'type'> {}
 
-export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { type: 'map' }>('MapChart', {
-  type: 'map',
-  vchartConstrouctor: VChart
-});
+export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { type: 'map' }>(
+  'MapChart',
+  {
+    type: 'map',
+    vchartConstrouctor: VChart as IVChartConstructor
+  },
+  [registerMapChart, registerLabel, ...simpleComponentsRegisters]
+);

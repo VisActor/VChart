@@ -367,7 +367,7 @@ export class LayoutItem implements ILayoutItem {
     this._lastComputeRect = rect;
 
     if (
-      this.layoutType === 'region-relative' &&
+      (this.layoutType === 'region-relative' || this.layoutType === 'region-relative-overlap') &&
       ((this._layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL &&
         (this.layoutOrient === 'left' || this.layoutOrient === 'right')) ||
         (this._layoutRectLevelMap.height === USER_LAYOUT_RECT_LEVEL &&

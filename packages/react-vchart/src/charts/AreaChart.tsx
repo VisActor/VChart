@@ -1,13 +1,18 @@
 import React from 'react';
-import type { IAreaChartSpec } from '@visactor/vchart';
-import { default as VChart } from '@visactor/vchart';
+import type { IAreaChartSpec, IVChartConstructor } from '@visactor/vchart';
+import { VChart, registerAreaChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { cartesianComponentsRegisters } from './register';
 
 export interface AreaChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IAreaChartSpec, 'type'> {}
 
-export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & { type: 'area' }>('AreaChart', {
-  type: 'area',
-  vchartConstrouctor: VChart
-});
+export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & { type: 'area' }>(
+  'AreaChart',
+  {
+    type: 'area',
+    vchartConstrouctor: VChart as IVChartConstructor
+  },
+  [registerAreaChart, registerLabel, ...cartesianComponentsRegisters]
+);

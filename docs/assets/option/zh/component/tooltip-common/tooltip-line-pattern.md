@@ -9,13 +9,19 @@
 {{ if: ${content} }}
 #${prefix} key(string|Function)
 
-tooltip 当前行 key 列的内容。如果配置为字符串，则显示为对应的常量文本。也可配置为函数回调，类型为：
+tooltip 当前行 key 列的内容。如果配置为字符串，则显示为对应的常量文本。
+
+{{ if: ${supportFunction} }}
+
+也可配置为函数回调，类型为：
 
 ```ts
 (datum: Datum) => string;
 ```
 
 其中 `datum` 为 tooltip 当前行所默认对应的数据项。
+
+{{ /if }}
 
 #${prefix} keyTimeFormat(string) = '%Y%m%d'
 
@@ -65,11 +71,15 @@ tooltip 当前行 value 列的内容。
 }
 ```
 
+{{ if: ${supportFunction} }}
+
 也可配置为函数回调，类型为：
 
 ```ts
 (datum: Datum) => string;
 ```
+
+{{ /if }}
 
 其中 `datum` 为 tooltip 当前行所默认对应的数据项。
 
@@ -100,9 +110,20 @@ value 的时间转换模式。支持`'utc' | 'local'`模式。
 
 {{ if: ${content} }}
 
+{{ if: ${supportFunction} }}
+
 {{ use: component-tooltip-shape-pattern(
   prefix = ${prefix},
   type = 'pattern'
 ) }}
+
+{{ else }}
+
+{{ use: component-tooltip-shape-pattern(
+  prefix = ${prefix},
+  type = 'style'
+) }}
+
+{{ /if }}
 
 {{ /if }}

@@ -71,34 +71,17 @@ export type Datum = {
 
 目前内置的数据变换：
 
-- simplify: 地理数据简化
+- ~~simplify: 地理数据简化~~
+  **1.11.0 版本后移除了内置的 `simplify` 变换**
+  可以在注册地图数据时，配置 `simplify` 参数，例如：
 
-```ts
-// type
-type simplifyType = {
-  type: 'simplify';
-  options: {
-    tolerance?: number;
-  };
-};
-// example
-const spec = {
-  data: [
-    {
-      id: 'geoData',
-      values: data,
-      transform: [
-        {
-          type: 'simplify',
-          options: {
-            tolerance: 1
-          }
-        }
-      ]
+  ```js
+  VChart.registerMap('myMay', geojson, {
+    simplify: {
+      tolerance: 0.01
     }
-  ]
-};
-```
+  });
+  ```
 
 - fields: 数据维度处理，包括基于维度的排序，逆序，数据筛选能力
 

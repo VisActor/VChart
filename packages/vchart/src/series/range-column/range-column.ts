@@ -26,6 +26,7 @@ import { rangeColumnSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { getGroupAnimationParams } from '../util/utils';
 import { RangeColumnSeriesSpecTransformer } from './range-column-transformer';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -248,5 +249,7 @@ export const registerRangeColumnSeries = () => {
   registerTextMark();
   registerRangeColumnAnimation();
   registerFadeInOutAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(RangeColumnSeries.type, RangeColumnSeries);
 };

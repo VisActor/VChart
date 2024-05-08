@@ -5,7 +5,7 @@ export class TreemapTooltipHelper extends BaseSeriesTooltipHelper {
     return 'square';
   }
 
-  contentKeyCallback = (datum: any) => {
+  markTooltipKeyCallback = (datum: any) => {
     return datum?.[this.series.getDimensionField()[0]];
   };
 }

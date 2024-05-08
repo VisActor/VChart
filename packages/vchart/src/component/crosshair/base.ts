@@ -236,7 +236,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     if (this.enableRemain || this._clickLock || !this._hasActive) {
       return;
     }
-    this.clearEvent();
+    this.clearOutEvent();
 
     this.hide();
   };
@@ -337,6 +337,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _releaseEvent(): void {
+    this.clearOutEvent();
+
     const triggerConfig = this._getTriggerEvent();
     if (triggerConfig) {
       triggerConfig.forEach(cfg => {
@@ -479,7 +481,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     return axisMap;
   }
 
-  protected clearEvent() {
+  protected clearOutEvent() {
     if (this._timer) {
       clearTimeout(this._timer);
       this._timer = null;
@@ -491,10 +493,5 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     if (this._hasActive) {
       this._hasActive = null;
     }
-  }
-
-  clear() {
-    super.clear();
-    this.clearEvent();
   }
 }

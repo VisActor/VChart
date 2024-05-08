@@ -50,6 +50,34 @@ The boundary of the marking area on the y-axis, which together with markArea.y c
 
 {{ use: component-marker-aggregation-type() }}
 
+### angle (string | number | function)
+Since the `1.11.0` version, the reference line is on the angle axis of the polar coordinate system, and the value on the angle axis can be configured, or aggregated calculation, or self-calculation through data in the form of callbacks.
+
+** Note that the usage scenario of this property is in the polar coordinate system: **
+1. Configure the angle and angle1 properties together to draw the sector annotation area enclosed by angle and angle1
+2. With the configuration of radius, radius1, angle and angle1 properties, it is used to draw the ring label range with the inner and outer radii of radius and radius1 respectively, and the angle is angle to angle1.
+
+### radius (string | number | function)
+Since the `1.11.0` version, the reference line is on the radius axis of the polar coordinate system, and the value on the radius axis can be configured, or aggregated calculations, or self-calculated through the data in the form of callbacks.
+
+** Note that the usage scenario of this property is in the polar coordinate system: **
+1. With the configuration of radius and radius1 properties, it is used to draw the annular labeling range with inner and outer radii of radius and radius1 respectively.
+2. With the configuration of radius, radius1, angle and angle1 properties, it is used to draw the ring label range with the inner and outer radii of radius and radius1 respectively, and the angle is angle to angle1.
+
+### angle1 (string | number | function)
+Since the `1.11.0` version, the reference line is on the angle axis of the polar coordinate system, and the value on the angle axis can be configured, or aggregated calculation, or self-calculation through data in the form of callbacks.
+
+** Note that the usage scenario of this property is in the polar coordinate system: **
+1. Configure the angle and angle1 properties together to draw the sector annotation area enclosed by angle and angle1
+2. With the configuration of radius, radius1, angle and angle1 properties, it is used to draw the ring label range with the inner and outer radii of radius and radius1 respectively, and the angle is angle to angle1.
+
+### radius1 (string | number | function)
+Since the `1.11.0` version, the reference line is on the radius axis of the polar coordinate system, and the value on the radius axis can be configured, or aggregated calculations, or self-calculated through the data in the form of callbacks.
+
+** Note that the usage scenario of this property is in the polar coordinate system: **
+1. With the configuration of radius and radius1 properties, it is used to draw the annular labeling range with inner and outer radii of radius and radius1 respectively.
+2. With the configuration of radius, radius1, angle and angle1 properties, it is used to draw the ring label range with the inner and outer radii of radius and radius1 respectively, and the angle is angle to angle1.
+
 ### coordinates(Array)
 
 Label target: data element.
@@ -81,10 +109,20 @@ Supported since `1.7.0` version, Only takes effect when positioning using the `p
 ) }}
 
 ### area(Object)
+The area state and style for the label area.
+
+{{ use: component-marker-state(
+  prefix = '###',
+  graphicType = 'polygon'
+) }}
 
 #### style(Object)
 
 The area style for the label area.
+
+{{ use: component-marker-style-callback(
+  description = 'area style'
+) }}
 
 {{ use: graphic-polygon(
    prefix = '####'
@@ -100,6 +138,7 @@ The label position of the annotation area (the relative position of the label re
 
 Optional values:
 
+Cartesian coordinate system: 
 - `'left'`: left side outside the area
 - `'right'`: Right outside the area
 - `'top'`: the upper side outside the area
@@ -110,7 +149,23 @@ Optional values:
 - `'insideTop'`: the upper side inside the area
 - `'insideBottom'`: the lower side inside the area
 
+
+Polar coordinate system:
+- `'arcInnerStart'`: inside the starting point of the arc
+- `'arcInnerEnd'`: inside the end of the arc
+- `'arcInnerMiddle'`: inside the midpoint of the arc
+- `'arcOuterStart`': outside the starting point of the arc
+- `'arcOuterEnd'`: outside the end of the arc
+- `'arcOuterMiddle'`: outside the midpoint of the arc
+- `'center'`: arc center
+
 {{ use: component-marker-label(
    prefix = '###',
    noMarkerRef = true
+) }}
+
+{{ use: component-marker-animation(
+  prefix = '##',
+  markerType = 'markArea',
+  animationType = 'fadeIn'
 ) }}

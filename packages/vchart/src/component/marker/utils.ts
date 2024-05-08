@@ -1,11 +1,30 @@
-import type { ICartesianSeries, ISeries } from '../../series/interface';
+import type { ICartesianSeries, IGeoSeries, IPolarSeries, ISeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
-import { isValid, isNumber, array, minInArray, maxInArray, isArray, normalizePadding } from '@visactor/vutils';
+import {
+  isValid,
+  isNumber,
+  array,
+  minInArray,
+  maxInArray,
+  isArray,
+  normalizePadding,
+  isFunction,
+  type IPointLike
+} from '@visactor/vutils';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import { isPercent, transformToGraphic } from '../../util';
-import type { IDataPos, IMarkerLabelSpec, MarkerPositionPoint } from './interface';
+import type {
+  IDataPos,
+  IMarkerLabelSpec,
+  IMarkerState,
+  IMarkerSupportSeries,
+  IPolarPoint,
+  MarkerPositionPoint,
+  MarkerStateValue
+} from './interface';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IRegion } from '../../region/interface';
+// eslint-disable-next-line no-duplicate-imports
 import type { OffsetPoint } from './interface';
 
 function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean) {
@@ -25,19 +44,19 @@ function getXValue(
   datum: Datum,
   xDomain: number[],
   autoRange: boolean,
-  refSeries: { [key: string]: ICartesianSeries },
+  refSeries: { [key: string]: IMarkerSupportSeries },
   regionWidth: number,
   regionStartLayoutStartPoint: IPoint
 ) {
   const { relativeSeries } = refSeries;
   isNumber(datum.x) &&
     isNeedExtendDomain(xDomain, datum.x, autoRange) &&
-    relativeSeries?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
+    (relativeSeries as ICartesianSeries)?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
   let x: number;
   if (isPercent(datum.x)) {
     x = convertPercentToValue(datum.x, regionWidth) + regionStartLayoutStartPoint.x;
   } else {
-    x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
+    x = (relativeSeries as ICartesianSeries).getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
   }
 
   return x;
@@ -47,23 +66,51 @@ function getYValue(
   datum: Datum,
   yDomain: number[],
   autoRange: boolean,
-  refSeries: { [key: string]: ICartesianSeries },
+  refSeries: { [key: string]: IMarkerSupportSeries },
   regionHeight: number,
   regionStartLayoutStartPoint: IPoint
 ) {
   const { relativeSeries } = refSeries;
   isNumber(datum.y) &&
     isNeedExtendDomain(yDomain, datum.y, autoRange) &&
-    relativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
+    (relativeSeries as ICartesianSeries).getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
 
   let y: number;
   if (isPercent(datum.y)) {
     y = convertPercentToValue(datum.y, regionHeight) + regionStartLayoutStartPoint.y;
   } else {
-    y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
+    y = (relativeSeries as ICartesianSeries).getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
   }
 
   return y;
+}
+
+function getAngleValue(
+  datum: Datum,
+  angleDomain: number[],
+  autoRange: boolean,
+  refSeries: { [key: string]: IMarkerSupportSeries }
+) {
+  const { relativeSeries } = refSeries;
+  isNumber(datum.angle) &&
+    isNeedExtendDomain(angleDomain, datum.angle, autoRange) &&
+    (relativeSeries as IPolarSeries).angleAxisHelper?.setExtendDomain?.('marker_angleAxis_extend', datum.angle);
+
+  return (relativeSeries as IPolarSeries).angleAxisHelper.dataToPosition([datum.angle]);
+}
+
+function getRadiusValue(
+  datum: Datum,
+  radiusDomain: number[],
+  autoRange: boolean,
+  refSeries: { [key: string]: IMarkerSupportSeries }
+) {
+  const { relativeSeries } = refSeries;
+  isNumber(datum.radius) &&
+    isNeedExtendDomain(radiusDomain, datum.radius, autoRange) &&
+    (relativeSeries as IPolarSeries).radiusAxisHelper?.setExtendDomain?.('marker_radiusAxis_extend', datum.radius);
+
+  return (relativeSeries as IPolarSeries).radiusAxisHelper.dataToPosition([datum.radius]);
 }
 
 function convertPercentToValue(percent: string, relativeLength: number) {
@@ -76,9 +123,9 @@ export function isAggrSpec(spec: IDataPos) {
 
 export function xyLayout(
   data: DataView,
-  startRelativeSeries: ICartesianSeries,
-  endRelativeSeries: ICartesianSeries,
-  relativeSeries: ICartesianSeries,
+  startRelativeSeries: IMarkerSupportSeries,
+  endRelativeSeries: IMarkerSupportSeries,
+  relativeSeries: IMarkerSupportSeries,
   autoRange: boolean
 ) {
   const regionStart = startRelativeSeries.getRegion();
@@ -110,8 +157,8 @@ export function xyLayout(
   const lines: IPoint[][] = [];
   const dataPoints =
     data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-  const xDomain = relativeSeries.getXAxisHelper().getScale(0).domain();
-  const yDomain = relativeSeries.getYAxisHelper().getScale(0).domain();
+  const xDomain = (relativeSeries as ICartesianSeries).getXAxisHelper().getScale(0).domain();
+  const yDomain = (relativeSeries as ICartesianSeries).getYAxisHelper().getScale(0).domain();
   dataPoints.forEach((datum: IPoint) => {
     const isValidX = isValid(datum.x);
     const isValidY = isValid(datum.y);
@@ -119,7 +166,7 @@ export function xyLayout(
       const x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
       const y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
       lines.push([{ x, y }]);
-    } else if (isValid(datum.x)) {
+    } else if (isValidX) {
       const x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
       const y = Math.max(
         regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
@@ -136,7 +183,7 @@ export function xyLayout(
           y: y1
         }
       ]);
-    } else if (isValid(datum.y)) {
+    } else if (isValidY) {
       const x = Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x);
       const y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
       const x1 = Math.max(
@@ -159,9 +206,91 @@ export function xyLayout(
   return lines;
 }
 
-export function coordinateLayout(
+export function polarLayout(
   data: DataView,
-  relativeSeries: ICartesianSeries,
+  startRelativeSeries: IMarkerSupportSeries,
+  endRelativeSeries: IMarkerSupportSeries,
+  relativeSeries: IMarkerSupportSeries,
+  autoRange: boolean
+) {
+  const refSeries = {
+    relativeSeries,
+    startRelativeSeries,
+    endRelativeSeries
+  };
+  const lines: IPolarPoint[][] = [];
+  const dataPoints =
+    data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+
+  const angleDomain = (relativeSeries as IPolarSeries).angleAxisHelper.getScale(0).domain();
+  const radiusDomain = (relativeSeries as IPolarSeries).radiusAxisHelper.getScale(0).domain();
+  const regionRadius = Math.min(
+    relativeSeries.getRegion().getLayoutRect().width / 2,
+    relativeSeries.getRegion().getLayoutRect().height / 2
+  );
+  dataPoints.forEach((datum: IPolarPoint) => {
+    const isValidAngle = isValid(datum.angle);
+    const isValidRadius = isValid(datum.radius);
+    if (isValidAngle && isValidRadius) {
+      const angle = getAngleValue(datum, angleDomain, autoRange, refSeries);
+      const radius = getRadiusValue(datum, radiusDomain, autoRange, refSeries);
+      lines.push([{ angle, radius }]);
+    } else if (isValidAngle) {
+      const angle = getAngleValue(datum, angleDomain, autoRange, refSeries);
+      lines.push([
+        {
+          angle,
+          radius: -regionRadius
+        },
+        {
+          angle,
+          radius: regionRadius
+        }
+      ]);
+    } else if (isValidRadius) {
+      const radius = getRadiusValue(datum, radiusDomain, autoRange, refSeries);
+      lines.push([
+        {
+          radius,
+          angle: 0
+        },
+        {
+          radius,
+          angle: Math.PI * 2
+        }
+      ]);
+    }
+  });
+
+  return lines;
+}
+
+export function geoLayout(data: DataView, relativeSeries: IMarkerSupportSeries) {
+  const lines: IPoint[][] = [];
+  const dataPoints =
+    data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+  dataPoints.forEach((datum: any) => {
+    const isValidName = isValid(datum.areaName);
+    if (isValidName) {
+      lines.push([
+        {
+          x:
+            (relativeSeries as IGeoSeries).nameValueToPosition(datum.areaName).x +
+            relativeSeries.getRegion().getLayoutStartPoint().x,
+          y:
+            (relativeSeries as IGeoSeries).nameValueToPosition(datum.areaName).y +
+            relativeSeries.getRegion().getLayoutStartPoint().y
+        }
+      ]);
+    }
+  });
+
+  return lines;
+}
+
+export function cartesianCoordinateLayout(
+  data: DataView,
+  relativeSeries: IMarkerSupportSeries,
   autoRange: boolean,
   coordinatesOffset: OffsetPoint[] | OffsetPoint
 ) {
@@ -178,7 +307,9 @@ export function coordinateLayout(
       },
       index: number
     ) => {
-      const refRelativeSeries = datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries;
+      const refRelativeSeries = (
+        datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries
+      ) as ICartesianSeries;
       const regionStart = refRelativeSeries.getRegion();
       const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
 
@@ -215,6 +346,43 @@ export function coordinateLayout(
       points.push({
         x: refRelativeSeries.getXAxisHelper().dataToPosition(xValue) + regionStartLayoutStartPoint.x + offsetX,
         y: refRelativeSeries.getYAxisHelper().dataToPosition(yValue) + regionStartLayoutStartPoint.y + offsetY
+      });
+    }
+  );
+  return points;
+}
+
+export function polarCoordinateLayout(data: DataView, relativeSeries: IMarkerSupportSeries, autoRange: boolean) {
+  const points: IPolarPoint[] = [];
+  const dataPoints =
+    data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+  dataPoints.forEach(
+    (datum: {
+      angle: StringOrNumber[] | StringOrNumber | null;
+      radius: StringOrNumber[] | StringOrNumber | null;
+      getRefRelativeSeries?: () => ICartesianSeries;
+    }) => {
+      const refRelativeSeries = (
+        datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries
+      ) as IPolarSeries;
+
+      const angleDomain = refRelativeSeries.angleAxisHelper.getScale(0).domain();
+      const radiusDomain = refRelativeSeries.radiusAxisHelper.getScale(0).domain();
+      const angleValue = array(datum.angle);
+      const radiusValue = array(datum.radius);
+
+      angleValue.length === 1 &&
+        isNumber(angleValue[0]) &&
+        isNeedExtendDomain(angleDomain, angleValue[0], autoRange) &&
+        refRelativeSeries.angleAxisHelper?.setExtendDomain?.('marker_xAxis_extend', angleValue[0] as number);
+
+      radiusValue.length === 1 &&
+        isNumber(radiusValue[0]) &&
+        isNeedExtendDomain(radiusDomain, radiusValue[0], autoRange) &&
+        refRelativeSeries.radiusAxisHelper?.setExtendDomain?.('marker_yAxis_extend', radiusValue[0] as number);
+      points.push({
+        angle: refRelativeSeries.angleAxisHelper.dataToPosition(angleValue),
+        radius: refRelativeSeries.radiusAxisHelper.dataToPosition(radiusValue)
       });
     }
   );
@@ -284,7 +452,7 @@ export function computeClipRange(regions: IRegion[]) {
   return { minX, maxX, minY, maxY };
 }
 
-export function transformLabelAttributes(label: IMarkerLabelSpec) {
+export function transformLabelAttributes(label: IMarkerLabelSpec, markerData: any) {
   const { labelBackground = {}, style, shape, ...restLabel } = label;
 
   if (label.visible !== false) {
@@ -304,7 +472,7 @@ export function transformLabelAttributes(label: IMarkerLabelSpec) {
     if (labelBackground.visible !== false) {
       labelAttrs.panel = {
         visible: true,
-        ...transformToGraphic(labelBackground.style)
+        ...transformStyle(transformToGraphic(labelBackground.style), markerData)
       };
       if (isValid(labelBackground.padding)) {
         labelAttrs.padding = normalizePadding(labelBackground.padding);
@@ -317,11 +485,109 @@ export function transformLabelAttributes(label: IMarkerLabelSpec) {
     }
 
     if (style) {
-      labelAttrs.textStyle = transformToGraphic(style);
+      labelAttrs.textStyle = transformStyle(transformToGraphic(style), markerData);
     }
     return labelAttrs;
   }
   return {
     visible: false
+  };
+}
+
+export function transformState(state: {} | Record<MarkerStateValue, any | IMarkerState<any>>, markerData: DataView) {
+  for (const stateKey in state) {
+    if (isFunction(state[stateKey])) {
+      state[stateKey] = state[stateKey](markerData);
+    }
+  }
+  return state;
+}
+
+export function transformStyle(style: any, markerData: DataView) {
+  if (isFunction(style)) {
+    return style(markerData);
+  }
+  return style;
+}
+
+export function transformOffset(offset: string | number | Function, region: IRegion) {
+  if (isFunction(offset)) {
+    return offset(region);
+  }
+  return offset;
+}
+
+export function computeOffsetFromRegion(point: IPointLike, offset: string | number, region: IRegion): number {
+  if (!isValid(point)) {
+    return offset as number;
+  }
+  if (offset === 'regionLeft') {
+    return region.getLayoutStartPoint().x - point.x;
+  } else if (offset === 'regionRight') {
+    return region.getLayoutStartPoint().x + region.getLayoutRect().width - point.x;
+  } else if (offset === 'regionTop') {
+    return region.getLayoutStartPoint().y - point.y;
+  } else if (offset === 'regionBottom') {
+    return region.getLayoutStartPoint().y + region.getLayoutRect().height - point.y;
+  }
+  return offset as number;
+}
+
+export function getMarkLineProcessInfo(spec: any) {
+  const isXProcess = 'x' in spec;
+  const isYProcess = 'y' in spec;
+  const isX1Process = 'x1' in spec;
+  const isY1Process = 'y1' in spec;
+  const isAngleProcess = 'angle' in spec;
+  const isRadiusProcess = 'radius' in spec;
+  const isAngle1Process = 'angle1' in spec;
+  const isRadius1Process = 'radius1' in spec;
+  const isCoordinatesProcess = 'coordinates' in spec;
+  const isValidProcess = 'process' in spec;
+
+  return {
+    doXProcess: isXProcess && !isYProcess && !isY1Process,
+    doXYY1Process: isXProcess && isYProcess && isY1Process,
+    doYProcess: isYProcess && !isXProcess && !isX1Process,
+    doYXX1Process: isYProcess && isXProcess && isX1Process,
+    doXYProcess: isXProcess && isYProcess && isX1Process && isY1Process,
+    doAngleProcess: isAngleProcess && !isAngle1Process && !isRadiusProcess && !isRadius1Process,
+    doRadiusProcess: isRadiusProcess && !isRadius1Process && !isAngleProcess && !isAngle1Process,
+    doAngRadRad1Process: isAngleProcess && !isAngle1Process && isRadiusProcess && isRadius1Process,
+    doRadAngAng1Process: isRadiusProcess && isAngleProcess && isAngle1Process && !isRadius1Process,
+    doRadAngProcess: isAngleProcess && isRadiusProcess && isAngle1Process && isRadius1Process,
+    doCoordinatesProcess: isCoordinatesProcess && (!isValidProcess || ('process' in spec && 'xy' in spec.process))
+  };
+}
+
+export function getMarkAreaProcessInfo(spec: any) {
+  const isXProcess = 'x' in spec;
+  const isX1Process = 'x1' in spec;
+  const isYProcess = 'y' in spec;
+  const isY1Process = 'y1' in spec;
+  const isAngleProcess = 'angle' in spec;
+  const isRadiusProcess = 'radius' in spec;
+  const isAngle1Process = 'angle1' in spec;
+  const isRadius1Process = 'radius1' in spec;
+  const isCoordinatesProcess = 'coordinates' in spec;
+  return {
+    doXProcess: isXProcess && isX1Process && !isYProcess && !isY1Process,
+    doYProcess: isYProcess && isY1Process && !isXProcess && !isX1Process,
+    doXYProcess: isXProcess && isX1Process && isYProcess && isY1Process,
+    doAngleProcess: isAngleProcess && isAngle1Process && !isRadiusProcess && !isRadius1Process,
+    doRadiusProcess: isRadiusProcess && isRadius1Process && !isAngleProcess && !isAngle1Process,
+    doRadAngProcess: isAngleProcess && isRadiusProcess && isAngle1Process && isRadius1Process,
+    doCoordinatesProcess: isCoordinatesProcess
+  };
+}
+
+export function getMarkPointProcessInfo(spec: any) {
+  const isXYProcess = isValid(spec.x) && isValid(spec.y);
+  const isPolarProcess = isValid(spec.angle) && isValid(spec.radius);
+  const isGeoProcess = isValid(spec.areaName);
+  return {
+    doXYProcess: isXYProcess,
+    doPolarProcess: isPolarProcess,
+    doGeoProcess: isGeoProcess
   };
 }

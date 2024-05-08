@@ -42,6 +42,7 @@ export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> ex
     clear(): void;
     compile(): void;
     compileMarks(group?: string | IGroupMark): void;
+    reAppendComponents(): void;
     protected _delegateEvent: (component: IGraphic, event: any, type: string, item?: any, datum?: Datum) => void;
     getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike;
 }

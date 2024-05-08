@@ -35,6 +35,7 @@ export interface IChart extends ICompilable {
     reDataFlow: () => void;
     setCanvasRect: (width: number, height: number) => void;
     getCanvasRect: () => ILayoutRect;
+    getViewRect: () => ILayoutRect;
     getOption: () => IChartOption;
     getEvent: () => IEvent;
     getGlobalScale: () => IGlobalScale;
@@ -53,6 +54,7 @@ export interface IChart extends ICompilable {
     onRender: (ctx: IChartRenderOption) => void;
     onResize: (width: number, height: number, reRender: boolean) => void;
     onLayout: (view: IView) => void;
+    reInit: () => void;
     getAllSeries: () => ISeries[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
     getRegionsInIds: (ids: number[]) => IRegion[];
@@ -81,6 +83,9 @@ export interface IChart extends ICompilable {
     updateState: (state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean) => void;
     setSelected: (datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
     setHovered: (datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
+    clearState: (state: string) => void;
+    clearSelected: () => void;
+    clearHovered: () => void;
     updateViewBox: (viewBox: IBoundsLike, reLayout: boolean) => void;
     getCanvas: () => HTMLCanvasElement | undefined;
     setCurrentTheme: () => void;

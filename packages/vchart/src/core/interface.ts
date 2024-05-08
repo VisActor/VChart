@@ -3,6 +3,7 @@ import type { DataSet } from '@visactor/vdataset';
 import type { IParserOptions } from '@visactor/vdataset';
 import type {
   Datum,
+  IDataValues,
   IInitOption,
   IMarkStateSpec,
   IPoint,
@@ -56,6 +57,7 @@ export type DataLinkAxis = {
 
 export interface IVChartConstructor {
   new (spec: ISpec, options: IInitOption): IVChart;
+  useRegisters: (comps: (() => void)[]) => any;
 }
 
 export interface IVChart {
@@ -101,6 +103,12 @@ export interface IVChart {
    */
   updateDataSync: (id: StringOrNumber, data: Datum[], options?: IParserOptions) => IVChart;
 
+  /**
+   * **同步方法** 更新数据
+   * @param data 图表配置结构中的数据对象
+   * @returns VChart 实例
+   */
+  updateFullDataSync: (data: IDataValues | IDataValues[], reRender?: boolean) => IVChart;
   /**
    * **异步**spec 更新。
    * @param spec
@@ -216,6 +224,28 @@ export interface IVChart {
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ) => void;
+
+  /**
+   * 清除所有图元的状态
+   * @param state 状态名
+   *
+   * @since 1.11.0
+   */
+  clearState: (state: string) => void;
+
+  /**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected: () => void;
+
+  /**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered: () => void;
 
   /**
    * 获取当前主题，会返回完整的主题配置（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为`ThemeManager`统一设置的主题）

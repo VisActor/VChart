@@ -1,7 +1,7 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { Datum } from '../../typings';
+import type { Datum, StringOrNumber } from '../../typings';
 import { SeriesData } from '../base/series-data';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
@@ -30,6 +30,11 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     setAttrFromSpec(): void;
     initData(): void;
     initMark(): void;
+    protected _buildMarkAttributeContext(): void;
+    valueToNode(value: StringOrNumber | StringOrNumber[]): any;
+    valueToLink(value: StringOrNumber | StringOrNumber[]): any;
+    valueToPositionX(value: StringOrNumber | StringOrNumber[]): any;
+    valueToPositionY(value: StringOrNumber | StringOrNumber[]): any;
     initMarkStyle(): void;
     protected _initNodeMarkStyle(): void;
     protected _initLinkMarkStyle(): void;
@@ -39,8 +44,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     protected initEvent(): void;
     private nodesSeriesDataUpdate;
     private linksSeriesDataUpdate;
-    protected _handleAdjacencyClick: (params: ExtendEventParam) => void;
-    protected _handleRelatedClick: (params: ExtendEventParam) => void;
+    protected _handleEmphasisElement: (params: ExtendEventParam) => void;
     protected _handleClearEmpty: () => void;
     protected _handleNodeAdjacencyClick: (element: IElement) => void;
     protected _handleLinkAdjacencyClick: (element: IGlyphElement) => void;
@@ -52,6 +56,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     getNodeList(): any;
     _getNodeNameFromData(datum: Datum): any;
     extractNamesFromTree(tree: any, categoryName: string): Set<unknown>;
+    extractNamesFromLink(links: any[]): Set<unknown>;
     getDimensionField(): string[];
     getMeasureField(): string[];
     getRawDataStatisticsByField(field: string, isNumeric?: boolean): {

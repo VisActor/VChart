@@ -1,4 +1,3 @@
-import type { ITooltipActual } from '../../../../typings/tooltip';
 import { BaseTooltipHandler } from '../base';
 import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
 import type { TooltipHandlerParams } from '../../../../component/tooltip';
@@ -15,7 +14,7 @@ export declare class CanvasTooltipHandler extends BaseTooltipHandler {
     private _initTooltipComponent;
     private _getLayer;
     protected _removeTooltip(): void;
-    protected _updateTooltip(visible: boolean, params: TooltipHandlerParams, actualTooltip: ITooltipActual): void;
+    protected _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;
     isTooltipShown(): boolean;
     release(): void;
 }

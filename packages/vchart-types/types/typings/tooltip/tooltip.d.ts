@@ -14,7 +14,12 @@ export interface ITooltipPattern extends ITooltipShapePattern {
     updateContent?: TooltipUpdateCallback<ITooltipLineActual[]>;
     updatePosition?: TooltipUpdateCallback<ITooltipPositionActual>;
     maxLineCount?: number;
+    othersLine?: ITooltipLineActual;
     activeType?: TooltipActiveType;
+}
+export type GroupTooltipTriggerMark = 'line' | 'area' | 'point' | 'bar';
+export interface IGroupTooltipPattern extends ITooltipPattern {
+    triggerMark?: MaybeArray<GroupTooltipTriggerMark>;
 }
 export interface ITooltipActual {
     visible?: boolean;

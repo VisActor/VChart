@@ -32,9 +32,18 @@ Available options:
 
 The size of the symbol element.
 
+{{ use: component-marker-state(
+  prefix = ${prefix},
+  graphicType = 'symbol'
+) }}
+
 #${prefix} style(Object)
 
 The style of the symbol element.
+
+{{ use: component-marker-style-callback(
+  description = 'symbol style'
+) }}
 
 {{ use: graphic-symbol(
   prefix = '#' + ${prefix}
