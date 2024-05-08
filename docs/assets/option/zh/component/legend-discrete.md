@@ -430,6 +430,33 @@ export type LegendItemDatum = {
 };
 ```
 
+自`1.10.0`后，支持返回富文本配置，例如：
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
+```
+
+更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+
 ##### style(Object|Function)
 
 图例项 label 的样式配置，支持函数回调，当需要走一些个性化配置时可以使用回调函数。
