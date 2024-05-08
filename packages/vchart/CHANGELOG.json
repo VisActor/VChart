@@ -2,6 +2,42 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.10.6",
+      "tag": "@visactor/vchart_v1.10.6",
+      "date": "Wed, 08 May 2024 09:14:50 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix(wordCloud): wordCloud layout error and color scale error when updateData. fix#2605'"
+          },
+          {
+            "comment": "fix: fix error of position when update viewBox\n\n"
+          },
+          {
+            "comment": "fix(scroll): scroll not work in ios. fix#1224"
+          },
+          {
+            "comment": "fix: fix range-column-chart spec\n\n"
+          },
+          {
+            "comment": "feat: enhanced capabilities for waterfall chart total label\n\n"
+          },
+          {
+            "comment": "fix: duplicated categoryField data in funnel will result to unexpected rendering result"
+          },
+          {
+            "comment": "fix: fixed the problem that when the label of the sankey chart is hidden, an error will be reported when clicking on the blank space\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of scatter when the legend switch visible encode, close #2625\n\n"
+          },
+          {
+            "comment": "fix: fix the trigger off of default select interactions\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.10.5",
       "tag": "@visactor/vchart_v1.10.5",
       "date": "Thu, 25 Apr 2024 11:57:23 GMT",

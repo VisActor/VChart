@@ -36,7 +36,9 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     protected _defaultFontFamily: string;
     protected _keyWordColorCallback: (datum: Datum) => string;
     protected _fillingColorCallback: (datum: Datum) => string;
+    protected _dataChange: boolean;
     setAttrFromSpec(): void;
+    protected initData(): void;
     protected _wordMark: ITextMark;
     initMark(): void;
     initMarkStyle(): void;

@@ -1,6 +1,33 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 25 Apr 2024 11:57:23 GMT and should not be manually modified.
+This log was last generated on Wed, 08 May 2024 09:14:50 GMT and should not be manually modified.
+
+## 1.10.6
+Wed, 08 May 2024 09:14:50 GMT
+
+### Updates
+
+- fix(wordCloud): wordCloud layout error and color scale error when updateData. fix#2605'
+- fix: fix error of position when update viewBox
+
+
+- fix(scroll): scroll not work in ios. fix#1224
+- fix: fix range-column-chart spec
+
+
+- feat: enhanced capabilities for waterfall chart total label
+
+
+- fix: duplicated categoryField data in funnel will result to unexpected rendering result
+- fix: fixed the problem that when the label of the sankey chart is hidden, an error will be reported when clicking on the blank space
+
+
+- fix: fix the issue of scatter when the legend switch visible encode, close #2625
+
+
+- fix: fix the trigger off of default select interactions
+
+
 
 ## 1.10.5
 Thu, 25 Apr 2024 11:57:23 GMT

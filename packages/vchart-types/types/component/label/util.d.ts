@@ -1,3 +1,4 @@
+import type { WaterfallSeries } from './../../series/waterfall/waterfall';
 import type { Datum } from '../../typings/common';
 import type { ILabelInfo } from './label';
 import type { LabelItem, Strategy } from '@visactor/vrender-components';
@@ -48,7 +49,9 @@ export declare function pieLabel(labelInfo: ILabelInfo): {
     position: import("@visactor/vrender-components").Functional<string>;
     smartInvert: boolean | import("@visactor/vrender-components").SmartInvertAttrs;
 };
-export declare function stackLabel(labelInfo: ILabelInfo): {
+export declare function stackLabelX(datum2: Datum, series: WaterfallSeries, pos: string, offset: number): number;
+export declare function stackLabelY(datum2: Datum, series: WaterfallSeries, pos: string, offset: number): number;
+export declare function stackLabel(labelInfo: ILabelInfo, datumTransform?: (data: any) => any, attributeTransform?: (label: LabelItem, datum: Datum, att: any) => any): {
     customLayoutFunc: (labels: LabelItem[]) => import("@visactor/vrender-core").IText[];
     dataFilter: (labels: LabelItem[]) => LabelItem[];
     overlap: {

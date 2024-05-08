@@ -5336,7 +5336,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -5351,15 +5351,15 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
           "description": "style格式转换"
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5405,7 +5405,7 @@
       ],
       "description": "style格式转换"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5420,6 +5420,10 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
           "description": "style格式转换"
         },
@@ -5429,10 +5433,6 @@
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -27692,28 +27692,22 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IPieSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IPie3dSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IBarSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IBar3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ITreemapSeriesSpec"
+                "$ref": "#/definitions/IPieSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ISunburstSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ICirclePackingSeriesSpec"
+                "$ref": "#/definitions/IPie3dSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IBoxPlotSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICirclePackingSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ILineSeriesSpec"
@@ -27776,7 +27770,13 @@
                 "$ref": "#/definitions/ISankeySeriesSpec"
               },
               {
+                "$ref": "#/definitions/ISunburstSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/ICorrelationSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ITreemapSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IWaterfallSeriesSpec"
@@ -30186,14 +30186,14 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -31310,6 +31310,26 @@
           ],
           "type": "string"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -31799,6 +31819,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "reversed": {
           "type": "boolean"
         },
@@ -32587,14 +32610,14 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -32720,9 +32743,6 @@
         "rect": {
           "$ref": "#/definitions/Required<IRectGraphicAttribute>"
         },
-        "rect3d": {
-          "$ref": "#/definitions/Required<IRect3dGraphicAttribute>"
-        },
         "richtext": {
           "$ref": "#/definitions/Required<IRichTextGraphicAttribute>"
         },
@@ -32747,7 +32767,6 @@
         "path",
         "polygon",
         "rect",
-        "rect3d",
         "richtext",
         "richtextIcon",
         "symbol",
@@ -35496,7 +35515,7 @@
           "description": "图钉背景样式"
         },
         "pointer": {
-          "$ref": "#/definitions/Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>",
+          "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>",
           "description": "指针样式"
         },
         "radius": {
@@ -51962,6 +51981,26 @@
           ],
           "type": "string"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -52123,6 +52162,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -65250,9 +65292,6 @@
         "rect": {
           "$ref": "#/definitions/Partial<IRectGraphicAttribute>"
         },
-        "rect3d": {
-          "$ref": "#/definitions/Partial<IRect3dGraphicAttribute>"
-        },
         "symbol": {
           "$ref": "#/definitions/Partial<ISymbolGraphicAttribute>"
         },
@@ -70257,9 +70296,15 @@
           "description": "总计配置"
         },
         "totalLabel": {
-          "$ref": "#/definitions/ITotalLabelSpec",
-          "description": "堆叠汇总标签",
-          "since": "1.3.0"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ITotalLabelSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "堆叠汇总标签"
         },
         "type": {
           "const": "waterfall",
@@ -70695,9 +70740,15 @@
           "description": "总计配置"
         },
         "totalLabel": {
-          "$ref": "#/definitions/ITotalLabelSpec",
-          "description": "堆叠汇总标签",
-          "since": "1.3.0"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ITotalLabelSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "堆叠汇总标签"
         },
         "type": {
           "const": "waterfall",
@@ -73097,7 +73148,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         },
         "size": {
@@ -73105,14 +73156,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12965",
+        "__@toStringTag@12991",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         },
         "size": {
@@ -73120,14 +73171,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12965",
+        "__@toStringTag@12991",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         },
         "size": {
@@ -73135,14 +73186,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12965",
+        "__@toStringTag@12991",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         },
         "size": {
@@ -73150,14 +73201,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12965",
+        "__@toStringTag@12991",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         },
         "size": {
@@ -73165,14 +73216,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12965",
+        "__@toStringTag@12991",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         },
         "size": {
@@ -73180,14 +73231,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12965",
+        "__@toStringTag@12991",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         },
         "size": {
@@ -73195,14 +73246,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12965",
+        "__@toStringTag@12991",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         },
         "size": {
@@ -73210,14 +73261,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12965",
+        "__@toStringTag@12991",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         },
         "size": {
@@ -73225,7 +73276,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12965",
+        "__@toStringTag@12991",
         "size"
       ],
       "type": "object"
@@ -73902,6 +73953,26 @@
           ],
           "type": "string"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -74046,6 +74117,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "reversed": {
           "type": "boolean"
         },
@@ -76600,6 +76674,26 @@
           ],
           "type": "string"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -76721,6 +76815,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -78766,6 +78863,26 @@
           ],
           "type": "string"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -78908,6 +79025,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -79304,6 +79424,26 @@
           ],
           "type": "string"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -79431,6 +79571,9 @@
           "type": "boolean"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "round": {
           "type": "boolean"
         },
@@ -80121,6 +80264,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "forceShowCap": {
           "type": "boolean"
         },
@@ -80244,6 +80407,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -80580,6 +80746,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -80688,6 +80874,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -81070,6 +81259,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -81175,6 +81384,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -81562,6 +81774,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -81677,6 +81909,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -81987,6 +82222,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -82089,6 +82344,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -82452,6 +82710,26 @@
           ],
           "type": "string"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -82573,6 +82851,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -82899,6 +83180,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -83017,6 +83318,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -83633,6 +83937,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -83741,6 +84065,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -84315,75 +84642,6 @@
       },
       "type": "object"
     },
-    "Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>": {
-      "properties": {
-        "center": {
-          "description": "中心点坐标（0~1）",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "height": {
-          "description": "指针长度比例（0~1）（为空则挂载 radius）",
-          "type": "number"
-        },
-        "innerPadding": {
-          "description": "指针靠近圆心的一端离圆心的距离",
-          "type": "number"
-        },
-        "interactive": {
-          "description": "可交互的开关",
-          "type": "boolean"
-        },
-        "isOnCenter": {
-          "description": "是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响",
-          "type": "boolean"
-        },
-        "outerPadding": {
-          "description": "指针靠近边缘的一端离边缘的距离",
-          "type": "number"
-        },
-        "state": {
-          "$ref": "#/definitions/Record<string,IPathMarkSpec|IRectMarkSpec>",
-          "description": "不同状态下的样式配置"
-        },
-        "style": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPathMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IRectMarkSpec"
-            }
-          ],
-          "description": "默认样式设置"
-        },
-        "type": {
-          "enum": [
-            "path",
-            "rect"
-          ],
-          "type": "string"
-        },
-        "visible": {
-          "description": "mark 层 是否显示配置",
-          "type": "boolean"
-        },
-        "width": {
-          "description": "指针宽度比例（0~1）",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "Partial<IMarkTheme<IPolygonMarkSpec>>": {
       "properties": {
         "interactive": {
@@ -84464,6 +84722,75 @@
         "visible": {
           "description": "mark 层 是否显示配置",
           "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>": {
+      "properties": {
+        "center": {
+          "description": "中心点坐标（0~1）",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "height": {
+          "description": "指针长度比例（0~1）（为空则挂载 radius）",
+          "type": "number"
+        },
+        "innerPadding": {
+          "description": "指针靠近圆心的一端离圆心的距离",
+          "type": "number"
+        },
+        "interactive": {
+          "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "isOnCenter": {
+          "description": "是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响",
+          "type": "boolean"
+        },
+        "outerPadding": {
+          "description": "指针靠近边缘的一端离边缘的距离",
+          "type": "number"
+        },
+        "state": {
+          "$ref": "#/definitions/Record<string,IRectMarkSpec|IPathMarkSpec>",
+          "description": "不同状态下的样式配置"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRectMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPathMarkSpec"
+            }
+          ],
+          "description": "默认样式设置"
+        },
+        "type": {
+          "enum": [
+            "path",
+            "rect"
+          ],
+          "type": "string"
+        },
+        "visible": {
+          "description": "mark 层 是否显示配置",
+          "type": "boolean"
+        },
+        "width": {
+          "description": "指针宽度比例（0~1）",
+          "type": "number"
         }
       },
       "type": "object"
@@ -84858,6 +85185,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -84970,6 +85317,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -85293,6 +85643,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -85401,6 +85771,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -85770,443 +86143,6 @@
       },
       "type": "object"
     },
-    "Partial<IRect3dGraphicAttribute>": {
-      "properties": {
-        "_debug_bounds": {
-          "anyOf": [
-            {
-              "typeof": "function"
-            },
-            {
-              "type": "boolean"
-            }
-          ]
-        },
-        "alignSelf": {
-          "enum": [
-            "auto",
-            "center",
-            "flex-end",
-            "flex-start"
-          ],
-          "type": "string"
-        },
-        "alpha": {
-          "type": "number"
-        },
-        "anchor": {
-          "items": [
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "anchor3d": {
-          "anyOf": [
-            {
-              "items": [
-                {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                },
-                {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
-              ],
-              "maxItems": 2,
-              "minItems": 2,
-              "type": "array"
-            },
-            {
-              "items": [
-                {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                },
-                {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                },
-                {
-                  "type": "number"
-                }
-              ],
-              "maxItems": 3,
-              "minItems": 3,
-              "type": "array"
-            }
-          ]
-        },
-        "angle": {
-          "type": "number"
-        },
-        "background": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "type": "string"
-            }
-          ]
-        },
-        "backgroundCornerRadius": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ]
-        },
-        "backgroundFit": {
-          "type": "boolean"
-        },
-        "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
-        },
-        "backgroundOpacity": {
-          "type": "number"
-        },
-        "beta": {
-          "type": "number"
-        },
-        "blur": {
-          "type": "number"
-        },
-        "boundsMode": {
-          "enum": [
-            "accurate",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "boundsPadding": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ]
-        },
-        "childrenPickable": {
-          "type": "boolean"
-        },
-        "cornerRadius": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ]
-        },
-        "cursor": {
-          "$ref": "#/definitions/Cursor"
-        },
-        "customPickShape": {
-          "typeof": "function"
-        },
-        "dx": {
-          "type": "number"
-        },
-        "dy": {
-          "type": "number"
-        },
-        "dz": {
-          "type": "number"
-        },
-        "fill": {
-          "$ref": "#/definitions/IFillType"
-        },
-        "fillOpacity": {
-          "type": "number"
-        },
-        "fillPickable": {
-          "type": "boolean"
-        },
-        "globalCompositeOperation": {
-          "enum": [
-            "",
-            "color",
-            "color-burn",
-            "color-dodge",
-            "copy",
-            "darken",
-            "destination-atop",
-            "destination-in",
-            "destination-out",
-            "destination-over",
-            "difference",
-            "exclusion",
-            "hard-light",
-            "hue",
-            "lighten",
-            "lighter",
-            "luminosity",
-            "multiply",
-            "overlay",
-            "saturation",
-            "screen",
-            "soft-light",
-            "source-atop",
-            "source-in",
-            "source-out",
-            "source-over",
-            "xor"
-          ],
-          "type": "string"
-        },
-        "globalZIndex": {
-          "type": "number"
-        },
-        "height": {
-          "type": "number"
-        },
-        "html": {
-          "typeof": "function"
-        },
-        "innerBorder": {
-          "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "keepDirIn3d": {
-          "type": "boolean"
-        },
-        "layout": {},
-        "length": {
-          "type": "number"
-        },
-        "lineCap": {
-          "$ref": "#/definitions/CanvasLineCap"
-        },
-        "lineDash": {
-          "items": {
-            "type": "number"
-          },
-          "type": "array"
-        },
-        "lineDashOffset": {
-          "type": "number"
-        },
-        "lineJoin": {
-          "$ref": "#/definitions/CanvasLineJoin"
-        },
-        "lineWidth": {
-          "type": "number"
-        },
-        "miterLimit": {
-          "type": "number"
-        },
-        "opacity": {
-          "type": "number"
-        },
-        "outerBorder": {
-          "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "overflow": {
-          "enum": [
-            "hidden",
-            "scroll",
-            "scroll-x",
-            "scroll-y"
-          ],
-          "type": "string"
-        },
-        "pickMode": {
-          "enum": [
-            "accurate",
-            "custom",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "pickStrokeBuffer": {
-          "type": "number"
-        },
-        "pickable": {
-          "type": "boolean"
-        },
-        "postMatrix": {
-          "$ref": "#/definitions/IMatrix"
-        },
-        "react": {
-          "typeof": "function"
-        },
-        "renderStyle": {},
-        "scaleCenter": {
-          "items": [
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "scaleX": {
-          "type": "number"
-        },
-        "scaleY": {
-          "type": "number"
-        },
-        "scaleZ": {
-          "type": "number"
-        },
-        "scrollX": {
-          "type": "number"
-        },
-        "scrollY": {
-          "type": "number"
-        },
-        "shadowBlur": {
-          "type": "number"
-        },
-        "shadowColor": {
-          "type": "string"
-        },
-        "shadowOffsetX": {
-          "type": "number"
-        },
-        "shadowOffsetY": {
-          "type": "number"
-        },
-        "shadowRootIdx": {
-          "type": "number"
-        },
-        "stroke": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ILinearGradient"
-            },
-            {
-              "$ref": "#/definitions/IRadialGradient"
-            },
-            {
-              "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/IStrokeType"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "boolean"
-              ]
-            }
-          ]
-        },
-        "strokeBoundsBuffer": {
-          "type": "number"
-        },
-        "strokeOpacity": {
-          "type": "number"
-        },
-        "strokePickable": {
-          "type": "boolean"
-        },
-        "strokeSeg": {
-          "typeof": "function"
-        },
-        "texture": {
-          "type": "string"
-        },
-        "textureColor": {
-          "type": "string"
-        },
-        "texturePadding": {
-          "type": "number"
-        },
-        "textureSize": {
-          "type": "number"
-        },
-        "visible": {
-          "type": "boolean"
-        },
-        "width": {
-          "type": "number"
-        },
-        "x": {
-          "type": "number"
-        },
-        "x1": {
-          "type": "number"
-        },
-        "y": {
-          "type": "number"
-        },
-        "y1": {
-          "type": "number"
-        },
-        "z": {
-          "type": "number"
-        },
-        "zIndex": {
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "Partial<IRectGraphicAttribute>": {
       "properties": {
         "_debug_bounds": {
@@ -86411,6 +86347,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -86516,6 +86472,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -87199,6 +87158,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -87301,6 +87280,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -87665,6 +87647,26 @@
             "number"
           ]
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -87788,6 +87790,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -88818,6 +88823,26 @@
             "number"
           ]
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -88941,6 +88966,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -89329,6 +89357,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -89434,6 +89482,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -89748,6 +89799,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -89850,6 +89921,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -92129,34 +92203,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12965"
+        "__@toStringTag@12991"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12965"
+        "__@toStringTag@12991"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12965": {
+        "__@toStringTag@12991": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12965"
+        "__@toStringTag@12991"
       ],
       "type": "object"
     },
@@ -92166,10 +92240,10 @@
     "Record<string,ConvertToMarkStyleSpec<IGroupMarkSpec>|IMarkStateSpec<IGroupMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,IArc3dMarkSpec>": {
@@ -92196,9 +92270,6 @@
     "Record<string,IPathMarkSpec>": {
       "type": "object"
     },
-    "Record<string,IPathMarkSpec|IRectMarkSpec>": {
-      "type": "object"
-    },
     "Record<string,IPolygonMarkSpec>": {
       "type": "object"
     },
@@ -92209,6 +92280,9 @@
       "type": "object"
     },
     "Record<string,IRectMarkSpec>": {
+      "type": "object"
+    },
+    "Record<string,IRectMarkSpec|IPathMarkSpec>": {
       "type": "object"
     },
     "Record<string,IRuleMarkSpec>": {
@@ -92468,6 +92542,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "forceShowCap": {
           "type": "boolean"
         },
@@ -92591,6 +92685,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -92736,6 +92833,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "forceShowCap",
         "globalCompositeOperation",
         "globalZIndex",
@@ -92764,6 +92863,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -93010,6 +93110,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -93118,6 +93238,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -93270,6 +93393,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -93292,6 +93417,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -93515,6 +93641,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -93620,6 +93766,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -93763,6 +93912,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -93785,6 +93936,7 @@
         "radius",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -94021,6 +94173,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -94136,6 +94308,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -94280,6 +94455,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -94303,6 +94480,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -94579,6 +94757,26 @@
           ],
           "type": "string"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -94700,6 +94898,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -94852,6 +95053,8 @@
         "fillPickable",
         "flexDirection",
         "flexWrap",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -94876,6 +95079,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -95110,6 +95314,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -95228,6 +95452,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -95377,6 +95604,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -95400,6 +95629,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -95651,6 +95881,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -95759,6 +96009,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -95912,6 +96165,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -95934,6 +96189,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -96157,6 +96413,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -96269,6 +96545,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -96409,6 +96688,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -96431,6 +96712,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -96666,6 +96948,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -96774,6 +97076,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -96915,6 +97220,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -96937,6 +97244,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -96960,521 +97268,6 @@
         "visible",
         "x",
         "y",
-        "z",
-        "zIndex"
-      ],
-      "type": "object"
-    },
-    "Required<IRect3dGraphicAttribute>": {
-      "properties": {
-        "_debug_bounds": {
-          "anyOf": [
-            {
-              "typeof": "function"
-            },
-            {
-              "type": "boolean"
-            }
-          ]
-        },
-        "alignSelf": {
-          "enum": [
-            "auto",
-            "center",
-            "flex-end",
-            "flex-start"
-          ],
-          "type": "string"
-        },
-        "alpha": {
-          "type": "number"
-        },
-        "anchor": {
-          "items": [
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "anchor3d": {
-          "anyOf": [
-            {
-              "items": [
-                {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                },
-                {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
-              ],
-              "maxItems": 2,
-              "minItems": 2,
-              "type": "array"
-            },
-            {
-              "items": [
-                {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                },
-                {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                },
-                {
-                  "type": "number"
-                }
-              ],
-              "maxItems": 3,
-              "minItems": 3,
-              "type": "array"
-            }
-          ]
-        },
-        "angle": {
-          "type": "number"
-        },
-        "background": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "type": "string"
-            }
-          ]
-        },
-        "backgroundCornerRadius": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ]
-        },
-        "backgroundFit": {
-          "type": "boolean"
-        },
-        "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
-        },
-        "backgroundOpacity": {
-          "type": "number"
-        },
-        "beta": {
-          "type": "number"
-        },
-        "blur": {
-          "type": "number"
-        },
-        "boundsMode": {
-          "enum": [
-            "accurate",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "boundsPadding": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ]
-        },
-        "childrenPickable": {
-          "type": "boolean"
-        },
-        "cornerRadius": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ]
-        },
-        "cursor": {
-          "$ref": "#/definitions/Cursor"
-        },
-        "customPickShape": {
-          "typeof": "function"
-        },
-        "dx": {
-          "type": "number"
-        },
-        "dy": {
-          "type": "number"
-        },
-        "dz": {
-          "type": "number"
-        },
-        "fill": {
-          "$ref": "#/definitions/IFillType"
-        },
-        "fillOpacity": {
-          "type": "number"
-        },
-        "fillPickable": {
-          "type": "boolean"
-        },
-        "globalCompositeOperation": {
-          "enum": [
-            "",
-            "color",
-            "color-burn",
-            "color-dodge",
-            "copy",
-            "darken",
-            "destination-atop",
-            "destination-in",
-            "destination-out",
-            "destination-over",
-            "difference",
-            "exclusion",
-            "hard-light",
-            "hue",
-            "lighten",
-            "lighter",
-            "luminosity",
-            "multiply",
-            "overlay",
-            "saturation",
-            "screen",
-            "soft-light",
-            "source-atop",
-            "source-in",
-            "source-out",
-            "source-over",
-            "xor"
-          ],
-          "type": "string"
-        },
-        "globalZIndex": {
-          "type": "number"
-        },
-        "height": {
-          "type": "number"
-        },
-        "html": {
-          "typeof": "function"
-        },
-        "innerBorder": {
-          "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "keepDirIn3d": {
-          "type": "boolean"
-        },
-        "layout": {},
-        "length": {
-          "type": "number"
-        },
-        "lineCap": {
-          "$ref": "#/definitions/CanvasLineCap"
-        },
-        "lineDash": {
-          "items": {
-            "type": "number"
-          },
-          "type": "array"
-        },
-        "lineDashOffset": {
-          "type": "number"
-        },
-        "lineJoin": {
-          "$ref": "#/definitions/CanvasLineJoin"
-        },
-        "lineWidth": {
-          "type": "number"
-        },
-        "miterLimit": {
-          "type": "number"
-        },
-        "opacity": {
-          "type": "number"
-        },
-        "outerBorder": {
-          "$ref": "#/definitions/Partial<IBorderStyle>"
-        },
-        "overflow": {
-          "enum": [
-            "hidden",
-            "scroll",
-            "scroll-x",
-            "scroll-y"
-          ],
-          "type": "string"
-        },
-        "pickMode": {
-          "enum": [
-            "accurate",
-            "custom",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "pickStrokeBuffer": {
-          "type": "number"
-        },
-        "pickable": {
-          "type": "boolean"
-        },
-        "postMatrix": {
-          "$ref": "#/definitions/IMatrix"
-        },
-        "react": {
-          "typeof": "function"
-        },
-        "renderStyle": {},
-        "scaleCenter": {
-          "items": [
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "scaleX": {
-          "type": "number"
-        },
-        "scaleY": {
-          "type": "number"
-        },
-        "scaleZ": {
-          "type": "number"
-        },
-        "scrollX": {
-          "type": "number"
-        },
-        "scrollY": {
-          "type": "number"
-        },
-        "shadowBlur": {
-          "type": "number"
-        },
-        "shadowColor": {
-          "type": "string"
-        },
-        "shadowOffsetX": {
-          "type": "number"
-        },
-        "shadowOffsetY": {
-          "type": "number"
-        },
-        "shadowRootIdx": {
-          "type": "number"
-        },
-        "stroke": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ILinearGradient"
-            },
-            {
-              "$ref": "#/definitions/IRadialGradient"
-            },
-            {
-              "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/IStrokeType"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "boolean"
-              ]
-            }
-          ]
-        },
-        "strokeBoundsBuffer": {
-          "type": "number"
-        },
-        "strokeOpacity": {
-          "type": "number"
-        },
-        "strokePickable": {
-          "type": "boolean"
-        },
-        "strokeSeg": {
-          "typeof": "function"
-        },
-        "texture": {
-          "type": "string"
-        },
-        "textureColor": {
-          "type": "string"
-        },
-        "texturePadding": {
-          "type": "number"
-        },
-        "textureSize": {
-          "type": "number"
-        },
-        "visible": {
-          "type": "boolean"
-        },
-        "width": {
-          "type": "number"
-        },
-        "x": {
-          "type": "number"
-        },
-        "x1": {
-          "type": "number"
-        },
-        "y": {
-          "type": "number"
-        },
-        "y1": {
-          "type": "number"
-        },
-        "z": {
-          "type": "number"
-        },
-        "zIndex": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "_debug_bounds",
-        "alignSelf",
-        "alpha",
-        "anchor",
-        "anchor3d",
-        "angle",
-        "background",
-        "backgroundCornerRadius",
-        "backgroundFit",
-        "backgroundMode",
-        "backgroundOpacity",
-        "beta",
-        "blur",
-        "boundsMode",
-        "boundsPadding",
-        "childrenPickable",
-        "cornerRadius",
-        "cursor",
-        "customPickShape",
-        "dx",
-        "dy",
-        "dz",
-        "fill",
-        "fillOpacity",
-        "fillPickable",
-        "globalCompositeOperation",
-        "globalZIndex",
-        "height",
-        "html",
-        "innerBorder",
-        "keepDirIn3d",
-        "layout",
-        "length",
-        "lineCap",
-        "lineDash",
-        "lineDashOffset",
-        "lineJoin",
-        "lineWidth",
-        "miterLimit",
-        "opacity",
-        "outerBorder",
-        "overflow",
-        "pickMode",
-        "pickStrokeBuffer",
-        "pickable",
-        "postMatrix",
-        "react",
-        "renderStyle",
-        "scaleCenter",
-        "scaleX",
-        "scaleY",
-        "scaleZ",
-        "scrollX",
-        "scrollY",
-        "shadowBlur",
-        "shadowColor",
-        "shadowOffsetX",
-        "shadowOffsetY",
-        "shadowRootIdx",
-        "stroke",
-        "strokeBoundsBuffer",
-        "strokeOpacity",
-        "strokePickable",
-        "strokeSeg",
-        "texture",
-        "textureColor",
-        "texturePadding",
-        "textureSize",
-        "visible",
-        "width",
-        "x",
-        "x1",
-        "y",
-        "y1",
         "z",
         "zIndex"
       ],
@@ -97684,6 +97477,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -97789,6 +97602,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -97938,6 +97754,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -97960,6 +97778,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -98216,6 +98035,26 @@
             "number"
           ]
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "forceBreakLine": {
           "type": "boolean"
         },
@@ -98354,6 +98193,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -98587,6 +98429,8 @@
         "fontStyle",
         "fontVariant",
         "fontWeight",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "forceBreakLine",
         "globalCompositeOperation",
         "globalZIndex",
@@ -98619,6 +98463,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleIn3d",
         "scaleX",
@@ -98931,6 +98776,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -99065,6 +98930,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -99229,6 +99097,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -99254,6 +99124,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -99478,6 +99349,26 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -99580,6 +99471,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -99742,6 +99636,8 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -99763,6 +99659,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -100018,6 +99915,26 @@
             "number"
           ]
         },
+        "forceBoundsHeight": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "forceBoundsWidth": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
         "globalCompositeOperation": {
           "enum": [
             "",
@@ -100141,6 +100058,9 @@
           "typeof": "function"
         },
         "renderStyle": {},
+        "renderable": {
+          "type": "boolean"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -100359,6 +100279,8 @@
         "fontStyle",
         "fontVariant",
         "fontWeight",
+        "forceBoundsHeight",
+        "forceBoundsWidth",
         "globalCompositeOperation",
         "globalZIndex",
         "heightLimit",
@@ -100386,6 +100308,7 @@
         "postMatrix",
         "react",
         "renderStyle",
+        "renderable",
         "scaleCenter",
         "scaleIn3d",
         "scaleX",
