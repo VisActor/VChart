@@ -1,3 +1,52 @@
+# v1.11.0
+
+2024-05-08
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support `animation` config of custom-mark
+- **@visactor/vchart**: legend should keep unselected when update spec or data, fix [#2531](https://github.com/VisActor/VChart/issues/2531), related [#2443](https://github.com/VisActor/VChart/issues/2443)
+- **marker**: marker enhance about state and animation and support polar and geo axis. close[#1165](https://github.com/VisActor/VChart/issues/1165)
+- **marker**: add interactive event listener of marker. close[#2248](https://github.com/VisActor/VChart/issues/2248)
+- **marker**: add config about custom data of all relative series. close[#2183](https://github.com/VisActor/VChart/issues/2183)
+- **@visactor/vchart**: support data update when spec is same in react-vchart
+- **@visactor/vchart**: support `softMin` and `softMax` in linear-axis, close [#2498](https://github.com/VisActor/VChart/issues/2498)
+- **@visactor/vchart**: add new properties `tooltipSpec` and `tooltipActual` to tooltip event params, related [#2454](https://github.com/VisActor/VChart/issues/2454)
+- **@visactor/vchart**: add `othersLine` to customize the the "Others" line content displayed after the tooltip content exceeds the maximum number of displayed lines
+- **@visactor/vchart**: the new chart type venn chart, related [#2144](https://github.com/VisActor/VChart/issues/2144)
+- **@visactor/vchart**: enhanced capabilities for waterfall chart total label
+- **@visactor/vchart**: add api of `clearState()`, `clearSelected()`, `clearHovered()`, fix [#2552](https://github.com/VisActor/VChart/issues/2552)
+- **@visactor/vchart**: support `simplify.tolerance` config in `registerMap` API
+
+**🐛 功能修复**
+
+- **wordCloud**: wordCloud layout error and color scale error when updateData. fix[#2605](https://github.com/VisActor/VChart/issues/2605)'
+- **@visactor/vchart**: fix error of position when update viewBox
+- **scroll**: scroll not work in ios. fix[#1224](https://github.com/VisActor/VChart/issues/1224)
+- **@visactor/vchart**: fix range-column-chart spec
+- **marker**: fix mark point position about offset. fix[#2579](https://github.com/VisActor/VChart/issues/2579)
+- **@visactor/vchart**: extension-mark should update when data is update
+- **@visactor/vchart**: duplicated categoryField data in funnel will result to unexpected rendering result
+- **@visactor/vchart**: the x-axis and y-axis of scatter can be band-axis
+- **@visactor/vchart**: vchart should not remake of same spec
+- **@visactor/vchart**: fixed the problem that when the label of the sankey chart is hidden, an error will be reported when clicking on the blank space
+- **@visactor/vchart**: fix the issue of scatter when the legend switch visible encode, close [#2625](https://github.com/VisActor/VChart/issues/2625)
+- **@visactor/vchart**: fix the trigger off of default select interactions
+
+**🔨 功能重构**
+
+- **@visactor/vchart**: react-vchart will require component by need by default
+- **@visactor/vchart**: remove built-in simplify data transform
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: upgrade dependencies
+
+
+
+[更多详情请查看 v1.11.0](https://github.com/VisActor/VChart/releases/tag/v1.11.0)
+
 # v1.10.6
 
 2024-05-08
