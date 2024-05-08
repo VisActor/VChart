@@ -56,6 +56,7 @@ export interface IChartCharacterSpec extends ICharacterSpecBase {
   options: {
     // 图表spec
     spec?: any;
+    panel?: any;
     // 各种图表配置属性
     theme?: any;
     // 数据源

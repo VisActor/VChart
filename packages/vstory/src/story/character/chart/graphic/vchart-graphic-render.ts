@@ -9,7 +9,7 @@ import type {
   IThemeAttribute,
   IGraphic
 } from '@visactor/vrender-core';
-import { injectable, BaseRender } from '@visactor/vrender-core';
+import { injectable, DefaultCanvasRectRender } from '@visactor/vrender-core';
 import type { Chart } from './vchart-graphic';
 import { CHART_NUMBER_TYPE } from './vchart-graphic';
 
@@ -17,7 +17,7 @@ export const ChartRender = Symbol.for('ChartRender');
 export const ChartRenderContribution = Symbol.for('ChartRenderContribution');
 
 @injectable()
-export class VChartRender extends BaseRender<IGraphic> implements IGraphicRender {
+export class VChartRender extends DefaultCanvasRectRender implements IGraphicRender {
   type: 'chart';
   numberType: number = CHART_NUMBER_TYPE;
 
@@ -39,6 +39,7 @@ export class VChartRender extends BaseRender<IGraphic> implements IGraphicRender
       themeAttribute: IThemeAttribute
     ) => boolean
   ) {
+    super.drawShape(chart, context, x, y, drawContext, params, fillCb, strokeCb);
     const vChart = (chart as Chart).vchart;
     const chartStage = vChart.getStage();
     // @ts-ignore

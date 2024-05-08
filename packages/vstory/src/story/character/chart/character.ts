@@ -88,6 +88,7 @@ export class CharacterChart extends CharacterVisactor {
       viewBox,
       ticker: manualTicker,
       visibleAll: false,
+      ...(this._spec.options.panel ?? {}),
       chartInitOptions: {
         animation: true,
         disableTriggerEvent: true,

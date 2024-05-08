@@ -13,11 +13,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'id0',
@@ -84,11 +84,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'data',
@@ -195,11 +195,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'data2',
@@ -260,11 +260,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'data1',
@@ -301,11 +301,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'data2',
@@ -368,11 +368,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'data1',
@@ -439,11 +439,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'data2',
@@ -600,11 +600,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'data1',
@@ -663,11 +663,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'data',
@@ -762,11 +762,11 @@ const chartSpecList = [
         orient: 'bottom',
         align: 'center',
         textStyle: {
-          fontSize: 11,
-          lineHeight: 11
+          fontSize: 10,
+          lineHeight: 10
         }
       },
-      padding: 0,
+      padding: 12,
       data: [
         {
           id: 'data',
@@ -853,7 +853,19 @@ const chartSpecList = [
       ]
     }
   }
-];
+].map(item => ({
+  ...item,
+  options: {
+    ...item.options,
+    panel: {
+      fill: 'white',
+      shadowColor: 'rgba(0, 0, 0, 0.05)',
+      shadowBlur: 10,
+      shadowOffsetX: 4,
+      shadowOffsetY: 4
+    }
+  }
+}));
 
 export const VChartSiteDemo = () => {
   const id = 'storyBar';
@@ -868,9 +880,9 @@ export const VChartSiteDemo = () => {
           zIndex: 0,
           position: {
             top: i < 5 ? 50 : 570,
-            left: 100 + (i % 5) * 150 + 20,
-            width: 90,
-            height: 80
+            left: 100 + (i % 5) * 170 + 20,
+            width: 110,
+            height: 110
           },
           options: {
             spec: item.spec,
@@ -887,7 +899,7 @@ export const VChartSiteDemo = () => {
           zIndex: 0,
           position: {
             top: 300,
-            left: 440,
+            left: 500,
             width: 500,
             height: 200
           },
@@ -901,7 +913,7 @@ export const VChartSiteDemo = () => {
           zIndex: 0,
           position: {
             top: 380,
-            left: 440,
+            left: 500,
             width: 400,
             height: 60
           },
@@ -916,7 +928,7 @@ export const VChartSiteDemo = () => {
           zIndex: 0,
           position: {
             top: 450,
-            left: 520,
+            left: 600,
             width: 400,
             height: 80
           },
