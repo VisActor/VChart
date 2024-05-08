@@ -80,7 +80,6 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected _tickTransformOption(): ICartesianTickDataOpt;
     protected axisHelper(): IAxisHelper;
     afterCompile(): void;
-    onLayoutEnd(ctx: any): void;
     onRender(ctx: any): void;
     changeRegions(regions: IRegion[]): void;
     update(ctx: IComponentOption): void;

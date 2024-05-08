@@ -121,13 +121,14 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
         reCompile: boolean;
     };
     updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec): void;
-    updateDataSpec(result: IUpdateSpecResult): void;
+    updateDataSpec(): void;
     updateRegionSpec(result: IUpdateSpecResult): void;
     updateComponentSpec(result: IUpdateSpecResult): void;
     updateSeriesSpec(result: IUpdateSpecResult): void;
     getCanvas(): HTMLCanvasElement;
     private _updateLayoutRect;
     setCurrentTheme(): void;
+    reInit(): void;
     clear(): void;
     compile(): void;
     afterCompile(): void;
@@ -141,6 +142,9 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     updateState(state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean): void;
     setSelected(datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
     setHovered(datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
+    clearState(state: string): void;
+    clearSelected(): void;
+    clearHovered(): void;
     private _initEvent;
     protected _enableMarkAnimation(states: string | string[]): void;
     protected _disableMarkAnimation(states: string | string[]): void;

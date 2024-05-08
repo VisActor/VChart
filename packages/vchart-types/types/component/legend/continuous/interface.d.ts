@@ -16,6 +16,7 @@ export type HandlerTextAttribute = {
     style?: Omit<NoVisibleMarkStyle<ITextMarkSpec>, 'text'>;
 };
 export type IContinuousLegendSpec = ILegendCommonSpec & {
+    inverse?: boolean;
     field?: string;
     scale?: string;
     defaultSelected?: [number, number];

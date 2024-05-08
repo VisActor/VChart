@@ -82,6 +82,5 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     protected _parseCrosshairSpec(): void;
     protected _parseField(field: ICrosshairCategoryFieldSpec, fieldName: string): any;
     protected _filterAxisByPoint<T>(axisMap: IAxisInfo<T>, relativeX: number, relativeY: number): IAxisInfo<T>;
-    protected clearEvent(): void;
-    clear(): void;
+    protected clearOutEvent(): void;
 }

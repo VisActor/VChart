@@ -6,7 +6,7 @@ export declare class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper 
     getDefaultTooltipPattern(activeType: TooltipActiveType): ITooltipPattern | null;
     getContentKey: (contentType: BOX_PLOT_TOOLTIP_KEYS) => (datum: any) => string;
     getContentValue: (contentType: BOX_PLOT_TOOLTIP_KEYS) => (datum: any) => any;
-    contentShapeColorCallback: (datum: Datum) => any;
+    shapeColorCallback: (datum: Datum) => any;
     getOutlierFillColor: (datum: Datum) => any;
     isOutlierMark: (datum: Datum) => boolean;
 }

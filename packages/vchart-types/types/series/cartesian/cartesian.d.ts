@@ -99,6 +99,6 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     getMeasureField(): string[];
     protected initEvent(): void;
     _sortDataInAxisDomain(): void;
-    protected _getInvalidDefined(datum: Datum): boolean;
+    protected getInvalidCheckFields(): string[];
     reInit(spec: T): void;
 }

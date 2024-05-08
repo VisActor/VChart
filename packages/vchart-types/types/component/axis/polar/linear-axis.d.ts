@@ -3,7 +3,7 @@ import { ComponentTypeEnum } from '../../interface/type';
 import { PolarAxis } from './axis';
 import type { IPolarLinearAxisSpec } from './interface/spec';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
-export interface PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSpec> extends Pick<LinearAxisMixin, 'setExtraAttrFromSpec' | 'transformScaleDomain' | 'valueToPosition' | 'computeLinearDomain' | 'setScaleNice'>, PolarAxis<T> {
+export interface PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSpec> extends Pick<LinearAxisMixin, 'setExtraAttrFromSpec' | 'transformScaleDomain' | 'valueToPosition' | 'computeLinearDomain' | 'setScaleNice' | 'setExtendDomain'>, PolarAxis<T> {
 }
 export declare class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSpec> extends PolarAxis<T> {
     static type: ComponentTypeEnum;
@@ -11,6 +11,9 @@ export declare class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLine
     static specKey: string;
     protected _zero: boolean;
     protected _nice: boolean;
+    protected _extend: {
+        [key: string]: number;
+    };
     protected _scale: LinearScale;
     protected _groupScales: LinearScale[];
     setAttrFromSpec(): void;
@@ -20,5 +23,6 @@ export declare class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLine
         max: number;
         values: any[];
     }[]): number[];
+    protected axisHelper(): any;
 }
 export declare const registerPolarLinearAxis: () => void;

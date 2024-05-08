@@ -1,6 +1,6 @@
 import type { DataSet } from '@visactor/vdataset';
 import type { IParserOptions } from '@visactor/vdataset';
-import type { Datum, IInitOption, IMarkStateSpec, IPoint, IRegionQuerier, IShowTooltipOption, ISpec, ITooltipHandler, Maybe, MaybeArray, StringOrNumber } from '../typings';
+import type { Datum, IDataValues, IInitOption, IMarkStateSpec, IPoint, IRegionQuerier, IShowTooltipOption, ISpec, ITooltipHandler, Maybe, MaybeArray, StringOrNumber } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
@@ -24,6 +24,7 @@ export type DataLinkAxis = {
 };
 export interface IVChartConstructor {
     new (spec: ISpec, options: IInitOption): IVChart;
+    useRegisters: (comps: (() => void)[]) => any;
 }
 export interface IVChart {
     readonly id: number;
@@ -36,6 +37,7 @@ export interface IVChart {
         options?: IParserOptions;
     }[]) => Promise<IVChart>;
     updateDataSync: (id: StringOrNumber, data: Datum[], options?: IParserOptions) => IVChart;
+    updateFullDataSync: (data: IDataValues | IDataValues[], reRender?: boolean) => IVChart;
     updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => Promise<IVChart>;
     updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => void;
     updateModelSpecSync: (filter: string | {
@@ -55,6 +57,9 @@ export interface IVChart {
     updateState: (state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean) => void;
     setSelected: (datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
     setHovered: (datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
+    clearState: (state: string) => void;
+    clearSelected: () => void;
+    clearHovered: () => void;
     getCurrentTheme: () => ITheme;
     getCurrentThemeName: () => string;
     setCurrentTheme: (name: string) => Promise<IVChart>;

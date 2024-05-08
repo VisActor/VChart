@@ -1,10 +1,11 @@
 import type { IComponent } from '../../../interface';
-import type { IAggrType, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IDataPos, IDataPosCallback, IMarkerLabelSpec, IMarkerCrossSeriesSpec, OffsetPoint } from '../../interface';
+import type { IAggrType, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IDataPos, IDataPosCallback, IMarkerLabelSpec, IMarkerCrossSeriesSpec, OffsetPoint, MarkerStateValue, MarkerStateCallback } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
 import type { ILineMarkSpec, IPoint } from '../../../../typings';
+import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components/es/marker/type';
 export type IMarkLine = IComponent;
-export type IMarkLineSpec = (IMarkerSpec & (IMarkLineXSpec | IMarkLineYSpec | IMarkLineXYSpec | IMarkLineXYY1Spec | IMarkLineYXX1Spec | IMarkLineCoordinateSpec | IMarkerPositionsSpec) & IMarkLineTheme) | IStepMarkLineSpec;
+export type IMarkLineSpec = (IMarkerSpec & (IMarkLineXSpec | IMarkLineYSpec | IMarkLineXYSpec | IMarkLineXYY1Spec | IMarkLineYXX1Spec | IMarkLineAngleSpec | IMarkLineRadiusSpec | IMarkLineAngRadRad1Spec | IMarkLineRadAngAng1Spec | IMarkLineAngRadSpec | IMarkLineCoordinateSpec | IMarkerPositionsSpec) & IMarkLineTheme & BaseMarkerAnimation<MarkCommonLineAnimationType>) | (IStepMarkLineSpec & BaseMarkerAnimation<MarkCommonLineAnimationType>);
 export interface IMarkLineXSpec extends IMarkerCrossSeriesSpec {
     x: IDataPos | IDataPosCallback;
 }
@@ -27,6 +28,28 @@ export interface IMarkLineXYSpec extends IMarkerCrossSeriesSpec {
     x1: IDataPos | IDataPosCallback;
     y1: IDataPos | IDataPosCallback;
 }
+export interface IMarkLineAngleSpec extends IMarkerCrossSeriesSpec {
+    angle: IDataPos | IDataPosCallback;
+}
+export interface IMarkLineRadiusSpec extends IMarkerCrossSeriesSpec {
+    radius: IDataPos | IDataPosCallback;
+}
+export interface IMarkLineAngRadRad1Spec extends IMarkerCrossSeriesSpec {
+    angle: IDataPos | IDataPosCallback;
+    radius: IDataPos | IDataPosCallback;
+    radius1: IDataPos | IDataPosCallback;
+}
+export interface IMarkLineRadAngAng1Spec extends IMarkerCrossSeriesSpec {
+    angle: IDataPos | IDataPosCallback;
+    angle1: IDataPos | IDataPosCallback;
+    radius: IDataPos | IDataPosCallback;
+}
+export interface IMarkLineAngRadSpec extends IMarkerCrossSeriesSpec {
+    angle: IDataPos | IDataPosCallback;
+    angle1: IDataPos | IDataPosCallback;
+    radius: IDataPos | IDataPosCallback;
+    radius1: IDataPos | IDataPosCallback;
+}
 export type IMarkLineCoordinateSpec = {
     coordinates: IDataPointSpec[];
     coordinatesOffset?: OffsetPoint[];
@@ -47,6 +70,7 @@ export type IStepMarkLineSpec = IMarkerSpec & {
         multiSegment?: boolean;
         mainSegmentIndex?: number;
         style?: ILineMarkSpec | ILineMarkSpec[];
+        state?: Record<MarkerStateValue, ILineMarkSpec | ILineMarkSpec[] | MarkerStateCallback<ILineMarkSpec | ILineMarkSpec[]>>;
     };
 } & Omit<IMarkLineTheme, 'label' | 'line'> & ({
     coordinates: [IDataPointSpec, IDataPointSpec];

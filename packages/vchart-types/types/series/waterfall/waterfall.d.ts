@@ -9,6 +9,7 @@ import type { ITextMark } from '../../mark/text';
 import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum } from '../../typings';
 import type { ILabelMark } from '../../mark/label';
+import type { ILabelInfo } from '../../component/label/label';
 export declare const DefaultBandWidth = 6;
 export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSpec> extends BarSeries<any> {
     static readonly type: string;
@@ -33,6 +34,14 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
     initMark(): void;
     initLabelMarkStyle(labelMark: ILabelMark): void;
+    initTotalLabelMarkStyle(labelMark: ILabelMark): void;
+    getTotalLabelComponentStyle(info: Pick<ILabelInfo, 'baseMark' | 'labelMark'>): {
+        customLayoutFunc: (labels: import("@visactor/vrender-components").LabelItem[]) => import("@visactor/vrender-core").IText[];
+        dataFilter: (labels: import("@visactor/vrender-components").LabelItem[]) => import("@visactor/vrender-components").LabelItem[];
+        overlap: {
+            strategy: any;
+        };
+    };
     totalPositionX(datum: Datum, field: string, pos?: number): number;
     totalPositionY(datum: Datum, field: string, pos?: number): number;
     initMarkStyle(): void;
