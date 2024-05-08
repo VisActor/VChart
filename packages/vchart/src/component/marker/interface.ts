@@ -1,3 +1,4 @@
+import type { DataView } from '@visactor/vdataset';
 import type { IPadding } from '@visactor/vutils';
 import type { SymbolType } from '@visactor/vrender-core';
 import type {
@@ -10,9 +11,16 @@ import type {
 } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
-import type { ICartesianSeries } from '../../series/interface';
-import type { IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
+import type { ICartesianSeries, IGeoSeries, IPolarSeries } from '../../series/interface';
+import type { IOptionAggr, IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
+import type { IOptionRegr } from '../../data/transforms/regression';
 
+export type IMarkerSupportSeries = ICartesianSeries | IPolarSeries | IGeoSeries;
+
+export type IPolarPoint = {
+  angle: number;
+  radius: number;
+};
 export type OffsetPoint = {
   /**
    * x 方向的偏移
@@ -34,9 +42,9 @@ export type IDataPosCallback = (
   relativeSeriesData: Datum[],
   startRelativeSeriesData: Datum[],
   endRelativeSeriesData: Datum[],
-  relativeSeries: ICartesianSeries,
-  startRelativeSeries: ICartesianSeries,
-  endRelativeSeries: ICartesianSeries
+  relativeSeries: IMarkerSupportSeries,
+  startRelativeSeries: IMarkerSupportSeries,
+  endRelativeSeries: IMarkerSupportSeries
 ) => StringOrNumber;
 
 export type IDataPointSpec = {
@@ -73,6 +81,30 @@ export type IDataPointSpec = {
    * @since 1.7.0
    */
   yFieldDim?: string;
+  /**
+   * 指定使用 angleField 上的那个维度索引，因为 angleField 字段有可能会包含多个维度，比如分组场景
+   * @default 0
+   * @since 1.11.0
+   */
+  angleFieldIndex?: number;
+  /**
+   * 指定使用 angleField 上的维度名称，因为 angleField 字段有可能会包含多个维度，比如分组场景。
+   * `angleFieldIndex` 和 `angleFieldDim` 声明一个即可，同时声明则 `angleFieldDim` 优先级更高。
+   * @since 1.11.0
+   */
+  angleFieldDim?: string;
+  /**
+   * 指定使用 radiusField 上的那个维度索引，因为 radiusField 字段有可能会包含多个维度，比如分组场景
+   * @default 0
+   * @since 1.11.0
+   */
+  radiusFieldIndex?: number;
+  /**
+   * 指定使用 radiusField 上的维度名称，因为 radiusField 字段有可能会包含多个维度，比如分组场景。
+   * `radiusFieldIndex` 和 `radiusFieldDim` 声明一个即可，同时声明则 `radiusFieldDim` 优先级更高。
+   * @since 1.11.0
+   */
+  radiusFieldDim?: string;
 };
 
 export type MarkerPositionPoint = {
@@ -89,7 +121,9 @@ export type MarkerPositionPoint = {
 export type ICoordinateOption = {
   x?: IOptionAggrField | (IDataPosCallback | StringOrNumber)[];
   y?: IOptionAggrField | (IDataPosCallback | StringOrNumber)[];
-  getRefRelativeSeries?: () => ICartesianSeries;
+  angle?: IOptionAggrField | (IDataPosCallback | StringOrNumber)[];
+  radius?: IOptionAggrField | (IDataPosCallback | StringOrNumber)[];
+  getRefRelativeSeries?: () => IMarkerSupportSeries;
 } & IOptionSeries;
 
 export type IMarkerPositionsSpec = {
@@ -129,11 +163,8 @@ export type IMarkerLabelWithoutRefSpec = {
      * 内部边距
      */
     padding?: IPadding | number[] | number;
-    /**
-     * 背景面板样式
-     */
-    style?: Omit<IRectMarkSpec, 'visible'>;
-  };
+  } & Partial<IMarkerState<Omit<IRectMarkSpec, 'visible'>>>;
+
   /** @deprecated  */
   type?: 'rich' | 'text';
   /**
@@ -148,10 +179,6 @@ export type IMarkerLabelWithoutRefSpec = {
    * @returns 格式化后的文本
    */
   formatMethod?: IFormatMethod<[markData: Datum[], seriesData: Datum[]]>;
-  /**
-   * label文本 - 文本样式
-   */
-  style?: Omit<IComposedTextMarkSpec, 'visible'>;
 
   /**
    * label文本 - 文本前 mark 图元
@@ -179,7 +206,8 @@ export type IMarkerLabelWithoutRefSpec = {
    * 垂直方向的偏移
    */
   dy?: number;
-};
+} & Partial<IMarkerState<Omit<IComposedTextMarkSpec, 'visible'>>>; // label文本 - 文本样式
+
 export type IMarkerLabelSpec = IMarkerLabelWithoutRefSpec & IMarkerRef;
 
 export interface IMarkerRef {
@@ -206,9 +234,15 @@ export interface IMarkerCrossSeriesSpec {
   endRelativeSeriesIndex?: number;
   startRelativeSeriesId?: string;
   endRelativeSeriesId?: string;
+  /**
+   * 数据处理需要单独关联系列, 当配置为'all'时代表关联当前region下所有系列
+   * @since 1.11.0
+   */
+  specifiedDataSeriesIndex?: 'all' | number | number[];
+  specifiedDataSeriesId?: 'all' | string | string[];
 }
 
-export interface IMarkerSpec extends IComponentSpec {
+export type IMarkerSpec = IComponentSpec & {
   /**
    * 标注数据关联的series
    */
@@ -221,7 +255,7 @@ export interface IMarkerSpec extends IComponentSpec {
   visible?: boolean;
   /**
    * marker组件是否可交互
-   * @default false
+   * @default true
    */
   interactive?: boolean;
   /**
@@ -242,9 +276,15 @@ export interface IMarkerSpec extends IComponentSpec {
    * @since 1.7.0
    */
   name?: string;
-}
+  /**
+   * 标注所在的坐标系类型
+   * @description 一般情况下内部逻辑会根据配置自动推导类型，但如果是coordinates的配置方式，则无法推导，需要用户自行配置
+   * @since 1.11.0
+   */
+  coordinateType?: string;
+};
 
-export interface IMarkerSymbol extends IMarkerRef {
+export type IMarkerSymbol = IMarkerRef & {
   /** 是否展示 symbol */
   visible: boolean;
   /**
@@ -255,5 +295,23 @@ export interface IMarkerSymbol extends IMarkerRef {
    * symbol 大小
    */
   size?: number;
-  style?: Omit<ISymbolMarkSpec, 'visible'>;
-}
+} & Partial<IMarkerState<Omit<ISymbolMarkSpec, 'visible'>>>;
+
+export type MarkerStyleCallback<T> = (markerData: DataView) => T;
+export type MarkerStateCallback<T> = (markerData: DataView) => T;
+export type MarkerStateValue = 'hover' | 'hover_reverse' | 'selected' | 'selected_reverse';
+export type IMarkerState<T> = {
+  /** 默认样式设置 */
+  style?: T | MarkerStyleCallback<T>;
+  /** 不同状态下的样式配置 */
+  state?: Record<MarkerStateValue, T | MarkerStateCallback<T>>;
+};
+
+export type MarkCoordinateType = 'cartesian' | 'polar' | 'geo';
+
+export type IMarkProcessOptions = {
+  options: IOptionAggr[] | IOptionRegr;
+  needAggr?: boolean;
+  needRegr?: boolean;
+  processData?: DataView;
+};

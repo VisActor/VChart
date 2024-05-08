@@ -5,4 +5,4 @@ export interface ITooltipHandler extends ITooltipHandlerSpec {
     reInit?: () => any;
 }
 export type TooltipData = IDimensionInfo[] | IDimensionData[];
-export type TooltipActiveType = 'mark' | 'dimension';
+export type TooltipActiveType = 'mark' | 'dimension' | 'group';

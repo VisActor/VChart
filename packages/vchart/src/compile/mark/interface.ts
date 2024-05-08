@@ -225,7 +225,11 @@ export enum STATE_VALUE_ENUM {
   STATE_DIMENSION_HOVER_REVERSE = 'dimension_hover_reverse',
 
   STATE_SELECTED = 'selected',
-  STATE_SELECTED_REVERSE = 'selected_reverse'
+  STATE_SELECTED_REVERSE = 'selected_reverse',
+
+  // todo: 2.0考虑优化
+  STATE_SANKEY_EMPHASIS = 'selected',
+  STATE_SANKEY_EMPHASIS_REVERSE = 'blur'
 }
 
 export enum STATE_VALUE_ENUM_REVERSE {

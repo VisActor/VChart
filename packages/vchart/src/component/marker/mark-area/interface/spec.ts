@@ -1,3 +1,4 @@
+import type { BaseMarkerAnimation, CommonMarkAreaAnimationType } from '@visactor/vrender-components';
 import type { IComponent } from '../../../interface';
 import type {
   IMarkerPositionsSpec,
@@ -15,14 +16,31 @@ export type IMarkArea = IComponent;
 export type IRegressType = 'regression';
 
 export type IMarkAreaSpec = IMarkerSpec &
-  (
-    | IMarkAreaXSpec // 标注目标：笛卡尔坐标系坐标空间
-    | IMarkAreaYSpec // 标注目标：笛卡尔坐标系坐标空间
-    | IMarkAreaXYSpec // 标注目标：笛卡尔坐标系坐标空间
-    | IMarkAreaCoordinateSpec // 标注目标：数据元素
+  /**
+   * 标注目标：笛卡尔坐标系坐标空间
+   */
+  (| IMarkAreaXSpec
+    | IMarkAreaYSpec
+    | IMarkAreaXYSpec
+    /**
+     * 标注目标：极坐标系坐标空间
+     * @since 1.11.0
+     */
+    | IMarkAreaAngleSpec
+    | IMarkAreaRadiusSpec
+    | IMarkAreaAngleRadiusSpec
+    /**
+     * 标注目标：数据元素
+     */
+    | IMarkAreaCoordinateSpec
     | IMarkerPositionsSpec
   ) &
-  IMarkAreaTheme; // 标注目标：任意位置
+  IMarkAreaTheme &
+  /**
+   * 动画配置
+   * @since 1.11.0
+   */
+  BaseMarkerAnimation<CommonMarkAreaAnimationType>; // 标注目标：任意位置
 
 export interface IMarkAreaXSpec extends IMarkerCrossSeriesSpec {
   /**
@@ -55,6 +73,55 @@ export interface IMarkAreaXYSpec extends IMarkerCrossSeriesSpec {
    */
   y: IDataPos | IDataPosCallback;
   y1: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkAreaAngleSpec extends IMarkerCrossSeriesSpec {
+  /**
+   * 极坐标系下, angle 轴上位置，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下, angle 轴上位置，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle1: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkAreaRadiusSpec extends IMarkerCrossSeriesSpec {
+  /**
+   * 极坐标系下,  radius 轴上位置， 或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  radius 轴上位置， 或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius1: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkAreaAngleRadiusSpec extends IMarkerCrossSeriesSpec {
+  /**
+   * 极坐标系下, angle 轴上位置，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下, angle 轴上位置，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle1: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  radius 轴上位置， 或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  radius 轴上位置， 或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius1: IDataPos | IDataPosCallback;
 }
 
 export type IMarkAreaCoordinateSpec = {

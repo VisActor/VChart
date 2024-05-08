@@ -1,6 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import type { IAggrType } from '../../component/marker/interface';
-import type { ICartesianSeries } from '../../series/interface';
+import type { IAggrType, IMarkerSupportSeries } from '../../component/marker/interface';
 import type { StringOrNumber } from '../../typings';
 export type IOption = {
     field: string;
@@ -11,15 +10,18 @@ export type IOptionAggrField = {
 };
 export type IOptionPos = IOptionAggrField | string | number | StringOrNumber[];
 export type IOptionSeries = {
-    getRelativeSeries: () => ICartesianSeries;
-    getStartRelativeSeries: () => ICartesianSeries;
-    getEndRelativeSeries: () => ICartesianSeries;
+    getRelativeSeries: () => IMarkerSupportSeries;
+    getStartRelativeSeries: () => IMarkerSupportSeries;
+    getEndRelativeSeries: () => IMarkerSupportSeries;
 };
-export type IOptionCallback = (relativeSeriesData: any, startRelativeSeriesData: any, endRelativeSeriesData: any, relativeSeries: ICartesianSeries, startRelative: ICartesianSeries, endRelative: ICartesianSeries) => IOptionPos;
+export type IOptionCallback = (relativeSeriesData: any, startRelativeSeriesData: any, endRelativeSeriesData: any, relativeSeries: IMarkerSupportSeries, startRelative: IMarkerSupportSeries, endRelative: IMarkerSupportSeries) => IOptionPos;
 export type IOptionAggr = {
     x?: IOptionPos | IOptionCallback;
     y?: IOptionPos | IOptionCallback;
-    getRefRelativeSeries?: () => ICartesianSeries;
+    angle?: IOptionPos | IOptionCallback;
+    radius?: IOptionPos | IOptionCallback;
+    areaName?: string | IOptionCallback;
+    getRefRelativeSeries?: () => IMarkerSupportSeries;
 } & IOptionSeries;
 export declare const markerMin: (_data: Array<DataView>, opt: IOption) => number;
 export declare const markerMax: (_data: Array<DataView>, opt: IOption) => number;
@@ -31,4 +33,7 @@ export declare function markerMedian(_data: Array<DataView>, opt: IOption): numb
 export declare function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]): {
     x: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
     y: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
+    angle: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
+    radius: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
+    areaName: string | IOptionCallback | null;
 }[];

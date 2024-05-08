@@ -1,3 +1,4 @@
+import type { WaterfallSeries } from './../../series/waterfall/waterfall';
 import type { Datum } from '../../typings/common';
 import type { ILabelInfo } from './label';
 import type { LabelItem, Strategy } from '@visactor/vrender-components';
@@ -14,6 +15,7 @@ export declare const labelRuleMap: {
     rect3d: typeof barLabel;
     arc3d: typeof pieLabel;
     treemap: typeof treemapLabel;
+    venn: typeof vennLabel;
 };
 export declare function defaultLabelConfig(rule: string, labelInfo: ILabelInfo): any;
 export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod'], formatter?: ILabelSpec['formatter']): any;
@@ -48,7 +50,9 @@ export declare function pieLabel(labelInfo: ILabelInfo): {
     position: import("@visactor/vrender-components").Functional<string>;
     smartInvert: boolean | import("@visactor/vrender-components").SmartInvertAttrs;
 };
-export declare function stackLabel(labelInfo: ILabelInfo): {
+export declare function stackLabelX(datum2: Datum, series: WaterfallSeries, pos: string, offset: number): number;
+export declare function stackLabelY(datum2: Datum, series: WaterfallSeries, pos: string, offset: number): number;
+export declare function stackLabel(labelInfo: ILabelInfo, datumTransform?: (data: any) => any, attributeTransform?: (label: LabelItem, datum: Datum, att: any) => any): {
     customLayoutFunc: (labels: LabelItem[]) => import("@visactor/vrender-core").IText[];
     dataFilter: (labels: LabelItem[]) => LabelItem[];
     overlap: {
@@ -58,6 +62,10 @@ export declare function stackLabel(labelInfo: ILabelInfo): {
 export declare function treemapLabel(labelInfo: ILabelInfo): {
     customLayoutFunc: (labels: LabelItem[], text: any) => any;
     overlap: boolean;
+};
+export declare function vennLabel(labelInfo: ILabelInfo): {
+    customLayoutFunc: (labels: LabelItem[], text: any) => any;
+    smartInvert: boolean;
 };
 export declare function LineLabel(labelInfo: ILabelInfo): {
     position: string;

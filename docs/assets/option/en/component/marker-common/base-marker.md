@@ -12,7 +12,7 @@ The series ID associated with the annotated data.
 
 Whether the annotation component is visible.
 
-#${prefix} interactive(boolean) = false
+#${prefix} interactive(boolean) = true
 
 Whether the annotation component is interactive.
 
@@ -30,6 +30,10 @@ The annotation component ID.
 #${prefix} name(string)
 
 Supported since `1.7.0` version, mark the component name.
+
+#${prefix} coordinateType(string)
+
+Since the `1.11.0` version, the coordinate system type where the annotation is located will be automatically deduced by the internal logic based on the configuration. However, if the coordinates configuration method is used, it cannot be deduced and needs to be configured by the user.
 
 {{ use: common-layout-item(
   prefix = ${prefix},

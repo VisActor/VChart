@@ -42,9 +42,7 @@ Locks the tooltip after clicking, usually used in scenarios where `trigger` is `
 
 ##${prefix} mark(Object)
 
-Customized configuration of the tuple tooltip. **_(supports setting on series)(only works on default handler)_**
-
-<! -- TODO: Example complementary image for the meta tooltip -->
+Customized configuration of the mark tooltip. **_(supports setting on series)(only works on default handler)_**
 
 {{ use: component-tooltip-pattern(
   prefix = '##' + ${prefix}
@@ -52,12 +50,19 @@ Customized configuration of the tuple tooltip. **_(supports setting on series)(o
 
 ##${prefix} dimension(Object)
 
-Custom configuration of the dimension item tooltip. **_(only works with default handler)_**
-
-<! -- TODO: Dimension item tooltip example patch -->
+Custom configuration of the dimension tooltip. **_(only works with default handler)_**
 
 {{ use: component-tooltip-pattern(
   prefix = '##' + ${prefix}
+) }}
+
+##${prefix} group(Object)
+
+Custom configuration of the group tooltip. **_(only works with default handler)_**
+
+{{ use: component-tooltip-pattern(
+  prefix = '##' + ${prefix},
+  groupTooltip = true
 ) }}
 
 ##${prefix} renderMode('html'|'canvas')

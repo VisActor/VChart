@@ -14,6 +14,7 @@ export interface IPolarAxisHelper {
     getScale: (depth?: number) => IBaseScale;
     getBandwidth?: (depth?: number) => number;
     getAxisId: () => number;
+    setExtendDomain?: (key: string, value: number | undefined) => void;
 }
 export interface IPolarAxis extends IAxis {
     startAngle: number;

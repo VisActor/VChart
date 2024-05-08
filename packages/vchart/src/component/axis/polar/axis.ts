@@ -193,17 +193,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return region ? region.getLayoutStartPoint() : pos;
   };
 
-  onLayoutEnd(ctx: any): void {
-    const isChanged = this.updateScaleRange();
-
-    if (isChanged) {
-      this.updateSeriesScale();
-      this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
-    }
-
-    super.onLayoutEnd(ctx);
-  }
-
   onRender(ctx: any): void {
     // do nothing
   }
@@ -215,7 +204,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   protected _tickTransformOption() {
     return {
       ...super._tickTransformOption(),
-      noDecimal: this._tick.noDecimals,
+      noDecimal: this._tick?.noDecimals,
       startAngle: this.startAngle,
       labelOffset: getAxisLabelOffset(this._spec),
       getRadius: () => this.getOuterRadius(),

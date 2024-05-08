@@ -11,9 +11,12 @@ export interface ISeriesTooltipHelper extends ITooltipHelper {
   getDefaultTooltipPattern: (activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]) => ITooltipPattern | null;
 
   // 可以继承的原子化回调
-  contentKeyCallback: TooltipContentCallback<string>;
-  contentValueCallback: TooltipContentCallback<string>;
-  contentShapeTypeCallback: TooltipContentCallback<ShapeType>;
-  contentShapeColorCallback: TooltipContentCallback<string>;
-  titleValueCallback: TooltipContentCallback<string>;
+  markTooltipKeyCallback: TooltipContentCallback<string>;
+  markTooltipValueCallback: TooltipContentCallback<string>;
+  shapeTypeCallback: TooltipContentCallback<ShapeType>;
+  shapeColorCallback: TooltipContentCallback<string>;
+  shapeStrokeCallback: TooltipContentCallback<string>;
+  dimensionTooltipTitleCallback: TooltipContentCallback<string>;
+  groupTooltipTitleCallback: TooltipContentCallback<string>;
+  groupTooltipKeyCallback: TooltipContentCallback<string>;
 }

@@ -3,9 +3,9 @@ import type { CompilerListenerParameters, CompilerModel, IGrammarItem, IRenderCo
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import { VChart } from '../core/vchart';
 import type { IColor, Stage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
+import type { IVChart } from '../core/interface';
 type EventListener = {
     type: string;
     callback: (...args: any[]) => void;
@@ -40,11 +40,11 @@ export declare class Compiler {
     compileInteractions(): void;
     compile(ctx: {
         chart: IChart;
-        vChart: VChart;
+        vChart: IVChart;
     }, option: any): void;
     clear(ctx: {
         chart: IChart;
-        vChart: VChart;
+        vChart: IVChart;
     }, removeGraphicItems?: boolean): void;
     renderNextTick(morphConfig?: IMorphConfig): void;
     render(morphConfig?: IMorphConfig): void;

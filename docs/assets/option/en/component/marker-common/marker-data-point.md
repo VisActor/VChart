@@ -77,3 +77,23 @@ Supported since version `1.7.0`, specify the dimension index on yField to use, b
 Supported since `1.7.0` version, specify the dimension name on yField, because the yField field may contain multiple dimensions, such as grouping scenarios.
 
 `yFieldIndex` and `yFieldDim` can be declared only once. If they are declared at the same time, `yFieldDim` will have a higher priority.
+
+#${prefix} angleFieldIndex(number) = 0
+
+Supported since version `1.11.0`, specify the dimension index on angleField to use, because the angleField field may contain multiple dimensions, such as grouping scenarios. The default value is 0.
+
+#${prefix} angleFieldDim(string)
+
+Supported since `1.11.0` version, specify the dimension name on angleField, because the angleField field may contain multiple dimensions, such as grouping scenarios.
+
+`angleFieldIndex` and `angleFieldDim` can be declared only once. If they are declared at the same time, `angleFieldDim` will have a higher priority.
+
+#${prefix} radiusFieldIndex(number) = 0
+
+Supported since `1.11.0` version, specify the dimension index on radiusField to use, because the radiusField field may contain multiple dimensions, such as grouping scenarios. The default value is 0.
+
+#${prefix} radiusFieldDim(string)
+
+Supported since `1.11.0` version, specify the dimension name on radiusField, because the radiusField field may contain multiple dimensions, such as grouping scenarios.
+
+`radiusFieldIndex` and `radiusFieldDim` can be declared only one time. If they are declared at the same time, `radiusFieldDim` will have a higher priority.

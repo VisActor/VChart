@@ -64,5 +64,5 @@ export declare class Factory {
     static getComponentPlugins(): IComponentPluginConstructor[];
     static getComponentPluginInType(type: string): IComponentPluginConstructor;
     static registerFormatter(func: typeof Factory['_formatter']): void;
-    static getFormatter(): (text: string | number | string[] | number[], datum: any, formatter: string | string[]) => any;
+    static getFormatter(): (text: string | number | number[] | string[], datum: any, formatter: string | string[]) => any;
 }

@@ -11,6 +11,9 @@ import { BaseSeries } from '../base/base-series';
 import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
+import { ChartEvent } from '../../constant';
+import { registerDataSetInstanceTransform } from '../../data/register';
+import { invalidTravel } from '../../data/transforms/invalid-travel';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>
@@ -215,10 +218,20 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return Math.min(width / 2, height / 2);
   }
 
-  fillData(): void {
-    super.fillData();
+  protected initEvent() {
+    super.initEvent();
+    // 通过轴事件来进行排序。轴的domain数据变化在系列的统计数据完成后
     if (this.sortDataByAxis) {
-      this._sortDataInAxisDomain();
+      this.event.on(
+        ChartEvent.scaleDomainUpdate,
+        {
+          filter: param => param.model.id === this._angleAxisHelper?.getAxisId()
+        },
+        () => {
+          // 只能排序，不能修改数据，此时已经在数据流的统计流程之后
+          this._sortDataInAxisDomain();
+        }
+      );
     }
   }
 
@@ -228,17 +241,20 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     }
   }
 
-  protected _getInvalidDefined(datum: Datum) {
+  protected getInvalidCheckFields() {
+    const fields: string[] = [];
+
     if (this.angleAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._angleField[0]])) {
-        return false;
-      }
+      this._angleField.forEach(f => {
+        fields.push(f);
+      });
     }
+
     if (this.radiusAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._radiusField[0]])) {
-        return false;
-      }
+      this._radiusField.forEach(f => {
+        fields.push(f);
+      });
     }
-    return true;
+    return fields;
   }
 }

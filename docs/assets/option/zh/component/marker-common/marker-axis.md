@@ -23,3 +23,9 @@
 #${prefix} relativeRelativeSeriesId(string)
 
 被标注数据关联的series ID（默认使用当前region第一个有效series）。
+
+#${prefix} specifiedDataSeriesIndex(string|number|array)
+自`1.11.0`版本，数据处理需要单独关联系列, 当配置为'all'时代表关联当前region下所有系列。
+
+#${prefix} specifiedDataSeriesId(string|number|array)
+自`1.11.0`版本，数据处理需要单独关联系列, 当配置为'all'时代表关联当前region下所有系列。

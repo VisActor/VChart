@@ -922,9 +922,14 @@ export class VChart implements IVChart {
    */
   async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
     const result = this._updateSpec(spec, forceMerge);
+
+    if (!result) {
+      return this as unknown as IVChart;
+    }
+
     await this.updateCustomConfigAndRerender(result, false, {
       morphConfig,
-      transformSpec: true,
+      transformSpec: result.reTransformSpec,
       actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
@@ -938,9 +943,14 @@ export class VChart implements IVChart {
    */
   updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
     const result = this._updateSpec(spec, forceMerge);
+
+    if (!result) {
+      return this as unknown as IVChart;
+    }
+
     this.updateCustomConfigAndRerender(result, true, {
       morphConfig,
-      transformSpec: true,
+      transformSpec: result.reTransformSpec,
       actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
@@ -957,6 +967,7 @@ export class VChart implements IVChart {
 
   private _updateSpec(spec: ISpec, forceMerge: boolean = false): IUpdateSpecResult | undefined {
     const lastSpec = this._spec;
+
     if (!this._setNewSpec(spec, forceMerge)) {
       return undefined;
     }
@@ -968,7 +979,19 @@ export class VChart implements IVChart {
     const reSize = this._shouldChartResize(lastSpec);
     this._compiler?.getVGrammarView()?.updateLayoutTag();
 
+    if (this._spec.type !== lastSpec.type) {
+      return {
+        reTransformSpec: true,
+        change: true,
+        reMake: true,
+        reCompile: false,
+        reSize: reSize
+      };
+    }
+    this._initChartSpec(this._spec, 'render');
+
     return mergeUpdateResult(this._chart.updateSpec(this._spec), {
+      reTransformSpec: false,
       change: reSize,
       reMake: false,
       reCompile: false,
@@ -1240,6 +1263,42 @@ export class VChart implements IVChart {
     this._chart.setHovered(datum, filter, region);
   }
 
+  /**
+   * 清除所有图元的状态
+   *
+   * @since 1.11.0
+   */
+  clearState(state: string) {
+    if (!this._chart) {
+      return;
+    }
+    this._chart.clearState(state);
+  }
+
+  /**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected() {
+    if (!this._chart) {
+      return;
+    }
+    this._chart.clearSelected();
+  }
+
+  /**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered() {
+    if (!this._chart) {
+      return;
+    }
+    this._chart.clearHovered();
+  }
+
   // 主题相关方法
   /**
    * 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新
@@ -1290,13 +1349,13 @@ export class VChart implements IVChart {
     let resize = false;
 
     if (isNil(this._spec.width)) {
-      this._spec.width = oldSpec.width;
+      !isNil(oldSpec.width) && (this._spec.width = oldSpec.width);
     } else if (this._spec.width !== oldSpec.width) {
       resize = true;
     }
 
     if (isNil(this._spec.height)) {
-      this._spec.height = oldSpec.height;
+      !isNil(oldSpec.height) && (this._spec.height = oldSpec.height);
     } else if (this._spec.height !== oldSpec.height) {
       resize = true;
     }

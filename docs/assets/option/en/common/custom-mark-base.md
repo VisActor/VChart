@@ -22,5 +22,59 @@ From version **1.9.0** onwards
 When the type of custom mark is `component`, it can be used to set the specific component type
 
 {{ use: common-mark(
-  prefix = ${prefix}
+    prefix = ${prefix}
+  ) }}
+
+#${prefix} animation(boolean) = false
+
+自 **1.11.0** 版本开始支持
+
+是否开启动画，默认关闭。
+
+#${prefix} animationAppear(Object|boolean)
+
+自 **1.11.0** 版本开始支持
+
+图表入场动画。boolean 类型用于开启/关闭该动画。
+
+{{ use: animate-state-animate(
+  prefix = '#' + ${prefix},
+  noPreset = true,
+  noOneByOne = true
+) }}
+
+#${prefix} animationEnter(Object|boolean)
+
+自 **1.11.0** 版本开始支持
+
+数据更新 - 新增数据动画。boolean 类型用于开启/关闭该动画。
+
+{{ use: animate-state-animate(
+  prefix = '#' + ${prefix},
+  noPreset = true,
+  noOneByOne = true
+) }}
+
+#${prefix} animationUpdate(Object|boolean)
+
+自 **1.11.0** 版本开始支持
+
+数据更新 - 数据更新动画。boolean 类型用于开启/关闭该动画。
+
+{{ use: animate-state-animate(
+  prefix = '#' + ${prefix},
+  noPreset = true,
+  noOneByOne = true
+) }}
+
+#${prefix} animationExit(Object|boolean)
+
+自 **1.11.0** 版本开始支持
+
+数据更新 - 数据删除动画。boolean 类型用于开启/关闭该动画。
+
+{{ use: animate-state-animate(
+  prefix = '#' + ${prefix},
+  noPreset = true,
+  noOneByOne = true
 ) }}

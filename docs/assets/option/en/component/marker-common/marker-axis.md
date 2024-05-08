@@ -23,3 +23,9 @@ The series index associated with the marked data (default is using the first val
 #${prefix} relativeRelativeSeriesId(string)
 
 The series ID associated with the marked data (default is using the first valid series in the current region).
+
+#${prefix} specifiedDataSeriesIndex(string|number|array)
+Since the `1.11.0` version, data processing needs to be associated with series separately. When configured as 'all', it means that all series under the current region are associated.
+
+#${prefix} specifiedDataSeriesId(string|number|array)
+Since the `1.11.0` version, data processing needs to be associated with series separately. When configured as 'all', it means that all series under the current region are associated.

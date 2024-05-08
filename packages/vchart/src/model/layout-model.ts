@@ -114,6 +114,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
     this.layoutClip = this._spec.clip ?? this.layoutClip;
     this.layoutZIndex = this._spec.zIndex ?? this.layoutZIndex;
     this.layoutType = this._spec.layoutType ?? this.layoutType;
+    this._orient = this._spec.orient ?? this._orient;
   }
 
   abstract getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike;

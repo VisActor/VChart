@@ -25,6 +25,11 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
     linkSortBy?: (a: SankeyLinkElement, b: SankeyLinkElement) => number;
     nodeSortBy?: (a: SankeyNodeElement, b: SankeyNodeElement) => number;
     setNodeLayer?: (datum: SankeyNodeDatum) => number;
+    dropIsolatedNode?: boolean;
+    nodeHeight?: number | ((node: SankeyNodeElement) => number);
+    linkHeight?: number | ((link: SankeyLinkElement, sourceNode: SankeyNodeElement, sourceNodeHeight: number) => number);
+    equalNodeHeight?: boolean;
+    linkOverlap?: 'start' | 'center' | 'end';
     [SeriesMarkNameEnum.node]?: IMarkSpec<IRectMarkSpec>;
     [SeriesMarkNameEnum.link]?: IMarkSpec<ILinkPathMarkSpec>;
     emphasis?: {

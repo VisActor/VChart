@@ -30,6 +30,7 @@ import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 import { getGroupAnimationParams } from '../util/utils';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -314,6 +315,11 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         AttributeLevel.Series
       );
     }
+
+    // if has produce, reCompile encode to set attribute to product
+    if (this._symbolMark.getProduct()) {
+      this._symbolMark.compileEncode();
+    }
   }
 
   /**
@@ -414,5 +420,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 export const registerScatterSeries = () => {
   registerSymbolMark();
   registerScatterAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(ScatterSeries.type, ScatterSeries);
 };

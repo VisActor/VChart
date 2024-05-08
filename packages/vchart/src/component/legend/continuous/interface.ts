@@ -41,6 +41,12 @@ export type HandlerTextAttribute = {
 // 连续图例通用配置
 export type IContinuousLegendSpec = ILegendCommonSpec & {
   /**
+   * 是否开启反向展示
+   * @default false
+   * @since 1.11.0
+   */
+  inverse?: boolean;
+  /**
    * 声明关联的映射字段
    */
   field?: string;

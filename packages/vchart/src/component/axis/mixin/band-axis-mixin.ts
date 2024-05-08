@@ -160,7 +160,7 @@ export class BandAxisMixin {
         this._scales[i].domain(userDomain);
       } else {
         const data = this.collectData(i);
-        const domain = this.computeDomain(data);
+        const domain = this.computeBandDomain(data);
         this._scales[i].domain(domain.sort((a, b) => this._rawDomainIndex[i][a] - this._rawDomainIndex[i][b]));
       }
     }
@@ -232,7 +232,7 @@ export class BandAxisMixin {
         this._scales[i].domain(userDomain);
       } else {
         const data = this.collectData(i, true);
-        const domain = this.computeDomain(data);
+        const domain = this.computeBandDomain(data);
         this._rawDomainIndex[i] = {};
         domain.forEach((d, _i) => (this._rawDomainIndex[i][d] = _i));
       }

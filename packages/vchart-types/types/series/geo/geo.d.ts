@@ -33,6 +33,7 @@ export declare abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpe
     getGroupFields(): string[];
     dataToPosition(datum: any, checkInViewData?: boolean): IPoint | null;
     protected nameToPosition(datum: any): IPoint | null;
+    nameValueToPosition(name: string): IPoint | null;
     abstract getDatumCenter(datum: any): [number, number];
     abstract getDatumName(datum: any): string;
     dataToLatitude(latValue: number): number;

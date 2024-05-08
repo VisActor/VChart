@@ -201,8 +201,8 @@ export class Layout implements IBaseLayout {
     info.items.forEach((item: ILayoutItem) => {
       const layoutRect = this.getItemComputeLayoutRect(item);
       const rect = item.computeBoundsInRect(layoutRect);
-      info.rect.width = Math.max(rect.width, info.rect.width);
-      info.rect.height = Math.max(rect.height, info.rect.height);
+      info.rect.width = Math.max(rect.width + item.layoutPaddingLeft + item.layoutPaddingRight, info.rect.width);
+      info.rect.height = Math.max(rect.height + item.layoutPaddingTop + item.layoutPaddingBottom, info.rect.height);
     });
 
     // 统一设置rect和pos
@@ -210,19 +210,19 @@ export class Layout implements IBaseLayout {
       item.setLayoutRect(info.rect);
       if (orient === 'left') {
         item.setLayoutStartPosition({
-          x: this.leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+          x: this.leftCurrent + item.layoutOffsetX
         });
       } else if (orient === 'right') {
         item.setLayoutStartPosition({
-          x: this.rightCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+          x: this.rightCurrent - info.rect.width + item.layoutOffsetX
         });
       } else if (orient === 'top') {
         item.setLayoutStartPosition({
-          x: this.topCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+          x: this.topCurrent + item.layoutOffsetY
         });
       } else {
         item.setLayoutStartPosition({
-          x: this.bottomCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+          x: this.bottomCurrent - info.rect.height + item.layoutOffsetY
         });
       }
     });

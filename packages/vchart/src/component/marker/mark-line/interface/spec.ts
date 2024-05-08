@@ -8,27 +8,48 @@ import type {
   IDataPosCallback,
   IMarkerLabelSpec,
   IMarkerCrossSeriesSpec,
-  OffsetPoint
+  OffsetPoint,
+  MarkerStateValue,
+  MarkerStateCallback
 } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
 import type { ILineMarkSpec, IPoint } from '../../../../typings';
+import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components/es/marker/type';
 
 export type IMarkLine = IComponent;
 
 export type IMarkLineSpec =
   | (IMarkerSpec &
-      (
-        | IMarkLineXSpec // 标注目标：笛卡尔坐标系坐标空间
-        | IMarkLineYSpec // 标注目标：笛卡尔坐标系坐标空间
+      /**
+       * 标注目标：笛卡尔坐标系坐标空间
+       */
+      (| IMarkLineXSpec
+        | IMarkLineYSpec
         | IMarkLineXYSpec
         | IMarkLineXYY1Spec
         | IMarkLineYXX1Spec
-        | IMarkLineCoordinateSpec // 标注目标：数据元素
+        /**
+         * 标注目标: 极坐标系
+         * @since 1.11.0
+         */
+        | IMarkLineAngleSpec
+        | IMarkLineRadiusSpec
+        | IMarkLineAngRadRad1Spec
+        | IMarkLineRadAngAng1Spec
+        | IMarkLineAngRadSpec
+        // 标注目标：数据元素
+        | IMarkLineCoordinateSpec
+        // 标注目标: 任意位置
         | IMarkerPositionsSpec
       ) &
-      IMarkLineTheme)
-  | IStepMarkLineSpec; // 标注目标：任意位置
+      IMarkLineTheme &
+      /**
+       * 动画配置
+       * @since 1.11.0
+       */
+      BaseMarkerAnimation<MarkCommonLineAnimationType>)
+  | (IStepMarkLineSpec & BaseMarkerAnimation<MarkCommonLineAnimationType>); // 标注目标：任意位置
 
 export interface IMarkLineXSpec extends IMarkerCrossSeriesSpec {
   /**
@@ -111,6 +132,81 @@ export interface IMarkLineXYSpec extends IMarkerCrossSeriesSpec {
   y1: IDataPos | IDataPosCallback;
 }
 
+export interface IMarkLineAngleSpec extends IMarkerCrossSeriesSpec {
+  /**
+   * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkLineRadiusSpec extends IMarkerCrossSeriesSpec {
+  /**
+   * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkLineAngRadRad1Spec extends IMarkerCrossSeriesSpec {
+  /**
+   * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius1: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkLineRadAngAng1Spec extends IMarkerCrossSeriesSpec {
+  /**
+   * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle1: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkLineAngRadSpec extends IMarkerCrossSeriesSpec {
+  /**
+   * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  angle1: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius: IDataPos | IDataPosCallback;
+  /**
+   * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * @since 1.11.0
+   */
+  radius1: IDataPos | IDataPosCallback;
+}
+
 export type IMarkLineCoordinateSpec = {
   /**
    * 指定数据点的参考线。基于指定数据点进行参考线的绘制，可以对数据点进行数据处理
@@ -169,6 +265,10 @@ export type IStepMarkLineSpec = IMarkerSpec & {
      * 当进行多段配置时，可以通过数组的方式传入
      */
     style?: ILineMarkSpec | ILineMarkSpec[];
+    state?: Record<
+      MarkerStateValue,
+      ILineMarkSpec | ILineMarkSpec[] | MarkerStateCallback<ILineMarkSpec | ILineMarkSpec[]>
+    >;
   };
 } & Omit<IMarkLineTheme, 'label' | 'line'> &
   (

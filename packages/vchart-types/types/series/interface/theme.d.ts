@@ -26,6 +26,7 @@ import { SeriesTypeEnum } from './type';
 import type { SeriesMarkMap } from './common';
 import type { IRangeAreaSeriesTheme } from '../range-area/interface';
 import type { ILiquidSeriesTheme } from '../liquid/interface';
+import type { IVennSeriesTheme } from '../venn/interface';
 export interface ISeriesTheme {
     [SeriesTypeEnum.bar]?: IBarSeriesTheme;
     [SeriesTypeForThemeEnum.bar_vertical]?: IBarSeriesTheme;
@@ -86,6 +87,7 @@ export interface ISeriesTheme {
     [SeriesTypeEnum.heatmap]?: IHeatmapSeriesTheme;
     [SeriesTypeEnum.correlation]?: ICorrelationSeriesTheme;
     [SeriesTypeEnum.liquid]?: ILiquidSeriesTheme;
+    [SeriesTypeEnum.venn]?: IVennSeriesTheme;
 }
 export declare enum SeriesTypeForThemeEnum {
     area_horizontal = "area_horizontal",

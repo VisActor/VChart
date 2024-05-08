@@ -148,7 +148,7 @@ function Content(props: IContentProps) {
     );
     const evaluateCode = code
       .replace('CONTAINER_ID', `"${containerId}"`)
-      .concat(`window['${containerId}'] = (() => { try { return vchart; } catch(e) { return vChart; } })();`);
+      .concat(`window['${containerId}'] = (() => { try { return vchart; } catch(e) {  } })();`);
     return {
       // TODO: handle template
       code: transformCode(htmlRestore(evaluateCode), demo.template),

@@ -131,14 +131,16 @@ describe('[Domain-Series-Funnel] Funnel Series', () => {
     const testParams = { mark: { name: 'transform' } } as any;
 
     // tooltip title
-    expect(funnel.tooltipHelper?.titleValueCallback(transformData0, testParams)).toBe('转化率');
-    expect(funnel.tooltipHelper?.titleValueCallback(funnelData0)).toBe(funnelData0[funnel.getCategoryField()]);
+    expect(funnel.tooltipHelper?.dimensionTooltipTitleCallback(transformData0, testParams)).toBe('转化率');
+    expect(funnel.tooltipHelper?.dimensionTooltipTitleCallback(funnelData0)).toBe(
+      funnelData0[funnel.getCategoryField()]
+    );
     // tooltip content value
-    expect(funnel.tooltipHelper?.contentValueCallback(transformData0, testParams)).toBe('84.0%');
-    expect(funnel.tooltipHelper?.contentValueCallback(funnelData0)).toBe(funnelData0[funnel.getValueField()]);
+    expect(funnel.tooltipHelper?.markTooltipValueCallback(transformData0, testParams)).toBe('84.0%');
+    expect(funnel.tooltipHelper?.markTooltipValueCallback(funnelData0)).toBe(funnelData0[funnel.getValueField()]);
     // tooltip content key
-    expect(funnel.tooltipHelper?.contentKeyCallback(transformData0, testParams)).toBe('转化率');
-    expect(funnel.tooltipHelper?.contentKeyCallback(funnelData0)).toBe(funnelData0[funnel.getCategoryField()]);
+    expect(funnel.tooltipHelper?.markTooltipKeyCallback(transformData0, testParams)).toBe('转化率');
+    expect(funnel.tooltipHelper?.markTooltipKeyCallback(funnelData0)).toBe(funnelData0[funnel.getCategoryField()]);
 
     // getPoints;
     funnel.setLayoutRect({ width: 500, height: 500 });

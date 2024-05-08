@@ -23,8 +23,21 @@ export interface ITooltipPattern extends ITooltipShapePattern {
   /** tooltip content 保留的最大数据行数，默认为 20 */
   maxLineCount?: number;
 
+  /** tooltip content 保留最大数据行数后，代表“其他”的数据行内容 */
+  othersLine?: ITooltipLineActual;
+
   /** 方便内部逻辑辨别 tooltip 类型，不暴露给用户 */
   activeType?: TooltipActiveType;
+}
+
+export type GroupTooltipTriggerMark = 'line' | 'area' | 'point' | 'bar';
+
+export interface IGroupTooltipPattern extends ITooltipPattern {
+  /**
+   * group tooltip 的触发 mark
+   * @since 1.11.0
+   */
+  triggerMark?: MaybeArray<GroupTooltipTriggerMark>;
 }
 
 export interface ITooltipActual {

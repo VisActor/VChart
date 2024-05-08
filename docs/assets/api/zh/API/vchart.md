@@ -134,7 +134,17 @@ export interface GeoSourceOption {
   centroid?: boolean;
   /** 地图简化 */
   /** @default false */
-  simplify?: boolean;
+  simplify?:
+    | boolean
+    | {
+        /**
+         * 一个以度为单位的数字（例如，纬度/经度距离）。
+         * 1度大约相当于69英里。默认值是0.001，大约是一个城市街区的长度。
+         * @default 0.01
+         * @since 1.11.0
+         */
+        tolerance: number;
+      };
   /** 逆时针回绕(Multi)LineString或(Multi)Polygon的外部环，内部环顺时针。*/
   /** @default false */
   rewind?:
@@ -214,6 +224,12 @@ new VChart(spec: ISpec, options: IInitOption);
 | `disableDirtyBounds`    | `boolean`                   | 否   | 是否关闭 dirtyBounds                                                                                                                                                                                                                                                 |
 | `enableView3dTransform` | `boolean`                   | 否   | 是否开启 view3d 的变换模式                                                                                                                                                                                                                                           |
 | `poptip`                | `boolean`                   | 否   | 是否开启省略文本的 poptip，用于查看完整的文本内容，默认开启                                                                                                                                                                                                          |
+| `disableTriggerEvent`   | `boolean`                   | 否   | 是否关闭交互效果；从`1.9.0`版本开始支持                                                                                                                                                                                                                              |
+| `theme`                 | `string \| ITheme`          | 否   | 默认主题（支持完整主题对象或者主题名称，主题名称需要提前在 `ThemeManager` 中注册）                                                                                                                                                                                   |
+| `enableHtmlAttribute`   | `boolean`                   | 否   | 底层 vrender 图形节点是否支持`html`属性; 从`1.8.3`版本开始支持                                                                                                                                                                                                       |
+| `supportsTouchEvents`   | `boolean`                   | 否   | 是否支持 touch 事件，不支持就不监听 touch 事件; 从`1.8.9`版本开始支持                                                                                                                                                                                                |
+| `supportsPointerEvents` | `boolean`                   | 否   | 是否支持 pointer 事件，不支持就监听 mouse 事件; 从`1.8.9`版本开始支持                                                                                                                                                                                                |
+| `ReactDOM`              | `object`                    | 否   | `react-dom`包导出产物，用于开启 vrender 渲染 react 元素; 从`1.11.0`版本开始支持                                                                                                                                                                                      |
 
 - `srIOption3DType` 类型定义如下
 
@@ -635,6 +651,46 @@ vchart.setHovered({ type: 'A' });
 vchart.setHovered({ x: 'US', y: 10, type: 'A' });
 // 取消当前的选中数据
 vchart.setHovered(null);
+```
+
+### clearState
+
+清除图元的状态
+
+```ts
+ /**
+   * 清除所有图元的状态
+   * @param state 状态名
+   *
+   * @since 1.11.0
+   */
+  clearState: (state: string) => void;
+```
+
+### clearSelected
+
+清除图元的选中状态
+
+```ts
+/**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected: () => void;
+```
+
+### clearHovered
+
+清除图元的 hover 状态
+
+```ts
+/**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered: () => void;
 ```
 
 ### getCurrentTheme

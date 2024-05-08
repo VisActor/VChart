@@ -1,3 +1,20 @@
-import type { Datum, IShowTooltipOption, ITooltipHandler, TooltipActiveType } from '../../../typings';
-import type { IComponentOption } from '../../interface';
-export declare function showTooltip(datum: Datum, options: IShowTooltipOption, tooltipHandler: ITooltipHandler, componentOptions: IComponentOption): TooltipActiveType | 'none';
+import type { Datum, IPoint, IShowTooltipOption, TooltipActiveType } from '../../../typings';
+import type { ISeries } from '../../../series/interface';
+import type { IRegion } from '../../../region';
+import type { Tooltip } from '../tooltip';
+type MarkInfo = {
+    pos: IPoint;
+    data: {
+        dimensionFields: string[];
+        measureFields: string[];
+        dimensionData?: any[];
+        measureData?: any[];
+        hasMeasureData?: boolean;
+        groupField?: string;
+        groupData?: any;
+    };
+    series: ISeries;
+};
+export declare function showTooltip(datum: Datum, options: IShowTooltipOption, component: Tooltip): TooltipActiveType | 'none';
+export declare const getMarkInfoList: (datum: Datum, region: IRegion) => MarkInfo[];
+export {};

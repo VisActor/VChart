@@ -21,7 +21,17 @@ export interface LinearAxisMixin {
   _spec: any;
   _nice: boolean;
   _zero: boolean;
+  /**
+   * spec中申明的min,max
+   */
   _domain: { min?: number; max?: number };
+  /**
+   * 记录一下解析spec后，获取到的domain，
+   * 用于在插件（如0值对齐等功能）中使用
+   */
+  _domainAfterSpec: number[];
+  _softMinValue?: number;
+  _softMaxValue?: number;
   _expand?: { max?: number; min?: number };
   _tick: ITick | undefined;
   isSeriesDataEnable: any;
@@ -49,6 +59,9 @@ export class LinearAxisMixin {
   }
 
   setLinearScaleNice() {
+    if (!this._nice) {
+      return false;
+    }
     let tickCount: number = DEFAULT_TICK_COUNT;
     const tick = this._spec.tick || {};
 
@@ -80,32 +93,39 @@ export class LinearAxisMixin {
       tickCount = Math.max(DEFAULT_TICK_COUNT, tickCount);
     }
     const { min, max } = this._domain ?? {};
-    if (isNil(min) && isNil(max)) {
-      this._nice && this._scale.nice(tickCount);
-    } else if (isValid(min) && isNil(max)) {
-      this._nice && this._scale.niceMax(tickCount);
-    } else if (isNil(min) && isValid(max)) {
-      this._nice && this._scale.niceMin(tickCount);
+    if (isNil(min) && isNil(max) && isNil(this._softMaxValue) && isNil(this._softMinValue)) {
+      return this._scale.nice(tickCount);
+    } else if ((isValid(min) || isValid(this._softMinValue)) && isNil(max) && isNil(this._softMaxValue)) {
+      return this._scale.niceMax(tickCount);
+    } else if (isNil(min) && isNil(this._softMinValue) && (isValid(max) || isValid(this._softMaxValue))) {
+      return this._scale.niceMin(tickCount);
     }
+
+    return false;
   }
 
   setLogScaleNice() {
-    const { min, max } = this._domain ?? {};
-    if (isNil(min) && isNil(max)) {
-      this._nice && this._scale.nice();
-    } else if (isValid(min) && isNil(max)) {
-      this._nice && this._scale.niceMax();
-    } else if (isNil(min) && isValid(max)) {
-      this._nice && this._scale.niceMin();
+    if (!this._nice) {
+      return false;
     }
+
+    const { min, max } = this._domain ?? {};
+    if (isNil(min) && isNil(max) && isNil(this._softMaxValue) && isNil(this._softMinValue)) {
+      return this._scale.nice();
+    } else if ((isValid(min) || isValid(this._softMinValue)) && isNil(max) && isNil(this._softMaxValue)) {
+      return this._scale.niceMax();
+    } else if (isNil(min) && isNil(this._softMinValue) && (isValid(max) || isValid(this._softMaxValue))) {
+      return this._scale.niceMin();
+    }
+
+    return false;
   }
 
   setScaleNice() {
     if (this._spec.type === 'log') {
-      this.setLogScaleNice();
-    } else {
-      this.setLinearScaleNice();
+      return this.setLogScaleNice();
     }
+    return this.setLinearScaleNice();
   }
 
   dataToPosition(values: any[], cfg?: IAxisLocationCfg): number {
@@ -130,6 +150,7 @@ export class LinearAxisMixin {
       domain[0] = 0;
       domain[1] = 0;
     }
+    this.setSoftDomainMinMax(domain);
     this.expandDomain(domain);
     this.includeZero(domain);
     this.setDomainMinMax(domain);
@@ -214,7 +235,12 @@ export class LinearAxisMixin {
     this.setDomainMinMax(domain);
     this.niceDomain(domain);
     this._scale.domain(domain, this._nice);
-    this.setScaleNice();
+
+    if (this._nice) {
+      const niced = this.setScaleNice();
+
+      !niced && this._scale.rescale();
+    }
 
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
   }
@@ -245,6 +271,37 @@ export class LinearAxisMixin {
     isValid(max) && (domain[1] = max);
   }
 
+  protected setSoftDomainMinMax(domain: number[]): void {
+    const { softMin, softMax } = this._spec;
+
+    if (isValid(softMin)) {
+      let softMinValue = isFunction(softMin) ? softMin(domain) : (softMin as number);
+
+      if (isNil(softMinValue)) {
+        softMinValue = domain[0];
+      }
+
+      if (softMinValue <= domain[0]) {
+        domain[0] = softMinValue;
+        this._softMinValue = softMinValue;
+      }
+    }
+
+    if (isValid(softMax)) {
+      let softMaxValue = isFunction(softMax) ? softMax(domain) : (softMax as number);
+
+      if (isNil(softMaxValue)) {
+        softMaxValue = domain[1];
+      }
+
+      if (softMaxValue >= domain[1]) {
+        domain[1] = softMaxValue;
+      }
+
+      this._softMaxValue = softMaxValue;
+    }
+  }
+
   setZero(zero: boolean) {
     if (this._zero !== zero) {
       this._zero = zero;
@@ -260,7 +317,7 @@ export class LinearAxisMixin {
       return;
     }
     const data = this.collectData();
-    const domain: number[] = this.computeDomain(data) as number[];
+    const domain: number[] = this.computeLinearDomain(data) as number[];
     this.updateScaleDomainByModel(domain);
   }
 
@@ -279,10 +336,20 @@ export class LinearAxisMixin {
     this.niceDomain(domain);
     this._scale.domain(domain, this._nice);
     // 设置scale的nice-min-max
-    this.setScaleNice();
+    if (this._nice) {
+      const niced = this.setScaleNice();
+
+      !niced && this._scale.rescale();
+    }
     this._updateNiceLabelFormatter(domain);
+
+    this._domainAfterSpec = this._scale.domain();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
+  }
+
+  getDomainAfterSpec() {
+    return this._domainAfterSpec;
   }
 
   protected _updateNiceLabelFormatter(domain: number[]) {

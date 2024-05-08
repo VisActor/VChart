@@ -17,6 +17,9 @@ export interface LinearAxisMixin {
         min?: number;
         max?: number;
     };
+    _domainAfterSpec: number[];
+    _softMinValue?: number;
+    _softMaxValue?: number;
     _expand?: {
         max?: number;
         min?: number;
@@ -41,9 +44,9 @@ export declare class LinearAxisMixin {
     niceLabelFormatter: (value: StringOrNumber) => StringOrNumber;
     setExtraAttrFromSpec(): void;
     transformScaleDomain(): void;
-    setLinearScaleNice(): void;
-    setLogScaleNice(): void;
-    setScaleNice(): void;
+    setLinearScaleNice(): false | LinearScale;
+    setLogScaleNice(): false | LinearScale;
+    setScaleNice(): false | LinearScale;
     dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
     valueToPosition(value: any): number;
     computeLinearDomain(data: {
@@ -61,8 +64,10 @@ export declare class LinearAxisMixin {
         max?: number;
     };
     protected setDomainMinMax(domain: number[]): void;
+    protected setSoftDomainMinMax(domain: number[]): void;
     setZero(zero: boolean): void;
     protected updateScaleDomain(): void;
     protected updateScaleDomainByModel(domain?: number[]): void;
+    getDomainAfterSpec(): number[];
     protected _updateNiceLabelFormatter(domain: number[]): void;
 }

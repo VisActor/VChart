@@ -13,7 +13,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
       activeType,
       title: {
         key: undefined,
-        value: this.titleValueCallback,
+        value: this.dimensionTooltipTitleCallback,
         hasShape: false
       },
       content: [
@@ -21,7 +21,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
           key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.OUTLIER),
           value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.OUTLIER),
           hasShape: true,
-          shapeType: this.contentShapeTypeCallback,
+          shapeType: this.shapeTypeCallback,
           shapeColor: this.getOutlierFillColor,
           shapeStroke: this.getOutlierFillColor,
           shapeHollow: false
@@ -30,54 +30,54 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
           key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.MAX),
           value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.MAX),
           hasShape: true,
-          shapeType: this.contentShapeTypeCallback,
-          shapeColor: this.contentShapeColorCallback,
-          shapeStroke: this.contentShapeColorCallback,
+          shapeType: this.shapeTypeCallback,
+          shapeColor: this.shapeColorCallback,
+          shapeStroke: this.shapeStrokeCallback,
           shapeHollow: false
         },
         {
           key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.Q3),
           value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.Q3),
           hasShape: true,
-          shapeType: this.contentShapeTypeCallback,
-          shapeColor: this.contentShapeColorCallback,
-          shapeStroke: this.contentShapeColorCallback,
+          shapeType: this.shapeTypeCallback,
+          shapeColor: this.shapeColorCallback,
+          shapeStroke: this.shapeStrokeCallback,
           shapeHollow: false
         },
         {
           key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.MEDIAN),
           value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.MEDIAN),
           hasShape: true,
-          shapeType: this.contentShapeTypeCallback,
-          shapeColor: this.contentShapeColorCallback,
-          shapeStroke: this.contentShapeColorCallback,
+          shapeType: this.shapeTypeCallback,
+          shapeColor: this.shapeColorCallback,
+          shapeStroke: this.shapeStrokeCallback,
           shapeHollow: false
         },
         {
           key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.Q1),
           value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.Q1),
           hasShape: true,
-          shapeType: this.contentShapeTypeCallback,
-          shapeColor: this.contentShapeColorCallback,
-          shapeStroke: this.contentShapeColorCallback,
+          shapeType: this.shapeTypeCallback,
+          shapeColor: this.shapeColorCallback,
+          shapeStroke: this.shapeStrokeCallback,
           shapeHollow: false
         },
         {
           key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.MIN),
           value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.MIN),
           hasShape: true,
-          shapeType: this.contentShapeTypeCallback,
-          shapeColor: this.contentShapeColorCallback,
-          shapeStroke: this.contentShapeColorCallback,
+          shapeType: this.shapeTypeCallback,
+          shapeColor: this.shapeColorCallback,
+          shapeStroke: this.shapeStrokeCallback,
           shapeHollow: false
         },
         {
           key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.SERIES_FIELD),
           value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.SERIES_FIELD),
           hasShape: true,
-          shapeType: this.contentShapeTypeCallback,
-          shapeColor: this.contentShapeColorCallback,
-          shapeStroke: this.contentShapeColorCallback,
+          shapeType: this.shapeTypeCallback,
+          shapeColor: this.shapeColorCallback,
+          shapeStroke: this.shapeStrokeCallback,
           shapeHollow: false
         }
       ]
@@ -166,7 +166,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
 
     return null;
   };
-  contentShapeColorCallback = (datum: Datum) => {
+  shapeColorCallback = (datum: Datum) => {
     const shaftShape = (this.series as BoxPlotSeries).getShaftShape();
     return shaftShape === 'line'
       ? (this.series.getMarkInName('boxPlot').getAttribute('stroke' as any, datum) as any)

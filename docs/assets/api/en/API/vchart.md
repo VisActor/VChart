@@ -134,7 +134,17 @@ export interface GeoSourceOption {
   centroid?: boolean;
   /** Map simplification */
   /** @default false */
-  simplify?: boolean;
+  simplify?:
+    | boolean
+    | {
+        /**
+         * A number in degrees(e.g. lat/lon distance).
+         * 1 degree is roughly equivalent to 69 miles. the default is 0.001, which is around a city block long.
+         * @default 0.01
+         * @since 1.11.0
+         */
+        tolerance: number;
+      };
   /** Reverse winding of outer rings of (Multi)LineString or (Multi)Polygon, and clockwise for inner rings. */
   /** @default false */
   rewind?:
@@ -632,6 +642,46 @@ vchart.setHovered({ type: 'A' });
 vchart.setHovered({ x: 'US', y: 10, type: 'A' });
 // cancel the current selected data
 vchart.setHovered(null);
+```
+
+### clearState
+
+Clear the state of the marks
+
+```ts
+ /**
+   * clear the state of marks
+   * @param state name of state
+   *
+   * @since 1.11.0
+   */
+  clearState: (state: string) => void;
+```
+
+### clearSelected
+
+clear the `selected` state of marks
+
+```ts
+/**
+   * clear the `selected` state of marks
+   *
+   * @since 1.11.0
+   */
+  clearSelected: () => void;
+```
+
+### clearHovered
+
+clear the `hovered` state of marks
+
+```ts
+/**
+   * clear the `hovered` state of marks
+   *
+   * @since 1.11.0
+   */
+  clearHovered: () => void;
 ```
 
 ### getCurrentTheme

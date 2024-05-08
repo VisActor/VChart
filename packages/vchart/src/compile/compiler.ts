@@ -20,10 +20,11 @@ import type { IBoundsLike } from '@visactor/vutils';
 import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import { VChart } from '../core/vchart';
+import { vglobal } from '@visactor/vrender-core';
 import type { IColor, Stage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
+import type { IVChart } from '../core/interface';
 
 type EventListener = {
   type: string;
@@ -187,7 +188,7 @@ export class Compiler {
     }
   }
 
-  compile(ctx: { chart: IChart; vChart: VChart }, option: any) {
+  compile(ctx: { chart: IChart; vChart: IVChart }, option: any) {
     const { chart } = ctx;
     this._compileChart = chart;
     this.initView();
@@ -202,7 +203,7 @@ export class Compiler {
     this.compileInteractions();
   }
 
-  clear(ctx: { chart: IChart; vChart: VChart }, removeGraphicItems: boolean = false) {
+  clear(ctx: { chart: IChart; vChart: IVChart }, removeGraphicItems: boolean = false) {
     const { chart } = ctx;
     chart.clear();
     this.releaseGrammar(removeGraphicItems);
@@ -210,7 +211,7 @@ export class Compiler {
 
   renderNextTick(morphConfig?: IMorphConfig): void {
     if (!this._nextRafId) {
-      this._nextRafId = VChart.vglobal.getRequestAnimationFrame()(() => {
+      this._nextRafId = vglobal.getRequestAnimationFrame()(() => {
         this._nextRafId = null;
         this.render(morphConfig);
       }) as unknown as number;
@@ -219,7 +220,7 @@ export class Compiler {
 
   render(morphConfig?: IMorphConfig) {
     if (this._nextRafId) {
-      VChart.vglobal.getCancelAnimationFrame()(this._nextRafId);
+      vglobal.getCancelAnimationFrame()(this._nextRafId);
       this._nextRafId = null;
     }
     if (this._isRunning) {
@@ -233,6 +234,15 @@ export class Compiler {
     this._isRunning = true;
     this._view?.run(morphConfig);
     this._isRunning = false;
+
+    if (this._nextRafId) {
+      vglobal.getCancelAnimationFrame()(this._nextRafId);
+      this._nextRafId = null;
+
+      this._isRunning = true;
+      this._view?.run(morphConfig);
+      this._isRunning = false;
+    }
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {

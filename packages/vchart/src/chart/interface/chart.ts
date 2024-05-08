@@ -62,6 +62,7 @@ export interface IChart extends ICompilable {
 
   setCanvasRect: (width: number, height: number) => void;
   getCanvasRect: () => ILayoutRect;
+  getViewRect: () => ILayoutRect;
 
   getOption: () => IChartOption;
 
@@ -94,6 +95,11 @@ export interface IChart extends ICompilable {
   onRender: (ctx: IChartRenderOption) => void;
   onResize: (width: number, height: number, reRender: boolean) => void;
   onLayout: (view: IView) => void;
+  /**
+   * 图表更新的时候按需调用
+   * @since 1.11.0
+   */
+  reInit: () => void;
 
   // series
   getAllSeries: () => ISeries[];
@@ -167,6 +173,24 @@ export interface IChart extends ICompilable {
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ) => void;
+  /**
+   * 清除所有图元的状态
+   *
+   * @since 1.11.0
+   */
+  clearState: (state: string) => void;
+  /**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected: () => void;
+  /**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered: () => void;
 
   // 更新 viewBox
   updateViewBox: (viewBox: IBoundsLike, reLayout: boolean) => void;
