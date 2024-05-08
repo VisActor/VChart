@@ -851,7 +851,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
           regionId: this._region.id,
           selector,
           trigger: finalSelectSpec.trigger as EventType,
-          triggerOff: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
+          triggerOff: (finalSelectSpec.triggerOff ?? ['empty', finalSelectSpec.trigger]) as EventType,
           reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
           state: STATE_VALUE_ENUM.STATE_SELECTED,
           isMultiple: finalSelectSpec.mode === 'multiple'
