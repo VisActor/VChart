@@ -5,18 +5,18 @@
 
 **🆕 新增功能**
 
-- **@visactor/vchart**: enhanced capabilities for waterfall chart total label
+- **@visactor/vchart**: 水波图总计标签能力增强
 
 **🐛 功能修复**
 
-- **wordCloud**: wordCloud layout error and color scale error when updateData. fix [#2605](https://github.com/VisActor/VChart/issues/2605) 
-- **@visactor/vchart**: fix error of position when update viewBox
-- **scroll**: scroll not work in ios. fix[#1224](https://github.com/VisActor/VChart/issues/1224)
-- **@visactor/vchart**: fix range-column-chart spec
-- **@visactor/vchart**: duplicated categoryField data in funnel will result to unexpected rendering result
-- **@visactor/vchart**: fixed the problem that when the label of the sankey chart is hidden, an error will be reported when clicking on the blank space
-- **@visactor/vchart**: fix the issue of scatter when the legend switch visible encode, close [#2625](https://github.com/VisActor/VChart/issues/2625)
-- **@visactor/vchart**: fix the trigger off of default select interactions
+- **wordCloud**: 修复更新数据时，wordCloud布局错误问题以及颜色比例尺错误的问题。修复 [#2605](https://github.com/VisActor/VChart/issues/2605)
+- **@visactor/vchart**: 修复更新 viewBox 时，crosshair位置错误问题
+- **scroll**: 修复在iOS中滚动不生效的问题。修复 [#1224](https://github.com/VisActor/VChart/issues/1224)
+- **@visactor/vchart**: 修复range-column图表`barWidth`等配置不生效问题 
+- **@visactor/vchart**: 修复漏斗图中重复的categoryField数据将导致意外的渲染结果
+- **@visactor/vchart**: 修复桑基图标签隐藏时，点击空白处会报错的问题
+- **@visactor/vchart**: 修复图例切换，导致散点图中`visible`通道发生变更，带来的渲染错误问题，关闭 [#2625](https://github.com/VisActor/VChart/issues/2625)
+- **@visactor/vchart**: 修复默认的选中交互的关闭触发条件
 
 
 
