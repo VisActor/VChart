@@ -59,6 +59,16 @@ formatMethod: text => {
 
 For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/Richtext_and_Dom)
 
+#${prefix} formatter(string | string[])
+
+Formatter string template, supported since version `1.10.0`.
+
+The string template with the variable name wrapped in `{}`, the variable name is taken from the data attribute value.
+
+For example: `formatter: '{label:~s}'`
+
+For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter) and [Demo](/vchart/demo/label/label-formatter).
+
 #${prefix} space(number)
 
 The distance between the label and the scale.

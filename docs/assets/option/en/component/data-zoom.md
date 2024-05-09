@@ -32,6 +32,16 @@ Starting point text format configuration, using the callback function form.
   description = 'Starting point text'
 ) }}
 
+#### formatter(string | string[])
+
+Formatter string template, supported since version `1.10.0`.
+
+The string template with the variable name wrapped in `{}`, the variable name is taken from the data attribute value.
+
+For example: `formatter: 'StartTime: {label:%Y-%m-%d}' `
+
+For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter) and [Demo](/vchart/demo/label/label-formatter).
+
 ### endText(string)
 
 End point text style configuration.
@@ -55,6 +65,16 @@ End point text format configuration, using the callback function form.
 {{ use:text-format-callback(
   description = 'End point text'
 ) }}
+
+#### formatter(string | string[])
+
+Formatter string template, supported since version `1.10.0`.
+
+The string template with the variable name wrapped in `{}`, the variable name is taken from the data attribute value.
+
+For example: `formatter: 'EndTime: {label:%Y-%m-%d}' `
+
+For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter) and [Demo](/vchart/demo/label/label-formatter).
 
 ### brushSelect(string) = true
 
@@ -229,6 +249,7 @@ If set to true, the data zoom can arbitrarily change the bandSize of the axis. B
 This configuration only takes effect when `auto` is set to true.
 
 ### tolerance(number)
+
 Background graph node compression rate. If not configured, the number of nodes will be limited to 10,000 by default. Supported since version 1.10.0.
 
 {{ use: component-data-filter-base(

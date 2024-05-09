@@ -48,6 +48,16 @@ Time conversion format of key label.
 
 Time conversion mode of key label. Support `'utc' | 'local'` mode.
 
+#${prefix} keyFormatter(string)
+
+Formatter string template, supported since version `1.10.0`.
+
+The string template with the variable name wrapped in `{}`, the variable name is taken from the data attribute value.
+
+For example: `keyFormatter: '{time:%B %d,%Y}'`
+
+For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter) and [Demo](/vchart/demo/label/label-formatter).
+
 {{ /if }}
 
 #${prefix} value(string|Function|Object)
@@ -107,6 +117,16 @@ Time conversion format of value label.
 #${prefix} valueTimeFormatMode(string) = 'local'
 
 Time conversion mode of value label. Support `'utc' | 'local'` mode.
+
+#${prefix} valueFormatter(string)
+
+Formatter string template, supported since version `1.10.0`.
+
+The string template with the variable name wrapped in `{}`, the variable name is taken from the data attribute value.
+
+For example: `valueFormatter: '{count:~s}'`
+
+For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter) and [Demo](/vchart/demo/label/label-formatter).
 
 {{ if: ${content} }}
 

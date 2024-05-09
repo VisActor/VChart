@@ -66,9 +66,9 @@ formatMethod: text => {
 
 用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
 
-在饼图、百分比堆叠面积图、百分比堆叠折线图、百分比堆叠柱状图中，支持配置百分比, `{_percent_}`
-
 例如，`formatter: 'type={type},value={value},percent={_percent_}'`
+
+详细使用文档请参考[教程文档](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter)。
 
 #${prefix} syncState(boolean) = false
 

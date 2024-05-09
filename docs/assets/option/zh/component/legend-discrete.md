@@ -632,6 +632,16 @@ export type LegendItemDatum = {
 };
 ```
 
+##### formatter(string|string[])
+
+格式化字符串模版，自`1.10.0`版本开始支持。
+
+用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
+
+例如，`formatter: '{label:~s}'`
+
+详细使用文档请参考[教程文档](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter)和[Demo](/vchart/demo/label/label-formatter)。
+
 ##### style(Object|Function)
 
 图例项 value 的样式配置，支持函数回调，当需要走一些个性化配置时可以使用回调函数。

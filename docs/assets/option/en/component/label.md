@@ -70,6 +70,8 @@ In pie charts, percentage stacked area charts, percentage stacked line charts, a
 
 For example, `formatter: 'type={type},value={value},percent={_percent_}'`
 
+For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter).
+
 #${prefix} syncState(boolean) = false
 
 The ability to synchronize the state changes of data graphics has been supported since version `1.9.0`. You can refer to the [demo](/vchart/demo/label/bar-label-syncState) for usage.
