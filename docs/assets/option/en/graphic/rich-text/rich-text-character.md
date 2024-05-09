@@ -1,42 +1,58 @@
 {{ target: graphic-rich-text-character }}
 
-<!-- Canopus Graphic Attributes, IRichTextCharacter -->
+<!-- Canopus 图形属性，IRichTextCharacter -->
 
-#${prefix} text(string)
+#${prefix} type='text'
+
+Text style configuration
+
+##${prefix} text(string|number)
 
 Text content.
 
-#${prefix} fontSize(number)
+##${prefix} fill(string)
+
+Fill color. Supports setting to solid color using methods such as` rgb(255,255,255)`, `rgba(255,255,255,1)`, `#fff`, etc.
+
+##${prefix} stroke(string)
+
+Stroke color. Supports setting to solid color using methods such as` rgb(255,255,255)`, `rgba(255,255,255,1)`, `#fff`, etc.
+
+#${prefix} lineWidth(number)
+
+Stroke width.
+
+##${prefix} strokeOpacity(number)
+
+Stroke opacity.
+
+##${prefix} fillOpacity(number)
+
+Fill opacity.
+
+##${prefix} fontSize(number)
 
 Font size.
 
-#${prefix} fontFamily(string)
+##${prefix} fontFamily(string)
 
 Font family.
 
-#${prefix} fill(string|Object)
+##${prefix} fontWeight(string|number)
 
-Text fill color. Supports setting to solid colors using `rgb(255,255,255)`, `rgba(255,255,255,1)`, `#fff`, etc., and also supports gradient color fill.
+The weight of the text font.
 
-- Gradient color usage
+Options:
 
-{{ use: graphic-gradient }}
+- `'normal'`
+- `'bold'`
+- `'bolder'`
+- `'lighter'`
+- `100 | 200 | 300 | 400`...
 
-#${prefix} stroke(string|Object)
+##${prefix} fontStyle(string) = 'normal'
 
-Text stroke color. Supports setting to solid colors using `rgb(255,255,255)`, `rgba(255,255,255,1)`, `#fff`, etc., and also supports gradient color strokes.
-
-- Gradient color usage
-
-{{ use: graphic-gradient }}
-
-#${prefix} fontWeight(string)
-
-Font weight of the text.
-
-#${prefix} fontStyle(string) = 'normal'
-
-Font style of the text.
+The style of the text font.
 
 Options:
 
@@ -44,11 +60,19 @@ Options:
 - `'italic'`
 - `'oblique'`
 
+##${prefix} underline(boolean)
+
+Enable underline.
+
+##${prefix} lineThrough(boolean)
+
+Enable strike through.
+
 #${prefix} textDecoration(string) = 'none'
 
-Text decoration line.
+Text decoration.
 
-Options:
+Optional:
 
 - `'none'`
 - `'underline'`
@@ -63,3 +87,80 @@ Options:
 - `'normal'`
 - `'sub'`
 - `'super'`
+
+##${prefix} direction('horizontal'|'vertical') = 'horizontal'
+
+The layout direction of the text. If you need the text to be arranged vertically, you can configure it to 'vertical'.
+
+##${prefix} lineHeight(number)
+
+Line height.
+
+##${prefix} textAlign(string)
+
+Horizontal alignment, values: `'left'`, `'center'`, `'right'`。
+
+##${prefix} textBaseline(string)
+
+Vertical alignment, values: `'top'`, `'middle'`, `'bottom'`。
+
+##${prefix} opacity(number)
+
+Overall transparency.
+
+#${prefix} type='image'
+
+##${prefix} image(string | HTMLImageElement | HTMLCanvasElement)
+
+Image icon, supports configuring url, svg string.
+
+##${prefix} width(number)
+
+Image width.
+
+##${prefix} height(number)
+
+Image height.
+
+##${prefix} margin(number | number[]) = 0
+
+Image margin.
+
+##${prefix} backgroundShowMode(string) = 'always'
+
+Background rectangle display mode.
+
+- `'always'`：always displayed
+- `'hover'`：displayed when interacting and hovering
+
+##${prefix} backgroundFill(number)
+
+Background rectangle fill color.
+
+##${prefix} backgroundFillOpacity(number)
+
+Background rectangle fill transparency.
+
+##${prefix} backgroundStroke(string)
+
+Background rectangle border color.
+
+##${prefix} backgroundStrokeOpacity(number)
+
+Background rectangle border transparency.
+
+##${prefix} backgroundRadius(number) = 0
+
+Background rectangle corner radius.
+
+##${prefix} backgroundWidth(number)
+
+Background rectangle width.
+
+##${prefix} backgroundHeight(number)
+
+Background rectangle height.
+
+##${prefix} hoverImage(string | HTMLImageElement | HTMLCanvasElement)
+
+mage when hovering.

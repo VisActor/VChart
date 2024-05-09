@@ -120,6 +120,7 @@ When label + value coexist, the automatic ellipsis strategy is:
 - 'labelFirst' - Attempt to display the complete `label`
 - 'valueFirst' - Attempt to display the complete `value`
 - 'none' - Display label and value according to `widthRatio`
+
 #### background(Object)
 
 The background configuration of the legend item.
@@ -435,6 +436,33 @@ export type LegendItemDatum = {
   [key: string]: any;
 };
 ```
+
+Since version `1.10.0`, `formatMethod` supports return richText structure like:
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
+```
+
+For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/Richtext_and_Dom)
 
 ##### style(Object|Function)
 
@@ -764,6 +792,7 @@ Set the pager type, currently supporting two styles:
 
 - Default style: pager with arrows
 - `type: 'scrollbar'`: Scrollbar pager
+
 #### layout(string)
 
 The layout of the page turner, the optional values are `'horizontal'` and `'vertical'`. The default value logic is:

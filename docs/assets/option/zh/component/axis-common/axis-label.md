@@ -8,9 +8,9 @@
 
 是否显示轴标签。
 
-#${prefix} type(string)
+#${prefix} type(deprecated)
 
-自 1.7.0 版本开始支持，文本类型。
+自 1.7.0 版本开始支持，文本类型。`1.10.0`版本后，建议使用 `formatMethod` 配置富文本。
 
 可选：
 
@@ -28,8 +28,35 @@
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[] | IRichTextCharacter[];
+  formatMethod?: (text: string | string[], datum?: any) => string | string[]
 ```
+
+自`1.10.0`后，支持返回富文本配置，例如：
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
+```
+
+更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
 
 #${prefix} space(number)
 
