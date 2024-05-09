@@ -1,3 +1,51 @@
+# v1.11.0
+
+2024-05-08
+
+
+**🆕 新增功能**
+- **@visactor/vchart**: 支持自定义Mark配置动画
+- **@visactor/vchart**: 更新图表spec或数据时，图例应保持未选中状态，修复 [#2531](https://github.com/VisActor/VChart/issues/2531)，相关 [#2443](https://github.com/VisActor/VChart/issues/2443)
+- **marker**: 增强Marker相关组件的的状态和动画，并支持极坐标和地理坐标轴。关闭[#1165](https://github.com/VisActor/VChart/issues/1165)
+- **marker**: 为Marker相关组件添加交互式事件监听器。关闭[#2248](https://github.com/VisActor/VChart/issues/2248)
+- **marker**: Marker组件添加关于所有相关系列的自定义数据的配置。关闭[#2183](https://github.com/VisActor/VChart/issues/2183)
+- **@visactor/vchart**: 在react-vchart中支持spec相同时的数据更新
+- **@visactor/vchart**: 在线性轴中支持`softMin`和`softMax`，关闭 [#2498](https://github.com/VisActor/VChart/issues/2498)
+- **@visactor/vchart**: 在Tooltip事件参数中添加新属性`tooltipSpec`和`tooltipActual`，相关 [#2454](https://github.com/VisActor/VChart/issues/2454)
+- **@visactor/vchart**: 添加`othersLine`为tooltip超过显示行数后显示的“其他”行内容
+- **@visactor/vchart**: 新增图表类型Venn，相关 [#2144](https://github.com/VisActor/VChart/issues/2144)
+- **@visactor/vchart**: 增强瀑布图总标签的功能
+- **@visactor/vchart**: 添加`clearState()`、`clearSelected()`、`clearHovered()`的API，修复 [#2552](https://github.com/VisActor/VChart/issues/2552)
+- **@visactor/vchart**: 在`registerMap` API中支持`simplify.tolerance`配置
+
+**🐛 功能修复**
+
+- **wordCloud**: 修复更新数据时，wordCloud布局错误问题以及颜色Scale错误的问题。修复 [#2605](https://github.com/VisActor/VChart/issues/2605)
+- **@visactor/vchart**: 修复更新 viewBox 时，位置错误问题
+- **scroll**: 在iOS中滚动不生效。修复 [#1224](https://github.com/VisActor/VChart/issues/1224)
+- **@visactor/vchart**: 修复RangeColumn图中`barWidth`等配置不生效的问题   
+- **marker**: 修复Marker组件位置偏移问题。修复 [#2579](https://github.com/VisActor/VChart/issues/2579)
+- **@visactor/vchart**: 修复数据更新时，自定义Mark应该更新的问题
+- **@visactor/vchart**: 修复漏斗图中重复的categoryField数据将导致意外的渲染结果
+- **@visactor/vchart**: 修复散点图的x轴和y轴类型为band时报错的问题
+- **@visactor/vchart**: vchart不应重复创建相同的scale
+- **@visactor/vchart**: 修复桑基图标签隐藏时，点击空白处会报错的问题
+- **@visactor/vchart**: 修复图例切换，导致散点图中`visible`通道发生变更，带来的渲染错误问题，关闭 [#2625](https://github.com/VisActor/VChart/issues/2625)
+- **@visactor/vchart**: 修复默认的选中交互的关闭触发条件
+
+**🔨 功能重构**
+
+- **@visactor/vchart**: react-vchart 默认按需引入组件
+- **@visactor/vchart**: 移除内置的`simplify`数据转换
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: 升级依赖
+
+
+
+[更多详情请查看 v1.11.0](https://github.com/VisActor/VChart/releases/tag/v1.11.0)
+
 # v1.10.6
 
 2024-05-08
