@@ -72327,7 +72327,7 @@
               ]
             }
           ],
-          "description": "轴b内容格式化函数"
+          "description": "轴标题内容格式化函数"
         },
         "type": {
           "description": "文本类型",
