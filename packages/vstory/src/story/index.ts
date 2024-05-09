@@ -3,7 +3,7 @@ import { CharacterComponentRect } from './character/component/characters/charact
 import { StoryFactory } from './factory/factory';
 import { CharacterChart } from './character/chart/character';
 import { ContainerModule, GraphicRender, container } from '@visactor/vrender-core';
-// import { CanvasPickerContribution } from '@visactor/vrender-kits';
+import { CanvasPickerContribution } from '@visactor/vrender-kits';
 import { ChartRender, VChartRender } from './character/chart/graphic/vchart-graphic-render';
 import { BarChartCharacter } from './character/chart/characters/bar';
 import { LineChartCharacter } from './character/chart/characters/line';
@@ -48,6 +48,6 @@ const splitModule = new ContainerModule((bind, unbind, isBound, rebind) => {
   bind(ChartRender).toService(VChartRender);
   bind(GraphicRender).toService(ChartRender);
   bind(VChartPicker).to(VChartPicker).inSingletonScope();
-  // bind(CanvasPickerContribution).toService(VChartPicker);
+  bind(CanvasPickerContribution).toService(VChartPicker);
 });
 container.load(splitModule);

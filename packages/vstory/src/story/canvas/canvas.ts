@@ -55,5 +55,8 @@ export class StoryCanvas {
     });
     // @ts-ignore
     this._stage = stage;
+    stage.addEventListener('click', e => {
+      console.log('canvas', e);
+    });
   }
 }

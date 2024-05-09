@@ -26,7 +26,7 @@ export class VChartPicker implements IGraphicPicker {
 
   constructor() {}
 
-  contains(chart: any, point: any, params?: IPickParams): boolean {
+  contains(chart: any, point: any, params?: IPickParams): boolean | any {
     const vChart = (chart as Chart).vchart;
     const chartStage = vChart.getStage();
     // @ts-ignore
@@ -36,13 +36,10 @@ export class VChartPicker implements IGraphicPicker {
     matrix.multiply(stageMatrix.a, stageMatrix.b, stageMatrix.c, stageMatrix.d, stageMatrix.e, stageMatrix.f);
     chartStage.window.setViewBoxTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f);
     chartStage.dirtyBounds?.clear();
-    const graphic = chartStage.pick(point.x, point.y);
+    const nextP = { x: 0, y: 0 };
+    matrix.transformPoint(point, nextP);
+    const graphic = chartStage.pick(nextP.x, nextP.y);
 
-    console.log('graphic', graphic);
-
-    // 详细形状判断
-    const picked = false;
-
-    return picked;
+    return graphic;
   }
 }

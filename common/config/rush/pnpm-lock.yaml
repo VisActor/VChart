@@ -513,11 +513,11 @@ importers:
       '@rushstack/eslint-patch': ~1.1.4
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@visactor/vchart': workspace:1.10.2
-      '@visactor/vrender-components': 0.18.7
-      '@visactor/vrender-core': 0.18.7
-      '@visactor/vrender-kits': 0.18.7
-      '@visactor/vutils': ~0.18.1
+      '@visactor/vchart': workspace:1.11.0
+      '@visactor/vrender-components': 0.19.0
+      '@visactor/vrender-core': 0.19.0
+      '@visactor/vrender-kits': 0.19.0
+      '@visactor/vutils': ~0.18.6
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
       react: ^18.0.0
@@ -526,10 +526,10 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vrender-components': 0.18.7
-      '@visactor/vrender-core': 0.18.7
-      '@visactor/vrender-kits': 0.18.7
-      '@visactor/vutils': 0.18.1
+      '@visactor/vrender-components': 0.19.0
+      '@visactor/vrender-core': 0.19.0
+      '@visactor/vrender-kits': 0.19.0
+      '@visactor/vutils': 0.18.6
     devDependencies:
       '@ffmpeg/core': 0.11.0
       '@ffmpeg/ffmpeg': 0.11.6
@@ -537,12 +537,12 @@ importers:
       '@internal/eslint-config': link:../../share/eslint-config
       '@internal/ts-config': link:../../share/ts-config
       '@rushstack/eslint-patch': 1.1.4
-      '@types/react': 18.2.67
-      '@types/react-dom': 18.2.22
+      '@types/react': 18.3.1
+      '@types/react-dom': 18.3.0
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
       eslint: 8.18.0
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
+      react: 18.3.1
+      react-dom: 18.3.1_react@18.3.1
       typescript: 4.9.5
       vite: 3.2.6
 

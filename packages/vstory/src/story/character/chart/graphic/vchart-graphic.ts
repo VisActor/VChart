@@ -86,7 +86,12 @@ export class Chart extends Group implements IVisactorGraphic {
     }
     this._vchart.renderSync();
     // 背景设置为false后，不会擦除画布内容，可以实现元素正常堆叠绘制
-    this._vchart.getStage() && (this._vchart.getStage().background = false as any);
+    const stage = this._vchart.getStage();
+    if (stage) {
+      stage.background = false as any;
+      // 关闭交互
+      stage.pauseTriggerEvent();
+    }
     if (params.viewBox) {
       this.updateViewBox(params.viewBox);
     }

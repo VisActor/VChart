@@ -25,9 +25,9 @@ export default defineConfig({
     alias: {
       '@visactor/vchart': path.resolve(__dirname, '../../vchart/src/index'),
       '@visactor/vutils-extension': path.resolve(__dirname, '../../vutils-extension/src/index.ts'),
-      '@visactor/vrender-core': '/Users/bytedance/dev/github/vr/packages/vrender-core/src/index.ts',
-      '@visactor/vrender-kits': '/Users/bytedance/dev/github/vr/packages/vrender-kits/src/index.ts',
-      '@visactor/vrender-components': '/Users/bytedance/dev/github/vr/packages/vrender-components/src/index.ts',
+      // '@visactor/vrender-core': '/Users/bytedance/dev/github/vr/packages/vrender-core/src/index.ts',
+      // '@visactor/vrender-kits': '/Users/bytedance/dev/github/vr/packages/vrender-kits/src/index.ts',
+      // '@visactor/vrender-components': '/Users/bytedance/dev/github/vr/packages/vrender-components/src/index.ts',
       ...localConf?.resolve?.alias
     }
   }
