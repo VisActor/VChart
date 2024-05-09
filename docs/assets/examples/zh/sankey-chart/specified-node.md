@@ -81,6 +81,7 @@ const spec = {
   valueField: 'value',
   sourceField: 'source',
   targetField: 'target',
+  nodeKey: 'name',
   // nodeAlign: 'justify',
 
   dropIsolatedNode: false,
