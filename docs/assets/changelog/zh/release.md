@@ -1,3 +1,117 @@
+# v1.10.6
+
+2024-05-08
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 水波图总计标签能力增强
+
+**🐛 功能修复**
+
+- **wordCloud**: 修复更新数据时，wordCloud布局错误问题以及颜色比例尺错误的问题。修复 [#2605](https://github.com/VisActor/VChart/issues/2605)
+- **@visactor/vchart**: 修复更新 viewBox 时，crosshair位置错误问题
+- **scroll**: 修复在iOS中滚动不生效的问题。修复 [#1224](https://github.com/VisActor/VChart/issues/1224)
+- **@visactor/vchart**: 修复range-column图表`barWidth`等配置不生效问题 
+- **@visactor/vchart**: 修复漏斗图中重复的categoryField数据将导致意外的渲染结果
+- **@visactor/vchart**: 修复桑基图标签隐藏时，点击空白处会报错的问题
+- **@visactor/vchart**: 修复图例切换，导致散点图中`visible`通道发生变更，带来的渲染错误问题，关闭 [#2625](https://github.com/VisActor/VChart/issues/2625)
+- **@visactor/vchart**: 修复默认的选中交互的关闭触发条件
+
+
+
+[更多详情请查看 v1.10.6](https://github.com/VisActor/VChart/releases/tag/v1.10.6)
+
+# v1.10.5
+
+2024-04-26
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: player组件支持隐藏播放的功能。新增功能[#2524](https://github.com/VisActor/VChart/issues/2524)
+
+**🐛 功能修复**
+
+- **datazoom**: 修复DataZoom组件在外部拖拽开始、结束icon，仍然触发`minSpan`和`maxSpan`更新的问题。 修复 [#2559](https://github.com/VisActor/VChart/issues/2559)
+- **@visactor/vchart**：修复连续图例指定 `seriesId` 或 `seriesIndex`的时候，图例数据计算错误的问题
+- **@visactor/vchart**：修复在 `react-vchart` 中 `eventsBinded`更新顺序问题
+- **滚动条**：修复标签位置没有和`mark`对齐的问题。修复[#2534](https://github.com/VisActor/VChart/issues/2534)
+- **滚动条**：`Scrollbar`滚动到边界时，恢复页面上的事件冒泡。修复[#2521](https://github.com/VisActor/VChart/issues/2521)
+- **@visactor/vchart**：修复更新主题是，系列也减少导致的报错
+
+**⚡ 性能优化**
+
+- **@visactor/vchart**：优化饼图性能，修复[#2568](https://github.com/VisActor/VChart/issues/2568)
+
+
+
+[更多详情请查看 v1.10.5](https://github.com/VisActor/VChart/releases/tag/v1.10.5)
+
+# v1.10.4
+
+2024-04-03
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 增强图表堆叠能力，提供 `stackSort` 以支持堆叠时的排序
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复了隐藏轴线时轴的单位错位的问题
+- **@visactor/vchart**: 修复了堆叠图表中数据顺序不一致的问题
+- **@visactor/vchart**: 增加了 common 图表中 markArea 和 markPoint 的类型定义
+- **@visactor/vchart**: 修复了 crosshair 的 `formatMethod` 有可能执行多次的问题（提示：修复过以后，之前 crosshair label 保留两位小数的逻辑变成了默认的 formatMethod，用户替换 formatMethod 以后不再保留小数），相关[#2501](https://github.com/VisActor/VChart/issues/2501)
+- **@visactor/vchart**: 修复了连续轴轴数据范围过小时，crosshair 难以移动的问题，相关[#2492](https://github.com/VisActor/VChart/issues/2492)
+- **@visactor/vchart**: 修复了 `updateDataSync` 方法造成图表布局没有刷新的问题，相关[#2503](https://github.com/VisActor/VChart/issues/2503)
+
+**🔨 功能重构**
+
+- **@visactor/vchart**: 增加事件参数 `vchart`，会在生命周期事件中更新，相关[#2502](https://github.com/VisActor/VChart/issues/2502)
+
+[更多详情请查看 v1.10.4](https://github.com/VisActor/VChart/releases/tag/v1.10.4)
+
+# v1.10.3
+
+2024-03-28
+
+
+**🆕 新增功能**
+- **@visactor/vchart**：支持`element-select`和`element-highlight`的交互事件
+- **@visactor/vchart**：支持在地图图表中使用`showDefaultName`来显示地图数据中未匹配的名称
+
+**🐛 功能修复**
+
+- **@visactor/vchart**：修复Tooltip边框被裁减的问题[#2471](https://github.com/VisActor/VChart/issues/2471)
+- **@visactor/vchart**：修复矩形Crosshair中`lineWidth`无效，相关[#2432](https://github.com/VisActor/VChart/issues/2432)
+- **@visactor/vchart**：应该使用`series.getMarkInName`来获取总标签的计算标记，已修复[#2448](https://github.com/VisActor/VChart/issues/2448)
+- **@visactor/vchart**：修复`updateSpecSync()`后事件触发次数不断增加的问题
+- **@visactor/vchart**：如果未在nameMap中配置，地图数据将不会显示
+- **@visactor/vchart**：在采样角度轴上缺少轴标签，相关[#2439](https://github.com/VisActor/VChart/issues/2439)
+- **@visactor/vchart**：修复雷达图clipAngle动画在按需加载时的错误
+- **@visactor/vchart**：修复_eventDispatcher的释放顺序问题
+- **@visactor/vchart**：应该使用系列的_seriesMark来计算总标记，不是所有系列标记名称都与系列类型相同
+
+
+
+[更多详情请查看 v1.10.3](https://github.com/VisActor/VChart/releases/tag/v1.10.3)
+
+# v1.10.2
+
+2024-03-26
+
+**🆕 新增功能**
+- **@visactor/vchart**：: 支持`element-select`和`element-highlight`交互事件
+
+**🐛 功能修复**
+- **@visactor/vchart**：：`lineWidth`在矩形十字准线中无效，相关[#2432](https://github.com/VisActor/VChart/issues/2432)
+- **@visactor/vchart**：：应该使用 `series.getMarkInName` 来获取总标签计算的标记，修复[#2448](https://github.com/VisActor/VChart/issues/2448)
+- **@visactor/vchart**：：修复`updateSpecSync()`之后事件触发计数的问题
+- **@visactor/vchart**：：修复雷达图按需加载时的clipAngle动画错误
+
+[更多详情请查看 v1.10.2](https://github.com/VisActor/VChart/releases/tag/v1.10.2)
+
 # v1.10.0
 
 2024-03-13

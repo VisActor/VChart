@@ -85,6 +85,43 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
 - 聚合计算类型（string）
 - 回调函数
 
+### angle(string|number|function)
+自`1.11.0`版本开始支持, 该参考线在极坐标系的angle轴上，可以配置angle轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+**注意该属性的使用场景为极坐标系下：**
+1. 仅声明angle属性, 用于绘制分割整个极坐标系的angle轴
+2. 配合配置 angle，radius 和 radius1属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
+3. 配合配置 radius，angle 和 angle1 属性，用于在 radius 轴上绘制 angle 到 angle1 范围的标注线
+4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到radius1， angle 到 angle1 范围的标注线
+
+### radius(string|number|function)
+自`1.11.0`版本开始支持, 该参考线在极坐标系的radius轴上，可以配置radius轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+**注意该属性的使用场景为极坐标系下：**
+1. 仅声明radius属性, 用于绘制radius为某个属性值的整圆
+2. 配合配置 angle，radius 和 radius1属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
+3. 配合配置 radius，angle 和 angle1 属性，用于在 radius 轴上绘制 angle 到 angle1 范围的标注线
+4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到radius1， angle 到 angle1 范围的标注线
+
+### angle1(string|number|function)
+自`1.11.0`版本开始支持, 该参考线在极坐标系的angle轴上，可以配置angle轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+**注意该属性的使用场景为极坐标系下：**
+1. 仅声明angle属性, 用于绘制分割整个极坐标系的angle轴
+2. 配合配置 angle，radius 和 radius1属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
+3. 配合配置 radius，angle 和 angle1 属性，用于在 radius 轴上绘制 angle 到 angle1 范围的标注线
+4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到radius1， angle 到 angle1 范围的标注线
+
+### radius1(string|number|function)
+自`1.11.0`版本开始支持, 该参考线在极坐标系的radius轴上，可以配置radius轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+**注意该属性的使用场景为极坐标系下：**
+1. 仅声明radius属性, 用于绘制radius为某个属性值的整圆
+2. 配合配置 angle，radius 和 radius1属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
+3. 配合配置 radius，angle 和 angle1 属性，用于在 radius 轴上绘制 angle 到 angle1 范围的标注线
+4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到radius1， angle 到 angle1 范围的标注线
+
+
 {{ use: component-marker-aggregation-type() }}
 
 ### coordinates(Array)
@@ -158,9 +195,18 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
 
 当且仅当声明 `type: 'type-step'` 时生效，在 `multiSegment` 属性开启的前提下，用于声明那一段线段用来作为主线段，如果不声明，默认全段为主线段。
 
+{{ use: component-marker-state(
+  prefix = '###',
+  graphicType = 'line'
+) }}
+
 #### style(Object|Array)
 
-标注线的线样式。当进行多段配置时，可以通过数组的方式传入。
+标注线的线样式。当进行多段配置时，可以通过数组的方式传入，或回调形式传入。
+
+{{ use: component-marker-style-callback(
+  description = '标注线样式'
+) }}
 
 {{ use: graphic-line(
   prefix = '####'
@@ -176,6 +222,7 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
 
 可选值：
 
+直角坐标系下:
 - `'start'`: 线起点外侧
 - `'middle'`: 线中点
 - `'end'`: 线终点外侧
@@ -185,6 +232,15 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
 - `'insideMiddleBottom'`: 线中点下部
 - `'insideEndTop'`: 线终点内侧上部
 - `'insideEndBottom'`: 线终点内侧下部
+
+极坐标系下:
+- `'arcInnerStart'`: 弧线起点内侧
+- `'arcInnerEnd'`: 弧线终点内侧
+- `'arcInnerMiddle'` : 弧线中点内侧
+- `'arcOuterStart'`: 弧线起点外侧
+- `'arcOuterEnd'`: 弧线终点外侧
+- `'arcOuterMiddle'`: 弧线中点外侧
+- `'center'`: 弧线中心
 
 可参考: https://echarts.apache.org/examples/zh/editor.html?c=line-markline&reset=1&edit=1
 
@@ -207,3 +263,10 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
 {{ use: component-marker-symbol(
   prefix = '###'
 ) }}
+
+{{ use: component-marker-animation(
+  prefix = '##',
+  markerType = 'markLine',
+  animationType = 'clipIn | fadeIn'
+) }}
+

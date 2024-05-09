@@ -31,9 +31,18 @@ symbol图元形状。
 
 symbol图元大小。
 
+{{ use: component-marker-state(
+  prefix = ${prefix},
+  graphicType = 'symbol'
+) }}
+
 #${prefix} style(Object)
 
 symbol图元样式。
+
+{{ use: component-marker-style-callback(
+  description = 'symbol图元样式'
+) }}
 
 {{ use: graphic-symbol(
   prefix = '#' + ${prefix}

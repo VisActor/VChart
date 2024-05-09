@@ -55,8 +55,8 @@ Default map fill color. When there is no corresponding geographic name data in t
 
 #${prefix} centroidProperty(string)
 
-Supported since version `1.5.1`.  
-Center longitude and latitude coordinates fields in the geography area of map data. The default center coordinate is automatically generated when registering map data (registerMap).  
+Supported since version `1.5.1`.
+Center longitude and latitude coordinates fields in the geography area of map data. The default center coordinate is automatically generated when registering map data (registerMap).
 For example, if the centroid field is present in the map data, you can configure `centroidProperty: 'centroid'` in the map series.
 
 ```json
@@ -64,6 +64,11 @@ For example, if the centroid field is present in the map data, you can configure
   "centroid": [117.35675, 39.282806]
 }
 ```
+
+#${prefix} showDefaultName(boolean)=false
+Supported since version `1.10.3`.
+
+Whether to show the default names from the map data for unmatched areas in nameMap.
 
 #${prefix} area(Object)
 

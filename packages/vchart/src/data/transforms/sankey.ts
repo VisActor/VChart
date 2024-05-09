@@ -21,15 +21,6 @@ export const collectHierarchyField = (set: Set<any>, data: any[], field: string)
   });
 };
 
-const convertValuesToNumbers = (data: any) => {
-  data.forEach((obj: any) => {
-    obj.value = isString(obj.value) ? +obj.value : obj.value; // 将字符串转换为数值类型
-    if (obj.children && obj.children.length > 0) {
-      convertValuesToNumbers(obj.children); // 递归处理子节点
-    }
-  });
-};
-
 export const sankeyFormat = (data: any[]): SankeyData[] => {
   if (!data || !isArray(data)) {
     return [] as SankeyData[];
@@ -102,27 +93,6 @@ export const sankeyLayout = (data: SankeyData[], op: ISankeyOpt) => {
       });
       (originalData as any).links = updatedData;
     }
-  }
-
-  if ((originalData as any).links) {
-    //node-link型数据
-    const updatedData: {}[] = [];
-    (originalData as any).links.forEach((datum: any) => {
-      const updatedDatum: any = {};
-      for (const key in datum) {
-        if (key === 'value') {
-          updatedDatum.value = isString(datum.value) ? +datum.value : datum.value; // 将字符串转换为数值类型
-        } else {
-          updatedDatum[key] = datum[key];
-        }
-      }
-      updatedData.push(updatedDatum);
-    });
-    (originalData as any).links = updatedData;
-  } else if ((originalData as any).nodes?.[0]?.children) {
-    //层级型数据
-    //Convert value from string to number
-    convertValuesToNumbers((originalData as any).nodes);
   }
 
   const layout = new SankeyLayout(op);

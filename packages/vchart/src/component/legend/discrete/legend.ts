@@ -16,6 +16,7 @@ import { getFieldAlias } from '../../../util/data';
 import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { LegendItemDatum } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
 import { LegendEvent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';
@@ -25,8 +26,9 @@ import { ChartEvent } from '../../../constant';
 import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 import type { ILayoutRect } from '../../../typings/layout';
-import type { Datum } from '../../../typings';
+import type { StringOrNumber } from '../../../typings';
 import { getFormatFunction } from '../../util';
+import type { IDiscreteLegendData } from '../../../data/transforms/legend-data/discrete';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static specKey = 'legends';
@@ -34,6 +36,8 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
+
+  protected _unselectedData: StringOrNumber[];
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const legendSpec = chartSpec[this.specKey];
@@ -75,9 +79,10 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
         s.addViewDataFilter({
           type: 'discreteLegendFilter',
           options: {
+            series: s,
             selected: () => this._selectedData,
             field: () => this._getSeriesLegendField(s),
-            data: () => this._getLegendDefaultData()
+            data: () => this.getLegendDefaultData()
           },
           level: TransformLevel.legendFilter
         });
@@ -119,13 +124,15 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
   protected _getSeriesLegendField(s: ISeries) {
     const defaultField = s.getSeriesField();
-    if (!this._spec.scaleName) {
+    const specifyScaleId = this._spec.scaleName ?? this._spec.scale;
+
+    if (isNil(specifyScaleId)) {
       return defaultField;
     }
     if (!s.getRawData()) {
       return defaultField;
     }
-    const scaleSpec = this._option.globalScale.getScaleSpec(this._spec.scaleName);
+    const scaleSpec = this._option.globalScale.getScaleSpec(specifyScaleId);
     if (!scaleSpec) {
       return defaultField;
     }
@@ -146,19 +153,36 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   }
 
   protected _initSelectedData(): void {
-    if (this._spec.defaultSelected) {
+    const fullSelectedData = this.getLegendDefaultData();
+
+    if (this._unselectedData) {
+      const selected: StringOrNumber[] = [];
+      const unselected: StringOrNumber[] = [];
+
+      fullSelectedData.forEach((entry: StringOrNumber) => {
+        if (this._unselectedData.includes(entry)) {
+          unselected.push(entry);
+        } else {
+          selected.push(entry);
+        }
+      });
+      this._selectedData = selected;
+      this._unselectedData = unselected;
+    } else if (this._spec.defaultSelected) {
       this._selectedData = [...this._spec.defaultSelected];
     } else {
-      this._selectedData = this._getLegendDefaultData();
+      this._selectedData = fullSelectedData;
     }
   }
 
-  private _getLegendDefaultData() {
+  getLegendDefaultData(originalData?: boolean) {
     if (isFunction(this._spec.data)) {
       return this._getLegendItems().map((obj: LegendItemDatum) => obj.label);
     }
 
-    return this._legendData.getLatestData().map((obj: Datum) => obj.key);
+    return this._legendData
+      .getLatestData()
+      .map(originalData ? (obj: IDiscreteLegendData) => obj.originalKey : (obj: IDiscreteLegendData) => obj.key);
   }
 
   private _addDefaultTitleText(attrs: any) {
@@ -191,6 +215,16 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
   protected _getLegendConstructor() {
     return LegendComponent;
+  }
+
+  setSelectedData(selectedData: StringOrNumber[]) {
+    if (selectedData) {
+      this._unselectedData = this.getLegendDefaultData().filter(
+        (entry: StringOrNumber) => !selectedData.includes(entry)
+      );
+    }
+
+    super.setSelectedData(selectedData);
   }
 
   protected _initEvent() {

@@ -1,3 +1,118 @@
+# v1.10.6
+
+2024-05-08
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: enhanced capabilities for waterfall chart total label
+
+**🐛 Bug fix**
+
+- **wordCloud**: wordCloud layout error and color scale error when updateData. fix [#2605](https://github.com/VisActor/VChart/issues/2605) 
+- **@visactor/vchart**: fix error of position when update viewBox
+- **scroll**: scroll not work in ios. fix[#1224](https://github.com/VisActor/VChart/issues/1224)
+- **@visactor/vchart**: fix range-column-chart spec
+- **@visactor/vchart**: duplicated categoryField data in funnel will result to unexpected rendering result
+- **@visactor/vchart**: fixed the problem that when the label of the sankey chart is hidden, an error will be reported when clicking on the blank space
+- **@visactor/vchart**: fix the issue of scatter when the legend switch visible encode, close [#2625](https://github.com/VisActor/VChart/issues/2625)
+- **@visactor/vchart**: fix the trigger off of default select interactions
+
+
+
+[more detail about v1.10.6](https://github.com/VisActor/VChart/releases/tag/v1.10.6)
+
+# v1.10.5
+
+2024-04-26
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: player support play when hidden. feat[#2524](https://github.com/VisActor/VChart/issues/2524)
+
+**🐛 Bug fix**
+
+- **datazoom**: when drag start and end handler outside, min and max span not work. fix[#2559](https://github.com/VisActor/VChart/issues/2559)
+- **@visactor/vchart**: fix domain of continuous legend when specify seriesId or seriesIndex
+- **@visactor/vchart**: fix eventsBinded update in react-vchart
+- **scrollbar**: label position not align with mark. fix[#2534](https://github.com/VisActor/VChart/issues/2534)
+- **scrollbar**: enable bubble when scroll to boundary. fix[#2521](https://github.com/VisActor/VChart/issues/2521)
+- **@visactor/vchart**: fix error of update theme when series reduce
+
+**⚡ Performance optimization**
+
+- **@visactor/vchart**: optimize the performance of pie chart, fix [#2568](https://github.com/VisActor/VChart/issues/2568)
+
+
+
+[more detail about v1.10.5](https://github.com/VisActor/VChart/releases/tag/v1.10.5)
+
+# v1.10.4
+
+2024-04-03
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: increase chart stacking capabilities, provide `stackSort` to support sorting when stacking
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: axis unit in wrong position when hiding the axis domainLine
+- **@visactor/vchart**: fix issue of the order of data is not uniform in stack
+- **@visactor/vchart**: type defination of markArea & markPoint in common chart
+- **@visactor/vchart**: formatMethod of crosshair label runs multiple times (Tip: After fixing it, the process of retaining two decimal places in the crosshair label has been changed to the default formatMethod. After replacing the formatMethod, users will no longer retain decimal places), related [#2501](https://github.com/VisActor/VChart/issues/2501)
+- **@visactor/vchart**: crosshair can't move when axis domain is very small, related [#2492](https://github.com/VisActor/VChart/issues/2492)
+- **@visactor/vchart**: `updateDataSync` produces inconsistent results compared to direct drawing, related [#2503](https://github.com/VisActor/VChart/issues/2503)
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: add event params `vchart`, which will updated in lifecycle events, close [#2502](https://github.com/VisActor/VChart/issues/2502)
+
+[more detail about v1.10.4](https://github.com/VisActor/VChart/releases/tag/v1.10.4)
+
+# v1.10.3
+
+2024-03-28
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support interaction events of `element-select` and `element-highlight`
+- **@visactor/vchart**: support `showDefaultName` in map chart to display unmatched name in map data
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: tooltip cliped if set border width. fix[#2471](https://github.com/VisActor/VChart/issues/2471)
+- **@visactor/vchart**: `lineWidth` is invalid in rect-type-crosshair, related [#2432](https://github.com/VisActor/VChart/issues/2432)
+- **@visactor/vchart**: should use `series.getMarkInName` to get the mark for total label's caculation, fixed [#2448](https://github.com/VisActor/VChart/issues/2448)
+- **@visactor/vchart**: fix the issue of event trigger count after `updateSpecSync()`
+- **@visactor/vchart**: map data will not show if not configured in nameMap
+- **@visactor/vchart**: axis label missing in the sampled angle axis, related [#2439](https://github.com/VisActor/VChart/issues/2439)
+- **@visactor/vchart**: fix radar chart clipAngle animation error when loading on demand.
+- **@visactor/vchart**: fix the release order of _eventDispatcher
+- **@visactor/vchart**: should use series's _seriesMark to calculate total mark, not all series mark names are the same as series.type
+
+
+
+[more detail about v1.10.3](https://github.com/VisActor/VChart/releases/tag/v1.10.3)
+
+# v1.10.2
+
+2024-03-26
+
+## 🆕 New feat 
+- **@visactor/vchart**: support interaction events of `element-select` and `element-highlight`
+
+## 🐛 Bug fix 
+- **@visactor/vchart**: `lineWidth` is invalid in rect-type-crosshair, related [#2432](https://github.com/VisActor/VChart/issues/2432)
+- **@visactor/vchart**: should use `series.getMarkInName` to get the mark for total label's caculation, fixed [#2448](https://github.com/VisActor/VChart/issues/2448)
+- **@visactor/vchart**: fix the issue of event trigger count after `updateSpecSync()`
+- **@visactor/vchart**: fix radar chart clipAngle animation error when loading on demand.
+
+[more detail about v1.10.2](https://github.com/VisActor/VChart/releases/tag/v1.10.2)
+
 # v1.10.0
 
 2024-03-13

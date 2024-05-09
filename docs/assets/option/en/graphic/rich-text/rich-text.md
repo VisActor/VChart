@@ -14,15 +14,7 @@ Rich text container height.
 
 Text ellipsis method when exceeding the container scope.
 
-#${prefix} suffixPosition(string) = 'end'
-
-Supported since `1.7.3` version, used to configure the position of text omission, the default is to omit the tail.
-
-- 'start' text header is omitted
-- 'middle' omitted from the middle of the text
-- 'end' omit the end of the text
-
-#${prefix} wordBreak(string)
+#${prefix} wordBreak(string) = 'break-all'
 
 Rich text line wrap mode.
 
@@ -69,7 +61,7 @@ Optional values:
 - `'middle'`
 - `'bottom'`
 
-#${prefix} layoutDirection(string)
+#${prefix} layoutDirection(string) = 'horizontal'
 
 Rich text text layout direction.
 
@@ -77,6 +69,10 @@ Optional values:
 
 - `'horizontal'`: Horizontal arrangement
 - `'vertical'`: Vertical arrangement
+
+#${prefix} singleLine(boolean)
+
+Whether the rich text is arranged in a single line or not.
 
 #${prefix} textConfig(Array)
 
@@ -86,10 +82,56 @@ Rich text text configuration.
   prefix = '#' + ${prefix},
 ) }}
 
-#${prefix} singleLine(boolean)
+<!-- Supports only regular text configurations, which will be inherited by textConfig. -->
 
-Whether the rich text is arranged in a single line or not.
+#${prefix} fontSize(number)
 
-{{ use: graphic-attribute(
-  prefix = '#' + ${prefix},
-) }}
+Font size. The configuration in all text paragraphs will be overridden by the configuration in `textConfig`.
+
+#${prefix} fontFamily(string)
+
+Font family. The configuration in all text paragraphs will be overridden by the configuration in `textConfig`.
+
+#${prefix} fontWeight(string|number)
+
+Font weight of the text. The configuration in all text paragraphs will be overridden by the configuration in `textConfig`.
+
+Optional:
+
+- `'normal'`
+- `'bold'`
+- `'bolder'`
+- `'lighter'`
+- `100 | 200 | 300 | 400`...
+
+#${prefix} fontStyle(string) = 'normal'
+
+FontStyle.
+
+Optional:
+
+- `'normal'`
+- `'italic'`
+- `'oblique'`
+
+#${prefix} fill(string)
+
+Fill color. Supports setting to solid color using methods such as `rgb(255,255,255)`, `rgba(255,255,255,1)`,` #fff`, etc.
+The configuration in all text paragraphs will be overridden by the configuration in `textConfig`.
+
+#${prefix} stroke(string)
+
+Stroke color. Supports setting to solid color using methods such as `rgb(255,255,255)`, `rgba(255,255,255,1)`,` #fff`, etc.
+The configuration in all text paragraphs will be overridden by the configuration in `textConfig`.
+
+#${prefix} lineWidth(number)
+
+Stroke width. The configuration in all text paragraphs will be overridden by the configuration in `textConfig`.
+
+#${prefix} fillOpacity(number)
+
+Fill Opacity. The configuration in all text paragraphs will be overridden by the configuration in `textConfig`.
+
+#${prefix} strokeOpacity(number)
+
+Stroke opacity. The configuration in all text paragraphs will be overridden by the configuration in `textConfig`.

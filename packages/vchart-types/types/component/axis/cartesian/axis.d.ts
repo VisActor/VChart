@@ -80,7 +80,6 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected _tickTransformOption(): ICartesianTickDataOpt;
     protected axisHelper(): IAxisHelper;
     afterCompile(): void;
-    onLayoutEnd(ctx: any): void;
     onRender(ctx: any): void;
     changeRegions(regions: IRegion[]): void;
     update(ctx: IComponentOption): void;
@@ -94,11 +93,11 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     };
     _transformLayoutRect: (result: ILayoutRect) => ILayoutRect;
     getBoundsInRect(rect: ILayoutRect): IBoundsLike;
-    updateLayoutAttribute(): void;
     private _getTitleLimit;
     private _getUpdateAttribute;
     protected getLabelItems(length: number): any[];
     protected initEvent(): void;
+    protected _updateAxisLayout: () => void;
     protected _getNormalizedValue(values: any[], length: number): number;
     private _fixAxisOnZero;
     protected _layoutCacheProcessing(rect: ILayoutRect): ILayoutRect;

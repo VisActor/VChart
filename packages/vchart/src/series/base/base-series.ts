@@ -47,12 +47,13 @@ import type {
   ISeriesSpecInfo,
   ISeriesStackDataLeaf,
   ISeriesStackDataNode,
-  ISeriesStackDataMeta
+  ISeriesStackDataMeta,
+  ISeriesSeriesInfo
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
 import { couldBeValidNumber } from '../../util/type';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
@@ -142,6 +143,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** series field 所作用的 mark */
   protected _seriesMark: Maybe<IMark> = null;
+  getSeriesMark() {
+    return this._seriesMark;
+  }
 
   protected _layoutLevel!: number;
 
@@ -327,6 +331,32 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
+  protected getInvalidCheckFields() {
+    return [this.getStackValueField()];
+  }
+
+  protected initInvalidDataTransform(): void {
+    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
+    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
+      // make sure each series only transform once
+      this._rawData?.transform(
+        {
+          type: 'invalidTravel',
+          options: {
+            config: () => {
+              return {
+                invalidType: this._invalidType,
+                checkField: this.getInvalidCheckFields()
+              };
+            }
+          }
+        },
+        false
+      );
+    }
+  }
+
   /** data */
   protected initData(): void {
     const d = this._spec.data ?? this._option.getSeriesData(this._spec.dataId, this._spec.dataIndex);
@@ -357,25 +387,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       }
     }
 
-    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
-    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
-      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
-      // make sure each series only transform once
-      this._rawData?.transform(
-        {
-          type: 'invalidTravel',
-          options: {
-            config: () => {
-              return {
-                invalidType: this._invalidType,
-                checkField: this.getStackValueField()
-              };
-            }
-          }
-        },
-        false
-      );
-    }
+    this.initInvalidDataTransform();
   }
 
   protected initGroups() {
@@ -674,6 +686,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 
+  private _getExtensionMarkNamePrefix() {
+    return `${this.type}_${this.id}_extensionMark`;
+  }
+
   protected _initExtensionMark(options: { hasAnimation: boolean; depend?: IMark[] }) {
     if (!this._spec.extensionMark) {
       return;
@@ -683,7 +699,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     options.depend = mainMarks;
 
     this._spec.extensionMark?.forEach((m, i) => {
-      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, options);
+      this._createExtensionMark(m, null, this._getExtensionMarkNamePrefix(), i, options);
     });
   }
 
@@ -729,17 +745,18 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         mark.setDataView(this.getViewData(), this.getViewDataProductId());
       } else {
         mark.setDataView(dataView);
+
+        dataView.target.addListener('change', () => {
+          mark.getData().updateData();
+        });
       }
     }
   }
 
-  protected _updateExtensionMarkSpec(lastSpec?: any) {
+  protected _updateExtensionMarkSpec() {
     this._spec.extensionMark?.forEach((spec, i) => {
-      const mark = this._marks.getMarkWithInfo({ name: `${this.type}_${this.id}_extensionMark_${i}` });
+      const mark = this._marks.getMarkWithInfo({ name: `${this._getExtensionMarkNamePrefix()}_${i}` });
       if (!mark) {
-        return;
-      }
-      if (lastSpec && isEqual(lastSpec.extensionMark?.[i], spec)) {
         return;
       }
       this.initMarkStyleWithSpec(mark, spec);
@@ -826,6 +843,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     if (finalSelectSpec.enable) {
       const selector: string[] = this._parseSelectorOfInteraction(finalSelectSpec as IBaseInteractionSpec, mainMarks);
+      const isMultiple = finalSelectSpec.mode === 'multiple';
+      const triggerOff = isValid(finalSelectSpec.triggerOff)
+        ? finalSelectSpec.triggerOff
+        : isMultiple
+        ? ['empty']
+        : ['empty', finalSelectSpec.trigger];
 
       selector.length &&
         res.push({
@@ -834,10 +857,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
           regionId: this._region.id,
           selector,
           trigger: finalSelectSpec.trigger as EventType,
-          triggerOff: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
+          triggerOff: triggerOff as EventType,
           reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
           state: STATE_VALUE_ENUM.STATE_SELECTED,
-          isMultiple: finalSelectSpec.mode === 'multiple'
+          isMultiple
         });
     }
 
@@ -1092,7 +1115,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.updateStaticEncode();
       mark.updateLayoutState(true);
     });
-    this._updateExtensionMarkSpec(spec);
+    this._updateExtensionMarkSpec();
     this._updateSpecData();
 
     if (this._tooltipHelper) {
@@ -1171,11 +1194,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return keys.map(key => {
       return {
         key,
+        originalKey: key,
         style: this.getSeriesStyle({
           [field]: key
         }),
         shapeType: defaultShapeType
-      };
+      } as ISeriesSeriesInfo;
     });
   }
 
@@ -1249,14 +1273,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       morph = false,
       clip,
       customShape,
-      stateSort
+      stateSort,
+      noSeparateStyle = false
     } = option;
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
       seriesId: this.id,
       attributeContext: this._markAttributeContext,
-      componentType: option.componentType
+      componentType: option.componentType,
+      noSeparateStyle
     });
     if (isValid(m)) {
       this._marks.addMark(m, { name: markInfo.name });
@@ -1397,7 +1423,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined(datum: Datum) {
-    return couldBeValidNumber(datum[this.getStackValueField()]);
+    const checkFields = this.getInvalidCheckFields();
+
+    if (!checkFields.length) {
+      return true;
+    }
+
+    return checkFields.every(field => {
+      return couldBeValidNumber(datum[field]);
+    });
   }
 
   protected _getRelatedComponentSpecInfo(specKey: string) {
@@ -1436,5 +1470,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return true;
     }
     return viewDataList.some((viewDatum: Datum) => Object.keys(datum).every(key => datum[key] === viewDatum[key]));
+  }
+
+  getSeriesFieldValue(datum: Datum, seriesField?: string) {
+    return datum[seriesField ?? this.getSeriesField() ?? DEFAULT_DATA_SERIES_FIELD];
   }
 }

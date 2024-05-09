@@ -7,7 +7,7 @@ import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP 
 import type { IMark, MarkType } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
@@ -64,11 +64,13 @@ export class TotalLabel extends BaseLabelComponent {
   protected _initTextMark() {
     const series = this._getSeries();
     if (series.getSpec().totalLabel?.visible) {
-      const mark = series.getMarkInName(series.type);
-      const textMark = this._createMark({ type: MarkTypeEnum.label, name: `${mark.name}-total-label` }) as ILabelMark;
-      this._baseMark = mark;
-      this._textMark = textMark;
-      this._initTextMarkStyle();
+      const mark = series.getSeriesMark();
+      if (mark) {
+        const textMark = this._createMark({ type: MarkTypeEnum.label, name: `${mark.name}-total-label` }) as ILabelMark;
+        this._baseMark = mark;
+        this._textMark = textMark;
+        this._initTextMarkStyle();
+      }
     }
   }
 
@@ -84,6 +86,9 @@ export class TotalLabel extends BaseLabelComponent {
       'normal',
       AttributeLevel.Default
     );
+
+    const series = this._getSeries();
+    series.initTotalLabelMarkStyle?.(this._textMark);
   }
 
   protected _initLabelComponent() {
@@ -133,6 +138,10 @@ export class TotalLabel extends BaseLabelComponent {
                 x: 0,
                 y: 0
               },
+              series.getTotalLabelComponentStyle?.({
+                baseMark: this._baseMark,
+                labelMark: this._textMark
+              }) ?? {},
               {
                 offset,
                 animation,

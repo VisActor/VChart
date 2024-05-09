@@ -20,7 +20,7 @@ import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
-import { PathMark, registerPathMark } from '../../mark/path';
+import { registerPathMark } from '../../mark/path';
 import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
@@ -297,11 +297,19 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     if (datum[this.nameField]) {
       return datum[this.nameField];
     }
-    if (datum.properties?.[this._nameProperty]) {
-      if (this._spec?.nameMap) {
-        return this._spec.nameMap[datum.properties[this._nameProperty]] ?? '';
+    const name = datum.properties?.[this._nameProperty];
+    if (name) {
+      if (this._spec.nameMap) {
+        if (this._spec.nameMap[name]) {
+          return this._spec.nameMap[name];
+        }
       }
-      return datum.properties[this._nameProperty] ?? '';
+      // TODO:
+      // 1. showDefaultName 是一个考虑配置兼容的产物，不然会有 break-change
+      // 2. 后续大版本升级，这里无需判断条件，直接返回 name 是更合理的
+      if (this._spec.showDefaultName || !this._spec.nameMap) {
+        return name;
+      }
     }
     return '';
   }

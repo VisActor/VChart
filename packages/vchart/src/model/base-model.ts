@@ -178,9 +178,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   updateSpec(spec: T) {
     const result = this._compareSpec(spec, this._spec);
     this._spec = spec;
-    if (!result.reMake) {
-      this.reInit();
-    }
+
     return result;
   }
 

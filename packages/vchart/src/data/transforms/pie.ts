@@ -69,6 +69,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
   let lastAngle = startAngle;
   let restAngle = angleRange;
   let largeThanMinAngleTotal = 0;
+  const percents = getPercentValue(valueList);
 
   data.forEach((d, i) => {
     const angleFieldValue = d[ARC_TRANSFORM_VALUE];
@@ -87,7 +88,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
 
     d[asRatio] = ratio;
     d[asK] = max ? angleFieldValue / max : 0;
-    d._percent_ = getPercentValue(valueList, i);
+    d._percent_ = percents[i];
     appendArcInfo(d, dStartAngle, radian);
 
     lastAngle = dEndAngle;

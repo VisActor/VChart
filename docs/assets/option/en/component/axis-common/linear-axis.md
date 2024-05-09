@@ -10,6 +10,22 @@
 
 **Applies only when the axis is a linear or time axis**. Maximum value(time axis only support timeStamp), **takes precedence over zero and nice**.
 
+#${prefix} softMin(number)
+
+Supported since version **1.11.0**
+
+Only effective when the axis is a linear or time axis, minimum value (time axis only supports timestamps), only takes effect when this value is less than the minimum data value, **takes precedence over zero and nice**.
+
+- Note: Not recommended to use together with configuring `min`
+
+#${prefix} softMax(number)
+
+Supported since version **1.11.0**
+
+Only effective when the axis is a linear or time axis, maximum value (time axis only supports timestamps), only takes effect when this value is greater than the maximum data value, **takes precedence over zero and nice**.
+
+Note: Not recommended to use together with configuring `max`
+
 #${prefix} nice(boolean) = true
 
 **Applies only when the axis is a linear or time axis**. Whether to adjust the axis range to a relatively neat value based on the data. When `min` and `max` are configured, this option is invalid.

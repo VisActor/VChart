@@ -3,6 +3,7 @@ import type { IAxisLocationCfg, ITick } from '../interface';
 import type { IEvent } from '../../../event/interface';
 import type { IOrientType } from '../../../typings/space';
 import type { IComponentOption } from '../../interface/common';
+import type { StringOrNumber } from '../../../typings';
 export declare const e10: number;
 export declare const e5: number;
 export declare const e2: number;
@@ -16,6 +17,9 @@ export interface LinearAxisMixin {
         min?: number;
         max?: number;
     };
+    _domainAfterSpec: number[];
+    _softMinValue?: number;
+    _softMaxValue?: number;
     _expand?: {
         max?: number;
         min?: number;
@@ -31,16 +35,18 @@ export interface LinearAxisMixin {
     event: IEvent;
     _orient: IOrientType;
     _option: IComponentOption;
+    niceLabelFormatter: (value: StringOrNumber) => StringOrNumber;
 }
 export declare class LinearAxisMixin {
     protected _extend: {
         [key: string]: number;
     };
+    niceLabelFormatter: (value: StringOrNumber) => StringOrNumber;
     setExtraAttrFromSpec(): void;
     transformScaleDomain(): void;
-    setLinearScaleNice(): void;
-    setLogScaleNice(): void;
-    setScaleNice(): void;
+    setLinearScaleNice(): false | LinearScale;
+    setLogScaleNice(): false | LinearScale;
+    setScaleNice(): false | LinearScale;
     dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
     valueToPosition(value: any): number;
     computeLinearDomain(data: {
@@ -58,7 +64,10 @@ export declare class LinearAxisMixin {
         max?: number;
     };
     protected setDomainMinMax(domain: number[]): void;
+    protected setSoftDomainMinMax(domain: number[]): void;
     setZero(zero: boolean): void;
     protected updateScaleDomain(): void;
     protected updateScaleDomainByModel(domain?: number[]): void;
+    getDomainAfterSpec(): number[];
+    protected _updateNiceLabelFormatter(domain: number[]): void;
 }

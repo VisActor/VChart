@@ -58,7 +58,7 @@ export default {
   ],
   axes: [
     { orient: 'left', seriesIndex: [0] },
-    { orient: 'right', seriesId: ['line'], gird: { visible: false } },
+    { orient: 'right', seriesId: ['line'], grid: { visible: false } },
     { orient: 'bottom', label: { visible: true }, type: 'band' }
   ],
   legends: {

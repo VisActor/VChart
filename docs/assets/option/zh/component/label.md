@@ -8,9 +8,11 @@
 
 数据标签图元是否支持交互事件，默认不支持。
 
-#${prefix} textType(string)
+#${prefix} textType(deprecated)
 
-自 1.7.0 版本支持，文本类型。
+自 1.7.0 版本支持，文本类型。`1.10.0`版本后，建议使用 `formatMethod` 配置富文本。
+
+富文本的具体使用方式，请参考[富文本教程文档](/vchart/guide/tutorial_docs/Richtext_and_Dom)
 
 可选：
 
@@ -56,6 +58,8 @@ formatMethod: text => {
 };
 ```
 
+更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+
 #${prefix} formatter(string)
 
 字符串模版，自`1.7.0`版本开始支持。
@@ -90,8 +94,20 @@ formatMethod: text => {
 
 标签图元样式配置。
 
+##${prefix} type='text'(Object)
+
+常规文本样式配置。
+
 {{ use: graphic-text(
-   prefix = '#' + ${prefix}
+   prefix = '##' + ${prefix}
+) }}
+
+##${prefix} type='rich'(Object)
+
+富文本样式配置。
+
+{{ use: graphic-rich-text(
+   prefix = '##' + ${prefix}
 ) }}
 
 #${prefix} state(Object)

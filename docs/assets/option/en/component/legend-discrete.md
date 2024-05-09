@@ -26,6 +26,20 @@ Whether or not to enable the checking of the legend, the default is on.
 
 The check mode of the legend, with optional values: `'multiple'`, `'single'`, for multiple and single selection respectively.
 
+### scale(string)
+
+Supported since version 1.10.5
+
+Sets the name corresponding to the associated `scale`, by default it will automatically resolve the scale corresponding to the colors.
+
+### scaleName(string)
+
+Same as `scale`, for consistency with continuous legend configuration, it is recommended to use `scale` for configuration.
+
+### field(string)
+
+When specifying the `scale` corresponding to the legend, specify the field to parse the legend data, which only takes effect when `scale` is set.
+
 ### hover(boolean) = true
 
 If or not hover interaction is enabled.
@@ -106,6 +120,7 @@ When label + value coexist, the automatic ellipsis strategy is:
 - 'labelFirst' - Attempt to display the complete `label`
 - 'valueFirst' - Attempt to display the complete `value`
 - 'none' - Display label and value according to `widthRatio`
+
 #### background(Object)
 
 The background configuration of the legend item.
@@ -421,6 +436,33 @@ export type LegendItemDatum = {
   [key: string]: any;
 };
 ```
+
+Since version `1.10.0`, `formatMethod` supports return richText structure like:
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
+```
+
+For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/Richtext_and_Dom)
 
 ##### style(Object|Function)
 
@@ -750,6 +792,7 @@ Set the pager type, currently supporting two styles:
 
 - Default style: pager with arrows
 - `type: 'scrollbar'`: Scrollbar pager
+
 #### layout(string)
 
 The layout of the page turner, the optional values are `'horizontal'` and `'vertical'`. The default value logic is:

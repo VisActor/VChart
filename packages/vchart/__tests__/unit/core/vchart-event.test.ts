@@ -177,4 +177,13 @@ describe('vchart event test', () => {
     vchart.getCompiler().getVGrammarView().emit('pointerdown', {});
     expect(pointDowmSpy).toBeCalledTimes(2);
   });
+
+  it('should fire tooltipRelease before release chart', () => {
+    const handleTooltipRelease = jest.fn();
+    vchart.on('tooltipRelease', handleTooltipRelease);
+
+    vchart.release();
+
+    expect(handleTooltipRelease).toBeCalledTimes(1);
+  });
 });

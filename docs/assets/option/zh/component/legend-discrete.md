@@ -26,6 +26,20 @@
 
 图例的选中模式，可选值：`'multiple'`，`'single'`，分别代表多选和单选。
 
+### scale(string)
+
+自 1.10.5 版本开始支持
+
+设置关联的`scale`对应的名称，默认不设置会自动解析颜色对应的 scale
+
+### scaleName(string)
+
+同`scale`，为了保持和连续图例配置统一，建议使用`scale`进行配置
+
+### field(string)
+
+当指定了图例对应的`scale`后，通过指定字段，来解析图例数据，当且仅当设置了`scale`才能生效
+
 ### hover(boolean) = true
 
 是否开启 hover 交互。
@@ -415,6 +429,33 @@ export type LegendItemDatum = {
   [key: string]: any;
 };
 ```
+
+自`1.10.0`后，支持返回富文本配置，例如：
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
+```
+
+更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
 
 ##### style(Object|Function)
 

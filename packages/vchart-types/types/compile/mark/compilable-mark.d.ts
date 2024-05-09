@@ -1,4 +1,4 @@
-import type { IGroupMark, IMark, MarkAnimationSpec, MarkFunctionCallback, Nil, TransformSpec } from '@visactor/vgrammar-core';
+import type { IElement, IGroupMark, IMark, MarkAnimationSpec, MarkFunctionCallback, Nil, TransformSpec } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
@@ -115,5 +115,6 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     stopAnimationByState(state?: string): import("@visactor/vgrammar-core").IAnimate;
     pauseAnimationByState(state?: string): import("@visactor/vgrammar-core").IAnimate;
     resumeAnimationByState(state?: string): import("@visactor/vgrammar-core").IAnimate;
+    getProductElements(): IElement[];
     release(): void;
 }

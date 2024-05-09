@@ -13,3 +13,4 @@ export * from './tooltip';
 export * from './Player';
 export * from './Indicator';
 export * from './Title';
+export * from './ContinuousLegend';

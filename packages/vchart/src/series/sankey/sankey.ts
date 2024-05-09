@@ -6,7 +6,7 @@ import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/link-path';
 import type { ITextMark } from '../../mark/text';
 import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
-import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, ITextMarkSpec, IComposedTextMarkSpec } from '../../typings';
+import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, IComposedTextMarkSpec, StringOrNumber } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -16,16 +16,16 @@ import { sankeyNodes } from '../../data/transforms/sankey-nodes';
 import { sankeyLinks } from '../../data/transforms/sankey-links';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DataView } from '@visactor/vdataset';
-import { LayoutZIndex, AttributeLevel, Event_Bubble_Level, DEFAULT_DATA_INDEX } from '../../constant';
+import { LayoutZIndex, AttributeLevel, Event_Bubble_Level } from '../../constant';
 import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
-import { Bounds, array, isNil } from '@visactor/vutils';
+import { Bounds, array, isNil, isValid, isNumber } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import { registerSankeyAnimation } from './animation';
-import type { ISankeySeriesSpec } from './interface';
+import type { ISankeySeriesSpec, SankeyLinkElement } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
-import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
+import type { IElement, IGlyphElement, IMark as IVgrammarMark } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { registerRectMark } from '../../mark/rect';
@@ -129,7 +129,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           nodeKey: this._spec.nodeKey,
           linkSortBy: this._spec.linkSortBy,
           nodeSortBy: this._spec.nodeSortBy,
-          setNodeLayer: this._spec.setNodeLayer
+          setNodeLayer: this._spec.setNodeLayer,
+          dropIsolatedNode: this._spec.dropIsolatedNode,
+          nodeHeight: this._spec.nodeHeight,
+          linkHeight: this._spec.linkHeight,
+          equalNodeHeight: this._spec.equalNodeHeight,
+          linkOverlap: this._spec.linkOverlap
         } as ISankeyOpt,
         level: TransformLevel.sankeyLayout
       });
@@ -201,7 +206,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   initMark(): void {
     const nodeMark = this._createMark(SankeySeries.mark.node, {
       isSeriesMark: true,
-      key: DEFAULT_DATA_INDEX,
       dataView: this._nodesSeriesData.getDataView(),
       dataProductId: this._nodesSeriesData.getProductId(),
       customShape: this._spec.node?.customShape,
@@ -213,7 +217,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     const linkMark = this._createMark(SankeySeries.mark.link, {
-      key: DEFAULT_DATA_INDEX,
       dataView: this._linksSeriesData.getDataView(),
       dataProductId: this._linksSeriesData.getProductId(),
       customShape: this._spec.link?.customShape,
@@ -223,9 +226,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       this._linkMark = linkMark;
     }
 
-    if (this._spec.label?.visible) {
+    if (this._spec.label && this._spec.label.visible) {
       const labelMark = this._createMark(SankeySeries.mark.label, {
-        key: DEFAULT_DATA_INDEX,
         dataView: this._nodesSeriesData.getDataView(),
         dataProductId: this._nodesSeriesData.getProductId()
       }) as ITextMark;
@@ -233,6 +235,42 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         this._labelMark = labelMark;
       }
     }
+  }
+
+  protected _buildMarkAttributeContext() {
+    super._buildMarkAttributeContext();
+
+    this._markAttributeContext.valueToNode = this.valueToNode.bind(this);
+    this._markAttributeContext.valueToLink = this.valueToLink.bind(this);
+  }
+
+  valueToNode(value: StringOrNumber | StringOrNumber[]) {
+    const nodes = this._nodesSeriesData.getLatestData();
+    const specifyValue = array(value)[0];
+    return nodes && nodes.find((node: SankeyNodeElement) => node.key === specifyValue);
+  }
+
+  valueToLink(value: StringOrNumber | StringOrNumber[]) {
+    const links = this._linksSeriesData.getLatestData();
+    const specifyValue = array(value);
+
+    return (
+      links &&
+      links.find(
+        (link: SankeyLinkElement) => link && link.source === specifyValue[0] && link.target === specifyValue[1]
+      )
+    );
+  }
+
+  valueToPositionX(value: StringOrNumber | StringOrNumber[]) {
+    const node = this.valueToNode(value);
+
+    return node.x0;
+  }
+  valueToPositionY(value: StringOrNumber | StringOrNumber[]) {
+    const node = this.valueToNode(value);
+
+    return node.y0;
   }
 
   initMarkStyle(): void {
@@ -286,10 +324,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             return fill;
           }
 
-          const sourceName =
-            this._spec.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
-              ? datum.source
-              : this.getNodeList()[datum.source];
+          const sourceName = isNumber(datum.source) ? this.getNodeList()[datum.source] : datum.source;
           return this._colorScale?.scale(sourceName);
         },
         direction: this._spec.direction ?? 'horizontal'
@@ -544,26 +579,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
     // 没有关闭交互时，才增加这些交互事件
     if (this._option.disableTriggerEvent !== true) {
-      if (emphasisSpec.enable && emphasisSpec.effect === 'adjacency') {
-        if (emphasisSpec.trigger === 'hover') {
-          // 浮动事件
-          this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
-        } else {
-          // emphasisSpec.trigger === 'click'
-          // 点击事件
-          this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
-        }
-      }
+      if (emphasisSpec.enable && (emphasisSpec.effect === 'adjacency' || emphasisSpec.effect === 'related')) {
+        const event = emphasisSpec.trigger === 'hover' ? 'pointerover' : 'pointerdown';
 
-      if (emphasisSpec.enable && emphasisSpec.effect === 'related') {
-        if (emphasisSpec.trigger === 'hover') {
-          // 浮动事件
-          this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
-        } else {
-          // emphasisSpec.trigger === 'click'
-          // 点击事件
-          this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
-        }
+        this.event.on(event, { level: Event_Bubble_Level.chart }, this._handleEmphasisElement);
       }
     }
   }
@@ -578,58 +597,58 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._linksSeriesData.updateData();
   }
 
-  protected _handleAdjacencyClick = (params: ExtendEventParam) => {
-    const element = params.item;
-    if (element && element.mark.id().includes('node')) {
-      this._handleNodeAdjacencyClick(element);
-    } else if (element && element.mark.id().includes('link')) {
-      this._handleLinkAdjacencyClick(element);
-    } else {
-      this._handleClearEmpty();
-    }
-  };
+  protected _handleEmphasisElement = (params: ExtendEventParam) => {
+    const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
 
-  protected _handleRelatedClick = (params: ExtendEventParam) => {
     const element = params.item;
-    if (element && element.mark.id().includes('node')) {
-      this._handleNodeRelatedClick(element);
-    } else if (element && element.mark.id().includes('link')) {
-      this._handleLinkRelatedClick(element);
-    } else {
-      this._handleClearEmpty();
+
+    if (emphasisSpec.effect === 'adjacency') {
+      if (element && element.mark.id().includes('node')) {
+        this._handleNodeAdjacencyClick(element);
+      } else if (element && element.mark.id().includes('link')) {
+        this._handleLinkAdjacencyClick(element);
+      } else {
+        this._handleClearEmpty();
+      }
+    } else if (emphasisSpec.effect === 'related') {
+      if (element && element.mark.id().includes('node')) {
+        this._handleNodeRelatedClick(element);
+      } else if (element && element.mark.id().includes('link')) {
+        this._handleLinkRelatedClick(element);
+      } else {
+        this._handleClearEmpty();
+      }
     }
   };
 
   protected _handleClearEmpty = () => {
-    const nodeVGrammarMark = this._nodeMark.getProduct();
+    const allNodeElements = this._nodeMark?.getProductElements();
 
-    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+    if (!allNodeElements || !allNodeElements.length) {
       return;
     }
-    const allNodeElements = nodeVGrammarMark.elements;
 
-    const linkVGrammarMark = this._linkMark.getProduct();
+    const allLinkElements = this._linkMark?.getProductElements();
 
-    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+    if (!allLinkElements || !allLinkElements.length) {
       return;
     }
-    const allLinkElements = linkVGrammarMark.elements;
 
-    const labelVGrammarMark = this._labelMark.getProduct();
+    const allLabelElements = this._labelMark?.getProductElements();
 
-    if (!labelVGrammarMark || !labelVGrammarMark.elements || !labelVGrammarMark.elements.length) {
+    if (!allLabelElements || !allLabelElements.length) {
       return;
     }
-    const allLabelElements = labelVGrammarMark.elements;
+    const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
 
     allNodeElements.forEach(el => {
-      el.clearStates();
+      el.removeState(states);
     });
     allLinkElements.forEach(el => {
-      el.clearStates();
+      el.removeState(states);
     });
     allLabelElements.forEach(el => {
-      el.clearStates();
+      el.removeState(states);
     });
   };
 
@@ -638,15 +657,13 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const highlightNodes: string[] = [nodeDatum.key];
 
     if (this._linkMark) {
-      const vGrammarMark = this._linkMark.getProduct();
+      const allLinkElements = this._linkMark.getProductElements();
 
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+      if (!allLinkElements || !allLinkElements.length) {
         return;
       }
-      const allLinkElements = vGrammarMark.elements;
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
-        linkEl.clearStates();
         const linkDatum = linkEl.getDatum();
         const father = linkDatum?.parents ? 'parents' : 'source';
         if (array(linkDatum[father]).includes(nodeDatum.key)) {
@@ -672,52 +689,27 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             ratio = val / linkDatum.value;
           }
 
-          linkEl.addState('selected', { ratio });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
         } else if (linkDatum.target === nodeDatum.key) {
           // 上游link
           if (!highlightNodes.includes(linkDatum.source)) {
             highlightNodes.push(linkDatum.source);
           }
         } else {
-          linkEl.useStates(['blur']);
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
         }
       });
     }
 
     if (this._nodeMark) {
-      const vGrammarMark = this._nodeMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allNodeElements = vGrammarMark.elements;
-
-      allNodeElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
 
     if (this._labelMark) {
-      const vGrammarMark = this._labelMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLabelElements = vGrammarMark.elements;
-
-      allLabelElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
     }
   };
 
@@ -726,76 +718,43 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
 
     if (this._linkMark) {
-      const vGrammarMark = this._linkMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+      const allLinkElements = this._linkMark.getProductElements();
+      if (!allLinkElements || !allLinkElements.length) {
         return;
       }
-      const allLinkElements = vGrammarMark.elements;
-
       allLinkElements.forEach(linkEl => {
-        linkEl.clearStates();
-
         if (linkEl === element) {
-          linkEl.addState('selected', { ratio: 1 });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
         } else {
-          linkEl.useStates(['blur']);
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
         }
       });
     }
 
     if (this._nodeMark) {
-      const vGrammarMark = this._nodeMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allNodeElements = vGrammarMark.elements;
-
-      allNodeElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
 
     if (this._labelMark) {
-      const vGrammarMark = this._labelMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLabelElements = vGrammarMark.elements;
-
-      allLabelElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
     }
   };
 
   protected _handleNodeRelatedClick = (element: IElement) => {
     const nodeDatum = element.getDatum();
-    const nodeVGrammarMark = this._nodeMark.getProduct();
+    const allNodeElements = this._nodeMark.getProductElements();
 
-    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+    if (!allNodeElements || !allNodeElements.length) {
       return;
     }
-    const allNodeElements = nodeVGrammarMark.elements;
 
-    const linkVGrammarMark = this._linkMark.getProduct();
+    const allLinkElements = this._linkMark.getProductElements();
 
-    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+    if (!allLinkElements || !allLinkElements.length) {
       return;
     }
-    const allLinkElements = linkVGrammarMark.elements;
 
     const father = allLinkElements[0].getDatum()?.parents ? 'parents' : 'source';
 
@@ -805,7 +764,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       const highlightLinks: string[] = [];
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
-        linkEl.clearStates();
         const linkDatum = linkEl.getDatum();
         const father = linkDatum?.parents ? 'parents' : 'source';
 
@@ -888,57 +846,29 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       if (this._linkMark) {
-        const vGrammarMark = this._linkMark.getProduct();
+        const allLinkElements = this._linkMark.getProductElements();
 
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+        if (!allLinkElements || !allLinkElements.length) {
           return;
         }
-        const allLinkElements = vGrammarMark.elements;
 
         allLinkElements.forEach((linkEl: IElement, i: number) => {
-          linkEl.clearStates();
           if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
-            linkEl.useStates(['selected']);
+            linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
           } else {
-            linkEl.useStates(['blur']);
+            linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
           }
         });
       }
 
       if (this._nodeMark) {
-        const vGrammarMark = this._nodeMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allNodeElements = vGrammarMark.elements;
-
-        allNodeElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
 
       if (this._labelMark) {
-        const vGrammarMark = this._labelMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allLabelElements = vGrammarMark.elements;
-
-        allLabelElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
       }
     } else {
       // 层级型数据
@@ -972,7 +902,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       }, []);
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
-        linkEl.clearStates();
         const linkDatum = linkEl.getDatum();
         const father = linkDatum?.parents ? 'parents' : 'source';
         const originalDatum = linkDatum.datum;
@@ -999,8 +928,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }, 0);
           const ratio = val / linkDatum.value;
 
-          linkEl.useStates(['selected']);
-          linkEl.addState('selected', { ratio });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
 
           return;
         }
@@ -1015,102 +945,63 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             highlightNodes.push(linkDatum.target);
           }
 
-          linkEl.useStates(['selected']);
-          linkEl.addState('selected', { ratio: upSelectedLink.value / linkDatum.value });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
 
           return;
         }
 
-        linkEl.useStates(['blur']);
+        linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
 
         return;
       });
 
       if (this._nodeMark) {
-        const vGrammarMark = this._nodeMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allNodeElements = vGrammarMark.elements;
-
-        allNodeElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
 
       if (this._labelMark) {
-        const vGrammarMark = this._labelMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allLabelElements = vGrammarMark.elements;
-
-        allLabelElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
       }
     }
   };
 
   protected _handleLinkRelatedClick = (element: IGlyphElement) => {
-    const nodeVGrammarMark = this._nodeMark.getProduct();
+    const allNodeElements = this._nodeMark.getProductElements();
 
-    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+    if (!allNodeElements || !allNodeElements.length) {
       return;
     }
-    const allNodeElements = nodeVGrammarMark.elements;
+    const allLinkElements = this._linkMark.getProductElements();
 
-    const linkVGrammarMark = this._linkMark.getProduct();
-
-    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+    if (!allLinkElements || !allLinkElements.length) {
       return;
     }
-    const allLinkElements = linkVGrammarMark.elements;
 
     const father = element.getDatum()?.parents ? 'parents' : 'source';
     if (father === 'source') {
+      const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
       if (this._linkMark) {
-        const vGrammarMark = this._linkMark.getProduct();
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allLinkElements = vGrammarMark.elements;
         allLinkElements.forEach(linkEl => {
-          linkEl.clearStates();
+          linkEl.removeState(states);
         });
       }
 
       if (this._nodeMark) {
-        const vGrammarMark = this._nodeMark.getProduct();
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allNodeElements = vGrammarMark.elements;
         allNodeElements.forEach(el => {
-          el.clearStates();
+          el.removeState(states);
         });
       }
 
       if (this._labelMark) {
-        const vGrammarMark = this._labelMark.getProduct();
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+        const allLabelElements = this._labelMark.getProductElements();
+        if (!allLabelElements || !allLabelElements.length) {
           return;
         }
-        const allLabelElements = vGrammarMark.elements;
         allLabelElements.forEach(el => {
-          el.clearStates();
+          el.removeState(states);
         });
       }
     } else {
@@ -1147,14 +1038,13 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       allLinkElements.forEach(linkEl => {
-        linkEl.clearStates();
         const linkDatum = linkEl.getDatum();
         const originalDatum = linkDatum.datum;
 
         if (linkDatum.source === curLinkDatum.source && linkDatum.target === curLinkDatum.target) {
           // 自身
-          linkEl.useStates(['selected']);
-          linkEl.addState('selected', { ratio: 1 });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
           return;
         }
 
@@ -1186,8 +1076,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             }, 0);
           const ratio = val / linkDatum.value;
 
-          linkEl.useStates(['selected']);
-          linkEl.addState('selected', { ratio });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
 
           return;
         }
@@ -1204,44 +1095,41 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           if (!highlightNodes.includes(linkDatum.target)) {
             highlightNodes.push(linkDatum.target);
           }
-          linkEl.useStates(['selected']);
-          linkEl.addState('selected', { ratio: upSelectedLink.value / linkDatum.value });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
 
           return;
         }
-        linkEl.useStates(['blur']);
+        linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
 
         return;
       });
 
-      allNodeElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(allNodeElements, highlightNodes);
 
       if (this._labelMark) {
-        const vGrammarMark = this._labelMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allLabelElements = vGrammarMark.elements;
-
-        allLabelElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
       }
     }
   };
+
+  protected _highLightElements(vGrammarElements: IVgrammarMark['elements'], highlightNodes: string[]) {
+    if (!vGrammarElements || !vGrammarElements.length) {
+      return;
+    }
+
+    vGrammarElements.forEach(el => {
+      el.removeState([STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]);
+
+      if (highlightNodes.includes(el.getDatum().key)) {
+        //
+      } else {
+        el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+      }
+    });
+  }
 
   protected initTooltip() {
     this._tooltipHelper = new SankeySeriesTooltipHelper(this);
@@ -1288,13 +1176,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   getNodeList() {
-    const nodeList = this._rawData.latestData[0]?.nodes
-      ? this._rawData.latestData[0].nodes[0]?.children
-        ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes, this._spec.categoryField))
-        : this._rawData.latestData[0].nodes.map((datum: Datum, index: number) => {
+    const data = this._rawData.latestData[0];
+
+    const nodeList = data?.nodes
+      ? data.nodes[0]?.children
+        ? Array.from(this.extractNamesFromTree(data.nodes, this._spec.categoryField))
+        : data.nodes.map((datum: Datum, index: number) => {
             return datum[this._spec.categoryField];
           })
-      : this._rawData.latestData[0]?.values.map((datum: Datum, index: number) => {
+      : data?.links
+      ? Array.from(this.extractNamesFromLink(data.links))
+      : data?.values.map((datum: Datum, index: number) => {
           return datum[this._spec.categoryField];
         });
 
@@ -1302,7 +1194,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   _getNodeNameFromData(datum: Datum) {
-    return datum?.datum ? datum?.datum[this._spec.categoryField] : datum[this._spec.categoryField];
+    return datum?.datum ? datum.datum[this._spec.categoryField] : datum.key ?? datum[this._spec.categoryField];
   }
 
   extractNamesFromTree(tree: any, categoryName: string) {
@@ -1319,6 +1211,20 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         const childNames = this.extractNamesFromTree(node.children, categoryName);
         childNames.forEach(name => uniqueNames.add(name));
       }
+    });
+
+    return uniqueNames;
+  }
+
+  extractNamesFromLink(links: any[]) {
+    // Set 用于存储唯一的 name 值
+    const uniqueNames = new Set();
+    const { sourceField, targetField } = this._spec;
+
+    // 遍历所有的边
+    links.forEach((link: any) => {
+      isValid(link[sourceField]) && uniqueNames.add(link[sourceField]);
+      isValid(link[targetField]) && uniqueNames.add(link[targetField]);
     });
 
     return uniqueNames;
@@ -1387,8 +1293,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     // calculate the sankeyLayout
     this.getViewData().reRunAllTransform();
-    this._nodesSeriesData.updateData();
-    this._linksSeriesData.updateData();
   }
 
   getDefaultShapeType(): string {

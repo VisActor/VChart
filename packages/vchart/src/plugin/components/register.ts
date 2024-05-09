@@ -1,4 +1,4 @@
-import { Factory } from '../../core';
+import { Factory } from '../../core/factory';
 import type { IComponentPluginConstructor } from './interface';
 
 export const registerComponentPlugin = (plugin: IComponentPluginConstructor) => {

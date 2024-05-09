@@ -58,4 +58,6 @@
 
 {{import: chart-liquid}}
 
+{{import: chart-venn}}
+
 {{import: chart-common}}

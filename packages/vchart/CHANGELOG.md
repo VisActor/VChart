@@ -1,6 +1,132 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 26 Mar 2024 03:13:22 GMT and should not be manually modified.
+This log was last generated on Wed, 08 May 2024 11:01:15 GMT and should not be manually modified.
+
+## 1.11.0
+Wed, 08 May 2024 11:01:15 GMT
+
+### Updates
+
+- fix(wordCloud): wordCloud layout error and color scale error when updateData. fix#2605'
+- fix: fix error of position when update viewBox
+
+
+- fix(scroll): scroll not work in ios. fix#1224
+- fix: fix range-column-chart spec
+
+
+- feat: support `animation` config of custom-mark
+
+
+- feat: legend should keep unselected when update spec or data, fix #2531, related #2443
+
+
+- feat(marker): marker enhance about state and animation and support polar and geo axis. close#1165
+- fix(marker): fix mark point position about offset. fix#2579
+- feat(marker): add interactive event listener of marker. close#2248
+- feat(marker): add config about custom data of all relative series. close#2183
+- chore: upgrade dependencies
+
+
+- feat: support data update when spec is same in react-vchart
+
+
+- feat: support `softMin` and `softMax` in linear-axis, close #2498
+
+
+- feat: add new properties `tooltipSpec` and `tooltipActual` to tooltip event params, related #2454
+- feat: add `othersLine` to customize the the "Others" line content displayed after the tooltip content exceeds the maximum number of displayed lines
+- feat: the new chart type venn chart, related #2144
+- feat: enhanced capabilities for waterfall chart total label
+
+
+- fix: extension-mark should update when data is update
+
+
+- fix: duplicated categoryField data in funnel will result to unexpected rendering result
+- fix: the x-axis and y-axis of scatter can be band-axis
+
+
+- fix: vchart should not remake of same spec
+
+
+- fix: fixed the problem that when the label of the sankey chart is hidden, an error will be reported when clicking on the blank space
+
+
+- feat: add api of `clearState()`, `clearSelected()`, `clearHovered()`, fix #2552
+
+
+- fix: fix the issue of scatter when the legend switch visible encode, close #2625
+
+
+- fix: fix the trigger off of default select interactions
+
+
+- refactor: react-vchart will require component by need by default
+- refactor: remove built-in simplify data transform
+- feat: support `simplify.tolerance` config in `registerMap` API 
+
+## 1.10.5
+Thu, 25 Apr 2024 11:57:23 GMT
+
+### Updates
+
+- fix(datazoom): when drag start and end handler outside, min and max span not work. fix#2559
+- feat: player support play when hidden. feat#2524
+- fix: fix domain of continuous legend when specify seriesId or seriesIndex
+
+
+- fix: fix eventsBinded update in react-vchart
+- fix(scrollbar): label position not align with mark. fix#2534
+- fix(scrollbar): enable bubble when scroll to boundary. fix#2521
+- fix: fix error of update theme when series reduce
+
+
+- perf: optimize the performance of pie chart, fix #2568
+
+
+
+## 1.10.4
+Wed, 03 Apr 2024 09:30:23 GMT
+
+### Updates
+
+- fix: axis unit in wrong position when hiding the axis domainLine
+- fix: fix issue of the order of data is not uniform in stack
+
+
+- feat: increase chart stacking capabilities, provide stackSort to support sorting when stacking
+
+
+-  fix: type defination of markArea & markPoint in common chart
+- fix: formatMethod of crosshair label runs multiple times, related #2501
+- fix: crosshair can't move when axis domain is very small, related #2492
+- fix: `updateDataSync` produces inconsistent results compared to direct drawing, related #2503
+- refactor: add event params `vchart`, which will updated in lifecycle events, close #2502
+
+
+
+## 1.10.3
+Thu, 28 Mar 2024 07:09:45 GMT
+
+### Updates
+
+- fix: tooltip cliped if set border width. fix#2471
+- feat: support interaction events of `element-select` and `element-highlight`
+
+
+- fix: `lineWidth` is invalid in rect-type-crosshair, related #2432
+- fix: should use `series.getMarkInName` to get the mark for total label's caculation, fixed #2448
+- fix: fix the issue of event trigger count after `updateSpecSync()`
+- fix: map data will not show if not configured in nameMap
+- feat: support `showDefaultName` in map chart to display unmatched name in map data
+- fix: axis label missing in the sampled angle axis, related #2439
+- fix: tooltip cliped if set border width. fix#2471
+- fix: fix radar chart clipAngle animation error when loading on demand.
+- fix: fix the release order of _eventDispatcher
+
+
+- fix: should use series's _seriesMark to calculate total mark, not all series mark names are the same as series.type
 
 ## 1.10.2
 Tue, 26 Mar 2024 03:13:22 GMT

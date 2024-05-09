@@ -161,7 +161,7 @@ export class GridLayout implements IBaseLayout {
     return result;
   }
 
-  protected getSizeFromGird(spec: ElementSpec, type: 'col' | 'row'): number | undefined {
+  protected getSizeFromGrid(spec: ElementSpec, type: 'col' | 'row'): number | undefined {
     const sizeList = type === 'col' ? this._colSize : this._rowSize;
     let result = 0;
     for (let index = spec[type]; index < spec[type] + (spec[`${type}Span`] ?? 1); index++) {
@@ -249,11 +249,11 @@ export class GridLayout implements IBaseLayout {
     // 先设置空间
     const rect = {
       width:
-        (this.getSizeFromGird(gridSpec, 'col') ?? this._chartLayoutRect.width) -
+        (this.getSizeFromGrid(gridSpec, 'col') ?? this._chartLayoutRect.width) -
         item.layoutPaddingLeft -
         item.layoutPaddingRight,
       height:
-        (this.getSizeFromGird(gridSpec, 'row') ?? this._chartLayoutRect.height) -
+        (this.getSizeFromGrid(gridSpec, 'row') ?? this._chartLayoutRect.height) -
         item.layoutPaddingTop -
         item.layoutPaddingBottom
     };
@@ -334,9 +334,9 @@ export class GridLayout implements IBaseLayout {
 
   protected layoutOneItem(item: ILayoutItem, sizeType: 'user' | 'grid' | 'colGrid' | 'rowGrid', ignoreTag: boolean) {
     const sizeCallRow =
-      sizeType === 'rowGrid' || sizeType === 'grid' ? this.getSizeFromGird.bind(this) : this.getSizeFromUser.bind(this);
+      sizeType === 'rowGrid' || sizeType === 'grid' ? this.getSizeFromGrid.bind(this) : this.getSizeFromUser.bind(this);
     const sizeCallCol =
-      sizeType === 'colGrid' || sizeType === 'grid' ? this.getSizeFromGird.bind(this) : this.getSizeFromUser.bind(this);
+      sizeType === 'colGrid' || sizeType === 'grid' ? this.getSizeFromGrid.bind(this) : this.getSizeFromUser.bind(this);
     // 先获取 item 的 grid 信息
     const gridSpec = this.getItemGridInfo(item);
     // 先设置空间

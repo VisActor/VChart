@@ -9,13 +9,19 @@ Whether the current line is displayed.
 {{ if: ${content} }}
 #${prefix} key(string|Function)
 
-The content of the key column for the current line of the tooltip. If configured as a string, it will be displayed as the corresponding constant text. It can also be configured as a function callback, with the type:
+The content of the key column for the current line of the tooltip. If configured as a string, it will be displayed as the corresponding constant text.
+
+{{ if: ${supportFunction} }}
+
+It can also be configured as a function callback, with the type:
 
 ```ts
 (datum: Datum) => string;
 ```
 
 Where `datum` is the default data item corresponding to the current line of the tooltip.
+
+{{ /if }}
 
 #${prefix} keyTimeFormat(string) = '%Y%m%d'
 
@@ -65,6 +71,8 @@ It can also be configured as rich text configuration, the type is:
 }
 ```
 
+{{ if: ${supportFunction} }}
+
 It can also be configured as a function callback, the type is:
 
 ```ts
@@ -72,6 +80,8 @@ It can also be configured as a function callback, the type is:
 ```
 
 Where `datum` is the default data item corresponding to the current line of the tooltip.
+
+{{ /if }}
 
 #${prefix} valueTimeFormat(string) = '%Y%m%d'
 
@@ -100,9 +110,20 @@ Time conversion mode of value label. Support `'utc' | 'local'` mode.
 
 {{ if: ${content} }}
 
+{{ if: ${supportFunction} }}
+
 {{ use: component-tooltip-shape-pattern(
   prefix = ${prefix},
   type = 'pattern'
 ) }}
+
+{{ else }}
+
+{{ use: component-tooltip-shape-pattern(
+  prefix = ${prefix},
+  type = 'style'
+) }}
+
+{{ /if }}
 
 {{ /if }}

@@ -8,7 +8,6 @@ import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 import { Factory } from '../../../core/factory';
-import { mergeSpec } from '../../../util/spec/merge-spec';
 import { eachSeries } from '../../../util/model';
 import { polarToCartesian } from '../../../util/math';
 import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
@@ -17,7 +16,6 @@ import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';
 import { isPolarAxisSeries } from '../../../series/util/utils';
 import { getAxisItem, getAxisLabelOffset, isValidPolarAxis } from '../util';
-
 import type { Dict, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { PointService, degreeToRadian, isValid, isArray, isValidNumber } from '@visactor/vutils';
@@ -26,6 +24,8 @@ import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import { getPolarAxisInfo } from './util';
+// eslint-disable-next-line no-duplicate-imports
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
   extends AxisComponent<T>
@@ -193,17 +193,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return region ? region.getLayoutStartPoint() : pos;
   };
 
-  onLayoutEnd(ctx: any): void {
-    const isChanged = this.updateScaleRange();
-
-    if (isChanged) {
-      this.updateSeriesScale();
-      this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
-    }
-
-    super.onLayoutEnd(ctx);
-  }
-
   onRender(ctx: any): void {
     // do nothing
   }
@@ -215,10 +204,11 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   protected _tickTransformOption() {
     return {
       ...super._tickTransformOption(),
-      noDecimal: this._tick.noDecimals,
+      noDecimal: this._tick?.noDecimals,
       startAngle: this.startAngle,
       labelOffset: getAxisLabelOffset(this._spec),
-      getRadius: () => this.getOuterRadius()
+      getRadius: () => this.getOuterRadius(),
+      inside: this._spec.inside
     } as IPolarTickDataOpt;
   }
 

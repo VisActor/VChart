@@ -3,19 +3,14 @@ import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
-import type { ITooltipHandler, ITooltipLineActual, TooltipActiveType } from '../../typings/tooltip';
+import type { ITooltipHandler, TooltipActiveType } from '../../typings/tooltip';
 import type { Datum, IShowTooltipOption } from '../../typings';
 import type { ITooltip, ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams, TotalMouseEventData } from './interface';
 import { TooltipResult } from './interface/common';
-import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
-import { MarkTooltipProcessor } from './processor/mark-tooltip';
+import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
 import type { Maybe } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
-export type TooltipActualTitleContent = {
-    title?: ITooltipLineActual;
-    content?: ITooltipLineActual[];
-};
 export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected layoutZIndex: number;
     static type: ComponentTypeEnum;
@@ -29,11 +24,12 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _spec: ITooltipSpec;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     tooltipHandler?: ITooltipHandler;
+    processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor, GroupTooltipProcessor>;
     private _alwaysShow;
     private _cacheInfo;
     private _cacheParams;
+    private _cacheActiveType;
     private _eventList;
-    protected _processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor>;
     protected _isTooltipShown: boolean;
     protected _clickLock: boolean;
     isTooltipShown(): boolean;

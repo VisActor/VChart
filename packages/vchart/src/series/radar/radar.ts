@@ -22,6 +22,7 @@ import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
+import { registerPolarBandAxis, registerPolarLinearAxis } from '../../component/axis/polar';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
@@ -147,10 +148,19 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 
   protected initTooltip() {
     super.initTooltip();
-
-    this._lineMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._lineMark);
-    this._symbolMark && this._tooltipHelper.activeTriggerSet.mark.add(this._symbolMark);
-    this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
+    const { dimension, group, mark } = this._tooltipHelper.activeTriggerSet;
+    if (this._lineMark) {
+      dimension.add(this._lineMark);
+      group.add(this._lineMark);
+    }
+    if (this._areaMark) {
+      dimension.add(this._areaMark);
+      group.add(this._areaMark);
+    }
+    if (this._symbolMark) {
+      mark.add(this._symbolMark);
+      group.add(this._symbolMark);
+    }
   }
 
   initAnimation() {
@@ -225,10 +235,12 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 mixin(RadarSeries, LineLikeSeriesMixin);
 
 export const registerRadarSeries = () => {
+  Factory.registerSeries(RadarSeries.type, RadarSeries);
   registerMarkOverlapTransform();
   registerAreaMark();
   registerLineMark();
   registerSymbolMark();
   registerRadarAnimation();
-  Factory.registerSeries(RadarSeries.type, RadarSeries);
+  registerPolarBandAxis();
+  registerPolarLinearAxis();
 };

@@ -10,19 +10,19 @@
 
 富文本容器高度。
 
-#${prefix} ellipsis(boolean|string)
+#${prefix} maxHeight(number) = Infinity
+
+最大高度
+
+#${prefix} maxWidth(number) = Infinity
+
+最大宽度
+
+#${prefix} ellipsis(boolean|string) = false
 
 超出容器范围后文字的省略方式。
 
-#${prefix} suffixPosition(string) = 'end'
-
-自 `1.7.3` 版本开始支持，用于配置文本省略的位置，默认尾部省略。
-
-- 'start' 文字首部省略
-- 'middle' 文本中间省略
-- 'end' 文本尾部省略
-
-#${prefix} wordBreak(string)
+#${prefix} wordBreak(string) = 'break-all'
 
 富文本文字折行方式。
 
@@ -69,7 +69,7 @@
 - `'middle'`
 - `'bottom'`
 
-#${prefix} layoutDirection(string)
+#${prefix} layoutDirection(string) = 'horizontal'
 
 富文本文字排列方向。
 
@@ -77,6 +77,10 @@
 
 - `'horizontal'`: 横排
 - `'vertical'`: 纵排
+
+#${prefix} singleLine(boolean) = false
+
+富文本是否单行排列。
 
 #${prefix} textConfig(Array)
 
@@ -86,10 +90,56 @@
   prefix = '#' + ${prefix},
 ) }}
 
-#${prefix} singleLine(boolean)
+<!-- 支持部分文字常规配置，会被 textConfig 继承 -->
 
-富文本是否单行排列。
+#${prefix} fontSize(number)
 
-{{ use: graphic-attribute(
-  prefix = '#' + ${prefix},
-) }}
+字号。配置于所有文字段落的，会被 `textConfig` 中的配置覆盖。
+
+#${prefix} fontFamily(string)
+
+字体。。配置于所有文字段落的，会被 `textConfig` 中的配置覆盖。
+
+#${prefix} fontWeight(string|number)
+
+文字字体的粗细。配置于所有文字段落的，会被 `textConfig` 中的配置覆盖。
+
+可选：
+
+- `'normal'`
+- `'bold'`
+- `'bolder'`
+- `'lighter'`
+- `100 | 200 | 300 | 400`...
+
+#${prefix} fontStyle(string) = 'normal'
+
+文字字体的风格。
+
+可选：
+
+- `'normal'`
+- `'italic'`
+- `'oblique'`
+
+#${prefix} fill(string)
+
+填充颜色。支持使用 `rgb(255,255,255)`，`rgba(255,255,255,1)`，`#fff` 等方式设置为纯色。
+配置于所有文字段落的，会被 `textConfig` 中的配置覆盖。
+
+#${prefix} stroke(string)
+
+描边颜色。支持使用 `'rgb(255,255,255)'`，`'rgba(255,255,255,1)'`，`'#fff'` 等方式设置为纯色。
+配置于所有文字段落的，会被 `textConfig` 中的配置覆盖。
+
+#${prefix} lineWidth(number)
+
+描边宽度。配置于所有文字段落的，会被 `textConfig` 中的配置覆盖。
+
+#${prefix} fillOpacity(number)
+
+填充透明度。配置于所有文字段落的，会被 `textConfig` 中的配置覆盖。
+
+#${prefix} strokeOpacity(number)
+
+描边透明度。配置于所有文字段落的，会被 `textConfig` 中的配置覆盖。

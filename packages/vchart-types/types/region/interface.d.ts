@@ -13,6 +13,7 @@ export interface IRegion extends ILayoutModel {
     animate?: IAnimate;
     interaction: IInteraction;
     getStackInverse: () => boolean;
+    getStackSort: () => boolean;
     getMaxWidth: () => number | undefined;
     setMaxWidth: (value: number) => void;
     getMaxHeight: () => number | undefined;
@@ -48,6 +49,7 @@ export interface IRegionSpec extends ILayoutItemSpec {
     coordinate?: CoordinateType;
     style?: ConvertToMarkStyleSpec<IRectMarkSpec>;
     stackInverse?: boolean;
+    stackSort?: boolean;
 }
 export interface IGeoRegionSpec extends IRegionSpec {
     coordinate?: 'geo';

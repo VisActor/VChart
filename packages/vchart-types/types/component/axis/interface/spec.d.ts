@@ -18,6 +18,8 @@ export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center
 export interface ILinearAxisSpec {
     min?: number;
     max?: number;
+    softMin?: number | ((domain: number[]) => number);
+    softMax?: number | ((domain: number[]) => number);
     range?: {
         min?: number;
         max?: number;

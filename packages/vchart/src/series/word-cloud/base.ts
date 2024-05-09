@@ -29,12 +29,7 @@ import type { Datum, IPoint } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
-import {
-  WORD_CLOUD_ANGLE,
-  WORD_CLOUD_FILLING_ANGLE,
-  WORD_CLOUD_TEXT,
-  WORD_CLOUD_WEIGHT
-} from '../../constant/word-cloud';
+import { WORD_CLOUD_TEXT, WORD_CLOUD_WEIGHT } from '../../constant/word-cloud';
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
@@ -91,6 +86,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _keyWordColorCallback: (datum: Datum) => string;
   protected _fillingColorCallback: (datum: Datum) => string;
 
+  protected _dataChange: boolean = true;
+
   /**
    * @override
    */
@@ -135,6 +132,18 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
     this._isWordCloudShape = !SHAPE_TYPE.includes(this._maskShape);
     this._defaultFontFamily = this._option.getTheme().fontFamily as string;
+  }
+
+  /**
+   * @override
+   */
+  protected initData(): void {
+    super.initData();
+    // data改变时, 需要重新编译, 重新布局
+    this.getViewData()?.target?.addListener('change', () => {
+      this._dataChange = true;
+      this.compile();
+    });
   }
 
   protected _wordMark: ITextMark;
@@ -235,7 +244,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   getWordColor = (datum: Datum) => {
     if (datum.isFillingWord) {
-      if (!this._fillingColorCallback) {
+      if (!this._fillingColorCallback || this._dataChange) {
+        // 如果updateData数据变更了, 颜色映射也需要重新计算
         this._fillingColorCallback = this._wordCloudShapeConfig.fillingColorHexField
           ? (datum: Datum) => datum[this._wordCloudShapeConfig.fillingColorHexField]
           : this.initColorCallback(this._wordCloudShapeConfig.fillingSeriesField, true);
@@ -244,7 +254,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       return this._fillingColorCallback(datum);
     }
 
-    if (!this._keyWordColorCallback) {
+    if (!this._keyWordColorCallback || this._dataChange) {
+      // 如果updateData数据变更了, 颜色映射也需要重新计算
       this._keyWordColorCallback = this._colorHexField
         ? datum => datum[this._colorHexField]
         : this.initColorCallback(this._seriesField, false);
@@ -265,8 +276,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     const valueField = this._valueField;
     const valueScale = new LinearScale();
     const fontWeightRange = this._fontWeightRange;
-    const rotateAngles = this._rotateAngles;
-    const fillingRotateAngles = this._wordCloudShapeConfig.fillingRotateAngles;
 
     // fontWeight处理
     if (valueField) {
@@ -284,21 +293,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       });
     }
 
-    // rotateAngles处理
-    wordCloudTransforms.push({
-      type: 'map',
-      as: WORD_CLOUD_ANGLE,
-      callback: () => {
-        return rotateAngles[Math.floor(Math.random() * rotateAngles.length)];
-      }
-    });
-    wordCloudTransforms.push({
-      type: 'map',
-      as: WORD_CLOUD_FILLING_ANGLE,
-      callback: () => {
-        return fillingRotateAngles[Math.floor(Math.random() * fillingRotateAngles.length)];
-      }
-    });
     const wordSpec = this._spec.word ?? {};
 
     // text fromat method 处理
@@ -344,7 +338,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
       fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange,
       padding: this._fontPadding,
-      rotate: { field: WORD_CLOUD_ANGLE },
+      rotate: this._rotateAngles,
       fontFamily: this._fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
       fontWeight: this._fontWeightField
         ? { field: this._fontWeightField }
@@ -459,6 +453,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this.compile();
+    this._dataChange = false;
   }
 
   getActiveMarks(): IMark[] {

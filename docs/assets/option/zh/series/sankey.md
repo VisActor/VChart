@@ -157,6 +157,35 @@ node 节点样式配置。
 
 自定义指定节点层。
 
+#${prefix} dropIsolatedNode(Boolean)
+
+自`1.11.0` 版本开始支持
+是否丢弃孤立的节点
+
+#${prefix} nodeHeight(number | function)
+
+自`1.11.0` 版本开始支持
+给节点设置指定的高度（布局方向为`vertical`时，对应了宽度）
+
+#${prefix} linkHeight(number | function)
+
+自`1.11.0` 版本开始支持
+给边设置指定的高度（布局方向为`vertical`时，对应了宽度）
+
+#${prefix} equalNodeHeight(boolean)
+
+自`1.11.0` 版本开始支持
+给所有的节点设置统一的高度（布局方向为`vertical`时，对应了宽度），根据画布高度以及节点的个数，自定计算;
+
+#${prefix} linkOverlap('start' | 'center' | 'end')
+
+自`1.11.0` 版本开始支持
+当设置了该配置，同一节点下的不同边按照重叠的方式布局：
+
+- 'start' 所有的边和节点的起点重合
+- 'center' 所有的边和节点的中间点重合
+- 'end' 所有的边和节点的终点重合
+
 #${prefix} emphasis(Object)
 
 联动交互配置。

@@ -2,6 +2,7 @@ import { ticks } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
+// eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
@@ -18,7 +19,8 @@ import { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
 import { eachSeries, getSeries } from '../../util/model';
-import { mergeSpec } from '../../util/spec/merge-spec';
+// eslint-disable-next-line no-duplicate-imports
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent, LayoutZIndex } from '../../constant';
 import { animationConfig } from '../../animation/utils';
@@ -116,6 +118,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected abstract updateSeriesScale(): void;
   protected abstract collectSeriesField(depth: number, series: ISeries): string | string[];
   abstract transformScaleDomain(): void;
+  protected abstract updateScaleRange(): boolean;
 
   protected _dataFieldText: string;
   protected _axisMark: IComponentMark;
@@ -359,6 +362,14 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // 留给各个类型的 axis 来 override
   }
 
+  onLayoutEnd(ctx: any): void {
+    const changed = this.updateScaleRange();
+
+    this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
+
+    super.onLayoutEnd(ctx);
+  }
+
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
     if (this._tickData && this._tickData.length && (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))) {
       this._tickData.forEach(tickData => {
@@ -396,6 +407,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
     result.reRender = true;
+    /**
+     * 存在轴同步相关配置的时候，暂时通过`reMake`触发更新
+     */
     if (prevSpec?.type !== spec?.type) {
       result.reMake = true;
       return result;

@@ -10,6 +10,7 @@ import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_E
 import type { SeriesType } from '../series/interface';
 import type { TooltipEventParams } from '../component/tooltip/interface/event';
 import type { ILayoutItem } from '../layout/interface';
+import type { IVChart } from '../core/interface';
 export type EventType = 'pointerdown' | 'pointerup' | 'pointerupoutside' | 'pointertap' | 'pointerover' | 'pointermove' | 'pointerenter' | 'pointerleave' | 'pointerout' | 'mousedown' | 'mouseup' | 'mouseupoutside' | 'rightdown' | 'rightup' | 'rightupoutside' | 'click' | 'dblclick' | 'mousemove' | 'mouseover' | 'mouseout' | 'mouseenter' | 'mouseleave' | 'wheel' | 'touchstart' | 'touchend' | 'touchendoutside' | 'touchmove' | 'touchcancel' | 'tap' | 'dragstart' | 'drag' | 'dragenter' | 'dragleave' | 'dragover' | 'dragend' | 'drop' | 'pan' | 'panstart' | 'panend' | 'press' | 'pressup' | 'pressend' | 'pinch' | 'pinchstart' | 'pinchend' | 'swipe' | keyof typeof ChartEvent | keyof typeof VGRAMMAR_HOOK_EVENT | string;
 export type EventBubbleLevel = keyof typeof Event_Bubble_Level;
 export type ComponentType = 'axis' | 'dataZoom' | 'indicator' | 'legend' | 'mapLabel' | 'markLine' | 'markArea' | 'markPoint' | 'tooltip' | 'title' | 'label' | 'totalLabel' | 'customMark';
@@ -35,6 +36,7 @@ export type EventParams = {
     chart?: IChart;
     datum?: Datum;
     node?: IGraphic;
+    vchart?: IVChart;
 };
 type SuperEvent = Event & {
     [key: string]: any;

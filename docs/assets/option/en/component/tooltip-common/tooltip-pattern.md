@@ -6,12 +6,26 @@
 
 Whether to display tooltips of this type.
 
+{{ if: ${groupTooltip} }}
+
+#${prefix} triggerMark(string|string[])
+
+The trigger mark of group tooltip. The following string or array of these string can be specified：
+
+- 'line'
+- 'area'
+- 'point'
+- 'bar'
+
+{{ /if }}
+
 #${prefix} title(Object)
 
 Configuration of tooltip title.
 
 {{ use: component-tooltip-line-pattern(
   prefix = '#' + ${prefix},
+  supportFunction = true,
   content = false
 ) }}
 
@@ -21,6 +35,7 @@ Configuration of tooltip content, which can be an `IToolTipLinePattern` object o
 
 {{ use: component-tooltip-line-pattern(
   prefix = '#' + ${prefix},
+  supportFunction = true,
   content = true
 ) }}
 
@@ -151,4 +166,14 @@ Define the maximum number of displayed lines for tooltip content, and any conten
 {{ use: component-tooltip-shape-pattern(
   prefix = ${prefix},
   type = 'pattern'
+) }}
+
+#${prefix} othersLine(Object)
+
+The "Others" line content displayed after the tooltip content exceeds the maximum number of displayed lines.
+
+{{ use: component-tooltip-line-pattern(
+  prefix = '#' + ${prefix},
+  supportFunction = false,
+  content = true
 ) }}

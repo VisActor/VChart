@@ -80,6 +80,19 @@ export interface ILinearAxisSpec {
   /** 最大值，**优先级高于 zero，nice** */
   max?: number;
 
+  /**
+   * 最小值，当且仅当该值小于数据最小值时，才能生效
+   * 注意：不建议和配置`min`一起使用
+   * @since 1.11.0
+   */
+  softMin?: number | ((domain: number[]) => number);
+  /**
+   * 最大值，当且仅当该值大于数据最大值时，才能生效
+   * 注意：不建议和配置`max`一起使用
+   * @since 1.11.0
+   */
+  softMax?: number | ((domain: number[]) => number);
+
   /** @deparated 线性轴数值范围配置（已弃用，请使用外层 min/max） */
   range?: {
     /** @deparated 最小值 */
@@ -330,7 +343,7 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
    * */
   type?: 'text' | 'rich';
   /**
-   * 轴b内容格式化函数
+   * 轴标题内容格式化函数
    * @param text 原始标签文本值
    * @param datum 图形数据
    * @returns 格式化后的文本

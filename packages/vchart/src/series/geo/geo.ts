@@ -96,7 +96,10 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
     if (isNil(name)) {
       return null;
     }
+    return this.nameValueToPosition(name);
+  }
 
+  nameValueToPosition(name: string): IPoint | null {
     const mapData = this.getMapViewData()?.latestData?.filter((data: any) => this.getDatumName(data) === name)[0];
     if (isNil(mapData)) {
       return null;

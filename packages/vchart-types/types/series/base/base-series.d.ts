@@ -4,7 +4,7 @@ import type { IRegion } from '../../region/interface';
 import type { IMark } from '../../mark/interface';
 import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IGroup, ILayoutType, ILayoutPoint, ILayoutRect } from '../../typings';
 import { BaseModel } from '../../model/base-model';
-import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo, ISeriesStackDataLeaf, ISeriesStackDataMeta } from '../interface';
+import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo, ISeriesStackDataLeaf, ISeriesStackDataMeta, ISeriesSeriesInfo } from '../interface';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 import type { IBaseInteractionSpec } from '../../interaction/interface';
@@ -36,6 +36,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected _rootMark: IGroupMark;
     getRootMark(): IGroupMark;
     protected _seriesMark: Maybe<IMark>;
+    getSeriesMark(): IMark;
     protected _layoutLevel: number;
     protected _rawData: DataView;
     getRawData(): DataView;
@@ -77,6 +78,8 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     created(): void;
     protected _buildMarkAttributeContext(): void;
     setAttrFromSpec(): void;
+    protected getInvalidCheckFields(): string[];
+    protected initInvalidDataTransform(): void;
     protected initData(): void;
     protected initGroups(): void;
     protected initStatisticalData(): void;
@@ -119,12 +122,13 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     setValueFieldToStackOffsetSilhouette(): void;
     abstract getActiveMarks(): IMark[];
     initRootMark(): void;
+    private _getExtensionMarkNamePrefix;
     protected _initExtensionMark(options: {
         hasAnimation: boolean;
         depend?: IMark[];
     }): void;
     private _createExtensionMark;
-    protected _updateExtensionMarkSpec(lastSpec?: any): void;
+    protected _updateExtensionMarkSpec(): void;
     getStackData(): ISeriesStackData;
     protected _parseSelectorOfInteraction(interactionSpec: IBaseInteractionSpec, marks: IMark[]): string[];
     protected _parseDefaultInteractionConfig(mainMarks?: IMark[]): ({
@@ -183,21 +187,9 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>): void;
     getSeriesKeys(): string[];
     getSeriesStyle(datum: Datum): (attribute: string) => unknown;
-    protected _getSeriesInfo(field: string, keys: string[]): {
-        key: string;
-        style: (attribute: string) => unknown;
-        shapeType: string;
-    }[];
-    getSeriesInfoInField(field: string): {
-        key: string;
-        style: (attribute: string) => unknown;
-        shapeType: string;
-    }[];
-    getSeriesInfoList(): {
-        key: string;
-        style: (attribute: string) => unknown;
-        shapeType: string;
-    }[];
+    protected _getSeriesInfo(field: string, keys: string[]): ISeriesSeriesInfo[];
+    getSeriesInfoInField(field: string): ISeriesSeriesInfo[];
+    getSeriesInfoList(): ISeriesSeriesInfo[];
     protected _getDefaultColorScale(): any;
     protected _getDataScheme(): import("../..").ColorSchemeItem[] | import("../..").ProgressiveDataScheme<import("../..").ColorSchemeItem>;
     getDefaultColorDomain(): any[];
@@ -225,4 +217,5 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected _getRelatedComponentSpecInfo(specKey: string): import("../../model/interface").IModelSpecInfo<any>[];
     protected _forEachStackGroup(callback: (node: ISeriesStackDataLeaf) => void, node?: ISeriesStackDataMeta): void;
     isDatumInViewData(datum: Datum): any;
+    getSeriesFieldValue(datum: Datum, seriesField?: string): any;
 }

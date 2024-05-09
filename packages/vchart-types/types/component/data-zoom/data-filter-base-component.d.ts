@@ -5,7 +5,7 @@ import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, String
 import type { IBaseScale } from '@visactor/vscale';
 import type { ICartesianBandAxisSpec } from '../axis/cartesian';
 import type { IBoundsLike } from '@visactor/vutils';
-import { IFilterMode } from './interface';
+import type { IFilterMode } from './interface';
 import type { IDataFilterComponent, IDataFilterComponentSpec, IRoamDragSpec, IRoamScrollSpec, IRoamZoomSpec } from './interface';
 import type { BaseEventParams } from '../../event/interface';
 import type { AbstractComponent } from '@visactor/vrender-components';
@@ -19,6 +19,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _fixedBandSize?: number;
     protected _cacheRect?: ILayoutRect;
     protected _cacheVisibility?: boolean;
+    protected _dataUpdating: boolean;
     protected _stateScale: IBaseScale;
     protected _relatedAxisComponent: IComponent;
     protected _originalStateFields: Record<number, string | number>;
@@ -110,7 +111,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
         scrollY: number;
     }, e: BaseEventParams['event']) => boolean;
     protected _handleChartDrag: (delta: [number, number], e: BaseEventParams['event']) => void;
-    protected _handleChartMove: (value: number, rate: number) => void;
+    protected _handleChartMove: (value: number, rate: number) => boolean;
     protected _initCommonEvent(): void;
     updateLayoutAttribute(): void;
     onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;

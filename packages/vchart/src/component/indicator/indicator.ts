@@ -6,7 +6,7 @@ import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec } from './interface';
 import type { Maybe } from '../../typings';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { transformToGraphic } from '../../util/style';
 import { getActualNumValue } from '../../util/space';
 import { isEqual, isValid, isFunction, array, isArray } from '@visactor/vutils';

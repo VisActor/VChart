@@ -12,7 +12,7 @@ import type { StateValue } from '../../compile/mark';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
 import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
-import type { IMorphSeriesSpec } from '../../animation/spec';
+import type { IAnimationSpec, IMorphSeriesSpec } from '../../animation/spec';
 import type { IPlayer } from '../../component/player';
 import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
 import type { IDataZoomSpec, IScrollBarSpec } from '../../component/data-zoom';
@@ -26,6 +26,7 @@ import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
 import type { IMediaQuerySpec } from '..';
+import type { IModelSpec } from '../../model/interface';
 export type IChartPadding = ILayoutOrientPadding | number;
 export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     dom?: string | HTMLElement;
@@ -81,6 +82,7 @@ export interface IChartSpec {
     theme?: Omit<ITheme, 'name'> | string;
     background?: IBackgroundSpec;
     stackInverse?: boolean;
+    stackSort?: boolean;
     media?: IMediaQuerySpec;
 }
 export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
@@ -255,12 +257,13 @@ export type IBuildinMarkSpec = {
     ripple: IRippleMarkSpec;
 };
 export type EnableMarkType = keyof IBuildinMarkSpec;
-export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {
+export interface ICustomMarkSpec<T extends EnableMarkType> extends IModelSpec, IMarkSpec<IBuildinMarkSpec[T]>, IAnimationSpec<string, string> {
     type: T;
     dataIndex?: number;
     dataKey?: string | ((datum: any) => string);
     dataId?: StringOrNumber;
     componentType?: string;
+    animation?: boolean;
 }
 export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
     children?: ICustomMarkSpec<EnableMarkType>[];

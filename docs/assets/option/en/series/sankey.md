@@ -157,6 +157,35 @@ Sort nodes by this function.
 
 Customize the assigned node layer.
 
+#${prefix} dropIsolatedNode(Boolean)
+
+Starting from version `1.11.0`
+Whether to drop isolated nodes
+
+#${prefix} nodeHeight(number | function)
+
+Starting from version `1.11.0`
+Set the specified height for nodes (corresponding to width when the layout direction is `vertical`)
+
+#${prefix} linkHeight(number | function)
+
+Starting from version `1.11.0`
+Set the specified height for edges (corresponding to width when the layout direction is `vertical`)
+
+#${prefix} equalNodeHeight(boolean)
+
+Starting from version `1.11.0`
+Set a uniform height for all nodes (corresponding to width when the layout direction is `vertical`), calculated based on the canvas height and the number of nodes;
+
+#${prefix} linkOverlap('start' | 'center' | 'end')
+
+Starting from version `1.11.0`
+When this configuration is set, different edges under the same node are laid out in an overlapping manner:
+
+- 'start' Overlap at the starting point of all edges and nodes
+- 'center' Overlap at the middle point of all edges and nodes
+- 'end' Overlap at the end point of all edges and nodes
+
 #${prefix} emphasis(Object)
 
 Interactive linkage configuration.

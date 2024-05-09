@@ -71,34 +71,17 @@ Data transformation. You can add transformations to the data. When the chart is 
 
 Currently built-in data transformations:
 
-- simplify: Geographic data simplification
+- ~~simplify: Geographic data simplification~~
+  **`simplify` transform is removed since version 1.11.0**
+  You can directly set `simplify` option in `registerMap` API, for example:
 
-```ts
-// type
-type simplifyType = {
-  type: 'simplify';
-  options: {
-    tolerance?: number;
-  };
-};
-// example
-const spec = {
-  data: [
-    {
-      id: 'geoData',
-      values: data,
-      transform: [
-        {
-          type: 'simplify',
-          options: {
-            tolerance: 1
-          }
-        }
-      ]
+  ```js
+  VChart.registerMap('myMay', geojson, {
+    simplify: {
+      tolerance: 0.01
     }
-  ]
-};
-```
+  });
+  ```
 
 - fields: Data dimension processing, including dimension-based sorting, reverse order, data filtering capabilities
 

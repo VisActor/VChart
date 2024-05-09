@@ -134,7 +134,17 @@ export interface GeoSourceOption {
   centroid?: boolean;
   /** Map simplification */
   /** @default false */
-  simplify?: boolean;
+  simplify?:
+    | boolean
+    | {
+        /**
+         * A number in degrees(e.g. lat/lon distance).
+         * 1 degree is roughly equivalent to 69 miles. the default is 0.001, which is around a city block long.
+         * @default 0.01
+         * @since 1.11.0
+         */
+        tolerance: number;
+      };
   /** Reverse winding of outer rings of (Multi)LineString or (Multi)Polygon, and clockwise for inner rings. */
   /** @default false */
   rewind?:
@@ -634,6 +644,46 @@ vchart.setHovered({ x: 'US', y: 10, type: 'A' });
 vchart.setHovered(null);
 ```
 
+### clearState
+
+Clear the state of the marks
+
+```ts
+ /**
+   * clear the state of marks
+   * @param state name of state
+   *
+   * @since 1.11.0
+   */
+  clearState: (state: string) => void;
+```
+
+### clearSelected
+
+clear the `selected` state of marks
+
+```ts
+/**
+   * clear the `selected` state of marks
+   *
+   * @since 1.11.0
+   */
+  clearSelected: () => void;
+```
+
+### clearHovered
+
+clear the `hovered` state of marks
+
+```ts
+/**
+   * clear the `hovered` state of marks
+   *
+   * @since 1.11.0
+   */
+  clearHovered: () => void;
+```
+
 ### getCurrentTheme
 
 Getting the current Theme will return the full Theme configuration.
@@ -1046,10 +1096,20 @@ getComponents: () => IComponent[];
 
 ### getDataSet
 
+Support since version `1.10.4`;
+
 Gets a DataSet instance of the chart.
 
 ```ts
 getDataSet: () => DataSet;
+```
+
+### getScale
+
+Gets a Scale instance of the chart
+
+```ts
+getScale: (scaleId: string) => IBaseScale;
 ```
 
 ### setDimensionIndex

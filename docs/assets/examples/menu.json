@@ -489,6 +489,13 @@
             "zh": "柱状图标注",
             "en": "Bar Chart with MarkPoint"
           }
+        },
+        {
+          "path": "tgi-bar",
+          "title": {
+            "zh": "TGI 柱图",
+            "en": "TGI Bar Chart"
+          }
         }
       ]
     },
@@ -922,6 +929,20 @@
             "zh": "桑基图多种边配置",
             "en": "Sankey Diagram Multiple Edge Configurations"
           }
+        },
+        {
+          "path": "specified-node",
+          "title": {
+            "zh": "桑基图指定节点宽高",
+            "en": "Specify size of node in sankey chart"
+          }
+        },
+        {
+          "path": "customized-node",
+          "title": {
+            "zh": "桑基图自定义html渲染节点",
+            "en": "set customized node of html in sankey chart"
+          }
         }
       ]
     },
@@ -1267,6 +1288,13 @@
             "zh": "带内边距的 CirclePacking 图",
             "en": "CirclePacking Chart with Padding"
           }
+        },
+        {
+          "path": "bubble-circle-packing",
+          "title": {
+            "zh": "气泡图",
+            "en": "Bubble CirclePacking Chart"
+          }
         }
       ]
     },
@@ -1349,6 +1377,29 @@
           "title": {
             "zh": "水波图指标智能反色",
             "en": "Liquid Chart Smart Invert"
+          }
+        }
+      ]
+    },
+    {
+      "path": "venn-chart",
+      "title": {
+        "zh": "venn-chart",
+        "en": "venn-chart"
+      },
+      "children": [
+        {
+          "path": "venn-chart",
+          "title": {
+            "zh": "韦恩图",
+            "en": "Venn Chart"
+          }
+        },
+        {
+          "path": "venn-chart-hollow",
+          "title": {
+            "zh": "空心韦恩图",
+            "en": "Hollow Venn Chart"
           }
         }
       ]
@@ -1745,6 +1796,20 @@
             "zh": "在 area 图元上实现 mark tooltip",
             "en": "Mark Tooltip On Area Marks"
           }
+        },
+        {
+          "path": "bar-group-tooltip",
+          "title": {
+            "zh": "在 bar 图元上实现 group tooltip",
+            "en": "Group Tooltip On Bar Marks"
+          }
+        },
+        {
+          "path": "line-group-tooltip",
+          "title": {
+            "zh": "在 line 图元上实现 group tooltip",
+            "en": "Group Tooltip On Line Marks"
+          }
         }
       ]
     },
@@ -1823,6 +1888,13 @@
           "title": {
             "zh": "图例使用滚动条翻页",
             "en": "Scrollbar of legend"
+          }
+        },
+        {
+          "path": "discrete-legend-scale",
+          "title": {
+            "zh": "离散图例指定scale",
+            "en": "specify scale of discrete legend"
           }
         }
       ]
@@ -2151,6 +2223,55 @@
             "zh": "markPoint 图片标记",
             "en": "markPoint with image"
           }
+        },
+        {
+          "path": "cartesian-mark-line-pos",
+          "title": {
+            "zh": "笛卡尔系下的markLine的状态、样式和标签位置配置",
+            "en": "markLine and label position in certesian coordinates"
+          }
+        },
+        {
+          "path": "polar-mark-line",
+          "title": {
+            "zh": "极坐标系下的markLine",
+            "en": "markLine in polar coordinates"
+          }
+        },
+        {
+          "path": "polar-mark-line-pos",
+          "title": {
+            "zh": "极坐标系下的markLine的状态、样式和标签位置配置",
+            "en": "markLine and label position in polar coordinates"
+          }
+        },
+        {
+          "path": "cartesian-mark-area-pos",
+          "title": {
+            "zh": "笛卡尔系下的markArea的状态、样式和标签位置配置",
+            "en": "markArea and label position in certesian coordinates"
+          }
+        },
+        {
+          "path": "polar-mark-area-pos",
+          "title": {
+            "zh": "极坐标系下的markArea的状态、样式和标签位置配置",
+            "en": "markArea and label position in polar coordinates"
+          }
+        },
+        {
+          "path": "polar-mark-point",
+          "title": {
+            "zh": "极坐标系下的markPoint",
+            "en": "markPoint in polar coordinates"
+          }
+        },
+        {
+          "path": "geo-mark-point",
+          "title": {
+            "zh": "地理坐标系下的markPoint",
+            "en": "markPoint in geo coordinates"
+          }
         }
       ]
     },
@@ -2400,6 +2521,13 @@
           "title": {
             "zh": "定制状态排序",
             "en": "Custom State Sorting"
+          }
+        },
+        {
+          "path": "rect-html",
+          "title": {
+            "zh": "自定义矩形渲染html拓展属性",
+            "en": "Render html in custom rect"
           }
         }
       ]

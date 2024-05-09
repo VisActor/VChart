@@ -599,6 +599,13 @@
                 "zh": "适用于 Arco Design 的主题",
                 "en": "Themes for Arco Design"
               }
+            },
+            {
+              "path": "Ve_O_Design",
+              "title": {
+                "zh": "适用于源力设计的主题",
+                "en": "Themes for O Design"
+              }
             }
           ]
         },
@@ -797,6 +804,13 @@
           "title": {
             "zh": "函数",
             "en": "Function"
+          }
+        },
+        {
+          "path": "Richtext_and_Dom",
+          "title": {
+            "zh": "富文本和 Dom 扩展",
+            "en": "Richtext and dom extension"
           }
         }
       ]

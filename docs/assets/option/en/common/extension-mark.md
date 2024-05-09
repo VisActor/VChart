@@ -23,13 +23,13 @@ Graphical type `symbol`
 ##${prefix} type(string) = "symbol"
 
 {{ use: common-custom-mark-base(
-  prefix = '##'
+  prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} style(Object)
 
 {{ use: graphic-symbol(
-  prefix = '###'
+  prefix = '##' + ${prefix}
 ) }}
 
 #${prefix} extensionMark.rule(Object)
@@ -41,13 +41,13 @@ Graphical type `rule`
 Required configuration to specify the graphical type
 
 {{ use: common-custom-mark-base(
-  prefix = '##'
+  prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} style(Object)
 
 {{ use: graphic-rule(
-  prefix = '###'
+ prefix = '##' + ${prefix}
 ) }}
 
 #${prefix} extensionMark.text(Object)
@@ -59,13 +59,13 @@ Graphical type `text`
 Required configuration to specify the graphical type
 
 {{ use: common-custom-mark-base(
-  prefix = '##'
+  prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} style(Object)
 
 {{ use: graphic-text(
-  prefix = '###'
+  prefix = '##' + ${prefix}
 ) }}
 
 #${prefix} extensionMark.rect(Object)
@@ -77,13 +77,13 @@ Graphical type `rect`
 Required configuration to specify the graphical type
 
 {{ use: common-custom-mark-base(
-  prefix = '##'
+  prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} style(Object)
 
 {{ use: graphic-rect(
-  prefix = '###'
+  prefix = '##' + ${prefix}
 ) }}
 
 #${prefix} extensionMark.path(Object)
@@ -95,13 +95,13 @@ Graphical type `path`
 Required configuration to specify the graphical type
 
 {{ use: common-custom-mark-base(
-  prefix = '##'
+  prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} style(Object)
 
 {{ use: graphic-path(
-  prefix = '###'
+  prefix = '##' + ${prefix}
 ) }}
 
 #${prefix} extensionMark.arc(Object)
@@ -113,13 +113,13 @@ Graphical type `arc`
 Required configuration to specify the graphical type
 
 {{ use: common-custom-mark-base(
-  prefix = '##'
+  prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} style(Object)
 
 {{ use: graphic-arc(
-  prefix = '###',
+  prefix = '##' + ${prefix},
   markType = 'arc'
 ) }}
 
@@ -132,13 +132,13 @@ Graphical type `polygon`
 Required configuration to specify the graphical type
 
 {{ use: common-custom-mark-base(
-  prefix = '##'
+  prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} style(Object)
 
 {{ use: graphic-polygon(
-  prefix = '###'
+  prefix = '##' + ${prefix}
 ) }}
 
 #${prefix} extensionMark.image(Object)
@@ -150,13 +150,13 @@ Graphical type `image`
 Required configuration to specify the graphical type
 
 {{ use: common-custom-mark-base(
-  prefix = '##'
+  prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} style(Object)
 
 {{ use: graphic-image(
-  prefix = '###'
+  prefix = '##' + ${prefix}
 ) }}
 
 #${prefix} extensionMark.group(Object)
@@ -168,7 +168,7 @@ Graphical type `group`
 Required configuration to specify the graphical type
 
 {{ use: common-custom-mark-base(
-  prefix = '##'
+  prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} children(Array)

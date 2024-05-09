@@ -67,6 +67,10 @@ import type { IProgressLikeSeriesSpec } from './polar/progress-like';
 import { ProgressLikeSeries } from './polar/progress-like';
 import type { IRoseLikeSeriesSpec } from './polar/rose-like';
 import { RoseLikeSeries } from './polar/rose-like';
+import type { ILiquidSeriesSpec } from './liquid/interface';
+import { LiquidSeries, registerLiquidSeries } from './liquid/liquid';
+import type { IVennSeriesSpec } from './venn/interface';
+import { VennSeries, registerVennSeries } from './venn/venn';
 
 import type { ISeries, ICartesianSeries, IPolarSeries, IGeoSeries } from './interface';
 
@@ -106,7 +110,9 @@ export {
   CartesianSeries,
   PolarSeries,
   ProgressLikeSeries,
-  CorrelationSeries
+  CorrelationSeries,
+  LiquidSeries,
+  VennSeries
 };
 
 export {
@@ -139,7 +145,9 @@ export {
   registerTreemapSeries,
   registerWaterfallSeries,
   registerWordCloud3dSeries,
-  registerWordCloudSeries
+  registerWordCloudSeries,
+  registerLiquidSeries,
+  registerVennSeries
 };
 
 export type {
@@ -181,7 +189,9 @@ export type {
   IWaterfallSeriesSpec,
   IWordCloud3dSeriesSpec,
   IWordCloudSeriesSpec,
-  ICorrelationSeriesSpec
+  ICorrelationSeriesSpec,
+  ILiquidSeriesSpec,
+  IVennSeriesSpec
 };
 
 export * from './interface';

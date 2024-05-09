@@ -76,7 +76,7 @@ const spec = {
   ],
   axes: [
     { id: 'leftYAxis', orient: 'left', seriesIndex: [0, 1], nice: true },
-    { id: 'rightYAxis', orient: 'right', seriesIndex: [0, 1], gird: { visible: false } },
+    { id: 'rightYAxis', orient: 'right', seriesIndex: [0, 1], grid: { visible: false } },
     { orient: 'bottom', label: { visible: true }, type: 'band' }
   ],
   legends: { visible: true, orient: 'bottom' }
@@ -153,7 +153,7 @@ const spec = {
       id: 'rightYAxis',
       orient: 'right',
       seriesIndex: [0, 1],
-      gird: { visible: false }
+      grid: { visible: false }
     },
     { orient: 'bottom', label: { visible: true }, type: 'band' }
   ],

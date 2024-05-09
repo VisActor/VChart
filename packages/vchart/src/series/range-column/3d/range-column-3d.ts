@@ -7,6 +7,7 @@ import type { AdaptiveSpec } from '../../../typings';
 import type { IRangeColumn3dSeriesSpec } from '../interface';
 import { rangeColumn3dSeriesMark } from '../constant';
 import { Factory } from '../../../core/factory';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../../component/axis/cartesian';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -22,5 +23,7 @@ export class RangeColumn3dSeries<
 
 export const registerRangeColumn3dSeries = () => {
   registerRect3dMark();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(RangeColumn3dSeries.type, RangeColumn3dSeries);
 };

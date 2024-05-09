@@ -5,7 +5,7 @@ import type { IBaseModelSpecTransformerResult, IModelConstructor, IModelMarkInfo
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { IMarkOption, IMarkProgressiveConfig } from '../../mark/interface';
 import type { ISeriesSpec, StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
@@ -13,6 +13,7 @@ import type { ICustomPath2D } from '@visactor/vrender-core';
 import type { MarkClip } from '../../compile/mark';
 export interface ISeriesSeriesInfo {
     key: string;
+    originalKey: any;
     index?: number;
     style: (attribute: string) => any;
     shapeType: string;
@@ -51,7 +52,7 @@ export type ISeriesStyleItem = {
         style?: any;
     };
 };
-export interface ISeriesMarkInitOption {
+export interface ISeriesMarkInitOption extends Partial<IMarkOption> {
     themeSpec?: any;
     markSpec?: any;
     skipBeforeLayouted?: boolean;

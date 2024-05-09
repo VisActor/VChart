@@ -82,7 +82,7 @@ type SuperEvent = Event & {
 
 ### 事件过滤
 
-如果需要针对性得监听图表某部分的事件，可以使用内置的 query 规则进行配置，目前我们提供了如下方式的过滤规则：
+事件过滤配置（参数`query: EventQuery`）为可选配置，当需要针对性得监听图表某部分的事件，可以使用内置的 query 规则进行配置，目前我们提供了如下方式的过滤规则：
 
 1. `source`，根据事件源进行过滤，即监听 window 还是 chart 本身的事件。
 
@@ -132,7 +132,15 @@ vchart.on('pointerdown', { id: 'axis-left' }, () => {});
 vchart.on('pointerdown', { filter: ({model} => model.id === 45) }, () => {});
 ```
 
-#### 通过事件过滤监听**组件**事件
+`query`除了上述配置外，还支持以下配置：
+
+| 配置     | 类型      | 默认值  | 说明                                  |
+| -------- | --------- | ------- | ------------------------------------- |
+| consume  | `Boolean` | `false` | 是否阻止事件冒泡                      |
+| throttle | `Number`  | `null`  | 事件节流的时长，单位为 ms，默认不节流 |
+| debounce | `Number`  | `null`  | 事件防抖的时长，单位为 ms，默认不防抖 |
+
+#### 通过事件过滤监听 **组件** 事件
 
 通过如下事件过滤规则，我们可以监听到 VChart 示例上各个组件的事件
 
@@ -166,7 +174,7 @@ vchart.on('pointerdown', { level: 'model', type: 'axis' }, e => {
 | label      | 否                   |
 | totalLabel | 否                   |
 
-#### 通过事件过滤监听**mark 图元**事件
+#### 通过事件过滤监听 **mark 图元** 事件
 
 如果想要监听 mark 图元的事件，可以通过两种方式实现：
 
@@ -486,3 +494,18 @@ Drill 钻取后触发的事件。
 - `'layoutStart'` 布局开始事件
 
 - `'layoutEnd'` 布局结束事件
+
+事件参数如下：
+
+```ts
+{
+  /**
+   * 事件来源的 chart
+   */
+  chart: IChart;
+  /**
+   * 全局的VChart实例
+   */
+  vchart: IVChart;
+}
+```

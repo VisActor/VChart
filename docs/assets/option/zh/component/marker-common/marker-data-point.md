@@ -77,3 +77,23 @@ coordinates: [
 自 `1.7.0` 版本开始支持，指定使用 yField 上的维度名称，因为 yField 字段有可能会包含多个维度，比如分组场景。
 
 `yFieldIndex` 和 `yFieldDim` 声明一个即可，同时声明则 `yFieldDim` 优先级更高。
+
+#${prefix} angleFieldIndex(number) = 0
+
+自 `1.11.0` 版本开始支持，指定使用 angleField 上的那个维度索引，因为 angleField 字段有可能会包含多个维度，比如分组场景。默认值为 0。
+
+#${prefix} angleFieldDim(string)
+
+自 `1.11.0` 版本开始支持，指定使用 angleField 上的维度名称，因为 angleField 字段有可能会包含多个维度，比如分组场景。
+
+`angleFieldIndex` 和 `angleFieldDim` 声明一个即可，同时声明则 `angleFieldDim` 优先级更高。
+
+#${prefix} radiusFieldIndex(number) = 0
+
+自 `1.11.0` 版本开始支持，指定使用 radiusField 上的那个维度索引，因为 radiusField 字段有可能会包含多个维度，比如分组场景。默认值为 0。
+
+#${prefix} radiusFieldDim(string)
+
+自 `1.11.0` 版本开始支持，指定使用 radiusField 上的维度名称，因为 radiusField 字段有可能会包含多个维度，比如分组场景。
+
+`radiusFieldIndex` 和 `radiusFieldDim` 声明一个即可，同时声明则 `radiusFieldDim` 优先级更高。

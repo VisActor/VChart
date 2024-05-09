@@ -61,14 +61,21 @@ import { CartesianCrossHair, PolarCrossHair, registerCartesianCrossHair, registe
 import type { IPlayerSpec, IPlayerTheme } from './player';
 import { Player, registerPlayer } from './player';
 import type { IMarkLineSpec, IStepMarkLineSpec, IMarkLineTheme } from './marker/mark-line';
-import { MarkLine, registerMarkLine } from './marker/mark-line';
+import { CartesianMarkLine, PolarMarkLine, registerMarkLine, registerPolarMarkLine } from './marker/mark-line';
 import type { IMarkAreaSpec, IMarkAreaTheme } from './marker/mark-area';
-import { MarkArea, registerMarkArea } from './marker/mark-area';
+import { CartesianMarkArea, PolarMarkArea, registerMarkArea, registerPolarMarkArea } from './marker/mark-area';
 import type { IMarkPointSpec, IMarkPointTheme } from './marker/mark-point';
-import { MarkPoint, registerMarkPoint } from './marker/mark-point';
+import {
+  CartesianMarkPoint,
+  PolarMarkPoint,
+  GeoMarkPoint,
+  registerMarkPoint,
+  registerPolarMarkPoint,
+  registerGeoMarkPoint
+} from './marker/mark-point';
 import type { ITooltipSpec, ITooltipTheme } from './tooltip';
 import { Tooltip, registerTooltip } from './tooltip';
-import type { ILabelSpec, ITotalLabelTheme } from './label';
+import type { ILabelSpec, ITotalLabelTheme, ITotalLabelSpec } from './label';
 import { Label, registerLabel } from './label';
 import { TotalLabel, registerTotalLabel } from './label/total-label';
 import { registerPoptip } from './poptip/index';
@@ -99,9 +106,13 @@ export {
   CartesianCrossHair,
   PolarCrossHair,
   Player,
-  MarkArea,
-  MarkLine,
-  MarkPoint,
+  CartesianMarkLine,
+  CartesianMarkArea,
+  CartesianMarkPoint,
+  PolarMarkLine,
+  PolarMarkArea,
+  PolarMarkPoint,
+  GeoMarkPoint,
   Tooltip,
   Label,
   TotalLabel
@@ -127,9 +138,13 @@ export {
   registerLabel,
   registerTotalLabel,
   registerMapLabel,
-  registerMarkArea,
   registerMarkLine,
+  registerMarkArea,
   registerMarkPoint,
+  registerPolarMarkLine,
+  registerPolarMarkArea,
+  registerPolarMarkPoint,
+  registerGeoMarkPoint,
   registerPlayer,
   registerPolarBandAxis,
   registerPolarCrossHair,
@@ -153,6 +168,7 @@ export type {
   IGeoCoordinateSpec,
   IIndicatorSpec,
   ILabelSpec,
+  ITotalLabelSpec,
   IMapLabelSpec,
   IMarkAreaSpec,
   IMarkLineSpec,

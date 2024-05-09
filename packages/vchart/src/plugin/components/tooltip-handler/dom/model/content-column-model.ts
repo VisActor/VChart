@@ -15,7 +15,7 @@ import { TextModel } from './text-model';
 import { TOOLTIP_EMPTY_STRING } from '../../constants';
 import { getPixelPropertyStr } from '../utils';
 import type { ITooltipLineActual } from '../../../../../typings';
-import { mergeSpec } from '../../../../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export type ContentColumnType = 'shape-box' | 'key-box' | 'value-box';
 

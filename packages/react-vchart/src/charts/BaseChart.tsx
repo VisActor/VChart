@@ -1,9 +1,9 @@
-import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor } from '@visactor/vchart';
+import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor, IHierarchyData } from '@visactor/vchart';
 import React, { useState, useEffect, useRef, useImperativeHandle, ReactNode } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
 import type { IView } from '@visactor/vgrammar-core';
-import { isEqual, isNil, pickWithout } from '@visactor/vutils';
+import { isEqual, isNil, isValid, pickWithout } from '@visactor/vutils';
 import ViewContext from '../context/view';
 import { toArray } from '../util';
 import { REACT_PRIVATE_PROPS } from '../constants';
@@ -46,7 +46,7 @@ export interface BaseChartProps
    */
   spec?: ISpec;
   /** 数据 */
-  data?: IData;
+  data?: IData | IHierarchyData;
   /** 画布宽度 */
   width?: number;
   /** 画布高度 */
@@ -137,6 +137,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec && props.spec) {
       spec = props.spec;
+
+      if (isValid(props.data)) {
+        spec = {
+          ...props.spec,
+          data: props.data
+        } as ISpec;
+      }
     } else {
       spec = {
         ...prevSpec.current,
@@ -174,6 +181,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       const newView = chartContext.current.chart.getCompiler().getVGrammarView();
 
       setUpdateId(updateId + 1);
+      window.vchart = chartContext.current.chart;
       if (props.onReady) {
         props.onReady(chartContext.current.chart, updateId === 0);
       }
@@ -206,12 +214,16 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
-        eventsBinded.current = props;
         chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
           morph: false,
           enableExitAnimation: false
         });
         handleChartRender();
+        eventsBinded.current = props;
+      } else if (eventsBinded.current.data !== props.data) {
+        chartContext.current.chart.updateFullDataSync(props.data as any);
+        handleChartRender();
+        eventsBinded.current = props;
       }
       return;
     }
@@ -230,6 +242,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
         enableExitAnimation: false
       });
       handleChartRender();
+      eventsBinded.current = props;
     }
   }, [props]);
 
@@ -274,13 +287,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 export const createChart = <T extends Props>(
   componentName: string,
   defaultProps?: Partial<T>,
-  callback?: (props: T, defaultProps?: Partial<T>) => T
+  registers?: (() => void)[]
 ) => {
-  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
-    if (callback) {
-      return callback(props, defaultProps);
-    }
+  if (registers && registers.length && defaultProps.vchartConstrouctor) {
+    defaultProps.vchartConstrouctor.useRegisters(registers);
+  }
 
+  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
     if (defaultProps) {
       return Object.assign(props, defaultProps);
     }

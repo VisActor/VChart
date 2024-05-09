@@ -33,7 +33,8 @@ export enum SeriesTypeEnum {
   waterfall = 'waterfall',
   heatmap = 'heatmap',
   correlation = 'correlation',
-  liquid = 'liquid'
+  liquid = 'liquid',
+  venn = 'venn'
 }
 
 export const enum SeriesMarkNameEnum {
@@ -94,5 +95,8 @@ export const enum SeriesMarkNameEnum {
   areaLabel = 'areaLabel',
   liquid = 'liquid',
   liquidBackground = 'liquidBackground',
-  liquidOutline = 'liquidOutline'
+  liquidOutline = 'liquidOutline',
+  circle = 'circle',
+  overlap = 'overlap',
+  overlapLabel = 'overlapLabel'
 }

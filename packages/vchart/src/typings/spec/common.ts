@@ -42,7 +42,7 @@ import type { StateValue } from '../../compile/mark';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
 import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
-import type { IMorphSeriesSpec } from '../../animation/spec';
+import type { IAnimationSpec, IMorphSeriesSpec } from '../../animation/spec';
 import type { IPlayer } from '../../component/player';
 import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
 import type { IDataZoomSpec, IScrollBarSpec } from '../../component/data-zoom';
@@ -56,6 +56,7 @@ import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
 import type { IMediaQuerySpec } from '..';
+import type { IModelSpec } from '../../model/interface';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -223,6 +224,12 @@ export interface IChartSpec {
    * @since 1.4.0
    */
   stackInverse?: boolean;
+  /**
+   * 堆积时是否排序
+   * @default false
+   * @since 1.10.4
+   */
+  stackSort?: boolean;
   /**
    * 媒体查询配置
    * @since 1.8.0
@@ -633,7 +640,10 @@ export type IBuildinMarkSpec = {
 };
 
 export type EnableMarkType = keyof IBuildinMarkSpec;
-export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {
+export interface ICustomMarkSpec<T extends EnableMarkType>
+  extends IModelSpec,
+    IMarkSpec<IBuildinMarkSpec[T]>,
+    IAnimationSpec<string, string> {
   type: T;
   /**
    * 关联的数据索引
@@ -656,6 +666,11 @@ export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBu
    * @support since 1.9.0
    */
   componentType?: string;
+  /**
+   * enable animation of custom-mark or not
+   * @since 1.11.0
+   */
+  animation?: boolean;
 }
 export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
   children?: ICustomMarkSpec<EnableMarkType>[];

@@ -1,3 +1,4 @@
+import type { ILabelInfo } from './../../component/label/label';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
 import type { DataSet, DataView, ITransformOptions } from '@visactor/vdataset';
@@ -15,6 +16,7 @@ import type { StatisticOperations } from '../../data/transforms/dimension-statis
 import type { IGroupMark } from '../../mark/group';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
 import type { ILabelMark } from '../../mark/label';
+import type { BaseLegend } from '../../component/legend/base-legend';
 export interface ISeries extends IModel {
     readonly type: string;
     readonly name?: string;
@@ -53,6 +55,7 @@ export interface ISeries extends IModel {
     getMarkInId: (id: number) => IMark | undefined;
     getRootMark: () => IGroupMark;
     getActiveMarks: () => IMark[];
+    getSeriesMark: () => IMark;
     getStackData: () => ISeriesStackData;
     getStack: () => boolean;
     getStackValue: () => StringOrNumber | undefined;
@@ -91,9 +94,13 @@ export interface ISeries extends IModel {
     getInvalidType: () => IInvalidType;
     getDefaultShapeType: () => string;
     initLabelMarkStyle?: (labelMark: ILabelMark) => void;
+    initTotalLabelMarkStyle?: (labelMark: ILabelMark) => void;
+    getTotalLabelComponentStyle?: (info: Pick<ILabelInfo, 'baseMark' | 'labelMark'>) => any;
     getGroupFields: () => string[];
     getSpecInfo: () => ISeriesSpecInfo;
     getMarkAttributeContext: () => ISeriesMarkAttributeContext;
+    getSeriesFieldValue: (datum: Datum, seriesField?: string) => any;
+    legendSelectedFilter?: (component: BaseLegend<any>, selectedKeys: StringOrNumber[]) => StringOrNumber[];
 }
 export interface ICartesianSeries extends ISeries {
     readonly coordinate: 'cartesian';
@@ -157,6 +164,7 @@ export interface IGeoSeries extends ISeries {
     dataToPosition: (datum: any, checkInViewData?: boolean) => IPoint | null;
     dataToLatitude: (latValue: any) => number | null;
     dataToLongitude: (lonValue: any) => number | null;
+    nameValueToPosition: (name: string) => IPoint | null;
     positionToData: (p: IPoint) => any;
     latitudeToData: (lat: number) => any;
     longitudeToData: (lon: number) => any;

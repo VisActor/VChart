@@ -42,6 +42,7 @@ import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
+// eslint-disable-next-line no-duplicate-imports
 import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
@@ -58,6 +59,7 @@ import { Stack } from '../stack';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
+// eslint-disable-next-line no-duplicate-imports
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -135,11 +137,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   getLayoutTag() {
     return this._layoutTag;
   }
-  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, reLayout: boolean = true): boolean {
+  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, renderNextTick: boolean = true): boolean {
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && reLayout && this.getCompiler().renderNextTick(morphConfig);
+      tag && renderNextTick && this.getCompiler().renderNextTick(morphConfig);
     }
     return this._layoutTag;
   }
@@ -150,6 +152,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // 全局通道
   // protected _globalScale: { [key: string]: IBaseScale } = {};
   protected _globalScale: IGlobalScale;
+
+  getGlobalScale() {
+    return this._globalScale;
+  }
 
   // mark & model 的 id 映射
   protected _idMap: Map<number, IModel | IMark> = new Map();
@@ -435,16 +441,16 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   layout(params: ILayoutParams): void {
     this._option.performanceHook?.beforeLayoutWithSceneGraph?.();
     if (this.getLayoutTag()) {
-      this._event.emit(ChartEvent.layoutStart, { chart: this });
+      this._event.emit(ChartEvent.layoutStart, { chart: this, vchart: this._option.globalInstance });
 
       this.onLayoutStart(params);
       const elements = this.getLayoutElements();
       this._layoutFunc(this, elements, this._layoutRect, this._viewBox);
-      this._event.emit(ChartEvent.afterLayout, { elements });
+      this._event.emit(ChartEvent.afterLayout, { elements, chart: this });
       this.setLayoutTag(false);
       this.onLayoutEnd(params);
 
-      this._event.emit(ChartEvent.layoutEnd, { chart: this });
+      this._event.emit(ChartEvent.layoutEnd, { chart: this, vchart: this._option.globalInstance });
     }
     this._option.performanceHook?.afterLayoutWithSceneGraph?.();
   }
@@ -809,10 +815,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (result.reMake) {
       return result;
     }
-    this.updateDataSpec(result);
-    if (result.reMake) {
-      return result;
-    }
+    /**
+     * 当图表不是`remake`，而是部分更新的时候，所有的model需要`reInit`
+     * 由于 data 最终是挂在到model上的，data的transform又依赖model中的`spec`，
+     * 所以在更新model前需要调用`reInit`确保`spec`和内部变量已经更新
+     */
+    this.reInit();
+    this.updateDataSpec();
     // ensure that the domain of the scale follows the data change
     this.updateGlobalScaleDomain();
     return result;
@@ -831,7 +840,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
-  updateDataSpec(result: IUpdateSpecResult) {
+  updateDataSpec() {
     if (!this._spec.data) {
       return;
     }
@@ -922,7 +931,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._layoutRect.x = this.padding.left;
     this._layoutRect.y = this.padding.top;
 
-    this._event.emit(ChartEvent.layoutRectUpdate, {});
+    this._event.emit(ChartEvent.layoutRectUpdate, { chart: this });
   }
 
   /** 设置当前全局主题 */
@@ -935,10 +944,18 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     // 设置色板，只设置 colorScale 的 range
     this.updateGlobalScaleTheme();
+    this.reInit();
+  }
 
-    this._regions.forEach(r => r.reInit(r.getSpecInfo().spec));
-    this._series.forEach(s => s.reInit(s.getSpecInfo().spec));
-    this._components.forEach(c => c.reInit(c.getSpecInfo().spec));
+  reInit() {
+    [...this._regions, ...this._series, ...this._components].forEach(model => {
+      const specInfo = model.getSpecInfo();
+
+      if (specInfo && specInfo.spec) {
+        // 找不到，说明在更新spec中，组件被注销了
+        model.reInit(specInfo.spec);
+      }
+    });
   }
 
   clear() {
@@ -1104,6 +1121,37 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     region?: IRegionQuerier
   ): void {
     this._setStateInDatum(STATE_VALUE_ENUM.STATE_HOVER, true, datum, filter, region);
+  }
+
+  /**
+   * 清除所有图元的状态
+   *
+   * @since 1.11.0
+   */
+  clearState(state: string) {
+    this.getAllRegions().forEach(r => {
+      r.interaction.clearEventElement(state, true);
+      r.interaction.resetInteraction(state, null);
+      return;
+    });
+  }
+
+  /**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected() {
+    this.clearState(STATE_VALUE_ENUM.STATE_SELECTED);
+  }
+
+  /**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered() {
+    this.clearState(STATE_VALUE_ENUM.STATE_HOVER);
   }
 
   private _initEvent() {

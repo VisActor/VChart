@@ -82,7 +82,7 @@ type SuperEvent = Event & {
 
 ### Event filtering
 
-If you need to specifically monitor events in a certain part of the chart, you can use the built-in query rules for configuration. Currently, we provide the following filtering rules:
+Event filtering configuration (parameter `query: EventQuery`) is optional. If you need to specifically monitor events in a certain part of the chart, you can use the built-in query rules for configuration. Currently, we provide the following filtering rules:
 
 1. `source`, filter according to the event source, that is, listen to the events of the window or the chart itself.
 
@@ -131,6 +131,14 @@ vchart.on('pointerdown', { id: 'axis-left' }, () => {});
 ```ts
 vchart.on('pointerdown', { filter: ({model} => model.id === 45) }, () => {});
 ```
+
+In addition to the above configurations, `query` also supports the following configurations:
+
+| Configuration | Type      | Default | Description                           |
+| ------------- | --------- | ------- | ------------------------------------- |
+| consume       | `Boolean` | `false` | Whether to stop event propagation      |
+| throttle      | `Number`  | `null`  | Duration of event throttling in ms, defaults to no throttling |
+| debounce      | `Number`  | `null`  | Duration of event debouncing in ms, defaults to no debouncing |
 
 #### Listen to **component** events through event filtering
 
@@ -486,3 +494,18 @@ The event parameters are as follows:
 - `'layoutStart'` Layout start event
 
 - `'layoutEnd'` Layout end event
+
+The event parameters are as follows:
+
+```ts
+{
+  /**
+   * The chart of the event source
+   */
+  chart: IChart;
+  /**
+   * the instance of VChart
+   */
+  vchart: IVChart;
+}
+```

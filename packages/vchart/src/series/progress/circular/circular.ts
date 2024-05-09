@@ -17,6 +17,7 @@ import { registerProgressLikeAnimation } from '../../polar/progress-like';
 import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IMark } from '../../../mark/interface';
 import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
+import { registerPolarLinearAxis, registerPolarBandAxis } from '../../../component/axis/polar';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
@@ -206,8 +207,10 @@ export class CircularProgressSeries<
 }
 
 export const registerCircularProgressSeries = () => {
+  Factory.registerSeries(CircularProgressSeries.type, CircularProgressSeries);
   registerArcMark();
   registerProgressLikeAnimation();
   registerFadeInOutAnimation();
-  Factory.registerSeries(CircularProgressSeries.type, CircularProgressSeries);
+  registerPolarBandAxis();
+  registerPolarLinearAxis();
 };

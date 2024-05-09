@@ -36,6 +36,9 @@ import { Factory } from '../../core/factory';
 import { registerRectMark } from '../../mark/rect';
 import { getGroupAnimationParams } from '../util/utils';
 import { WaterfallSeriesSpecTransformer } from './waterfall-transformer';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { stackLabel } from '../../component/label/util';
+import type { ILabelInfo } from '../../component/label/label';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -224,6 +227,36 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     });
   }
 
+  // 样式设置在这里的原因是执行顺序的问题
+  // 首先执行这里的 mark.style
+  // 然后执行用户的 formatMethod
+  // 最后执行下方的 getTotalLabelComponentStyle 。如果在下方实现值函数，就会导致用户format无法生效
+  initTotalLabelMarkStyle(labelMark: ILabelMark) {
+    this.setMarkStyle(labelMark, {
+      text: (datum: Datum) => {
+        if (!('end' in datum)) {
+          return this.direction === Direction.horizontal ? datum[this._fieldX[0]] : datum[this._fieldY[0]];
+        }
+        return this._spec.totalLabel?.valueType === 'absolute' ? datum.end : precisionSub(datum.end, datum.start);
+      }
+    });
+  }
+
+  getTotalLabelComponentStyle(info: Pick<ILabelInfo, 'baseMark' | 'labelMark'>) {
+    return stackLabel(
+      {
+        ...info,
+        series: this,
+        // @ts-ignore
+        labelSpec: this._spec.totalLabel
+      },
+      d => {
+        const index = this.direction === Direction.vertical ? d[this._fieldX[0]] : d[this._fieldY[0]];
+        return this._totalData.getLatestData().find((_d: Datum) => _d.index === index);
+      }
+    );
+  }
+
   totalPositionX(datum: Datum, field: string, pos: number = 0.5) {
     const { dataToPosition, getBandwidth } = this._xAxisHelper;
     if (this._direction === Direction.horizontal) {
@@ -309,5 +342,7 @@ export const registerWaterfallSeries = () => {
   registerRectMark();
   registerWaterfallAnimation();
   registerFadeInOutAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(WaterfallSeries.type, WaterfallSeries);
 };

@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import ReactDOM from 'react-dom/client';
 import {
   BarChart,
   AreaChart,
@@ -18,10 +19,13 @@ import {
   VChart,
   Legend,
   Tooltip,
-  ITooltipRenderProps
+  ITooltipRenderProps,
+  ILineChartSpec,
+  Funnel
 } from '../../src';
 import './App.css';
 import { generateData } from './util';
+import Switch from './Switch';
 
 const data = generateData(
   [
@@ -74,6 +78,10 @@ function App() {
     );
   };
 
+  const handleReady = useCallback(chartInstance => {
+    (window as any).vchart = chartInstance;
+  }, []);
+
   const handleChartClick = (a: any) => {
     console.log('chart, click');
     console.log(a);
@@ -92,12 +100,30 @@ function App() {
   };
 
   const chartRef = useRef(null);
+  const [xAxisPosition, setXAxisPosition] = useState('bottom');
+
+  const renderFunnelLabel = useCallback(datum => {
+    console.log(datum);
+    return {
+      element: (
+        <p style={{ color: 'black' }}>
+          <span>teststst</span>
+          {datum.x}
+        </p>
+      ),
+      anchorType: 'top-right'
+      // style: {
+      //   width: '100%',
+      //   height: '100%'
+      // }
+    };
+  }, []);
 
   return (
     <div className="App">
       <button onClick={handleClick}>更新柱图数据</button>
       <button onClick={handleUpdateMark}>更新mark属性</button>
-      <BarChart
+      {/* <BarChart
         ref={chartRef}
         data={[{ id: 'id0', values: barData }]}
         onClick={handleChartClick}
@@ -191,17 +217,28 @@ function App() {
 
       <RadarChart data={simpleData} valueField={'y'} categoryField={'x'}>
         <Legend visible={true} />
-      </RadarChart>
+      </RadarChart> */}
 
-      <FunnelChart data={simpleData} categoryField={'x'} valueField={'y'}>
+      <FunnelChart data={simpleData} options={{ ReactDOM }} onReady={handleReady}>
         <Legend visible={true} />
+        <Funnel
+          categoryField={'x'}
+          valueField={'y'}
+          funnel={{
+            style: {
+              stroke: '#000',
+              lineWidth: 2,
+              react: renderFunnelLabel
+            }
+          }}
+        />
       </FunnelChart>
 
       {/* <WordCloudChart data={simpleData} nameField={'x'} valueField={'y'}>
         <Legend visible={true} />
       </WordCloudChart> */}
 
-      <CircularProgressChart data={simpleData} valueField={'y'} seriesField={'x'}>
+      {/* <CircularProgressChart data={simpleData} valueField={'y'} seriesField={'x'}>
         <Legend visible={true} />
       </CircularProgressChart>
 
@@ -226,9 +263,9 @@ function App() {
         xField={'type'}
         minField={'min'}
         maxField={'max'}
-      />
+      /> */}
 
-      <BoxPlotChart
+      {/* <BoxPlotChart
         data={[
           {
             name: 'boxPlot',
@@ -271,68 +308,155 @@ function App() {
         q3Field={'y2'}
         outliersField={'outliers'}
         direction={'vertical'}
-      />
+      /> */}
 
       <VChart
         onClick={handleChartClick}
-        spec={{
-          type: 'line',
+        options={{ ReactDOM }}
+        spec={
+          {
+            type: 'line',
 
-          data: [
-            {
-              id: 'id0',
-              values: lineData
-            }
-          ],
-          xField: 'x',
-          yField: 'y',
-          seriesField: 'type',
-          label: { visible: true },
-          legends: { visible: true },
-          point: {
-            state: {
-              hover: {
-                size: 20,
-                fill: 'red'
+            data: [
+              {
+                id: 'id0',
+                values: lineData
               }
-            }
-          },
-          animationAppear: {
+            ],
+            xField: 'x',
+            yField: 'y',
+            seriesField: 'type',
+            label: { visible: true },
+            legends: { visible: true },
             point: {
-              oneByOne: 100
-            }
-          },
-          axes: [
-            {
-              orient: 'left',
-              tickCount: 6,
-              forceTickCount: 6,
-              visible: true
-            },
-            {
-              orient: 'bottom',
-              label: { visible: true }
-            }
-          ],
-          tooltip: {
-            dimension: {
-              hasShape: false,
-              content: [
-                {
-                  hasShape: true,
-                  value: (datum: any) => datum.y
-                },
-                {
-                  value: 'test'
+              state: {
+                hover: {
+                  size: 20,
+                  fill: 'red'
                 }
-              ]
+              }
             },
-            mark: {
-              position: 'top'
-            }
-            //renderMode: 'canvas'
-          }
-        }}
+            axes: [
+              {
+                orient: 'left',
+                tickCount: 6,
+                forceTickCount: 6,
+                visible: true
+              },
+              {
+                orient: 'bottom',
+                label: { visible: true }
+              }
+            ],
+            tooltip: {
+              dimension: {
+                hasShape: false,
+                content: [
+                  {
+                    hasShape: true,
+                    value: (datum: any) => datum.y
+                  },
+                  {
+                    value: 'test'
+                  }
+                ]
+              },
+              mark: {
+                position: 'top'
+              }
+              //renderMode: 'canvas'
+            },
+            customMark: [
+              {
+                type: 'rect',
+                layoutType: 'region-relative',
+                orient: 'top',
+                height: 20,
+                visible: true,
+                zIndex: 10001,
+                style: {
+                  react: {
+                    id: 'yAxisSwitch',
+                    element: <p style={{ margin: 0, color: 'black' }}>classs</p>
+                  },
+                  fill: 'red',
+                  x: (datum, ctx) => {
+                    const bounds = ctx.getLayoutBounds();
+                    console.log(bounds);
+                    // return (bounds.x1 + bounds.x2) / 2;
+                    return bounds.x1;
+                  },
+
+                  y: (datum, ctx) => {
+                    const bounds = ctx.getLayoutBounds();
+                    console.log(bounds);
+
+                    return bounds.y1;
+                  },
+                  width: (datum, ctx) => {
+                    const bounds = ctx.getLayoutBounds();
+                    console.log(bounds);
+
+                    return bounds.width();
+                  },
+                  height: (datum, ctx) => {
+                    const bounds = ctx.getLayoutBounds();
+                    console.log(bounds);
+
+                    return bounds.height();
+                  }
+                }
+              },
+              {
+                type: 'rect',
+                layoutType: 'region-relative',
+                orient: xAxisPosition,
+                height: 20,
+                visible: true,
+                zIndex: 10001,
+                style: {
+                  react: (datum, ctx) => {
+                    const bounds = ctx.getLayoutBounds();
+
+                    return {
+                      pointerEvents: true,
+                      id: 'xAxisSwitch',
+                      element: (
+                        <Switch data={['bottom', 'top']} currentActive={xAxisPosition} onChange={setXAxisPosition} />
+                      )
+                    };
+                  },
+                  fill: 'pink',
+                  x: (datum, ctx) => {
+                    const bounds = ctx.getLayoutBounds();
+                    console.log(bounds);
+                    // return (bounds.x1 + bounds.x2) / 2;
+                    return bounds.x1;
+                  },
+
+                  y: (datum, ctx) => {
+                    const bounds = ctx.getLayoutBounds();
+                    console.log(bounds);
+
+                    return bounds.y1;
+                  },
+                  width: (datum, ctx) => {
+                    const bounds = ctx.getLayoutBounds();
+                    console.log(bounds);
+
+                    return bounds.width();
+                  },
+                  height: (datum, ctx) => {
+                    const bounds = ctx.getLayoutBounds();
+                    console.log(bounds);
+
+                    return bounds.height();
+                  }
+                }
+              }
+            ]
+          } as ILineChartSpec
+        }
       />
     </div>
   );
