@@ -52,6 +52,8 @@ export class Compiler {
 
   protected _container: IRenderContainer;
   protected _option: IRenderOption;
+  // 已释放标记
+  private _released: boolean = false;
 
   protected _model: CompilerModel = {
     [GrammarType.signal]: {},
@@ -91,6 +93,9 @@ export class Compiler {
   }
 
   initView() {
+    if (this._released) {
+      return;
+    }
     this.isInited = true;
     if (this._view) {
       return;
@@ -188,6 +193,9 @@ export class Compiler {
   }
 
   compile(ctx: { chart: IChart; vChart: VChart }, option: any) {
+    if (this._released) {
+      return;
+    }
     const { chart } = ctx;
     this._compileChart = chart;
     this.initView();
@@ -209,6 +217,9 @@ export class Compiler {
   }
 
   renderNextTick(morphConfig?: IMorphConfig): void {
+    if (this._released) {
+      return;
+    }
     if (!this._nextRafId) {
       this._nextRafId = VChart.vglobal.getRequestAnimationFrame()(() => {
         this._nextRafId = null;
@@ -218,6 +229,9 @@ export class Compiler {
   }
 
   render(morphConfig?: IMorphConfig) {
+    if (this._released) {
+      return;
+    }
     if (this._nextRafId) {
       VChart.vglobal.getCancelAnimationFrame()(this._nextRafId);
       this._nextRafId = null;
@@ -401,6 +415,7 @@ export class Compiler {
     this._view = null;
     this.isInited = false;
     this._compileChart = null;
+    this._released = true;
   }
 
   /**
