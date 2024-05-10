@@ -1,16 +1,22 @@
 import VChart, { ISpec } from '@visactor/vchart';
-import { getAllSeriesMarksWithoutRoot } from '../../../../../util/vchart-api';
 import { merge } from '@visactor/vutils';
 import { defaultPayload } from './default';
-import { getAllSeriesMarksByMarkType } from '../../utils';
 import { transformArcAppear } from './transformArcAppear';
 import { getAllSeries, getSeriesMarksByMarkType } from '../../utils/series';
 import { IChartAppearAction } from '../../../../types/chart/appear';
+import { ICharacterVisactor } from '../../../../../story/character/visactor/interface';
 
-export const pieDisappearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
-  const vchart = (chartInstance as any)?._graphic?._vchart;
+import { axesDisappearProcessor, titleDisappearProcessor } from '../../components';
 
+export const pieDisappearProcessor = async (
+  chartInstance: ICharacterVisactor,
+  spec: ISpec,
+  action: IChartAppearAction
+) => {
+  const chart = chartInstance.getGraphicParent();
+  const vchart = chart?._vchart;
   const instance: VChart = vchart ? vchart : chartInstance;
+
   if (!instance) {
     return;
   }
@@ -35,5 +41,25 @@ export const pieDisappearProcessor = async (chartInstance: VChart, spec: ISpec, 
         product.animate.run(config);
       });
     }
+  });
+
+  // 隐藏标题
+  titleDisappearProcessor(chartInstance, spec, {
+    action: 'disappear',
+    payload: {
+      animation: {
+        duration: mergePayload.animation.duration,
+        easing: mergePayload.animation.easing,
+        effect: 'fade'
+      }
+    }
+  });
+
+  // 隐藏坐标轴
+  axesDisappearProcessor(chartInstance, spec, { action: 'disappear', payload: undefined });
+
+  // 隐藏group
+  chart.setAttributes({
+    visible: false
   });
 };

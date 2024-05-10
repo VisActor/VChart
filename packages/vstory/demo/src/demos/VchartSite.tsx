@@ -1085,17 +1085,31 @@ export const VChartSiteDemo = () => {
                     }
                   ]
                 },
-                // 退场
-                ...new Array(10).fill(0).map((_, i) => ({
-                  characterId: `chart${i}`,
+                ...new Array(5).fill(0).map((_, i) => ({
+                  characterId: `chart${9 - i}`,
                   characterActions: [
                     {
-                      startTime: 6000,
-                      duration: 300,
+                      startTime: i * 100 + 4500,
+                      duration: 2000,
                       action: 'disappear',
                       payload: {
                         animation: {
-                          duration: 300
+                          duration: 2000
+                        }
+                      }
+                    }
+                  ]
+                })),
+                ...new Array(5).fill(0).map((_, i) => ({
+                  characterId: `chart${i}`,
+                  characterActions: [
+                    {
+                      startTime: i * 100 + 4500,
+                      duration: 2000,
+                      action: 'disappear',
+                      payload: {
+                        animation: {
+                          duration: 2000
                         }
                       }
                     }

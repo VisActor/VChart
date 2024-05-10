@@ -4,10 +4,19 @@ import { defaultPayload } from './default';
 import { getAllSeriesMarksByMarkType } from '../../utils';
 import { IChartAppearAction } from '../../../../types/chart/appear';
 import { transformRectAppear } from './transformRectAppear';
+import { ICharacterVisactor } from '../../../../../story/character/visactor/interface';
 
-export const barDisappearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
-  const vchart = (chartInstance as any)?._graphic?._vchart;
+import { axesDisappearProcessor, titleDisappearProcessor } from '../../components';
+
+export const barDisappearProcessor = async (
+  chartInstance: ICharacterVisactor,
+  spec: ISpec,
+  action: IChartAppearAction
+) => {
+  const chart = chartInstance.getGraphicParent();
+  const vchart = chart?._vchart;
   const instance: VChart = vchart ? vchart : chartInstance;
+
   if (!instance) {
     return;
   }
@@ -26,5 +35,24 @@ export const barDisappearProcessor = async (chartInstance: VChart, spec: ISpec, 
     if (config) {
       product.animate.run(config);
     }
+  });
+
+  titleDisappearProcessor(chartInstance, spec, {
+    action: 'disappear',
+    payload: {
+      animation: {
+        duration: mergePayload.animation.duration,
+        easing: mergePayload.animation.easing,
+        effect: 'fade'
+      }
+    }
+  });
+
+  // 隐藏坐标轴
+  axesDisappearProcessor(chartInstance, spec, { action: 'disappear', payload: undefined });
+
+  // 隐藏group
+  chart.setAttributes({
+    visible: false
   });
 };

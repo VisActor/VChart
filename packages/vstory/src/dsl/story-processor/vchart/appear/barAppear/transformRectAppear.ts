@@ -51,7 +51,6 @@ const rectGrow = (
     oneByOne,
     easing,
     options: (datum: any, element: any, params: any) => {
-      console.log('debug instance', instance);
       const field = direction === 'vertical' ? yField : xField;
       const data = datum?.[field];
 

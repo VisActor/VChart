@@ -1,0 +1,1 @@
+export { titleDisappearProcessor } from './disappear';
