@@ -1084,7 +1084,23 @@ export const VChartSiteDemo = () => {
                       }
                     }
                   ]
-                }
+                },
+                // 退场
+                ...new Array(10).fill(0).map((_, i) => ({
+                  characterId: `chart${i}`,
+                  characterActions: [
+                    {
+                      startTime: 6000,
+                      duration: 300,
+                      action: 'disappear',
+                      payload: {
+                        animation: {
+                          duration: 300
+                        }
+                      }
+                    }
+                  ]
+                }))
                 // // 第二个 scene 的内容，写在这里仅用作测试
                 // {
                 //   characterId: `title1`,

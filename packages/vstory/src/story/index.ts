@@ -3,6 +3,7 @@ import { CharacterComponentRect } from './character/component/characters/charact
 import { StoryFactory } from './factory/factory';
 import { CharacterChart } from './character/chart/character';
 import { ContainerModule, GraphicRender, container } from '@visactor/vrender-core';
+import { CanvasPickerContribution } from '@visactor/vrender-kits';
 import { ChartRender, VChartRender } from './character/chart/graphic/vchart-graphic-render';
 import { BarChartCharacter } from './character/chart/characters/bar';
 import { LineChartCharacter } from './character/chart/characters/line';
@@ -17,6 +18,7 @@ import { ScatterChartCharacter } from './character/chart/characters/scatter';
 import { RangeColumnChartCharacter } from './character/chart/characters/rangeColumn';
 import { CharacterComponentText } from './character/component/characters/character-text';
 import { CharacterComponentRichText } from './character/component/characters/character-richtext';
+import { VChartPicker } from './character/chart/graphic/vchart-graphic-picker';
 
 StoryFactory.registerCharacter(BarChartCharacter.type, BarChartCharacter);
 StoryFactory.registerCharacter(LineChartCharacter.type, CharacterChart);
@@ -45,5 +47,7 @@ const splitModule = new ContainerModule((bind, unbind, isBound, rebind) => {
   bind(VChartRender).toSelf().inSingletonScope();
   bind(ChartRender).toService(VChartRender);
   bind(GraphicRender).toService(ChartRender);
+  bind(VChartPicker).to(VChartPicker).inSingletonScope();
+  bind(CanvasPickerContribution).toService(VChartPicker);
 });
 container.load(splitModule);
