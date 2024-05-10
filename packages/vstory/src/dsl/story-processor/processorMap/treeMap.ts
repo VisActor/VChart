@@ -1,7 +1,7 @@
 import { addProcessor } from '../vchart/add';
 import { createMarkStyleProcessorByMarkType } from '../vchart/style/style';
 import { updateProcessor } from '../vchart/update';
-import { treeMapAppearProcessor, treeMapDisappearProcessor } from '../vchart/appear';
+import { treeMapAppearProcessor, treeMapDisappearProcessor } from '../vchart/charts';
 import { createMarkPointProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
 import { bounceProcessor } from '../vchart/bounce';

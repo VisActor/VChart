@@ -984,9 +984,14 @@ export const VChartSiteDemo = () => {
                       characterId: `chart${i}`,
                       characterActions: [
                         {
-                          startTime: i * 300,
+                          startTime: i * 300 + 500,
                           duration: 1000,
-                          action: 'appear'
+                          action: 'appear',
+                          payload: {
+                            animation: {
+                              duration: 1000
+                            }
+                          }
                         }
                       ]
                     } as ICharacterLink)
@@ -997,9 +1002,14 @@ export const VChartSiteDemo = () => {
                       characterId: `chart${9 - i}`,
                       characterActions: [
                         {
-                          startTime: i * 300,
+                          startTime: i * 300 + 500,
                           duration: 1000,
-                          action: 'appear'
+                          action: 'appear',
+                          payload: {
+                            animation: {
+                              duration: 1000
+                            }
+                          }
                         }
                       ]
                     } as ICharacterLink)
