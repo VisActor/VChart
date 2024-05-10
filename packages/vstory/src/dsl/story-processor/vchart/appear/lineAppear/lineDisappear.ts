@@ -1,13 +1,9 @@
 import VChart, { ISpec } from '@visactor/vchart';
-import { merge } from '@visactor/vutils';
-import { defaultPayload } from './default';
-import { transformLineAppear } from './transformLineAppear';
-import { transformLineSymbolAppear } from './transformLineSymbolAppear';
-import { getAllSeries, getSeriesMarksByMarkType } from '../../utils/series';
 import { IChartAppearAction } from '../../../../types/chart/appear';
 import { ICharacterVisactor } from '../../../../../story/character/visactor/interface';
 
 import { axesDisappearProcessor, titleDisappearProcessor } from '../../components';
+import { lineDisappearProcessor as lineMarkDisappearProcessor } from '../../marks';
 
 export const lineDisappearProcessor = async (
   chartInstance: ICharacterVisactor,
@@ -22,36 +18,7 @@ export const lineDisappearProcessor = async (
     return;
   }
 
-  const { payload } = action;
-  const mergePayload = merge({}, defaultPayload, payload) as IChartAppearAction['payload'];
-
-  const series = getAllSeries(instance);
-  series.forEach((series, seriesIndex) => {
-    const lineMarks = getSeriesMarksByMarkType(series, 'line');
-    const symbolMarks = getSeriesMarksByMarkType(series, 'symbol');
-
-    if (lineMarks.length) {
-      lineMarks.forEach((mark, markIndex) => {
-        const product = mark.getProduct();
-        const config = transformLineAppear(instance, mergePayload.animation, {
-          markIndex: seriesIndex + markIndex,
-          disappear: true
-        });
-        product.animate.run(config);
-      });
-    }
-
-    if (symbolMarks.length) {
-      symbolMarks.forEach((mark, markIndex) => {
-        const product = mark.getProduct();
-        const config = transformLineSymbolAppear(instance, mergePayload.animation, {
-          markIndex: seriesIndex + markIndex,
-          disappear: true
-        });
-        product.animate.run(config);
-      });
-    }
-  });
+  lineMarkDisappearProcessor(chartInstance, spec, action);
 
   // 隐藏标题
   titleDisappearProcessor(chartInstance, spec, {

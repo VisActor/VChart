@@ -6,24 +6,24 @@ import { IChartAppearAction } from '../../../../types/chart/appear';
 export const transformRectAppear = (
   instance: VChart,
   animation: IChartAppearAction['payload']['animation'],
-  disappear = false
+  option: { index: number; disappear: boolean }
 ) => {
   switch (animation.effect) {
     case 'grow': {
       return rectGrow(instance, animation, {
-        disappear,
+        ...option,
         center: false
       });
     }
     case 'centerGrow': {
       return rectGrow(instance, animation, {
-        disappear,
+        ...option,
         center: true
       });
     }
     case 'fade': {
       return rectFade(instance, animation, {
-        disappear,
+        ...option,
         center: false
       });
     }

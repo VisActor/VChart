@@ -1,12 +1,9 @@
 import VChart, { ISpec } from '@visactor/vchart';
-import { merge } from '@visactor/vutils';
-import { defaultPayload } from './default';
-import { getAllSeriesMarksByMarkType } from '../../utils';
 import { IChartAppearAction } from '../../../../types/chart/appear';
-import { transformRectAppear } from './transformRectAppear';
 import { ICharacterVisactor } from '../../../../../story/character/visactor/interface';
 
 import { axesDisappearProcessor, titleDisappearProcessor } from '../../components';
+import { rectDisappearProcessor } from '../../marks';
 
 export const barDisappearProcessor = async (
   chartInstance: ICharacterVisactor,
@@ -21,37 +18,25 @@ export const barDisappearProcessor = async (
     return;
   }
 
-  const marks = getAllSeriesMarksByMarkType(instance, 'rect');
-  if (!marks.length) {
-    return;
-  }
-  const { payload } = action;
+  // 隐藏: rect图元
+  rectDisappearProcessor(chartInstance, spec, action);
 
-  const mergePayload = merge({}, defaultPayload, payload) as IChartAppearAction['payload'];
-
-  marks.forEach(mark => {
-    const product = mark.getProduct();
-    const config = transformRectAppear(instance, mergePayload.animation, true);
-    if (config) {
-      product.animate.run(config);
-    }
-  });
-
+  // 隐藏: title图元
   titleDisappearProcessor(chartInstance, spec, {
     action: 'disappear',
     payload: {
       animation: {
-        duration: mergePayload.animation.duration,
-        easing: mergePayload.animation.easing,
-        effect: 'fade'
+        effect: 'fade',
+        duration: action.payload.animation.duration,
+        easing: action.payload.animation.easing
       }
     }
   });
 
-  // 隐藏坐标轴
+  // 隐藏: 坐标轴
   axesDisappearProcessor(chartInstance, spec, { action: 'disappear', payload: undefined });
 
-  // 隐藏group
+  // 隐藏: 根节点容器
   chart.setAttributes({
     visible: false
   });

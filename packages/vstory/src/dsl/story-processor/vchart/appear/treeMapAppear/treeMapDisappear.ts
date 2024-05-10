@@ -1,11 +1,8 @@
 import VChart, { ISpec } from '@visactor/vchart';
-import { merge } from '@visactor/vutils';
-import { defaultPayload } from './default';
-import { transformRectAppear } from './transformRectAppear';
-import { getAllSeries, getSeriesMarksByMarkType } from '../../utils/series';
 import { IChartAppearAction } from '../../../../types/chart/appear';
 import { ICharacterVisactor } from '../../../../../story/character/visactor/interface';
 import { axesDisappearProcessor, titleDisappearProcessor } from '../../components';
+import { rectDisappearProcessor } from '../../marks';
 
 export const treeMapDisappearProcessor = async (
   chartInstance: ICharacterVisactor,
@@ -20,35 +17,15 @@ export const treeMapDisappearProcessor = async (
     return;
   }
 
-  const series = getAllSeries(instance);
-
-  const { payload } = action;
-
-  const mergePayload = merge({}, defaultPayload, payload) as IChartAppearAction['payload'];
-
-  series.forEach((series, seriesIndex) => {
-    const rectMarks = getSeriesMarksByMarkType(series, 'rect');
-
-    if (rectMarks.length) {
-      rectMarks.forEach((mark, markIndex) => {
-        const product = mark.getProduct();
-
-        const config = transformRectAppear(instance, mergePayload.animation, {
-          disappear: true,
-          index: seriesIndex + markIndex
-        });
-        product && product.animate.run(config);
-      });
-    }
-  });
+  rectDisappearProcessor(chartInstance, spec, action);
 
   // 隐藏标题
   titleDisappearProcessor(chartInstance, spec, {
     action: 'disappear',
     payload: {
       animation: {
-        duration: mergePayload.animation.duration,
-        easing: mergePayload.animation.easing,
+        duration: action.payload?.animation?.duration,
+        easing: action.payload?.animation?.easing,
         effect: 'fade'
       }
     }

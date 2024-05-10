@@ -1,11 +1,8 @@
 import VChart, { ISpec } from '@visactor/vchart';
-import { merge } from '@visactor/vutils';
-import { defaultPayload } from './default';
-import { transformSymbolAppear } from './transformSymbolAppear';
-import { getAllSeries, getSeriesMarksByMarkType } from '../../utils/series';
 import { IChartAppearAction } from '../../../../types/chart/appear';
 import { ICharacterVisactor } from '../../../../../story/character/visactor/interface';
 import { axesDisappearProcessor, titleDisappearProcessor } from '../../components';
+import { symbolDisappearProcessor } from '../../marks';
 
 export const scatterDisappearProcessor = async (
   chartInstance: ICharacterVisactor,
@@ -20,41 +17,25 @@ export const scatterDisappearProcessor = async (
     return;
   }
 
-  const { payload } = action;
-  const mergePayload = merge({}, defaultPayload, payload) as IChartAppearAction['payload'];
+  // 隐藏: symbol
+  symbolDisappearProcessor(chartInstance, spec, action);
 
-  const series = getAllSeries(instance);
-  series.forEach((series, seriesIndex) => {
-    const symbolMarks = getSeriesMarksByMarkType(series, 'symbol');
-
-    if (symbolMarks.length) {
-      symbolMarks.forEach((mark, markIndex) => {
-        const product = mark.getProduct();
-        const config = transformSymbolAppear(instance, mergePayload.animation, {
-          disappear: true,
-          markIndex: seriesIndex + markIndex
-        });
-        product.animate.run(config);
-      });
-    }
-  });
-
-  // 隐藏标题
+  // 隐藏: 标题
   titleDisappearProcessor(chartInstance, spec, {
     action: 'disappear',
     payload: {
       animation: {
-        duration: mergePayload.animation.duration,
-        easing: mergePayload.animation.easing,
+        duration: action.payload.animation.duration,
+        easing: action.payload.animation.easing,
         effect: 'fade'
       }
     }
   });
 
-  // 隐藏坐标轴
+  // 隐藏: 坐标轴
   axesDisappearProcessor(chartInstance, spec, { action: 'disappear', payload: undefined });
 
-  // 隐藏group
+  // 隐藏: 根节点容器
   chart.setAttributes({
     visible: false
   });

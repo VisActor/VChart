@@ -1,33 +1,38 @@
 import VChart from '@visactor/vchart';
 import { IChartAppearAction } from '../../../../types/chart/appear';
 
-export const transformSymbolAppear = (
+interface AreaAppearOption {
+  markIndex: number;
+  disappear: boolean;
+}
+
+export const transformAreaAppear = (
   instance: VChart,
   animation: IChartAppearAction['payload']['animation'],
-  option: { markIndex: number; disappear: boolean }
+  option: AreaAppearOption
 ) => {
   switch (animation.effect) {
     case 'grow': {
-      return symbolGrow(instance, animation, option);
+      return areaGrow(instance, animation, option);
     }
     case 'fade': {
-      return symbolFade(instance, animation, option);
+      return areaFade(instance, animation, option);
     }
     default: {
-      return symbolFade(instance, animation, option);
+      return areaFade(instance, animation, option);
     }
   }
 };
 
-const symbolGrow = (
+const areaGrow = (
   instance: VChart,
   animation: IChartAppearAction['payload']['animation'],
-  option: { markIndex: number; disappear: boolean }
+  option: AreaAppearOption
 ) => {
   const { duration, loop, oneByOne, easing } = animation;
-  const { disappear } = option;
+  const { markIndex, disappear } = option;
 
-  const type = disappear ? 'scaleOut' : 'scaleIn';
+  const type = disappear ? 'clipOut' : 'clipIn';
 
   return {
     type,
@@ -38,17 +43,18 @@ const symbolGrow = (
   };
 };
 
-const symbolFade = (
+const areaFade = (
   instance: VChart,
   animation: IChartAppearAction['payload']['animation'],
-  option: { markIndex: number; disappear: boolean }
+  option: AreaAppearOption
 ) => {
   const { duration, loop, oneByOne, easing } = animation;
   const { disappear } = option;
+
   const type = disappear ? 'fadeOut' : 'fadeIn';
 
   return {
-    type,
+    type: type,
     duration,
     loop,
     oneByOne,

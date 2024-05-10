@@ -2,6 +2,7 @@ import VChart, { ISpec } from '@visactor/vchart';
 import { ICharacterVisactor } from '../../../../../story/character/visactor/interface';
 import { IGraphicDisappearAction } from '../../../../types/graphic/disappear';
 
+// VChart, axes组件 disappear
 export const axesDisappearProcessor = async (
   chartInstance: ICharacterVisactor,
   spec: ISpec,
