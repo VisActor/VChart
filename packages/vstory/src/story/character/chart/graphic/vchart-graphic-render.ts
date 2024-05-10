@@ -39,9 +39,14 @@ export class VChartRender extends DefaultCanvasRectRender implements IGraphicRen
       themeAttribute: IThemeAttribute
     ) => boolean
   ) {
+    const { baseOpacity = 0.1 } = chart.attribute;
+    context.baseGlobalAlpha *= baseOpacity;
     super.drawShape(chart, context, x, y, drawContext, params, fillCb, strokeCb);
+    context.baseGlobalAlpha /= baseOpacity;
     const vChart = (chart as Chart).vchart;
     const chartStage = vChart.getStage();
+    const chartCtx = chartStage.window.getContext();
+    chartCtx.baseGlobalAlpha *= baseOpacity;
     // @ts-ignore
     chartStage._editor_needRender = true;
     const matrix = chart.globalTransMatrix.clone();
@@ -50,6 +55,7 @@ export class VChartRender extends DefaultCanvasRectRender implements IGraphicRen
     chartStage.window.setViewBoxTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f);
     chartStage.dirtyBounds?.clear();
     chartStage.render();
+    chartCtx.baseGlobalAlpha /= baseOpacity;
     // const ctx = chartStage.window.getContext();
     // ctx.fillStyle = 'green';
     // ctx.fillRect(0, 0, 100, 100);
