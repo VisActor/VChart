@@ -14,7 +14,7 @@ import {
   pieDisappearProcessor,
   radarAppearProcessor,
   radarDisappearProcessor
-} from '../vchart/appear';
+} from '../vchart/charts';
 import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
 import { lineStyleProcessor } from '../vchart/style/lineStyle';
