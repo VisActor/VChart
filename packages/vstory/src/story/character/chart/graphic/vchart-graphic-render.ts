@@ -39,7 +39,7 @@ export class VChartRender extends DefaultCanvasRectRender implements IGraphicRen
       themeAttribute: IThemeAttribute
     ) => boolean
   ) {
-    const { baseOpacity = 0.1 } = chart.attribute;
+    const { baseOpacity = 1 } = chart.attribute;
     context.baseGlobalAlpha *= baseOpacity;
     super.drawShape(chart, context, x, y, drawContext, params, fillCb, strokeCb);
     context.baseGlobalAlpha /= baseOpacity;
