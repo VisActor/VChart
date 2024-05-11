@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix error of call `updateFullDataSync()` before `renderSync()`, fix #2655\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
