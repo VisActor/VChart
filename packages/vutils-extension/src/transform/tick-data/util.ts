@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { AABBBounds, degreeToRadian, maxInArray, minInArray } from '@visactor/vutils';
+import { AABBBounds, degreeToRadian } from '@visactor/vutils';
 import type { IGraphic, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
 import { initTextMeasure } from '../../utils/text';
 import type { ICartesianTickDataOpt, IOrientType, IPolarTickDataOpt, ITickData } from './interface';
@@ -63,6 +63,12 @@ export function hasOverlap<T>(items: ILabelItem<T>[], pad: number): boolean {
 
 export const MIN_TICK_GAP = 12;
 
+const calculateFlushPos = (basePosition: number, size: number, rangePosition: number) => {
+  return rangePosition <= basePosition
+    ? Math.max(basePosition - size / 2, rangePosition)
+    : Math.min(basePosition - size / 2, rangePosition - size);
+};
+
 export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: ICartesianTickDataOpt): AABBBounds[] => {
   const { labelStyle, axisOrientType, labelFlush, labelFormatter, startAngle = 0 } = op;
   let labelAngle = labelStyle.angle ?? 0;
@@ -85,8 +91,6 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 
   const textMeasure = initTextMeasure(labelStyle);
   const range = scale.range();
-  const rangeMin = minInArray<number>(range);
-  const rangeMax = maxInArray<number>(range);
   const labelBoundsList = domain.map((v: any, i: number) => {
     const str = labelFormatter ? labelFormatter(v) : `${v}`;
 
@@ -104,9 +108,9 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 
     let align: TextAlignType;
     if (labelFlush && isHorizontal && i === 0) {
-      textX = rangeMin;
+      textX = calculateFlushPos(baseTextX, textWidth, range[0]);
     } else if (labelFlush && isHorizontal && i === domain.length - 1) {
-      textX = Math.max(baseTextX - textWidth / 2, rangeMax - textWidth);
+      textX = calculateFlushPos(baseTextX, textWidth, range[range.length - 1]);
     } else {
       align = labelStyle.textAlign ?? 'center';
     }
@@ -118,9 +122,9 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 
     let baseline: TextBaselineType;
     if (labelFlush && isVertical && i === 0) {
-      textY = rangeMin;
+      textY = calculateFlushPos(baseTextY, textHeight, range[0]);
     } else if (labelFlush && isVertical && i === domain.length - 1) {
-      textY = Math.max(baseTextY - textHeight / 2, rangeMax - textHeight);
+      textY = calculateFlushPos(baseTextY, textHeight, range[range.length - 1]);
     } else {
       baseline = labelStyle.textBaseline ?? 'middle';
     }
