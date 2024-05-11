@@ -437,7 +437,7 @@ export class VChart implements IVChart {
       );
     }
 
-    this._chartSpecTransformer.transformSpec(this._spec);
+    this._chartSpecTransformer?.transformSpec(this._spec);
 
     // 插件生命周期
     this._chartPluginApply('onAfterChartSpecTransform', this._spec, actionSource);
@@ -622,7 +622,7 @@ export class VChart implements IVChart {
       this._initDataSet();
       // 释放图表等等
       this._chartSpecTransformer = null;
-      this._chart.release();
+      this._chart?.release();
       this._chart = null as unknown as IChart;
       // 如果不需要动画，那么释放item，避免元素残留
       this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
