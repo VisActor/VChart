@@ -265,12 +265,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   valueToPositionX(value: StringOrNumber | StringOrNumber[]) {
     const node = this.valueToNode(value);
 
-    return node.x0;
+    return node?.x0;
   }
   valueToPositionY(value: StringOrNumber | StringOrNumber[]) {
     const node = this.valueToNode(value);
 
-    return node.y0;
+    return node?.y0;
   }
 
   initMarkStyle(): void {
