@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { AABBBounds, degreeToRadian } from '@visactor/vutils';
+import { AABBBounds, degreeToRadian, maxInArray, minInArray } from '@visactor/vutils';
 import type { IGraphic, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
 import { initTextMeasure } from '../../utils/text';
 import type { ICartesianTickDataOpt, IOrientType, IPolarTickDataOpt, ITickData } from './interface';
@@ -84,6 +84,9 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
   }
 
   const textMeasure = initTextMeasure(labelStyle);
+  const range = scale.range();
+  const rangeMin = minInArray<number>(range);
+  const rangeMax = maxInArray<number>(range);
   const labelBoundsList = domain.map((v: any, i: number) => {
     const str = labelFormatter ? labelFormatter(v) : `${v}`;
 
@@ -101,9 +104,9 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 
     let align: TextAlignType;
     if (labelFlush && isHorizontal && i === 0) {
-      align = 'left';
+      textX = rangeMin;
     } else if (labelFlush && isHorizontal && i === domain.length - 1) {
-      align = 'right';
+      textX = Math.max(baseTextX - textWidth / 2, rangeMax - textWidth);
     } else {
       align = labelStyle.textAlign ?? 'center';
     }
@@ -115,9 +118,9 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 
     let baseline: TextBaselineType;
     if (labelFlush && isVertical && i === 0) {
-      baseline = 'top';
+      textY = rangeMin;
     } else if (labelFlush && isVertical && i === domain.length - 1) {
-      baseline = 'bottom';
+      textY = Math.max(baseTextY - textHeight / 2, rangeMax - textHeight);
     } else {
       baseline = labelStyle.textBaseline ?? 'middle';
     }
