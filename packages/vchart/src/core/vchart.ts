@@ -26,9 +26,8 @@ import type {
   IEventDispatcher
 } from '../event/interface';
 import type { IParserOptions, IFields, Transform } from '@visactor/vdataset';
-import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { DataSet, dataViewParser } from '@visactor/vdataset';
+import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender-core';
