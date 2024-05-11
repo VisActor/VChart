@@ -58,6 +58,16 @@ formatMethod: text => {
 
 更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
 
+#${prefix} formatter(string|string[])
+
+格式化字符串模版，自`1.10.0`版本开始支持。
+
+用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
+
+例如，`formatter: '{label:~s}'`
+
+详细使用文档请参考[教程文档](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter)和[Demo](/vchart/demo/label/label-formatter)。
+
 #${prefix} space(number)
 
 标签同刻度线之间的距离。

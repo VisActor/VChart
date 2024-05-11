@@ -812,6 +812,22 @@
             "zh": "富文本和 Dom 扩展",
             "en": "Richtext and dom extension"
           }
+        },
+        {
+          "path": "Chart_Plugins",
+          "title": {
+            "zh": "图表插件",
+            "en": "VChart Plugins"
+          },
+          "children": [
+            {
+              "path": "Formatter",
+              "title": {
+                "zh": "格式化插件",
+                "en": "Formatter Plugin"
+              }
+            }
+          ]
         }
       ]
     }
