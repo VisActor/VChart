@@ -109,6 +109,40 @@ interface VChartProps extends EventsProps {
 
 举例来说，开发者可以在初次渲染时，将需要触发的回调事件注册在图表实例上以实现图表交互功能。
 
+## 按需加载标签 `<VChartSimple />`
+
+该标签的主要使用方法和`<VChart />`类似，该标签支持 VChart 的按需加载功能，使用的时候需要额外配置一个`vchartConstrouctor`字段，将 VChart 传入
+
+```ts
+import { VChartSimple } from '@dp/lynx-vchart';
+import { VChart as VChartCore } from '@visactor/vchart/esm/core';
+
+export default function Demo() {
+  return (
+    <view>
+      <VChartSimple
+        // vchart核心包
+        vchartConstrouctor={VChartCore}
+        width="700rpx"
+        height="900rpx"
+        spec={spec}
+      />
+    </view>
+  );
+}
+```
+
+同时由于该标签是按需加载标签，所以您需要提前注册将要使用的图表，类似于：
+
+```ts
+import { registerAreaChart } from '@visactor/vchart/esm/chart';
+import { VChart as VChartCore } from '@visactor/vchart/esm/core';
+
+VChartCore.useRegisters([registerAreaChart]);
+```
+
+具体按需加载策略可以参考按需加载教程：https://visactor.io/vchart/guide/tutorial_docs/Load_on_Demand
+
 ## 主题样式
 
 如果在 VChart 中使用自定义主题，可以通过两种方式实现，分别是在 spec 中定义 theme，以及通过`ThemeManager`注册主题。因为在 Lynx-VChart 中，并不需要引用 VChart 的 npm 包。因此 Lynx-VChart 中透出了 VChart 基类，命名为`VChartCore`，方便开发者在 VChart 的基类上通过静态方法注册自定义主题。
@@ -116,6 +150,62 @@ interface VChartProps extends EventsProps {
 VChart 的主题配置请参考[VChart 主题](https://visactor.io/vchart/guide/tutorial_docs/Theme/Theme)。
 
 注意，对于按需使用 VChart 的情况，建议直接调用 VChart API 使用主题
+
+## 事件交互
+
+统一图表标签（VChart）或是语法化图表标签（BarChart 等）最外层图表组件，其 Props 上都支持底层渲染层抛出的场景树事件 `EventsProps`。
+
+`EventsProps` 的定义如下：
+
+```ts
+interface EventsProps {
+  onPointerDown?: (e: any) => void | boolean;
+  onPointerUp?: (e: any) => void | boolean;
+  onPointerUpOutside?: (e: any) => void | boolean;
+  onPointerTap?: (e: any) => void | boolean;
+  onPointerOver?: (e: any) => void | boolean;
+  onPointerMove?: (e: any) => void | boolean;
+  onPointerEnter?: (e: any) => void | boolean;
+  onPointerLeave?: (e: any) => void | boolean;
+  onPointerOut?: (e: any) => void | boolean;
+  onMouseDown?: (e: any) => void | boolean;
+  onMouseUp?: (e: any) => void | boolean;
+  onMouseUpOutside?: (e: any) => void | boolean;
+  onMouseMove?: (e: any) => void | boolean;
+  onMouseOver?: (e: any) => void | boolean;
+  onMouseOut?: (e: any) => void | boolean;
+  onMouseEnter?: (e: any) => void | boolean;
+  onMouseLeave?: (e: any) => void | boolean;
+  onPinch?: (e: any) => void | boolean;
+  onPinchStart?: (e: any) => void | boolean;
+  onPinchEnd?: (e: any) => void | boolean;
+  onPan?: (e: any) => void | boolean;
+  onPanStart?: (e: any) => void | boolean;
+  onPanEnd?: (e: any) => void | boolean;
+  onDrag?: (e: any) => void | boolean;
+  onDragStart?: (e: any) => void | boolean;
+  onDragEnter?: (e: any) => void | boolean;
+  onDragLeave?: (e: any) => void | boolean;
+  onDragOver?: (e: any) => void | boolean;
+  onDragEnd?: (e: any) => void | boolean;
+  onRightDown?: (e: any) => void | boolean;
+  onRightUp?: (e: any) => void | boolean;
+  onRightUpOutside?: (e: any) => void | boolean;
+  onTouchStart?: (e: any) => void | boolean;
+  onTouchEnd?: (e: any) => void | boolean;
+  onTouchEndOutside?: (e: any) => void | boolean;
+  onTouchMove?: (e: any) => void | boolean;
+  onTouchCancel?: (e: any) => void | boolean;
+  onPress?: (e: any) => void | boolean;
+  onPressUp?: (e: any) => void | boolean;
+  onPressEnd?: (e: any) => void | boolean;
+  onSwipe?: (e: any) => void | boolean;
+  onDrop?: (e: any) => void | boolean;
+  onWeel?: (e: any) => void | boolean;
+  onClick?: (e: any) => void | boolean;
+  onDblClick?: (e: any) => void | boolean;
+}
+```
 
 ## 总结
 
