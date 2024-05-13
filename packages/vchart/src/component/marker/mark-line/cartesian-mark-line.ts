@@ -74,7 +74,6 @@ export class CartesianMarkLine extends BaseMarkLine {
   }
 
   protected _markerLayout() {
-    super._markerLayout();
     const spec = this._spec as any;
     const data = this._markerData;
     const startRelativeSeries = this._startRelativeSeries;
