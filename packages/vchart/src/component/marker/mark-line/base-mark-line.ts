@@ -115,7 +115,7 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
     return markLine as unknown as IGroup;
   }
 
-  protected _markerLayout() {
+  protected _getUpdateMarkerAttrs() {
     const spec = this._spec;
     const data = this._markerData;
     const startRelativeSeries = this._startRelativeSeries;
@@ -150,13 +150,18 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
         : markerComponentAttr.label?.text
     };
 
-    this._markerComponent?.setAttributes({
+    return {
       ...pointsAttr,
       label: labelAttrs as MarkLineComponent['attribute']['label'],
       limitRect,
       dx: this._layoutOffsetX,
       dy: this._layoutOffsetY
-    });
+    };
+  }
+
+  protected _markerLayout() {
+    const updateAttrs = this._getUpdateMarkerAttrs();
+    this._markerComponent?.setAttributes(updateAttrs);
   }
 
   protected _initDataView(): void {
