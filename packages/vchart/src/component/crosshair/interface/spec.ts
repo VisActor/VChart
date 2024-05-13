@@ -14,6 +14,18 @@ export type CrossHairTrigger = 'click' | 'hover' | ['click', 'hover'];
 
 export interface ICommonCrosshairSpec extends IComponentSpec {
   /**
+   * 是否和tooltip保持同步
+   * tooltip出现的时候crosshair出现；tooltip隐藏的时候crsshair隐藏；
+   * @since 1.11.1
+   */
+  followTooltip?:
+    | boolean
+    | {
+        mark?: boolean;
+        dimension?: boolean;
+        group?: boolean;
+      };
+  /**
    * 是否可以通过 点击 固定住一组 crosshair，也可以同时触发。
    * @default 'hover'
    */
