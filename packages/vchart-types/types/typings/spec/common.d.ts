@@ -49,6 +49,7 @@ export declare enum RenderModeEnum {
     'worker' = "worker",
     'miniApp' = "miniApp",
     'wx' = "wx",
+    'tt' = "tt",
     'desktop-miniApp' = "desktop-miniApp",
     'lynx' = "lynx"
 }

@@ -6,8 +6,8 @@ import type { ISeriesConstructor } from '../series/interface';
 import type { DimensionIndexOption, IChart, IChartConstructor, IChartOption, IChartSpecInfo } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
-import type { IParserOptions, Transform, DataView } from '@visactor/vdataset';
-import { DataSet } from '@visactor/vdataset';
+import type { IParserOptions, Transform } from '@visactor/vdataset';
+import { DataSet, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
@@ -186,7 +186,7 @@ export declare class VChart implements IVChart {
     setRuntimeSpec(spec: any): void;
     private _initChartPlugin;
     private _chartPluginApply;
-    protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "desktop-miniApp" | "lynx";
+    protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "desktop-miniApp" | "lynx";
     protected _getChartOption(type: string): IChartOption;
 }
 export declare const registerVChartCore: () => void;

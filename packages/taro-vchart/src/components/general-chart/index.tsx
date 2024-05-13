@@ -99,8 +99,8 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
       return;
     }
 
-    if (this.props.mode === 'wx') {
-      // 微信小程序环境特殊处理
+    if (this.props.mode === 'wx' || this.props.mode === 'tt') {
+      // 微信小程序和TT小程序环境特殊处理
       const canvasIdLists = [
         `${this.props.canvasId}_draw_canvas`,
         `${this.props.canvasId}_tooltip_canvas`,
@@ -110,10 +110,17 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
       const { chartConstructor } = this.props;
       const { vglobal } = chartConstructor as any;
       if (vglobal) {
-        await vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: undefined });
+        await vglobal.setEnv(this.props.mode, {
+          domref,
+          force: true,
+          canvasIdLists,
+          freeCanvasIdx: 2,
+          component: undefined
+        });
       }
     }
 
+    console.log('dpr', dpr);
     domref.id = this.props.canvasId;
     this.ttCanvas = new TTCanvas({
       chartConstructor: this.props.chartConstructor,
@@ -148,10 +155,11 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
       }
     };
     const { canvasId, style = {} } = this.props;
+    const type = this.props.mode === 'wx' || this.props.mode === 'tt' ? '2d' : undefined;
     return (
       <View key={canvasId} style={{ ...style_container, ...style, padding: 0 }}>
         <Canvas
-          type={this.props.mode === 'wx' ? '2d' : undefined}
+          type={type}
           style={{
             ...style_cs_tooltip_canvas
           }}
@@ -159,7 +167,7 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
           canvasId={`${canvasId}_tooltip_canvas`}
         ></Canvas>
         <Canvas
-          type={this.props.mode === 'wx' ? '2d' : undefined}
+          type={type}
           onTouchStart={handleEvent}
           onTouchMove={handleEvent}
           onTouchEnd={handleEvent}
@@ -168,7 +176,7 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
           canvasId={`${canvasId}_draw_canvas`}
         ></Canvas>
         <Canvas
-          type={this.props.mode === 'wx' ? '2d' : undefined}
+          type={type}
           style={{
             ...style_cs_canvas,
             ...style_cs_canvas_hidden
