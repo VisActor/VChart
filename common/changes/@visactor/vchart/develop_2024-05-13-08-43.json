@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "docs: add custom animate doc",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
