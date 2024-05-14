@@ -463,3 +463,82 @@ const spec = {
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
 ```
+
+### 编写自己的自定义动画类
+
+在 VChart 中，可以继承`ACustomAnimate`类来实现编写自己的自定义动画类，例如下面代码，编写了一个柱子从某个点 translate 的动画
+
+```ts
+import { ACustomAnimate, EasingType } from '@visactor/vrender-core';
+export class BarFromPoint extends ACustomAnimate<{ y?: number; y1?: number; x?: number; x1?: number }> {
+  constructor(
+    from: { y?: number; y1?: number; x?: number; x1?: number },
+    to: { y?: number; y1?: number; x?: number; x1?: number },
+    duration: number,
+    easing: EasingType,
+    params: any
+  ) {
+    const f = {
+      y: from.y1,
+      y1: from.y1,
+      x: from.x1,
+      x1: from.x1
+    };
+    super(f, { y: from.y, y1: from.y1, x: from.x, x1: from.x1 }, duration, easing, params);
+  }
+
+  getEndProps(): Record<string, any> {
+    return this.to;
+  }
+
+  getFromProps(): void | Record<string, any> {
+    return this.from;
+  }
+
+  onBind(): void {
+    this.target && this.target.setAttributes(this.from);
+  }
+
+  onUpdate(end: boolean, ratio: number, out: Record<string, any>): void {
+    const { x: fromX, y: fromY } = this.params.from;
+    const { x: toX, y: toY, y1: toY1 } = this.to;
+    const height = toY1! - toY!;
+    out.x = fromX + (toX! - fromX) * ratio;
+    out.y = fromY + (toY! - fromY) * ratio;
+    out.y1 = out.y + height;
+  }
+}
+```
+
+然后将这个类传入 spec 中自定义函数的 custom 字段即可
+
+```ts
+{
+  type: 'bar',
+  data: [
+    {
+      id: 'barData',
+      values: [
+        { month: 'Monday', sales: 22 },
+        { month: 'Tuesday', sales: 13 },
+        { month: 'Wednesday', sales: 25 },
+        { month: 'Thursday', sales: 29 },
+        { month: 'Friday', sales: 38 }
+      ]
+    }
+  ],
+  animationAppear: {
+    bar: {
+      channel: ['x', 'y', 'x1', 'y1', 'width', 'height', 'cornerRadius'],
+      custom: BarFromPoint,
+      duration: 1000,
+      easing: 'linear',
+      customParameters: {
+        from: {x: 0, y: 0},
+      }
+    },
+  },
+  xField: 'month',
+  yField: 'sales'
+}
+```
