@@ -3,16 +3,16 @@ import { Story } from './../story/story';
 import { EditAction } from './edit-action';
 import { EventEmitter } from '@visactor/vutils';
 import { IEditActionInfo, IEditComponent, IEditComponentConstructor, IEditMessage } from './interface';
-import { BoxSelection } from './edit-component/box-selection';
-import { CommonEditComponent } from './edit-component/common';
+
 export class Edit {
   readonly editAction: EditAction;
   readonly emitter: EventEmitter;
 
-  protected _componentConstructorMap: { [key: string]: IEditComponentConstructor } = {
-    boxSelection: BoxSelection,
-    common: CommonEditComponent
-  };
+  protected static componentConstructorMap: { [key: string]: IEditComponentConstructor } = {};
+
+  static registerEditComponent(key: string, cpt: IEditComponentConstructor) {
+    Edit.componentConstructorMap[key] = cpt;
+  }
 
   protected _componentMap: { [key: string]: IEditComponent } = {};
   protected _componentList: IEditComponent[];
@@ -29,8 +29,8 @@ export class Edit {
 
   protected _initComponent() {
     this._componentMap = {};
-    Object.keys(this._componentConstructorMap).forEach(key => {
-      this._componentMap[key] = new this._componentConstructorMap[key](this);
+    Object.keys(Edit.componentConstructorMap).forEach(key => {
+      this._componentMap[key] = new Edit.componentConstructorMap[key](this);
     });
     this._componentList = Object.values(this._componentMap)
       .sort((a, b) => a.level - b.level)
