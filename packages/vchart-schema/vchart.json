@@ -4714,6 +4714,9 @@
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>"
         },
+        "disableAutoWrapLine": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
         "ellipsis": {
           "$ref": "#/definitions/VisualType<string|boolean>"
         },
@@ -4722,9 +4725,6 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
-        },
-        "forceBreakLine": {
-          "$ref": "#/definitions/VisualType<boolean>"
         },
         "height": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4849,8 +4849,8 @@
         }
       },
       "required": [
+        "disableAutoWrapLine",
         "ellipsis",
-        "forceBreakLine",
         "height",
         "layoutDirection",
         "maxHeight",
@@ -29678,6 +29678,9 @@
         "arcTo": {
           "typeof": "function"
         },
+        "baseGlobalAlpha": {
+          "type": "number"
+        },
         "beginPath": {
           "typeof": "function"
         },
@@ -32897,6 +32900,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -33596,6 +33602,7 @@
         },
         "selectMode": {
           "enum": [
+            "focus",
             "multiple",
             "single"
           ],
@@ -57344,6 +57351,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -70151,6 +70161,9 @@
         "pauseRender": {
           "typeof": "function"
         },
+        "pauseTriggerEvent": {
+          "typeof": "function"
+        },
         "pick": {
           "typeof": "function"
         },
@@ -70220,6 +70233,9 @@
           "typeof": "function"
         },
         "resumeRender": {
+          "typeof": "function"
+        },
+        "resumeTriggerEvent": {
           "typeof": "function"
         },
         "set3dOptions": {
@@ -70372,6 +70388,7 @@
         "params",
         "parent",
         "pauseRender",
+        "pauseTriggerEvent",
         "pick",
         "pluginService",
         "release",
@@ -70390,6 +70407,7 @@
         "resizeView",
         "resizeWindow",
         "resumeRender",
+        "resumeTriggerEvent",
         "set3dOptions",
         "setAfterRender",
         "setAllDescendantsProps",
@@ -72327,7 +72345,7 @@
               ]
             }
           ],
-          "description": "轴b内容格式化函数"
+          "description": "轴标题内容格式化函数"
         },
         "type": {
           "description": "文本类型",
@@ -72899,7 +72917,7 @@
         },
         "keyFormatter": {
           "description": "可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化",
-          "since": "0.18.0",
+          "since": "1.10.0",
           "type": "string"
         },
         "keyStyle": {
@@ -72961,7 +72979,7 @@
         },
         "valueFormatter": {
           "description": "可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化",
-          "since": "0.18.0",
+          "since": "1.10.0",
           "type": "string"
         },
         "valueStyle": {
@@ -80328,7 +80346,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         },
         "size": {
@@ -80336,14 +80354,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13395",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         },
         "size": {
@@ -80351,14 +80369,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13395",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         },
         "size": {
@@ -80366,14 +80384,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13395",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         },
         "size": {
@@ -80381,14 +80399,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13395",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         },
         "size": {
@@ -80396,14 +80414,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13395",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         },
         "size": {
@@ -80411,14 +80429,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13395",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         },
         "size": {
@@ -80426,14 +80444,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13395",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         },
         "size": {
@@ -80441,14 +80459,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13395",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         },
         "size": {
@@ -80456,7 +80474,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13395",
         "size"
       ],
       "type": "object"
@@ -81053,6 +81071,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -81386,6 +81407,7 @@
         },
         "selectMode": {
           "enum": [
+            "focus",
             "multiple",
             "single"
           ],
@@ -83806,6 +83828,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -86030,6 +86055,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -86600,6 +86628,9 @@
           "type": "string"
         },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "baseOpacity": {
           "type": "number"
         },
         "beta": {
@@ -90471,6 +90502,9 @@
           ],
           "type": "string"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "clip": {
           "type": "boolean"
         },
@@ -90691,6 +90725,9 @@
           "type": "string"
         },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "baseOpacity": {
           "type": "number"
         },
         "beta": {
@@ -95273,14 +95310,14 @@
     },
     "Partial<IRichTextAttribute>": {
       "properties": {
+        "disableAutoWrapLine": {
+          "type": "boolean"
+        },
         "ellipsis": {
           "type": [
             "string",
             "boolean"
           ]
-        },
-        "forceBreakLine": {
-          "type": "boolean"
         },
         "height": {
           "type": "number"
@@ -100814,34 +100851,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13386"
+        "__@toStringTag@13395"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13386"
+        "__@toStringTag@13395"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13395": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13386"
+        "__@toStringTag@13395"
       ],
       "type": "object"
     },
@@ -103820,6 +103857,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -104210,6 +104250,7 @@
         "backgroundFit",
         "backgroundMode",
         "backgroundOpacity",
+        "baseOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -107268,6 +107309,9 @@
         "disableAutoClipedPoptip": {
           "type": "boolean"
         },
+        "disableAutoWrapLine": {
+          "type": "boolean"
+        },
         "dx": {
           "type": "number"
         },
@@ -107329,9 +107373,6 @@
               "type": "number"
             }
           ]
-        },
-        "forceBreakLine": {
-          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -107712,6 +107753,7 @@
         "customPickShape",
         "direction",
         "disableAutoClipedPoptip",
+        "disableAutoWrapLine",
         "dx",
         "dy",
         "dz",
@@ -107726,7 +107768,6 @@
         "fontWeight",
         "forceBoundsHeight",
         "forceBoundsWidth",
-        "forceBreakLine",
         "globalCompositeOperation",
         "globalZIndex",
         "height",

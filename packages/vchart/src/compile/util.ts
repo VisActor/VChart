@@ -18,6 +18,8 @@ export function toRenderMode(mode: RenderMode): any {
       return 'lynx';
     case RenderModeEnum.wx:
       return 'wx';
+    case RenderModeEnum.tt:
+      return 'tt';
   }
   return 'browser';
 }

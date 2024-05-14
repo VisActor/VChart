@@ -212,7 +212,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     getDefaultShapeType(): string;
     getFieldAlias(field: string): any;
     getMarkInfoList(): import("../../model/interface").IModelMarkInfo[];
-    protected _getInvalidConnectType(): "none" | "zero" | "connect";
+    protected _getInvalidConnectType(): "zero" | "none" | "connect";
     protected _getInvalidDefined(datum: Datum): boolean;
     protected _getRelatedComponentSpecInfo(specKey: string): import("../../model/interface").IModelSpecInfo<any>[];
     protected _forEachStackGroup(callback: (node: ISeriesStackDataLeaf) => void, node?: ISeriesStackDataMeta): void;
