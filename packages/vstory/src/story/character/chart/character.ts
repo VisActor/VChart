@@ -13,6 +13,8 @@ import { ITicker } from '@visactor/vrender-core';
 import { manualTicker } from '../../player/ticker';
 import { IChartTemp } from './temp/interface';
 import { SeriesSpecRuntime } from './runtime/series-spec';
+import { StoryEvent } from '../../interface/runtime-interface';
+import { ICharacterPickInfo } from '../runtime-interface';
 
 const tempSpec = {
   type: 'bar',
@@ -121,5 +123,9 @@ export class CharacterChart extends CharacterVisactor {
 
   tickTo(t: number): void {
     this._ticker.tickAt(t);
+  }
+
+  public checkEvent(event: StoryEvent): false | ICharacterPickInfo {
+    return false;
   }
 }

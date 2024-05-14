@@ -4,6 +4,8 @@ import { IComponentCharacterSpec } from '../dsl-interface';
 import { CharacterBase } from '../base/base';
 import { Graphic } from './graphic/graphic';
 import { getLayoutFromWidget } from '../../utils/layout';
+import { StoryEvent } from '../../interface/runtime-interface';
+import { ICharacterPickInfo } from '../runtime-interface';
 
 export abstract class CharacterComponent extends CharacterBase {
   protected declare _spec: IComponentCharacterSpec;
@@ -71,6 +73,15 @@ export abstract class CharacterComponent extends CharacterBase {
 
   public getGraphicParent() {
     return this._group;
+  }
+
+  public checkEvent(event: StoryEvent): false | ICharacterPickInfo {
+    if (!(event.detailPath ?? event.path).some(g => g === this._group)) {
+      return false;
+    }
+    return {
+      part: event.path[event.path.length - 1] === this._graphic.graphic ? 'graphic' : 'text'
+    };
   }
 }
 

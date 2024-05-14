@@ -19,6 +19,9 @@ export class Story implements IStory {
   readonly id: string;
 
   protected _canvas: StoryCanvas;
+  get canvas() {
+    return this._canvas;
+  }
 
   protected _characters: { [key: string]: ICharacter } = {};
 

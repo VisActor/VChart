@@ -11,6 +11,7 @@ import { StoryPieDemo } from './demos/StoryPieDemo';
 import { GraphicActionDemo } from './demos/graphicAction';
 import { VChartSiteDemo } from './demos/VchartSite';
 import { DisAppear } from './demos/DisAppear';
+import { StoryEdit } from './demos/StoryEdit';
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
@@ -54,6 +55,10 @@ const App = () => {
     {
       name: 'VChart-Site',
       component: VChartSiteDemo
+    },
+    {
+      name: 'StoryEdit',
+      component: StoryEdit
     }
   ];
   const selectedMenu = menus[activeIndex ?? menus.length - 1];

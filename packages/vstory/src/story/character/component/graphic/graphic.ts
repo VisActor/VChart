@@ -15,6 +15,9 @@ export abstract class Graphic {
 
   protected _character: CharacterComponent;
   protected _graphic: IGraphic<any>;
+  get graphic() {
+    return this._graphic;
+  }
   protected _group: IGraphic<any>;
 
   constructor(type: string, character: CharacterComponent) {

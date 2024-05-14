@@ -2,6 +2,8 @@ import { Story } from '../story';
 import { IStage, createStage, vglobal, container, preLoadAllModule, ManualTicker } from '@visactor/vrender-core';
 import { loadBrowserEnv } from '@visactor/vrender-kits';
 import { manualTicker } from '../player/ticker';
+import { StoryEvent } from '../interface/runtime-interface';
+import { ICharacter } from '../character/runtime-interface';
 
 preLoadAllModule();
 loadBrowserEnv(container);
@@ -55,8 +57,30 @@ export class StoryCanvas {
     });
     // @ts-ignore
     this._stage = stage;
-    stage.addEventListener('click', e => {
-      console.log('canvas', e);
+    stage.on('*', (e, type) => {
+      type === 'click' && console.log('canvas', e);
     });
+  }
+
+  public getEventDetail(event: StoryEvent) {
+    // 得到交互元素的详细信息
+    const characterMap = this._story.getCharacters();
+    let characterInfo;
+    let character: ICharacter;
+    Object.keys(this._story.getCharacters()).find(id => {
+      const characterTemp = characterMap[id];
+      const info = characterTemp.checkEvent(event);
+      if (info) {
+        characterInfo = info;
+        character = characterTemp;
+        return true;
+      }
+      return false;
+    });
+
+    return {
+      character,
+      characterInfo
+    };
   }
 }

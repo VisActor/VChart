@@ -1,6 +1,8 @@
-import { ICharacterInitOption } from '../runtime-interface';
+import { isValid, merge } from '@visactor/vutils';
+import { ICharacterInitOption, ICharacterPickInfo } from '../runtime-interface';
 import { ICharacter, ICharacterSpec } from '..';
 import { IGroup } from '@visactor/vrender-core';
+import { StoryEvent } from '../../interface';
 
 export abstract class CharacterBase implements ICharacter {
   readonly id: string;
@@ -18,6 +20,21 @@ export abstract class CharacterBase implements ICharacter {
     this.id = spec.id;
     this._spec = spec;
     this._option = option;
+  }
+  updateSpec(spec: Omit<Partial<ICharacterSpec>, 'id' | 'type'>): void {
+    if (spec.position) {
+      this._spec.position = spec.position;
+    }
+    if (isValid(spec.zIndex)) {
+      this._spec.zIndex = spec.zIndex;
+    }
+    if (spec.options) {
+      this._spec.options = merge(this._spec.options ?? {}, spec.options);
+    }
+  }
+
+  tickTo(t: number): void {
+    throw new Error('Method not implemented.');
   }
 
   public init() {
@@ -43,4 +60,6 @@ export abstract class CharacterBase implements ICharacter {
   public abstract getGraphicParent(): IGroup;
 
   public abstract clearCharacter(): void;
+
+  public abstract checkEvent(event: StoryEvent): false | ICharacterPickInfo;
 }
