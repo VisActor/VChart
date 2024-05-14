@@ -209,20 +209,23 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     if (tooltipData && tooltipData.length) {
       if (activeType === 'dimension') {
         const dimensionInfo = (tooltipData as IDimensionInfo[])[0];
-        const triggerCoord = (dimensionInfo.axis as IPolarAxis).pointToCoord({ x, y });
-        const isRadius = dimensionInfo.axis.getOrient() === 'radius';
-        const coord = isRadius
-          ? {
-              radius: dimensionInfo.position,
-              angle: triggerCoord.angle
-            }
-          : {
-              radius: triggerCoord.radius,
-              angle: dimensionInfo.position
-            };
-        const uniformPos = (dimensionInfo.axis as IPolarAxis).coordToPoint(coord);
-        x = uniformPos.x;
-        y = uniformPos.y;
+
+        if (dimensionInfo.axis) {
+          const triggerCoord = (dimensionInfo.axis as IPolarAxis).pointToCoord({ x, y });
+          const isRadius = dimensionInfo.axis.getOrient() === 'radius';
+          const coord = isRadius
+            ? {
+                radius: dimensionInfo.position,
+                angle: triggerCoord.angle
+              }
+            : {
+                radius: triggerCoord.radius,
+                angle: dimensionInfo.position
+              };
+          const uniformPos = (dimensionInfo.axis as IPolarAxis).coordToPoint(coord);
+          x = uniformPos.x;
+          y = uniformPos.y;
+        }
       } else if (activeType === 'mark') {
         const dimensionData = (tooltipData as IDimensionData[])[0];
         const pos = dimensionData.series.dataToPosition(dimensionData.datum[0]);

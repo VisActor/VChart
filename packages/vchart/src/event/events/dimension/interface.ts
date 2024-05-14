@@ -19,6 +19,8 @@ export interface IDimensionInfo {
   axis?: IAxis;
   /** 维度项对应数据 */
   data: IDimensionData[];
+  /** 维度对应的类型 */
+  dimType?: string;
 }
 
 export interface IDimensionData {

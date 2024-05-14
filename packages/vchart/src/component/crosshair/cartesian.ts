@@ -1,6 +1,6 @@
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isNil } from '@visactor/vutils';
+import { isArray, isNil, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
@@ -16,7 +16,7 @@ import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { limitTagInBounds } from './utils';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
-import { isXAxis } from '../axis/cartesian/util/common';
+import { isXAxis, isYAxis } from '../axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
@@ -218,12 +218,14 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       if (activeType === 'dimension') {
         const dimensionInfo = (tooltipData as IDimensionInfo[])[0];
 
-        const isX = isXAxis(dimensionInfo.axis.getOrient() as IOrientType);
+        const isY = isValid(dimensionInfo.dimType)
+          ? dimensionInfo.dimType === 'y'
+          : isYAxis(dimensionInfo?.axis?.getOrient() as IOrientType);
 
-        if (isX) {
-          x = dimensionInfo.position;
-        } else {
+        if (isY) {
           y = dimensionInfo.position;
+        } else {
+          x = dimensionInfo.position;
         }
       } else if (activeType === 'mark') {
         const dimensionData = (tooltipData as IDimensionData[])[0];
