@@ -120,7 +120,6 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
       }
     }
 
-    console.log('dpr', dpr);
     domref.id = this.props.canvasId;
     this.ttCanvas = new TTCanvas({
       chartConstructor: this.props.chartConstructor,
