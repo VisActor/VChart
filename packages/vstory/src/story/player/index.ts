@@ -110,16 +110,19 @@ export class Player implements IPlayer {
       this.tickTo(0);
     }
     const characterSet = new Set<ICharacter>();
-    this._currAct.scenes.forEach(scene => {
+
+    let baseStartTime = 0;
+    for (let i = 0; i < this._currAct.scenes.length; i++) {
+      const scene = this._currAct.scenes[i];
       scene.forEach(({ character, action }) => {
-        const { startTime } = action;
+        const { startTime: st } = action;
+        const startTime = st + baseStartTime;
         if (startTime > t) {
           return;
         }
         characterSet.add(character);
         // 之前没走过，现在走
         if (startTime > lastTime && startTime <= t) {
-          console.log('abc');
           const { type } = character.spec;
           const process = processorMap[type];
           if (process) {
@@ -132,7 +135,16 @@ export class Player implements IPlayer {
         }
         character.show();
       });
-    });
+      let sceneTime = 0;
+      scene.forEach(({ action }) => {
+        const { startTime, duration } = action;
+        sceneTime = Math.max(startTime + duration, startTime);
+      });
+      baseStartTime += sceneTime;
+      if (baseStartTime > t) {
+        break;
+      }
+    }
 
     // roleSet.forEach(r => {
     //   r.tickTo && r.tickTo(t);
