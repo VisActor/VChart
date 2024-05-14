@@ -72327,7 +72327,7 @@
               ]
             }
           ],
-          "description": "轴b内容格式化函数"
+          "description": "轴标题内容格式化函数"
         },
         "type": {
           "description": "文本类型",
@@ -72899,7 +72899,7 @@
         },
         "keyFormatter": {
           "description": "可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化",
-          "since": "0.18.0",
+          "since": "1.10.0",
           "type": "string"
         },
         "keyStyle": {
@@ -72961,7 +72961,7 @@
         },
         "valueFormatter": {
           "description": "可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化",
-          "since": "0.18.0",
+          "since": "1.10.0",
           "type": "string"
         },
         "valueStyle": {
