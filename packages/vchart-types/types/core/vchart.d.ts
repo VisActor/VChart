@@ -186,7 +186,7 @@ export declare class VChart implements IVChart {
     setRuntimeSpec(spec: any): void;
     private _initChartPlugin;
     private _chartPluginApply;
-    protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "desktop-miniApp" | "lynx";
+    protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
     protected _getChartOption(type: string): IChartOption;
 }
 export declare const registerVChartCore: () => void;

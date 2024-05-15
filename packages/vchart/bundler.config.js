@@ -75,6 +75,7 @@ module.exports = {
     cjs: 'cjs',
     umd: 'build'
   },
+  esTotalFile: true,
   input: {
     umd: umdInput
   },

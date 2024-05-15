@@ -137,6 +137,7 @@ Component({
       if (brand !== 'PC' && event.type.startsWith('mouse')) {
         return;
       }
+      debugger;
       const chartInstance = this.chart;
       if (chartInstance) {
         event.target = chartInstance.getCanvas(); // Tip: 必须设置
