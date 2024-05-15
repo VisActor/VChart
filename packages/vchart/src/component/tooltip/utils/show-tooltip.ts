@@ -1,9 +1,6 @@
-import type { Datum, IPoint, IShowTooltipOption, TooltipActiveType } from '../../../typings';
-import type { ISeries } from '../../../series/interface';
+import { Direction, type Datum, type IPoint, type IShowTooltipOption, type TooltipActiveType } from '../../../typings';
+import type { ICartesianSeries, IPolarSeries, ISeries } from '../../../series/interface';
 import { SeriesTypeEnum } from '../../../series/interface/type';
-import type { CartesianSeries } from '../../../series/cartesian/cartesian';
-import type { PolarSeries } from '../../../series/polar/polar';
-import type { GeoSeries } from '../../../series/geo/geo';
 import type { PieSeries } from '../../../series/pie/pie';
 import type { TooltipHandlerParams } from '../interface';
 import { Event_Source_Type } from '../../../constant';
@@ -13,6 +10,7 @@ import { VChart } from '../../../core/vchart';
 import type { IRegion } from '../../../region';
 import type { Tooltip } from '../tooltip';
 import type { IComponentOption } from '../../interface';
+import { isDiscrete } from '@visactor/vscale';
 
 const getDataArrayFromFieldArray = (fields: string[], datum?: Datum) =>
   isValid(datum) ? fields.map(f => datum[f]) : undefined;
@@ -42,6 +40,7 @@ type MarkInfo = {
     groupData?: any;
   };
   series: ISeries;
+  dimType?: string;
 };
 
 export function showTooltip(datum: Datum, options: IShowTooltipOption, component: Tooltip): TooltipActiveType | 'none' {
@@ -115,6 +114,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
       }
       markInfoSeriesMap.get(info.series)?.push(info);
     });
+
     const mockDimensionInfo: IDimensionInfo[] = [
       {
         value: datum[firstInfo.data.dimensionFields[0]],
@@ -126,6 +126,12 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
         })
       }
     ];
+
+    if (isValid(firstInfo.dimType)) {
+      mockDimensionInfo[0].position = firstInfo.pos[firstInfo.dimType];
+      mockDimensionInfo[0].dimType = firstInfo.dimType;
+    }
+
     const mockParams: TooltipHandlerParams = {
       changePositionOnly: false,
       action: 'enter',
@@ -211,6 +217,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
 export const getMarkInfoList = (datum: Datum, region: IRegion) => {
   const seriesList = region.getSeries();
   const markInfoList: MarkInfo[] = [];
+
   seriesList.forEach(series => {
     /** 维度field */
     const dimensionFields = series.getDimensionField();
@@ -229,8 +236,42 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
 
     const isMultiGroups = !hasMeasureData && isValid(groupField) && isNil(groupData) && groupDomain.length > 0; // 是否需要考虑多个数据组
 
+    const parseMarkInfoOfSimpleSeries = () => {
+      const originDatum = series.getViewData()?.latestData.find(datumContainsArray(dimensionFields, dimensionData));
+      if (!hasMeasureData) {
+        // 如果只有单个数据组且用户没有给y轴数据，则补全y轴数据
+        measureData = getDataArrayFromFieldArray(measureFields, originDatum);
+        if (!hasData(measureData)) {
+          return;
+        }
+      }
+
+      const pos =
+        series.type === SeriesTypeEnum.pie
+          ? (series as PieSeries).dataToCentralPosition(originDatum)
+          : series.dataToPosition(originDatum);
+      if (isNil(pos) || isNaN(pos.x) || isNaN(pos.y)) {
+        return;
+      }
+
+      markInfoList.push({
+        pos,
+        data: {
+          dimensionFields,
+          dimensionData,
+          measureFields,
+          measureData,
+          hasMeasureData,
+          groupField,
+          groupData
+        },
+        series
+      });
+    };
+
     if (series.coordinate === 'cartesian') {
-      const cartesianSeries = series as CartesianSeries;
+      const cartesianSeries = series as ICartesianSeries;
+      const dimType = isDiscrete((series as ICartesianSeries).getYAxisHelper()?.getScale(0)?.type) ? 'y' : 'x';
 
       // 补全维度轴数据
       const invalidDimensionFields = dimensionFields
@@ -280,7 +321,8 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
                 groupField,
                 groupData
               },
-              series
+              series,
+              dimType
             });
           });
         } else {
@@ -311,47 +353,17 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
               groupField,
               groupData
             },
+            dimType,
             series
           });
         }
       });
     } else if (series.coordinate === 'polar') {
       if (series.type === SeriesTypeEnum.pie) {
-        // 处理饼图
-        const pieSeries = series as PieSeries;
-
-        const originDatum = pieSeries
-          .getViewData()
-          ?.latestData.find(datumContainsArray(dimensionFields, dimensionData));
-        if (!hasMeasureData) {
-          // 如果只有单个数据组且用户没有给y轴数据，则补全y轴数据
-          measureData = getDataArrayFromFieldArray(measureFields, originDatum);
-          if (!hasData(measureData)) {
-            return;
-          }
-        }
-
-        const pos = pieSeries.dataToCentralPosition(originDatum);
-        if (isNil(pos) || isNaN(pos.x) || isNaN(pos.y)) {
-          return;
-        }
-
-        markInfoList.push({
-          pos,
-          data: {
-            dimensionFields,
-            dimensionData,
-            measureFields,
-            measureData,
-            hasMeasureData,
-            groupField,
-            groupData
-          },
-          series
-        });
+        parseMarkInfoOfSimpleSeries();
       } else {
         // 处理玫瑰图、雷达图
-        const polarSeries = series as PolarSeries;
+        const polarSeries = series as IPolarSeries;
 
         if (isMultiGroups) {
           const measureDataList = polarSeries
@@ -385,67 +397,11 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
             });
           });
         } else {
-          const originDatum = polarSeries
-            .getViewData()
-            ?.latestData.find(datumContainsArray(dimensionFields, dimensionData));
-          if (!hasMeasureData) {
-            // 如果只有单个数据组且用户没有给y轴数据，则补全y轴数据
-            measureData = getDataArrayFromFieldArray(measureFields, originDatum);
-            if (!hasData(measureData)) {
-              return;
-            }
-          }
-
-          const pos = polarSeries.dataToPosition(originDatum);
-          if (isNil(pos) || isNaN(pos.x) || isNaN(pos.y)) {
-            return;
-          }
-
-          markInfoList.push({
-            pos,
-            data: {
-              dimensionFields,
-              dimensionData,
-              measureFields,
-              measureData,
-              hasMeasureData,
-              groupField,
-              groupData
-            },
-            series
-          });
+          parseMarkInfoOfSimpleSeries();
         }
       }
     } else if (series.coordinate === 'geo') {
-      const geoSeries = series as GeoSeries;
-
-      const originDatum = geoSeries.getViewData()?.latestData.find(datumContainsArray(dimensionFields, dimensionData));
-      if (!hasMeasureData) {
-        // 如果只有单个数据组且用户没有给y轴数据，则补全y轴数据
-        measureData = getDataArrayFromFieldArray(measureFields, originDatum);
-        if (!hasData(measureData)) {
-          return;
-        }
-      }
-
-      const pos = geoSeries.dataToPosition(originDatum);
-      if (isNil(pos) || isNaN(pos.x) || isNaN(pos.y)) {
-        return;
-      }
-
-      markInfoList.push({
-        pos,
-        data: {
-          dimensionFields,
-          dimensionData,
-          measureFields,
-          measureData,
-          hasMeasureData,
-          groupField,
-          groupData
-        },
-        series
-      });
+      parseMarkInfoOfSimpleSeries();
     }
   });
 

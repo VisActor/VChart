@@ -32,6 +32,29 @@ Supported since version `1.9.0`
 
 Locks the `crosshair` after clicking, usually used in scenarios where `trigger` is `['hover', 'click']`
 
+
+### followTooltip(boolean | object)
+
+This configuration has been supported since version `1.11.1`;
+
+It configures whether the crosshair indicator follows the display or hiding of the `tooltip`. Note that when using this trigger mode, the `crosshair`'s own `trigger`, `triggerOff`, and `lockAfterClick` settings will no longer be effective.
+
+当`followTooltip`为对象格式时，类型定义如下：
+ 
+ ```ts
+ {
+  group?: boolean;
+  mark?: boolean;
+  dimension?: boolean;
+ }
+ ```
+
+ * `followTooltip.group` 的值为`false`，表示显示的`tooltip`类型为`group`（即分组信息提示）时，不显示`crosshair`
+ * `followTooltip.mark` 的值为`false`，表示显示的`tooltip`类型为`mark`（即mark标记信息提示）时，不显示`crosshair`
+ * `followTooltip.dimension` 的值为`false`，表示显示的`tooltip`类型为`dimension`（即维度信息提示）时，不显示`crosshair`
+
+
+
 ### labelZIndex(number) = 500
 
 The z-index of the crosshair text label.

@@ -58,17 +58,20 @@ export abstract class BaseTooltipProcessor {
     this._updateActualTooltip(data, params);
     params.tooltipActual = this._cacheActualTooltip;
 
+    // 判断 tooltip 是否为空
+    const { title, content } = this._cacheActualTooltip;
+
+    const isEmpty = isNil(title?.key) && isNil(title?.value) && !content?.length;
     // 触发事件
     this.component.event.emit(ChartEvent.tooltipShow, {
       ...params,
+      isEmptyTooltip: isNil(title?.key) && isNil(title?.value) && !content?.length,
       tooltipData: data,
       activeType: this.activeType,
       tooltip: this.component
     } as TooltipEventParams);
 
-    // 判断 tooltip 是否为空
-    const { title, content } = this._cacheActualTooltip;
-    if (isNil(title?.key) && isNil(title?.value) && !content?.length) {
+    if (isEmpty) {
       return TooltipResult.failed;
     }
 

@@ -3,15 +3,15 @@ import type { IPolarSeries } from '../../series/interface/series';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { AxisCurrentValueMap, IPolarCrosshairInfo, IPolarCrosshairSpec } from './interface';
-import { isDiscrete, isContinuous } from '@visactor/vscale';
+import { isDiscrete } from '@visactor/vscale';
 import { Tag } from '@visactor/vrender-components';
 import { LineCrosshair, SectorCrosshair, CircleCrosshair, PolygonCrosshair } from '@visactor/vrender-components';
 import type { IPolarAxis } from '../axis/polar/interface';
-import type { IPoint, StringOrNumber } from '../../typings';
+import type { IPoint, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import type { IAxisInfo, IHair, IHairRadius } from './base';
 import { BaseCrossHair } from './base';
 import type { Maybe } from '@visactor/vutils';
-import { polarToCartesian, PointService, isArray, isValidNumber, isNil } from '@visactor/vutils';
+import { polarToCartesian, PointService, isArray, isNil } from '@visactor/vutils';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { limitTagInBounds } from './utils';
@@ -20,6 +20,7 @@ import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
 import { layoutByValue, layoutAngleCrosshair, layoutRadiusCrosshair } from './utils/polar';
 import { getFirstSeries } from '../../util';
+import type { IDimensionData, IDimensionInfo } from '../../event/events/dimension/interface';
 
 export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
   static specKey = 'crosshair';
@@ -196,9 +197,46 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     };
   }
 
-  protected _layoutCrosshair(relativeX: number, relativeY: number) {
+  protected _layoutCrosshair(
+    relativeX: number,
+    relativeY: number,
+    tooltipData?: TooltipData,
+    activeType?: TooltipActiveType
+  ) {
+    let x = relativeX;
+    let y = relativeY;
+
+    if (tooltipData && tooltipData.length) {
+      if (activeType === 'dimension') {
+        const dimensionInfo = (tooltipData as IDimensionInfo[])[0];
+
+        if (dimensionInfo.axis) {
+          const triggerCoord = (dimensionInfo.axis as IPolarAxis).pointToCoord({ x, y });
+          const isRadius = dimensionInfo.axis.getOrient() === 'radius';
+          const coord = isRadius
+            ? {
+                radius: dimensionInfo.position,
+                angle: triggerCoord.angle
+              }
+            : {
+                radius: triggerCoord.radius,
+                angle: dimensionInfo.position
+              };
+          const uniformPos = (dimensionInfo.axis as IPolarAxis).coordToPoint(coord);
+          x = uniformPos.x;
+          y = uniformPos.y;
+        }
+      } else if (activeType === 'mark') {
+        const dimensionData = (tooltipData as IDimensionData[])[0];
+        const pos = dimensionData.series.dataToPosition(dimensionData.datum[0]);
+
+        x = pos.x;
+        y = pos.y;
+      }
+    }
+
     // 找到所有的包含这个点的轴
-    const { angleAxisMap, radiusAxisMap } = this._findAllAxisContains(relativeX, relativeY);
+    const { angleAxisMap, radiusAxisMap } = this._findAllAxisContains(x, y);
     if (angleAxisMap.size === 0 && radiusAxisMap.size === 0) {
       if (this.enableRemain) {
         return;
@@ -211,8 +249,8 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     this._currValueAngle.clear();
     this._currValueRadius.clear();
     // 将数据保存到这个对象中，如果不存在，就直接不执行后续逻辑
-    angleAxisMap && this._getAllAxisValues(angleAxisMap, { x: relativeX, y: relativeY }, this._currValueAngle);
-    radiusAxisMap && this._getAllAxisValues(radiusAxisMap, { x: relativeX, y: relativeY }, this._currValueRadius);
+    angleAxisMap && this._getAllAxisValues(angleAxisMap, { x, y }, this._currValueAngle);
+    radiusAxisMap && this._getAllAxisValues(radiusAxisMap, { x, y }, this._currValueRadius);
 
     this.layoutByValue(LayoutType.ALL);
   }

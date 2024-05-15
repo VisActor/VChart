@@ -1,13 +1,13 @@
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isValidNumber, isNil } from '@visactor/vutils';
+import { isArray, isNil, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import type { AxisCurrentValueMap, ICartesianCrosshairSpec, ICrosshairInfoX, ICrosshairInfoY } from './interface';
 import type { ICartesianSeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { isDiscrete, isContinuous } from '@visactor/vscale';
+import { isDiscrete } from '@visactor/vscale';
 import { LineCrosshair, RectCrosshair, Tag } from '@visactor/vrender-components';
 import type { IAxisInfo, IHair } from './base';
 // eslint-disable-next-line no-duplicate-imports
@@ -15,13 +15,14 @@ import { BaseCrossHair } from './base';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { limitTagInBounds } from './utils';
 import type { IAxis } from '../axis/interface';
-import type { IOrientType, StringOrNumber } from '../../typings';
-import { isXAxis } from '../axis/cartesian/util/common';
+import type { IOrientType, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
+import { isXAxis, isYAxis } from '../axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
 import { layoutByValue, layoutHorizontalCrosshair, layoutVerticalCrosshair } from './utils/cartesian';
 import { getFirstSeries } from '../../util';
+import type { IDimensionData, IDimensionInfo } from '../../event/events/dimension/interface';
 
 // 1. crosshair保存上次记录的x和y轴dimension
 // 2. 每次交互触发时，首先转化成dimension保存，然后依据dimension计算x和y绘制
@@ -204,9 +205,39 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     return true;
   }
 
-  protected _layoutCrosshair(relativeX: number, relativeY: number) {
+  protected _layoutCrosshair(
+    relativeX: number,
+    relativeY: number,
+    tooltipData?: TooltipData,
+    activeType?: TooltipActiveType
+  ) {
+    let x = relativeX;
+    let y = relativeY;
+
+    if (tooltipData && tooltipData.length) {
+      if (activeType === 'dimension') {
+        const dimensionInfo = (tooltipData as IDimensionInfo[])[0];
+
+        const isY = isValid(dimensionInfo.dimType)
+          ? dimensionInfo.dimType === 'y'
+          : isYAxis(dimensionInfo?.axis?.getOrient() as IOrientType);
+
+        if (isY) {
+          y = dimensionInfo.position;
+        } else {
+          x = dimensionInfo.position;
+        }
+      } else if (activeType === 'mark') {
+        const dimensionData = (tooltipData as IDimensionData[])[0];
+        const pos = dimensionData.series.dataToPosition(dimensionData.datum[0]);
+
+        x = pos.x;
+        y = pos.y;
+      }
+    }
+
     // 找到所有的包含这个点的轴
-    const { xAxisMap, yAxisMap } = this._findAllAxisContains(relativeX, relativeY);
+    const { xAxisMap, yAxisMap } = this._findAllAxisContains(x, y);
     if ((xAxisMap && xAxisMap.size === 0) || (yAxisMap && yAxisMap.size === 0)) {
       if (this.enableRemain) {
         return;
@@ -219,8 +250,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     this._currValueX.clear();
     this._currValueY.clear();
     // 将数据保存到这个对象中，如果不存在，就直接不执行后续逻辑
-    xAxisMap && xAxisMap.size && this._getAllAxisValues(xAxisMap, relativeX, this._currValueX, true);
-    yAxisMap && yAxisMap.size && this._getAllAxisValues(yAxisMap, relativeY, this._currValueY, false);
+    xAxisMap && xAxisMap.size && this._getAllAxisValues(xAxisMap, x, this._currValueX, true);
+    yAxisMap && yAxisMap.size && this._getAllAxisValues(yAxisMap, y, this._currValueY, false);
 
     this.layoutByValue(LayoutType.ALL);
   }

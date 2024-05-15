@@ -6,4 +6,9 @@ export type TooltipEventParams = TooltipHandlerParams & {
   activeType?: TooltipActiveType;
   /** tooltip 数据 */
   tooltipData?: TooltipData;
+  /**
+   * tooltip是否为空
+   * @since 1.11.1
+   */
+  isEmptyTooltip?: boolean;
 };

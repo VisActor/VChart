@@ -1,12 +1,12 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean } from '@visactor/vutils';
+import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean, isObject } from '@visactor/vutils';
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
-import type { IPadding, Maybe, StringOrNumber } from '../../typings';
+import type { IPadding, Maybe, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import { outOfBounds } from '../../util/math';
 import type { IComponentOption } from '../interface';
 import type {
@@ -16,10 +16,11 @@ import type {
   IPolarCrosshairSpec,
   ICrosshairCategoryFieldSpec
 } from './interface';
-import { Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
+import { ChartEvent, Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
 import { getDefaultCrosshairTriggerEventByMode } from './config';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IAxis } from '../axis/interface';
+import type { TooltipEventParams } from '../tooltip/interface/event';
 
 export type IBound = { x1: number; y1: number; x2: number; y2: number };
 export type IAxisInfo<T> = Map<number, IBound & { axis: T }>;
@@ -95,7 +96,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected abstract _showDefaultCrosshairBySpec(): void;
-  protected abstract _layoutCrosshair(x: number, y: number): void;
+  protected abstract _layoutCrosshair(
+    x: number,
+    y: number,
+    tooltipData?: TooltipData,
+    activeType?: TooltipActiveType
+  ): void;
   protected abstract _parseFieldInfo(): void;
   abstract hide(): void;
 
@@ -150,13 +156,18 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     if (this._option.disableTriggerEvent) {
       return;
     }
-    const triggerConfig = this._getTriggerEvent();
 
-    if (triggerConfig) {
-      triggerConfig.forEach(cfg => {
-        this._registerEvent(cfg.in, false, cfg.click);
-        cfg.out && this._registerEvent(cfg.out, true);
-      });
+    if (this._spec.followTooltip) {
+      this._registerTooltipEvent();
+    } else {
+      const triggerConfig = this._getTriggerEvent();
+
+      if (triggerConfig) {
+        triggerConfig.forEach(cfg => {
+          this._registerEvent(cfg.in, false, cfg.click);
+          cfg.out && this._registerEvent(cfg.out, true);
+        });
+      }
     }
   }
 
@@ -165,22 +176,22 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     const cfg = isOut ? { level: Event_Bubble_Level.chart } : { source: Event_Source_Type.chart };
 
     if (isArray(eventName)) {
-      eventName.forEach(evt => {
+      (eventName as EventType[]).forEach(evt => {
         this.event.on(evt, cfg, handler);
       });
     } else {
-      this.event.on(eventName, cfg, handler);
+      this.event.on(eventName as EventType, cfg, handler);
     }
   }
 
   private _eventOff(eventName: EventType | EventType[], isOut?: boolean, click?: boolean) {
     const handler = isOut ? this._handleOutEvent : click ? this._handleClickInEvent : this._handleHoverInEvent;
     if (isArray(eventName)) {
-      eventName.forEach(evt => {
+      (eventName as EventType[]).forEach(evt => {
         this.event.off(evt, handler);
       });
     } else {
-      this.event.off(eventName, handler);
+      this.event.off(eventName as EventType, handler);
     }
   }
 
@@ -189,17 +200,25 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     this._showDefaultCrosshair();
   }
 
-  private _handleIn = (params: any) => {
-    if (!this._option) {
-      return;
-    }
+  protected calculateTriggerPoint(params: any) {
     const { event } = params as BaseEventParams;
     // compute layer offset
     const layer = this._option.getCompiler().getStage().getLayer(undefined);
     const point = { x: event.viewX, y: event.viewY };
     layer.globalTransMatrix.transformPoint({ x: event.viewX, y: event.viewY }, point);
-    const x = point.x - this.getLayoutStartPoint().x;
-    const y = point.y - this.getLayoutStartPoint().y;
+
+    return {
+      x: point.x - this.getLayoutStartPoint().x,
+      y: point.y - this.getLayoutStartPoint().y
+    };
+  }
+
+  private _handleIn = (params: any) => {
+    if (!this._option) {
+      return;
+    }
+
+    const { x, y } = this.calculateTriggerPoint(params);
     this.showDefault = false;
     this._layoutCrosshair(x, y);
 
@@ -255,7 +274,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       if (isArray(trigger)) {
         // 同时配置了多个触发事件
         const res: { in: EventType | EventType[]; out: EventType | EventType[]; click: boolean }[] = [];
-        trigger.forEach(item => {
+        (trigger as ['click', 'hover']).forEach(item => {
           res.push({
             click: item === 'click',
             in: triggerConfig[item],
@@ -267,13 +286,48 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       return [
         {
           click: trigger === 'click',
-          in: triggerConfig[trigger],
+          in: triggerConfig[trigger as 'hover' | 'click'],
           out: outTrigger(trigger)
         }
       ];
     }
     return null;
   }
+
+  private _registerTooltipEvent() {
+    this.event.on(ChartEvent.tooltipHide, { source: Event_Source_Type.chart }, this._handleTooltipHideOrRelease);
+    this.event.on(ChartEvent.tooltipShow, { source: Event_Source_Type.chart }, this._handleTooltipShow);
+    this.event.on(ChartEvent.tooltipRelease, { source: Event_Source_Type.chart }, this._handleTooltipHideOrRelease);
+  }
+
+  private _handleTooltipShow = (params: TooltipEventParams) => {
+    const tooltipData = params.tooltipData;
+
+    if (params.isEmptyTooltip || !tooltipData || !tooltipData.length) {
+      this._handleTooltipHideOrRelease();
+      return;
+    }
+
+    if (isObject(this._spec.followTooltip)) {
+      if (this._spec.followTooltip[params.activeType] === false) {
+        this._handleTooltipHideOrRelease();
+        return;
+      }
+    }
+
+    const { x, y } = this.calculateTriggerPoint(params);
+    this.showDefault = false;
+    this._layoutCrosshair(x, y, tooltipData, params.activeType);
+
+    const components = this._getNeedClearVRenderComponents();
+    this._hasActive = components.some(comp => comp && comp.attribute.visible !== false);
+  };
+
+  private _handleTooltipHideOrRelease = () => {
+    this.clearOutEvent();
+
+    this.hide();
+  };
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
     // 加判空防止某些特殊时刻（如 updateSpec 时）鼠标滑过图表导致报错
