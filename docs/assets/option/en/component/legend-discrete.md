@@ -24,7 +24,10 @@ Whether or not to enable the checking of the legend, the default is on.
 
 ### selectMode(string) = 'multiple'
 
-The check mode of the legend, with optional values: `'multiple'`, `'single'`, for multiple and single selection respectively.
+The check mode of the legend, with optional values: 
+* `'multiple'` multiple selection mode
+* `'single'` single selection mode
+* `'focus'` focus selection mode
 
 ### scale(string)
 
