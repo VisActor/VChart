@@ -14,7 +14,6 @@ import { isArray, isFunction } from '@visactor/vutils';
 export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sankey;
   static readonly seriesType: string = SeriesTypeEnum.sankey;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = SankeyChartSpecTransformer;
   readonly transformerConstructor = SankeyChartSpecTransformer;
   readonly type: string = ChartTypeEnum.sankey;

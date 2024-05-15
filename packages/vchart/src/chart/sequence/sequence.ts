@@ -13,7 +13,6 @@ import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../co
 
 export class SequenceChart<T extends ISequenceChartSpec = ISequenceChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sequence;
-  static readonly view: string = 'singleDefault'; // csj-Q: view是什么含义
   static readonly transformerConstructor = SequenceChartSpecTransformer;
   readonly transformerConstructor = SequenceChartSpecTransformer;
   readonly type: string = ChartTypeEnum.sequence;

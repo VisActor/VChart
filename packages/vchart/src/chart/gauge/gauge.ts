@@ -10,7 +10,6 @@ import { BaseChart } from '../base';
 export class GaugeChart<T extends IGaugeChartSpec = IGaugeChartSpec> extends BaseChart<AdaptiveSpec<T, 'axes'>> {
   static readonly type: string = ChartTypeEnum.gauge;
   static readonly seriesType: string = SeriesTypeEnum.gaugePointer;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = GaugeChartSpecTransformer;
   readonly transformerConstructor = GaugeChartSpecTransformer;
   readonly type: string = ChartTypeEnum.gauge;

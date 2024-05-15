@@ -9,7 +9,6 @@ import { CorrelationChartSpecTransformer } from './correlation-transformer';
 export class CorrelationChart<T extends ICorrelationChartSpec = ICorrelationChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.correlation;
   static readonly seriesType: string = SeriesTypeEnum.correlation;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = CorrelationChartSpecTransformer;
   readonly transformerConstructor = CorrelationChartSpecTransformer;
   readonly type: string = ChartTypeEnum.correlation;

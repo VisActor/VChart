@@ -12,7 +12,6 @@ export class WordCloud3dChart<T extends IWordCloud3dChartSpec = IWordCloud3dChar
 > {
   static readonly type: string = ChartTypeEnum.wordCloud3d;
   static readonly seriesType: string = SeriesTypeEnum.wordCloud3d;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = WordCloud3dChartSpecTransformer;
   // @ts-ignore
   readonly transformerConstructor = WordCloud3dChartSpecTransformer;

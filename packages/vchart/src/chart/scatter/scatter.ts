@@ -9,7 +9,6 @@ import { BaseChart } from '../base';
 export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.scatter;
   static readonly seriesType: string = SeriesTypeEnum.scatter;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = ScatterChartSpecTransformer;
   // @ts-ignore
   readonly transformerConstructor = ScatterChartSpecTransformer;

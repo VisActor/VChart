@@ -12,7 +12,6 @@ export class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> exten
 > {
   static readonly type: string = ChartTypeEnum.treemap;
   static readonly seriesType: string = SeriesTypeEnum.treemap;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = TreemapChartSpecTransformer;
   readonly transformerConstructor = TreemapChartSpecTransformer;
   readonly type: string = ChartTypeEnum.treemap;

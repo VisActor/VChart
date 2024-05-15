@@ -9,7 +9,6 @@ import { HistogramChartSpecTransformer } from './histogram-transformer';
 export class HistogramChart<T extends IHistogramChartSpec = IHistogramChartSpec> extends BaseHistogramChart<T> {
   static readonly type: string = ChartTypeEnum.histogram;
   static readonly seriesType: string = SeriesTypeEnum.bar;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = HistogramChartSpecTransformer;
   readonly transformerConstructor = HistogramChartSpecTransformer;
   readonly type: string = ChartTypeEnum.histogram;

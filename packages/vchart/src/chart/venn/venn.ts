@@ -12,7 +12,6 @@ export class VennChart<T extends IVennChartSpec = IVennChartSpec> extends BaseCh
 > {
   static readonly type: string = ChartTypeEnum.venn;
   static readonly seriesType: string = SeriesTypeEnum.venn;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = VennChartSpecTransformer;
   readonly transformerConstructor = VennChartSpecTransformer;
   readonly type: string = ChartTypeEnum.venn;

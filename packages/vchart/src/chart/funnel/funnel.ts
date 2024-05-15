@@ -9,7 +9,6 @@ import { BaseChart } from '../base';
 export class FunnelChart<T extends IFunnelChartSpec = IFunnelChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.funnel;
   static readonly seriesType: string = SeriesTypeEnum.funnel;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = FunnelChartSpecTransformer;
   readonly transformerConstructor = FunnelChartSpecTransformer;
   readonly type: string = ChartTypeEnum.funnel;

@@ -12,7 +12,6 @@ export class WaterfallChart<T extends IWaterfallChartSpec = IWaterfallChartSpec>
 > {
   static readonly type: string = ChartTypeEnum.waterfall;
   static readonly seriesType: string = SeriesTypeEnum.waterfall;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = WaterfallChartSpecTransformer;
   // @ts-ignore
   readonly transformerConstructor = WaterfallChartSpecTransformer;
