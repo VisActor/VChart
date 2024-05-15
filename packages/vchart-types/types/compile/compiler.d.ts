@@ -23,6 +23,7 @@ export declare class Compiler {
     protected _height: number;
     protected _container: IRenderContainer;
     protected _option: IRenderOption;
+    private _released;
     protected _model: CompilerModel;
     protected _interactions: (InteractionSpec & {
         seriesId?: number;

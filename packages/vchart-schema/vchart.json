@@ -25737,6 +25737,18 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "followTooltip": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<ITooltipActiveTypeAsKeys<boolean,boolean,boolean>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "是否和tooltip保持同步\ntooltip出现的时候crosshair出现；tooltip隐藏的时候crsshair隐藏；",
+          "since": "1.11.1"
+        },
         "gridZIndex": {
           "description": "crosshair 辅助图形的显示层级",
           "type": "number"
@@ -31327,6 +31339,18 @@
         "clip": {
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
+        },
+        "followTooltip": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<ITooltipActiveTypeAsKeys<boolean,boolean,boolean>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "是否和tooltip保持同步\ntooltip出现的时候crosshair出现；tooltip隐藏的时候crsshair隐藏；",
+          "since": "1.11.1"
         },
         "gridZIndex": {
           "description": "crosshair 辅助图形的显示层级",
@@ -56748,6 +56772,18 @@
         "clip": {
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
+        },
+        "followTooltip": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<ITooltipActiveTypeAsKeys<boolean,boolean,boolean>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "是否和tooltip保持同步\ntooltip出现的时候crosshair出现；tooltip隐藏的时候crsshair隐藏；",
+          "since": "1.11.1"
         },
         "gridZIndex": {
           "description": "crosshair 辅助图形的显示层级",
@@ -96868,6 +96904,20 @@
         },
         "zIndex": {
           "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ITooltipActiveTypeAsKeys<boolean,boolean,boolean>>": {
+      "properties": {
+        "dimension": {
+          "type": "boolean"
+        },
+        "group": {
+          "type": "boolean"
+        },
+        "mark": {
+          "type": "boolean"
         }
       },
       "type": "object"

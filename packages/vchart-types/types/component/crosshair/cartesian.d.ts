@@ -5,7 +5,7 @@ import type { ICartesianCrosshairSpec } from './interface';
 import { BaseCrossHair } from './base';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IAxis } from '../axis/interface';
-import type { StringOrNumber } from '../../typings';
+import type { StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import type { IModelSpecInfo } from '../../model/interface';
 export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCrosshairSpec> extends BaseCrossHair<T> {
     static specKey: string;
@@ -33,7 +33,7 @@ export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICar
     clearAxisValue(): void;
     setAxisValue(value: StringOrNumber, axis: IAxis): void;
     private _getAllAxisValues;
-    protected _layoutCrosshair(relativeX: number, relativeY: number): void;
+    protected _layoutCrosshair(relativeX: number, relativeY: number, tooltipData?: TooltipData, activeType?: TooltipActiveType): void;
     hide(): void;
     layoutByValue(tag?: number): void;
     private _layoutVertical;
