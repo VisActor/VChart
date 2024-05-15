@@ -1,3 +1,4 @@
+import type { ITooltipActiveTypeAsKeys } from '../../tooltip/interface/common';
 import type { IPadding, StringOrNumber, ILineMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../../typings';
 import type { IAxis } from '../../axis/interface';
 import type { IComponentSpec } from '../../base/interface';
@@ -18,13 +19,7 @@ export interface ICommonCrosshairSpec extends IComponentSpec {
    * tooltip出现的时候crosshair出现；tooltip隐藏的时候crsshair隐藏；
    * @since 1.11.1
    */
-  followTooltip?:
-    | boolean
-    | {
-        mark?: boolean;
-        dimension?: boolean;
-        group?: boolean;
-      };
+  followTooltip?: boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>;
   /**
    * 是否可以通过 点击 固定住一组 crosshair，也可以同时触发。
    * @default 'hover'
