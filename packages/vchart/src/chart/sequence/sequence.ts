@@ -12,7 +12,7 @@ import { SequenceChartSpecTransformer } from './sequence-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export class SequenceChart<T extends ISequenceChartSpec = ISequenceChartSpec> extends BaseChart<T> {
-  static readonly type: string = ChartTypeEnum.sequence; // csj-Q: view是什么含义
+  static readonly type: string = ChartTypeEnum.sequence;
   static readonly transformerConstructor = SequenceChartSpecTransformer;
   readonly transformerConstructor = SequenceChartSpecTransformer;
   readonly type: string = ChartTypeEnum.sequence;
