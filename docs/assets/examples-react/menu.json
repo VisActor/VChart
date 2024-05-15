@@ -85,6 +85,22 @@
       ]
     },
     {
+      "path": "events",
+      "title": {
+        "en": "Events",
+        "zh": "事件"
+      },
+      "children": [
+        {
+          "path": "sync-charts",
+          "title": {
+            "en": "synchronized charts",
+            "zh": "图表联动"
+          }
+        }
+      ]
+    },
+    {
       "path": "theme",
       "title": {
         "en": "Theme",
