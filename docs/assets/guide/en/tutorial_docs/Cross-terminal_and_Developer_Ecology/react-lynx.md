@@ -107,6 +107,40 @@ onReady is a built-in callback event that is triggered when the chart is rendere
 
 For example, developers can register the callback events that need to be triggered on the chart instance during the first rendering to achieve chart interaction functions.
 
+## `<VChartSimple />` tag with lazy loading
+
+The usage of this tag is similar to `<VChart />`. This tag supports the lazy loading feature of VChart. When using it, you need to configure an additional `vchartConstrouctor` field to pass in the VChart.
+
+```ts
+import { VChartSimple } from '@dp/lynx-vchart';
+import { VChart as VChartCore } from '@visactor/vchart/esm/core';
+
+export default function Demo() {
+  return (
+    <view>
+      <VChartSimple
+        // vchart核心包
+        vchartConstrouctor={VChartCore}
+        width="700rpx"
+        height="900rpx"
+        spec={spec}
+      />
+    </view>
+  );
+}
+```
+
+Since this tag is a lazy loading tag, you need to register the charts you will use in advance, like:
+
+```ts
+import { registerAreaChart } from '@visactor/vchart/esm/chart';
+import { VChart as VChartCore } from '@visactor/vchart/esm/core';
+
+VChartCore.useRegisters([registerAreaChart]);
+```
+
+You can refer to the lazy loading tutorial for specific lazy loading strategies: https://visactor.io/vchart/guide/tutorial_docs/Load_on_Demand
+
 ## Theme style
 
 If you use a custom theme in VChart, you can achieve it in two ways, one is to define the theme in spec, and the other is to register the theme through ThemeManager. Because in Lynx-VChart, there is no need to reference the VChart npm package. Therefore, Lynx-VChart exposes the VChart base class, named VChartCore, which is convenient for developers to register custom themes on the VChart base class through static methods.
@@ -115,10 +149,62 @@ Refer to VChart Theme for VChart theme configuration.
 
 Note that for the case of using VChart on demand, it is recommended to directly call the VChart API to use the theme.
 
+## Event Interaction
+
+The top-level chart component, whether it is the unified chart label (VChart) or the syntax chart label (BarChart, etc.), supports the scene tree event `EventsProps` thrown by the underlying rendering layer on its Props.
+
+The definition of `EventsProps` is as follows:
+
+```ts
+interface EventsProps {
+  onPointerDown?: (e: any) => void | boolean;
+  onPointerUp?: (e: any) => void | boolean;
+  onPointerUpOutside?: (e: any) => void | boolean;
+  onPointerTap?: (e: any) => void | boolean;
+  onPointerOver?: (e: any) => void | boolean;
+  onPointerMove?: (e: any) => void | boolean;
+  onPointerEnter?: (e: any) => void | boolean;
+  onPointerLeave?: (e: any) => void | boolean;
+  onPointerOut?: (e: any) => void | boolean;
+  onMouseDown?: (e: any) => void | boolean;
+  onMouseUp?: (e: any) => void | boolean;
+  onMouseUpOutside?: (e: any) => void | boolean;
+  onMouseMove?: (e: any) => void | boolean;
+  onMouseOver?: (e: any) => void | boolean;
+  onMouseOut?: (e: any) => void | boolean;
+  onMouseEnter?: (e: any) => void | boolean;
+  onMouseLeave?: (e: any) => void | boolean;
+  onPinch?: (e: any) => void | boolean;
+  onPinchStart?: (e: any) => void | boolean;
+  onPinchEnd?: (e: any) => void | boolean;
+  onPan?: (e: any) => void | boolean;
+  onPanStart?: (e: any) => void | boolean;
+  onPanEnd?: (e: any) => void | boolean;
+  onDrag?: (e: any) => void | boolean;
+  onDragStart?: (e: any) => void | boolean;
+  onDragEnter?: (e: any) => void | boolean;
+  onDragLeave?: (e: any) => void | boolean;
+  onDragOver?: (e: any) => void | boolean;
+  onDragEnd?: (e: any) => void | boolean;
+  onRightDown?: (e: any) => void | boolean;
+  onRightUp?: (e: any) => void | boolean;
+  onRightUpOutside?: (e: any) => void | boolean;
+  onTouchStart?: (e: any) => void | boolean;
+  onTouchEnd?: (e: any) => void | boolean;
+  onTouchEndOutside?: (e: any) => void | boolean;
+  onTouchMove?: (e: any) => void | boolean;
+  onTouchCancel?: (e: any) => void | boolean;
+  onPress?: (e: any) => void | boolean;
+  onPressUp?: (e: any) => void | boolean;
+  onPressEnd?: (e: any) => void | boolean;
+  onSwipe?: (e: any) => void | boolean;
+  onDrop?: (e: any) => void | boolean;
+  onWeel?: (e: any) => void | boolean;
+  onClick?: (e: any) => void | boolean;
+  onDblClick?: (e: any) => void | boolean;
+}
+```
+
 ## Summary
 
 Through this tutorial, you should have learned how to use VChart to create a simple bar chart in the LynxVChart project. At the same time,
-
-```
-
-```
