@@ -74,42 +74,12 @@ export class CartesianMarkLine extends BaseMarkLine {
   }
 
   protected _markerLayout() {
-    super._markerLayout();
-    const spec = this._spec as any;
-    const data = this._markerData;
-    const startRelativeSeries = this._startRelativeSeries;
-    const endRelativeSeries = this._endRelativeSeries;
-    const relativeSeries = this._relativeSeries;
-
-    const { points } = this._computePointsAttr();
-
-    const seriesData = this._relativeSeries.getViewData().latestData;
-    const dataPoints =
-      data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-
-    let limitRect;
-    if (spec.clip || spec.label?.confine) {
-      const { minX, maxX, minY, maxY } = computeClipRange([
-        startRelativeSeries.getRegion(),
-        endRelativeSeries.getRegion(),
-        relativeSeries.getRegion()
-      ]);
-      limitRect = {
-        x: minX,
-        y: minY,
-        width: maxX - minX,
-        height: maxY - minY
-      };
-    }
-    const markerComponentAttr = this._markerComponent?.attribute ?? {};
-    const labelAttrs = {
-      ...markerComponentAttr.label,
-      text: this._spec.label.formatMethod
-        ? this._spec.label.formatMethod(dataPoints, seriesData)
-        : markerComponentAttr.label?.text
-    };
+    const updateAttrs = this._getUpdateMarkerAttrs();
 
     if ((this._spec as IStepMarkLineSpec).type === 'type-step') {
+      const startRelativeSeries = this._startRelativeSeries;
+      const endRelativeSeries = this._endRelativeSeries;
+
       const { multiSegment, mainSegmentIndex } = (this._spec as IStepMarkLineSpec).line || {};
       const { connectDirection, expandDistance = 0 } = this._spec as IStepMarkLineSpec;
 
@@ -142,6 +112,7 @@ export class CartesianMarkLine extends BaseMarkLine {
       } else {
         expandDistanceValue = expandDistance as number;
       }
+      const { points, label, limitRect } = updateAttrs;
 
       const joinPoints = getInsertPoints(
         (points as IPoint[])[0],
@@ -168,7 +139,7 @@ export class CartesianMarkLine extends BaseMarkLine {
           refY: 0
         };
       }
-
+      const markerComponentAttr = this._markerComponent?.attribute ?? {};
       this._markerComponent?.setAttributes({
         points: multiSegment
           ? [
@@ -178,7 +149,7 @@ export class CartesianMarkLine extends BaseMarkLine {
             ]
           : joinPoints,
         label: {
-          ...labelAttrs,
+          ...label,
           ...labelPositionAttrs,
           textStyle: {
             ...markerComponentAttr.label.textStyle,
@@ -193,13 +164,7 @@ export class CartesianMarkLine extends BaseMarkLine {
         dy: this._layoutOffsetY
       } as any);
     } else {
-      this._markerComponent?.setAttributes({
-        points,
-        label: labelAttrs as MarkLineComponent['attribute']['label'],
-        limitRect,
-        dx: this._layoutOffsetX,
-        dy: this._layoutOffsetY
-      } as any);
+      this._markerComponent?.setAttributes(updateAttrs);
     }
   }
 

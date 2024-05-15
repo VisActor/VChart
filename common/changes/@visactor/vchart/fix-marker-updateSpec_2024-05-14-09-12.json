@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: when marker's spec update, it should update when call vchart.updateSpec",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
