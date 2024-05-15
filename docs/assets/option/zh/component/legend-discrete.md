@@ -24,7 +24,11 @@
 
 ### selectMode(string) = 'multiple'
 
-图例的选中模式，可选值：`'multiple'`，`'single'`，分别代表多选和单选。
+图例的选中模式，可选值：
+
+- `'multiple'` 多选模式
+- `'single'` 单选模式
+- `'focus'` 聚焦模式（自 1.11.1 版本开始支持）
 
 ### scale(string)
 
