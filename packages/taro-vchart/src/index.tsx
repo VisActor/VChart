@@ -4,9 +4,8 @@ import { GeneralChart } from './components/general-chart';
 import { IVChartProps } from './typings';
 import Taro from '@tarojs/taro';
 // @ts-ignore
-import { VChart as chartConstructor, registerLarkEnv, registerWXEnv } from './chart/index';
+import { VChart as chartConstructor, registerLarkEnv, registerWXEnv, registerTTEnv } from './chart/index';
 import { VChartSimple } from './simple';
-import { registerTTEnv } from '@visactor/vchart';
 
 export default function VChart({ type, ...args }: IVChartProps) {
   const env = (type ?? Taro.getEnv()).toLocaleLowerCase();
