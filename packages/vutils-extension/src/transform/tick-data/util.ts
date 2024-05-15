@@ -63,6 +63,16 @@ export function hasOverlap<T>(items: ILabelItem<T>[], pad: number): boolean {
 
 export const MIN_TICK_GAP = 12;
 
+const calculateFlushPos = (basePosition: number, size: number, rangePosition: number, otherEnd: number) => {
+  return rangePosition < basePosition
+    ? Math.max(basePosition - size / 2, rangePosition)
+    : rangePosition > basePosition
+    ? Math.min(basePosition - size / 2, rangePosition - size)
+    : rangePosition < otherEnd
+    ? rangePosition
+    : rangePosition - size;
+};
+
 export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: ICartesianTickDataOpt): AABBBounds[] => {
   const { labelStyle, axisOrientType, labelFlush, labelFormatter, startAngle = 0 } = op;
   let labelAngle = labelStyle.angle ?? 0;
@@ -84,6 +94,7 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
   }
 
   const textMeasure = initTextMeasure(labelStyle);
+  const range = scale.range();
   const labelBoundsList = domain.map((v: any, i: number) => {
     const str = labelFormatter ? labelFormatter(v) : `${v}`;
 
@@ -101,9 +112,9 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 
     let align: TextAlignType;
     if (labelFlush && isHorizontal && i === 0) {
-      align = 'left';
+      textX = calculateFlushPos(baseTextX, textWidth, range[0], range[range.length - 1]);
     } else if (labelFlush && isHorizontal && i === domain.length - 1) {
-      align = 'right';
+      textX = calculateFlushPos(baseTextX, textWidth, range[range.length - 1], range[0]);
     } else {
       align = labelStyle.textAlign ?? 'center';
     }
@@ -115,9 +126,9 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 
     let baseline: TextBaselineType;
     if (labelFlush && isVertical && i === 0) {
-      baseline = 'top';
+      textY = calculateFlushPos(baseTextY, textHeight, range[0], range[range.length - 1]);
     } else if (labelFlush && isVertical && i === domain.length - 1) {
-      baseline = 'bottom';
+      textY = calculateFlushPos(baseTextY, textHeight, range[range.length - 1], range[0]);
     } else {
       baseline = labelStyle.textBaseline ?? 'middle';
     }
