@@ -9,7 +9,6 @@ import { BaseChart } from '../base';
 export class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.rose;
   static readonly seriesType: string = SeriesTypeEnum.rose;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = RoseChartSpecTransformer;
   readonly transformerConstructor = RoseChartSpecTransformer;
   readonly type: string = ChartTypeEnum.rose;

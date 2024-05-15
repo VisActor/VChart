@@ -9,7 +9,6 @@ import { BaseChart } from '../base';
 export class HeatmapChart<T extends IHeatmapChartSpec = IHeatmapChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.heatmap;
   static readonly seriesType: string = SeriesTypeEnum.heatmap;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = HeatmapChartSpecTransformer;
   readonly transformerConstructor = HeatmapChartSpecTransformer;
   readonly type: string = ChartTypeEnum.heatmap;

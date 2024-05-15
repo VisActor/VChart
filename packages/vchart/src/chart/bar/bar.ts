@@ -9,7 +9,6 @@ import { BaseChart } from '../base';
 export class BarChart<T extends IBarChartSpec = IBarChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.bar;
   static readonly seriesType: string = SeriesTypeEnum.bar;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = BarChartSpecTransformer;
   readonly transformerConstructor = BarChartSpecTransformer;
   readonly type: string = ChartTypeEnum.bar;

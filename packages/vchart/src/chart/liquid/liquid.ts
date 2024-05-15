@@ -9,7 +9,6 @@ import { registerLiquidSeries } from '../../series/liquid/liquid';
 export class LiquidChart<T extends ILiquidChartSpec = ILiquidChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.liquid;
   static readonly seriesType: string = SeriesTypeEnum.liquid;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = LiquidChartSpecTransformer;
   readonly transformerConstructor = LiquidChartSpecTransformer;
   readonly type: string = ChartTypeEnum.liquid;

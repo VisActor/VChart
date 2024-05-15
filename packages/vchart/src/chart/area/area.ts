@@ -9,7 +9,6 @@ import { BaseChart } from '../base';
 export class AreaChart<T extends IAreaChartSpec = IAreaChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.area;
   static readonly seriesType: string = SeriesTypeEnum.area;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = AreaChartSpecTransformer;
   readonly transformerConstructor = AreaChartSpecTransformer;
   readonly type: string = ChartTypeEnum.area;

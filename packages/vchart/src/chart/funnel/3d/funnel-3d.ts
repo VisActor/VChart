@@ -12,7 +12,6 @@ export class Funnel3dChart<T extends IFunnel3dChartSpec = IFunnel3dChartSpec> ex
 > {
   static readonly type: string = ChartTypeEnum.funnel3d;
   static readonly seriesType: string = SeriesTypeEnum.funnel3d;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = FunnelChartSpecTransformer;
   readonly transformerConstructor = FunnelChartSpecTransformer;
   readonly type: string = ChartTypeEnum.funnel3d;

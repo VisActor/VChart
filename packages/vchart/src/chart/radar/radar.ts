@@ -9,7 +9,6 @@ import { BaseChart } from '../base';
 export class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.radar;
   static readonly seriesType: string = SeriesTypeEnum.radar;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = RadarChartSpecTransformer;
   // @ts-ignore
   readonly transformerConstructor = RadarChartSpecTransformer;

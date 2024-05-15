@@ -9,7 +9,6 @@ import { BaseChart } from '../base';
 export class LineChart<T extends ILineChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.line;
   static readonly seriesType: string = SeriesTypeEnum.line;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = LineChartSpecTransformer;
   readonly transformerConstructor = LineChartSpecTransformer;
   readonly type: string = ChartTypeEnum.line;

@@ -12,7 +12,6 @@ export class Bar3dChart<T extends IBar3dChartSpec = IBar3dChartSpec> extends Bar
 > {
   static readonly type: string = ChartTypeEnum.bar3d;
   static readonly seriesType: string = SeriesTypeEnum.bar3d;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = Bar3dChartSpecTransformer;
   // @ts-ignore
   readonly transformerConstructor = Bar3dChartSpecTransformer;

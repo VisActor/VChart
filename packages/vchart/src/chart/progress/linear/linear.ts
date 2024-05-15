@@ -9,7 +9,6 @@ import { BaseChart } from '../../base';
 export class LinearProgressChart<T extends ILinearProgressChartSpec = ILinearProgressChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.linearProgress;
   static readonly seriesType: string = SeriesTypeEnum.linearProgress;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = LinearProgressChartSpecTransformer;
   readonly transformerConstructor = LinearProgressChartSpecTransformer;
   readonly type: string = ChartTypeEnum.linearProgress;
