@@ -21,7 +21,6 @@ import {
   LegendForm,
   MarkerView, //图例形状
 } from '@ohos/mpchart';
-import { CustomMark } from 'vchart/src/main/ets/vchart_dist';
 
 @Entry
 @Component

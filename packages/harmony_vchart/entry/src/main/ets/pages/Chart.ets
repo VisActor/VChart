@@ -1,5 +1,5 @@
 // import { Stage } from 'vutil'
-import { VChart, ISpec } from '@visactor/harmony-vchart';
+import { VChart } from '@visactor/harmony-vchart';
 // import { VisActor } from './canvas';
 import { router } from '@kit.ArkUI';
 import promptAction from '@ohos.promptAction';
@@ -15,6 +15,8 @@ const params: IRouterParams = router.getParams() as IRouterParams;
 @Component
 struct Chart {
   @State spec: Object = params.spec;
+  private t: number = 0;
+  @State delta: number = 0;
 
   build() {
     Row() {
@@ -26,9 +28,17 @@ struct Chart {
         VChart({
           spec: params.spec, w: 300, h: 300,
           onChartInitCb: () => {},
-          onChartReadyCb: () => {}
+          onChartReadyCb: () => {},
+          initOption: {
+            beforeRender: () => {
+              this.t = Date.now();
+            },
+            afterRender: () => {
+              this.delta = Date.now() - this.t;
+            }
+          }
         });
-
+        Text(`每一帧耗时：${this.delta}`)
         // VisActor()
       }
       .width('100%')

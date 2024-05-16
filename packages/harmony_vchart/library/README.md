@@ -8,6 +8,13 @@ VChart 是 VisActor 可视化系统中的图表组件库。它基于可视化语
 
 Harmony-VChart 是 VChart 针对 HarmonyOS 平台进行原生兼容的版本，目前支持 HarmonyOS API 11 以上的版本，最低支持 HarmonyOS API 9
 
+## 效果展示
+
+<div style="text-align: center;">
+  <img style="margin-right: 60px" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example.jpg" alt="Harmony VChart示例">
+  <img crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-demo.gif" alt="Harmony VChart示例">
+</div>
+
 ## 🔨 使用
 
 ### 📦 安装
@@ -26,26 +33,7 @@ import { VChart } from '@visactor/harmony-vchart';
 
 // arkts中直接定义json会报类型错误，需要转成类类型，但是spec的类类型太过复杂
 // 这里暂时先用字符串规避
-const spec = `{
-  type: 'bar',
-  data: [
-    {
-      id: 'barData',
-      values: [
-        { month: 'Monday', sales: 22 },
-        { month: 'Tuesday', sales: 13 },
-        { month: 'Wednesday', sales: 25 },
-        { month: 'Thursday', sales: 29 },
-        { month: 'Friday', sales: 38 }
-      ]
-    }
-  ],
-  xField: 'month',
-  yField: 'sales',
-  crosshair: {
-    xField: { visible: true }
-  }
-}`;
+const spec = '{"type":"bar","data":[{"id":"barData","values":[{"month":"Monday","sales":22},{"month":"Tuesday","sales":13},{"month":"Wednesday","sales":25},{"month":"Thursday","sales":29},{"month":"Friday","sales":38}]}],"xField":"month","yField":"sales","crosshair":{"xField":{"visible":true}}}';
 
 @Entry
 @Component

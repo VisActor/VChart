@@ -1,8 +1,5 @@
 export default {
   type: 'area',
-  animationAppear: {
-    duration: 6000,
-  },
   data: {
     values: [
       { type: 'Nail polish', country: 'Africa', value: 4229 },

@@ -1,8 +1,6 @@
 import { HTMLTouchEvent } from './event';
 import { DefaultTicker } from './ticker';
 import { VChart as VChartConstructor, vglobal, registerHarmonyEnv } from './vchart_dist';
-import animator, { AnimatorOptions, AnimatorResult } from '@ohos.animator';
-import hilog from '@ohos.hilog';
 
 registerHarmonyEnv();
 vglobal.setEnv('harmony');
@@ -36,19 +34,70 @@ interface IGraphic {
   setAttributes(params: Record<string, string|number>): void;
 }
 
+export interface IInitOption {
+  /**
+   * 图表开始渲染的回调
+   * @param vchart
+   */
+  beforeRender?: (stage: Object) => void;
+  /**
+   * 渲染完成的回调
+   * @param vchart
+   */
+  afterRender?: (stage: Object) => void;
+  /**
+   * 启用的插件列表
+   */
+  pluginList?: string[];
+  /** 数据集 */
+  dataSet?: Object;
+  /**
+   * 是否开启动画
+   */
+  animation?: boolean;
+  /**
+   * 当文本省略时，鼠标 hover 到文本上时是否显示 poptip
+   * @default true
+   */
+  poptip?: boolean;
+
+  /**
+   * 报错的回调函数
+   * @since 1.2.0
+   */
+  onError?: () => void;
+
+  /**
+   * 默认主题（支持完整主题对象或者主题名称，主题名称需要提前在 `ThemeManager` 中注册）
+   * @since 1.3.0
+   */
+  theme?: string;
+}
+
 @Component
 export struct VChart {
   private settings: RenderingContextSettings = new RenderingContextSettings(true) // 开启抗锯齿
   private context: CanvasRenderingContext2D = new CanvasRenderingContext2D(this.settings)
   private w: number = 300;
   private h: number = 300;
-  private fullScreen: boolean = true;
   @Prop @Watch('onSpecUpdate') private spec: Object | null = null;
   private vchart: VChartConstructor | null = null;
   @State time: string = '';
 
-  private onChartInitCb?: (vchart: VChartConstructor) => void;
-  private onChartReadyCb?: (vchart: VChartConstructor) => void;
+  private fullScreen: boolean = true;
+  private initOption: IInitOption = {};
+
+  /**
+   * 图表初始化的回调
+   * @param vchart
+   */
+  onChartInitCb?: (vchart: VChartConstructor) => void;
+  /**
+   * 图表准备好的回调
+   * @param vchart
+   */
+  onChartReadyCb?: (vchart: VChartConstructor) => void;
+
 
   onSpecUpdate(propName: string) {
     if (!this.vchart) {
@@ -105,13 +154,14 @@ export struct VChart {
             ticker: ticker,
             autoRender: true,
             disableDirtyBounds: this.fullScreen,
-            beforeRender: (stage: Record<string, number>) => {
-              date = Date.now();
-              // stage._skipRender = -1
-            },
-            afterRender: () => {
-              this.time = (Date.now() - date).toString()
-            }
+            beforeRender: this.initOption.beforeRender,
+            afterRender: this.initOption.afterRender,
+            pluginList: this.initOption.pluginList,
+            dataSet: this.initOption.dataSet,
+            animation: this.initOption.animation,
+            poptip: this.initOption.poptip,
+            theme: this.initOption.theme,
+            onError: this.initOption.onError
           });
           ticker.bindStage(this.vchart.getStage());
           this.onChartInitCb && this.onChartInitCb(this.vchart);
