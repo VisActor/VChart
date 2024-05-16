@@ -1,6 +1,6 @@
 import type { SankeyOptions, SankeyData } from '@visactor/vgrammar-sankey';
 import { SankeyLayout } from '@visactor/vgrammar-sankey';
-import { isArray, isNil, isString } from '@visactor/vutils';
+import { isArray, isNil } from '@visactor/vutils';
 
 export interface ISankeyOpt extends SankeyOptions {
   targetField: string;
