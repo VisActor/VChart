@@ -1,8 +1,8 @@
 import type { ICharacter } from '../../../story/character';
 import type { IText } from '@visactor/vrender-core';
 import type { IGraphicAppearAction } from '../../types/graphic/appear';
-import { commonAppearEffect } from './effect/appear';
-import { getCharacterGraphic, getCharacterParentGraphic } from './util';
+import { appearEffectMap, commonAppearEffect } from './effect/appear';
+import { getCharacterByEffect } from './util';
 import { typewriter } from './effect/typewriter';
 
 export const textAppearProcessor = async (
@@ -12,8 +12,10 @@ export const textAppearProcessor = async (
 ) => {
   const { animation } = IGraphicAppearAction.payload ?? {};
   const { effect } = animation ?? {};
-  const graphics = getCharacterGraphic(character);
+  const graphics = getCharacterByEffect(character, effect);
+
   const textGraphics = graphics.filter(graphic => graphic.type === 'text') as IText[];
+
   textGraphics.forEach(text => {
     if (!commonAppearEffect(text, effect, animation)) {
       switch (effect) {
@@ -25,23 +27,21 @@ export const textAppearProcessor = async (
   });
 };
 
-export const graphicAppearProcessor = async (
-  character: ICharacter,
-  spec = {},
-  IGraphicAppearAction: IGraphicAppearAction
-) => {
-  const { animation } = IGraphicAppearAction.payload ?? {};
+export const graphicAppearProcessor = async (character: ICharacter, spec = {}, action: IGraphicAppearAction) => {
+  const { animation } = action.payload ?? {};
   const { effect } = animation ?? {};
-  let graphics;
-  if (effect === 'move') {
-    graphics = [getCharacterParentGraphic(character)];
-  } else {
-    graphics = getCharacterGraphic(character);
-  }
-  graphics.forEach(graphic => {
-    if (graphic && !commonAppearEffect(graphic, effect, animation)) {
-      // 没有配置任何动画
-      graphic.setAttributes({ visibleAll: true });
+
+  const effects = effect ? [effect] : Object.keys(appearEffectMap);
+
+  effects.forEach(effect => {
+    if (animation.effect === effect || animation[effect]) {
+      // 获取执行方法
+      const appearEffect = appearEffectMap[effect];
+      // 获取相关图形
+      const graphics = getCharacterByEffect(character, effect);
+      // 执行appearEffect
+      graphics.forEach(graphic => appearEffect(graphic, animation));
     }
+    return false;
   });
 };
