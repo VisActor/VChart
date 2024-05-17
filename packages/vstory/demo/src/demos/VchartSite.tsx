@@ -1,7 +1,16 @@
 import React, { useEffect } from 'react';
-import { ICharacterLink, IStorySpec } from '../../../src/story/interface';
+import { IStorySpec } from '../../../src/story/interface';
 import { Story } from '../../../src/story/story';
 import '../../../src/story/index';
+import Scene3TitleImage from '../assets/scene3/title-image.png';
+import Scene3Decoration from '../assets/scene3/decoration.png';
+import Scene3TextTop from '../assets/scene3/text-zh.png';
+import Scene3TextBottom from '../assets/scene3/text-en.png';
+import Scene3ChartImage1 from '../assets/scene3/chart-1.png';
+import Scene3ChartImage2 from '../assets/scene3/chart-2.png';
+import Scene3ChartImage3 from '../assets/scene3/chart-3.png';
+import Scene3ChartImage4 from '../assets/scene3/chart-4.png';
+import Scene3ChartImage5 from '../assets/scene3/chart-5.png';
 
 const chartSpecList = [
   {
@@ -878,7 +887,7 @@ export const VChartSiteDemo = () => {
         ...chartSpecList.map((item, i) => ({
           type: item.characterType ?? 'CharacterChart',
           id: `chart${i}`,
-          zIndex: 0,
+          zIndex: 1,
           position: {
             top: i < 5 ? 50 : 570,
             left: 100 + (i % 5) * 170 + 20,
@@ -897,7 +906,7 @@ export const VChartSiteDemo = () => {
         {
           type: 'TextComponent',
           id: `title1`,
-          zIndex: 0,
+          zIndex: 1,
           position: {
             top: 300,
             left: 500,
@@ -911,7 +920,7 @@ export const VChartSiteDemo = () => {
         {
           type: 'TextComponent',
           id: `title2`,
-          zIndex: 0,
+          zIndex: 1,
           position: {
             top: 380,
             left: 500,
@@ -926,7 +935,7 @@ export const VChartSiteDemo = () => {
         {
           type: 'RichTextComponent',
           id: `titlesubtitle`,
-          zIndex: 0,
+          zIndex: 1,
           position: {
             top: 450,
             left: 600,
@@ -954,7 +963,7 @@ export const VChartSiteDemo = () => {
         {
           type: 'TextComponent',
           id: `scene2-title2`,
-          zIndex: 0,
+          zIndex: 1,
           position: {
             top: 50,
             left: 150,
@@ -974,7 +983,7 @@ export const VChartSiteDemo = () => {
         {
           type: 'TextComponent',
           id: `scene3-title1`,
-          zIndex: 0,
+          zIndex: 1,
           position: {
             top: 100,
             left: 200,
@@ -985,24 +994,50 @@ export const VChartSiteDemo = () => {
             graphic: { text: 'Proto Bar', fontSize: 55, fontWeight: 'bold', textAlign: 'left' }
           }
         },
-        // {
-        //   type: 'TextComponent',
-        //   id: `scene3-line-top`,
-        //   zIndex: 0,
-        //   position: {
-        //     top: 100,
-        //     left: 200,
-        //     width: 500,
-        //     height: 200
-        //   },
-        //   options: {
-        //     graphic: { text: 'Proto Bar', fontSize: 55, fontWeight: 'bold' }
-        //   }
-        // },
+        {
+          type: 'LineComponent',
+          id: `scene3-line-top`,
+          zIndex: 1,
+          position: {
+            top: 102,
+            left: 100,
+            width: 500,
+            height: 200
+          },
+          options: {
+            graphic: {
+              lineWidth: 1,
+              points: [
+                { x: 100, y: 34 },
+                { x: 350, y: 34 }
+              ]
+            }
+          }
+        },
+        {
+          type: 'LineComponent',
+          id: `scene3-line-bottom`,
+          zIndex: 1,
+          position: {
+            top: 130,
+            left: 100,
+            width: 500,
+            height: 200
+          },
+          options: {
+            graphic: {
+              lineWidth: 1,
+              points: [
+                { x: 100, y: 34 },
+                { x: 350, y: 34 }
+              ]
+            }
+          }
+        },
         {
           type: 'TextComponent',
-          id: `scene3-title21`,
-          zIndex: 0,
+          id: `scene3-title-Nicole`,
+          zIndex: 1,
           position: {
             top: 150,
             left: 200,
@@ -1014,9 +1049,137 @@ export const VChartSiteDemo = () => {
           }
         },
         {
+          type: 'ImageComponent',
+          id: `scene3-text-image-top`,
+          zIndex: 1,
+          position: {
+            top: 160,
+            left: 560,
+            width: 570,
+            height: 65
+          },
+          options: {
+            graphic: {
+              image: Scene3TextTop
+            }
+          }
+        },
+        {
+          type: 'ImageComponent',
+          id: `scene3-text-image-top`,
+          zIndex: 1,
+          position: {
+            top: 160,
+            left: 560,
+            width: 570,
+            height: 65
+          },
+          options: {
+            graphic: {
+              image: Scene3TextTop
+            }
+          }
+        },
+        {
+          type: 'ImageComponent',
+          id: `scene3-chart-image-1`,
+          zIndex: 1,
+          position: {
+            top: 250,
+            left: 560,
+            width: 200,
+            height: 160
+          },
+          options: {
+            graphic: {
+              image: Scene3ChartImage1
+            }
+          }
+        },
+        {
+          type: 'ImageComponent',
+          id: `scene3-chart-image-2`,
+          zIndex: 1,
+          position: {
+            top: 250,
+            left: 780,
+            width: 200,
+            height: 160
+          },
+          options: {
+            graphic: {
+              image: Scene3ChartImage2
+            }
+          }
+        },
+        {
+          type: 'ImageComponent',
+          id: `scene3-chart-image-3`,
+          zIndex: 1,
+          position: {
+            top: 425,
+            left: 560,
+            width: 200,
+            height: 160
+          },
+          options: {
+            graphic: {
+              image: Scene3ChartImage3
+            }
+          }
+        },
+        {
+          type: 'ImageComponent',
+          id: `scene3-chart-image-4`,
+          zIndex: 1,
+          position: {
+            top: 425,
+            left: 780,
+            width: 200,
+            height: 160
+          },
+          options: {
+            graphic: {
+              image: Scene3ChartImage4
+            }
+          }
+        },
+        {
+          type: 'ImageComponent',
+          id: `scene3-chart-image-5`,
+          zIndex: 1,
+          position: {
+            top: 250,
+            left: 1000,
+            width: 200,
+            height: 335
+          },
+          options: {
+            graphic: {
+              image: Scene3ChartImage5
+            }
+          }
+        },
+        {
+          type: 'ImageComponent',
+          id: `scene3-text-image-bottom`,
+          zIndex: 1,
+          position: {
+            top: 620,
+            left: 560,
+            width: 570,
+            height: 60
+          },
+          options: {
+            graphic: {
+              image: Scene3TextBottom
+            }
+          }
+        },
+        {
           type: 'TextComponent',
-          id: `scene3-title22`,
-          zIndex: 0,
+          id: `scene3-title-1486`,
+          zIndex: 1,
           position: {
             top: 150,
             left: 420,
@@ -1026,392 +1189,215 @@ export const VChartSiteDemo = () => {
           options: {
             graphic: { text: '1486', fontSize: 12, fontWeight: 'bold', textAlign: 'left' }
           }
+        },
+        {
+          type: 'ImageComponent',
+          id: `scene3-title-image`,
+          zIndex: 1,
+          position: {
+            top: 180,
+            left: 200,
+            width: 250,
+            height: 260
+          },
+          options: {
+            graphic: {
+              image: Scene3TitleImage
+            }
+          }
+        },
+        {
+          type: 'RectComponent',
+          id: `scene3-background`,
+          zIndex: 0,
+          position: {
+            top: 0,
+            left: 170,
+            width: 1200,
+            height: 800
+          },
+          options: {
+            graphic: {
+              stroke: false,
+              fill: '#D9D4CA'
+            }
+          }
+        },
+        {
+          type: 'ImageComponent',
+          id: `scene3-background-decoration`,
+          zIndex: 0,
+          position: {
+            top: 120,
+            left: 270,
+            width: 1000,
+            height: 500
+          },
+          options: {
+            graphic: {
+              image: Scene3Decoration
+            }
+          }
         }
       ],
       acts: [
         {
           id: 'default-chapter',
           scenes: [
-            {
-              id: 'scene1',
-              actions: [
-                ...new Array(5).fill(0).map(
-                  (_, i) =>
-                    ({
-                      characterId: `chart${i}`,
-                      characterActions: [
-                        {
-                          startTime: i * 300 + 500,
-                          duration: 1000,
-                          action: 'appear',
-                          payload: {
-                            animation: {
-                              duration: 1000
-                            }
-                          }
-                        }
-                      ]
-                    } as ICharacterLink)
-                ),
-                ...new Array(5).fill(0).map(
-                  (_, i) =>
-                    ({
-                      characterId: `chart${9 - i}`,
-                      characterActions: [
-                        {
-                          startTime: i * 300 + 500,
-                          duration: 1000,
-                          action: 'appear',
-                          payload: {
-                            animation: {
-                              duration: 1000
-                            }
-                          }
-                        }
-                      ]
-                    } as ICharacterLink)
-                ),
-                {
-                  characterId: `title1`,
-                  characterActions: [
-                    {
-                      startTime: 1500,
-                      duration: 500,
-                      action: 'appear',
-                      payload: {
-                        animation: {
-                          duration: 500,
-                          effect: 'typewriter',
-                          easing: 'quadIn'
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  characterId: `title2`,
-                  characterActions: [
-                    {
-                      startTime: 2000,
-                      duration: 500,
-                      action: 'appear',
-                      payload: {
-                        animation: {
-                          duration: 500,
-                          effect: 'typewriter',
-                          easing: 'quadIn'
-                        }
-                      }
-                    }
-                  ]
-                },
-                ...new Array(5).fill(0).map((_, i) => ({
-                  characterId: `chart${9 - i}`,
-                  characterActions: [
-                    {
-                      startTime: i * 100 + 2500,
-                      duration: 2000,
-                      action: 'bounce',
-                      payload: {
-                        animation: {
-                          duration: 2000
-                        }
-                      }
-                    }
-                  ]
-                })),
-                ...new Array(5).fill(0).map((_, i) => ({
-                  characterId: `chart${i}`,
-                  characterActions: [
-                    {
-                      startTime: i * 100 + 2500,
-                      duration: 2000,
-                      action: 'bounce',
-                      payload: {
-                        animation: {
-                          duration: 2000
-                        }
-                      }
-                    }
-                  ]
-                })),
-                {
-                  characterId: `titlesubtitle`,
-                  characterActions: [
-                    {
-                      startTime: 2700,
-                      duration: 500,
-                      action: 'appear',
-                      payload: {
-                        animation: {
-                          duration: 200,
-                          easing: 'linear',
-                          effect: 'fade'
-                        }
-                      }
-                    }
-                  ]
-                },
-                ...new Array(10).fill(0).map((_, i) => ({
-                  characterId: `chart${9 - i}`,
-                  characterActions: [
-                    {
-                      startTime: 6000,
-                      duration: 1000,
-                      action: 'disappear',
-                      payload: {
-                        animation: {
-                          duration: 1000
-                        }
-                      }
-                    }
-                  ]
-                })),
-                {
-                  characterId: `titlesubtitle`,
-                  characterActions: [
-                    {
-                      startTime: 6000,
-                      duration: 1000,
-                      action: 'disappear',
-                      payload: {
-                        animation: {
-                          duration: 1000,
-                          easing: 'linear',
-                          effect: 'fade'
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'scene2',
-              actions: [
-                // 第二个 scene 的内容，写在这里仅用作测试
-                {
-                  characterId: `title1`,
-                  characterActions: [
-                    {
-                      startTime: 0,
-                      duration: 800,
-                      action: 'moveTo',
-                      destination: {
-                        x: 250,
-                        y: 80
-                      },
-                      payload: {
-                        animation: {
-                          duration: 800,
-                          easing: 'quadInOut'
-                        }
-                      }
-                    },
-                    {
-                      startTime: 0,
-                      duration: 800,
-                      action: 'style',
-                      payload: {
-                        graphic: {
-                          fontSize: 40
-                        },
-                        animation: {
-                          duration: 800
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  characterId: `title2`,
-                  characterActions: [
-                    {
-                      startTime: 0,
-                      duration: 800,
-                      action: 'moveTo',
-                      destination: {
-                        x: 550,
-                        y: 80
-                      },
-                      payload: {
-                        animation: {
-                          duration: 800,
-                          easing: 'quadInOut'
-                        }
-                      }
-                    },
-                    {
-                      startTime: 0,
-                      duration: 800,
-                      action: 'style',
-                      payload: {
-                        graphic: {
-                          fontSize: 40
-                        },
-                        animation: {
-                          duration: 800,
-                          easing: 'quadInOut'
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  characterId: `scene2-title2`,
-                  characterActions: [
-                    {
-                      startTime: 800,
-                      duration: 800,
-                      action: 'appear',
-                      payload: {
-                        animation: {
-                          duration: 800,
-                          easing: 'linear',
-                          effect: 'fade'
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  characterId: `title1`,
-                  characterActions: [
-                    {
-                      startTime: 2000,
-                      duration: 800,
-                      action: 'moveTo',
-                      destination: {
-                        x: -650,
-                        y: 80
-                      },
-                      payload: {
-                        animation: {
-                          duration: 800,
-                          easing: 'quadInOut'
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  characterId: `title2`,
-                  characterActions: [
-                    {
-                      startTime: 2000,
-                      duration: 800,
-                      action: 'moveTo',
-                      destination: {
-                        x: -350,
-                        y: 80
-                      },
-                      payload: {
-                        animation: {
-                          duration: 800,
-                          easing: 'quadInOut'
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  characterId: `scene2-title2`,
-                  characterActions: [
-                    {
-                      startTime: 2000,
-                      duration: 800,
-                      action: 'moveTo',
-                      destination: {
-                        x: -750,
-                        y: 80
-                      },
-                      payload: {
-                        animation: {
-                          duration: 800,
-                          easing: 'quadInOut'
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              id: 'scene3',
-              actions: [
-                // 第二个 scene 的内容，写在这里仅用作测试
-                {
-                  characterId: `scene3-title1`,
-                  characterActions: [
-                    {
-                      startTime: 0,
-                      duration: 800,
-                      action: 'moveTo',
-                      destination: {
-                        x: 250,
-                        y: 80
-                      },
-                      payload: {
-                        animation: {
-                          duration: 800,
-                          easing: 'quadInOut'
-                        }
-                      }
-                    },
-                    {
-                      startTime: 0,
-                      duration: 800,
-                      action: 'style',
-                      payload: {
-                        graphic: {
-                          fontSize: 40
-                        },
-                        animation: {
-                          duration: 800
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  characterId: `scene3-title21`,
-                  characterActions: [
-                    {
-                      startTime: 1000,
-                      duration: 800,
-                      action: 'appear',
-                      destination: {
-                        x: 550,
-                        y: 80
-                      },
-                      payload: {
-                        animation: {
-                          duration: 800,
-                          easing: 'quadInOut'
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  characterId: `scene3-title22`,
-                  characterActions: [
-                    {
-                      startTime: 0,
-                      duration: 800,
-                      action: 'appear',
-                      payload: {
-                        animation: {
-                          duration: 200,
-                          easing: 'linear',
-                          effect: 'fade'
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
+            // {
+            //   id: 'scene1',
+            //   actions: [
+            //     ...new Array(5).fill(0).map(
+            //       (_, i) =>
+            //         ({
+            //           characterId: `chart${i}`,
+            //           characterActions: [
+            //             {
+            //               startTime: i * 300 + 500,
+            //               duration: 1000,
+            //               action: 'appear',
+            //               payload: {
+            //                 animation: {
+            //                   duration: 1000
+            //                 }
+            //               }
+            //             }
+            //           ]
+            //         } as ICharacterLink)
+            //     ),
+            //     ...new Array(5).fill(0).map(
+            //       (_, i) =>
+            //         ({
+            //           characterId: `chart${9 - i}`,
+            //           characterActions: [
+            //             {
+            //               startTime: i * 300 + 500,
+            //               duration: 1000,
+            //               action: 'appear',
+            //               payload: {
+            //                 animation: {
+            //                   duration: 1000
+            //                 }
+            //               }
+            //             }
+            //           ]
+            //         } as ICharacterLink)
+            //     ),
+            //     {
+            //       characterId: `title1`,
+            //       characterActions: [
+            //         {
+            //           startTime: 1500,
+            //           duration: 500,
+            //           action: 'appear',
+            //           payload: {
+            //             animation: {
+            //               duration: 500,
+            //               effect: 'typewriter',
+            //               easing: 'quadIn'
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     },
+            //     {
+            //       characterId: `title2`,
+            //       characterActions: [
+            //         {
+            //           startTime: 2000,
+            //           duration: 500,
+            //           action: 'appear',
+            //           payload: {
+            //             animation: {
+            //               duration: 500,
+            //               effect: 'typewriter',
+            //               easing: 'quadIn'
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     },
+            //     ...new Array(5).fill(0).map((_, i) => ({
+            //       characterId: `chart${9 - i}`,
+            //       characterActions: [
+            //         {
+            //           startTime: i * 100 + 2500,
+            //           duration: 2000,
+            //           action: 'bounce',
+            //           payload: {
+            //             animation: {
+            //               duration: 2000
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     })),
+            //     ...new Array(5).fill(0).map((_, i) => ({
+            //       characterId: `chart${i}`,
+            //       characterActions: [
+            //         {
+            //           startTime: i * 100 + 2500,
+            //           duration: 2000,
+            //           action: 'bounce',
+            //           payload: {
+            //             animation: {
+            //               duration: 2000
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     })),
+            //     {
+            //       characterId: `titlesubtitle`,
+            //       characterActions: [
+            //         {
+            //           startTime: 2700,
+            //           duration: 500,
+            //           action: 'appear',
+            //           payload: {
+            //             animation: {
+            //               duration: 200,
+            //               easing: 'linear',
+            //               effect: 'fade'
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     },
+            //     ...new Array(10).fill(0).map((_, i) => ({
+            //       characterId: `chart${9 - i}`,
+            //       characterActions: [
+            //         {
+            //           startTime: 6000,
+            //           duration: 1000,
+            //           action: 'disappear',
+            //           payload: {
+            //             animation: {
+            //               duration: 1000
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     })),
+            //     {
+            //       characterId: `titlesubtitle`,
+            //       characterActions: [
+            //         {
+            //           startTime: 6000,
+            //           duration: 1000,
+            //           action: 'disappear',
+            //           payload: {
+            //             animation: {
+            //               duration: 1000,
+            //               easing: 'linear',
+            //               effect: 'fade'
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     }
+            //   ]
+            // },
             // {
             //   id: 'scene2',
             //   actions: [
@@ -1420,171 +1406,516 @@ export const VChartSiteDemo = () => {
             //       characterActions: [
             //         {
             //           startTime: 0,
-            //           duration: 500,
+            //           duration: 800,
             //           action: 'moveTo',
             //           destination: {
-            //             x: 100,
-            //             y: 100
+            //             x: 250,
+            //             y: 80
+            //           },
+            //           payload: {
+            //             animation: {
+            //               duration: 800,
+            //               easing: 'quadInOut'
+            //             }
+            //           }
+            //         },
+            //         {
+            //           startTime: 0,
+            //           duration: 800,
+            //           action: 'style',
+            //           payload: {
+            //             graphic: {
+            //               fontSize: 40
+            //             },
+            //             animation: {
+            //               duration: 800
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     },
+            //     {
+            //       characterId: `title2`,
+            //       characterActions: [
+            //         {
+            //           startTime: 0,
+            //           duration: 800,
+            //           action: 'moveTo',
+            //           destination: {
+            //             x: 550,
+            //             y: 80
+            //           },
+            //           payload: {
+            //             animation: {
+            //               duration: 800,
+            //               easing: 'quadInOut'
+            //             }
+            //           }
+            //         },
+            //         {
+            //           startTime: 0,
+            //           duration: 800,
+            //           action: 'style',
+            //           payload: {
+            //             graphic: {
+            //               fontSize: 40
+            //             },
+            //             animation: {
+            //               duration: 800,
+            //               easing: 'quadInOut'
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     },
+            //     {
+            //       characterId: `scene2-title2`,
+            //       characterActions: [
+            //         {
+            //           startTime: 800,
+            //           duration: 800,
+            //           action: 'appear',
+            //           payload: {
+            //             animation: {
+            //               duration: 800,
+            //               easing: 'linear',
+            //               effect: 'fade'
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     },
+            //     {
+            //       characterId: `title1`,
+            //       characterActions: [
+            //         {
+            //           startTime: 2000,
+            //           duration: 800,
+            //           action: 'moveTo',
+            //           destination: {
+            //             x: -650,
+            //             y: 80
+            //           },
+            //           payload: {
+            //             animation: {
+            //               duration: 800,
+            //               easing: 'quadInOut'
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     },
+            //     {
+            //       characterId: `title2`,
+            //       characterActions: [
+            //         {
+            //           startTime: 2000,
+            //           duration: 800,
+            //           action: 'moveTo',
+            //           destination: {
+            //             x: -350,
+            //             y: 80
+            //           },
+            //           payload: {
+            //             animation: {
+            //               duration: 800,
+            //               easing: 'quadInOut'
+            //             }
+            //           }
+            //         }
+            //       ]
+            //     },
+            //     {
+            //       characterId: `scene2-title2`,
+            //       characterActions: [
+            //         {
+            //           startTime: 2000,
+            //           duration: 800,
+            //           action: 'moveTo',
+            //           destination: {
+            //             x: -750,
+            //             y: 80
+            //           },
+            //           payload: {
+            //             animation: {
+            //               duration: 800,
+            //               easing: 'quadInOut'
+            //             }
             //           }
             //         }
             //       ]
             //     }
             //   ]
-            // }
-            // [
-
-            //   // {
-            //   //   characterId: `title1`,
-            //   //   characterActions: [
-            //   //     {
-            //   //       startTime: 1500,
-            //   //       duration: 500,
-            //   //       action: 'appear'
-            //   //     }
-            //   //   ]
-            //   // },
-            //   // {
-            //   //   characterId: `title2`,
-            //   //   characterActions: [
-            //   //     {
-            //   //       startTime: 2000,
-            //   //       duration: 500,
-            //   //       action: 'appear'
-            //   //     }
-            //   //   ]
-            //   // },
-            //   // ...new Array(5).fill(0).map(
-            //   //   (_, i) =>
-            //   //     ({
-            //   //       characterId: `chart${i}`,
-            //   //       characterActions: [
-            //   //         {
-            //   //           startTime: i * 100 + 2500,
-            //   //           duration: 1000,
-            //   //           action: 'bounce'
-            //   //         }
-            //   //       ]
-            //   //     } as IRoleLink)
-            //   // ),
-            //   // ...new Array(5).fill(0).map(
-            //   //   (_, i) =>
-            //   //     ({
-            //   //       characterId: `chart${9 - i}`,
-            //   //       characterActions: [
-            //   //         {
-            //   //           startTime: i * 100 + 2500,
-            //   //           duration: 1000,
-            //   //           action: 'bounce'
-            //   //         }
-            //   //       ]
-            //   //     } as IRoleLink)
-            //   // ),
-            //   // {
-            //   //   characterId: `subtitle`,
-            //   //   characterActions: [
-            //   //     {
-            //   //       startTime: 2700,
-            //   //       duration: 500,
-            //   //       action: 'appear'
-            //   //     }
-            //   //   ]
-            //   // }
-            // ]
-            // [
-            //   ...new Array(10).fill(0).map(
-            //     (_, i) =>
-            //       ({
-            //         characterId: `chart${i}`,
-            //         characterActions: [
-            //           {
-            //             startTime: 0,
-            //             duration: 0,
-            //             action: 'disappear'
-            //           }
-            //         ]
-            //       } as IRoleLink)
-            //   ),
-            //   {
-            //     characterId: `titlesubtitle`,
-            //     characterActions: [
-            //       {
-            //         startTime: 0,
-            //         duration: 200,
-            //         action: 'disappear',
-            //         payload: {
-            //           animation: {
-            //             effect: 'fade',
-            //             duration: 200,
-            //             easing: 'linear'
-            //           }
-            //         }
-            //       }
-            //     ]
-            //   },
-            //   {
-            //     characterId: `title1`,
-            //     characterActions: [
-            //       {
-            //         startTime: 0,
-            //         duration: 500,
-            //         action: 'moveTo',
-            //         destination: { left: 200, top: 100 }
-            //       },
-            //       {
-            //         startTime: 0,
-            //         duration: 500,
-            //         action: 'style',
-            //         graphic: { fontSize: 40 }
-            //       }
-            //     ]
-            //   },
-            //   {
-            //     characterId: `title2`,
-            //     characterActions: [
-            //       {
-            //         startTime: 0,
-            //         duration: 500,
-            //         action: 'moveTo',
-            //         destination: { left: 400, top: 100 }
-            //       },
-            //       {
-            //         startTime: 0,
-            //         duration: 500,
-            //         action: 'style',
-            //         graphic: { fontSize: 40 }
-            //       }
-            //     ]
-            //   },
-            //   {
-            //     characterId: `scene2-title2`,
-            //     characterActions: [
-            //       {
-            //         startTime: 1000,
-            //         duration: 500,
-            //         action: 'appear'
-            //       }
-            //     ]
-            //   }
-            //   // {
-            //   //   characterId: `roadmap`,
-            //   //   characterActions: [
-            //   //     {
-            //   //       startTime: 1000,
-            //   //       duration: 500,
-            //   //       action: 'appear'
-            //   //     },
-            //   //     {
-            //   //       startTime: 1000,
-            //   //       duration: 500,
-            //   //       action: 'stream'
-            //   //     }
-            //   //   ]
-            //   // }
-            // ]
+            // },
+            {
+              id: 'scene3',
+              actions: [
+                // 第二个 scene 的内容，写在这里仅用作测试
+                {
+                  characterId: `scene3-background`,
+                  characterActions: [
+                    {
+                      startTime: 1,
+                      duration: 800,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 700,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'right'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-background-decoration`,
+                  characterActions: [
+                    {
+                      startTime: 1,
+                      duration: 800,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 700,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'right'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-title1`,
+                  characterActions: [
+                    {
+                      action: 'appear',
+                      startTime: 1,
+                      duration: 700,
+                      payload: {
+                        animation: {
+                          duration: 700,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'right'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-line-top`,
+                  characterActions: [
+                    {
+                      startTime: 1,
+                      duration: 700,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 700,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'right'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-line-bottom`,
+                  characterActions: [
+                    {
+                      startTime: 1,
+                      duration: 700,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 700,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'right'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-title-Nicole`,
+                  characterActions: [
+                    {
+                      startTime: 1,
+                      duration: 700,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 700,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'right'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-title-1486`,
+                  characterActions: [
+                    {
+                      startTime: 1,
+                      duration: 700,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 700,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'right'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-title-image`,
+                  characterActions: [
+                    {
+                      startTime: 1,
+                      duration: 700,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 700,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'right'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-text-image-top`,
+                  characterActions: [
+                    {
+                      startTime: 300,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 500,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'bottom'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-chart-image-1`,
+                  characterActions: [
+                    {
+                      startTime: 330,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 500,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'bottom'
+                          }
+                        }
+                      }
+                    },
+                    {
+                      startTime: 1500,
+                      duration: 1000,
+                      action: 'style',
+                      payload: {
+                        graphic: {
+                          width: 150
+                        },
+                        animation: {
+                          duration: 1000,
+                          easing: 'easeInOutQuad'
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-chart-image-2`,
+                  characterActions: [
+                    {
+                      startTime: 330,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 500,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'bottom'
+                          }
+                        }
+                      }
+                    },
+                    {
+                      startTime: 1500,
+                      duration: 1000,
+                      action: 'style',
+                      payload: {
+                        graphic: {
+                          width: 150,
+                          dx: -50
+                        },
+                        animation: {
+                          duration: 1000,
+                          easing: 'easeInOutQuad'
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-chart-image-3`,
+                  characterActions: [
+                    {
+                      startTime: 330,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 500,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'bottom'
+                          }
+                        }
+                      }
+                    },
+                    {
+                      startTime: 1500,
+                      duration: 1000,
+                      action: 'style',
+                      payload: {
+                        graphic: {
+                          width: 150
+                        },
+                        animation: {
+                          duration: 1000,
+                          easing: 'easeInOutQuad'
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-chart-image-4`,
+                  characterActions: [
+                    {
+                      startTime: 330,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 500,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'bottom'
+                          }
+                        }
+                      }
+                    },
+                    {
+                      startTime: 1500,
+                      duration: 1000,
+                      action: 'style',
+                      payload: {
+                        graphic: {
+                          width: 150,
+                          dx: -50
+                        },
+                        animation: {
+                          duration: 1000,
+                          easing: 'easeInOutQuad'
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-chart-image-5`,
+                  characterActions: [
+                    {
+                      startTime: 330,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 500,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'bottom'
+                          }
+                        }
+                      }
+                    },
+                    {
+                      startTime: 1500,
+                      duration: 1000,
+                      action: 'style',
+                      payload: {
+                        graphic: {
+                          width: 260,
+                          dx: -100
+                        },
+                        animation: {
+                          duration: 1000,
+                          easing: 'easeInOutQuad'
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  characterId: `scene3-text-image-bottom`,
+                  characterActions: [
+                    {
+                      startTime: 360,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 500,
+                          easing: 'easeInOutQuad',
+                          move: {
+                            from: 'bottom'
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           ]
         }
       ]
     };
+    console.log(111, tempSpec);
     const story = new Story(tempSpec, { dom: id });
     window.story = story;
     story.play();

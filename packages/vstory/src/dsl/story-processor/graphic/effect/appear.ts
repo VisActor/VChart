@@ -1,8 +1,8 @@
 import type { EasingType, IGraphic } from '@visactor/vrender-core';
-import type { IGraphicAppearPayLoad } from '../../../types/graphic/appear';
 import type { IAnimationParams } from '../../../types';
 import { isObject, isString } from '@visactor/vutils';
 import { Wipe } from '../../../../animate/wipeIn';
+import { typewriter } from '../effect/typewriter';
 
 export interface IMoveInParams extends IAnimationParams {
   from?: 'left' | 'right' | 'top' | 'bottom';
@@ -56,7 +56,7 @@ export function fadeIn(graphic: IGraphic, params: IFadeInParams): boolean {
   if (!canDoAnimation(graphic, params)) {
     return false;
   }
-  const { fade } = params;
+  const { fade = {} } = params;
   const opacity = fade.opacity ?? params.opacity ?? 1;
   const duration = fade.duration ?? params.duration;
   const easing = fade.easing ?? params.easing;
@@ -148,29 +148,9 @@ export const appearEffectMap = {
   fade: fadeIn,
   scale: scaleIn,
   move: moveIn,
-  wipe: wipeIn
+  wipe: wipeIn,
+  typewriter
 };
-
-export function commonAppearEffect(graphic: IGraphic, effect: string, params: IGraphicAppearPayLoad['animation']) {
-  let doAnimation = !!effect && params.duration > 0;
-  switch (effect) {
-    case 'grow':
-      scaleIn(graphic, params);
-      break;
-    case 'fade':
-      fadeIn(graphic, params);
-      break;
-    case 'move':
-      moveIn(graphic, params as unknown as IMoveInParams);
-      break;
-    case 'wipe':
-      wipeIn(graphic, params as unknown as IWipeInParams);
-      break;
-    default:
-      doAnimation = false;
-  }
-  return doAnimation;
-}
 
 const Direction = {
   left: 0,

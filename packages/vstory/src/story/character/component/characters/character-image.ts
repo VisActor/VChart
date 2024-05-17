@@ -1,10 +1,10 @@
 import { Graphic } from '../graphic/graphic';
-import { GraphicRect } from '../graphic/rect';
 import { CharacterComponent } from '../character';
 import { StoryGraphicType } from '../../../../dsl/constant';
+import { GraphicImage } from '../graphic/image';
 
-export class CharacterComponentRect extends CharacterComponent {
+export class CharacterComponentImage extends CharacterComponent {
   protected _createGraphic(): Graphic {
-    return new GraphicRect(StoryGraphicType.RECT, this);
+    return new GraphicImage(StoryGraphicType.IMAGE, this as any);
   }
 }

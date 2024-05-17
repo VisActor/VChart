@@ -21,7 +21,8 @@ export enum StoryGraphicType {
   PATH = 'PathComponent',
   TEXT = 'TextComponent',
   RICH_TEXT = 'RichTextComponent',
-  QIPAO = 'QipaoComponent'
+  QIPAO = 'QipaoComponent',
+  IMAGE = 'ImageComponent'
 }
 
 export const enum StoryChartComponentType {

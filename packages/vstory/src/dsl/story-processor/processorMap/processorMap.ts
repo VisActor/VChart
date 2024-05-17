@@ -3,7 +3,7 @@ import { StoryChartComponentType, StoryChartType, StoryGraphicType } from '../..
 import { addProcessor } from '../vchart/add';
 import { createMarkStyleProcessorByMarkType } from '../vchart/style/style';
 import { updateProcessor } from '../vchart/update';
-import { graphicAppearProcessor, textAppearProcessor } from '../graphic/appear';
+import { graphicAppearProcessor } from '../graphic/appear';
 import {
   barAppearProcessor,
   barDisappearProcessor,
@@ -132,10 +132,15 @@ export const processorMarkMap = {
     ...commonMarkProcessor
   },
   [StoryGraphicType.TEXT]: {
-    ...commonMarkProcessor,
-    appear: textAppearProcessor
+    ...commonMarkProcessor
   },
   [StoryGraphicType.RICH_TEXT]: {
+    ...commonMarkProcessor
+  },
+  [StoryGraphicType.LINE]: {
+    ...commonMarkProcessor
+  },
+  [StoryGraphicType.IMAGE]: {
     ...commonMarkProcessor
   }
 };

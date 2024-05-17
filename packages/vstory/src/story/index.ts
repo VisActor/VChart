@@ -19,6 +19,9 @@ import { RangeColumnChartCharacter } from './character/chart/characters/rangeCol
 import { CharacterComponentText } from './character/component/characters/character-text';
 import { CharacterComponentRichText } from './character/component/characters/character-richtext';
 import { VChartPicker } from './character/chart/graphic/vchart-graphic-picker';
+import { StoryGraphicType } from '../dsl/constant';
+import { CharacterComponentLine } from './character/component/characters/character-line';
+import { CharacterComponentImage } from './character/component/characters/character-image';
 
 StoryFactory.registerCharacter(BarChartCharacter.type, BarChartCharacter);
 StoryFactory.registerCharacter(LineChartCharacter.type, CharacterChart);
@@ -36,11 +39,12 @@ StoryFactory.registerCharacter(RangeColumnChartCharacter.type, RangeColumnChartC
 // StoryFactory.registerCharacter('BarChart', CharacterChart);
 // StoryFactory.registerCharacter('CharacterChart', CharacterChart);
 // StoryFactory.registerCharacter('LineChart', CharacterChart);
-StoryFactory.registerCharacter('RectComponent', CharacterComponentRect);
-StoryFactory.registerCharacter('TextComponent', CharacterComponentText);
-StoryFactory.registerCharacter('RichTextComponent', CharacterComponentRichText);
-
-StoryFactory.registerCharacter('QipaoComponent', CharacterComponentQipao);
+StoryFactory.registerCharacter(StoryGraphicType.RECT, CharacterComponentRect);
+StoryFactory.registerCharacter(StoryGraphicType.TEXT, CharacterComponentText);
+StoryFactory.registerCharacter(StoryGraphicType.RICH_TEXT, CharacterComponentRichText);
+StoryFactory.registerCharacter(StoryGraphicType.QIPAO, CharacterComponentQipao);
+StoryFactory.registerCharacter(StoryGraphicType.LINE, CharacterComponentLine);
+StoryFactory.registerCharacter(StoryGraphicType.IMAGE, CharacterComponentImage);
 
 const splitModule = new ContainerModule((bind, unbind, isBound, rebind) => {
   // chart渲染器注入

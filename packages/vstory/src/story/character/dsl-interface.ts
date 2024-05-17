@@ -35,8 +35,8 @@ export interface IComponentCharacterSpec extends ICharacterSpecBase {
     graphic: any;
     text?: IEditorTextGraphicAttribute;
     isResized?: boolean;
-    angle: number;
-    shapePoints: any;
+    angle?: number;
+    shapePoints?: any;
   };
 }
 
