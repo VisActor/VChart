@@ -40,7 +40,7 @@ import type { AxisItem, LineAxisAttributes } from '@visactor/vrender-components'
 import { getAxisItem, isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
+import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports

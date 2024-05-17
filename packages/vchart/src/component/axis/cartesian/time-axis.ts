@@ -5,7 +5,7 @@ import { TimeUtil } from '@visactor/vutils';
 import { eachSeries } from '../../../util/model';
 import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
-import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
+import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { Datum } from '../../../typings';
 import { CompilableData } from '../../../compile/data/compilable-data';
