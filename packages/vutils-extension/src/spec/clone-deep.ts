@@ -1,5 +1,5 @@
-import { isArray, isBoolean, isDate, isNumber, isString, isValid } from '@visactor/vutils';
-import { isDataView, isHTMLElement } from './common';
+import { isArray, isBoolean, isDate, isNumber, isString, isValid, isHTMLElement } from '@visactor/vutils';
+import { isDataView } from '@visactor/vdataset';
 
 /**
  * 深拷贝 spec，为避免循环引用，DataView 维持原有引用
