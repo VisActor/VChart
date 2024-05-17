@@ -12,10 +12,9 @@ import type { IChart } from '../../../chart/interface';
 import type { IDimensionInfo } from './interface';
 import { getPolarDimensionInfo } from './util/polar';
 import { getCartesianDimensionInfo, getDimensionInfoByValue } from './util/cartesian';
-import type { Maybe } from '../../../typings';
+import type { IOrientType, Maybe } from '../../../typings';
 import { isDiscrete } from '@visactor/vscale';
 import { isXAxis } from '../../../component/axis/cartesian/util';
-import type { IOrientType } from '@visactor/vrender-components';
 
 export class DimensionEvent implements IComposedEvent {
   protected _eventDispatcher: IEventDispatcher;
