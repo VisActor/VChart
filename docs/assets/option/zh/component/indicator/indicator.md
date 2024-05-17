@@ -19,13 +19,13 @@
 
 ### trigger(string) = 'select'
 
-交互触发类型。
+更新交互触发类型。
 
 可选：
 
-- `hover`
-- `select`
-- `none`
+- `hover` 通过悬停交互触发指标卡数据的更新
+- `select` 通过选中交互触发指标卡数据的更新
+- `none`   指标卡数据不可更新
 
 ### offsetX(number) = 0
 
