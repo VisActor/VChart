@@ -14,6 +14,8 @@ import { getPolarDimensionInfo } from './util/polar';
 import { getCartesianDimensionInfo, getDimensionInfoByValue } from './util/cartesian';
 import type { Maybe } from '../../../typings';
 import { isDiscrete } from '@visactor/vscale';
+import { isXAxis } from '../../../component/axis/cartesian/util';
+import type { IOrientType } from '@visactor/vrender-components';
 
 export class DimensionEvent implements IComposedEvent {
   protected _eventDispatcher: IEventDispatcher;
@@ -56,12 +58,8 @@ export class DimensionEvent implements IComposedEvent {
 
   dispatch(v: unknown, opt: { filter?: (axis: IAxis) => boolean }) {
     // get all enable axis
-    const axis = this.chart?.getAllComponents().filter(c => {
+    const axes = this.chart?.getAllComponents().filter(c => {
       if (c.specKey !== 'axes') {
-        return false;
-      }
-      const scale = (<IAxis>c).getScale();
-      if (!isDiscrete(scale.type)) {
         return false;
       }
       if (opt?.filter) {
@@ -69,8 +67,19 @@ export class DimensionEvent implements IComposedEvent {
       }
       return true;
     }) as IAxis[];
+
+    const discreteAxes = axes.filter(axis => {
+      const scale = (<IAxis>axis).getScale();
+      return isDiscrete(scale.type);
+    });
+    const dimAxes = discreteAxes.length
+      ? discreteAxes
+      : axes.filter(axis => {
+          const orient = axis.getOrient();
+          return isXAxis(orient as IOrientType) || orient === 'angle';
+        });
     const dimensionInfo: IDimensionInfo[] = [];
-    axis.forEach(a => {
+    dimAxes.forEach(a => {
       const info = getDimensionInfoByValue(a as unknown as any, v);
       if (info) {
         dimensionInfo.push(info);
