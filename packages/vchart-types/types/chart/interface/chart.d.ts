@@ -107,7 +107,6 @@ export interface IChartConstructor {
     readonly type: string;
     readonly seriesType?: string;
     readonly series?: string | string[];
-    readonly view: string;
     readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
     new (spec: any, options: IChartOption): IChart;
 }

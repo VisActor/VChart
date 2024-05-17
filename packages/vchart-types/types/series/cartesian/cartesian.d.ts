@@ -31,7 +31,7 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     protected _specXField: string[];
     protected _specYField: string[];
     protected _direction: DirectionType;
-    get direction(): "horizontal" | "vertical";
+    get direction(): "vertical" | "horizontal";
     protected _scaleX: IBaseScale;
     get scaleX(): IBaseScale;
     setScaleX(s: IBaseScale): void;

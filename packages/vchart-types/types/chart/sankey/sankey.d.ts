@@ -8,7 +8,6 @@ import type { IRegionQuerier } from '../../typings/params';
 export declare class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof SankeyChartSpecTransformer;
     readonly transformerConstructor: typeof SankeyChartSpecTransformer;
     readonly type: string;
