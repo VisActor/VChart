@@ -1,6 +1,7 @@
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IPolarCrosshairSpec } from './interface';
+import type { TooltipActiveType, TooltipData } from '../../typings';
 import { BaseCrossHair } from './base';
 import type { Maybe } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
@@ -28,7 +29,7 @@ export declare class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrossh
     private _findAllAxisContains;
     private _getAllAxisValues;
     private _getValueByAxis;
-    protected _layoutCrosshair(relativeX: number, relativeY: number): void;
+    protected _layoutCrosshair(relativeX: number, relativeY: number, tooltipData?: TooltipData, activeType?: TooltipActiveType): void;
     layoutByValue(tag?: number): void;
     private _layoutAngle;
     private _layoutRadius;

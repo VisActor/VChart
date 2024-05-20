@@ -17,7 +17,8 @@ export interface IItemContent extends IMarkerRef {
     customMark?: Partial<IMarkerState<IGroupGraphicAttribute>>;
 }
 export type IItemLine<T extends Partial<IMarkerSymbol> = IMarkerSymbol> = {
-    type?: 'type-s' | 'type-do' | 'type-po' | 'type-op';
+    type?: 'type-s' | 'type-do' | 'type-po' | 'type-op' | 'type-arc';
+    arcRatio?: number;
     visible?: boolean;
     decorativeLine?: {
         visible?: boolean;
@@ -30,4 +31,9 @@ export type IItemLine<T extends Partial<IMarkerSymbol> = IMarkerSymbol> = {
 export interface IMarkPointTheme<T extends Partial<IMarkerSymbol> = Partial<IMarkerSymbol>> {
     itemLine?: IItemLine<T>;
     itemContent?: IItemContent;
+    targetSymbol?: {
+        offset?: number;
+        visible?: boolean;
+        size?: number;
+    } & Partial<IMarkerState<ISymbolMarkSpec>>;
 }

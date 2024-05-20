@@ -4,7 +4,6 @@ import { BaseChart } from '../base';
 export declare class BoxPlotChart<T extends IBoxPlotChartSpec = IBoxPlotChartSpec> extends BaseChart<T> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof BoxPlotChartSpecTransformer;
     readonly transformerConstructor: typeof BoxPlotChartSpecTransformer;
     readonly type: string;
