@@ -94,11 +94,19 @@
 - `'type-do'`: 表示包含一个折点，且折点 x 坐标为起点到终点的 1/2 x 坐标，折点 y 坐标为起点 y 坐标
 - `'type-po'`: 表示包含一个折点，且折点 x 坐标为终点 x 坐标，折点 y 坐标为起点 y 坐标
 - `'type-op'`: 表示包含一个折点，且折点 x 坐标为起点 x 坐标，折点 y 坐标为终点 y 坐标
-  具体形式参考：https://journals.sagepub.com/doi/10.1177/1473871618799500
+- `'type-arc'`: 弧线，圆心由`itemLine.arcRatio`决定。
+
+具体形式参考：https://journals.sagepub.com/doi/10.1177/1473871618799500
 
 #### visible(boolean)
 
 标注点引导线可见性。
+
+#### arcRatio(number)
+
+自`1.11.1`版本支持, 当type为type-arc时生效, 数值决定圆心到终点连线的偏移量, 绝对值越小, 曲率越大, 符号决定法向, 不能等于0。
+
+
 
 #### decorativeLine(Object)
 
@@ -271,4 +279,35 @@
   prefix = '##',
   markerType = 'markPoint',
   animationType = 'callIn | fadeIn'
+) }}
+
+
+### targetSymbol(Object)
+
+自`1.11.1`版本支持, 前置标记。
+
+
+
+
+#### offset
+
+被标注内容与标记线间的间隙。
+
+#### visible = false
+
+是否显示。
+
+#### size
+
+大小。
+
+#### style(Object)
+
+targetSymbol 的样式。
+{{ use: component-marker-style-callback(
+  description = 'targetSymbol样式'
+) }}
+
+{{ use: graphic-symbol(
+  prefix = '####'
 ) }}
