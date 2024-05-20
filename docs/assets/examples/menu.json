@@ -871,6 +871,13 @@
             "zh": "散点地图",
             "en": "Scatter Map"
           }
+        },
+        {
+          "path": "map-with-flying-lines",
+          "title": {
+            "zh": "带飞线的地图",
+            "en": "Map With Flying Lines"
+          }
         }
       ]
     },
