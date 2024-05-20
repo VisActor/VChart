@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(marker): mark-point support arc line and targetSymbol. close#2590'",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
