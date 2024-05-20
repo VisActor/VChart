@@ -44,7 +44,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
       transformLayoutRect: this._transformLayoutRect,
       transformLayoutPosition: this._transformLayoutPosition
     });
-    if (this._orient && this._orient !== 'radius' && this._orient !== 'angle' && this.layout) {
+    if (this._orient && this._orient !== 'radius' && this._orient !== 'angle' && this._layout) {
       this._layout.layoutOrient = this._orient;
     }
   }
