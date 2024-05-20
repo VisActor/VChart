@@ -99,7 +99,9 @@ Optional values:
 - `'type-do'`: Indicates a folding point, where the x-coordinate of the folding point is the x-coordinate of 1/2 from the starting point to the end point, and the y-coordinate of the folding point is the y-coordinate of the starting point
 - `'type-po'`: Indicates a folding point, where the x-coordinate of the folding point is the x-coordinate of the end point, and the y-coordinate of the folding point is the y-coordinate of the starting point
 - `'type-op'`: Indicates a folding point, where the x-coordinate of the folding point is the x-coordinate of the starting point, and the y-coordinate of the folding point is the y-coordinate of the end point
-  For more specific forms, refer to: https://journals.sagepub.com/doi/10.1177/1473871618799500
+- `'type-arc'`: arc, the center of the circle is determined by `itemLine.arcRatio`.
+
+For more specific forms, refer to: https://journals.sagepub.com/doi/10.1177/1473871618799500
 
 #### visible(boolean)
 
@@ -112,6 +114,10 @@ Decorative line perpendicular to the guide line.
 ##### visible(boolean)
 
 Decorative line visibility.
+
+#### arcRatio(number)
+
+Supported since `1.11.1` version, it takes effect when type is type-arc. The value determines the offset from the center of the circle to the end point. The smaller the absolute value, the greater the curvature. The sign determines the normal direction and cannot be equal to 0.
 
 ##### length(boolean)
 
@@ -284,4 +290,32 @@ For mark content type 'richText', the richText style.
   prefix = '##',
   markerType = 'markPoint',
   animationType = 'callIn | fadeIn'
+) }}
+
+### targetSymbol(Object)
+
+Supported since version `1.11.1`, prefixed tag.
+
+
+#### offset
+
+The gap between the marked content and the marked line.
+
+#### visible = false
+
+Whether to display.
+
+#### size
+
+size.
+
+#### style(Object)
+
+The style of targetSymbol.
+{{ use: component-marker-style-callback(
+  description = 'targetSymbol style'
+) }}
+
+{{ use: graphic-symbol(
+  prefix = '####'
 ) }}

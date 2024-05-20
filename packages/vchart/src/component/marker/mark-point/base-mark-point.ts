@@ -43,7 +43,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
   }
 
   protected _createMarkerComponent() {
-    const { itemContent = {}, itemLine = {}, targetSymbol } = this._spec;
+    const { itemContent = {}, itemLine = {}, targetSymbol = {} } = this._spec;
     const { text: label = {}, symbol, image, richText, ...restItemContent } = itemContent;
 
     const markPointAttrs: MarkPointAttrs = {
@@ -82,17 +82,17 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       animationUpdate: this._spec.animationUpdate
     };
 
-    if (symbol.style) {
+    if (symbol?.style) {
       markPointAttrs.itemContent.symbolStyle = transformToGraphic(transformStyle(symbol.style, this._markerData));
     }
-    if (image.style) {
+    if (image?.style) {
       markPointAttrs.itemContent.imageStyle = transformStyle(image.style, this._markerData);
     }
     if (label) {
-      markPointAttrs.itemContent.imageStyle = transformLabelAttributes(label, this._markerData);
+      markPointAttrs.itemContent.textStyle = transformLabelAttributes(label, this._markerData);
     }
-    if (richText.style) {
-      markPointAttrs.itemContent.imageStyle = transformStyle(richText.style, this._markerData);
+    if (richText?.style) {
+      markPointAttrs.itemContent.richTextStyle = transformStyle(richText.style, this._markerData);
     }
 
     const { visible, line = {}, ...restItemLine } = itemLine;

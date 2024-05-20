@@ -61,7 +61,7 @@ export type IItemLine<T extends Partial<IMarkerSymbol> = IMarkerSymbol> = {
    */
   type?: 'type-s' | 'type-do' | 'type-po' | 'type-op' | 'type-arc';
   /**
-   * 当type为type-arc时生效, 数值决定曲率, 符号决定法向, 不能等于0
+   * 当type为type-arc时生效, 数值决定圆心到终点连线的偏移量, 绝对值越小, 曲率越大, 符号决定法向, 不能等于0
    * @since 1.11.1
    * @default 0.8
    */
@@ -107,7 +107,6 @@ export interface IMarkPointTheme<T extends Partial<IMarkerSymbol> = Partial<IMar
    * 标注内容
    */
   itemContent?: IItemContent;
-
   /**
    * 被标注的内容
    * @since 1.11.1
