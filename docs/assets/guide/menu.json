@@ -23,6 +23,13 @@
           }
         },
         {
+          "path": "Contribution_Guide",
+          "title": {
+            "zh": "如何加入 VChart 社区",
+            "en": "How to join the  VChart  community"
+          }
+        },
+        {
           "path": "Basic",
           "title": {
             "zh": "入门",
