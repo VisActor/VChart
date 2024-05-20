@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@microsoft/rush": "^5.124.6",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
