@@ -23,9 +23,9 @@ Interaction trigger type.
 
 Options:
 
-- `hover`
-- `select`
-- `none`
+- `hover` Update the indicator card data through hover interaction
+- `select` Update the indicator card data through select interaction
+- `none`   The indicator card data cannot be updated
 
 ### offsetX(number) = 0
 
