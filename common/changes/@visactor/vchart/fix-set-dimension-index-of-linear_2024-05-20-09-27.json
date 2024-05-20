@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix bug of `setDimensionIndex` when axis is linear",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
