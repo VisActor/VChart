@@ -149,14 +149,16 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       return {
         ...transformDiscreteSpecToAttrs(this._spec, this._specs),
         ...layoutAttrs,
-        disableTriggerEvent: this._option.disableTriggerEvent
+        disableTriggerEvent: this._option.disableTriggerEvent,
+        loop: this._spec?.loop ?? true
       };
     }
     // 连续类型Attrs
     return {
       ...transformContinuousSpecToAttrs(this._spec, this._specs),
       ...layoutAttrs,
-      disableTriggerEvent: this._option.disableTriggerEvent
+      disableTriggerEvent: this._option.disableTriggerEvent,
+      loop: this._spec?.loop ?? true
     };
   };
 
