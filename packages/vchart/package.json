@@ -6,6 +6,7 @@
   "module": "esm/index.js",
   "browser": "esm/index.js",
   "types": "esm/index.d.ts",
+  "unpkg": "build/index.min.js",
   "sideEffects": [
     "./*/index-lark.js",
     "./*/index-wx-simple.js",
@@ -46,10 +47,6 @@
     "esm",
     "cjs",
     "build"
-  ],
-  "unpkg": "latest",
-  "unpkgFiles": [
-    "cdn/index.js"
   ],
   "keywords": [
     "charts",
