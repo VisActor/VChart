@@ -43,7 +43,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
   }
 
   protected _createMarkerComponent() {
-    const { itemContent = {}, itemLine = {} } = this._spec;
+    const { itemContent = {}, itemLine = {}, targetSymbol } = this._spec;
     const { text: label = {}, symbol, image, richText, ...restItemContent } = itemContent;
 
     const markPointAttrs: MarkPointAttrs = {
@@ -54,13 +54,15 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       position: { x: 0, y: 0 },
       clipInRange: this._spec.clip ?? false,
       itemContent: {
-        symbolStyle: transformToGraphic(transformStyle(symbol?.style, this._markerData)),
-        imageStyle: transformStyle(image?.style, this._markerData),
-        textStyle: transformLabelAttributes(label, this._markerData),
-        richTextStyle: transformStyle(richText?.style, this._markerData),
         offsetX: transformOffset(itemContent.offsetX, this._relativeSeries.getRegion()),
         offsetY: transformOffset(itemContent.offsetX, this._relativeSeries.getRegion()),
         ...restItemContent // Tips: 因为网站 demo 上已经透出了 imageStyle richTextStyle 的写法，为了兼容所以这个需要在后面覆盖
+      },
+      targetSymbol: {
+        offset: targetSymbol.offset ?? 0,
+        visible: targetSymbol.visible ?? false,
+        size: targetSymbol.size ?? 20,
+        style: transformStyle(targetSymbol.style, this._markerData)
       },
       state: {
         line: transformState(this._spec.itemLine.line?.state ?? {}, this._markerData),
@@ -71,13 +73,27 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         text: transformState(this._spec.itemContent.text?.state ?? {}, this._markerData),
         textBackground: transformState(this._spec.itemContent.text?.labelBackground?.state, this._markerData),
         richText: transformState(this._spec.itemContent.richText?.state ?? {}, this._markerData),
-        customMark: transformState(this._spec.itemContent.customMark?.state ?? {}, this._markerData)
+        customMark: transformState(this._spec.itemContent.customMark?.state ?? {}, this._markerData),
+        targetItem: transformState(this._spec.targetSymbol?.state ?? {}, this._markerData)
       },
       animation: this._spec.animation ?? false,
       animationEnter: this._spec.animationEnter,
       animationExit: this._spec.animationExit,
       animationUpdate: this._spec.animationUpdate
     };
+
+    if (symbol.style) {
+      markPointAttrs.itemContent.symbolStyle = transformToGraphic(transformStyle(symbol.style, this._markerData));
+    }
+    if (image.style) {
+      markPointAttrs.itemContent.imageStyle = transformStyle(image.style, this._markerData);
+    }
+    if (label) {
+      markPointAttrs.itemContent.imageStyle = transformLabelAttributes(label, this._markerData);
+    }
+    if (richText.style) {
+      markPointAttrs.itemContent.imageStyle = transformStyle(richText.style, this._markerData);
+    }
 
     const { visible, line = {}, ...restItemLine } = itemLine;
     if (visible !== false) {
