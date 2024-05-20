@@ -24,8 +24,8 @@
     "build:cjs": "bundle --clean -f cjs --ignorePostTasks --ignoreUmdEntries",
     "build:es": "bundle --clean -f es --ignorePostTasks",
     "analyze": "npm run analyze-full && npm run analyze-line && npm run analyze-simple",
-    "analyze-full": "BUNDLE_ANALYZE='full' bundle -f umd ",
-    "analyze-simple": "BUNDLE_ANALYZE='simple' bundle -f umd",
+    "analyze-full": "cross-env BUNDLE_ANALYZE='full' bundle -f umd ",
+    "analyze-simple": "cross-env BUNDLE_ANALYZE='simple' bundle -f umd",
     "dev": "bundle --clean -f es -w",
     "compile": "tsc --noEmit",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
@@ -39,7 +39,7 @@
     "test": "jest",
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit",
-    "test-watch": "DEBUG_MODE=1 jest --watch",
+    "test-watch": "cross-env DEBUG_MODE=1 jest --watch",
     "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts",
     "size": "size-limit"
   },
@@ -112,7 +112,8 @@
     "canvas": "2.11.2",
     "size-limit": "9.0.0",
     "@size-limit/file": "9.0.0",
-    "rimraf": "3.0.2"
+    "rimraf": "3.0.2",
+    "cross-env": "^7.0.3"
   },
   "dependencies": {
     "@visactor/vutils": "~0.18.6",

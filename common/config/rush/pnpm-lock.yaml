@@ -375,6 +375,7 @@ importers:
       '@visactor/vutils': ~0.18.6
       '@visactor/vutils-extension': workspace:1.11.0
       canvas: 2.11.2
+      cross-env: ^7.0.3
       d3-array: ^1.2.4
       d3-dsv: ^3.0.1
       d3-geo: ^1.12.1
@@ -434,6 +435,7 @@ importers:
       '@types/node': 20.12.10
       '@types/offscreencanvas': 2019.6.4
       canvas: 2.11.2
+      cross-env: 7.0.3
       d3-array: 1.2.4
       d3-dsv: 3.0.1
       d3-geo: 1.12.1
