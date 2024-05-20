@@ -59,7 +59,13 @@ export type IItemLine<T extends Partial<IMarkerSymbol> = IMarkerSymbol> = {
    * 'type-s'表示起点和终点直接连线; 'type-do'表示包含一个折点，且折点x坐标为起点到终点的 1/2 x坐标，折点y坐标为起点y坐标；'type-op' 表示包含一个折点，且折点x坐标为起点x坐标，折点y坐标为终点y坐标；'type-po' 表示包含一个折点，且折点x坐标为终点x坐标，折点y坐标为起点y坐标
    * 引导线类型的具体形式参考：https://journals.sagepub.com/doi/10.1177/1473871618799500
    */
-  type?: 'type-s' | 'type-do' | 'type-po' | 'type-op';
+  type?: 'type-s' | 'type-do' | 'type-po' | 'type-op' | 'type-arc';
+  /**
+   * 当type为type-arc时生效, 数值决定曲率, 符号决定法向, 不能等于0
+   * @since 1.11.1
+   * @default 0.8
+   */
+  arcRatio?: number;
   /**
    * 引导线可见性
    */
@@ -101,4 +107,26 @@ export interface IMarkPointTheme<T extends Partial<IMarkerSymbol> = Partial<IMar
    * 标注内容
    */
   itemContent?: IItemContent;
+
+  /**
+   * 被标注的内容
+   * @since 1.11.1
+   */
+  targetSymbol?: {
+    /**
+     * 被标注内容与标记线间的间隙
+     * @default 0
+     */
+    offset?: number;
+    /**
+     * 是否显示
+     * @default false
+     */
+    visible?: boolean;
+    /**
+     * 大小
+     * @default 20
+     */
+    size?: number;
+  } & Partial<IMarkerState<ISymbolMarkSpec>>;
 }
