@@ -115,27 +115,33 @@ export const registerCartesianGroupClipAnimation = () => {
   });
 };
 
+const lineOrAreaAnimation = (params: ILineAnimationParams, preset: LineAppearPreset) => {
+  return {
+    appear: linePresetAnimation(params, preset),
+    enter: { type: 'fadeIn' },
+    exit: { type: 'fadeOut' },
+    update: [
+      {
+        type: 'update',
+        options: { excludeChannels: ['points', 'defined'] }
+      },
+      {
+        channel: ['points'],
+        custom: TagPointsUpdate,
+        duration: DEFAULT_ANIMATION_CONFIG.update.duration,
+        easing: DEFAULT_ANIMATION_CONFIG.update.easing
+      }
+    ],
+    disappear: { type: 'clipOut' }
+  } as MarkAnimationSpec;
+};
+
 export const registerLineAnimation = () => {
-  Factory.registerAnimation('line', (params: ILineAnimationParams, preset: LineAppearPreset) => {
-    return {
-      appear: linePresetAnimation(params, preset),
-      enter: { type: 'fadeIn' },
-      exit: { type: 'fadeOut' },
-      update: [
-        {
-          type: 'update',
-          options: { excludeChannels: ['points', 'defined'] }
-        },
-        {
-          channel: ['points'],
-          custom: TagPointsUpdate,
-          duration: DEFAULT_ANIMATION_CONFIG.update.duration,
-          easing: DEFAULT_ANIMATION_CONFIG.update.easing
-        }
-      ],
-      disappear: { type: 'clipOut' }
-    } as MarkAnimationSpec;
-  });
+  Factory.registerAnimation('line', lineOrAreaAnimation);
+};
+
+export const registerAreaAnimation = () => {
+  Factory.registerAnimation('area', lineOrAreaAnimation);
 };
 
 export const registerVGrammarCommonAnimation = () => {
