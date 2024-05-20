@@ -48,3 +48,36 @@ export async function buildUmd(config: Config, projectRoot: string, rawPackageJs
     await bundle.close();
   }
 }
+export async function buildES(config: Config, projectRoot: string, rawPackageJson: RawPackageJson, minify: boolean) {
+  const babelPlugins = getBabelPlugins(rawPackageJson.name, {
+    envOptions: {
+      targets: config.targets
+    }
+  });
+  const entry = path.resolve(
+    projectRoot,
+    config.sourceDir,
+    typeof config.input === 'string' ? config.input : config.input.umd!
+  );
+
+  const rollupOptions = getRollupOptions(projectRoot, entry, rawPackageJson, babelPlugins, { ...config, minify });
+  DebugConfig('RollupOptions', JSON.stringify(rollupOptions));
+  const bundle = await rollup(rollupOptions);
+
+  const dest = path.resolve(projectRoot, config.outputDir.umd!);
+  await generateOutputs(bundle, [
+    {
+      format: 'es',
+      name: config.name || packageNameToPath(rawPackageJson.name),
+      file: minify
+        ? `${dest}/${config.umdOutputFilename || packageNameToPath(rawPackageJson.name)}.es.min.js`
+        : `${dest}/${config.umdOutputFilename || packageNameToPath(rawPackageJson.name)}.es.js`,
+      exports: 'named',
+      globals: { react: 'React', ...config.globals }
+    }
+  ]);
+
+  if (bundle) {
+    await bundle.close();
+  }
+}

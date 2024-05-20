@@ -20,6 +20,8 @@ export function toRenderMode(mode: RenderMode): any {
       return 'wx';
     case RenderModeEnum.tt:
       return 'tt';
+    case RenderModeEnum.harmony:
+      return 'harmony';
   }
   return 'browser';
 }

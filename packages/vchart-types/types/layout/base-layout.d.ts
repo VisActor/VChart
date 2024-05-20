@@ -39,8 +39,8 @@ export declare class Layout implements IBaseLayout {
         allRelatives: ILayoutItem[];
         overlapItems: {
             left: overlapInfo;
-            right: overlapInfo;
             top: overlapInfo;
+            right: overlapInfo;
             bottom: overlapInfo;
             z: overlapInfo;
         };

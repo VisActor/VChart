@@ -6,7 +6,8 @@ import {
   loadNodeEnv,
   loadTaroEnv,
   loadWxEnv,
-  loadTTEnv
+  loadTTEnv,
+  loadHarmonyEnv
 } from '@visactor/vrender-kits';
 import { container } from '@visactor/vrender-core';
 
@@ -64,4 +65,10 @@ export const registerWXEnv = () => {
  */
 export const registerTTEnv = () => {
   loadTTEnv(container);
+};
+/**
+ * 加载Harmony环境代码
+ */
+export const registerHarmonyEnv = () => {
+  loadHarmonyEnv(container);
 };

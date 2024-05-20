@@ -796,6 +796,13 @@
                 "zh": "Openinula VChart",
                 "en": "Openinula VChart"
               }
+            },
+            {
+              "path": "harmony",
+              "title": {
+                "zh": "Harmony VChart",
+                "en": "Harmony VChart"
+              }
             }
           ]
         },
