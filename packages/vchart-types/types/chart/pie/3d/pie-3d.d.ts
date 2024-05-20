@@ -8,7 +8,6 @@ export declare class Pie3dChartSpecTransformer<T extends IPie3dChartSpec = IPie3
 export declare class Pie3dChart<T extends IPie3dChartSpec = IPie3dChartSpec> extends BasePieChart<AdaptiveSpec<T, 'type'>> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof Pie3dChartSpecTransformer;
     readonly transformerConstructor: typeof Pie3dChartSpecTransformer;
     readonly type: string;

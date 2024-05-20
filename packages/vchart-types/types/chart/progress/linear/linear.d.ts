@@ -4,7 +4,6 @@ import { BaseChart } from '../../base';
 export declare class LinearProgressChart<T extends ILinearProgressChartSpec = ILinearProgressChartSpec> extends BaseChart<T> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof LinearProgressChartSpecTransformer;
     readonly transformerConstructor: typeof LinearProgressChartSpecTransformer;
     readonly type: string;
