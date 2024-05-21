@@ -3,6 +3,7 @@ import { IChartAppearAction } from '../../../../types/chart/appear';
 import { ICharacterVisactor } from '../../../../../story/character/visactor/interface';
 import { axesDisappearProcessor, titleDisappearProcessor } from '../../components';
 import { areaDisappearProcessor as areaMarkDisappearProcessor } from '../../marks';
+import { graphicDisappearProcessor } from '../../../graphic/disappear';
 
 export const areaDisappearProcessor = async (
   chartInstance: ICharacterVisactor,
@@ -33,6 +34,10 @@ export const areaDisappearProcessor = async (
 
   // 隐藏坐标轴
   axesDisappearProcessor(chartInstance, spec, { action: 'disappear', payload: undefined });
+
+  // Group Disappear
+  // @ts-ignore
+  graphicDisappearProcessor(chartInstance, spec, action);
 
   // 隐藏group
   chart.setAttributes({

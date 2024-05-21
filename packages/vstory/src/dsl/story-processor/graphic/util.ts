@@ -11,6 +11,11 @@ export function getCharacterParentGraphic(character: ICharacter) {
 }
 
 export function getCharacterByEffect(character: ICharacter, effect: 'move' | string) {
+  // 图表仅操作父节点.
+  // @ts-ignore
+  if (character._graphic.type === 'chart') {
+    return [getCharacterParentGraphic(character)];
+  }
   // move效果, 一定是对parent的操作
   return effect === 'move' ? [getCharacterParentGraphic(character)] : getCharacterGraphic(character);
 }

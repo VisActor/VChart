@@ -4,6 +4,7 @@ import { ICharacterVisactor } from '../../../../../story/character/visactor/inte
 
 import { axesDisappearProcessor, titleDisappearProcessor } from '../../components';
 import { arcDisappearProcessor } from '../../marks';
+import { graphicDisappearProcessor } from '../../../graphic/disappear';
 
 export const roseDisappearProcessor = async (
   chartInstance: ICharacterVisactor,
@@ -34,6 +35,10 @@ export const roseDisappearProcessor = async (
 
   // 隐藏坐标轴
   axesDisappearProcessor(chartInstance, spec, { action: 'disappear', payload: undefined });
+
+  // Group Disappear
+  // @ts-ignore
+  graphicDisappearProcessor(chartInstance, spec, action);
 
   // 隐藏group
   chart.setAttributes({
