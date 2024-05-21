@@ -217,15 +217,17 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     if (tooltipData && tooltipData.length) {
       if (activeType === 'dimension') {
         const dimensionInfo = (tooltipData as IDimensionInfo[])[0];
+        const dimensionData = dimensionInfo.data[0];
+        const pos = dimensionData.series.dataToPosition(dimensionData.datum[0]);
 
         const isY = isValid(dimensionInfo.dimType)
           ? dimensionInfo.dimType === 'y'
           : isYAxis(dimensionInfo?.axis?.getOrient() as IOrientType);
 
         if (isY) {
-          y = dimensionInfo.position;
+          y = pos.y;
         } else {
-          x = dimensionInfo.position;
+          x = pos.x;
         }
       } else if (activeType === 'mark') {
         const dimensionData = (tooltipData as IDimensionData[])[0];
