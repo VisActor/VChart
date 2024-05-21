@@ -1,5 +1,6 @@
 import type { IGraphic } from '@visactor/vrender-core';
 import type { ICharacter } from '../../../story/character';
+import { IAnimationParams } from '../../types';
 
 export function getCharacterGraphic(character: ICharacter) {
   return character.getGraphicParent().getChildren() as IGraphic[];
@@ -13,3 +14,7 @@ export function getCharacterByEffect(character: ICharacter, effect: 'move' | str
   // move效果, 一定是对parent的操作
   return effect === 'move' ? [getCharacterParentGraphic(character)] : getCharacterGraphic(character);
 }
+
+export const canDoGraphicAnimation = (graphic: IGraphic, animationParams: IAnimationParams) => {
+  return graphic && animationParams.duration && animationParams.duration > 0;
+};
