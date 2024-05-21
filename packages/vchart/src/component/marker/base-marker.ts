@@ -1,7 +1,7 @@
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, isValid, isNil, isString, isEmpty, isArray } from '@visactor/vutils';
+import { array, isValid, isNil, isString, isEmpty, isArray, isEqual } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
@@ -341,5 +341,15 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
       this._layoutOffsetY = calcLayoutNumber(this._spec.offsetY, chartViewRect.height, chartViewRect);
     }
     super.onLayoutStart(layoutRect, chartViewRect, ctx);
+  }
+
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!isEqual(prevSpec, spec)) {
+      result.reRender = true;
+      result.reMake = true;
+      result.change = true;
+    }
+    return result;
   }
 }

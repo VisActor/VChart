@@ -2,7 +2,7 @@ import type { Dict, IBoundsLike } from '@visactor/vutils';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
-import type { IPadding, StringOrNumber } from '../../typings';
+import type { IPadding, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import type { IComponentOption } from '../interface';
 import type { ICrossHair, CrossHairTrigger, ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairCategoryFieldSpec } from './interface';
 import type { IAxis } from '../axis/interface';
@@ -51,7 +51,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     private _limitBounds;
     constructor(spec: T, options: IComponentOption);
     protected abstract _showDefaultCrosshairBySpec(): void;
-    protected abstract _layoutCrosshair(x: number, y: number): void;
+    protected abstract _layoutCrosshair(x: number, y: number, tooltipData?: TooltipData, activeType?: TooltipActiveType): void;
     protected abstract _parseFieldInfo(): void;
     abstract hide(): void;
     protected _getLimitBounds(): IBoundsLike;
@@ -69,11 +69,18 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     private _registerEvent;
     private _eventOff;
     updateLayoutAttribute(): void;
+    protected calculateTriggerPoint(params: any): {
+        x: number;
+        y: number;
+    };
     private _handleIn;
     private _handleClickInEvent;
     private _handleHoverInEvent;
     private _handleOutEvent;
     private _getTriggerEvent;
+    private _registerTooltipEvent;
+    private _handleTooltipShow;
+    private _handleTooltipHideOrRelease;
     protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value'): IAxisInfo<T>;
     changeRegions(regions: IRegion[]): void;
     onLayoutEnd(ctx: IModelLayoutOption): void;

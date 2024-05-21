@@ -22,6 +22,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     private _viewBox;
     protected _categoryField: string;
     private _colorScale;
+    private _nodeList;
     getCategoryField(): string;
     setCategoryField(f: string): string;
     protected _valueField: string;
@@ -37,6 +38,8 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     valueToPositionY(value: StringOrNumber | StringOrNumber[]): any;
     initMarkStyle(): void;
     protected _initNodeMarkStyle(): void;
+    protected _fillByNode: (datum: Datum) => any;
+    protected _fillByLink: (datum: Datum) => any;
     protected _initLinkMarkStyle(): void;
     protected _initLabelMarkStyle(): void;
     private _createText;

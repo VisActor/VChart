@@ -10,7 +10,6 @@ import { WordCloudChartSpecTransformer } from './word-cloud-transformer';
 export class WordCloudChart<T extends IWordCloudChartSpec = IWordCloudChartSpec> extends BaseWordCloudChart<T> {
   static readonly type: string = ChartTypeEnum.wordCloud;
   static readonly seriesType: string = SeriesTypeEnum.wordCloud;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = WordCloudChartSpecTransformer;
   readonly transformerConstructor = WordCloudChartSpecTransformer;
   readonly type: string = ChartTypeEnum.wordCloud;

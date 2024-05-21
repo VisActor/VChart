@@ -26,7 +26,7 @@ export function animationConfig<Preset extends string>(
     Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>
   >,
   params?: {
-    dataIndex: (datum: any) => number;
+    dataIndex: (datum: any, params: any) => number;
     dataCount: () => number;
   }
 ) {
@@ -154,12 +154,12 @@ export function userAnimationConfig<M extends string, Preset extends string>(
  */
 function produceOneByOne(
   stateConfig: IAnimationTypeConfig,
-  dataIndex: (datum: any) => number,
+  dataIndex: (datum: any, params: any) => number,
   dataCount?: () => number
 ) {
   const { oneByOne, duration, delay, delayAfter } = stateConfig;
   stateConfig.delay = (datum: any, element: IElement, params: any) => {
-    const index = dataIndex(datum);
+    const index = dataIndex(datum, params);
     const durationTime = isFunction(duration)
       ? duration(datum, element, params)
       : isValidNumber(duration)
@@ -174,7 +174,7 @@ function produceOneByOne(
     return userDelay + index * (durationTime + oneByOneTime);
   };
   stateConfig.delayAfter = (datum: any, element: IElement, params: any) => {
-    const index = dataIndex(datum);
+    const index = dataIndex(datum, params);
     const durationTime = isFunction(duration)
       ? duration(datum, element, params)
       : isValidNumber(duration)
@@ -197,8 +197,8 @@ function produceOneByOne(
   return stateConfig;
 }
 
-function defaultDataIndex(datum: any) {
-  return datum?.[DEFAULT_DATA_INDEX];
+function defaultDataIndex(datum: any, params: any) {
+  return datum?.[DEFAULT_DATA_INDEX] ?? params?.VGRAMMAR_ANIMATION_PARAMETERS?.elementIndex;
 }
 
 export function shouldMarkDoMorph(spec: ISeriesSpec & IAnimationSpec<string, string>, markName: string) {

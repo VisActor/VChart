@@ -25,9 +25,9 @@ import type {
   IEvent,
   IEventDispatcher
 } from '../event/interface';
-import type { IParserOptions, IFields, Transform, DataView } from '@visactor/vdataset';
+import type { IParserOptions, IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { DataSet, dataViewParser } from '@visactor/vdataset';
+import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender-core';
@@ -437,7 +437,7 @@ export class VChart implements IVChart {
       );
     }
 
-    this._chartSpecTransformer.transformSpec(this._spec);
+    this._chartSpecTransformer?.transformSpec(this._spec);
 
     // 插件生命周期
     this._chartPluginApply('onAfterChartSpecTransform', this._spec, actionSource);
@@ -622,7 +622,7 @@ export class VChart implements IVChart {
       this._initDataSet();
       // 释放图表等等
       this._chartSpecTransformer = null;
-      this._chart.release();
+      this._chart?.release();
       this._chart = null as unknown as IChart;
       // 如果不需要动画，那么释放item，避免元素残留
       this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
@@ -885,20 +885,31 @@ export class VChart implements IVChart {
       }
       return this as unknown as IVChart;
     }
+
+    const prevData = array(this._spec.data) as DataView[];
     const list: IDataValues[] = array(data);
     list.forEach(d => {
       // only support update this attrs
       const { id, values, parser, fields } = d;
-      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
+      const preDV = prevData.find(dv => dv.name === id);
       if (preDV) {
-        preDV.setFields(cloneDeep(fields) as IFields);
-        preDV.parse(values, cloneDeep(parser) as IParserOptions);
+        if (preDV instanceof DataView) {
+          preDV.setFields(cloneDeep(fields) as IFields);
+          preDV.parse(values, cloneDeep(parser) as IParserOptions);
+        } else {
+          (preDV as IDataValues).values = values;
+          isValid(parser) && ((preDV as IDataValues).parser = parser);
+          isValid(fields) && ((preDV as IDataValues).fields = fields);
+        }
       } else {
         // new data
-        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, prevData, {
           onError: this._option?.onError
         });
-        this._spec.data.push(dataView);
+
+        if (isArray(this._spec.data)) {
+          this._spec.data.push(dataView);
+        }
       }
     });
     return this as unknown as IVChart;

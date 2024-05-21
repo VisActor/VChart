@@ -7,7 +7,6 @@ import { CommonChartSpecTransformer } from './common-transformer';
 
 export class CommonChart<T extends ICommonChartSpec = ICommonChartSpec> extends BaseChart<AdaptiveSpec<T, 'series'>> {
   static readonly type: string = ChartTypeEnum.common;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = CommonChartSpecTransformer;
   readonly transformerConstructor = CommonChartSpecTransformer;
   readonly type: string = ChartTypeEnum.common;

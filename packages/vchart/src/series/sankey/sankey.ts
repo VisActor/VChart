@@ -61,6 +61,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   protected _categoryField!: string;
   private _colorScale: IBaseScale;
+  private _nodeList: (string | number)[];
   getCategoryField() {
     return this._categoryField;
   }
@@ -265,12 +266,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   valueToPositionX(value: StringOrNumber | StringOrNumber[]) {
     const node = this.valueToNode(value);
 
-    return node.x0;
+    return node?.x0;
   }
   valueToPositionY(value: StringOrNumber | StringOrNumber[]) {
     const node = this.valueToNode(value);
 
-    return node.y0;
+    return node?.y0;
   }
 
   initMarkStyle(): void {
@@ -294,14 +295,48 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         x1: (datum: Datum) => datum.x1,
         y: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
-        fill: (datum: Datum) => {
-          return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
-        }
+        fill: this._fillByNode
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Mark
     );
   }
+
+  protected _fillByNode = (datum: Datum) => {
+    if (datum && datum.sourceRect && datum.targetRect) {
+      return this._fillByLink(datum);
+    }
+
+    const fill = this._spec.node?.style?.fill;
+
+    if (isValid(fill)) {
+      return fill;
+    } else if (isValid(this._spec.seriesField)) {
+      const colorScale = this._option?.globalScale?.getScale('color');
+      const nodeDatum = datum?.datum ? datum.datum : datum;
+
+      return colorScale?.scale(nodeDatum?.[this._spec.seriesField]);
+    }
+
+    return this._colorScale?.scale(this._getNodeNameFromData(datum));
+  };
+
+  protected _fillByLink = (datum: Datum) => {
+    const fill = this._spec.link?.style?.fill;
+
+    if (fill) {
+      return fill;
+    } else if (isValid(this._spec.seriesField)) {
+      const sourceNode = this._nodesSeriesData?.getLatestData()?.find((entry: any) => datum.source === entry.key);
+      const nodeDatum = sourceNode?.datum;
+      const colorScale = this._option?.globalScale?.getScale('color');
+
+      return colorScale?.scale(nodeDatum?.[this._spec.seriesField]);
+    }
+
+    const sourceName = isNumber(datum.source) ? this.getNodeList()[datum.source] : datum.source;
+    return this._colorScale?.scale(sourceName);
+  };
 
   protected _initLinkMarkStyle() {
     const linkMark = this._linkMark;
@@ -317,16 +352,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y0: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
         thickness: (datum: Datum) => datum.thickness,
-        fill: (datum: Datum) => {
-          const fill = this._spec.link?.style?.fill;
-
-          if (fill) {
-            return fill;
-          }
-
-          const sourceName = isNumber(datum.source) ? this.getNodeList()[datum.source] : datum.source;
-          return this._colorScale?.scale(sourceName);
-        },
+        fill: this._fillByLink,
         direction: this._spec.direction ?? 'horizontal'
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
@@ -395,9 +421,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
               }
               return datum.y1;
             },
-            fill: (datum: Datum) => {
-              return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
-            },
+            fill: this._fillByNode,
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: 'center',
@@ -464,9 +488,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           {
             x: (datum: Datum) => datum.x0,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: (datum: Datum) => {
-              return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
-            },
+            fill: this._fillByNode,
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: 'right',
@@ -481,9 +503,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           {
             x: (datum: Datum) => datum.x1,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: (datum: Datum) => {
-              return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
-            },
+            fill: this._fillByNode,
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: 'left',
@@ -503,9 +523,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
               return datum.x1;
             },
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: (datum: Datum) => {
-              return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
-            },
+            fill: this._fillByNode,
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
             textAlign: (datum: Datum) => {
@@ -590,6 +608,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   private nodesSeriesDataUpdate() {
     this._nodesSeriesData.updateData();
 
+    this._nodeList = null;
     this._setNodeOrdinalColorScale();
   }
 
@@ -1176,6 +1195,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   getNodeList() {
+    if (this._nodeList) {
+      return this._nodeList;
+    }
+
     const data = this._rawData.latestData[0];
 
     const nodeList = data?.nodes
@@ -1189,6 +1212,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       : data?.values.map((datum: Datum, index: number) => {
           return datum[this._spec.categoryField];
         });
+
+    this._nodeList = nodeList;
 
     return nodeList;
   }

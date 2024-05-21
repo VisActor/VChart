@@ -11,7 +11,7 @@ export function VChartSimple({ type, ...args }: IVChartProps) {
       return <GeneralChart {...args} mode="miniApp" />;
     },
     tt: () => {
-      return <GeneralChart {...args} mode="miniApp" />;
+      return <GeneralChart {...args} mode="tt" />;
     },
     weapp: () => {
       return <GeneralChart {...args} mode="wx" />;

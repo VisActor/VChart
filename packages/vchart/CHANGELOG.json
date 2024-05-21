@@ -2,6 +2,63 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.11.1",
+      "tag": "@visactor/vchart_v1.11.1",
+      "date": "Mon, 20 May 2024 15:49:14 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat(marker): mark-point support arc line and targetSymbol. close#2590'"
+          },
+          {
+            "comment": "docs: add custom animate doc"
+          },
+          {
+            "comment": "docs: perfect document for react-lynx-vchart"
+          },
+          {
+            "comment": "feat: add new options `followTooltip` to crosshair\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of missing defaultDataIndex in extensionMarks"
+          },
+          {
+            "comment": "fix: fix error of empty spec, fix #1193\n\n"
+          },
+          {
+            "comment": "fix: fix the error caused by renderNextTick after release\n\n"
+          },
+          {
+            "comment": "fix: layout-model should read `layoutLevel` in `spec`, and dont create layoutItem for hidden components, related #1674\n\n"
+          },
+          {
+            "comment": "fix: when marker's spec update, it should update when call vchart.updateSpec"
+          },
+          {
+            "comment": "fix: fix effect of sampling when flush is `true`, fix  #2272\n\n"
+          },
+          {
+            "comment": "fix: fix the api `valueToPositionX` and `valueToPositionY` of sankey\n\n"
+          },
+          {
+            "comment": "fix: sankey should color by seriesField, fix #2678\n\n"
+          },
+          {
+            "comment": "fix: fix bug of `setDimensionIndex` when axis is linear"
+          },
+          {
+            "comment": "fix: fix issue with import registerTTEnv"
+          },
+          {
+            "comment": "fix: fix issue with taro tt env, closed #2648"
+          },
+          {
+            "comment": "fix: fix error of call `updateFullDataSync()` before `renderSync()`, fix #2655\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.0",
       "tag": "@visactor/vchart_v1.11.0",
       "date": "Wed, 08 May 2024 11:01:15 GMT",

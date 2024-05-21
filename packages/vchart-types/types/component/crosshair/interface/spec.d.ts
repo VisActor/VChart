@@ -1,3 +1,4 @@
+import type { ITooltipActiveTypeAsKeys } from '../../tooltip/interface/common';
 import type { IPadding, StringOrNumber, ILineMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../../typings';
 import type { IAxis } from '../../axis/interface';
 import type { IComponentSpec } from '../../base/interface';
@@ -10,6 +11,7 @@ export interface ICrossHair extends IComponent {
 }
 export type CrossHairTrigger = 'click' | 'hover' | ['click', 'hover'];
 export interface ICommonCrosshairSpec extends IComponentSpec {
+    followTooltip?: boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>;
     trigger?: CrossHairTrigger;
     triggerOff?: CrossHairTrigger | 'none' | number;
     lockAfterClick?: boolean;

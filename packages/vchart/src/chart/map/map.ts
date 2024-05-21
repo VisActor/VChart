@@ -9,7 +9,6 @@ import { MapChartSpecTransformer } from './map-transformer';
 export class MapChart<T extends IMapChartSpec = IMapChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.map;
   static readonly seriesType: string = SeriesTypeEnum.map;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = MapChartSpecTransformer;
   readonly transformerConstructor = MapChartSpecTransformer;
   readonly type: string = ChartTypeEnum.map;

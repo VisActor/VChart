@@ -1,11 +1,12 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "browser": "esm/index.js",
   "types": "esm/index.d.ts",
+  "unpkg": "build/index.min.js",
   "sideEffects": [
     "./*/index-lark.js",
     "./*/index-wx-simple.js",
@@ -23,8 +24,8 @@
     "build:cjs": "bundle --clean -f cjs --ignorePostTasks --ignoreUmdEntries",
     "build:es": "bundle --clean -f es --ignorePostTasks",
     "analyze": "npm run analyze-full && npm run analyze-line && npm run analyze-simple",
-    "analyze-full": "BUNDLE_ANALYZE='full' bundle -f umd ",
-    "analyze-simple": "BUNDLE_ANALYZE='simple' bundle -f umd",
+    "analyze-full": "cross-env BUNDLE_ANALYZE='full' bundle -f umd ",
+    "analyze-simple": "cross-env BUNDLE_ANALYZE='simple' bundle -f umd",
     "dev": "bundle --clean -f es -w",
     "compile": "tsc --noEmit",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
@@ -38,7 +39,7 @@
     "test": "jest",
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit",
-    "test-watch": "DEBUG_MODE=1 jest --watch",
+    "test-watch": "cross-env DEBUG_MODE=1 jest --watch",
     "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts",
     "size": "size-limit"
   },
@@ -46,10 +47,6 @@
     "esm",
     "cjs",
     "build"
-  ],
-  "unpkg": "latest",
-  "unpkgFiles": [
-    "cdn/index.js"
   ],
   "keywords": [
     "charts",
@@ -115,24 +112,25 @@
     "canvas": "2.11.2",
     "size-limit": "9.0.0",
     "@size-limit/file": "9.0.0",
-    "rimraf": "3.0.2"
+    "rimraf": "3.0.2",
+    "cross-env": "^7.0.3"
   },
   "dependencies": {
     "@visactor/vutils": "~0.18.6",
     "@visactor/vdataset": "~0.18.6",
     "@visactor/vscale": "~0.18.6",
-    "@visactor/vrender-core": "0.19.0",
-    "@visactor/vrender-kits": "0.19.0",
-    "@visactor/vrender-components": "0.19.0",
-    "@visactor/vgrammar-core": "0.13.2",
-    "@visactor/vgrammar-projection": "0.13.2",
-    "@visactor/vgrammar-wordcloud": "0.13.2",
-    "@visactor/vgrammar-wordcloud-shape": "0.13.2",
-    "@visactor/vgrammar-hierarchy": "0.13.2",
-    "@visactor/vgrammar-sankey": "0.13.2",
-    "@visactor/vgrammar-venn": "0.13.2",
-    "@visactor/vgrammar-util": "0.13.2",
-    "@visactor/vutils-extension": "workspace:1.11.0"
+    "@visactor/vrender-core": "0.19.4",
+    "@visactor/vrender-kits": "0.19.4",
+    "@visactor/vrender-components": "0.19.4",
+    "@visactor/vgrammar-core": "0.13.4",
+    "@visactor/vgrammar-projection": "0.13.4",
+    "@visactor/vgrammar-wordcloud": "0.13.4",
+    "@visactor/vgrammar-wordcloud-shape": "0.13.4",
+    "@visactor/vgrammar-hierarchy": "0.13.4",
+    "@visactor/vgrammar-sankey": "0.13.4",
+    "@visactor/vgrammar-venn": "0.13.4",
+    "@visactor/vgrammar-util": "0.13.4",
+    "@visactor/vutils-extension": "workspace:1.11.1"
   },
   "publishConfig": {
     "access": "public",

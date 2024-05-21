@@ -9,7 +9,6 @@ import { BaseChart } from '../../base';
 export class RangeColumn3dChart<T extends IRangeColumn3dChartSpec = IRangeColumn3dChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.rangeColumn3d;
   static readonly seriesType: string = SeriesTypeEnum.rangeColumn3d;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = RangeColumn3dChartSpecTransformer;
   // @ts-ignore
   readonly transformerConstructor = RangeColumn3dChartSpecTransformer;

@@ -5,7 +5,6 @@ import { WaterfallChartSpecTransformer } from './waterfall-transformer';
 export declare class WaterfallChart<T extends IWaterfallChartSpec = IWaterfallChartSpec> extends BarChart<AdaptiveSpec<T, 'type' | 'series' | 'label'>> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof WaterfallChartSpecTransformer;
     readonly transformerConstructor: typeof WaterfallChartSpecTransformer;
     readonly type: string;

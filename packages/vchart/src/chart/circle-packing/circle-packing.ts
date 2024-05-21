@@ -9,7 +9,6 @@ import { CirclePackingChartSpecTransformer } from './circle-packing-transformer'
 export class CirclePackingChart<T extends ICirclePackingChartSpec = ICirclePackingChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.circlePacking;
   static readonly seriesType: string = SeriesTypeEnum.circlePacking;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = CirclePackingChartSpecTransformer;
   readonly transformerConstructor = CirclePackingChartSpecTransformer;
   readonly type: string = ChartTypeEnum.circlePacking;

@@ -5,7 +5,6 @@ import { TreemapChartSpecTransformer } from './treemap-transformer';
 export declare class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> extends BaseChart<AdaptiveSpec<T, 'data' | 'series'>> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof TreemapChartSpecTransformer;
     readonly transformerConstructor: typeof TreemapChartSpecTransformer;
     readonly type: string;

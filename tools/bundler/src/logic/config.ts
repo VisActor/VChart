@@ -90,6 +90,8 @@ export interface Config {
   clean: boolean;
   // 是否压缩 umd 产物文件
   minify: boolean;
+  // 是否打包出整个的es的文件
+  esTotalFile: boolean;
   // 出现编译错误时是否输出产物文件, 如果为true，则会停止构建且不输出任何东西
   noEmitOnError: boolean;
   // 传给给 @babel/preset-env 的 `targets` 字段 see: https://babeljs.io/docs/babel-preset-env#targets
@@ -121,6 +123,7 @@ export function getDefaultConfig(): Config {
       cjs: 'index.ts',
       umd: 'index.ts'
     },
+    esTotalFile: false,
     formats: ['cjs', 'es', 'umd'],
     outputDir: {
       es: 'es',

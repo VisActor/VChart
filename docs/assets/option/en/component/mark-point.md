@@ -29,18 +29,23 @@ Supported since `1.7.3` version, the position of the reference point on the y-ax
 {{ use: component-marker-aggregation-type() }}
 
 ### angle (string | number | function)
+
 Since the `1.11.0` version, the reference line is on the angle axis of the polar coordinate system, and the value of the marked point on the angle axis can be configured, or aggregated calculation, or self-calculation through data in the form of callbacks.
 
 ** Note that the usage scenario of this property is in the polar coordinate system: **
+
 1. Configure the angle and radius properties together to label the data points with coordinates on (angle, radius)
 
 ### radius (string | number | function)
+
 Since the `1.11.0` version, you can configure the value of the annotation point on the angle axis, or aggregate calculation, or calculate it yourself through the data in the form of a callback.
 
 ** Note that the usage scenario of this property is in the polar coordinate system: **
+
 1. Configure the angle and radius properties together to label the data points with coordinates on (angle, radius)
 
 ### areaName (string | number | function)
+
 Since the `1.11.0` version, you can configure the geographical location of the annotation point on the map, and calculate it yourself through the data in the form of a callback.
 
 ** Note that this property is used in a geographic coordinate system **
@@ -94,7 +99,9 @@ Optional values:
 - `'type-do'`: Indicates a folding point, where the x-coordinate of the folding point is the x-coordinate of 1/2 from the starting point to the end point, and the y-coordinate of the folding point is the y-coordinate of the starting point
 - `'type-po'`: Indicates a folding point, where the x-coordinate of the folding point is the x-coordinate of the end point, and the y-coordinate of the folding point is the y-coordinate of the starting point
 - `'type-op'`: Indicates a folding point, where the x-coordinate of the folding point is the x-coordinate of the starting point, and the y-coordinate of the folding point is the y-coordinate of the end point
-  For more specific forms, refer to: https://journals.sagepub.com/doi/10.1177/1473871618799500
+- `'type-arc'`: arc, the center of the circle is determined by `itemLine.arcRatio`.
+
+For more specific forms, refer to: https://journals.sagepub.com/doi/10.1177/1473871618799500
 
 #### visible(boolean)
 
@@ -107,6 +114,10 @@ Decorative line perpendicular to the guide line.
 ##### visible(boolean)
 
 Decorative line visibility.
+
+#### arcRatio(number)
+
+Supported since `1.11.1` version, it takes effect when type is type-arc. The value determines the offset from the center of the circle to the end point. The smaller the absolute value, the greater the curvature. The sign determines the normal direction and cannot be equal to 0.
 
 ##### length(boolean)
 
@@ -178,8 +189,10 @@ layout like this: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/marker-pos
 The x-direction offset of the mark content relative to the mark point.
 
 In addition to directly configuring offset values, since the `1.11.0` version:
+
 1. `'regionRight'` | `'regionLeft'`: Used to place at the leftmost or rightmost end of the region.
 2. Callback form
+
 ```ts
 (Region: IRegion) = > number
 ```
@@ -189,16 +202,20 @@ In addition to directly configuring offset values, since the `1.11.0` version:
 The y-direction offset of the mark content relative to the mark point.
 
 In addition to directly configuring offset values, since the `1.11.0` version:
+
 1. `'regionTop'` | `'regionBottom'`: Used to place at the topmost or bottommost end of the region.
 2. Callback form
+
 ```ts
 (Region: IRegion) = > number
 ```
 
 #### confine(boolean) = false
+
 Since version 1.8.7, whether to automatically adjust item content so that it is displayed within the visible area of ​​​​the marker.
 
 #### symbol(Object)
+
 When the content type is symbol, the state and style are configured.
 
 {{ use: component-marker-state(
@@ -219,6 +236,7 @@ For mark content type 'symbol', the symbol style.
 ) }}
 
 #### image(Object)
+
 When the content type is image, the state and style are configured.
 
 {{ use: component-marker-state(
@@ -272,4 +290,32 @@ For mark content type 'richText', the richText style.
   prefix = '##',
   markerType = 'markPoint',
   animationType = 'callIn | fadeIn'
+) }}
+
+### targetSymbol(Object)
+
+Supported since version `1.11.1`, prefixed tag.
+
+
+#### offset
+
+The gap between the marked content and the marked line.
+
+#### visible = false
+
+Whether to display.
+
+#### size
+
+size.
+
+#### style(Object)
+
+The style of targetSymbol.
+{{ use: component-marker-style-callback(
+  description = 'targetSymbol style'
+) }}
+
+{{ use: graphic-symbol(
+  prefix = '####'
 ) }}

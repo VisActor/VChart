@@ -24,7 +24,6 @@ export class Pie3dChartSpecTransformer<T extends IPie3dChartSpec = IPie3dChartSp
 export class Pie3dChart<T extends IPie3dChartSpec = IPie3dChartSpec> extends BasePieChart<AdaptiveSpec<T, 'type'>> {
   static readonly type: string = ChartTypeEnum.pie3d;
   static readonly seriesType: string = SeriesTypeEnum.pie3d;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = Pie3dChartSpecTransformer;
   // @ts-ignore
   readonly transformerConstructor = Pie3dChartSpecTransformer;

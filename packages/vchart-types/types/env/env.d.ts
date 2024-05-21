@@ -5,3 +5,5 @@ export declare const registerLynxEnv: () => void;
 export declare const registerNodeEnv: () => void;
 export declare const registerTaroEnv: () => void;
 export declare const registerWXEnv: () => void;
+export declare const registerTTEnv: () => void;
+export declare const registerHarmonyEnv: () => void;

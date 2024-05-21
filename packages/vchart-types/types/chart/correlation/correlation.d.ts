@@ -4,7 +4,6 @@ import { CorrelationChartSpecTransformer } from './correlation-transformer';
 export declare class CorrelationChart<T extends ICorrelationChartSpec = ICorrelationChartSpec> extends BaseChart<T> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof CorrelationChartSpecTransformer;
     readonly transformerConstructor: typeof CorrelationChartSpecTransformer;
     readonly type: string;

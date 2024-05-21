@@ -13,6 +13,7 @@ export declare abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> imp
     protected abstract _computeOptions(): IMarkProcessOptions;
     static _getMarkerCoordinateType(markerSpec: any): string;
     protected _createMarkerComponent(): IGroup;
+    protected _getUpdateMarkerAttrs(): any;
     protected _markerLayout(): void;
     protected _initDataView(): void;
 }

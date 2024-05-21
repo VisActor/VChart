@@ -8,9 +8,11 @@ Display chart data labels or not, by default labels are not displayed.
 
 Whether the data label graphic element supports interaction events, not supported by default.
 
-#${prefix} textType(string)
+#${prefix} textType(deprecated)
 
 Supported since version 1.7.0, text type.
+
+After version 1.10.0, it is recommended to use formatMethod to configure rich text.
 
 Optional:
 
@@ -56,6 +58,8 @@ formatMethod: text => {
 };
 ```
 
+For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+
 #${prefix} formatter(string)
 
 String template, supported since `1.7.0` version.
@@ -65,6 +69,8 @@ A string template that wraps the variable name with `{}`. The variable name is t
 In pie charts, percentage stacked area charts, percentage stacked line charts, and percentage stacked column charts, percentage configuration is supported, `{_percent_}`
 
 For example, `formatter: 'type={type},value={value},percent={_percent_}'`
+
+For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter).
 
 #${prefix} syncState(boolean) = false
 
@@ -90,8 +96,20 @@ The distance between the label and its corresponding data graphic element.
 
 Label graphic element style configuration.
 
+##${prefix} type='text'(Object)
+
+Regular text style configuration.
+
 {{ use: graphic-text(
-   prefix = '#' + ${prefix}
+   prefix = '##' + ${prefix}
+) }}
+
+##${prefix} type='rich'(Object)
+
+Rich text style configuration.
+
+{{ use: graphic-rich-text(
+   prefix = '##' + ${prefix}
 ) }}
 
 #${prefix} state(Object)

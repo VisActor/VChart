@@ -20,7 +20,7 @@ export declare abstract class BaseTooltipHandler extends BasePlugin implements I
     protected _option: Options;
     protected _chartOption: IChartOption;
     protected _env: RenderMode;
-    get env(): "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "desktop-miniApp" | "lynx";
+    get env(): "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
     protected _component: Tooltip;
     protected _attributes?: ITooltipAttributes | null;
     protected _chartContainer: Maybe<HTMLElement>;

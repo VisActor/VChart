@@ -12,6 +12,7 @@ export interface IDimensionInfo {
     position?: number;
     axis?: IAxis;
     data: IDimensionData[];
+    dimType?: string;
 }
 export interface IDimensionData {
     datum: Datum[];

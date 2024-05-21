@@ -1,7 +1,7 @@
 ---
 category: examples
 group: customMark
-title: 自定义矩形渲染html拓展属性
+title: Custom rectangular rendering html by using extend attributes
 order: 40-8
 cover: /vchart/preview/custom-rect-html_1.11.0.png
 option: lineChart#customMark

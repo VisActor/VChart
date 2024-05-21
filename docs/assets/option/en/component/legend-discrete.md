@@ -24,7 +24,10 @@ Whether or not to enable the checking of the legend, the default is on.
 
 ### selectMode(string) = 'multiple'
 
-The check mode of the legend, with optional values: `'multiple'`, `'single'`, for multiple and single selection respectively.
+The check mode of the legend, with optional values: 
+* `'multiple'` multiple selection mode
+* `'single'` single selection mode
+* `'focus'` focus selection mode
 
 ### scale(string)
 
@@ -120,6 +123,7 @@ When label + value coexist, the automatic ellipsis strategy is:
 - 'labelFirst' - Attempt to display the complete `label`
 - 'valueFirst' - Attempt to display the complete `value`
 - 'none' - Display label and value according to `widthRatio`
+
 #### background(Object)
 
 The background configuration of the legend item.
@@ -435,6 +439,43 @@ export type LegendItemDatum = {
   [key: string]: any;
 };
 ```
+
+Since version `1.10.0`, `formatMethod` supports return richText structure like:
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
+```
+
+For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+
+#### formatter(string | string[])
+
+Formatter string template, supported since version `1.10.0`.
+
+The string template with the variable name wrapped in `{}`, the variable name is taken from the data attribute value.
+
+For example: `formatter: '{label:~s}'`
+
+For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter) and [Demo](/vchart/demo/label/label-formatter).
 
 ##### style(Object|Function)
 
@@ -764,6 +805,7 @@ Set the pager type, currently supporting two styles:
 
 - Default style: pager with arrows
 - `type: 'scrollbar'`: Scrollbar pager
+
 #### layout(string)
 
 The layout of the page turner, the optional values are `'horizontal'` and `'vertical'`. The default value logic is:

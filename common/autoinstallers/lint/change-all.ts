@@ -1,7 +1,7 @@
 import path from 'path';
 import chalk from 'chalk';
 import minimist, { ParsedArgs } from 'minimist';
-import { spawnSync, execSync } from 'child_process';
+import { execSync } from 'child_process';
 
 interface RunScriptArgv extends ParsedArgs {
   message?: string;
@@ -31,12 +31,12 @@ function run() {
     );
     message = lastCommitMessage;
   } else {
-    const result = spawnSync('sh', ['-c', `echo ${message} | ${commitLintBinPath} --config ${commitLineConfigPath}`], {
-      stdio: 'inherit'
-    });
-
-    if (result.status !== 0) {
-      process.exit(1);
+    try {
+      execSync(`echo ${message} | ${commitLintBinPath} --config ${commitLineConfigPath}`, {
+        stdio: 'inherit'
+      });
+    } catch (e) {
+      console.error(`encountered error: ${e}`);
     }
   }
 
@@ -47,20 +47,17 @@ function run() {
     bumpType = 'patch';
   }
 
-  spawnSync('sh', ['-c', `rush change --bulk --bump-type '${bumpType}' --message '${message}'`], {
-    stdio: 'inherit',
-    shell: false
+  execSync(`rush change --bulk --bump-type '${bumpType}' --message '${message}'`, {
+    stdio: 'inherit'
   });
 
   if (!notCommit) {
-    spawnSync('sh', ['-c', 'git add --all'], {
-      stdio: 'inherit',
-      shell: false
+    execSync('git add --all', {
+      stdio: 'inherit'
     });
 
-    spawnSync('sh', ['-c', `git commit -m 'docs: update changlog of rush'`], {
-      stdio: 'inherit',
-      shell: false
+    execSync(`git commit -m 'docs: update changlog of rush'`, {
+      stdio: 'inherit'
     });
   }
 }

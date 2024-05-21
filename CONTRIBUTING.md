@@ -16,7 +16,7 @@ Every significant change is documented in the changelog file.
 
 ## Branch Organization
 
-Submit all changes directly to the main branch. We don’t use separate branches for development or for upcoming releases. We do our best to keep main in good shape, with all tests passing.
+Submit all changes directly to the develop branch. The main branch represents the latest production version of the project. We do our best to keep the main and develop branch in good shape, with all tests passing.
 
 Code that lands in main must be compatible with the latest stable release. It may contain additional features, but no breaking changes. We should be able to release a new minor version from the tip of main at any time.
 
@@ -48,7 +48,7 @@ The core team is monitoring for pull requests. We will review your pull request 
 
 **Before submitting a pull request**, please make sure the following is done:
 
-1. Fork the [repository](git@github.com:VisActor/VChart.git) and create your branch from `main`.
+1. Fork the [repository](git@github.com:VisActor/VChart.git) and create your branch from `develop`.
 2. (If rush has been install, just go to step 3) global install [@microsoft/rush](https://rushjs.io/pages/intro/get_started/)：`npm i --global @microsoft/rush`.
 3. Run `rush update` in the repository root.
 4. If you’ve fixed a bug or added code that should be tested, add tests!

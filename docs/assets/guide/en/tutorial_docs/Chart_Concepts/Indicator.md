@@ -33,7 +33,7 @@ The Indicator Card (Indicator) component provides interactive capabilities. With
 In this example, we used the `indicator` configuration to implement the indicator card component. Now let's analyze the details of this configuration:
 
 1. `visible: true`: The indicator card is visible.
-2. `trigger: 'hover'`: Specifies to display the indicator card when the mouse hovers over the chart.
+2. `trigger: 'hover'`: Specifies to update the data of  indicator card when the mouse hovers over the chart.
 3. `limitRatio 0.4`: Specifies the maximum width of the indicator card as a ratio of the entire pie chart width.
 4. `title` object: The title of the indicator card. In this:
    - `visible: true`: Specifies that the title is visible.

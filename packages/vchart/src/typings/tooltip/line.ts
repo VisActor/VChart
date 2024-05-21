@@ -9,7 +9,7 @@ export interface ITooltipLinePattern extends ITooltipShapePattern, ITooltipLabel
   /**
    * 格式化模板
    * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
-   * @since 0.18.0
+   * @since 1.10.0
    */
   keyFormatter?: string;
   /** tooltip value 值内容
@@ -21,7 +21,7 @@ export interface ITooltipLinePattern extends ITooltipShapePattern, ITooltipLabel
   /**
    * 格式化模板
    * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
-   * @since 0.18.0
+   * @since 1.10.0
    */
   valueFormatter?: string;
 

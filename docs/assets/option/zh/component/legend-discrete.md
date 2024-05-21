@@ -24,7 +24,11 @@
 
 ### selectMode(string) = 'multiple'
 
-图例的选中模式，可选值：`'multiple'`，`'single'`，分别代表多选和单选。
+图例的选中模式，可选值：
+
+- `'multiple'` 多选模式
+- `'single'` 单选模式
+- `'focus'` 聚焦模式（自 1.11.1 版本开始支持）
 
 ### scale(string)
 
@@ -430,6 +434,33 @@ export type LegendItemDatum = {
 };
 ```
 
+自`1.10.0`后，支持返回富文本配置，例如：
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
+```
+
+更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+
 ##### style(Object|Function)
 
 图例项 label 的样式配置，支持函数回调，当需要走一些个性化配置时可以使用回调函数。
@@ -604,6 +635,16 @@ export type LegendItemDatum = {
   [key: string]: any;
 };
 ```
+
+##### formatter(string|string[])
+
+格式化字符串模版，自`1.10.0`版本开始支持。
+
+用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
+
+例如，`formatter: '{label:~s}'`
+
+详细使用文档请参考[教程文档](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter)和[Demo](/vchart/demo/label/label-formatter)。
 
 ##### style(Object|Function)
 

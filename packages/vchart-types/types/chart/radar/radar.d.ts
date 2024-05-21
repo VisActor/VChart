@@ -4,7 +4,6 @@ import { BaseChart } from '../base';
 export declare class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseChart<T> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof RadarChartSpecTransformer;
     readonly transformerConstructor: typeof RadarChartSpecTransformer;
     readonly type: string;

@@ -4,7 +4,7 @@ import { GeneralChart } from './components/general-chart';
 import { IVChartProps } from './typings';
 import Taro from '@tarojs/taro';
 // @ts-ignore
-import { VChart as chartConstructor, registerLarkEnv, registerWXEnv } from './chart/index';
+import { VChart as chartConstructor, registerLarkEnv, registerWXEnv, registerTTEnv } from './chart/index';
 import { VChartSimple } from './simple';
 
 export default function VChart({ type, ...args }: IVChartProps) {
@@ -17,8 +17,8 @@ export default function VChart({ type, ...args }: IVChartProps) {
       return <GeneralChart {...props} mode="miniApp" />;
     },
     tt: () => {
-      registerLarkEnv();
-      return <GeneralChart {...props} mode="miniApp" />;
+      registerTTEnv();
+      return <GeneralChart {...props} mode="tt" />;
     },
     weapp: () => {
       registerWXEnv();

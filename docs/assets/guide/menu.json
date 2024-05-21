@@ -23,6 +23,13 @@
           }
         },
         {
+          "path": "Contribution_Guide",
+          "title": {
+            "zh": "如何加入 VChart 社区",
+            "en": "How to join the  VChart  community"
+          }
+        },
+        {
           "path": "Basic",
           "title": {
             "zh": "入门",
@@ -789,6 +796,13 @@
                 "zh": "Openinula VChart",
                 "en": "Openinula VChart"
               }
+            },
+            {
+              "path": "harmony",
+              "title": {
+                "zh": "Harmony VChart",
+                "en": "Harmony VChart"
+              }
             }
           ]
         },
@@ -812,6 +826,22 @@
             "zh": "富文本和 Dom 扩展",
             "en": "Richtext and dom extension"
           }
+        },
+        {
+          "path": "Chart_Plugins",
+          "title": {
+            "zh": "图表插件",
+            "en": "VChart Plugins"
+          },
+          "children": [
+            {
+              "path": "Formatter",
+              "title": {
+                "zh": "格式化插件",
+                "en": "Formatter Plugin"
+              }
+            }
+          ]
         }
       ]
     }

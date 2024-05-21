@@ -7,7 +7,7 @@ import type { ISeriesSpec } from '../typings';
 import type { IModelMarkAttributeContext } from '../compile/mark';
 export declare const AnimationStates: string[];
 export declare function animationConfig<Preset extends string>(defaultConfig?: MarkAnimationSpec, userConfig?: Partial<Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>>, params?: {
-    dataIndex: (datum: any) => number;
+    dataIndex: (datum: any, params: any) => number;
     dataCount: () => number;
 }): MarkAnimationSpec;
 export declare function userAnimationConfig<M extends string, Preset extends string>(markName: SeriesMarkNameEnum | string, spec: IAnimationSpec<M, Preset>, ctx: IModelMarkAttributeContext): Partial<Record<"none" | "normal" | "state" | "appear" | "enter" | "exit" | "disappear" | "update", boolean | IAnimationConfig | IAnimationConfig[] | IStateAnimateSpec<Preset>>>;

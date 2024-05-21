@@ -127,6 +127,8 @@ export enum RenderModeEnum {
   'worker' = 'worker',
   'miniApp' = 'miniApp',
   'wx' = 'wx',
+  'tt' = 'tt',
+  'harmony' = 'harmony',
   'desktop-miniApp' = 'desktop-miniApp',
   'lynx' = 'lynx'
 }

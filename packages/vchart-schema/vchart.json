@@ -4714,6 +4714,9 @@
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>"
         },
+        "disableAutoWrapLine": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
         "ellipsis": {
           "$ref": "#/definitions/VisualType<string|boolean>"
         },
@@ -4722,9 +4725,6 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
-        },
-        "forceBreakLine": {
-          "$ref": "#/definitions/VisualType<boolean>"
         },
         "height": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4849,8 +4849,8 @@
         }
       },
       "required": [
+        "disableAutoWrapLine",
         "ellipsis",
-        "forceBreakLine",
         "height",
         "layoutDirection",
         "maxHeight",
@@ -25737,6 +25737,18 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "followTooltip": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<ITooltipActiveTypeAsKeys<boolean,boolean,boolean>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "是否和tooltip保持同步\ntooltip出现的时候crosshair出现；tooltip隐藏的时候crsshair隐藏；",
+          "since": "1.11.1"
+        },
         "gridZIndex": {
           "description": "crosshair 辅助图形的显示层级",
           "type": "number"
@@ -29678,6 +29690,9 @@
         "arcTo": {
           "typeof": "function"
         },
+        "baseGlobalAlpha": {
+          "type": "number"
+        },
         "beginPath": {
           "typeof": "function"
         },
@@ -31325,6 +31340,18 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "followTooltip": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<ITooltipActiveTypeAsKeys<boolean,boolean,boolean>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "是否和tooltip保持同步\ntooltip出现的时候crosshair出现；tooltip隐藏的时候crsshair隐藏；",
+          "since": "1.11.1"
+        },
         "gridZIndex": {
           "description": "crosshair 辅助图形的显示层级",
           "type": "number"
@@ -32897,6 +32924,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -33596,6 +33626,7 @@
         },
         "selectMode": {
           "enum": [
+            "focus",
             "multiple",
             "single"
           ],
@@ -33606,6 +33637,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -53449,6 +53483,18 @@
         },
         "itemLine": {
           "typeof": "function"
+        },
+        "targetSymbol": {
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/Partial<IMarkerState<ISymbolMarkSpec>>"
+            }
+          ],
+          "description": "被标注的内容",
+          "since": "1.11.1"
         }
       },
       "type": "object"
@@ -53461,6 +53507,18 @@
         },
         "itemLine": {
           "typeof": "function"
+        },
+        "targetSymbol": {
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/Partial<IMarkerState<ISymbolMarkSpec>>"
+            }
+          ],
+          "description": "被标注的内容",
+          "since": "1.11.1"
         }
       },
       "type": "object"
@@ -56742,6 +56800,18 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "followTooltip": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<ITooltipActiveTypeAsKeys<boolean,boolean,boolean>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "是否和tooltip保持同步\ntooltip出现的时候crosshair出现；tooltip隐藏的时候crsshair隐藏；",
+          "since": "1.11.1"
+        },
         "gridZIndex": {
           "description": "crosshair 辅助图形的显示层级",
           "type": "number"
@@ -57344,6 +57414,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -57714,6 +57787,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -64485,7 +64561,7 @@
     "IRichTextGraphicAttribute": {
       "allOf": [
         {
-          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
+          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
         },
         {
           "$ref": "#/definitions/Partial<IRichTextAttribute>"
@@ -70151,6 +70227,9 @@
         "pauseRender": {
           "typeof": "function"
         },
+        "pauseTriggerEvent": {
+          "typeof": "function"
+        },
         "pick": {
           "typeof": "function"
         },
@@ -70220,6 +70299,9 @@
           "typeof": "function"
         },
         "resumeRender": {
+          "typeof": "function"
+        },
+        "resumeTriggerEvent": {
           "typeof": "function"
         },
         "set3dOptions": {
@@ -70372,6 +70454,7 @@
         "params",
         "parent",
         "pauseRender",
+        "pauseTriggerEvent",
         "pick",
         "pluginService",
         "release",
@@ -70390,6 +70473,7 @@
         "resizeView",
         "resizeWindow",
         "resumeRender",
+        "resumeTriggerEvent",
         "set3dOptions",
         "setAfterRender",
         "setAllDescendantsProps",
@@ -72327,7 +72411,7 @@
               ]
             }
           ],
-          "description": "轴b内容格式化函数"
+          "description": "轴标题内容格式化函数"
         },
         "type": {
           "description": "文本类型",
@@ -72899,7 +72983,7 @@
         },
         "keyFormatter": {
           "description": "可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化",
-          "since": "0.18.0",
+          "since": "1.10.0",
           "type": "string"
         },
         "keyStyle": {
@@ -72961,7 +73045,7 @@
         },
         "valueFormatter": {
           "description": "可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化",
-          "since": "0.18.0",
+          "since": "1.10.0",
           "type": "string"
         },
         "valueStyle": {
@@ -80328,7 +80412,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         },
         "size": {
@@ -80336,14 +80420,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13403",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         },
         "size": {
@@ -80351,14 +80435,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13403",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         },
         "size": {
@@ -80366,14 +80450,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13403",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         },
         "size": {
@@ -80381,14 +80465,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13403",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         },
         "size": {
@@ -80396,14 +80480,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13403",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         },
         "size": {
@@ -80411,14 +80495,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13403",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         },
         "size": {
@@ -80426,14 +80510,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13403",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         },
         "size": {
@@ -80441,14 +80525,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13403",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         },
         "size": {
@@ -80456,7 +80540,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13386",
+        "__@toStringTag@13403",
         "size"
       ],
       "type": "object"
@@ -81053,6 +81137,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -81386,6 +81473,7 @@
         },
         "selectMode": {
           "enum": [
+            "focus",
             "multiple",
             "single"
           ],
@@ -81396,6 +81484,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -83806,6 +83897,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -84101,6 +84195,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -86030,6 +86127,9 @@
         "backgroundOpacity": {
           "type": "number"
         },
+        "baseOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -86353,6 +86453,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -86600,6 +86703,9 @@
           "type": "string"
         },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "baseOpacity": {
           "type": "number"
         },
         "beta": {
@@ -86925,6 +87031,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -86936,6 +87045,12 @@
         },
         "space": {
           "type": "number"
+        },
+        "stopSliderDownPropagation": {
+          "type": "boolean"
+        },
+        "stopSliderMovePropagation": {
+          "type": "boolean"
         },
         "stroke": {
           "anyOf": [
@@ -87781,6 +87896,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -88273,6 +88391,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -88798,6 +88919,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -88938,7 +89062,7 @@
       },
       "type": "object"
     },
-    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
+    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -89371,6 +89495,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -89921,6 +90048,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -90376,6 +90506,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -90470,6 +90603,9 @@
             "flex-start"
           ],
           "type": "string"
+        },
+        "baseOpacity": {
+          "type": "number"
         },
         "clip": {
           "type": "boolean"
@@ -90691,6 +90827,9 @@
           "type": "string"
         },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "baseOpacity": {
           "type": "number"
         },
         "beta": {
@@ -90988,6 +91127,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -91524,6 +91666,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -92291,6 +92436,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -93732,6 +93880,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -94205,6 +94356,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -94927,6 +95081,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -95273,14 +95430,14 @@
     },
     "Partial<IRichTextAttribute>": {
       "properties": {
+        "disableAutoWrapLine": {
+          "type": "boolean"
+        },
         "ellipsis": {
           "type": [
             "string",
             "boolean"
           ]
-        },
-        "forceBreakLine": {
-          "type": "boolean"
         },
         "height": {
           "type": "number"
@@ -95807,6 +95964,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -96341,6 +96501,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -96831,6 +96994,20 @@
         },
         "zIndex": {
           "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ITooltipActiveTypeAsKeys<boolean,boolean,boolean>>": {
+      "properties": {
+        "dimension": {
+          "type": "boolean"
+        },
+        "group": {
+          "type": "boolean"
+        },
+        "mark": {
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -97537,6 +97714,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -98067,6 +98247,9 @@
         "shadowBlur": {
           "type": "number"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -98528,6 +98711,9 @@
         },
         "shadowColor": {
           "type": "string"
+        },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
         },
         "shadowOffsetX": {
           "type": "number"
@@ -100814,34 +101000,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13386"
+        "__@toStringTag@13403"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13386"
+        "__@toStringTag@13403"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13386": {
+        "__@toStringTag@13403": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13386"
+        "__@toStringTag@13403"
       ],
       "type": "object"
     },
@@ -101823,6 +102009,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -101967,6 +102156,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -102402,6 +102592,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -102542,6 +102735,7 @@
         "segments",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -102944,6 +103138,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -103080,6 +103277,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -103506,6 +103704,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -103644,6 +103845,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -103818,6 +104020,9 @@
           "type": "string"
         },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "baseOpacity": {
           "type": "number"
         },
         "beta": {
@@ -104116,6 +104321,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -104210,6 +104418,7 @@
         "backgroundFit",
         "backgroundMode",
         "backgroundOpacity",
+        "baseOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -104263,6 +104472,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -104696,6 +104906,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -104835,6 +105048,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -105273,6 +105487,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -105414,6 +105631,7 @@
         "segments",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -105823,6 +106041,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -105956,6 +106177,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -106374,6 +106596,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -106508,6 +106733,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -106920,6 +107146,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -107062,6 +107291,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -107268,6 +107498,9 @@
         "disableAutoClipedPoptip": {
           "type": "boolean"
         },
+        "disableAutoWrapLine": {
+          "type": "boolean"
+        },
         "dx": {
           "type": "number"
         },
@@ -107329,9 +107562,6 @@
               "type": "number"
             }
           ]
-        },
-        "forceBreakLine": {
-          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -107534,6 +107764,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -107712,6 +107945,7 @@
         "customPickShape",
         "direction",
         "disableAutoClipedPoptip",
+        "disableAutoWrapLine",
         "dx",
         "dy",
         "dz",
@@ -107726,7 +107960,6 @@
         "fontWeight",
         "forceBoundsHeight",
         "forceBoundsWidth",
-        "forceBreakLine",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -107768,6 +108001,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -108294,6 +108528,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -108450,6 +108687,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -108849,6 +109087,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -109003,6 +109244,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",
@@ -109459,6 +109701,9 @@
         "shadowColor": {
           "type": "string"
         },
+        "shadowGraphic": {
+          "$ref": "#/definitions/IGraphic<Partial<IGraphicAttribute>>"
+        },
         "shadowOffsetX": {
           "type": "number"
         },
@@ -109673,6 +109918,7 @@
         "scrollY",
         "shadowBlur",
         "shadowColor",
+        "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
         "shadowRootIdx",

@@ -8,9 +8,10 @@ Axis Label Configuration.
 
 Whether to display the axis label.
 
-#${prefix} type(string)
+#${prefix} type(deprecated)
 
 Supported since version 1.7.0, text type.
+After version 1.10.0, it is recommended to use formatMethod to configure rich text.
 
 Optional:
 
@@ -28,8 +29,45 @@ Axis label content formatting function, the function definition is as follows:
    * @param datum Graphic data
    * @returns Formatted text
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[] | IRichTextCharacter[];
+  formatMethod?: (text: string | string[], datum?: any) => string | string[]
 ```
+
+Since version `1.10.0`, `formatMethod` supports return richText structure like:
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
+```
+
+For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+
+#${prefix} formatter(string | string[])
+
+Formatter string template, supported since version `1.10.0`.
+
+The string template with the variable name wrapped in `{}`, the variable name is taken from the data attribute value.
+
+For example: `formatter: '{label:~s}'`
+
+For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter) and [Demo](/vchart/demo/label/label-formatter).
 
 #${prefix} space(number)
 

@@ -12,7 +12,6 @@ export class CircularProgressChart<T extends ICircularProgressChartSpec = ICircu
 > {
   static readonly type: string = ChartTypeEnum.circularProgress;
   static readonly seriesType: string = SeriesTypeEnum.circularProgress;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = CircularProgressChartSpecTransformer;
   readonly transformerConstructor = CircularProgressChartSpecTransformer;
   readonly type: string = ChartTypeEnum.circularProgress;

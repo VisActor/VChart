@@ -10,7 +10,6 @@ import { BasePieChartSpecTransformer } from './base';
 export class PieChart<T extends IPieChartSpec = IPieChartSpec> extends BasePieChart<T> {
   static readonly type: string = ChartTypeEnum.pie;
   static readonly seriesType: string = SeriesTypeEnum.pie;
-  static readonly view: string = 'singleDefault';
   static readonly transformerConstructor = BasePieChartSpecTransformer;
   readonly transformerConstructor = BasePieChartSpecTransformer;
   readonly type: string = ChartTypeEnum.pie;
