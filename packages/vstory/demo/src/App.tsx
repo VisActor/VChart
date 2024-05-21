@@ -12,6 +12,7 @@ import { GraphicActionDemo } from './demos/graphicAction';
 import { VChartSiteDemo } from './demos/VchartSite';
 import { DisAppear } from './demos/DisAppear';
 import { StoryEdit } from './demos/StoryEdit';
+import { Appear } from './demos/Appear';
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
@@ -47,6 +48,10 @@ const App = () => {
     {
       name: 'DisAppear',
       component: DisAppear
+    },
+    {
+      name: 'Appear',
+      component: Appear
     },
     {
       name: 'Graphic-Action',

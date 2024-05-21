@@ -5,7 +5,6 @@ import { scatterAppearProcessor, scatterDisappearProcessor } from '../vchart/cha
 import { createMarkPointProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
 import { bounceProcessor } from '../vchart/bounce';
-import { symbolAppearProcessor } from '../vchart/marks';
 
 export const scatterProcessorMap = {
   add: addProcessor,
@@ -17,7 +16,7 @@ export const scatterProcessorMap = {
   createMarkPoint: createMarkPointProcessor,
   createTitle: createTitleProcessor,
 
-  appear: symbolAppearProcessor,
+  appear: scatterAppearProcessor,
   disappear: scatterDisappearProcessor,
   symbolStyle: createMarkStyleProcessorByMarkType('symbol')
 };

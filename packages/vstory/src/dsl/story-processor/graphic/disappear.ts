@@ -11,7 +11,7 @@ export const graphicDisappearProcessor = async (
   const { animation } = IGraphicAppearAction.payload ?? {};
   const { effect } = animation ?? {};
 
-  const effects = effect ? [effect] : Object.keys(disappearEffectMap);
+  const effects = effect && disappearEffectMap[effect] ? [effect] : Object.keys(disappearEffectMap);
 
   effects.forEach(effect => {
     if (animation.effect === effect || animation[effect]) {

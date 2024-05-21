@@ -8,7 +8,7 @@ export const graphicAppearProcessor = async (character: ICharacter, spec = {}, a
   const { animation } = action.payload ?? {};
   const { effect } = animation ?? {};
 
-  const effects = effect ? [effect] : Object.keys(appearEffectMap);
+  const effects = effect && appearEffectMap[effect] ? [effect] : Object.keys(appearEffectMap);
 
   effects.forEach(effect => {
     if (animation.effect === effect || animation[effect]) {
