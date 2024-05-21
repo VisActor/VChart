@@ -1,8 +1,7 @@
 import type { ICharacter } from '../../../story/character';
 import type { IGraphicDisappearAction } from '../../types/graphic/disappear';
-import { getCharacterGraphic, getCharacterParentGraphic } from './util';
-import { commonDisappearEffect } from './effect/disappear';
-import { IGraphic } from '@visactor/vrender-core';
+import { getCharacterByEffect } from './util';
+import { disappearEffectMap } from './effect/disappear';
 
 export const graphicDisappearProcessor = async (
   character: ICharacter,
@@ -10,22 +9,18 @@ export const graphicDisappearProcessor = async (
   IGraphicAppearAction: IGraphicDisappearAction
 ) => {
   const { animation } = IGraphicAppearAction.payload ?? {};
-  let graphics;
+  const { effect } = animation ?? {};
 
-  if (animation) {
-    const { effect = 'fade' } = animation ?? {};
-    if (effect === 'move') {
-      graphics = [getCharacterParentGraphic(character)];
-    } else {
-      graphics = getCharacterGraphic(character);
+  const effects = effect ? [effect] : Object.keys(disappearEffectMap);
+
+  effects.forEach(effect => {
+    if (animation.effect === effect || animation[effect]) {
+      // 获取执行方法
+      const disappearEffect = disappearEffectMap[effect];
+      // 获取相关图形
+      const graphics = getCharacterByEffect(character, effect);
+      // 执行disappearEffect
+      graphics.forEach(graphic => disappearEffect(graphic, animation));
     }
-    graphics.forEach(text => {
-      commonDisappearEffect(text, effect, animation);
-    });
-  } else {
-    graphics = getCharacterParentGraphic(character);
-    if (graphics) {
-      graphics.setAttributes({ visibleAll: false });
-    }
-  }
+  });
 };
