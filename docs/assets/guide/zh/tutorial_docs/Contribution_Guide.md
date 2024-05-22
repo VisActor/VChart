@@ -23,7 +23,7 @@ Git 是一种版本控制系统，用于跟踪和管理软件开发项目中的�
 
 - 首先需要 fork 这个项目，进入[VChart 项目页面](https://github.com/VisActor/VChart)，点击右上角的 Fork 按钮
 
-![](/vchart/guide/contribution-guide/fork.PNG)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/fork.PNG)
 
 - 你的 github 帐号中会出现 xxxx(你的 github 用户名)/vchart 这个项目
 - 在本地电脑上使用以下命令: 得到一个 VChart 文件夹
@@ -111,31 +111,31 @@ git push origin docs/add-funnel-demo
 
 你可以在你的 github 代码仓库页面点击 `Compare & pull request` 按钮。
 
-![](/vchart/guide/contribution-guide/create-PR.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/create-PR.png)
 
 或通过 `contribute` 按钮创建：
 
 <div align='center'>
-<img style="width:200px" src="/vchart/guide/contribution-guide/create-PR-2.png">
+<img style="width:200px" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/create-PR-2.png">
 </div>
 
 按照模板填写本次提交的修改内容：
 
 - 勾选这是什么类型的修改
 <div align='center'>
-<img style="width:200px" src="/vchart/guide/contribution-guide/issue-checklist.png">
+<img style="width:200px" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/issue-checklist.png">
 </div>
 
 - 填写关联的 issue
 
 <div align='center'>
-<img style="width:200px" src="/vchart/guide/contribution-guide/related-issue.png">
+<img style="width:200px" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/related-issue.png">
 </div>
 
 - 若有复杂变更，请说明背景和解决方案
 
 <div align='center'>
-<img style="height:120px" src="/vchart/guide/contribution-guide/issue-background.png">
+<img style="height:120px" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/issue-background.png">
 </div>
 
 相关信息填写完成后，点击 Create pull request 提交。
