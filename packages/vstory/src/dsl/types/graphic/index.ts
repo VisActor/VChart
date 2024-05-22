@@ -4,6 +4,8 @@ import type { IBrightenAction } from '../common/brighten';
 import type { IDarkenAction } from '../common/darken';
 import type { IMoveToAction } from '../common/moveTo';
 import type { IGraphicAppearAction } from './appear';
+import type { IGraphicDisappearAction } from './disappear';
+
 import type { IGraphicStyleAction } from './style';
 
 export type GraphicAction =
@@ -12,6 +14,7 @@ export type GraphicAction =
   | IDarkenAction
   | IMoveToAction
   | IGraphicAppearAction
+  | IGraphicDisappearAction
   | IGraphicStyleAction;
 
 export type GraphicActonNode = GraphicAction & IActionContext;

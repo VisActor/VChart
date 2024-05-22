@@ -77,7 +77,7 @@ export interface IChartCharacterSpec extends ICharacterSpecBase {
       [key: string]: any;
     };
     // 方向
-    direction: DirectionType;
+    direction?: DirectionType;
     // 系列配置
     seriesSpec?: {
       matchInfo: IComponentMatch;

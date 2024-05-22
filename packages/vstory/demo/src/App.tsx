@@ -9,7 +9,7 @@ import { StoryLineDemo } from './demos/StoryLineDemo';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { StoryPieDemo } from './demos/StoryPieDemo';
 import { GraphicActionDemo } from './demos/graphicAction';
-import { VChartSiteDemo } from './demos/VchartSite';
+import { VChartSiteDemo } from './demos/VChartSite/VChartSite';
 import { DisAppear } from './demos/DisAppear';
 import { StoryEdit } from './demos/StoryEdit';
 import { Appear } from './demos/Appear';
