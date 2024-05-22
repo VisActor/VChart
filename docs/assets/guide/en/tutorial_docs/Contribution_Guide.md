@@ -106,7 +106,7 @@ git rebase develop
 - Submit the updated code to your own branch.
 
 ```
-git push upstream docs/add-funnel-demo
+git push origin docs/add-funnel-demo
 ```
 
 ### Step 5: Submit Pull Request
