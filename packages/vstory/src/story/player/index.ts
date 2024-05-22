@@ -1,8 +1,8 @@
-import { isNumber, last } from '@visactor/vutils';
+import { isNumber } from '@visactor/vutils';
 import { StoryCanvas } from '../canvas/canvas';
 import { IActSpec, IAction } from '../interface';
 import { IPlayer } from '../interface/player';
-import { processorMap } from '../../dsl/story-processor';
+import { processorMap, ActionProcessor } from '../../dsl/story-processor';
 import { Encoder } from './encode';
 import { ICharacter } from '../character';
 
@@ -45,6 +45,7 @@ export class Player implements IPlayer {
   protected _ticker: Ticker;
   protected _currTime: number;
   protected _encoder: Encoder;
+  protected _actionProcessor: ActionProcessor;
 
   constructor(c: StoryCanvas) {
     this._canvas = c;
@@ -52,6 +53,7 @@ export class Player implements IPlayer {
     this._ticker = new Ticker();
     this._currTime = 0;
     this._encoder = new Encoder();
+    this._actionProcessor = new ActionProcessor(processorMap);
   }
 
   addAct(
@@ -124,14 +126,7 @@ export class Player implements IPlayer {
         // 之前没走过，现在走
         if (startTime > lastTime && startTime <= t) {
           const { type } = character.spec;
-          const process = processorMap[type];
-          if (process) {
-            console.log(`Execute action => ${action.action}, character => ${type}`);
-            const func = process[action.action];
-            func && func(character, {}, action);
-          } else {
-            console.error(`Action not found: character => ${type}, action => ${action.action} `);
-          }
+          this._actionProcessor.doAction(type, action.action, [character, {}, action]);
         }
         character.show();
       });

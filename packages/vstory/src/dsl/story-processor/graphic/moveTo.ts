@@ -7,4 +7,7 @@ export const moveToProcessor = async (character: ICharacter, spec = {}, moveToAc
   const { animation } = moveToAction.payload ?? {};
   const graphic = getCharacterParentGraphic(character);
   moveTo(graphic, { ...animation, destination });
+  return {
+    totalTime: animation.duration
+  };
 };

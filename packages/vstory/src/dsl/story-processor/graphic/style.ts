@@ -15,4 +15,7 @@ export const styleProcessor = async (character: ICharacter, spec = {}, styleActi
   if (text && textStyle) {
     graphic.animate().to(textStyle, duration, easing as EasingType);
   }
+  return {
+    totalTime: duration
+  };
 };
