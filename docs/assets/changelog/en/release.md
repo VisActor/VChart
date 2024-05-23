@@ -1,3 +1,28 @@
+# v1.11.1
+
+2024-05-21
+
+**🆕 New feature**
+**marker**：mark-point support arc line and targetSymbol.close [#2590](https://github.com/VisActor/VChart/issues/2590)
+**@visactor/vchart**：add new options followTooltip to crosshair
+**🐛 Bug fix**
+**@visactor/vchart**：fix the issue of missing defaultDataIndex in extensionMarks
+**@visactor/vchart**：fix error of empty spec, fix[#1193](https://github.com/VisActor/VChart/issues/1193)
+**@visactor/vchart**：fix the error caused by renderNextTick after release
+**@visactor/vchart**： layout-model should read layoutLevel in spec, and dont create layoutItem for hidden components, related[#1674](https://github.com/VisActor/VChart/issues/1674)
+**@visactor/vchart**：when marker's spec update, it should update when call vchart.updateSpec
+**@visactor/vchart**：fix effect of sampling when flush is true, fix [#2272](https://github.com/VisActor/VChart/issues/2272)
+**@visactor/vchart**：fix the api valueToPositionX and valueToPositionY of sankey
+**@visactor/vchart**： sankey should color by seriesField, fix[#2678](https://github.com/VisActor/VChart/issues/2678)
+**@visactor/vchart**：fix bug of setDimensionIndex when axis is linear
+**@visactor/vchart**：fix issue with import registerTTEnv
+**@visactor/vchart**：fix issue with taro tt env, closed[#2648](https://github.com/VisActor/VChart/issues/2648)
+**@visactor/vchart**：fix error of call updateFullDataSync() before renderSync(), fix [#2655](https://github.com/VisActor/VChart/issues/2655)
+**📖 docs**
+**@visactor/vchart**：add custom animate doc
+**@visactor/vchart**：perfect document for react-lynx-vchart
+
+
 # v1.11.0
 
 2024-05-08
