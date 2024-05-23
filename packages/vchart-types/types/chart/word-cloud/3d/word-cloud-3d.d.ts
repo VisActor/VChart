@@ -5,7 +5,6 @@ import { WordCloud3dChartSpecTransformer } from './word-cloud-3d-transformer';
 export declare class WordCloud3dChart<T extends IWordCloud3dChartSpec = IWordCloud3dChartSpec> extends BaseWordCloudChart<AdaptiveSpec<T, 'type' | 'series'>> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof WordCloud3dChartSpecTransformer;
     readonly transformerConstructor: typeof WordCloud3dChartSpecTransformer;
     readonly type: string;

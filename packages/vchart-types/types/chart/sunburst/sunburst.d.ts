@@ -4,7 +4,6 @@ import { SunburstChartSpecTransformer } from './sunburst-transformer';
 export declare class SunburstChart<T extends ISunburstChartSpec = ISunburstChartSpec> extends BaseChart<T> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof SunburstChartSpecTransformer;
     readonly transformerConstructor: typeof SunburstChartSpecTransformer;
     readonly type: string;

@@ -5,7 +5,6 @@ import { HistogramChartSpecTransformer } from '../histogram-transformer';
 export declare class Histogram3dChart<T extends IHistogram3dChartSpec> extends BaseHistogramChart<AdaptiveSpec<T, 'type'>> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof HistogramChartSpecTransformer;
     readonly transformerConstructor: typeof HistogramChartSpecTransformer;
     readonly type: string;

@@ -1,4 +1,4 @@
-import type { Datum, IPoint, IShowTooltipOption, TooltipActiveType } from '../../../typings';
+import { type Datum, type IPoint, type IShowTooltipOption, type TooltipActiveType } from '../../../typings';
 import type { ISeries } from '../../../series/interface';
 import type { IRegion } from '../../../region';
 import type { Tooltip } from '../tooltip';
@@ -14,6 +14,7 @@ type MarkInfo = {
         groupData?: any;
     };
     series: ISeries;
+    dimType?: string;
 };
 export declare function showTooltip(datum: Datum, options: IShowTooltipOption, component: Tooltip): TooltipActiveType | 'none';
 export declare const getMarkInfoList: (datum: Datum, region: IRegion) => MarkInfo[];

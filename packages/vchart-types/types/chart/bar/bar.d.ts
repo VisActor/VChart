@@ -4,7 +4,6 @@ import { BaseChart } from '../base';
 export declare class BarChart<T extends IBarChartSpec = IBarChartSpec> extends BaseChart<T> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly view: string;
     static readonly transformerConstructor: typeof BarChartSpecTransformer;
     readonly transformerConstructor: typeof BarChartSpecTransformer;
     readonly type: string;

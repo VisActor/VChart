@@ -23,7 +23,7 @@ Git is a version control system used to track and manage code changes in softwar
 
 - First, you need to fork this project, enter the [VChart project page](https://github.com/VisActor/VChart), and click the Fork button in the upper right corner
 
-![](/vchart/guide/contribution-guide/fork.PNG)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/fork.PNG)
 
 - The project Your_Github_Username/vchart will appear in your GitHub account
 - Use the following command on your local computer: Get a VChart folder
@@ -106,19 +106,19 @@ git rebase develop
 - Submit the updated code to your own branch.
 
 ```
-git push upstream docs/add-funnel-demo
+git push origin docs/add-funnel-demo
 ```
 
 ### Step 5: Submit Pull Request
 
 You can click the `Compare & Pull Request `button on your GitHub repository page.
 
-![](/vchart/guide/contribution-guide/create-PR.png)
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/create-PR.png)
 
 Or create via the `contribute `button:
 
 <div align='center'>
-<img style="width:200px" src="/vchart/guide/contribution-guide/create-PR-2.png">
+<img style="width:200px" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/create-PR-2.png">
 </div>
 
 Fill in the submitted modification content according to the template.
@@ -126,19 +126,19 @@ Fill in the submitted modification content according to the template.
 - Check what type of modification this is
 
 <div align='center'>
-<img style="width:200px" src="/vchart/guide/contribution-guide/issue-checklist.png">
+<img style="width:200px" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/issue-checklist.png">
 </div>
 
 - Fill in the associated issue
 
 <div align='center'>
-<img style="width:200px" src="/vchart/guide/contribution-guide/related-issue.png">
+<img style="width:200px" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/related-issue.png">
 </div>
 
 - If there are complex changes, please explain the background and solution
 
 <div align='center'>
-<img style="height:120px" src="/vchart/guide/contribution-guide/issue-background.png">
+<img style="height:120px" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VChart/contribution-guide/issue-background.png">
 </div>
 
 After filling in the relevant information, click Create pull request to submit.
