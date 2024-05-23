@@ -34,15 +34,15 @@ export const barDisappearProcessor = async (
     }
   });
 
-  // 隐藏: 坐标轴
-  axesDisappearProcessor(chartInstance, spec, { action: 'disappear', payload: undefined });
-
   // Group Disappear
   // @ts-ignore
   graphicDisappearProcessor(chartInstance, spec, action);
 
+  // 隐藏: 坐标轴
+  axesDisappearProcessor(chartInstance, spec, { action: 'disappear', payload: undefined });
+
   // 隐藏: 根节点容器
-  chart.setAttributes({
-    visible: false
-  });
+  // chart.setAttributes({
+  //   visible: false
+  // });
 };

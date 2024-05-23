@@ -9,6 +9,48 @@ export const StoryBarDemo = () => {
 
   useEffect(() => {
     try {
+      const values = [
+        {
+          x: '1',
+          y: 100,
+          type: 'Category1'
+        },
+        {
+          x: '2',
+          y: 100,
+          type: 'Category1'
+        },
+        {
+          x: '3',
+          y: 100,
+          type: 'Category1'
+        },
+        {
+          x: '4',
+          y: 100,
+          type: 'Category1'
+        },
+        {
+          x: '1',
+          y: 100,
+          type: 'Category2'
+        },
+        {
+          x: '2',
+          y: 100,
+          type: 'Category2'
+        },
+        {
+          x: '3',
+          y: 100,
+          type: 'Category2'
+        },
+        {
+          x: '4',
+          y: 100,
+          type: 'Category2'
+        }
+      ];
       const tempSpec = {
         characters: [
           {
@@ -175,7 +217,126 @@ export const StoryBarDemo = () => {
                         }
                       },
                       {
-                        action: 'update'
+                        action: 'update',
+                        startTime: 2000,
+                        payload: {
+                          id: 'data',
+                          data: [
+                            {
+                              x: '1',
+                              y: 100,
+                              type: 'Category1'
+                            },
+                            {
+                              x: '2',
+                              y: 100,
+                              type: 'Category1'
+                            },
+                            {
+                              x: '3',
+                              y: 100,
+                              type: 'Category1'
+                            },
+                            {
+                              x: '4',
+                              y: 100,
+                              type: 'Category1'
+                            },
+                            {
+                              x: '1',
+                              y: 100,
+                              type: 'Category2'
+                            },
+                            {
+                              x: '2',
+                              y: 100,
+                              type: 'Category2'
+                            },
+                            {
+                              x: '3',
+                              y: 100,
+                              type: 'Category2'
+                            },
+                            {
+                              x: '4',
+                              y: 100,
+                              type: 'Category2'
+                            }
+                          ]
+                            .slice(0, 4)
+                            .map((v, index) => {
+                              return {
+                                sourceValue: v,
+                                targetValue: {
+                                  ...v,
+                                  y: (index + 1) * 10
+                                }
+                              };
+                            })
+                        }
+                      },
+                      {
+                        action: 'update',
+                        startTime: 2500,
+                        payload: {
+                          id: 'data',
+                          data: [
+                            {
+                              x: '1',
+                              y: 100,
+                              type: 'Category1'
+                            },
+                            {
+                              x: '2',
+                              y: 100,
+                              type: 'Category1'
+                            },
+                            {
+                              x: '3',
+                              y: 100,
+                              type: 'Category1'
+                            },
+                            {
+                              x: '4',
+                              y: 100,
+                              type: 'Category1'
+                            },
+                            {
+                              x: '1',
+                              y: 100,
+                              type: 'Category2'
+                            },
+                            {
+                              x: '2',
+                              y: 100,
+                              type: 'Category2'
+                            },
+                            {
+                              x: '3',
+                              y: 100,
+                              type: 'Category2'
+                            },
+                            {
+                              x: '4',
+                              y: 100,
+                              type: 'Category2'
+                            }
+                          ].map((v, index) => {
+                            if (index % 2 === 0) {
+                              return {
+                                sourceValue: v,
+                                targetValue: {
+                                  ...v,
+                                  y: (index + 1) * 10
+                                }
+                              };
+                            }
+                            return {
+                              sourceValue: v,
+                              targetValue: v
+                            };
+                          })
+                        }
                       }
                     ]
                   }

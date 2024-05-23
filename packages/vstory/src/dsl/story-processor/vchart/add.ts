@@ -1,16 +1,15 @@
 import { IChartAddAction } from './../../types/chart/add';
-import { ISpec, IVChart } from '@visactor/vchart';
+import VChart, { ISpec, IVChart } from '@visactor/vchart';
 import { cloneDeep, isArray } from '@visactor/vutils';
+import { ICharacterVisactor } from '../../../story/character/visactor/interface';
 
-export const addProcessor = async (chartInstance: IVChart, spec: ISpec, action: IChartAddAction) => {
-  let vchart;
-  let instance;
-  if (chartInstance._graphic) {
-    instance = chartInstance._graphic.vchart;
-    vchart = chartInstance._graphic.vchart.getChart();
-  } else {
-    instance = chartInstance;
-    vchart = chartInstance.getChart();
+export const addProcessor = async (chartInstance: ICharacterVisactor, spec: ISpec, action: IChartAddAction) => {
+  const chart = chartInstance.getGraphicParent();
+  const vchart = chart?._vchart;
+  const instance: VChart = vchart ? vchart : chartInstance;
+
+  if (!instance) {
+    return;
   }
 
   const { payload } = action as IChartAddAction;
