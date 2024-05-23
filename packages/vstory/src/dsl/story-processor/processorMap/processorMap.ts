@@ -37,7 +37,7 @@ import { treeMapProcessorMap } from './treeMap';
 export const editProcessor = {
   add: addProcessor,
   addPatch: addProcessor,
-  updateProcessor
+  update: updateProcessor
 };
 
 /**
@@ -63,7 +63,6 @@ export const processorChartMap = {
     ...editProcessor,
     ...viewProcessor,
     // 通用的, 但实现不同的, 可以直接覆盖
-    add: addProcessor,
     createMarkPoint: createMarkPointProcessor,
     createTitle: createTitleProcessor,
     // 不通用的, 可直接覆盖, 重新定义

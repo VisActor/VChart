@@ -14,6 +14,11 @@ export interface IFadeOutParams extends IAnimationParams {
     opacity?: number;
     duration?: number;
     easing?: string;
+    /**
+     * 作用于全局的透明度
+     * @default false
+     */
+    isBaseOpacity?: string;
   };
 }
 
@@ -56,8 +61,10 @@ export function fadeOut(graphic: IGraphic, params: IFadeOutParams) {
   const opacity = fade.opacity ?? params.opacity ?? 0;
   const duration = fade.duration ?? params.duration;
   const easing = fade.easing ?? params.easing;
+  const isBaseOpacity = fade.isBaseOpacity ?? false;
+  const opacityKey = isBaseOpacity ? 'baseOpacity' : 'opacity';
 
-  graphic.animate().to({ opacity: opacity }, duration, easing as EasingType);
+  graphic.animate().to({ [opacityKey]: opacity }, duration, easing as EasingType);
   return true;
 }
 

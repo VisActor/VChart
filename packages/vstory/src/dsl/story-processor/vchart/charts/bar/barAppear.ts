@@ -13,5 +13,6 @@ export const barAppearProcessor = async (
   rectAppearProcessor(chartInstance, spec, action);
 
   // Group Appear
+  delete action.payload.animation.effect;
   graphicAppearProcessor(chartInstance, spec, action);
 };

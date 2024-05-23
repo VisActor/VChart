@@ -913,6 +913,7 @@ export const Appear = () => {
                         payload: {
                           animation: {
                             duration: 1000,
+                            easing: 'cubicIn',
                             move: {
                               from: 'top'
                             },
@@ -938,6 +939,7 @@ export const Appear = () => {
                         payload: {
                           animation: {
                             duration: 1000,
+                            easing: 'cubicOut',
                             move: {
                               to: 'right'
                             },
