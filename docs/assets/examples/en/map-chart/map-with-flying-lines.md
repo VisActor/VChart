@@ -4,7 +4,7 @@ group: map chart
 title: Map With Flying Lines
 keywords: map,space,polygon,scatter,line
 order: 11-2
-cover: /vchart/preview/map-with-flying-lines_1.9.1.png
+cover: /vchart/preview/map-with-flying-lines_1.11.1.png
 option: mapChart
 ---
 
@@ -36,7 +36,7 @@ const earthquakeData = {
       time: '2018-12-08 06:39:26',
       level: '4.5',
       depth: '10',
-      addr: '新疆昌吉州呼图壁县'
+      addr: 'Hutubi, Changji, Xinjiang'
     },
     {
       lng: 118.68,
@@ -44,7 +44,7 @@ const earthquakeData = {
       time: '2018-12-06 21:07:56',
       level: '2.1',
       depth: '13',
-      addr: '河北唐山市迁安市'
+      addr: "Qian'an, Tangshan, Hebei"
     },
     {
       lng: 99.61,
@@ -52,7 +52,7 @@ const earthquakeData = {
       time: '2018-12-06 06:23:34',
       level: '2.9',
       depth: '5',
-      addr: '云南临沧市耿马县'
+      addr: 'Gengma, Lincang, Yunnan'
     },
     {
       lng: 118.62,
@@ -60,7 +60,7 @@ const earthquakeData = {
       time: '2018-12-05 20:22:51',
       level: '3.7',
       depth: '15',
-      addr: '台湾海峡'
+      addr: 'Taiwan'
     },
     {
       lng: 77.45,
@@ -68,14 +68,14 @@ const earthquakeData = {
       time: '2018-12-05 13:52:37',
       level: '4.1',
       depth: '17',
-      addr: '新疆克孜勒苏州阿图什市'
+      addr: 'Qizilsu or Atushi, Xinjiang'
     }
   ]
 };
 const center = {
   lng: 119.2,
   lat: 28.5,
-  addr: '浙江省金华市'
+  addr: 'Jinhua, Zhejiang'
 };
 
 const spec = {

@@ -4,7 +4,7 @@ group: map chart
 title: 飞线地图
 keywords: map,space,polygon,scatter,line
 order: 11-2
-cover: /vchart/preview/map-with-flying-lines_1.9.1.png
+cover: /vchart/preview/map-with-flying-lines_1.11.1.png
 option: mapChart
 ---
 
