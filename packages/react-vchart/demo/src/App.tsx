@@ -21,7 +21,9 @@ import {
   Tooltip,
   ITooltipRenderProps,
   ILineChartSpec,
-  Funnel
+  Funnel,
+  CommonChart,
+  Line
 } from '../../src';
 import './App.css';
 import { generateData } from './util';
@@ -222,6 +224,7 @@ function App() {
       <FunnelChart data={simpleData} options={{ ReactDOM }} onReady={handleReady}>
         <Legend visible={true} />
         <Funnel
+          id="funnel"
           categoryField={'x'}
           valueField={'y'}
           funnel={{
@@ -233,6 +236,57 @@ function App() {
           }}
         />
       </FunnelChart>
+
+      <CommonChart
+        seriesField="color"
+        data={[
+          {
+            id: 'id0',
+            values: [
+              { x: 'Monday', y: 15 },
+              { x: 'Tuesday', y: 12 },
+              { x: 'Wednesday', y: 15 },
+              { x: 'Thursday', y: 10 },
+              { x: 'Friday', y: 13 },
+              { x: 'Saturday', y: 10 },
+              { x: 'Sunday', y: 20 }
+            ]
+          },
+          {
+            id: 'id1',
+            values: [
+              { x: 'Monday', y: -52 },
+              { x: 'Tuesday', y: -43 },
+              { x: 'Wednesday', y: -33 },
+              { x: 'Thursday', y: -22 },
+              { x: 'Friday', y: -10 },
+              { x: 'Saturday', y: -30 },
+              { x: 'Sunday', y: -50 }
+            ]
+          }
+        ]}
+      >
+        <Bar id="bar" dataIndex={0} stack={false} label={{ visible: true }} xField="x" yField="y" />
+        <Line
+          id="line"
+          dataIndex={1}
+          label={{ visible: true }}
+          seriesField="type"
+          xField="x"
+          yField="y"
+          stack={false}
+        />
+        <Axis orient="left" seriesIndex={[0]} id="axisLeft" nice={false} zero={false} />
+        <Axis
+          orient="right"
+          seriesId={['line']}
+          grid={{ visible: false }}
+          sync={{ axisId: 'axisLeft', tickAlign: true }}
+          nice={false}
+          zero={false}
+        />
+        <Axis orient="bottom" label={{ visible: true }} type="band" />
+      </CommonChart>
 
       {/* <WordCloudChart data={simpleData} nameField={'x'} valueField={'y'}>
         <Legend visible={true} />
