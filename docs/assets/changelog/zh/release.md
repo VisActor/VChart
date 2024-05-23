@@ -22,6 +22,8 @@
 **@visactor/vchart**：添加自定义动画文档
 **@visactor/vchart**：react-lynx-vgraph的完美文档
 
+[更多详情请查看 v1.11.1](https://github.com/VisActor/VChart/releases/tag/v1.11.1)
+
 
 # v1.11.0
 

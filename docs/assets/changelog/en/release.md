@@ -22,6 +22,7 @@
 **@visactor/vchart**：add custom animate doc
 **@visactor/vchart**：perfect document for react-lynx-vchart
 
+[more detail about v1.11.1](https://github.com/VisActor/VChart/releases/tag/v1.11.1)
 
 # v1.11.0
 
