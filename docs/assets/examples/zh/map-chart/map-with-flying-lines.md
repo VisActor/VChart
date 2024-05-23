@@ -1,7 +1,7 @@
 ---
 category: examples
 group: map chart
-title: 飞线地图
+title: 带飞线的地图
 keywords: map,space,polygon,scatter,line
 order: 11-2
 cover: /vchart/preview/map-with-flying-lines_1.11.1.png
