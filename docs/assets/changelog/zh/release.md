@@ -1,3 +1,30 @@
+# v1.11.1
+
+2024-05-21
+
+**🆕 新增功能**
+**marker**：标记点支持圆弧线和前置标注符号。关闭[#2590](https://github.com/VisActor/VChart/issues/2590)
+**@visactor/vchart**：添加option实现crosshair和tooltip保持同步
+**🐛 功能修复**
+**@visactor/vchart**：修复扩展标记中缺失defaultDataIndex的问题
+**@visactor/vchart**：修复空spec的错误，修复[#1193](https://github.com/VisActor/VChart/issues/1193)
+**@visactor/vchart**：修复发布后renderNextTick导致的错误
+**@visactor/vchart**： layout-model应该在spec中读取layoutLevel，并且不为隐藏组件创建layoutItem，相关[#1674](https://github.com/VisActor/VChart/issues/1674)
+**@visactor/vchart**：当标记的spec更新时，应该调用vchart. updateSpec更新
+**@visactor/vchart**：修复flush为true时采样的问题，修复[#2272](https://github.com/VisActor/VChart/issues/2272)
+**@visactor/vchart**：修复sankey的api valueToPositionX和valueToPositionY
+**@visactor/vchart**： sankey应该按序列字段着色，修复[#2678](https://github.com/VisActor/VChart/issues/2678)
+**@visactor/vchart**：修复当轴为线性轴时setDimensionIndex的bug
+**@visactor/vchart**：修复导入registerTTEnv的问题
+**@visactor/vchart**：修复taro tt env的问题，已关闭[#2648](https://github.com/VisActor/VChart/issues/2648)
+**@visactor/vchart**：修复renderSync()之前调用updateFullDataSync()的错误，修复[#2655](https://github.com/VisActor/VChart/issues/2655)
+**📖新增文档**
+**@visactor/vchart**：添加自定义动画文档
+**@visactor/vchart**：react-lynx-vgraph的完美文档
+
+[更多详情请查看 v1.11.1](https://github.com/VisActor/VChart/releases/tag/v1.11.1)
+
+
 # v1.11.0
 
 2024-05-08
