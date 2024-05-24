@@ -1,5 +1,5 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import type { ILayoutRect, IPoint, IPolarPoint, Quadrant, TextAlign, TextBaseLine } from '../typings';
+import type { IPoint, Quadrant, TextAlign, TextBaseLine } from '../typings';
 import type { Datum } from '@visactor/vgrammar-core';
 import { isValidNumber } from './type';
 import { regressionLinear } from '@visactor/vgrammar-util';
@@ -277,78 +277,4 @@ export function getPercentValue(valueList: number[], precision = 2) {
   }
 
   return seats.map(entry => entry / digits);
-}
-
-/**
- * 指定开始角度和结束角度，计算这个范围内的边界角度，
- * 即起始角度以及经过的东、南、西、北四个方向的角度
- * 计算这个角度，可以用于计算一个弧度的bounding box 等
- * @param startAngle 起始角度的弧度值
- * @param endAngle    结束角度的弧度值
- * @returns 边界角度数组
- */
-export function findBoundaryAngles(startAngle: number, endAngle: number) {
-  const deltaAngle = Math.abs(endAngle - startAngle);
-
-  if (deltaAngle >= 2 * Math.PI || 2 * Math.PI - deltaAngle < 1e-6) {
-    return [0, Math.PI / 2, Math.PI, 1.5 * Math.PI];
-  }
-  const min = Math.min(startAngle, endAngle);
-  const normalMin = normalizeAngle(min);
-  const normalMax = normalMin + deltaAngle;
-  const steps = [normalMin, normalMax];
-  let directionAngle = (Math.floor(normalMin / Math.PI) * Math.PI) / 2;
-
-  while (directionAngle < normalMax) {
-    if (directionAngle > normalMin) {
-      steps.push(directionAngle);
-    }
-    directionAngle += Math.PI / 2;
-  }
-
-  return steps;
-}
-/**
- * 计算指定范围内，指定中心的情况下，不超出边界的最大可用半径
- * @param rect 矩形的大小
- * @param center 中心点
- * @param startAngle 起始角度的弧度值
- * @param endAngle 结束角度的弧度值
- * @returns 最大半径
- */
-export function calculateMaxRadius(rect: ILayoutRect, center: IPoint, startAngle: number, endAngle: number) {
-  const { x, y } = center;
-  const steps = findBoundaryAngles(startAngle, endAngle);
-  const { width, height } = rect;
-
-  const radiusList: number[] = [];
-
-  steps.forEach(step => {
-    const sin = Math.sin(step);
-    const cos = Math.cos(step);
-
-    if (sin === 1) {
-      radiusList.push(height - y);
-    } else if (sin === -1) {
-      radiusList.push(y);
-    } else if (cos === 1) {
-      radiusList.push(width - x);
-    } else if (cos === -1) {
-      radiusList.push(x);
-    } else {
-      if (sin > 0) {
-        radiusList.push(Math.abs((height - y) / cos));
-      } else {
-        radiusList.push(Math.abs(y / cos));
-      }
-
-      if (cos > 0) {
-        radiusList.push(Math.abs((width - x) / sin));
-      } else {
-        radiusList.push(Math.abs(x / sin));
-      }
-    }
-  });
-
-  return Math.min.apply(null, radiusList);
 }

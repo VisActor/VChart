@@ -9,7 +9,7 @@ import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { registerArcGraphic } from '@visactor/vgrammar-core';
 import { registerVGrammarArcAnimation } from '../animation/config';
-import { isValid, polarToCartesian } from '@visactor/vutils';
+import { polarToCartesian } from '@visactor/vutils';
 
 export type IArcMark = IMarkRaw<IArcMarkSpec>;
 
