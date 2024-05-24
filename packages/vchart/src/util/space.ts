@@ -48,7 +48,8 @@ export function isPercentOffset(v: any): v is IPercentOffset {
 export function calcLayoutNumber(
   v: ILayoutNumber | undefined,
   size: number,
-  callOp?: ILayoutRect //如果是函数类型的话，函数的参数
+  callOp?: ILayoutRect, //如果是函数类型的话，函数的参数
+  defaultValue: number = 0
 ) {
   if (isNumber(v)) {
     return v;
@@ -62,7 +63,7 @@ export function calcLayoutNumber(
   if (isObject(v)) {
     return size * (v.percent ?? 0) + (v.offset ?? 0);
   }
-  return 0;
+  return defaultValue;
 }
 
 export function calcPadding(

@@ -1,5 +1,4 @@
 import type { IBaseScale } from '@visactor/vscale';
-import type { IComponent } from '../../../interface';
 import type { IPoint, IPolarOrientType, IPolarPoint } from '../../../../typings';
 import type { IAxis, IGrid } from '../../interface';
 import type { ICompilableData } from '../../../../compile/data';
@@ -19,6 +18,7 @@ export interface IPolarAxisHelper {
   coordToPoint: (point: IPolarPoint) => IPoint;
   pointToCoord: (point: IPoint) => IPolarPoint;
   center: () => IPoint;
+  layoutRadius: () => number;
 
   getScale: (depth?: number) => IBaseScale;
   getBandwidth?: (depth?: number) => number; // band轴特有
