@@ -12,7 +12,15 @@ import { eachSeries } from '../../../util/model';
 import type { IPolarTickDataOpt } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPolarSeries } from '../../../series/interface';
-import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';
+import type {
+  IPoint,
+  IPolarOrientType,
+  IPolarPoint,
+  Datum,
+  StringOrNumber,
+  ILayoutType,
+  ILayoutNumber
+} from '../../../typings';
 import { isPolarAxisSeries } from '../../../series/util/utils';
 import { getAxisItem, getAxisLabelOffset, isValidPolarAxis } from '../util';
 import type { Dict, Maybe } from '@visactor/vutils';
@@ -385,8 +393,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     const { width, height } = layoutRect;
 
     return {
-      x: calcLayoutNumber(this._center?.x, width, layoutRect, width / 2),
-      y: calcLayoutNumber(this._center?.y, height, layoutRect, height / 2)
+      x: calcLayoutNumber(this._center?.x as ILayoutNumber, width, layoutRect, width / 2),
+      y: calcLayoutNumber(this._center?.y as ILayoutNumber, height, layoutRect, height / 2)
     };
   }
 
