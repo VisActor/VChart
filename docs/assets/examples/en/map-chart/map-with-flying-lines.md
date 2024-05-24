@@ -22,8 +22,7 @@ option: mapChart
 ## Demo source
 
 ```javascript livedemo
-// Map data comes from `https://geojson.cn/`
-const response = await fetch('https://geojson.cn/api/data/china.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/geojson/world.json');
 const geojson = await response.json();
 VChart.registerMap('world', geojson);
 
@@ -82,7 +81,7 @@ const spec = {
   type: 'common',
   region: [
     {
-      roam: true,
+      roam: false,
       coordinate: 'geo',
       longitudeField: 'lng',
       latitudeField: 'lat',
