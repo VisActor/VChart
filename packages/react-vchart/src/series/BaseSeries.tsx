@@ -23,7 +23,7 @@ export const createSeries = <T extends BaseSeriesProps>(
     VChart.useRegisters(registers);
   }
 
-  const ignoreKeys = ['id', 'updateId', 'componentId'];
+  const ignoreKeys = ['updateId', 'componentId'];
   const notSpecKeys = COMMON_EVENTK_KEYS.concat(ignoreKeys);
 
   const addMarkId = (spec: any, seriesId: string | number) => {

@@ -1,16 +1,6 @@
-import { isNil, isArray, isString, isFunction, isPlainObject } from '@visactor/vutils';
+import { isNil, isArray } from '@visactor/vutils';
 import React, { ReactNode } from 'react';
 import { isFragment } from 'react-is';
-
-let id = 0;
-
-export const uid = (prefix?: string) => {
-  if (prefix) {
-    return `${prefix}-${id++}`;
-  }
-
-  return `${id++}`;
-};
 
 /**
  * Get the display name of a component
