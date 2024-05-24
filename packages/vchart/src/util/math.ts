@@ -19,21 +19,6 @@ export const isClose = isNumberClose;
 export { isGreater, isLess, normalizeAngle, angleLabelOrientAttribute };
 
 /**
- * 极坐标系 -> 直角坐标系
- * @param point
- * @returns
- */
-export function polarToCartesian(point: IPolarPoint): IPoint {
-  if (!point.radius) {
-    return { x: 0, y: 0 };
-  }
-  return {
-    x: Math.cos(point.angle) * point.radius,
-    y: Math.sin(point.angle) * point.radius
-  };
-}
-
-/**
  * 根据角度计算象限
  * 计算角度所在象限
  * @param angle
@@ -96,6 +81,7 @@ export function normalizeStartEndAngle(
 export function outOfBounds(bounds: IBoundsLike, x: number, y: number) {
   return bounds.x1 > x || bounds.x2 < x || bounds.y1 > y || bounds.y2 < y;
 }
+
 export function min(data: any[], field?: string): number {
   const dataArray: any[] = [];
   data.forEach(d => {

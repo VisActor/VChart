@@ -19,7 +19,7 @@ import {
   DEFAULT_DATA_KEY
 } from '../../constant';
 import type { IPoint, Datum, StateValueType } from '../../typings';
-import { normalizeStartEndAngle, polarToCartesian } from '../../util/math';
+import { normalizeStartEndAngle } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
 import type { IModelLayoutOption } from '../../model/interface';
@@ -47,7 +47,7 @@ import { centerOffsetConfig } from './animation/centerOffset';
 import { registerArcMark } from '../../mark/arc';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import { isNil } from '@visactor/vutils';
+import { isNil, polarToCartesian } from '@visactor/vutils';
 import { PieSeriesSpecTransformer } from './pie-transformer';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
@@ -373,8 +373,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
     const radius = this.computeDatumRadius(datum);
     const center = this.computeCenter(datum);
-    const delta = polarToCartesian({ angle, radius });
-    return { x: center.x + delta.x, y: center.y + delta.y };
+
+    return polarToCartesian(center, radius, angle);
   }
 
   dataToCentralPosition = (datum: Datum): IPoint | null => {
@@ -386,8 +386,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     const radius = this.computeDatumRadius(datum);
     const innerRadius = this.computeDatumInnerRadius(datum);
     const center = this.computeCenter(datum);
-    const delta = polarToCartesian({ angle, radius: (radius + innerRadius) / 2 });
-    return { x: center.x + delta.x, y: center.y + delta.y };
+
+    return polarToCartesian(center, (radius + innerRadius) / 2, angle);
   };
 
   initAnimation() {

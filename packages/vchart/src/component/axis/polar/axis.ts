@@ -25,7 +25,8 @@ import {
   isValidNumber,
   isNumber,
   isFunction,
-  calculateMaxRadius
+  calculateMaxRadius,
+  polarToCartesian
 } from '@visactor/vutils';
 import type { IEffect, IModelSpecInfo } from '../../../model/interface';
 import { AxisComponent } from '../base-axis';
@@ -54,7 +55,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   layoutZIndex: number = LayoutZIndex.Axis;
   protected _tick: ITick | undefined = undefined;
 
-  protected _center: IPoint | null = null;
+  protected _center: { x: string | number; y: string | number } | null = null;
   get center() {
     return this._center;
   }
@@ -338,13 +339,9 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
    */
   coordToPoint(point: IPolarPoint): IPoint {
     // center & startAngle 都是坐标系转换的配置，在 scale 中不生效，仅在最终转换时生效
-    const angle = point.angle;
-    const { x: centerX, y: centerY } = this.getCenter();
-    const p = polarToCartesian({ angle, radius: point.radius });
-    return {
-      x: p.x + centerX,
-      y: p.y + centerY
-    };
+    const center = this.getCenter();
+
+    return polarToCartesian(center, point.radius, point.angle);
   }
 
   /**
