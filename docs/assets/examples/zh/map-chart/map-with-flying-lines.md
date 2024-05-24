@@ -22,12 +22,10 @@ option: mapChart
 ## 代码演示
 
 ```javascript livedemo
-// 地图数据来自`https://geojson.cn/`
-const response = await fetch('https://geojson.cn/api/data/china.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/geojson/world.json');
 const geojson = await response.json();
 VChart.registerMap('world', geojson);
 
-const dataResponse = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/geojson/earthquake.json');
 const earthquakeData = {
   values: [
     {
@@ -82,7 +80,7 @@ const spec = {
   type: 'common',
   region: [
     {
-      roam: true,
+      roam: false,
       coordinate: 'geo',
       longitudeField: 'lng',
       latitudeField: 'lat',
