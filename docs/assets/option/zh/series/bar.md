@@ -142,3 +142,11 @@ label: {
 
 #${prefix} samplingFactor(number) = 1
 数据采样 - 采样系数。 自`1.6.0`版本开始支持。
+
+## autoBandSize(boolean | Object)
+
+是否开启自动 bandSize。如果开启，会根据传入的 barWidth 等配置自动计算 bandSize，从而影响轴实际长度。自 1.11.2 版本开始支持。
+
+### extend(number)
+
+根据 barWidth 计算出 bandSize，从而固定轴整体长度之后，添加的扩增值。单位为 px。

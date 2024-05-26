@@ -23,6 +23,9 @@ export interface IBarSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<Bar
     barGapInGroup?: number | string | (number | string)[];
     barMinHeight?: number;
     stackCornerRadius?: number | number[];
+    autoBandSize?: boolean | {
+        extend: number;
+    };
 }
 export interface IBarBackgroundSpec {
     fieldLevel?: number;
@@ -40,4 +43,4 @@ export type IBar3dSeriesSpec = {
 export interface IBar3dSeriesTheme extends ICartesianSeriesTheme {
     [SeriesMarkNameEnum.bar3d]?: Partial<IMarkTheme<IRect3dMarkSpec>>;
 }
-export {};
+export { };

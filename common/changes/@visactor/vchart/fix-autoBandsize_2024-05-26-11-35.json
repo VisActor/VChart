@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(common): bar series support auto band size in common chart. fix#2704",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

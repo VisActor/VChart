@@ -145,3 +145,11 @@ Optional values:
 
 #${prefix} samplingFactor(number) = 1
 Data Sampling - Sampling coefficients. Supported since version `1.6.0`.
+
+## autoBandSize(boolean | Object)
+
+Whether to enable automatic bandSize. If enabled, the bandSize will be automatically calculated based on the incoming configuration such as barWidth, thereby affecting the actual length of the axis. Supported since version 1.11.2.
+
+### extend(number)
+
+The expansion value added after calculating the bandSize based on barWidth to fix the overall length of the axis. The unit is px.
