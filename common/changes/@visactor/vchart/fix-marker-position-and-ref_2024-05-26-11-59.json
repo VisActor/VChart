@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(marker): update vrender to fix marker position and ref bad case. fix@visactor/vchart#2721",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
