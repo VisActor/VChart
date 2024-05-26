@@ -30,7 +30,7 @@ export class CommonChartSpecTransformer<T extends ICommonChartSpec = ICommonChar
       if (series.type === 'bar' && !!series.autoBandSize) {
         const isHorizontal = series.direction === 'horizontal';
         const matchOrient = isHorizontal ? ['left', 'right'] : ['top', 'bottom'];
-        const relatedAxis: any = spec.axes.find((axis: any) => {
+        const relatedAxis: any = (spec.axes as any).find((axis: any) => {
           if (!matchOrient.includes(axis.orient)) {
             // orient必须匹配
             return false;
