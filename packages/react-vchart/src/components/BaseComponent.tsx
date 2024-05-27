@@ -22,7 +22,7 @@ export const createComponent = <T extends ComponentProps>(
     VChart.useRegisters(registers);
   }
 
-  const ignoreKeys = ['id', 'updateId', 'componentId'];
+  const ignoreKeys = ['updateId', 'componentId'];
   const notSpecKeys = supportedEvents ? Object.keys(supportedEvents).concat(ignoreKeys) : ignoreKeys;
 
   const Comp: React.FC<T> = (props: T) => {
