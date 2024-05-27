@@ -14,7 +14,7 @@ import {
   MarkLine as MarkLineComponent,
   registerMarkLineAnimate
 } from '@visactor/vrender-components';
-import { isValid } from '@visactor/vutils';
+import { isValid, isValidNumber } from '@visactor/vutils';
 import type { IDataPos, IMarkProcessOptions } from '../interface';
 import type { IOptionRegr } from '../../../data/transforms/regression';
 import { getInsertPoints, getTextOffset } from './util';
@@ -138,6 +138,19 @@ export class CartesianMarkLine extends BaseMarkLine {
           refX: 0,
           refY: 0
         };
+      }
+
+      if (isValidNumber(this._spec.label?.refX)) {
+        labelPositionAttrs.refX += this._spec.label.refX;
+      }
+      if (isValidNumber(this._spec.label?.refY)) {
+        labelPositionAttrs.refY += this._spec.label.refY;
+      }
+      if (isValidNumber(this._spec.label?.dx)) {
+        labelPositionAttrs.dx = (labelPositionAttrs.dx || 0) + this._spec.label.dx;
+      }
+      if (isValidNumber(this._spec.label?.dy)) {
+        labelPositionAttrs.dy = (labelPositionAttrs.dy || 0) + this._spec.label.dy;
       }
       const markerComponentAttr = this._markerComponent?.attribute ?? {};
       this._markerComponent?.setAttributes({
