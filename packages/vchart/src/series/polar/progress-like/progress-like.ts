@@ -1,5 +1,5 @@
 import type { Datum } from '@visactor/vgrammar-core';
-import { degreeToRadian, isNil, isValid, isValidNumber } from '@visactor/vutils';
+import { degreeToRadian, isNil, isValid, isValidNumber, binaryFuzzySearch } from '@visactor/vutils';
 import {
   AttributeLevel,
   POLAR_END_RADIAN,
@@ -18,7 +18,6 @@ import type { IGroupMark } from '../../../mark/group';
 import { createArc, createRect } from '@visactor/vrender-core';
 import type { SeriesMarkMap } from '../../interface';
 import { progressLikeSeriesMark } from './constant';
-import { binaryFuzzySearch } from '@visactor/vutils-extension';
 
 export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> extends PolarSeries<T> {
   static readonly mark: SeriesMarkMap = progressLikeSeriesMark;
