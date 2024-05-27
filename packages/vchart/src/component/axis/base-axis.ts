@@ -1,6 +1,6 @@
-import { ticks } from '@visactor/vutils-extension';
+import { ticks } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import type { ITickDataOpt } from '@visactor/vutils-extension';
+import type { ITickDataOpt } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';

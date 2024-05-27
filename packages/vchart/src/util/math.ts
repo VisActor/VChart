@@ -11,9 +11,10 @@ import {
   PointService,
   median as visMedian,
   maxInArray,
-  minInArray
+  minInArray,
+  normalizeAngle
 } from '@visactor/vutils';
-import { normalizeAngle, angleLabelOrientAttribute } from '@visactor/vutils-extension';
+import { angleLabelOrientAttribute } from '@visactor/vrender-components';
 export const isClose = isNumberClose;
 export { isGreater, isLess, normalizeAngle, angleLabelOrientAttribute };
 

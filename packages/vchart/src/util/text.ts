@@ -1,7 +1,7 @@
 import type { ITextMeasureOption, ITextSize } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { TextMeasure } from '@visactor/vutils';
-import { initTextMeasure as initTextMeasureFunc } from '@visactor/vutils-extension';
+import { initTextMeasure as initTextMeasureFunc } from '@visactor/vrender-components';
 import type { ITextGraphicAttribute } from '@visactor/vrender-core';
 import { token } from '../theme/token';
 

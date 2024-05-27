@@ -10,7 +10,7 @@ import { ComponentTypeEnum } from '../../interface/type';
 import { Factory } from '../../../core/factory';
 import { eachSeries } from '../../../util/model';
 import { polarToCartesian } from '../../../util/math';
-import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
+import type { IPolarTickDataOpt } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';
