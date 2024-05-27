@@ -112,7 +112,7 @@ export class CartesianMarkLine extends BaseMarkLine {
       } else {
         expandDistanceValue = expandDistance as number;
       }
-      const { points, label, limitRect } = updateAttrs;
+      const { points, label = {}, limitRect } = updateAttrs;
 
       const joinPoints = getInsertPoints(
         (points as IPoint[])[0],
@@ -127,16 +127,23 @@ export class CartesianMarkLine extends BaseMarkLine {
         labelPositionAttrs = {
           position: 'middle',
           autoRotate: false,
-          refX: 0,
-          refY: 0
+          refX: label.refX ?? 0,
+          refY: label.refY ?? 0
         };
       } else {
+        const textOffset = getTextOffset(
+          (points as IPoint[])[0],
+          (points as IPoint[])[1],
+          connectDirection,
+          expandDistanceValue
+        );
         labelPositionAttrs = {
           position: 'start',
           autoRotate: false,
-          ...getTextOffset((points as IPoint[])[0], (points as IPoint[])[1], connectDirection, expandDistanceValue),
-          refX: 0,
-          refY: 0
+          dx: (label.dx ?? 0) + (textOffset.dx ?? 0),
+          dy: (label.dy ?? 0) + (textOffset.dy ?? 0),
+          refX: label.refX ?? 0,
+          refY: label.refY ?? 0
         };
       }
       const markerComponentAttr = this._markerComponent?.attribute ?? {};
