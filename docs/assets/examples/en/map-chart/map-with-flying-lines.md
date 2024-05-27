@@ -16,7 +16,7 @@ option: mapChart
 - The `series` field is used to configure the chart series, in this case a map series, a scatter series, and a line series are configured
   - `series[0]` for the map series
   - `series[1]` is the scatter series
-  - `series[0]` is the line series, used for the flying lines
+  - `series[2]` is the line series, used for the flying lines
     - `seriesField: 'type'` is used to set the series, otherwise the data points will be connected sequentially
 
 ## Demo source
@@ -26,7 +26,6 @@ const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-clou
 const geojson = await response.json();
 VChart.registerMap('world', geojson);
 
-const dataResponse = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/geojson/earthquake.json');
 const earthquakeData = {
   values: [
     {
