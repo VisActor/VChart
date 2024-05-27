@@ -14,7 +14,7 @@ import {
   MarkLine as MarkLineComponent,
   registerMarkLineAnimate
 } from '@visactor/vrender-components';
-import { isValid } from '@visactor/vutils';
+import { isValid, isValidNumber } from '@visactor/vutils';
 import type { IDataPos, IMarkProcessOptions } from '../interface';
 import type { IOptionRegr } from '../../../data/transforms/regression';
 import { getInsertPoints, getTextOffset } from './util';
@@ -127,24 +127,30 @@ export class CartesianMarkLine extends BaseMarkLine {
         labelPositionAttrs = {
           position: 'middle',
           autoRotate: false,
-          refX: label.refX ?? 0,
-          refY: label.refY ?? 0
+          refX: 0,
+          refY: 0
         };
       } else {
-        const textOffset = getTextOffset(
-          (points as IPoint[])[0],
-          (points as IPoint[])[1],
-          connectDirection,
-          expandDistanceValue
-        );
         labelPositionAttrs = {
           position: 'start',
           autoRotate: false,
-          dx: (label.dx ?? 0) + (textOffset.dx ?? 0),
-          dy: (label.dy ?? 0) + (textOffset.dy ?? 0),
-          refX: label.refX ?? 0,
-          refY: label.refY ?? 0
+          ...getTextOffset((points as IPoint[])[0], (points as IPoint[])[1], connectDirection, expandDistanceValue),
+          refX: 0,
+          refY: 0
         };
+      }
+
+      if (isValidNumber(label.refX)) {
+        labelPositionAttrs.refX += label.refX;
+      }
+      if (isValidNumber(label.refY)) {
+        labelPositionAttrs.refY += label.refY;
+      }
+      if (isValidNumber(label.dx)) {
+        labelPositionAttrs.dx += label.dx;
+      }
+      if (isValidNumber(label.dy)) {
+        labelPositionAttrs.dy += label.dy;
       }
       const markerComponentAttr = this._markerComponent?.attribute ?? {};
       this._markerComponent?.setAttributes({
