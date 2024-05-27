@@ -269,7 +269,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         if (inTrigger === 'click') {
           return this.triggerOff === 'none' ? null : triggerConfig.clickOut;
         }
-        return 'hoverOut';
+        return triggerConfig.hoverOut;
       };
       if (isArray(trigger)) {
         // 同时配置了多个触发事件
