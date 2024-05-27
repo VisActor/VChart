@@ -53,6 +53,7 @@ export declare const registerScaleInOutAnimation: () => void;
 export declare const registerFadeInOutAnimation: () => void;
 export declare const registerCartesianGroupClipAnimation: () => void;
 export declare const registerLineAnimation: () => void;
+export declare const registerAreaAnimation: () => void;
 export declare const registerVGrammarCommonAnimation: () => void;
 export declare const registerVGrammarRectAnimation: () => void;
 export declare const registerVGrammarArcAnimation: () => void;
