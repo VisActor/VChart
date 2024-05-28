@@ -1,4 +1,4 @@
-import type { IPoint, IPolarOrientType } from '../../../../typings';
+import type { ILayoutRect, IPoint, IPolarOrientType } from '../../../../typings';
 import type { IBandAxisSpec, IDomainLine, ILinearAxisSpec, ITitle, ILabel, ICommonAxisSpec } from '../../interface';
 import type { IPolarGrid } from './common';
 
@@ -6,6 +6,12 @@ import type { IPolarGrid } from './common';
 export type IPolarAxisSpec = IPolarLinearAxisSpec | IPolarBandAxisSpec;
 
 export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
+  /**
+   * 布局半径，相当于计算内径、外径的基准值
+   * 默认值为: region宽度、高度最小值的一般
+   * @since 1.11.2
+   */
+  layoutRadius?: 'auto' | number | ((layoutRect: ILayoutRect, center: IPoint) => number);
   /**
    * 当配置了 innerRadius 时，可以通过设置 inside: true，将坐标轴展示在内圆。
    * @default false
@@ -51,8 +57,9 @@ export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
   outerRadius?: number;
   /**
    * 中心点
+   * @since 1.11.2 x,y 支持百分比的值，如`50%`
    */
-  center?: IPoint;
+  center?: { x: number | string; y: number | string };
   /**
    * 起始角度
    */
