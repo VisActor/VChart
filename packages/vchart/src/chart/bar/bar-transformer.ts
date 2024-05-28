@@ -42,7 +42,7 @@ export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> ex
         const { barMaxWidth, barMinWidth, barWidth, barGapInGroup } = spec.series.find(
           series => series.type === 'bar'
         ) as IBarSeriesSpec;
-        this._setAxisBandSize(bandAxis, extend, { barMaxWidth, barMinWidth, barWidth, barGapInGroup });
+        this._applyAxisBandSize(bandAxis, extend, { barMaxWidth, barMinWidth, barWidth, barGapInGroup });
       }
     }
   }

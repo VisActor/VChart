@@ -337,7 +337,10 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
   }
 
-  protected _setAxisBandSize(
+  /**
+   * @description bar chart 和 common chart支持autoBandsize, 此方法用于识别barWidth配置后应用到轴上
+   * */
+  protected _applyAxisBandSize(
     axis: ICartesianBandAxisSpec,
     extend: number,
     barWidthSpec: {
