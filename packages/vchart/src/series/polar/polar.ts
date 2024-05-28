@@ -214,6 +214,12 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   }
 
   protected _computeLayoutRadius() {
+    const axisHelper = this._angleAxisHelper || this._radiusAxisHelper;
+
+    if (axisHelper) {
+      return axisHelper.layoutRadius();
+    }
+
     const { width, height } = this._region.getLayoutRect();
     return Math.min(width / 2, height / 2);
   }

@@ -1,9 +1,8 @@
 import type { IAnimationTimeline, IAnimationTypeConfig } from '@visactor/vgrammar-core';
-import { polarToCartesian } from '../../../util/math';
 import { ARC_MIDDLE_ANGLE } from '../../../constant';
 import type { IArcMark } from '../../../mark/arc';
 import type { Datum } from '../../../typings';
-import { isValidNumber } from '@visactor/vutils';
+import { isValidNumber, polarToCartesian } from '@visactor/vutils';
 
 export type ICenterOffsetAnimationOptions = {
   distance?: number;
@@ -26,10 +25,14 @@ export function centerOffsetConfig(mark: IArcMark, originalConfig: IAnimationTyp
               from: (datum: Datum) => mark.getAttribute('x', datum),
               to: (datum: Datum) => {
                 const center = mark.getAttribute('x', datum) as number;
-                const point = polarToCartesian({
-                  angle: datum[ARC_MIDDLE_ANGLE],
-                  radius: offset
-                });
+                const point = polarToCartesian(
+                  {
+                    x: 0,
+                    y: 0
+                  },
+                  offset,
+                  datum[ARC_MIDDLE_ANGLE]
+                );
                 return center + point.x;
               }
             },
@@ -37,10 +40,14 @@ export function centerOffsetConfig(mark: IArcMark, originalConfig: IAnimationTyp
               from: (datum: Datum) => mark.getAttribute('y', datum),
               to: (datum: Datum) => {
                 const center = mark.getAttribute('y', datum) as number;
-                const point = polarToCartesian({
-                  angle: datum[ARC_MIDDLE_ANGLE],
-                  radius: offset
-                });
+                const point = polarToCartesian(
+                  {
+                    x: 0,
+                    y: 0
+                  },
+                  offset,
+                  datum[ARC_MIDDLE_ANGLE]
+                );
                 return center + point.y;
               }
             }
@@ -56,10 +63,14 @@ export function centerOffsetConfig(mark: IArcMark, originalConfig: IAnimationTyp
               to: (datum: Datum) => mark.getAttribute('x', datum),
               from: (datum: Datum) => {
                 const center = mark.getAttribute('x', datum) as number;
-                const point = polarToCartesian({
-                  angle: datum[ARC_MIDDLE_ANGLE],
-                  radius: offset
-                });
+                const point = polarToCartesian(
+                  {
+                    x: 0,
+                    y: 0
+                  },
+                  offset,
+                  datum[ARC_MIDDLE_ANGLE]
+                );
                 return center + point.x;
               }
             },
@@ -67,10 +78,14 @@ export function centerOffsetConfig(mark: IArcMark, originalConfig: IAnimationTyp
               to: (datum: Datum) => mark.getAttribute('y', datum),
               from: (datum: Datum) => {
                 const center = mark.getAttribute('y', datum) as number;
-                const point = polarToCartesian({
-                  angle: datum[ARC_MIDDLE_ANGLE],
-                  radius: offset
-                });
+                const point = polarToCartesian(
+                  {
+                    x: 0,
+                    y: 0
+                  },
+                  offset,
+                  datum[ARC_MIDDLE_ANGLE]
+                );
                 return center + point.y;
               }
             }
