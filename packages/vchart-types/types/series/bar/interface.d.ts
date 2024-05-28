@@ -23,9 +23,6 @@ export interface IBarSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<Bar
     barGapInGroup?: number | string | (number | string)[];
     barMinHeight?: number;
     stackCornerRadius?: number | number[];
-    autoBandSize?: boolean | {
-        extend: number;
-    };
 }
 export interface IBarBackgroundSpec {
     fieldLevel?: number;
