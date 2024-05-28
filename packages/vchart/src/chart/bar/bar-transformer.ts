@@ -42,25 +42,7 @@ export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> ex
         const { barMaxWidth, barMinWidth, barWidth, barGapInGroup } = spec.series.find(
           series => series.type === 'bar'
         ) as IBarSeriesSpec;
-
-        let hasBarWidth = false;
-        if (isNumber(barMinWidth)) {
-          bandAxis.minBandSize = barMinWidth;
-          hasBarWidth = true;
-        } else if (isNumber(barWidth)) {
-          bandAxis.minBandSize = barWidth;
-          hasBarWidth = true;
-        } else if (isNumber(barMaxWidth)) {
-          bandAxis.minBandSize = barMaxWidth;
-          hasBarWidth = true;
-        }
-        if (hasBarWidth) {
-          bandAxis.bandSizeLevel = Number.MAX_VALUE; // 影响最底层的 scale
-          bandAxis.bandSizeExtend = {
-            extend,
-            gap: isArray(barGapInGroup) ? barGapInGroup[barGapInGroup.length - 1] : barGapInGroup
-          };
-        }
+        this._setAxisBandSize(bandAxis, extend, { barMaxWidth, barMinWidth, barWidth, barGapInGroup });
       }
     }
   }

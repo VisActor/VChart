@@ -14,7 +14,7 @@ option: commonChart
 
 - `type: 'common'` is declared as a combination diagram type
 - Configure the series you want to display in the `series` attribute
-- `autoBandSize` configures autoBandSize and barWidth in the column series, which can fix the column width and dimension width.
+- `autoBandSize` configures autoBandSize and barWidth in the spec, which can fix the column width and dimension width.
 - When `scrollBar.auto` is turned on, the scroll bar will be automatically displayed according to the column width and window size.
 
 ## Demo source
@@ -286,6 +286,7 @@ option: commonChart
         ]
       }
     ],
+    autoBandSize: true,
     series: [
       {
         type: "bar",
@@ -298,7 +299,6 @@ option: commonChart
         stack: false,
         barWidth: 20,
         // barGapInGroup: 0.2,
-        autoBandSize: true,
         bar: {
           style: {
             lineWidth: 0
@@ -314,7 +314,6 @@ option: commonChart
         xField: "tgi",
         barWidth: 20,
         // barGapInGroup: 0.2,
-        autoBandSize: true,
         bar: {
           style: {
             fill: {

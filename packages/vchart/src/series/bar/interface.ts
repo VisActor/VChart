@@ -101,16 +101,6 @@ export interface IBarSeriesSpec
    * @since 1.10.0
    */
   stackCornerRadius?: number | number[];
-  /**
-   * 是否开启自动 bandSize。如果开启，会根据传入的 barWidth 等配置自动计算 bandSize，从而影响轴实际长度
-   * @since 1.11.2
-   */
-  autoBandSize?:
-    | boolean
-    | {
-        /** 设置 bandSize 的在自动计算结果基础上的扩增值，单位为 px */
-        extend: number;
-      };
 }
 
 export interface IBarBackgroundSpec {

@@ -1,4 +1,4 @@
-import { has, isValid } from '@visactor/vutils';
+import { isArray, isNumber, isValid } from '@visactor/vutils';
 import type { IChartSpec, ISeriesSpec } from '../../typings';
 import type { IChartSpecInfo, IChartSpecTransformer, IChartSpecTransformerOption } from '../interface';
 import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
@@ -9,6 +9,7 @@ import type { IComponentConstructor } from '../../component/interface/common';
 import { ComponentTypeEnum } from '../../component/interface';
 import { setProperty } from '@visactor/vutils-extension';
 import { getRelatedRegionInfo, getRelatedSeriesInfo } from './util';
+import type { ICartesianBandAxisSpec } from '../..//component/axis/cartesian/interface';
 
 export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
   readonly type: string;
@@ -333,6 +334,37 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
           }
         });
       });
+    }
+  }
+
+  protected _setAxisBandSize(
+    axis: ICartesianBandAxisSpec,
+    extend: number,
+    barWidthSpec: {
+      barMaxWidth: number | string;
+      barMinWidth: number | string;
+      barWidth: number | string;
+      barGapInGroup: number | string | (number | string)[];
+    }
+  ) {
+    const { barMaxWidth, barMinWidth, barWidth, barGapInGroup } = barWidthSpec;
+    let hasBarWidth = false;
+    if (isNumber(barMinWidth)) {
+      axis.minBandSize = barMinWidth as number;
+      hasBarWidth = true;
+    } else if (isNumber(barWidth)) {
+      axis.minBandSize = barWidth as number;
+      hasBarWidth = true;
+    } else if (isNumber(barMaxWidth)) {
+      axis.minBandSize = barMaxWidth as number;
+      hasBarWidth = true;
+    }
+    if (hasBarWidth) {
+      axis.bandSizeLevel = Number.MAX_VALUE; // 影响最底层的 scale
+      axis.bandSizeExtend = {
+        extend,
+        gap: isArray(barGapInGroup) ? barGapInGroup[(barGapInGroup as any[]).length - 1] : barGapInGroup
+      };
     }
   }
 }

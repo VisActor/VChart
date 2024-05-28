@@ -14,7 +14,7 @@ option: commonChart
 
 - `type: 'common'` 声明为组合图类型
 - `series` 属性中配置想要展示的系列
-- `autoBandSize`在柱系列中配置autoBandSize和barWidth, 可以固定柱子宽度和维度宽度
+- `autoBandSize`在spec中配置autoBandSize和barWidth, 可以固定柱子宽度和维度宽度
 - `scrollBar.auto`开启时, 滚动条会根据 柱子宽度和视窗大小 自动显示
 
 ## 代码演示
@@ -286,6 +286,7 @@ option: commonChart
         ]
       }
     ],
+    autoBandSize: true,
     series: [
       {
         type: "bar",
@@ -298,7 +299,6 @@ option: commonChart
         stack: false,
         barWidth: 20,
         // barGapInGroup: 0.2,
-        autoBandSize: true,
         bar: {
           style: {
             lineWidth: 0
@@ -314,7 +314,6 @@ option: commonChart
         xField: "tgi",
         barWidth: 20,
         // barGapInGroup: 0.2,
-        autoBandSize: true,
         bar: {
           style: {
             fill: {
