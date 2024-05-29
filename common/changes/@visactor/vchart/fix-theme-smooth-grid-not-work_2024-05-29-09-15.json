@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `polarAxis.grid.smooth` not work in theme configuratio",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
