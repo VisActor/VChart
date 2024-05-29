@@ -4,12 +4,13 @@ import type { IChartSpecInfo, IChartSpecTransformer, IChartSpecTransformerOption
 import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
 import type { IRegionConstructor, RegionSpec } from '../../region/interface';
 import { Factory } from '../../core';
-import type { ISeriesConstructor } from '../../series';
+import type { ISeries, ISeriesConstructor } from '../../series';
 import type { IComponentConstructor } from '../../component/interface/common';
 import { ComponentTypeEnum } from '../../component/interface';
 import { setProperty } from '@visactor/vutils-extension';
 import { getRelatedRegionInfo, getRelatedSeriesInfo } from './util';
 import type { ICartesianBandAxisSpec } from '../..//component/axis/cartesian/interface';
+import { array } from 'src/util';
 
 export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
   readonly type: string;
@@ -335,6 +336,35 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         });
       });
     }
+  }
+
+  protected _findBandAxisBySeries(seriesSpec: ISeriesSpec, seriesIndex: number, axesSpec: any) {
+    const isHorizontal = (seriesSpec as any)?.direction === 'horizontal';
+    const matchOrient = isHorizontal ? ['left', 'right'] : ['top', 'bottom'];
+    const targetBandAxis: any = axesSpec.find((axis: any) => {
+      if (!matchOrient.includes(axis.orient)) {
+        // orient必须匹配
+        return false;
+      }
+      if (isValid(axis.seriesId)) {
+        // 1. 通过seriesId绑定
+        if (array(axis.seriesId).includes(seriesSpec?.id)) {
+          return true;
+        }
+      } else if (isValid(axis.seriesIndex)) {
+        // 2. 通过seriesIndex绑定
+        if (array(axis.seriesIndex).includes(seriesIndex)) {
+          return true;
+        }
+      } else if (axis.type === 'band') {
+        // 3. 通过axis type识别
+        return true;
+      }
+      // 4. 剩下的情况满足axis orient要求
+      return true;
+    });
+
+    return targetBandAxis;
   }
 
   /**

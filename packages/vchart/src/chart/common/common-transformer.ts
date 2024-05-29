@@ -28,30 +28,7 @@ export class CommonChartSpecTransformer<T extends ICommonChartSpec = ICommonChar
       // 4. 为该axis配置bandSize
       spec.series.forEach((series: any, seriesIndex: number) => {
         if (series.type === 'bar') {
-          const isHorizontal = series.direction === 'horizontal';
-          const matchOrient = isHorizontal ? ['left', 'right'] : ['top', 'bottom'];
-          const relatedAxis: any = (spec.axes as any).find((axis: any) => {
-            if (!matchOrient.includes(axis.orient)) {
-              // orient必须匹配
-              return false;
-            }
-            if (isValid(axis.seriesId)) {
-              // 1. 通过seriesId绑定
-              if (array(axis.seriesId).includes(series?.id)) {
-                return true;
-              }
-            } else if (isValid(axis.seriesIndex)) {
-              // 2. 通过seriesIndex绑定
-              if (array(axis.seriesIndex).includes(seriesIndex)) {
-                return true;
-              }
-            } else if (axis.type === 'band') {
-              // 3. 通过axis type识别
-              return true;
-            }
-            // 4. 剩下的情况满足axis orient要求
-            return true;
-          });
+          const relatedAxis = this._findBandAxisBySeries(series, seriesIndex, spec.axes);
           if (relatedAxis && !relatedAxis.bandSize && !relatedAxis.maxBandSize && !relatedAxis.minBandSize) {
             const extend = isObject(series.autoBandSize) ? series.autoBandSize.extend ?? 0 : 0;
             const { barMaxWidth, barMinWidth, barWidth, barGapInGroup } = series;
