@@ -4,6 +4,7 @@ import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
 import type { IRegionConstructor } from '../../region/interface';
 import type { ISeriesConstructor } from '../../series';
 import type { IComponentConstructor } from '../../component/interface/common';
+import type { ICartesianBandAxisSpec } from '../..//component/axis/cartesian/interface';
 export declare class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
     readonly type: string;
     readonly seriesType: string;
@@ -19,4 +20,10 @@ export declare class BaseChartSpecTransformer<T extends IChartSpec> implements I
     forEachSeriesInSpec<K>(chartSpec: T, callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo): K[];
     forEachComponentInSpec<K>(chartSpec: T, callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo): K[];
     transformSeriesSpec(spec: T): void;
+    protected _applyAxisBandSize(axis: ICartesianBandAxisSpec, extend: number, barWidthSpec: {
+        barMaxWidth: number | string;
+        barMinWidth: number | string;
+        barWidth: number | string;
+        barGapInGroup: number | string | (number | string)[];
+    }): void;
 }
