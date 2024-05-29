@@ -1,10 +1,16 @@
 import type { ISeriesSpec } from '../../typings/spec/common';
 
 export interface IPolarSeriesSpec extends ISeriesSpec {
-  /** 饼图中心点 x 坐标 */
-  centerX?: number;
-  /** 饼图中心点 y 坐标 */
-  centerY?: number;
+  /**
+   * 中心点 x 坐标
+   * @since 1.11.2 支持百分比字符串
+   **/
+  centerX?: number | string;
+  /**
+   * 中心点 y 坐标
+   * @since 1.11.2 支持百分比字符串
+   **/
+  centerY?: number | string;
 
   /**
    * 扇区外半径
