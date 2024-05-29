@@ -975,27 +975,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this.event.emit(ChartEvent.afterInitMark, { model: this });
     this.setSeriesField(this._spec.seriesField);
 
-    let animationThreshold = this._spec.animationThreshold ?? Number.MAX_SAFE_INTEGER;
     // set mark stroke color follow series color
     // only set normal state in the level lower than level Series
     this.getMarks().forEach(m => {
       if (m.stateStyle?.normal?.lineWidth) {
         m.setAttribute('stroke', this.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
       }
-      const config = m.getProgressiveConfig();
-      if (config) {
-        if (config.large && config.largeThreshold) {
-          animationThreshold = Math.min(animationThreshold, config.largeThreshold);
-        }
-        if (config.progressiveThreshold) {
-          animationThreshold = Math.min(animationThreshold, config.progressiveThreshold);
-        }
-      }
     });
-    // auto close animation
-    if (this._rawData?.latestData?.length >= animationThreshold) {
-      this._spec.animation = false;
-    }
   }
 
   getMarksWithoutRoot(): IMark[] {

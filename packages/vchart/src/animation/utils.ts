@@ -266,5 +266,35 @@ function traverseSpec(spec: any, transform: (node: any, key: string | number) =>
 }
 
 export function isAnimationEnabledForSeries(series: ISeries) {
-  return series.getSpec().animation !== false && isValid(series.getRegion().animate);
+  const seriesSpec = series.getSpec();
+
+  if (seriesSpec.animation === false) {
+    return false;
+  }
+
+  if (!isValid(series.getRegion().animate)) {
+    return false;
+  }
+
+  let animationThreshold = seriesSpec.animationThreshold ?? Number.MAX_SAFE_INTEGER;
+
+  // set mark stroke color follow series color
+  // only set normal state in the level lower than level Series
+  series.getMarks()?.forEach(m => {
+    const config = m.getProgressiveConfig();
+    if (config) {
+      if (config.large && config.largeThreshold) {
+        animationThreshold = Math.min(animationThreshold, config.largeThreshold);
+      }
+      if (config.progressiveThreshold) {
+        animationThreshold = Math.min(animationThreshold, config.progressiveThreshold);
+      }
+    }
+  });
+  // auto close animation
+  if (series.getRawData()?.latestData?.length >= animationThreshold) {
+    return false;
+  }
+
+  return true;
 }
