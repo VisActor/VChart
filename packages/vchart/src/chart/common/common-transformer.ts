@@ -1,5 +1,5 @@
 import type { AdaptiveSpec, ISeriesSpec } from '../../typings';
-import { array, get, isObject, isValid } from '../../util';
+import { get, isObject } from '../../util';
 import { BaseChartSpecTransformer } from '../base';
 import { getTrimPaddingConfig } from '../util';
 import type { ICommonChartSpec } from './interface';

@@ -4,13 +4,13 @@ import type { IChartSpecInfo, IChartSpecTransformer, IChartSpecTransformerOption
 import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
 import type { IRegionConstructor, RegionSpec } from '../../region/interface';
 import { Factory } from '../../core';
-import type { ISeries, ISeriesConstructor } from '../../series';
+import type { ISeriesConstructor } from '../../series';
 import type { IComponentConstructor } from '../../component/interface/common';
 import { ComponentTypeEnum } from '../../component/interface';
 import { setProperty } from '@visactor/vutils-extension';
 import { getRelatedRegionInfo, getRelatedSeriesInfo } from './util';
 import type { ICartesianBandAxisSpec } from '../..//component/axis/cartesian/interface';
-import { array } from 'src/util';
+import { array } from '../../util';
 
 export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
   readonly type: string;
