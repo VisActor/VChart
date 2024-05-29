@@ -15,7 +15,14 @@ export const getPolarAxisInfo = (spec: IPolarAxisCommonSpec, chartSpec: any) => 
     componentName,
     startAngle: startAngleFromSpec ?? POLAR_START_ANGLE,
     endAngle: endAngleFromSpec ?? (isValid(startAngleFromSpec) ? startAngleFromSpec + 360 : POLAR_END_ANGLE),
-    center: chartSpec.center,
+    center: isValid(chartSpec.center)
+      ? chartSpec.center
+      : isValid(chartSpec?.centerX) || isValid(chartSpec?.centerY)
+      ? {
+          x: chartSpec?.centerX,
+          y: chartSpec?.centerY
+        }
+      : undefined,
     // 优先使用 outerRadius, 但要兼容 radius
     outerRadius: spec.radius ?? chartSpec.outerRadius ?? chartSpec.radius ?? POLAR_DEFAULT_RADIUS,
     layoutRadius: chartSpec.layoutRadius

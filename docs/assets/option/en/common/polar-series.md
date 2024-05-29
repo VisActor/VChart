@@ -39,10 +39,16 @@ Starting angle of the sector. In degrees.
 
 Ending angle of the sector. In degrees.
 
-#${prefix} centerX(number)
+#${prefix} centerX (Number|String)
 
-The x coordinate of the center point in the polar coordinate system.
+Polar coordinate center x coordinate, supports two formats:
 
-#${prefix} centerY(number)
+- `number`: Specific coordinate value
+- `string`: Percentage string format like `50%`, calculated relative to the layout width (supported since **1.11.2**)
 
-The y coordinate of the center point in the polar coordinate system.
+#${prefix} centerY (Number|String)
+
+Polar coordinate center y coordinate, supports two formats:
+
+- `number`: Specific coordinate value
+- `string`: Percentage string format like `50%`, calculated relative to the layout height (supported since **1.11.2**)

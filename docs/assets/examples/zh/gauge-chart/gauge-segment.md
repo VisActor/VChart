@@ -16,6 +16,8 @@ option: gaugeChart
 - `innerRadius`、`outerRadius` 属性用于指定仪表盘的内外半径
 - `startAngle`、`endAngle` 属性用于指定仪表盘的开始、结束角度
 - `gauge`属性可以配置[仪表图的背景板系列](../../option/gaugeChart#gauge)
+- `centerY` 设置中心点的 y 坐标
+- `layoutRadius` 设置布局半径
 
 ## 代码演示
 
@@ -85,13 +87,13 @@ const spec = {
   innerRadius: 0.6,
   startAngle: -180,
   endAngle: 0,
+  centerY: '100%',
+  layoutRadius: 'auto',
   axes: [
     {
       type: 'linear',
       orient: 'angle',
       inside: true,
-      outerRadius: 0.9,
-      innerRadius: 0.6,
       grid: { visible: false }
     }
   ]
