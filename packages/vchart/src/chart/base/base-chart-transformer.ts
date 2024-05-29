@@ -1,4 +1,4 @@
-import { has, isValid } from '@visactor/vutils';
+import { isArray, isNumber, isValid } from '@visactor/vutils';
 import type { IChartSpec, ISeriesSpec } from '../../typings';
 import type { IChartSpecInfo, IChartSpecTransformer, IChartSpecTransformerOption } from '../interface';
 import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
@@ -9,6 +9,8 @@ import type { IComponentConstructor } from '../../component/interface/common';
 import { ComponentTypeEnum } from '../../component/interface';
 import { setProperty } from '@visactor/vutils-extension';
 import { getRelatedRegionInfo, getRelatedSeriesInfo } from './util';
+import type { ICartesianBandAxisSpec } from '../..//component/axis/cartesian/interface';
+import { array } from '../../util';
 
 export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
   readonly type: string;
@@ -333,6 +335,69 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
           }
         });
       });
+    }
+  }
+
+  protected _findBandAxisBySeries(seriesSpec: ISeriesSpec, seriesIndex: number, axesSpec: any) {
+    const isHorizontal = (seriesSpec as any)?.direction === 'horizontal';
+    const matchOrient = isHorizontal ? ['left', 'right'] : ['top', 'bottom'];
+    const targetBandAxis: any = axesSpec.find((axis: any) => {
+      if (!matchOrient.includes(axis.orient)) {
+        // orient必须匹配
+        return false;
+      }
+      if (isValid(axis.seriesId)) {
+        // 1. 通过seriesId绑定
+        if (array(axis.seriesId).includes(seriesSpec?.id)) {
+          return true;
+        }
+      } else if (isValid(axis.seriesIndex)) {
+        // 2. 通过seriesIndex绑定
+        if (array(axis.seriesIndex).includes(seriesIndex)) {
+          return true;
+        }
+      } else if (axis.type === 'band') {
+        // 3. 通过axis type识别
+        return true;
+      }
+      // 4. 剩下的情况满足axis orient要求
+      return true;
+    });
+
+    return targetBandAxis;
+  }
+
+  /**
+   * @description bar chart 和 common chart支持autoBandsize, 此方法用于识别barWidth配置后应用到轴上
+   * */
+  protected _applyAxisBandSize(
+    axis: ICartesianBandAxisSpec,
+    extend: number,
+    barWidthSpec: {
+      barMaxWidth: number | string;
+      barMinWidth: number | string;
+      barWidth: number | string;
+      barGapInGroup: number | string | (number | string)[];
+    }
+  ) {
+    const { barMaxWidth, barMinWidth, barWidth, barGapInGroup } = barWidthSpec;
+    let hasBarWidth = false;
+    if (isNumber(barMinWidth)) {
+      axis.minBandSize = barMinWidth as number;
+      hasBarWidth = true;
+    } else if (isNumber(barWidth)) {
+      axis.minBandSize = barWidth as number;
+      hasBarWidth = true;
+    } else if (isNumber(barMaxWidth)) {
+      axis.minBandSize = barMaxWidth as number;
+      hasBarWidth = true;
+    }
+    if (hasBarWidth) {
+      axis.bandSizeLevel = Number.MAX_VALUE; // 影响最底层的 scale
+      axis.bandSizeExtend = {
+        extend,
+        gap: isArray(barGapInGroup) ? barGapInGroup[(barGapInGroup as any[]).length - 1] : barGapInGroup
+      };
     }
   }
 }

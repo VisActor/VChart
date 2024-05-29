@@ -88,4 +88,15 @@ export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
    * **仅适用于笛卡尔坐标系**，参考点配置
    */
   markPoint?: IMarkPointSpec | IMarkPointSpec[];
+
+  /**
+   * 是否开启自动 bandSize。如果开启，会根据传入的 barWidth 等配置自动计算 bandSize，从而影响轴实际长度
+   * @since 1.11.2
+   */
+  autoBandSize?:
+    | boolean
+    | {
+        /** 设置 bandSize 的在自动计算结果基础上的扩增值，单位为 px */
+        extend: number;
+      };
 }

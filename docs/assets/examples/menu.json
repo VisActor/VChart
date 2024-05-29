@@ -1487,6 +1487,13 @@
             "zh": "特殊轴效果的线柱组合图",
             "en": "Bar-Line Combination Chart With UnNormal Axis"
           }
+        },
+        {
+          "path": "bar-autoBandSize",
+          "title": {
+            "zh": "组合图中柱系列支持autoBandSize",
+            "en": "Bar series in common chart supports autoBandSize"
+          }
         }
       ]
     },
