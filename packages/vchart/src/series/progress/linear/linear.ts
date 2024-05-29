@@ -74,8 +74,11 @@ export class LinearProgressSeries<
     const progressMark = this._progressMark;
     if (progressMark) {
       if (this._spec.direction === 'vertical') {
-        const leftPadding = this._spec.progress?.leftPadding ?? 0;
-        const rightPadding = this._spec.progress?.rightPadding ?? 0;
+        const progress = this._spec.progress || {};
+        const leftPadding = progress.leftPadding ?? 0;
+        const rightPadding = progress.rightPadding ?? 0;
+        const topPadding = progress.topPadding ?? 0;
+        const bottomPadding = progress.bottomPadding ?? 0;
 
         this.setMarkStyle(
           progressMark,
@@ -87,8 +90,13 @@ export class LinearProgressSeries<
                 leftPadding
               );
             },
-            y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)),
-            height: () => this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
+            y: (datum: Datum) => topPadding,
+            height: datum => {
+              const size = valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0));
+              const totalHeight = this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition });
+
+              return (size / totalHeight) * Math.max(totalHeight - topPadding - bottomPadding, 0);
+            },
             width: this._spec.bandWidth - leftPadding - rightPadding,
             cornerRadius: this._spec.cornerRadius,
             fill: this.getColorAttribute()
@@ -97,15 +105,16 @@ export class LinearProgressSeries<
           AttributeLevel.Series
         );
       } else {
-        const topPadding = this._spec.progress?.topPadding ?? 0;
-        const bottomPadding = this._spec.progress?.bottomPadding ?? 0;
+        const progress = this._spec.progress || {};
+        const topPadding = progress.topPadding ?? 0;
+        const bottomPadding = progress.bottomPadding ?? 0;
+        const leftPadding = progress.leftPadding ?? 0;
+        const rightPadding = progress.rightPadding ?? 0;
 
         this.setMarkStyle(
           progressMark,
           {
-            x: (datum: Datum) =>
-              valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
-              this._xAxisHelper.dataToPosition([1], { bandPosition: this._bandPosition }),
+            x: (datum: Datum) => leftPadding,
             y: (datum: Datum) => {
               return (
                 valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
@@ -114,7 +123,12 @@ export class LinearProgressSeries<
               );
             },
             height: this._spec.bandWidth - topPadding - bottomPadding,
-            width: () => this._xAxisHelper?.dataToPosition([1], { bandPosition: this._bandPosition }),
+            width: datum => {
+              const size = valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0));
+              const totalWidth = this._xAxisHelper?.dataToPosition([1], { bandPosition: this._bandPosition });
+
+              return (size / totalWidth) * Math.max(totalWidth - leftPadding - rightPadding, 0);
+            },
             cornerRadius: this._spec.cornerRadius,
             fill: this.getColorAttribute()
           },
