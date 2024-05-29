@@ -21,6 +21,8 @@ export async function buildUmd(config: Config, projectRoot: string, rawPackageJs
       targets: config.targets
     }
   });
+
+  DebugConfig('BabelPlugins', babelPlugins);
   const entry = path.resolve(
     projectRoot,
     config.sourceDir,
