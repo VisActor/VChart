@@ -1157,10 +1157,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   private _initEvent() {
     [ChartEvent.dataZoomChange, ChartEvent.scrollBarChange].forEach(event => {
       this._event.on(event, ({ value }) => {
-        // 非数据筛选的方式，图元不存在增删，可以保持动画效果
-        if (!value.filterData) {
-          return;
-        }
         this._disableMarkAnimation(['exit', 'update']);
         const enableMarkAnimate = () => {
           this._enableMarkAnimation(['exit', 'update']);
