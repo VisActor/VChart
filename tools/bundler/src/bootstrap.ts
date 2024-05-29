@@ -48,6 +48,7 @@ async function bootstrap() {
   DebugConfig('User config file path', userConfigFilePath);
 
   const userConfig = loadConfigFile(userConfigFilePath);
+  DebugConfig('User config', userConfig);
   const config = getFinalConfig(args, userConfig, getDefaultConfig(), rawPackageJson.version);
   DebugConfig('Final config', config);
 
