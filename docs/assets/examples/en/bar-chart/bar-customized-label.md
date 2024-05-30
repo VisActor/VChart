@@ -1,26 +1,39 @@
 ---
 category: examples
 group: bar chart
-title: Base Bar Chart
-keywords: barChart,comparison,distribution,rank,rectangle
-order: 2-7
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca806005.png
+title: Bar chart with custom label
+keywords: barChart,comparison,distribution,rectangle,comparison,rank,axis,label
+cover: ../../../../public/vchart/preview/bar-customized-label_1.11.1.png
 option: barChart
 ---
 
-# Base Bar Chart
+# Bar Chart with Custom Label
 
-The bar chart is based on the histogram, and the x-axis and y-axis are transposed. The configuration is basically the same as the histogram, but the configuration of the x-axis and y-axis needs to be swapped, and at the same time, it needs to be added `direction` The property is configured as'horizontal '.
+You can use `customLayoutFunc` to configure custom label positions; you can customize the background of the bar chart to achieve a progress bar-like effect; the title of the details can be hidden.
 
 ## Key option
 
-- `direction` Property configured as'horizont'
-- `xField` Property declared as numeric field
-- `yField` Property declaration as category field
+- Set the `label.customLayoutFunc` property to a custom function for label positioning, making the labels appear on the right side of the chart.
+- Set the `barBackground.style` and `axes.style` properties, such as rounded corners, to achieve a progress bar effect.
+- Configure the `barBackground.style.scaleX` property to shorten the length of the background bar chart, making it consistent with the length of the longest bar.
+- Set the `tooltip.mark.title.visible` property to false to hide the tooltip title.
 
 ## Demo source
 
 ```javascript livedemo
+const layout = (attribute, text, getRelatedGraphic) => {
+  const maxX2 = Math.max(...attribute.map(attr => getRelatedGraphic(attr).AABBBounds.x2));
+  return text.map(t => {
+    const barRect = getRelatedGraphic(t.attribute);
+    if (barRect) {
+      const x = maxX2 + 30;
+      const y = Math.abs(barRect.AABBBounds.y1 + barRect.AABBBounds.y2) / 2;
+      t.setAttributes({ x, y });
+    }
+    return t;
+  });
+};
+
 const spec = {
   type: 'bar',
   data: [
@@ -28,109 +41,126 @@ const spec = {
       id: 'barData',
       values: [
         {
-          name: 'Apple',
-          value: 214480
+          province: '北京',
+          value: 3080,
+          type: 'top1'
         },
         {
-          name: 'Google',
-          value: 155506
+          province: '天津',
+          value: 2880,
+          type: 'top2'
         },
         {
-          name: 'Amazon',
-          value: 100764
+          province: '重庆',
+          value: 880,
+          type: 'top3'
         },
         {
-          name: 'Microsoft',
-          value: 92715
+          province: '深圳',
+          value: 780,
+          type: 'common'
         },
         {
-          name: 'Coca-Cola',
-          value: 66341
+          province: '广州',
+          value: 680,
+          type: 'common'
         },
         {
-          name: 'Samsung',
-          value: 59890
+          province: '山东',
+          value: 580,
+          type: 'common'
         },
         {
-          name: 'Toyota',
-          value: 53404
+          province: '浙江',
+          value: 480,
+          type: 'common'
         },
         {
-          name: 'Mercedes-Benz',
-          value: 48601
+          province: '福建',
+          value: 100,
+          type: 'common'
         },
         {
-          name: 'Facebook',
-          value: 45168
+          province: '石家庄',
+          value: 100,
+          type: 'common'
         },
         {
-          name: "McDonald's",
-          value: 43417
-        },
-        {
-          name: 'Intel',
-          value: 43293
-        },
-        {
-          name: 'IBM',
-          value: 42972
-        },
-        {
-          name: 'BMW',
-          value: 41006
-        },
-        {
-          name: 'Disney',
-          value: 39874
-        },
-        {
-          name: 'Cisco',
-          value: 34575
-        },
-        {
-          name: 'GE',
-          value: 32757
-        },
-        {
-          name: 'Nike',
-          value: 30120
-        },
-        {
-          name: 'Louis Vuitton',
-          value: 28152
-        },
-        {
-          name: 'Oracle',
-          value: 26133
-        },
-        {
-          name: 'Honda',
-          value: 23682
+          province: '广西壮族自治区',
+          value: 100,
+          type: 'common'
         }
       ]
     }
   ],
   direction: 'horizontal',
   xField: 'value',
-  yField: 'name',
+  yField: 'province',
+  seriesField: 'province',
   axes: [
     {
       orient: 'bottom',
+      max: 3500,
       visible: false
+    },
+    {
+      orient: 'left',
+      maxWidth: 65,
+      label: {
+        autoLimit: true
+      },
+      domainLine: {
+        visible: false
+      },
+      tick: {
+        visible: false
+      }
     }
   ],
   label: {
+    customLayoutFunc: layout,
     visible: true
+  },
+  bar: {
+    style: {
+      cornerRadius: [5, 5, 5, 5],
+      height: 10
+    }
+  },
+  barBackground: {
+    visible: true,
+    style: {
+      cornerRadius: [5, 5, 5, 5],
+      scaleX: 3080 / 3500,
+      height: 10
+    }
+  },
+  tooltip: {
+    mark: {
+      title: {
+        visible: false
+      }
+    },
+    dimension: {
+      title: {
+        visible: false
+      }
+    },
+    style: {
+      shape: {
+        shapeType: 'circle'
+      }
+    }
   }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
 
-// Just for the convenience of console debugging, do not copy
+// Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
 
 ## Related Tutorials
 
-[histogram](link)
+[Bar Chart](link)

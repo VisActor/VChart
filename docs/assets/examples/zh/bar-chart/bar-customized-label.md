@@ -1,19 +1,22 @@
 ---
-categorvalue: examples
+category: examples
 group: bar chart
 title: 自定义标签的条形图
-keywords: barChart,comparison,distribution,rank,rectangle
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/23e5d313c2c3a66d4ca806005.png
+keywords: barChart,comparison,distribution,rectangle,comparison,rank,axis,label
+cover: ../../../../public/vchart/preview/bar-customized-label_1.11.1.png
 option: barChart
 ---
 
 # 自定义标签的条形图
 
-待完善
+可以使用`customLayoutFunc`配置自定义标签位置；可以自定义条形图的背景达到类似进度条的效果；详细信息的标题可以隐藏。
 
 ## 关键配置
 
-待完善
+- 设置 `label.customLayoutFunc` 属性为自定义标签位置的函数，让标签出现在图表右侧。
+- 设置 `barBackground.style` 和 `axes.style` 的圆角等属性，使呈现出进度条的效果。
+- 配置 `barBackground.style.scaleX` 属性的值，来缩短背景条形图的长度，使齐和最长的 bar 长度一致。
+- 配置 `tooltip.mark.title.visible` 属性为 false，隐藏 tooltip 的标题。
 
 ## 代码演示
 
@@ -121,8 +124,6 @@ const spec = {
   bar: {
     style: {
       cornerRadius: [5, 5, 5, 5],
-      // scaleX: 0.8,
-      // scaleCenter: ['0%', '50%'],
       height: 10
     }
   },
