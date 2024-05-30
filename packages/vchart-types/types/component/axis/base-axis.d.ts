@@ -1,4 +1,4 @@
-import type { ITickDataOpt } from '@visactor/vutils-extension';
+import type { ITickDataOpt } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 import type { IOrientType, IPolarOrientType, StringOrNumber, CoordinateType } from '../../typings';
