@@ -39,7 +39,7 @@ export class RadarChartSpecTransformer<
           }
         });
         if (!axis.grid) {
-          axis.grid = { visible: true, smooth: true };
+          axis.grid = { visible: true };
         }
       }
     });

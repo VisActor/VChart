@@ -1,4 +1,5 @@
 import type { PluginItem, TransformOptions } from '@babel/core';
+import { DebugConfig } from './debug';
 
 export type BabelPlugins = {
   presets: PluginItem[];
@@ -29,6 +30,8 @@ export function getBabelPlugins(
     [require.resolve('@babel/preset-env'), { targets: 'defaults and not IE 11', ...options?.envOptions }],
     require.resolve('@babel/preset-typescript')
   ];
+
+  DebugConfig('@babel/preset-env', { targets: 'defaults and not IE 11', ...options?.envOptions });
 
   return {
     presets,

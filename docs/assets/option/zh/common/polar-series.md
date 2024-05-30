@@ -41,10 +41,16 @@ seriesMarks = ${seriesMarks},
 
 扇区结束角度。角度制。
 
-#${prefix} centerX(number)
+#${prefix} centerX (Number|String)
 
-极坐标中心点 x 坐标。
+极坐标中心点 x 坐标，支持两种格式：
 
-#${prefix} centerY(number)
+- `number`: 具体的坐标值
+- `string`: 格式如`50%`的百分比字符串，相对于布局宽度计算坐标（自**1.11.2**版本开始支持）
 
-极坐标中心点 y 坐标。
+#${prefix} centerY (Number|String)
+
+极坐标中心点 y 坐标，支持两种格式：
+
+- `number`: 具体的坐标值
+- `string`: 格式如`50%`的百分比字符串，相对于布局高度计算坐标（自**1.11.2**版本开始支持）

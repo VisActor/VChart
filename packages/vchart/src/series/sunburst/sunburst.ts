@@ -384,12 +384,10 @@ export class SunburstSeries extends PolarSeries<any> {
   private _computeRadius(radius: number | number[]) {
     if (isArray(radius)) {
       return radius.map(r => {
-        const { width, height } = this.getRegion().getLayoutRect();
-        return Math.min(width / 2, height / 2) * r;
+        return this._computeLayoutRadius() * r;
       });
     }
-    const { width, height } = this.getRegion().getLayoutRect();
-    return Math.min(width / 2, height / 2) * radius;
+    return this._computeLayoutRadius() * radius;
   }
 
   private _computeLevel(): {

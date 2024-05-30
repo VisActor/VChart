@@ -5,4 +5,4 @@ export interface IAreaAnimationParams {
 }
 export type AreaAppearPreset = 'clipIn' | 'fadeIn' | 'grow';
 export declare function areaPresetAnimation(params: IAreaAnimationParams, preset: AreaAppearPreset | boolean): IAnimationTypeConfig;
-export declare const registerAreaAnimation: () => void;
+export declare const registerAreaSeriesAnimation: () => void;

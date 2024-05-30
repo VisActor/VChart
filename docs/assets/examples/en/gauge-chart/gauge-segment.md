@@ -16,7 +16,8 @@ option: gaugeChart
 - `innerRadius`,`outerRadius` Property is used to specify the inner and outer radii of the dashboard
 - `startAngle`,`endAngle` Properties are used to specify the start and end angles of the dashboard
 - `gauge`Properties can be configured[Background panel series for gauge chart](../../option/gaugeChart#gauge)
-
+- `centerY` Set the y-coordinate of the center
+- `layoutRadius` Set the layout radius
 ## Demo source
 
 ```javascript livedemo
@@ -85,13 +86,13 @@ const spec = {
   innerRadius: 0.6,
   startAngle: -180,
   endAngle: 0,
+  centerY: '100%',
+  layoutRadius: 'auto',
   axes: [
     {
       type: 'linear',
       orient: 'angle',
       inside: true,
-      outerRadius: 0.9,
-      innerRadius: 0.6,
       grid: { visible: false }
     }
   ]

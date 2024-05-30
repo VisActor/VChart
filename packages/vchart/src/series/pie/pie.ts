@@ -19,7 +19,7 @@ import {
   DEFAULT_DATA_KEY
 } from '../../constant';
 import type { IPoint, Datum, StateValueType } from '../../typings';
-import { normalizeStartEndAngle, polarToCartesian } from '../../util/math';
+import { normalizeStartEndAngle } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
 import type { IModelLayoutOption } from '../../model/interface';
@@ -47,7 +47,7 @@ import { centerOffsetConfig } from './animation/centerOffset';
 import { registerArcMark } from '../../mark/arc';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import { isNil } from '@visactor/vutils';
+import { isNil, polarToCartesian } from '@visactor/vutils';
 import { PieSeriesSpecTransformer } from './pie-transformer';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
@@ -195,11 +195,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           fill: this.getColorAttribute(),
           outerRadius: isSpecValueWithScale(this._outerRadius)
             ? this._outerRadius
-            : () => this.computeLayoutRadius() * this._outerRadius,
+            : () => this._computeLayoutRadius() * this._outerRadius,
           innerRadius: isSpecValueWithScale(this._innerRadius)
             ? this._innerRadius
-            : () => this.computeLayoutRadius() * this._innerRadius,
-          cornerRadius: () => this.computeLayoutRadius() * this._cornerRadius,
+            : () => this._computeLayoutRadius() * this._innerRadius,
+          cornerRadius: () => this._computeLayoutRadius() * this._cornerRadius,
           startAngle: datum => this.startAngleScale(datum),
           endAngle: datum => this.endAngleScale(datum),
           padAngle: this._padAngle,
@@ -289,15 +289,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       return;
     }
     const style: any = {};
-    spec.outerRadius && (style.outerRadius = () => this.computeLayoutRadius() * spec.outerRadius);
-    spec.innerRadius && (style.innerRadius = () => this.computeLayoutRadius() * spec.innerRadius);
-    spec.cornerRadius && (style.cornerRadius = () => this.computeLayoutRadius() * spec.cornerRadius);
+    spec.outerRadius && (style.outerRadius = () => this._computeLayoutRadius() * spec.outerRadius);
+    spec.innerRadius && (style.innerRadius = () => this._computeLayoutRadius() * spec.innerRadius);
+    spec.cornerRadius && (style.cornerRadius = () => this._computeLayoutRadius() * spec.cornerRadius);
     return style;
-  }
-
-  protected computeLayoutRadius() {
-    const { width, height } = this._region.getLayoutRect();
-    return Math.min(width / 2, height / 2);
   }
 
   computeCenter(datum: Datum): IPoint {
@@ -324,11 +319,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   computeRadius(r: number, k?: number): number {
-    return this.computeLayoutRadius() * r * (isNil(k) ? 1 : k) + this._centerOffset;
+    return this._computeLayoutRadius() * r * (isNil(k) ? 1 : k) + this._centerOffset;
   }
 
   computeDatumRadius(datum: Datum, state?: string): number {
-    return this.computeLayoutRadius() * this.getRadius(state) + this._centerOffset;
+    return this._computeLayoutRadius() * this.getRadius(state) + this._centerOffset;
   }
 
   _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
@@ -365,7 +360,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   computeDatumInnerRadius(datum: Datum, state?: string): number {
-    return this.computeLayoutRadius() * this.getInnerRadius(state) + this._centerOffset;
+    return this._computeLayoutRadius() * this.getInnerRadius(state) + this._centerOffset;
   }
 
   dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint | null {
@@ -378,8 +373,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
     const radius = this.computeDatumRadius(datum);
     const center = this.computeCenter(datum);
-    const delta = polarToCartesian({ angle, radius });
-    return { x: center.x + delta.x, y: center.y + delta.y };
+
+    return polarToCartesian(center, radius, angle);
   }
 
   dataToCentralPosition = (datum: Datum): IPoint | null => {
@@ -391,8 +386,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     const radius = this.computeDatumRadius(datum);
     const innerRadius = this.computeDatumInnerRadius(datum);
     const center = this.computeCenter(datum);
-    const delta = polarToCartesian({ angle, radius: (radius + innerRadius) / 2 });
-    return { x: center.x + delta.x, y: center.y + delta.y };
+
+    return polarToCartesian(center, (radius + innerRadius) / 2, angle);
   };
 
   initAnimation() {

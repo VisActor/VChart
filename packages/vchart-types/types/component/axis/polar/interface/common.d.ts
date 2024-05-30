@@ -11,6 +11,7 @@ export interface IPolarAxisHelper {
     coordToPoint: (point: IPolarPoint) => IPoint;
     pointToCoord: (point: IPoint) => IPolarPoint;
     center: () => IPoint;
+    layoutRadius: () => number;
     getScale: (depth?: number) => IBaseScale;
     getBandwidth?: (depth?: number) => number;
     getAxisId: () => number;

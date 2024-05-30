@@ -1,6 +1,6 @@
 import type { IPolarAxisSpec } from '../../component/axis/polar/interface';
 import type { IPolarCrosshairSpec } from '../../component/crosshair/interface';
-import type { IChartSpec } from '../../typings';
+import type { IChartSpec, ILayoutRect, IPoint } from '../../typings';
 
 export interface IPolarChartSpec extends IChartSpec {
   /**
@@ -13,4 +13,9 @@ export interface IPolarChartSpec extends IChartSpec {
    * 十字辅助线配置
    */
   crosshair?: IPolarCrosshairSpec | IPolarCrosshairSpec[];
+
+  /**
+   * @since 1.11.2
+   */
+  layoutRadius?: 'auto' | number | ((layoutRect: ILayoutRect, center: IPoint) => number);
 }

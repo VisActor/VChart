@@ -21,7 +21,7 @@ import { registerSymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 import { areaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import { registerAreaAnimation } from './animation';
+import { registerAreaSeriesAnimation } from './animation';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { AreaSeriesSpecTransformer } from './area-transformer';
@@ -274,7 +274,7 @@ export const registerAreaSeries = () => {
   registerLineMark();
   registerAreaMark();
   registerSymbolMark();
-  registerAreaAnimation();
+  registerAreaSeriesAnimation();
   registerCartesianBandAxis();
   registerCartesianLinearAxis();
   Factory.registerSeries(AreaSeries.type, AreaSeries);
