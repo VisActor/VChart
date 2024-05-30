@@ -18,21 +18,16 @@ option: barChart
 ## 代码演示
 
 ```javascript livedemo
-const createText = VRender.createText;
-
-const layout = (data, getRelatedGraphic) => {
-  // Find the maximum value of the bars
-  const maxValue = Math.max(...data.map(d => d.data.value));
-  console.log('data', data);
-  console.log('getRelatedGraphic', getRelatedGraphic);
-
-  return data.map(d => {
-    // Find the graphic related to the current data point
-    const baseMark = getRelatedGraphic(d);
-    const x = baseMark.AABBBounds.x2 + (maxValue - d.data.value);
-    const y = (baseMark.AABBBounds.y1 + baseMark.AABBBounds.y2) / 2;
-
-    return createText({ ...d, x, y });
+const layout = (attribute, text, getRelatedGraphic) => {
+  const maxX2 = Math.max(...attribute.map(attr => getRelatedGraphic(attr).AABBBounds.x2));
+  return text.map(t => {
+    const barRect = getRelatedGraphic(t.attribute);
+    if (barRect) {
+      const x = maxX2 + 30;
+      const y = Math.abs(barRect.AABBBounds.y1 + barRect.AABBBounds.y2) / 2;
+      t.setAttributes({ x, y });
+    }
+    return t;
   });
 };
 
@@ -97,26 +92,16 @@ const spec = {
   ],
   direction: 'horizontal',
   xField: 'value',
-  // yField: ['province', 'value'],
   yField: 'province',
   seriesField: 'province',
   axes: [
     {
       orient: 'bottom',
-      nice: false,
+      max: 3500,
       visible: false
     },
     {
       orient: 'left',
-      // showAllGroupLayers: true,
-      // layers: [
-      //   {
-      //     visible: false
-      //   },
-      //   {
-      //     visible: true
-      //   }
-      // ],
       maxWidth: 65,
       label: {
         autoLimit: true
@@ -128,24 +113,6 @@ const spec = {
         visible: false
       }
     }
-    // {
-    //   orient: 'right',
-    //   showAllGroupLayers: true,
-    //   layers: [
-    //     {
-    //       visible: true
-    //     },
-    //     {
-    //       visible: false
-    //     }
-    //   ],
-    //   domainLine: {
-    //     visible: false
-    //   },
-    //   tick: {
-    //     visible: false
-    //   }
-    // }
   ],
   label: {
     customLayoutFunc: layout,
@@ -154,26 +121,34 @@ const spec = {
   bar: {
     style: {
       cornerRadius: [5, 5, 5, 5],
+      // scaleX: 0.8,
+      // scaleCenter: ['0%', '50%'],
       height: 10
     }
   },
   barBackground: {
     visible: true,
-    // customShape: (datum, attrs, path) => {
-    //   Assuming 'barWidth' is the calculated width of the bar
-    //   const barWidth = attrs.width; // Replace this with the actual logic to get bar width
-    //   // Start the path for the bar background
-    //   path.moveTo(0, 0);
-    //   path.lineTo(barWidth, 0);
-    //   path.lineTo(barWidth, attrs.height);
-    //   path.lineTo(0, attrs.height);
-    //   path.closePath();
-    //   // Return the modified path
-    //   return path;
-    // },
     style: {
       cornerRadius: [5, 5, 5, 5],
+      scaleX: 3080 / 3500,
       height: 10
+    }
+  },
+  tooltip: {
+    mark: {
+      title: {
+        visible: false
+      }
+    },
+    dimension: {
+      title: {
+        visible: false
+      }
+    },
+    style: {
+      shape: {
+        shapeType: 'circle'
+      }
     }
   }
 };
