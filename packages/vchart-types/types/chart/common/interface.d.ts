@@ -38,4 +38,7 @@ export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
     markLine?: IMarkLineSpec | IMarkLineSpec[];
     markArea?: IMarkAreaSpec | IMarkAreaSpec[];
     markPoint?: IMarkPointSpec | IMarkPointSpec[];
+    autoBandSize?: boolean | {
+        extend: number;
+    };
 }

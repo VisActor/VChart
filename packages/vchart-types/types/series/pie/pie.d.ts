@@ -46,7 +46,6 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     getMeasureField(): string[];
     private viewDataLabelUpdate;
     protected generateRadiusStyle(spec: any): any;
-    protected computeLayoutRadius(): number;
     computeCenter(datum: Datum): IPoint;
     getRadius(state?: StateValueType): number;
     getInnerRadius(state?: StateValueType): number;

@@ -1,10 +1,9 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IPoint, IPolarPoint, Quadrant } from '../typings';
-import { isNumberClose, isGreater, isLess } from '@visactor/vutils';
-import { normalizeAngle, angleLabelOrientAttribute } from '@visactor/vutils-extension';
+import type { IPoint, Quadrant } from '../typings';
+import { isNumberClose, isGreater, isLess, normalizeAngle } from '@visactor/vutils';
+import { angleLabelOrientAttribute } from '@visactor/vrender-components';
 export declare const isClose: typeof isNumberClose;
 export { isGreater, isLess, normalizeAngle, angleLabelOrientAttribute };
-export declare function polarToCartesian(point: IPolarPoint): IPoint;
 export declare function computeQuadrant(angle: number): Quadrant;
 export declare function normalizeStartEndAngle(start: number | null, end: number | null): {
     startAngle: number;
