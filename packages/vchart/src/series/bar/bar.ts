@@ -527,29 +527,58 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const yScale = this._yAxisHelper?.getScale?.(0);
 
     if (this.direction === Direction.horizontal) {
-      this.setMarkStyle(
-        this._barMark,
-        {
-          x: datum => this._getBarXStart(datum, xScale),
-          x1: datum => this._getBarXEnd(datum, xScale),
-          y: datum => valueInScaleRange(this.dataToPositionY(datum), yScale),
-          y1: datum => valueInScaleRange(this.dataToPositionY1(datum), yScale)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
+      if (isValid(this._fieldY2)) {
+        this.setMarkStyle(
+          this._barMark,
+          {
+            x: datum => this._getBarXStart(datum, xScale),
+            x1: datum => this._getBarXEnd(datum, xScale),
+            y: datum => valueInScaleRange(this._dataToPosY(datum), yScale),
+            y1: datum => valueInScaleRange(this._dataToPosY1(datum), yScale)
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      } else {
+        this.setMarkStyle(
+          this._barMark,
+          {
+            x: datum => this._getBarXStart(datum, xScale),
+            x1: datum => this._getBarXEnd(datum, xScale),
+            y: datum => valueInScaleRange(this._dataToPosY(datum) - this._getBarWidth(this._yAxisHelper) / 2, yScale),
+            height: datum => this._getBarWidth(this._yAxisHelper)
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
     } else {
-      this.setMarkStyle(
-        this._barMark,
-        {
-          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
-          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
-          y: datum => this._getBarYStart(datum, yScale),
-          y1: datum => this._getBarYEnd(datum, yScale)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
+      if (isValid(this._fieldX2)) {
+        this.setMarkStyle(
+          this._barMark,
+          {
+            x: (datum: Datum) => valueInScaleRange(this._dataToPosX(datum), xScale),
+            x1: (datum: Datum) => valueInScaleRange(this._dataToPosX1(datum), xScale),
+            y: datum => this._getBarYStart(datum, yScale),
+            y1: datum => this._getBarYEnd(datum, yScale)
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      } else {
+        this.setMarkStyle(
+          this._barMark,
+          {
+            x: (datum: Datum) =>
+              valueInScaleRange(this._dataToPosX(datum) - this._getBarWidth(this._xAxisHelper) / 2, xScale),
+            width: (datum: Datum) => this._getBarWidth(this._xAxisHelper),
+            y: datum => this._getBarYStart(datum, yScale),
+            y1: datum => this._getBarYEnd(datum, yScale)
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
     }
     this._initLinearBarBackgroundMarkStyle();
   }
