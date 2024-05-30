@@ -14,7 +14,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     static specKey: string;
     specKey: string;
     protected _orient: IPolarOrientType | IOrientType;
-    getOrient(): IOrientType | IPolarOrientType;
+    getOrient(): IPolarOrientType | IOrientType;
     protected _scale: IBaseScale;
     getScale(): IBaseScale;
     protected _scales: IBaseScale[];
