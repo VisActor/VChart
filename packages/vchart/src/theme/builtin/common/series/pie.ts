@@ -9,6 +9,7 @@ export const pie: IPieSeriesTheme = {
   },
   label: {
     visible: false,
+    interactive: true,
     position: 'outside',
     style: {
       fontWeight: 'normal',
