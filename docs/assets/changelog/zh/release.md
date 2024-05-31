@@ -4,19 +4,18 @@
 
 
 **🐛 功能修复**
-
-- **@visactor/vchart**: fix the bug that `animationThreshold` not work, close [#2745](https://github.com/VisActor/VChart/issues/2745)
-- **@visactor/vchart**: fix the issue of  update animation in area chart is not work
-- **common**: bar series support auto band size in common chart. fix[#2704](https://github.com/VisActor/VChart/issues/2704)
-- **@visactor/vchart**: corsshair should hide when pointer out view, fix [#2726](https://github.com/VisActor/VChart/issues/2726)
-- **@visactor/vchart**: close animation cause by datazoom/scrollbar
-- **@visactor/vchart**: \`type-step\` markLine's label should consider the refX/refY/dx/dy set by user, fixed[#2739](https://github.com/VisActor/VChart/issues/2739)
-- **react-vchart**: fix the issue of `<Axis />` that the props `id` not work
-- **@visactor/vchart**: `polarAxis.grid.smooth` not work in theme configuratio
+- **@visactor/vchart**: 修复配置 `animationThreshold` 不生效的问题，关闭 [#2745](https://github.com/VisActor/VChart/issues/2745)
+- **@visactor/vchart**: 修复面积图更新动画不生效的问题
+- **common**: 在common图表中，柱系列支持自动带宽尺寸，即`autoBandSize`。修复[#2704](https://github.com/VisActor/VChart/issues/2704)
+- **@visactor/vchart**: 修复`Corsshiar`没有正常隐藏的问题，修复 [#2726](https://github.com/VisActor/VChart/issues/2726)
+- **@visactor/vchart**: 关闭由`Datazoom`、`Scrollbar`交互引发的更新动画
+- **@visactor/vchart**: 设置了 `type-step`的 markLine的标签应该考虑用户设置的`refX`,`refY`,`dx`,`dy`，修复[#2739](https://github.com/VisActor/VChart/issues/2739)
+- **react-vchart**: 修复 `<Axis />` 中的props `id` 不生效的问题
+- **@visactor/vchart**: 修复在主题配置中，`polarAxis.grid.smooth` 不生效的问题
 
 **🔧 项目配置**
 
-- **@visactor/vchart**: when build es5 , `targets` of `@babel/preset-env` should be `defaults`, fix [#2702](https://github.com/VisActor/VChart/issues/2702)
+- **@visactor/vchart**: 在构建es5时，`@babel/preset-env` 的 `targets` 应该是 `defaults`，修复 [#2702](https://github.com/VisActor/VChart/issues/2702)
 
 
 
