@@ -14,7 +14,7 @@ option: barChart
 ## 关键配置
 
 - 设置 `label.customLayoutFunc` 属性为自定义标签位置的函数，让标签出现在图表右侧。
-- 设置 `barBackground.style` 和 `axes.style` 的圆角等属性，使呈现出进度条的效果。
+- 设置 `barBackground.style` 和 `bar.style` 的圆角属性 `cornerRadius`，使呈现出进度条的效果。
 - 配置 `barBackground.style.scaleX` 属性的值，来缩短背景条形图的长度，使齐和最长的 bar 长度一致。
 - 配置 `tooltip.mark.title.visible` 属性为 false，隐藏 tooltip 的标题。
 
