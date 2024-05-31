@@ -41,52 +41,52 @@ const spec = {
       id: 'barData',
       values: [
         {
-          province: '北京',
+          province: 'Beijing',
           value: 3080,
           type: 'top1'
         },
         {
-          province: '天津',
+          province: 'Tianjin',
           value: 2880,
           type: 'top2'
         },
         {
-          province: '重庆',
+          province: 'Chongqing',
           value: 880,
           type: 'top3'
         },
         {
-          province: '深圳',
+          province: 'Shenzhen',
           value: 780,
           type: 'common'
         },
         {
-          province: '广州',
+          province: 'Guangzhou',
           value: 680,
           type: 'common'
         },
         {
-          province: '山东',
+          province: 'Shandong',
           value: 580,
           type: 'common'
         },
         {
-          province: '浙江',
+          province: 'Zhejiang',
           value: 480,
           type: 'common'
         },
         {
-          province: '福建',
+          province: 'Fujian',
           value: 100,
           type: 'common'
         },
         {
-          province: '石家庄',
+          province: 'Shihkiachwang',
           value: 100,
           type: 'common'
         },
         {
-          province: '广西壮族自治区',
+          province: 'Guangxi Zhuang Autonomous Region',
           value: 100,
           type: 'common'
         }
