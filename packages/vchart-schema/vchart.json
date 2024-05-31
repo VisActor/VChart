@@ -27310,12 +27310,20 @@
           "description": "分类字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "color": {
           "anyOf": [
@@ -27816,12 +27824,20 @@
           "description": "分类字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "cornerRadius": {
           "default": 0,
@@ -28479,6 +28495,18 @@
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
           "type": "number"
+        },
+        "autoBandSize": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "是否开启自动 bandSize。如果开启，会根据传入的 barWidth 等配置自动计算 bandSize，从而影响轴实际长度",
+          "since": "1.11.2"
         },
         "autoFit": {
           "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
@@ -36750,12 +36778,20 @@
           "description": "类别字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "color": {
           "anyOf": [
@@ -36893,6 +36929,21 @@
         "layout": {
           "$ref": "#/definitions/ILayoutSpec",
           "description": "布局配置"
+        },
+        "layoutRadius": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "const": "auto",
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "since": "1.11.2"
         },
         "legends": {
           "anyOf": [
@@ -37301,12 +37352,20 @@
           "description": "类别字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "cornerRadius": {
           "description": "圆角半径",
@@ -37752,12 +37811,20 @@
           "description": "类别字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "cornerRadius": {
           "description": "圆角半径",
@@ -58342,12 +58409,20 @@
           "description": "类别字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "color": {
           "anyOf": [
@@ -58482,6 +58557,21 @@
         "layout": {
           "$ref": "#/definitions/ILayoutSpec",
           "description": "布局配置"
+        },
+        "layoutRadius": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "const": "auto",
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "since": "1.11.2"
         },
         "legends": {
           "anyOf": [
@@ -58871,12 +58961,20 @@
           "description": "类别字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -64780,12 +64878,20 @@
           "description": "分类字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "color": {
           "anyOf": [
@@ -64912,6 +65018,21 @@
         "layout": {
           "$ref": "#/definitions/ILayoutSpec",
           "description": "布局配置"
+        },
+        "layoutRadius": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "const": "auto",
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "since": "1.11.2"
         },
         "legends": {
           "anyOf": [
@@ -65253,12 +65374,20 @@
           "description": "分类字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -80412,7 +80541,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         },
         "size": {
@@ -80420,14 +80549,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13403",
+        "__@toStringTag@13423",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         },
         "size": {
@@ -80435,14 +80564,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13403",
+        "__@toStringTag@13423",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         },
         "size": {
@@ -80450,14 +80579,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13403",
+        "__@toStringTag@13423",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         },
         "size": {
@@ -80465,14 +80594,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13403",
+        "__@toStringTag@13423",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         },
         "size": {
@@ -80480,14 +80609,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13403",
+        "__@toStringTag@13423",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         },
         "size": {
@@ -80495,14 +80624,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13403",
+        "__@toStringTag@13423",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         },
         "size": {
@@ -80510,14 +80639,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13403",
+        "__@toStringTag@13423",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         },
         "size": {
@@ -80525,14 +80654,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13403",
+        "__@toStringTag@13423",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         },
         "size": {
@@ -80540,7 +80669,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13403",
+        "__@toStringTag@13423",
         "size"
       ],
       "type": "object"
@@ -82402,12 +82531,20 @@
           "description": "分类字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "cornerRadius": {
           "default": 0,
@@ -83515,12 +83652,20 @@
           "description": "类别字段"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "description": "中心点 x 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "description": "中心点 y 坐标",
+          "since": "1.11.2 支持百分比字符串",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "cornerRadius": {
           "description": "圆角半径",
@@ -101000,34 +101145,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13403"
+        "__@toStringTag@13423"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13403"
+        "__@toStringTag@13423"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13403": {
+        "__@toStringTag@13423": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13403"
+        "__@toStringTag@13423"
       ],
       "type": "object"
     },

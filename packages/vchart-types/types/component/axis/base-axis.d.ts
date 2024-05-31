@@ -1,4 +1,4 @@
-import type { ITickDataOpt } from '@visactor/vutils-extension';
+import type { ITickDataOpt } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 import type { IOrientType, IPolarOrientType, StringOrNumber, CoordinateType } from '../../typings';
@@ -14,7 +14,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     static specKey: string;
     specKey: string;
     protected _orient: IPolarOrientType | IOrientType;
-    getOrient(): IOrientType | IPolarOrientType;
+    getOrient(): IPolarOrientType | IOrientType;
     protected _scale: IBaseScale;
     getScale(): IBaseScale;
     protected _scales: IBaseScale[];

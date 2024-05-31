@@ -11,7 +11,7 @@ import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IAxis, ITick } from '../interface';
-import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
+import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
 import type { DataSet } from '@visactor/vdataset';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic } from '@visactor/vrender-core';

@@ -6,4 +6,5 @@ export declare const getPolarAxisInfo: (spec: IPolarAxisCommonSpec, chartSpec: a
     endAngle: any;
     center: any;
     outerRadius: any;
+    layoutRadius: any;
 };

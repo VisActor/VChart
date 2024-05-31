@@ -10,9 +10,9 @@ export declare function animationConfig<Preset extends string>(defaultConfig?: M
     dataIndex: (datum: any, params: any) => number;
     dataCount: () => number;
 }): MarkAnimationSpec;
-export declare function userAnimationConfig<M extends string, Preset extends string>(markName: SeriesMarkNameEnum | string, spec: IAnimationSpec<M, Preset>, ctx: IModelMarkAttributeContext): Partial<Record<"none" | "normal" | "state" | "appear" | "enter" | "exit" | "disappear" | "update", boolean | IAnimationConfig | IAnimationConfig[] | IStateAnimateSpec<Preset>>>;
+export declare function userAnimationConfig<M extends string, Preset extends string>(markName: SeriesMarkNameEnum | string, spec: IAnimationSpec<M, Preset>, ctx: IModelMarkAttributeContext): Partial<Record<"none" | "state" | "normal" | "enter" | "appear" | "disappear" | "update" | "exit", boolean | IAnimationConfig | IAnimationConfig[] | IStateAnimateSpec<Preset>>>;
 export declare function shouldMarkDoMorph(spec: ISeriesSpec & IAnimationSpec<string, string>, markName: string): boolean;
 export declare function isTimeLineAnimation(animationConfig: IAnimationConfig): boolean;
 export declare function isChannelAnimation(animationConfig: IAnimationConfig): boolean;
-export declare function uniformAnimationConfig<Preset extends string>(config: Partial<Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>>, ctx: IModelMarkAttributeContext): Partial<Record<"none" | "normal" | "state" | "appear" | "enter" | "exit" | "disappear" | "update", boolean | IAnimationConfig | IAnimationConfig[] | IStateAnimateSpec<Preset>>>;
+export declare function uniformAnimationConfig<Preset extends string>(config: Partial<Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>>, ctx: IModelMarkAttributeContext): Partial<Record<"none" | "state" | "normal" | "enter" | "appear" | "disappear" | "update" | "exit", boolean | IAnimationConfig | IAnimationConfig[] | IStateAnimateSpec<Preset>>>;
 export declare function isAnimationEnabledForSeries(series: ISeries): boolean;

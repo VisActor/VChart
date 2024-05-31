@@ -40,4 +40,4 @@ export type IBar3dSeriesSpec = {
 export interface IBar3dSeriesTheme extends ICartesianSeriesTheme {
     [SeriesMarkNameEnum.bar3d]?: Partial<IMarkTheme<IRect3dMarkSpec>>;
 }
-export { };
+export {};
