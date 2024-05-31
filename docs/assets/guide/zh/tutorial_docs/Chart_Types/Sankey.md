@@ -238,7 +238,7 @@ const spec = {
             { nodeName: 'F' },
             { nodeName: 'G' }
           ],
-          linkes: [
+          links: [
             { source: 'A', target: 'D', value: 400 },
             { source: 'B', target: 'D', value: 400 },
             { source: 'C', target: 'D', value: 500 },
@@ -255,6 +255,7 @@ const spec = {
   valueField: 'value',
   sourceField: 'source',
   targetField: 'target',
+  nodeKey: 'nodeName',
 
   nodeAlign: 'justify',
   nodeGap: 8,
