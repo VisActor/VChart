@@ -38,15 +38,30 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
       r.getSeries().forEach(s => {
         let activeNodeOrLink = null;
 
-        s.getMarks().forEach(m => {
+        s.getMarksWithoutRoot().forEach(m => {
+          if (m.type === 'text') {
+            return;
+          }
+
           let pickElement = null;
           const mark = m.getProduct();
           if (!mark) {
             return;
           }
           if (!filter || (isFunction(filter) && filter(s, m))) {
-            // eslint-disable-next-line eqeqeq
-            pickElement = mark.elements.find((e: any) => keys.every(k => activeDatum[k] == e.getDatum()?.datum?.[k]));
+            pickElement = mark.elements.find((e: any) =>
+              keys.every(k => {
+                let datum = e.getDatum()?.datum;
+
+                if (isArray(datum)) {
+                  // data of link
+                  datum = datum[0];
+                }
+
+                // eslint-disable-next-line eqeqeq
+                return activeDatum[k] == datum?.[k];
+              })
+            );
           }
           if (pickElement) {
             hasPick = true;
