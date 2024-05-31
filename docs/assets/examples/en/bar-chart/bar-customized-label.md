@@ -14,7 +14,7 @@ You can use `customLayoutFunc` to configure custom label positions; you can cust
 ## Key option
 
 - Set the `label.customLayoutFunc` property to a custom function for label positioning, making the labels appear on the right side of the chart.
-- Set the `barBackground.style` and `axes.style` properties, such as rounded corners, to achieve a progress bar effect.
+- Set the `cornerRadius` of `barBackground.style` and `bar.style` to achieve a progress bar effect.
 - Configure the `barBackground.style.scaleX` property to shorten the length of the background bar chart, making it consistent with the length of the longest bar.
 - Set the `tooltip.mark.title.visible` property to false to hide the tooltip title.
 
