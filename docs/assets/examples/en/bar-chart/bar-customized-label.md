@@ -21,76 +21,65 @@ You can use `customLayoutFunc` to configure custom label positions; you can cust
 ## Demo source
 
 ```javascript livedemo
-const layout = (attribute, text, getRelatedGraphic) => {
-  const maxX2 = Math.max(...attribute.map(attr => getRelatedGraphic(attr).AABBBounds.x2));
-  return text.map(t => {
-    const barRect = getRelatedGraphic(t.attribute);
-    if (barRect) {
-      const x = maxX2 + 30;
-      const y = Math.abs(barRect.AABBBounds.y1 + barRect.AABBBounds.y2) / 2;
-      t.setAttributes({ x, y });
-    }
-    return t;
-  });
-};
+const values = [
+  {
+    province: 'Beijing',
+    value: 3080,
+    type: 'top1'
+  },
+  {
+    province: 'Tianjin',
+    value: 2880,
+    type: 'top2'
+  },
+  {
+    province: 'Chongqing',
+    value: 880,
+    type: 'top3'
+  },
+  {
+    province: 'Shenzhen',
+    value: 780,
+    type: 'common'
+  },
+  {
+    province: 'Guangzhou',
+    value: 680,
+    type: 'common'
+  },
+  {
+    province: 'Shandong',
+    value: 580,
+    type: 'common'
+  },
+  {
+    province: 'Zhejiang',
+    value: 480,
+    type: 'common'
+  },
+  {
+    province: 'Fujian',
+    value: 100,
+    type: 'common'
+  },
+  {
+    province: 'Shihkiachwang',
+    value: 100,
+    type: 'common'
+  },
+  {
+    province: 'Guangxi Zhuang Autonomous Region',
+    value: 100,
+    type: 'common'
+  }
+];
 
 const spec = {
   type: 'bar',
   data: [
     {
       id: 'barData',
-      values: [
-        {
-          province: 'Beijing',
-          value: 3080,
-          type: 'top1'
-        },
-        {
-          province: 'Tianjin',
-          value: 2880,
-          type: 'top2'
-        },
-        {
-          province: 'Chongqing',
-          value: 880,
-          type: 'top3'
-        },
-        {
-          province: 'Shenzhen',
-          value: 780,
-          type: 'common'
-        },
-        {
-          province: 'Guangzhou',
-          value: 680,
-          type: 'common'
-        },
-        {
-          province: 'Shandong',
-          value: 580,
-          type: 'common'
-        },
-        {
-          province: 'Zhejiang',
-          value: 480,
-          type: 'common'
-        },
-        {
-          province: 'Fujian',
-          value: 100,
-          type: 'common'
-        },
-        {
-          province: 'Shihkiachwang',
-          value: 100,
-          type: 'common'
-        },
-        {
-          province: 'Guangxi Zhuang Autonomous Region',
-          value: 100,
-          type: 'common'
-        }
-      ]
+      values
     }
   ],
   direction: 'horizontal',
@@ -100,7 +89,7 @@ const spec = {
   axes: [
     {
       orient: 'bottom',
-      max: 3500,
+      nice: false,
       visible: false
     },
     {
@@ -115,12 +104,21 @@ const spec = {
       tick: {
         visible: false
       }
+    },
+    {
+      orient: 'right',
+      label: {
+        visible: true,
+        formatMethod: datum => values.find(el => el.province === datum).value
+      },
+      domainLine: {
+        visible: false
+      },
+      tick: {
+        visible: false
+      }
     }
   ],
-  label: {
-    customLayoutFunc: layout,
-    visible: true
-  },
   bar: {
     style: {
       cornerRadius: [5, 5, 5, 5],
@@ -131,7 +129,6 @@ const spec = {
     visible: true,
     style: {
       cornerRadius: [5, 5, 5, 5],
-      scaleX: 3080 / 3500,
       height: 10
     }
   },
