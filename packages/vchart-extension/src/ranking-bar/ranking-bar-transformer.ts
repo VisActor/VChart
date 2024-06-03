@@ -1,5 +1,6 @@
 import type { IRankingBarSpec } from './interface';
 import type { ICartesianAxisSpec, ICommonChartSpec, ILabelSpec } from '@visactor/vchart';
+import type { ITextGraphicAttribute } from '@visactor/vrender-core';
 import { BaseChartSpecTransformer } from '@visactor/vchart';
 import { isValid } from '@visactor/vutils';
 
@@ -75,7 +76,7 @@ export class RankingBarChartSpecTransformer<T extends ICommonChartSpec> extends 
     transformAnimationSpec(spec, { interval, exchangeDuration });
 
     if (!timeLabel || timeLabel.visible !== false) {
-      spec.customMark.push(timeLabelSpec() as any);
+      spec.customMark.push(timeLabelSpec(timeLabel.style) as any);
     }
     if (icon) {
       const icon = iconSpec(iconPosition, iconShape, { interval, exchangeDuration });
@@ -255,7 +256,7 @@ function axisSpec(xAxis: IRankingBarSpec['xAxis'] = {}, yAxis: IRankingBarSpec['
   return [leftAxis, bottomAxis];
 }
 
-function timeLabelSpec() {
+function timeLabelSpec(textStyle: ITextGraphicAttribute = {}) {
   return {
     type: 'text',
     dataId: 'time',
@@ -272,7 +273,8 @@ function timeLabelSpec() {
         return ctx.vchart.getChart().getCanvasRect()?.height - 80;
       },
       fill: 'grey',
-      fillOpacity: 0.5
+      fillOpacity: 0.5,
+      ...textStyle
     }
   };
 }

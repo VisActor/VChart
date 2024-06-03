@@ -38,15 +38,18 @@ const spec = {
     Pakistan: '#006600',
     Nigeria: '#008000'
   },
+  timeLabel: {
+    // visible: false,
+    style: {
+      fill: 'red'
+    }
+  },
   nameLabel: {
     visible: true,
     position: 'bar-start',
     style: {
       // fill: 'white'
     }
-  },
-  timeLabel: {
-    // visible: false
   },
   yAxis: {
     // domainLine: {

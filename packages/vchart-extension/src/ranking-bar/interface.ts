@@ -42,7 +42,10 @@ export interface IRankingBarSpec extends IPlayConfig {
     style?: ITextGraphicAttribute;
   };
 
-  timeLabel?: ITextGraphicAttribute;
+  timeLabel?: {
+    visible?: boolean;
+    style?: ITextGraphicAttribute;
+  };
 
   xAxis?: {
     label?: ITextGraphicAttribute;
