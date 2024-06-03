@@ -120,7 +120,6 @@ function transformAnimationSpec(
   spec: ICommonChartSpec,
   { interval, exchangeDuration }: { interval: number; exchangeDuration: number }
 ) {
-  // @ts-ignore FIXME: type definition
   (spec as any).animationAppear = false;
   (spec as any).animationUpdate = {
     bar: [
@@ -235,10 +234,8 @@ function axisSpec(xAxis: IRankingBarSpec['xAxis'] = {}, yAxis: IRankingBarSpec['
     orient: 'left',
     type: 'band',
     inverse: true,
-    // @ts-ignore FIXME: type definition
     label: { style: yAxis.label },
     domainLine: { style: yAxis.domainLine },
-    // @ts-ignore FIXME: type definition
     grid: { style: yAxis.grid }
   };
   const bottomAxis: ICartesianAxisSpec = {
@@ -246,12 +243,9 @@ function axisSpec(xAxis: IRankingBarSpec['xAxis'] = {}, yAxis: IRankingBarSpec['
     type: 'linear',
     nice: false,
     animation: true,
-    // @ts-ignore FIXME: type definition
     label: { style: xAxis.label },
     domainLine: { style: xAxis.domainLine },
-    // @ts-ignore FIXME: type definition
     grid: { style: xAxis.grid },
-    // @ts-ignore FIXME: type definition
     innerOffset: { right: '10%' }
   };
 
