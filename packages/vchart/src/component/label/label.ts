@@ -3,7 +3,14 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
-import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import {
+  AttributeLevel,
+  ChartEvent,
+  LayoutZIndex,
+  STACK_FIELD_TOTAL_BOTTOM,
+  STACK_FIELD_TOTAL_TOP,
+  VGRAMMAR_HOOK_EVENT
+} from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { eachSeries } from '../../util/model';
@@ -297,10 +304,22 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             },
             defaultLabelConfig(rule, labelInfo),
             {
-              ...pickWithout(labelSpec, ['position', 'style', 'state', 'type']),
+              ...pickWithout(labelSpec, ['position', 'style', 'state', 'type', 'stackDataFilterType']),
               ...interactive,
               centerOffset
-            }
+            },
+            labelSpec.stackDataFilterType
+              ? {
+                  dataFilter:
+                    labelSpec.stackDataFilterType === 'min'
+                      ? (data: any) => {
+                          return data.filter((d: any) => d.data[STACK_FIELD_TOTAL_BOTTOM]);
+                        }
+                      : (data: any) => {
+                          return data.filter((d: any) => d.data[STACK_FIELD_TOTAL_TOP]);
+                        }
+                }
+              : {}
           );
           // TODO 可以优化。vgrammar 的 label 图元类型分发是完全依赖 baseMark 的类型。默认情况下，line/area 图元的标签会使用'line-data'标签，此时需要 vchart 将类型传给 vgrammar
           if (rule === 'line' || rule === 'area') {
@@ -313,6 +332,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         const labelInfo = labelInfos[params.labelIndex];
         if (labelInfo) {
           const { labelSpec, labelMark } = labelInfos[params.labelIndex];
+
           return labelMark.skipEncode
             ? { data: datum }
             : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod, labelSpec.formatter);

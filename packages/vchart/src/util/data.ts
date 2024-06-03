@@ -10,9 +10,10 @@ import {
   STACK_FIELD_TOTAL_PERCENT,
   STACK_FIELD_TOTAL_TOP,
   STACK_FIELD_START,
-  STACK_FIELD_KEY
+  STACK_FIELD_KEY,
+  STACK_FIELD_TOTAL_BOTTOM
 } from '../constant';
-import { toValidNumber } from './type';
+import { isValid, toValidNumber } from './type';
 import { max, sum } from './math';
 import type { ISeries, ISeriesStackDataMeta } from '../series/interface';
 import type { IRegion } from '../region/interface';
@@ -173,15 +174,12 @@ export function stackTotal(stackData: IStackCacheNode, valueField: string) {
   if ('values' in stackData && stackData.values.length) {
     const total = sum(stackData.values, valueField);
     const percent = max(stackData.values, STACK_FIELD_END_PERCENT);
+
     stackData.values.forEach(v => {
       v[STACK_FIELD_TOTAL] = total;
       v[STACK_FIELD_TOTAL_PERCENT] = percent;
-      delete v[STACK_FIELD_TOTAL_TOP];
     });
-    const maxNode = stackData.values.reduce((max, current) => {
-      return current[STACK_FIELD_END] > max[STACK_FIELD_END] ? current : max;
-    });
-    maxNode[STACK_FIELD_TOTAL_TOP] = true;
+
     stackData.total = total;
     return;
   }
@@ -205,20 +203,28 @@ export function stack(
   stackCache: IStackCacheNode,
   stackInverse: boolean,
   hasPercent?: boolean,
+  hasMinMax?: boolean,
   fields: {
     key: string;
     start: string;
     end: string;
     startPercent: string;
     endPercent: string;
+    min?: string;
+    max?: string;
   } = {
     key: STACK_FIELD_KEY,
     start: STACK_FIELD_START,
     end: STACK_FIELD_END,
     startPercent: STACK_FIELD_START_PERCENT,
-    endPercent: STACK_FIELD_END_PERCENT
+    endPercent: STACK_FIELD_END_PERCENT,
+    max: STACK_FIELD_TOTAL_TOP,
+    min: STACK_FIELD_TOTAL_BOTTOM
   }
 ) {
+  const hasMinField = hasMinMax && isValid(fields.min);
+  const hasMaxField = hasMinMax && isValid(fields.max);
+
   if (stackCache.values.length > 0) {
     // 设置一个小数以保证 log 计算不会报错
     let positiveStart = 0;
@@ -226,6 +232,8 @@ export function stack(
     // temp
     let sign = 1;
     let value = 0;
+    let minNode: any = null;
+    let maxNode: any = null;
 
     // stack
     const maxLength = stackCache.values.length;
@@ -242,7 +250,24 @@ export function stack(
         v[fields.end] = negativeStart;
       }
       v[fields.key] = stackCache.key;
+
+      if (hasMaxField) {
+        delete v[fields.max];
+        if (!maxNode || v[fields.end] > maxNode[fields.end]) {
+          maxNode = v;
+        }
+      }
+      if (hasMinField) {
+        delete v[fields.min];
+        if (!minNode || v[fields.start] < minNode[fields.start]) {
+          minNode = v;
+        }
+      }
     }
+
+    hasMaxField && maxNode && (maxNode[fields.max] = true);
+    hasMinField && minNode && (minNode[fields.min] = true);
+
     if (hasPercent) {
       // normalize
       for (let index = 0; index < maxLength; index++) {
@@ -257,7 +282,7 @@ export function stack(
   }
 
   for (const key in stackCache.nodes) {
-    stack(stackCache.nodes[key], stackInverse, hasPercent);
+    stack(stackCache.nodes[key], stackInverse, hasPercent, hasMinMax, fields);
   }
 }
 

@@ -52,7 +52,9 @@ export class Stack {
       return;
     }
     // total label need percent
-    const hasTotalLabel = series.some(s => s.type === SeriesTypeEnum.mosaic || s.getSpec()?.totalLabel?.visible);
+    const hasTotalLabel = series.some(s => {
+      return s.type === SeriesTypeEnum.mosaic || s.getSpec()?.totalLabel?.visible;
+    });
     const hasPercent = hasTotalLabel || series.some(s => s.getPercent());
     const hasOffsetSilhouette = series.some(s => s.getStackOffsetSilhouette());
 
@@ -61,7 +63,7 @@ export class Stack {
     // 计算堆积
     for (const stackValue in stackValueGroup) {
       for (const key in stackValueGroup[stackValue].nodes) {
-        stack(stackValueGroup[stackValue].nodes[key], model.getStackInverse(), hasPercent);
+        stack(stackValueGroup[stackValue].nodes[key], model.getStackInverse(), hasPercent, hasTotalLabel);
       }
     }
 
@@ -97,7 +99,7 @@ export class Stack {
               })
             };
 
-            stack(mosaicStackData as IStackCacheNode, false, true, {
+            stack(mosaicStackData as IStackCacheNode, false, true, false, {
               key: STACK_FIELD_TOTAL_KEY,
               start: STACK_FIELD_TOTAL_START,
               end: STACK_FIELD_TOTAL_END,
