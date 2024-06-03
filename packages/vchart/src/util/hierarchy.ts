@@ -93,3 +93,35 @@ export const findHierarchyPath = <T>(
   dfs(hierarchyData, []);
   return result;
 };
+
+export function filterHierarchyDataByRange(
+  data: any[],
+  minValue: number,
+  maxValue: number,
+  valueField = 'value',
+  childrenField = 'children'
+) {
+  if (!Array.isArray(data)) {
+    return data;
+  }
+
+  return data
+    .map(item => {
+      const newItem = { ...item };
+      if (Array.isArray(newItem[childrenField])) {
+        newItem[childrenField] = filterHierarchyDataByRange(
+          newItem[childrenField],
+          minValue,
+          maxValue,
+          valueField,
+          childrenField
+        );
+      }
+      return newItem;
+    })
+    .filter(
+      item =>
+        (+item[valueField] >= minValue && +item[valueField] <= maxValue) ||
+        (item[childrenField] && item[childrenField].length > 0)
+    );
+}
