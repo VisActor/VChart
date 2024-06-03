@@ -1,10 +1,19 @@
-import { ChartEvent } from '../constant/index';
+import {
+  ChartEvent,
+  STACK_FIELD_TOTAL,
+  STACK_FIELD_TOTAL_END,
+  STACK_FIELD_TOTAL_END_PERCENT,
+  STACK_FIELD_TOTAL_KEY,
+  STACK_FIELD_TOTAL_START,
+  STACK_FIELD_TOTAL_START_PERCENT
+} from '../constant/index';
 import type { IRegion } from '../region/interface';
 import type { IChart } from './interface';
 import type { IStackCacheNode } from '../util';
 // eslint-disable-next-line no-duplicate-imports
 import { getRegionStackGroup, stack, stackOffsetSilhouette, stackTotal } from '../util';
 import type { EventCallback } from '../event/interface';
+import { SeriesTypeEnum } from '../series';
 
 // stack
 // 1. 不可以多个region之间的series进行堆积，目前看这种需求没有场景。将堆积改为针对 region
@@ -43,7 +52,7 @@ export class Stack {
       return;
     }
     // total label need percent
-    const hasTotalLabel = series.some(s => s.getSpec()?.totalLabel?.visible);
+    const hasTotalLabel = series.some(s => s.type === SeriesTypeEnum.mosaic || s.getSpec()?.totalLabel?.visible);
     const hasPercent = hasTotalLabel || series.some(s => s.getPercent());
     const hasOffsetSilhouette = series.some(s => s.getStackOffsetSilhouette());
 
@@ -72,6 +81,41 @@ export class Stack {
         const stackValueField = s.getStackValueField(); // yField
         if (stackData && stackValueField) {
           stackTotal(stackValueGroup[stackValue] as IStackCacheNode, stackValueField);
+
+          if (s.type === SeriesTypeEnum.mosaic) {
+            const groups = s.getRawDataStatisticsByField(s.getStackGroupFields()[0], false)?.values || [];
+
+            const mosaicStackData = {
+              key: `${stackValue}_mosaic`,
+              values: groups.map(group => {
+                const groupValues = stackValueGroup[stackValue].nodes[group];
+
+                return {
+                  [STACK_FIELD_TOTAL]: groupValues.total,
+                  [STACK_FIELD_TOTAL_END]: groupValues.total
+                };
+              })
+            };
+
+            stack(mosaicStackData as IStackCacheNode, false, true, {
+              key: STACK_FIELD_TOTAL_KEY,
+              start: STACK_FIELD_TOTAL_START,
+              end: STACK_FIELD_TOTAL_END,
+              startPercent: STACK_FIELD_TOTAL_START_PERCENT,
+              endPercent: STACK_FIELD_TOTAL_END_PERCENT
+            });
+
+            groups.forEach((group, index) => {
+              const groupValues = stackValueGroup[stackValue].nodes[group];
+              const stackRes = mosaicStackData.values[index];
+
+              groupValues.values.forEach(seriesDatum => {
+                Object.keys(stackRes).forEach(key => {
+                  seriesDatum[key] = stackRes[key];
+                });
+              });
+            });
+          }
         }
       });
     }

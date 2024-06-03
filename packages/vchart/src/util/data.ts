@@ -82,6 +82,7 @@ export interface IStackCacheNode {
     [key: string]: IStackCacheNode;
   };
   key: string;
+  total?: number;
 }
 export interface IStackCacheRoot {
   nodes: {
@@ -181,6 +182,7 @@ export function stackTotal(stackData: IStackCacheNode, valueField: string) {
       return current[STACK_FIELD_END] > max[STACK_FIELD_END] ? current : max;
     });
     maxNode[STACK_FIELD_TOTAL_TOP] = true;
+    stackData.total = total;
     return;
   }
   for (const key in stackData.nodes) {
@@ -199,7 +201,24 @@ export function stackOffsetSilhouette(stackCache: IStackCacheNode) {
   }
 }
 
-export function stack(stackCache: IStackCacheNode, stackInverse: boolean, hasPercent?: boolean) {
+export function stack(
+  stackCache: IStackCacheNode,
+  stackInverse: boolean,
+  hasPercent?: boolean,
+  fields: {
+    key: string;
+    start: string;
+    end: string;
+    startPercent: string;
+    endPercent: string;
+  } = {
+    key: STACK_FIELD_KEY,
+    start: STACK_FIELD_START,
+    end: STACK_FIELD_END,
+    startPercent: STACK_FIELD_START_PERCENT,
+    endPercent: STACK_FIELD_END_PERCENT
+  }
+) {
   if (stackCache.values.length > 0) {
     // 设置一个小数以保证 log 计算不会报错
     let positiveStart = 0;
@@ -212,27 +231,27 @@ export function stack(stackCache: IStackCacheNode, stackInverse: boolean, hasPer
     const maxLength = stackCache.values.length;
     for (let index = 0; index < maxLength; index++) {
       const v = stackCache.values[stackInverse ? maxLength - 1 - index : index];
-      value = v[STACK_FIELD_END];
+      value = v[fields.end];
       if (value >= 0) {
-        v[STACK_FIELD_START] = positiveStart;
-        positiveStart += v[STACK_FIELD_END];
-        v[STACK_FIELD_END] = positiveStart;
+        v[fields.start] = positiveStart;
+        positiveStart += v[fields.end];
+        v[fields.end] = positiveStart;
       } else {
-        v[STACK_FIELD_START] = negativeStart;
-        negativeStart += v[STACK_FIELD_END];
-        v[STACK_FIELD_END] = negativeStart;
+        v[fields.start] = negativeStart;
+        negativeStart += v[fields.end];
+        v[fields.end] = negativeStart;
       }
-      v[STACK_FIELD_KEY] = stackCache.key;
+      v[fields.key] = stackCache.key;
     }
     if (hasPercent) {
       // normalize
       for (let index = 0; index < maxLength; index++) {
         const v = stackCache.values[stackInverse ? maxLength - 1 - index : index];
-        value = v[STACK_FIELD_END];
+        value = v[fields.end];
         const denominator = value >= 0 ? positiveStart : negativeStart;
         sign = value >= 0 ? 1 : -1;
-        v[STACK_FIELD_START_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_START] / denominator) * sign;
-        v[STACK_FIELD_END_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_END] / denominator) * sign;
+        v[fields.startPercent] = denominator === 0 ? 0 : Math.min(1, v[fields.start] / denominator) * sign;
+        v[fields.endPercent] = denominator === 0 ? 0 : Math.min(1, v[fields.end] / denominator) * sign;
       }
     }
   }

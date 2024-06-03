@@ -85,7 +85,7 @@ type LabelStateStyle<T> = {
 
 export type ITotalLabelSpec = Pick<
   ILabelSpec,
-  'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType'
+  'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType' | 'overlap'
 >;
 
 export interface ITotalLabelTheme
