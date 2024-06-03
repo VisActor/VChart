@@ -62,7 +62,7 @@ describe('vchart updateSpec test', () => {
       yField: 'value',
       seriesField: 'type',
       markLine: []
-    };
+    } as any;
     vchart = new VChart(spec, {
       dom
     });
