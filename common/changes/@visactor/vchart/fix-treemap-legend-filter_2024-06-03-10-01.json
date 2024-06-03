@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix issue of continuous legend filter in treemap",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
