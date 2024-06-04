@@ -322,18 +322,19 @@ export type LabelItem = {
 
 当配置了 customLayoutFunc 后，默认布局和防重叠逻辑将不再生效（position/offset 不生效）。
 
-函数回调参数为：`(data: LabelItem[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[];`
+函数回调参数为：`(item: LabelItem[], labels: (IText | IRichText)[], getRelatedGraphic: (data: LabelItem) => IGraphic, getRelatedPoint?: (data: LabelItem) => IPointLike) => (IText | IRichText)[]`
 使用方式例如：
 
 ```js
-import { createText } from '@visactor/vrender';
-
-const layout = (data, getRelatedGraphic) => {
-  return data.map(d => {
-    const baseMark = getRelatedGraphic(d);
-    const x = (baseMark.AABBBounds.x1 + baseMark.AABBBounds.x2) / 2;
-    const y = (baseMark.AABBBounds.y1 + baseMark.AABBBounds.y2) / 2;
-    return createText({ ...d, x, y });
+const layout = (attribute, text, getRelatedGraphic) => {
+  return text.map(t => {
+    const barRect = getRelatedGraphic(t.attribute);
+    if (barRect) {
+      const x = Math.abs(baseMark.AABBBounds.x1 + baseMark.AABBBounds.x2) / 2;
+      const y = Math.abs(barRect.AABBBounds.y1 + barRect.AABBBounds.y2) / 2;
+      t.setAttributes({ x: 100, y });
+    }
+    return t;
   });
 };
 ```

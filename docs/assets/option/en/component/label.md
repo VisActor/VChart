@@ -323,18 +323,19 @@ Custom label layout function. Supported since version `1.3.0`.
 
 When `customLayoutFunc` is configured, the default layout and overlap prevention logic will no longer take effect (`position`/`offset` will not be effective).
 
-The function callback parameter is: `(data: LabelItem[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[]`.
+The function callback parameter is: `(item: LabelItem[], labels: (IText | IRichText)[], getRelatedGraphic: (data: LabelItem) => IGraphic, getRelatedPoint?: (data: LabelItem) => IPointLike) => (IText | IRichText)[]`.
 Example usage:
 
 ```js
-import { createText } from '@visactor/vrender';
-
-const layout = (data, getRelatedGraphic) => {
-  return data.map(d => {
-    const baseMark = getRelatedGraphic(d);
-    const x = (baseMark.AABBBounds.x1 + baseMark.AABBBounds.x2) / 2;
-    const y = (baseMark.AABBBounds.y1 + baseMark.AABBBounds.y2) / 2;
-    return createText({ ...d, x, y });
+const layout = (attribute, text, getRelatedGraphic) => {
+  return text.map(t => {
+    const barRect = getRelatedGraphic(t.attribute);
+    if (barRect) {
+      const x = Math.abs(baseMark.AABBBounds.x1 + baseMark.AABBBounds.x2) / 2;
+      const y = Math.abs(barRect.AABBBounds.y1 + barRect.AABBBounds.y2) / 2;
+      t.setAttributes({ x: 100, y });
+    }
+    return t;
   });
 };
 ```
