@@ -21,76 +21,75 @@ You can use `customLayoutFunc` to configure custom label positions; you can cust
 ## Demo source
 
 ```javascript livedemo
-const values = [
-  {
-    province: 'Beijing',
-    value: 3080,
-    type: 'top1'
-  },
-  {
-    province: 'Tianjin',
-    value: 2880,
-    type: 'top2'
-  },
-  {
-    province: 'Chongqing',
-    value: 880,
-    type: 'top3'
-  },
-  {
-    province: 'Shenzhen',
-    value: 780,
-    type: 'common'
-  },
-  {
-    province: 'Guangzhou',
-    value: 680,
-    type: 'common'
-  },
-  {
-    province: 'Shandong',
-    value: 580,
-    type: 'common'
-  },
-  {
-    province: 'Zhejiang',
-    value: 480,
-    type: 'common'
-  },
-  {
-    province: 'Fujian',
-    value: 100,
-    type: 'common'
-  },
-  {
-    province: 'Shihkiachwang',
-    value: 100,
-    type: 'common'
-  },
-  {
-    province: 'Guangxi Zhuang Autonomous Region',
-    value: 100,
-    type: 'common'
-  }
-];
-
 const spec = {
   type: 'bar',
   data: [
     {
       id: 'barData',
-      values
+      values: [
+        {
+          province: 'Beijing',
+          value: 3080,
+          type: 'top1'
+        },
+        {
+          province: 'Tianjin',
+          value: 2880,
+          type: 'top2'
+        },
+        {
+          province: 'Chongqing',
+          value: 880,
+          type: 'top3'
+        },
+        {
+          province: 'Shenzhen',
+          value: 780,
+          type: 'common'
+        },
+        {
+          province: 'Guangzhou',
+          value: 680,
+          type: 'common'
+        },
+        {
+          province: 'Shandong',
+          value: 580,
+          type: 'common'
+        },
+        {
+          province: 'Zhejiang',
+          value: 480,
+          type: 'common'
+        },
+        {
+          province: 'Fujian',
+          value: 100,
+          type: 'common'
+        },
+        {
+          province: 'Shihkiachwang',
+          value: 100,
+          type: 'common'
+        },
+        {
+          province: 'Guangxi Zhuang Autonomous Region',
+          value: 100,
+          type: 'common'
+        }
+      ]
     }
   ],
   direction: 'horizontal',
   xField: 'value',
   yField: 'province',
   seriesField: 'province',
+  padding: { right: 50, left: 10 },
   axes: [
     {
       orient: 'bottom',
-      nice: false,
-      visible: false
+      visible: false,
+      nice: false
     },
     {
       orient: 'left',
@@ -104,21 +103,9 @@ const spec = {
       tick: {
         visible: false
       }
-    },
-    {
-      orient: 'right',
-      label: {
-        visible: true,
-        formatMethod: datum => values.find(el => el.province === datum).value
-      },
-      domainLine: {
-        visible: false
-      },
-      tick: {
-        visible: false
-      }
     }
   ],
+  stackCornerRadius: 0,
   bar: {
     style: {
       cornerRadius: [5, 5, 5, 5],
@@ -130,6 +117,38 @@ const spec = {
     style: {
       cornerRadius: [5, 5, 5, 5],
       height: 10
+    },
+    state: {
+      hover: {
+        stroke: '#D9D9D9',
+        lineWidth: 1
+      }
+    }
+  },
+  extensionMark: [
+    {
+      type: 'text',
+      dataId: 'barData',
+      visible: true,
+      style: {
+        text: datum => datum.value,
+        fontSize: 12,
+        x: (datum, ctx) => {
+          return ctx.getRegion().getLayoutRect().width + 10;
+        },
+        y: (datum, ctx) => {
+          return ctx.valueToY([datum.province]) + ctx.yBandwidth() / 2;
+        },
+        textBaseline: 'middle',
+        textAlign: 'left',
+        fill: '#595959',
+        size: 20
+      }
+    }
+  ],
+  crosshair: {
+    yField: {
+      visible: false
     }
   },
   tooltip: {

@@ -21,76 +21,75 @@ option: barChart
 ## 代码演示
 
 ```javascript livedemo
-const values = [
-  {
-    province: '北京',
-    value: 3080,
-    type: 'top1'
-  },
-  {
-    province: '天津',
-    value: 2880,
-    type: 'top2'
-  },
-  {
-    province: '重庆',
-    value: 880,
-    type: 'top3'
-  },
-  {
-    province: '深圳',
-    value: 780,
-    type: 'common'
-  },
-  {
-    province: '广州',
-    value: 680,
-    type: 'common'
-  },
-  {
-    province: '山东',
-    value: 580,
-    type: 'common'
-  },
-  {
-    province: '浙江',
-    value: 480,
-    type: 'common'
-  },
-  {
-    province: '福建',
-    value: 100,
-    type: 'common'
-  },
-  {
-    province: '石家庄',
-    value: 100,
-    type: 'common'
-  },
-  {
-    province: '广西壮族自治区',
-    value: 100,
-    type: 'common'
-  }
-];
-
 const spec = {
   type: 'bar',
   data: [
     {
       id: 'barData',
-      values
+      values: [
+        {
+          province: '北京',
+          value: 3080,
+          type: 'top1'
+        },
+        {
+          province: '天津',
+          value: 2880,
+          type: 'top2'
+        },
+        {
+          province: '重庆',
+          value: 880,
+          type: 'top3'
+        },
+        {
+          province: '深圳',
+          value: 780,
+          type: 'common'
+        },
+        {
+          province: '广州',
+          value: 680,
+          type: 'common'
+        },
+        {
+          province: '山东',
+          value: 580,
+          type: 'common'
+        },
+        {
+          province: '浙江',
+          value: 480,
+          type: 'common'
+        },
+        {
+          province: '福建',
+          value: 100,
+          type: 'common'
+        },
+        {
+          province: '石家庄',
+          value: 100,
+          type: 'common'
+        },
+        {
+          province: '广西壮族自治区',
+          value: 100,
+          type: 'common'
+        }
+      ]
     }
   ],
   direction: 'horizontal',
   xField: 'value',
   yField: 'province',
   seriesField: 'province',
+  padding: { right: 50, left: 10 },
   axes: [
     {
       orient: 'bottom',
-      nice: false,
-      visible: false
+      visible: false,
+      nice: false
     },
     {
       orient: 'left',
@@ -104,21 +103,9 @@ const spec = {
       tick: {
         visible: false
       }
-    },
-    {
-      orient: 'right',
-      label: {
-        visible: true,
-        formatMethod: datum => values.find(el => el.province === datum).value
-      },
-      domainLine: {
-        visible: false
-      },
-      tick: {
-        visible: false
-      }
     }
   ],
+  stackCornerRadius: 0,
   bar: {
     style: {
       cornerRadius: [5, 5, 5, 5],
@@ -130,6 +117,38 @@ const spec = {
     style: {
       cornerRadius: [5, 5, 5, 5],
       height: 10
+    },
+    state: {
+      hover: {
+        stroke: '#D9D9D9',
+        lineWidth: 1
+      }
+    }
+  },
+  extensionMark: [
+    {
+      type: 'text',
+      dataId: 'barData',
+      visible: true,
+      style: {
+        text: datum => datum.value,
+        fontSize: 12,
+        x: (datum, ctx) => {
+          return ctx.getRegion().getLayoutRect().width + 10;
+        },
+        y: (datum, ctx) => {
+          return ctx.valueToY([datum.province]) + ctx.yBandwidth() / 2;
+        },
+        textBaseline: 'middle',
+        textAlign: 'left',
+        fill: '#595959',
+        size: 20
+      }
+    }
+  ],
+  crosshair: {
+    yField: {
+      visible: false
     }
   },
   tooltip: {
@@ -154,7 +173,7 @@ const spec = {
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
 
-// Just for the convenience of console debugging, DO NOT COPY!
+// 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
 
