@@ -9,14 +9,13 @@ option: barChart
 
 # Bar Chart with Custom Label
 
-You can use `customLayoutFunc` to configure custom label positions; you can customize the background of the bar chart to achieve a progress bar-like effect; the title of the details can be hidden.
+You can use `customLayoutFunc` to configure custom data label positions; you can customize the background of the bar chart to achieve a progress bar-like effect; the title of the details can be hidden.
 
 ## Key option
 
-- Set the `label.customLayoutFunc` property to a custom function for label positioning, making the labels appear on the right side of the chart.
-- Set the `cornerRadius` of `barBackground.style` and `bar.style` to achieve a progress bar effect.
-- Configure the `barBackground.style.scaleX` property to shorten the length of the background bar chart, making it consistent with the length of the longest bar.
-- Set the `tooltip.mark.title.visible` property to false to hide the tooltip title.
+- Set the `extensionMark` property to the function for custom label positioning, making the labels appear on the right side of the chart.
+- Set the `cornerRadius` property of `barBackground.style` and `bar.style` to give the appearance of a progress bar.
+- Configure the `tooltip.mark.title.visible` property to false to hide the tooltip's title.
 
 ## Demo source
 
