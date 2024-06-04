@@ -11,7 +11,12 @@ import { Factory } from '../../core/factory';
 import { BarSeriesSpecTransformer } from '../bar/bar-transformer';
 import { registerCartesianLinearAxis } from '../../component/axis/cartesian';
 import { Direction } from '../../typings/space';
-import { STACK_FIELD_TOTAL_END_PERCENT, STACK_FIELD_TOTAL_START_PERCENT } from '../../constant';
+import {
+  MOSAIC_CAT_END_PERCENT,
+  MOSAIC_CAT_START_PERCENT,
+  MOSAIC_VALUE_END_PERCENT,
+  MOSAIC_VALUE_START_PERCENT
+} from '../../constant';
 
 export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.mosaic;
@@ -22,19 +27,33 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
   static readonly transformerConstructor = BarSeriesSpecTransformer as any;
   readonly transformerConstructor = BarSeriesSpecTransformer as any;
 
+  getStack() {
+    return true;
+  }
   getGroupFields() {
     return this.direction === 'vertical' ? this._specXField : this._specYField;
   }
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
+    const isPercent = this.getPercent();
 
     if (this.direction === Direction.horizontal) {
-      this.setFieldY(STACK_FIELD_TOTAL_END_PERCENT);
-      this.setFieldY2(STACK_FIELD_TOTAL_START_PERCENT);
+      if (isPercent) {
+        this.setFieldX(MOSAIC_VALUE_END_PERCENT);
+        this.setFieldX2(MOSAIC_VALUE_START_PERCENT);
+      }
+
+      this.setFieldY(MOSAIC_CAT_END_PERCENT);
+      this.setFieldY2(MOSAIC_CAT_START_PERCENT);
     } else {
-      this.setFieldX(STACK_FIELD_TOTAL_END_PERCENT);
-      this.setFieldX2(STACK_FIELD_TOTAL_START_PERCENT);
+      if (isPercent) {
+        this.setFieldY(MOSAIC_VALUE_END_PERCENT);
+        this.setFieldY2(MOSAIC_VALUE_START_PERCENT);
+      }
+
+      this.setFieldX(MOSAIC_CAT_END_PERCENT);
+      this.setFieldX2(MOSAIC_CAT_START_PERCENT);
     }
   }
 }

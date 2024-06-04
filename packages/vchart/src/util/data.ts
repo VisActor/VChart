@@ -11,7 +11,11 @@ import {
   STACK_FIELD_TOTAL_TOP,
   STACK_FIELD_START,
   STACK_FIELD_KEY,
-  STACK_FIELD_TOTAL_BOTTOM
+  STACK_FIELD_TOTAL_BOTTOM,
+  MOSAIC_CAT_START_PERCENT,
+  MOSAIC_CAT_END_PERCENT,
+  MOSAIC_VALUE_START_PERCENT,
+  MOSAIC_VALUE_END_PERCENT
 } from '../constant';
 import { isValid, toValidNumber } from './type';
 import { max, sum } from './math';
@@ -69,6 +73,7 @@ export function getFieldAlias(dataView: DataView, field: string) {
 }
 
 export interface IStackCacheNode {
+  groupField?: string;
   values: any[];
   series: {
     s: ISeries;
@@ -86,6 +91,8 @@ export interface IStackCacheNode {
   total?: number;
 }
 export interface IStackCacheRoot {
+  groupField?: string;
+  total?: number;
   nodes: {
     [key: string]: IStackCacheNode;
   };
@@ -136,6 +143,7 @@ export function getRegionStackGroup(region: IRegion, setInitialValue: boolean, f
     const filterEnable = filter ? filter(s) : true;
     if (stackData && stackValueField && filterEnable) {
       stackValueGroup[stackValue] = stackValueGroup[stackValue] ?? {
+        groupField: stackData.groupField,
         nodes: {}
       };
 
@@ -180,11 +188,124 @@ export function stackTotal(stackData: IStackCacheNode, valueField: string) {
       v[STACK_FIELD_TOTAL_PERCENT] = percent;
     });
 
-    stackData.total = total;
     return;
   }
   for (const key in stackData.nodes) {
     stackTotal(stackData.nodes[key], valueField);
+  }
+  return;
+}
+
+export interface IMosaicData {
+  groupField?: string;
+  groupValue?: string;
+  value?: number;
+  end?: number;
+  start?: number;
+  startPercent?: number;
+  endPercent?: number;
+}
+
+export function stackMosaicTotal(stackData: IStackCacheNode, valueField: string) {
+  if ('values' in stackData && stackData.values.length) {
+    if (isValid(stackData.values[0]?.[STACK_FIELD_TOTAL])) {
+      stackData.total = stackData.values[0]?.[STACK_FIELD_TOTAL];
+    } else {
+      stackData.total = sum(stackData.values, valueField);
+    }
+    return;
+  }
+  for (const key in stackData.nodes) {
+    stackMosaicTotal(stackData.nodes[key], valueField);
+  }
+
+  if (stackData.nodes) {
+    stackData.total = sum(
+      Object.keys(stackData.nodes).map(key => stackData.nodes[key]),
+      'total'
+    );
+  }
+
+  return;
+}
+
+export function stackMosaic(s: ISeries, stackCache: IStackCacheNode, mosaicData?: IMosaicData[]) {
+  if (stackCache.groupField && stackCache.nodes) {
+    const groupValues = s.getRawDataStatisticsByField(stackCache.groupField, false)?.values || [];
+    const mosaicStackData = {
+      key: `${stackCache.groupField}`,
+      values: groupValues.map(group => {
+        const groupValues = stackCache.nodes[group];
+
+        return {
+          groupValue: group,
+          value: groupValues.total,
+          end: groupValues.total
+        };
+      })
+    };
+
+    stack(mosaicStackData as IStackCacheNode, false, true, false, {
+      key: 'groupField',
+      start: 'start',
+      end: 'end',
+      startPercent: 'startPercent',
+      endPercent: 'endPercent'
+    });
+
+    mosaicStackData.values.forEach(stackValue => {
+      (stackCache.nodes[stackValue.groupValue] as any).mosaicData = stackValue;
+    });
+  } else if ('values' in stackCache && stackCache.values.length && mosaicData && mosaicData.length) {
+    const len = mosaicData.length;
+    let catStartPercent = 0;
+    let catEndPercent = 1;
+    let valueStartPercent = 0;
+    let valueEndPercent = 1;
+
+    for (let i = 0; i < len; i++) {
+      if (i % 2 === 0) {
+        const catDelta = catEndPercent - catStartPercent;
+
+        catEndPercent = catStartPercent + mosaicData[i].endPercent * catDelta;
+        catStartPercent = catStartPercent + mosaicData[i].startPercent * catDelta;
+      } else {
+        const valueDelta = valueEndPercent - valueStartPercent;
+
+        valueEndPercent = valueStartPercent + mosaicData[i].endPercent * valueDelta;
+        valueStartPercent = valueStartPercent + mosaicData[i].startPercent * valueDelta;
+      }
+    }
+
+    if (len % 2 === 0) {
+      stackCache.values.forEach(v => {
+        const delta = catEndPercent - catStartPercent;
+        v[MOSAIC_CAT_END_PERCENT] = catStartPercent + delta * v[STACK_FIELD_END_PERCENT];
+        v[MOSAIC_CAT_START_PERCENT] = catStartPercent + delta * v[STACK_FIELD_START_PERCENT];
+        v[MOSAIC_VALUE_END_PERCENT] = valueEndPercent;
+        v[MOSAIC_VALUE_START_PERCENT] = valueStartPercent;
+      });
+    } else {
+      stackCache.values.forEach(v => {
+        const delta = valueEndPercent - valueStartPercent;
+        v[MOSAIC_VALUE_END_PERCENT] = valueStartPercent + delta * v[STACK_FIELD_END_PERCENT];
+        v[MOSAIC_VALUE_START_PERCENT] = valueStartPercent + delta * v[STACK_FIELD_START_PERCENT];
+        v[MOSAIC_CAT_END_PERCENT] = catEndPercent;
+        v[MOSAIC_CAT_START_PERCENT] = catStartPercent;
+      });
+    }
+  }
+
+  for (const key in stackCache.nodes) {
+    stackMosaic(
+      s,
+      stackCache.nodes[key],
+      (stackCache.nodes[key] as any).mosaicData
+        ? mosaicData
+          ? [...mosaicData, (stackCache.nodes[key] as any).mosaicData]
+          : [(stackCache.nodes[key] as any).mosaicData]
+        : null
+    );
   }
 }
 
@@ -317,14 +438,21 @@ export function stackGroup(
   }
   for (const key in stackData.nodes) {
     const newStackKey = stackKey ? `${stackKey}_${key}` : key;
-    !stackCache.nodes[key] &&
-      (stackCache.nodes[key] = {
+
+    if (!stackCache.nodes[key]) {
+      stackCache.nodes[key] = {
         values: [],
         series: [],
         nodes: {},
         sortDatums: [],
         key: newStackKey
-      });
+      };
+
+      if (isValid(stackData.nodes[key]?.groupField)) {
+        stackCache.nodes[key].groupField = stackData.nodes[key].groupField;
+      }
+    }
+
     stackGroup(
       s,
       stackData.nodes[key],

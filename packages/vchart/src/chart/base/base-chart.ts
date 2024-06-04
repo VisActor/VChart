@@ -229,6 +229,15 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
   }
 
+  protected _initStack() {
+    // TODO: to component
+    // stack
+    if (this._canStack) {
+      this._stack = new Stack(this);
+      this._stack.init();
+    }
+  }
+
   init() {
     // 元素创建完毕后再执行各元素的初始化 方便各元素能获取到其他模块
     this._regions.forEach(r => r.init({}));
@@ -238,12 +247,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // event
     this._initEvent();
 
-    // TODO: to component
-    // stack
-    if (this._canStack) {
-      this._stack = new Stack(this);
-      this._stack.init();
-    }
+    this._initStack();
+
     // data flow start
     this.reDataFlow();
   }
