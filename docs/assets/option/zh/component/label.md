@@ -332,7 +332,7 @@ const layout = (attribute, text, getRelatedGraphic) => {
     if (barRect) {
       const x = Math.abs(baseMark.AABBBounds.x1 + baseMark.AABBBounds.x2) / 2;
       const y = Math.abs(barRect.AABBBounds.y1 + barRect.AABBBounds.y2) / 2;
-      t.setAttributes({ x: 100, y });
+      t.setAttributes({ x, y });
     }
     return t;
   });
