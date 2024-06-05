@@ -95,7 +95,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
         const index = binaryFuzzySearch(subTickData, tick => tick.value - originValue);
         // 对齐
         const targetIndex =
-          originValue > subTickData[index].value - step / 2
+          index >= subTickData.length || originValue > subTickData[index].value - step / 2
             ? Math.min(index, subTickData.length - 1)
             : index > 0
             ? index - 1
@@ -131,7 +131,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
       const index = binaryFuzzySearch(subTickData, tick => tick.value - originValue);
       // 对齐
       const targetIndex =
-        originValue > subTickData[index].value - step / 2
+        index >= subTickData.length || originValue > subTickData[index].value - step / 2
           ? Math.min(index, subTickData.length - 1)
           : index > 0
           ? index - 1
