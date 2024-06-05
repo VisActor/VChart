@@ -99,7 +99,8 @@ export class ContinuousLegend<
           options: {
             selected: () => this._selectedData,
             field: () => this._field,
-            data: () => this._legendData.getLatestData()
+            data: () => this._legendData.getLatestData(),
+            isHierarchyData: s.isHierarchyData
           },
           level: TransformLevel.legendFilter
         });

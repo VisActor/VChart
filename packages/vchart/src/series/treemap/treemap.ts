@@ -526,6 +526,10 @@ export class TreemapSeries extends CartesianSeries<any> {
   getActiveMarks(): IMark[] {
     return [this._nonLeafMark, this._leafMark];
   }
+
+  isHierarchyData = () => {
+    return true;
+  };
 }
 
 mixin(TreemapSeries, Drillable);
