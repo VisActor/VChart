@@ -790,6 +790,14 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       result.reMake = true;
       return result;
     }
+    // spec key 的个数一致，但是数组长度不一致时。remake
+    for (let i = 0; i < currentKeys.length; i++) {
+      const key = currentKeys[i];
+      if (isArray(this._spec[key]) && this._spec[key].length !== spec[key].length) {
+        result.reMake = true;
+        return result;
+      }
+    }
     const oldSpec = this._spec;
     this._spec = spec;
     // update chart config
