@@ -6,6 +6,7 @@ export * from './core';
 
 // chart model for extension
 export * from './chart';
+export * from './chart/base';
 export * from './series';
 export * from './mark';
 export * from './component';

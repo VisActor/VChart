@@ -1,7 +1,7 @@
 import type { ISeriesSpec } from '../../typings/spec/common';
 export interface IPolarSeriesSpec extends ISeriesSpec {
-    centerX?: number;
-    centerY?: number;
+    centerX?: number | string;
+    centerY?: number | string;
     outerRadius?: number;
     innerRadius?: number;
     startAngle?: number;

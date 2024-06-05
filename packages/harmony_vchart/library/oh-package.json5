@@ -1,7 +1,7 @@
 {
   "name": "@visactor/harmony-vchart",
-  "version": "1.11.0-alpha.3",
-  "description": "charts lib based @visactor/vchart for harmonyOS",
+  "version": "1.11.2",
+  "description": "@visactor/vchart 针对 harmonyOS 打造的图表库，拥有非常酷炫的动画能力，近20种图表类型，以及原生的渲染性能",
   "main": "Index.ets",
   "author": {
     "name": "VisActor",
