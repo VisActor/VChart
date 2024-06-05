@@ -197,6 +197,7 @@ export interface ISeries extends IModel {
   getSeriesFieldValue: (datum: Datum, seriesField?: string) => any;
 
   legendSelectedFilter?: (component: BaseLegend<any>, selectedKeys: StringOrNumber[]) => StringOrNumber[];
+  parseLabelStyle?: (labelStyle: any, labelSpec: any, labelMark?: ILabelMark) => any;
 }
 
 export interface ICartesianSeries extends ISeries {

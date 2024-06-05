@@ -17,6 +17,7 @@ import {
   MOSAIC_VALUE_END_PERCENT,
   MOSAIC_VALUE_START_PERCENT
 } from '../../constant';
+import { isNil } from '@visactor/vutils';
 
 export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.mosaic;
@@ -55,6 +56,66 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
       this.setFieldX(MOSAIC_CAT_END_PERCENT);
       this.setFieldX2(MOSAIC_CAT_START_PERCENT);
     }
+  }
+
+  parseLabelStyle(labelStyle: any, labelSpec: any) {
+    if (labelSpec?.filterByGroup && isNil(labelStyle.dataFilter)) {
+      const allGroupFields = this.getGroupFields();
+      const { field, type: filterType = 'max', filter } = labelSpec.filterByGroup;
+      delete labelStyle.filterField;
+      const fieldIndex = allGroupFields.indexOf(field);
+
+      if (fieldIndex < 0) {
+        return;
+      }
+      const isCatField = !!(fieldIndex % 2);
+      const valueField = isCatField
+        ? filterType === 'min'
+          ? this.direction === Direction.horizontal
+            ? this._fieldY2
+            : this._fieldX2
+          : this.direction === Direction.horizontal
+          ? this._fieldY
+          : this._fieldX
+        : filterType === 'min'
+        ? this.direction === Direction.horizontal
+          ? this._fieldX2
+          : this._fieldY2
+        : this.direction === Direction.horizontal
+        ? this._fieldX
+        : this._fieldY;
+      const filterFunc =
+        filterType === 'min'
+          ? (a: any, b: any) => {
+              return a.data?.[valueField as string] < b.data?.[valueField as string];
+            }
+          : (a: any, b: any) => {
+              return a.data?.[valueField as string] > b.data?.[valueField as string];
+            };
+
+      labelStyle.dataFilter = (data: any) => {
+        const filteredData = {};
+
+        data.forEach((d: any) => {
+          const datum = d.data;
+          const fieldValue = datum?.[field];
+
+          if (isNil(fieldValue) || (filter && !filter(d))) {
+            return;
+          }
+
+          if (!filteredData[fieldValue] || filterFunc(d, filteredData[fieldValue])) {
+            filteredData[fieldValue] = d;
+          }
+        });
+        return data.filter((d: any) => {
+          const fieldValue = d.data?.[field];
+          return filteredData[fieldValue] && filteredData[fieldValue] === d;
+        });
+      };
+    }
+
+    return labelStyle;
   }
 }
 
