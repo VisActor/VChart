@@ -54,6 +54,11 @@ export interface IDataZoomStyle {
 /** spec */
 export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec {
   /**
+   * @since 1.11.3
+   * 是否展示背景图
+   */
+  showBackgroundChart?: boolean;
+  /**
    * 数据过滤模式
    * @default 'filter' （dataZoom默认数据过滤模式）
    * 'filter' 为过滤数据从而达到缩放轴的效果, 'axis'为直接缩放轴, 不过滤数据
