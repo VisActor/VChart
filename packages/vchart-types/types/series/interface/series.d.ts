@@ -45,6 +45,7 @@ export interface ISeries extends IModel {
     reFilterViewData: () => void;
     reTransformViewData: () => void;
     fillData: () => void;
+    isHierarchyData?: () => boolean;
     getRegion: () => IRegion;
     initMark: () => void;
     getMarks: () => IMark[];

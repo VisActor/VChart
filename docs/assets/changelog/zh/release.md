@@ -1,3 +1,26 @@
+# v1.11.2
+
+2024-05-30
+
+
+**🐛 功能修复**
+- **@visactor/vchart**: 修复配置 `animationThreshold` 不生效的问题，关闭 [#2745](https://github.com/VisActor/VChart/issues/2745)
+- **@visactor/vchart**: 修复面积图更新动画不生效的问题
+- **common**: 在common图表中，柱系列支持自动带宽尺寸，即`autoBandSize`。修复[#2704](https://github.com/VisActor/VChart/issues/2704)
+- **@visactor/vchart**: 修复`Corsshiar`没有正常隐藏的问题，修复 [#2726](https://github.com/VisActor/VChart/issues/2726)
+- **@visactor/vchart**: 关闭由`Datazoom`、`Scrollbar`交互引发的更新动画
+- **@visactor/vchart**: 设置了 `type-step`的 markLine的标签应该考虑用户设置的`refX`,`refY`,`dx`,`dy`，修复[#2739](https://github.com/VisActor/VChart/issues/2739)
+- **react-vchart**: 修复 `<Axis />` 中的props `id` 不生效的问题
+- **@visactor/vchart**: 修复在主题配置中，`polarAxis.grid.smooth` 不生效的问题
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: 在构建es5时，`@babel/preset-env` 的 `targets` 应该是 `defaults`，修复 [#2702](https://github.com/VisActor/VChart/issues/2702)
+
+
+
+[更多详情请查看 v1.11.2](https://github.com/VisActor/VChart/releases/tag/v1.11.2)
+
 # v1.11.1
 
 2024-05-21
