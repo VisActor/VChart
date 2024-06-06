@@ -164,6 +164,11 @@
   prefix = '####'
 ) }}
 
+### showBackgroundChart(boolean)
+
+自**1.11.3**版本开始支持
+是否显示背景图
+
 ### backgroundChart(Object)
 
 缩略轴的预览图表。
@@ -229,7 +234,8 @@
 该配置仅在 `auto` 设为 true 时生效。
 
 ### tolerance(number)
-背景图表节点压缩率, 如果不配置则默认将节点限制在10000个。自 1.10.0 版本开始支持。
+
+背景图表节点压缩率, 如果不配置则默认将节点限制在 10000 个。自 1.10.0 版本开始支持。
 
 {{ use: component-data-filter-base(
   prefix = '##'

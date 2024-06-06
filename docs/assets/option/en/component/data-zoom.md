@@ -184,6 +184,11 @@ The style of the selected part background.
   prefix = '####'
 ) }}
 
+### showBackgroundChart(boolean)
+
+support since **1.11.3**
+Whether to display the background chart
+
 ### backgroundChart(Object)
 
 The preview chart of the data zoom axis.

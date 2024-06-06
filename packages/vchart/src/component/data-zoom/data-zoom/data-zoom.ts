@@ -27,7 +27,6 @@ import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
-import { IFilterMode } from '../interface';
 import type { IDataZoomSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
@@ -331,7 +330,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       previewPointsX: isNeedPreview && this._dataToPositionX,
       previewPointsY: isNeedPreview && this._dataToPositionY,
       tolerance: this._spec.tolerance,
-      ...(this._getComponentAttrs() as any)
+      ...(this._getComponentAttrs(isNeedPreview) as any)
     } as DataZoomAttributes;
   }
 
@@ -339,7 +338,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     if (this._visible) {
       const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
       const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
-      const isNeedPreview = this._isScaleValid(xScale) && this._isScaleValid(yScale);
+      const isNeedPreview =
+        this._isScaleValid(xScale) && this._isScaleValid(yScale) && this._spec.showBackgroundChart !== false;
       const attrs = this._getAttrs(isNeedPreview);
       if (this._component) {
         this._component.setAttributes(attrs);
@@ -410,7 +410,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     }
   }
 
-  protected _getComponentAttrs() {
+  protected _getComponentAttrs(isNeedPreview: boolean) {
     const {
       middleHandler = {},
       startText = {},
@@ -446,22 +446,32 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._spec.selectedBackground.style
       ) as unknown as IRectGraphicAttribute,
       dragMaskStyle: transformToGraphic(this._spec.dragMask?.style) as unknown as IRectGraphicAttribute,
-      backgroundChartStyle: {
-        line: mergeSpec(transformToGraphic(backgroundChart.line?.style), { fill: false }),
-        area: {
-          curveType: 'basis',
-          visible: true,
-          ...transformToGraphic(backgroundChart.area?.style)
-        }
-      },
-      selectedBackgroundChartStyle: {
-        line: mergeSpec(transformToGraphic(selectedBackgroundChart.line?.style), { fill: false }),
-        area: {
-          curveType: 'basis',
-          visible: true,
-          ...transformToGraphic(selectedBackgroundChart.area?.style)
-        }
-      },
+      backgroundChartStyle: isNeedPreview
+        ? {
+            line: mergeSpec(transformToGraphic(backgroundChart.line?.style), { fill: false }),
+            area: {
+              curveType: 'basis',
+              visible: true,
+              ...transformToGraphic(backgroundChart.area?.style)
+            }
+          }
+        : {
+            line: { visible: false },
+            area: { visible: false }
+          },
+      selectedBackgroundChartStyle: isNeedPreview
+        ? {
+            line: mergeSpec(transformToGraphic(selectedBackgroundChart.line?.style), { fill: false }),
+            area: {
+              curveType: 'basis',
+              visible: true,
+              ...transformToGraphic(selectedBackgroundChart.area?.style)
+            }
+          }
+        : {
+            line: { visible: false },
+            area: { visible: false }
+          },
       disableTriggerEvent: this._option.disableTriggerEvent
     };
   }
