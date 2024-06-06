@@ -5,14 +5,14 @@
 
 **🆕 新增功能**
 
-- **@visactor/vchart**: add option `showBackgroundChart` of DataZoom
+- **@visactor/vchart**: DataZoom新增配置项`showBackgroundChart`，用于显示/隐藏背景图
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: bar chart should work normally when x-axis is linear, fix [#2758](https://github.com/VisActor/VChart/issues/2758)
-- **@visactor/vchart**: fix issue of continuous legend filter in treemap
-- **@visactor/vchart**: fixed the issue that the newly added component type could not take effect when updateSpec
-- **@visactor/vchart**: fixed `setSelected` of sankey chart, fix [#2757](https://github.com/VisActor/VChart/issues/2757) , fix [#2765](https://github.com/VisActor/VChart/issues/2765)
+- **@visactor/vchart**: 修复当 x 轴为线性轴时，柱形图应该正常工作，修复 [#2758](https://github.com/VisActor/VChart/issues/2758)
+- **@visactor/vchart**: 修复Treemap连续图例数据过滤问题
+- **@visactor/vchart**: 修复更新 Spec 时，新增组件类型无法生效的问题
+- **@visactor/vchart**: 修复桑基图的 `setSelected` 方法，修复 [#2757](https://github.com/VisActor/VChart/issues/2757) 和 [#2765](https://github.com/VisActor/VChart/issues/2765)
 
 
 
