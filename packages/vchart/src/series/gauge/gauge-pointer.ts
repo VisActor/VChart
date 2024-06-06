@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
-import { isValid } from '@visactor/vutils';
+import { clamp, isValid, maxInArray, minInArray } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IGaugePointerSeriesSpec, PinMarkSpec, PointerMarkSpec } from './interface';
@@ -139,7 +139,12 @@ export class GaugePointerSeries<
   }
 
   protected _getPointerAngle(datum: Datum) {
-    return this.angleAxisHelper.dataToPosition([datum[this._angleField[0]]]);
+    const scale = this.angleAxisHelper.getScale();
+    const domain = scale.domain();
+    const max = maxInArray<number>(domain);
+    const min = minInArray<number>(domain);
+    const angle = clamp(datum[this._angleField[0]], min, max);
+    return this.angleAxisHelper.dataToPosition([angle]);
   }
 
   protected _getRotatedPointerCenterOffset(datum: Datum) {

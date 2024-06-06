@@ -70,14 +70,6 @@ export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
   endAngle?: number;
 };
 
-export type IPolarLinearAxisSpec = IPolarAxisCommonSpec &
-  ILinearAxisSpec & {
-    /**
-     * Restrict value within axis domain
-     * @since 1.11.4
-     * @default true
-     */
-    clamp?: boolean;
-  };
+export type IPolarLinearAxisSpec = IPolarAxisCommonSpec & ILinearAxisSpec;
 
 export type IPolarBandAxisSpec = IPolarAxisCommonSpec & IBandAxisSpec;
