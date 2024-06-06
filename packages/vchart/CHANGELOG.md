@@ -1,6 +1,22 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 30 May 2024 09:40:24 GMT and should not be manually modified.
+This log was last generated on Thu, 06 Jun 2024 05:55:31 GMT and should not be manually modified.
+
+## 1.11.3
+Thu, 06 Jun 2024 05:55:31 GMT
+
+### Updates
+
+- feat: add option `showBackgroundChart` of DataZoom
+
+
+- fix: bar chart should work normally when x-axis is linear, fix #2758
+
+
+- fix: fix issue of continuous legend filter in treemap
+- fix: fixed the issue that the newly added component type could not take effect when updateSpec
+
+
 
 ## 1.11.2
 Thu, 30 May 2024 09:40:24 GMT
