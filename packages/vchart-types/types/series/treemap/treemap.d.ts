@@ -59,5 +59,6 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     protected disableMarkAnimation(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];
+    isHierarchyData: () => boolean;
 }
 export declare const registerTreemapSeries: () => void;

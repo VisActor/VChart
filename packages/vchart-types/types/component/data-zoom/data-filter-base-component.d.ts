@@ -58,7 +58,6 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
         x: number;
         y: number;
     }): void;
-    protected abstract _getComponentAttrs(): any;
     protected abstract _createOrUpdateComponent(): void;
     protected abstract _computeWidth(): number;
     protected abstract _computeHeight(): number;
