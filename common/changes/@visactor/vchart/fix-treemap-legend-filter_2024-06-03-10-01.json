@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(common): bar series support auto band size in common chart. fix#2704",
+      "comment": "fix: fix issue of continuous legend filter in treemap",
       "type": "none"
     }
   ],

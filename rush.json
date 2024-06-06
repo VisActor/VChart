@@ -20,6 +20,11 @@
   "allowedProjectTags": ["tool", "share", "package", "doc"],
   "projects": [
     {
+      "packageName": "@visactor/vchart-extension",
+      "projectFolder": "packages/vchart-extension",
+      "shouldPublish": false
+    },
+    {
       "packageName": "@visactor/vchart",
       "projectFolder": "packages/vchart",
       "tags": ["package"],

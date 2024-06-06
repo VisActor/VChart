@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: corsshair should hide when pointer out view, fix #2726\n\n",
+      "comment": "fix: bar chart should work normally when x-axis is linear, fix #2758\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

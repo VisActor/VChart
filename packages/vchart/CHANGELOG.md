@@ -1,6 +1,31 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 20 May 2024 15:49:14 GMT and should not be manually modified.
+This log was last generated on Thu, 30 May 2024 09:40:24 GMT and should not be manually modified.
+
+## 1.11.2
+Thu, 30 May 2024 09:40:24 GMT
+
+### Updates
+
+- chore: when build es5 , `targets` of `@babel/preset-env` should be `defaults`, fix #2702
+
+
+- fix: fix the bug that `animationThreshold` not work, close #2745
+
+
+- fix: fix the issue of  update animation in area chart is not work
+- fix(common): bar series support auto band size in common chart. fix#2704
+- fix: corsshair should hide when pointer out view, fix #2726
+
+
+- fix: close animation cause by datazoom/scrollbar
+
+
+- fix: \`type-step\` markLine's label should consider the refX/refY/dx/dy set by user, fixed#2739
+- fix(react-vchart): fix the issue of `<Axis />` that the props `id` not work
+
+
+- fix: `polarAxis.grid.smooth` not work in theme configuratio
 
 ## 1.11.1
 Mon, 20 May 2024 15:49:14 GMT

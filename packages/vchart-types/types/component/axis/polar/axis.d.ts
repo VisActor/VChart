@@ -2,7 +2,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IPolarAxis, IPolarAxisCommonSpec } from './interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
-import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
+import type { IPolarTickDataOpt } from '@visactor/vrender-components';
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, StringOrNumber, ILayoutType } from '../../../typings';
 import type { Maybe } from '@visactor/vutils';
@@ -20,8 +20,14 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     layoutType: ILayoutType;
     layoutZIndex: number;
     protected _tick: ITick | undefined;
-    protected _center: IPoint | null;
-    get center(): IPoint;
+    protected _center: {
+        x: string | number;
+        y: string | number;
+    } | null;
+    get center(): {
+        x: string | number;
+        y: string | number;
+    };
     protected _startAngle: number;
     get startAngle(): number;
     protected _endAngle: number;
@@ -58,6 +64,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
         coordToPoint: (point: IPolarPoint) => IPoint;
         pointToCoord: (point: IPoint) => IPolarPoint;
         center: () => IPoint;
+        layoutRadius: () => number;
         getScale: (depth: number) => IBaseScale;
         getAxisId: () => number;
         getSpec: () => T;
@@ -75,6 +82,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     private _layoutAngleAxis;
     private _layoutRadiusAxis;
     protected _getRelatedAngleAxis(): IPolarAxis | undefined;
+    private computeLayoutRadius;
     private computeLayoutOuterRadius;
     private computeLayoutInnerRadius;
     private getRefLayoutRect;

@@ -1,3 +1,5 @@
+import { isObject } from '@visactor/vutils';
+
 /**
  * 根据Key, 找到对应节点
  * @param hierarchyData
@@ -93,3 +95,49 @@ export const findHierarchyPath = <T>(
   dfs(hierarchyData, []);
   return result;
 };
+
+export function isHierarchyItem(item: Object, valueField = 'value', childrenField = 'children') {
+  // 检查 item 是否为对象且不为 null
+  if (!isObject(item)) {
+    return false;
+  }
+
+  // 检查 item 是否包含 childrenKey 属性且其值为数组
+  if (item.hasOwnProperty(childrenField)) {
+    return Array.isArray(item[childrenField]);
+  }
+
+  return false;
+}
+
+export function filterHierarchyDataByRange(
+  data: any[],
+  minValue: number,
+  maxValue: number,
+  valueField = 'value',
+  childrenField = 'children'
+) {
+  if (!Array.isArray(data)) {
+    return data;
+  }
+
+  return data
+    .map(item => {
+      const newItem = { ...item };
+      if (Array.isArray(newItem[childrenField])) {
+        newItem[childrenField] = filterHierarchyDataByRange(
+          newItem[childrenField],
+          minValue,
+          maxValue,
+          valueField,
+          childrenField
+        );
+      }
+      return newItem;
+    })
+    .filter(
+      item =>
+        (+item[valueField] >= minValue && +item[valueField] <= maxValue) ||
+        (item[childrenField] && item[childrenField].length > 0)
+    );
+}
