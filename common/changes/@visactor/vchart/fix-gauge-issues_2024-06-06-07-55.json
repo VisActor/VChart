@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: gauge chart might throw error when the value is close to its maximum, fix #2783",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
