@@ -52,7 +52,6 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     protected _getBarBackgroundYStart: (scale: IBaseScale) => number;
     protected _getBarBackgroundYEnd: (scale: IBaseScale) => number;
     protected _initBandBarBackgroundMarkStyle(): void;
-    protected _initLinearBarBackgroundMarkStyle(): void;
     initAnimation(): void;
     protected _getBarWidth(axisHelper: IAxisHelper, scaleDepth?: number): number;
     protected _getPosition(direction: DirectionType, datum: Datum, scaleDepth?: number, mark?: SeriesMarkNameEnum): number;

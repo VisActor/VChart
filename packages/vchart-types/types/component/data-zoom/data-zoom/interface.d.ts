@@ -37,6 +37,7 @@ export interface IDataZoomStyle {
     };
 }
 export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec {
+    showBackgroundChart?: boolean;
     filterMode?: IFilterMode;
     valueField?: string;
     startText?: {

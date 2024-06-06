@@ -47,7 +47,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     protected _createOrUpdateComponent(): void;
     protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string): void;
     protected _handleDataCollectionChange(): void;
-    protected _getComponentAttrs(): {
+    protected _getComponentAttrs(isNeedPreview: boolean): {
         backgroundStyle: IRectGraphicAttribute;
         startHandlerStyle: ISymbolGraphicAttribute;
         middleHandlerStyle: {
