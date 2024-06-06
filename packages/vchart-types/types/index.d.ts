@@ -2,6 +2,7 @@ import { VChart } from './vchart-all';
 export default VChart;
 export * from './core';
 export * from './chart';
+export * from './chart/base';
 export * from './series';
 export * from './mark';
 export * from './component';
