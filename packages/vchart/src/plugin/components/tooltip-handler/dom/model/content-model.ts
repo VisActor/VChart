@@ -1,4 +1,5 @@
 import { BaseTooltipModel } from './base-tooltip-model';
+import type { ContentColumnType } from './content-column-model';
 import { ContentColumnModel } from './content-column-model';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -15,36 +16,35 @@ export class ContentModel extends BaseTooltipModel {
     if (!this.product) {
       this.product = this.createElement('div', ['container-box']);
     }
-    if (!this.shapeBox) {
-      this._initShapeBox();
-    }
-    if (!this.keyBox) {
-      this._initKeyBox();
-    }
-    if (!this.valueBox) {
-      this._initValueBox();
+    const { align } = this._option.getTooltipAttributes();
+    if (align === 'right') {
+      if (!this.valueBox) {
+        this.valueBox = this._initBox('value-box', 0);
+      }
+      if (!this.keyBox) {
+        this.keyBox = this._initBox('key-box', 1);
+      }
+      if (!this.shapeBox) {
+        this.shapeBox = this._initBox('shape-box', 2);
+      }
+    } else {
+      if (!this.shapeBox) {
+        this.shapeBox = this._initBox('shape-box', 0);
+      }
+      if (!this.keyBox) {
+        this.keyBox = this._initBox('key-box', 1);
+      }
+      if (!this.valueBox) {
+        this.valueBox = this._initBox('value-box', 2);
+      }
     }
   }
 
-  private _initShapeBox() {
-    const shapeBox = new ContentColumnModel(this.product!, this._option, 'shape-box', 0);
-    shapeBox.init();
-    this.shapeBox = shapeBox;
-    this.children[shapeBox.childIndex] = shapeBox;
-  }
-
-  private _initKeyBox() {
-    const keyBox = new ContentColumnModel(this.product!, this._option, 'key-box', 1);
-    keyBox.init();
-    this.keyBox = keyBox;
-    this.children[keyBox.childIndex] = keyBox;
-  }
-
-  private _initValueBox() {
-    const valueBox = new ContentColumnModel(this.product!, this._option, 'value-box', 2);
-    valueBox.init();
-    this.valueBox = valueBox;
-    this.children[valueBox.childIndex] = valueBox;
+  private _initBox(className: ContentColumnType, index: number) {
+    const box = new ContentColumnModel(this.product!, this._option, className, index);
+    box.init();
+    this.children[box.childIndex] = box;
+    return box;
   }
 
   setStyle(style?: Partial<CSSStyleDeclaration>): void {
