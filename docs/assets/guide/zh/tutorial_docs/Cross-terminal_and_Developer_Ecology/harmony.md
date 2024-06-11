@@ -2,7 +2,11 @@
 
 - 仓库地址：[https://github.com/VisActor/VChart/tree/main/packages/harmony-vchart](https://github.com/VisActor/VChart/tree/main/packages/harmony-vchart)
 
-HarmonyOS 是华为研发的智能终端操作系统，以 ArkTS 为主要开发语言，VChart 从 1.11.1 版本开始，支持兼容 HarmonyOS 的图表开发，为了方便 Harmony 技术栈的同学更好的使用，我们提供了 VChart 的 HarmonyOS 封装包`@visactor/harmony-vchart`（此包不是 NPM 包，是 OHPM 包），该组件的 spec 配置项与 VChart 一致
+HarmonyOS 是华为研发的智能终端操作系统，以 ArkTS 为主要开发语言，VChart 从 1.11.1 版本开始，支持兼容 HarmonyOS 的图表开发（支持 HarmonyOS API 9 以上）。
+
+OpenHarmony 是由开放原子开源基金会（OpenAtom Foundation）孵化及运营的开源项目，目标是面向全场景、全连接、全智能时代，基于开源的方式，搭建一个智能终端设备操作系统的框架和平台，促进万物互联产业的繁荣发展。VChart 同时也兼容 OpenHarmony 应用开发的图表开发（支持 API 10 Release 以上）
+
+为了方便 Harmony 技术栈的同学更好的使用，我们提供了 VChart 的 HarmonyOS 封装包`@visactor/harmony-vchart`（此包不是 NPM 包，是 OHPM 包），该组件的 spec 配置项与 VChart 一致，该包在 HarmonyOS 和 OpenHarmony 应用开发环境中的使用是一致的
 
 我们将在本教程中详细讲解如在 Harmony 项目中使用 VChart，并创建一个简单的柱状图。
 
