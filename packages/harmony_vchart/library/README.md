@@ -6,10 +6,14 @@ VChart 是 VisActor 可视化系统中的图表组件库。它基于可视化语
 **叙事**：全面的注释、动画、流程控制、叙事模板等增强功能，用于视觉叙事
 **场景**：将视觉叙事能力传递给最终用户，提高开发者的生产力
 
-Harmony-VChart 是 VChart 针对 HarmonyOS 平台进行原生兼容的版本，目前支持 HarmonyOS API 11 以上的版本，最低支持 HarmonyOS API 9
+HarmonyOS 是华为研发的智能终端操作系统，以 ArkTS 为主要开发语言，VChart 从 1.11.1 版本开始，支持兼容 HarmonyOS 的图表开发（支持 HarmonyOS API 9 以上）。
+
+OpenHarmony 是由开放原子开源基金会（OpenAtom Foundation）孵化及运营的开源项目，目标是面向全场景、全连接、全智能时代，基于开源的方式，搭建一个智能终端设备操作系统的框架和平台，促进万物互联产业的繁荣发展。VChart 同时也兼容 OpenHarmony 应用开发的图表开发（支持 API 10 Release 以上）
+
+为了方便 Harmony 技术栈的同学更好的使用，我们提供了 VChart 的 HarmonyOS 封装包`@visactor/harmony-vchart`（此包不是 NPM 包，是 OHPM 包），该组件的 spec 配置项与 VChart 一致，该包在 HarmonyOS 和 OpenHarmony 应用开发环境中的使用是一致的
 
 具体文档参见官网： [Homepage](https://www.visactor.io/vchart)
-使用demo应用程序：https://gitee.com/VisActor/harmony-vchart-example
+使用 demo 应用程序：https://gitee.com/VisActor/harmony-vchart-example
 
 ## 效果展示
 
@@ -22,7 +26,7 @@ Harmony-VChart 是 VChart 针对 HarmonyOS 平台进行原生兼容的版本，�
   <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-rose.png" alt="Harmony VChart示例">
   <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-sankey.png" alt="Harmony VChart示例">
   <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-wordcloud.png" alt="Harmony VChart示例">
-  <img crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-demo-low-quality.gif" alt="Harmony VChart示例">
+  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-demo-low-quality.gif" alt="Harmony VChart示例">
 </div>
 
 ## 🔨 使用
