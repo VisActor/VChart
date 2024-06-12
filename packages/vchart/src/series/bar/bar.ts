@@ -527,31 +527,69 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const yScale = this._yAxisHelper?.getScale?.(0);
 
     if (this.direction === Direction.horizontal) {
+      const yChannels = isValid(this._fieldY2)
+        ? {
+            y: (datum: Datum) => valueInScaleRange(this._dataToPosY(datum), yScale),
+            y1: (datum: Datum) => valueInScaleRange(this._dataToPosY1(datum), yScale)
+          }
+        : {
+            y: (datum: Datum) =>
+              valueInScaleRange(this._dataToPosY(datum) - this._getBarWidth(this._yAxisHelper) / 2, yScale),
+            height: (datum: Datum) => this._getBarWidth(this._yAxisHelper)
+          };
+
       this.setMarkStyle(
         this._barMark,
         {
-          x: datum => this._getBarXStart(datum, xScale),
-          x1: datum => this._getBarXEnd(datum, xScale),
-          y: datum => valueInScaleRange(this.dataToPositionY(datum), yScale),
-          y1: datum => valueInScaleRange(this.dataToPositionY1(datum), yScale)
+          x: (datum: Datum) => this._getBarXStart(datum, xScale),
+          x1: (datum: Datum) => this._getBarXEnd(datum, xScale),
+          ...yChannels
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+      this.setMarkStyle(
+        this._barBackgroundMark,
+        {
+          x: () => this._getBarBackgroundXStart(xScale),
+          x1: () => this._getBarBackgroundXEnd(xScale),
+          ...yChannels
         },
         'normal',
         AttributeLevel.Series
       );
     } else {
+      const xChannels = isValid(this._fieldX2)
+        ? {
+            x: (datum: Datum) => valueInScaleRange(this._dataToPosX(datum), xScale),
+            x1: (datum: Datum) => valueInScaleRange(this._dataToPosX1(datum), xScale)
+          }
+        : {
+            x: (datum: Datum) =>
+              valueInScaleRange(this._dataToPosX(datum) - this._getBarWidth(this._xAxisHelper) / 2, xScale),
+            width: (datum: Datum) => this._getBarWidth(this._xAxisHelper)
+          };
       this.setMarkStyle(
         this._barMark,
         {
-          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
-          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
+          ...xChannels,
           y: datum => this._getBarYStart(datum, yScale),
           y1: datum => this._getBarYEnd(datum, yScale)
         },
         'normal',
         AttributeLevel.Series
       );
+      this.setMarkStyle(
+        this._barBackgroundMark,
+        {
+          ...xChannels,
+          y: () => this._getBarBackgroundYStart(yScale),
+          y1: () => this._getBarBackgroundYEnd(yScale)
+        },
+        'normal',
+        AttributeLevel.Series
+      );
     }
-    this._initLinearBarBackgroundMarkStyle();
   }
 
   protected _getBarBackgroundXStart = (scale: IBaseScale) => {
@@ -613,37 +651,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           width: () => this._getBarWidth(this._xAxisHelper, scaleDepth),
           x1: () => undefined,
           height: () => undefined
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    }
-  }
-
-  protected _initLinearBarBackgroundMarkStyle() {
-    const xScale = this._xAxisHelper?.getScale?.(0);
-    const yScale = this._yAxisHelper?.getScale?.(0);
-
-    if (this.direction === Direction.horizontal) {
-      this.setMarkStyle(
-        this._barBackgroundMark,
-        {
-          x: () => this._getBarBackgroundXStart(xScale),
-          x1: () => this._getBarBackgroundXEnd(xScale),
-          y: datum => valueInScaleRange(this.dataToPositionY(datum), yScale),
-          y1: datum => valueInScaleRange(this.dataToPositionY1(datum), yScale)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    } else {
-      this.setMarkStyle(
-        this._barBackgroundMark,
-        {
-          x: datum => valueInScaleRange(this.dataToPositionX(datum), xScale),
-          x1: datum => valueInScaleRange(this.dataToPositionX1(datum), xScale),
-          y: () => this._getBarBackgroundYStart(yScale),
-          y1: () => this._getBarBackgroundYEnd(yScale)
         },
         'normal',
         AttributeLevel.Series

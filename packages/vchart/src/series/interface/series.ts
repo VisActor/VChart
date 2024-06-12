@@ -56,6 +56,7 @@ export interface ISeries extends IModel {
   reFilterViewData: () => void;
   reTransformViewData: () => void;
   fillData: () => void;
+  isHierarchyData?: () => boolean;
 
   /**
    * 常见数据使用问题

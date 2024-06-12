@@ -314,7 +314,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   // axisHelper
   protected axisHelper() {
-    const getScale = (depth: number) => {
+    const getScale = (depth: number = 0) => {
       return this._scales[depth];
     };
 

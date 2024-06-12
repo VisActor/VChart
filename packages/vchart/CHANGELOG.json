@@ -2,6 +2,27 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.11.3",
+      "tag": "@visactor/vchart_v1.11.3",
+      "date": "Thu, 06 Jun 2024 05:55:31 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add option `showBackgroundChart` of DataZoom\n\n"
+          },
+          {
+            "comment": "fix: bar chart should work normally when x-axis is linear, fix #2758\n\n"
+          },
+          {
+            "comment": "fix: fix issue of continuous legend filter in treemap"
+          },
+          {
+            "comment": "fix: fixed the issue that the newly added component type could not take effect when updateSpec\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.2",
       "tag": "@visactor/vchart_v1.11.2",
       "date": "Thu, 30 May 2024 09:40:24 GMT",

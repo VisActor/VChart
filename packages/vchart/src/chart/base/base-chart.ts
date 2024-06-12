@@ -692,7 +692,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   private _transformSpecScale() {
-    const scales: IChartSpec['scales'] = this._spec.scales ?? [];
+    const scales: IChartSpec['scales'] = this._spec.scales ? [...this._spec.scales] : [];
     let colorScaleSpec: IVisualSpecScale<any, any> = scales.find(s => s.id === 'color');
     const colorScheme = this.getColorScheme();
     if (!colorScaleSpec) {
@@ -789,6 +789,14 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (JSON.stringify(currentKeys) !== JSON.stringify(nextKeys)) {
       result.reMake = true;
       return result;
+    }
+    // spec key 的个数一致，但是数组长度不一致时。remake
+    for (let i = 0; i < currentKeys.length; i++) {
+      const key = currentKeys[i];
+      if (isArray(this._spec[key]) && this._spec[key].length !== spec[key].length) {
+        result.reMake = true;
+        return result;
+      }
     }
     const oldSpec = this._spec;
     this._spec = spec;

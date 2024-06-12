@@ -19,7 +19,7 @@ export declare function standardDeviation(data: any[], field?: string): number;
 export declare function median(data: any[], field?: string): number;
 export declare function regression(data: any[], fieldX?: string, fieldY?: string): any[];
 export declare function radiusLabelOrientAttribute(angle: number): {
-    align: "center" | "left" | "right";
+    align: "left" | "right" | "center";
     baseline: "top" | "bottom" | "middle";
 };
 export declare function vectorAngle(v1: IPoint, v2: IPoint): number;
