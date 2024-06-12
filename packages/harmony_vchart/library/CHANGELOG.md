@@ -1,3 +1,14 @@
+## 1.11.3
+🆕 feat
+@visactor/vchart: add option showBackgroundChart of DataZoom
+
+🐛 fix
+@visactor/vchart: bar chart should work normally when x-axis is linear, fix #2758
+@visactor/vchart: fix issue of continuous legend filter in treemap
+@visactor/vchart: fixed the issue that the newly added component type could not take effect when updateSpec
+@visactor/vchart: fixed setSelected of sankey chart, fix #2757 , fix #2765
+
+
 ## 1.11.2
 - 正式版发布
 - @visactor/vchart: fix the bug that animationThreshold not work, close #2745
