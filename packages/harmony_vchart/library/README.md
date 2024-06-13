@@ -6,7 +6,7 @@ VChart 是 VisActor 可视化系统中的图表组件库。它基于可视化语
 **叙事**：全面的注释、动画、流程控制、叙事模板等增强功能，用于视觉叙事
 **场景**：将视觉叙事能力传递给最终用户，提高开发者的生产力
 
-HarmonyOS 是华为研发的智能终端操作系统，以 ArkTS 为主要开发语言，VChart 从 1.11.1 版本开始，支持兼容 HarmonyOS 的图表开发（支持 HarmonyOS API 9 以上）。
+HarmonyOS 是华为研发的智能终端操作系统，以 ArkTS 为主要开发语言，VChart 从 1.11.1 版本开始，支持兼容 HarmonyOS 的图表开发（支持 HarmonyOS API 11 以上）。
 
 OpenHarmony 是由开放原子开源基金会（OpenAtom Foundation）孵化及运营的开源项目，目标是面向全场景、全连接、全智能时代，基于开源的方式，搭建一个智能终端设备操作系统的框架和平台，促进万物互联产业的繁荣发展。VChart 同时也兼容 OpenHarmony 应用开发的图表开发（支持 API 10 Release 以上）
 
