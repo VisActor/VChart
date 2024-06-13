@@ -6,7 +6,7 @@ VChart 是 VisActor 可视化系统中的图表组件库。它基于可视化语
 **叙事**：全面的注释、动画、流程控制、叙事模板等增强功能，用于视觉叙事
 **场景**：将视觉叙事能力传递给最终用户，提高开发者的生产力
 
-Harmony-VChart 是 VChart 针对 HarmonyOS 平台进行原生兼容的版本，目前支持 HarmonyOS API 11 以上的版本，最低支持 HarmonyOS API 9
+Harmony-VChart 是 VChart 针对 HarmonyOS 平台进行原生兼容的版本，目前支持 HarmonyOS API 11 以上的版本
 
 ## 🔨 使用
 
