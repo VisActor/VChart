@@ -49,7 +49,7 @@ MarkLine 可通过 `markLine` 属性进行配置:
 
 ```ts
 {
-  markPoint: {
+  markLine: {
     x: 50, // 标注目标：笛卡尔坐标系x坐标空间。 x轴上的标注线
     // 配置文本
     label: {
