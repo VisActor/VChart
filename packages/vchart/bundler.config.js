@@ -114,12 +114,17 @@ module.exports = {
       umdEntries.forEach(entry => {
         fs.unlinkSync(path.join(__dirname, config.outputDir.umd, `${entry}.min.js`));
       });
-      // harmonyOS
-      const source = 'es5/index.es.js';
-      const dest = '../harmony_vchart/library/src/main/ets/vchart_dist.js';
-      const envSource = path.join(__dirname, config.outputDir.umd, source);
-      copyFile(envSource, path.join(__dirname, dest));
-      fs.unlinkSync(path.join(__dirname, config.outputDir.umd, source));
+
+      try {
+        // harmonyOS
+        const source = 'es5/index.es.js';
+        const dest = '../harmony_vchart/library/src/main/ets/vchart_dist.js';
+        const envSource = path.join(__dirname, config.outputDir.umd, source);
+        copyFile(envSource, path.join(__dirname, dest));
+        fs.unlinkSync(path.join(__dirname, config.outputDir.umd, source));
+      } catch(e) {
+        console.log(`[Error] can't copy es5/index.es.js to harmony`)
+      }
     }
   }
 };
