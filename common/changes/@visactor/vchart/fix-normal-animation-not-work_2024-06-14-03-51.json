@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: normal animation not work when appear animation is disabled, fix #2807",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
