@@ -109,7 +109,7 @@ jobs:
       - name: Commit & Push changes
         run: |
           git add .
-          git commit -m 'build: prelease version ${{ steps.package-version.outputs.current_version }}' -n
+          git commit -m 'build: release version ${{ steps.package-version.outputs.current_version }}' -n
           git push origin ${{ github.ref_name }}
 
       - name: Collect changelog of rush
@@ -117,6 +117,9 @@ jobs:
         id: changelog
         with:
           version: ${{ steps.package-version.outputs.current_version }}
+
+      - name: Update changelog of harmony
+        run: node common/scripts/set-changelog-of-harmony.js ${{ steps.package-version.outputs.current_version }}  ${{ steps.changelog.outputs.markdown }}
 
       - name: Create Release for Tag
         id: release_tag
