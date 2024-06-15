@@ -289,6 +289,12 @@ const spec = {
   select: {
     enable: true
   },
+  emptyPlaceholder: {
+    showEmptyCircle: true,
+    emptyCircle: {
+      style: { innerRadius: 0.5, fill: '#66ccff' }
+    }
+  },
   pie: {
     state: {
       hover: {
