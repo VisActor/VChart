@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import { degreeToRadian, isValid } from '@visactor/vutils';
-import { DataView } from '@visactor/vdataset';
+import { DataView, DataSet } from '@visactor/vdataset';
 import {
   AttributeLevel,
   ARC_START_ANGLE,
@@ -18,13 +18,13 @@ import {
   ChartEvent,
   DEFAULT_DATA_KEY
 } from '../../constant';
-import type { IPoint, Datum, StateValueType } from '../../typings';
+import type { IPoint, Datum, StateValueType, IArcMarkSpec } from '../../typings';
 import { normalizeStartEndAngle } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IMarkStyle } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcMark } from '../../mark/arc';
 import type { ITextMark } from '../../mark/text';
@@ -81,6 +81,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _labelMark: ITextMark | null = null;
   protected _labelLineMark: IPathMark | null = null;
 
+  protected _showEmptyCircle: boolean;
+  protected _emptyDataView: DataView | null = null;
+  protected _emptyArcMark: IArcMark | null = null;
+
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
     // center
@@ -116,6 +120,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
     this._specAngleField = this._angleField.slice();
     this._specRadiusField = [];
+
+    this._showEmptyCircle = this._spec.emptyPlaceholder?.showEmptyCircle ?? false;
   }
 
   initData() {
@@ -154,6 +160,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     });
 
     this._viewDataLabel = new SeriesData(this._option, viewDataLabel);
+
+    this._emptyDataView = new DataView(new DataSet());
   }
 
   initMark(): void {
@@ -174,6 +182,16 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         stateSort: this._spec.pie?.stateSort
       }
     ) as IArcMark;
+
+    this._emptyArcMark = this._createMark(
+      {
+        name: 'emptyCircle',
+        type: 'arc'
+      },
+      {
+        dataView: this._emptyDataView
+      }
+    ) as IArcMark;
   }
 
   private startAngleScale(datum: Datum) {
@@ -186,28 +204,30 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   initMarkStyle(): void {
     const pieMark = this._pieMark;
+    const initialStyle: Partial<IMarkStyle<IArcMarkSpec>> = {
+      x: () => this.getCenter().x,
+      y: () => this.getCenter().y,
+      fill: this.getColorAttribute(),
+      outerRadius: isSpecValueWithScale(this._outerRadius)
+        ? this._outerRadius
+        : () => this._computeLayoutRadius() * this._outerRadius,
+      innerRadius: isSpecValueWithScale(this._innerRadius)
+        ? this._innerRadius
+        : () => this._computeLayoutRadius() * this._innerRadius,
+      cornerRadius: () => this._computeLayoutRadius() * this._cornerRadius,
+      startAngle: datum => this.startAngleScale(datum),
+      endAngle: datum => this.endAngleScale(datum),
+      padAngle: this._padAngle,
+      centerOffset: this._centerOffset
+    };
+
     if (pieMark) {
-      this.setMarkStyle(
-        pieMark,
-        {
-          x: () => this.getCenter().x,
-          y: () => this.getCenter().y,
-          fill: this.getColorAttribute(),
-          outerRadius: isSpecValueWithScale(this._outerRadius)
-            ? this._outerRadius
-            : () => this._computeLayoutRadius() * this._outerRadius,
-          innerRadius: isSpecValueWithScale(this._innerRadius)
-            ? this._innerRadius
-            : () => this._computeLayoutRadius() * this._innerRadius,
-          cornerRadius: () => this._computeLayoutRadius() * this._cornerRadius,
-          startAngle: datum => this.startAngleScale(datum),
-          endAngle: datum => this.endAngleScale(datum),
-          padAngle: this._padAngle,
-          centerOffset: this._centerOffset
-        },
-        'normal',
-        AttributeLevel.Series
-      );
+      this.setMarkStyle(pieMark, initialStyle, 'normal', AttributeLevel.Series);
+    }
+
+    const emptyPieMark = this._emptyArcMark;
+    if (this.getRawData().latestData.length === 0 && this._showEmptyCircle) {
+      this.setMarkStyle(emptyPieMark, initialStyle, 'normal', AttributeLevel.Series);
     }
   }
 
@@ -231,6 +251,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           this.setMarkStyle(mark, this.generateRadiusStyle(pieSpec.state[state]), state, AttributeLevel.User_Mark);
         }
       }
+    }
+    if (mark.name === 'emptyCircle') {
+      // 配置emptyCircle的radius比例值
+      this.setMarkStyle(mark, this.generateRadiusStyle(spec.style), 'normal', AttributeLevel.User_Mark);
     }
   }
 
