@@ -18,6 +18,8 @@ type TotalInfo = {
   lastEnd: number;
   index: string;
   isTotal: boolean;
+  positive: number;
+  negative: number;
 };
 
 export interface IWaterfallOpt {
@@ -47,6 +49,8 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
     lastEnd: number;
     index: string;
     isTotal: boolean;
+    positive: number;
+    negative: number;
   }[] = [];
   const { dimensionValues, dimensionData } = groupData().latestData as {
     dimensionValues: { [key in string]: Set<string> };
@@ -54,7 +58,13 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
   };
   const indexValues = Array.from(dimensionValues[indexField]);
   // 上一次的计算结果
-  let temp: { start: number; end: number; lastIndex: string } = { start: 0, end: 0, lastIndex: null };
+  let temp: { start: number; end: number; lastIndex: string; positive: number; negative: number } = {
+    start: 0,
+    end: 0,
+    positive: 0,
+    negative: 0,
+    lastIndex: null
+  };
   indexValues.forEach((key, index) => {
     const total = {
       start: temp.end,
@@ -62,7 +72,9 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
       lastIndex: temp.lastIndex,
       lastEnd: temp.end,
       index: key,
-      isTotal: false
+      isTotal: false,
+      positive: temp.end,
+      negative: temp.end
     };
 
     const indexData = dimensionData[key];
@@ -115,7 +127,7 @@ function computeTotalWithMultipleData(
   key: string,
   total: TotalInfo,
   totalData: TotalInfo[],
-  temp: { start: number; end: number; lastIndex: string },
+  temp: { start: number; end: number; lastIndex: string; positive: number; negative: number },
   indexValues: string[],
   index: number,
   op: IWaterfallOpt,
@@ -153,14 +165,21 @@ function computeTotalWithMultipleData(
   let { start, end } = getTotalStartEnd(totalConfigData, total, totalData, temp, totalSpec);
   total.start = start;
   total.end = end;
+  const positive = start;
+  const navigate = start;
   // 当前剩余的总计值
   let valueTemp = end - start;
   // 将非总计数据进行堆叠
   _normalTemp.forEach(d => {
-    d[startAs] = +start;
-    d[endAs] = precisionAdd(d[startAs], +d[valueField]);
-    start = d[endAs];
-    valueTemp = precisionSub(valueTemp, +d[valueField]);
+    const value = +d[valueField];
+    if (value >= 0) {
+      d[startAs] = +positive;
+    } else {
+      d[startAs] = +navigate;
+    }
+    d[endAs] = precisionAdd(d[startAs], value);
+    start = precisionAdd(start, value);
+    valueTemp = precisionSub(valueTemp, value);
   });
   // 先在的start end 就是 total 的
   _totalTemp.forEach(d => {
@@ -176,7 +195,7 @@ function computeNormalData(
   key: string,
   total: TotalInfo,
   totalData: TotalInfo[],
-  temp: { start: number; end: number; lastIndex: string },
+  temp: { start: number; end: number; lastIndex: string; positive: number; negative: number },
   indexValues: string[],
   index: number,
   op: IWaterfallOpt
@@ -204,9 +223,17 @@ function computeNormalData(
       }
     }
     if (!isTotalTag) {
-      d[startAs] = +total.end;
-      d[endAs] = precisionAdd(d[startAs], +d[valueField]);
-      total.end = d[endAs];
+      const value = +d[valueField];
+      // 区分正负值
+      if (value >= 0) {
+        d[startAs] = +total.positive;
+        total.positive = precisionAdd(total.positive, value);
+      } else {
+        d[startAs] = +total.negative;
+        total.negative = precisionAdd(total.negative, value);
+      }
+      d[endAs] = precisionAdd(d[startAs], value);
+      total.end = precisionAdd(total.end, value);
     }
     total.isTotal = isTotalTag;
 
@@ -225,7 +252,7 @@ function getTotalStartEnd(
   d: Datum,
   total: TotalInfo,
   totalData: TotalInfo[],
-  temp: { start: number; end: number; lastIndex: string },
+  temp: { start: number; end: number; lastIndex: string; positive: number; negative: number },
   totalSpec: IWaterfallOpt['total']
 ) {
   if (!totalSpec || totalSpec.type === 'end') {
@@ -249,7 +276,7 @@ function getTotalInEndType(total: TotalInfo) {
 
 function getTotalInCustomType(
   d: Datum,
-  temp: { start: number; end: number; lastIndex: string },
+  temp: { start: number; end: number; lastIndex: string; positive: number; negative: number },
   totalSpec: IWaterfallOpt['total']
 ) {
   return (<IWaterfallTotalCustom>totalSpec).product(d, temp);
