@@ -259,6 +259,12 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
       .getChart()
       .getAllComponents()
       .find(component => component.id === angleAxisId) as IPolarAxis;
+
+    const domain = angleAxis.getScale().domain();
+    if (domain[0] >= domain[1]) {
+      throw new Error('Invalid domain: min value should be less than max value.');
+    }
+
     return angleAxis;
   }
 
