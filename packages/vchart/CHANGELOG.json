@@ -2,6 +2,30 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.11.4",
+      "tag": "@visactor/vchart_v1.11.4",
+      "date": "Tue, 18 Jun 2024 06:15:31 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix bug of `updateSpec` when has `scales`, close #2744\n\n"
+          },
+          {
+            "comment": "fix: gauge chart might throw error when the value is close to its maximum, fix #2783"
+          },
+          {
+            "comment": "fix: fix the behavior of the gauge pointer when it exceeds the axis range, fix #2780"
+          },
+          {
+            "comment": "fix: normal animation not work when appear animation is disabled, fix #2807"
+          },
+          {
+            "comment": "fix: upgrade vrender to 0.19.10, vgrammar to 0.13.9\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.3",
       "tag": "@visactor/vchart_v1.11.3",
       "date": "Thu, 06 Jun 2024 05:55:31 GMT",
