@@ -3,7 +3,7 @@ category: examples
 group: bar chart
 title: 自定义标签的条形图
 keywords: barChart,comparison,distribution,rectangle,comparison,rank,axis,label
-cover: ../../../../public/vchart/preview/bar-customized-label_1.11.1.png
+cover: /vchart/preview/bar-customized-label_1.11.1.png
 option: barChart
 ---
 

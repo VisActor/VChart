@@ -3,7 +3,7 @@ category: examples
 group: bar chart
 title: Bar chart with custom label
 keywords: barChart,comparison,distribution,rectangle,comparison,rank,axis,label
-cover: ../../../../public/vchart/preview/bar-customized-label-en_1.11.1.png
+cover: /vchart/preview/bar-customized-label-en_1.11.1.png
 option: barChart
 ---
 
