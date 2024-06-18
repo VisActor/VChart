@@ -119,7 +119,8 @@ jobs:
           version: ${{ steps.package-version.outputs.current_version }}
 
       - name: Update changelog of harmony
-        run: node common/scripts/set-changelog-of-harmony.js ${{ steps.package-version.outputs.current_version }}  ${{ steps.changelog.outputs.markdown }}
+        run: node common/scripts/set-changelog-of-harmony.js ${{ steps.package-version.outputs.current_version }} |
+          ${{ steps.changelog.outputs.markdown }}
 
       - name: Create Release for Tag
         id: release_tag
