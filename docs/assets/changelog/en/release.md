@@ -1,3 +1,20 @@
+# v1.11.4
+
+2024-06-18
+
+
+**🐛 Bug fix**
+
+  - **@visactor/vchart**: fix bug of `updateSpec` when has `scales`, close [#2744](https://github.com/VisActor/VChart/issues/2744)
+  - **@visactor/vchart**: gauge chart might throw error when the value is close to its maximum, fix [#2783](https://github.com/VisActor/VChart/issues/2783)
+  - **@visactor/vchart**: fix the behavior of the gauge pointer when it exceeds the axis range, fix [#2780](https://github.com/VisActor/VChart/issues/2780)
+  - **@visactor/vchart**: normal animation not work when appear animation is disabled, fix [#2807](https://github.com/VisActor/VChart/issues/2807)
+  - **@visactor/vchart**: upgrade vrender to 0.19.10, vgrammar to 0.13.9
+
+
+
+[more detail about v1.11.4](https://github.com/VisActor/VChart/releases/tag/v1.11.4)
+
 # v1.11.3
 
 2024-06-06
