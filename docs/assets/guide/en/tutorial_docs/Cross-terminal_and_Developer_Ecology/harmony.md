@@ -2,7 +2,11 @@
 
 - Repository: https://github.com/VisActor/VChart/tree/main/packages/harmony-vchart
 
-HarmonyOS is an intelligent terminal operating system developed by Huawei, mainly using ArkTS as the main development language. Starting from version 1.11.1, VChart supports compatibility with HarmonyOS chart development. To facilitate the use of VChart by Harmony technology stack students, we provide the VChart HarmonyOS package `@visactor/harmony-vchart` (this package is not an NPM package, but an OHPM package), and the spec configuration item of this component is consistent with VChart.
+HarmonyOS is an intelligent terminal operating system developed by Huawei, with ArkTS as the main development language. Starting from version 1.11.1, VChart supports chart development compatible with HarmonyOS (supporting HarmonyOS API 9 or above).
+
+OpenHarmony is an open-source project incubated and operated by the OpenAtom Foundation. Its goal is to build a framework and platform for an intelligent terminal device operating system in the era of full scenario, full connectivity, and full intelligence, based on open-source methods, to promote the prosperous development of the Internet of Things industry. VChart is also compatible with chart development for OpenHarmony applications (supports API 10 Release or above)
+
+In order to facilitate the better use of Harmony technology stack by students, we provide VChart's HarmonyOS encapsulation package '@ visitor/armony vchart' (this package is not an NPM package, but an OHPM package). The spec configuration item of this component is consistent with VChart, and its use in HarmonyOS and OpenHarmony application development environments is consistent
 
 In this tutorial, we will explain in detail how to use VChart in Harmony projects and create a simple bar chart.
 

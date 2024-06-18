@@ -1,6 +1,21 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 06 Jun 2024 05:55:31 GMT and should not be manually modified.
+This log was last generated on Tue, 18 Jun 2024 06:15:31 GMT and should not be manually modified.
+
+## 1.11.4
+Tue, 18 Jun 2024 06:15:31 GMT
+
+### Updates
+
+- fix: fix bug of `updateSpec` when has `scales`, close #2744
+
+
+- fix: gauge chart might throw error when the value is close to its maximum, fix #2783
+- fix: fix the behavior of the gauge pointer when it exceeds the axis range, fix #2780
+- fix: normal animation not work when appear animation is disabled, fix #2807
+- fix: upgrade vrender to 0.19.10, vgrammar to 0.13.9
+
+
 
 ## 1.11.3
 Thu, 06 Jun 2024 05:55:31 GMT

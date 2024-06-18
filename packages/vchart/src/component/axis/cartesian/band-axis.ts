@@ -42,10 +42,10 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
   }
 
   protected axisHelper() {
-    const getScale = (depth: number) => {
+    const getScale = (depth: number = 0) => {
       return this._scales[depth];
     };
-    const getBandwidth = (depth: number) => {
+    const getBandwidth = (depth: number = 0) => {
       return getScale(depth).bandwidth();
     };
 

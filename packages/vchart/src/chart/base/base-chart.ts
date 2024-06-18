@@ -692,7 +692,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   private _transformSpecScale() {
-    const scales: IChartSpec['scales'] = this._spec.scales ?? [];
+    const scales: IChartSpec['scales'] = this._spec.scales ? [...this._spec.scales] : [];
     let colorScaleSpec: IVisualSpecScale<any, any> = scales.find(s => s.id === 'color');
     const colorScheme = this.getColorScheme();
     if (!colorScaleSpec) {

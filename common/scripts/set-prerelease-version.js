@@ -4,6 +4,17 @@ const getPackageJson = require('./get-package-json');
 const parseVersion = require('./parse-version');
 const setJsonFileByKey = require('./set-json-file');
 
+function writeVersionOfHarmony(nextVersion) {
+  const ohPackageJsonPath = path.join(__dirname, '../../packages/harmony_vchart/library/oh-package.json5');
+  let jsonFile = fs.readFileSync(ohPackageJsonPath, { encoding: 'utf-8' });
+  const pkgJson = JSON.parse(jsonFile);
+
+  jsonFile = setJsonFileByKey(jsonFile, pkgJson, ['version'], nextVersion);
+
+
+  fs.writeFileSync(ohPackageJsonPath, jsonFile);
+}
+
 
 function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildName) {
   const rushJson = getPackageJson(path.join(__dirname, '../../rush.json'));
@@ -86,7 +97,7 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
     fs.writeFileSync(pkgJsonPath, jsonFile)
   });
   
-
+  writeVersionOfHarmony(nextVersion);
 }
 
 module.exports = writePrereleaseVersion;

@@ -1,3 +1,23 @@
+# v1.11.3
+
+2024-06-06
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: DataZoom新增配置项`showBackgroundChart`，用于显示/隐藏背景图
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复当 x 轴为线性轴时，柱形图应该正常工作，修复 [#2758](https://github.com/VisActor/VChart/issues/2758)
+- **@visactor/vchart**: 修复Treemap连续图例数据过滤问题
+- **@visactor/vchart**: 修复更新 Spec 时，新增组件类型无法生效的问题
+- **@visactor/vchart**: 修复桑基图的 `setSelected` 方法，修复 [#2757](https://github.com/VisActor/VChart/issues/2757) 和 [#2765](https://github.com/VisActor/VChart/issues/2765)
+
+
+
+[更多详情请查看 v1.11.3](https://github.com/VisActor/VChart/releases/tag/v1.11.3)
+
 # v1.11.2
 
 2024-05-30

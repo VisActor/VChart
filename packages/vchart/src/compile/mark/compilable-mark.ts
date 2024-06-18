@@ -429,11 +429,17 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         dependency: stateSignal
       });
       if (this._animationConfig.normal) {
-        this._event.on(VGRAMMAR_HOOK_EVENT.ANIMATION_END, ({ event }) => {
-          if (event.mark === this.getProduct() && event.animationState === AnimationStateEnum.appear) {
+        if (!this._animationConfig.appear) {
+          this._event.on(VGRAMMAR_HOOK_EVENT.AFTER_DO_RENDER, () => {
             this.runAnimationByState(AnimationStateEnum.normal);
-          }
-        });
+          });
+        } else {
+          this._event.on(VGRAMMAR_HOOK_EVENT.ANIMATION_END, ({ event }) => {
+            if (event.mark === this.getProduct() && event.animationState === AnimationStateEnum.appear) {
+              this.runAnimationByState(AnimationStateEnum.normal);
+            }
+          });
+        }
       }
     }
   }
