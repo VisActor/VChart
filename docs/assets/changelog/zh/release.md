@@ -5,11 +5,10 @@
 
 **🐛 功能修复**
 
-  - **@visactor/vchart**: fix bug of `updateSpec` when has `scales`, close [#2744](https://github.com/VisActor/VChart/issues/2744)
-  - **@visactor/vchart**: gauge chart might throw error when the value is close to its maximum, fix [#2783](https://github.com/VisActor/VChart/issues/2783)
-  - **@visactor/vchart**: fix the behavior of the gauge pointer when it exceeds the axis range, fix [#2780](https://github.com/VisActor/VChart/issues/2780)
-  - **@visactor/vchart**: normal animation not work when appear animation is disabled, fix [#2807](https://github.com/VisActor/VChart/issues/2807)
-  - **@visactor/vchart**: upgrade vrender to 0.19.10, vgrammar to 0.13.9
+  - **@visactor/vchart**: 修复当配置了`scales`的时候，`updateSpec` 效果错误的问题 [#2744](https://github.com/VisActor/VChart/issues/2744)
+  - **@visactor/vchart**: 修复当值接近最大值时，仪表盘可能抛错的问题，关闭[#2783](https://github.com/VisActor/VChart/issues/2783)
+  - **@visactor/vchart**: 修复仪表盘指针位置超出轴范围的问题，修复[#2780](https://github.com/VisActor/VChart/issues/2780)
+  - **@visactor/vchart**: 修复关闭appear动画后，循环动画不生效的问题，关闭[#2807](https://github.com/VisActor/VChart/issues/2807)
 
 
 
