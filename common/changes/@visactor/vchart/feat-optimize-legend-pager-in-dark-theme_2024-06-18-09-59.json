@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: optimize discrete legend pager color in dark theme, related #2654",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
