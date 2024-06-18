@@ -163,14 +163,14 @@ VChart 的入门问题，你可以通过 [issue 列表](https://github.com/VisAc
 
 所有的 demo 存放在 `docs/assets/examples` 目录下
 
-1. 请基于 develop 分支，新拉一个 `docs/***`或 `demo/***` 分支进行开发
+1. 请基于 develop 分支，新拉一个 `docs/***` 或 `demo/***` 分支进行开发
 2. （如果你已经安装，请跳过此步骤）全局安装 [@microsoft/rush](https://rushjs.io/pages/intro/get_started/)：`npm i --global @microsoft/rush`
 3. 根目录下运行 `rush update`
-4. 运行`rush docs` 在本地预览目前 demo 内容
+4. 运行 `rush docs` 在本地预览目前 demo 内容
 5. `docs` 目录下:
    1. `docs/assets/examples/menu.json` 目录文件中添加你的 demo 信息
-   2. 在`zh`/`en`目录下分别完成中英文 demo 文档
-   3. 在 `docs/public/vchart/preview`目录下添加 demo 预览图片并将相对路径更新在 demo 文档中
+   2. 在 `zh`/`en` 目录下分别完成中英文 demo 文档
+   3. 在 `docs/public/vchart/preview` 目录下添加 demo 预览图片并将路径更新在 demo 文档中，例如 `/vchart/preview/basic-map_1.9.1.png`
 6. 提交所有代码，并在 Github 创建 Pull Request，邀请其他人进行 review
 
 ### Feature Task 开发指南
