@@ -54,12 +54,6 @@ export class ShapeModel extends BaseTooltipModel {
   }
 }
 
-const builtInShape = {
-  // FIXME: vrender 的五角星是用 canvas api 画出来的，没有内置的 path。这里先覆盖一下，等 vrender 修复
-  // eslint-disable-next-line max-len
-  star: 'M0 -1L0.22451398828979266 -0.3090169943749474L0.9510565162951535 -0.30901699437494745L0.3632712640026804 0.1180339887498948L0.5877852522924732 0.8090169943749473L8.326672684688674e-17 0.3819660112501051L-0.587785252292473 0.8090169943749476L-0.3632712640026804 0.11803398874989487L-0.9510565162951536 -0.30901699437494723L-0.22451398828979274 -0.30901699437494734Z'
-};
-
 function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: any) => string) {
   if (!option?.hasShape || !option.symbolType) {
     return '';
@@ -74,7 +68,7 @@ function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: an
   const sizeNumber = pixelPropertyStrToNumber(size) as number;
   const createSymbol = (symbolType: string) => new Symbol({ symbolType, size: sizeNumber, fill: true });
 
-  let symbol = createSymbol(builtInShape[symbolType] ?? symbolType);
+  let symbol = createSymbol(symbolType);
   const parsedPath = symbol.getParsedPath();
   if (!parsedPath.path) {
     symbol = createSymbol(parsedPath.pathStr);

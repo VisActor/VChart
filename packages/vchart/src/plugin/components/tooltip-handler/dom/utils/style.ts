@@ -24,7 +24,8 @@ export function getDomStyles(attributes?: Maybe<ITooltipAttributes>): IDomToolti
     valueWidth,
     enterable,
     transitionDuration,
-    panelDomHeight = 0
+    panelDomHeight = 0,
+    align = 'left'
   } = attributes ?? {};
 
   const {
@@ -48,8 +49,10 @@ export function getDomStyles(attributes?: Maybe<ITooltipAttributes>): IDomToolti
   const keyStyle = getLabelStyle(key);
   const valueStyle = getLabelStyle(value);
   const { bottom, left, right, top } = normalizeLayoutPaddingSpec(padding);
+  const marginKey = align === 'right' ? 'marginLeft' : 'marginRight';
 
   const styles: IDomTooltipStyle = {
+    align,
     panel: {
       width: getPixelPropertyStr(width + lineWidth * 2),
       minHeight: getPixelPropertyStr(panelDomHeight + lineWidth * 2),
@@ -85,7 +88,7 @@ export function getDomStyles(attributes?: Maybe<ITooltipAttributes>): IDomToolti
           } as IShapeStyle)
       ),
       width: getPixelPropertyStr(shape.size),
-      marginRight: getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING)
+      [marginKey]: getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING)
     },
     keyColumn: {
       common: keyStyle,
@@ -100,7 +103,7 @@ export function getDomStyles(attributes?: Maybe<ITooltipAttributes>): IDomToolti
           } as ILabelStyle)
       ),
       width: getPixelPropertyStr(keyWidth),
-      marginRight: getPixelPropertyStr(key.spacing ?? DEFAULT_KEY_SPACING)
+      [marginKey]: getPixelPropertyStr(key.spacing ?? DEFAULT_KEY_SPACING)
     },
     valueColumn: {
       common: valueStyle,
@@ -115,7 +118,7 @@ export function getDomStyles(attributes?: Maybe<ITooltipAttributes>): IDomToolti
           } as ILabelStyle)
       ),
       width: getPixelPropertyStr(valueWidth),
-      marginRight: getPixelPropertyStr(value.spacing ?? DEFAULT_VALUE_SPACING)
+      [marginKey]: getPixelPropertyStr(value.spacing ?? DEFAULT_VALUE_SPACING)
     }
   };
   return styles;

@@ -34,7 +34,6 @@ export const tooltip: ITooltipTheme<string | IColorKey> = {
 
     fontColor: { type: 'palette', key: 'primaryFontColor' },
     fontWeight: 'bold',
-    textAlign: 'left',
     textBaseline: 'middle',
     spacing: 0
   },
@@ -47,7 +46,6 @@ export const tooltip: ITooltipTheme<string | IColorKey> = {
     lineHeight: { type: 'token', key: 'l4LineHeight' },
 
     fontColor: { type: 'palette', key: 'secondaryFontColor' },
-    textAlign: 'left',
     textBaseline: 'middle',
     spacing: 26
   },
