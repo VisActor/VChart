@@ -86,7 +86,7 @@ export interface ITooltipTheme<ColorType = string> {
     y?: number;
   };
   /**
-   * @since 1.11.4
+   * @since 1.11.5
    *
    * shape、key、value的对齐方式，可选项如下：
    * 'left': 从左到右对齐

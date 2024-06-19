@@ -20,7 +20,7 @@ export interface ITooltipAttributes extends TooltipAttributes {
   /** dom tooltip 内容区的最大高度，canvas tooltip 不支持 */
   maxContentHeight?: number;
   /**
-   * @since 1.11.4
+   * @since 1.11.5
    *
    * shape、key、value的对齐方式，可选项如下：
    * 'left': 从左到右对齐
