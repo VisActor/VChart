@@ -165,8 +165,8 @@ function computeTotalWithMultipleData(
   let { start, end } = getTotalStartEnd(totalConfigData, total, totalData, temp, totalSpec);
   total.start = start;
   total.end = end;
-  const positive = start;
-  const navigate = start;
+  let positive = start;
+  let navigate = start;
   // 当前剩余的总计值
   let valueTemp = end - start;
   // 将非总计数据进行堆叠
@@ -174,14 +174,16 @@ function computeTotalWithMultipleData(
     const value = +d[valueField];
     if (value >= 0) {
       d[startAs] = +positive;
+      positive = precisionAdd(positive, value);
     } else {
       d[startAs] = +navigate;
+      navigate = precisionAdd(navigate, value);
     }
     d[endAs] = precisionAdd(d[startAs], value);
     start = precisionAdd(start, value);
     valueTemp = precisionSub(valueTemp, value);
   });
-  // 先在的start end 就是 total 的
+  // 现在的start end 就是 total 的
   _totalTemp.forEach(d => {
     d[startAs] = +start;
     d[endAs] = precisionAdd(d[startAs], valueTemp);
