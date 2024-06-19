@@ -66,7 +66,14 @@ export const colorScheme: IThemeColorScheme = {
       /** 成功色 */
       successColor: '#14b267',
       /** 信息色 */
-      infoColor: '#4284ff'
+      infoColor: '#4284ff',
+
+      /** 图例翻页器文字颜色 */
+      discreteLegendPagerTextColor: '#BBBDC3',
+      /** 图例翻页器按钮颜色 */
+      discreteLegendPagerHandlerColor: '#BBBDC3',
+      /** 图例翻页器按钮颜色（disable 态） */
+      discreteLegendPagerHandlerDisableColor: '#55595F'
     } as BuiltinColorPalette
   }
 };
