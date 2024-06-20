@@ -226,7 +226,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
 
     const emptyPieMark = this._emptyArcMark;
-    if (this.getRawData().latestData.length === 0 && this._showEmptyCircle) {
+    if (this.getViewData().latestData.length === 0 && this._showEmptyCircle) {
       this.setMarkStyle(emptyPieMark, initialStyle, 'normal', AttributeLevel.Series);
     }
   }
