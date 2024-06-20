@@ -110,6 +110,8 @@ module.exports = {
         const dest = crossEnvs[env].output;
         const envSource = path.join(__dirname, config.outputDir.umd, source);
         copyFile(envSource, path.join(__dirname, dest));
+
+        console.log(`[copy file] copy ${envSource} to ${path.join(__dirname, dest)}`)
       });
       umdEntries.forEach(entry => {
         fs.unlinkSync(path.join(__dirname, config.outputDir.umd, `${entry}.min.js`));
@@ -122,6 +124,8 @@ module.exports = {
         const envSource = path.join(__dirname, config.outputDir.umd, source);
         copyFile(envSource, path.join(__dirname, dest));
         fs.unlinkSync(path.join(__dirname, config.outputDir.umd, source));
+
+        console.log(`[copy file] copy ${envSource} to ${path.join(__dirname, dest)}`)
       } catch(e) {
         console.log(`[Error] can't copy es5/index.es.js to harmony`)
       }
