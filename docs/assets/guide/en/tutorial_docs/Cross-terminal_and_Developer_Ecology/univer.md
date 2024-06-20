@@ -1,26 +1,26 @@
-# univer-vchart-plugin 介绍
+# Introduction to univer-vchart-plugin
 
-## 关于 Univer
+## About Univer
 
-[Univer](https://univer.ai/)是 Office 系列办公套件的开源替代品，包括电子表格、文档和幻灯片。目前提供公式、数字格式、条件格式、数据验证、图文混排等功能。你可以将 Univer 集成到你的系统当中，并基于 Univer 开发个性化的业务需求。
+[Univer](https://univer.ai/) is an open-source alternative to the Office suite, including spreadsheets, documents, and presentations. It currently offers features such as formulas, number formatting, conditional formatting, data validation, and text-image mixing. You can integrate Univer into your system and develop personalized business requirements based on Univer.
 
-[univer-vchart-plugin](https://github.com/VisActor/univer-vchart-plugin)是基于 Univer 封装的插件，可以让你在 Univer 中快速的插入 vchart 图表。
+[univer-vchart-plugin](https://github.com/VisActor/univer-vchart-plugin) is a plugin encapsulated based on Univer, allowing you to quickly insert vchart charts into Univer.
 
-## 快速上手
+## Quick Start
 
-### 安装
+### Installation
 
 ```
-# 使用 npm 安装
+# Install using npm
 npm install @visactor/univer-vchart-plugin
 
-# 使用 yarn 安装
+# Install using yarn
 yarn add @visactor/univer-vchart-plugin
 ```
 
-### 使用
+### Usage
 
-- 注册插件
+- Register the plugin
 
 ```typescript
 import { UniverVChartPlugin } from '@visactor/univer-vchart-plugin';
@@ -36,8 +36,7 @@ export function setupUniver() {
   univer.registerPlugin(UniverVChartPlugin);
 }
 ```
-
-- 创建 vchart 图表，示例如下：
+- Create a vchart chart, example as follows:
 
 ```typescript
 import { CREATE_VCHART_COMMAND_ID } from '@visactor/univer-vchart-plugin';
@@ -47,8 +46,7 @@ await univerAPI.executeCommand(CREATE_VCHART_COMMAND_ID, {
       spec: { ... },
     });
 ```
-
-其中创建 vchart 图表，支持如下参数：
+The following parameters are supported when creating a vchart chart:
 
 ```typescript
 /**
@@ -70,7 +68,7 @@ export interface CreateVChartParams {
 }
 ```
 
-### 一个简单的图表示例
+### A Simple Chart Example
 
 <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/univer-vchart-plugin.png" style="width: 800px">
 
@@ -150,6 +148,4 @@ export function setupVChartDemo($toolbar: HTMLElement, univerAPI: FUniver) {
     });
   });
 }
-```
-
-[查看在线 demo](https://stackblitz.com/~/github.com/xile611/univer-vchart-plugin-demo)
+[View the online demo](https://stackblitz.com/~/github.com/xile611/univer-vchart-plugin-demo)
