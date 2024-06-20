@@ -468,11 +468,9 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       config.largeThreshold = this._progressiveConfig.largeThreshold;
     }
 
-    if (this._morph && this._morphKey) {
-      config.morph = this._morph;
-      config.morphKey = this._morphKey;
-      config.morphElementKey = this._morphElementKey;
-    }
+    config.morph = this._morph;
+    config.morphKey = this._morphKey;
+    config.morphElementKey = this._morphElementKey;
 
     if (this._setCustomizedShape) {
       config.setCustomizedShape = this._setCustomizedShape;

@@ -1301,7 +1301,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       const spec = this.getSpec() || ({} as T);
 
       m.setMorph(morph);
-      m.setMorphKey(spec.morph?.morphKey || `${this.getSpecIndex()}`);
+      m.setMorphKey(spec.morph?.morphKey || `${this.getSpecIndex()}_${m.name}`);
       m.setMorphElementKey(spec.morph?.morphElementKey ?? option.defaultMorphElementKey);
 
       if (!isNil(progressive)) {
