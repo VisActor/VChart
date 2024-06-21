@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of update animation not executed when updateSpec, #2835 #2836",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
