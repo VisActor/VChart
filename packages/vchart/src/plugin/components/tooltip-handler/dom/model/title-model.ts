@@ -15,23 +15,28 @@ export class TitleModel extends BaseTooltipModel {
     if (!this.product) {
       this.product = this.createElement('h2');
     }
+    const { align } = this._option.getTooltipAttributes();
+
+    if (align === 'right' && !this.textSpan) {
+      this._initTextSpan(0);
+    }
 
     const { title } = tooltipActual;
     if (title?.hasShape && title?.shapeType) {
       if (!this.shape) {
-        this._initShape();
+        this._initShape(align === 'right' ? 1 : 0);
       }
     } else if (this.shape) {
       this._releaseShape();
     }
 
-    if (!this.textSpan) {
-      this._initTextSpan();
+    if (align !== 'right' && !this.textSpan) {
+      this._initTextSpan(1);
     }
   }
 
-  private _initShape() {
-    const shape = new ShapeModel(this.product!, this._option, 0);
+  private _initShape(index: number = 0) {
+    const shape = new ShapeModel(this.product!, this._option, index);
     shape.init();
     this.shape = shape;
     this.children[shape.childIndex] = shape;
@@ -46,8 +51,8 @@ export class TitleModel extends BaseTooltipModel {
     this.shape = null;
   }
 
-  private _initTextSpan() {
-    const textSpan = new TextModel(this.product!, this._option, 1);
+  private _initTextSpan(index: number = 1) {
+    const textSpan = new TextModel(this.product!, this._option, index);
     textSpan.init();
     this.textSpan = textSpan;
     this.children[textSpan.childIndex] = textSpan;

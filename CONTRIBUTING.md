@@ -164,16 +164,16 @@ You can get started with using VChart through this type of task. VChart provides
 
 After completing the task, you can submit the self-made case to the official website demo for more people in need to learn and use.
 
-All demos are stored in the `docs/assets/examples `directory
+All demos are stored in the `docs/assets/examples` directory
 
-1.  Please create a new `docs/*** `or `demo/*** `branch based on the develop branch for development
+1.  Please create a new `docs/***` or `demo/***` branch based on the develop branch for development
 2.  (If you have already installed, skip this step) Global installation [@microsoft/rush](https://rushjs.io/pages/intro/get_started/): `npm i --global @microsoft/rush`
 3.  Run `rush update`
-4.  Run `rush docs `to preview the current demo content locally
-5.  `Docs `directory
-    1.  `Docs/assets/examples/menu.json `Add your demo information to the directory file
-    2.  Complete the Chinese and English demo documents in the `zh `/ `en `directory respectively
-    3.  Add the demo preview image in the `docs/public/vchart/preview `directory and update the relative path in the demo document
+4.  Run `rush docs` to preview the current demo content locally
+5.  `Docs` directory
+    1.  `Docs/assets/examples/menu.json` Add your demo information to the directory file
+    2.  Complete the Chinese and English demo documents in the `zh`/`en` directory respectively
+    3.  Add the demo preview image in the `docs/public/vchart/preview` directory and update the path in the demo document accordingly, for example, `/vchart/preview/basic-map_1.9.1.png`
 6.  Submit all code and create a Pull Request on Github, inviting others to review
 
 ### Feature Task Development Guide

@@ -1,3 +1,19 @@
+# v1.11.4
+
+2024-06-18
+
+
+**🐛 功能修复**
+
+  - **@visactor/vchart**: 修复当配置了`scales`的时候，`updateSpec` 效果错误的问题 [#2744](https://github.com/VisActor/VChart/issues/2744)
+  - **@visactor/vchart**: 修复当值接近最大值时，仪表盘可能抛错的问题，关闭[#2783](https://github.com/VisActor/VChart/issues/2783)
+  - **@visactor/vchart**: 修复仪表盘指针位置超出轴范围的问题，修复[#2780](https://github.com/VisActor/VChart/issues/2780)
+  - **@visactor/vchart**: 修复关闭appear动画后，循环动画不生效的问题，关闭[#2807](https://github.com/VisActor/VChart/issues/2807)
+
+
+
+[更多详情请查看 v1.11.4](https://github.com/VisActor/VChart/releases/tag/v1.11.4)
+
 # v1.11.3
 
 2024-06-06

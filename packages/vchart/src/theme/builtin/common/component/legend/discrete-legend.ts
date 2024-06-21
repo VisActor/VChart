@@ -16,6 +16,21 @@ export const discreteLegend: IDiscreteLegendTheme = {
     },
     space: 12
   },
+  pager: {
+    textStyle: {
+      fill: { type: 'palette', key: 'discreteLegendPagerTextColor' }
+    },
+    handler: {
+      style: {
+        fill: { type: 'palette', key: 'discreteLegendPagerHandlerColor' }
+      },
+      state: {
+        disable: {
+          fill: { type: 'palette', key: 'discreteLegendPagerHandlerDisableColor' }
+        }
+      }
+    }
+  },
   item: {
     visible: true,
     spaceCol: 10,
