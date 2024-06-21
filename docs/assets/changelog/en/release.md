@@ -1,3 +1,24 @@
+# v1.11.5
+
+2024-06-21
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add option `style.align` of Tooltip, support RTL tooltip
+- 
+
+**🐛 Bug fix**
+
+  - **@visactor/vchart**: optimize discrete legend pager color in dark theme, related [#265](https://github.com/VisActor/VChart/issues/265)[4](https://github.com/VisActor/VChart/actions/runs/9595677272/job/26460944527#step:22:4)
+  - **@visactor/vchart**: fix the issue issue with stacked waterfall charts where positive and negative values were not stacked separately when there were both positive and negative values in the same stack
+
+
+
+
+
+[more detail about v1.11.5](https://github.com/VisActor/VChart/releases/tag/v1.11.5)
+
 # v1.11.4
 
 2024-06-18
