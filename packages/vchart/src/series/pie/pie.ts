@@ -82,7 +82,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _labelLineMark: IPathMark | null = null;
 
   protected _showEmptyCircle: boolean;
-  protected _emptyDataView: DataView | null = null;
   protected _emptyArcMark: IArcMark | null = null;
 
   protected _buildMarkAttributeContext() {
@@ -160,8 +159,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     });
 
     this._viewDataLabel = new SeriesData(this._option, viewDataLabel);
-
-    this._emptyDataView = new DataView(new DataSet());
   }
 
   initMark(): void {
@@ -189,7 +186,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         type: 'arc'
       },
       {
-        dataView: this._emptyDataView
+        dataView: false
       }
     ) as IArcMark;
   }
