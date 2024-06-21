@@ -10,7 +10,7 @@
 
 **🐛 功能修复**
 
-  - **@visactor/vchart**: 优化暗色主题中，图例分页器的样式，关联问题 [#265](https://github.com/VisActor/VChart/issues/265)[4](https://github.com/VisActor/VChart/actions/runs/9595677272/job/26460944527#step:22:4)
+  - **@visactor/vchart**: 优化暗色主题中，图例分页器的样式，关联问题 [#2654](https://github.com/VisActor/VChart/issues/2654)
   - **@visactor/vchart**: 修复瀑布图堆积中，正数、负数在同一堆积下，表现错误的问题，修复 [#2212](https://github.com/VisActor/VChart/issues/2212)
 
 [更多详情请查看 v1.11.5](https://github.com/VisActor/VChart/releases/tag/v1.11.5)
