@@ -229,7 +229,7 @@ describe('Bar chart test', () => {
     expect(CSeries.getMarksInType('symbol')[0].getMorph()).toBe(true);
     expect(ASeries.getMarksInType('symbol')[0].getMorphKey()).toBe('A');
     expect(BSeries.getMarksInType('symbol')[0].getMorphKey()).toBe('B');
-    expect(CSeries.getMarksInType('symbol')[0].getMorphKey()).toBe('2');
+    expect(CSeries.getMarksInType('symbol')[0].getMorphKey()).toBe('2_2');
     expect(ASeries.getMarksInType('symbol')[0].getMorphElementKey()).toBe('sex');
     expect(BSeries.getMarksInType('symbol')[0].getMorphElementKey()).toBe('sex');
     expect(CSeries.getMarksInType('symbol')[0].getMorphElementKey()).toBe('ratio');
