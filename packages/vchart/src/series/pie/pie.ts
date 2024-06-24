@@ -200,7 +200,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   initMarkStyle(): void {
-    const pieMark = this._pieMark;
     const initialStyle: Partial<IMarkStyle<IArcMarkSpec>> = {
       x: () => this.getCenter().x,
       y: () => this.getCenter().y,
@@ -218,20 +217,23 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       centerOffset: this._centerOffset
     };
 
+    const pieMark = this._pieMark;
     if (pieMark) {
       this.setMarkStyle(pieMark, initialStyle, 'normal', AttributeLevel.Series);
     }
 
     const emptyPieMark = this._emptyArcMark;
-    this.setMarkStyle(
-      emptyPieMark,
-      {
-        ...initialStyle,
-        visible: () => this.getViewData().latestData.length === 0 && this._showEmptyCircle
-      },
-      'normal',
-      AttributeLevel.Series
-    );
+    if (emptyPieMark) {
+      this.setMarkStyle(
+        emptyPieMark,
+        {
+          ...initialStyle,
+          visible: () => this.getViewData().latestData.length === 0 && this._showEmptyCircle
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
   }
 
   initInteraction(): void {
