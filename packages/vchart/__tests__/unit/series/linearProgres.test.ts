@@ -24,13 +24,18 @@ describe('[Domain-Series-LinearProgress] LinearProgress Series', () => {
     linearProgress.init({});
 
     const marks = linearProgress.getMarks();
-    expect(marks.length).toEqual(3);
+    expect(marks.length).toEqual(4);
 
-    const backgroundMark = marks[1];
+    const groupMark = marks[1] as IGroupMark;
+    expect(groupMark.type).toEqual('group');
+    expect(groupMark.name).toEqual('group');
+    expect(groupMark.getMarks().length).toEqual(2);
+
+    const backgroundMark = groupMark.getMarks()[0];
     expect(backgroundMark.type).toEqual('rect');
     expect(backgroundMark.name).toEqual('track');
 
-    const progressMark = marks[2];
+    const progressMark = groupMark.getMarks()[1];
     expect(progressMark.type).toEqual('rect');
     expect(progressMark.name).toEqual('progress');
   });
