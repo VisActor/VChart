@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: refactor the graphics in linear-progress chart",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
