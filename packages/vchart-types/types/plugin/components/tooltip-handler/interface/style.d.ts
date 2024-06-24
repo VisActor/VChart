@@ -10,4 +10,5 @@ export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> 
 export interface ITooltipAttributes extends TooltipAttributes {
     panelDomHeight?: number;
     maxContentHeight?: number;
+    align?: 'left' | 'right';
 }

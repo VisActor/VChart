@@ -114,3 +114,14 @@
 #${prefix} maxContentHeight(number)
 
 **可选** 设置最大内容区高度，内容区若超过该高度将显示局部滚动条（适用于 dom tooltip）。自 1.9.0 版本开始支持。
+
+
+#${prefix} align('left' | 'right')
+
+自 1.11.5 版本开始支持。
+
+**可选** 设置内容的对齐方式：
+
+- 'left': shape、标题、数值从左到右展示，左对齐
+- 'right': shape、标题、数值从右到左展示，右对齐
+

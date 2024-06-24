@@ -12,7 +12,7 @@ function writeVersionOfHarmony(nextVersion) {
   jsonFile = setJsonFileByKey(jsonFile, pkgJson, ['version'], nextVersion);
 
 
-  fs.writeFileSync(pkgJsonPath, jsonFile);
+  fs.writeFileSync(ohPackageJsonPath, jsonFile);
 }
 
 

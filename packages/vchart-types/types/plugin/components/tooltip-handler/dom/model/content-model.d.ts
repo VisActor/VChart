@@ -6,9 +6,7 @@ export declare class ContentModel extends BaseTooltipModel {
     keyBox: Maybe<ContentColumnModel>;
     valueBox: Maybe<ContentColumnModel>;
     init(): void;
-    private _initShapeBox;
-    private _initKeyBox;
-    private _initValueBox;
+    private _initBox;
     setStyle(style?: Partial<CSSStyleDeclaration>): void;
     setContent(): void;
     protected _getContentContainerStyle(): Partial<CSSStyleDeclaration>;

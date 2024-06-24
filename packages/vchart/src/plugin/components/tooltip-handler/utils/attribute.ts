@@ -76,12 +76,33 @@ export const getTooltipAttributes = (
   globalTheme: ITheme
 ): ITooltipAttributes => {
   const { style = {}, enterable, transitionDuration } = spec;
-  const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow, maxContentHeight } = style;
+  const {
+    panel = {},
+    titleLabel,
+    shape,
+    keyLabel,
+    valueLabel,
+    spaceRow: commonSpaceRow,
+    maxContentHeight,
+    align
+  } = style;
   const padding = normalizePadding(panel.padding);
   const paddingSpec = normalizeLayoutPaddingSpec(panel.padding) as IPadding;
 
-  const titleStyle = getTextAttributes(titleLabel, globalTheme);
-  const keyStyle = getTextAttributes(keyLabel, globalTheme);
+  const titleStyle = getTextAttributes(
+    {
+      textAlign: align === 'right' ? 'right' : 'left',
+      ...titleLabel
+    },
+    globalTheme
+  );
+  const keyStyle = getTextAttributes(
+    {
+      textAlign: align === 'right' ? 'right' : 'left',
+      ...keyLabel
+    },
+    globalTheme
+  );
   const valueStyle = getTextAttributes(valueLabel, globalTheme);
   const shapeStyle: TooltipRowStyleAttrs['shape'] = {
     fill: true,
@@ -113,7 +134,8 @@ export const getTooltipAttributes = (
     maxContentHeight,
 
     enterable,
-    transitionDuration
+    transitionDuration,
+    align
   };
 
   const { title = {}, content = [] } = actualTooltip;
