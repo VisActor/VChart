@@ -3,25 +3,25 @@ import { CartesianSeries } from '../../cartesian/cartesian';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import type { IRectMark } from '../../../mark/rect';
-import type { IGroupMark } from '../../../mark/group';
 import { valueInScaleRange } from '../../../util/scale';
 import { AttributeLevel } from '../../../constant';
-import type { Datum, Maybe } from '../../../typings';
+import type { Datum } from '../../../typings';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
 import {
   registerLinearProgressAnimation,
   type ILinearProgressAnimationParams,
   type LinearProgressAppearPreset
 } from './animation';
-import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './interface';
+import type { ILinearProgressSeriesSpec } from './interface';
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
-import { RectMark, registerRectMark } from '../../../mark/rect';
-import { createRect } from '@visactor/vrender-core';
+import { registerRectMark } from '../../../mark/rect';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 import { linearProgressSeriesMark } from './constant';
 import { Factory } from '../../../core/factory';
 import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IMark } from '../../../mark/interface';
+import { isValid } from '@visactor/vutils';
 
 export class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
@@ -33,29 +33,13 @@ export class LinearProgressSeries<
 
   private _progressMark: IRectMark | null = null;
   private _trackMark: IRectMark | null = null;
-  private _progressGroupMark: IGroupMark | null = null;
 
-  /**
-   * 为了解决在圆角情况下，在数值较小时，rect绘图效果不好的问题
-   * 1. trackMark的所有样式设置在groupMark上，定位也依靠这个groupMark
-   * 2. progressMark长度固定为整个进度条长度，通过x的偏移体现当前进度
-   *
-   * 为了解决在配置tooltip时，trackMark设置为GroupMark无法绑定数据的问题，
-   * 1. 原本的设置为groupMark的trackMark更名为GroupMark。用来保证在clip效果下progressMark小数据值的绘图效果。
-   * 1. 增加一层设置为rectMark的trackMark，形状大小与GroupMark相同
-   *
-   * 为了解决成组
-   * 给groupMark的path字段赋值为一个rect数组 也就是一个groupMark具有多个以背景条为轮廓的rect的path
-   * trackMark与progressMark使用绝对定位
-   */
   initMark(): void {
-    this._initProgressGroupMark();
     this._initTrackMark();
     this._initProgressMark();
   }
 
   initMarkStyle(): void {
-    this._initProgressGroupMarkStyle();
     this._initTrackMarkStyle();
     this._initProgressMarkStyle();
   }
@@ -63,8 +47,7 @@ export class LinearProgressSeries<
   private _initProgressMark() {
     this._progressMark = this._createMark(LinearProgressSeries.mark.progress, {
       isSeriesMark: true,
-      parent: this._progressGroupMark,
-      customShape: this._spec.progress?.customShape,
+      customShape: this._spec.progress?.customShape ?? this._defaultProgressCustomShape,
       stateSort: this._spec.progress?.stateSort
     }) as IRectMark;
     return this._progressMark;
@@ -74,8 +57,9 @@ export class LinearProgressSeries<
     const progressMark = this._progressMark;
     if (progressMark) {
       if (this._spec.direction === 'vertical') {
-        const leftPadding = this._spec.progress?.leftPadding ?? 0;
-        const rightPadding = this._spec.progress?.rightPadding ?? 0;
+        const progress = this._spec.progress || {};
+        const leftPadding = progress.leftPadding ?? 0;
+        const rightPadding = progress.rightPadding ?? 0;
 
         this.setMarkStyle(
           progressMark,
@@ -87,8 +71,8 @@ export class LinearProgressSeries<
                 leftPadding
               );
             },
-            y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)),
-            height: () => this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
+            y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)),
+            y: () => this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
             width: this._spec.bandWidth - leftPadding - rightPadding,
             cornerRadius: this._spec.cornerRadius,
             fill: this.getColorAttribute()
@@ -97,15 +81,14 @@ export class LinearProgressSeries<
           AttributeLevel.Series
         );
       } else {
-        const topPadding = this._spec.progress?.topPadding ?? 0;
-        const bottomPadding = this._spec.progress?.bottomPadding ?? 0;
+        const progress = this._spec.progress || {};
+        const topPadding = progress.topPadding ?? 0;
+        const bottomPadding = progress.bottomPadding ?? 0;
 
         this.setMarkStyle(
           progressMark,
           {
-            x: (datum: Datum) =>
-              valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
-              this._xAxisHelper.dataToPosition([1], { bandPosition: this._bandPosition }),
+            x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)),
             y: (datum: Datum) => {
               return (
                 valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
@@ -114,7 +97,7 @@ export class LinearProgressSeries<
               );
             },
             height: this._spec.bandWidth - topPadding - bottomPadding,
-            width: () => this._xAxisHelper?.dataToPosition([1], { bandPosition: this._bandPosition }),
+            x: () => this._xAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
             cornerRadius: this._spec.cornerRadius,
             fill: this.getColorAttribute()
           },
@@ -125,9 +108,104 @@ export class LinearProgressSeries<
     }
   }
 
+  private _defaultProgressCustomShape = (datum: any[], attrs: any, path: ICustomPath2D) => {
+    const cornerRadius = this._spec.cornerRadius;
+    const width = isValid(attrs.width) ? attrs.width : attrs.x1 - attrs.x;
+    const height = isValid(attrs.height) ? attrs.height : attrs.y1 - attrs.y;
+    const x0 = Math.min(0, width);
+    const x1 = Math.max(0, width);
+    const y0 = Math.min(0, height);
+    const y1 = Math.max(0, height);
+
+    if (cornerRadius > 0) {
+      let realCornerRadius = cornerRadius;
+
+      if (this._spec.direction === 'vertical') {
+        realCornerRadius = Math.min(Math.abs(width / 2), cornerRadius);
+
+        if (2 * realCornerRadius > Math.abs(height)) {
+          const angle = Math.acos((realCornerRadius - Math.abs(height) / 2) / realCornerRadius);
+
+          path.moveTo(x0 + realCornerRadius, y0);
+          path.arc(
+            x0 + realCornerRadius,
+            y0 + realCornerRadius,
+            realCornerRadius,
+            1.5 * Math.PI,
+            1.5 * Math.PI - angle,
+            true
+          );
+          path.arc(
+            x0 + realCornerRadius,
+            y1 - realCornerRadius,
+            realCornerRadius,
+            angle + Math.PI / 2,
+            Math.PI / 2,
+            true
+          );
+
+          path.lineTo(x1 - cornerRadius, y1);
+          path.arc(
+            x1 - realCornerRadius,
+            y1 - realCornerRadius,
+            realCornerRadius,
+            Math.PI / 2,
+            Math.PI / 2 - angle,
+            true
+          );
+          path.arc(
+            x1 - realCornerRadius,
+            y0 + realCornerRadius,
+            realCornerRadius,
+            -Math.PI / 2 + angle,
+            -Math.PI / 2,
+            true
+          );
+          path.lineTo(x0 + realCornerRadius, y0);
+
+          path.closePath();
+
+          return path;
+        }
+      } else {
+        realCornerRadius = Math.min(Math.abs(height / 2), cornerRadius);
+
+        if (2 * realCornerRadius > Math.abs(width)) {
+          const angle = Math.acos((realCornerRadius - Math.abs(width) / 2) / realCornerRadius);
+          path.moveTo(x0, y0 + realCornerRadius);
+          path.arc(x0 + realCornerRadius, y0 + realCornerRadius, realCornerRadius, Math.PI, Math.PI + angle);
+          path.arc(x1 - realCornerRadius, y0 + realCornerRadius, realCornerRadius, -angle, 0);
+          path.lineTo(x1, y1 - realCornerRadius);
+          path.arc(x1 - realCornerRadius, y1 - realCornerRadius, realCornerRadius, 0, angle);
+          path.arc(x0 + realCornerRadius, y1 - realCornerRadius, realCornerRadius, Math.PI - angle, Math.PI);
+          path.closePath();
+
+          return path;
+        }
+      }
+
+      path.moveTo(x0, y0 + realCornerRadius);
+      path.arc(x0 + realCornerRadius, y0 + realCornerRadius, realCornerRadius, Math.PI, 1.5 * Math.PI);
+      path.lineTo(x1 - realCornerRadius, y0);
+      path.arc(x1 - realCornerRadius, y0 + realCornerRadius, realCornerRadius, -Math.PI / 2, 0);
+      path.lineTo(x1, y1 - realCornerRadius);
+      path.arc(x1 - realCornerRadius, y1 - realCornerRadius, realCornerRadius, 0, Math.PI / 2);
+      path.lineTo(x0 + realCornerRadius, y1);
+      path.arc(x0 + realCornerRadius, y1 - realCornerRadius, realCornerRadius, Math.PI / 2, Math.PI);
+      path.closePath();
+    } else {
+      path.moveTo(x0, y0);
+      path.lineTo(x1, y0);
+      path.lineTo(x1, y1);
+      path.lineTo(x0, y1);
+      path.closePath();
+    }
+
+    return path;
+  };
+
   private _initTrackMark() {
     this._trackMark = this._createMark(LinearProgressSeries.mark.track, {
-      parent: this._progressGroupMark,
       customShape: this._spec.track?.customShape,
       stateSort: this._spec.track?.stateSort
     }) as IRectMark;
@@ -175,71 +253,6 @@ export class LinearProgressSeries<
         );
       }
     }
-  }
-
-  private _initProgressGroupMark() {
-    // FIXME: disable group mark layout to prevent reevaluate after layout end
-    this._progressGroupMark = this._createMark(LinearProgressSeries.mark.group, {
-      skipBeforeLayouted: false
-    }) as IGroupMark;
-    return this._progressGroupMark;
-  }
-
-  private _initProgressGroupMarkStyle() {
-    const groupMark = this._progressGroupMark;
-    groupMark.setZIndex(this.layoutZIndex);
-    groupMark.created();
-
-    this.setMarkStyle(
-      groupMark,
-      {
-        clip: true,
-        x: 0,
-        y: 0,
-        path: () => {
-          const rectPaths: any[] = [];
-          this._rawData?.rawData.forEach((datum: any, index: number) => {
-            if (this._spec.direction === 'vertical') {
-              const x =
-                valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
-                this._spec.bandWidth / 2;
-              const height = this._scaleY.range()[0];
-
-              rectPaths.push(
-                createRect({
-                  x: x,
-                  y: 0,
-                  height: height,
-                  width: this._spec.bandWidth,
-                  cornerRadius: this._spec.cornerRadius,
-                  fill: true
-                })
-              );
-            } else {
-              const y =
-                valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
-                this._spec.bandWidth / 2;
-              const width = this._scaleX.range()[1];
-
-              rectPaths.push(
-                createRect({
-                  x: 0,
-                  y: y,
-                  height: this._spec.bandWidth,
-                  width: width,
-                  cornerRadius: this._spec.cornerRadius,
-                  fill: true
-                })
-              );
-            }
-          });
-          return rectPaths;
-        }
-      },
-      'normal',
-      AttributeLevel.Series
-    );
-    this._progressGroupMark.setInteractive(false);
   }
 
   initInteraction(): void {
