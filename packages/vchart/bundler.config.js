@@ -121,8 +121,11 @@ module.exports = {
         const dest = '../harmony_vchart/library/src/main/ets/vchart_dist.js';
         const envSource = path.join(__dirname, config.outputDir.umd, source);
         copyFile(envSource, path.join(__dirname, dest));
+       
+        fs.unlinkSync(path.join(__dirname, config.outputDir.umd, source));
+        console.log(`[copy] index.es.js to harmony_vchart`)
       } catch(e) {
-
+        console.log(`[error] fail to copy index.es.js to harmony_vchart`)
       }
     }
   }
