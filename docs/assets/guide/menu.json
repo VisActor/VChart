@@ -803,6 +803,13 @@
                 "zh": "Harmony VChart",
                 "en": "Harmony VChart"
               }
+            },
+            {
+              "path": "univer",
+              "title": {
+                "zh": "univer",
+                "en": "univer"
+              }
             }
           ]
         },
