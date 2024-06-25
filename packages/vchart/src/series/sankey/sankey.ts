@@ -52,7 +52,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   private _nodeMark: IRectMark;
   private _linkMark: ILinkPathMark;
-  private _labelMark?: ITextMark;
 
   private _nodeLayoutZIndex = LayoutZIndex.Node;
   private _labelLayoutZIndex = LayoutZIndex.Label;
@@ -234,16 +233,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (linkMark) {
       this._linkMark = linkMark;
     }
-
-    if (this._spec.label && this._spec.label.visible) {
-      const labelMark = this._createMark(SankeySeries.mark.label, {
-        dataView: this._nodesSeriesData.getDataView(),
-        dataProductId: this._nodesSeriesData.getProductId()
-      }) as ITextMark;
-      if (labelMark) {
-        this._labelMark = labelMark;
-      }
-    }
   }
 
   protected _buildMarkAttributeContext() {
@@ -285,7 +274,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   initMarkStyle(): void {
     this._initNodeMarkStyle();
     this._initLinkMarkStyle();
-    // this._initLabelMarkStyle();
   }
 
   protected _initNodeMarkStyle() {
@@ -368,17 +356,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     );
   }
 
-  _initLabelMarkStyle(textMark: ITextMark) {
-    if (!textMark) {
-      return;
-    }
-    this.setMarkStyle(textMark, {
-      fill: this._fillByNode,
-      text: (datum: Datum) => this._createText(datum)
-    });
-  }
-
-  protected initLabelMarkStyle(textMark: ITextMark) {
+  initLabelMarkStyle(textMark: ITextMark) {
     if (!textMark) {
       return;
     }
@@ -434,14 +412,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         animationConfig(
           Factory.getAnimationInKey('sankeyLinkPath')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.link, this._spec, this._markAttributeContext)
-        )
-      );
-    }
-    if (this._labelMark) {
-      this._labelMark.setAnimationConfig(
-        animationConfig(
-          Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -511,20 +481,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return;
     }
 
-    const allLabelElements = this._labelMark?.getProductElements();
-
-    if (!allLabelElements || !allLabelElements.length) {
-      return;
-    }
     const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
 
     allNodeElements.forEach(el => {
       el.removeState(states);
     });
     allLinkElements.forEach(el => {
-      el.removeState(states);
-    });
-    allLabelElements.forEach(el => {
       el.removeState(states);
     });
   };
@@ -584,10 +546,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._nodeMark) {
       this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
-
-    if (this._labelMark) {
-      this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
-    }
   };
 
   protected _handleLinkAdjacencyClick = (element: IGlyphElement) => {
@@ -612,10 +570,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     if (this._nodeMark) {
       this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
-    }
-
-    if (this._labelMark) {
-      this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
     }
   };
 
@@ -743,10 +697,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       if (this._nodeMark) {
         this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
-
-      if (this._labelMark) {
-        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
-      }
     } else {
       // 层级型数据
       const highlightNodes: string[] = [nodeDatum.key];
@@ -838,10 +788,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       if (this._nodeMark) {
         this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
-
-      if (this._labelMark) {
-        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
-      }
     }
   };
 
@@ -868,16 +814,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
       if (this._nodeMark) {
         allNodeElements.forEach(el => {
-          el.removeState(states);
-        });
-      }
-
-      if (this._labelMark) {
-        const allLabelElements = this._labelMark.getProductElements();
-        if (!allLabelElements || !allLabelElements.length) {
-          return;
-        }
-        allLabelElements.forEach(el => {
           el.removeState(states);
         });
       }
@@ -985,10 +921,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       this._highLightElements(allNodeElements, highlightNodes);
-
-      if (this._labelMark) {
-        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
-      }
     }
   };
 
@@ -1012,7 +944,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._tooltipHelper = new SankeySeriesTooltipHelper(this);
     this._nodeMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nodeMark);
     this._linkMark && this._tooltipHelper.activeTriggerSet.mark.add(this._linkMark);
-    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   _setNodeOrdinalColorScale() {
@@ -1067,7 +998,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           })
       : data?.links
       ? Array.from(this.extractNamesFromLink(data.links))
-      : data?.values.map((datum: Datum, index: number) => {
+      : data?.values?.map((datum: Datum, index: number) => {
           return datum[this._spec.categoryField];
         });
 
