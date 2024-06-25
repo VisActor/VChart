@@ -20,7 +20,7 @@
     "@visactor/vutils": "~0.18.9",
     "@visactor/vrender": "0.19.11",
     "@visactor/vrender-kits": "0.19.11",
-    "@visactor/vgrammar": "0.13.10",
+    "@visactor/vgrammar": "0.13.11-alpha.1",
     "markdown-it": "^13.0.0",
     "highlight.js": "^11.8.0",
     "axios": "^1.4.0",
