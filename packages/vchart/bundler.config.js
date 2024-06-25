@@ -28,7 +28,8 @@ const plugins = bundle_analyze_mode
         open: true,
         gzipSize: true,
         emitFile: true,
-        filename: `stats-${bundle_analyze_mode}`,
+        filename: `stats-${bundle_analyze_mode}.html`,
+        // 可选项：sunburst, treemap, network, raw-data, list.
         template: 'treemap'
       }),
       gzipPlugin({
@@ -39,7 +40,7 @@ const plugins = bundle_analyze_mode
     ]
   : [];
 
-const crossEnvs = {
+const crossEnvs = bundle_analyze_mode ? {} : {
   lark: {
     input: 'index-lark',
     output: '../lark-vchart/src/vchart/index.js'
@@ -114,16 +115,17 @@ module.exports = {
       umdEntries.forEach(entry => {
         fs.unlinkSync(path.join(__dirname, config.outputDir.umd, `${entry}.min.js`));
       });
-
+      // harmonyOS
       try {
-        // harmonyOS
-        const source = 'es5/index.es.js';
+        const source = 'index.es.js';
         const dest = '../harmony_vchart/library/src/main/ets/vchart_dist.js';
         const envSource = path.join(__dirname, config.outputDir.umd, source);
         copyFile(envSource, path.join(__dirname, dest));
+       
         fs.unlinkSync(path.join(__dirname, config.outputDir.umd, source));
+        console.log(`[copy] index.es.js to harmony_vchart`)
       } catch(e) {
-        console.log(`[Error] can't copy es5/index.es.js to harmony`)
+        console.log(`[error] fail to copy index.es.js to harmony_vchart`)
       }
     }
   }
