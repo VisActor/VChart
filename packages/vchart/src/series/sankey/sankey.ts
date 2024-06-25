@@ -39,10 +39,14 @@ import type { IMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
 import type { IBaseScale } from '@visactor/vscale';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { SankeySeriesSpecTransformer } from './sankey-transformer';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
   type = SeriesTypeEnum.sankey;
+
+  static readonly transformerConstructor = SankeySeriesSpecTransformer as any;
+  readonly transformerConstructor = SankeySeriesSpecTransformer;
 
   static readonly mark: SeriesMarkMap = sankeySeriesMark;
 
@@ -62,6 +66,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected _categoryField!: string;
   private _colorScale: IBaseScale;
   private _nodeList: (string | number)[];
+
+  get direction() {
+    return this._spec.direction ?? 'horizontal';
+  }
   getCategoryField() {
     return this._categoryField;
   }
@@ -118,7 +126,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           sourceField: this._spec.sourceField,
           targetField: this._spec.targetField,
           valueField: this._spec.valueField,
-          direction: this._spec.direction,
+          direction: this.direction,
           nodeAlign: this._spec.nodeAlign ?? 'justify',
           nodeGap: this._spec.nodeGap ?? 8,
           nodeWidth: this._spec.nodeWidth ?? 10,
@@ -277,7 +285,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   initMarkStyle(): void {
     this._initNodeMarkStyle();
     this._initLinkMarkStyle();
-    this._initLabelMarkStyle();
+    // this._initLabelMarkStyle();
   }
 
   protected _initNodeMarkStyle() {
@@ -353,194 +361,44 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y1: (datum: Datum) => datum.y1,
         thickness: (datum: Datum) => datum.thickness,
         fill: this._fillByLink,
-        direction: this._spec.direction ?? 'horizontal'
+        direction: this.direction
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
   }
 
-  protected _initLabelMarkStyle() {
-    if (!this._labelMark) {
+  _initLabelMarkStyle(textMark: ITextMark) {
+    if (!textMark) {
       return;
     }
-    if (this._spec.direction === 'vertical') {
-      if (this._spec.label.position === 'inside-start') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x0,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'left',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'inside-middle') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'center',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'inside-end') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x1,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'right',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
-            y: (datum: Datum) => {
-              if (datum.y1 >= this._viewBox.y2) {
-                return datum.y0;
-              }
-              return datum.y1;
-            },
-            fill: this._fillByNode,
-            text: (datum: Datum) => this._createText(datum),
-            limit: this._labelLimit,
-            textAlign: 'center',
-            textBaseline: (datum: Datum) => {
-              if (datum.y1 >= this._viewBox.y2) {
-                return 'bottom';
-              }
-              return 'top';
-            }
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      }
+    this.setMarkStyle(textMark, {
+      fill: this._fillByNode,
+      text: (datum: Datum) => this._createText(datum)
+    });
+  }
+
+  protected initLabelMarkStyle(textMark: ITextMark) {
+    if (!textMark) {
+      return;
+    }
+    const position = this._spec.label.position;
+
+    if (position && position.includes('inside')) {
+      this.setMarkStyle<IComposedTextMarkSpec>(textMark, {
+        fill: '#ffffff',
+        text: (datum: Datum) => this._createText(datum),
+        maxLineWidth: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0
+      });
     } else {
-      if (this._spec.label.position === 'inside-start') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x0,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'left',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'inside-middle') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'center',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'inside-end') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x1,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'right',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'left') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x0,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: this._fillByNode,
-            text: (datum: Datum) => this._createText(datum),
-            limit: this._labelLimit,
-            textAlign: 'right',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'right') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x1,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: this._fillByNode,
-            text: (datum: Datum) => this._createText(datum),
-            limit: this._labelLimit,
-            textAlign: 'left',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => {
-              if (datum.x1 >= this._viewBox.x2) {
-                return datum.x0;
-              }
-              return datum.x1;
-            },
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: this._fillByNode,
-            text: (datum: Datum) => this._createText(datum),
-            limit: this._labelLimit,
-            textAlign: (datum: Datum) => {
-              if (datum.x1 >= this._viewBox.x2) {
-                return 'right';
-              }
-              return 'left';
-            },
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      }
+      this.setMarkStyle<IComposedTextMarkSpec>(textMark, {
+        fill: this._fillByNode,
+        text: (datum: Datum) => this._createText(datum),
+        maxLineWidth: this._labelLimit
+      });
     }
 
-    this._labelMark.setZIndex(this._labelLayoutZIndex);
+    textMark.setZIndex(this._labelLayoutZIndex);
   }
 
   private _createText(datum: Datum) {
