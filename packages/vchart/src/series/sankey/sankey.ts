@@ -40,6 +40,7 @@ import { TransformLevel } from '../../data/initialize';
 import type { IBaseScale } from '@visactor/vscale';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { SankeySeriesSpecTransformer } from './sankey-transformer';
+import { getFormatFunction } from '../../component/util';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -384,8 +385,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return '';
     }
     let text = datum.datum[this._spec.categoryField] || '';
-    if (this._spec.label?.formatMethod) {
-      text = this._spec.label.formatMethod(text, datum.datum);
+    const { formatMethod, formatter } = this._spec.label || {};
+
+    const { formatFunc, args } = getFormatFunction(formatMethod, formatter, text, datum.datum);
+    if (formatFunc) {
+      text = formatFunc(...args, { series: this });
     }
     return text;
   }
