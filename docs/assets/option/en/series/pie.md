@@ -225,3 +225,29 @@ Optional values:
 
 Enable tangent constraint.
 The default value is `true`.
+
+#${prefix} emptyPlaceholder(Object)
+
+Set the placeholder to be displayed when data is empty.
+
+##${prefix} showEmptyCircle(Boolean)
+
+Supported since version `1.12.0`.
+Determines whether to show a placeholder circle when data is empty.
+The default value is `false`.
+
+##${prefix} emptyCircle(Object)
+
+Empty circle style configuration.
+
+```ts
+emptyPlaceholder: {
+  showEmptyCircle: true,
+  emptyCircle: {
+    style: {
+      innerRadius: 0.5,
+      fill: '#66ccff'
+    }
+  }
+}
+```

@@ -244,7 +244,6 @@ pie: {
 emptyPlaceholder: {
   showEmptyCircle: true,
   emptyCircle: {
-    visible: true,
     style: {
       innerRadius: 0.5,
       fill: '#66ccff'
