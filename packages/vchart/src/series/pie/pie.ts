@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import { degreeToRadian, isValid } from '@visactor/vutils';
-import { DataView, DataSet } from '@visactor/vdataset';
+import { DataView } from '@visactor/vdataset';
 import {
   AttributeLevel,
   ARC_START_ANGLE,
@@ -36,7 +36,7 @@ import type { IPieOpt } from '../../data/transforms/pie';
 import { pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
-import { registerPieAnimation } from './animation/animation';
+import { registerEmptyCircleAnimation, registerPieAnimation } from './animation/animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
 import type { IBasePieSeriesSpec, IPieSeriesSpec } from './interface';
@@ -470,6 +470,13 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
       this._pieMark.setAnimationConfig(pieAnimationConfig);
     }
+
+    if (this._emptyArcMark) {
+      const pieAnimationConfig = animationConfig(
+        Factory.getAnimationInKey('emptyCircle')?.(animationParams, appearPreset ?? 'fadeIn')
+      );
+      this._emptyArcMark.setAnimationConfig(pieAnimationConfig);
+    }
   }
 
   getDefaultShapeType() {
@@ -509,5 +516,6 @@ export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePi
 export const registerPieSeries = () => {
   registerArcMark();
   registerPieAnimation();
+  registerEmptyCircleAnimation();
   Factory.registerSeries(PieSeries.type, PieSeries);
 };
