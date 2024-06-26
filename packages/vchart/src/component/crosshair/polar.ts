@@ -48,7 +48,10 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
       return undefined;
     }
     if (!isArray(crosshairSpec)) {
-      if (crosshairSpec.categoryField || crosshairSpec.valueField) {
+      if (
+        (crosshairSpec.categoryField && crosshairSpec.categoryField.visible !== false) ||
+        (crosshairSpec.valueField && crosshairSpec.valueField.visible !== false)
+      ) {
         return [
           {
             spec: crosshairSpec,
@@ -62,7 +65,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     }
     const specInfos: IModelSpecInfo[] = [];
     crosshairSpec.forEach((s: IPolarCrosshairSpec, i: number) => {
-      if (s.categoryField || s.valueField) {
+      if ((s.categoryField && s.categoryField.visible !== false) || (s.valueField && s.valueField.visible !== false)) {
         specInfos.push({
           spec: s,
           specPath: [this.specKey, i],
