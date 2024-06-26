@@ -101,6 +101,14 @@ export const registerPieAnimation = () => {
   });
 };
 
+export const registerEmptyCircleAnimation = () => {
+  Factory.registerAnimation('emptyCircle', (params: IPieAnimationParams, preset: PieAppearPreset) => {
+    return {
+      appear: piePresetAnimation(params, preset)
+    };
+  });
+};
+
 export const registerPie3dAnimation = () => {
   Factory.registerAnimation('pie3d', (params: IPieAnimationParams, preset: PieAppearPreset) => {
     return {
