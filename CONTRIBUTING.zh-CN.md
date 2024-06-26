@@ -188,6 +188,15 @@ VChart 的入门问题，你可以通过 [issue 列表](https://github.com/VisAc
 6.  开发完成后，运行 `rush change` 命令，编写 changelog 并提交
 7.  提交所有代码，并在 Github 创建 Pull Request，邀请其他人进行 review
 
+
+### 推广任务贡献指南
+
+推广任务是指你将和VisActor相关的文章、demo、视频 等素材，公开发布到各种媒体渠道的行为。
+你可以新建一个 issue，类型选择 `others` 打上 `promotion` 的标签，然后将相关链接，截图，简介等一起发布即可。
+例如：[https://github.com/VisActor/VChart/issues/2858](https://github.com/VisActor/VChart/issues/2858)
+
+每个季度我们会评选一些推广VisActor的作品，给予作者一定的物质奖励。
+
 ## 拥抱 VisActor 社区
 
 在你为 VisActor 贡献代码之余，我们鼓励你参与其他让社区更加繁荣的事情，比如：
