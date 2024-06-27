@@ -1,3 +1,19 @@
+# v1.11.6
+
+2024-06-27
+
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复图表背景不支持渐变色配置的问题
+- **animation**: 修复玫瑰图重复更新，动画bug，关闭[#2856](https://github.com/VisActor/VChart/issues/2856)
+- **@visactor/vchart**:修复类型定义 `ITooltipTheme`, 关闭 [#2850](https://github.com/VisActor/VChart/issues/2850)
+- **@visactor/vchart**: 修复`updateSpec`时，更新动画没有触发的问题 [#2835](https://github.com/VisActor/VChart/issues/2835) [#2836](https://github.com/VisActor/VChart/issues/2836)
+
+
+
+[更多详情请查看 v1.11.6](https://github.com/VisActor/VChart/releases/tag/v1.11.6)
+
 # v1.11.5
 
 2024-06-21
