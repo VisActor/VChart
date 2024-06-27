@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 20 Jun 2024 10:18:10 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Jun 2024 09:53:20 GMT and should not be manually modified.
+
+## 1.11.6
+Thu, 27 Jun 2024 09:53:20 GMT
+
+### Updates
+
+- fix: background of chart should support gradient color
+- fix(animation): rose animation not work when update twice. fix#2856
+- fix: fix the type of `ITooltipTheme`, fix #2850
+
+
+- fix: fix the issue of update animation not executed when updateSpec, #2835 #2836
 
 ## 1.11.5
 Thu, 20 Jun 2024 10:18:10 GMT

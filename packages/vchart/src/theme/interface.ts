@@ -12,7 +12,7 @@ import type {
 } from '../typings';
 import type { MarkTypeEnum } from '../mark/interface';
 import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
-import type { IGradientColor } from '@visactor/vrender-core';
+import type { IColor } from '@visactor/vrender-core';
 import type { IComponentTheme } from '../component/interface';
 import type { ITokenKey, TokenMap } from './token';
 
@@ -34,7 +34,7 @@ export interface ITheme {
    * 第 2 种配置：图表层级的样式属性
    */
   /** 图表背景色 */
-  background?: string | IGradientColor | IColorKey;
+  background?: IColor | IColorKey;
   /** 图表内边距 */
   padding?: ILayoutPaddingSpec;
   /** 图表字体配置 */

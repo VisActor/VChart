@@ -104,14 +104,14 @@ module.exports = {
     //     fs.writeFileSync(path.join(__dirname, `./${entryName}.d.ts`), dtsCode, 'utf-8');
     //   });
     // },
-    copyCrossEnv: config => {
+    copyCrossEnv: (config, projRoot, packageJson, debug) => {
       Object.keys(crossEnvs).forEach(env => {
         const source = `${crossEnvs[env].input}.min.js`;
         const dest = crossEnvs[env].output;
         const envSource = path.join(__dirname, config.outputDir.umd, source);
         copyFile(envSource, path.join(__dirname, dest));
 
-        console.log(`[copy file] copy ${envSource} to ${path.join(__dirname, dest)}`)
+        debug('[copy file] ', `copy ${envSource} to ${path.join(__dirname, dest)}`)
       });
       umdEntries.forEach(entry => {
         fs.unlinkSync(path.join(__dirname, config.outputDir.umd, `${entry}.min.js`));
@@ -119,15 +119,15 @@ module.exports = {
 
       try {
         // harmonyOS
-        const source = '/index.es.js';
+        const source = 'index.es.js';
         const dest = '../harmony_vchart/library/src/main/ets/vchart_dist.js';
         const envSource = path.join(__dirname, config.outputDir.umd, source);
         copyFile(envSource, path.join(__dirname, dest));
         fs.unlinkSync(path.join(__dirname, config.outputDir.umd, source));
 
-        console.log(`[copy file] copy ${envSource} to ${path.join(__dirname, dest)}`)
+        debug('[copy file]', `copy ${envSource} to ${path.join(__dirname, dest)}`)
       } catch(e) {
-        console.log(`[Error] can't copy es5/index.es.js to harmony`)
+        debug('[copyCrossEnv Error]', `can't copy es5/index.es.js to harmony`)
       }
     }
   }

@@ -1,5 +1,17 @@
 {{ target: background }}
 
+Supports three formats:
+
+- Color string
+- Gradient color (Supported since version 1.11.6)
+- Image configuration
+
+**Gradient color usage:**
+
+{{ use: graphic-gradient }}
+
+**Image configuration structure is as follows:**
+
 Can be configured as a color string, or a picture configuration.
 
 The picture configuration structure is as follows

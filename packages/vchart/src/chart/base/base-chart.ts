@@ -46,15 +46,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
-import {
-  isArray,
-  isValid,
-  createID,
-  calcPadding,
-  normalizeLayoutPaddingSpec,
-  array,
-  convertBackgroundSpec
-} from '../../util';
+import { isArray, isValid, createID, calcPadding, normalizeLayoutPaddingSpec, array } from '../../util';
 import { Stack } from '../stack';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
@@ -63,7 +55,7 @@ import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { has, isFunction, isEmpty, isNil, isString, isEqual } from '@visactor/vutils';
+import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
@@ -225,7 +217,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // scale
     this._createGlobalScale();
     // background
-    this._spec.background && typeof this._spec.background === 'object' && this._createBackground();
+    this._createBackground();
     // 基础内容
     this._createLayout();
     // 基于spec 创建元素。
@@ -279,23 +271,27 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   private _createBackground() {
-    const backgroundStyle = convertBackgroundSpec(this._spec.background);
-    if (backgroundStyle) {
-      this._backgroundMark = Factory.createMark(MarkTypeEnum.group, 'chart-background', {
-        model: this as any,
-        map: this._option.map,
-        getCompiler: this.getCompiler,
-        globalScale: this._globalScale
-      }) as IRectMark;
-      this._backgroundMark.created();
-      this._backgroundMark.setStyle({
-        ...backgroundStyle,
-        x: () => this._viewBox.x1,
-        y: () => this._viewBox.y1,
-        width: () => this._viewBox.x2 - this._viewBox.x1,
-        height: () => this._viewBox.y2 - this._viewBox.y1
-      });
+    const bg = this._spec.background;
+    if (!bg || typeof bg !== 'object' || isValid(bg.gradient)) {
+      return;
     }
+    const backgroundStyle = pickWithout(bg, ['x', 'y', 'width', 'height', 'x1', 'y1', 'image']);
+    (backgroundStyle as any).background = (bg as any).image;
+
+    this._backgroundMark = Factory.createMark(MarkTypeEnum.group, 'chart-background', {
+      model: this as any,
+      map: this._option.map,
+      getCompiler: this.getCompiler,
+      globalScale: this._globalScale
+    }) as IRectMark;
+    this._backgroundMark.created();
+    this._backgroundMark.setStyle({
+      ...backgroundStyle,
+      x: () => this._viewBox.x1,
+      y: () => this._viewBox.y1,
+      width: () => this._viewBox.x2 - this._viewBox.x1,
+      height: () => this._viewBox.y2 - this._viewBox.y1
+    });
   }
 
   protected _createRegion(constructor: IRegionConstructor, specInfo: IModelSpecInfo) {

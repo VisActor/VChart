@@ -160,7 +160,7 @@ async function bootstrap() {
     const tasksKey = Object.keys(config.postTasks);
     if (tasksKey.length) {
       tasksKey.forEach(name => {
-        _task(name, () => config.postTasks[name]!(config, PROJECT_ROOT, rawPackageJson));
+        _task(name, () => config.postTasks[name]!(config, PROJECT_ROOT, rawPackageJson, DebugConfig));
         taskList.push(name);
       });
     }

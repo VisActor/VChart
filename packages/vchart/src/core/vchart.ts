@@ -83,7 +83,8 @@ import {
   LoggerLevel,
   isEqual,
   get,
-  cloneDeep
+  cloneDeep,
+  isObject
 } from '@visactor/vutils';
 import type {
   DataLinkAxis,
@@ -1380,7 +1381,10 @@ export class VChart implements IVChart {
   }
 
   private _getBackground() {
-    const specBackground = typeof this._spec.background === 'string' ? this._spec.background : null;
+    const specBackground =
+      typeof this._spec.background === 'string' || (isObject(this._spec.background) && this._spec.background.gradient)
+        ? this._spec.background
+        : null;
     // spec > spec.theme > initOptions.theme
     return specBackground || (this._currentTheme.background as string) || this._option.background;
   }
