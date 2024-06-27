@@ -2,6 +2,27 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.11.6",
+      "tag": "@visactor/vchart_v1.11.6",
+      "date": "Thu, 27 Jun 2024 09:53:20 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: background of chart should support gradient color"
+          },
+          {
+            "comment": "fix(animation): rose animation not work when update twice. fix#2856"
+          },
+          {
+            "comment": "fix: fix the type of `ITooltipTheme`, fix #2850\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of update animation not executed when updateSpec, #2835 #2836"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.5",
       "tag": "@visactor/vchart_v1.11.5",
       "date": "Thu, 20 Jun 2024 10:18:10 GMT",
