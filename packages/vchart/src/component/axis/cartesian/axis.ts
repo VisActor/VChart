@@ -27,7 +27,7 @@ import { Factory } from '../../../core/factory';
 import { isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo, transformInverse } from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
-import { AxisSyncPlugin } from '../../../plugin/components';
+import { AxisSyncPlugin } from '../../../plugin/components/axis-sync/axis-sync';
 import type { Datum, StringOrNumber } from '../../../typings/common';
 import type { IPoint } from '../../../typings/coordinate';
 import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
