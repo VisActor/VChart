@@ -15,7 +15,8 @@ import type {
   TextAlignType,
   TextBaselineType,
   IRichTextAttribute,
-  IGraphicStyle
+  IGraphicStyle,
+  IColor
 } from '@visactor/vrender-core';
 
 // 基础的visual 对应 scale 的属性
@@ -209,7 +210,7 @@ export interface IFillMarkSpec extends ICommonSpec {
   // TODO：waite VRender support this api
   // backgroundMode: number; // 填充模式（与具体图元有关）
   // can coexist with fill
-  background?: string | HTMLImageElement | HTMLCanvasElement | null;
+  background?: IColor | HTMLImageElement | HTMLCanvasElement | null;
 }
 
 export type IMarkHtmlSpec = Partial<IGraphicStyle['html']>;

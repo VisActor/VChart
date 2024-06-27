@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: background of chart should support gradient color",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
