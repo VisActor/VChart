@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(animation): rose animation not work when update twice. fix#2856",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

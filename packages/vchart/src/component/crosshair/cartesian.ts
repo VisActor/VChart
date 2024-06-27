@@ -59,7 +59,10 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       return undefined;
     }
     if (!isArray(crosshairSpec)) {
-      if (crosshairSpec.xField || crosshairSpec.yField) {
+      if (
+        (crosshairSpec.xField && crosshairSpec.xField.visible !== false) ||
+        (crosshairSpec.yField && crosshairSpec.yField.visible !== false)
+      ) {
         return [
           {
             spec: crosshairSpec,
@@ -73,7 +76,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     }
     const specInfos: IModelSpecInfo[] = [];
     crosshairSpec.forEach((s: ICartesianCrosshairSpec, i: number) => {
-      if (s.xField || s.yField) {
+      if ((s.xField && s.xField.visible !== false) || (s.yField && s.yField.visible !== false)) {
         specInfos.push({
           spec: s,
           specPath: [this.specKey, i],

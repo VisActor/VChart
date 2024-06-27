@@ -18,8 +18,8 @@ export const Appear_Grow = (params: IRoseAnimationParams): IAnimationTypeConfig 
       }
     : {
         channel: {
-          innerRadius: { from, to: (datum: Datum, element: any) => element.getGraphicAttribute('innerRadius') },
-          outerRadius: { from, to: (datum: Datum, element: any) => element.getGraphicAttribute('outerRadius') }
+          innerRadius: { from, to: (datum: Datum, element: any) => element.getFinalGraphicAttributes()?.innerRadius },
+          outerRadius: { from, to: (datum: Datum, element: any) => element.getFinalGraphicAttributes()?.outerRadius }
         }
       };
 };
