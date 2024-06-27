@@ -213,6 +213,7 @@ export interface IChartSpec {
   theme?: Omit<ITheme, 'name'> | string;
   /**
    * 图表背景色配置，优先级高于构造函数中的 background 配置
+   * 自1.11.6版本支持渐变色对象的配置
    */
   background?: IBackgroundSpec;
 

@@ -1,8 +1,16 @@
 {{ target: background }}
 
-可以配置为颜色字符串，或者是一个图片配置。
+支持三种格式：
 
-图片配置结构如下
+- 颜色字符串
+- 渐变色（自 1.11.6 版本开始支持）
+- 图片配置
+
+**渐变色使用如下：**
+
+{{ use: graphic-gradient }}
+
+**图片配置结构如下：**
 
 ```
 const type BackgroundImage = {
