@@ -71,3 +71,12 @@ export declare function LineLabel(labelInfo: ILabelInfo): {
     position: string;
     data: any;
 };
+export declare function sankeyLabel(labelInfo: ILabelInfo): {
+    position: import("@visactor/vrender-components").Functional<string>;
+    overlap: boolean | {
+        strategy: Strategy[];
+    };
+    smartInvert: boolean;
+    offset: number;
+    syncState: boolean;
+};
