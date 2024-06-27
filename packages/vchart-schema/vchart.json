@@ -804,7 +804,7 @@
           "description": "arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -961,7 +961,7 @@
           "description": "arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1118,7 +1118,7 @@
           "description": "arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1272,7 +1272,7 @@
           "description": "arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1426,7 +1426,7 @@
           "description": "arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1576,7 +1576,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -1709,7 +1709,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2145,7 +2145,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2276,7 +2276,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2407,7 +2407,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2547,7 +2547,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2687,7 +2687,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2823,7 +2823,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -2962,7 +2962,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "backgroundStyle": {},
         "beta": {
@@ -3122,7 +3122,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "backgroundStyle": {},
         "beta": {
@@ -3279,7 +3279,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3403,7 +3403,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3527,7 +3527,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3652,7 +3652,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3777,7 +3777,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -3902,7 +3902,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4027,7 +4027,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4164,7 +4164,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4301,7 +4301,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4435,7 +4435,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4569,7 +4569,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4703,7 +4703,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -4715,6 +4715,9 @@
           "$ref": "#/definitions/VisualType<Cursor>"
         },
         "disableAutoWrapLine": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "editable": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "ellipsis": {
@@ -4850,6 +4853,7 @@
       },
       "required": [
         "disableAutoWrapLine",
+        "editable",
         "ellipsis",
         "height",
         "layoutDirection",
@@ -5117,7 +5121,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5259,7 +5263,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5543,7 +5547,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5678,7 +5682,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -5813,7 +5817,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -6003,7 +6007,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -6193,7 +6197,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>"
@@ -17866,6 +17870,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -18163,6 +18176,15 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
             },
             {
               "type": "string"
@@ -18524,7 +18546,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -19540,6 +19562,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -20306,6 +20337,15 @@
     "IBackgroundSpec": {
       "anyOf": [
         {
+          "$ref": "#/definitions/ILinearGradient"
+        },
+        {
+          "$ref": "#/definitions/IRadialGradient"
+        },
+        {
+          "$ref": "#/definitions/IConicalGradient"
+        },
+        {
           "$ref": "#/definitions/IBackgroundStyleSpec"
         },
         {
@@ -20546,7 +20586,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
@@ -21717,7 +21757,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
@@ -23487,7 +23527,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "boxPlot": {
           "$ref": "#/definitions/IMarkSpec<IBoxPlotMarkSpec>",
@@ -26212,7 +26252,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -26526,7 +26566,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -27289,7 +27329,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -28531,7 +28571,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -30381,7 +30421,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -33025,6 +33065,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -34983,7 +35024,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -35523,7 +35564,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -36761,7 +36802,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -40992,7 +41033,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -42438,7 +42479,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
@@ -43560,7 +43601,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
@@ -46704,7 +46745,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -47762,6 +47803,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -48547,7 +48597,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "bandWidth": {
           "description": "进度条宽度\n以像素值(px)为单位",
@@ -49555,7 +49605,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -50859,7 +50909,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -54650,6 +54700,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -55001,7 +55060,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -55549,7 +55608,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -57139,6 +57198,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -57577,6 +57645,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -58061,6 +58130,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -58392,7 +58470,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -59422,7 +59500,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -60882,7 +60960,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
@@ -62433,7 +62511,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
@@ -63942,6 +64020,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -64202,6 +64289,15 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
             },
             {
               "type": "string"
@@ -64861,7 +64957,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -65663,6 +65759,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -65985,7 +66090,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -66943,7 +67048,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -68882,7 +68987,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -70780,7 +70885,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -71648,6 +71753,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -71906,6 +72020,15 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
             },
             {
               "type": "string"
@@ -73303,41 +73426,6 @@
       ],
       "type": "object"
     },
-    "ITooltipShapeActual": {
-      "properties": {
-        "hasShape": {
-          "type": "boolean"
-        },
-        "shapeColor": {
-          "type": "string"
-        },
-        "shapeFill": {
-          "description": "形状填充颜色",
-          "since": "1.4.0",
-          "type": "string"
-        },
-        "shapeHollow": {
-          "type": "boolean"
-        },
-        "shapeLineWidth": {
-          "description": "形状描边宽度",
-          "since": "1.4.0",
-          "type": "number"
-        },
-        "shapeSize": {
-          "type": "number"
-        },
-        "shapeStroke": {
-          "description": "形状描边颜色",
-          "since": "1.4.0",
-          "type": "string"
-        },
-        "shapeType": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
     "ITooltipSpec": {
       "properties": {
         "activeType": {
@@ -73675,7 +73763,7 @@
               "typeof": "function"
             },
             {
-              "$ref": "#/definitions/ITooltipShapeActual"
+              "$ref": "#/definitions/Omit<ITooltipShapePattern,\"seriesId\">"
             }
           ]
         },
@@ -73903,7 +73991,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -75451,6 +75539,57 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,HTMLCanvasElement|HTMLImageElement|IColor>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/HTMLCanvasElement"
+              },
+              {
+                "$ref": "#/definitions/HTMLImageElement"
+              },
+              {
+                "$ref": "#/definitions/ILinearGradient"
+              },
+              {
+                "$ref": "#/definitions/IRadialGradient"
+              },
+              {
+                "$ref": "#/definitions/IConicalGradient"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,IBorder>": {
       "properties": {
         "domain": {
@@ -76716,7 +76855,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "bar": {
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
@@ -78628,7 +78767,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -79572,7 +79711,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -80553,7 +80692,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         },
         "size": {
@@ -80561,14 +80700,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13443",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         },
         "size": {
@@ -80576,14 +80715,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13443",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         },
         "size": {
@@ -80591,14 +80730,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13443",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         },
         "size": {
@@ -80606,14 +80745,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13443",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         },
         "size": {
@@ -80621,14 +80760,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13443",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         },
         "size": {
@@ -80636,14 +80775,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13443",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         },
         "size": {
@@ -80651,14 +80790,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13443",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         },
         "size": {
@@ -80666,14 +80805,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13443",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         },
         "size": {
@@ -80681,7 +80820,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13443",
         "size"
       ],
       "type": "object"
@@ -81347,6 +81486,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -84111,6 +84251,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -85856,6 +85997,42 @@
       },
       "type": "object"
     },
+    "Omit<ITooltipShapePattern,\"seriesId\">": {
+      "properties": {
+        "hasShape": {
+          "type": "boolean"
+        },
+        "shapeColor": {
+          "$ref": "#/definitions/TooltipContentProperty<string>"
+        },
+        "shapeFill": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状填充颜色",
+          "since": "1.4.0"
+        },
+        "shapeHollow": {
+          "$ref": "#/definitions/TooltipContentProperty<boolean>",
+          "description": "形状是否空心"
+        },
+        "shapeLineWidth": {
+          "$ref": "#/definitions/TooltipContentProperty<number>",
+          "description": "形状描边宽度",
+          "since": "1.4.0"
+        },
+        "shapeSize": {
+          "$ref": "#/definitions/TooltipContentProperty<number>"
+        },
+        "shapeStroke": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状描边颜色",
+          "since": "1.4.0"
+        },
+        "shapeType": {
+          "$ref": "#/definitions/TooltipContentProperty<string>"
+        }
+      },
+      "type": "object"
+    },
     "Omit<ITooltipTextTheme<string>,\"autoWidth\">": {
       "properties": {
         "fill": {
@@ -86036,7 +86213,7 @@
               "typeof": "function"
             },
             {
-              "$ref": "#/definitions/ITooltipShapeActual"
+              "$ref": "#/definitions/Omit<ITooltipShapePattern,\"seriesId\">"
             }
           ]
         },
@@ -86355,6 +86532,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -86942,6 +87120,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -90791,6 +90970,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -91051,6 +91231,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -94644,6 +94825,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -95377,6 +95567,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -95596,6 +95795,9 @@
     "Partial<IRichTextAttribute>": {
       "properties": {
         "disableAutoWrapLine": {
+          "type": "boolean"
+        },
+        "editable": {
           "type": "boolean"
         },
         "ellipsis": {
@@ -96856,6 +97058,15 @@
               "$ref": "#/definitions/HTMLImageElement"
             },
             {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
               "type": "string"
             }
           ]
@@ -97214,7 +97425,7 @@
         },
         "background": {
           "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -101165,34 +101376,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13435"
+        "__@toStringTag@13443"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13435"
+        "__@toStringTag@13443"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13443": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13435"
+        "__@toStringTag@13443"
       ],
       "type": "object"
     },
@@ -104244,6 +104455,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -107675,6 +107887,9 @@
         "dz": {
           "type": "number"
         },
+        "editable": {
+          "type": "boolean"
+        },
         "ellipsis": {
           "type": [
             "string",
@@ -108114,6 +108329,7 @@
         "dx",
         "dy",
         "dz",
+        "editable",
         "ellipsis",
         "fill",
         "fillOpacity",
@@ -114273,6 +114489,37 @@
             "lighter",
             "normal"
           ]
+        }
+      ]
+    },
+    "VisualType<HTMLCanvasElement|HTMLImageElement|IColor>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/HTMLCanvasElement"
+        },
+        {
+          "$ref": "#/definitions/HTMLImageElement"
+        },
+        {
+          "$ref": "#/definitions/ILinearGradient"
+        },
+        {
+          "$ref": "#/definitions/IRadialGradient"
+        },
+        {
+          "$ref": "#/definitions/IConicalGradient"
+        },
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,HTMLCanvasElement|HTMLImageElement|IColor>"
+        },
+        {
+          "type": "string"
         }
       ]
     },
