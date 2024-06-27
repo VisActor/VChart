@@ -217,6 +217,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       centerOffset: this._centerOffset
     };
 
+    const total = this.getViewData()
+      .latestData.map((el: Datum) => (el[this.getAngleField()[0]] ? Number(el[this.getAngleField()[0]]) : 0))
+      .reduce((acc: number, curr: number) => acc + curr, 0);
+
     const pieMark = this._pieMark;
     if (pieMark) {
       this.setMarkStyle(pieMark, initialStyle, 'normal', AttributeLevel.Series);
@@ -228,7 +232,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         emptyPieMark,
         {
           ...initialStyle,
-          visible: () => this.getViewData().latestData.length === 0 && this._showEmptyCircle
+          visible: () => this._showEmptyCircle && (this.getViewData().latestData.length === 0 || total === 0)
         },
         'normal',
         AttributeLevel.Series
@@ -258,7 +262,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       }
     }
     if (mark.name === 'emptyCircle') {
-      // 配置emptyCircle的radius比例值
+      // 使用emptyCircle的radius比例值进行覆盖
       this.setMarkStyle(mark, this.generateRadiusStyle(spec.style), 'normal', AttributeLevel.User_Mark);
     }
   }
@@ -504,7 +508,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   getActiveMarks(): IMark[] {
-    return [this._pieMark];
+    return [this._pieMark, this._emptyArcMark];
   }
 }
 
