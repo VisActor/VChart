@@ -4717,6 +4717,9 @@
         "disableAutoWrapLine": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
+        "editable": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
         "ellipsis": {
           "$ref": "#/definitions/VisualType<string|boolean>"
         },
@@ -4850,6 +4853,7 @@
       },
       "required": [
         "disableAutoWrapLine",
+        "editable",
         "ellipsis",
         "height",
         "layoutDirection",
@@ -33025,6 +33029,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -57577,6 +57582,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -80553,7 +80559,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         },
         "size": {
@@ -80561,14 +80567,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13442",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         },
         "size": {
@@ -80576,14 +80582,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13442",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         },
         "size": {
@@ -80591,14 +80597,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13442",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         },
         "size": {
@@ -80606,14 +80612,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13442",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         },
         "size": {
@@ -80621,14 +80627,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13442",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         },
         "size": {
@@ -80636,14 +80642,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13442",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         },
         "size": {
@@ -80651,14 +80657,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13442",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         },
         "size": {
@@ -80666,14 +80672,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13442",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         },
         "size": {
@@ -80681,7 +80687,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13435",
+        "__@toStringTag@13442",
         "size"
       ],
       "type": "object"
@@ -81347,6 +81353,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -84111,6 +84118,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -86355,6 +86363,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -86942,6 +86951,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -90791,6 +90801,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -91051,6 +91062,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -95596,6 +95608,9 @@
     "Partial<IRichTextAttribute>": {
       "properties": {
         "disableAutoWrapLine": {
+          "type": "boolean"
+        },
+        "editable": {
           "type": "boolean"
         },
         "ellipsis": {
@@ -101165,34 +101180,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13435"
+        "__@toStringTag@13442"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13435"
+        "__@toStringTag@13442"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13435": {
+        "__@toStringTag@13442": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13435"
+        "__@toStringTag@13442"
       ],
       "type": "object"
     },
@@ -104244,6 +104259,7 @@
         "display": {
           "enum": [
             "flex",
+            "inner-block",
             "relative"
           ],
           "type": "string"
@@ -107675,6 +107691,9 @@
         "dz": {
           "type": "number"
         },
+        "editable": {
+          "type": "boolean"
+        },
         "ellipsis": {
           "type": [
             "string",
@@ -108114,6 +108133,7 @@
         "dx",
         "dy",
         "dz",
+        "editable",
         "ellipsis",
         "fill",
         "fillOpacity",
