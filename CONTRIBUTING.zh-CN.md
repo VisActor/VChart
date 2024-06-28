@@ -163,14 +163,14 @@ VChart 的入门问题，你可以通过 [issue 列表](https://github.com/VisAc
 
 所有的 demo 存放在 `docs/assets/examples` 目录下
 
-1. 请基于 develop 分支，新拉一个 `docs/***`或 `demo/***` 分支进行开发
+1. 请基于 develop 分支，新拉一个 `docs/***` 或 `demo/***` 分支进行开发
 2. （如果你已经安装，请跳过此步骤）全局安装 [@microsoft/rush](https://rushjs.io/pages/intro/get_started/)：`npm i --global @microsoft/rush`
 3. 根目录下运行 `rush update`
-4. 运行`rush docs` 在本地预览目前 demo 内容
+4. 运行 `rush docs` 在本地预览目前 demo 内容
 5. `docs` 目录下:
    1. `docs/assets/examples/menu.json` 目录文件中添加你的 demo 信息
-   2. 在`zh`/`en`目录下分别完成中英文 demo 文档
-   3. 在 `docs/public/vchart/preview`目录下添加 demo 预览图片并将相对路径更新在 demo 文档中
+   2. 在 `zh`/`en` 目录下分别完成中英文 demo 文档
+   3. 在 `docs/public/vchart/preview` 目录下添加 demo 预览图片并将路径更新在 demo 文档中，例如 `/vchart/preview/basic-map_1.9.1.png`
 6. 提交所有代码，并在 Github 创建 Pull Request，邀请其他人进行 review
 
 ### Feature Task 开发指南
@@ -187,6 +187,15 @@ VChart 的入门问题，你可以通过 [issue 列表](https://github.com/VisAc
 5.  确认所有的测试都是通过的 `rush test`
 6.  开发完成后，运行 `rush change` 命令，编写 changelog 并提交
 7.  提交所有代码，并在 Github 创建 Pull Request，邀请其他人进行 review
+
+
+### 推广任务贡献指南
+
+推广任务是指你将和VisActor相关的文章、demo、视频 等素材，公开发布到各种媒体渠道的行为。
+你可以新建一个 issue，类型选择 `others` 打上 `promotion` 的标签，然后将相关链接，截图，简介等一起发布即可。
+例如：[https://github.com/VisActor/VChart/issues/2858](https://github.com/VisActor/VChart/issues/2858)
+
+每个季度我们会评选一些推广VisActor的作品，给予作者一定的物质奖励。
 
 ## 拥抱 VisActor 社区
 

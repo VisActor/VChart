@@ -1,5 +1,5 @@
 import type { RichTextWordBreak } from '@visactor/vrender-core';
-import type { ITooltipShapeActual, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
+import type { ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components';
 import type { ITokenKey } from '../../../theme/token';
 export interface ITooltipTextTheme<ColorType = string> {
@@ -37,7 +37,7 @@ export interface ITooltipTheme<ColorType = string> {
     shape?: {
         size?: number;
         spacing?: number;
-    } & ITooltipShapeActual;
+    } & Omit<ITooltipShapePattern, 'seriesId'>;
     titleLabel?: ITooltipTextTheme<ColorType>;
     keyLabel?: Omit<ITooltipTextTheme<ColorType>, 'autoWidth'>;
     valueLabel?: ITooltipTextTheme<ColorType>;
@@ -47,4 +47,5 @@ export interface ITooltipTheme<ColorType = string> {
         x?: number;
         y?: number;
     };
+    align?: 'left' | 'right';
 }

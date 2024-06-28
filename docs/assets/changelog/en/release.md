@@ -1,3 +1,57 @@
+# v1.11.6
+
+2024-06-27
+
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: background of chart should support gradient color
+- **animation**: rose animation not work when update twice. fix[#2856](https://github.com/VisActor/VChart/issues/2856)
+- **@visactor/vchart**: fix the type of `ITooltipTheme`, fix [#2850](https://github.com/VisActor/VChart/issues/2850)
+- **@visactor/vchart**: fix the issue of update animation not executed when updateSpec, [#2835](https://github.com/VisActor/VChart/issues/2835) [#2836](https://github.com/VisActor/VChart/issues/2836)
+
+
+
+[more detail about v1.11.6](https://github.com/VisActor/VChart/releases/tag/v1.11.6)
+
+# v1.11.5
+
+2024-06-21
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add option `style.align` of Tooltip, support RTL tooltip
+- 
+
+**🐛 Bug fix**
+
+  - **@visactor/vchart**: optimize discrete legend pager color in dark theme, related [#2654](https://github.com/VisActor/VChart/issues/2654)
+  - **@visactor/vchart**: fix the issue issue with stacked waterfall charts where positive and negative values were not stacked separately when there were both positive and negative values in the same stack, fix [#2212](https://github.com/VisActor/VChart/issues/2212)
+
+
+
+
+
+[more detail about v1.11.5](https://github.com/VisActor/VChart/releases/tag/v1.11.5)
+
+# v1.11.4
+
+2024-06-18
+
+
+**🐛 Bug fix**
+
+  - **@visactor/vchart**: fix bug of `updateSpec` when has `scales`, close [#2744](https://github.com/VisActor/VChart/issues/2744)
+  - **@visactor/vchart**: gauge chart might throw error when the value is close to its maximum, fix [#2783](https://github.com/VisActor/VChart/issues/2783)
+  - **@visactor/vchart**: fix the behavior of the gauge pointer when it exceeds the axis range, fix [#2780](https://github.com/VisActor/VChart/issues/2780)
+  - **@visactor/vchart**: normal animation not work when appear animation is disabled, fix [#2807](https://github.com/VisActor/VChart/issues/2807)
+  - **@visactor/vchart**: upgrade vrender to 0.19.10, vgrammar to 0.13.9
+
+
+
+[more detail about v1.11.4](https://github.com/VisActor/VChart/releases/tag/v1.11.4)
+
 # v1.11.3
 
 2024-06-06

@@ -16,6 +16,7 @@ export interface IDomTooltipStyle {
     shapeColumn: TooltipColumnStyle<IShapeStyle>;
     keyColumn: TooltipColumnStyle<ILabelStyle>;
     valueColumn: TooltipColumnStyle<ILabelStyle>;
+    align?: 'left' | 'right';
 }
 export type TooltipColumnStyle<T> = IMargin & {
     width?: string;

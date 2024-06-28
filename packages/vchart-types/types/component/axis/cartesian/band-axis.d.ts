@@ -22,8 +22,8 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
     protected axisHelper(): {
         isContinuous: boolean;
         dataToPosition: (values: any[]) => number;
-        getScale: (depth: number) => BandScale;
-        getBandwidth: (depth: number) => number;
+        getScale: (depth?: number) => BandScale;
+        getBandwidth: (depth?: number) => number;
         getAxisType: () => ComponentTypeEnum;
         getAxisId: () => number;
         isInverse: () => boolean;

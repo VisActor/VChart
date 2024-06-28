@@ -164,16 +164,16 @@ You can get started with using VChart through this type of task. VChart provides
 
 After completing the task, you can submit the self-made case to the official website demo for more people in need to learn and use.
 
-All demos are stored in the `docs/assets/examples `directory
+All demos are stored in the `docs/assets/examples` directory
 
-1.  Please create a new `docs/*** `or `demo/*** `branch based on the develop branch for development
+1.  Please create a new `docs/***` or `demo/***` branch based on the develop branch for development
 2.  (If you have already installed, skip this step) Global installation [@microsoft/rush](https://rushjs.io/pages/intro/get_started/): `npm i --global @microsoft/rush`
 3.  Run `rush update`
-4.  Run `rush docs `to preview the current demo content locally
-5.  `Docs `directory
-    1.  `Docs/assets/examples/menu.json `Add your demo information to the directory file
-    2.  Complete the Chinese and English demo documents in the `zh `/ `en `directory respectively
-    3.  Add the demo preview image in the `docs/public/vchart/preview `directory and update the relative path in the demo document
+4.  Run `rush docs` to preview the current demo content locally
+5.  `Docs` directory
+    1.  `Docs/assets/examples/menu.json` Add your demo information to the directory file
+    2.  Complete the Chinese and English demo documents in the `zh`/`en` directory respectively
+    3.  Add the demo preview image in the `docs/public/vchart/preview` directory and update the path in the demo document accordingly, for example, `/vchart/preview/basic-map_1.9.1.png`
 6.  Submit all code and create a Pull Request on Github, inviting others to review
 
 ### Feature Task Development Guide
@@ -190,6 +190,15 @@ You can understand the VChart code architecture faster through requirement devel
 5.  Confirm that all tests pass the `rush test`
 6.  After development is finished, run `rush change `command, write changelog and submit
 7.  Submit all code and create a Pull Request on Github, inviting others to review
+
+### Promotion Task Contribution Guide
+A promotion task refers to the action of publicly releasing materials related to VisActor, such as articles, demos, videos, etc., across various media channels.
+
+You can create a new issue, select the type others and tag it with promotion. Then, post it along with relevant links, screenshots, summaries, etc.
+
+For example, see https://github.com/VisActor/VChart/issues/2858.
+
+Every quarter, we will select some promotional works for VisActor and provide the authors with material rewards.
 
 ## Embrace the VisActor community
 

@@ -1,6 +1,43 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 06 Jun 2024 05:55:31 GMT and should not be manually modified.
+This log was last generated on Thu, 27 Jun 2024 09:53:20 GMT and should not be manually modified.
+
+## 1.11.6
+Thu, 27 Jun 2024 09:53:20 GMT
+
+### Updates
+
+- fix: background of chart should support gradient color
+- fix(animation): rose animation not work when update twice. fix#2856
+- fix: fix the type of `ITooltipTheme`, fix #2850
+
+
+- fix: fix the issue of update animation not executed when updateSpec, #2835 #2836
+
+## 1.11.5
+Thu, 20 Jun 2024 10:18:10 GMT
+
+### Updates
+
+- fix: optimize discrete legend pager color in dark theme, related #2654
+- fix: fix the issue issue with stacked waterfall charts where positive and negative values were not stacked separately when there were both positive and negative values in the same stack
+
+
+
+## 1.11.4
+Tue, 18 Jun 2024 06:15:31 GMT
+
+### Updates
+
+- fix: fix bug of `updateSpec` when has `scales`, close #2744
+
+
+- fix: gauge chart might throw error when the value is close to its maximum, fix #2783
+- fix: fix the behavior of the gauge pointer when it exceeds the axis range, fix #2780
+- fix: normal animation not work when appear animation is disabled, fix #2807
+- fix: upgrade vrender to 0.19.10, vgrammar to 0.13.9
+
+
 
 ## 1.11.3
 Thu, 06 Jun 2024 05:55:31 GMT

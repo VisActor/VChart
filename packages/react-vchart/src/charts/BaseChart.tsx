@@ -1,17 +1,17 @@
 import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor, IHierarchyData } from '@visactor/vchart';
-import React, { useState, useEffect, useRef, useImperativeHandle, ReactNode } from 'react';
-import withContainer, { ContainerProps } from '../containers/withContainer';
-import RootChartContext, { ChartContextType } from '../context/chart';
+import type { ReactNode } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
+import type { ContainerProps } from '../containers/withContainer';
+import withContainer from '../containers/withContainer';
+import type { ChartContextType } from '../context/chart';
+import RootChartContext from '../context/chart';
 import type { IView } from '@visactor/vgrammar-core';
 import { isEqual, isNil, isValid, pickWithout } from '@visactor/vutils';
 import ViewContext from '../context/view';
 import { toArray } from '../util';
 import { REACT_PRIVATE_PROPS } from '../constants';
-import {
-  bindEventsToChart,
+import type {
   EventsProps,
-  CHART_EVENTS_KEYS,
-  CHART_EVENTS,
   LegendEventProps,
   ScrollBarEventProps,
   BrushEventProps,
@@ -21,7 +21,8 @@ import {
   HierarchyEventProps,
   ChartLifeCycleEventProps
 } from '../eventsUtils';
-import { IReactTooltipProps } from '../components/tooltip/interface';
+import { bindEventsToChart, CHART_EVENTS_KEYS, CHART_EVENTS } from '../eventsUtils';
+import type { IReactTooltipProps } from '../components/tooltip/interface';
 import { initCustomTooltip } from '../components/tooltip/util';
 
 export type ChartOptions = Omit<IInitOption, 'dom'>;
@@ -133,7 +134,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const [tooltipNode, setTooltipNode] = useState<ReactNode>(null);
 
   const parseSpec = (props: Props) => {
-    let spec: ISpec = undefined;
+    let spec: ISpec;
 
     if (hasSpec && props.spec) {
       spec = props.spec;
@@ -181,7 +182,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       const newView = chartContext.current.chart.getCompiler().getVGrammarView();
 
       setUpdateId(updateId + 1);
-      window.vchart = chartContext.current.chart;
       if (props.onReady) {
         props.onReady(chartContext.current.chart, updateId === 0);
       }
@@ -264,7 +264,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       <ViewContext.Provider value={view}>
         {toArray(props.children).map((child, index) => {
           if (typeof child === 'string') {
-            return;
+            return null;
           }
 
           const childId = getComponentId(child, index);

@@ -23,7 +23,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
+import type { IColor, ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
 import type { IMediaQuerySpec } from '..';
 import type { IModelSpec } from '../../model/interface';
@@ -91,7 +91,7 @@ export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'w
     image?: IRectMarkSpec['background'];
     cornerRadius?: IRectMarkSpec['cornerRadius'];
 };
-export type IBackgroundSpec = string | IBackgroundStyleSpec;
+export type IBackgroundSpec = IColor | IBackgroundStyleSpec;
 export type IDataType = IDataValues | DataView;
 export type IData = IDataType | IDataType[];
 export type DataKeyType = string | string[] | ((data: Datum, index: number) => string);

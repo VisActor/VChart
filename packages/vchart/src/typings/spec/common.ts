@@ -53,7 +53,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
+import type { IColor, ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
 import type { IMediaQuerySpec } from '..';
 import type { IModelSpec } from '../../model/interface';
@@ -213,6 +213,7 @@ export interface IChartSpec {
   theme?: Omit<ITheme, 'name'> | string;
   /**
    * 图表背景色配置，优先级高于构造函数中的 background 配置
+   * 自1.11.6版本支持渐变色对象的配置
    */
   background?: IBackgroundSpec;
 
@@ -244,7 +245,7 @@ export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'w
   cornerRadius?: IRectMarkSpec['cornerRadius'];
 };
 
-export type IBackgroundSpec = string | IBackgroundStyleSpec;
+export type IBackgroundSpec = IColor | IBackgroundStyleSpec;
 
 /** data */
 export type IDataType = IDataValues | DataView;

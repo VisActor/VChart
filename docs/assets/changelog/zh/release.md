@@ -1,3 +1,52 @@
+# v1.11.6
+
+2024-06-27
+
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复图表背景不支持渐变色配置的问题
+- **animation**: 修复玫瑰图重复更新，动画bug，关闭[#2856](https://github.com/VisActor/VChart/issues/2856)
+- **@visactor/vchart**:修复类型定义 `ITooltipTheme`, 关闭 [#2850](https://github.com/VisActor/VChart/issues/2850)
+- **@visactor/vchart**: 修复`updateSpec`时，更新动画没有触发的问题 [#2835](https://github.com/VisActor/VChart/issues/2835) [#2836](https://github.com/VisActor/VChart/issues/2836)
+
+
+
+[更多详情请查看 v1.11.6](https://github.com/VisActor/VChart/releases/tag/v1.11.6)
+
+# v1.11.5
+
+2024-06-21
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: Tooltip 支持配置`style.align`，用于支持 RTL 模式
+- 
+
+**🐛 功能修复**
+
+  - **@visactor/vchart**: 优化暗色主题中，图例分页器的样式，关联问题 [#2654](https://github.com/VisActor/VChart/issues/2654)
+  - **@visactor/vchart**: 修复瀑布图堆积中，正数、负数在同一堆积下，表现错误的问题，修复 [#2212](https://github.com/VisActor/VChart/issues/2212)
+
+[更多详情请查看 v1.11.5](https://github.com/VisActor/VChart/releases/tag/v1.11.5)
+
+# v1.11.4
+
+2024-06-18
+
+
+**🐛 功能修复**
+
+  - **@visactor/vchart**: 修复当配置了`scales`的时候，`updateSpec` 效果错误的问题 [#2744](https://github.com/VisActor/VChart/issues/2744)
+  - **@visactor/vchart**: 修复当值接近最大值时，仪表盘可能抛错的问题，关闭[#2783](https://github.com/VisActor/VChart/issues/2783)
+  - **@visactor/vchart**: 修复仪表盘指针位置超出轴范围的问题，修复[#2780](https://github.com/VisActor/VChart/issues/2780)
+  - **@visactor/vchart**: 修复关闭appear动画后，循环动画不生效的问题，关闭[#2807](https://github.com/VisActor/VChart/issues/2807)
+
+
+
+[更多详情请查看 v1.11.4](https://github.com/VisActor/VChart/releases/tag/v1.11.4)
+
 # v1.11.3
 
 2024-06-06

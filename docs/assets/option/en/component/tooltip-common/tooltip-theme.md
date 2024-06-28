@@ -114,3 +114,12 @@ Configure tooltip background frame style.
 #${prefix} maxContentHeight(number)
 
 **Optional** Configure the maximum height of the content area, and if the content area exceeds this height, a local scrollbar will be displayed (applicable to dom tooltip). Supported since version 1.9.0.
+
+#${prefix} align('left' | 'right')
+
+Supported since version 1.11.5.
+
+**Optional** Set the content alignment:
+
+- 'left': shape, title, and values are displayed from left to right, aligned to the left
+- 'right': shape, title, and values are displayed from right to left, aligned to the right
