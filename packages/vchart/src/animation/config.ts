@@ -35,6 +35,7 @@ import {
   registerRotateOutAnimation,
   registerUpdateAnimation
 } from '@visactor/vgrammar-core';
+import { Direction } from '../typings/space';
 
 export const DEFAULT_ANIMATION_CONFIG = {
   appear: {
@@ -129,7 +130,10 @@ const lineOrAreaAnimation = (params: ILineAnimationParams, preset: LineAppearPre
         channel: ['points'],
         custom: TagPointsUpdate,
         duration: DEFAULT_ANIMATION_CONFIG.update.duration,
-        easing: DEFAULT_ANIMATION_CONFIG.update.easing
+        easing: DEFAULT_ANIMATION_CONFIG.update.easing,
+        customParameters: {
+          clipRangeByDimension: params.direction === Direction.horizontal ? 'y' : 'x'
+        }
       }
     ],
     disappear: { type: 'clipOut' }
