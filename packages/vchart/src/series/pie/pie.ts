@@ -84,6 +84,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _showEmptyCircle: boolean;
   protected _emptyArcMark: IArcMark | null = null;
 
+  protected _stillShowZeroSum: boolean;
+
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
     // center
@@ -121,6 +123,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     this._specRadiusField = [];
 
     this._showEmptyCircle = this._spec.emptyPlaceholder?.showEmptyCircle ?? false;
+
+    this._stillShowZeroSum = this._spec.stillShowZeroSum ?? false;
   }
 
   initData() {
@@ -217,9 +221,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       centerOffset: this._centerOffset
     };
 
-    const total = this.getViewData()
+    const allZero = this.getViewData()
       .latestData.map((el: Datum) => (el[this.getAngleField()[0]] ? Number(el[this.getAngleField()[0]]) : 0))
-      .reduce((acc: number, curr: number) => acc + curr, 0);
+      .every((el: number) => el === 0);
 
     const pieMark = this._pieMark;
     if (pieMark) {
@@ -232,7 +236,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         emptyPieMark,
         {
           ...initialStyle,
-          visible: () => this._showEmptyCircle && (this.getViewData().latestData.length === 0 || total === 0)
+          visible: () =>
+            (this._showEmptyCircle && this.getViewData().latestData.length === 0) ||
+            (!this._stillShowZeroSum && allZero)
         },
         'normal',
         AttributeLevel.Series
