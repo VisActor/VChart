@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix polar animation logic for radar charts",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
