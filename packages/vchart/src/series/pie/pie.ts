@@ -221,9 +221,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       centerOffset: this._centerOffset
     };
 
-    const allZero = this.getViewData()
-      .latestData.map((el: Datum) => (el[this.getAngleField()[0]] ? Number(el[this.getAngleField()[0]]) : 0))
-      .every((el: number) => el === 0);
+    const allZero =
+      this.getViewData().latestData.length &&
+      this.getViewData()
+        .latestData.map((el: Datum) => (el[this.getAngleField()[0]] ? Number(el[this.getAngleField()[0]]) : 0))
+        .every((el: number) => el === 0);
 
     const pieMark = this._pieMark;
     if (pieMark) {
