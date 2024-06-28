@@ -87,6 +87,11 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
     /** 占位圆样式 */
     emptyCircle?: IMarkSpec<IArcMarkSpec>;
   };
+  /**
+   * 是否在数据和为0（一般情况下所有数据为0） 的时候仍显示扇区。
+   * @default false
+   */
+  stillShowZeroSum?: boolean;
 }
 
 export interface IPieSeriesTheme extends IPolarSeriesTheme {
