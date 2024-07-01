@@ -75,27 +75,28 @@ const spec = {
       },
       seriesField: 'type',
       outerRadius: 0.45,
-      innerRadius: 0.4,
-      indicator: {
-        visible: true,
-        title: {
-          visible: true,
-          autoFit: true,
-          style: {
-            text: 'max percent'
-          }
-        },
-        content: {
-          visible: true,
-          autoFit: true,
-          style: {
-            text: '70%'
-          }
-        }
-      }
+      innerRadius: 0.4
     }
   ],
   indicator: [
+    {
+      regionId: 'circularProgress',
+      visible: true,
+      title: {
+        visible: true,
+        autoFit: true,
+        style: {
+          text: 'percent'
+        }
+      },
+      content: {
+        visible: true,
+        autoFit: true,
+        style: {
+          text: '70%'
+        }
+      }
+    },
     {
       regionId: 'indicator',
       visible: true,
