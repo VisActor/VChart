@@ -58,7 +58,9 @@ export interface IIndicatorItemSpec {
   };
 }
 
-export type IIndicator = IComponent;
+export type IIndicator = IComponent & {
+  updateDatum: (datum: any) => void;
+};
 
 export interface IIndicatorSpec extends IComponentSpec {
   /**
