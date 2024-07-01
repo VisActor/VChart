@@ -37,7 +37,23 @@
 
 #${prefix} style(Object)
 
-文字样式
+文字样式。
+
+自 `1.11.7` 版本后，指标卡文字样式上的图形属性除了支持正常的属性赋值外，也允许配置回调函数。例如：
+
+```ts
+indicator: {
+  visible: true,
+  content: [
+    {
+      visible: true,
+      style: {
+        fill: (data) => data['value'] > 100 ? "red": 'black',
+      }
+    }
+  ]
+}
+```
 
 ##${prefix} type(string)
 
