@@ -147,7 +147,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           asMiddleAngle: ARC_MIDDLE_ANGLE,
           asRadian: ARC_RADIAN,
           asQuadrant: ARC_QUADRANT,
-          asK: ARC_K
+          asK: ARC_K,
+          stillShowZeroSum: this._stillShowZeroSum
         } as IPieOpt
       },
       false
