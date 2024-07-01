@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support `updateIndicatorDataById`/`updateIndicatorDataByIndex` API, related #2776",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
