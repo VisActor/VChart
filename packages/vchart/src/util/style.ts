@@ -71,6 +71,21 @@ export function transformAxisLabelStateStyle(stateStyle: any) {
   return newStateStyle;
 }
 
+export function transformIndicatorStyle(style: any, datum: any) {
+  if (isEmpty(style)) {
+    return null;
+  }
+  const newStateStyle = {};
+  Object.keys(style).forEach(key => {
+    if (isFunction(style[key])) {
+      newStateStyle[key] = style[key](datum);
+    } else {
+      newStateStyle[key] = style[key];
+    }
+  });
+  return transformToGraphic(newStateStyle);
+}
+
 export function transformToGraphic(style: any) {
   if (style?.angle) {
     style.angle = degreeToRadian(style.angle);
