@@ -114,6 +114,7 @@ import {
   registerElementHighlight as registerHoverInteraction,
   registerElementSelect as registerSelectInteraction
 } from '../interaction';
+import type { IIndicator } from '../component/indicator';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -1940,6 +1941,28 @@ export class VChart implements IVChart {
   setRuntimeSpec(spec: any) {
     this._spec = spec;
     this._updateSpecInfo();
+  }
+
+  /**
+   * 根据 indicator 组件 id 更新 indicator 数据
+   * @since 1.11.7
+   */
+  updateIndicatorDataById(id: string, datum?: Datum) {
+    const indicator = this._chart?.getComponentByUserId(id) as unknown as IIndicator;
+    if (indicator) {
+      indicator.updateDatum(datum);
+    }
+  }
+
+  /**
+   * 根据 indicator 组件索引更新 indicator 数据
+   * @since 1.11.7
+   */
+  updateIndicatorDataByIndex(index: number = 0, datum?: Datum) {
+    const indicators = this._chart?.getComponentsByType(ComponentTypeEnum.indicator) as unknown as IIndicator[];
+    if (indicators && indicators[index]) {
+      indicators[index].updateDatum(datum);
+    }
   }
 
   private _initChartPlugin() {

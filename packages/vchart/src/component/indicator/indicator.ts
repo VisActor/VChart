@@ -145,7 +145,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     }
   }
 
-  private updateDatum(datum: any) {
+  updateDatum(datum: any) {
     this._activeDatum = datum;
     this._displayData.updateData();
     const attrs = this._getIndicatorAttrs();
