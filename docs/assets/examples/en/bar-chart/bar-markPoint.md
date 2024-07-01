@@ -83,8 +83,8 @@ const spec = {
         type: 'text',
         autoRotate: false,
         text: {
+          dy: 14,
           text: '2 mins',
-          dx: -26,
           style: {
             fill: 'white',
             fontSize: 14
@@ -105,7 +105,7 @@ const spec = {
             angle: Math.PI,
             scaleY: 0.4,
             fill: '#000',
-            dy: 2,
+            dy: 4,
             stroke: '#000'
           }
         },
