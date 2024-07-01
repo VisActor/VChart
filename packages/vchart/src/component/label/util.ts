@@ -409,7 +409,13 @@ export function sankeyLabel(labelInfo: ILabelInfo) {
           };
   }
 
-  return { position, overlap, smartInvert: false, offset: 0, syncState: true };
+  return {
+    position,
+    overlap,
+    smartInvert: false,
+    offset: 0,
+    syncState: true
+  };
 }
 
 function sankeyLabelOverlapStrategy(series: ICartesianSeries) {

@@ -6,6 +6,16 @@ import type { SankeyAppearPreset, SankeyMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILabelSpec } from '../../component/label';
 
+export type ISankeyLabelSpec = ILabelSpec & {
+  /**
+   * 标签布局方式
+   * @default 'outside'
+   */
+  position?: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right';
+  /** 标签文字缩略 */
+  limit?: number;
+};
+
 export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSpec<SankeyMark, SankeyAppearPreset> {
   nameKey: any;
   type: 'sankey';
@@ -125,15 +135,7 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
   };
 
   /** 标签配置 */
-  [SeriesMarkNameEnum.label]?: ILabelSpec & {
-    /**
-     * 标签布局方式
-     * @default 'outside'
-     */
-    position?: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right';
-    /** 标签文字缩略 */
-    limit?: number;
-  };
+  [SeriesMarkNameEnum.label]?: ISankeyLabelSpec | ISankeyLabelSpec[];
 
   /** 进度条配置 */
   // scroll?: IScrollSpec & {

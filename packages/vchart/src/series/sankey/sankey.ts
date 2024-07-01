@@ -23,7 +23,7 @@ import type { IBounds } from '@visactor/vutils';
 import { Bounds, array, isNil, isValid, isNumber } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import { registerSankeyAnimation } from './animation';
-import type { ISankeySeriesSpec, SankeyLinkElement } from './interface';
+import type { ISankeySeriesSpec, SankeyLinkElement, ISankeyLabelSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement, IMark as IVgrammarMark } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
@@ -92,7 +92,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this.setCategoryField(this._spec.categoryField);
     this.setValueField(this._spec.valueField);
     this.setSeriesField(this._spec.seriesField ?? this._spec.categoryField);
-    this._labelLimit = this._spec.label?.limit ?? 100;
   }
 
   initData() {
@@ -357,35 +356,35 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     );
   }
 
-  initLabelMarkStyle(textMark: ITextMark) {
-    if (!textMark) {
+  initLabelMarkStyle(labelMark: ITextMark, labelSpec: ISankeyLabelSpec) {
+    if (!labelMark) {
       return;
     }
-    const position = this._spec.label.position;
+    const position = labelSpec.position;
 
     if (position && position.includes('inside')) {
-      this.setMarkStyle<IComposedTextMarkSpec>(textMark, {
+      this.setMarkStyle<IComposedTextMarkSpec>(labelMark, {
         fill: '#ffffff',
-        text: (datum: Datum) => this._createText(datum),
-        maxLineWidth: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0
+        text: (datum: Datum) => this._createText(datum, labelSpec),
+        maxLineWidth: (datum: Datum) => labelSpec.limit ?? datum.x1 - datum.x0
       });
     } else {
-      this.setMarkStyle<IComposedTextMarkSpec>(textMark, {
+      this.setMarkStyle<IComposedTextMarkSpec>(labelMark, {
         fill: this._fillByNode,
-        text: (datum: Datum) => this._createText(datum),
-        maxLineWidth: this._labelLimit
+        text: (datum: Datum) => this._createText(datum, labelSpec),
+        maxLineWidth: labelSpec.limit
       });
     }
 
-    textMark.setZIndex(this._labelLayoutZIndex);
+    labelMark.setZIndex(this._labelLayoutZIndex);
   }
 
-  private _createText(datum: Datum) {
+  private _createText(datum: Datum, labelSpec: ISankeyLabelSpec) {
     if (isNil(datum) || isNil(datum.datum)) {
       return '';
     }
     let text = datum.datum[this._spec.categoryField] || '';
-    const { formatMethod, formatter } = this._spec.label || {};
+    const { formatMethod, formatter } = labelSpec || {};
 
     const { formatFunc, args } = getFormatFunction(formatMethod, formatter, text, datum.datum);
     if (formatFunc) {
