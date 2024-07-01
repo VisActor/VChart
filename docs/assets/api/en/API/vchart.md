@@ -1179,3 +1179,31 @@ convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isR
   ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean) =>
     IPoint | null);
 ```
+
+### updateIndicatorDataById
+
+Update the indicator component data based on the component id specified in the spec.
+
+```ts
+  /**
+   * Update the indicator component data based on the component id specified in the spec.
+   * @param id Indicator id in spec.
+   * @param datum Data Item.
+   * @since 1.11.7
+   */
+  updateIndicatorDataById: (id: string, datum?: Datum) => void;
+```
+
+### updateIndicatorDataByIndex
+
+Update the indicator component data based on the component index in the spec.
+
+```ts
+  /**
+   * Update the indicator component data based on the component index in the spec.
+   * @param index Indicator index in spec.
+   * @param datum Data Item
+   * @since 1.11.7
+   */
+  updateIndicatorDataByIndex: (index: number = 0, datum?: Datum) => void;
+```
