@@ -27,25 +27,30 @@
 - 回调函数
 
 ### angle(string|number|function)
-自`1.11.0`版本开始支持, 该参考线在极坐标系的angle轴上, 可以配置标注点在angle轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+自`1.11.0`版本开始支持, 该参考线在极坐标系的 angle 轴上, 可以配置标注点在 angle 轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
 
 **注意该属性的使用场景为极坐标系下:**
+
 1. 配合配置 angle，radius 属性，用于标注坐标在(angle, radius)上的数据点
 
 ### radius(string|number|function)
-自`1.11.0`版本开始支持, 可以配置标注点在angle轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+自`1.11.0`版本开始支持, 可以配置标注点在 angle 轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
 
 **注意该属性的使用场景为极坐标系下:**
+
 1. 配合配置 angle，radius 属性，用于标注坐标在(angle, radius)上的数据点
 
 ### areaName(string|number|function)
+
 自`1.11.0`版本开始支持, 可以配置标注点在地图上的地理位置, 以回调的形式通过数据自行计算。
 
 **注意该属性的使用场景为地理坐标系**
 
 {{ use: component-marker-aggregation-type() }}
 
-### coordinates(Object)
+### coordinate(Object)
 
 标注目标：数据元素。
 指定数据点的标注区域。基于指定数据点进行标注区域的绘制。
@@ -104,9 +109,7 @@
 
 #### arcRatio(number)
 
-自`1.11.1`版本支持, 当type为type-arc时生效, 数值决定圆心到终点连线的偏移量, 绝对值越小, 曲率越大, 符号决定法向, 不能等于0。
-
-
+自`1.11.1`版本支持, 当 type 为 type-arc 时生效, 数值决定圆心到终点连线的偏移量, 绝对值越小, 曲率越大, 符号决定法向, 不能等于 0。
 
 #### decorativeLine(Object)
 
@@ -185,22 +188,26 @@
 
 标注内容相对于标注点的 x 方向偏移量。
 
-除了直接配置偏移量数值外，自`1.11.0`  版本起提供了：
-1. `'regionRight' | 'regionLeft'`: 用于放置在region最左端或最右端。
+除了直接配置偏移量数值外，自`1.11.0` 版本起提供了：
+
+1. `'regionRight' | 'regionLeft'`: 用于放置在 region 最左端或最右端。
 2. 回调形式
+
 ```ts
-(region: IRegion) => number
+(region: IRegion) => number;
 ```
 
 #### offsetY(number)
 
 标注内容相对于标注点的 y 方向偏移量。
 
-除了直接配置偏移量数值外，自`1.11.0`  版本起提供了：
-1. `'regionTop' | 'regionBottom'`: 用于放置在region最顶端或最底端。
+除了直接配置偏移量数值外，自`1.11.0` 版本起提供了：
+
+1. `'regionTop' | 'regionBottom'`: 用于放置在 region 最顶端或最底端。
 2. 回调形式
+
 ```ts
-(region: IRegion) => number
+(region: IRegion) => number;
 ```
 
 {{ use: component-marker-ref(
@@ -208,9 +215,11 @@
 ) }}
 
 #### confine(boolean) = false
+
 自 1.8.7 版本开始, 是否自动调整 item content 使其展示在 marker 可见区域内。
 
 #### symbol(Object)
+
 标注内容类型为 symbol 时, 状态和样式配置。
 
 {{ use: component-marker-state(
@@ -230,6 +239,7 @@
 ) }}
 
 #### image(Object)
+
 标注内容类型为 image 时, 状态和样式配置。
 
 {{ use: component-marker-state(
@@ -256,6 +266,7 @@
 ) }}
 
 #### richText(Object)
+
 标注内容类型为 richText 时, 状态和样式配置。
 
 {{ use: component-marker-style-callback(
@@ -281,13 +292,9 @@
   animationType = 'callIn | fadeIn'
 ) }}
 
-
 ### targetSymbol(Object)
 
 自`1.11.1`版本支持, 前置标记。
-
-
-
 
 #### offset
 

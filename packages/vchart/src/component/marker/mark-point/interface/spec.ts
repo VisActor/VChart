@@ -73,7 +73,7 @@ export type IMarkPointCoordinateSpec = {
   /**
    * 指定数据点的参考线。基于指定数据点进行参考线的绘制，可以对数据点进行数据处理
    */
-  coordinates: IDataPointSpec;
+  coordinate: IDataPointSpec;
   /**
    * 对每个数据点转化后的画布坐标点进行偏移，该偏移值可以是像素值，也可以是 string 类型，如 '20%' 代表百分比
    * 每个元素对应一个坐标点的偏移量
