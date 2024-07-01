@@ -46,7 +46,8 @@ Color mode.
 
 Optional values:
 
-- `'linear'`: Linear coloring (to be opened)
+<!-- - `'linear'`: Linear coloring (to be opened) -->
+
 - `'ordinal'`: Ordinal coloring
 
 #${prefix} colorList(Array)
