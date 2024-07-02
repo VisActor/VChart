@@ -402,6 +402,13 @@
               }
             },
             {
+              "path": "Mosaic",
+              "title": {
+                "zh": "马赛克图",
+                "en": "Mosaic Chart"
+              }
+            },
+            {
               "path": "3d_Line",
               "title": {
                 "zh": "3d 折线图",

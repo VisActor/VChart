@@ -55,6 +55,7 @@ import type { ILiquidSeriesTheme } from '../liquid/interface';
 import { LiquidSeriesMark } from '../liquid/constant';
 import type { IVennSeriesTheme } from '../venn/interface';
 import { vennSeriesMark } from '../venn/constant';
+import type { IMosaicSeriesTheme } from '../mosaic/interface';
 
 export interface ISeriesTheme {
   [SeriesTypeEnum.bar]?: IBarSeriesTheme;
@@ -133,6 +134,7 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.correlation]?: ICorrelationSeriesTheme;
   [SeriesTypeEnum.liquid]?: ILiquidSeriesTheme;
   [SeriesTypeEnum.venn]?: IVennSeriesTheme;
+  [SeriesTypeEnum.mosaic]?: IMosaicSeriesTheme;
 }
 
 /** 带有方向信息的系列类型，作为主题相关的补充类型 */
@@ -215,5 +217,6 @@ export const seriesMarkInfoMap: Record<SeriesTypeEnum, SeriesMarkMap> = {
   [SeriesTypeEnum.correlation]: correlationSeriesMark,
   [SeriesTypeEnum.rangeArea]: rangeAreaSeriesMark,
   [SeriesTypeEnum.liquid]: LiquidSeriesMark,
-  [SeriesTypeEnum.venn]: vennSeriesMark
+  [SeriesTypeEnum.venn]: vennSeriesMark,
+  [SeriesTypeEnum.mosaic]: barSeriesMark
 };

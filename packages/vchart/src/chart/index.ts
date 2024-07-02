@@ -72,6 +72,8 @@ import type { ICartesianChartSpec } from './cartesian';
 import type { IPolarChartSpec } from './polar';
 import type { IVennChartSpec } from './venn';
 import { VennChart, registerVennChart } from './venn';
+import type { IMosaicChartSpec } from './mosaic';
+import { MosaicChart, registerMosaicChart } from './mosaic';
 export {
   AreaChart,
   BarChart,
@@ -107,7 +109,8 @@ export {
   WordCloud3dChart,
   TreemapChart,
   VennChart,
-  BaseChart
+  BaseChart,
+  MosaicChart
 };
 
 export {
@@ -145,7 +148,8 @@ export {
   registerCorrelationChart,
   registerLiquidChart,
   registerWordCloudShapeChart,
-  registerVennChart
+  registerVennChart,
+  registerMosaicChart
 };
 
 export type {
@@ -184,5 +188,6 @@ export type {
   IWordCloudChartSpec,
   IPolarChartSpec,
   ICartesianChartSpec,
-  IVennChartSpec
+  IVennChartSpec,
+  IMosaicChartSpec
 };

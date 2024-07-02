@@ -1,6 +1,6 @@
 import type { ICartesianAxisSpec } from '../../component';
 import type { ISeriesSpec } from '../../typings';
-import { get } from '../../util';
+import { get, isNil } from '../../util';
 import { BaseChartSpecTransformer } from '../base';
 import { getTrimPaddingConfig } from '../util';
 import type { ICartesianChartSpec } from './interface';
@@ -62,6 +62,24 @@ export class CartesianChartSpecTransformer<T extends ICartesianChartSpec> extend
     this._transformAxisSpec(spec);
   }
 
+  protected _setDefaultXAxisSpec(spec: T): ICartesianAxisSpec {
+    return {
+      orient: 'bottom'
+    } as ICartesianAxisSpec;
+  }
+
+  protected _setDefaultYAxisSpec(spec: T): ICartesianAxisSpec {
+    return {
+      orient: 'left'
+    } as ICartesianAxisSpec;
+  }
+
+  protected _setDefaultZAxisSpec(spec: T): ICartesianAxisSpec {
+    return {
+      orient: 'z'
+    } as ICartesianAxisSpec;
+  }
+
   protected _transformAxisSpec(spec: T) {
     if (this.needAxes()) {
       if (!spec.axes) {
@@ -70,34 +88,42 @@ export class CartesianChartSpecTransformer<T extends ICartesianChartSpec> extend
       const haxAxes = { x: false, y: false, z: false };
       spec.axes.forEach((axis: ICartesianAxisSpec) => {
         const { orient } = axis;
+        let defaultSpec: ICartesianAxisSpec = null;
         if (orient === 'top' || orient === 'bottom') {
           haxAxes.x = true;
+          defaultSpec = this._setDefaultXAxisSpec(spec);
         }
         if (orient === 'left' || orient === 'right') {
           haxAxes.y = true;
+
+          defaultSpec = this._setDefaultYAxisSpec(spec);
         }
         if (orient === 'z') {
           haxAxes.z = true;
+
+          defaultSpec = this._setDefaultZAxisSpec(spec);
+        }
+
+        if (defaultSpec) {
+          Object.keys(defaultSpec).forEach(key => {
+            if (isNil(axis[key])) {
+              axis[key] = defaultSpec[key];
+            }
+          });
         }
         if (get(axis, 'trimPadding')) {
           mergeSpec(axis, getTrimPaddingConfig(this.type, spec));
         }
       });
       if (!haxAxes.x) {
-        spec.axes.push({
-          orient: 'bottom'
-        });
+        spec.axes.push(this._setDefaultXAxisSpec(spec));
       }
       if (!haxAxes.y) {
-        spec.axes.push({
-          orient: 'left'
-        });
+        spec.axes.push(this._setDefaultYAxisSpec(spec));
       }
       // 如果有zField字段，但是没有配置z轴，那么添加一个z轴
       if ((spec as any).zField && !haxAxes.z) {
-        spec.axes.push({
-          orient: 'z'
-        });
+        spec.axes.push(this._setDefaultZAxisSpec(spec));
       }
     }
   }

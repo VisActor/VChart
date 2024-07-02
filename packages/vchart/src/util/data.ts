@@ -10,9 +10,14 @@ import {
   STACK_FIELD_TOTAL_PERCENT,
   STACK_FIELD_TOTAL_TOP,
   STACK_FIELD_START,
-  STACK_FIELD_KEY
+  STACK_FIELD_KEY,
+  STACK_FIELD_TOTAL_BOTTOM,
+  MOSAIC_CAT_START_PERCENT,
+  MOSAIC_CAT_END_PERCENT,
+  MOSAIC_VALUE_START_PERCENT,
+  MOSAIC_VALUE_END_PERCENT
 } from '../constant';
-import { toValidNumber } from './type';
+import { isValid, toValidNumber } from './type';
 import { max, sum } from './math';
 import type { ISeries, ISeriesStackDataMeta } from '../series/interface';
 import type { IRegion } from '../region/interface';
@@ -68,6 +73,7 @@ export function getFieldAlias(dataView: DataView, field: string) {
 }
 
 export interface IStackCacheNode {
+  groupField?: string;
   values: any[];
   series: {
     s: ISeries;
@@ -82,8 +88,11 @@ export interface IStackCacheNode {
     [key: string]: IStackCacheNode;
   };
   key: string;
+  total?: number;
 }
 export interface IStackCacheRoot {
+  groupField?: string;
+  total?: number;
   nodes: {
     [key: string]: IStackCacheNode;
   };
@@ -134,6 +143,7 @@ export function getRegionStackGroup(region: IRegion, setInitialValue: boolean, f
     const filterEnable = filter ? filter(s) : true;
     if (stackData && stackValueField && filterEnable) {
       stackValueGroup[stackValue] = stackValueGroup[stackValue] ?? {
+        groupField: stackData.groupField,
         nodes: {}
       };
 
@@ -172,19 +182,130 @@ export function stackTotal(stackData: IStackCacheNode, valueField: string) {
   if ('values' in stackData && stackData.values.length) {
     const total = sum(stackData.values, valueField);
     const percent = max(stackData.values, STACK_FIELD_END_PERCENT);
+
     stackData.values.forEach(v => {
       v[STACK_FIELD_TOTAL] = total;
       v[STACK_FIELD_TOTAL_PERCENT] = percent;
-      delete v[STACK_FIELD_TOTAL_TOP];
     });
-    const maxNode = stackData.values.reduce((max, current) => {
-      return current[STACK_FIELD_END] > max[STACK_FIELD_END] ? current : max;
-    });
-    maxNode[STACK_FIELD_TOTAL_TOP] = true;
+
     return;
   }
   for (const key in stackData.nodes) {
     stackTotal(stackData.nodes[key], valueField);
+  }
+  return;
+}
+
+export interface IMosaicData {
+  groupField?: string;
+  groupValue?: string;
+  value?: number;
+  end?: number;
+  start?: number;
+  startPercent?: number;
+  endPercent?: number;
+}
+
+export function stackMosaicTotal(stackData: IStackCacheNode, valueField: string) {
+  if ('values' in stackData && stackData.values.length) {
+    if (isValid(stackData.values[0]?.[STACK_FIELD_TOTAL])) {
+      stackData.total = stackData.values[0]?.[STACK_FIELD_TOTAL];
+    } else {
+      stackData.total = sum(stackData.values, valueField);
+    }
+    return;
+  }
+  for (const key in stackData.nodes) {
+    stackMosaicTotal(stackData.nodes[key], valueField);
+  }
+
+  if (stackData.nodes) {
+    stackData.total = sum(
+      Object.keys(stackData.nodes).map(key => stackData.nodes[key]),
+      'total'
+    );
+  }
+
+  return;
+}
+
+export function stackMosaic(s: ISeries, stackCache: IStackCacheNode, mosaicData?: IMosaicData[]) {
+  if (stackCache.groupField && stackCache.nodes) {
+    const groupValues = s.getRawDataStatisticsByField(stackCache.groupField, false)?.values || [];
+    const mosaicStackData = {
+      key: `${stackCache.groupField}`,
+      values: groupValues.map(group => {
+        const groupValues = stackCache.nodes[group];
+
+        return {
+          groupValue: group,
+          value: groupValues.total,
+          end: groupValues.total
+        };
+      })
+    };
+
+    stack(mosaicStackData as IStackCacheNode, false, true, false, {
+      key: 'groupField',
+      start: 'start',
+      end: 'end',
+      startPercent: 'startPercent',
+      endPercent: 'endPercent'
+    });
+
+    mosaicStackData.values.forEach(stackValue => {
+      (stackCache.nodes[stackValue.groupValue] as any).mosaicData = stackValue;
+    });
+  } else if ('values' in stackCache && stackCache.values.length && mosaicData && mosaicData.length) {
+    const len = mosaicData.length;
+    let catStartPercent = 0;
+    let catEndPercent = 1;
+    let valueStartPercent = 0;
+    let valueEndPercent = 1;
+
+    for (let i = 0; i < len; i++) {
+      if (i % 2 === 0) {
+        const catDelta = catEndPercent - catStartPercent;
+
+        catEndPercent = catStartPercent + mosaicData[i].endPercent * catDelta;
+        catStartPercent = catStartPercent + mosaicData[i].startPercent * catDelta;
+      } else {
+        const valueDelta = valueEndPercent - valueStartPercent;
+
+        valueEndPercent = valueStartPercent + mosaicData[i].endPercent * valueDelta;
+        valueStartPercent = valueStartPercent + mosaicData[i].startPercent * valueDelta;
+      }
+    }
+
+    if (len % 2 === 0) {
+      stackCache.values.forEach(v => {
+        const delta = catEndPercent - catStartPercent;
+        v[MOSAIC_CAT_END_PERCENT] = catStartPercent + delta * v[STACK_FIELD_END_PERCENT];
+        v[MOSAIC_CAT_START_PERCENT] = catStartPercent + delta * v[STACK_FIELD_START_PERCENT];
+        v[MOSAIC_VALUE_END_PERCENT] = valueEndPercent;
+        v[MOSAIC_VALUE_START_PERCENT] = valueStartPercent;
+      });
+    } else {
+      stackCache.values.forEach(v => {
+        const delta = valueEndPercent - valueStartPercent;
+        v[MOSAIC_VALUE_END_PERCENT] = valueStartPercent + delta * v[STACK_FIELD_END_PERCENT];
+        v[MOSAIC_VALUE_START_PERCENT] = valueStartPercent + delta * v[STACK_FIELD_START_PERCENT];
+        v[MOSAIC_CAT_END_PERCENT] = catEndPercent;
+        v[MOSAIC_CAT_START_PERCENT] = catStartPercent;
+      });
+    }
+  }
+
+  for (const key in stackCache.nodes) {
+    stackMosaic(
+      s,
+      stackCache.nodes[key],
+      (stackCache.nodes[key] as any).mosaicData
+        ? mosaicData
+          ? [...mosaicData, (stackCache.nodes[key] as any).mosaicData]
+          : [(stackCache.nodes[key] as any).mosaicData]
+        : null
+    );
   }
 }
 
@@ -199,7 +320,32 @@ export function stackOffsetSilhouette(stackCache: IStackCacheNode) {
   }
 }
 
-export function stack(stackCache: IStackCacheNode, stackInverse: boolean, hasPercent?: boolean) {
+export function stack(
+  stackCache: IStackCacheNode,
+  stackInverse: boolean,
+  hasPercent?: boolean,
+  hasMinMax?: boolean,
+  fields: {
+    key: string;
+    start: string;
+    end: string;
+    startPercent: string;
+    endPercent: string;
+    min?: string;
+    max?: string;
+  } = {
+    key: STACK_FIELD_KEY,
+    start: STACK_FIELD_START,
+    end: STACK_FIELD_END,
+    startPercent: STACK_FIELD_START_PERCENT,
+    endPercent: STACK_FIELD_END_PERCENT,
+    max: STACK_FIELD_TOTAL_TOP,
+    min: STACK_FIELD_TOTAL_BOTTOM
+  }
+) {
+  const hasMinField = hasMinMax && isValid(fields.min);
+  const hasMaxField = hasMinMax && isValid(fields.max);
+
   if (stackCache.values.length > 0) {
     // 设置一个小数以保证 log 计算不会报错
     let positiveStart = 0;
@@ -207,38 +353,57 @@ export function stack(stackCache: IStackCacheNode, stackInverse: boolean, hasPer
     // temp
     let sign = 1;
     let value = 0;
+    let minNode: any = null;
+    let maxNode: any = null;
 
     // stack
     const maxLength = stackCache.values.length;
     for (let index = 0; index < maxLength; index++) {
       const v = stackCache.values[stackInverse ? maxLength - 1 - index : index];
-      value = v[STACK_FIELD_END];
+      value = v[fields.end];
       if (value >= 0) {
-        v[STACK_FIELD_START] = positiveStart;
-        positiveStart += v[STACK_FIELD_END];
-        v[STACK_FIELD_END] = positiveStart;
+        v[fields.start] = positiveStart;
+        positiveStart += v[fields.end];
+        v[fields.end] = positiveStart;
       } else {
-        v[STACK_FIELD_START] = negativeStart;
-        negativeStart += v[STACK_FIELD_END];
-        v[STACK_FIELD_END] = negativeStart;
+        v[fields.start] = negativeStart;
+        negativeStart += v[fields.end];
+        v[fields.end] = negativeStart;
       }
-      v[STACK_FIELD_KEY] = stackCache.key;
+      v[fields.key] = stackCache.key;
+
+      if (hasMaxField) {
+        delete v[fields.max];
+        if (!maxNode || v[fields.end] > maxNode[fields.end]) {
+          maxNode = v;
+        }
+      }
+      if (hasMinField) {
+        delete v[fields.min];
+        if (!minNode || v[fields.start] < minNode[fields.start]) {
+          minNode = v;
+        }
+      }
     }
+
+    hasMaxField && maxNode && (maxNode[fields.max] = true);
+    hasMinField && minNode && (minNode[fields.min] = true);
+
     if (hasPercent) {
       // normalize
       for (let index = 0; index < maxLength; index++) {
         const v = stackCache.values[stackInverse ? maxLength - 1 - index : index];
-        value = v[STACK_FIELD_END];
+        value = v[fields.end];
         const denominator = value >= 0 ? positiveStart : negativeStart;
         sign = value >= 0 ? 1 : -1;
-        v[STACK_FIELD_START_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_START] / denominator) * sign;
-        v[STACK_FIELD_END_PERCENT] = denominator === 0 ? 0 : Math.min(1, v[STACK_FIELD_END] / denominator) * sign;
+        v[fields.startPercent] = denominator === 0 ? 0 : Math.min(1, v[fields.start] / denominator) * sign;
+        v[fields.endPercent] = denominator === 0 ? 0 : Math.min(1, v[fields.end] / denominator) * sign;
       }
     }
   }
 
   for (const key in stackCache.nodes) {
-    stack(stackCache.nodes[key], stackInverse, hasPercent);
+    stack(stackCache.nodes[key], stackInverse, hasPercent, hasMinMax, fields);
   }
 }
 
@@ -273,14 +438,21 @@ export function stackGroup(
   }
   for (const key in stackData.nodes) {
     const newStackKey = stackKey ? `${stackKey}_${key}` : key;
-    !stackCache.nodes[key] &&
-      (stackCache.nodes[key] = {
+
+    if (!stackCache.nodes[key]) {
+      stackCache.nodes[key] = {
         values: [],
         series: [],
         nodes: {},
         sortDatums: [],
         key: newStackKey
-      });
+      };
+
+      if (isValid(stackData.nodes[key]?.groupField)) {
+        stackCache.nodes[key].groupField = stackData.nodes[key].groupField;
+      }
+    }
+
     stackGroup(
       s,
       stackData.nodes[key],

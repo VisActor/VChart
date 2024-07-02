@@ -3,7 +3,14 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
-import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import {
+  AttributeLevel,
+  ChartEvent,
+  LayoutZIndex,
+  STACK_FIELD_TOTAL_BOTTOM,
+  STACK_FIELD_TOTAL_TOP,
+  VGRAMMAR_HOOK_EVENT
+} from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { eachSeries } from '../../util/model';
@@ -283,12 +290,12 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
       .labelStyle((mark: IVGrammarMark, params: Record<string, any>) => {
         const labelInfo = labelInfos[params.labelIndex];
         if (labelInfo) {
-          const { labelSpec, labelMark } = labelInfo;
+          const { labelSpec, labelMark, series } = labelInfo;
           const rule = labelMark.getRule();
           const interactive = this._interactiveConfig(labelSpec);
           /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
           const centerOffset = (this._spec as any)?.centerOffset ?? 0;
-          const spec = mergeSpec(
+          let spec = mergeSpec(
             {
               textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
               overlap: {
@@ -297,11 +304,34 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             },
             defaultLabelConfig(rule, labelInfo),
             {
-              ...pickWithout(labelSpec, ['position', 'style', 'state', 'type']),
+              ...pickWithout(labelSpec, [
+                'position',
+                'style',
+                'state',
+                'type',
+                'stackDataFilterType',
+                'getStyleHandler'
+              ]),
               ...interactive,
               centerOffset
-            }
+            },
+            labelSpec.stackDataFilterType
+              ? {
+                  dataFilter:
+                    labelSpec.stackDataFilterType === 'min'
+                      ? (data: any) => {
+                          return data.filter((d: any) => d.data[STACK_FIELD_TOTAL_BOTTOM]);
+                        }
+                      : (data: any) => {
+                          return data.filter((d: any) => d.data[STACK_FIELD_TOTAL_TOP]);
+                        }
+                }
+              : {}
           );
+
+          if (series && series.parseLabelStyle) {
+            spec = series.parseLabelStyle(spec, labelSpec, labelMark);
+          }
           // TODO 可以优化。vgrammar 的 label 图元类型分发是完全依赖 baseMark 的类型。默认情况下，line/area 图元的标签会使用'line-data'标签，此时需要 vchart 将类型传给 vgrammar
           if (rule === 'line' || rule === 'area') {
             spec.type = rule;
@@ -313,6 +343,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         const labelInfo = labelInfos[params.labelIndex];
         if (labelInfo) {
           const { labelSpec, labelMark } = labelInfos[params.labelIndex];
+
           return labelMark.skipEncode
             ? { data: datum }
             : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod, labelSpec.formatter);

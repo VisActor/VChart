@@ -48,7 +48,7 @@ import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
-import type { ICartesianChartSpec } from '../../../chart';
+import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
 
 const CartesianAxisPlugin = [AxisSyncPlugin];
 

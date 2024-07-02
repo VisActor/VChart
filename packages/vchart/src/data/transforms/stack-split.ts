@@ -28,6 +28,7 @@ export const stackSplit = (data: Array<DataView>, op: IStackOption) => {
         if (isNil(fV)) {
           break;
         }
+        temp.groupField = f;
         if (!temp.nodes[fV]) {
           if (i === lastFieldIndex) {
             temp.nodes[fV] = { values: [] };

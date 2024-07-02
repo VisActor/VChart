@@ -58,16 +58,17 @@ function getCodeFromMd(mdString) {
   while ((match = jsPattern.exec(mdString)) !== null) {
     demoCodeBlocks.push(match[3]);
   }
+
   return getSpecFromCode(demoCodeBlocks[0] + '\n');
 }
 
 function getSpecFromCode(codeString) {
   try {
-    const fun = new Function(`
+    const fun = new Function('VCHART_MODULE', `
       ${codeString.substr(0, codeString.indexOf('const vchart = new V'))};
       return spec;
   `);
-    return fun();
+    return fun(VChart);
   } catch (error) {
     return null;
   }
@@ -112,7 +113,6 @@ async function previewMenuItem(menuItem, parentPath, options) {
     const example = fs.readFileSync(path.resolve(examplesDirectory, 'zh', `${fullPath}.md`), { encoding: 'utf-8' });
     const code = getCodeFromMd(example);
     let isFail = false;
-
 
     if (code) {
       if (options && options.onlyEmpty) {
