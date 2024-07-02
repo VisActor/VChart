@@ -1419,6 +1419,38 @@
       ]
     },
     {
+      "path": "mosaic-chart",
+      "title": {
+        "zh": "马赛克图",
+        "en": "mosaic-chart"
+      },
+      "children": [
+        {
+          "path": "basic-mosaic",
+          "title": {
+            "zh": "基础马赛克图",
+            "en": "Basic mosaic chart"
+          }
+        },
+
+        {
+          "path": "simple-mosaic",
+          "title": {
+            "zh": "简化马赛克图",
+            "en": "simple mosaic chart"
+          }
+        },
+
+        {
+          "path": "group-mosaic",
+          "title": {
+            "zh": "分组马赛克图",
+            "en": "group mosaic chart"
+          }
+        }
+      ]
+    },
+    {
       "path": "combination",
       "title": {
         "zh": "combination",
