@@ -76,6 +76,22 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
   [SeriesMarkNameEnum.pie]?: IMarkSpec<IArcMarkSpec>;
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: IMultiLabelSpec<IArcLabelSpec>;
+
+  /** 数据为空时显示的占位图形 */
+  emptyPlaceholder?: {
+    /** 是否显示占位圆
+     * @default false
+     */
+    showEmptyCircle?: boolean;
+
+    /** 占位圆样式 */
+    emptyCircle?: IMarkSpec<IArcMarkSpec>;
+  };
+  /**
+   * 是否在数据和为0（一般情况下所有数据为0） 的时候仍显示扇区。
+   * @default false
+   */
+  stillShowZeroSum?: boolean;
 }
 
 export interface IPieSeriesTheme extends IPolarSeriesTheme {

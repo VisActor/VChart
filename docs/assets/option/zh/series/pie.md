@@ -226,3 +226,28 @@ pie: {
 
 是否启用切线约束。
 默认值为`true`。
+
+#${prefix} emptyPlaceholder(Object)
+
+设置当数据为空时呈现的占位符。
+
+##${prefix} showEmptyCircle(Boolean)
+
+从 1.12.0 版本开始支持，是否在数据为空时显示占位圆。
+默认值为`false`。
+
+##${prefix} emptyCircle(Object)
+
+占位圆图元样式配置。
+
+```ts
+emptyPlaceholder: {
+  showEmptyCircle: true,
+  emptyCircle: {
+    style: {
+      innerRadius: 0.5,
+      fill: '#66ccff'
+    }
+  }
+}
+```
