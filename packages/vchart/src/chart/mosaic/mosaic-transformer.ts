@@ -30,7 +30,10 @@ export class MosaicChartSpecTransformer<
   protected _setDefaultXAxisSpec(spec: T): ICartesianAxisSpec {
     return {
       orient: 'bottom',
-      type: 'linear'
+      type: 'linear',
+      label: {
+        visible: false
+      }
     } as ICartesianAxisSpec;
   }
 

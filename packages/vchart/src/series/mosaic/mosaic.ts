@@ -31,6 +31,10 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
   getStack() {
     return true;
   }
+
+  getPercent() {
+    return !!this.getSeriesField();
+  }
   getGroupFields() {
     return this.direction === 'vertical' ? this._specXField : this._specYField;
   }
