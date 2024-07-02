@@ -23,7 +23,7 @@ import type { IBounds } from '@visactor/vutils';
 import { Bounds, array, isNil, isValid, isNumber } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import { registerSankeyAnimation } from './animation';
-import type { ISankeySeriesSpec, SankeyLinkElement } from './interface';
+import type { ISankeySeriesSpec, SankeyLinkElement, ISankeyLabelSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement, IMark as IVgrammarMark } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
@@ -39,16 +39,20 @@ import type { IMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
 import type { IBaseScale } from '@visactor/vscale';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { SankeySeriesSpecTransformer } from './sankey-transformer';
+import { getFormatFunction } from '../../component/util';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
   type = SeriesTypeEnum.sankey;
 
+  static readonly transformerConstructor = SankeySeriesSpecTransformer as any;
+  readonly transformerConstructor = SankeySeriesSpecTransformer;
+
   static readonly mark: SeriesMarkMap = sankeySeriesMark;
 
   private _nodeMark: IRectMark;
   private _linkMark: ILinkPathMark;
-  private _labelMark?: ITextMark;
 
   private _nodeLayoutZIndex = LayoutZIndex.Node;
   private _labelLayoutZIndex = LayoutZIndex.Label;
@@ -62,6 +66,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected _categoryField!: string;
   private _colorScale: IBaseScale;
   private _nodeList: (string | number)[];
+
+  get direction() {
+    return this._spec.direction ?? 'horizontal';
+  }
   getCategoryField() {
     return this._categoryField;
   }
@@ -84,7 +92,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this.setCategoryField(this._spec.categoryField);
     this.setValueField(this._spec.valueField);
     this.setSeriesField(this._spec.seriesField ?? this._spec.categoryField);
-    this._labelLimit = this._spec.label?.limit ?? 100;
   }
 
   initData() {
@@ -118,7 +125,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           sourceField: this._spec.sourceField,
           targetField: this._spec.targetField,
           valueField: this._spec.valueField,
-          direction: this._spec.direction,
+          direction: this.direction,
           nodeAlign: this._spec.nodeAlign ?? 'justify',
           nodeGap: this._spec.nodeGap ?? 8,
           nodeWidth: this._spec.nodeWidth ?? 10,
@@ -226,16 +233,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (linkMark) {
       this._linkMark = linkMark;
     }
-
-    if (this._spec.label && this._spec.label.visible) {
-      const labelMark = this._createMark(SankeySeries.mark.label, {
-        dataView: this._nodesSeriesData.getDataView(),
-        dataProductId: this._nodesSeriesData.getProductId()
-      }) as ITextMark;
-      if (labelMark) {
-        this._labelMark = labelMark;
-      }
-    }
   }
 
   protected _buildMarkAttributeContext() {
@@ -277,7 +274,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   initMarkStyle(): void {
     this._initNodeMarkStyle();
     this._initLinkMarkStyle();
-    this._initLabelMarkStyle();
   }
 
   protected _initNodeMarkStyle() {
@@ -353,203 +349,46 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y1: (datum: Datum) => datum.y1,
         thickness: (datum: Datum) => datum.thickness,
         fill: this._fillByLink,
-        direction: this._spec.direction ?? 'horizontal'
+        direction: this.direction
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
   }
 
-  protected _initLabelMarkStyle() {
-    if (!this._labelMark) {
+  initLabelMarkStyle(labelMark: ITextMark, labelSpec: ISankeyLabelSpec) {
+    if (!labelMark) {
       return;
     }
-    if (this._spec.direction === 'vertical') {
-      if (this._spec.label.position === 'inside-start') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x0,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'left',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'inside-middle') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'center',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'inside-end') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x1,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'right',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
-            y: (datum: Datum) => {
-              if (datum.y1 >= this._viewBox.y2) {
-                return datum.y0;
-              }
-              return datum.y1;
-            },
-            fill: this._fillByNode,
-            text: (datum: Datum) => this._createText(datum),
-            limit: this._labelLimit,
-            textAlign: 'center',
-            textBaseline: (datum: Datum) => {
-              if (datum.y1 >= this._viewBox.y2) {
-                return 'bottom';
-              }
-              return 'top';
-            }
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      }
+    const position = labelSpec.position;
+
+    if (position && position.includes('inside')) {
+      this.setMarkStyle<IComposedTextMarkSpec>(labelMark, {
+        fill: '#ffffff',
+        text: (datum: Datum) => this._createText(datum, labelSpec),
+        maxLineWidth: (datum: Datum) => labelSpec.limit ?? datum.x1 - datum.x0
+      });
     } else {
-      if (this._spec.label.position === 'inside-start') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x0,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'left',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'inside-middle') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'center',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'inside-end') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x1,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: '#ffffff',
-            text: (datum: Datum) => this._createText(datum),
-            limit: (datum: Datum) => this._spec.label.limit ?? datum.x1 - datum.x0,
-            textAlign: 'right',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'left') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x0,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: this._fillByNode,
-            text: (datum: Datum) => this._createText(datum),
-            limit: this._labelLimit,
-            textAlign: 'right',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else if (this._spec.label.position === 'right') {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => datum.x1,
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: this._fillByNode,
-            text: (datum: Datum) => this._createText(datum),
-            limit: this._labelLimit,
-            textAlign: 'left',
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      } else {
-        this.setMarkStyle<IComposedTextMarkSpec>(
-          this._labelMark,
-          {
-            x: (datum: Datum) => {
-              if (datum.x1 >= this._viewBox.x2) {
-                return datum.x0;
-              }
-              return datum.x1;
-            },
-            y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
-            fill: this._fillByNode,
-            text: (datum: Datum) => this._createText(datum),
-            limit: this._labelLimit,
-            textAlign: (datum: Datum) => {
-              if (datum.x1 >= this._viewBox.x2) {
-                return 'right';
-              }
-              return 'left';
-            },
-            textBaseline: 'middle'
-          },
-          STATE_VALUE_ENUM.STATE_NORMAL,
-          AttributeLevel.Series
-        );
-      }
+      this.setMarkStyle<IComposedTextMarkSpec>(labelMark, {
+        fill: this._fillByNode,
+        text: (datum: Datum) => this._createText(datum, labelSpec),
+        maxLineWidth: labelSpec.limit
+      });
     }
 
-    this._labelMark.setZIndex(this._labelLayoutZIndex);
+    labelMark.setZIndex(this._labelLayoutZIndex);
   }
 
-  private _createText(datum: Datum) {
+  private _createText(datum: Datum, labelSpec: ISankeyLabelSpec) {
     if (isNil(datum) || isNil(datum.datum)) {
       return '';
     }
     let text = datum.datum[this._spec.categoryField] || '';
-    if (this._spec.label?.formatMethod) {
-      text = this._spec.label.formatMethod(text, datum.datum);
+    const { formatMethod, formatter } = labelSpec || {};
+
+    const { formatFunc, args } = getFormatFunction(formatMethod, formatter, text, datum.datum);
+    if (formatFunc) {
+      text = formatFunc(...args, { series: this });
     }
     return text;
   }
@@ -576,14 +415,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         animationConfig(
           Factory.getAnimationInKey('sankeyLinkPath')?.(animationParams, appearPreset),
           userAnimationConfig(SeriesMarkNameEnum.link, this._spec, this._markAttributeContext)
-        )
-      );
-    }
-    if (this._labelMark) {
-      this._labelMark.setAnimationConfig(
-        animationConfig(
-          Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -653,20 +484,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return;
     }
 
-    const allLabelElements = this._labelMark?.getProductElements();
-
-    if (!allLabelElements || !allLabelElements.length) {
-      return;
-    }
     const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
 
     allNodeElements.forEach(el => {
       el.removeState(states);
     });
     allLinkElements.forEach(el => {
-      el.removeState(states);
-    });
-    allLabelElements.forEach(el => {
       el.removeState(states);
     });
   };
@@ -726,10 +549,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._nodeMark) {
       this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
-
-    if (this._labelMark) {
-      this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
-    }
   };
 
   protected _handleLinkAdjacencyClick = (element: IGlyphElement) => {
@@ -754,10 +573,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     if (this._nodeMark) {
       this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
-    }
-
-    if (this._labelMark) {
-      this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
     }
   };
 
@@ -885,10 +700,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       if (this._nodeMark) {
         this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
-
-      if (this._labelMark) {
-        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
-      }
     } else {
       // 层级型数据
       const highlightNodes: string[] = [nodeDatum.key];
@@ -980,10 +791,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       if (this._nodeMark) {
         this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
-
-      if (this._labelMark) {
-        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
-      }
     }
   };
 
@@ -1010,16 +817,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
       if (this._nodeMark) {
         allNodeElements.forEach(el => {
-          el.removeState(states);
-        });
-      }
-
-      if (this._labelMark) {
-        const allLabelElements = this._labelMark.getProductElements();
-        if (!allLabelElements || !allLabelElements.length) {
-          return;
-        }
-        allLabelElements.forEach(el => {
           el.removeState(states);
         });
       }
@@ -1127,10 +924,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       this._highLightElements(allNodeElements, highlightNodes);
-
-      if (this._labelMark) {
-        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
-      }
     }
   };
 
@@ -1154,7 +947,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._tooltipHelper = new SankeySeriesTooltipHelper(this);
     this._nodeMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nodeMark);
     this._linkMark && this._tooltipHelper.activeTriggerSet.mark.add(this._linkMark);
-    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
   _setNodeOrdinalColorScale() {
@@ -1209,7 +1001,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           })
       : data?.links
       ? Array.from(this.extractNamesFromLink(data.links))
-      : data?.values.map((datum: Datum, index: number) => {
+      : data?.values?.map((datum: Datum, index: number) => {
           return datum[this._spec.categoryField];
         });
 

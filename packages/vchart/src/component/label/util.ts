@@ -3,7 +3,7 @@ import type { Datum } from '../../typings/common';
 import { Direction } from '../../typings/space';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, OverlapAttrs, Strategy } from '@visactor/vrender-components';
-import type { ICartesianSeries } from '../../series/interface';
+import { SeriesTypeEnum, type ICartesianSeries } from '../../series/interface';
 import { isBoolean, isFunction, isObject, isString } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
@@ -31,6 +31,10 @@ export function defaultLabelConfig(rule: string, labelInfo: ILabelInfo) {
     labelSpec.overlap = {};
   }
   const processor = labelRuleMap[rule] ?? labelRuleMap.point;
+
+  if (labelInfo.series.type === SeriesTypeEnum.sankey) {
+    return sankeyLabel(labelInfo);
+  }
   return processor(labelInfo);
 }
 
@@ -51,9 +55,11 @@ export function textAttribute(
     textAttribute[key] = attr;
   }
 
-  const { formatFunc, args } = getFormatFunction(formatMethod, formatter, textAttribute.text, datum);
-  if (formatFunc) {
-    textAttribute.text = formatFunc(...args, { series });
+  if (series.type !== SeriesTypeEnum.sankey) {
+    const { formatFunc, args } = getFormatFunction(formatMethod, formatter, textAttribute.text, datum);
+    if (formatFunc) {
+      textAttribute.text = formatFunc(...args, { series });
+    }
   }
 
   return textAttribute;
@@ -341,4 +347,86 @@ export function LineLabel(labelInfo: ILabelInfo) {
   const seriesData = series.getViewDataStatistics?.().latestData?.[series.getSeriesField()]?.values;
   const data = seriesData ? seriesData.map((d: Datum, index: number) => ({ [series.getSeriesField()]: d, index })) : [];
   return { position: labelSpec.position ?? 'end', data };
+}
+
+export function sankeyLabel(labelInfo: ILabelInfo) {
+  const { series, labelSpec = {} as ILabelSpec } = labelInfo;
+  // encode position config
+  const originPosition = uniformLabelPosition(labelSpec.position) ?? 'outside';
+  const direction = (series as ICartesianSeries).direction;
+  let position = originPosition as BaseLabelAttrs['position'];
+
+  if (isString(originPosition)) {
+    if (direction === 'vertical') {
+      if (originPosition === 'inside-start') {
+        position = (datum: Datum) => {
+          return 'inside-left';
+        };
+      } else if (originPosition === 'inside-middle') {
+        position = (datum: Datum) => {
+          return 'center';
+        };
+      } else if (originPosition === 'inside-end') {
+        position = (datum: Datum) => {
+          return 'inside-right';
+        };
+      } else {
+        position = (datum: Datum) => {
+          return 'bottom';
+        };
+      }
+    } else {
+      if (originPosition === 'inside-start') {
+        position = (datum: Datum) => {
+          return 'inside-left';
+        };
+      } else if (originPosition === 'inside-middle') {
+        position = (datum: Datum) => {
+          return 'center';
+        };
+      } else if (originPosition === 'inside-end') {
+        position = (datum: Datum) => {
+          return 'inside-right';
+        };
+      } else if (originPosition === 'outside') {
+        position = (datum: Datum) => {
+          return 'right';
+        };
+      }
+    }
+  }
+  // encode overlap config
+  let overlap;
+  if (labelSpec.overlap === false) {
+    overlap = false;
+  } else {
+    overlap =
+      isString(originPosition) && originPosition.includes('inside')
+        ? false
+        : {
+            strategy:
+              (labelSpec.overlap as OverlapAttrs)?.strategy ?? sankeyLabelOverlapStrategy(series as ICartesianSeries)
+          };
+  }
+
+  return {
+    position,
+    overlap,
+    smartInvert: false,
+    offset: 0,
+    syncState: true
+  };
+}
+
+function sankeyLabelOverlapStrategy(series: ICartesianSeries) {
+  const strategy: Strategy[] = [
+    {
+      type: 'position',
+      position: (data: any) => {
+        return series.direction === 'horizontal' ? ['right', 'left'] : ['bottom', 'top'];
+      }
+    }
+  ];
+
+  return strategy;
 }
