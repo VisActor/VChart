@@ -7,9 +7,9 @@ import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec } from './interface';
 import type { Maybe } from '../../typings';
 import { mergeSpec } from '@visactor/vutils-extension';
-import { transformToGraphic } from '../../util/style';
+import { transformIndicatorStyle } from '../../util/style';
 import { getActualNumValue } from '../../util/space';
-import { isEqual, isValid, isFunction, array, isArray } from '@visactor/vutils';
+import { isEqual, isValid, isFunction, array, isArray, pickWithout } from '@visactor/vutils';
 import { indicatorMapper } from './util';
 import type { IModelSpecInfo } from '../../model/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -193,7 +193,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         fitPercent: contentSpec.fitPercent,
         fitStrategy: contentSpec.fitStrategy,
         style: {
-          ...transformToGraphic(contentSpec.style),
+          ...transformIndicatorStyle(pickWithout(contentSpec.style, ['text']), this._activeDatum),
           text: this._createText(contentSpec.field, contentSpec.style.text)
         }
       });
@@ -219,7 +219,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         fitPercent: this._spec.title.fitPercent,
         fitStrategy: this._spec.title.fitStrategy,
         style: {
-          ...transformToGraphic(this._spec.title.style),
+          ...transformIndicatorStyle(pickWithout(this._spec.title.style, ['text']), this._activeDatum),
           text: this._createText(this._spec.title.field, this._spec.title.style.text as any) // FIXME: type
         }
       },
