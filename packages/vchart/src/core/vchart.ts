@@ -745,13 +745,14 @@ export class VChart implements IVChart {
     return this._renderSync(option);
   }
 
-  private _updateAnimateState() {
+  private _updateAnimateState(initial?: boolean) {
     if (this._option.animation) {
+      const animationState = initial ? AnimationStateEnum.appear : AnimationStateEnum.update;
       this._chart?.getAllRegions().forEach(region => {
-        region.animate?.updateAnimateState(AnimationStateEnum.update, true);
+        region.animate?.updateAnimateState(animationState, true);
       });
       this._chart?.getAllComponents().forEach(component => {
-        component.animate?.updateAnimateState(AnimationStateEnum.update, true);
+        component.animate?.updateAnimateState(animationState, true);
       });
     }
   }
@@ -933,11 +934,16 @@ export class VChart implements IVChart {
    * @param forceMerge
    * @returns
    */
-  async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
+  async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig, initialAnimate?: boolean) {
     const result = this._updateSpec(spec, forceMerge);
 
     if (!result) {
       return this as unknown as IVChart;
+    }
+
+    if (initialAnimate) {
+      this.stopAnimation();
+      this._updateAnimateState(true);
     }
 
     await this.updateCustomConfigAndRerender(result, false, {

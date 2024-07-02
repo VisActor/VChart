@@ -87,7 +87,7 @@ import {
   maxInArray
 } from '@visactor/vutils';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { baseSeriesMark } from './constant';
+import { baseSeriesMark, defaultSeriesIgnoreCheckKeys, defaultSeriesCompileCheckKeys } from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
 import type { EventType } from '@visactor/vgrammar-core';
@@ -1027,7 +1027,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return result;
     }
 
-    ignoreCheckKeys = ignoreCheckKeys ?? { data: true };
+    ignoreCheckKeys = {
+      ...defaultSeriesIgnoreCheckKeys,
+      ...defaultSeriesCompileCheckKeys,
+      ...ignoreCheckKeys
+    };
 
     ignoreCheckKeys.invalidType = true;
     if (spec.invalidType !== prevSpec.invalidType) {
@@ -1060,6 +1064,17 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       this._marks.getMarks().some(m => {
         ignoreCheckKeys[m.name] = true;
         return prevSpec[m.name]?.visible !== spec[m.name]?.visible;
+      })
+    ) {
+      result.reCompile = true;
+    }
+
+    // check default compile keys
+    if (
+      currentKeys.some(k => {
+        if (defaultSeriesCompileCheckKeys[k]) {
+          return !isEqual(spec[k], prevSpec[k]);
+        }
       })
     ) {
       result.reCompile = true;
@@ -1106,6 +1121,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     if (this._tooltipHelper) {
       this._tooltipHelper.updateTooltipSpec();
+    }
+
+    // update animation config
+    const hasAnimation = isAnimationEnabledForSeries(this);
+    if (hasAnimation) {
+      this.initAnimation();
     }
   }
 
