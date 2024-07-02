@@ -3,7 +3,7 @@ category: examples
 group: mosaic chart
 title: simple mosaic chart
 keywords: mosaic,comparison,distribution,rectangle,composition,proportion
-cover:
+cover: /vchart/preview/mosaic-chart-simple-mosaic_1.11.6.png
 option: mosaicChart
 ---
 # Basic Mosaic Chart
