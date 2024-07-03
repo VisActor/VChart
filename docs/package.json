@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@arco-design/web-react": "2.46.1",
-    "@visactor/openinula-vchart": "workspace:1.11.6",
-    "@visactor/react-vchart": "workspace:1.11.6",
-    "@visactor/vchart": "workspace:1.11.6",
+    "@visactor/openinula-vchart": "workspace:1.11.7-alpha.1",
+    "@visactor/react-vchart": "workspace:1.11.7-alpha.1",
+    "@visactor/vchart": "workspace:1.11.7-alpha.1",
     "@visactor/vchart-theme": "~1.6.6",
     "@visactor/vmind": "1.2.4-alpha.5",
     "@visactor/vutils": "~0.18.10",

@@ -112,8 +112,8 @@ export declare class VChart implements IVChart {
     updateDataSync(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): IVChart;
     updateFullDataSync(data: IDataValues | IDataValues[], reRender?: boolean): IVChart;
     updateFullData(data: IDataValues | IDataValues[], reRender?: boolean): Promise<IVChart>;
-    updateSpec(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig): Promise<IVChart>;
-    updateSpecSync(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig): IVChart;
+    updateSpec(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, userUpdateOptions?: IUpdateSpecResult): Promise<IVChart>;
+    updateSpecSync(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, userUpdateOptions?: IUpdateSpecResult): IVChart;
     updateSpecAndRecompile(spec: ISpec, forceMerge?: boolean, option?: IVChartRenderOption): boolean;
     private _updateSpec;
     updateModelSpec(filter: string | {

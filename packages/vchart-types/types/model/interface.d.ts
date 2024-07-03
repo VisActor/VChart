@@ -44,6 +44,7 @@ export interface IUpdateSpecResult {
     reSize?: boolean;
     reCompile?: boolean;
     reTransformSpec?: boolean;
+    reAnimate?: boolean;
 }
 export interface IModelProduct {
     srData: IData;
