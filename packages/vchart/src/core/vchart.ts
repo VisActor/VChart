@@ -602,6 +602,12 @@ export class VChart implements IVChart {
     if (isFunction(updateSpecResult)) {
       updateSpecResult = updateSpecResult();
     }
+
+    if (updateSpecResult.reAnimate) {
+      this.stopAnimation();
+      this._updateAnimateState(true);
+    }
+
     this._reCompile(updateSpecResult);
     if (sync) {
       return this._renderSync(option);
@@ -934,16 +940,16 @@ export class VChart implements IVChart {
    * @param forceMerge
    * @returns
    */
-  async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig, initialAnimate?: boolean) {
-    const result = this._updateSpec(spec, forceMerge);
+  async updateSpec(
+    spec: ISpec,
+    forceMerge: boolean = false,
+    morphConfig?: IMorphConfig,
+    userUpdateOptions?: IUpdateSpecResult
+  ) {
+    const result = this._updateSpec(spec, forceMerge, userUpdateOptions);
 
     if (!result) {
       return this as unknown as IVChart;
-    }
-
-    if (initialAnimate) {
-      this.stopAnimation();
-      this._updateAnimateState(true);
     }
 
     await this.updateCustomConfigAndRerender(result, false, {
@@ -960,8 +966,13 @@ export class VChart implements IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
-    const result = this._updateSpec(spec, forceMerge);
+  updateSpecSync(
+    spec: ISpec,
+    forceMerge: boolean = false,
+    morphConfig?: IMorphConfig,
+    userUpdateOptions?: IUpdateSpecResult
+  ) {
+    const result = this._updateSpec(spec, forceMerge, userUpdateOptions);
 
     if (!result) {
       return this as unknown as IVChart;
@@ -984,7 +995,11 @@ export class VChart implements IVChart {
     });
   }
 
-  private _updateSpec(spec: ISpec, forceMerge: boolean = false): IUpdateSpecResult | undefined {
+  private _updateSpec(
+    spec: ISpec,
+    forceMerge: boolean = false,
+    userUpdateOptions?: IUpdateSpecResult
+  ): IUpdateSpecResult | undefined {
     const lastSpec = this._spec;
 
     if (!this._setNewSpec(spec, forceMerge)) {
@@ -1009,13 +1024,20 @@ export class VChart implements IVChart {
     }
     this._initChartSpec(this._spec, 'render');
 
-    return mergeUpdateResult(this._chart.updateSpec(this._spec), {
+    const res = mergeUpdateResult(this._chart.updateSpec(this._spec), {
       reTransformSpec: false,
       change: reSize,
       reMake: false,
       reCompile: false,
       reSize
     });
+
+    return userUpdateOptions
+      ? {
+          ...res,
+          ...userUpdateOptions
+        }
+      : res;
   }
 
   /**
