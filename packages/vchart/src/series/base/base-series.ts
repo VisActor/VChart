@@ -1071,23 +1071,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     // check default compile keys
     if (
-      currentKeys.some(k => {
-        if (defaultSeriesCompileCheckKeys[k]) {
-          return !isEqual(spec[k], prevSpec[k]);
-        }
+      currentKeys.some((k: string) => {
+        return defaultSeriesCompileCheckKeys[k] && !isEqual(spec[k], prevSpec[k]);
       })
     ) {
       result.reCompile = true;
     }
 
     if (
-      currentKeys.some(k => {
-        if (ignoreCheckKeys[k]) {
-          return false;
-        } else if (!isEqual(spec[k], prevSpec[k])) {
-          return true;
-        }
-        return false;
+      currentKeys.some((k: string) => {
+        return !ignoreCheckKeys[k] && !isEqual(spec[k], prevSpec[k]);
       })
     ) {
       result.reMake = true;
