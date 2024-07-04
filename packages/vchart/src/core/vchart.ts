@@ -878,7 +878,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     if (this._chart) {
-      if (userUpdateOptions.reAnimate) {
+      if (userUpdateOptions?.reAnimate) {
         this.stopAnimation();
         this._updateAnimateState(true);
       }
