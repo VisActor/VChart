@@ -67,7 +67,7 @@ import { AnimationStateEnum } from '../animation/interface';
 import type { IBoundsLike, ILogger } from '@visactor/vutils';
 import { ThemeManager } from '../theme/theme-manager';
 import type { ITheme } from '../theme';
-import type { IModel, IUpdateSpecResult } from '../model/interface';
+import type { IModel, IUpdateDataResult, IUpdateSpecResult } from '../model/interface';
 import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { ILegend } from '../component/legend/interface';
@@ -805,20 +805,25 @@ export class VChart implements IVChart {
    * **异步方法** 更新数据。
    * @param id 数据 id
    * @param data 数据值
-   * @param options 数据参数
+   * @param parserOptions 数据参数
    * @returns VChart 实例
    */
-  async updateData(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): Promise<IVChart> {
-    return this.updateDataSync(id, data, options);
+  async updateData(
+    id: StringOrNumber,
+    data: DataView | Datum[] | string,
+    parserOptions?: IParserOptions,
+    userUpdateOptions?: IUpdateDataResult
+  ): Promise<IVChart> {
+    return this.updateDataSync(id, data, parserOptions, userUpdateOptions);
   }
 
-  private _updateDataById(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions) {
+  private _updateDataById(id: StringOrNumber, data: DataView | Datum[] | string, parserOptions?: IParserOptions) {
     const preDV = this._spec.data.find((dv: any) => dv.name === id || dv.id === id);
     if (preDV) {
       if (preDV.id === id) {
         preDV.values = data;
       } else if (preDV.name === id) {
-        preDV.parse(data, options);
+        preDV.parse(data, parserOptions);
       }
     } else {
       if (isArray(data)) {
@@ -860,15 +865,25 @@ export class VChart implements IVChart {
    * **同步方法** 更新数据
    * @param id 数据 id
    * @param data 数据值
-   * @param options 数据参数
+   * @param parserOptions 数据参数
    * @returns VChart 实例
    */
-  updateDataSync(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions) {
+  updateDataSync(
+    id: StringOrNumber,
+    data: DataView | Datum[] | string,
+    parserOptions?: IParserOptions,
+    userUpdateOptions?: IUpdateDataResult
+  ) {
     if (isNil(this._dataSet)) {
       return this as unknown as IVChart;
     }
     if (this._chart) {
-      this._chart.updateData(id, data, true, options);
+      if (userUpdateOptions.reAnimate) {
+        this.stopAnimation();
+        this._updateAnimateState(true);
+      }
+
+      this._chart.updateData(id, data, true, parserOptions);
 
       // after layout
       this._compiler.render();
@@ -876,7 +891,7 @@ export class VChart implements IVChart {
     }
     this._spec.data = array(this._spec.data);
 
-    this._updateDataById(id, data, options);
+    this._updateDataById(id, data, parserOptions);
     return this as unknown as IVChart;
   }
 
