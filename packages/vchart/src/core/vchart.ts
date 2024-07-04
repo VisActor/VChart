@@ -901,8 +901,16 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    * @since 1.3.0
    */
-  updateFullDataSync(data: IDataValues | IDataValues[], reRender: boolean = true) {
+  updateFullDataSync(
+    data: IDataValues | IDataValues[],
+    reRender: boolean = true,
+    userUpdateOptions?: IUpdateSpecResult
+  ) {
     if (this._chart) {
+      if (userUpdateOptions?.reAnimate) {
+        this.stopAnimation();
+        this._updateAnimateState(true);
+      }
       this._chart.updateFullData(data);
       if (reRender) {
         this._compiler.render();
