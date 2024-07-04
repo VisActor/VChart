@@ -1,6 +1,6 @@
 {
   "name": "@visactor/openinula-vchart",
-  "version": "1.11.6",
+  "version": "1.11.7-alpha.2",
   "sideEffects": false,
   "description": "The openinula version of VChart 4.x",
   "keywords": [
@@ -28,7 +28,7 @@
     "build": "bundle --clean"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.11.6",
+    "@visactor/vchart": "workspace:1.11.7-alpha.2",
     "@visactor/vutils": "~0.18.10",
     "@visactor/vrender-core": "0.19.15",
     "@visactor/vrender-kits": "0.19.15",
