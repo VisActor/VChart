@@ -60,6 +60,10 @@ export interface IUpdateSpecResult {
   reAnimate?: boolean;
 }
 
+export interface IUpdateDataResult {
+  reAnimate?: boolean;
+}
+
 export interface IModelProduct {
   srData: IData;
 }
