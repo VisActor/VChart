@@ -7,6 +7,7 @@ import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import {
   AttributeLevel,
+  DEFAULT_DATA_KEY,
   STACK_FIELD_END,
   STACK_FIELD_END_PERCENT,
   STACK_FIELD_START,
@@ -171,11 +172,13 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             continue;
           }
           const newDataCollect: Datum[] = [];
+          const dataKey = (this._spec.dataKey as string) ?? DEFAULT_DATA_KEY;
           for (let j = 0; j < values.length; j++) {
             for (let k = 0; k < dataCollect.length; k++) {
               newDataCollect.push({
                 ...dataCollect[k],
-                [field]: values[j]
+                [field]: values[j],
+                [dataKey]: values[j]
               });
             }
           }
