@@ -1207,7 +1207,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       }
       r.getSeries().forEach(s => {
         s.getMarks().forEach(m => {
-          if (!m.getProduct()) {
+          if (!m.getProduct() || m.name === 'emptyCircle') {
             return;
           }
           if (!filter || (isFunction(filter) && filter(s, m))) {
