@@ -692,12 +692,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
     const hasBarWidth = this._spec.barWidth !== undefined && depth === depthFromSpec;
 
-    if (hasBarWidth) {
-      return getActualNumValue(this._spec.barWidth, bandWidth);
-    }
     const hasBarMinWidth = this._spec.barMinWidth !== undefined;
     const hasBarMaxWidth = this._spec.barMaxWidth !== undefined;
     let width = bandWidth;
+    if (hasBarWidth) {
+      width = getActualNumValue(this._spec.barWidth, bandWidth);
+    }
     if (hasBarMinWidth) {
       width = Math.max(width, getActualNumValue(this._spec.barMinWidth, bandWidth));
     }
