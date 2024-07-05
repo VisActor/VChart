@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IPadding } from '@visactor/vutils';
-import { isValidNumber } from '@visactor/vutils';
+import { isNil, isObject, isValidNumber } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import type { ITextMark } from '../../mark/text';
@@ -21,6 +21,7 @@ import {
 } from './config';
 import type {
   IWordCloudSeriesSpec,
+  TextMask,
   WordCloudConfigType,
   WordCloudShapeConfigType,
   WordCloudShapeType
@@ -37,6 +38,8 @@ import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
+import { vglobal } from '@visactor/vrender-core';
+import type { IRectMark } from '../../mark/rect';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -60,6 +63,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _rotateAngles?: number[];
   protected _fontWeightRange?: [number, number];
   protected _textField?: string;
+  protected _maskCanvas?: HTMLCanvasElement;
+  protected _maskMark?: IRectMark;
 
   protected _fontSizeRange?: [number, number] | 'auto' = [DEFAULT_MIN_FONT_SIZE, DEFAULT_MIN_FONT_SIZE];
   setFontSizeRange(fontSizeRange: [number, number] | 'auto') {
@@ -70,7 +75,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     }
   }
 
-  protected _maskShape?: string | WordCloudShapeType;
+  protected _maskShape?: string | WordCloudShapeType | TextMask;
   protected _isWordCloudShape: boolean = false;
 
   protected _keepAspect?: boolean;
@@ -87,6 +92,75 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _fillingColorCallback: (datum: Datum) => string;
 
   protected _dataChange: boolean = true;
+
+  protected parseMaskShape() {
+    if (isObject(this._maskShape) && (this._maskShape as TextMask).type === 'text') {
+      const backgroundColor = (this._maskShape as TextMask).backgroundColor ?? '#fff';
+
+      return {
+        type: 'html',
+        backgroundColor,
+        getDom: (width: number, height: number) => {
+          const {
+            fontFamily = this._option.getTheme()?.fontFamily,
+            fontWeight = 'normal',
+            fontStyle = 'normal',
+            fontVariant = 'normal',
+            fill,
+            text,
+            drawReverse
+          } = this._maskShape as TextMask;
+          const maskCanvas =
+            this._maskCanvas ||
+            vglobal.createCanvas({
+              width,
+              height,
+              dpr: 1
+            });
+          const tempContext = maskCanvas.getContext('2d');
+          if (this._maskCanvas) {
+            const prevWidth = this._maskCanvas.width;
+            const prevHeight = this._maskCanvas.height;
+            tempContext.clearRect(0, 0, prevWidth, prevHeight);
+            this._maskCanvas.style.width = `${width}px`;
+            this._maskCanvas.style.height = `${height}px`;
+            this._maskCanvas.width = width;
+            this._maskCanvas.height = height;
+          }
+          tempContext.fillStyle = backgroundColor;
+          tempContext.fillRect(0, 0, width, height);
+
+          let baseFontSize = 12;
+
+          tempContext.font = `${fontStyle} ${fontVariant} ${fontWeight} ${baseFontSize}px ${fontFamily}`;
+          tempContext.textAlign = 'center';
+          tempContext.textBaseline = 'middle';
+          tempContext.fillStyle = fill ?? 'black';
+          const textWidth = tempContext.measureText(text).width;
+
+          if (drawReverse) {
+            tempContext.globalCompositeOperation = 'xor';
+          }
+          if (textWidth > width) {
+            const scale = Math.min(width / textWidth, height / baseFontSize);
+            tempContext.fillText(text, width / 2, height / 2);
+            tempContext.scale(scale, scale);
+          } else {
+            baseFontSize = Math.floor((baseFontSize * width) / textWidth);
+            baseFontSize = Math.min(baseFontSize, height);
+
+            tempContext.font = `${fontStyle} ${fontVariant} ${fontWeight} ${baseFontSize}px ${fontFamily}`;
+            tempContext.fillText(text, width / 2, height / 2);
+          }
+
+          this._maskCanvas = maskCanvas;
+
+          return maskCanvas;
+        }
+      };
+    }
+    return this._maskShape;
+  }
 
   /**
    * @override
@@ -113,6 +187,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     this._random = this._spec.random ?? DEFAULT_RANDOM;
     this._fontPadding = this._spec.word?.padding ?? DEFAULT_FONT_PADDING;
     this._textField = this._spec.word?.formatMethod ? WORD_CLOUD_TEXT : this._nameField;
+    const wordCloudConfig = this._spec.wordCloudConfig;
     // 普通词云spec相关
     this._wordCloudConfig = {
       drawOutOfBound: DEFAULT_DRAW_OUT_OF_BOUND,
@@ -120,6 +195,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       zoomToFit: DEFAULT_ZOOM_TO_FIT,
       ...this._spec.wordCloudConfig
     };
+
+    if ((!wordCloudConfig || isNil(wordCloudConfig.layoutMode)) && !isTrueBrowser(this._option.mode)) {
+      this._wordCloudConfig.layoutMode = 'fast';
+    }
 
     // 形状词云spec相关
     this._wordCloudShapeConfig = {
@@ -130,7 +209,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     };
     this._fillingFontPadding = this._spec.fillingWord?.padding ?? DEFAULT_FONT_PADDING;
 
-    this._isWordCloudShape = !SHAPE_TYPE.includes(this._maskShape);
+    this._isWordCloudShape =
+      !SHAPE_TYPE.includes(this._maskShape as string) &&
+      !['fast', 'grid', 'cloud'].includes(this._wordCloudConfig.layoutMode);
     this._defaultFontFamily = this._option.getTheme().fontFamily as string;
   }
 
@@ -148,6 +229,14 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   protected _wordMark: ITextMark;
   initMark(): void {
+    if (
+      isObject(this._maskShape) &&
+      (this._maskShape as TextMask).type === 'text' &&
+      (this._maskShape as TextMask).drawAsBackground
+    ) {
+      this._maskMark = this._createMark(BaseWordCloudSeries.mark.wordMask, { dataView: false }) as IRectMark;
+    }
+
     this._wordMark = this._createMark(BaseWordCloudSeries.mark.word, {
       key: DEFAULT_DATA_KEY,
       defaultMorphElementKey: this._seriesField,
@@ -184,6 +273,26 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         },
         'normal',
         AttributeLevel.User_Mark
+      );
+    }
+
+    const maskSpec = this._spec.wordMask ?? {};
+    if (this._maskMark) {
+      this.setMarkStyle(
+        this._maskMark,
+        {
+          width: () => {
+            return this._region.getLayoutRect().width;
+          },
+          height: () => {
+            return this._region.getLayoutRect().height;
+          },
+          background: () => {
+            return this._maskCanvas;
+          }
+        },
+        'normal',
+        AttributeLevel.Series
       );
     }
   }
@@ -330,9 +439,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
     return {
       // TIP: 非浏览器环境下，使用 fast 布局，否则会出现兼容问题
-      layoutType: !isTrueBrowser(this._option.mode) ? 'fast' : this._wordCloudConfig.layoutMode,
+      layoutType: this._wordCloudConfig.layoutMode,
       size: [width, height],
-      shape: this._maskShape,
+      shape: this.parseMaskShape(),
       dataIndexKey: DEFAULT_DATA_KEY,
       text: { field: this._textField },
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
@@ -353,7 +462,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       enlarge: this._wordCloudConfig.zoomToFit.enlarge,
       minFontSize: this._wordCloudConfig.zoomToFit.fontSizeLimitMin,
       progressiveTime: this._wordCloudConfig.progressiveTime,
-      progressiveStep: this._wordCloudConfig.progressiveStep
+      progressiveStep: this._wordCloudConfig.progressiveStep,
+      repeatFill: this._wordCloudConfig.zoomToFit.repeat
     };
   }
 
@@ -367,7 +477,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       dataIndexKey: DEFAULT_DATA_KEY,
 
       size: [width, height],
-      shape: this._maskShape,
+      shape: this.parseMaskShape(),
 
       text: { field: this._textField },
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],

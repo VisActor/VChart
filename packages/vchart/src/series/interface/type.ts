@@ -87,6 +87,7 @@ export const enum SeriesMarkNameEnum {
   stackLabel = 'stackLabel',
   word = 'word',
   fillingWord = 'fillingWord',
+  wordMask = 'wordMask',
   nodePoint = 'nodePoint',
   ripplePoint = 'ripplePoint',
   centerPoint = 'centerPoint',

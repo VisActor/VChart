@@ -1,4 +1,4 @@
-import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod } from '../../typings';
+import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod, IRectMarkSpec } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { WordcloudAppearPreset } from './animation';
@@ -20,6 +20,7 @@ export type EllipsisType = {
 };
 
 export type ZoomToFitType = {
+  repeat?: boolean;
   /**
    * 是否缩小
    */
@@ -186,6 +187,19 @@ export type WordCloudShapeConfigType = {
   fillingRatio?: number;
 };
 
+export interface TextMask {
+  type: 'text';
+  text: string;
+  drawAsBackground?: boolean;
+  drawReverse?: boolean;
+  backgroundColor?: string;
+  fill?: string;
+  fontFamily?: string;
+  fontWeight?: string | number;
+  fontStyle?: string;
+  fontVariant: string;
+}
+
 export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<string, WordcloudAppearPreset> {
   /**
    * 文本字段
@@ -239,7 +253,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
    * 词云形状
    * @default 'circle'
    */
-  maskShape?: string | WordCloudShapeType; // url 或 svg字符串 或 base64，或shape字符串
+  maskShape?: string | WordCloudShapeType | TextMask; // url 或 svg字符串 或 base64，或shape字符串
   /**
    * TODO: 缩放mask时是否保持比例
    */
@@ -272,6 +286,8 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
   [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
   };
+
+  [SeriesMarkNameEnum.wordMask]?: IMarkSpec<IRectMarkSpec>;
 
   animationAppear?:
     | boolean
