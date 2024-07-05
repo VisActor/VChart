@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(crosshair): fix bug of crosshair position when legend filter data. fix#2905",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
