@@ -516,7 +516,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   getActiveMarks(): IMark[] {
-    return [this._pieMark, this._emptyArcMark];
+    return [this._pieMark];
   }
 }
 
