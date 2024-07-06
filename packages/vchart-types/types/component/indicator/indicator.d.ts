@@ -28,7 +28,7 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
     onRender(ctx: any): void;
     changeRegions(regions: IRegion[]): void;
     protected initEvent(): void;
-    private updateDatum;
+    updateDatum(datum: any): void;
     private initData;
     updateLayoutAttribute(): void;
     private _getIndicatorAttrs;
