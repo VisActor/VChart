@@ -2,6 +2,45 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.11.7",
+      "tag": "@visactor/vchart_v1.11.7",
+      "date": "Sat, 06 Jul 2024 06:35:21 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support configuring callback function in indicator text style attributes, #2540"
+          },
+          {
+            "comment": "feat: add options `hideTimer` in toolti, to hide tooltip by timer\n\n"
+          },
+          {
+            "comment": "feat: support `updateIndicatorDataById`/`updateIndicatorDataByIndex` API, related #2776"
+          },
+          {
+            "comment": "feat: add `userUpdateOptions` to let user specify update type of charts, fix some animation bug\n\n"
+          },
+          {
+            "comment": "fix(barbackground): datakey is undefined when set custom datakey"
+          },
+          {
+            "comment": "fix: fix the issue where `barMaxWidth` does not work when `barWidth` is configured, #2885`"
+          },
+          {
+            "comment": " fix: line/area clip animation by incorrect direction"
+          },
+          {
+            "comment": "fix(crosshair): fix bug of crosshair position when legend filter data. fix#2905"
+          },
+          {
+            "comment": "fix: fix polar animation logic for radar charts"
+          },
+          {
+            "comment": "fix: type define fix"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.6",
       "tag": "@visactor/vchart_v1.11.6",
       "date": "Thu, 27 Jun 2024 09:53:20 GMT",
