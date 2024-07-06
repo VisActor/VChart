@@ -40,6 +40,14 @@ tooltip 配置。
 
 **_（作用于所有 handler）_**
 
+##${prefix} hideTimer(Number)
+
+`1.11.7` 版本后支持该配置；
+
+定时隐藏 tooltip，单位为 `ms`。
+
+当 `triggerOff` 设置为 `'none'` 时，该配置不生效。
+
 ##${prefix} mark(Object)
 
 图元 tooltip 的自定义配置。 **_（支持在系列上设置）（只作用于默认 handler）_**

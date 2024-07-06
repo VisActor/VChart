@@ -50,7 +50,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   specKey = 'tooltip';
 
   layoutType: 'none' = 'none';
-
+  private _timer?: number;
   protected declare _spec: ITooltipSpec;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
@@ -132,6 +132,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   release() {
     super.release();
+    if (this._timer) {
+      clearTimeout(this._timer);
+    }
 
     this._eventList.forEach(({ eventType, handler }) => {
       this.event.off(eventType, handler);
@@ -240,7 +243,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     this._handleChartMouseOut(params);
   };
 
-  protected _handleChartMouseOut = (params: BaseEventParams) => {
+  protected _handleChartMouseOut = (params?: BaseEventParams) => {
     if (this._alwaysShow) {
       return;
     }
@@ -365,6 +368,14 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this._isTooltipShown = true;
       if (isClick && this._spec.lockAfterClick && !this._clickLock) {
         this._clickLock = true;
+      } else if (Number.isFinite(this._spec.hideTimer)) {
+        if (this._timer) {
+          clearTimeout(this._timer);
+        }
+
+        this._timer = setTimeout(() => {
+          this._handleChartMouseOut();
+        }, this._spec.hideTimer as number) as unknown as number;
       }
     }
     // 全局唯一 tooltip
