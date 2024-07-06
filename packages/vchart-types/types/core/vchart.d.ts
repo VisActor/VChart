@@ -17,7 +17,7 @@ import type { Datum, IPoint, IRegionQuerier, IShowTooltipOption, ISpec, Maybe, M
 import type { IBoundsLike, ILogger } from '@visactor/vutils';
 import { ThemeManager } from '../theme/theme-manager';
 import type { ITheme } from '../theme';
-import type { IModel, IUpdateSpecResult } from '../model/interface';
+import type { IModel, IUpdateDataResult, IUpdateSpecResult } from '../model/interface';
 import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart, IVChartRenderOption } from './interface';
@@ -102,18 +102,18 @@ export declare class VChart implements IVChart {
     protected _renderAsync(option?: IVChartRenderOption): Promise<IVChart>;
     private _updateAnimateState;
     release(): void;
-    updateData(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): Promise<IVChart>;
+    updateData(id: StringOrNumber, data: DataView | Datum[] | string, parserOptions?: IParserOptions, userUpdateOptions?: IUpdateDataResult): Promise<IVChart>;
     private _updateDataById;
     updateDataInBatches(list: {
         id: string;
         data: Datum[];
         options?: IParserOptions;
     }[]): Promise<IVChart>;
-    updateDataSync(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): IVChart;
-    updateFullDataSync(data: IDataValues | IDataValues[], reRender?: boolean): IVChart;
+    updateDataSync(id: StringOrNumber, data: DataView | Datum[] | string, parserOptions?: IParserOptions, userUpdateOptions?: IUpdateDataResult): IVChart;
+    updateFullDataSync(data: IDataValues | IDataValues[], reRender?: boolean, userUpdateOptions?: IUpdateSpecResult): IVChart;
     updateFullData(data: IDataValues | IDataValues[], reRender?: boolean): Promise<IVChart>;
-    updateSpec(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig): Promise<IVChart>;
-    updateSpecSync(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig): IVChart;
+    updateSpec(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, userUpdateOptions?: IUpdateSpecResult): Promise<IVChart>;
+    updateSpecSync(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, userUpdateOptions?: IUpdateSpecResult): IVChart;
     updateSpecAndRecompile(spec: ISpec, forceMerge?: boolean, option?: IVChartRenderOption): boolean;
     private _updateSpec;
     updateModelSpec(filter: string | {
@@ -184,6 +184,8 @@ export declare class VChart implements IVChart {
     unregisterFunction(key: string): void;
     getFunctionList(): string[];
     setRuntimeSpec(spec: any): void;
+    updateIndicatorDataById(id: string, datum?: Datum): void;
+    updateIndicatorDataByIndex(index?: number, datum?: Datum): void;
     private _initChartPlugin;
     private _chartPluginApply;
     protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
