@@ -5,12 +5,11 @@
 
 **🐛 Bug fix**
 
+
 - **@visactor/vchart**: background of chart should support gradient color
 - **animation**: rose animation not work when update twice. fix[#2856](https://github.com/VisActor/VChart/issues/2856)
 - **@visactor/vchart**: fix the type of `ITooltipTheme`, fix [#2850](https://github.com/VisActor/VChart/issues/2850)
 - **@visactor/vchart**: fix the issue of update animation not executed when updateSpec, [#2835](https://github.com/VisActor/VChart/issues/2835) [#2836](https://github.com/VisActor/VChart/issues/2836)
-
-
 
 [more detail about v1.11.6](https://github.com/VisActor/VChart/releases/tag/v1.11.6)
 

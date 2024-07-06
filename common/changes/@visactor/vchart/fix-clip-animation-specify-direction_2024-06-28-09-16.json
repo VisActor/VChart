@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " fix: line/area clip animation by incorrect direction",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
