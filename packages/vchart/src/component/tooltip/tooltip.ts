@@ -348,6 +348,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     ) {
       return false;
     }
+    if (this._timer) {
+      clearTimeout(this._timer);
+    }
 
     let success: boolean;
     if (useCache) {
@@ -369,10 +372,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       if (isClick && this._spec.lockAfterClick && !this._clickLock) {
         this._clickLock = true;
       } else if (Number.isFinite(this._spec.hideTimer)) {
-        if (this._timer) {
-          clearTimeout(this._timer);
-        }
-
         this._timer = setTimeout(() => {
           this._handleChartMouseOut();
         }, this._spec.hideTimer as number) as unknown as number;
