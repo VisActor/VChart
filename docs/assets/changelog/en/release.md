@@ -1,25 +1,3 @@
-# v1.11.7
-
-2024-07-06
-
-**🆕 New feature**
-
-- **@visactor/vchart**: support configuring callback function in indicator text style attributes, related [#2540](https://github.com/VisActor/VChart/issues/2540)
-- **@visactor/vchart**: add options hideTimer in tooltip, to hide tooltip by timer
-- **@visactor/vchart**: support updateIndicatorDataById/updateIndicatorDataByIndex API, related [#2776](https://github.com/VisActor/VChart/issues/2776)
-- **@visactor/vchart**: add userUpdateOptions to let user specify update type of charts, fix some animation bug
-
-**🐛 Bug fix**
-
-- **barbackground**: datakey is undefined when set custom datakey fix[#2908](https://github.com/VisActor/VChart/issues/2908)
-- **@visactor/vchart**: fix the issue where barMaxWidth does not work when barWidth is configured, fix[#2885](https://github.com/VisActor/VChart/issues/2885)
-- **@visactor/vchart**: line/area clip animation by incorrect direction
-- **crosshair**: fix bug of crosshair position when legend filter data. fix fix[#2905](https://github.com/VisActor/VChart/issues/2905)
-- **@visactor/vchart**: fix polar animation logic for radar charts
-- **@visactor/vchart**: type define fix
-
-[more detail about v1.11.7](https://github.com/VisActor/VChart/releases/tag/v1.11.7)
-
 # v1.11.6
 
 2024-06-27
