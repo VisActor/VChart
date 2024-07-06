@@ -2,22 +2,21 @@
 
 2024-07-06
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: support configuring callback function in indicator text style attributes, [#2540](https://github.com/VisActor/VChart/issues/2540)
-- **@visactor/vchart**: add options `hideTimer` in toolti, to hide tooltip by timer
-- **@visactor/vchart**: support `updateIndicatorDataById`/`updateIndicatorDataByIndex` API, related [#2776](https://github.com/VisActor/VChart/issues/2776)
-- **@visactor/vchart**: add `userUpdateOptions` to let user specify update type of charts, fix some animation bug
+- **@visactor/vchart**：支持在指标文本样式属性中配置回调函数，相关[#2540](https://github.com/VisActor/VChart/issues/2540)
+- **@visactor/vchart**：在工具提示中添加选项 hideTimer，以通过计时器隐藏工具提示
+- **@visactor/vchart**：支持 updateIndicatorDataById/updateIndicatorDataByIndex API，相关 [#2776](https://github.com/VisActor/VChart/issues/2776)
+- **@visactor/vchart**：添加 userUpdateOptions 让用户指定图表的更新类型，修复一些动画错误
 
-**🐛 功能修复**
+**🐛功能修复**
 
-- **barbackground**: datakey is undefined when set custom datakey fix [#2908](https://github.com/VisActor/VChart/issues/2908)
-- **@visactor/vchart**: fix the issue where `barMaxWidth` does not work when `barWidth` is configured, [#2885](https://github.com/VisActor/VChart/issues/2885)`
-- **@visactor/vchart**: line/area clip animation by incorrect direction
-- **crosshair**: fix bug of crosshair position when legend filter data. fix [#2905](https://github.com/VisActor/VChart/issues/2905)
-- **@visactor/vchart**: fix polar animation logic for radar charts
-- **@visactor/vchart**: type define fix
+- **barbackground**：设置自定义数据键修复时数据键未定义[#2908](https://github.com/VisActor/VChart/issues/2908)
+- **@visactor/vchart**：修复配置 barWidth 时 barMaxWidth 不起作用的问题，修复[#2885](https://github.com/VisActor/VChart/issues/2885)
+- **@visactor/vchart**：方向不正确的线/区域剪辑动画
+- **十字线**：修复图例过滤数据时十字线位置的错误。修复修复[#2905](https://github.com/VisActor/VChart/issues/2905)
+- **@visactor/vchart**：修复雷达图的极坐标动画逻辑
+- **@visactor/vchart**：类型定义修复
 
 [更多详情请查看 v1.11.7](https://github.com/VisActor/VChart/releases/tag/v1.11.7)
 
