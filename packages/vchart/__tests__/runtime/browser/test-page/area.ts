@@ -55,6 +55,7 @@ const spec: IAreaChartSpec = {
   seriesField: 'country',
   legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
   crosshair: {
+    followTooltip: true,
     xField: { visible: true, label: { visible: true } },
     yField: { visible: true, label: { visible: true } }
   },
@@ -97,6 +98,8 @@ const spec: IAreaChartSpec = {
     }
   },
   tooltip: {
+    trigger: 'click',
+    hideTimer: 3000,
     group: {
       triggerMark: ['point']
     }
