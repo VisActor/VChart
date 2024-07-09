@@ -1191,6 +1191,30 @@ convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isR
     IPoint | null);
 ```
 
+### updateIndicatorDataById
+
+根据指标卡组件 id 更新指标卡数据。
+
+```ts
+  /**
+   * 根据 indicator 组件 id 更新 indicator 数据
+   * @param id spec 中定义的 indicator id
+   * @param datum 具体数据项
+   * @since 1.11.7
+   */
+  updateIndicatorDataById: (id: string, datum?: Datum) => void;
 ```
 
+### updateIndicatorDataByIndex
+
+根据指标卡组件索引更新指标卡数据。
+
+```ts
+  /**
+   * 根据 indicator 组件 id 更新 indicator 数据
+   * @param index  indicator 索引下标
+   * @param datum 具体数据项
+   * @since 1.11.7
+   */
+  updateIndicatorDataByIndex: (index: number = 0, datum?: Datum) => void;
 ```

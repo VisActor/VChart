@@ -213,8 +213,9 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
   colorHexField?: string;
   /**
    * 颜色模式
+   * TODO: 'linear' 待支持
    */
-  colorMode?: 'linear' | 'ordinal';
+  colorMode?: 'ordinal';
   /**
    * 颜色列表
    */
