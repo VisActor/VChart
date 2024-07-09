@@ -40,6 +40,14 @@ Locks the tooltip after clicking, usually used in scenarios where `trigger` is `
 
 **_(works on all handlers)_**
 
+##${prefix} hideTimer(Number)
+
+Supported since version `1.11.7`
+
+hide the tooltip after a certain time, the unit is `ms`.
+
+this option not work with `triggerOff` set to `'none'`.
+
 ##${prefix} mark(Object)
 
 Customized configuration of the mark tooltip. **_(supports setting on series)(only works on default handler)_**

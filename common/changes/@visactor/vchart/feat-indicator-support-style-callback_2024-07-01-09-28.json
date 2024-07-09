@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support configuring callback function in indicator text style attributes, #2540",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

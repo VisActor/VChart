@@ -28,6 +28,7 @@ import type { IChart, IChartSpecInfo } from '../chart/interface';
 import type { Stage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
+import type { IUpdateSpecResult } from '../model/interface';
 
 export type DataLinkSeries = {
   /**
@@ -119,7 +120,7 @@ export interface IVChart {
     spec: ISpec,
     forceMerge?: boolean,
     morphConfig?: IMorphConfig,
-    resetMediaQuery?: boolean
+    userUpdateOptions?: IUpdateSpecResult
   ) => Promise<IVChart>;
 
   /**
@@ -128,7 +129,12 @@ export interface IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => void;
+  updateSpecSync: (
+    spec: ISpec,
+    forceMerge?: boolean,
+    morphConfig?: IMorphConfig,
+    userUpdateOptions?: IUpdateSpecResult
+  ) => void;
 
   /**
    * **同步方法** 模块 spec 更新

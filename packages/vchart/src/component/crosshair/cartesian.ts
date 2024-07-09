@@ -220,24 +220,29 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     if (tooltipData && tooltipData.length) {
       if (activeType === 'dimension') {
         const dimensionInfo = (tooltipData as IDimensionInfo[])[0];
-        const dimensionData = dimensionInfo.data[0];
-        const pos = dimensionData.series.dataToPosition(dimensionData.datum[0]);
+        // 图例筛选时, 找到第一个没有被筛选的系列
+        const datumIndex = dimensionInfo.data.findIndex(dimData => dimData.datum.length > 0);
+        let pos;
+        if (datumIndex > -1) {
+          const dimensionData = dimensionInfo.data[datumIndex];
+          pos = dimensionData.series.dataToPosition(dimensionData.datum[0]);
+        }
 
         const isY = isValid(dimensionInfo.dimType)
           ? dimensionInfo.dimType === 'y'
           : isYAxis(dimensionInfo?.axis?.getOrient() as IOrientType);
 
         if (isY) {
-          y = pos.y;
+          y = pos?.y;
         } else {
-          x = pos.x;
+          x = pos?.x;
         }
       } else if (activeType === 'mark') {
         const dimensionData = (tooltipData as IDimensionData[])[0];
         const pos = dimensionData.series.dataToPosition(dimensionData.datum[0]);
 
-        x = pos.x;
-        y = pos.y;
+        x = pos?.x;
+        y = pos?.y;
       }
     }
 

@@ -37,7 +37,23 @@ Strategies employed in adaptive text computing. Options:
 
 #${prefix} style(Object)
 
-Text style
+Text style.
+
+Since version `1.11.7`, in addition to supporting normal attribute assignments, the graphic attributes of the text style also allow configuration of callback functions. For example:
+
+```ts
+indicator: {
+  visible: true,
+  content: [
+    {
+      visible: true,
+      style: {
+        fill: (data) => data['value'] > 100 ? "red": 'black',
+      }
+    }
+  ]
+}
+```
 
 ##${prefix} type(string)
 

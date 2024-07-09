@@ -79,12 +79,12 @@ const spec = {
         cost: 2
       },
       itemContent: {
-        offsetY: -10,
         type: 'text',
         autoRotate: false,
+        offsetY: -10,
         text: {
+          dy: 14,
           text: '2分钟',
-          dx: -26,
           style: {
             fill: 'white',
             fontSize: 14
@@ -105,7 +105,7 @@ const spec = {
             angle: Math.PI,
             scaleY: 0.4,
             fill: '#000',
-            dy: 2,
+            dy: 4,
             stroke: '#000'
           }
         },

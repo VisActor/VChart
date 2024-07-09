@@ -46,7 +46,8 @@
 
 可选值：
 
-- `'linear'`: 线性着色（待开放）
+<!-- - `'linear'`: 线性着色（待开放） -->
+
 - `'ordinal'`: 序数着色
 
 #${prefix} colorList(Array)
@@ -67,7 +68,7 @@
 
 当 valueField 存在时，默认值[20,40]; 当 valueField 不存在时，默认值[10, 10]。
 
-自 1.8.7 版本支持'auto'配置。即如果配置为'auto', 则fontSizeRange不传入, 字体大小会随画布大小改变而改变。
+自 1.8.7 版本支持'auto'配置。即如果配置为'auto', 则 fontSizeRange 不传入, 字体大小会随画布大小改变而改变。
 
 #${prefix} maskShape(string)
 
@@ -83,7 +84,7 @@
 - `'cardioid'`: 心形
 - `'circle'`: 圆形
 - `'pentagon'`: 五角形
-- `rect`: 矩形（自1.9.3版本支持）
+- `rect`: 矩形（自 1.9.3 版本支持）
 
 #${prefix} random(boolean)
 
