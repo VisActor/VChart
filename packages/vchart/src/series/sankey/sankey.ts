@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { SeriesMarkMap } from '../interface';
+import type { ISeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/link-path';
@@ -944,7 +944,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   protected initTooltip() {
-    this._tooltipHelper = new SankeySeriesTooltipHelper(this);
+    this._tooltipHelper = new SankeySeriesTooltipHelper(this as unknown as ISeries);
     this._nodeMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nodeMark);
     this._linkMark && this._tooltipHelper.activeTriggerSet.mark.add(this._linkMark);
   }
@@ -1133,5 +1133,6 @@ export const registerSankeySeries = () => {
   registerTextMark();
   registerSankeyAnimation();
   registerFadeInOutAnimation();
+  // @ts-ignore
   Factory.registerSeries(SankeySeries.type, SankeySeries);
 };
