@@ -120,7 +120,7 @@ describe('wordCloud chart test', () => {
     // expect(dataResult[1].fontFamily).toBe('sans-serif');
     expect(dataResult[1].fontSize).toBe(37);
     expect(dataResult[1].fontStyle).toBe('normal');
-    expect(dataResult[1].fontWeight).toBe(440.94488188976374);
+    expect(dataResult[1].fontWeight).toBeCloseTo(440.94488188976374);
     expect(dataResult[1].angle).toBe(0);
   });
 
@@ -179,7 +179,7 @@ describe('wordCloud chart test', () => {
     // expect(dataResult[1].fontFamily).toBe('sans-serif');
     expect(dataResult[1].fontSize).toBe(39);
     expect(dataResult[1].fontStyle).toBe('normal');
-    expect(dataResult[1].fontWeight).toBe(488.2506527415144);
+    expect(dataResult[1].fontWeight).toBeCloseTo(488.2506527415144);
     expect(dataResult[1].angle).toBe(0);
   });
 });

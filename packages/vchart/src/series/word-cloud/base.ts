@@ -2,7 +2,7 @@
 import type { IPadding } from '@visactor/vutils';
 import { isNil, isObject, isValidNumber } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
-import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
+import { AttributeLevel, DEFAULT_DATA_INDEX, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
@@ -21,16 +21,15 @@ import {
 } from './config';
 import type {
   IWordCloudSeriesSpec,
-  TextMask,
+  TextShapeMask,
+  GeometricMaskShape,
   WordCloudConfigType,
   WordCloudShapeConfigType,
   WordCloudShapeType
 } from './interface';
-import type { Datum, IPoint } from '../../typings';
+import type { Datum, IMarkSpec, IPoint, ITextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { LinearScale } from '@visactor/vscale';
-import { extent } from '@visactor/vgrammar-util';
-import { WORD_CLOUD_TEXT, WORD_CLOUD_WEIGHT } from '../../constant/word-cloud';
+import { WORD_CLOUD_TEXT } from '../../constant/word-cloud';
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
@@ -38,8 +37,8 @@ import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
-import { vglobal } from '@visactor/vrender-core';
 import type { IRectMark } from '../../mark/rect';
+import { LinearScale } from '@visactor/vscale';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -54,10 +53,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     }
   }
 
-  protected _fontFamilyField: string;
-  protected _fontWeightField: string;
-  protected _fontStyleField: string;
-  protected _colorHexField: string;
   protected _colorMode: 'linear' | 'ordinal';
   protected _colorList: string[];
   protected _rotateAngles?: number[];
@@ -75,13 +70,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     }
   }
 
-  protected _maskShape?: string | WordCloudShapeType | TextMask;
+  protected _maskShape?: string | WordCloudShapeType | TextShapeMask | GeometricMaskShape;
   protected _isWordCloudShape: boolean = false;
 
-  protected _keepAspect?: boolean;
-  protected _random?: boolean;
-  protected _fontPadding?: number;
-  protected _fillingFontPadding?: number;
   protected _wordCloudConfig?: WordCloudConfigType;
   protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
 
@@ -90,78 +81,13 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   protected _keyWordColorCallback: (datum: Datum) => string;
   protected _fillingColorCallback: (datum: Datum) => string;
-
   protected _dataChange: boolean = true;
 
-  protected parseMaskShape() {
-    if (isObject(this._maskShape) && (this._maskShape as TextMask).type === 'text') {
-      const backgroundColor = (this._maskShape as TextMask).backgroundColor ?? '#fff';
+  protected handleMaskCanvasUpdate = (canvas: HTMLCanvasElement, imageUrl?: string) => {
+    this._maskCanvas = canvas;
 
-      return {
-        type: 'html',
-        backgroundColor,
-        getDom: (width: number, height: number) => {
-          const {
-            fontFamily = this._option.getTheme()?.fontFamily,
-            fontWeight = 'normal',
-            fontStyle = 'normal',
-            fontVariant = 'normal',
-            fill,
-            text,
-            drawReverse
-          } = this._maskShape as TextMask;
-          const maskCanvas =
-            this._maskCanvas ||
-            vglobal.createCanvas({
-              width,
-              height,
-              dpr: 1
-            });
-          const tempContext = maskCanvas.getContext('2d');
-          if (this._maskCanvas) {
-            const prevWidth = this._maskCanvas.width;
-            const prevHeight = this._maskCanvas.height;
-            tempContext.clearRect(0, 0, prevWidth, prevHeight);
-            this._maskCanvas.style.width = `${width}px`;
-            this._maskCanvas.style.height = `${height}px`;
-            this._maskCanvas.width = width;
-            this._maskCanvas.height = height;
-          }
-          tempContext.fillStyle = backgroundColor;
-          tempContext.fillRect(0, 0, width, height);
-
-          let baseFontSize = 12;
-
-          tempContext.font = `${fontStyle} ${fontVariant} ${fontWeight} ${baseFontSize}px ${fontFamily}`;
-          tempContext.textAlign = 'center';
-          tempContext.textBaseline = 'middle';
-          tempContext.fillStyle = fill ?? 'black';
-          const textWidth = tempContext.measureText(text).width;
-
-          if (drawReverse) {
-            tempContext.globalCompositeOperation = 'xor';
-          }
-          if (textWidth > width) {
-            const scale = Math.min(width / textWidth, height / baseFontSize);
-            tempContext.fillText(text, width / 2, height / 2);
-            tempContext.scale(scale, scale);
-          } else {
-            baseFontSize = Math.floor((baseFontSize * width) / textWidth);
-            baseFontSize = Math.min(baseFontSize, height);
-
-            tempContext.font = `${fontStyle} ${fontVariant} ${fontWeight} ${baseFontSize}px ${fontFamily}`;
-            tempContext.fillText(text, width / 2, height / 2);
-          }
-
-          this._maskCanvas = maskCanvas;
-
-          return maskCanvas;
-        }
-      };
-    }
-    return this._maskShape;
-  }
-
+    document.body.appendChild(canvas);
+  };
   /**
    * @override
    */
@@ -172,10 +98,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
     // 普通词云 & 形状词云 共有spec相关
     this._nameField = this._spec.nameField;
-    this._fontFamilyField = this._spec.fontFamilyField;
-    this._fontWeightField = this._spec.fontWeightField;
-    this._fontStyleField = this._spec.fontStyleField;
-    this._colorHexField = this._spec.colorHexField;
     this._colorMode = this._spec.colorMode ?? 'ordinal';
     this._colorList = this._spec.colorList;
     this.setValueField(this._spec.valueField);
@@ -183,9 +105,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     this._rotateAngles = this._spec.rotateAngles ?? DEFAULT_ROTATE_ANGLES;
     this.setFontSizeRange(this._spec.fontSizeRange);
     this._maskShape = this._spec.maskShape ?? DEFAULT_MASK_SHAPE;
-    this._keepAspect = this._spec.keepAspect;
-    this._random = this._spec.random ?? DEFAULT_RANDOM;
-    this._fontPadding = this._spec.word?.padding ?? DEFAULT_FONT_PADDING;
     this._textField = this._spec.word?.formatMethod ? WORD_CLOUD_TEXT : this._nameField;
     const wordCloudConfig = this._spec.wordCloudConfig;
     // 普通词云spec相关
@@ -207,7 +126,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       layoutMode: 'default',
       ...this._spec.wordCloudShapeConfig
     };
-    this._fillingFontPadding = this._spec.fillingWord?.padding ?? DEFAULT_FONT_PADDING;
 
     this._isWordCloudShape =
       !SHAPE_TYPE.includes(this._maskShape as string) &&
@@ -228,12 +146,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   protected _wordMark: ITextMark;
+
   initMark(): void {
-    if (
-      isObject(this._maskShape) &&
-      (this._maskShape as TextMask).type === 'text' &&
-      (this._maskShape as TextMask).drawAsBackground
-    ) {
+    if (this._spec.wordMask?.visible) {
       this._maskMark = this._createMark(BaseWordCloudSeries.mark.wordMask, { dataView: false }) as IRectMark;
     }
 
@@ -246,37 +161,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   initMarkStyle() {
-    const wordMark = this._wordMark;
-    const wordSpec = this._spec.word ?? {};
-    if (wordMark) {
-      this.setMarkStyle(
-        wordMark,
-        {
-          fill: this.getWordColor,
-          text: (datum: Datum) => datum[this._textField],
-          x: (datum: Datum) => datum.x,
-          y: (datum: Datum) => datum.y,
-          fontFamily: (datum: Datum) => datum.fontFamily,
-          fontSize: (datum: Datum) => datum.fontSize,
-          fontStyle: (datum: Datum) => datum.fontStyle,
-          fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle,
-          visible: (datum: Datum) => datum.visible
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-      this.setMarkStyle(
-        wordMark,
-        {
-          fontFamily: wordSpec.style?.fontFamily ?? this._defaultFontFamily
-        },
-        'normal',
-        AttributeLevel.User_Mark
-      );
-    }
+    this.initMarkStyleOfWord(this._wordMark, this._spec.word, this._spec.colorHexField, this._seriesField);
 
-    const maskSpec = this._spec.wordMask ?? {};
     if (this._maskMark) {
       this.setMarkStyle(
         this._maskMark,
@@ -297,6 +183,47 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     }
   }
 
+  initMarkStyleOfWord(
+    wordMark: ITextMark,
+    wordSpec?: IMarkSpec<ITextMarkSpec>,
+    colorHexField?: string,
+    seriesField?: string,
+    isFillingWord?: boolean
+  ): void {
+    if (!wordMark) {
+      return;
+    }
+    this.setMarkStyle(
+      wordMark,
+      {
+        fill: this.getWordColor,
+        text: (wordSpec as any)?.formatMethod
+          ? (datum: Datum) => {
+              return (wordSpec as any).formatMethod(datum);
+            }
+          : (datum: Datum) => datum[this._textField],
+        x: (datum: Datum) => datum.x,
+        y: (datum: Datum) => datum.y,
+        fontFamily: (datum: Datum) => datum.fontFamily,
+        fontSize: (datum: Datum) => datum.fontSize,
+        fontStyle: (datum: Datum) => datum.fontStyle,
+        fontWeight: (datum: Datum) => datum.fontWeight,
+        angle: (datum: Datum) => datum.angle,
+        visible: datum => datum.visible
+      },
+      'normal',
+      AttributeLevel.Series
+    );
+    this.setMarkStyle(
+      wordMark,
+      {
+        fontFamily: wordSpec?.style?.fontFamily ?? this._defaultFontFamily
+      },
+      'normal',
+      AttributeLevel.User_Mark
+    );
+  }
+
   protected initTooltip() {
     super.initTooltip();
 
@@ -304,20 +231,20 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   initAnimation() {
-    const mark = this._wordMark;
-
-    if (mark) {
-      const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;
-      const params = {
-        animationConfig: () => mark.getAnimationConfig()?.appear?.[0]
-      };
-      mark.setAnimationConfig(
-        animationConfig(
-          Factory.getAnimationInKey('wordCloud')(params, appearPreset),
-          userAnimationConfig(SeriesMarkNameEnum.word, this._spec, this._markAttributeContext)
-        )
-      );
-    }
+    [this._wordMark].forEach(mark => {
+      if (mark) {
+        const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;
+        const params = {
+          animationConfig: () => mark.getAnimationConfig()?.appear?.[0]
+        };
+        mark.setAnimationConfig(
+          animationConfig(
+            Factory.getAnimationInKey('wordCloud')(params, appearPreset),
+            userAnimationConfig(SeriesMarkNameEnum.word, this._spec, this._markAttributeContext)
+          )
+        );
+      }
+    });
   }
 
   protected getWordOrdinalColorScale(field: string, isFillingWord: boolean) {
@@ -330,25 +257,36 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected initColorCallback(field: string, isFillingWord: boolean) {
     if (this._colorMode === 'ordinal') {
       const scale = this.getWordOrdinalColorScale(field, isFillingWord);
-
       return (datum: Datum) => {
-        return scale.scale(datum[this._seriesField ?? DEFAULT_DATA_SERIES_FIELD]);
+        return scale.scale(datum[field ?? DEFAULT_DATA_SERIES_FIELD]);
       };
     }
-    // const valueScale = new LinearScale()
-    //   .domain(extent(this.getViewData()?.latestData.map((datum: Datum) => datum[field])), true)
-    //   .range([0, 1]);
-    let colorList =
+
+    const colorList =
       (isFillingWord ? this._colorList : this._wordCloudShapeConfig.fillingColorList) ??
       this._option.globalScale.getScale('color').range();
-    // 如果用户只输入了一个 color，无法构成 colorRange，则进行兜底
+
     if (colorList.length === 1) {
-      colorList = [colorList[0], colorList[0]];
+      return (datum: Datum) => colorList[0];
     }
-    // 颜色插值 todo@chensiji
-    // const interpolate = interpolateColors(colorList)
-    // return (datum: Datum) => interpolate(valueScale.scale(datum[field]))
-    return (datum: Datum) => colorList[0];
+
+    if (this._valueField) {
+      const stats = this.getRawDataStatisticsByField(this._valueField, true);
+      if (stats.min === stats.max) {
+        return colorList[0];
+      }
+      const scale = new LinearScale().domain([stats.min, stats.max]).range(colorList);
+
+      return (datum: Datum) => {
+        return scale.scale(datum[this._valueField]);
+      };
+    }
+
+    const scale = new LinearScale().domain([0, this.getViewData()?.latestData?.length ?? 1]).range(colorList);
+
+    return (datum: Datum) => {
+      return scale.scale(datum[DEFAULT_DATA_INDEX]);
+    };
   }
 
   getWordColor = (datum: Datum) => {
@@ -365,12 +303,27 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
     if (!this._keyWordColorCallback || this._dataChange) {
       // 如果updateData数据变更了, 颜色映射也需要重新计算
-      this._keyWordColorCallback = this._colorHexField
-        ? datum => datum[this._colorHexField]
+      this._keyWordColorCallback = this._spec.colorHexField
+        ? datum => datum[this._spec.colorHexField]
         : this.initColorCallback(this._seriesField, false);
     }
 
     return this._keyWordColorCallback(datum);
+  };
+
+  private _calculateFontWeight = (datum: Datum) => {
+    const stats = this.getRawDataStatisticsByField(this._valueField, true);
+
+    if (stats.min === stats.max) {
+      return this._fontWeightRange[0];
+    }
+
+    return (
+      this._fontWeightRange[0] +
+      ((this._fontWeightRange[this._fontWeightRange.length - 1] - this._fontWeightRange[0]) *
+        (datum[this._valueField] - stats.min)) /
+        (stats.max - stats.min)
+    );
   };
 
   compile(): void {
@@ -382,36 +335,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     }
 
     const wordCloudTransforms: any[] = [];
-    const valueField = this._valueField;
-    const valueScale = new LinearScale();
-    const fontWeightRange = this._fontWeightRange;
-
-    // fontWeight处理
-    if (valueField) {
-      const [minValue, maxValue] = extent(this.getViewData()?.latestData.map((datum: any) => +datum[valueField]));
-      valueScale.domain([minValue, maxValue], true).range(fontWeightRange);
-      wordCloudTransforms.push({
-        type: 'map',
-        as: WORD_CLOUD_WEIGHT,
-        callback: (datum: any) => {
-          if (minValue === maxValue) {
-            return valueScale.scale(maxValue);
-          }
-          return valueScale.scale(datum[valueField]);
-        }
-      });
-    }
-
-    const wordSpec = this._spec.word ?? {};
-
-    // text fromat method 处理
-    if (wordSpec.formatMethod) {
-      wordCloudTransforms.push({
-        type: 'map',
-        as: WORD_CLOUD_TEXT,
-        callback: wordSpec.formatMethod
-      });
-    }
 
     // 词云 transform
     if (!this._isWordCloudShape) {
@@ -433,30 +356,49 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     (this._wordMark as ICompilableMark).getProduct().transform(wordCloudTransforms);
   }
 
-  protected _wordCloudTransformOption(): Object {
+  protected _getCommonTransformOptions(): any {
     const { width, height } = this._region.getLayoutRect();
-    const wordStyleSpec = this._spec.word?.style ?? {};
+    const wordSpec = this._spec.word ?? {};
+    const wordStyleSpec = wordSpec.style ?? {};
 
     return {
-      // TIP: 非浏览器环境下，使用 fast 布局，否则会出现兼容问题
-      layoutType: this._wordCloudConfig.layoutMode,
       size: [width, height],
-      shape: this.parseMaskShape(),
+      shape:
+        isObject(this._maskShape) && this._maskShape.type === 'text' && isNil(this._maskShape.fontFamily)
+          ? {
+              fontFamily: this._option.getTheme()?.fontFamily,
+              ...this._maskShape
+            }
+          : this._maskShape,
+      onUpdateMaskCanvas: isObject(this._maskShape) ? this.handleMaskCanvasUpdate : null,
       dataIndexKey: DEFAULT_DATA_KEY,
-      text: { field: this._textField },
+      text: wordSpec.formatMethod
+        ? (datum: Datum) => {
+            return wordSpec.formatMethod(datum);
+          }
+        : { field: this._textField },
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
       fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange,
-      padding: this._fontPadding,
-      rotate: this._rotateAngles,
-      fontFamily: this._fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
-      fontWeight: this._fontWeightField
-        ? { field: this._fontWeightField }
+      padding: this._spec.word?.padding ?? DEFAULT_FONT_PADDING,
+      fontFamily: this._spec.fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
+      fontWeight: this._spec.fontWeightField
+        ? { field: this._spec.fontWeightField }
         : this._valueField
-        ? { field: WORD_CLOUD_WEIGHT }
+        ? this._calculateFontWeight
         : null,
-      fontStyle: this._fontStyleField ?? wordStyleSpec.fontStyle,
+      fontStyle: this._spec.fontStyleField ?? wordStyleSpec.fontStyle
+    };
+  }
 
-      randomVisible: this._random,
+  protected _wordCloudTransformOption(): Object {
+    return {
+      ...this._getCommonTransformOptions(),
+      // TIP: 非浏览器环境下，使用 fast 布局，否则会出现兼容问题
+      layoutType: this._wordCloudConfig.layoutMode,
+
+      rotate: this._rotateAngles,
+
+      randomVisible: this._spec.random ?? DEFAULT_RANDOM,
       clip: this._wordCloudConfig.drawOutOfBound === 'clip',
       shrink: this._wordCloudConfig.zoomToFit.shrink,
       enlarge: this._wordCloudConfig.zoomToFit.enlarge,
@@ -468,58 +410,20 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   protected _wordCloudShapeTransformOption(): Object {
-    const { width, height } = this._region.getLayoutRect();
     const wordStyleSpec = this._spec.word?.style ?? {};
     const wordCloudShapeConfig = this._wordCloudShapeConfig ?? {};
-    const fillingRotateAngles = this._wordCloudShapeConfig.fillingRotateAngles;
 
     return {
-      dataIndexKey: DEFAULT_DATA_KEY,
+      ...wordCloudShapeConfig,
+      ...this._getCommonTransformOptions(),
 
-      size: [width, height],
-      shape: this.parseMaskShape(),
-
-      text: { field: this._textField },
-      fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
-      fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange, // 如果配置为'auto', 则形状词云fontSizeRange不设默认值(对齐3.x效果)
-      padding: this._fontPadding,
       rotateList: this._rotateAngles,
-      fontFamily: this._fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
-      fontWeight: this._fontWeightField
-        ? { field: this._fontWeightField }
-        : this._valueField
-        ? { field: WORD_CLOUD_WEIGHT }
-        : null,
-      fontStyle: this._fontStyleField ?? wordStyleSpec.fontStyle,
 
       fillingFontFamily:
         wordCloudShapeConfig.fillingFontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
-      fillingPadding: this._fillingFontPadding,
+      fillingPadding: this._spec.fillingWord?.padding ?? DEFAULT_FONT_PADDING,
       fillingFontStyle: wordCloudShapeConfig.fillingFontStyleField ?? wordStyleSpec.fontStyle,
-      fillingFontWeight: wordCloudShapeConfig.fillingFontWeightField ?? wordStyleSpec.fontWeight, // 填充词fontWeight默认不跟随valueField
-      fillingRotateList: fillingRotateAngles,
-
-      fillingTimes: wordCloudShapeConfig.fillingTimes,
-      fillingXStep: wordCloudShapeConfig.fillingXStep,
-      fillingYStep: wordCloudShapeConfig.fillingYStep,
-      fillingXRatioStep: wordCloudShapeConfig.fillingXRatioStep,
-      fillingYRatioStep: wordCloudShapeConfig.fillingYRatioStep,
-      fillingInitialOpacity: wordCloudShapeConfig.fillingInitialOpacity,
-      fillingDeltaOpacity: wordCloudShapeConfig.fillingDeltaOpacity,
-      fillingInitialFontSize: wordCloudShapeConfig.fillingInitialFontSize,
-      fillingDeltaFontSize: wordCloudShapeConfig.fillingDeltaFontSize,
-
-      ratio: wordCloudShapeConfig.ratio,
-      fillingRatio: wordCloudShapeConfig.fillingRatio,
-      removeWhiteBorder: wordCloudShapeConfig.removeWhiteBorder,
-      textLayoutTimes: wordCloudShapeConfig.textLayoutTimes,
-      fontSizeShrinkFactor: wordCloudShapeConfig.fontSizeShrinkFactor,
-      stepFactor: wordCloudShapeConfig.stepFactor,
-      layoutMode: wordCloudShapeConfig.layoutMode,
-      importantWordCount: wordCloudShapeConfig.importantWordCount,
-      globalShinkLimit: wordCloudShapeConfig.globalShinkLimit,
-      fontSizeEnlargeFactor: wordCloudShapeConfig.fontSizeEnlargeFactor,
-      fillingDeltaFontSizeFactor: wordCloudShapeConfig.fillingDeltaFontSizeFactor
+      fillingFontWeight: wordCloudShapeConfig.fillingFontWeightField ?? wordStyleSpec.fontWeight // 填充词fontWeight默认不跟随valueField
     };
   }
 

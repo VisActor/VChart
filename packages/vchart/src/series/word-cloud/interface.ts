@@ -187,17 +187,27 @@ export type WordCloudShapeConfigType = {
   fillingRatio?: number;
 };
 
-export interface TextMask {
+export interface TextShapeMask {
   type: 'text';
   text: string;
-  drawAsBackground?: boolean;
-  drawReverse?: boolean;
+  hollow?: boolean;
   backgroundColor?: string;
   fill?: string;
   fontFamily?: string;
   fontWeight?: string | number;
   fontStyle?: string;
   fontVariant: string;
+}
+
+/**
+ * text mask of wordcloud
+ */
+export interface GeometricMaskShape {
+  type: 'geometric';
+  shape: string;
+  hollow?: boolean;
+  backgroundColor?: string;
+  fill?: string;
 }
 
 export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<string, WordcloudAppearPreset> {
@@ -253,7 +263,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
    * 词云形状
    * @default 'circle'
    */
-  maskShape?: string | WordCloudShapeType | TextMask; // url 或 svg字符串 或 base64，或shape字符串
+  maskShape?: string | WordCloudShapeType | TextShapeMask | GeometricMaskShape; // url 或 svg字符串 或 base64，或shape字符串
   /**
    * TODO: 缩放mask时是否保持比例
    */
@@ -282,6 +292,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
    * 形状词云填充词文字图元配置
    * @description hover配置随图元state，此外增加padding: 字体间距
    * @description 不增加formatMethod的原因：形状词云在做布局时，word和fillingWord用的是同一份数据，即text相同，所以fillingWords的format不会生效
+   * @deprecated
    */
   [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
