@@ -41,6 +41,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { SankeySeriesSpecTransformer } from './sankey-transformer';
 import { getFormatFunction } from '../../component/util';
+import type { ILabelSpec } from '../../component';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -356,7 +357,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     );
   }
 
-  initLabelMarkStyle(labelMark: ITextMark, labelSpec: ISankeyLabelSpec) {
+  initLabelMarkStyle(labelMark: ITextMark, labelSpec: ILabelSpec) {
     if (!labelMark) {
       return;
     }
@@ -365,14 +366,14 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (position && position.includes('inside')) {
       this.setMarkStyle<IComposedTextMarkSpec>(labelMark, {
         fill: '#ffffff',
-        text: (datum: Datum) => this._createText(datum, labelSpec),
-        maxLineWidth: (datum: Datum) => labelSpec.limit ?? datum.x1 - datum.x0
+        text: (datum: Datum) => this._createText(datum, labelSpec as ISankeyLabelSpec),
+        maxLineWidth: (datum: Datum) => (labelSpec as ISankeyLabelSpec).limit ?? datum.x1 - datum.x0
       });
     } else {
       this.setMarkStyle<IComposedTextMarkSpec>(labelMark, {
         fill: this._fillByNode,
-        text: (datum: Datum) => this._createText(datum, labelSpec),
-        maxLineWidth: labelSpec.limit
+        text: (datum: Datum) => this._createText(datum, labelSpec as ISankeyLabelSpec),
+        maxLineWidth: (labelSpec as ISankeyLabelSpec).limit
       });
     }
 
