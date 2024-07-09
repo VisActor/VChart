@@ -390,6 +390,22 @@ export function polarCoordinateLayout(data: DataView, relativeSeries: IMarkerSup
 }
 
 export function positionLayout(positions: MarkerPositionPoint[], series: ISeries, regionRelative: boolean): IPoint[] {
+  if (isFunction(positions)) {
+    const userPositions = positions(series.getData().getLatestData(), series);
+    if (regionRelative) {
+      const region = series.getRegion();
+      const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+      return userPositions.map((position: IPointLike) => {
+        return {
+          x: position.x + regionStartX,
+          y: position.y + regionStartY
+        };
+      });
+    }
+
+    return userPositions;
+  }
+
   if (regionRelative) {
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
