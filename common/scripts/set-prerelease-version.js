@@ -24,7 +24,7 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
   if (!mainPackage) {
     return;
   }
-  
+
   const mainPkgJsonPath = path.join(__dirname, '../../', mainPackage.projectFolder, 'package.json')
   const mainPkgJson = getPackageJson(mainPkgJsonPath)
   const mainVersion = mainPkgJson.version;
@@ -96,8 +96,8 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
 
     fs.writeFileSync(pkgJsonPath, jsonFile)
   });
-  
-  writeVersionOfHarmony(nextVersion);
+
+  // writeVersionOfHarmony(nextVersion);
 }
 
 module.exports = writePrereleaseVersion;
