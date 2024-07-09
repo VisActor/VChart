@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: type define fix",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

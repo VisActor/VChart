@@ -39,19 +39,18 @@ crosshair 的触发方式，默认为 'hover'，即鼠标悬浮时触发。可�
 配置十字准星指示器是否跟随`tooltip`显示或者隐藏；注意当使用这种触发模式时，`crosshais`本身的`trigger`、`triggerOff`、`lockAfterClick`这三个配置，将不再生效
 
 当`followTooltip`为对象格式时，类型定义如下：
- 
- ```ts
- {
-  group?: boolean;
-  mark?: boolean;
-  dimension?: boolean;
- }
- ```
 
- * `followTooltip.group` 的值为`false`，表示显示的`tooltip`类型为`group`（即分组信息提示）时，不显示`crosshair`
- * `followTooltip.mark` 的值为`false`，表示显示的`tooltip`类型为`mark`（即mark标记信息提示）时，不显示`crosshair`
- * `followTooltip.dimension` 的值为`false`，表示显示的`tooltip`类型为`dimension`（即维度信息提示）时，不显示`crosshair`
+```ts
+{
+ group?: boolean;
+ mark?: boolean;
+ dimension?: boolean;
+}
+```
 
+- `followTooltip.group` 的值为`false`，表示显示的`tooltip`类型为`group`（即分组信息提示）时，不显示`crosshair`
+- `followTooltip.mark` 的值为`false`，表示显示的`tooltip`类型为`mark`（即 mark 标记信息提示）时，不显示`crosshair`
+- `followTooltip.dimension` 的值为`false`，表示显示的`tooltip`类型为`dimension`（即维度信息提示）时，不显示`crosshair`
 
 ### labelZIndex(number) = 500
 

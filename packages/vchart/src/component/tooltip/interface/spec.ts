@@ -42,6 +42,11 @@ export interface ITooltipSpec
    */
   triggerOff?: MaybeArray<'hover' | 'click'> | 'none';
   /**
+   * 隐藏计时器
+   * @since 1.11.7
+   */
+  hideTimer?: number;
+  /**
    * 点击后锁定，只有点击才可以更新位置或者解锁，通常用于 trigger 为 `['hover', 'click']` 的场景
    * （*会影响自定义handler）
    * @since 1.10.0
