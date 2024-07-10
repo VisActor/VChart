@@ -24,10 +24,11 @@ Whether or not to enable the checking of the legend, the default is on.
 
 ### selectMode(string) = 'multiple'
 
-The check mode of the legend, with optional values: 
-* `'multiple'` multiple selection mode
-* `'single'` single selection mode
-* `'focus'` focus selection mode
+The check mode of the legend, with optional values:
+
+- `'multiple'` multiple selection mode
+- `'single'` single selection mode
+- `'focus'` focus selection mode
 
 ### scale(string)
 
@@ -838,6 +839,15 @@ Animation duration in ms.
 #### animationEasing(string) = 'quadIn'
 
 Animated jogging effect.
+
+#### position(string)
+
+This configuration only applies to the default pager
+Set the position of the pager, the default value is `middle`, with the following options:
+
+- 'middle' Display in the center
+- 'start' Left side in the horizontal direction, or top in the vertical direction
+- 'end' Right side in the horizontal direction, or bottom in the vertical direction
 
 #### textStyle(Object)
 
