@@ -1,14 +1,8 @@
 import { DataView } from '@visactor/vdataset';
 import type { IStepMarkLineSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
-import type { IOptionAggr } from '../../../data/transforms/aggregation';
-import {
-  computeClipRange,
-  cartesianCoordinateLayout,
-  positionLayout,
-  xyLayout,
-  getMarkLineProcessInfo
-} from '../utils';
+import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/aggregation';
+import { cartesianCoordinateLayout, positionLayout, xyLayout, getMarkLineProcessInfo } from '../utils';
 import {
   type MarkLineAttrs,
   MarkLine as MarkLineComponent,
@@ -20,7 +14,7 @@ import type { IOptionRegr } from '../../../data/transforms/regression';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
 import { isPercent } from '../../../util';
-import type { IPoint } from '../../../typings';
+import type { CoordinateType, IPoint } from '../../../typings';
 import { BaseMarkLine } from './base-mark-line';
 
 export class CartesianMarkLine extends BaseMarkLine {
@@ -28,7 +22,7 @@ export class CartesianMarkLine extends BaseMarkLine {
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
   static coordinateType = 'cartesian';
-  coordinateType = 'cartesian';
+  coordinateType = 'cartesian' as CoordinateType;
 
   protected declare _markerComponent: MarkLineComponent;
 
@@ -182,7 +176,7 @@ export class CartesianMarkLine extends BaseMarkLine {
   }
 
   protected _computeOptions(): IMarkProcessOptions {
-    let options: IOptionAggr[] | IOptionRegr;
+    let options: IOptionAggr[] | IOptionRegr | IOptionWithCoordinates;
     let processData: DataView = this._getRelativeDataView();
     let needAggr: boolean = true;
     let needRegr: boolean = false;

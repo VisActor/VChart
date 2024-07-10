@@ -88,36 +88,44 @@ Supported since `1.7.3` version, the end point of the reference line is at the e
 {{ use: component-marker-aggregation-type() }}
 
 ### angle (string | number | function)
+
 Since the `1.11.0` version, the reference line is on the angle axis of the polar coordinate system, and the value on the angle axis can be configured, or aggregated calculation, or self-calculation through data in the form of callbacks.
 
 ** Note that the usage scenario of this property is in the polar coordinate system: **
+
 1. Only declare the angle property, which is used to draw the angle axis that divides the entire polar coordinate system
 2. Configure the angle, radius and radius1 properties together to draw the label line from radius to radius1 on the angle axis
 3. Configure the radius, angle and angle1 properties together to draw the label line from angle to angle1 on the radius axis
 4. Configure the radius, radius1, angle and angle1 properties together for marking lines in the range of radius to radius1 and angle to angle1
 
 ### radius (string | number | function)
+
 Since the `1.11.0` version, the reference line is on the radius axis of the polar coordinate system, and the value on the radius axis can be configured, or aggregated calculations, or self-calculated through the data in the form of callbacks.
 
 ** Note that the usage scenario of this property is in the polar coordinate system: **
+
 1. Only declare the radius attribute, which is used to draw an entire circle with radius as a certain attribute value
 2. Configure the angle, radius and radius1 properties together to draw the label line from radius to radius1 on the angle axis
 3. Configure the radius, angle and angle1 properties together to draw the label line from angle to angle1 on the radius axis
 4. Configure the radius, radius1, angle and angle1 properties together for marking lines in the range of radius to radius1 and angle to angle1
 
 ### angle1 (string | number | function)
+
 Since the `1.11.0` version, the reference line is on the angle axis of the polar coordinate system, and the value on the angle axis can be configured, or aggregated calculation, or self-calculation through data in the form of callbacks.
 
 ** Note that the usage scenario of this property is in the polar coordinate system: **
+
 1. Only declare the angle property, which is used to draw the angle axis that divides the entire polar coordinate system
 2. Configure the angle, radius and radius1 properties together to draw the label line from radius to radius1 on the angle axis
 3. Configure the radius, angle and angle1 properties together to draw the label line from angle to angle1 on the radius axis
 4. Configure the radius, radius1, angle and angle1 properties together for marking lines in the range of radius to radius1 and angle to angle1
 
 ### radius1 (string | number | function)
+
 Since the `1.11.0` version, the reference line is on the radius axis of the polar coordinate system, and the value on the radius axis can be configured, or aggregated calculations, or self-calculated through the data in the form of callbacks.
 
 ** Note that the usage scenario of this property is in the polar coordinate system: **
+
 1. Only declare the radius attribute, which is used to draw an entire circle with radius as a certain attribute value
 2. Configure the angle, radius and radius1 properties together to draw the label line from radius to radius1 on the angle axis
 3. Configure the radius, angle and angle1 properties together to draw the label line from angle to angle1 on the radius axis
@@ -222,6 +230,7 @@ The label position of the dimension line (the relative position of the label rel
 Optional values:
 
 Cartesian coordinate system:
+
 - `'start'`: outside the starting point of the line
 - `'middle'`: midpoint of line
 - `'end'': outside the end point of the line
@@ -233,6 +242,7 @@ Cartesian coordinate system:
 - `'insideEndBottom'`: the inner lower part of the line end point
 
 Polar coordinate system:
+
 - `'arcInnerStart'`: inside the starting point of the arc
 - `'arcInnerEnd'`: inside the end of the arc
 - `'arcInnerMiddle'`: inside the midpoint of the arc

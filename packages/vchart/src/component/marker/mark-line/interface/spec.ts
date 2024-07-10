@@ -10,11 +10,12 @@ import type {
   IMarkerCrossSeriesSpec,
   OffsetPoint,
   MarkerStateValue,
-  MarkerStateCallback
+  MarkerStateCallback,
+  IMarkerSupportSeries
 } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
-import type { ILineMarkSpec, IPoint } from '../../../../typings';
+import type { Datum, ILineMarkSpec, IPoint } from '../../../../typings';
 import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components/es/marker/type';
 
 export type IMarkLine = IComponent;
@@ -210,8 +211,9 @@ export interface IMarkLineAngRadSpec extends IMarkerCrossSeriesSpec {
 export type IMarkLineCoordinateSpec = {
   /**
    * 指定数据点的参考线。基于指定数据点进行参考线的绘制，可以对数据点进行数据处理
+   * `coordinates` 自 1.12.0 版本开始支持回调函数
    */
-  coordinates: IDataPointSpec[];
+  coordinates: IDataPointSpec[] | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => IDataPointSpec[]);
   /**
    * 对每个数据点转化后的画布坐标点进行偏移，该偏移值可以是像素值，也可以是 string 类型，如 '20%' 代表百分比
    * 每个元素对应一个坐标点的偏移量
@@ -275,8 +277,11 @@ export type IStepMarkLineSpec = IMarkerSpec & {
     | {
         /**
          * 指定数据点的参考线。基于指定数据点进行参考线的绘制，可以对数据点进行数据处理
+         * `coordinates` 自 1.12.0 版本开始支持回调函数
          */
-        coordinates: [IDataPointSpec, IDataPointSpec];
+        coordinates:
+          | [IDataPointSpec, IDataPointSpec]
+          | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => [IDataPointSpec, IDataPointSpec]);
         /**
          * 数据点的处理方法。 如果不配置则按照coordinate数组直接连接成line。
          */
@@ -294,8 +299,9 @@ export type IStepMarkLineSpec = IMarkerSpec & {
     | {
         /**
          * 画布坐标
+         * `positions` 自 1.12.0 版本开始支持回调函数
          */
-        positions: [IPoint, IPoint];
+        positions: [IPoint, IPoint] | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => [IPoint, IPoint]);
         /**
          * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
          * @default false

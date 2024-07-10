@@ -2325,6 +2325,13 @@
             "zh": "地理坐标系下的markPoint",
             "en": "markPoint in geo coordinates"
           }
+        },
+        {
+          "path": "trend-line",
+          "title": {
+            "zh": "使用 MarkLine 绘制趋势线",
+            "en": "Draw trend line using MarkLine"
+          }
         }
       ]
     },
