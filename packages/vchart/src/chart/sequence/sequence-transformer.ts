@@ -65,7 +65,9 @@ export class SequenceChartSpecTransformer<
       row: rowNum
     });
     spec.axes[0].id = `axesRow${rowNum}`;
-    spec.axes[0].regionIndex = Array.from(Array(spec.series.length), (_, index) => index + 1);
+    spec.axes[0].regionIndex = Array.from(Array(spec.series.length), (_, index) =>
+      spec.axes[0].orient === 'top' ? index + 1 : index
+    );
   }
 
   /**
