@@ -1,5 +1,6 @@
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
+import { series } from '../../../src/theme/builtin/common/series';
 import { createDiv, removeDom } from '../../util/dom';
 
 describe('vchart updateSpec test', () => {
@@ -998,6 +999,250 @@ describe('vchart updateSpec of same spec', () => {
       change: false,
       reCompile: false,
       reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should not remake when label is in series', () => {
+    const spec = {
+      type: 'bar',
+      data: [
+        {
+          id: 'barData',
+          values: [
+            {
+              name: 'Apple',
+              value: 214480
+            },
+            {
+              name: 'Google',
+              value: 155506
+            }
+          ]
+        }
+      ],
+      direction: 'horizontal',
+      series: [
+        {
+          type: 'bar',
+          xField: 'value',
+          yField: 'name',
+          label: {
+            visible: true
+          }
+        }
+      ],
+      axes: [
+        {
+          orient: 'bottom',
+          visible: false
+        }
+      ]
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(spec, false);
+
+    expect(updateRes).toEqual({
+      change: false,
+      reCompile: false,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should not remake when label is in chart', () => {
+    const spec = {
+      data: [
+        {
+          id: 'barData',
+          values: [
+            {
+              name: 'Apple',
+              value: 214480
+            },
+            {
+              name: 'Google',
+              value: 155506
+            }
+          ]
+        }
+      ],
+      direction: 'horizontal',
+      type: 'bar',
+      xField: 'value',
+      yField: 'name',
+      label: {
+        visible: true
+      },
+      axes: [
+        {
+          orient: 'bottom',
+          visible: false
+        }
+      ]
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(spec, false);
+
+    expect(updateRes).toEqual({
+      change: false,
+      reCompile: false,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of different about label', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterAll(() => {
+    removeDom(container);
+    vchart.release();
+  });
+
+  it('should remake when label is in series update', () => {
+    const spec = {
+      type: 'bar',
+      data: [
+        {
+          id: 'barData',
+          values: [
+            {
+              name: 'Apple',
+              value: 214480
+            },
+            {
+              name: 'Google',
+              value: 155506
+            }
+          ]
+        }
+      ],
+      direction: 'horizontal',
+      series: [
+        {
+          type: 'bar',
+          xField: 'value',
+          yField: 'name',
+          label: {
+            visible: true
+          }
+        }
+      ],
+      axes: [
+        {
+          orient: 'bottom',
+          visible: false
+        }
+      ]
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        series: [
+          {
+            type: 'bar',
+            xField: 'value',
+            yField: 'name',
+            label: {
+              visible: true,
+              position: 'center'
+            }
+          }
+        ]
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      reCompile: false,
+      reMake: true,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should remake when label is in chart update', () => {
+    const spec = {
+      data: [
+        {
+          id: 'barData',
+          values: [
+            {
+              name: 'Apple',
+              value: 214480
+            },
+            {
+              name: 'Google',
+              value: 155506
+            }
+          ]
+        }
+      ],
+      direction: 'horizontal',
+      type: 'bar',
+      xField: 'value',
+      yField: 'name',
+      label: {
+        visible: true
+      },
+      axes: [
+        {
+          orient: 'bottom',
+          visible: false
+        }
+      ]
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        label: {
+          visible: true,
+          position: 'top'
+        }
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      reCompile: false,
+      reMake: true,
       reRender: true,
       reSize: false,
       reTransformSpec: false
