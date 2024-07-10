@@ -78,13 +78,15 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
       const hasVisibleLabel = seriesIndexes.some(seriesIndex => {
         const seriesInfo = chartSpecInfo.series[seriesIndex];
         const { markLabelSpec = {} } = seriesInfo;
+
         return Object.values(markLabelSpec).some(
           labelSpecList => Array.isArray(labelSpecList) && isLabelVisible(labelSpecList)
         );
       });
       if (hasVisibleLabel) {
         specInfo.push({
-          spec: chartSpec,
+          spec: {},
+
           type: ComponentTypeEnum.label,
           specInfoPath: ['component', this.specKey, i],
           regionIndexes: [i]
