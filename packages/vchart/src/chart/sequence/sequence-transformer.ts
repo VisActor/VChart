@@ -47,6 +47,27 @@ export class SequenceChartSpecTransformer<
     return componentSpec;
   }
 
+  addPaddingRow(rowHeight: any[], rowNum: number, size: number) {
+    rowHeight.push({
+      index: rowNum,
+      size
+    });
+  }
+
+  addOrientAxes(region: RegionSpec[], elements: any[], rowNum: number, spec: T) {
+    // Tips: id should not has duplicate name
+    region.push({
+      id: `regionAxesRow${rowNum}`
+    });
+    elements.push({
+      modelId: `axesRow${rowNum}`,
+      col: 1,
+      row: rowNum
+    });
+    spec.axes[0].id = `axesRow${rowNum}`;
+    spec.axes[0].regionIndex = Array.from(Array(spec.series.length), (_, index) => index + 1);
+  }
+
   /**
    * @override
    * @description 主要是处理布局逻辑 & 部分仅针对sequenceChart的特殊属性
@@ -60,22 +81,19 @@ export class SequenceChartSpecTransformer<
     const region: RegionSpec[] = [];
     const axes: ICartesianAxisSpec[] = [];
     const scrollBar: IScrollBarSpec[] = [];
-    const rowHeight: any = [];
+    const rowHeight: any[] = [];
 
     // FIXME: 重构之前这里取的是 chart 上的 this._layoutRect，这里有点问题。
     // 重构之前 chart 上的 transformSpec() 本来就在布局之前执行，
     // 原始代码中的 this._layoutRect 中取到的永远是常量 { width: 500, height: 500 }。
     // 重构之后保留这个 mock 值，可以尽快修改下 @skie1997
-    const mocklayoutRect = { width: 500, height: 500 };
-
-    // 计算默认series padding和series高度
-    const defaultSeriesPadding = 20;
-    const seriesRegionNum = spec.series.filter(d => d.type !== SeriesTypeEnum.link).length;
-    const defaultSeriesRowHeight =
-      (mocklayoutRect.height - defaultSeriesPadding * (seriesRegionNum - 1)) / seriesRegionNum;
-    const leftAppendPadding = spec?.appendPadding?.left || 0;
-    const rightAppendPadding = spec?.appendPadding?.right || 0;
-
+    const viewLayoutRect = {
+      width: this._option.getCompiler().getVGrammarView().width(),
+      height: this._option.getCompiler().getVGrammarView().height()
+    };
+    let componentsHeight = 0;
+    const defaultcomponentsHeight = 60;
+    const defaultComponentRowHeight = 10;
     if (spec?.legends) {
       elements.push({
         modelId: `legendRow${rowNum}`,
@@ -85,7 +103,7 @@ export class SequenceChartSpecTransformer<
       this.addAttrToComponentSpec(spec.legends, 'id', `legendRow${rowNum}`);
       // legend offset 和 padding 兼容处理
       const legendSpec = array(spec.legends);
-      let legendHeight: any = legendSpec[0].height ?? 40;
+      let legendHeight = (legendSpec[0].height as number) ?? 40;
       if (legendSpec[0].padding) {
         const legendPadding = normalizeLayoutPaddingSpec(legendSpec[0].padding);
         legendHeight += Number(legendPadding?.bottom ?? 0);
@@ -96,6 +114,7 @@ export class SequenceChartSpecTransformer<
         index: rowNum,
         size: legendHeight
       });
+      componentsHeight += legendHeight;
       rowNum++;
     }
 
@@ -106,34 +125,32 @@ export class SequenceChartSpecTransformer<
         row: rowNum
       });
       this.addAttrToComponentSpec(spec.dataZoom, 'id', `dataZoomRow${rowNum}`);
+      componentsHeight += defaultcomponentsHeight;
       rowNum++;
 
       // 增加空行，拟合series padding效果
-      rowHeight.push({
-        index: rowNum,
-        size: 10
-      });
+      this.addPaddingRow(rowHeight, rowNum, 10);
+      componentsHeight += defaultComponentRowHeight;
       rowNum++;
     }
 
     // 遍历axes
     // 1. 在elements中添加时间轴元素
     // 2. 并统计rowNum
-    // 在sequenceChart中，axes有几种情况（本期先考虑1和2，也就是默认只有1个top轴）：1.不声明axes 2.声明且为仅有一个top axes 3.声明且仅有一个bottom axes 4.多个axes组合
-    // if(spec.axes === null || spec?.axes[0]?.orient === 'top') {
-    // Tips: id should not has duplicate name
-    region.push({
-      id: `regionAxesRow${rowNum}`
-    });
-    elements.push({
-      modelId: `axesRow${rowNum}`,
-      col: 1,
-      row: rowNum
-    });
-    spec.axes[0].id = `axesRow${rowNum}`;
-    spec.axes[0].regionIndex = Array.from(Array(spec.series.length), (_, index) => index + 1);
-    rowNum++;
-    // }
+    // 在sequenceChart中，axes有几种情况（本期考虑1/2/3，也就是默认只有1个top/bottom轴）：1.不声明axes 2.声明且为仅有一个top axes 3.声明且仅有一个bottom axes 4.多个axes组合
+    componentsHeight += defaultcomponentsHeight;
+    if (spec.axes === null || spec?.axes?.[0]?.orient === 'top') {
+      this.addOrientAxes(region, elements, rowNum, spec);
+      rowNum++;
+    }
+
+    // 计算默认series padding和series高度
+    const defaultSeriesPadding = 20;
+    const seriesRegionNum = spec.series.filter(d => d.type !== SeriesTypeEnum.link).length;
+    const defaultSeriesRowHeight =
+      (viewLayoutRect.height - componentsHeight - defaultSeriesPadding * seriesRegionNum) / seriesRegionNum;
+    const leftAppendPadding = spec?.appendPadding?.left || 0;
+    const rightAppendPadding = spec?.appendPadding?.right || 0;
 
     // 遍历series
     // 1. 在spec.layout => elements、region数组和spec.axes的数组中中添加元素
@@ -250,14 +267,10 @@ export class SequenceChartSpecTransformer<
 
         // seriesSpec绑定regionIndex
         seriesSpec.regionIndex = region.length - 1;
-
         rowNum++;
 
         // 增加空行，拟合series padding效果
-        rowHeight.push({
-          index: rowNum,
-          size: seriesSpec?.padding || defaultSeriesPadding
-        });
+        this.addPaddingRow(rowHeight, rowNum, seriesSpec?.padding || defaultSeriesPadding);
         rowNum++;
 
         // chart的leftAppendPadding用于具体元素的dx偏移
@@ -270,6 +283,10 @@ export class SequenceChartSpecTransformer<
         }
       }
     });
+
+    // 增加空行，拟合series padding效果
+    this.addPaddingRow(rowHeight, rowNum, defaultSeriesPadding);
+    rowNum++;
 
     // 对于link series，所有属性跟随它绑定的dot series
     spec?.series?.forEach((seriesSpec: ISequenceSeriesSpec) => {
@@ -294,6 +311,11 @@ export class SequenceChartSpecTransformer<
     // if ((spec as any)?.dataZoom) {
     //   (spec as any).dataZoom[0].regionIndex = Array.from({length: region.length - 1},(item, index)=> index+1);
     // }
+
+    if (spec?.axes?.[0]?.orient === 'bottom') {
+      this.addOrientAxes(region, elements, rowNum, spec);
+      rowNum++;
+    }
 
     const layout: IGridLayoutSpec = {
       type: 'grid',
