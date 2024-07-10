@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "sequence support bottom axes. fix#2927",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
