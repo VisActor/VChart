@@ -399,8 +399,8 @@ function convertPosition(position: MarkerPositionPoint, relativeWidth: number, r
   }
 
   return {
-    x,
-    y
+    x: x as number,
+    y: y as number
   };
 }
 
