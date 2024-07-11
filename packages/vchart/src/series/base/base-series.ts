@@ -84,7 +84,8 @@ import {
   isValidNumber,
   isObject,
   minInArray,
-  maxInArray
+  maxInArray,
+  merge
 } from '@visactor/vutils';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark, defaultSeriesIgnoreCheckKeys, defaultSeriesCompileCheckKeys } from './constant';
@@ -409,7 +410,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       this._rawStatisticsCache = {};
     }
 
-    if (!this._rawStatisticsCache[field]) {
+    if (
+      !this._rawStatisticsCache[field] ||
+      // 如果数值类型与当前的计算结果类型不一致的话，也需要把结果更新到cache中
+      // 具体场景: field同时在axis中作为离散字段，在图例中作为连续字段，此时min、max、values都应该被计算并更新在cache中
+      (isNumeric && (isNil(this._rawStatisticsCache[field].min) || isNil(this._rawStatisticsCache[field].max))) ||
+      (!isNumeric && isNil(this._rawStatisticsCache[field].values))
+    ) {
       const canUseViewStatistics =
         this._viewDataStatistics &&
         (!this._viewDataFilter || this._viewDataFilter.transformsArr.length <= 1) &&
@@ -429,16 +436,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
             this._rawStatisticsCache[field].values = fieldInfo.domain;
           }
         } else {
-          this._rawStatisticsCache[field] = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
+          const result = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
             { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
           ])[field];
+          this._rawStatisticsCache[field] = merge(this._rawStatisticsCache[field] ?? {}, result);
         }
       }
-    }
-
-    if (isNumeric && (isNil(this._rawStatisticsCache[field].min) || isNil(this._rawStatisticsCache[field].max))) {
-      this._rawStatisticsCache[field].min = minInArray(this._rawStatisticsCache[field].values);
-      this._rawStatisticsCache[field].max = maxInArray(this._rawStatisticsCache[field].values);
     }
 
     return this._rawStatisticsCache[field];
