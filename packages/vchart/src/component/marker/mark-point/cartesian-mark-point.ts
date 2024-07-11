@@ -37,7 +37,7 @@ export class CartesianMarkPoint extends BaseMarkPoint {
         (spec as IMarkPointCoordinateSpec).coordinatesOffset
       )[0];
     } else if (isPositionLayout) {
-      point = positionLayout([spec.position], relativeSeries, spec.regionRelative)[0];
+      point = positionLayout(spec.position, relativeSeries, spec.regionRelative)[0];
     }
 
     return { point };
