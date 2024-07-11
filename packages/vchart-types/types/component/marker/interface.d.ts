@@ -5,7 +5,7 @@ import type { IComposedTextMarkSpec, IFormatMethod, IRectMarkSpec, IRichTextForm
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries, IGeoSeries, IPolarSeries } from '../../series/interface';
-import type { IOptionAggr, IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
+import type { IOptionAggr, IOptionAggrField, IOptionSeries, IOptionWithCoordinates } from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
 export type IMarkerSupportSeries = ICartesianSeries | IPolarSeries | IGeoSeries;
 export type IPolarPoint = {
@@ -44,7 +44,7 @@ export type ICoordinateOption = {
     getRefRelativeSeries?: () => IMarkerSupportSeries;
 } & IOptionSeries;
 export type IMarkerPositionsSpec = {
-    positions: MarkerPositionPoint[];
+    positions: MarkerPositionPoint[] | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => MarkerPositionPoint[]);
     regionRelative?: boolean;
 };
 export type IMarkerLabelWithoutRefSpec = {
@@ -106,7 +106,7 @@ export type IMarkerState<T> = {
 };
 export type MarkCoordinateType = 'cartesian' | 'polar' | 'geo';
 export type IMarkProcessOptions = {
-    options: IOptionAggr[] | IOptionRegr;
+    options: IOptionAggr[] | IOptionRegr | IOptionWithCoordinates;
     needAggr?: boolean;
     needRegr?: boolean;
     processData?: DataView;

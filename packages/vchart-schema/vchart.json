@@ -5,16 +5,31 @@
       "$ref": "#/definitions/IChartSpec"
     },
     {
+      "$ref": "#/definitions/ILineChartSpec"
+    },
+    {
       "$ref": "#/definitions/IBarChartSpec"
     },
     {
       "$ref": "#/definitions/IBar3dChartSpec"
     },
     {
-      "$ref": "#/definitions/IBoxPlotChartSpec"
+      "$ref": "#/definitions/IScatterChartSpec"
     },
     {
-      "$ref": "#/definitions/ICirclePackingChartSpec"
+      "$ref": "#/definitions/IMapChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IPieChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IPie3dChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IRoseChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IRadarChartSpec"
     },
     {
       "$ref": "#/definitions/IRangeColumnChartSpec"
@@ -29,16 +44,7 @@
       "$ref": "#/definitions/ICommonChartSpec"
     },
     {
-      "$ref": "#/definitions/IFunnelChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IFunnel3dChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IGaugeChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IHeatmapChartSpec"
+      "$ref": "#/definitions/ISequenceChartSpec"
     },
     {
       "$ref": "#/definitions/IHistogramChartSpec"
@@ -47,52 +53,10 @@
       "$ref": "#/definitions/IHistogram3dChartSpec"
     },
     {
-      "$ref": "#/definitions/ILineChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IMapChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IPieChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IPie3dChartSpec"
-    },
-    {
       "$ref": "#/definitions/ICircularProgressChartSpec"
     },
     {
-      "$ref": "#/definitions/ILinearProgressChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IRoseChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IRadarChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ISankeyChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IScatterChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ISequenceChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ISunburstChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ITreemapChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IWaterfallChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ICorrelationChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ILiquidChartSpec"
+      "$ref": "#/definitions/IGaugeChartSpec"
     },
     {
       "$ref": "#/definitions/IWordCloudChartSpec"
@@ -101,7 +65,43 @@
       "$ref": "#/definitions/IWordCloud3dChartSpec"
     },
     {
+      "$ref": "#/definitions/IFunnelChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IFunnel3dChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ILinearProgressChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ISunburstChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ICirclePackingChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ITreemapChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IWaterfallChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IBoxPlotChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ISankeyChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IHeatmapChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ICorrelationChartSpec"
+    },
+    {
       "$ref": "#/definitions/IAreaChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ILiquidChartSpec"
     }
   ],
   "definitions": {
@@ -5389,7 +5389,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -5420,7 +5420,7 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5428,19 +5428,19 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
           "description": "style格式转换"
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5458,7 +5458,7 @@
       ],
       "description": "style格式转换"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5493,7 +5493,7 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5501,19 +5501,19 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -18685,14 +18685,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -18709,25 +18709,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -18833,6 +18814,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -20791,14 +20791,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -20811,25 +20811,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -20935,6 +20916,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -21962,14 +21962,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -21982,25 +21982,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -22106,6 +22087,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -23666,14 +23666,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -23686,25 +23686,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -23810,6 +23791,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -26336,14 +26336,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -26491,10 +26491,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26505,10 +26505,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26519,10 +26519,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26542,10 +26542,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26729,14 +26729,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -26929,10 +26929,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26943,10 +26943,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26957,10 +26957,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26980,10 +26980,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27244,10 +27244,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27258,10 +27258,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27272,10 +27272,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27295,10 +27295,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27498,14 +27498,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -27787,10 +27787,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27801,10 +27801,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27815,10 +27815,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27838,10 +27838,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -28661,14 +28661,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -28681,25 +28681,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -28805,6 +28786,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -29302,61 +29302,40 @@
                 "$ref": "#/definitions/IPie3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IBoxPlotSeriesSpec"
+                "$ref": "#/definitions/ITreemapSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISunburstSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICirclePackingSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ILineSeriesSpec"
+                "$ref": "#/definitions/IBoxPlotSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IRangeColumnChartSpec"
+                "$ref": "#/definitions/ILineSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IAreaSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IRangeAreaChartSpec"
-              },
-              {
-                "$ref": "#/definitions/IDotSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IMapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILinkSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRadarSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRoseSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IScatterSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWordCloudSeriesSpec"
+                "$ref": "#/definitions/IRoseSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+                "$ref": "#/definitions/IRadarSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IGaugePointerSeriesSpec"
+                "$ref": "#/definitions/IDotSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IGaugeSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IFunnelSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IFunnel3dSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IHeatmapSeriesSpec"
+                "$ref": "#/definitions/ILinkSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICircularProgressSeriesSpec"
@@ -29365,19 +29344,40 @@
                 "$ref": "#/definitions/ILinearProgressSeriesSpec"
               },
               {
+                "$ref": "#/definitions/IWordCloudSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnelSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnel3dSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/ISankeySeriesSpec"
               },
               {
-                "$ref": "#/definitions/ISunburstSeriesSpec"
+                "$ref": "#/definitions/IGaugePointerSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IGaugeSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IHeatmapSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICorrelationSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ITreemapSeriesSpec"
+                "$ref": "#/definitions/IWaterfallSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWaterfallSeriesSpec"
+                "$ref": "#/definitions/IRangeColumnChartSpec"
+              },
+              {
+                "$ref": "#/definitions/IRangeAreaChartSpec"
               }
             ]
           },
@@ -30589,14 +30589,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -31972,14 +31972,14 @@
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -34754,14 +34754,14 @@
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -35198,14 +35198,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -35738,14 +35738,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -36198,6 +36198,15 @@
             }
           ],
           "description": "标签智能反色配置"
+        },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
         },
         "state": {
           "typeof": "function"
@@ -36717,10 +36726,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -36731,10 +36740,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -36745,10 +36754,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -36768,10 +36777,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -36993,14 +37002,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -37320,10 +37329,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37334,10 +37343,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37348,10 +37357,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37371,10 +37380,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -41187,14 +41196,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -41207,25 +41216,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -41331,6 +41321,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -42684,14 +42693,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -42704,25 +42713,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -42828,6 +42818,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -43806,14 +43815,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -43826,25 +43835,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -43950,6 +43940,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -45674,6 +45683,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -46630,14 +46648,14 @@
     "ILegendSpec": {
       "anyOf": [
         {
-          "$ref": "#/definitions/IDiscreteLegendSpec",
-          "description": "spec"
-        },
-        {
           "$ref": "#/definitions/IColorLegendSpec"
         },
         {
           "$ref": "#/definitions/ISizeLegendSpec"
+        },
+        {
+          "$ref": "#/definitions/IDiscreteLegendSpec",
+          "description": "spec"
         }
       ]
     },
@@ -46670,10 +46688,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -46684,10 +46702,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -46698,10 +46716,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -46721,10 +46739,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -46884,14 +46902,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -46920,25 +46938,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -47044,6 +47043,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -48049,10 +48067,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -48063,10 +48081,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -48077,10 +48095,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -48100,10 +48118,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -48737,14 +48755,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -49695,14 +49713,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -49727,25 +49745,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -49851,6 +49850,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -50830,10 +50848,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50844,10 +50862,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50858,10 +50876,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50881,10 +50899,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51049,14 +51067,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -51306,10 +51324,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51320,10 +51338,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51334,10 +51352,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51357,10 +51375,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51857,25 +51875,6 @@
               "typeof": "function"
             },
             {
-              "typeof": "function"
-            },
-            {
-              "$ref": "#/definitions/IMarkAreaTheme"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        },
-        {
-          "allOf": [
-            {
-              "$ref": "#/definitions/IComponentSpec"
-            },
-            {
-              "typeof": "function"
-            },
-            {
               "$ref": "#/definitions/IMarkAreaXSpec"
             },
             {
@@ -51972,6 +51971,25 @@
             },
             {
               "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+            },
+            {
+              "$ref": "#/definitions/IMarkAreaTheme"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IComponentSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
             },
             {
               "$ref": "#/definitions/IMarkAreaTheme"
@@ -54985,10 +55003,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -54999,10 +55017,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55013,10 +55031,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55036,10 +55054,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55225,14 +55243,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -55533,10 +55551,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55547,10 +55565,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55561,10 +55579,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55584,10 +55602,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55773,14 +55791,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -56034,10 +56052,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -56048,10 +56066,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -56062,10 +56080,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -56085,10 +56103,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58391,10 +58409,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58405,10 +58423,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58419,10 +58437,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58442,10 +58460,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58658,14 +58676,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -58962,10 +58980,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58976,10 +58994,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58990,10 +59008,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -59013,10 +59031,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -59639,14 +59657,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -59663,25 +59681,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -59787,6 +59786,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -61172,14 +61190,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -61192,25 +61210,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -61316,6 +61315,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -62723,14 +62741,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -62743,25 +62761,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -62867,6 +62866,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -64882,10 +64900,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64896,10 +64914,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64910,10 +64928,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64933,10 +64951,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -65137,14 +65155,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -65397,10 +65415,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -65411,10 +65429,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -65425,10 +65443,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -65448,10 +65466,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -66235,12 +66253,15 @@
           "type": "number"
         },
         "label": {
-          "allOf": [
+          "anyOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/ISankeyLabelSpec"
             },
             {
-              "typeof": "function"
+              "items": {
+                "$ref": "#/definitions/ISankeyLabelSpec"
+              },
+              "type": "array"
             }
           ],
           "description": "标签配置"
@@ -66252,14 +66273,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -66553,6 +66574,16 @@
       ],
       "type": "object"
     },
+    "ISankeyLabelSpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ILabelSpec"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
+    },
     "ISankeySeriesSpec": {
       "properties": {
         "animation": {
@@ -66716,12 +66747,15 @@
           "type": "number"
         },
         "label": {
-          "allOf": [
+          "anyOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/ISankeyLabelSpec"
             },
             {
-              "typeof": "function"
+              "items": {
+                "$ref": "#/definitions/ISankeyLabelSpec"
+              },
+              "type": "array"
             }
           ],
           "description": "标签配置"
@@ -66973,10 +67007,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -66987,10 +67021,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67001,10 +67035,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67024,10 +67058,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67187,14 +67221,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -67207,25 +67241,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -67331,6 +67346,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -68047,10 +68081,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -68061,10 +68095,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -68075,10 +68109,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -68098,10 +68132,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -69075,14 +69109,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -69516,6 +69550,9 @@
         },
         "map": {
           "$ref": "#/definitions/IMapSeriesTheme"
+        },
+        "mosaic": {
+          "$ref": "#/definitions/IBarSeriesTheme"
         },
         "pie": {
           "$ref": "#/definitions/IPieSeriesTheme"
@@ -71091,14 +71128,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -73469,6 +73506,11 @@
           "$ref": "#/definitions/Partial<ITooltipHandlerSpec>",
           "description": "自定义handler方法"
         },
+        "hideTimer": {
+          "description": "隐藏计时器",
+          "since": "1.11.7",
+          "type": "number"
+        },
         "lockAfterClick": {
           "description": "点击后锁定，只有点击才可以更新位置或者解锁，通常用于 trigger 为 `['hover', 'click']` 的场景\n（*会影响自定义handler）",
           "since": "1.10.0",
@@ -73795,6 +73837,17 @@
         "offset": {
           "description": "标签与其对应数据图元的间距",
           "type": "number"
+        },
+        "overlap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OverlapAttrs"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "标签防重叠配置"
         },
         "state": {
           "typeof": "function"
@@ -74154,14 +74207,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -77071,14 +77124,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -77091,25 +77144,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -77215,6 +77249,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -78799,11 +78852,8 @@
           "type": "array"
         },
         "colorMode": {
-          "description": "颜色模式",
-          "enum": [
-            "linear",
-            "ordinal"
-          ],
+          "const": "ordinal",
+          "description": "颜色模式\nTODO: 'linear' 待支持",
           "type": "string"
         },
         "crosshair": {
@@ -78986,14 +79036,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -79310,11 +79360,8 @@
           "type": "array"
         },
         "colorMode": {
-          "description": "颜色模式",
-          "enum": [
-            "linear",
-            "ordinal"
-          ],
+          "const": "ordinal",
+          "description": "颜色模式\nTODO: 'linear' 待支持",
           "type": "string"
         },
         "data": {
@@ -79743,11 +79790,8 @@
           "type": "array"
         },
         "colorMode": {
-          "description": "颜色模式",
-          "enum": [
-            "linear",
-            "ordinal"
-          ],
+          "const": "ordinal",
+          "description": "颜色模式\nTODO: 'linear' 待支持",
           "type": "string"
         },
         "crosshair": {
@@ -79927,14 +79971,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -80247,11 +80291,8 @@
           "type": "array"
         },
         "colorMode": {
-          "description": "颜色模式",
-          "enum": [
-            "linear",
-            "ordinal"
-          ],
+          "const": "ordinal",
+          "description": "颜色模式\nTODO: 'linear' 待支持",
           "type": "string"
         },
         "data": {
@@ -80692,7 +80733,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         },
         "size": {
@@ -80700,14 +80741,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13432",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         },
         "size": {
@@ -80715,14 +80756,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13432",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         },
         "size": {
@@ -80730,14 +80771,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13432",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         },
         "size": {
@@ -80745,14 +80786,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13432",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         },
         "size": {
@@ -80760,14 +80801,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13432",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         },
         "size": {
@@ -80775,14 +80816,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13432",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         },
         "size": {
@@ -80790,14 +80831,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13432",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         },
         "size": {
@@ -80805,14 +80846,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13432",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         },
         "size": {
@@ -80820,7 +80861,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13432",
         "size"
       ],
       "type": "object"
@@ -81013,6 +81054,7 @@
         "markLine",
         "markPoint",
         "media",
+        "mosaic",
         "padding",
         "pie",
         "pie3d",
@@ -82606,10 +82648,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -82620,10 +82662,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -82634,10 +82676,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -82657,10 +82699,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -84801,6 +84843,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -85057,6 +85108,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -85216,10 +85276,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -85230,10 +85290,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -85244,10 +85304,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -85267,10 +85327,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -92321,6 +92381,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -93088,6 +93157,15 @@
             }
           ],
           "description": "标签智能反色配置"
+        },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
         },
         "state": {
           "typeof": "function"
@@ -97509,14 +97587,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -100011,6 +100089,9 @@
         "map": {
           "$ref": "#/definitions/ColorScheme"
         },
+        "mosaic": {
+          "$ref": "#/definitions/ColorScheme"
+        },
         "pie": {
           "$ref": "#/definitions/ColorScheme"
         },
@@ -101376,34 +101457,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13443"
+        "__@toStringTag@13432"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13443"
+        "__@toStringTag@13432"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13432": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13443"
+        "__@toStringTag@13432"
       ],
       "type": "object"
     },
@@ -101877,10 +101958,10 @@
     "Record<string,ConvertToMarkStyleSpec<IGroupMarkSpec>|IMarkStateSpec<IGroupMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,IArc3dMarkSpec>": {

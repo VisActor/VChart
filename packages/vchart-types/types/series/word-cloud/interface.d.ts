@@ -59,7 +59,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     fontWeightField?: string;
     fontStyleField?: string;
     colorHexField?: string;
-    colorMode?: 'linear' | 'ordinal';
+    colorMode?: 'ordinal';
     colorList?: string[];
     rotateAngles?: number[];
     fontWeightRange?: [number, number];

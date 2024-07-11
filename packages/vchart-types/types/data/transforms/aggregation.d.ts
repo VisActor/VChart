@@ -1,6 +1,6 @@
 import type { DataView } from '@visactor/vdataset';
-import type { IAggrType, IMarkerSupportSeries } from '../../component/marker/interface';
-import type { StringOrNumber } from '../../typings';
+import type { IAggrType, IDataPointSpec, IMarkerSupportSeries } from '../../component/marker/interface';
+import type { CoordinateType, Datum, StringOrNumber } from '../../typings';
 export type IOption = {
     field: string;
 };
@@ -23,6 +23,11 @@ export type IOptionAggr = {
     areaName?: string | IOptionCallback;
     getRefRelativeSeries?: () => IMarkerSupportSeries;
 } & IOptionSeries;
+export type IOptionWithCoordinates = {
+    coordinates: ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => IDataPointSpec[] | IDataPointSpec) | IDataPointSpec | IDataPointSpec[];
+    getSeriesByIdOrIndex: (seriesUserId: StringOrNumber, seriesIndex: number) => IMarkerSupportSeries;
+    coordinateType: CoordinateType;
+} & IOptionSeries;
 export declare const markerMin: (_data: Array<DataView>, opt: IOption) => number;
 export declare const markerMax: (_data: Array<DataView>, opt: IOption) => number;
 export declare function markerSum(_data: Array<DataView>, opt: IOption): number;
@@ -30,7 +35,7 @@ export declare function markerAverage(_data: Array<DataView>, opt: IOption): num
 export declare function markerVariance(_data: Array<DataView>, opt: IOption): number;
 export declare function markerStandardDeviation(_data: Array<DataView>, opt: IOption): number;
 export declare function markerMedian(_data: Array<DataView>, opt: IOption): number;
-export declare function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]): {
+export declare function markerAggregation(_data: Array<DataView>, options: IOptionWithCoordinates | IOptionAggr[]): {
     x: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
     y: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
     angle: StringOrNumber[] | StringOrNumber | IOptionCallback | null;

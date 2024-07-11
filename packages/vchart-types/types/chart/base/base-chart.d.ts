@@ -59,6 +59,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     protected _backgroundMark: IRectMark;
     constructor(spec: T, option: IChartOption);
     created(): void;
+    protected _initStack(): void;
     init(): void;
     reDataFlow(): void;
     onResize(width: number, height: number, reRender?: boolean): void;

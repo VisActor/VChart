@@ -1,7 +1,7 @@
 import { ComponentTypeEnum } from '../../interface/type';
 import type { MarkAreaAttrs } from '@visactor/vrender-components';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
-import type { IPoint } from '../../../typings';
+import type { CoordinateType, IPoint } from '../../../typings';
 import type { IMarkProcessOptions } from '../interface';
 import { BaseMarkArea } from './base-mark-area';
 export declare class CartesianMarkArea extends BaseMarkArea {
@@ -9,7 +9,7 @@ export declare class CartesianMarkArea extends BaseMarkArea {
     type: ComponentTypeEnum;
     name: string;
     static coordinateType: string;
-    coordinateType: string;
+    coordinateType: CoordinateType;
     protected _newMarkAreaComponent(attr: MarkAreaAttrs): MarkAreaComponent;
     protected _computePointsAttr(): {
         points: IPoint[];
