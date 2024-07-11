@@ -389,36 +389,45 @@ export function polarCoordinateLayout(data: DataView, relativeSeries: IMarkerSup
   return points;
 }
 
-export function positionLayout(positions: MarkerPositionPoint[], series: ISeries, regionRelative: boolean): IPoint[] {
-  if (isFunction(positions)) {
-    const userPositions = positions(series.getData().getLatestData(), series);
-    if (regionRelative) {
-      const region = series.getRegion();
-      const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
-      return userPositions.map((position: IPointLike) => {
-        return {
-          x: position.x + regionStartX,
-          y: position.y + regionStartY
-        };
-      });
-    }
+function convertPosition(position: MarkerPositionPoint, relativeWidth: number, relativeHeight: number): IPoint {
+  let { x, y } = position;
+  if (isPercent(x)) {
+    x = convertPercentToValue(x, relativeWidth);
+  }
+  if (isPercent(y)) {
+    y = convertPercentToValue(y, relativeHeight);
+  }
 
-    return userPositions;
+  return {
+    x: x as number,
+    y: y as number
+  };
+}
+
+export function positionLayout(
+  positions:
+    | MarkerPositionPoint
+    | MarkerPositionPoint[]
+    | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => MarkerPositionPoint)
+    | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => MarkerPositionPoint[]),
+  series: IMarkerSupportSeries,
+  regionRelative: boolean
+): IPoint[] {
+  let transformPositions;
+  if (isFunction(positions)) {
+    transformPositions = array(positions(series.getData().getLatestData(), series));
+  } else {
+    transformPositions = array(positions);
   }
 
   if (regionRelative) {
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
     const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
-    return positions.map(position => {
-      let { x, y } = position;
-      if (isPercent(x)) {
-        x = convertPercentToValue(x, regionWidth);
-      }
+    return transformPositions.map(position => {
+      let { x, y } = convertPosition(position, regionWidth, regionHeight);
+
       x = (x as number) + regionStartX;
-      if (isPercent(y)) {
-        y = convertPercentToValue(y, regionHeight);
-      }
       y = (y as number) + regionStartY;
 
       return {
@@ -429,18 +438,8 @@ export function positionLayout(positions: MarkerPositionPoint[], series: ISeries
   }
 
   const { width: canvasWidth, height: canvasHeight } = series.getOption().getChart().getViewRect();
-  return positions.map(position => {
-    let { x, y } = position;
-    if (isPercent(x)) {
-      x = convertPercentToValue(x, canvasWidth);
-    }
-    if (isPercent(y)) {
-      y = convertPercentToValue(y, canvasHeight);
-    }
-    return {
-      x: x as number,
-      y: y as number
-    };
+  return transformPositions.map(position => {
+    return convertPosition(position, canvasWidth, canvasHeight);
   });
 }
 
