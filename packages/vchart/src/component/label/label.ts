@@ -85,8 +85,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
       });
       if (hasVisibleLabel) {
         specInfo.push({
-          spec: {},
-
+          spec: chartSpec,
           type: ComponentTypeEnum.label,
           specInfoPath: ['component', this.specKey, i],
           regionIndexes: [i]
