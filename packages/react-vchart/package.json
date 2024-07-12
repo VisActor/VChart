@@ -28,11 +28,11 @@
     "build": "bundle --clean"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.11.11",
-    "@visactor/vutils": "~0.18.10",
-    "@visactor/vrender-core": "0.19.23",
-    "@visactor/vrender-kits": "0.19.23",
-    "@visactor/vgrammar-core": "0.13.19",
+    "@visactor/vchart": "workspace:1.11.9",
+    "@visactor/vutils": "~0.18.13",
+    "@visactor/vrender-core": "0.20.0-alpha.3",
+    "@visactor/vrender-kits": "0.20.0-alpha.3",
+    "@visactor/vgrammar-core": "0.14.0-alpha.6",
     "react-is": "^18.2.0"
   },
   "devDependencies": {
