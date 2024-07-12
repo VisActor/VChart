@@ -1000,7 +1000,8 @@ describe('vchart updateSpec of same spec', () => {
       reMake: false,
       reRender: true,
       reSize: false,
-      reTransformSpec: false
+      reTransformSpec: false,
+      changeTheme: false
     });
   });
 });
