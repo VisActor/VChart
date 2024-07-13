@@ -73,7 +73,9 @@ export const colorScheme: IThemeColorScheme = {
       /** 图例翻页器按钮颜色 */
       discreteLegendPagerHandlerColor: '#BBBDC3',
       /** 图例翻页器按钮颜色（disable 态） */
-      discreteLegendPagerHandlerDisableColor: '#55595F'
+      discreteLegendPagerHandlerDisableColor: '#55595F',
+      /** 占位圆颜色 */
+      emptyCircleColor: '#bbbdc3'
     } as BuiltinColorPalette
   }
 };
