@@ -103,6 +103,10 @@ export interface IPieSeriesTheme extends IPolarSeriesTheme {
    * @since 1.5.1
    */
   outerLabel?: IArcLabelSpec;
+  /** 数据为空时显示的占位圆样式
+   * @since 1.12.0
+   */
+  emptyCircle?: Partial<IMarkTheme<IArcMarkSpec>>;
 }
 
 export type IPie3dSeriesSpec = {
