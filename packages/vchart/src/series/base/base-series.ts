@@ -10,7 +10,6 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
 } from '../../constant/index';
-import { seriesMarkInfoMap } from '../interface/theme';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
@@ -1409,14 +1408,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       field = this.getStackValueField();
     }
     return getFieldAlias(this.getRawData(), field) ?? field;
-  }
-
-  getMarkInfoList() {
-    const list = super.getMarkInfoList();
-    if (!list.length) {
-      return Object.values<ISeriesMarkInfo>(seriesMarkInfoMap[this.type] ?? {});
-    }
-    return list;
   }
 
   protected _getInvalidConnectType() {

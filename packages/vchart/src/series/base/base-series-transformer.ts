@@ -9,6 +9,7 @@ import type { ISeriesSpecTransformerResult, SeriesMarkNameEnum } from '../interf
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../interface';
 import { getDirectionFromSeriesSpec } from '../util/spec';
+import { Factory } from '../../core/factory';
 
 export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseModelSpecTransformer<T, K> {
   markLabelSpec: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>> = {};
@@ -41,7 +42,11 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
     const { markByName, mark } = chartTheme;
     const type = this._option.type;
     // 基本主题
-    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName);
+    const seriesMarkMap = Factory.getSeriesMarkMap(type);
+
+    const theme = seriesMarkMap
+      ? transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName)
+      : {};
     // 区分方向的主题
     const themeWithDirection = get(chartTheme, `series.${type}_${direction}`);
     // stack 状态下的主题

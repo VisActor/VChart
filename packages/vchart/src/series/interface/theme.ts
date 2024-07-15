@@ -22,39 +22,10 @@ import type { IRangeColumnSeriesTheme } from '../range-column/interface';
 import type { ICirclePackingSeriesTheme } from '../circle-packing/interface';
 import type { IHeatmapSeriesTheme } from '../heatmap/interface';
 import type { ICorrelationSeriesTheme } from '../correlation/interface';
-import { SeriesTypeEnum } from './type';
-import type { SeriesMarkMap } from './common';
-import { bar3dSeriesMark, barSeriesMark } from '../bar/constant';
-import { lineSeriesMark } from '../line/constant';
-import { scatterSeriesMark } from '../scatter/constant';
-import { areaSeriesMark } from '../area/constant';
-import { radarSeriesMark } from '../radar/constant';
-import { pie3dSeriesMark, pieSeriesMark } from '../pie/constant';
-import { roseSeriesMark } from '../rose/constant';
-import { mapSeriesMark } from '../map/constant';
-import { circularProgressSeriesMark } from '../progress/circular/constant';
-import { linkSeriesMark } from '../link/constant';
-import { dotSeriesMark } from '../dot/constant';
-import { wordCloudSeriesMark } from '../word-cloud/constant';
-import { funnel3dSeriesMark, funnelSeriesMark } from '../funnel/constant';
-import { linearProgressSeriesMark } from '../progress/linear/constant';
-import { waterfallSeriesMark } from '../waterfall/constant';
-import { boxPlotSeriesMark } from '../box-plot/constant';
-import { treemapSeriesMark } from '../treemap/constant';
-import { sankeySeriesMark } from '../sankey/constant';
-import { gaugePointerSeriesMark, gaugeSeriesMark } from '../gauge/constant';
-import { sunburstSeriesMark } from '../sunburst/constant';
-import { rangeColumn3dSeriesMark, rangeColumnSeriesMark } from '../range-column/constant';
-import { circlePackingSeriesMark } from '../circle-packing/constant';
-import { heatmapSeriesMark } from '../heatmap/constant';
-import { correlationSeriesMark } from '../correlation/constant';
-import { rangeAreaSeriesMark } from '../range-area/constant';
+import type { SeriesTypeEnum } from './type';
 import type { IRangeAreaSeriesTheme } from '../range-area/interface';
-import { baseSeriesMark } from '../base/constant';
 import type { ILiquidSeriesTheme } from '../liquid/interface';
-import { LiquidSeriesMark } from '../liquid/constant';
 import type { IVennSeriesTheme } from '../venn/interface';
-import { vennSeriesMark } from '../venn/constant';
 import type { IMosaicSeriesTheme } from '../mosaic/interface';
 
 export interface ISeriesTheme {
@@ -182,41 +153,3 @@ export enum SeriesTypeForThemeEnum {
   radar_stack = 'radar_stack',
   rose_stack = 'rose_stack'
 }
-
-export const seriesMarkInfoMap: Record<SeriesTypeEnum, SeriesMarkMap> = {
-  [SeriesTypeEnum.bar]: barSeriesMark,
-  [SeriesTypeEnum.bar3d]: bar3dSeriesMark,
-  [SeriesTypeEnum.line]: lineSeriesMark,
-  [SeriesTypeEnum.scatter]: scatterSeriesMark,
-  [SeriesTypeEnum.area]: areaSeriesMark,
-  [SeriesTypeEnum.radar]: radarSeriesMark,
-  [SeriesTypeEnum.pie]: pieSeriesMark,
-  [SeriesTypeEnum.pie3d]: pie3dSeriesMark,
-  [SeriesTypeEnum.rose]: roseSeriesMark,
-  [SeriesTypeEnum.geo]: baseSeriesMark,
-  [SeriesTypeEnum.map]: mapSeriesMark,
-  [SeriesTypeEnum.circularProgress]: circularProgressSeriesMark,
-  [SeriesTypeEnum.link]: linkSeriesMark,
-  [SeriesTypeEnum.dot]: dotSeriesMark,
-  [SeriesTypeEnum.wordCloud]: wordCloudSeriesMark,
-  [SeriesTypeEnum.wordCloud3d]: wordCloudSeriesMark,
-  [SeriesTypeEnum.funnel]: funnelSeriesMark,
-  [SeriesTypeEnum.funnel3d]: funnel3dSeriesMark,
-  [SeriesTypeEnum.linearProgress]: linearProgressSeriesMark,
-  [SeriesTypeEnum.waterfall]: waterfallSeriesMark,
-  [SeriesTypeEnum.boxPlot]: boxPlotSeriesMark,
-  [SeriesTypeEnum.treemap]: treemapSeriesMark,
-  [SeriesTypeEnum.sankey]: sankeySeriesMark,
-  [SeriesTypeEnum.gauge]: gaugeSeriesMark,
-  [SeriesTypeEnum.gaugePointer]: gaugePointerSeriesMark,
-  [SeriesTypeEnum.sunburst]: sunburstSeriesMark,
-  [SeriesTypeEnum.rangeColumn]: rangeColumnSeriesMark,
-  [SeriesTypeEnum.rangeColumn3d]: rangeColumn3dSeriesMark,
-  [SeriesTypeEnum.circlePacking]: circlePackingSeriesMark,
-  [SeriesTypeEnum.heatmap]: heatmapSeriesMark,
-  [SeriesTypeEnum.correlation]: correlationSeriesMark,
-  [SeriesTypeEnum.rangeArea]: rangeAreaSeriesMark,
-  [SeriesTypeEnum.liquid]: LiquidSeriesMark,
-  [SeriesTypeEnum.venn]: vennSeriesMark,
-  [SeriesTypeEnum.mosaic]: barSeriesMark
-};
