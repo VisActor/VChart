@@ -79,11 +79,6 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
 
   /** 数据为空时显示的占位图形 */
   emptyPlaceholder?: {
-    /** 是否显示占位圆
-     * @default false
-     */
-    showEmptyCircle?: boolean;
-
     /** 占位圆样式 */
     emptyCircle?: IMarkSpec<IArcMarkSpec>;
   };

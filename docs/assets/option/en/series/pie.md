@@ -230,21 +230,16 @@ The default value is `true`.
 
 Set the placeholder to be displayed when data is empty.
 
-##${prefix} showEmptyCircle(Boolean)
-
-Supported since version `1.12.0`.
-Determines whether to show a placeholder circle when data is empty.
-The default value is `false`.
-
 ##${prefix} emptyCircle(Object)
 
-Empty circle style configuration.
+Supported since version 1.12.0. Empty circle style configuration.
+Not shown by default, to enable it you need to set the `visible` property to `true`.
 
 ```ts
 emptyPlaceholder: {
-  showEmptyCircle: true,
   emptyCircle: {
     style: {
+      visible: true,
       innerRadius: 0.5,
       fill: '#66ccff'
     }

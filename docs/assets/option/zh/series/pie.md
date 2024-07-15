@@ -231,20 +231,16 @@ pie: {
 
 设置当数据为空时呈现的占位符。
 
-##${prefix} showEmptyCircle(Boolean)
-
-从 1.12.0 版本开始支持，是否在数据为空时显示占位圆。
-默认值为`false`。
-
 ##${prefix} emptyCircle(Object)
 
-占位圆图元样式配置。
+从 1.12.0 版本开始支持，占位圆图元样式配置。
+默认不显示，若启用需要将`visible`属性设置为`true`。
 
 ```ts
 emptyPlaceholder: {
-  showEmptyCircle: true,
   emptyCircle: {
     style: {
+      visible: true,
       innerRadius: 0.5,
       fill: '#66ccff'
     }

@@ -81,7 +81,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _labelMark: ITextMark | null = null;
   protected _labelLineMark: IPathMark | null = null;
 
-  protected _showEmptyCircle: boolean;
   protected _emptyArcMark: IArcMark | null = null;
 
   protected _buildMarkAttributeContext() {
@@ -119,8 +118,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
     this._specAngleField = this._angleField.slice();
     this._specRadiusField = [];
-
-    this._showEmptyCircle = this._spec.emptyPlaceholder?.showEmptyCircle ?? false;
   }
 
   initData() {
@@ -228,7 +225,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         emptyPieMark,
         {
           ...initialStyle,
-          visible: () => this._showEmptyCircle && this.getViewData().latestData.length === 0
+          visible: () => this.getViewData().latestData.length === 0
         },
         'normal',
         AttributeLevel.Series

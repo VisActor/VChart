@@ -25,7 +25,8 @@ export const pie: IPieSeriesTheme = {
   emptyCircle: {
     style: {
       fill: { type: 'palette', key: 'emptyCircleColor' },
-      fillOpacity: 1
+      fillOpacity: 1,
+      visible: false
     }
   }
 };
