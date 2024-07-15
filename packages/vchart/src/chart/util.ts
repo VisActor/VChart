@@ -86,7 +86,8 @@ export function mergeUpdateResult(target: IUpdateSpecResult, ...sources: IUpdate
     reMake: merge('reMake'),
     reRender: merge('reRender'),
     reSize: merge('reSize'),
-    reTransformSpec: merge('reTransformSpec')
+    reTransformSpec: merge('reTransformSpec'),
+    changeTheme: merge('changeTheme')
   } as Required<IUpdateSpecResult>);
   return target;
 }
