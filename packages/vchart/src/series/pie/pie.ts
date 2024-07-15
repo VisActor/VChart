@@ -18,13 +18,13 @@ import {
   ChartEvent,
   DEFAULT_DATA_KEY
 } from '../../constant';
-import type { IPoint, Datum, StateValueType } from '../../typings';
+import type { IPoint, Datum, StateValueType, IArcMarkSpec } from '../../typings';
 import { normalizeStartEndAngle } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IMarkStyle } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcMark } from '../../mark/arc';
 import type { ITextMark } from '../../mark/text';
@@ -36,7 +36,7 @@ import type { IPieOpt } from '../../data/transforms/pie';
 import { pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
-import { registerPieAnimation } from './animation/animation';
+import { registerEmptyCircleAnimation, registerPieAnimation } from './animation/animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
 import type { IBasePieSeriesSpec, IPieSeriesSpec } from './interface';
@@ -81,6 +81,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _labelMark: ITextMark | null = null;
   protected _labelLineMark: IPathMark | null = null;
 
+  protected _showEmptyCircle: boolean;
+  protected _emptyArcMark: IArcMark | null = null;
+
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
     // center
@@ -116,6 +119,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
     this._specAngleField = this._angleField.slice();
     this._specRadiusField = [];
+
+    this._showEmptyCircle = this._spec.emptyPlaceholder?.showEmptyCircle ?? false;
   }
 
   initData() {
@@ -174,6 +179,16 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         stateSort: this._spec.pie?.stateSort
       }
     ) as IArcMark;
+
+    this._emptyArcMark = this._createMark(
+      {
+        name: 'emptyCircle',
+        type: 'arc'
+      },
+      {
+        dataView: false
+      }
+    ) as IArcMark;
   }
 
   private startAngleScale(datum: Datum) {
@@ -185,25 +200,35 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   initMarkStyle(): void {
+    const initialStyle: Partial<IMarkStyle<IArcMarkSpec>> = {
+      x: () => this.getCenter().x,
+      y: () => this.getCenter().y,
+      fill: this.getColorAttribute(),
+      outerRadius: isSpecValueWithScale(this._outerRadius)
+        ? this._outerRadius
+        : () => this._computeLayoutRadius() * this._outerRadius,
+      innerRadius: isSpecValueWithScale(this._innerRadius)
+        ? this._innerRadius
+        : () => this._computeLayoutRadius() * this._innerRadius,
+      cornerRadius: () => this._computeLayoutRadius() * this._cornerRadius,
+      startAngle: datum => this.startAngleScale(datum),
+      endAngle: datum => this.endAngleScale(datum),
+      padAngle: this._padAngle,
+      centerOffset: this._centerOffset
+    };
+
     const pieMark = this._pieMark;
     if (pieMark) {
+      this.setMarkStyle(pieMark, initialStyle, 'normal', AttributeLevel.Series);
+    }
+
+    const emptyPieMark = this._emptyArcMark;
+    if (emptyPieMark) {
       this.setMarkStyle(
-        pieMark,
+        emptyPieMark,
         {
-          x: () => this.getCenter().x,
-          y: () => this.getCenter().y,
-          fill: this.getColorAttribute(),
-          outerRadius: isSpecValueWithScale(this._outerRadius)
-            ? this._outerRadius
-            : () => this._computeLayoutRadius() * this._outerRadius,
-          innerRadius: isSpecValueWithScale(this._innerRadius)
-            ? this._innerRadius
-            : () => this._computeLayoutRadius() * this._innerRadius,
-          cornerRadius: () => this._computeLayoutRadius() * this._cornerRadius,
-          startAngle: datum => this.startAngleScale(datum),
-          endAngle: datum => this.endAngleScale(datum),
-          padAngle: this._padAngle,
-          centerOffset: this._centerOffset
+          ...initialStyle,
+          visible: () => this._showEmptyCircle && this.getViewData().latestData.length === 0
         },
         'normal',
         AttributeLevel.Series
@@ -231,6 +256,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           this.setMarkStyle(mark, this.generateRadiusStyle(pieSpec.state[state]), state, AttributeLevel.User_Mark);
         }
       }
+    }
+    if (mark.name === 'emptyCircle') {
+      // 使用emptyCircle的radius比例值进行覆盖
+      this.setMarkStyle(mark, this.generateRadiusStyle(spec.style), 'normal', AttributeLevel.User_Mark);
     }
   }
 
@@ -441,6 +470,13 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
       this._pieMark.setAnimationConfig(pieAnimationConfig);
     }
+
+    if (this._emptyArcMark) {
+      const pieAnimationConfig = animationConfig(
+        Factory.getAnimationInKey('emptyCircle')?.(animationParams, appearPreset ?? 'fadeIn')
+      );
+      this._emptyArcMark.setAnimationConfig(pieAnimationConfig);
+    }
   }
 
   getDefaultShapeType() {
@@ -480,5 +516,6 @@ export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePi
 export const registerPieSeries = () => {
   registerArcMark();
   registerPieAnimation();
+  registerEmptyCircleAnimation();
   Factory.registerSeries(PieSeries.type, PieSeries);
 };

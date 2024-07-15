@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "add emptyPlaceholder and emptyCircle for pie chart",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

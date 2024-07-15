@@ -57,7 +57,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
+import type { IElement, IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -1218,7 +1218,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           if (!filter || (isFunction(filter) && filter(s, m))) {
             const isCollect = m.getProduct().isCollectionMark();
             const elements = m.getProduct().elements;
-            let pickElements = elements;
+            let pickElements = [] as IElement[];
             if (isCollect) {
               pickElements = elements.filter(e => {
                 const elDatum = e.getDatum();
