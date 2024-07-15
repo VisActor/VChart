@@ -5,6 +5,8 @@ import type { IScatterChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { ScatterChartSpecTransformer } from './scatter-transformer';
 import { BaseChart } from '../base';
+import { StackChartMixin } from '../stack';
+import { mixin } from '@visactor/vutils';
 
 export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.scatter;
@@ -14,8 +16,9 @@ export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> exten
   readonly transformerConstructor = ScatterChartSpecTransformer;
   readonly type: string = ChartTypeEnum.scatter;
   readonly seriesType: string = SeriesTypeEnum.scatter;
-  protected _canStack: boolean = true;
 }
+
+mixin(ScatterChart, StackChartMixin);
 
 export const registerScatterChart = () => {
   registerScatterSeries();

@@ -47,7 +47,6 @@ import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
 import { isArray, isValid, createID, calcPadding, normalizeLayoutPaddingSpec, array } from '../../util';
-import { Stack } from '../stack';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
@@ -172,8 +171,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   };
 
   // stack
-  protected _stack: Stack;
-  protected _canStack: boolean;
 
   padding: IPadding = { top: 0, left: 0, right: 0, bottom: 0 };
   protected _paddingSpec: ILayoutOrientPadding;
@@ -229,16 +226,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
   }
 
-  protected _initStack() {
-    // TODO: to component
-    // stack
-    if (this._canStack) {
-      this._stack = new Stack(this);
-      this._stack.init();
-    }
-  }
-
   init() {
+    (this as any)._beforeInit?.();
     // 元素创建完毕后再执行各元素的初始化 方便各元素能获取到其他模块
     this._regions.forEach(r => r.init({}));
     this._series.forEach(s => s.init({}));
@@ -247,7 +236,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // event
     this._initEvent();
 
-    this._initStack();
+    (this as any)._initStack?.();
 
     // data flow start
     this.reDataFlow();

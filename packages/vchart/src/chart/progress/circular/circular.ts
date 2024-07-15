@@ -6,6 +6,8 @@ import type { ICircularProgressChartSpec } from './interface';
 import { CircularProgressChartSpecTransformer } from './circular-progress-transformer';
 import type { AdaptiveSpec } from '../../../typings';
 import { BaseChart } from '../../base';
+import { StackChartMixin } from '../../stack';
+import { mixin } from '@visactor/vutils';
 
 export class CircularProgressChart<T extends ICircularProgressChartSpec = ICircularProgressChartSpec> extends BaseChart<
   AdaptiveSpec<T, 'axes'>
@@ -16,8 +18,9 @@ export class CircularProgressChart<T extends ICircularProgressChartSpec = ICircu
   readonly transformerConstructor = CircularProgressChartSpecTransformer;
   readonly type: string = ChartTypeEnum.circularProgress;
   readonly seriesType: string = SeriesTypeEnum.circularProgress;
-  protected _canStack: boolean = true;
 }
+
+mixin(CircularProgressChart, StackChartMixin);
 
 export const registerCircularProgressChart = () => {
   registerCircularProgressSeries();
