@@ -10,6 +10,6 @@ export class WaterfallSeriesSpecTransformer<
 
   protected _transformLabelSpec(spec: T): void {
     this._addMarkLabelSpec(spec, SeriesMarkNameEnum.bar);
-    this._addMarkLabelSpec(spec, SeriesMarkNameEnum.bar, 'stackLabel');
+    this._addMarkLabelSpec(spec, SeriesMarkNameEnum.bar, 'stackLabel', 'initStackLabelMarkStyle' as any);
   }
 }

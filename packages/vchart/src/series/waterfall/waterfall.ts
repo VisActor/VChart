@@ -213,7 +213,12 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       this._labelMark = labelMark;
       return;
     }
+  }
 
+  initStackLabelMarkStyle(labelMark: ILabelMark): void {
+    if (!labelMark) {
+      return;
+    }
     this._stackLabelMark = labelMark;
     // 瀑布图标签 encode 在自定义布局中计算
     labelMark.skipEncode = true;

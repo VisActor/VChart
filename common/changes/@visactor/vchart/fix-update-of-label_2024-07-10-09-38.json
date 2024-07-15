@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: label should not update when label is set in series, related #2928\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
