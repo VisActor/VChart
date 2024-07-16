@@ -1050,6 +1050,7 @@ describe('vchart updateSpec of same spec', () => {
 
     expect(updateRes).toEqual({
       change: false,
+      changeTheme: false,
       reCompile: false,
       reMake: false,
       reRender: true,
@@ -1097,6 +1098,7 @@ describe('vchart updateSpec of same spec', () => {
 
     expect(updateRes).toEqual({
       change: false,
+      changeTheme: false,
       reCompile: false,
       reMake: false,
       reRender: true,
@@ -1186,6 +1188,7 @@ describe('vchart updateSpec of different about label', () => {
 
     expect(updateRes).toEqual({
       change: false,
+      changeTheme: false,
       reCompile: false,
       reMake: true,
       reRender: true,
@@ -1242,6 +1245,7 @@ describe('vchart updateSpec of different about label', () => {
 
     expect(updateRes).toEqual({
       change: false,
+      changeTheme: false,
       reCompile: false,
       reMake: true,
       reRender: true,
