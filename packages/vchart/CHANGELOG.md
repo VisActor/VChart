@@ -1,6 +1,40 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 27 Jun 2024 09:53:20 GMT and should not be manually modified.
+This log was last generated on Tue, 16 Jul 2024 12:19:22 GMT and should not be manually modified.
+
+## 1.11.7
+Tue, 16 Jul 2024 12:19:22 GMT
+
+### Updates
+
+- feat: support configuring callback function in indicator text style attributes, #2540
+- feat: add options `hideTimer` in toolti, to hide tooltip by timer
+
+
+- feat: support `transitionDuration` in tooltip theme
+- feat: support `updateIndicatorDataById`/`updateIndicatorDataByIndex` API, related #2776
+- feat: add `userUpdateOptions` to let user specify update type of charts, fix some animation bug
+
+
+- fix(barbackground): datakey is undefined when set custom datakey
+- fix: fix the issue where `barMaxWidth` does not work when `barWidth` is configured, #2885`
+-  fix: line/area clip animation by incorrect direction
+- fix(crosshair): fix bug of crosshair position when legend filter data. fix#2905
+- fix: fix the error caused by theme change when updatingSpec
+
+
+- fix: clear the timer of tooltip when has update
+
+
+- fix: statistics confict of linear and discrete field. fix#2926 
+- fix: fix polar animation logic for radar charts
+- fix: fix PolarPointUpdate when from point is center
+
+
+- fix: type define fix
+- fix: label should not update when label is set in series, related #2928
+
+
 
 ## 1.11.6
 Thu, 27 Jun 2024 09:53:20 GMT

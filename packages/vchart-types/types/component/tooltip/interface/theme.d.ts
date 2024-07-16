@@ -47,5 +47,6 @@ export interface ITooltipTheme<ColorType = string> {
         x?: number;
         y?: number;
     };
+    transitionDuration?: number;
     align?: 'left' | 'right';
 }
