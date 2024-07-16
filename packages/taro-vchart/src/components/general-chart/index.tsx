@@ -156,7 +156,13 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
     const { canvasId, style = {} } = this.props;
     const type = this.props.mode === 'wx' || this.props.mode === 'tt' ? '2d' : undefined;
     return (
-      <View key={canvasId} style={{ ...style_container, ...style, padding: 0 }}>
+      <View
+        key={canvasId}
+        onTouchStart={handleEvent}
+        onTouchMove={handleEvent}
+        onTouchEnd={handleEvent}
+        style={{ ...style_container, ...style, padding: 0 }}
+      >
         <Canvas
           type={type}
           style={{
@@ -167,9 +173,6 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
         ></Canvas>
         <Canvas
           type={type}
-          onTouchStart={handleEvent}
-          onTouchMove={handleEvent}
-          onTouchEnd={handleEvent}
           style={style_cs_canvas}
           id={`${canvasId}_draw_canvas`}
           canvasId={`${canvasId}_draw_canvas`}
