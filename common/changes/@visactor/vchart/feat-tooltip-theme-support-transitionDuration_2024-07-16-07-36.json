@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support `transitionDuration` in tooltip theme",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
