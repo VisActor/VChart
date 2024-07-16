@@ -55,7 +55,7 @@ export interface ITooltipSpec
   /**
    * tooltip样式
    */
-  style?: Omit<ITooltipTheme<string>, 'offset'>;
+  style?: Omit<ITooltipTheme<string>, 'offset' | 'transitionDuration'>;
 
   /**
    * 自定义handler方法

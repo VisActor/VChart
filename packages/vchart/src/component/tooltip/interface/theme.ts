@@ -86,6 +86,11 @@ export interface ITooltipTheme<ColorType = string> {
     y?: number;
   };
   /**
+   * 浮层移动动画过渡时间，单位是 ms，设置为 0 的时候会紧跟着鼠标移动（目前仅影响 dom tooltip）
+   * @since 1.11.9
+   */
+  transitionDuration?: number;
+  /**
    * @since 1.11.5
    *
    * shape、key、value的对齐方式，可选项如下：
