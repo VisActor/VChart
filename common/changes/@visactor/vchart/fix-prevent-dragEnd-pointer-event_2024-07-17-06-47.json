@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: prevent trigger original event in zoomEnd composite event #2931",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
