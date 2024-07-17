@@ -50,16 +50,13 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
 
   onBind(): void {
     const { angle: fromAngle, radius: fromRadius } = this._pointToCoord(this.from);
-    if (!isValidNumber(fromAngle * fromRadius)) {
-      this.valid = false;
-    }
-    this._fromAngle = fromAngle;
-    this._fromRadius = fromRadius;
 
     const { angle: toAngle, radius: toRadius } = this._pointToCoord(this.to);
     if (!isValidNumber(toAngle * toRadius)) {
       this.valid = false;
     }
+    this._fromAngle = isValidNumber(fromAngle) ? fromAngle : toAngle;
+    this._fromRadius = isValidNumber(fromRadius) ? fromRadius : toRadius;
     this._toAngle = toAngle;
     this._toRadius = toRadius;
 
@@ -70,6 +67,8 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
 
   onUpdate(end: boolean, ratio: number, out: Record<string, any>): void {
     if (this.valid === false) {
+      out.x = this.to.x;
+      out.y = this.to.y;
       return;
     }
     if (end) {

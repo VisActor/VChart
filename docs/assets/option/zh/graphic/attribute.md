@@ -101,6 +101,13 @@ y 方向缩放比例。
 
 自 `1.7.3` 版本开始支持，用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽。
 
+#${prefix} boundsPadding(number|array)
+
+图形包围盒的边距，默认值为 0，支持两种格式：
+
+- number: 上下左右设置统一的边距
+- array: 边距数组，格式为`[top, right, bottom, left]` ，分别设置四个方向的边距
+
 #${prefix} html(object)
 自 `1.10.0` 版本开始支持，用于配置图元的 html 浮层。
 

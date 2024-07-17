@@ -147,6 +147,7 @@ export declare class VChart implements IVChart {
     setCurrentTheme(name: string): Promise<IVChart>;
     setCurrentThemeSync(name: string): IVChart;
     protected _setCurrentTheme(name?: string): IUpdateSpecResult;
+    private _setFontFamilyTheme;
     private _getTooltipComponent;
     setTooltipHandler(tooltipHandler: ITooltipHandler): void;
     getTooltipHandlerByUser(): ITooltipHandler | undefined;

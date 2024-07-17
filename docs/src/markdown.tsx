@@ -228,7 +228,7 @@ export function Markdown() {
         .then(text => {
           let processedText = text;
           // remove meta info for examples
-          if (assetDirectory === 'examples') {
+          if (assetDirectory.includes('examples')) {
             const coverLink = processedText.match(/cover:(.*)/)?.[1];
             processedText = processedText.replace(/---(.|\n)*---/, '').trim();
             if (coverLink) {

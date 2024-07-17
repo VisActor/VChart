@@ -73508,7 +73508,7 @@
           "type": "string"
         },
         "style": {
-          "$ref": "#/definitions/Omit<ITooltipTheme<string>,\"offset\">",
+          "$ref": "#/definitions/Omit<ITooltipTheme<string>,\"offset\"|\"transitionDuration\">",
           "description": "tooltip样式"
         },
         "throttleInterval": {
@@ -73779,6 +73779,11 @@
         "titleLabel": {
           "$ref": "#/definitions/ITooltipTextTheme<string|IColorKey>",
           "description": "tooltip标题"
+        },
+        "transitionDuration": {
+          "description": "浮层移动动画过渡时间，单位是 ms，设置为 0 的时候会紧跟着鼠标移动（目前仅影响 dom tooltip）",
+          "since": "1.11.9",
+          "type": "number"
         },
         "valueLabel": {
           "$ref": "#/definitions/ITooltipTextTheme<string|IColorKey>",
@@ -86178,7 +86183,7 @@
       },
       "type": "object"
     },
-    "Omit<ITooltipTheme<string>,\"offset\">": {
+    "Omit<ITooltipTheme<string>,\"offset\"|\"transitionDuration\">": {
       "properties": {
         "align": {
           "enum": [

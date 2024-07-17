@@ -17,7 +17,7 @@ module.exports = {
     }
   },
   verbose: true,
-  collectCoverage: true,
+  // collectCoverage: true,
   coverageReporters: ['json-summary', 'lcov', 'text'],
   coveragePathIgnorePatterns: ['node_modules', '__tests__', 'interface.ts', '.d.ts', 'typings'],
   collectCoverageFrom: [

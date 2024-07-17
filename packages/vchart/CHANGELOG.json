@@ -4,7 +4,7 @@
     {
       "version": "1.11.7",
       "tag": "@visactor/vchart_v1.11.7",
-      "date": "Sat, 06 Jul 2024 09:30:52 GMT",
+      "date": "Tue, 16 Jul 2024 12:19:22 GMT",
       "comments": {
         "none": [
           {
@@ -12,6 +12,9 @@
           },
           {
             "comment": "feat: add options `hideTimer` in toolti, to hide tooltip by timer\n\n"
+          },
+          {
+            "comment": "feat: support `transitionDuration` in tooltip theme"
           },
           {
             "comment": "feat: support `updateIndicatorDataById`/`updateIndicatorDataByIndex` API, related #2776"
@@ -32,13 +35,25 @@
             "comment": "fix(crosshair): fix bug of crosshair position when legend filter data. fix#2905"
           },
           {
+            "comment": "fix: fix the error caused by theme change when updatingSpec\n\n"
+          },
+          {
             "comment": "fix: clear the timer of tooltip when has update\n\n"
+          },
+          {
+            "comment": "fix: statistics confict of linear and discrete field. fix#2926 "
           },
           {
             "comment": "fix: fix polar animation logic for radar charts"
           },
           {
+            "comment": "fix: fix PolarPointUpdate when from point is center\n\n"
+          },
+          {
             "comment": "fix: type define fix"
+          },
+          {
+            "comment": "fix: label should not update when label is set in series, related #2928\n\n"
           }
         ]
       }

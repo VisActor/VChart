@@ -19,9 +19,9 @@
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.11.8",
-    "@visactor/vrender-core": "0.19.17",
-    "@visactor/vrender-kits": "0.19.17",
+    "@visactor/vchart": "workspace:1.11.9",
+    "@visactor/vrender-core": "0.19.18",
+    "@visactor/vrender-kits": "0.19.18",
     "@visactor/vutils": "~0.18.10"
   },
   "devDependencies": {

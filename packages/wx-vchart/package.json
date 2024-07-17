@@ -1,6 +1,6 @@
 {
   "name": "@visactor/wx-vchart",
-  "version": "1.11.8",
+  "version": "1.11.9",
   "description": "",
   "main": "index.js",
   "miniprogram": ".",
