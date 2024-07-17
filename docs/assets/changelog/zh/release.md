@@ -5,20 +5,16 @@
 
 **🆕 新增功能**
 
-
-* @visactor/vchart: tooltip theme support transition duration
+* @visactor/vchart: 主题支持配置tooltip更新动画过渡持续时间
 
 
 **🐛 功能修复**
-
-
-* @visactor/vchart: fix statistics confict of linear and discrete field, close [#2926](https://github.com/VisActor/VChart/issues/2926) 
-* @visactor/vchart: fix theme error of update spec
-* @visactor/vchart: fix update of label when udpate spec
-* @visactor/vchart: fix bug of polar point update aniamtion
-* @visactor/vchart: react attributes should support react 17
-* @visactor/vchart: fix height of link when set `minNodeHeight` of sankey
-
+* @visactor/vchart: 修复字段作为离散类型和连续类型时，计算统计值冲突的问题，关闭 [#2926](https://github.com/VisActor/VChart/issues/2926) 
+* @visactor/vchart: 修复更新图表时主题错误的问题
+* @visactor/vchart: 修复更新图表时标签错误更新的问题
+* @visactor/vchart: 修复极坐标系点更新动画的 bug
+* @visactor/vchart: React 属性应支持 React 17
+* @visactor/vchart: 修复设置桑基最小节点高度 `minNodeHeight` 时，边的高度计算不合理的问题
 
 
 [更多详情请查看 v1.11.9](https://github.com/VisActor/VChart/releases/tag/v1.11.9)
