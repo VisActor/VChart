@@ -6,6 +6,50 @@ C-1.2-2-0.9-2.4-0.5-2.4z M-0.4-1.4L-0.4-1.4c0,0,0,0.1,0,0.1v2.6c0,0.1,0,0.1,0,0.
 C-0.4-1.4-0.4-1.4-0.4-1.4z M0.3-1.4L0.3-1.4c0,0,0,0.1,0,0.1v2.6c0,0.1,0,0.1,0,0.1l0,0c0,0,0-0.1,0-0.1v-2.6
 C0.3-1.4,0.3-1.4,0.3-1.4z;`;
 
+const getHandlerTheme = (): IDataZoomTheme['startHandler'] => {
+  return {
+    style: {
+      symbolType: DataZoomHandlerSymbolType,
+      fill: { type: 'palette', key: 'sliderHandleColor' },
+      scaleX: 1.2,
+      scaleY: 1.2,
+      stroke: { type: 'palette', key: 'dataZoomHandleStrokeColor' },
+      lineWidth: 1
+    }
+  };
+};
+
+const getTextTheme = () => {
+  return {
+    padding: 8,
+    style: {
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
+
+      fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
+    }
+  };
+};
+
+const getBackgroundChartTheme = (visible: boolean) => {
+  return {
+    area: {
+      style: {
+        visible,
+        stroke: false,
+        fill: { type: 'palette', key: 'dataZoomChartColor' }
+      }
+    },
+    line: {
+      style: {
+        visible,
+        stroke: { type: 'palette', key: 'dataZoomChartColor' },
+        lineWidth: 1
+      }
+    }
+  };
+};
+
 export const dataZoom: IDataZoomTheme = {
   padding: [12, 0],
   showDetail: 'auto',
@@ -50,72 +94,10 @@ export const dataZoom: IDataZoomTheme = {
       }
     }
   },
-  selectedBackgroundChart: {
-    area: {
-      style: {
-        visible: false,
-        stroke: false,
-        fill: { type: 'palette', key: 'dataZoomChartColor' }
-      }
-    },
-    line: {
-      style: {
-        visible: false,
-        stroke: { type: 'palette', key: 'dataZoomChartColor' },
-        lineWidth: 1
-      }
-    }
-  },
-  startHandler: {
-    style: {
-      symbolType: DataZoomHandlerSymbolType,
-      fill: { type: 'palette', key: 'sliderHandleColor' },
-      scaleX: 1.2,
-      scaleY: 1.2,
-      stroke: { type: 'palette', key: 'dataZoomHandleStrokeColor' },
-      lineWidth: 1
-    }
-  },
-  endHandler: {
-    style: {
-      symbolType: DataZoomHandlerSymbolType,
-      fill: { type: 'palette', key: 'sliderHandleColor' },
-      scaleX: 1.2,
-      scaleY: 1.2,
-      stroke: { type: 'palette', key: 'dataZoomHandleStrokeColor' },
-      lineWidth: 1
-    }
-  },
-  startText: {
-    padding: 8,
-    style: {
-      fontSize: { type: 'token', key: 'l5FontSize' },
-      lineHeight: { type: 'token', key: 'l5LineHeight' },
-
-      fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
-    }
-  },
-  endText: {
-    padding: 8,
-    style: {
-      fontSize: { type: 'token', key: 'l5FontSize' },
-      lineHeight: { type: 'token', key: 'l5LineHeight' },
-
-      fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
-    }
-  },
-  backgroundChart: {
-    area: {
-      style: {
-        stroke: false,
-        fill: { type: 'palette', key: 'dataZoomChartColor' }
-      }
-    },
-    line: {
-      style: {
-        stroke: { type: 'palette', key: 'dataZoomChartColor' },
-        lineWidth: 1
-      }
-    }
-  }
+  selectedBackgroundChart: getBackgroundChartTheme(false),
+  startHandler: getHandlerTheme(),
+  endHandler: getHandlerTheme(),
+  startText: getTextTheme(),
+  endText: getTextTheme(),
+  backgroundChart: getBackgroundChartTheme(true)
 };
