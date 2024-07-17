@@ -16,7 +16,9 @@ export interface IIndicatorItemSpec {
         text?: IFormatMethod<[activeDatum: Datum]> | ITextMarkSpec['text'] | ReturnType<IFormatMethod<[activeDatum: Datum]>>;
     };
 }
-export type IIndicator = IComponent;
+export type IIndicator = IComponent & {
+    updateDatum: (datum: any) => void;
+};
 export interface IIndicatorSpec extends IComponentSpec {
     visible?: boolean;
     fixed?: boolean;
