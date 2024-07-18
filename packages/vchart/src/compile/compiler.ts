@@ -45,7 +45,6 @@ export class Compiler {
 
   isInited: boolean = false;
 
-  private _isRunning: boolean = false;
   private _nextRafId: number;
 
   protected _width: number;
@@ -210,9 +209,21 @@ export class Compiler {
 
     this.compileInteractions();
   }
+  protected clearNextRender() {
+    if (this._nextRafId) {
+      vglobal.getCancelAnimationFrame()(this._nextRafId);
+      this._nextRafId = null;
+
+      return true;
+    }
+
+    return false;
+  }
 
   clear(ctx: { chart: IChart; vChart: IVChart }, removeGraphicItems: boolean = false) {
     const { chart } = ctx;
+
+    this.clearNextRender();
     chart.clear();
     this.releaseGrammar(removeGraphicItems);
   }
@@ -233,29 +244,14 @@ export class Compiler {
     if (this._released) {
       return;
     }
-    if (this._nextRafId) {
-      vglobal.getCancelAnimationFrame()(this._nextRafId);
-      this._nextRafId = null;
-    }
-    if (this._isRunning) {
-      return;
-    }
 
     this.initView();
     if (!this._view) {
       return;
     }
-    this._isRunning = true;
     this._view?.run(morphConfig);
-    this._isRunning = false;
-
-    if (this._nextRafId) {
-      vglobal.getCancelAnimationFrame()(this._nextRafId);
-      this._nextRafId = null;
-
-      this._isRunning = true;
+    if (this.clearNextRender()) {
       this._view?.run(morphConfig);
-      this._isRunning = false;
     }
   }
 
@@ -417,6 +413,7 @@ export class Compiler {
   }
 
   release(): void {
+    this.clearNextRender();
     this.releaseEvent();
     this._option = this._container = null as any;
     // vgrammar release
