@@ -127,6 +127,9 @@ registerMap: (key: string, source: GeoSourceType, option?: GeoSourceOption) => v
 注册地图数据。
 
 ```ts
+export type GeoSourceOption = IGeoJsonOption | ITopoJsonOption;
+
+/** geojson 相关配置 */
 export interface GeoSourceOption {
   type: 'geojson';
   /** 计算中心点 */
@@ -154,6 +157,12 @@ export interface GeoSourceOption {
         /** @default false */
         reverse?: boolean;
       };
+}
+
+/** topojson 相关配置 */
+export interface ITopoJsonOption extends Omit<IGeoJsonOption, 'type'> {
+  type: 'topojson';
+  object: string;
 }
 ```
 
