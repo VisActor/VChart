@@ -16,7 +16,7 @@ export type IMarkPointGeoNameSpec = {
     areaName: string | IDataPosCallback;
 };
 export type IMarkPointCoordinateSpec = {
-    coordinates: IDataPointSpec;
+    coordinate: IDataPointSpec;
     coordinatesOffset?: OffsetPoint;
 };
 export type IMarkPointPositionsSpec = {
