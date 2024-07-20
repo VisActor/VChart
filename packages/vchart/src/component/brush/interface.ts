@@ -38,6 +38,12 @@ interface IBrushDataBindSpec {
    */
   zoomAfterBrush?: boolean;
   /**
+   * 刷取到空数据时, 是否更新axis/dataZoom范围
+   * @default false
+   * @since 0.11.10
+   */
+  zoomWhenEmpty?: boolean;
+  /**
    * 刷取联动的axisId
    * 如果开启刷取下钻, 默认联动所有关联axis和dataZoom
    * dataZoom filterMode: 'axis'时刷取才能正常进行（filterMode: 'filter'会改变axis domain, 导致计算错误）

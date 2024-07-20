@@ -93,6 +93,9 @@ brush选框的大小阈值。自 `1.2.0` 版本开始支持。
 ### zoomAfterBrush(boolean) = false
 是否开启刷取下钻。自0.10.0版本生效。
 
+## zoomWhenEmpty(boolean) = false
+刷取到空数据时, 是否下钻。自1.11.10版本生效。
+
 ### axisId(string|string[])
 
 刷取联动的axisId。自0.10.0版本生效。

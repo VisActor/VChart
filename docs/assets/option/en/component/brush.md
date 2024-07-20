@@ -93,6 +93,9 @@ The size threshold of the brush selection box. Supported since version `1.2.0`.
 ### zoomAfterBrush(boolean) = false
 Whether to turn on the brush to remove the drill. Effective from version 0.10.0.
 
+## zoomWhenEmpty(boolean) = false
+Whether to drill down when empty data is retrieved. Effective from version 1.11.10.
+
 ### axisId(string|string[])
 
 Brush the axisId of the linkage. Effective from version 0.10.0.
