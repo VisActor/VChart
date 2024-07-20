@@ -57,6 +57,10 @@ The padding between the inner contour and the outer contour.
 
 When there is an indicator card, whether to enable indicator smart inversion.
 
+#${prefix} reverse(boolean) = false
+
+Supported since version 1.11.10, whether graphics are drawn from top to bottom.
+
 #${prefix} liquid(Object)
 
 liquid mark style

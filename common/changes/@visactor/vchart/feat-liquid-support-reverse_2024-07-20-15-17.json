@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: liquid support reverse. close#2975",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
