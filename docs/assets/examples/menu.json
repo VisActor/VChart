@@ -2155,6 +2155,13 @@
           }
         },
         {
+          "path": "mark-line-custom-label-back",
+          "title": {
+            "zh": "markLine 支持自定义标签背景path",
+            "en": "markLine supports custom label background path"
+          }
+        },
+        {
           "path": "mark-line-axis",
           "title": {
             "zh": "markLine 轴空间定位",

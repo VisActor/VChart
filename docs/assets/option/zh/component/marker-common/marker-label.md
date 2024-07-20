@@ -30,6 +30,26 @@
 
 标签背景面板是否可见。
 
+##${prefix} customShape(function)
+自1.11.10版本, 标签背景支持自定义path.
+
+回调函数的定义如下:
+
+```ts
+/**
+ * @params text 标签文字内容
+ * @params 标签文字属性
+ * @params path对象, 用户自定义绘制
+ * @return 返回绘制完成后的path
+ */
+(
+  text: Pick<TextContent, 'text'>,
+  attrs: Partial<IGraphicAttribute>,
+  path: ICustomPath2D
+) => ICustomPath2D;
+```
+
+
 ##${prefix} padding(Object)
 
 标签面板内部边距。

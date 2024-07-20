@@ -472,6 +472,7 @@ export function transformLabelAttributes(label: IMarkerLabelSpec, markerData: an
     if (labelBackground.visible !== false) {
       labelAttrs.panel = {
         visible: true,
+        customShape: labelBackground.customShape,
         ...transformStyle(transformToGraphic(labelBackground.style), markerData)
       };
       if (isValid(labelBackground.padding)) {
