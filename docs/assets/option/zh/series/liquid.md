@@ -57,6 +57,10 @@ value字段。
 
 当存在指标卡时, 是否开启指标智能反色。
 
+#${prefix} reverse(boolean) = false
+
+自1.11.10版本支持, 图形是否从上往下绘制。
+
 #${prefix} liquid(Object)
 
 liquid 图元样式配置。

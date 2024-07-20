@@ -43,6 +43,8 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
 
   private _heightRatio?: number;
 
+  private _reverse?: boolean;
+
   protected _valueField?: string;
   setValueField(field: string) {
     if (isValid(field)) {
@@ -58,10 +60,11 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     this._marginSpec = normalizeLayoutPaddingSpec(this._spec.outlineMargin) as ILiquidPadding;
     this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.outlinePadding) as ILiquidPadding;
     this.setValueField(this._spec.valueField);
+    this._reverse = this._spec.reverse ?? false;
   }
 
-  rawDataUpdate(d: DataView): void {
-    super.rawDataUpdate(d);
+  viewDataUpdate(d: DataView): void {
+    super.viewDataUpdate(d);
     this._heightRatio = max(...this._data.getLatestData().map((d: Datum) => d[this._valueField]));
   }
 
@@ -102,7 +105,36 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     return this._liquidMark;
   }
 
-  private _getPosAndSizeFormRegion(isOutline: boolean = false) {
+  protected _buildMarkAttributeContext() {
+    super._buildMarkAttributeContext();
+    this._markAttributeContext.getLiquidBackPosAndSize = this._getLiquidBackPosAndSize;
+    this._markAttributeContext.getLiquidPosY = this._getLiquidPosY;
+    this._markAttributeContext.getLiquidHeight = this._getLiquidHeight;
+  }
+
+  private _getLiquidPosY = () => {
+    let liquidY = 0;
+    if (this._reverse) {
+      const { y: liquidBackY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
+      const liquidBackStartY = liquidBackY - liquidBackSize / 2;
+      const liquidHeight = liquidBackSize * this._heightRatio;
+      liquidY = -(liquidBackStartY + liquidHeight);
+    } else {
+      const { y: liquidBackY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
+      const liquidBackEndY = liquidBackY + liquidBackSize / 2;
+      const liquidHeight = liquidBackSize * this._heightRatio;
+      liquidY = liquidBackEndY - liquidHeight;
+    }
+
+    return liquidY;
+  };
+
+  private _getLiquidHeight = () => {
+    const { size: liquidBackSize } = this._getLiquidBackPosAndSize();
+    return liquidBackSize * this._heightRatio;
+  };
+
+  private _getLiquidBackPosAndSize = (isOutline: boolean = false) => {
     const {
       top: marginTop = 0,
       bottom: marginBottom = 0,
@@ -133,20 +165,20 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       y: regionHeight / 2 + (marginTop - marginBottom) / 2,
       size: Math.min(regionWidth - (marginLeft + marginRight), regionHeight - (marginTop + marginBottom))
     };
-  }
+  };
 
   private _initLiquidOutlineMarkStyle() {
     const liquidOutlineMark = this._liquidOutlineMark;
     liquidOutlineMark.setZIndex(this.layoutZIndex);
-    liquidOutlineMark.created();
+    // liquidOutlineMark.created();
     this.setMarkStyle(
       liquidOutlineMark,
       {
         stroke: this.getColorAttribute(),
-        x: () => this._getPosAndSizeFormRegion(true).x,
-        y: () => this._getPosAndSizeFormRegion(true).y,
-        size: () => this._getPosAndSizeFormRegion(true).size,
-        symbolType: () => getShapes(this._spec.maskShape ?? 'circle', this._getPosAndSizeFormRegion(true).size)
+        x: () => this._getLiquidBackPosAndSize(true).x,
+        y: () => this._getLiquidBackPosAndSize(true).y,
+        size: () => this._getLiquidBackPosAndSize(true).size,
+        symbolType: () => getShapes(this._spec.maskShape ?? 'circle', this._getLiquidBackPosAndSize(true).size)
       },
       'normal',
       AttributeLevel.Series
@@ -158,6 +190,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     const liquidBackgroundMark = this._liquidBackgroundMark;
     liquidBackgroundMark.setZIndex(this.layoutZIndex);
     liquidBackgroundMark.created();
+    // symbol mark x, y 指定center
     this.setMarkStyle(
       liquidBackgroundMark,
       {
@@ -165,7 +198,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
         width: () => this._region.getLayoutRect().width,
         height: () => this._region.getLayoutRect().height,
         path: () => {
-          const { x, y, size } = this._getPosAndSizeFormRegion();
+          const { x, y, size } = this._getLiquidBackPosAndSize();
           const symbolPath = createSymbol({
             x,
             y,
@@ -185,20 +218,16 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
   private _initLiquidMarkStyle() {
     const liquidMark = this._liquidMark;
     if (liquidMark) {
+      // liquid mark x, y 指定左上角
       this.setMarkStyle(
         liquidMark,
         {
+          angle: this._reverse ? -Math.PI : 0,
           dx: () => {
             return this._region.getLayoutStartPoint().x + this._region.getLayoutRect().width / 2;
           },
-          y: () => {
-            const { y: liquidBackY, size: liquidBackSize } = this._getPosAndSizeFormRegion();
-            return liquidBackY - liquidBackSize / 2 + liquidBackSize - liquidBackSize * this._heightRatio;
-          },
-          height: () => {
-            const { size: liquidBackSize } = this._getPosAndSizeFormRegion();
-            return liquidBackSize * this._heightRatio;
-          },
+          y: this._getLiquidPosY,
+          height: this._getLiquidHeight,
           fill: this.getColorAttribute(),
           wave: 0
         },
@@ -221,20 +250,14 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     const animationParams = {
       y: {
         from: () => {
-          const { y: liquidBackY, size: liquidBackSize } = this._getPosAndSizeFormRegion();
-          return liquidBackY - liquidBackSize / 2 + liquidBackSize;
+          const { y: liquidBackY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
+          return liquidBackY + liquidBackSize / 2;
         },
-        to: () => {
-          const { y: liquidBackY, size: liquidBackSize } = this._getPosAndSizeFormRegion();
-          return liquidBackY - liquidBackSize / 2 + liquidBackSize - liquidBackSize * this._heightRatio;
-        }
+        to: this._getLiquidPosY
       },
       height: {
         from: 0,
-        to: () => {
-          const { size: liquidBackSize } = this._getPosAndSizeFormRegion();
-          return liquidBackSize * this._heightRatio;
-        }
+        to: this._getLiquidHeight
       }
     };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<LiquidAppearPreset>)?.preset;
