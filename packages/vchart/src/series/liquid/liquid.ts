@@ -170,7 +170,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
   private _initLiquidOutlineMarkStyle() {
     const liquidOutlineMark = this._liquidOutlineMark;
     liquidOutlineMark.setZIndex(this.layoutZIndex);
-    // liquidOutlineMark.created();
+    liquidOutlineMark.created();
     this.setMarkStyle(
       liquidOutlineMark,
       {
