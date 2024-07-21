@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: liquid support reverse. close#2975",
+      "comment": "feat: liquid support reverse and target mark. close#2977 & close#2978",
       "type": "none"
     }
   ],
