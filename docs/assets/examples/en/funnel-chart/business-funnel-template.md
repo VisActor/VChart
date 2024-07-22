@@ -48,20 +48,21 @@ const arrowPath = `
 </svg>
 `;
 
+
 // Define the calculation relationship for each label
 const labelMap = {
  ProductExposure: {
  current: 'ProductExposure',
  target: 'OrdersCreated'
- },
+  },
  VisitorstoLiveRoom: {
  current: 'VisitorstoLiveRoom',
  target: 'ProductClicks'
- },
-ProductClicks: {
+  },
+ ProductClicks: {
  current: 'ProductClicks',
  target: 'OrdersCreated'
- }
+  }
 };
 
 // Funnel chart configuration
@@ -497,22 +498,6 @@ const spec = {
             text: (datum, ctx, params, dataView) => {
               const data = dataView.latestData;
               if (!data) return '';
-
-              // Define the calculation relationship for each label
-              const labelMap = {
-                ProductExposure: {
-                  current: 'ProductExposure',
-                  target: 'OrdersCreated'
-                },
-                VisitorstoLiveRoom: {
-                  current: 'VisitorstoLiveRoom',
-                  target: 'ProductClicks'
-                },
-                ProductClicks: {
-                  current: 'ProductClicks',
-                  target: 'OrdersCreated'
-                }
-              };
 
               const currentLabel = datum.label;
               const mapping = labelMap[currentLabel];
