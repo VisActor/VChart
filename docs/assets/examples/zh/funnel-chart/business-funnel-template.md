@@ -3,7 +3,7 @@ category: examples
 group: funnel chart
 title: 业务漏斗图模版
 keywords: funnelChart,composition,trend,custom,template,customMark
-cover: /vchart/preview/funnel-business-template-1.0.png
+cover: /vchart/preview/funnel-business-template-zh_1.11.10.png
 option: funnelChart
 ---
 
@@ -39,6 +39,30 @@ function ValueDifference(data, label) {
 
 //默认渲染次数为0
 let renderCount = 0;
+
+// 自定义箭头路径的 symbol
+const arrowPath = `
+<svg width="24" height="24" viewBox="-50 -50 50 50" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,0 L0,14 L7,7 Z"  />
+  <path d="M-16,6 Q-16,5 -14,5 L0,5 Q0,5 0,6  L0,9 Q0,8 0,10 L-14,10 Q-16,10 -16,9 Z"  />
+</svg>
+`;
+
+// 定义每个标签对应的计算关系
+const labelMap = {
+  商品曝光人数: {
+    current: '商品曝光人数',
+    target: '创建订单人数'
+  },
+  进入直播间人数: {
+    current: '进入直播间人数',
+    target: '商品点击人数'
+  },
+  商品点击人数: {
+    current: '商品点击人数',
+    target: '创建订单人数'
+  }
+};
 
 //漏斗图配置
 const spec = {
@@ -240,7 +264,7 @@ const spec = {
             y: 100
           }
         },
-        //箭头
+        // 箭头
         {
           type: 'symbol',
           dataId: 'funnel',
@@ -254,35 +278,11 @@ const spec = {
               const adjustedX = middleX + spacing;
               return adjustedX;
             },
-            y: 325,
-            size: 18,
+            y: 310,
+            size: 40,
             scaleX: 0.8,
-            symbolType: 'arrow2Right',
-            cornerRadius: 5,
+            symbolType: arrowPath,
             fill: 'rgb(200,200,200)'
-          }
-        },
-        //箭头尾巴
-        {
-          type: 'symbol',
-          dataId: 'funnel',
-          style: {
-            visible: true,
-            x: (data, ctx) => {
-              const { getPoints } = ctx;
-              const [tl, bl, tr, br] = getPoints(data);
-              const middleX = (tr.x + tl.x) / 2;
-              const spacing = tr.x - tl.x;
-              const adjustedX = middleX + spacing;
-              return adjustedX;
-            },
-            y: 325,
-            size: 15,
-            scaleX: 0.8,
-            symbolType: 'roundLine',
-            lineWidth: 3,
-            cornerRadius: 0,
-            stroke: 'rgb(200,200,200)'
           }
         },
         //矩形-转化层的背景
@@ -463,22 +463,6 @@ const spec = {
             text: (datum, ctx, params, dataView) => {
               const data = dataView.latestData;
               if (!data) return '';
-
-              // 定义每个标签对应的计算关系
-              const labelMap = {
-                商品曝光人数: {
-                  current: '商品曝光人数',
-                  target: '创建订单人数'
-                },
-                进入直播间人数: {
-                  current: '进入直播间人数',
-                  target: '商品点击人数'
-                },
-                商品点击人数: {
-                  current: '商品点击人数',
-                  target: '创建订单人数'
-                }
-              };
 
               const currentLabel = datum.label;
               const mapping = labelMap[currentLabel];
