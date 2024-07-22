@@ -97,7 +97,7 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
     fs.writeFileSync(pkgJsonPath, jsonFile)
   });
   
-  writeVersionOfHarmony(nextVersion);
+  // writeVersionOfHarmony(nextVersion);
 }
 
 module.exports = writePrereleaseVersion;
