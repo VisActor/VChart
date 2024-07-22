@@ -499,22 +499,6 @@ const spec = {
               const data = dataView.latestData;
               if (!data) return '';
 
-              // 定义每个标签对应的计算关系
-              const labelMap = {
-                商品曝光人数: {
-                  current: '商品曝光人数',
-                  target: '创建订单人数'
-                },
-                进入直播间人数: {
-                  current: '进入直播间人数',
-                  target: '商品点击人数'
-                },
-                商品点击人数: {
-                  current: '商品点击人数',
-                  target: '创建订单人数'
-                }
-              };
-
               const currentLabel = datum.label;
               const mapping = labelMap[currentLabel];
 
