@@ -3,7 +3,7 @@ category: examples
 group: funnel chart
 title: Business Funnel Chart Template
 keywords: funnelChart,composition,trend,custom,template,customMark
-cover: /vchart/preview/funnel-business-template-1.1.png
+cover: /vchart/preview/funnel-business-template-en_1.11.10.png
 option: funnelChart
 ---
 
@@ -39,6 +39,30 @@ function ValueDifference(data, label) {
 
 // Default render count is 0
 let renderCount = 0;
+
+//symbol path
+const arrowPath = `
+<svg width="24" height="24" viewBox="-50 -50 50 50" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,0 L0,14 L7,7 Z"  />
+  <path d="M-16,6 Q-16,5 -14,5 L0,5 Q0,5 0,6  L0,9 Q0,8 0,10 L-14,10 Q-16,10 -16,9 Z"  />
+</svg>
+`;
+
+// Define the calculation relationship for each label
+const labelMap = {
+ ProductExposure: {
+ current: 'ProductExposure',
+ target: 'OrdersCreated'
+ },
+ VisitorstoLiveRoom: {
+ current: 'VisitorstoLiveRoom',
+ target: 'ProductClicks'
+ },
+ProductClicks: {
+ current: 'ProductClicks',
+ target: 'OrdersCreated'
+ }
+};
 
 // Funnel chart configuration
 const spec = {
@@ -257,35 +281,11 @@ const spec = {
             y: 325,
             size: 18,
             scaleX: 0.8,
-            symbolType: 'arrow2Right',
+            symbolType: arrowPath,
             cornerRadius: 5,
             fill: 'rgb(200,200,200)'
           }
         },
-        // Arrow tail
-        {
-          type: 'symbol',
-          dataId: 'funnel',
-          style: {
-            visible: true,
-            x: (data, ctx) => {
-              const { getPoints } = ctx;
-              const [tl, bl, tr, br] = getPoints(data);
-              const middleX = (tr.x + tl.x) / 2;
-              const spacing = tr.x - tl.x;
-              const adjustedX = middleX + spacing;
-              return adjustedX;
-            },
-            y: 325,
-            size: 15,
-            scaleX: 0.8,
-            symbolType: 'roundLine',
-            lineWidth: 3,
-            cornerRadius: 0,
-            stroke: 'rgb(200,200,200)'
-          }
-        },
-
         // Rectangle - Conversion Layer Background
         {
           type: 'rect',
@@ -463,22 +463,6 @@ const spec = {
             text: (datum, ctx, params, dataView) => {
               const data = dataView.latestData;
               if (!data) return '';
-
-              // Define the calculation relationship for each label
-              const labelMap = {
-                ProductExposure: {
-                  current: 'ProductExposure',
-                  target: 'OrdersCreated'
-                },
-                VisitorstoLiveRoom: {
-                  current: 'VisitorstoLiveRoom',
-                  target: 'ProductClicks'
-                },
-                ProductClicks: {
-                  current: 'ProductClicks',
-                  target: 'OrdersCreated'
-                }
-              };
 
               const currentLabel = datum.label;
               const mapping = labelMap[currentLabel];
