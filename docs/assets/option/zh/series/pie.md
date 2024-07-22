@@ -252,7 +252,7 @@ emptyPlaceholder: {
 }
 ```
 
-#${prefix} stillShowZeroSum(boolean)
+#${prefix} showAllZero(boolean)
 
 是否在数据均为0时显示均分扇区。
 默认值为`false`。

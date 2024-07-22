@@ -252,7 +252,7 @@ emptyPlaceholder: {
 }
 ```
 
-#${prefix} stillShowZeroSum(boolean)
+#${prefix} showAllZero(boolean)
 
 Determines whether to display evenly divided sectors when all data are 0.
 The default value is `false`.

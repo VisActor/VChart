@@ -92,7 +92,7 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
    * 是否在数据均为0时显示均分扇区。
    * @default false
    */
-  stillShowZeroSum?: boolean;
+  showAllZero?: boolean;
 }
 
 export interface IPieSeriesTheme extends IPolarSeriesTheme {

@@ -18,7 +18,7 @@ export interface IPieOpt {
   asRatio: string;
   asQuadrant: string;
   asK: string;
-  stillShowZeroSum: boolean;
+  showAllZero: boolean;
 }
 
 function transformInvalidValue(value: any) {
@@ -45,7 +45,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     asRatio,
     asQuadrant,
     asK,
-    stillShowZeroSum
+    showAllZero
   } = op;
 
   const appendArcInfo = (data: Datum, startAngle: number, angle: number) => {
@@ -118,7 +118,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     // 数据都为 0 时，起始角和结束角相同，不应该强制赋值
     // 防止一个扇区的角度会因为浮点数精度问题和传入的 endAngle 不相等
     data[data.length - 1][asEndAngle] = endAngle;
-  } else if (total === 0 && stillShowZeroSum) {
+  } else if (total === 0 && showAllZero) {
     data[0][asStartAngle] = startAngle;
 
     for (let i = 0; i < data.length; i++) {
