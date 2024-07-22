@@ -58,10 +58,14 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
 
   let total = 0;
   let max = -Infinity;
+  let isAllZero = true;
   for (let index = 0; index < data.length; index++) {
     const angleFieldValue = transformInvalidValue(data[index][angleField]);
     total += angleFieldValue;
     max = Math.max(angleFieldValue, max);
+    if (isAllZero && angleFieldValue !== 0) {
+      isAllZero = false;
+    }
 
     data[index][ARC_TRANSFORM_VALUE] = angleFieldValue;
   }
@@ -118,7 +122,9 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     // 数据都为 0 时，起始角和结束角相同，不应该强制赋值
     // 防止一个扇区的角度会因为浮点数精度问题和传入的 endAngle 不相等
     data[data.length - 1][asEndAngle] = endAngle;
-  } else if (total === 0 && showAllZero) {
+  }
+
+  if (isAllZero && showAllZero) {
     data[0][asStartAngle] = startAngle;
 
     for (let i = 0; i < data.length; i++) {
