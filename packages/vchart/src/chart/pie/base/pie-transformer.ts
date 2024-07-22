@@ -28,7 +28,7 @@ export class BasePieChartSpecTransformer<T extends IPieChartSpec> extends PolarC
       emptyPlaceholder: spec.emptyPlaceholder,
       emptyCircle: spec.emptyPlaceholder?.emptyCircle,
 
-      stillShowZeroSum: spec.stillShowZeroSum
+      showAllZero: spec.showAllZero
     };
   }
 }
