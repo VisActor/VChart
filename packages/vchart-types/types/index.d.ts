@@ -9,4 +9,6 @@ export * from './component';
 export * from './layout';
 export * from './env';
 export * from './event';
-export * from './plugin';
+export * from './plugin/chart';
+export * from './plugin/components/tooltip-handler';
+export * from './plugin/components/axis-sync';

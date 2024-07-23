@@ -19,6 +19,7 @@ export interface ILabelSpec extends IComponentSpec {
     overlap?: BaseLabelAttrs['overlap'];
     smartInvert?: BaseLabelAttrs['smartInvert'];
     animation?: BaseLabelAttrs['animation'];
+    stackDataFilterType?: 'min' | 'max';
     dataFilter?: BaseLabelAttrs['dataFilter'];
     customLayoutFunc?: BaseLabelAttrs['customLayoutFunc'];
     customOverlapFunc?: BaseLabelAttrs['customOverlapFunc'];
@@ -33,7 +34,7 @@ type LabelStateStyle<T> = {
     selected?: T;
     selected_reverse?: T;
 };
-export type ITotalLabelSpec = Pick<ILabelSpec, 'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType'>;
+export type ITotalLabelSpec = Pick<ILabelSpec, 'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType' | 'overlap'>;
 export interface ITotalLabelTheme extends Pick<ILabelSpec, 'visible' | 'interactive' | 'offset' | 'overlap' | 'smartInvert' | 'animation'> {
     style?: ITextMarkSpec;
 }

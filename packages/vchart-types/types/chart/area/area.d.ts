@@ -8,6 +8,5 @@ export declare class AreaChart<T extends IAreaChartSpec = IAreaChartSpec> extend
     readonly transformerConstructor: typeof AreaChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _canStack: boolean;
 }
 export declare const registerAreaChart: () => void;

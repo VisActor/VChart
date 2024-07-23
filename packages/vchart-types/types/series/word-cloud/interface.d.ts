@@ -1,4 +1,4 @@
-import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod } from '../../typings';
+import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod, IRectMarkSpec } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { WordcloudAppearPreset } from './animation';
@@ -9,6 +9,7 @@ export type EllipsisType = {
     limitLength?: number;
 };
 export type ZoomToFitType = {
+    repeat?: boolean;
     shrink?: boolean;
     enlarge?: boolean;
     fontSizeLimitMin?: number;
@@ -52,6 +53,24 @@ export type WordCloudShapeConfigType = {
     fillingDeltaFontSizeFactor?: number;
     fillingRatio?: number;
 };
+export interface TextShapeMask {
+    type: 'text';
+    text: string;
+    hollow?: boolean;
+    backgroundColor?: string;
+    fill?: string;
+    fontFamily?: string;
+    fontWeight?: string | number;
+    fontStyle?: string;
+    fontVariant: string;
+}
+export interface GeometricMaskShape {
+    type: 'geometric';
+    shape: string;
+    hollow?: boolean;
+    backgroundColor?: string;
+    fill?: string;
+}
 export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<string, WordcloudAppearPreset> {
     nameField: string;
     valueField?: string;
@@ -64,7 +83,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     rotateAngles?: number[];
     fontWeightRange?: [number, number];
     fontSizeRange?: [number, number] | 'auto';
-    maskShape?: string | WordCloudShapeType;
+    maskShape?: string | WordCloudShapeType | TextShapeMask | GeometricMaskShape;
     keepAspect?: boolean;
     random?: boolean;
     wordCloudConfig?: WordCloudConfigType;
@@ -76,6 +95,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
         padding?: number;
     };
+    [SeriesMarkNameEnum.wordMask]?: IMarkSpec<IRectMarkSpec>;
     animationAppear?: boolean | (IStateAnimateSpec<WordcloudAppearPreset> & {
         duration?: number;
         totalTime?: number;

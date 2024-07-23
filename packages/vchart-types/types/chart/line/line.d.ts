@@ -8,6 +8,5 @@ export declare class LineChart<T extends ILineChartSpec> extends BaseChart<T> {
     readonly transformerConstructor: typeof LineChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _canStack: boolean;
 }
 export declare const registerLineChart: () => void;

@@ -26,12 +26,17 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
     minAngle?: number;
     [SeriesMarkNameEnum.pie]?: IMarkSpec<IArcMarkSpec>;
     [SeriesMarkNameEnum.label]?: IMultiLabelSpec<IArcLabelSpec>;
+    emptyPlaceholder?: {
+        showEmptyCircle?: boolean;
+        emptyCircle?: IMarkSpec<IArcMarkSpec>;
+    };
 }
 export interface IPieSeriesTheme extends IPolarSeriesTheme {
     [SeriesMarkNameEnum.pie]?: Partial<IMarkTheme<IArcMarkSpec>>;
     [SeriesMarkNameEnum.label]?: IArcLabelSpec;
     innerLabel?: IArcLabelSpec;
     outerLabel?: IArcLabelSpec;
+    emptyCircle?: Partial<IMarkTheme<IArcMarkSpec>>;
 }
 export type IPie3dSeriesSpec = {
     type: 'pie3d';

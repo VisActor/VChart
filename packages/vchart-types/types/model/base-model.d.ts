@@ -32,7 +32,6 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     getMarks(): IMark[];
     getMarkNameMap(): Record<string, IMark>;
     getMarkSet(): MarkSet;
-    getMarkInfoList(): IModelMarkInfo[];
     getChart(): import("../chart/interface").IChart;
     protected get _theme(): any;
     protected _lastLayoutRect: ILayoutRect;

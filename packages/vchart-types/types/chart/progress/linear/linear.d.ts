@@ -8,6 +8,5 @@ export declare class LinearProgressChart<T extends ILinearProgressChartSpec = IL
     readonly transformerConstructor: typeof LinearProgressChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _canStack: boolean;
 }
 export declare const registerLinearProgressChart: () => void;
