@@ -144,37 +144,20 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     } = isOutline ? {} : this._paddingSpec;
 
     const { width: regionWidth, height: regionHeight } = this._region.getLayoutRect();
-    if (!isOutline) {
-      const outlineX = regionWidth / 2 + (marginLeft + paddingRight - (marginRight + paddingRight)) / 2;
-      const outlineY = regionHeight / 2 + (marginTop + paddingTop - (marginBottom + paddingBottom)) / 2;
-      const outlineSize = Math.min(
-        regionWidth - (marginLeft + marginRight + paddingLeft + paddingRight),
-        regionHeight - (marginTop + marginBottom + paddingTop + paddingBottom)
-      );
-      return {
-        x: outlineX,
-        y: outlineY,
-        size: outlineSize,
-        startX: outlineX - outlineSize / 2,
-        startY: outlineY - outlineSize / 2,
-        endX: outlineX + outlineSize / 2,
-        endY: outlineY + outlineSize / 2
-      };
-    }
-    const backgroundX = regionWidth / 2 + (marginLeft - marginRight) / 2;
-    const backgroundY = regionHeight / 2 + (marginTop - marginBottom) / 2;
-    const backgroundSize = Math.min(
-      regionWidth - (marginLeft + marginRight),
-      regionHeight - (marginTop + marginBottom)
+    const x = regionWidth / 2 + (marginLeft + paddingRight - (marginRight + paddingRight)) / 2;
+    const y = regionHeight / 2 + (marginTop + paddingTop - (marginBottom + paddingBottom)) / 2;
+    const size = Math.min(
+      regionWidth - (marginLeft + marginRight + paddingLeft + paddingRight),
+      regionHeight - (marginTop + marginBottom + paddingTop + paddingBottom)
     );
     return {
-      x: backgroundX,
-      y: backgroundY,
-      size: backgroundSize,
-      startX: backgroundX - backgroundSize / 2,
-      startY: backgroundY - backgroundSize / 2,
-      endX: backgroundX + backgroundSize / 2,
-      endY: backgroundY + backgroundSize / 2
+      x,
+      y,
+      size,
+      startX: x - size / 2,
+      startY: y - size / 2,
+      endX: x + size / 2,
+      endY: y + size / 2
     };
   };
 
