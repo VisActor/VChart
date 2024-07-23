@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: prevent issue with ios bug while pointEvent is configed",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

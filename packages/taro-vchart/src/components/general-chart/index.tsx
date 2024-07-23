@@ -162,14 +162,14 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
           style={{
             ...style_cs_tooltip_canvas
           }}
+          onTouchStart={handleEvent}
+          onTouchMove={handleEvent}
+          onTouchEnd={handleEvent}
           id={`${canvasId}_tooltip_canvas`}
           canvasId={`${canvasId}_tooltip_canvas`}
         ></Canvas>
         <Canvas
           type={type}
-          onTouchStart={handleEvent}
-          onTouchMove={handleEvent}
-          onTouchEnd={handleEvent}
           style={style_cs_canvas}
           id={`${canvasId}_draw_canvas`}
           canvasId={`${canvasId}_draw_canvas`}
