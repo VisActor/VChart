@@ -10,6 +10,7 @@ export class LiquidChartSpecTransformer<
       ...super._getDefaultSeriesSpec(spec),
       valueField: spec.valueField,
       maskShape: spec.maskShape,
+      reverse: spec.reverse,
       outlineMargin: spec.outlineMargin,
       outlinePadding: spec.outlinePadding,
       indicatorSmartInvert: spec.indicatorSmartInvert,
