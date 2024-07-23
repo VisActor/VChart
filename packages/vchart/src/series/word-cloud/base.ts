@@ -21,8 +21,6 @@ import {
 } from './config';
 import type {
   IWordCloudSeriesSpec,
-  TextShapeMask,
-  GeometricMaskShape,
   WordCloudConfigType,
   WordCloudShapeConfigType,
   WordCloudShapeType
@@ -39,6 +37,7 @@ import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import type { IRectMark } from '../../mark/rect';
 import { LinearScale } from '@visactor/vscale';
+import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -85,8 +84,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   protected handleMaskCanvasUpdate = (canvas: HTMLCanvasElement, imageUrl?: string) => {
     this._maskCanvas = canvas;
-
-    document.body.appendChild(canvas);
   };
   /**
    * @override
@@ -364,7 +361,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     return {
       size: [width, height],
       shape:
-        isObject(this._maskShape) && this._maskShape.type === 'text' && isNil(this._maskShape.fontFamily)
+        isObject(this._maskShape) &&
+        (this._maskShape as TextShapeMask).type === 'text' &&
+        isNil((this._maskShape as TextShapeMask).fontFamily)
           ? {
               fontFamily: this._option.getTheme()?.fontFamily,
               ...this._maskShape
