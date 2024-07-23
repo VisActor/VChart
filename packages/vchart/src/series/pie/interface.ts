@@ -93,6 +93,12 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
    * @default false
    */
   showAllZero?: boolean;
+
+  /**
+   * 是否将负数按照绝对值进行处理。
+   * @default false
+   */
+  supportNegative?: boolean;
 }
 
 export interface IPieSeriesTheme extends IPolarSeriesTheme {
