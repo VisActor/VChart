@@ -21,6 +21,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     static specKey: string;
     specKey: string;
     layoutType: 'none';
+    private _timer?;
     protected _spec: ITooltipSpec;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     tooltipHandler?: ITooltipHandler;
@@ -48,7 +49,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _initEvent(): void;
     protected _mountEvent: (eType: EventType, query: EventQuery, callback: EventCallback<any>) => void;
     protected _getMouseOutHandler: (needPointerDetection?: boolean) => (params: BaseEventParams) => void;
-    protected _handleChartMouseOut: (params: BaseEventParams) => void;
+    protected _handleChartMouseOut: (params?: BaseEventParams) => void;
     protected _getMouseMoveHandler: (isClick: boolean) => (params: BaseEventParams) => void;
     protected _showTooltipByMouseEvent: (activeType: TooltipActiveType, mouseEventData: TotalMouseEventData, params: BaseEventParams, isClick: boolean, useCache?: boolean) => boolean;
     protected _getMouseEventData: (params: BaseEventParams) => TotalMouseEventData;

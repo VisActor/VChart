@@ -73469,6 +73469,11 @@
           "$ref": "#/definitions/Partial<ITooltipHandlerSpec>",
           "description": "自定义handler方法"
         },
+        "hideTimer": {
+          "description": "隐藏计时器",
+          "since": "1.11.7",
+          "type": "number"
+        },
         "lockAfterClick": {
           "description": "点击后锁定，只有点击才可以更新位置或者解锁，通常用于 trigger 为 `['hover', 'click']` 的场景\n（*会影响自定义handler）",
           "since": "1.10.0",
@@ -73503,7 +73508,7 @@
           "type": "string"
         },
         "style": {
-          "$ref": "#/definitions/Omit<ITooltipTheme<string>,\"offset\">",
+          "$ref": "#/definitions/Omit<ITooltipTheme<string>,\"offset\"|\"transitionDuration\">",
           "description": "tooltip样式"
         },
         "throttleInterval": {
@@ -73774,6 +73779,11 @@
         "titleLabel": {
           "$ref": "#/definitions/ITooltipTextTheme<string|IColorKey>",
           "description": "tooltip标题"
+        },
+        "transitionDuration": {
+          "description": "浮层移动动画过渡时间，单位是 ms，设置为 0 的时候会紧跟着鼠标移动（目前仅影响 dom tooltip）",
+          "since": "1.11.9",
+          "type": "number"
         },
         "valueLabel": {
           "$ref": "#/definitions/ITooltipTextTheme<string|IColorKey>",
@@ -78799,11 +78809,8 @@
           "type": "array"
         },
         "colorMode": {
-          "description": "颜色模式",
-          "enum": [
-            "linear",
-            "ordinal"
-          ],
+          "const": "ordinal",
+          "description": "颜色模式\nTODO: 'linear' 待支持",
           "type": "string"
         },
         "crosshair": {
@@ -79310,11 +79317,8 @@
           "type": "array"
         },
         "colorMode": {
-          "description": "颜色模式",
-          "enum": [
-            "linear",
-            "ordinal"
-          ],
+          "const": "ordinal",
+          "description": "颜色模式\nTODO: 'linear' 待支持",
           "type": "string"
         },
         "data": {
@@ -79743,11 +79747,8 @@
           "type": "array"
         },
         "colorMode": {
-          "description": "颜色模式",
-          "enum": [
-            "linear",
-            "ordinal"
-          ],
+          "const": "ordinal",
+          "description": "颜色模式\nTODO: 'linear' 待支持",
           "type": "string"
         },
         "crosshair": {
@@ -80247,11 +80248,8 @@
           "type": "array"
         },
         "colorMode": {
-          "description": "颜色模式",
-          "enum": [
-            "linear",
-            "ordinal"
-          ],
+          "const": "ordinal",
+          "description": "颜色模式\nTODO: 'linear' 待支持",
           "type": "string"
         },
         "data": {
@@ -80692,7 +80690,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         },
         "size": {
@@ -80700,14 +80698,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13446",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         },
         "size": {
@@ -80715,14 +80713,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13446",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         },
         "size": {
@@ -80730,14 +80728,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13446",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         },
         "size": {
@@ -80745,14 +80743,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13446",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         },
         "size": {
@@ -80760,14 +80758,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13446",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         },
         "size": {
@@ -80775,14 +80773,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13446",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         },
         "size": {
@@ -80790,14 +80788,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13446",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         },
         "size": {
@@ -80805,14 +80803,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13446",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         },
         "size": {
@@ -80820,7 +80818,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13443",
+        "__@toStringTag@13446",
         "size"
       ],
       "type": "object"
@@ -86185,7 +86183,7 @@
       },
       "type": "object"
     },
-    "Omit<ITooltipTheme<string>,\"offset\">": {
+    "Omit<ITooltipTheme<string>,\"offset\"|\"transitionDuration\">": {
       "properties": {
         "align": {
           "enum": [
@@ -101376,34 +101374,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13443"
+        "__@toStringTag@13446"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13443"
+        "__@toStringTag@13446"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13443": {
+        "__@toStringTag@13446": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13443"
+        "__@toStringTag@13446"
       ],
       "type": "object"
     },

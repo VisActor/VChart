@@ -29,6 +29,12 @@
 
 
 **🆕 New feature**
+# v1.11.7
+
+2024-07-06
+
+
+**🆕 New feature**
 
 - **@visactor/vchart**: support configuring callback function in indicator text style attributes, [#2540](https://github.com/VisActor/VChart/issues/2540)
 - **@visactor/vchart**: add options `hideTimer` in toolti, to hide tooltip by timer
