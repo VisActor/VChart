@@ -141,7 +141,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       bottom: paddingBottom = 0,
       left: paddingLeft = 0,
       right: paddingRight = 0
-    } = isOutline ? this._paddingSpec : {};
+    } = isOutline ? {} : this._paddingSpec;
 
     const { width: regionWidth, height: regionHeight } = this._region.getLayoutRect();
     if (!isOutline) {
