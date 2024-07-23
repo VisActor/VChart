@@ -83,12 +83,14 @@
    * PNPM documentation: https://pnpm.io/package_json#pnpmoverrides
    */
   "globalOverrides": {
-    // "@visactor/vrender-core": "0.19.4-alpha.5",
-    // "@visactor/vrender-kits": "0.19.4-alpha.5",
-    // "@visactor/vrender-components": "0.19.4-alpha.5",
-    // "@visactor/vutils": "0.18.8",
-    // "@visactor/vscale": "0.18.8",
-    // "@visactor/vdataset": "0.18.8"
+    "@visactor/vgrammar-core": "0.14.0-alpha.2",
+    "@visactor/vgrammar-projection": "0.14.0-alpha.2",
+    "@visactor/vgrammar-wordcloud": "0.14.0-alpha.2",
+    "@visactor/vgrammar-wordcloud-shape": "0.14.0-alpha.2",
+    "@visactor/vgrammar-hierarchy": "0.14.0-alpha.2",
+    "@visactor/vgrammar-sankey": "0.14.0-alpha.2",
+    "@visactor/vgrammar-venn": "0.14.0-alpha.2",
+    "@visactor/vgrammar-util": "0.14.0-alpha.2"
   },
   /**
    * The `globalPeerDependencyRules` setting provides various settings for suppressing validation errors
