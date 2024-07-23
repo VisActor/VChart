@@ -868,9 +868,14 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       };
     } = {};
     this._components.forEach(c => {
+      if (c.type === ComponentTypeEnum.label || c.type === ComponentTypeEnum.totalLabel) {
+        // label配置都会被解析到series中，所以不适合放在这里进行比对
+        return;
+      }
       const compSpecKey = c.specKey || c.type;
       // 每一个组件获取对应的speck
       const cmpSpec = this._spec[compSpecKey] ?? {};
+
       if (isArray(cmpSpec)) {
         componentCache[compSpecKey] = componentCache[compSpecKey] || {
           specCount: cmpSpec.length,

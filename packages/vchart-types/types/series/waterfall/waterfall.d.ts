@@ -34,6 +34,7 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
     initMark(): void;
     initLabelMarkStyle(labelMark: ILabelMark): void;
+    initStackLabelMarkStyle(labelMark: ILabelMark): void;
     initTotalLabelMarkStyle(labelMark: ILabelMark): void;
     getTotalLabelComponentStyle(info: Pick<ILabelInfo, 'baseMark' | 'labelMark'>): {
         customLayoutFunc: (labels: import("@visactor/vrender-components").LabelItem[]) => import("@visactor/vrender-core").IText[];

@@ -127,6 +127,8 @@ registerMap: (key: string, source: GeoSourceType, option?: GeoSourceOption) => v
 Used to register map data.
 
 ```ts
+export type GeoSourceOption = IGeoJsonOption | ITopoJsonOption;
+
 export interface GeoSourceOption {
   type: 'geojson';
   /** Calculate center point */
@@ -154,6 +156,12 @@ export interface GeoSourceOption {
         /** @default false */
         reverse?: boolean;
       };
+}
+
+/** topojson */
+export interface ITopoJsonOption extends Omit<IGeoJsonOption, 'type'> {
+  type: 'topojson';
+  object: string;
 }
 ```
 

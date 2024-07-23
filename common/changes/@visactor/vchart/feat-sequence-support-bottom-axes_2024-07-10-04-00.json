@@ -2,7 +2,11 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
+<<<<<<<< HEAD:common/changes/@visactor/vchart/feat-sequence-support-bottom-axes_2024-07-10-04-00.json
       "comment": "sequence support bottom axes. fix#2927",
+========
+      "comment": "fix: prevent trigger original event in zoomEnd composite event #2931",
+>>>>>>>> origin/develop:common/changes/@visactor/vchart/fix-prevent-dragEnd-pointer-event_2024-07-17-06-47.json
       "type": "none"
     }
   ],

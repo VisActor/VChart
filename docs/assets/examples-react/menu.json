@@ -129,6 +129,13 @@
             "en": "Use react components to render customized labels in funnel-chart",
             "zh": "使用react渲染漏斗图标签"
           }
+        },
+        {
+          "path": "legend-icon",
+          "title": {
+            "en": "customized legend icon",
+            "zh": "自定义图例icon"
+          }
         }
       ]
     }

@@ -2,7 +2,11 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
+<<<<<<<< HEAD:common/changes/@visactor/vchart/feat-pie-empty-placeholder_2024-07-15-07-28.json
       "comment": "add emptyPlaceholder and emptyCircle for pie chart",
+========
+      "comment": "fix: prevent issue with ios bug while pointEvent is configed",
+>>>>>>>> origin/develop:common/changes/@visactor/vchart/develop_2024-07-16-08-32.json
       "type": "none"
     }
   ],

@@ -171,7 +171,7 @@ export class Zoomable implements IZoomable {
       : [this._getZoomTriggerEvent('zoom'), { level: Event_Bubble_Level.chart, consume: true }];
     const zoomEndParams: [string] | [string, EventQuery] = this._isGestureListener
       ? [this._getZoomTriggerEvent('zoomEnd')]
-      : [this._getZoomTriggerEvent('zoomEnd'), { level: Event_Bubble_Level.chart, consume: false }];
+      : [this._getZoomTriggerEvent('zoomEnd'), { level: Event_Bubble_Level.chart, consume: true }];
 
     // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
     (event as any).on(

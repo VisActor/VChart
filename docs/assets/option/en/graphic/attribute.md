@@ -102,6 +102,12 @@ Can be configured with fixed coordinates, such as [100, 100], or percentage coor
 
 Supported since version `1.7.3`, it is used to expand the picking range of strokes. 0 is the default line width, positive numbers widen the width, and negative numbers widen the width.
 
+#${prefix} boundsPadding(number|array)
+Bounds padding of the graphic bounding box, default value is 0, supports two formats:
+
+- number: set uniform padding for top, right, bottom, and left
+- array: padding array, format `[top, right, bottom, left]`, sets padding for each of the four directions separately
+
 #${prefix} html(object)
 Supported since version `1.10.0`, used to configure the HTML overlay of the graphic element.
 

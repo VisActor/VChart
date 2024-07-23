@@ -389,9 +389,7 @@ export class VChart implements IVChart {
     this._compiler.initView();
     // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
-    this.getStage()?.setTheme({
-      text: { fontFamily: this._currentTheme?.fontFamily as string }
-    });
+    this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
@@ -630,6 +628,10 @@ export class VChart implements IVChart {
       this._chartSpecTransformer = null;
       this._chart?.release();
       this._chart = null as unknown as IChart;
+      // 卸载了chart之后再设置主题 避免多余的reInit
+      if (updateResult.changeTheme) {
+        this._setCurrentTheme();
+      }
       // 如果不需要动画，那么释放item，避免元素残留
       this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
       // chart 内部事件 模块自己必须删除
@@ -641,6 +643,10 @@ export class VChart implements IVChart {
         this._doResize();
       }
     } else {
+      // 不remake的情况下，可以在这里更新主题
+      if (updateResult.changeTheme) {
+        this._setCurrentTheme();
+      }
       if (updateResult.reCompile) {
         // recompile
         // 清除之前的所有 compile 内容
@@ -1023,35 +1029,42 @@ export class VChart implements IVChart {
   ): IUpdateSpecResult | undefined {
     const lastSpec = this._spec;
 
+    const result: IUpdateSpecResult = {
+      reTransformSpec: false,
+      change: false,
+      reMake: false,
+      reCompile: false,
+      reSize: false,
+      changeTheme: false
+    };
+
+    // 这里已经将 this._spec 设置为新spec
     if (!this._setNewSpec(spec, forceMerge)) {
       return undefined;
     }
 
+    // 这时图表内对象是旧的，对应上一份 spec
     if (!isEqual(lastSpec.theme, this._spec.theme)) {
-      this._setCurrentTheme();
+      result.changeTheme = true;
+      // setCurrentTheme 会导致 chart 实例的 reInit。
+      // 只要模块从 vchart 实例获取与 spec 相关的信息，都会出现错误，它们已经不匹配了
+      // this._setCurrentTheme();
     }
 
     const reSize = this._shouldChartResize(lastSpec);
+    result.reSize = reSize;
     this._compiler?.getVGrammarView()?.updateLayoutTag();
 
     if (this._spec.type !== lastSpec.type) {
-      return {
-        reTransformSpec: true,
-        change: true,
-        reMake: true,
-        reCompile: false,
-        reSize: reSize
-      };
+      result.reMake = true;
+      result.reTransformSpec = true;
+      result.change = true;
+      return result;
     }
+    // 再次处理 spec 并得到 specInfo
     this._initChartSpec(this._spec, 'render');
 
-    const res = mergeUpdateResult(this._chart.updateSpec(this._spec), {
-      reTransformSpec: false,
-      change: reSize,
-      reMake: false,
-      reCompile: false,
-      reSize
-    });
+    const res = mergeUpdateResult(this._chart.updateSpec(this._spec), result);
 
     return userUpdateOptions
       ? {
@@ -1464,6 +1477,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     const result = this._setCurrentTheme(name);
+    this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
     await this.updateCustomConfigAndRerender(result, false, {
       transformSpec: false,
       actionSource: 'setCurrentTheme'
@@ -1482,6 +1496,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     const result = this._setCurrentTheme(name);
+    this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
     this.updateCustomConfigAndRerender(result, true, {
       transformSpec: false,
       actionSource: 'setCurrentTheme'
@@ -1494,6 +1509,15 @@ export class VChart implements IVChart {
     this._initChartSpec(this._getSpecFromOriginalSpec(), 'setCurrentTheme');
     this._chart?.setCurrentTheme();
     return { change: true, reMake: false };
+  }
+
+  private _setFontFamilyTheme(fontFamily: string) {
+    if (!fontFamily) {
+      return;
+    }
+    // 全局字体的特殊设置逻辑
+    // 设置全局字体
+    this.getStage()?.setTheme({ text: { fontFamily } });
   }
 
   // Tooltip 相关方法

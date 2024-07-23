@@ -1,3 +1,22 @@
+# v1.11.9
+
+2024-07-17
+
+**🆕 New feature**
+
+- @visactor/vchart: tooltip theme support transition duration
+
+**🐛 Bug fix**
+
+- @visactor/vchart: fix statistics confict of linear and discrete field, close [#2926](https://github.com/VisActor/VChart/issues/2926)
+- @visactor/vchart: fix theme error of update spec
+- @visactor/vchart: fix update of label when udpate spec
+- @visactor/vchart: fix bug of polar point update aniamtion
+- @visactor/vchart: react attributes should support react 17
+- @visactor/vchart: fix height of link when set `minNodeHeight` of sankey
+
+[more detail about v1.11.9](https://github.com/VisActor/VChart/releases/tag/v1.11.9)
+
 # v1.11.7
 
 2024-07-06

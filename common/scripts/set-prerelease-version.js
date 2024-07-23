@@ -97,7 +97,7 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
     fs.writeFileSync(pkgJsonPath, jsonFile)
   });
   
-  if (!preReleaseName) {
+  if (!preReleaseName || preReleaseName === 'none') {
     writeVersionOfHarmony(nextVersion);
   }
 }

@@ -78,6 +78,7 @@ VChart.ThemeManager.setCurrentTheme('vScreenVolcanoBlue');
 - [arcoDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/arcoDesignDark.json) Arco Design - dark
 - [ttPlatformLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/ttPlatformLight.json) TT Platform - light
 - [ttPlatformDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/ttPlatformDark.json) TT Platform - dark
+- [chartHubLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/chartHubLight.json) chartHub - light
 - [veODesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLight.json) O Design - light
 - [veODesignLightFinance](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightFinance.json) O Design - light - 金融行业色板
 - [veODesignLightGovernment](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightGovernment.json) O Design - light - 政府行业色板

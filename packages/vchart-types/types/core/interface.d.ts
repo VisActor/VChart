@@ -14,6 +14,7 @@ import type { IChart, IChartSpecInfo } from '../chart/interface';
 import type { Stage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
+import type { IUpdateSpecResult } from '../model/interface';
 export type DataLinkSeries = {
     seriesId?: StringOrNumber;
     seriesIndex?: number;
@@ -38,8 +39,8 @@ export interface IVChart {
     }[]) => Promise<IVChart>;
     updateDataSync: (id: StringOrNumber, data: Datum[], options?: IParserOptions) => IVChart;
     updateFullDataSync: (data: IDataValues | IDataValues[], reRender?: boolean) => IVChart;
-    updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => Promise<IVChart>;
-    updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => void;
+    updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, userUpdateOptions?: IUpdateSpecResult) => Promise<IVChart>;
+    updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, userUpdateOptions?: IUpdateSpecResult) => void;
     updateModelSpecSync: (filter: string | {
         type: string;
         index: number;
