@@ -19,6 +19,7 @@ export interface IPieOpt {
   asQuadrant: string;
   asK: string;
   showAllZero: boolean;
+  supportNegative: boolean;
 }
 
 function transformInvalidValue(value: any) {
@@ -45,7 +46,8 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     asRatio,
     asQuadrant,
     asK,
-    showAllZero
+    showAllZero,
+    supportNegative
   } = op;
 
   const appendArcInfo = (data: Datum, startAngle: number, angle: number) => {
@@ -60,7 +62,9 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
   let max = -Infinity;
   let isAllZero = true;
   for (let index = 0; index < data.length; index++) {
-    const angleFieldValue = transformInvalidValue(data[index][angleField]);
+    const angleFieldValue = supportNegative
+      ? Math.abs(transformInvalidValue(data[index][angleField]))
+      : transformInvalidValue(data[index][angleField]);
     total += angleFieldValue;
     max = Math.max(angleFieldValue, max);
     if (isAllZero && angleFieldValue !== 0) {
