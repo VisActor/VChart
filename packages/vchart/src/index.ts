@@ -13,4 +13,7 @@ export * from './component';
 export * from './layout';
 export * from './env';
 export * from './event';
-export * from './plugin';
+// plugin路径太深，如果直接引用，会导致tree-shaking失效
+export * from './plugin/chart';
+export * from './plugin/components/tooltip-handler';
+export * from './plugin/components/axis-sync';

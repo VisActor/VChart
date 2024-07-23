@@ -5,6 +5,9 @@ import type { IStackCacheNode, IStackCacheRoot } from '../util';
 // eslint-disable-next-line no-duplicate-imports
 import { getRegionStackGroup, stack, stackOffsetSilhouette, stackTotal } from '../util';
 import type { EventCallback } from '../event/interface';
+import type { DataSet } from '@visactor/vdataset';
+import { registerDataSetInstanceTransform } from '../data/register';
+import { stackSplit } from '../data/transforms/stack-split';
 
 // stack
 // 1. 不可以多个region之间的series进行堆积，目前看这种需求没有场景。将堆积改为针对 region
@@ -91,4 +94,20 @@ export class Stack {
       this._options.afterStackRegion(model, stackValueGroup);
     }
   };
+}
+
+export class StackChartMixin {
+  protected _stack: Stack;
+  protected _dataSet: DataSet;
+
+  protected _beforeInit() {
+    if (this._dataSet) {
+      registerDataSetInstanceTransform(this._dataSet, 'stackSplit', stackSplit);
+    }
+  }
+
+  protected _initStack() {
+    this._stack = new Stack(this as unknown as IChart);
+    this._stack.init();
+  }
 }

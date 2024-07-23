@@ -49,7 +49,6 @@ import { getMapSource } from '../series/map/geo-source';
 import type { IMark, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';
-import { stackSplit } from '../data/transforms/stack-split';
 import { copyDataView } from '../data/transforms/copy-data-view';
 import type { ITooltipHandler } from '../typings/tooltip';
 import type { Tooltip } from '../component/tooltip';
@@ -578,7 +577,6 @@ export class VChart implements IVChart {
     }
     registerDataSetInstanceParser(this._dataSet, 'dataview', dataViewParser);
     registerDataSetInstanceParser(this._dataSet, 'array', arrayParser);
-    registerDataSetInstanceTransform(this._dataSet, 'stackSplit', stackSplit);
     registerDataSetInstanceTransform(this._dataSet, 'copyDataView', copyDataView);
     // 注册 dataset transform
     for (const key in Factory.transforms) {

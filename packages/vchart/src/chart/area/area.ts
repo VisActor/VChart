@@ -5,6 +5,8 @@ import type { IAreaChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { AreaChartSpecTransformer } from './area-transformer';
 import { BaseChart } from '../base';
+import { mixin } from '@visactor/vutils';
+import { StackChartMixin } from '../stack';
 
 export class AreaChart<T extends IAreaChartSpec = IAreaChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.area;
@@ -13,8 +15,8 @@ export class AreaChart<T extends IAreaChartSpec = IAreaChartSpec> extends BaseCh
   readonly transformerConstructor = AreaChartSpecTransformer;
   readonly type: string = ChartTypeEnum.area;
   readonly seriesType: string = SeriesTypeEnum.area;
-  protected _canStack: boolean = true;
 }
+mixin(AreaChart, StackChartMixin);
 
 export const registerAreaChart = () => {
   registerAreaSeries();

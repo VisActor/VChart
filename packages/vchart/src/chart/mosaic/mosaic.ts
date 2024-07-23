@@ -9,6 +9,8 @@ import { Stack } from '../stack';
 import type { IRegion } from '../../region';
 import type { IStackCacheNode, IStackCacheRoot } from '../../util/data';
 import { stackMosaic, stackMosaicTotal } from '../../util/data';
+import { stackSplit } from '../../data/transforms/stack-split';
+import { registerDataSetInstanceTransform } from '../../data/register';
 
 export class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.mosaic;
@@ -17,10 +19,16 @@ export class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> extends 
   readonly transformerConstructor = MosaicChartSpecTransformer;
   readonly type: string = ChartTypeEnum.mosaic;
   readonly seriesType: string = SeriesTypeEnum.mosaic;
-  protected _canStack: boolean = true;
+  protected _stack: Stack;
 
   afterCompile() {
     super.afterCompile();
+  }
+
+  protected _beforeInit() {
+    if (this._dataSet) {
+      registerDataSetInstanceTransform(this._dataSet, 'stackSplit', stackSplit);
+    }
   }
 
   protected _initStack() {
