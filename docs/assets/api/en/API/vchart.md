@@ -1215,3 +1215,33 @@ Update the indicator component data based on the component index in the spec.
    */
   updateIndicatorDataByIndex: (index: number = 0, datum?: Datum) => void;
 ```
+
+### geoZoomByIndex
+
+Map Zoom API. Specifies the geo coordinate of a region by index order for zooming.
+
+```ts
+/**
+ * Map Zoom API
+ * @param [regionIndex=0] Specifies the geo coordinate of a region by index order for zooming
+ * @param zoom Zoom ratio
+ * @param center Zoom center
+ * @since 1.11.10
+ */
+  geoZoomByIndex: (regionIndex: number, zoom: number, center?: { x: number; y: number }) => void;
+```
+
+### geoZoomById
+
+Map Zoom API. Specifies the geo coordinate of a region by id for zooming
+
+```ts
+/**
+ * Map Zoom API
+ * @param regionId Specifies the geo coordinate of a region by id for zooming
+ * @param zoom Zoom ratio
+ * @param center Zoom center
+ * @since 1.11.10
+ */
+  geoZoomById: (regionId: string | number, zoom: number, center?: { x: number; y: number }) => void;
+```
