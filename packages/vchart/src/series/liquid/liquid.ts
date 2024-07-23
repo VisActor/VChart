@@ -114,18 +114,13 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
 
   private _getLiquidPosY = () => {
     let liquidY = 0;
+    const { startY: liquidBackStartY, endY: liquidBackEndY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
+    const liquidHeight = liquidBackSize * this._heightRatio;
     if (this._reverse) {
-      const { y: liquidBackY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
-      const liquidBackStartY = liquidBackY - liquidBackSize / 2;
-      const liquidHeight = liquidBackSize * this._heightRatio;
       liquidY = -(liquidBackStartY + liquidHeight);
     } else {
-      const { y: liquidBackY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
-      const liquidBackEndY = liquidBackY + liquidBackSize / 2;
-      const liquidHeight = liquidBackSize * this._heightRatio;
       liquidY = liquidBackEndY - liquidHeight;
     }
-
     return liquidY;
   };
 
@@ -150,20 +145,36 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
 
     const { width: regionWidth, height: regionHeight } = this._region.getLayoutRect();
     if (!isOutline) {
+      const outlineX = regionWidth / 2 + (marginLeft + paddingRight - (marginRight + paddingRight)) / 2;
+      const outlineY = regionHeight / 2 + (marginTop + paddingTop - (marginBottom + paddingBottom)) / 2;
+      const outlineSize = Math.min(
+        regionWidth - (marginLeft + marginRight + paddingLeft + paddingRight),
+        regionHeight - (marginTop + marginBottom + paddingTop + paddingBottom)
+      );
       return {
-        x: regionWidth / 2 + (marginLeft + paddingRight - (marginRight + paddingRight)) / 2,
-        y: regionHeight / 2 + (marginTop + paddingTop - (marginBottom + paddingBottom)) / 2,
-        // eslint-disable-next-line max-len
-        size: Math.min(
-          regionWidth - (marginLeft + marginRight + paddingLeft + paddingRight),
-          regionHeight - (marginTop + marginBottom + paddingTop + paddingBottom)
-        )
+        x: outlineX,
+        y: outlineY,
+        size: outlineSize,
+        startX: outlineX - outlineSize / 2,
+        startY: outlineY - outlineSize / 2,
+        endX: outlineX + outlineSize / 2,
+        endY: outlineY + outlineSize / 2
       };
     }
+    const backgroundX = regionWidth / 2 + (marginLeft - marginRight) / 2;
+    const backgroundY = regionHeight / 2 + (marginTop - marginBottom) / 2;
+    const backgroundSize = Math.min(
+      regionWidth - (marginLeft + marginRight),
+      regionHeight - (marginTop + marginBottom)
+    );
     return {
-      x: regionWidth / 2 + (marginLeft - marginRight) / 2,
-      y: regionHeight / 2 + (marginTop - marginBottom) / 2,
-      size: Math.min(regionWidth - (marginLeft + marginRight), regionHeight - (marginTop + marginBottom))
+      x: backgroundX,
+      y: backgroundY,
+      size: backgroundSize,
+      startX: backgroundX - backgroundSize / 2,
+      startY: backgroundY - backgroundSize / 2,
+      endX: backgroundX + backgroundSize / 2,
+      endY: backgroundY + backgroundSize / 2
     };
   };
 
