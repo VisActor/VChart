@@ -21,7 +21,7 @@ function getPlugins(
     resolve(),
     commonjs(),
     babel({
-      presets: es5 ? [['@babel/preset-env', { targets: 'defaults' }]] : undefined,
+      presets: es5 ? [['@babel/preset-env']] : undefined,
       babelHelpers: es5 ? 'runtime' : 'bundled',
       plugins: es5 ? [['@babel/transform-runtime']] : undefined,
       compact: false
