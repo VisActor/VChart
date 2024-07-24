@@ -23,22 +23,18 @@ export interface ITriggerOption {
   delayTime: number;
   realTime: boolean;
 }
-export interface IZoomEventOptions {
-  shouldZoom?: boolean;
-  zoomCallback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void;
-  shouldScroll?: boolean;
-  scrollCallback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void;
-}
+
+export type ZoomEventParams = { zoomDelta: number; zoomX: number; zoomY: number };
+
+export type ZoomCallback = (params: ZoomEventParams, e: BaseEventParams['event']) => Record<string, any> | void;
+
 export interface IZoomable {
   initZoomable: (evt: IEvent, mode?: RenderMode) => void;
-  initZoomEventOfSeries: (
-    s: ISeries,
-    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
-  ) => any;
+  initZoomEventOfSeries: (s: ISeries, callback?: ZoomCallback) => any;
   initZoomEventOfRegions: (
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
+    callback?: ZoomCallback,
     option?: ITriggerOption
   ) => void;
 
@@ -104,11 +100,7 @@ export class Zoomable implements IZoomable {
     return getDefaultTriggerEventByMode(this._renderMode)[type];
   }
 
-  private _zoomEventDispatch(
-    params: BaseEventParams,
-    regionOrSeries: IRegion | ISeries,
-    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
-  ) {
+  private _zoomEventDispatch(params: BaseEventParams, regionOrSeries: IRegion | ISeries, callback?: ZoomCallback) {
     if (!this._isGestureListener && !params.event) {
       return;
     }
@@ -131,14 +123,14 @@ export class Zoomable implements IZoomable {
     ) {
       return;
     }
-
+    let extendParams: ReturnType<typeof callback> = {};
     if (callback) {
-      // zoomDelta, zoomX, zoomY can be changed in the callback
-      callback({ zoomDelta, zoomX, zoomY }, event);
+      extendParams = callback({ zoomDelta, zoomX, zoomY }, event);
     }
     this._eventObj.emit('zoom', {
       scale: event.zoomDelta,
       scaleCenter: { x: event.zoomX, y: event.zoomY },
+      ...extendParams,
       model: this
     } as unknown as ExtendEventParam);
   }
@@ -159,7 +151,7 @@ export class Zoomable implements IZoomable {
   private _bindZoomEventAsRegion(
     eventObj: IEvent,
     regionOrSeries: IRegion | ISeries,
-    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
+    callback?: ZoomCallback,
     option?: ITriggerOption
   ) {
     const delayType = option?.delayType ?? 'throttle';
@@ -191,11 +183,7 @@ export class Zoomable implements IZoomable {
     );
   }
 
-  initZoomEventOfSeries(
-    s: ISeries,
-    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
-    option?: ITriggerOption
-  ) {
+  initZoomEventOfSeries(s: ISeries, callback?: ZoomCallback, option?: ITriggerOption) {
     if (this._option.disableTriggerEvent) {
       return;
     }
@@ -207,7 +195,7 @@ export class Zoomable implements IZoomable {
   initZoomEventOfRegions(
     regions: IRegion[],
     filter?: (s: ISeries) => boolean,
-    callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
+    callback?: ZoomCallback,
     option?: ITriggerOption
   ) {
     if (this._option.disableTriggerEvent) {

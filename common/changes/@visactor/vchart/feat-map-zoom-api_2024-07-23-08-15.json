@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " feat: support `geoZoomByIndex`/`geoZoomById` API",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
