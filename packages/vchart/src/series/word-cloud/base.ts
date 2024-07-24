@@ -369,7 +369,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
               ...this._maskShape
             }
           : this._maskShape,
-      onUpdateMaskCanvas: isObject(this._maskShape) ? this.handleMaskCanvasUpdate : null,
+      onUpdateMaskCanvas: this.handleMaskCanvasUpdate,
       dataIndexKey: DEFAULT_DATA_KEY,
       text: wordSpec.formatMethod
         ? (datum: Datum) => {
@@ -417,6 +417,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       ...this._getCommonTransformOptions(),
 
       rotateList: this._rotateAngles,
+      fillingRotateList: wordCloudShapeConfig.fillingRotateAngles,
 
       fillingFontFamily:
         wordCloudShapeConfig.fillingFontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
