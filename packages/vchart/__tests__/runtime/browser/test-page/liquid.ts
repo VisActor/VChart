@@ -52,7 +52,9 @@ const run = () => {
         }
       ]
     },
-    // reverse: true,
+    outlineMargin: 20,
+    outlinePadding: 40,
+    reverse: true,
     indicator: {
       visible: true,
       trigger: 'select',
@@ -91,35 +93,42 @@ const run = () => {
     //     }
     //   },
     // animationAppear: false,
-    // animationAppear: {
-    //   liquid: {
-    //     duration: 2000,
-    //     loop: false,
-    //     channel: {
-    //       wave: {
-    //         from: 0,
-    //         to: 1
-    //       },
-    //       height: {
-    //         from: 0,
-    //         to: (...p) => {
-    //           return p[3].getLiquidHeight()
-    //         }
-    //       },
-    //       y: {
-    //         from: (...p) => {
-    //           const { y: liquidBackY, size: liquidBackSize } = p[3].getLiquidBackPosAndSize();
-    //           return liquidBackY - liquidBackSize / 2;
-    //           // return 0
-    //         },
-    //         to: (...p) => {
-    //           return p[3].getLiquidPosY()
-    //         }
-    //       }
-    //     },
-    //   },
-
-    // },
+    animationAppear: {
+      liquid: {
+        duration: 2000,
+        loop: false,
+        channel: {
+          wave: {
+            from: 0,
+            to: 1
+          },
+          height: {
+            from: 0,
+            to: (...p) => {
+              return p[3].getLiquidHeight();
+            }
+          },
+          dy: {
+            // to: 0,
+            from: (...p) => {
+              let liquidY = 0;
+              const { startY: liquidBackStartY, size: liquidBackSize } = p[3].getLiquidBackPosAndSize();
+              // const liquidHeight = liquidBackSize * this._heightRatio;
+              if (spec.reverse) {
+                liquidY = liquidBackStartY;
+              } else {
+                liquidY = liquidBackSize + liquidBackStartY;
+              }
+              return liquidY;
+            },
+            to: (...p) => {
+              console.log('p', p);
+              return p[1].graphicItem.attribute.dy;
+            }
+          }
+        }
+      }
+    },
     // animationNormal: {
     //   loop: true,
     //   liquid: {
