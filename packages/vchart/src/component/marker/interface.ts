@@ -1,6 +1,6 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IPadding } from '@visactor/vutils';
-import type { SymbolType, TextContent, IGraphicAttribute, ICustomPath2D } from '@visactor/vrender-core';
+import type { SymbolType, IGraphicAttribute, ICustomPath2D } from '@visactor/vrender-core';
 import type {
   IComposedTextMarkSpec,
   IFormatMethod,
@@ -163,11 +163,7 @@ export type IMarkerLabelWithoutRefSpec = {
      * 标签背景支持自定义path
      * @since 1.11.10
      */
-    customShape?: (
-      text: Pick<TextContent, 'text'>,
-      attrs: Partial<IGraphicAttribute>,
-      path: ICustomPath2D
-    ) => ICustomPath2D;
+    customShape?: (text: any, attrs: Partial<IGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
     /**
      * 内部边距
      */
