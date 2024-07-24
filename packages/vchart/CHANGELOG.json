@@ -2,6 +2,42 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.11.10",
+      "tag": "@visactor/vchart_v1.11.10",
+      "date": "Wed, 24 Jul 2024 13:32:11 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "chore: update rollup.config.js to fix es5/index.js, fix #2971\n\n"
+          },
+          {
+            "comment": "fix: prevent issue with ios bug while pointEvent is configed"
+          },
+          {
+            "comment": "feat: liquid support reverse and target mark. close#2977 & close#2978"
+          },
+          {
+            "comment": "feat: add `totalScale` params in geo zoom event"
+          },
+          {
+            "comment": " feat: support `geoZoomByIndex`/`geoZoomById` API"
+          },
+          {
+            "comment": "feat: marker label background support  custom path. close#2959"
+          },
+          {
+            "comment": "fix: liquid gradient not work after reverse"
+          },
+          {
+            "comment": "fix: prevent trigger original event in zoomEnd composite event #2931"
+          },
+          {
+            "comment": "fix: fix error of setDimentionIndex when dimension axis is linear\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.7",
       "tag": "@visactor/vchart_v1.11.7",
       "date": "Tue, 16 Jul 2024 12:19:22 GMT",
