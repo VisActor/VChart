@@ -94,39 +94,10 @@ const run = () => {
     //   },
     // animationAppear: false,
     animationAppear: {
+      preset: 'grow',
       liquid: {
         duration: 2000,
-        loop: false,
-        channel: {
-          wave: {
-            from: 0,
-            to: 1
-          },
-          height: {
-            from: 0,
-            to: (...p) => {
-              return p[3].getLiquidHeight();
-            }
-          },
-          dy: {
-            // to: 0,
-            from: (...p) => {
-              let liquidY = 0;
-              const { startY: liquidBackStartY, size: liquidBackSize } = p[3].getLiquidBackPosAndSize();
-              // const liquidHeight = liquidBackSize * this._heightRatio;
-              if (spec.reverse) {
-                liquidY = liquidBackStartY;
-              } else {
-                liquidY = liquidBackSize + liquidBackStartY;
-              }
-              return liquidY;
-            },
-            to: (...p) => {
-              console.log('p', p);
-              return p[1].graphicItem.attribute.dy;
-            }
-          }
-        }
+        loop: false
       }
     },
     // animationNormal: {

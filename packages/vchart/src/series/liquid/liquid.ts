@@ -246,16 +246,23 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
 
   initAnimation() {
     const animationParams = {
-      y: {
-        from: () => {
-          const { y: liquidBackY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
-          return liquidBackY + liquidBackSize / 2;
-        },
-        to: this._getLiquidPosY
-      },
       height: {
         from: 0,
-        to: this._getLiquidHeight
+        to: () => {
+          return this._getLiquidHeight();
+        }
+      },
+      dy: {
+        from: () => {
+          let liquidY = 0;
+          const { startY: liquidBackStartY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
+          if (this._reverse) {
+            liquidY = liquidBackStartY;
+          } else {
+            liquidY = liquidBackSize + liquidBackStartY;
+          }
+          return liquidY;
+        }
       }
     };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<LiquidAppearPreset>)?.preset;
