@@ -72,7 +72,9 @@ When the valueField exists, the default value is [20,40]; when the valueField do
 
 #${prefix} maskShape(string)
 
-Word cloud shape, url, svg string, or base64, or built-in string (svg string/base64 not yet supported).
+Supports multiple formats:
+
+* Word cloud shape, url, svg string, or base64, or built-in string (svg string/base64 not yet supported).
 
 Built-in string optional values:
 
@@ -85,6 +87,61 @@ Built-in string optional values:
 - `'circle'`: Circle
 - `'pentagon'`: Pentagon
 - `'rect'`: Rect (supported since 1.9.3)
+
+
+
+* (Supported since version 1.12.0) Text outlines, when this format is set, a shape word cloud is created by default, the TypeScript type definition is as follows:
+
+```ts
+interface TextShapeMask {
+  /** Specifies the word cloud to generate outlines based on text */
+  type: 'text';
+  /** Text content */
+  text: string;
+  /** Whether it is hollow, only filling the background area */
+  hollow?: boolean;
+  /** Background color */
+  backgroundColor?: string;
+  /** Fill color */
+  fill?: string;
+  /** Font of the text outline */
+  fontFamily?: string;
+  /** Weight of the text outline */
+  fontWeight?: string | number;
+  /** Style of the text outline */
+  fontStyle?: string;
+  /** font-variant of the text outline */
+  fontVariant: string;
+}
+```
+
+- (Supported since version 1.12.0) Geometric shape outlines, when this format is set, a shape word cloud is created by default, the TypeScript type definition is as follows:
+
+```ts
+export interface GeometricMaskShape {
+  /** Specifies the word cloud to generate outlines based on geometric shapes */
+  type: 'geometric';
+  /**
+   * Specifies the type of geometric shape, currently supporting the following types:
+   * - `'triangleForward'`: Right arrow
+   * - `'triangle'`: Triangle
+   * - `'diamond'`: Diamond
+   * - `'square'`: Square
+   * - `'star'`: Star
+   * - `'cardioid'`: Heart
+   * - `'circle'`: Circle
+   * - `'pentagon'`: Pentagon
+   * - `rect`: Rectangle (supported since version 1.9.3)
+   */
+  shape: string;
+  /** Whether it is hollow, only filling the background area */
+  hollow?: boolean;
+  /** Background color */
+  backgroundColor?: string;
+  /** Fill color */
+  fill?: string;
+}
+```
 
 #${prefix} random(boolean)
 
@@ -314,29 +371,26 @@ Text style.
 
 {{ use: mark-state-style() }}
 
-#${prefix} fillingWord(Object)
 
-Shape word cloud fill word text graphic configuration.
+#${prefix} wordMask(Object)
 
-Reason for not adding formatMethod: Shape word cloud uses the same set of data for word and fillingWord (same text), so the format of fillingWords will not take effect.
+Supported since version 1.12.0
 
-{{ use: common-mark(
-  prefix = '#' + ${prefix}
-) }}
+Configuration for the background outline of the shape word cloud.
 
-##${prefix} padding(number)
+##${prefix} visible(boolean)
 
-Text spacing.
+Whether to display the background outline. Note that this is only supported when configuring text outlines and geometric shape outlines.
 
 ##${prefix} style(Object)
 
-Text style.
+Style configuration for the background outline.
 
 {{ use: mark-style(
-  markName = 'fillingWord'
+  markName = 'wordMask'
 ) }}
 
-{{ use: mark-text(
+{{ use: mark-rect(
   prefix = '##' + ${prefix}
 ) }}
 
