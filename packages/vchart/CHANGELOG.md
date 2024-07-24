@@ -1,6 +1,25 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 16 Jul 2024 12:19:22 GMT and should not be manually modified.
+This log was last generated on Wed, 24 Jul 2024 13:32:11 GMT and should not be manually modified.
+
+## 1.11.10
+Wed, 24 Jul 2024 13:32:11 GMT
+
+### Updates
+
+- chore: update rollup.config.js to fix es5/index.js, fix #2971
+
+
+- fix: prevent issue with ios bug while pointEvent is configed
+- feat: liquid support reverse and target mark. close#2977 & close#2978
+- feat: add `totalScale` params in geo zoom event
+-  feat: support `geoZoomByIndex`/`geoZoomById` API
+- feat: marker label background support  custom path. close#2959
+- fix: liquid gradient not work after reverse
+- fix: prevent trigger original event in zoomEnd composite event #2931
+- fix: fix error of setDimentionIndex when dimension axis is linear
+
+
 
 ## 1.11.7
 Tue, 16 Jul 2024 12:19:22 GMT

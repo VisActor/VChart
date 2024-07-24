@@ -1,6 +1,6 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IPadding } from '@visactor/vutils';
-import type { SymbolType, TextContent, IGraphicAttribute, ICustomPath2D } from '@visactor/vrender-core';
+import type { SymbolType, IGraphicAttribute, ICustomPath2D } from '@visactor/vrender-core';
 import type {
   IComposedTextMarkSpec,
   IFormatMethod,
@@ -10,7 +10,7 @@ import type {
   StringOrNumber
 } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
-import type { Datum } from '@visactor/vrender-components';
+import type { Datum, TextContent } from '@visactor/vrender-components';
 import type { ICartesianSeries, IGeoSeries, IPolarSeries } from '../../series/interface';
 import type { IOptionAggr, IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
