@@ -1,3 +1,30 @@
+# v1.11.10
+
+2024-07-24
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: liquid support reverse and target mark. close [#2977](https://github.com/VisActor/VChart/issues/2977)  & close [#2978](https://github.com/VisActor/VChart/issues/2978) 
+- **@visactor/vchart**: add `totalScale` params in geo zoom event
+- **@visactor/vchart**: support `geoZoomByIndex`/`geoZoomById` API, close [#2925](https://github.com/VisActor/VChart/issues/2925) 
+- **@visactor/vchart**: marker label background support  custom path. close [#2959](https://github.com/VisActor/VChart/issues/2959)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: prevent issue with ios bug while pointEvent is configed 
+- **@visactor/vchart**: liquid gradient not work after reverse
+- **@visactor/vchart**: prevent trigger original event in zoomEnd composite event [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: fix error of setDimentionIndex when dimension axis is linear
+
+**🔧 Configuration releated**
+
+- **@visactor/vchart**: update rollup.config.js to fix es5/index.js, fix [#2971](https://github.com/VisActor/VChart/issues/2971)
+
+
+
+[more detail about v1.11.10](https://github.com/VisActor/VChart/releases/tag/v1.11.10)
+
 # v1.11.9
 
 2024-07-17
