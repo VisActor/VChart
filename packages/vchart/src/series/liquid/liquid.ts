@@ -114,12 +114,12 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
 
   private _getLiquidPosY = () => {
     let liquidY = 0;
-    const { startY: liquidBackStartY, endY: liquidBackEndY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
+    const { startY: liquidBackStartY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
     const liquidHeight = liquidBackSize * this._heightRatio;
     if (this._reverse) {
-      liquidY = -(liquidBackStartY + liquidHeight);
+      liquidY = liquidBackStartY + liquidHeight;
     } else {
-      liquidY = liquidBackEndY - liquidHeight;
+      liquidY = liquidBackSize - liquidHeight + liquidBackStartY;
     }
     return liquidY;
   };
@@ -220,7 +220,11 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
           dx: () => {
             return this._region.getLayoutStartPoint().x + this._region.getLayoutRect().width / 2;
           },
-          y: this._getLiquidPosY,
+          // wave图元设置y后, 3个子area图元的point发生变化, 但vrender的渐变区域没有变化, 待vrender修复
+          // 目前先采用下列方法配置:
+          y: 0, // y强制指定为0, 保证图元不超出vrender的渐变区域
+          dy: this._getLiquidPosY, // 使用dy做偏移, 保证vrender渐变区域随图元位置变化而更新
+
           height: this._getLiquidHeight,
           fill: this.getColorAttribute(),
           wave: 0
