@@ -8,31 +8,16 @@ export interface ITriggerOption {
     delayTime: number;
     realTime: boolean;
 }
-export interface IZoomEventOptions {
-    shouldZoom?: boolean;
-    zoomCallback?: (params: {
-        zoomDelta: number;
-        zoomX: number;
-        zoomY: number;
-    }, e: BaseEventParams['event']) => void;
-    shouldScroll?: boolean;
-    scrollCallback?: (params: {
-        scrollX: number;
-        scrollY: number;
-    }, e: BaseEventParams['event']) => void;
-}
+export type ZoomEventParams = {
+    zoomDelta: number;
+    zoomX: number;
+    zoomY: number;
+};
+export type ZoomCallback = (params: ZoomEventParams, e: BaseEventParams['event']) => Record<string, any> | void;
 export interface IZoomable {
     initZoomable: (evt: IEvent, mode?: RenderMode) => void;
-    initZoomEventOfSeries: (s: ISeries, callback?: (params: {
-        zoomDelta: number;
-        zoomX: number;
-        zoomY: number;
-    }, e: BaseEventParams['event']) => void) => any;
-    initZoomEventOfRegions: (regions: IRegion[], filter?: (s: ISeries) => boolean, callback?: (params: {
-        zoomDelta: number;
-        zoomX: number;
-        zoomY: number;
-    }, e: BaseEventParams['event']) => void, option?: ITriggerOption) => void;
+    initZoomEventOfSeries: (s: ISeries, callback?: ZoomCallback) => any;
+    initZoomEventOfRegions: (regions: IRegion[], filter?: (s: ISeries) => boolean, callback?: ZoomCallback, option?: ITriggerOption) => void;
     initScrollEventOfSeries: (s: ISeries, callback?: (params: {
         scrollX: number;
         scrollY: number;
@@ -57,16 +42,8 @@ export declare class Zoomable implements IZoomable {
     private _zoomEventDispatch;
     private _getRegionOrSeriesLayout;
     private _bindZoomEventAsRegion;
-    initZoomEventOfSeries(s: ISeries, callback?: (params: {
-        zoomDelta: number;
-        zoomX: number;
-        zoomY: number;
-    }, e: BaseEventParams['event']) => void, option?: ITriggerOption): void;
-    initZoomEventOfRegions(regions: IRegion[], filter?: (s: ISeries) => boolean, callback?: (params: {
-        zoomDelta: number;
-        zoomX: number;
-        zoomY: number;
-    }, e: BaseEventParams['event']) => void, option?: ITriggerOption): void;
+    initZoomEventOfSeries(s: ISeries, callback?: ZoomCallback, option?: ITriggerOption): void;
+    initZoomEventOfRegions(regions: IRegion[], filter?: (s: ISeries) => boolean, callback?: ZoomCallback, option?: ITriggerOption): void;
     private _scrollEventDispatch;
     private _bindScrollEventAsRegion;
     initScrollEventOfSeries(s: ISeries, callback?: (params: {

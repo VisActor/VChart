@@ -78,10 +78,7 @@ const run = () => {
     yField: 'value',
     markLine: [
       {
-        y: data => {
-          console.log('y', data);
-          return data[2].value;
-        },
+        y: 'min',
         startSymbol: {
           visible: true,
           symbolType: 'triangleDown',
@@ -96,17 +93,49 @@ const run = () => {
         autoRange: true,
         label: {
           visible: true,
+          text: 'xxx',
           style: {
-            dx: -4,
-            dy: 0,
+            dy: 5,
             fontSize: 12,
             fontWeight: 'normal',
             fill: '#fff',
             cursor: 'pointer'
           },
-          position: 'insideStartTop',
+          position: 'insideStart',
           labelBackground: {
             visible: true,
+            customShape: (data, attrs, path) => {
+              console.log('data', attrs);
+              // console.log('data', data, attrs, path);
+              // const width = attrs.width;
+              // const deltaY = attrs.height == null ? attrs.y1 - attrs.y : attrs.height;
+
+              // path.moveTo(0, deltaY);
+              // path.quadraticCurveTo(0.45 * width, 0.67 * deltaY, 0.5 * width, 0);
+              // path.quadraticCurveTo(0.55 * width, 0.67 * deltaY, width, deltaY);
+              // path.lineTo(0, deltaY);
+              // path.closePath();
+
+              const { width: textWidth, height } = attrs;
+              const width = textWidth + 10;
+              const radius = 5;
+
+              path.beginPath();
+              path.moveTo(0, 0);
+              path.lineTo(0.8 * width, 0);
+
+              // path.arc(100, 100, 50, 0, 2 * Math.PI);
+
+              path.lineTo(width, 0.5 * height);
+
+              path.lineTo(0.8 * width, height);
+              path.lineTo(0, height);
+              path.lineTo(0, 0);
+              path.closePath();
+              path.fillStyle = 'red';
+
+              return path;
+            },
             padding: {
               left: 5,
               right: 5,
@@ -117,7 +146,7 @@ const run = () => {
               fill: '#2F3B52',
               fillOpacity: 0.9,
               dx: -4,
-              dy: 0
+              dy: 5
             }
           }
         },

@@ -29,6 +29,7 @@ export interface IGeoCoordinate extends IComponent {
   latitudeField?: string;
 
   dataToPosition: (values: any[]) => IPoint;
+  dispatchZoom: (zoomDelta: number, center?: { x: number; y: number }) => void;
 }
 
 export interface IGeoCoordinateHelper {

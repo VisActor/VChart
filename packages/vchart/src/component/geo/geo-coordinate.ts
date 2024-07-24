@@ -14,7 +14,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import type { IGeoCoordinate, IGeoCoordinateHelper, IGeoCoordinateSpec, IProjectionSpec } from './interface';
 import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { StringOrNumber } from '../../typings';
-import type { IZoomable } from '../../interaction/zoom/zoomable';
+import type { IZoomable, ZoomEventParams } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin, isNil, Matrix } from '@visactor/vutils';
 import type { Maybe } from '@visactor/vutils';
@@ -129,10 +129,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     // this.rescaleMark();
   }
 
-  private _handleChartZoom = (
-    params: { zoomDelta: number; zoomX?: number; zoomY?: number },
-    event?: BaseEventParams['event']
-  ) => {
+  private _handleChartZoom = (params: ZoomEventParams, event?: BaseEventParams['event']) => {
     let scale = params.zoomDelta;
     // check if the next scale will outrange
     const _lastActualScale = this._actualScale;
@@ -144,11 +141,8 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
       this._actualScale = this._spec.zoomLimit?.max;
       scale = this._spec.zoomLimit?.max / _lastActualScale;
     }
-    if (event) {
-      (event as any).zoomDelta = scale;
-    }
     this.zoom(scale, [params.zoomX, params.zoomY]);
-    return scale;
+    return { scale, totalScale: this._actualScale };
   };
 
   dispatchZoom(zoomDelta: number, center?: { x: number; y: number }) {
@@ -156,11 +150,12 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
       x: this.getLayoutStartPoint().x + this.getLayoutRect().width / 2,
       y: this.getLayoutStartPoint().y + this.getLayoutRect().height / 2
     };
-    const scale = this._handleChartZoom({ zoomDelta, zoomX: scaleCenter.x, zoomY: scaleCenter.y });
+    const { scale, totalScale } = this._handleChartZoom({ zoomDelta, zoomX: scaleCenter.x, zoomY: scaleCenter.y });
     if (scale !== 1) {
       this.event.emit('zoom', {
         scale,
         scaleCenter,
+        totalScale,
         model: this
       } as unknown as ExtendEventParam);
     }

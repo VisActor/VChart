@@ -25,7 +25,7 @@ export const style_cs_tooltip_canvas: CSSProperties = {
   width: '100%',
   height: '100%',
   position: 'absolute',
-  pointerEvents: 'none',
+  // pointerEvents: 'none',
   top: 0,
   left: 0,
   zIndex: 2

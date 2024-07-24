@@ -115,6 +115,7 @@ import {
   registerElementSelect as registerSelectInteraction
 } from '../interaction';
 import type { IIndicator } from '../component/indicator';
+import type { IGeoCoordinate } from '../component/geo';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -2037,6 +2038,42 @@ export class VChart implements IVChart {
     const indicators = this._chart?.getComponentsByType(ComponentTypeEnum.indicator) as unknown as IIndicator[];
     if (indicators && indicators[index]) {
       indicators[index].updateDatum(datum);
+    }
+  }
+
+  /**
+   * 地图缩放 API
+   * @param [regionIndex=0] 根据索引顺序指定某个 region 区域的地图坐标系进行缩放
+   * @param zoom 缩放比例
+   * @param center 缩放中心
+   * @since 1.11.10
+   */
+  geoZoomByIndex(regionIndex: number = 0, zoom: number, center?: { x: number; y: number }) {
+    const region = this._chart?.getRegionsInQuerier({ regionIndex })[0];
+    const geoCoordinates = this._chart?.getComponentsByType(
+      ComponentTypeEnum.geoCoordinate
+    ) as unknown as IGeoCoordinate[];
+    const coord = geoCoordinates?.find(coord => coord.getRegions()?.includes(region));
+    if (coord) {
+      coord.dispatchZoom(zoom, center);
+    }
+  }
+
+  /**
+   * 地图缩放 API
+   * @param [regionId=0] 根据 region id 指定某个 region 区域的地图坐标系进行缩放
+   * @param zoom 缩放比例
+   * @param center 缩放中心
+   * @since 1.11.10
+   */
+  geoZoomById(regionId: string | number, zoom: number, center?: { x: number; y: number }) {
+    const region = this._chart?.getRegionsInQuerier({ regionId })[0];
+    const geoCoordinates = this._chart?.getComponentsByType(
+      ComponentTypeEnum.geoCoordinate
+    ) as unknown as IGeoCoordinate[];
+    const coord = geoCoordinates?.find(coord => coord.getRegions()?.includes(region));
+    if (coord) {
+      coord.dispatchZoom(zoom, center);
     }
   }
 

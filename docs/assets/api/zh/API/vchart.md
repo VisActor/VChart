@@ -127,6 +127,9 @@ registerMap: (key: string, source: GeoSourceType, option?: GeoSourceOption) => v
 注册地图数据。
 
 ```ts
+export type GeoSourceOption = IGeoJsonOption | ITopoJsonOption;
+
+/** geojson 相关配置 */
 export interface GeoSourceOption {
   type: 'geojson';
   /** 计算中心点 */
@@ -154,6 +157,12 @@ export interface GeoSourceOption {
         /** @default false */
         reverse?: boolean;
       };
+}
+
+/** topojson 相关配置 */
+export interface ITopoJsonOption extends Omit<IGeoJsonOption, 'type'> {
+  type: 'topojson';
+  object: string;
 }
 ```
 
@@ -1217,4 +1226,34 @@ convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isR
    * @since 1.11.7
    */
   updateIndicatorDataByIndex: (index: number = 0, datum?: Datum) => void;
+```
+
+### geoZoomByIndex
+
+地图缩放 API，根据索引顺序指定某个 region 区域的地图坐标系进行缩放。
+
+```ts
+/**
+ * 地图缩放 API
+ * @param [regionIndex=0] 根据索引顺序指定某个 region 区域的地图坐标系进行缩放
+ * @param zoom 缩放比例
+ * @param center 缩放中心
+ * @since 1.11.10
+ */
+geoZoomByIndex: (regionIndex: number, zoom: number, center?: { x: number; y: number }) => void;
+```
+
+### geoZoomById
+
+地图缩放 API，根据 region id 指定某个 region 区域的地图坐标系进行缩放。
+
+```ts
+/**
+ * 地图缩放 API
+ * @param 根据 region id 指定某个 region 区域的地图坐标系进行缩放
+ * @param zoom 缩放比例
+ * @param center 缩放中心
+ * @since 1.11.10
+ */
+geoZoomById: (regionId: string | number, zoom: number, center?: { x: number; y: number }) => void;
 ```

@@ -6,7 +6,7 @@ export interface ILiquidAnimationParams {
     from: () => number | number;
     to: () => number | number;
   };
-  y: {
+  dy: {
     from: () => number | number;
     to: () => number | number;
   };
@@ -28,7 +28,7 @@ const Appear_Grow = (params: ILiquidAnimationParams): IAnimationTypeConfig => {
     channel: {
       wave: { from: 0, to: 1 },
       height: params.height,
-      y: params.y
+      dy: params.dy
     }
   };
 };
@@ -39,7 +39,7 @@ const Appear_WaveGrow = (params: ILiquidAnimationParams): IAnimationTypeConfig =
     channel: {
       wave: { from: 0, to: 1 },
       height: params.height,
-      y: params.y
+      dy: params.dy
     }
   };
 };
