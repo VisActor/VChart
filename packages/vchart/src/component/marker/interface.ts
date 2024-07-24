@@ -10,7 +10,7 @@ import type {
   StringOrNumber
 } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
-import type { Datum } from '@visactor/vrender-components';
+import type { Datum, TextContent } from '@visactor/vrender-components';
 import type { ICartesianSeries, IGeoSeries, IPolarSeries } from '../../series/interface';
 import type { IOptionAggr, IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
@@ -163,7 +163,11 @@ export type IMarkerLabelWithoutRefSpec = {
      * 标签背景支持自定义path
      * @since 1.11.10
      */
-    customShape?: (text: any, attrs: Partial<IGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
+    customShape?: (
+      text: Pick<TextContent, 'text'>,
+      attrs: Partial<IGraphicAttribute>,
+      path: ICustomPath2D
+    ) => ICustomPath2D;
     /**
      * 内部边距
      */
