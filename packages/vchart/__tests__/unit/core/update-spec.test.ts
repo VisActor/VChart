@@ -1331,7 +1331,7 @@ describe('vchart updateSpec of different about label', () => {
     });
   });
 
-  it('should recompile when `alternateColor` of axis grid change', () => {
+  it('should reRender when `alternateColor` of axis grid change', () => {
     const spec = {
       type: 'area',
       data: [
@@ -1401,7 +1401,7 @@ describe('vchart updateSpec of different about label', () => {
     expect(updateRes).toEqual({
       change: false,
       changeTheme: false,
-      reCompile: true,
+      reCompile: false,
       reMake: false,
       reRender: true,
       reSize: false,
