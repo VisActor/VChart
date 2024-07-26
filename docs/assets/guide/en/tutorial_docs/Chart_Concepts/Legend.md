@@ -93,11 +93,11 @@ The continuous legend is divided into color legends and size legends, both of wh
 
 ## Customizing Legends
 
-VChart's legend component provides rich configuration options to meet various data visualization needs and also provides related [API interfaces](/vchart/api/API). When the default legend cannot meet the business requirements, the legend can be customized through the legend configuration options and related api interfaces.
+VChart's legend component provides rich configuration options to meet various data visualization needs and also provides related [API interfaces](/vchart/api/API/vchart). When the default legend cannot meet the business requirements, the legend can be customized through the legend configuration options and related api interfaces.
 
 ### UI Customization
 
-When the overall legend display style does not meet the requirements, you can use the `visible` property to close the legend display, and then implement custom legend display and interaction through the provided related legend API (`vchart.getLegendSelectedDataByIndex()` to get the legend item data, `vchart.setLegendSelectedDataByIndex()` to set the selected data of the legend item).
+When the overall legend display style does not meet the requirements, you can use the `visible` property to close the legend display, and then implement custom legend display and interaction through the provided related legend [API](/vchart/api/API/vchart) (`vchart.getLegendSelectedDataByIndex()` to get the legend item data, `vchart.setLegendSelectedDataByIndex()` to set the selected data of the legend item).
 
 ```javascript livedemo
 const spec = {
