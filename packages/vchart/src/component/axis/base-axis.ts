@@ -423,11 +423,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       return prevSpec?.[k]?.visible !== spec?.[k]?.visible;
     });
 
-    if (!result.reMake && !isEqual(prevSpec, spec)) {
-      result.reCompile = true;
-      return result;
-    }
-
     return result;
   }
 
