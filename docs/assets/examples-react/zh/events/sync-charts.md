@@ -85,7 +85,7 @@ const Card = () => {
 
     const dimensionValue = params.dimensionInfo && params.dimensionInfo[0] && params.dimensionInfo[0].value;
 
-    if (dimensionValue != null) {
+    if (dimensionValue != null && params.action !== 'leave') {
       barChartRef.current.setDimensionIndex(dimensionValue, { tooltip: false });
     } else {
       barChartRef.current.setDimensionIndex(null, { tooltip: false });
@@ -97,7 +97,7 @@ const Card = () => {
     }
     const dimensionValue = params.dimensionInfo && params.dimensionInfo[0] && params.dimensionInfo[0].value;
 
-    if (dimensionValue != null) {
+    if (dimensionValue != null && params.action !== 'leave') {
       lineChartRef.current.setDimensionIndex(dimensionValue, { tooltip: false });
     } else {
       lineChartRef.current.setDimensionIndex(null, { tooltip: false });
