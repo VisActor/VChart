@@ -58,6 +58,10 @@ export const DEFAULT_ANIMATION_CONFIG = {
   disappear: {
     duration: 500,
     easing: 'cubicIn'
+  },
+  state: {
+    duration: 300,
+    easing: 'linear'
   }
 };
 

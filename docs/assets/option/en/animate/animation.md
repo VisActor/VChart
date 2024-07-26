@@ -134,3 +134,15 @@ ${markName} mark animation config.
 {{ use: marks-animate(type = ${markName}, name = ${markName},prefix = '###' + ${prefix}) }}
 
 {{ /for }}
+
+#${prefix} animationState(boolean|object)
+
+Animation effect when the graphic state changes. Supported after version `1.12.0`.
+
+##${prefix} duration(number) = 300
+
+Animation duration.
+
+##${prefix} easing(string) = 'easing'
+
+Animation easing effect. Default built-in effect types include:'linear', 'quadIn', 'quadOut', 'quadInOut', 'quadInOut', 'cubicIn', 'cubicOut', 'cubicInOut', 'quartIn', 'quartOut', 'quartInOut', 'quintIn', 'quintOut', 'quintInOut', 'backIn', 'backOut', 'backInOut', 'circIn', 'circOut', 'circInOut', 'bounceOut', 'bounceIn', 'bounceInOut', 'elasticIn', 'elasticOut', 'elasticInOut'。

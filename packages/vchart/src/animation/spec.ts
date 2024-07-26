@@ -1,4 +1,4 @@
-import type { IAnimationConfig } from '@visactor/vgrammar-core';
+import type { IAnimationConfig, IStateAnimationConfig } from '@visactor/vgrammar-core';
 import type { EasingType } from '@visactor/vrender-core';
 export type { IRunningConfig as IMorphConfig, IMorphAnimationConfig } from '@visactor/vgrammar-core';
 
@@ -51,6 +51,11 @@ export interface IAnimationSpec<MarkName extends string, Preset extends string> 
    * 图表退场动画
    */
   animationDisappear?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
+  /**
+   * 状态切换动画
+   * @since 1.12.0
+   */
+  animationState?: boolean | IStateAnimationConfig;
   /**
    * 循环动画
    */

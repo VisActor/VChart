@@ -18,7 +18,7 @@ import type { ISeries } from '../series';
 import type { ISeriesSpec } from '../typings';
 import type { IModelMarkAttributeContext } from '../compile/mark';
 
-export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear', 'normal'];
+export const AnimationStates = Object.keys(DEFAULT_ANIMATION_CONFIG);
 
 export function animationConfig<Preset extends string>(
   defaultConfig: MarkAnimationSpec = {},
@@ -41,6 +41,11 @@ export function animationConfig<Preset extends string>(
 
     if (state === 'normal') {
       userStateConfig && (config.normal = userStateConfig as IAnimationTypeConfig);
+      continue;
+    } else if (state === 'state') {
+      if (userStateConfig !== false) {
+        config.state = (userStateConfig ?? DEFAULT_ANIMATION_CONFIG.state) as any;
+      }
       continue;
     }
 
@@ -111,9 +116,6 @@ export function animationConfig<Preset extends string>(
 
     config[state] = stateConfig;
   }
-
-  // 将 update copy 到 state 保证 useState 效果与 update 对齐
-  config.state = config.update as IStateAnimationConfig;
   return config;
 }
 
@@ -135,12 +137,14 @@ export function userAnimationConfig<M extends string, Preset extends string>(
   if (isValid(spec.animationEnter)) {
     userConfig.enter = spec.animationEnter[markName] ?? spec.animationEnter;
   }
-
   if (isValid(spec.animationExit)) {
     userConfig.exit = spec.animationExit[markName] ?? spec.animationExit;
   }
   if (isValid(spec.animationUpdate)) {
     userConfig.update = spec.animationUpdate[markName] ?? spec.animationUpdate;
+  }
+  if (isValid(spec.animationState)) {
+    userConfig.state = spec.animationState[markName] ?? spec.animationState;
   }
   if (spec.animationNormal && spec.animationNormal[markName]) {
     userConfig.normal = spec.animationNormal[markName];
