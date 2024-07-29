@@ -14,11 +14,5 @@ export const HeatmapChart = createChart<IHeatmapChartSpec>(
   {
     chartConstructor: VChart as IVChartConstructor
   },
-  [
-    registerHeatmapChart,
-    registerCartesianBandAxis,
-    registerCartesianCrossHair,
-    registerLabel,
-    ...cartesianComponentsRegisters
-  ]
+  [registerHeatmapChart, registerLabel, ...cartesianComponentsRegisters]
 );

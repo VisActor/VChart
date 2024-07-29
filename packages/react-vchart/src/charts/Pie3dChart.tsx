@@ -1,7 +1,8 @@
-import React from 'react';
+import type React from 'react';
 import type { IPie3dChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerPie3dChart, registerLabel } from '@visactor/vchart';
-import { BaseChartProps, createChart } from './BaseChart';
+import { VChart, registerPie3dChart, registerIndicator, registerLabel } from '@visactor/vchart';
+import type { BaseChartProps } from './BaseChart';
+import { createChart } from './BaseChart';
 import { simpleComponentsRegisters } from './register';
 
 export interface Pie3dChartProps
@@ -14,5 +15,5 @@ export const Pie3dChart = createChart<React.PropsWithChildren<Pie3dChartProps> &
     type: 'pie3d',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerPie3dChart, registerLabel, ...simpleComponentsRegisters]
+  [registerPie3dChart, registerLabel, registerIndicator, ...simpleComponentsRegisters]
 );
