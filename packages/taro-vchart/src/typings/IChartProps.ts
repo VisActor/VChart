@@ -4,7 +4,7 @@ import { IVChart, ISpec, IVChartConstructor } from './IVChart';
 import { IEvent } from './IEvent';
 import { VChartEnvType } from './VChartEnvType';
 
-interface IChartProps {
+interface IChartProps<SpecType = ISpec> {
   /**
    * 图表构造函数，必须
    */
@@ -16,7 +16,7 @@ interface IChartProps {
   /**
    * VChart 图表配置项
    */
-  spec: ISpec;
+  spec: SpecType;
   /**
    * 图表容器样式
    */
@@ -49,7 +49,7 @@ interface IChartProps {
   onChartUpdate?: (chart: IVChart) => void;
 }
 
-interface IVChartProps extends IChartProps {
+interface IVChartProps<SpecType = ISpec> extends IChartProps<SpecType> {
   /**
    * 配置环境。如果没有声明，则会通过 `Taro.getEnv()` 自动获取。
    * - `tt` 字节小程序。
