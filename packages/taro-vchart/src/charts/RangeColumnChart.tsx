@@ -2,12 +2,12 @@ import React from 'react';
 import type { IRangeColumnChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerRangeColumnChart, registerLabel } from '@visactor/vchart';
 import { createChart } from './generate-charts';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 
 export const RangeColumnChart = createChart<IRangeColumnChartSpec>(
   'RangeColumnChart',
   {
     chartConstructor: VChart as IVChartConstructor
   },
-  [registerRangeColumnChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerRangeColumnChart, registerLabel, ...registers]
 );

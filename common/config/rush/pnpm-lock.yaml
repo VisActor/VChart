@@ -260,6 +260,7 @@ importers:
     specifiers:
       '@babel/core': 7.20.12
       '@babel/runtime': 7.17.0
+      '@internal/bundler': workspace:*
       '@internal/eslint-config': workspace:*
       '@internal/ts-config': workspace:*
       '@rollup/plugin-typescript': 11.1.0
@@ -304,6 +305,7 @@ importers:
     devDependencies:
       '@babel/core': 7.20.12
       '@babel/runtime': 7.17.0
+      '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
       '@internal/ts-config': link:../../share/ts-config
       '@rollup/plugin-typescript': 11.1.0_3riap2emcx3rezd3j6fqob2ipq

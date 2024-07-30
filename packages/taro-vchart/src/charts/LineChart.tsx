@@ -1,6 +1,6 @@
 import type { IVChartConstructor, ILineChartSpec } from '@visactor/vchart';
 import { VChart, registerLineChart, registerLabel, registerTotalLabel } from '@visactor/vchart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 import { createChart } from './generate-charts';
 
 export const LineChart = createChart<ILineChartSpec>(
@@ -8,5 +8,5 @@ export const LineChart = createChart<ILineChartSpec>(
   {
     chartConstructor: VChart as IVChartConstructor
   },
-  [registerLineChart, registerLabel, registerTotalLabel, ...cartesianComponentsRegisters]
+  [registerLineChart, registerLabel, registerTotalLabel, ...registers]
 );

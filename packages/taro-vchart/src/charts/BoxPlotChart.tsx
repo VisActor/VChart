@@ -1,6 +1,6 @@
 import type { IVChartConstructor, IBoxPlotChartSpec } from '@visactor/vchart';
 import { VChart, registerBoxplotChart, registerLabel } from '@visactor/vchart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 import { createChart } from './generate-charts';
 
 export const BoxPlotChart = createChart<IBoxPlotChartSpec>(
@@ -8,5 +8,5 @@ export const BoxPlotChart = createChart<IBoxPlotChartSpec>(
   {
     chartConstructor: VChart as IVChartConstructor
   },
-  [registerBoxplotChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerBoxplotChart, registerLabel, ...registers]
 );

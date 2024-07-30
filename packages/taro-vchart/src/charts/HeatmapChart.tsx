@@ -7,12 +7,12 @@ import {
   registerLabel
 } from '@visactor/vchart';
 import { createChart } from './generate-charts';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 
 export const HeatmapChart = createChart<IHeatmapChartSpec>(
   'HeatmapChart',
   {
     chartConstructor: VChart as IVChartConstructor
   },
-  [registerHeatmapChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerHeatmapChart, registerLabel, ...registers]
 );

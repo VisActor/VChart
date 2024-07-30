@@ -1,6 +1,6 @@
 import type { IVChartConstructor, ICorrelationChartSpec } from '@visactor/vchart';
 import { VChart, registerCorrelationChart } from '@visactor/vchart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 import { createChart } from './generate-charts';
 
 export const CorrelationChart = createChart<ICorrelationChartSpec>(
@@ -8,5 +8,5 @@ export const CorrelationChart = createChart<ICorrelationChartSpec>(
   {
     chartConstructor: VChart as IVChartConstructor
   },
-  [registerCorrelationChart, ...cartesianComponentsRegisters]
+  [registerCorrelationChart, ...registers]
 );

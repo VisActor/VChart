@@ -1,6 +1,6 @@
 import type { IVChartConstructor, ICirclePackingChartSpec } from '@visactor/vchart';
 import { VChart, registerCirclePackingChart } from '@visactor/vchart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 import { createChart } from './generate-charts';
 
 export const CirclePackingChart = createChart<ICirclePackingChartSpec>(
@@ -8,5 +8,5 @@ export const CirclePackingChart = createChart<ICirclePackingChartSpec>(
   {
     chartConstructor: VChart as IVChartConstructor
   },
-  [registerCirclePackingChart, ...cartesianComponentsRegisters]
+  [registerCirclePackingChart, ...registers]
 );

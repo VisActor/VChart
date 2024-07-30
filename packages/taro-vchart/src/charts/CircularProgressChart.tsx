@@ -1,6 +1,6 @@
 import type { IVChartConstructor, ICircularProgressChartSpec } from '@visactor/vchart';
 import { VChart, registerCircularProgressChart, registerLabel, registerIndicator } from '@visactor/vchart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 import { createChart } from './generate-charts';
 
 export const CircularProgressChart = createChart<ICircularProgressChartSpec>(
@@ -8,5 +8,5 @@ export const CircularProgressChart = createChart<ICircularProgressChartSpec>(
   {
     chartConstructor: VChart as IVChartConstructor
   },
-  [registerCircularProgressChart, registerLabel, registerIndicator, ...cartesianComponentsRegisters]
+  [registerCircularProgressChart, registerLabel, registerIndicator, ...registers]
 );
