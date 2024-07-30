@@ -3,7 +3,7 @@ import type { IHeatmapChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerHeatmapChart, registerLabel } from '@visactor/vchart';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 
 export interface HeatmapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -17,5 +17,5 @@ export const HeatmapChart = createChart<React.PropsWithChildren<HeatmapChartProp
     type: 'heatmap',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerHeatmapChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerHeatmapChart, registerLabel, ...registers]
 );

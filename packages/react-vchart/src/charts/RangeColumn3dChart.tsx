@@ -2,7 +2,7 @@ import React from 'react';
 import type { IRangeColumn3dChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerRangeColumn3dChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 
 export interface RangeColumn3dChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -16,5 +16,5 @@ export const RangeColumn3dChart = createChart<
     type: 'rangeColumn3d',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerRangeColumn3dChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerRangeColumn3dChart, registerLabel, ...registers]
 );

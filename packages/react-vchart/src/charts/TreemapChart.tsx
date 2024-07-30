@@ -2,7 +2,7 @@ import React from 'react';
 import type { ITreemapChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerTreemapChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { simpleComponentsRegisters } from './register';
+import { registers } from './registers/simple';
 
 export interface TreemapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -14,5 +14,5 @@ export const TreemapChart = createChart<React.PropsWithChildren<TreemapChartProp
     type: 'treemap',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerTreemapChart, ...simpleComponentsRegisters]
+  [registerTreemapChart, ...registers]
 );

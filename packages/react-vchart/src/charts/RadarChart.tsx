@@ -2,7 +2,7 @@ import React from 'react';
 import type { IRadarChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerRadarChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { polarComponentsRegisters } from './register';
+import { registers } from './registers/polar';
 
 export interface RadarChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -14,5 +14,5 @@ export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps> &
     type: 'radar',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerRadarChart, registerLabel, ...polarComponentsRegisters]
+  [registerRadarChart, registerLabel, ...registers]
 );

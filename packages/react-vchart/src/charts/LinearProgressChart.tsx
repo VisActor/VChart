@@ -2,7 +2,7 @@ import React from 'react';
 import { ILinearProgressChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerLinearProgressChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 
 export interface LinearProgressChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -16,5 +16,5 @@ export const LinearProgressChart = createChart<
     type: 'linearProgress',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerLinearProgressChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerLinearProgressChart, registerLabel, ...registers]
 );
