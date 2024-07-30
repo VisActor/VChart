@@ -8,44 +8,46 @@ import { ISpec } from '../typings/IVChart';
 
 export const createChart = <T extends ISpec>(
   componentName: string,
-  defaultProps?: Partial<IVChartProps<T>>,
+  defaultProps: Pick<IVChartProps<T>, 'chartConstructor'>,
   registers?: (() => void)[]
 ) => {
   if (registers && registers.length && defaultProps && defaultProps.chartConstructor) {
     defaultProps.chartConstructor.useRegisters(registers);
   }
 
-  const Cls = React.forwardRef<any, IVChartProps>((props: IVChartProps<T>, ref) => {
-    const { type, ...args } = props;
-    const env = (type ?? Taro.getEnv()).toLocaleLowerCase();
-    const strategies = {
-      lark: () => {
-        registerLarkEnv();
-        return <GeneralChart {...defaultProps} {...args} mode="miniApp" />;
-      },
-      tt: () => {
-        registerTTEnv();
-        return <GeneralChart {...defaultProps} {...args} mode="tt" />;
-      },
-      weapp: () => {
-        registerWXEnv();
-        return <GeneralChart {...defaultProps} {...args} mode="wx" />;
-      },
-      web: () => {
-        return <WebChart {...defaultProps} {...args} />;
-      },
-      h5: () => {
-        return <WebChart {...defaultProps} {...args} mode="mobile-browser" />;
+  const Cls = React.forwardRef<any, Omit<IVChartProps<T>, 'chartConstructor'>>(
+    (props: Omit<IVChartProps<T>, 'chartConstructor'>, ref) => {
+      const { type, ...args } = props;
+      const env = (type ?? Taro.getEnv()).toLocaleLowerCase();
+      const strategies = {
+        lark: () => {
+          registerLarkEnv();
+          return <GeneralChart {...defaultProps} {...args} mode="miniApp" />;
+        },
+        tt: () => {
+          registerTTEnv();
+          return <GeneralChart {...defaultProps} {...args} mode="tt" />;
+        },
+        weapp: () => {
+          registerWXEnv();
+          return <GeneralChart {...defaultProps} {...args} mode="wx" />;
+        },
+        web: () => {
+          return <WebChart {...defaultProps} {...args} />;
+        },
+        h5: () => {
+          return <WebChart {...defaultProps} {...args} mode="mobile-browser" />;
+        }
+      };
+
+      if (env && (strategies as any)[env] !== undefined) {
+        return (strategies as any)[env].call();
       }
-    };
 
-    if (env && (strategies as any)[env] !== undefined) {
-      return (strategies as any)[env].call();
+      console.warn(`暂不支持 ${env} 环境`);
+      return <GeneralChart {...defaultProps} {...args} />;
     }
-
-    console.warn(`暂不支持 ${env} 环境`);
-    return <GeneralChart {...args} />;
-  });
+  );
   Cls.displayName = componentName;
   return Cls;
 };
