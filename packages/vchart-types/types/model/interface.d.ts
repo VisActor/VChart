@@ -68,7 +68,6 @@ export interface IModel extends ICompilable {
     getOption: () => IModelOption;
     getMarks: () => IMark[];
     getMarkNameMap: () => Record<string, IMark>;
-    getMarkInfoList: () => IModelMarkInfo[];
     getData: () => ICompilableData;
     getChart: () => IChart;
     created: () => void;

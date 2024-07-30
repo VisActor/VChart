@@ -13,4 +13,3 @@ export * from '../typings/spec/index';
 export * from '../typings/tooltip';
 export * from '../theme/index';
 export { vglobal } from '@visactor/vrender-core';
-export * from '../plugin';

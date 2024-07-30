@@ -17,7 +17,6 @@ export declare class Compiler {
     protected _windowListeners: Map<(...args: any[]) => any, EventListener>;
     protected _canvasListeners: Map<(...args: any[]) => any, EventListener>;
     isInited: boolean;
-    private _isRunning;
     private _nextRafId;
     protected _width: number;
     protected _height: number;
@@ -43,6 +42,7 @@ export declare class Compiler {
         chart: IChart;
         vChart: IVChart;
     }, option: any): void;
+    protected clearNextRender(): boolean;
     clear(ctx: {
         chart: IChart;
         vChart: IVChart;
