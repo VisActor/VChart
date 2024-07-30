@@ -211,7 +211,6 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     compile(): void;
     getDefaultShapeType(): string;
     getFieldAlias(field: string): any;
-    getMarkInfoList(): import("../../model/interface").IModelMarkInfo[];
     protected _getInvalidConnectType(): "none" | "zero" | "connect";
     protected _getInvalidDefined(datum: Datum): boolean;
     protected _getRelatedComponentSpecInfo(specKey: string): import("../../model/interface").IModelSpecInfo<any>[];

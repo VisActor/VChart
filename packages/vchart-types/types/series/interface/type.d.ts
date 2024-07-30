@@ -33,7 +33,8 @@ export declare enum SeriesTypeEnum {
     heatmap = "heatmap",
     correlation = "correlation",
     liquid = "liquid",
-    venn = "venn"
+    venn = "venn",
+    mosaic = "mosaic"
 }
 export declare const enum SeriesMarkNameEnum {
     label = "label",
