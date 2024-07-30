@@ -25,6 +25,11 @@ export declare const STACK_FIELD_END_OffsetSilhouette: string;
 export declare const STACK_FIELD_TOTAL: string;
 export declare const STACK_FIELD_TOTAL_PERCENT: string;
 export declare const STACK_FIELD_TOTAL_TOP: string;
+export declare const STACK_FIELD_TOTAL_BOTTOM: string;
+export declare const MOSAIC_VALUE_START_PERCENT: string;
+export declare const MOSAIC_VALUE_END_PERCENT: string;
+export declare const MOSAIC_CAT_START_PERCENT: string;
+export declare const MOSAIC_CAT_END_PERCENT: string;
 export declare const SEGMENT_FIELD_START: string;
 export declare const SEGMENT_FIELD_END: string;
 export declare enum LayoutZIndex {

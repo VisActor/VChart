@@ -27,6 +27,8 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     protected _pieMark: IArcMark | null;
     protected _labelMark: ITextMark | null;
     protected _labelLineMark: IPathMark | null;
+    protected _showEmptyCircle: boolean;
+    protected _emptyArcMark: IArcMark | null;
     protected _buildMarkAttributeContext(): void;
     setAttrFromSpec(): void;
     initData(): void;
