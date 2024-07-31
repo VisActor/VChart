@@ -7,6 +7,7 @@ import { mergeSpec } from '@visactor/vutils-extension';
 import type { ICartesianChartSpec } from './cartesian/interface';
 import type { IChartOption } from './interface/common';
 import type { IUpdateSpecResult } from '../model/interface';
+import { vglobal } from '@visactor/vgrammar-core';
 
 export function setDefaultCrosshairForCartesianChart(spec: ICartesianChartSpec) {
   spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
@@ -52,7 +53,7 @@ export function calculateChartSize(
   } else if (canvas && isTrueBrowser(option.mode)) {
     let canvasNode;
     if (isString(canvas)) {
-      canvasNode = document?.getElementById(canvas);
+      canvasNode = vglobal.getElementById(canvas);
     } else {
       canvasNode = canvas;
     }

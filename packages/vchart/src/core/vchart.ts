@@ -346,7 +346,7 @@ export class VChart implements IVChart {
     const isTrueBrowseEnv = isTrueBrowser(mode);
 
     if (isTrueBrowseEnv && dom) {
-      this._container = isString(dom) ? document?.getElementById(dom) : dom;
+      this._container = isString(dom) ? vglobal.getElementById(dom) : dom;
     }
     if (renderCanvas) {
       this._canvas = renderCanvas;
@@ -1798,7 +1798,7 @@ export class VChart implements IVChart {
     // 用户传入 canvas
     let canvasNode: Maybe<HTMLCanvasElement>;
     if (isString(this._canvas)) {
-      canvasNode = document?.getElementById(this._canvas) as HTMLCanvasElement;
+      canvasNode = vglobal.getElementById(this._canvas) as HTMLCanvasElement;
     } else {
       canvasNode = this._canvas as HTMLCanvasElement;
     }
