@@ -508,6 +508,8 @@ interface VChartSimpleProps extends EventsProps {
 - `registerMarkPoint`
 - `registerScrollBar`
 - `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
 
 极坐标系图表默认注册组件如下：
 
@@ -522,6 +524,8 @@ interface VChartSimpleProps extends EventsProps {
 - `registerAllMarks`
 - `registerScrollBar`
 - `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
 
 通用图表默认注册组件如下：
 
@@ -530,6 +534,8 @@ interface VChartSimpleProps extends EventsProps {
 - `registerCustomMark`
 - `registerAllMarks`
 - `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
 
 使用语义化标签的时候，如果用到其他没有默认加载的组件，只需要注册未加载的组件即可；
 

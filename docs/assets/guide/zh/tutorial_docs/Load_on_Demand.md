@@ -221,6 +221,8 @@ interface VChartSimpleProps extends EventsProps {
 - `registerMarkPoint`
 - `registerScrollBar`
 - `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
 
 极坐标系图表默认注册组件如下：
 
@@ -235,6 +237,8 @@ interface VChartSimpleProps extends EventsProps {
 - `registerAllMarks`
 - `registerScrollBar`
 - `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
 
 通用图表默认注册组件如下：
 
@@ -243,6 +247,8 @@ interface VChartSimpleProps extends EventsProps {
 - `registerCustomMark`
 - `registerAllMarks`
 - `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
 
 使用语义化标签的时候，如果用到其他没有默认加载的组件，只需要注册未加载的组件即可；
 
@@ -313,6 +319,7 @@ taro-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的
 - `registerMarkLine`
 - `registerMarkPoint`
 - `registerScrollBar`
+- `registerCanvasTooltipHandler`
 - `registerTitle`
 
 极坐标系图表默认注册组件如下：
@@ -327,6 +334,7 @@ taro-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的
 - `registerCustomMark`
 - `registerAllMarks`
 - `registerScrollBar`
+- `registerCanvasTooltipHandler`
 - `registerTitle`
 
 通用图表默认注册组件如下：
@@ -336,6 +344,8 @@ taro-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的
 - `registerCustomMark`
 - `registerAllMarks`
 - `registerTitle`
+- `registerTooltip`
+- `registerCanvasTooltipHandler`
 
 使用语义化标签的时候，如果用到其他没有默认加载的组件，只需要注册未加载的组件即可；
 

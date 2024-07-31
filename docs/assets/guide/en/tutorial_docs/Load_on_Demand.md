@@ -131,50 +131,230 @@ Taking the [Media Query](/vchart/guide/tutorial_docs/Self-adaption/Media_Query)a
 
 > `import { registerMediaQuery } from '@visactor/vchart';`
 
-## React VChart Load on Demand
+## React-VChart On-Demand Loading
 
-The code of React-VChart itself supports load on demand. When VChart needs to be loaded on demand, you need to use the `<VChartSimple />` tag.
+React-VChart inherently supports on-demand loading. When on-demand loading of VChart is needed, there are two methods:
 
-The usage of the `<VChartSimple />` component and the `<VChart />` component is basically the same. The only difference is that the user needs to import the VChart constructor class from @viasctor/vchart, register the required charts and components according to the description in this article, and pass them to `<VChartSimple />`.
+React-VChart inherently supports on-demand loading. When on-demand loading of VChart is required, there are two methods:
 
+- Use the `<VChartSimple />` tag to implement custom on-demand loading.
+
+The `<VChartSimple />` component and the `<VChart />` component are used in almost the same way. The only difference is that users need to import the `VChart` constructor class from `@visactor/vchart` and pass it to `<VChartSimple />`.
 ```typescript
 interface VChartSimpleProps extends EventsProps {
-  /** chart spec */
+  /** Chart definition */
   spec: any;
-  /** chart options */
+  /** Chart configuration */
   options?: ChartOptions;
-  /** Chart Rendering Completion Event */
+  /** Event triggered when the chart has finished rendering */
   onReady?: (instance: VChart, isInitial: boolean) => void;
-  /** throw error when chart run into an error */
+  /** Throw error when the chart encounters an error */
   onError?: (err: Error) => void;
   /**
-   * Switch to Synchronous Rendering
+   * Switch to synchronous rendering
    *
    * @since 1.8.3
    **/
   useSyncRender?: boolean;
   /**
-   * When props are updated, skip all function checks, i.e., all functions are considered not updated.
+   * When props are updated, skip the check for all functions, assuming no functions have updated
    *
    * @since 1.6.5
    **/
   skipFunctionDiff?: boolean;
   /**
-   * VChart constructor
+   * VChart constructor class
    *
    * @since 1.8.3
    **/
-  vchartConstrouctor: IVChartConstructor;
+  vchartConstructor: IVChartConstructor;
 }
 ```
 
-## Load-on-demand in taro-vchart
+- Use semantic tags, from version **1.11.0**, all semantic tags support on-demand loading by default. The default registered components for various semantic tags are as follows:
 
-> Supported after version 1.10.0
+| Chart                        | Category             | Additional Registered Components     |
+| ---------------------------- | -------------------- | ------------------------------------ |
+| `<LineChart/>`               | Cartesian Coordinate | `registerLabel`                     |
+| `<AreaChart/>`               | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
+| `<BarChart/>`                | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
+| `<Bar3dChart/>`              | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
+| `<BoxPlotChart/>`            | Cartesian Coordinate | `registerLabel`,                    |
+| `<HeatmapChart/>`            | Cartesian Coordinate | `registerLabel`                     |
+| `<Histogram3dChart/>`        | Cartesian Coordinate | `registerLabel`                     |
+| `<HistogramChart/>`          | Cartesian Coordinate | `registerLabel`                     |
+| `<LinearProgressChart/>`     | Cartesian Coordinate | `registerLabel`                     |
+| `<RangeColumnChart/>`        | Cartesian Coordinate | `registerLabel`                     |
+| `<RangeColumn3dChart/>`      | Cartesian Coordinate | `registerLabel`                     |
+| `<ScatterChart/>`            | Cartesian Coordinate | `registerLabel`                     |
+| `<SequenceChart/>`           | Cartesian Coordinate | `registerLabel`                     |
+| `<WaterfallChart/>`          | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
+| `<RadarChart/>`              | Polar Coordinate     | `registerLabel`                     |
+| `<RoseChart/>`               | Polar Coordinate     | `registerLabel`                     |
+| `<CircularProgressChart/>`   | Polar Coordinate     | `registerLabel`, `registerIndicator` |
+| `<Pie3dChart/>`              | General              | `registerLabel`, `registerIndicator` |
+| `<PieChart/>`                | General              | `registerLabel`, `registerIndicator` |
+| `<CirclePackingChart/>`      | General              | None                                |
+| `<FunnelChart/>`             | General              | `registerLabel`                     |
+| `<Funnel3dChart/>`           | General              | `registerLabel`                     |
+| `<GaugeChart/>`              | General              | None                                |
+| `<MapChart/>`                | General              | `registerLabel`                     |
+| `<SankeyChart/>`             | General              | None                                |
+| `<SunburstChart/>`           | General              | None                                |
+| `<TreemapChart/>`            | General              | None                                |
+| `<VennChart/>`               | General              | None                                |
+| `<WordCloud3dChart/>`        | General              | None                                |
+| `<WordCloudChart/>`          | General              | None                                |
+| `<LiquidChart/>`             | General              | `registerIndicator`                 |
 
-Similar to react-vchart, when VChart needs to be loaded on demand, you also need to use the `<VChartSimple />` tag.
+For Cartesian coordinate charts, the default registered components are as follows:
 
-The usage of the `<VChartSimple />` component and the `<VChart />` component is basically the same. The only difference is that the user needs to import the VChart constructor class from @viasctor/vchart, register the required charts and components according to the description in this article, and pass them to `<VChartSimple />`.
+- `registerCartesianLinearAxis`
+- `registerCartesianBandAxis`
+- `registerCartesianTimeAxis`
+- `registerCartesianLogAxis`
+- `registerCartesianCrossHair`
+- `registerBrush`
+- `registerContinuousLegend`
+- `registerDataZoom`
+- `registerDiscreteLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerMarkArea`
+- `registerMarkLine`
+- `registerMarkPoint`
+- `registerScrollBar`
+- `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
+
+For polar coordinate charts, the default registered components are as follows:
+
+- `registerPolarLinearAxis`
+- `registerPolarBandAxis`
+- `registerPolarCrossHair`
+- `registerBrush`
+- `registerContinuousLegend`
+- `registerDataZoom`
+- `registerDiscreteLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerScrollBar`
+- `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
+
+For general charts, the default registered components are as follows:
+
+- `registerDiscreteLegend`
+- `registerContinuousLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
+
+When using semantic tags, if other components not loaded by default are needed, simply register the required components.
+
+For more details on on-demand loading, refer to the [react-vchart](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/react) tutorial section.
+
+## On-Demand Loading for taro-vchart
+
+taro-VChart inherently supports on-demand loading. There are two ways to achieve on-demand loading when needed:
+
+- Using the `<VChartSimple />` tag for custom on-demand loading
+
+> Supported starting from version **1.10.0**
+
+The `<VChartSimple />` component and the `<VChart />` component are used in almost the same way. The only difference is that users need to import the `VChart` constructor from `@viasctor/vchart/esm/core`, register the required charts and components as described in this document, and pass them to `<VChartSimple />`.
+
+- Using semantic tags, all semantic tags support on-demand loading by default, with the default registered content for various semantic tags as follows:
+
+> Supported starting from version **1.12.0**
+
+| Chart                        | Category         | Additional Registered Components     |
+| ---------------------------- | ---------------- | ------------------------------------ |
+| `<LineChart/>`               | Cartesian Charts | `registerLabel`                      |
+| `<AreaChart/>`               | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
+| `<BarChart/>`                | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
+| `<Bar3dChart/>`              | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
+| `<BoxPlotChart/>`            | Cartesian Charts | `registerLabel`                      |
+| `<HeatmapChart/>`            | Cartesian Charts | `registerLabel`                      |
+| `<Histogram3dChart/>`        | Cartesian Charts | `registerLabel`                      |
+| `<HistogramChart/>`          | Cartesian Charts | `registerLabel`                      |
+| `<LinearProgressChart/>`     | Cartesian Charts | `registerLabel`                      |
+| `<RangeColumnChart/>`        | Cartesian Charts | `registerLabel`                      |
+| `<RangeColumn3dChart/>`      | Cartesian Charts | `registerLabel`                      |
+| `<ScatterChart/>`            | Cartesian Charts | `registerLabel`                      |
+| `<SequenceChart/>`           | Cartesian Charts | `registerLabel`                      |
+| `<WaterfallChart/>`          | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
+| `<RadarChart/>`              | Polar Charts     | `registerLabel`                      |
+| `<RoseChart/>`               | Polar Charts     | `registerLabel`                      |
+| `<CircularProgressChart/>`   | Polar Charts     | `registerLabel`, `registerIndicator` |
+| `<Pie3dChart/>`              | General Charts   | `registerLabel`, `registerIndicator` |
+| `<PieChart/>`                | General Charts   | `registerLabel`, `registerIndicator` |
+| `<CirclePackingChart/>`      | General Charts   | None                                 |
+| `<FunnelChart/>`             | General Charts   | `registerLabel`                      |
+| `<Funnel3dChart/>`           | General Charts   | `registerLabel`                      |
+| `<GaugeChart/>`              | General Charts   | None                                 |
+| `<MapChart/>`                | General Charts   | `registerLabel`                      |
+| `<SankeyChart/>`             | General Charts   | None                                 |
+| `<SunburstChart/>`           | General Charts   | None                                 |
+| `<TreemapChart/>`            | General Charts   | None                                 |
+| `<VennChart/>`               | General Charts   | None                                 |
+| `<WordCloud3dChart/>`        | General Charts   | None                                 |
+| `<WordCloudChart/>`          | General Charts   | None                                 |
+| `<LiquidChart/>`             | General Charts   | `registerIndicator`                  |
+
+For Cartesian coordinate charts, the default registered components are as follows:
+
+- `registerCartesianLinearAxis`
+- `registerCartesianBandAxis`
+- `registerCartesianTimeAxis`
+- `registerCartesianLogAxis`
+- `registerCartesianCrossHair`
+- `registerBrush`
+- `registerContinuousLegend`
+- `registerDataZoom`
+- `registerDiscreteLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerMarkArea`
+- `registerMarkLine`
+- `registerMarkPoint`
+- `registerScrollBar`
+- `registerCanvasTooltipHandler`
+- `registerTitle`
+
+For polar coordinate charts, the default registered components are as follows:
+
+- `registerPolarLinearAxis`
+- `registerPolarBandAxis`
+- `registerPolarCrossHair`
+- `registerBrush`
+- `registerContinuousLegend`
+- `registerDataZoom`
+- `registerDiscreteLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerScrollBar`
+- `registerCanvasTooltipHandler`
+- `registerTitle`
+
+For general charts, the default registered components are as follows:
+
+- `registerDiscreteLegend`
+- `registerContinuousLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerTitle`
+- `registerTooltip`
+- `registerCanvasTooltipHandler`
+
+When using semantic tags, if other components not loaded by default are needed, simply register the required components.
+
+For more details on on-demand loading, refer to the [taro-vchart](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/taro) tutorial section.
+
 
 ## Cross-platform Related
 
