@@ -3,10 +3,14 @@ import {
   registerDiscreteLegend,
   registerCustomMark,
   registerAllMarks,
-  registerTitle
+  registerTitle,
+  registerTooltip,
+  registerCanvasTooltipHandler
 } from '@visactor/vchart';
 
 export const registers = [
+  registerTooltip,
+  registerCanvasTooltipHandler,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerCustomMark,

@@ -14,10 +14,14 @@ import {
   registerCartesianBandAxis,
   registerCartesianTimeAxis,
   registerCartesianLogAxis,
-  registerCartesianCrossHair
+  registerCartesianCrossHair,
+  registerTooltip,
+  registerDomTooltipHandler
 } from '@visactor/vchart';
 
 export const registers = [
+  registerTooltip,
+  registerDomTooltipHandler,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis,
