@@ -84,6 +84,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _showEmptyCircle: boolean;
   protected _emptyArcMark: IArcMark | null = null;
 
+  protected _showAllZero: boolean;
+
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
     // center
@@ -121,6 +123,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     this._specRadiusField = [];
 
     this._showEmptyCircle = this._spec.emptyPlaceholder?.showEmptyCircle ?? false;
+
+    this._showAllZero = this._spec.showAllZero ?? false;
   }
 
   initData() {
@@ -147,7 +151,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           asMiddleAngle: ARC_MIDDLE_ANGLE,
           asRadian: ARC_RADIAN,
           asQuadrant: ARC_QUADRANT,
-          asK: ARC_K
+          asK: ARC_K,
+          showAllZero: this._showAllZero
         } as IPieOpt
       },
       false
