@@ -9,14 +9,10 @@ Curve interpolation type.
 Available options:
 
 - `basis`
-- `bundle`
-- `cardinal`
-- `catmullRom`
 - `linear`
 - `monotone`
 - `monotoneX`
 - `monotoneY`
-- `natural`
 - `step`
 - `stepAfter`
 - `stepBefore`
