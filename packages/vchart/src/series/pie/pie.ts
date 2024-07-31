@@ -85,6 +85,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _emptyArcMark: IArcMark | null = null;
 
   protected _showAllZero: boolean;
+  protected _supportNegative: boolean;
 
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
@@ -125,6 +126,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     this._showEmptyCircle = this._spec.emptyPlaceholder?.showEmptyCircle ?? false;
 
     this._showAllZero = this._spec.showAllZero ?? false;
+    this._supportNegative = this._spec.supportNegative ?? false;
   }
 
   initData() {
@@ -152,7 +154,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           asRadian: ARC_RADIAN,
           asQuadrant: ARC_QUADRANT,
           asK: ARC_K,
-          showAllZero: this._showAllZero
+          showAllZero: this._showAllZero,
+          supportNegative: this._supportNegative
         } as IPieOpt
       },
       false

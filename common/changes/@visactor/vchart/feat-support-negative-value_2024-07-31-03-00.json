@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: enable supportNegative option to treat negative values as absolute values",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

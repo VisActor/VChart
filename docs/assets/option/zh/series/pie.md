@@ -256,3 +256,8 @@ emptyPlaceholder: {
 
 是否在数据均为0时显示均分扇区。
 默认值为`false`。
+
+#${prefix} supportNegative(boolean)
+
+是否将负数按照绝对值进行处理。
+默认值为`false`。
