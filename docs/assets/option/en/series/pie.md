@@ -256,3 +256,8 @@ emptyPlaceholder: {
 
 Determines whether to display evenly divided sectors when all data are 0.
 The default value is `false`.
+
+#${prefix} supportNegative(boolean)
+
+Determines whether to treat negative values as absolute values.
+The default value is `false`.
