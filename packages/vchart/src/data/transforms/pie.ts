@@ -125,15 +125,10 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
   }
 
   if (isAllZero && showAllZero) {
-    data[0][asStartAngle] = startAngle;
-
-    for (let i = 0; i < data.length; i++) {
-      if (i !== 0) {
-        data[i][asStartAngle] = data[i - 1][asStartAngle] + angleRange / data.length;
-      }
-      data[i][asEndAngle] = data[i][asStartAngle] + angleRange / data.length;
-    }
-    data[data.length - 1][asEndAngle] = endAngle;
+    const angle = angleRange / data.length;
+    data.forEach((d, index) => {
+      appendArcInfo(d, startAngle + index * angle, angle);
+    });
   }
   return data;
 };
