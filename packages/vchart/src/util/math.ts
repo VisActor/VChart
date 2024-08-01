@@ -19,24 +19,6 @@ export const isClose = isNumberClose;
 export { isGreater, isLess, normalizeAngle, angleLabelOrientAttribute };
 
 /**
- * 根据角度计算象限
- * 计算角度所在象限
- * @param angle
- * @returns
- */
-export function computeQuadrant(angle: number): Quadrant {
-  angle = normalizeAngle(angle);
-  if (angle > 0 && angle <= Math.PI / 2) {
-    return 2;
-  } else if (angle > Math.PI / 2 && angle <= Math.PI) {
-    return 3;
-  } else if (angle > Math.PI && angle <= (3 * Math.PI) / 2) {
-    return 4;
-  }
-  return 1;
-}
-
-/**
  * 将角度轴起始角度 & 终结角度标准化
  * @param start
  * @param end
