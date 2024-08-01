@@ -1,13 +1,9 @@
 export type InterpolateType =
   | 'basis'
-  | 'bundle'
-  | 'cardinal'
-  | 'catmullRom'
   | 'linear'
   | 'monotone'
   | 'monotoneX'
   | 'monotoneY'
-  | 'natural'
   | 'step'
   | 'stepAfter'
   | 'stepBefore'

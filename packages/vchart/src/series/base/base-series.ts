@@ -964,13 +964,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
             style = markStyle[datum[0][groupBy]]?.[key];
           }
           style = markStyle[datum[groupBy]]?.[key];
-          if (style) {
+          if (isValid(style)) {
             return style;
           }
           return mark.getAttribute(key as any, datum);
         };
       });
-      this.setMarkStyle(mark, style, DEFAULT_SERIES_STYLE_NAME);
+      this.setMarkStyle(mark, style, DEFAULT_SERIES_STYLE_NAME, AttributeLevel.User_SeriesStyle);
     });
   }
 
