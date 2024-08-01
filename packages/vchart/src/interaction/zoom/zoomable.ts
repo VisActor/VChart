@@ -164,7 +164,6 @@ export class Zoomable implements IZoomable {
     const zoomEndParams: [string] | [string, EventQuery] = this._isGestureListener
       ? [this._getZoomTriggerEvent('zoomEnd')]
       : [this._getZoomTriggerEvent('zoomEnd'), { level: Event_Bubble_Level.chart, consume: false }];
-
     // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
     (event as any).on(
       ...zoomEndParams,
@@ -469,12 +468,16 @@ export class Zoomable implements IZoomable {
       this._zoomableTrigger.pointerId = null;
       this._eventObj.off(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove as any);
       this._eventObj.off(end, { level: Event_Bubble_Level.chart, source: Event_Source_Type.window }, mouseup as any);
+      this._eventObj.allow(end);
     }, delayTime);
+
     const mousemove = delayMap[delayType]((params: BaseEventParams) => {
       if (!this._zoomableTrigger.parserDragEvent(params.event)) {
         return;
       }
       this._clickEnable = false;
+      this._eventObj.prevent(end, mouseup as any);
+
       const event = params.event;
       const dx = event.canvasX - moveX;
       const dy = event.canvasY - moveY;
