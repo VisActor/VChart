@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix:curveType `monotone` in seriesStyle not work ",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
