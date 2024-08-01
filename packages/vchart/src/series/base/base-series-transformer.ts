@@ -73,12 +73,6 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
     if (isBoolean(spec.percent)) {
       this.stack = spec.percent || this.stack; // this.stack is `true` in bar/area series
     }
-    if (isBoolean(spec.stackOffsetSilhouette)) {
-      this.stack = spec.stackOffsetSilhouette || this.stack; // this.stack is `true` in bar/area series
-    }
-    if (isValid(spec.stackValue)) {
-      this.stack = true;
-    }
 
     if (isNil(this.stack) && this._supportStack && spec.seriesField) {
       // only set default value of stack to be `true` when series support stack and seriesField is not null
