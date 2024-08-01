@@ -1,3 +1,4 @@
+import { vglobal } from '@visactor/vrender-core';
 import type { IChartSpecInfo } from '../../chart/interface';
 import { domDocument, isMiniAppLikeMode, isString, isTrueBrowser, isValid } from '../../util';
 import { BaseComponentSpecTransformer } from '../base';
@@ -43,7 +44,7 @@ export class TooltipSpecTransformer extends BaseComponentSpecTransformer<any> {
 
     if (isValid(spec.parentElement)) {
       if (isString(spec.parentElement)) {
-        spec.parentElement = globalThis?.document?.getElementById(spec.parentElement);
+        spec.parentElement = vglobal.getElementById(spec.parentElement);
       }
     } else if (isTrueBrowser(this._option.mode)) {
       spec.parentElement = domDocument?.body;
