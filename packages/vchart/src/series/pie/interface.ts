@@ -5,6 +5,7 @@ import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
 import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
+import type { ICustomPath2D, ILineGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
 
 export type PieMarks = 'pie' | 'label' | 'labelLine';
 
@@ -138,6 +139,15 @@ export interface IArcLabelLineSpec extends IMarkSpec<ILineMarkSpec> {
    * @since 1.4.0
    */
   smooth?: boolean;
+  /**
+   * 标签引导线支持自定义path
+   * @since 1.11.11
+   */
+  customShape?: (
+    text: ITextGraphicAttribute,
+    attrs: Partial<ILineGraphicAttribute>,
+    path: ICustomPath2D
+  ) => ICustomPath2D;
 }
 
 export type ArcLabelAlignType = 'arc' | 'labelLine' | 'edge';
