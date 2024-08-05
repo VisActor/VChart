@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `updateData` incorrect with datazoom, related #3041",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
