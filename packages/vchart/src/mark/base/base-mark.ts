@@ -32,6 +32,7 @@ import type { ISeries } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
 import { degreeToRadian, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
+import { curveTypeTransform } from '../utils';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -122,7 +123,12 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   }
 
   isUserLevel(level: number) {
-    return [AttributeLevel.User_Mark, AttributeLevel.User_Series, AttributeLevel.User_Chart].includes(level);
+    return [
+      AttributeLevel.User_Mark,
+      AttributeLevel.User_Series,
+      AttributeLevel.User_Chart,
+      AttributeLevel.User_SeriesStyle
+    ].includes(level);
   }
 
   /**
@@ -182,6 +188,11 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
         case 'outerPadding':
           // VRender 的 padding 定义基于 centent-box 盒模型，默认正方向是向外扩，与 VChart 不一致。这里将 padding 符号取反
           newStyle = this._transformStyleValue(newStyle, (value: number) => -value);
+          break;
+        case 'curveType':
+          newStyle = this._transformStyleValue(newStyle, (value: string) =>
+            curveTypeTransform(value, (this._option.model as any).direction)
+          );
           break;
       }
     }

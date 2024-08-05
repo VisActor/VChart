@@ -406,6 +406,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   /** Update API **/
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
+    if (result.reMake) {
+      return result;
+    }
+
     result.reRender = true;
     /**
      * 存在轴同步相关配置的时候，暂时通过`reMake`触发更新
@@ -414,6 +418,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       result.reMake = true;
       return result;
     }
+
+    result.reMake = ['grid', 'subGrid', 'tick', 'subTick', 'label', 'domainLine', 'title'].some(k => {
+      return prevSpec?.[k]?.visible !== spec?.[k]?.visible;
+    });
+
     return result;
   }
 

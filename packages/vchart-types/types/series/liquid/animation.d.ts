@@ -4,7 +4,7 @@ export interface ILiquidAnimationParams {
         from: () => number | number;
         to: () => number | number;
     };
-    y: {
+    dy: {
         from: () => number | number;
         to: () => number | number;
     };

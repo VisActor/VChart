@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix issue of `updateSpec` when visible of grid in axis change, fix #3004\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

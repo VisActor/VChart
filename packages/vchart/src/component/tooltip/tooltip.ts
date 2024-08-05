@@ -207,6 +207,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     if (trigger.includes('click')) {
       this._mountEvent('pointertap', { source: 'chart' }, this._getMouseMoveHandler(true));
       this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
+    } else if (this._spec.lockAfterClick) {
+      this._mountEvent('pointertap', { source: 'chart' }, this._handleClickToLock);
     }
   }
 
@@ -218,8 +220,17 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     });
   };
 
+  protected _handleClickToLock = (params: BaseEventParams) => {
+    if (this._clickLock) {
+      this._handleChartMouseOut(params);
+      this._clickLock = false;
+    } else {
+      this._clickLock = true;
+    }
+  };
+
   protected _getMouseOutHandler = (needPointerDetection?: boolean) => (params: BaseEventParams) => {
-    if (this._alwaysShow) {
+    if (this._alwaysShow || this._clickLock) {
       return;
     }
 
@@ -274,7 +285,12 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     if (this._isPointerOnTooltip(params)) {
       return;
     }
-    if (!isClick && this._clickLock) {
+
+    if (this._clickLock) {
+      if (isClick) {
+        this._handleChartMouseOut(params);
+        this._clickLock = false;
+      }
       return;
     }
 
@@ -317,9 +333,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     /* 如果还是不应该显示tooltip，则隐藏上一次tooltip */
     if (!success.mark && !success.group && (!success.dimension || isNil(dimensionInfo))) {
       this._handleChartMouseOut(params);
-      if (isClick && this._clickLock) {
-        this._clickLock = false;
-      }
     }
   };
 

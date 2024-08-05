@@ -12,6 +12,10 @@ export interface IGeoCoordinate extends IComponent {
     longitudeField?: string;
     latitudeField?: string;
     dataToPosition: (values: any[]) => IPoint;
+    dispatchZoom: (zoomDelta: number, center?: {
+        x: number;
+        y: number;
+    }) => void;
 }
 export interface IGeoCoordinateHelper {
     longitudeField?: string;

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: charts should not stack when only specify `stackValue` but `stack` is false, fix #3005\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
