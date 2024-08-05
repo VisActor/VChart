@@ -635,6 +635,7 @@ export class VChart implements IVChart {
       // 卸载了chart之后再设置主题 避免多余的reInit
       if (updateResult.changeTheme) {
         this._setCurrentTheme();
+        this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
       }
       // 如果不需要动画，那么释放item，避免元素残留
       this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
@@ -650,6 +651,7 @@ export class VChart implements IVChart {
       // 不remake的情况下，可以在这里更新主题
       if (updateResult.changeTheme) {
         this._setCurrentTheme();
+        this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
       }
       if (updateResult.reCompile) {
         // recompile
