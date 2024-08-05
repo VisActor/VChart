@@ -4,7 +4,7 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { isValid, max } from '@visactor/vutils';
 import type { Datum, ILiquidMarkSpec, IPoint } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import type { ILiquidPadding, ILiquidSeriesSpec } from './interface';
+import type { ILiquidPadding, ILiquidSeriesSpec, LiquidShapeType } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { LiquidAppearPreset } from './animation';
 // eslint-disable-next-line no-duplicate-imports
@@ -20,12 +20,11 @@ import type { IGroupMark } from '../../mark/group';
 // eslint-disable-next-line no-duplicate-imports
 import { registerGroupMark } from '../../mark/group';
 import { getShapes } from './util';
-import { createSymbol } from '@visactor/vrender-core';
+import { createRect, createSymbol } from '@visactor/vrender-core';
 import { labelSmartInvert } from '@visactor/vrender-components';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import type { DataView } from '@visactor/vdataset';
 import { LiquidSeriesTooltipHelper } from './tooltip-helper';
-import type { ISymbolMark } from '../../mark/symbol';
 
 export type ILiquidMark = IMarkRaw<ILiquidMarkSpec>;
 export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> extends BaseSeries<T> {
@@ -35,15 +34,17 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
   static readonly mark: SeriesMarkMap = LiquidSeriesMark;
   static readonly transformerConstructor = LineLikeSeriesSpecTransformer;
   readonly transformerConstructor = LineLikeSeriesSpecTransformer;
+  private _liquidGroupMark?: IGroupMark;
   private _liquidMark?: ILiquidMark;
   private _liquidBackgroundMark?: IGroupMark | null = null;
-  private _liquidOutlineMark?: ISymbolMark | null = null;
+  private _liquidOutlineMark?: IGroupMark | null = null;
   private _paddingSpec?: ILiquidPadding;
   private _marginSpec?: ILiquidPadding;
 
   private _heightRatio?: number;
 
   private _reverse?: boolean;
+  private _maskShape?: LiquidShapeType;
 
   protected _valueField?: string;
   setValueField(field: string) {
@@ -61,6 +62,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.outlinePadding) as ILiquidPadding;
     this.setValueField(this._spec.valueField);
     this._reverse = this._spec.reverse ?? false;
+    this._maskShape = this._spec.maskShape ?? 'circle';
   }
 
   viewDataUpdate(d: DataView): void {
@@ -84,7 +86,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     this._liquidOutlineMark = this._createMark(LiquidSeries.mark.liquidOutline, {
       isSeriesMark: true,
       skipBeforeLayouted: false
-    }) as ISymbolMark;
+    }) as IGroupMark;
     return this._liquidOutlineMark;
   }
 
@@ -97,8 +99,13 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
   }
 
   private _initLiquidMark() {
-    this._liquidMark = this._createMark(LiquidSeries.mark.liquid, {
+    this._liquidGroupMark = this._createMark(LiquidSeries.mark.liquidGroup, {
       parent: this._liquidBackgroundMark,
+      isSeriesMark: true,
+      skipBeforeLayouted: false
+    }) as IGroupMark;
+    this._liquidMark = this._createMark(LiquidSeries.mark.liquid, {
+      parent: this._liquidGroupMark,
       isSeriesMark: true,
       skipBeforeLayouted: false
     }) as ILiquidMark;
@@ -114,51 +121,102 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
 
   private _getLiquidPosY = () => {
     let liquidY = 0;
-    const { startY: liquidBackStartY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
-    const liquidHeight = liquidBackSize * this._heightRatio;
+    const { height: liquidBackHeight, startY } = this._getLiquidBackPosAndSize();
     if (this._reverse) {
-      liquidY = liquidBackStartY + liquidHeight;
+      liquidY = liquidBackHeight * this._heightRatio;
     } else {
-      liquidY = liquidBackSize - liquidHeight + liquidBackStartY;
+      liquidY = liquidBackHeight * (1 - this._heightRatio);
     }
-    return liquidY;
+    return liquidY + startY;
   };
 
   private _getLiquidHeight = () => {
-    const { size: liquidBackSize } = this._getLiquidBackPosAndSize();
-    return liquidBackSize * this._heightRatio;
+    const { height: liquidBackHeight } = this._getLiquidBackPosAndSize();
+    return liquidBackHeight * this._heightRatio;
   };
 
   private _getLiquidBackPosAndSize = (isOutline: boolean = false) => {
-    const {
+    let {
       top: marginTop = 0,
       bottom: marginBottom = 0,
+      // eslint-disable-next-line prefer-const
       left: marginLeft = 0,
+      // eslint-disable-next-line prefer-const
       right: marginRight = 0
     } = this._marginSpec;
-    const {
+    let {
       top: paddingTop = 0,
       bottom: paddingBottom = 0,
+      // eslint-disable-next-line prefer-const
       left: paddingLeft = 0,
+      // eslint-disable-next-line prefer-const
       right: paddingRight = 0
     } = isOutline ? {} : this._paddingSpec;
 
-    const { width: regionWidth, height: regionHeight } = this._region.getLayoutRect();
-    const x = regionWidth / 2 + (marginLeft + paddingRight - (marginRight + paddingRight)) / 2;
-    const y = regionHeight / 2 + (marginTop + paddingTop - (marginBottom + paddingBottom)) / 2;
-    const size = Math.min(
-      regionWidth - (marginLeft + marginRight + paddingLeft + paddingRight),
-      regionHeight - (marginTop + marginBottom + paddingTop + paddingBottom)
-    );
+    // 纠偏：对于正三角形而言, 上下留取相同的padidng/margin, 视觉上会看到下面留取的空白大于上面
+    // 正确的做法是保持正三角形在60度方向上空白一致，换算到bottom就是/Math.sqrt(3), 换算到top就是 value/Math.sqrt(3)*2
+    if (this._maskShape === 'triangle') {
+      marginBottom = marginBottom / Math.sqrt(3);
+      marginTop = (marginTop / Math.sqrt(3)) * 2;
+      paddingBottom = paddingBottom / Math.sqrt(3);
+      paddingTop = (paddingTop / Math.sqrt(3)) * 2;
+    }
+
+    const { width: regionWidth, height: regionHeight } = this._region?.getLayoutRect() ?? { width: 0, height: 0 };
+
+    const deltaX = (marginLeft + paddingLeft - (marginRight + paddingRight)) / 2;
+    const deltaY = (marginTop + paddingTop - (marginBottom + paddingBottom)) / 2;
+    const x = regionWidth / 2 + deltaX;
+    const y = regionHeight / 2 + deltaY;
+
+    // 用于rect mark style
+    let width = regionWidth - (marginLeft + marginRight + paddingLeft + paddingRight);
+    let height = regionHeight - (marginTop + marginBottom + paddingTop + paddingBottom);
+    // console.log('regionWidth', regionWidth, regionHeight)
+
+    // 用于symbol mark style
+    const size = Math.min(width, height);
+    if (this._maskShape !== 'rect') {
+      width = size;
+      height = size;
+    }
+
     return {
       x,
       y,
       size,
-      startX: x - size / 2,
-      startY: y - size / 2,
-      endX: x + size / 2,
-      endY: y + size / 2
+      width,
+      height,
+      startX: x - width / 2,
+      startY: y - height / 2,
+      endX: x + width / 2,
+      endY: y + height / 2
     };
+  };
+
+  private _getLiquidBackPath = (isOutline: boolean = false) => {
+    let symbolPath;
+    if (this._maskShape === 'rect') {
+      const { x, y, width, height } = this._getLiquidBackPosAndSize(isOutline);
+      symbolPath = createRect({
+        x: x - width / 2,
+        y: y - height / 2,
+        width,
+        height,
+        fill: true
+      });
+    } else {
+      const { x, y, size } = this._getLiquidBackPosAndSize(isOutline);
+      // console.log('size', size)
+      symbolPath = createSymbol({
+        x,
+        y,
+        size,
+        symbolType: getShapes(this._spec.maskShape ?? 'circle', size),
+        fill: true
+      });
+    }
+    return [symbolPath];
   };
 
   private _initLiquidOutlineMarkStyle() {
@@ -169,10 +227,9 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       liquidOutlineMark,
       {
         stroke: this.getColorAttribute(),
-        x: () => this._getLiquidBackPosAndSize(true).x,
-        y: () => this._getLiquidBackPosAndSize(true).y,
-        size: () => this._getLiquidBackPosAndSize(true).size,
-        symbolType: () => getShapes(this._spec.maskShape ?? 'circle', this._getLiquidBackPosAndSize(true).size)
+        width: () => this._region.getLayoutRect().width,
+        height: () => this._region.getLayoutRect().height,
+        path: () => this._getLiquidBackPath(true)
       },
       'normal',
       AttributeLevel.Series
@@ -185,23 +242,14 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     liquidBackgroundMark.setZIndex(this.layoutZIndex);
     liquidBackgroundMark.created();
     // symbol mark x, y 指定center
+    // rect mark x,y 指定左上角
     this.setMarkStyle(
       liquidBackgroundMark,
       {
         clip: true,
         width: () => this._region.getLayoutRect().width,
         height: () => this._region.getLayoutRect().height,
-        path: () => {
-          const { x, y, size } = this._getLiquidBackPosAndSize();
-          const symbolPath = createSymbol({
-            x,
-            y,
-            size,
-            symbolType: getShapes(this._spec.maskShape ?? 'circle', size),
-            fill: true
-          });
-          return [symbolPath];
-        }
+        path: () => this._getLiquidBackPath()
       },
       'normal',
       AttributeLevel.Series
@@ -211,20 +259,28 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
 
   private _initLiquidMarkStyle() {
     const liquidMark = this._liquidMark;
+    const liquidGroupMark = this._liquidGroupMark;
+    if (liquidGroupMark) {
+      this.setMarkStyle(liquidGroupMark, {
+        x: () => {
+          return this._region.getLayoutStartPoint().x + this._region.getLayoutRect().width / 2;
+        },
+        angle: this._reverse ? -Math.PI : 0,
+        y: 0,
+        dy: this._getLiquidPosY
+      });
+    }
     if (liquidMark) {
       // liquid mark x, y 指定左上角
       this.setMarkStyle(
         liquidMark,
         {
-          angle: this._reverse ? -Math.PI : 0,
-          dx: () => {
-            return this._region.getLayoutStartPoint().x + this._region.getLayoutRect().width / 2;
-          },
           // wave图元设置y后, 3个子area图元的point发生变化, 但vrender的渐变区域没有变化, 待vrender修复
           // 目前先采用下列方法配置:
-          y: 0, // y强制指定为0, 保证图元不超出vrender的渐变区域
-          dy: this._getLiquidPosY, // 使用dy做偏移, 保证vrender渐变区域随图元位置变化而更新
-
+          // 1. y强制指定为0, 保证图元不超出vrender的渐变区域
+          // 2. 在外面包一层group图元, 使用group dy做偏移, 保证vrender渐变区域随图元位置变化而更新
+          y: 0,
+          dy: 0,
           height: this._getLiquidHeight,
           fill: this.getColorAttribute(),
           wave: 0
@@ -255,13 +311,13 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       dy: {
         from: () => {
           let liquidY = 0;
-          const { startY: liquidBackStartY, size: liquidBackSize } = this._getLiquidBackPosAndSize();
+          const { height: liquidBackHeight, startY } = this._getLiquidBackPosAndSize();
           if (this._reverse) {
-            liquidY = liquidBackStartY;
+            liquidY = 0;
           } else {
-            liquidY = liquidBackSize + liquidBackStartY;
+            liquidY = liquidBackHeight;
           }
-          return liquidY;
+          return liquidY + startY;
         }
       }
     };
@@ -270,6 +326,12 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       animationConfig(
         Factory.getAnimationInKey('liquid')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.liquid, this._spec, this._markAttributeContext)
+      )
+    );
+    this._liquidGroupMark.setAnimationConfig(
+      animationConfig(
+        Factory.getAnimationInKey('liquidGroup')?.(animationParams, appearPreset),
+        userAnimationConfig(SeriesMarkNameEnum.liquidGroup, this._spec, this._markAttributeContext)
       )
     );
   }
