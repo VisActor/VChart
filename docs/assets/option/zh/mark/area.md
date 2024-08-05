@@ -17,7 +17,8 @@
 - `stepAfter`
 - `stepBefore`
 - `linearClosed`
-- `cardinalClosed`
+- `catmullRom`
+- `catmullRomClosed`
 
 #${prefix} orient(string) = `horizontal`
 

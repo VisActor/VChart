@@ -17,7 +17,8 @@ Available options:
 - `stepAfter`
 - `stepBefore`
 - `linearClosed`
-- `cardinalClosed`
+- `catmullRom`
+- `catmullRomClosed`
 
 #${prefix} defined(boolean)
 
