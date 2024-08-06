@@ -14,7 +14,8 @@ export class BaseHistogramChartSpecTransformer<T extends IHistogramChartSpec> ex
       x2Field: spec?.x2Field,
       y2Field: spec?.y2Field,
       barMinHeight: spec?.barMinHeight,
-      barBackground: spec?.barBackground
+      barBackground: spec?.barBackground,
+      barPadding: spec?.barPadding
     };
   }
 }

@@ -101,6 +101,11 @@ export interface IBarSeriesSpec
    * @since 1.10.0
    */
   stackCornerRadius?: number | number[];
+
+  /**
+   * 堆叠柱之间的距离
+   */
+  barPadding?: number;
 }
 
 export interface IBarBackgroundSpec {

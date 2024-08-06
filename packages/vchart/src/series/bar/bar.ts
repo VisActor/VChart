@@ -457,7 +457,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
 
     this._initStackBarMarkStyle();
-
     this._initBandBarBackgroundMarkStyle();
   }
 
@@ -528,12 +527,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   initLinearRectMarkStyle() {
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
-
+    const barPadding = this._spec.barPadding || 0;
     if (this.direction === Direction.horizontal) {
       const yChannels = isValid(this._fieldY2)
         ? {
-            y: (datum: Datum) => valueInScaleRange(this._dataToPosY(datum), yScale),
-            y1: (datum: Datum) => valueInScaleRange(this._dataToPosY1(datum), yScale)
+            y: (datum: Datum) => valueInScaleRange(this._dataToPosY(datum) + barPadding / 2, yScale),
+            y1: (datum: Datum) => valueInScaleRange(this._dataToPosY1(datum) - barPadding / 2, yScale)
           }
         : {
             y: (datum: Datum) =>
@@ -564,8 +563,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     } else {
       const xChannels = isValid(this._fieldX2)
         ? {
-            x: (datum: Datum) => valueInScaleRange(this._dataToPosX(datum), xScale),
-            x1: (datum: Datum) => valueInScaleRange(this._dataToPosX1(datum), xScale)
+            x: (datum: Datum) => valueInScaleRange(this._dataToPosX(datum) + barPadding / 2, xScale),
+            x1: (datum: Datum) => valueInScaleRange(this._dataToPosX1(datum) - barPadding / 2, xScale)
           }
         : {
             x: (datum: Datum) =>
@@ -740,7 +739,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       const barInGroup = array(this._spec.barGapInGroup);
       let totalWidth: number = 0;
       let offSet: number = 0;
-
       for (let index = groupFields.length - 1; index >= 1; index--) {
         const groupField = groupFields[index];
         // const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
