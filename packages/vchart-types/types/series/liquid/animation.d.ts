@@ -11,4 +11,5 @@ export interface ILiquidAnimationParams {
 }
 export type LiquidAppearPreset = 'wave' | 'grow' | 'waveGrow';
 export declare function liquidPresetAnimation(params: ILiquidAnimationParams, preset: LiquidAppearPreset): IAnimationTypeConfig;
+export declare function liquidGroupPresetAnimation(params: ILiquidAnimationParams, preset: LiquidAppearPreset): IAnimationTypeConfig;
 export declare const registerLiquidAnimation: () => void;

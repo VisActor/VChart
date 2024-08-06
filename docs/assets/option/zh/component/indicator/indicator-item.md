@@ -35,6 +35,24 @@
 - 'default': 默认的自适应策略，每个文本依据可用空间独立计算字号；
 - 'inscribed': 内切矩形计算策略，所有配置了 inscribed 策略的文本将会共同计算可用空间的内切矩形，避免与可用空间外元素产生遮挡。
 
+#${prefix} formatMethod(Function)
+
+自**1.11.11**版本开始支持
+
+对文本进行格式化方法函数的，参数为：
+
+```ts
+/**
+ * 格式化方法
+ * @param text 文本内容
+ * @param textStyle 计算出来的文本样式
+ */
+(text: string | number, textStyle: ITextGraphicAttribute) =>
+  IFormatMethod<[activeDatum: Datum]> | ITextMarkSpec['text'] | ReturnType<IFormatMethod<[activeDatum: Datum]>>;
+```
+
+支持返回富文本配置，html 配置、react 配置，更详细的使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+
 #${prefix} style(Object)
 
 文字样式。

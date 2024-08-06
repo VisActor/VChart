@@ -33720,6 +33720,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -44686,6 +44693,9 @@
           "since": "1.9.0",
           "type": "string"
         },
+        "formatMethod": {
+          "typeof": "function"
+        },
         "space": {
           "description": "title.space: title 和 content 之间的间距\ncontentItem.space: content 之间的间距\n兼容gap",
           "type": "number"
@@ -44743,6 +44753,9 @@
           ],
           "since": "1.9.0",
           "type": "string"
+        },
+        "formatMethod": {
+          "typeof": "function"
         },
         "space": {
           "description": "title.space: title 和 content 之间的间距\ncontentItem.space: content 之间的间距\n兼容gap",
@@ -57835,7 +57848,7 @@
         "panel": {
           "allOf": [
             {
-              "$ref": "#/definitions/Partial<Omit<{visible:boolean;customShape?:(text:Pick<TextContent,\"text\">,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>"
+              "$ref": "#/definitions/Partial<Omit<{visible:boolean;customShape?:(text:ITextGraphicAttribute|IRichTextAttribute,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>"
             },
             {
               "typeof": "function"
@@ -57948,6 +57961,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -64771,7 +64791,7 @@
     "IRichTextGraphicAttribute": {
       "allOf": [
         {
-          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
+          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
         },
         {
           "$ref": "#/definitions/Partial<IRichTextAttribute>"
@@ -80578,16 +80598,13 @@
     "InterpolateType": {
       "enum": [
         "basis",
-        "bundle",
-        "cardinal",
-        "cardinalClosed",
         "catmullRom",
+        "catmullRomClosed",
         "linear",
         "linearClosed",
         "monotone",
         "monotoneX",
         "monotoneY",
-        "natural",
         "step",
         "stepAfter",
         "stepBefore"
@@ -80702,7 +80719,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         },
         "size": {
@@ -80710,14 +80727,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13463",
+        "__@toStringTag@13481",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         },
         "size": {
@@ -80725,14 +80742,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13463",
+        "__@toStringTag@13481",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         },
         "size": {
@@ -80740,14 +80757,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13463",
+        "__@toStringTag@13481",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         },
         "size": {
@@ -80755,14 +80772,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13463",
+        "__@toStringTag@13481",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         },
         "size": {
@@ -80770,14 +80787,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13463",
+        "__@toStringTag@13481",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         },
         "size": {
@@ -80785,14 +80802,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13463",
+        "__@toStringTag@13481",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         },
         "size": {
@@ -80800,14 +80817,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13463",
+        "__@toStringTag@13481",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         },
         "size": {
@@ -80815,14 +80832,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13463",
+        "__@toStringTag@13481",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         },
         "size": {
@@ -80830,7 +80847,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13463",
+        "__@toStringTag@13481",
         "size"
       ],
       "type": "object"
@@ -81784,6 +81801,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -84513,6 +84537,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -86815,6 +86846,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -87393,6 +87431,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -88012,9 +88057,22 @@
           "type": "boolean"
         },
         "cornerRadius": {
-          "type": [
-            "string",
-            "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
           ]
         },
         "cursor": {
@@ -88258,6 +88316,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -88525,6 +88590,9 @@
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
+        "curveTension": {
+          "type": "number"
+        },
         "curveType": {
           "$ref": "#/definitions/ICurveType"
         },
@@ -88754,6 +88822,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -89282,6 +89357,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -89416,7 +89498,7 @@
       },
       "type": "object"
     },
-    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
+    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -89858,6 +89940,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -90411,6 +90500,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -90868,6 +90964,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -91493,6 +91596,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -92031,6 +92141,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -92572,6 +92689,9 @@
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
+        "curveTension": {
+          "type": "number"
+        },
         "curveType": {
           "$ref": "#/definitions/ICurveType"
         },
@@ -92801,6 +92921,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -94245,6 +94372,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -94721,6 +94855,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -95454,6 +95595,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -96351,6 +96499,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -96886,6 +97041,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -98109,6 +98271,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -98247,7 +98416,7 @@
       },
       "type": "object"
     },
-    "Partial<Omit<{visible:boolean;customShape?:(text:Pick<TextContent,\"text\">,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>": {
+    "Partial<Omit<{visible:boolean;customShape?:(text:ITextGraphicAttribute|IRichTextAttribute,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -98644,6 +98813,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -99109,6 +99285,13 @@
         },
         "shadowOffsetY": {
           "type": "number"
+        },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
         },
         "shadowRootIdx": {
           "type": "number"
@@ -101389,34 +101572,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13463"
+        "__@toStringTag@13481"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13463"
+        "__@toStringTag@13481"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13463": {
+        "__@toStringTag@13481": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13463"
+        "__@toStringTag@13481"
       ],
       "type": "object"
     },
@@ -102160,9 +102343,22 @@
           "type": "boolean"
         },
         "cornerRadius": {
-          "type": [
-            "string",
-            "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
           ]
         },
         "cursor": {
@@ -102407,6 +102603,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -102548,6 +102751,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "startAngle",
         "stroke",
@@ -102759,6 +102963,9 @@
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
+        },
+        "curveTension": {
+          "type": "number"
         },
         "curveType": {
           "$ref": "#/definitions/ICurveType"
@@ -102990,6 +103197,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -103082,6 +103296,7 @@
         "connectedX",
         "connectedY",
         "cursor",
+        "curveTension",
         "curveType",
         "customPickShape",
         "dx",
@@ -103127,6 +103342,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -103536,6 +103752,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -103669,6 +103892,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "startAngle",
         "stroke",
@@ -104102,6 +104326,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -104237,6 +104468,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -104720,6 +104952,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -104865,6 +105104,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -105305,6 +105545,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -105441,6 +105688,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -105655,6 +105903,9 @@
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
+        },
+        "curveTension": {
+          "type": "number"
         },
         "curveType": {
           "$ref": "#/definitions/ICurveType"
@@ -105886,6 +106137,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -105979,6 +106237,7 @@
         "connectedX",
         "connectedY",
         "cursor",
+        "curveTension",
         "curveType",
         "customPickShape",
         "dx",
@@ -106024,6 +106283,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -106440,6 +106700,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -106570,6 +106837,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -106995,6 +107263,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -107126,6 +107401,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -107545,6 +107821,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -107684,6 +107967,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -108166,6 +108450,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -108398,6 +108689,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "singleLine",
         "stroke",
@@ -108931,6 +109223,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -109084,6 +109383,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -109490,6 +109790,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -109641,6 +109948,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "size",
         "stroke",
@@ -110104,6 +110412,13 @@
         "shadowOffsetY": {
           "type": "number"
         },
+        "shadowPickMode": {
+          "enum": [
+            "full",
+            "graphic"
+          ],
+          "type": "string"
+        },
         "shadowRootIdx": {
           "type": "number"
         },
@@ -110315,6 +110630,7 @@
         "shadowGraphic",
         "shadowOffsetX",
         "shadowOffsetY",
+        "shadowPickMode",
         "shadowRootIdx",
         "stroke",
         "strokeBoundsBuffer",
@@ -114625,16 +114941,13 @@
         {
           "enum": [
             "basis",
-            "bundle",
-            "cardinal",
-            "cardinalClosed",
             "catmullRom",
+            "catmullRomClosed",
             "linear",
             "linearClosed",
             "monotone",
             "monotoneX",
             "monotoneY",
-            "natural",
             "step",
             "stepAfter",
             "stepBefore"

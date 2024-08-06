@@ -117,7 +117,7 @@ export interface IPie3dSeriesTheme extends IPolarSeriesTheme {
   outerLabel?: IArcLabelSpec;
 }
 
-export interface IArcLabelLineSpec extends IMarkSpec<ILineMarkSpec> {
+export interface IArcLabelLineSpec extends Omit<IMarkSpec<ILineMarkSpec>, 'customShape'> {
   /**
    * 是否显示引导线
    * @default true

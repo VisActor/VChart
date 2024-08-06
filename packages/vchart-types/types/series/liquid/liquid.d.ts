@@ -13,6 +13,7 @@ export declare class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpe
     static readonly mark: SeriesMarkMap;
     static readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
     readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
+    private _liquidGroupMark?;
     private _liquidMark?;
     private _liquidBackgroundMark?;
     private _liquidOutlineMark?;
@@ -20,6 +21,7 @@ export declare class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpe
     private _marginSpec?;
     private _heightRatio?;
     private _reverse?;
+    private _maskShape?;
     protected _valueField?: string;
     setValueField(field: string): void;
     getValueField(): string;
@@ -34,6 +36,7 @@ export declare class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpe
     private _getLiquidPosY;
     private _getLiquidHeight;
     private _getLiquidBackPosAndSize;
+    private _getLiquidBackPath;
     private _initLiquidOutlineMarkStyle;
     private _initLiquidBackgroundMarkStyle;
     private _initLiquidMarkStyle;
