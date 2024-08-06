@@ -20,10 +20,9 @@
 - **@visactor/vchart**: `updateData` incorrect with datazoom, related [#3041](https://github.com/VisActor/VChart/issues/3041)
 - **@visactor/vchart**: fix issue of `updateSpec` when visible of grid in axis change, fix [#3004](https://github.com/VisActor/VChart/issues/3004)
 - **@visactor/vchart**: fix fontFamily when update theme, fix [#3028](https://github.com/VisActor/VChart/issues/3028)
-
-**🔖 other**
-
 - **@visactor/vchart**: fix:curveType `monotone` in seriesStyle not work
+
+
 
 
 

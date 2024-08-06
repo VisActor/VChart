@@ -5,25 +5,24 @@
 
 **🆕 新增功能**
 
-- **@visactor/vchart**: label line support custom path. close[#3000](https://github.com/VisActor/VChart/issues/3000)
-- **@visactor/vchart**: upgrade vrender to 0.19.20, to support `catmullRom` and `catmullRomClosed` curveType, related [#2610](https://github.com/VisActor/VChart/issues/2610)
+- **@visactor/vchart**: 标签引导线支持自定义形状，关闭[#3000](https://github.com/VisActor/VChart/issues/3000)
+- **@visactor/vchart**: 新增曲线插值算法`catmullRom` 和 `catmullRomClosed`，相关issue[#2610](https://github.com/VisActor/VChart/issues/2610)
+
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: fix crosshair of histogram, fix [#2826](https://github.com/VisActor/VChart/issues/2826)
-- **@visactor/vchart**: use `vglobal.getElementById` to replace `document.getElementById`
-- **@visactor/vchart**: liquid gradient not work after reverse
-- **@visactor/vchart**: add group mark to fix gradient color bug of liquid and add rect shape to fix rect symbol padding bug
-- **@visactor/vchart**: fix `lockAfterClick` of tooltip, related [#1574](https://github.com/VisActor/VChart/issues/1574)
-- **@visactor/vchart**:  prevent trigger original event in panEnd composite event [#2931](https://github.com/VisActor/VChart/issues/2931)
-- **@visactor/vchart**: charts should not stack when only specify `stackValue` but `stack` is false, fix [#3005](https://github.com/VisActor/VChart/issues/3005)
-- **@visactor/vchart**: `updateData` incorrect with datazoom, related [#3041](https://github.com/VisActor/VChart/issues/3041)
-- **@visactor/vchart**: fix issue of `updateSpec` when visible of grid in axis change, fix [#3004](https://github.com/VisActor/VChart/issues/3004)
-- **@visactor/vchart**: fix fontFamily when update theme, fix [#3028](https://github.com/VisActor/VChart/issues/3028)
+- **@visactor/vchart**: 修复直方图crosshair不展示的问题, 关闭 [#2826](https://github.com/VisActor/VChart/issues/2826)
+- **@visactor/vchart**: 使用 `vglobal.getElementById` 替代 `document.getElementById`，修复小程序报错问题
+- **@visactor/vchart**: 修复水波图反转后不支持渐变色的问题
+- **@visactor/vchart**: 优化水波图渐变色效果
+- **@visactor/vchart**: 修复tooltip `lockAfterClick` 配置不生效的问题，相关issue [#1574](https://github.com/VisActor/VChart/issues/1574)
+- **@visactor/vchart**: 在`panEnd` 事件完成前，阻止默认事件，相关issue [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: 当申明了 `stackValue` ，但是配置`stack` 为`false`的时候，图表不应该堆积, 修复[#3005](https://github.com/VisActor/VChart/issues/3005)
+- **@visactor/vchart**: 修复`updateData` 在存在 datazoom组件时，更新错误的问题, 相关issue [#3041](https://github.com/VisActor/VChart/issues/3041)
+- **@visactor/vchart**: 修复坐标轴网格线显示/隐藏切换时，图表不更新的问题，修复[#3004](https://github.com/VisActor/VChart/issues/3004)
+- **@visactor/vchart**: 修复更新主题中`fontFamily` 时，更新不生效的问题，修复 [#3028](https://github.com/VisActor/VChart/issues/3028)
 
-**🔖 其他**
-
-- **@visactor/vchart**: fix:curveType `monotone` in seriesStyle not work
+- **@visactor/vchart**: 修复`seriesStyle`配置`monotone` 不生效的问题
 
 
 
