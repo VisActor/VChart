@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support barpadding for histogram for #2629",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
