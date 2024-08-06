@@ -345,8 +345,15 @@ export class VChart implements IVChart {
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
     const isTrueBrowseEnv = isTrueBrowser(mode);
 
+    // 根据 mode 配置动态加载浏览器或 node 环境代码
+    if (isTrueBrowseEnv) {
+      registerBrowserEnv();
+    } else if (mode === 'node') {
+      registerNodeEnv();
+    }
+
     if (isTrueBrowseEnv && dom) {
-      this._container = isString(dom) ? document?.getElementById(dom) : dom;
+      this._container = isString(dom) ? vglobal.getElementById(dom) : dom;
     }
     if (renderCanvas) {
       this._canvas = renderCanvas;
@@ -358,12 +365,6 @@ export class VChart implements IVChart {
     if (mode !== 'node' && !this._container && !this._canvas && !this._stage) {
       this._option?.onError('please specify container or renderCanvas!');
       return;
-    }
-    // 根据 mode 配置动态加载浏览器或 node 环境代码
-    if (isTrueBrowseEnv) {
-      registerBrowserEnv();
-    } else if (mode === 'node') {
-      registerNodeEnv();
     }
 
     this._viewBox = this._option.viewBox;
@@ -634,6 +635,7 @@ export class VChart implements IVChart {
       // 卸载了chart之后再设置主题 避免多余的reInit
       if (updateResult.changeTheme) {
         this._setCurrentTheme();
+        this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
       }
       // 如果不需要动画，那么释放item，避免元素残留
       this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
@@ -649,6 +651,7 @@ export class VChart implements IVChart {
       // 不remake的情况下，可以在这里更新主题
       if (updateResult.changeTheme) {
         this._setCurrentTheme();
+        this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
       }
       if (updateResult.reCompile) {
         // recompile
@@ -1798,7 +1801,7 @@ export class VChart implements IVChart {
     // 用户传入 canvas
     let canvasNode: Maybe<HTMLCanvasElement>;
     if (isString(this._canvas)) {
-      canvasNode = document?.getElementById(this._canvas) as HTMLCanvasElement;
+      canvasNode = vglobal.getElementById(this._canvas) as HTMLCanvasElement;
     } else {
       canvasNode = this._canvas as HTMLCanvasElement;
     }

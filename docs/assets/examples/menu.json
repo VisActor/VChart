@@ -2571,6 +2571,13 @@
             "zh": "自定义矩形渲染html拓展属性",
             "en": "Render html in custom rect"
           }
+        },
+        {
+          "path": "business-funnel",
+          "title": {
+            "zh": "业务漏斗图（柱状图模拟）",
+            "en": "Business Funnel(Simulated with Bar)"
+          }
         }
       ]
     },

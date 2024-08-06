@@ -37,13 +37,13 @@ The callback function is defined as follows:
 
 ```ts
 /**
- * @params text Label text content
- * @params label text attribute
+ * @params text Label attr
+ * @params label background attribute
  * @params path object, user-defined drawing
  * @return Returns the path after drawing is completed
  */
 (
-  text: Pick<TextContent, 'text'>,
+  text: ITextGraphicAttribute | IRichTextAttribute,
   attrs: Partial<IGraphicAttribute>,
   path: ICustomPath2D
 ) => ICustomPath2D;

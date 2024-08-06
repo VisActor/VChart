@@ -2,6 +2,54 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.11.11",
+      "tag": "@visactor/vchart_v1.11.11",
+      "date": "Tue, 06 Aug 2024 09:20:16 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: label line support custom path. close#3000"
+          },
+          {
+            "comment": "feat: upgrade vrender to 0.19.20, to support `catmullRom` and `catmullRomClosed` curveType, related #2610\n\n"
+          },
+          {
+            "comment": "fix: fix crosshair of histogram, fix #2826\n\n"
+          },
+          {
+            "comment": "fix: use `vglobal.getElementById` to replace `document.getElementById`\n\n"
+          },
+          {
+            "comment": "fix: liquid gradient not work after reverse"
+          },
+          {
+            "comment": "fix: add group mark to fix gradient color bug of liquid and add rect shape to fix rect symbol padding bug"
+          },
+          {
+            "comment": "fix: fix `lockAfterClick` of tooltip, related #1574\n\n"
+          },
+          {
+            "comment": "fix:  prevent trigger original event in panEnd composite event #2931"
+          },
+          {
+            "comment": "fix:curveType `monotone` in seriesStyle not work "
+          },
+          {
+            "comment": "fix: charts should not stack when only specify `stackValue` but `stack` is false, fix #3005\n\n"
+          },
+          {
+            "comment": "fix: `updateData` incorrect with datazoom, related #3041"
+          },
+          {
+            "comment": "fix: fix issue of `updateSpec` when visible of grid in axis change, fix #3004\n\n"
+          },
+          {
+            "comment": "fix: fix fontFamily when update theme, fix #3028\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.10",
       "tag": "@visactor/vchart_v1.11.10",
       "date": "Wed, 24 Jul 2024 13:32:11 GMT",

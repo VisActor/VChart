@@ -352,7 +352,36 @@ const run = () => {
       },
       line: {
         line1MinLength: 30,
-        smooth: true,
+        // smooth: true,
+        customShape: (text, attrs, path) => {
+          // console.log('attrs', text, attrs, path);
+          const points = attrs.points;
+          // 绘制带圆角的折线(暂时用小转折拟合)
+          const direction = points[points.length - 1].x - points[0].x > 0 ? -1 : 1;
+          path.moveTo(points[0].x, points[0].y);
+          for (let i = 1; i < points.length - 1; i++) {
+            const p1 = points[i - 1];
+            const p2 = points[i % points.length];
+            const p3 = points[(i + 1) % points.length];
+            const { x: x1, y: y1 } = p1;
+            const { x: x2, y: y2 } = p2;
+            const { x: x3, y: y3 } = p3;
+
+            const k1 = (y2 - y1) / (x2 - x1);
+            const k2 = (y3 - y2) / (x3 - x2);
+            const deltaX = 3;
+            const deltaY1 = k1 * deltaX;
+            const deltaY2 = k2 * deltaX;
+
+            path.lineTo(p2.x + direction * deltaX, p2.y + direction * deltaY1); // 到点p1的上方
+            path.lineTo(p2.x - direction * deltaX, p2.y - direction * deltaY2); // 绘制圆弧
+            // path.quadraticCurveTo(p2.x - deltaX, p2.y - deltaY1, p2.x + deltaX, p2.y + deltaY2)
+            // path.quadraticCurveTo(p2.x - deltaX, p2.y - deltaY1, p2.x + deltaX, p2.y + deltaY2, 2)
+          }
+
+          path.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+          return path;
+        },
         style: {
           lineWidth: 2
         }

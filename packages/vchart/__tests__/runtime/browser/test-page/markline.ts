@@ -105,7 +105,7 @@ const run = () => {
           labelBackground: {
             visible: true,
             customShape: (data, attrs, path) => {
-              console.log('data', attrs);
+              console.log('data', data, attrs);
               // console.log('data', data, attrs, path);
               // const width = attrs.width;
               // const deltaY = attrs.height == null ? attrs.y1 - attrs.y : attrs.height;

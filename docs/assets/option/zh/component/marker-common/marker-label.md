@@ -37,13 +37,13 @@
 
 ```ts
 /**
- * @params text 标签文字内容
- * @params 标签文字属性
+ * @params text 标签文字属性
+ * @params 标签背景属性
  * @params path对象, 用户自定义绘制
  * @return 返回绘制完成后的path
  */
 (
-  text: Pick<TextContent, 'text'>,
+  text: ITextGraphicAttribute | IRichTextAttribute,
   attrs: Partial<IGraphicAttribute>,
   path: ICustomPath2D
 ) => ICustomPath2D;

@@ -20,6 +20,7 @@ export enum AttributeLevel {
   User_Chart = 6,
   User_Series = 7,
   User_Mark = 8,
+  User_SeriesStyle = 9,
   Built_In = 99
 }
 

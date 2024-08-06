@@ -1,3 +1,30 @@
+# v1.11.10
+
+2024-07-24
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 水波图支持反转和通过自定义mark实现目标线的能力。关闭 [#2977](https://github.com/VisActor/VChart/issues/2977) 和关闭 [#2978](https://github.com/VisActor/VChart/issues/2978)
+- **@visactor/vchart**: 在地理缩放事件中添加 `totalScale` 参数
+- **@visactor/vchart**: 支持 `geoZoomByIndex`/`geoZoomById` API，关闭 [#2925](https://github.com/VisActor/VChart/issues/2925)
+- **@visactor/vchart**: MarkLine的标签签背景支持自定义路径。关闭 [#2959](https://github.com/VisActor/VChart/issues/2959)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复ios设备中，`pointEvent` 开启后导致的问题
+- **@visactor/vchart**: 修复水波图反转后，渐变色不生效的问题
+- **@visactor/vchart**: 修复`zoomEnd` 组合事件中，触发原始事件的bug [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: 修复当维度轴为连续类型时，`setDimensionIndex`不能正常的展示 tooltip的问题
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: 更新 rollup.config.js，修复 es5/index.js在浏览器中报错的问题，修复 [#2971](https://github.com/VisActor/VChart/issues/2971)
+
+
+
+[更多详情请查看 v1.11.10](https://github.com/VisActor/VChart/releases/tag/v1.11.10)
+
 # v1.11.9
 
 2024-07-17

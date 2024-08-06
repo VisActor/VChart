@@ -1,8 +1,9 @@
-import { Datum, IFormatMethod } from '../../typings';
+import type { Datum, IFormatMethod } from '../../typings';
 import type { IPercent } from '../../typings/layout';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
+import type { ITextGraphicAttribute } from '@visactor/vrender-core';
 
 export interface IIndicatorItemSpec {
   /**
@@ -42,6 +43,16 @@ export interface IIndicatorItemSpec {
    * @since 1.9.0
    */
   fitStrategy?: 'default' | 'inscribed';
+  /**
+   * 格式化方法
+   * @since 1.11.11
+   * @param text 文本内容
+   * @param textStyle 计算出来的文本样式
+   */
+  formatMethod?: (
+    text: string | number,
+    textStyle: ITextGraphicAttribute
+  ) => IFormatMethod<[activeDatum: Datum]> | ITextMarkSpec['text'] | ReturnType<IFormatMethod<[activeDatum: Datum]>>;
   /**
    * 文字样式
    */

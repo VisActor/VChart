@@ -1253,4 +1253,159 @@ describe('vchart updateSpec of different about label', () => {
       reTransformSpec: false
     });
   });
+
+  it('should remake when visible of axis grid change', () => {
+    const spec = {
+      type: 'area',
+      data: [
+        {
+          id: 'area',
+          values: [
+            { x: '1990', y: 110, from: 'video ad' },
+            { x: '1995', y: 160, from: 'video ad' },
+            { x: '2000', y: 230, from: 'video ad' },
+            { x: '2005', y: 300, from: 'video ad' },
+            { x: '2010', y: 448, from: 'video ad' },
+            { x: '2015', y: 500, from: 'video ad' },
+            { x: '1990', y: 120, from: 'email marketing' },
+            { x: '1995', y: 150, from: 'email marketing' },
+            { x: '2000', y: 200, from: 'email marketing' },
+            { x: '2005', y: 210, from: 'email marketing' },
+            { x: '2010', y: 300, from: 'email marketing' },
+            { x: '2015', y: 320, from: 'email marketing' }
+          ]
+        }
+      ],
+      label: {
+        visible: true
+      },
+      xField: 'x',
+      yField: 'y',
+      seriesField: 'from',
+      axes: [
+        {
+          orient: 'bottom',
+          type: 'band' as const
+        },
+        {
+          orient: 'left',
+          type: 'linear' as const,
+          grid: {
+            visible: true
+          }
+        }
+      ]
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        axes: [
+          {
+            orient: 'bottom',
+            type: 'band' as const
+          },
+          {
+            orient: 'left',
+            type: 'linear' as const,
+            grid: {
+              visible: false
+            }
+          }
+        ]
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeTheme: false,
+      reCompile: false,
+      reMake: true,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should reRender when `alternateColor` of axis grid change', () => {
+    const spec = {
+      type: 'area',
+      data: [
+        {
+          id: 'area',
+          values: [
+            { x: '1990', y: 110, from: 'video ad' },
+            { x: '1995', y: 160, from: 'video ad' },
+            { x: '2000', y: 230, from: 'video ad' },
+            { x: '2005', y: 300, from: 'video ad' },
+            { x: '2010', y: 448, from: 'video ad' },
+            { x: '2015', y: 500, from: 'video ad' },
+            { x: '1990', y: 120, from: 'email marketing' },
+            { x: '1995', y: 150, from: 'email marketing' },
+            { x: '2000', y: 200, from: 'email marketing' },
+            { x: '2005', y: 210, from: 'email marketing' },
+            { x: '2010', y: 300, from: 'email marketing' },
+            { x: '2015', y: 320, from: 'email marketing' }
+          ]
+        }
+      ],
+      label: {
+        visible: true
+      },
+      xField: 'x',
+      yField: 'y',
+      seriesField: 'from',
+      axes: [
+        {
+          orient: 'bottom',
+          type: 'band' as const
+        },
+        {
+          orient: 'left',
+          type: 'linear' as const,
+          grid: {
+            visible: true
+          }
+        }
+      ]
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        axes: [
+          {
+            orient: 'bottom',
+            type: 'band' as const
+          },
+          {
+            orient: 'left',
+            type: 'linear' as const,
+            grid: {
+              visible: true,
+              alternateColor: ['pink', 'green']
+            }
+          }
+        ]
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeTheme: false,
+      reCompile: false,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
 });

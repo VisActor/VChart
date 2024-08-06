@@ -80,7 +80,7 @@ export struct VChart {
   private context: CanvasRenderingContext2D = new CanvasRenderingContext2D(this.settings)
   private w: number = 300;
   private h: number = 300;
-  @Prop @Watch('onSpecUpdate') private spec: Object | null = null;
+  @Link @Watch('onSpecUpdate') private spec: Object | null;
   private vchart: VChartConstructor | null = null;
   @State time: string = '';
 
