@@ -103,7 +103,7 @@ export interface IBarSeriesSpec
   stackCornerRadius?: number | number[];
 
   /**
-   * 堆叠柱之间的距离
+   * 柱条之间的距离
    */
   barPadding?: number;
 }
