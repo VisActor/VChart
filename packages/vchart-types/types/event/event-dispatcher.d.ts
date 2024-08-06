@@ -1,4 +1,4 @@
-import type { EventType, EventHandler, EventParamsDefinition, IEventDispatcher, EventBubbleLevel } from './interface';
+import type { EventType, EventHandler, EventParamsDefinition, IEventDispatcher, EventBubbleLevel, EventParams, EventCallback } from './interface';
 import type { VChart } from '../core/vchart';
 import type { Compiler } from '../compile/compiler';
 export declare class EventDispatcher implements IEventDispatcher {
@@ -14,6 +14,8 @@ export declare class EventDispatcher implements IEventDispatcher {
     register<Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>): this;
     unregister<Evt extends EventType>(eType: Evt, handler?: EventHandler<EventParamsDefinition[Evt]>): this;
     dispatch<Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt], level?: EventBubbleLevel): this;
+    prevent<Evt extends EventType>(eType: Evt, except?: EventCallback<EventParams>): this;
+    allow<Evt extends EventType>(eType: Evt): this;
     clear(): void;
     release(): void;
     private _filter;

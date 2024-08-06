@@ -63,6 +63,7 @@ export type EventHandler<Params extends EventParams> = {
     query: EventQuery | null;
     wrappedCallback?: EventCallback<Params>;
     filter?: EventFilter;
+    prevented?: boolean;
 };
 export type ExtendEventParam = EventParams & {
     event?: Event;
@@ -153,6 +154,8 @@ export interface IEventDispatcher {
     dispatch: <Evt extends EventType>(eType: Evt, params?: EventParamsDefinition[Evt], level?: EventBubbleLevel) => this;
     clear: () => void;
     release: () => void;
+    prevent: <Evt extends EventType>(eType: Evt, except: EventCallback<EventParamsDefinition[Evt]>) => void;
+    allow: <Evt extends EventType>(eType: Evt) => void;
 }
 export interface IEvent {
     on: (<Evt extends EventType>(eType: Evt, callback: EventCallback<EventParamsDefinition[Evt]>) => this) & (<Evt extends EventType>(eType: Evt, query: EventQuery, callback: EventCallback<EventParamsDefinition[Evt]>) => this);
@@ -163,6 +166,8 @@ export interface IEvent {
         eventType: EventType;
         event: IComposedEvent;
     }>;
+    prevent: <Evt extends EventType>(eType: Evt, except: EventCallback<EventParamsDefinition[Evt]>) => void;
+    allow: <Evt extends EventType>(eType: Evt) => void;
 }
 export interface IComposedEvent {
     register: <Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) => void;

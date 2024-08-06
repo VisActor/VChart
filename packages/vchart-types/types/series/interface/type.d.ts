@@ -91,6 +91,7 @@ export declare const enum SeriesMarkNameEnum {
     barBackground = "barBackground",
     lineLabel = "lineLabel",
     areaLabel = "areaLabel",
+    liquidGroup = "liquidGroup",
     liquid = "liquid",
     liquidBackground = "liquidBackground",
     liquidOutline = "liquidOutline",
