@@ -29,3 +29,7 @@ y2 field. (y field is the left interval field of frequency statistics, y2 field 
   axisType = 'cartesian',
   noBandAxis = true
 ) }}
+
+## barPadding(number)
+
+The barPadding use to adjust the distance between each bar in the histogram.

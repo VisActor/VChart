@@ -528,8 +528,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
     const barPadding = this._spec.barPadding || 0;
-    // 柱子的最短宽度
-    const minWidth = 2;
 
     /**
      *
