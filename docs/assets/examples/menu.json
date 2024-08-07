@@ -1408,6 +1408,20 @@
             "zh": "水波图指标智能反色",
             "en": "Liquid Chart Smart Invert"
           }
+        },
+        {
+          "path": "liquid-chart-reverse",
+          "title": {
+            "zh": "水波图支持反向绘制",
+            "en": "Liquid Chart Reverse"
+          }
+        },
+        {
+          "path": "liquid-chart-target",
+          "title": {
+            "zh": "水波图支持目标值标记",
+            "en": "Liquid Chart Target"
+          }
         }
       ]
     },
@@ -2189,6 +2203,13 @@
           }
         },
         {
+          "path": "mark-line-custom-label-back",
+          "title": {
+            "zh": "markLine 支持自定义标签背景path",
+            "en": "markLine supports custom label background path"
+          }
+        },
+        {
           "path": "mark-line-axis",
           "title": {
             "zh": "markLine 轴空间定位",
@@ -2604,6 +2625,13 @@
           "title": {
             "zh": "自定义矩形渲染html拓展属性",
             "en": "Render html in custom rect"
+          }
+        },
+        {
+          "path": "business-funnel",
+          "title": {
+            "zh": "业务漏斗图（柱状图模拟）",
+            "en": "Business Funnel(Simulated with Bar)"
           }
         }
       ]

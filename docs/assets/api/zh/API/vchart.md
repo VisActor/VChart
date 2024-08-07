@@ -1227,3 +1227,33 @@ convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isR
    */
   updateIndicatorDataByIndex: (index: number = 0, datum?: Datum) => void;
 ```
+
+### geoZoomByIndex
+
+地图缩放 API，根据索引顺序指定某个 region 区域的地图坐标系进行缩放。
+
+```ts
+/**
+ * 地图缩放 API
+ * @param [regionIndex=0] 根据索引顺序指定某个 region 区域的地图坐标系进行缩放
+ * @param zoom 缩放比例
+ * @param center 缩放中心
+ * @since 1.11.10
+ */
+geoZoomByIndex: (regionIndex: number, zoom: number, center?: { x: number; y: number }) => void;
+```
+
+### geoZoomById
+
+地图缩放 API，根据 region id 指定某个 region 区域的地图坐标系进行缩放。
+
+```ts
+/**
+ * 地图缩放 API
+ * @param 根据 region id 指定某个 region 区域的地图坐标系进行缩放
+ * @param zoom 缩放比例
+ * @param center 缩放中心
+ * @since 1.11.10
+ */
+geoZoomById: (regionId: string | number, zoom: number, center?: { x: number; y: number }) => void;
+```

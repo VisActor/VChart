@@ -21,6 +21,7 @@ export interface ILiquidSeriesSpec extends IAnimationSpec<LiquidMarks, LiquidApp
     outlineMargin?: ILiquidPaddingSpec;
     outlinePadding?: ILiquidPaddingSpec;
     indicatorSmartInvert?: boolean;
+    reverse?: boolean;
     [SeriesMarkNameEnum.liquid]?: IMarkSpec<ILiquidMarkSpec>;
     [SeriesMarkNameEnum.liquidBackground]?: IMarkSpec<IGroupMarkSpec>;
     [SeriesMarkNameEnum.liquidOutline]?: IMarkSpec<ISymbolMark>;

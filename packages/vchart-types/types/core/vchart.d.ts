@@ -187,6 +187,14 @@ export declare class VChart implements IVChart {
     setRuntimeSpec(spec: any): void;
     updateIndicatorDataById(id: string, datum?: Datum): void;
     updateIndicatorDataByIndex(index?: number, datum?: Datum): void;
+    geoZoomByIndex(regionIndex: number, zoom: number, center?: {
+        x: number;
+        y: number;
+    }): void;
+    geoZoomById(regionId: string | number, zoom: number, center?: {
+        x: number;
+        y: number;
+    }): void;
     private _initChartPlugin;
     private _chartPluginApply;
     protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";

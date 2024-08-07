@@ -1,3 +1,60 @@
+# v1.11.11
+
+2024-08-06
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 标签引导线支持自定义形状，关闭[#3000](https://github.com/VisActor/VChart/issues/3000)
+- **@visactor/vchart**: 新增曲线插值算法`catmullRom` 和 `catmullRomClosed`，相关issue[#2610](https://github.com/VisActor/VChart/issues/2610)
+
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复直方图crosshair不展示的问题, 关闭 [#2826](https://github.com/VisActor/VChart/issues/2826)
+- **@visactor/vchart**: 使用 `vglobal.getElementById` 替代 `document.getElementById`，修复小程序报错问题
+- **@visactor/vchart**: 修复水波图反转后不支持渐变色的问题
+- **@visactor/vchart**: 优化水波图渐变色效果
+- **@visactor/vchart**: 修复tooltip `lockAfterClick` 配置不生效的问题，相关issue [#1574](https://github.com/VisActor/VChart/issues/1574)
+- **@visactor/vchart**: 在`panEnd` 事件完成前，阻止默认事件，相关issue [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: 当申明了 `stackValue` ，但是配置`stack` 为`false`的时候，图表不应该堆积, 修复[#3005](https://github.com/VisActor/VChart/issues/3005)
+- **@visactor/vchart**: 修复`updateData` 在存在 datazoom组件时，更新错误的问题, 相关issue [#3041](https://github.com/VisActor/VChart/issues/3041)
+- **@visactor/vchart**: 修复坐标轴网格线显示/隐藏切换时，图表不更新的问题，修复[#3004](https://github.com/VisActor/VChart/issues/3004)
+- **@visactor/vchart**: 修复更新主题中`fontFamily` 时，更新不生效的问题，修复 [#3028](https://github.com/VisActor/VChart/issues/3028)
+
+- **@visactor/vchart**: 修复`seriesStyle`配置`monotone` 不生效的问题
+
+
+
+[更多详情请查看 v1.11.11](https://github.com/VisActor/VChart/releases/tag/v1.11.11)
+
+# v1.11.10
+
+2024-07-24
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 水波图支持反转和通过自定义mark实现目标线的能力。关闭 [#2977](https://github.com/VisActor/VChart/issues/2977) 和关闭 [#2978](https://github.com/VisActor/VChart/issues/2978)
+- **@visactor/vchart**: 在地理缩放事件中添加 `totalScale` 参数
+- **@visactor/vchart**: 支持 `geoZoomByIndex`/`geoZoomById` API，关闭 [#2925](https://github.com/VisActor/VChart/issues/2925)
+- **@visactor/vchart**: MarkLine的标签签背景支持自定义路径。关闭 [#2959](https://github.com/VisActor/VChart/issues/2959)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复ios设备中，`pointEvent` 开启后导致的问题
+- **@visactor/vchart**: 修复水波图反转后，渐变色不生效的问题
+- **@visactor/vchart**: 修复`zoomEnd` 组合事件中，触发原始事件的bug [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: 修复当维度轴为连续类型时，`setDimensionIndex`不能正常的展示 tooltip的问题
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: 更新 rollup.config.js，修复 es5/index.js在浏览器中报错的问题，修复 [#2971](https://github.com/VisActor/VChart/issues/2971)
+
+
+
+[更多详情请查看 v1.11.10](https://github.com/VisActor/VChart/releases/tag/v1.11.10)
+
 # v1.11.9
 
 2024-07-17

@@ -4,11 +4,12 @@ export interface ILiquidAnimationParams {
         from: () => number | number;
         to: () => number | number;
     };
-    y: {
+    dy: {
         from: () => number | number;
         to: () => number | number;
     };
 }
 export type LiquidAppearPreset = 'wave' | 'grow' | 'waveGrow';
 export declare function liquidPresetAnimation(params: ILiquidAnimationParams, preset: LiquidAppearPreset): IAnimationTypeConfig;
+export declare function liquidGroupPresetAnimation(params: ILiquidAnimationParams, preset: LiquidAppearPreset): IAnimationTypeConfig;
 export declare const registerLiquidAnimation: () => void;

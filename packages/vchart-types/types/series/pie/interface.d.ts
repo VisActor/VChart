@@ -5,6 +5,7 @@ import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
 import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
+import type { ICustomPath2D, ILineGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
 export type PieMarks = 'pie' | 'label' | 'labelLine';
 export type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & {
     type: string;
@@ -43,11 +44,12 @@ export interface IPie3dSeriesTheme extends IPolarSeriesTheme {
     innerLabel?: IArcLabelSpec;
     outerLabel?: IArcLabelSpec;
 }
-export interface IArcLabelLineSpec extends IMarkSpec<ILineMarkSpec> {
+export interface IArcLabelLineSpec extends Omit<IMarkSpec<ILineMarkSpec>, 'customShape'> {
     visible?: boolean;
     line1MinLength?: number;
     line2MinLength?: number;
     smooth?: boolean;
+    customShape?: (text: ITextGraphicAttribute, attrs: Partial<ILineGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
 }
 export type ArcLabelAlignType = 'arc' | 'labelLine' | 'edge';
 export type ArcLabelStrategyType = 'priority' | 'vertical' | 'none';

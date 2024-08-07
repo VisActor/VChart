@@ -1,6 +1,58 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 16 Jul 2024 12:19:22 GMT and should not be manually modified.
+This log was last generated on Tue, 06 Aug 2024 09:20:16 GMT and should not be manually modified.
+
+## 1.11.11
+Tue, 06 Aug 2024 09:20:16 GMT
+
+### Updates
+
+- feat: label line support custom path. close#3000
+- feat: upgrade vrender to 0.19.20, to support `catmullRom` and `catmullRomClosed` curveType, related #2610
+
+
+- fix: fix crosshair of histogram, fix #2826
+
+
+- fix: use `vglobal.getElementById` to replace `document.getElementById`
+
+
+- fix: liquid gradient not work after reverse
+- fix: add group mark to fix gradient color bug of liquid and add rect shape to fix rect symbol padding bug
+- fix: fix `lockAfterClick` of tooltip, related #1574
+
+
+- fix:  prevent trigger original event in panEnd composite event #2931
+- fix:curveType `monotone` in seriesStyle not work 
+- fix: charts should not stack when only specify `stackValue` but `stack` is false, fix #3005
+
+
+- fix: `updateData` incorrect with datazoom, related #3041
+- fix: fix issue of `updateSpec` when visible of grid in axis change, fix #3004
+
+
+- fix: fix fontFamily when update theme, fix #3028
+
+
+
+## 1.11.10
+Wed, 24 Jul 2024 13:32:11 GMT
+
+### Updates
+
+- chore: update rollup.config.js to fix es5/index.js, fix #2971
+
+
+- fix: prevent issue with ios bug while pointEvent is configed
+- feat: liquid support reverse and target mark. close#2977 & close#2978
+- feat: add `totalScale` params in geo zoom event
+-  feat: support `geoZoomByIndex`/`geoZoomById` API
+- feat: marker label background support  custom path. close#2959
+- fix: liquid gradient not work after reverse
+- fix: prevent trigger original event in zoomEnd composite event #2931
+- fix: fix error of setDimentionIndex when dimension axis is linear
+
+
 
 ## 1.11.7
 Tue, 16 Jul 2024 12:19:22 GMT

@@ -1285,11 +1285,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
             const { axis, value, data } = d;
             const isY = axis.getOrient() === 'left' || axis.getOrient() === 'right';
             data.forEach(d => {
-              if (isY) {
-                dataFilter[(<ICartesianSeries>d.series).fieldY[0]] = value;
-              } else {
-                dataFilter[(<ICartesianSeries>d.series).fieldX[0]] = value;
-              }
+              const field = isY ? (<ICartesianSeries>d.series).fieldY[0] : (<ICartesianSeries>d.series).fieldX[0];
+
+              dataFilter[field] = d.datum?.[0]?.[field] ?? value;
             });
           });
           tooltip.showTooltip(dataFilter, opt.showTooltipOption);

@@ -1,6 +1,6 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IPadding } from '@visactor/vutils';
-import type { SymbolType } from '@visactor/vrender-core';
+import type { SymbolType, IGraphicAttribute, ICustomPath2D, ITextGraphicAttribute, IRichTextGraphicAttribute } from '@visactor/vrender-core';
 import type { IComposedTextMarkSpec, IFormatMethod, IRectMarkSpec, IRichTextFormatMethod, ISymbolMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
@@ -54,6 +54,7 @@ export type IMarkerLabelWithoutRefSpec = {
     maxWidth?: number;
     labelBackground?: {
         visible?: boolean;
+        customShape?: (text: ITextGraphicAttribute | IRichTextGraphicAttribute, attrs: Partial<IGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
         padding?: IPadding | number[] | number;
     } & Partial<IMarkerState<Omit<IRectMarkSpec, 'visible'>>>;
     type?: 'rich' | 'text';

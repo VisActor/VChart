@@ -180,6 +180,25 @@ pie: {
   prefix = '##' + ${prefix}
 ) }}
 
+##${prefix} customShape(function)
+自1.11.11版本, 标签引导线支持自定义path.
+
+回调函数的定义如下:
+
+```ts
+/**
+ * @params 标签文字属性
+ * @params attrs 折点
+ * @params path对象, 用户自定义绘制
+ * @return 返回绘制完成后的path
+ */
+(
+  text: ITextGraphicAttribute,
+  attrs: Partial<ILineGraphicAttribute>,
+  path: ICustomPath2D
+) => ICustomPath2D;
+```
+
 ###${prefix} style(Object)
 
 引导线样式。

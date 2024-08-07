@@ -386,7 +386,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   onDataUpdate(): void {
     const domain = this._computeDomainOfStateScale(isContinuous(this._stateScale.type));
 
-    this._stateScale.domain(domain, true);
+    this._stateScale.domain(domain, false);
     this._handleChange(this._start, this._end, true);
     // auto 模式下需要重新布局
     if (this._spec.auto) {

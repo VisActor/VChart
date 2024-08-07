@@ -209,6 +209,8 @@ export type EventHandler<Params extends EventParams> = {
   wrappedCallback?: EventCallback<Params>;
   // 转换后的事件筛选配置
   filter?: EventFilter;
+  // handler 是否被禁止触发
+  prevented?: boolean;
 };
 
 export type ExtendEventParam = EventParams & {
@@ -316,6 +318,8 @@ export interface IEventDispatcher {
   dispatch: <Evt extends EventType>(eType: Evt, params?: EventParamsDefinition[Evt], level?: EventBubbleLevel) => this;
   clear: () => void;
   release: () => void;
+  prevent: <Evt extends EventType>(eType: Evt, except: EventCallback<EventParamsDefinition[Evt]>) => void;
+  allow: <Evt extends EventType>(eType: Evt) => void;
 }
 
 export interface IEvent {
@@ -335,6 +339,8 @@ export interface IEvent {
   release: () => void;
 
   getComposedEventMap: () => Map<EventCallback<EventParams>, { eventType: EventType; event: IComposedEvent }>;
+  prevent: <Evt extends EventType>(eType: Evt, except: EventCallback<EventParamsDefinition[Evt]>) => void;
+  allow: <Evt extends EventType>(eType: Evt) => void;
 }
 
 export interface IComposedEvent {

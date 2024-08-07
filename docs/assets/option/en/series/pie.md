@@ -179,6 +179,25 @@ Supported since version 1.4.0.
   prefix = '##' + ${prefix}
 ) }}
 
+##${prefix} customShape(function)
+Since version 1.11.11, label guide lines support custom paths.
+
+The callback function is defined as follows:
+
+```ts
+/**
+ * @params label text attr
+ * @params attrs vertex
+ * @params path object, user-defined drawing
+ * @return Returns the path after drawing is completed
+ */
+(
+  text: ITextGraphicAttribute,
+  attrs: Partial<ILineGraphicAttribute>,
+  path: ICustomPath2D
+) => ICustomPath2D;
+```
+
 ###${prefix} style(Object)
 
 Guide line style.

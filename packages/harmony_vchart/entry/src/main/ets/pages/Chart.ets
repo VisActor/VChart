@@ -3,6 +3,7 @@ import { VChart } from '@visactor/harmony-vchart';
 // import { VisActor } from './canvas';
 import { router } from '@kit.ArkUI';
 import promptAction from '@ohos.promptAction';
+import lineSpec from './data/line';
 
 interface IRouterParams {
   label: string,
@@ -14,9 +15,13 @@ const params: IRouterParams = router.getParams() as IRouterParams;
 @Entry
 @Component
 struct Chart {
-  @State spec: Object = params.spec;
+  @State spec: Object | null = null;
   private t: number = 0;
   @State delta: number = 0;
+
+  onPageShow(): void {
+    this.spec = params.spec;
+  }
 
   build() {
     Row() {
@@ -26,7 +31,7 @@ struct Chart {
           .fontWeight(FontWeight.Bold)
         // Stage({ bg: 'red', h: 500 })
         VChart({
-          spec: params.spec, w: 300, h: 300,
+          spec: this.spec, w: 300, h: 300,
           onChartInitCb: () => {},
           onChartReadyCb: () => {},
           initOption: {
