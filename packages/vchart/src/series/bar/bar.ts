@@ -457,7 +457,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
 
     this._initStackBarMarkStyle();
-
     this._initBandBarBackgroundMarkStyle();
   }
 
@@ -528,12 +527,36 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   initLinearRectMarkStyle() {
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
+    const barPadding = this._spec.barPadding || 0;
+
+    /**
+     *
+     * @description 用于计算不同场景下barPadding对应的柱坐标位移值
+     */
+    const barPaddingCompute = (field: 'x' | 'x1' | 'y' | 'y1', inverse: boolean) => {
+      let acturlPadding = 0;
+      if (inverse) {
+        if (field === 'x1' || field === 'y1') {
+          acturlPadding = barPadding / 2;
+        } else {
+          acturlPadding = -barPadding / 2;
+        }
+      } else {
+        if (field === 'x' || field === 'y') {
+          acturlPadding = barPadding / 2;
+        } else {
+          acturlPadding = -barPadding / 2;
+        }
+      }
+      return acturlPadding;
+    };
 
     if (this.direction === Direction.horizontal) {
+      const inverse = this._yAxisHelper?.isInverse();
       const yChannels = isValid(this._fieldY2)
         ? {
-            y: (datum: Datum) => valueInScaleRange(this._dataToPosY(datum), yScale),
-            y1: (datum: Datum) => valueInScaleRange(this._dataToPosY1(datum), yScale)
+            y: (datum: Datum) => valueInScaleRange(this._dataToPosY(datum) + barPaddingCompute('y', inverse), yScale),
+            y1: (datum: Datum) => valueInScaleRange(this._dataToPosY1(datum) + barPaddingCompute('y1', inverse), yScale)
           }
         : {
             y: (datum: Datum) =>
@@ -562,10 +585,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
     } else {
+      const inverse = this._xAxisHelper?.isInverse();
+
       const xChannels = isValid(this._fieldX2)
         ? {
-            x: (datum: Datum) => valueInScaleRange(this._dataToPosX(datum), xScale),
-            x1: (datum: Datum) => valueInScaleRange(this._dataToPosX1(datum), xScale)
+            x: (datum: Datum) => valueInScaleRange(this._dataToPosX(datum) + barPaddingCompute('x', inverse), xScale),
+            x1: (datum: Datum) => valueInScaleRange(this._dataToPosX1(datum) + barPaddingCompute('x1', inverse), xScale)
           }
         : {
             x: (datum: Datum) =>
@@ -740,7 +765,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       const barInGroup = array(this._spec.barGapInGroup);
       let totalWidth: number = 0;
       let offSet: number = 0;
-
       for (let index = groupFields.length - 1; index >= 1; index--) {
         const groupField = groupFields[index];
         // const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
