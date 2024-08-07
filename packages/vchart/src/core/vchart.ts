@@ -1059,6 +1059,7 @@ export class VChart implements IVChart {
       result.reMake = true;
       result.reTransformSpec = true;
       result.change = true;
+      result.changeTheme = true; // 支持了根据图表类型 merge 当前主题。当 type 变了后，需要更新主题
       return result;
     }
     // 再次处理 spec 并得到 specInfo
@@ -1382,11 +1383,12 @@ export class VChart implements IVChart {
   private _updateCurrentTheme(nextThemeName?: string) {
     const optionTheme: Maybe<string | ITheme> = this._option.theme;
     const specTheme: Maybe<string | ITheme> = this._spec?.theme;
-
+    const chartType: string = this._spec?.type;
     if (nextThemeName) {
       this._currentThemeName = nextThemeName;
     }
 
+    let currentTheme;
     // 处理 specTheme 和 optionTheme, merge -> transform
     // 优先级 currentTheme < optionTheme < specTheme
     if (!isEmpty(optionTheme) || !isEmpty(specTheme)) {
@@ -1394,24 +1396,29 @@ export class VChart implements IVChart {
         (isString(optionTheme) && (!specTheme || isString(specTheme))) ||
         (isString(specTheme) && (!optionTheme || isString(optionTheme)))
       ) {
+        currentTheme = getThemeObject(this._currentThemeName, true);
         const finalTheme = mergeTheme(
           {},
-          getThemeObject(this._currentThemeName, true),
+          currentTheme,
+          currentTheme.chart?.[chartType],
           getThemeObject(optionTheme, true),
           getThemeObject(specTheme, true)
         );
         this._currentTheme = finalTheme;
       } else {
+        currentTheme = getThemeObject(this._currentThemeName);
         const finalTheme = mergeTheme(
           {},
-          getThemeObject(this._currentThemeName),
+          currentTheme,
+          currentTheme.chart?.[chartType],
           getThemeObject(optionTheme),
           getThemeObject(specTheme)
         );
         this._currentTheme = preprocessTheme(finalTheme);
       }
     } else {
-      this._currentTheme = getThemeObject(this._currentThemeName, true);
+      currentTheme = getThemeObject(this._currentThemeName, true);
+      this._currentTheme = mergeTheme({}, currentTheme, currentTheme.chart?.[chartType]);
     }
 
     // 设置 poptip 的主题
