@@ -1059,6 +1059,22 @@
             "zh": "形状词云图随机旋转角",
             "en": "Shape Word Cloud with Random Rotation Angles"
           }
+        },
+
+        {
+          "path": "word-cloud-shape-text",
+          "title": {
+            "zh": "文字轮廓词云图",
+            "en": "Text outline Word Cloud"
+          }
+        },
+
+        {
+          "path": "word-cloud-shape-geometry",
+          "title": {
+            "zh": "几何形状词云图",
+            "en": "geometric outline Word Cloud"
+          }
         }
       ]
     },
