@@ -1,3 +1,33 @@
+# v1.11.11
+
+2024-08-06
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: label line support custom path. close[#3000](https://github.com/VisActor/VChart/issues/3000)
+- **@visactor/vchart**: upgrade vrender to 0.19.20, to support `catmullRom` and `catmullRomClosed` curveType, related [#2610](https://github.com/VisActor/VChart/issues/2610)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix crosshair of histogram, fix [#2826](https://github.com/VisActor/VChart/issues/2826)
+- **@visactor/vchart**: use `vglobal.getElementById` to replace `document.getElementById`
+- **@visactor/vchart**: liquid gradient not work after reverse
+- **@visactor/vchart**: add group mark to fix gradient color bug of liquid and add rect shape to fix rect symbol padding bug
+- **@visactor/vchart**: fix `lockAfterClick` of tooltip, related [#1574](https://github.com/VisActor/VChart/issues/1574)
+- **@visactor/vchart**:  prevent trigger original event in panEnd composite event [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: charts should not stack when only specify `stackValue` but `stack` is false, fix [#3005](https://github.com/VisActor/VChart/issues/3005)
+- **@visactor/vchart**: `updateData` incorrect with datazoom, related [#3041](https://github.com/VisActor/VChart/issues/3041)
+- **@visactor/vchart**: fix issue of `updateSpec` when visible of grid in axis change, fix [#3004](https://github.com/VisActor/VChart/issues/3004)
+- **@visactor/vchart**: fix fontFamily when update theme, fix [#3028](https://github.com/VisActor/VChart/issues/3028)
+- **@visactor/vchart**: fix:curveType `monotone` in seriesStyle not work
+
+
+
+
+
+[more detail about v1.11.11](https://github.com/VisActor/VChart/releases/tag/v1.11.11)
+
 # v1.11.10
 
 2024-07-24
