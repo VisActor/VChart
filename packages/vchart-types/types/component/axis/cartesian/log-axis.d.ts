@@ -13,6 +13,7 @@ export declare class CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesi
     protected _scale: LogScale;
     protected _scales: LogScale[];
     protected initScales(): void;
+    protected registerTicksTransform(): string;
     transformScaleDomain(): void;
 }
 export declare const registerCartesianLogAxis: () => void;

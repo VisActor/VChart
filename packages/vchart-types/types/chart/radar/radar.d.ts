@@ -8,6 +8,5 @@ export declare class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> exten
     readonly transformerConstructor: typeof RadarChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _canStack: boolean;
 }
 export declare const registerRadarChart: () => void;

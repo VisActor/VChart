@@ -34,11 +34,13 @@ export interface ISeriesInitOption {
 export interface ISeriesUpdateDataOption {
 }
 export interface ISeriesStackDataNode {
+    groupField?: string;
     nodes: {
         [key: string]: ISeriesStackDataMeta;
     };
 }
 export interface ISeriesStackDataLeaf {
+    groupField?: string;
     values: any[];
     total?: number;
 }

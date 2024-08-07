@@ -32,8 +32,8 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
             element: any;
         } & import("@visactor/vrender-core").SimpleDomStyleOptions & import("@visactor/vrender-core").CommonDomOptions;
     };
-    visible?: boolean;
     padding?: import("@visactor/vrender-components").Padding;
+    visible?: boolean;
     maxWidth?: number;
     minWidth?: number;
     space?: number;

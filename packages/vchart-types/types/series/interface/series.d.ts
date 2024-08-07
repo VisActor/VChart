@@ -17,6 +17,7 @@ import type { IGroupMark } from '../../mark/group';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
 import type { ILabelMark } from '../../mark/label';
 import type { BaseLegend } from '../../component/legend/base-legend';
+import type { ILabelSpec } from '../../component/label/interface';
 export interface ISeries extends IModel {
     readonly type: string;
     readonly name?: string;
@@ -94,7 +95,7 @@ export interface ISeries extends IModel {
     getDefaultColorDomain: () => any[];
     getInvalidType: () => IInvalidType;
     getDefaultShapeType: () => string;
-    initLabelMarkStyle?: (labelMark: ILabelMark) => void;
+    initLabelMarkStyle?: (labelMark: ILabelMark, labelSpec: ILabelSpec) => void;
     initTotalLabelMarkStyle?: (labelMark: ILabelMark) => void;
     getTotalLabelComponentStyle?: (info: Pick<ILabelInfo, 'baseMark' | 'labelMark'>) => any;
     getGroupFields: () => string[];
@@ -102,6 +103,7 @@ export interface ISeries extends IModel {
     getMarkAttributeContext: () => ISeriesMarkAttributeContext;
     getSeriesFieldValue: (datum: Datum, seriesField?: string) => any;
     legendSelectedFilter?: (component: BaseLegend<any>, selectedKeys: StringOrNumber[]) => StringOrNumber[];
+    parseLabelStyle?: (labelStyle: any, labelSpec: any, labelMark?: ILabelMark) => any;
 }
 export interface ICartesianSeries extends ISeries {
     readonly coordinate: 'cartesian';
