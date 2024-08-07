@@ -2,7 +2,7 @@ import React from 'react';
 import type { IMapChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerMapChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { simpleComponentsRegisters } from './register';
+import { registers } from './registers/simple';
 
 export interface MapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -14,5 +14,5 @@ export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { t
     type: 'map',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerMapChart, registerLabel, ...simpleComponentsRegisters]
+  [registerMapChart, registerLabel, ...registers]
 );

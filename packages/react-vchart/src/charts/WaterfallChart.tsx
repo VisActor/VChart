@@ -2,7 +2,7 @@ import React from 'react';
 import type { IWaterfallChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerWaterfallChart, registerLabel, registerTotalLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 
 export interface WaterfallChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -16,5 +16,5 @@ export const WaterfallChart = createChart<React.PropsWithChildren<WaterfallChart
     type: 'waterfall',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerWaterfallChart, registerLabel, registerTotalLabel, ...cartesianComponentsRegisters]
+  [registerWaterfallChart, registerLabel, registerTotalLabel, ...registers]
 );

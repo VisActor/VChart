@@ -2,7 +2,7 @@ import React from 'react';
 import type { IGaugeChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerGaugeChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { simpleComponentsRegisters } from './register';
+import { registers } from './registers/simple';
 
 export interface GaugeChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -14,5 +14,5 @@ export const GaugeChart = createChart<React.PropsWithChildren<GaugeChartProps> &
     type: 'gauge',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerGaugeChart, ...simpleComponentsRegisters]
+  [registerGaugeChart, ...registers]
 );

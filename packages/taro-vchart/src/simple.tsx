@@ -24,8 +24,8 @@ export function VChartSimple({ type, ...args }: IVChartProps) {
     }
   };
 
-  if (env && strategies[env] !== undefined) {
-    return strategies[env].call();
+  if (env && (strategies as any)[env] !== undefined) {
+    return (strategies as any)[env].call();
   }
 
   console.warn(`暂不支持 ${env} 环境`);

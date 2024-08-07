@@ -2,7 +2,7 @@ import React from 'react';
 import { IHistogramChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerHistogramChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
 
 export interface HistogramChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -14,5 +14,5 @@ export const HistogramChart = createChart<React.PropsWithChildren<HistogramChart
     type: 'histogram',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerHistogramChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerHistogramChart, registerLabel, ...registers]
 );

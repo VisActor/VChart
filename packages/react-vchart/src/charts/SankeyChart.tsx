@@ -2,7 +2,7 @@ import React from 'react';
 import type { ISankeyChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerSankeyChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { simpleComponentsRegisters } from './register';
+import { registers } from './registers/simple';
 
 export interface SankeyChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -14,5 +14,5 @@ export const SankeyChart = createChart<React.PropsWithChildren<SankeyChartProps>
     type: 'sankey',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerSankeyChart, ...simpleComponentsRegisters]
+  [registerSankeyChart, ...registers]
 );
