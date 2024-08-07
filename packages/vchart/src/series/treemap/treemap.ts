@@ -36,6 +36,7 @@ import { Factory } from '../../core/factory';
 import { registerTreemapAnimation } from './animation';
 import type { ILabelMark } from '../../mark/label';
 import { TreemapSeriesSpecTransformer } from './treemap-transform';
+import { registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
@@ -536,6 +537,8 @@ mixin(TreemapSeries, Drillable);
 mixin(TreemapSeries, Zoomable);
 
 export const registerTreemapSeries = () => {
+  registerFilterTransform();
+  registerMapTransform();
   registerRectMark();
   registerTextMark();
   registerTreemapAnimation();
