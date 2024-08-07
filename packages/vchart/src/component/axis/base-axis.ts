@@ -140,7 +140,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   getVRenderComponents() {
-    return array(this._axisMark?.getProduct()?.getGroupGraphicItem());
+    return [
+      this._axisMark?.getProduct()?.getGroupGraphicItem(),
+      this._gridMark?.getProduct()?.getGroupGraphicItem()
+    ].filter(isValid);
   }
 
   created() {
