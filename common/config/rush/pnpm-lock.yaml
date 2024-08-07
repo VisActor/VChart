@@ -135,7 +135,7 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:1.11.9
+      '@visactor/vchart': workspace:1.11.11
       '@visactor/vgrammar-core': 0.14.0-alpha.6
       '@visactor/vrender-core': 0.20.0-alpha.3
       '@visactor/vrender-kits': 0.20.0-alpha.3
@@ -200,7 +200,7 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:1.11.9
+      '@visactor/vchart': workspace:1.11.11
       '@visactor/vgrammar-core': 0.14.0-alpha.6
       '@visactor/vrender-core': 0.20.0-alpha.3
       '@visactor/vrender-kits': 0.20.0-alpha.3
@@ -375,7 +375,7 @@ importers:
       '@visactor/vrender-kits': 0.20.0-alpha.3
       '@visactor/vscale': ~0.18.13
       '@visactor/vutils': ~0.18.13
-      '@visactor/vutils-extension': workspace:1.11.9
+      '@visactor/vutils-extension': workspace:1.11.11
       canvas: 2.11.2
       cross-env: ^7.0.3
       d3-array: ^1.2.4
@@ -479,7 +479,7 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@visactor/vchart': workspace:1.11.9
+      '@visactor/vchart': workspace:1.11.11
       '@visactor/vrender-core': 0.20.0-alpha.3
       '@visactor/vrender-kits': 0.20.0-alpha.3
       '@visactor/vutils': ~0.18.13
@@ -840,7 +840,7 @@ importers:
       '@types/node': '*'
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.11.9
+      '@visactor/vchart': workspace:1.11.11
       '@visactor/vrender': 0.20.0-alpha.3
       '@visactor/vrender-core': 0.20.0-alpha.3
       '@visactor/vrender-kits': 0.20.0-alpha.3
@@ -2708,7 +2708,7 @@ packages:
       jest-resolve: 26.6.2
       jest-resolve-dependencies: 26.6.3
       jest-runner: 26.6.3_ts-node@10.9.0
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_ts-node@10.9.0
       jest-snapshot: 26.6.2
       jest-util: 26.6.2
       jest-validate: 26.6.2
@@ -2748,7 +2748,7 @@ packages:
       jest-resolve: 26.6.2
       jest-resolve-dependencies: 26.6.3
       jest-runner: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-snapshot: 26.6.2
       jest-util: 26.6.2
       jest-validate: 26.6.2
@@ -2926,7 +2926,7 @@ packages:
       graceful-fs: 4.2.11
       jest-haste-map: 26.6.2
       jest-runner: 26.6.3_ts-node@10.9.0
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_ts-node@10.9.0
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -2943,7 +2943,7 @@ packages:
       graceful-fs: 4.2.11
       jest-haste-map: 26.6.2
       jest-runner: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -14437,7 +14437,7 @@ packages:
       jest-leak-detector: 26.6.2
       jest-message-util: 26.6.2
       jest-resolve: 26.6.2
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_ts-node@10.9.0
       jest-util: 26.6.2
       jest-worker: 26.6.2
       source-map-support: 0.5.21
@@ -14469,7 +14469,7 @@ packages:
       jest-leak-detector: 26.6.2
       jest-message-util: 26.6.2
       jest-resolve: 26.6.2
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-util: 26.6.2
       jest-worker: 26.6.2
       source-map-support: 0.5.21

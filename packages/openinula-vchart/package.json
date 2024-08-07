@@ -28,7 +28,7 @@
     "build": "bundle --clean"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.11.9",
+    "@visactor/vchart": "workspace:1.11.11",
     "@visactor/vutils": "~0.18.13",
     "@visactor/vrender-core": "0.20.0-alpha.3",
     "@visactor/vrender-kits": "0.20.0-alpha.3",

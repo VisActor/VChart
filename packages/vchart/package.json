@@ -130,7 +130,7 @@
     "@visactor/vgrammar-sankey": "0.14.0-alpha.6",
     "@visactor/vgrammar-venn": "0.14.0-alpha.6",
     "@visactor/vgrammar-util": "0.14.0-alpha.6",
-    "@visactor/vutils-extension": "workspace:1.11.9"
+    "@visactor/vutils-extension": "workspace:1.11.11"
   },
   "publishConfig": {
     "access": "public",
