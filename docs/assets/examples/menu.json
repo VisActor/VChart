@@ -760,6 +760,13 @@
             "zh": "对比漏斗图模板",
             "en": "Comparative Funnel Template"
           }
+        },
+        {
+          "path": "business-funnel-template",
+          "title": {
+            "zh": "业务漏斗图模板",
+            "en": "Business Funnel Template"
+          }
         }
       ]
     },
