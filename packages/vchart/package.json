@@ -26,6 +26,8 @@
     "analyze": "npm run analyze-full && npm run analyze-line && npm run analyze-simple",
     "analyze-full": "cross-env BUNDLE_ANALYZE='full' DEBUG='Bundler*' bundle -f umd ",
     "analyze-simple": "cross-env BUNDLE_ANALYZE='simple' DEBUG='Bundler*' bundle -f umd",
+    "analyze-pie": "cross-env BUNDLE_ANALYZE='pie' DEBUG='Bundler*' bundle -f umd",
+    "analyze-empty": "cross-env BUNDLE_ANALYZE='empty' DEBUG='Bundler*' bundle -f umd",
     "dev": "cross-env DEBUG='Bundler*' bundle --clean -f es -w",
     "compile": "tsc --noEmit",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
