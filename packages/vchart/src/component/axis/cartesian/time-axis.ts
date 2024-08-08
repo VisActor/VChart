@@ -72,7 +72,7 @@ export class CartesianTimeAxis<
         })
         .transform(
           {
-            type: 'ticks',
+            type: `${this.type}-ticks`,
             options: {
               ...this._tickTransformOption(),
               tickCount: this._spec.layers[1].tickCount,
