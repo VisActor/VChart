@@ -5,7 +5,8 @@ import { BaseComponent } from '../base/base-component';
 import type { IEffect } from '../../model/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILayoutRect, ILayoutType, IOrientType, IPoint, StringOrNumber } from '../../typings';
-import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
+import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
+import { ChartEvent } from '../../constant/event';
 import { eachSeries } from '../../util/model';
 import { isValidOrient } from '../../util/space';
 import { mergeSpec } from '@visactor/vutils-extension';

@@ -3,14 +3,10 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
-import {
-  AttributeLevel,
-  ChartEvent,
-  LayoutZIndex,
-  STACK_FIELD_TOTAL_BOTTOM,
-  STACK_FIELD_TOTAL_TOP,
-  VGRAMMAR_HOOK_EVENT
-} from '../../constant';
+import { STACK_FIELD_TOTAL_BOTTOM, STACK_FIELD_TOTAL_TOP } from '../../constant/data';
+import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
+import { AttributeLevel } from '../../constant/attribute';
+import { LayoutZIndex } from '../../constant/layout';
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { eachSeries } from '../../util/model';

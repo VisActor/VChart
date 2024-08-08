@@ -8,7 +8,7 @@ import { RenderModeEnum } from '../../typings/spec/common';
 import { getDefaultTriggerEventByMode } from '../../component/common/trigger/config';
 import type { IZoomTrigger } from '../../component/common/trigger/interface';
 import type { ISeries } from '../../series/interface';
-import { Event_Bubble_Level, Event_Source_Type } from '../../constant';
+import { Event_Bubble_Level, Event_Source_Type } from '../../constant/event';
 import type { IDelayType } from '../../typings/event';
 import { isMiniAppLikeMode, isMobileLikeMode } from '../../util';
 import type { Gesture } from '@visactor/vrender-kits';

@@ -1,6 +1,8 @@
 /* eslint-disable no-duplicate-imports */
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { AttributeLevel, DEFAULT_DATA_KEY, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
+import { AttributeLevel } from '../../constant/attribute';
+import { DEFAULT_DATA_KEY } from '../../constant/data';
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IRectMark } from '../../mark/rect';

@@ -1,15 +1,15 @@
 import { ChartEvent } from '../../constant/event';
 import {
-  AttributeLevel,
   DEFAULT_DATA_KEY,
   DEFAULT_DATA_SERIES_FIELD,
   DEFAULT_SERIES_STYLE_NAME,
-  PREFIX,
   STACK_FIELD_END,
   STACK_FIELD_END_PERCENT,
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
-} from '../../constant/index';
+} from '../../constant/data';
+import { AttributeLevel } from '../../constant/attribute';
+import { PREFIX } from '../../constant/base';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';

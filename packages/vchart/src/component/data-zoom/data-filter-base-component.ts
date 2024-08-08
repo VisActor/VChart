@@ -39,7 +39,7 @@ import type { IDelayType } from '../../typings/event';
 import { TransformLevel } from '../../data/initialize';
 import type { IDataZoomSpec } from './data-zoom/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>

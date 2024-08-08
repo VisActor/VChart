@@ -2,7 +2,6 @@
 import { degreeToRadian, isValid } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import {
-  AttributeLevel,
   ARC_START_ANGLE,
   ARC_END_ANGLE,
   ARC_RATIO,
@@ -10,14 +9,12 @@ import {
   ARC_RADIAN,
   ARC_QUADRANT,
   ARC_K,
-  PREFIX,
-  DEFAULT_LABEL_VISIBLE,
   POLAR_START_RADIAN,
-  POLAR_END_RADIAN,
-  DEFAULT_DATA_INDEX,
-  ChartEvent,
-  DEFAULT_DATA_KEY
-} from '../../constant';
+  POLAR_END_RADIAN
+} from '../../constant/polar';
+import { AttributeLevel } from '../../constant/attribute';
+import { DEFAULT_DATA_KEY, DEFAULT_DATA_INDEX } from '../../constant/data';
+import { PREFIX } from '../../constant/base';
 import type { IPoint, Datum, StateValueType, IArcMarkSpec } from '../../typings';
 import { normalizeStartEndAngle } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
@@ -49,6 +46,8 @@ import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { isNil, polarToCartesian } from '@visactor/vutils';
 import { PieSeriesSpecTransformer } from './pie-transformer';
+import { DEFAULT_LABEL_VISIBLE } from '../../constant/label';
+import { ChartEvent } from '../../constant/event';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;

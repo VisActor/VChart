@@ -6,13 +6,13 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import {
-  AttributeLevel,
   DEFAULT_DATA_KEY,
   STACK_FIELD_END,
   STACK_FIELD_END_PERCENT,
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
-} from '../../constant';
+} from '../../constant/data';
+import { AttributeLevel } from '../../constant/attribute';
 import type { Datum, DirectionType } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
 import { getRegionStackGroup } from '../../util/data';

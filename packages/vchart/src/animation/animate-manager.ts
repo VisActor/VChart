@@ -1,7 +1,7 @@
 import type { IElement } from '@visactor/vgrammar-core';
 import { StateManager } from '../compile/signal/state-manager';
 import type { StateValueMap } from '../compile/signal/interface';
-import { PREFIX } from '../constant';
+import { PREFIX } from '../constant/base';
 import { createID } from '../util/id';
 import type { IAnimate, IAnimateState } from './interface';
 // eslint-disable-next-line no-duplicate-imports

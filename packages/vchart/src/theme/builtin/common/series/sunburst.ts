@@ -1,4 +1,4 @@
-import { POLAR_END_ANGLE, POLAR_START_ANGLE } from '../../../../constant';
+import { POLAR_END_ANGLE, POLAR_START_ANGLE } from '../../../../constant/polar';
 import type { ISunburstSeriesTheme } from '../../../../series/sunburst/interface';
 
 export const sunburst: ISunburstSeriesTheme = {

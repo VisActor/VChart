@@ -1,4 +1,4 @@
-import { ChartEvent } from '../constant/index';
+import { ChartEvent } from '../constant/event';
 import type { IRegion } from '../region/interface';
 import type { IChart } from './interface';
 import type { IStackCacheNode, IStackCacheRoot } from '../util';

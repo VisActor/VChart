@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
+import { DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Maybe, Datum } from '../../typings';
 import { isValid } from '@visactor/vutils';
@@ -20,6 +20,7 @@ import { linkDotInfo } from '../../data/transforms/link-dot-info';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { AttributeLevel } from '../../constant/attribute';
 
 export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;

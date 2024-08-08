@@ -71,7 +71,8 @@ import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
-import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
+import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../constant/event';
+import { DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant/base';
 // eslint-disable-next-line no-duplicate-imports
 import {
   isArray,
@@ -2141,7 +2142,7 @@ export const registerVChartCore = () => {
   // install essential vgrammar transform
   View.useRegisters([registerGesturePlugin]);
   // install animation
-  registerAnimate();
+  // registerAnimate();
   registerVGrammarCommonAnimation();
   // install default interaction
   registerHoverInteraction();

@@ -21,7 +21,8 @@ import { eachSeries, getSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '@visactor/vutils-extension';
 import type { ISeries } from '../../series/interface';
-import { ChartEvent, LayoutZIndex } from '../../constant';
+import { ChartEvent } from '../../constant/event';
+import { LayoutZIndex } from '../../constant/layout';
 import { animationConfig } from '../../animation/utils';
 import type { LooseFunction } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports

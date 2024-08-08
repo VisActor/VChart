@@ -1,4 +1,4 @@
-import { DEFAULT_DATA_INDEX, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
+import { DEFAULT_DATA_INDEX, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
 import type { BaseSeries } from '../../series/base/base-series';
 import type { TreemapSeries } from '../../series/treemap/treemap';
 import type { AddVChartPropertyContext } from './add-property';
