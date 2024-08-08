@@ -1,13 +1,8 @@
 import type { Datum } from '@visactor/vgrammar-core';
 import { degreeToRadian, isNil, isValid, isValidNumber, binaryFuzzySearch } from '@visactor/vutils';
-import {
-  AttributeLevel,
-  POLAR_END_RADIAN,
-  POLAR_START_RADIAN,
-  SEGMENT_FIELD_START,
-  STACK_FIELD_END,
-  STACK_FIELD_START
-} from '../../../constant';
+import { SEGMENT_FIELD_START, STACK_FIELD_END, STACK_FIELD_START } from '../../../constant/data';
+import { POLAR_END_RADIAN, POLAR_START_RADIAN } from '../../../constant/polar';
+import { AttributeLevel } from '../../../constant/attribute';
 import type { IMarkStyle } from '../../../mark/interface';
 import type { ConvertToMarkStyleSpec, ICommonSpec } from '../../../typings';
 import { valueInScaleRange } from '../../../util/scale';

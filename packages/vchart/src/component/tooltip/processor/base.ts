@@ -6,7 +6,7 @@ import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 import { TooltipResult } from '../interface/common';
 import type { Tooltip } from '../tooltip';
 import type { DimensionTooltipInfo, MouseEventData, TooltipInfo } from './interface';
-import { ChartEvent } from '../../../constant';
+import { ChartEvent } from '../../../constant/event';
 import type { TooltipEventParams } from '../interface/event';
 import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension';
 import { getPolarDimensionInfo } from '../../../event/events/dimension/util/polar';

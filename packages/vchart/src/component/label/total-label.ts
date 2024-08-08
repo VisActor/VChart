@@ -3,7 +3,9 @@ import type { ILabelMark } from '../../mark/label';
 import { registerLabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant';
+import { STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant/data';
+import { LayoutZIndex } from '../../constant/layout';
+import { AttributeLevel } from '../../constant/attribute';
 import type { IMark, MarkType } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';

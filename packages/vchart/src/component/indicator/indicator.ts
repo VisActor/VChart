@@ -1,5 +1,5 @@
 import { DataView } from '@visactor/vdataset';
-import { LayoutLevel, LayoutZIndex } from '../../constant';
+import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';

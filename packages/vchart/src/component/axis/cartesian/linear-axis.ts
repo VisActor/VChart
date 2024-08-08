@@ -8,6 +8,9 @@ import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
+import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
+import { registerDataSetInstanceTransform } from '../../../data/register';
+import { continuousTicks } from '@visactor/vrender-components';
 
 export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec>
   extends Pick<
@@ -68,11 +71,20 @@ export class CartesianLinearAxis<
     helper.valueToPosition = this.valueToPosition.bind(this);
     return helper;
   }
+
+  protected registerTicksTransform() {
+    const name = `${this.type}-ticks`;
+    registerDataSetInstanceTransform(this._option.dataSet, name, continuousTicks);
+
+    return name;
+  }
 }
 
 mixin(CartesianLinearAxis, LinearAxisMixin);
 
 export const registerCartesianLinearAxis = () => {
+  registerLineAxis();
+  registerLineGrid();
   registerAxis();
   Factory.registerComponent(CartesianLinearAxis.type, CartesianLinearAxis);
 };

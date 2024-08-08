@@ -17,7 +17,7 @@ import { TooltipResult } from './interface/common';
 import { showTooltip } from './utils/show-tooltip';
 import { isEmptyPos } from './utils/common';
 import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
-import { ChartEvent, Event_Source_Type } from '../../constant';
+import { ChartEvent, Event_Source_Type } from '../../constant/event';
 import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
 // eslint-disable-next-line no-duplicate-imports
 import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';

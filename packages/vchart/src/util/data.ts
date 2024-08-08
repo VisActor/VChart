@@ -16,7 +16,7 @@ import {
   MOSAIC_CAT_END_PERCENT,
   MOSAIC_VALUE_START_PERCENT,
   MOSAIC_VALUE_END_PERCENT
-} from '../constant';
+} from '../constant/data';
 import { isValid, toValidNumber } from './type';
 import { max, sum } from './math';
 import type { ISeries, ISeriesStackDataMeta } from '../series/interface';

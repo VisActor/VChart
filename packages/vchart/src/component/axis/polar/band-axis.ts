@@ -7,6 +7,9 @@ import type { StringOrNumber } from '../../../typings';
 import type { IPolarBandAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
+import { registerLineAxis, registerLineGrid, registerCircleAxis, registerCircleGrid } from '@visactor/vgrammar-core';
+import { registerDataSetInstanceTransform } from '../../../data/register';
+import { polarAngleAxisDiscreteTicks } from '@visactor/vrender-components';
 
 export interface PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec>
   extends Pick<
@@ -51,6 +54,11 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
     this.calcScales(this._defaultBandInnerPadding, this._defaultBandOuterPadding);
   }
 
+  protected registerTicksTransform() {
+    const name = `${this.type}-ticks`;
+    registerDataSetInstanceTransform(this._option.dataSet, name, polarAngleAxisDiscreteTicks);
+    return name;
+  }
   transformScaleDomain() {
     // do nothing
   }
@@ -58,6 +66,10 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
 mixin(PolarBandAxis, BandAxisMixin);
 
 export const registerPolarBandAxis = () => {
+  registerLineAxis();
+  registerLineGrid();
+  registerCircleAxis();
+  registerCircleGrid();
   registerAxis();
   Factory.registerComponent(PolarBandAxis.type, PolarBandAxis);
 };

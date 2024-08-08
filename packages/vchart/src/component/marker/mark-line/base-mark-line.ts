@@ -17,7 +17,7 @@ import { BaseMarker } from '../base-marker';
 import type { IGroup } from '@visactor/vrender-core';
 import type { IMarkProcessOptions, IMarkerSymbol } from '../interface';
 import { markerRegression } from '../../../data/transforms/regression';
-import { LayoutZIndex } from '../../../constant';
+import { LayoutZIndex } from '../../../constant/layout';
 import { markerFilter } from '../../../data/transforms/marker-filter';
 
 export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {

@@ -1,6 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
+import { DEFAULT_DATA_KEY } from '../../constant/data';
+import { AttributeLevel } from '../../constant/attribute';
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { Datum, IArcMarkSpec, IPathMarkSpec, IPoint, StringOrNumber } from '../../typings';

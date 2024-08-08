@@ -3,7 +3,7 @@ import type { ISeriesOption } from '../interface/common';
 import { DataView } from '@visactor/vdataset';
 import { ChartEvent } from '../../constant/event';
 import type { ISeries } from '../interface/series';
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
 
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports

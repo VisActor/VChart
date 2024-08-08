@@ -2,7 +2,7 @@ import { isMobileLikeMode } from '../../../util/env';
 import type { BaseEventParams, EventHandler, EventParamsDefinition, EventType } from '../../interface';
 import { DimensionEvent } from './base';
 import { isSameDimensionInfo } from './util/common';
-import { Event_Source_Type } from '../../../constant';
+import { Event_Source_Type } from '../../../constant/event';
 import type { IDimensionInfo } from './interface';
 
 export class DimensionHoverEvent extends DimensionEvent {

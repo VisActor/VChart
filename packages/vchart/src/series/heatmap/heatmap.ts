@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { registerCellMark } from './../../mark/cell';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
 import type { Datum } from '../../typings';
 import type { HeatmapAppearPreset } from './animation';
 import { registerHeatmapAnimation } from './animation';

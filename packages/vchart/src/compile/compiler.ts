@@ -1,4 +1,4 @@
-import { ChartEvent } from './../constant/event';
+import { ChartEvent, Event_Source_Type } from './../constant/event';
 import type { IElement, InteractionSpec, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { View } from '@visactor/vgrammar-core';
@@ -23,7 +23,6 @@ import type { IChart } from '../chart/interface';
 import { vglobal } from '@visactor/vrender-core';
 import type { IColor, Stage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
-import { Event_Source_Type } from '../constant';
 import type { IVChart } from '../core/interface';
 
 type EventListener = {

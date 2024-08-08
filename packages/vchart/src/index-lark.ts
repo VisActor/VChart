@@ -55,7 +55,8 @@ import { registerCustomMark } from './component/custom-mark';
 import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
-import { registerCanvasTooltipHandler, registerFormatPlugin } from './plugin';
+import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
+import { registerFormatPlugin } from './plugin/chart/formatter';
 
 import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
 

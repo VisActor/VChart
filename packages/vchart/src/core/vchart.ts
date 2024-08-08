@@ -71,7 +71,8 @@ import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
-import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
+import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../constant/event';
+import { DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant/base';
 // eslint-disable-next-line no-duplicate-imports
 import {
   isArray,
@@ -100,8 +101,7 @@ import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
 import { registerGroupMark } from '../mark/group';
-import { registerVGrammarCommonAnimation } from '../animation/config';
-import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
+import { View, registerGesturePlugin } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
@@ -2139,9 +2139,7 @@ export const registerVChartCore = () => {
   // install essential marks
   registerGroupMark();
   // install essential vgrammar transform
-  View.useRegisters([registerFilterTransform, registerMapTransform]);
-  // install animation
-  registerVGrammarCommonAnimation();
+  View.useRegisters([registerGesturePlugin]);
   // install default interaction
   registerHoverInteraction();
   registerSelectInteraction();

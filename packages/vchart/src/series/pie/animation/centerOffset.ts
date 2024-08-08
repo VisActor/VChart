@@ -1,5 +1,5 @@
 import type { IAnimationTimeline, IAnimationTypeConfig } from '@visactor/vgrammar-core';
-import { ARC_MIDDLE_ANGLE } from '../../../constant';
+import { ARC_MIDDLE_ANGLE } from '../../../constant/polar';
 import type { IArcMark } from '../../../mark/arc';
 import type { Datum } from '../../../typings';
 import { isValidNumber, polarToCartesian } from '@visactor/vutils';

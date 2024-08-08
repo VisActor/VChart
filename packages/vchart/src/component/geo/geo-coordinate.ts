@@ -1,4 +1,4 @@
-import { LayoutZIndex } from './../../constant/index';
+import { LayoutZIndex } from './../../constant/layout';
 /* eslint-disable no-duplicate-imports */
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
@@ -8,7 +8,8 @@ import { BaseComponent } from '../base/base-component';
 import type { IGeoRegionSpec, IRegion, RegionSpec } from '../../region/interface';
 import { eachSeries } from '../../util/model';
 import { mergeSpec } from '@visactor/vutils-extension';
-import { ChartEvent, PREFIX } from '../../constant/index';
+import { ChartEvent } from '../../constant/event';
+import { PREFIX } from '../../constant/base';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { IGeoCoordinate, IGeoCoordinateHelper, IGeoCoordinateSpec, IProjectionSpec } from './interface';

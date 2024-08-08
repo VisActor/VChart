@@ -18,7 +18,7 @@ import {
   FUNNEL_TRANSFORM_LEVEL
 } from '../../../src/constant/funnel';
 import { get } from '@visactor/vutils';
-import { DEFAULT_DATA_INDEX } from '../../../src/constant';
+import { DEFAULT_DATA_INDEX } from '../../../src/constant/data';
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);

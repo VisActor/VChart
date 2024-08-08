@@ -2,7 +2,8 @@
 import type { IPadding } from '@visactor/vutils';
 import { isNil, isObject, isValidNumber } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
-import { AttributeLevel, DEFAULT_DATA_INDEX, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
+import { DEFAULT_DATA_INDEX, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
+import { AttributeLevel } from '../../constant/attribute';
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';

@@ -4,7 +4,7 @@ import { SeriesTypeEnum } from '../../series/interface';
 import type { AdaptiveSpec, ISeriesSpec } from '../../typings';
 import { ProgressLikeChartSpecTransformer } from '../polar';
 import type { IGaugeChartSpec } from './interface';
-import { LayoutZIndex } from '../../constant';
+import { LayoutZIndex } from '../../constant/layout';
 import type { IPolarAxisSpec, IPolarLinearAxisSpec } from '../../component';
 
 export class GaugeChartSpecTransformer<

@@ -4,7 +4,7 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IGaugeSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { SEGMENT_FIELD_END, SEGMENT_FIELD_START } from '../../constant';
+import { SEGMENT_FIELD_END, SEGMENT_FIELD_START } from '../../constant/data';
 import type { Datum } from '@visactor/vgrammar-core';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';

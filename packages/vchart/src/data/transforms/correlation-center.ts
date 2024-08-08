@@ -1,5 +1,5 @@
 import { isArray } from '@visactor/vutils';
-import { DEFAULT_DATA_INDEX, DEFAULT_DATA_SERIES_FIELD } from '../../constant';
+import { DEFAULT_DATA_INDEX, DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
 
 export const correlationCenter = (data: any, options: any) => {
   if (!data || !isArray(data)) {

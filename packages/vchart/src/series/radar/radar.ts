@@ -2,7 +2,9 @@
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { ILineMark } from '../../mark/line';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
-import { AttributeLevel, ChartEvent, POLAR_START_RADIAN } from '../../constant';
+import { POLAR_START_RADIAN } from '../../constant/polar';
+import { AttributeLevel } from '../../constant/attribute';
+import { ChartEvent } from '../../constant/event';
 import { DEFAULT_LINEAR_INTERPOLATE } from '../../typings/interpolate';
 import type { Datum, IPoint, IPolarPoint } from '../../typings';
 import type { SeriesMarkMap } from '../interface';

@@ -1,4 +1,4 @@
-import { LayoutLevel, LayoutZIndex } from '../../constant';
+import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { Factory } from '../../core/factory';
 import type { IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';

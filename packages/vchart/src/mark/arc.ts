@@ -1,5 +1,5 @@
 import { Factory } from './../core/factory';
-import { ARC_MIDDLE_ANGLE } from '../constant';
+import { ARC_MIDDLE_ANGLE } from '../constant/polar';
 import type { IArcMarkSpec, Datum, StateValueType } from '../typings';
 import type { ExChannelCall } from './base/base-mark';
 // eslint-disable-next-line no-duplicate-imports

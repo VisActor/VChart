@@ -9,7 +9,7 @@ import type {
 import type { Datum } from '../../typings';
 import { WaterfallDefaultSeriesField } from '../../constant/waterfall';
 import { warn } from '../../util/debug';
-import { STACK_FIELD_TOTAL_TOP } from '../../constant';
+import { STACK_FIELD_TOTAL_TOP } from '../../constant/data';
 
 type TotalInfo = {
   start: number;

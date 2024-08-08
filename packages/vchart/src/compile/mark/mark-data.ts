@@ -1,5 +1,5 @@
 import { CompilableData } from '../data/compilable-data';
-import { PREFIX } from '../../constant';
+import { PREFIX } from '../../constant/base';
 import { isNil, isValid } from '@visactor/vutils';
 import type { ICompilableMark, IMarkDataInitOption } from './interface';
 

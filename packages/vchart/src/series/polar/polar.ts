@@ -11,7 +11,7 @@ import { BaseSeries } from '../base/base-series';
 import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
-import { ChartEvent } from '../../constant';
+import { ChartEvent } from '../../constant/event';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { invalidTravel } from '../../data/transforms/invalid-travel';
 

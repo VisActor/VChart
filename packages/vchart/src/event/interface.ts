@@ -6,7 +6,7 @@ import type { IMark, MarkType } from '../mark/interface';
 import type { VChart } from '../core/vchart';
 import type { DimensionEventParams } from './events/dimension/interface';
 import type { Datum, IPoint, StringOrNumber } from '../typings';
-import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant';
+import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
 import type { SeriesType } from '../series/interface';
 import type { TooltipEventParams } from '../component/tooltip/interface/event';
 import type { ILayoutItem } from '../layout/interface';

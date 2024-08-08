@@ -16,7 +16,7 @@ import {
   MOSAIC_CAT_START_PERCENT,
   MOSAIC_VALUE_END_PERCENT,
   MOSAIC_VALUE_START_PERCENT
-} from '../../constant';
+} from '../../constant/data';
 import { isNil } from '@visactor/vutils';
 
 export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> extends BarSeries<any> {

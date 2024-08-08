@@ -1,6 +1,6 @@
 import { isNil, isNumber, degreeToRadian, isArray } from '@visactor/vutils';
 import { field as getFieldAccessor, extent, toPercent } from '@visactor/vgrammar-util';
-import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
+import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant/correlation';
 
 export interface ICorrelationOpt {
   field: string;

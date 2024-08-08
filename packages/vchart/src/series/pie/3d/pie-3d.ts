@@ -1,4 +1,5 @@
-import { AttributeLevel, ARC_MIDDLE_ANGLE } from '../../../constant';
+import { AttributeLevel } from '../../../constant/attribute';
+import { ARC_MIDDLE_ANGLE } from '../../../constant/polar';
 import type { Datum } from '../../../typings';
 import { MarkTypeEnum } from '../../../mark/interface/type';
 import type { IArcSeries, SeriesMarkMap } from '../../interface';

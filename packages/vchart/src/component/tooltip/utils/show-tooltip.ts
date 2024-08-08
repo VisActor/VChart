@@ -3,7 +3,7 @@ import type { ICartesianSeries, IPolarSeries, ISeries } from '../../../series/in
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import type { PieSeries } from '../../../series/pie/pie';
 import type { TooltipHandlerParams } from '../interface';
-import { Event_Source_Type } from '../../../constant';
+import { Event_Source_Type } from '../../../constant/event';
 import { getElementAbsolutePosition, isArray, isValid, isNil } from '@visactor/vutils';
 import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
 import { VChart } from '../../../core/vchart';

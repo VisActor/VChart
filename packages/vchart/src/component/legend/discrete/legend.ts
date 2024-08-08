@@ -22,7 +22,7 @@ import { LegendEvent } from '@visactor/vrender-components';
 import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';
 import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete/discrete';
 import { BaseLegend } from '../base-legend';
-import { ChartEvent } from '../../../constant';
+import { ChartEvent } from '../../../constant/event';
 import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 import type { ILayoutRect } from '../../../typings/layout';

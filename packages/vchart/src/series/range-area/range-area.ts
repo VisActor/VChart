@@ -5,12 +5,11 @@ import type { IAreaMark } from '../../mark/area';
 import { registerAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
 import type { Datum } from '../../typings';
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
 import { RangeAreaSeriesTooltipHelper } from './tooltip-helper';
 import type { IAreaSeriesSpec } from '../area/interface';
 import { rangeAreaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import { couldBeValidNumber } from '../../util';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends AreaSeries<T> {

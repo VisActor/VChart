@@ -1,4 +1,4 @@
-import { Event_Bubble_Level } from '../constant';
+import { Event_Bubble_Level } from '../constant/event';
 import type { EventCallback, EventHandler, EventParams, EventBubbleLevel } from './interface';
 
 export type BubbleNode = {

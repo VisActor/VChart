@@ -4,7 +4,7 @@ import {
   STACK_FIELD_END_PERCENT,
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
-} from '../../../constant';
+} from '../../../constant/data';
 import { PolarSeries } from '../polar';
 import type { IRoseLikeSeriesSpec } from './interface';
 

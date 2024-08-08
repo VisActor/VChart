@@ -7,7 +7,7 @@ import type { ISymbolMark } from '../../mark/symbol';
 import type { IScatterSeriesSpec } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric } from '@visactor/vutils';
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';

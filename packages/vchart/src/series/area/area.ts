@@ -5,7 +5,7 @@ import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
 import type { Datum, InterpolateType } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
 import type { SeriesMarkMap } from '../interface';

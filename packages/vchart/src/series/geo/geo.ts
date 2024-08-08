@@ -6,7 +6,7 @@ import { BaseSeries } from '../base/base-series';
 import { isNil } from '@visactor/vutils';
 import type { SeriesData } from '../base/series-data';
 import type { DataView } from '@visactor/vdataset';
-import { PREFIX } from '../../constant';
+import { PREFIX } from '../../constant/base';
 import type { IGeoSeriesSpec } from './interface';
 import type { IMark } from '../../mark/interface';
 

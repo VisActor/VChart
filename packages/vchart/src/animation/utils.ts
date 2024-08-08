@@ -9,7 +9,7 @@ import type {
 import type { MarkAnimationSpec, IAnimationState } from './interface';
 import type { IStateAnimateSpec, IAnimationSpec } from './spec';
 import { isFunction, isValidNumber } from '../util/type';
-import { DEFAULT_DATA_INDEX } from '../constant';
+import { DEFAULT_DATA_INDEX } from '../constant/data';
 import { DEFAULT_ANIMATION_CONFIG } from './config';
 import { cloneDeep, isArray, isObject, isValid } from '@visactor/vutils';
 import type { SeriesMarkNameEnum } from '../series/interface/type';
