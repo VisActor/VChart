@@ -101,8 +101,7 @@ import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
 import { registerGroupMark } from '../mark/group';
-import { registerVGrammarCommonAnimation } from '../animation/config';
-import { View, registerGesturePlugin, registerAnimate } from '@visactor/vgrammar-core';
+import { View, registerGesturePlugin } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
@@ -2141,9 +2140,6 @@ export const registerVChartCore = () => {
   registerGroupMark();
   // install essential vgrammar transform
   View.useRegisters([registerGesturePlugin]);
-  // install animation
-  // registerAnimate();
-  registerVGrammarCommonAnimation();
   // install default interaction
   registerHoverInteraction();
   registerSelectInteraction();
