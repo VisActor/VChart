@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: brush error after legend filter. fix#3061",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
