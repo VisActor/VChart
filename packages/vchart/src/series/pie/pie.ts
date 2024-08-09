@@ -49,6 +49,7 @@ import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { isNil, polarToCartesian } from '@visactor/vutils';
 import { PieSeriesSpecTransformer } from './pie-transformer';
+import { computeLayoutRadius } from '../../component/axis/polar/util/common';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;
@@ -62,13 +63,13 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _viewDataLabel!: SeriesData;
 
   // 饼图渲染不依赖于极坐标系轴，因此由 series 自己存储相关配置信息
-  getCenter(): IPoint {
+  getCenter = (): IPoint => {
     const { width, height } = this._region.getLayoutRect();
     return {
       x: this._spec?.centerX ?? width / 2,
       y: this._spec?.centerY ?? height / 2
     };
-  }
+  };
   protected _centerOffset!: number;
 
   protected _cornerRadius!: number;
@@ -182,6 +183,16 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   private endAngleScale(datum: Datum) {
     return field(ARC_END_ANGLE)(datum);
+  }
+
+  protected _computeLayoutRadius() {
+    return computeLayoutRadius(
+      this._spec.layoutRadius,
+      this.getLayoutRect,
+      this.getCenter,
+      this._startAngle,
+      this._endAngle
+    );
   }
 
   initMarkStyle(): void {
