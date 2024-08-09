@@ -5,16 +5,31 @@
       "$ref": "#/definitions/IChartSpec"
     },
     {
+      "$ref": "#/definitions/ILineChartSpec"
+    },
+    {
       "$ref": "#/definitions/IBarChartSpec"
     },
     {
       "$ref": "#/definitions/IBar3dChartSpec"
     },
     {
-      "$ref": "#/definitions/IBoxPlotChartSpec"
+      "$ref": "#/definitions/IScatterChartSpec"
     },
     {
-      "$ref": "#/definitions/ICirclePackingChartSpec"
+      "$ref": "#/definitions/IMapChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IPieChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IPie3dChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IRoseChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IRadarChartSpec"
     },
     {
       "$ref": "#/definitions/IRangeColumnChartSpec"
@@ -29,16 +44,7 @@
       "$ref": "#/definitions/ICommonChartSpec"
     },
     {
-      "$ref": "#/definitions/IFunnelChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IFunnel3dChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IGaugeChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IHeatmapChartSpec"
+      "$ref": "#/definitions/ISequenceChartSpec"
     },
     {
       "$ref": "#/definitions/IHistogramChartSpec"
@@ -47,52 +53,10 @@
       "$ref": "#/definitions/IHistogram3dChartSpec"
     },
     {
-      "$ref": "#/definitions/ILineChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IMapChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IPieChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IPie3dChartSpec"
-    },
-    {
       "$ref": "#/definitions/ICircularProgressChartSpec"
     },
     {
-      "$ref": "#/definitions/ILinearProgressChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IRoseChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IRadarChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ISankeyChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IScatterChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ISequenceChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ISunburstChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ITreemapChartSpec"
-    },
-    {
-      "$ref": "#/definitions/IWaterfallChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ICorrelationChartSpec"
-    },
-    {
-      "$ref": "#/definitions/ILiquidChartSpec"
+      "$ref": "#/definitions/IGaugeChartSpec"
     },
     {
       "$ref": "#/definitions/IWordCloudChartSpec"
@@ -101,7 +65,43 @@
       "$ref": "#/definitions/IWordCloud3dChartSpec"
     },
     {
+      "$ref": "#/definitions/IFunnelChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IFunnel3dChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ILinearProgressChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ISunburstChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ICirclePackingChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ITreemapChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IWaterfallChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IBoxPlotChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ISankeyChartSpec"
+    },
+    {
+      "$ref": "#/definitions/IHeatmapChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ICorrelationChartSpec"
+    },
+    {
       "$ref": "#/definitions/IAreaChartSpec"
+    },
+    {
+      "$ref": "#/definitions/ILiquidChartSpec"
     }
   ],
   "definitions": {
@@ -5389,76 +5389,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
-          "description": "style格式转换"
-        }
-      ],
-      "description": "style格式转换"
-    },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5481,6 +5412,14 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
           "description": "style格式转换"
         },
@@ -5489,7 +5428,7 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5497,23 +5436,15 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5526,6 +5457,75 @@
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
+    },
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
           "description": "style格式转换"
         }
       ],
@@ -8739,6 +8739,31 @@
       ]
     },
     "Geolocation": {
+      "type": "object"
+    },
+    "GeometricMaskShape": {
+      "properties": {
+        "backgroundColor": {
+          "type": "string"
+        },
+        "fill": {
+          "type": "string"
+        },
+        "hollow": {
+          "type": "boolean"
+        },
+        "shape": {
+          "type": "string"
+        },
+        "type": {
+          "const": "geometric",
+          "type": "string"
+        }
+      },
+      "required": [
+        "shape",
+        "type"
+      ],
       "type": "object"
     },
     "GradientPropValue<number>": {
@@ -17668,6 +17693,18 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -18498,6 +18535,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -18685,14 +18734,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -18709,25 +18758,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -18833,6 +18863,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -19920,6 +19969,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -20554,6 +20615,18 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -20791,14 +20864,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -20811,25 +20884,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -20935,6 +20989,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -21713,6 +21786,18 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -21962,14 +22047,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -21982,25 +22067,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -22106,6 +22172,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -22847,6 +22932,18 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -23495,6 +23592,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -23666,14 +23775,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -23686,25 +23795,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -23810,6 +23900,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -24767,6 +24876,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -26336,14 +26457,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -26491,10 +26612,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26505,10 +26626,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26519,10 +26640,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26534,6 +26655,18 @@
           "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -26542,10 +26675,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26729,14 +26862,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -26929,10 +27062,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26943,10 +27076,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26957,10 +27090,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26972,6 +27105,18 @@
           "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -26980,10 +27125,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27244,10 +27389,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27258,10 +27403,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27272,10 +27417,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27287,6 +27432,18 @@
           "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -27295,10 +27452,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27498,14 +27655,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -27787,10 +27944,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27801,10 +27958,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27815,10 +27972,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -27830,6 +27987,18 @@
           "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -27838,10 +28007,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -28331,6 +28500,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -28661,14 +28842,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -28681,25 +28862,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -28805,6 +28967,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -29302,61 +29483,40 @@
                 "$ref": "#/definitions/IPie3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IBoxPlotSeriesSpec"
+                "$ref": "#/definitions/ITreemapSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISunburstSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICirclePackingSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ILineSeriesSpec"
+                "$ref": "#/definitions/IBoxPlotSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IRangeColumnChartSpec"
+                "$ref": "#/definitions/ILineSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IAreaSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IRangeAreaChartSpec"
-              },
-              {
-                "$ref": "#/definitions/IDotSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IMapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILinkSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRadarSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRoseSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IScatterSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWordCloudSeriesSpec"
+                "$ref": "#/definitions/IRoseSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+                "$ref": "#/definitions/IRadarSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IGaugePointerSeriesSpec"
+                "$ref": "#/definitions/IDotSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IGaugeSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IFunnelSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IFunnel3dSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IHeatmapSeriesSpec"
+                "$ref": "#/definitions/ILinkSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICircularProgressSeriesSpec"
@@ -29365,19 +29525,40 @@
                 "$ref": "#/definitions/ILinearProgressSeriesSpec"
               },
               {
+                "$ref": "#/definitions/IWordCloudSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnelSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnel3dSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/ISankeySeriesSpec"
               },
               {
-                "$ref": "#/definitions/ISunburstSeriesSpec"
+                "$ref": "#/definitions/IGaugePointerSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IGaugeSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IHeatmapSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICorrelationSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ITreemapSeriesSpec"
+                "$ref": "#/definitions/IWaterfallSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWaterfallSeriesSpec"
+                "$ref": "#/definitions/IRangeColumnChartSpec"
+              },
+              {
+                "$ref": "#/definitions/IRangeAreaChartSpec"
               }
             ]
           },
@@ -30389,6 +30570,18 @@
           "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -30589,14 +30782,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -30894,6 +31087,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<CorrelationMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -31839,6 +32044,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -31972,14 +32189,14 @@
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -34373,6 +34590,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -34628,6 +34857,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -34761,14 +35002,14 @@
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -34999,6 +35240,18 @@
           "$ref": "#/definitions/Partial<Record<\"funnel\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -35205,14 +35458,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -35539,6 +35792,18 @@
           "$ref": "#/definitions/Partial<Record<\"funnel\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -35745,14 +36010,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -36206,6 +36471,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -36398,6 +36672,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<\"funnel\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -36724,10 +37010,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -36738,10 +37024,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -36752,10 +37038,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -36767,6 +37053,18 @@
           "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -36775,10 +37073,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37000,14 +37298,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -37327,10 +37625,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37341,10 +37639,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37355,10 +37653,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37370,6 +37668,18 @@
           "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -37378,10 +37688,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37828,6 +38138,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<GaugeMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -38521,9 +38843,6 @@
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
         },
-        "OBBBounds": {
-          "$ref": "#/definitions/IOBBBounds"
-        },
         "_next": {
           "$ref": "#/definitions/INode"
         },
@@ -38679,6 +38998,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getGraphicTheme": {
           "typeof": "function"
         },
         "getNoWorkAnimateAttr": {
@@ -38966,7 +39288,6 @@
       },
       "required": [
         "AABBBounds",
-        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -39010,6 +39331,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getGraphicTheme",
         "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
@@ -39074,9 +39396,6 @@
       "properties": {
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
-        },
-        "OBBBounds": {
-          "$ref": "#/definitions/IOBBBounds"
         },
         "_next": {
           "$ref": "#/definitions/INode"
@@ -39233,6 +39552,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getGraphicTheme": {
           "typeof": "function"
         },
         "getNoWorkAnimateAttr": {
@@ -39520,7 +39842,6 @@
       },
       "required": [
         "AABBBounds",
-        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -39564,6 +39885,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getGraphicTheme",
         "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
@@ -39628,9 +39950,6 @@
       "properties": {
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
-        },
-        "OBBBounds": {
-          "$ref": "#/definitions/IOBBBounds"
         },
         "_next": {
           "$ref": "#/definitions/INode"
@@ -39787,6 +40106,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getGraphicTheme": {
           "typeof": "function"
         },
         "getNoWorkAnimateAttr": {
@@ -40074,7 +40396,6 @@
       },
       "required": [
         "AABBBounds",
-        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -40118,6 +40439,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getGraphicTheme",
         "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
@@ -40265,9 +40587,6 @@
       "properties": {
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
-        },
-        "OBBBounds": {
-          "$ref": "#/definitions/IOBBBounds"
         },
         "_next": {
           "$ref": "#/definitions/INode"
@@ -40433,6 +40752,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getGraphicTheme": {
           "typeof": "function"
         },
         "getNoWorkAnimateAttr": {
@@ -40738,7 +41060,6 @@
       },
       "required": [
         "AABBBounds",
-        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -40784,6 +41105,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getGraphicTheme",
         "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
@@ -41008,6 +41330,18 @@
           "$ref": "#/definitions/Partial<Record<HeatmapMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -41194,14 +41528,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -41214,25 +41548,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -41338,6 +41653,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -42051,6 +42385,18 @@
           "$ref": "#/definitions/Partial<Record<HeatmapMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -42454,6 +42800,18 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -42691,14 +43049,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -42711,25 +43069,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -42835,6 +43174,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -43576,6 +43934,18 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -43813,14 +44183,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -43833,25 +44203,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -43957,6 +44308,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -45687,6 +46057,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -45736,9 +46115,6 @@
       "properties": {
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
-        },
-        "OBBBounds": {
-          "$ref": "#/definitions/IOBBBounds"
         },
         "_next": {
           "$ref": "#/definitions/INode"
@@ -45928,6 +46304,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getGraphicTheme": {
           "typeof": "function"
         },
         "getNativeHandler": {
@@ -46294,7 +46673,6 @@
       },
       "required": [
         "AABBBounds",
-        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -46346,6 +46724,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getGraphicTheme",
         "getNativeHandler",
         "getNoWorkAnimateAttr",
         "getOffsetXY",
@@ -46643,14 +47022,14 @@
     "ILegendSpec": {
       "anyOf": [
         {
-          "$ref": "#/definitions/IDiscreteLegendSpec",
-          "description": "spec"
-        },
-        {
           "$ref": "#/definitions/IColorLegendSpec"
         },
         {
           "$ref": "#/definitions/ISizeLegendSpec"
+        },
+        {
+          "$ref": "#/definitions/IDiscreteLegendSpec",
+          "description": "spec"
         }
       ]
     },
@@ -46683,10 +47062,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -46697,10 +47076,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -46711,10 +47090,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -46726,6 +47105,18 @@
           "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -46734,10 +47125,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -46897,14 +47288,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -46933,25 +47324,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -47057,6 +47429,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -48062,10 +48453,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -48076,10 +48467,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -48090,10 +48481,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -48105,6 +48496,18 @@
           "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -48113,10 +48516,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<LineAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<LineMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -48578,6 +48981,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -48750,14 +49165,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -49034,6 +49449,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -49586,6 +50013,18 @@
           "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -49708,14 +50147,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -49740,25 +50179,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -49864,6 +50284,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -50696,6 +51135,18 @@
           "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -50855,10 +51306,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50869,10 +51320,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50883,10 +51334,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50898,6 +51349,18 @@
           "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -50906,10 +51369,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51074,14 +51537,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -51331,10 +51794,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51345,10 +51808,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51359,10 +51822,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51374,6 +51837,18 @@
           "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -51382,10 +51857,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<\"fadeIn\">,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"area\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51882,25 +52357,6 @@
               "typeof": "function"
             },
             {
-              "typeof": "function"
-            },
-            {
-              "$ref": "#/definitions/IMarkAreaTheme"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        },
-        {
-          "allOf": [
-            {
-              "$ref": "#/definitions/IComponentSpec"
-            },
-            {
-              "typeof": "function"
-            },
-            {
               "$ref": "#/definitions/IMarkAreaXSpec"
             },
             {
@@ -52024,13 +52480,32 @@
               "typeof": "function"
             }
           ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IComponentSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IMarkAreaTheme"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         }
       ]
     },
     "IMarkAreaTheme": {
       "properties": {
         "area": {
-          "$ref": "#/definitions/Partial<IMarkerState<IArcMarkSpec|IPolygonMarkSpec>>"
+          "$ref": "#/definitions/Partial<IMarkerState<IPolygonMarkSpec|IArcMarkSpec>>"
         },
         "label": {
           "allOf": [
@@ -54459,133 +54934,6 @@
       ],
       "type": "object"
     },
-    "IOBBBounds": {
-      "properties": {
-        "add": {
-          "typeof": "function"
-        },
-        "alignsWith": {
-          "typeof": "function"
-        },
-        "angle": {
-          "type": "number"
-        },
-        "clear": {
-          "typeof": "function"
-        },
-        "clone": {
-          "typeof": "function"
-        },
-        "contains": {
-          "typeof": "function"
-        },
-        "containsPoint": {
-          "typeof": "function"
-        },
-        "copy": {
-          "typeof": "function"
-        },
-        "empty": {
-          "typeof": "function"
-        },
-        "encloses": {
-          "typeof": "function"
-        },
-        "equals": {
-          "typeof": "function"
-        },
-        "expand": {
-          "typeof": "function"
-        },
-        "height": {
-          "typeof": "function"
-        },
-        "intersect": {
-          "typeof": "function"
-        },
-        "intersects": {
-          "typeof": "function"
-        },
-        "rotate": {
-          "typeof": "function"
-        },
-        "round": {
-          "typeof": "function"
-        },
-        "scale": {
-          "typeof": "function"
-        },
-        "scaleX": {
-          "typeof": "function"
-        },
-        "scaleY": {
-          "typeof": "function"
-        },
-        "set": {
-          "typeof": "function"
-        },
-        "setValue": {
-          "typeof": "function"
-        },
-        "transformWithMatrix": {
-          "typeof": "function"
-        },
-        "translate": {
-          "typeof": "function"
-        },
-        "union": {
-          "typeof": "function"
-        },
-        "width": {
-          "typeof": "function"
-        },
-        "x1": {
-          "type": "number"
-        },
-        "x2": {
-          "type": "number"
-        },
-        "y1": {
-          "type": "number"
-        },
-        "y2": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "add",
-        "alignsWith",
-        "angle",
-        "clear",
-        "clone",
-        "contains",
-        "containsPoint",
-        "copy",
-        "empty",
-        "encloses",
-        "equals",
-        "expand",
-        "height",
-        "intersect",
-        "intersects",
-        "rotate",
-        "round",
-        "scale",
-        "scaleX",
-        "scaleY",
-        "set",
-        "setValue",
-        "transformWithMatrix",
-        "translate",
-        "union",
-        "width",
-        "x1",
-        "x2",
-        "y1",
-        "y2"
-      ],
-      "type": "object"
-    },
     "IOption3D": {
       "properties": {
         "alpha": {
@@ -55010,10 +55358,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55024,10 +55372,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55038,10 +55386,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55053,6 +55401,18 @@
           "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -55061,10 +55421,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55181,6 +55541,9 @@
           ],
           "description": "缩略轴配置"
         },
+        "emptyPlaceholder": {
+          "typeof": "function"
+        },
         "endAngle": {
           "default": 270,
           "description": "饼图的结束角度（0 ~ 360）",
@@ -55250,14 +55613,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -55395,6 +55758,11 @@
           },
           "type": "array"
         },
+        "showAllZero": {
+          "default": false,
+          "description": "是否在数据均为0时显示均分扇区。",
+          "type": "boolean"
+        },
         "sortDataByAxis": {
           "default": false,
           "description": "是否将数据按照数轴排序",
@@ -55428,6 +55796,11 @@
         },
         "support3d": {
           "description": "是否支持3d视角",
+          "type": "boolean"
+        },
+        "supportNegative": {
+          "default": false,
+          "description": "是否将负数按照绝对值进行处理。",
           "type": "boolean"
         },
         "theme": {
@@ -55558,10 +55931,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55572,10 +55945,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55586,10 +55959,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55601,6 +55974,18 @@
           "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -55609,10 +55994,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -55729,6 +56114,9 @@
           ],
           "description": "缩略轴配置"
         },
+        "emptyPlaceholder": {
+          "typeof": "function"
+        },
         "endAngle": {
           "default": 270,
           "description": "饼图的结束角度（0 ~ 360）",
@@ -55798,14 +56186,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -55943,6 +56331,11 @@
           },
           "type": "array"
         },
+        "showAllZero": {
+          "default": false,
+          "description": "是否在数据均为0时显示均分扇区。",
+          "type": "boolean"
+        },
         "sortDataByAxis": {
           "default": false,
           "description": "是否将数据按照数轴排序",
@@ -55976,6 +56369,11 @@
         },
         "support3d": {
           "description": "是否支持3d视角",
+          "type": "boolean"
+        },
+        "supportNegative": {
+          "default": false,
+          "description": "是否将负数按照绝对值进行处理。",
           "type": "boolean"
         },
         "theme": {
@@ -56059,10 +56457,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -56073,10 +56471,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -56087,10 +56485,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -56102,6 +56500,18 @@
           "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -56110,10 +56520,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -56158,6 +56568,9 @@
         "dataKey": {
           "$ref": "#/definitions/DataKeyType",
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
+        },
+        "emptyPlaceholder": {
+          "typeof": "function"
         },
         "endAngle": {
           "default": 270,
@@ -56291,6 +56704,11 @@
           },
           "type": "array"
         },
+        "showAllZero": {
+          "default": false,
+          "description": "是否在数据均为0时显示均分扇区。",
+          "type": "boolean"
+        },
         "sortDataByAxis": {
           "default": false,
           "description": "是否将数据按照数轴排序",
@@ -56317,6 +56735,11 @@
         },
         "support3d": {
           "description": "是否支持3d视角",
+          "type": "boolean"
+        },
+        "supportNegative": {
+          "default": false,
+          "description": "是否将负数按照绝对值进行处理。",
           "type": "boolean"
         },
         "tooltip": {
@@ -56347,6 +56770,11 @@
     },
     "IPieSeriesTheme": {
       "properties": {
+        "emptyCircle": {
+          "$ref": "#/definitions/Partial<IMarkTheme<IArcMarkSpec>>",
+          "description": "数据为空时显示的占位圆样式",
+          "since": "1.12.0"
+        },
         "endAngle": {
           "type": "number"
         },
@@ -58423,10 +58851,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58437,10 +58865,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58451,10 +58879,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58466,6 +58894,18 @@
           "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -58474,10 +58914,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -58690,14 +59130,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -58994,10 +59434,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -59008,10 +59448,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -59022,10 +59462,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -59037,6 +59477,18 @@
           "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -59045,10 +59497,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RadarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<RadarMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -59484,6 +59936,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -59671,14 +60135,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -59695,25 +60159,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -59819,6 +60264,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -60584,6 +61048,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -60960,6 +61436,18 @@
           "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -61204,14 +61692,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -61224,25 +61712,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -61348,6 +61817,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -62098,6 +62586,18 @@
           "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -62511,6 +63011,18 @@
           "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -62755,14 +63267,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -62775,25 +63287,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -62899,6 +63392,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -63648,6 +64160,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -64914,10 +65438,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64928,10 +65452,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64942,10 +65466,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64957,6 +65481,18 @@
           "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -64965,10 +65501,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -65169,14 +65705,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -65429,10 +65965,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -65443,10 +65979,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -65457,10 +65993,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -65472,6 +66008,18 @@
           "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -65480,10 +66028,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RoseAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rose\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -66090,6 +66638,18 @@
           "$ref": "#/definitions/Partial<Record<SankeyMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -66267,12 +66827,15 @@
           "type": "number"
         },
         "label": {
-          "allOf": [
+          "anyOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/ISankeyLabelSpec"
             },
             {
-              "typeof": "function"
+              "items": {
+                "$ref": "#/definitions/ISankeyLabelSpec"
+              },
+              "type": "array"
             }
           ],
           "description": "标签配置"
@@ -66284,14 +66847,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -66585,6 +67148,16 @@
       ],
       "type": "object"
     },
+    "ISankeyLabelSpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/ILabelSpec"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
+    },
     "ISankeySeriesSpec": {
       "properties": {
         "animation": {
@@ -66650,6 +67223,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<SankeyMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -66748,12 +67333,15 @@
           "type": "number"
         },
         "label": {
-          "allOf": [
+          "anyOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/ISankeyLabelSpec"
             },
             {
-              "typeof": "function"
+              "items": {
+                "$ref": "#/definitions/ISankeyLabelSpec"
+              },
+              "type": "array"
             }
           ],
           "description": "标签配置"
@@ -67005,10 +67593,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67019,10 +67607,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67033,10 +67621,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67048,6 +67636,18 @@
           "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -67056,10 +67656,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67219,14 +67819,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -67239,25 +67839,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -67363,6 +67944,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -68079,10 +68679,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -68093,10 +68693,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -68107,10 +68707,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -68122,6 +68722,18 @@
           "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -68130,10 +68742,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ScatterAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<ScatterMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -69107,14 +69719,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -69549,6 +70161,9 @@
         "map": {
           "$ref": "#/definitions/IMapSeriesTheme"
         },
+        "mosaic": {
+          "$ref": "#/definitions/IBarSeriesTheme"
+        },
         "pie": {
           "$ref": "#/definitions/IPieSeriesTheme"
         },
@@ -69628,9 +70243,6 @@
       "properties": {
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
-        },
-        "OBBBounds": {
-          "$ref": "#/definitions/IOBBBounds"
         },
         "_next": {
           "$ref": "#/definitions/INode"
@@ -69796,6 +70408,9 @@
           "typeof": "function"
         },
         "getElementsByType": {
+          "typeof": "function"
+        },
+        "getGraphicTheme": {
           "typeof": "function"
         },
         "getNoWorkAnimateAttr": {
@@ -70104,7 +70719,6 @@
       },
       "required": [
         "AABBBounds",
-        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -70150,6 +70764,7 @@
         "getElementById",
         "getElementsByName",
         "getElementsByType",
+        "getGraphicTheme",
         "getNoWorkAnimateAttr",
         "getOffsetXY",
         "getState",
@@ -70769,6 +71384,17 @@
       ],
       "type": "object"
     },
+    "IStateAnimationConfig": {
+      "properties": {
+        "duration": {
+          "type": "number"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType"
+        }
+      },
+      "type": "object"
+    },
     "IStrokeType": {
       "anyOf": [
         {
@@ -70884,6 +71510,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<SunburstMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -71123,14 +71761,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -71399,6 +72037,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<SunburstMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -73838,6 +74488,17 @@
           "description": "标签与其对应数据图元的间距",
           "type": "number"
         },
+        "overlap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OverlapAttrs"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "标签防重叠配置"
+        },
         "state": {
           "typeof": "function"
         },
@@ -73995,6 +74656,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<TreemapMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -74196,14 +74869,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -74543,6 +75216,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<TreemapMark,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -76865,6 +77550,18 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -77113,14 +77810,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -77133,25 +77830,6 @@
         },
         "markArea": {
           "anyOf": [
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
             {
               "allOf": [
                 {
@@ -77257,6 +77935,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -78029,6 +78726,18 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -78777,6 +79486,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -79025,14 +79746,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -79044,9 +79765,19 @@
           "description": "图例配置"
         },
         "maskShape": {
-          "default": "'circle'",
-          "description": "词云形状",
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TextShapeMask"
+            },
+            {
+              "$ref": "#/definitions/GeometricMaskShape"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "'circle'\n\n注意，文字类型和几何形状类型的shape自 1.12.0 版本开始支持",
+          "description": "词云形状"
         },
         "media": {
           "description": "媒体查询配置",
@@ -79237,6 +79968,11 @@
         },
         "wordCloudShapeConfig": {
           "typeof": "function"
+        },
+        "wordMask": {
+          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "description": "当形状词云的形状为文字类型和几何形状类型的时候，支持绘制形状轮廓",
+          "since": "1.12.0"
         }
       },
       "required": [
@@ -79317,6 +80053,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -79484,9 +80232,19 @@
           "type": "boolean"
         },
         "maskShape": {
-          "default": "'circle'",
-          "description": "词云形状",
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TextShapeMask"
+            },
+            {
+              "$ref": "#/definitions/GeometricMaskShape"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "'circle'\n\n注意，文字类型和几何形状类型的shape自 1.12.0 版本开始支持",
+          "description": "词云形状"
         },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
@@ -79603,6 +80361,11 @@
         },
         "wordCloudShapeConfig": {
           "typeof": "function"
+        },
+        "wordMask": {
+          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "description": "当形状词云的形状为文字类型和几何形状类型的时候，支持绘制形状轮廓",
+          "since": "1.12.0"
         }
       },
       "required": [
@@ -79714,6 +80477,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -79960,14 +80735,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -79979,9 +80754,19 @@
           "description": "图例配置"
         },
         "maskShape": {
-          "default": "'circle'",
-          "description": "词云形状",
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TextShapeMask"
+            },
+            {
+              "$ref": "#/definitions/GeometricMaskShape"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "'circle'\n\n注意，文字类型和几何形状类型的shape自 1.12.0 版本开始支持",
+          "description": "词云形状"
         },
         "media": {
           "description": "媒体查询配置",
@@ -80168,6 +80953,11 @@
         },
         "wordCloudShapeConfig": {
           "typeof": "function"
+        },
+        "wordMask": {
+          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "description": "当形状词云的形状为文字类型和几何形状类型的时候，支持绘制形状轮廓",
+          "since": "1.12.0"
         }
       },
       "required": [
@@ -80248,6 +81038,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -80412,9 +81214,19 @@
           "type": "boolean"
         },
         "maskShape": {
-          "default": "'circle'",
-          "description": "词云形状",
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TextShapeMask"
+            },
+            {
+              "$ref": "#/definitions/GeometricMaskShape"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "'circle'\n\n注意，文字类型和几何形状类型的shape自 1.12.0 版本开始支持",
+          "description": "词云形状"
         },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
@@ -80527,6 +81339,11 @@
         },
         "wordCloudShapeConfig": {
           "typeof": "function"
+        },
+        "wordMask": {
+          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "description": "当形状词云的形状为文字类型和几何形状类型的时候，支持绘制形状轮廓",
+          "since": "1.12.0"
         }
       },
       "required": [
@@ -80719,7 +81536,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         },
         "size": {
@@ -80727,14 +81544,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13481",
+        "__@toStringTag@13531",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         },
         "size": {
@@ -80742,14 +81559,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13481",
+        "__@toStringTag@13531",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         },
         "size": {
@@ -80757,14 +81574,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13481",
+        "__@toStringTag@13531",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         },
         "size": {
@@ -80772,14 +81589,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13481",
+        "__@toStringTag@13531",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         },
         "size": {
@@ -80787,14 +81604,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13481",
+        "__@toStringTag@13531",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         },
         "size": {
@@ -80802,14 +81619,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13481",
+        "__@toStringTag@13531",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         },
         "size": {
@@ -80817,14 +81634,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13481",
+        "__@toStringTag@13531",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         },
         "size": {
@@ -80832,14 +81649,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13481",
+        "__@toStringTag@13531",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         },
         "size": {
@@ -80847,7 +81664,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13481",
+        "__@toStringTag@13531",
         "size"
       ],
       "type": "object"
@@ -81040,6 +81857,7 @@
         "markLine",
         "markPoint",
         "media",
+        "mosaic",
         "padding",
         "pie",
         "pie3d",
@@ -81957,6 +82775,18 @@
           "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -82351,6 +83181,18 @@
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationUpdate": {
           "anyOf": [
             {
@@ -82640,10 +83482,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -82654,10 +83496,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -82668,10 +83510,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -82683,6 +83525,18 @@
           "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -82691,10 +83545,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -83033,6 +83887,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationUpdate": {
           "anyOf": [
@@ -83469,6 +84335,18 @@
           "$ref": "#/definitions/Partial<Record<\"funnel\",false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -83803,6 +84681,18 @@
         "animationNormal": {
           "$ref": "#/definitions/Partial<Record<GaugeMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
+        },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
         },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
@@ -84842,6 +85732,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -85098,6 +85997,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -85257,10 +86165,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -85271,10 +86179,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -85285,10 +86193,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -85300,6 +86208,18 @@
           "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>",
           "description": "循环动画"
         },
+        "animationState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IStateAnimationConfig"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "状态切换动画",
+          "since": "1.12.0"
+        },
         "animationThreshold": {
           "description": "自动关闭动画的阀值，对应的是单系列data的长度",
           "since": "1.2.0",
@@ -85308,10 +86228,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<PieAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<PieMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -85356,6 +86276,9 @@
         "dataKey": {
           "$ref": "#/definitions/DataKeyType",
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
+        },
+        "emptyPlaceholder": {
+          "typeof": "function"
         },
         "endAngle": {
           "default": 270,
@@ -85489,6 +86412,11 @@
           },
           "type": "array"
         },
+        "showAllZero": {
+          "default": false,
+          "description": "是否在数据均为0时显示均分扇区。",
+          "type": "boolean"
+        },
         "sortDataByAxis": {
           "default": false,
           "description": "是否将数据按照数轴排序",
@@ -85515,6 +86443,11 @@
         },
         "support3d": {
           "description": "是否支持3d视角",
+          "type": "boolean"
+        },
+        "supportNegative": {
+          "default": false,
+          "description": "是否将负数按照绝对值进行处理。",
           "type": "boolean"
         },
         "tooltip": {
@@ -85982,6 +86915,10 @@
             }
           ],
           "description": "图表背景色"
+        },
+        "chart": {
+          "$ref": "#/definitions/Record<string,Omit<ITheme,\"name\"|\"type\"|\"description\">>",
+          "description": "第 7 种配置：根据图表类型配置不同主题样式"
         },
         "colorScheme": {
           "$ref": "#/definitions/IThemeColorScheme",
@@ -92448,6 +93385,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -93226,6 +94172,15 @@
           ],
           "description": "标签智能反色配置"
         },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
         "state": {
           "typeof": "function"
         },
@@ -93800,29 +94755,6 @@
       },
       "type": "object"
     },
-    "Partial<IMarkerState<IArcMarkSpec|IPolygonMarkSpec>>": {
-      "properties": {
-        "state": {
-          "$ref": "#/definitions/Record<MarkerStateValue,IArcMarkSpec|IPolygonMarkSpec|MarkerStateCallback<IArcMarkSpec|IPolygonMarkSpec>>",
-          "description": "不同状态下的样式配置"
-        },
-        "style": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ],
-          "description": "默认样式设置"
-        }
-      },
-      "type": "object"
-    },
     "Partial<IMarkerState<IGroupGraphicAttribute>>": {
       "properties": {
         "state": {
@@ -93873,6 +94805,29 @@
           "anyOf": [
             {
               "$ref": "#/definitions/ILineMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "默认样式设置"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<IMarkerState<IPolygonMarkSpec|IArcMarkSpec>>": {
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/Record<MarkerStateValue,IPolygonMarkSpec|IArcMarkSpec|MarkerStateCallback<IPolygonMarkSpec|IArcMarkSpec>>",
+          "description": "不同状态下的样式配置"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
             },
             {
               "$ref": "#/definitions/IArcMarkSpec"
@@ -97681,14 +98636,14 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
-            },
-            {
               "$ref": "#/definitions/IColorLegendSpec"
             },
             {
               "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
             },
             {
               "items": {
@@ -100207,6 +101162,9 @@
         "map": {
           "$ref": "#/definitions/ColorScheme"
         },
+        "mosaic": {
+          "$ref": "#/definitions/ColorScheme"
+        },
         "pie": {
           "$ref": "#/definitions/ColorScheme"
         },
@@ -101572,97 +102530,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13481"
+        "__@toStringTag@13531"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13481"
+        "__@toStringTag@13531"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13481": {
+        "__@toStringTag@13531": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13481"
-      ],
-      "type": "object"
-    },
-    "Record<MarkerStateValue,IArcMarkSpec|IPolygonMarkSpec|MarkerStateCallback<IArcMarkSpec|IPolygonMarkSpec>>": {
-      "properties": {
-        "hover": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        },
-        "hover_reverse": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        },
-        "selected": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        },
-        "selected_reverse": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        }
-      },
-      "required": [
-        "hover",
-        "hover_reverse",
-        "selected",
-        "selected_reverse"
+        "__@toStringTag@13531"
       ],
       "type": "object"
     },
@@ -101813,6 +102708,69 @@
           "anyOf": [
             {
               "$ref": "#/definitions/ILineMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        }
+      },
+      "required": [
+        "hover",
+        "hover_reverse",
+        "selected",
+        "selected_reverse"
+      ],
+      "type": "object"
+    },
+    "Record<MarkerStateValue,IPolygonMarkSpec|IArcMarkSpec|MarkerStateCallback<IPolygonMarkSpec|IArcMarkSpec>>": {
+      "properties": {
+        "hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "hover_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "selected": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "selected_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
             },
             {
               "$ref": "#/definitions/IArcMarkSpec"
@@ -102073,10 +103031,10 @@
     "Record<string,ConvertToMarkStyleSpec<IGroupMarkSpec>|IMarkStateSpec<IGroupMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|ISymbolMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,IArc3dMarkSpec>": {
@@ -102128,6 +103086,9 @@
       "type": "object"
     },
     "Record<string,Omit<IPathMarkSpec,\"smoothScale\">>": {
+      "type": "object"
+    },
+    "Record<string,Omit<ITheme,\"name\"|\"type\"|\"description\">>": {
       "type": "object"
     },
     "Record<string,Partial<IGlyphGraphicAttribute>>": {
@@ -114251,6 +115212,47 @@
         "top"
       ],
       "type": "string"
+    },
+    "TextShapeMask": {
+      "properties": {
+        "backgroundColor": {
+          "type": "string"
+        },
+        "fill": {
+          "type": "string"
+        },
+        "fontFamily": {
+          "type": "string"
+        },
+        "fontStyle": {
+          "type": "string"
+        },
+        "fontVariant": {
+          "type": "string"
+        },
+        "fontWeight": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "hollow": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string"
+        },
+        "type": {
+          "const": "text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fontVariant",
+        "text",
+        "type"
+      ],
+      "type": "object"
     },
     "TokenMap": {
       "type": "object"

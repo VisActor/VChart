@@ -96,6 +96,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         };
     };
     protected _getLabelFormatMethod(): (value: any, datum: any, index: number) => any;
+    protected abstract registerTicksTransform(): string;
     protected _initTickDataSet<T extends ITickDataOpt>(options: T, index?: number): DataView;
     protected _tickTransformOption(): ITickDataOpt;
     addTransformToTickData(options: ITransformOptions, execute?: boolean): void;
