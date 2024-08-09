@@ -841,6 +841,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // background need remake
     if (!isEqual(this._spec.background, oldSpec.background)) {
       result.reMake = true;
+      result.changeBackground = true;
     }
   }
 
