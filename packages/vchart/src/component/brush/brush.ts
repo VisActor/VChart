@@ -136,7 +136,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const data = [];
     for (const elementKey in elementsMap) {
       // 图例筛选后, elementKey未更新, 导致data可能为null
-      // FIXME: brush透出的map维护有待优化
+      // FIXME: brush透出的map维护逻辑有待优化
       data.push(elementsMap[elementKey].data?.[0]);
     }
     return data;
