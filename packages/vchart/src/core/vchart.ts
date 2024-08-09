@@ -636,6 +636,8 @@ export class VChart implements IVChart {
       if (updateResult.changeTheme) {
         this._setCurrentTheme();
         this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
+      } else if (updateResult.changeBackground) {
+        this._compiler?.setBackground(this._getBackground());
       }
       // 如果不需要动画，那么释放item，避免元素残留
       this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
@@ -652,6 +654,8 @@ export class VChart implements IVChart {
       if (updateResult.changeTheme) {
         this._setCurrentTheme();
         this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
+      } else if (updateResult.changeBackground) {
+        this._compiler?.setBackground(this._getBackground());
       }
       if (updateResult.reCompile) {
         // recompile
