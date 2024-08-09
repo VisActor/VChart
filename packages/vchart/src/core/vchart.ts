@@ -624,6 +624,10 @@ export class VChart implements IVChart {
       this._chartSpecTransformer = null;
       this._chart.release();
       this._chart = null as unknown as IChart;
+      // 卸载了chart之后再设置主题 避免多余的reInit
+      if (updateResult.changeBackground) {
+        this._compiler?.setBackground(this._getBackground());
+      }
       // 如果不需要动画，那么释放item，避免元素残留
       this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
       // chart 内部事件 模块自己必须删除
@@ -635,6 +639,10 @@ export class VChart implements IVChart {
         this._doResize();
       }
     } else {
+      // 不remake的情况下，可以在这里更新主题
+      if (updateResult.changeBackground) {
+        this._compiler?.setBackground(this._getBackground());
+      }
       if (updateResult.reCompile) {
         // recompile
         // 清除之前的所有 compile 内容
@@ -976,6 +984,8 @@ export class VChart implements IVChart {
       this._setCurrentTheme();
     }
 
+    const changeBackground = !isEqual(this._spec.background, lastSpec.background);
+
     const reSize = this._shouldChartResize(lastSpec);
     this._compiler?.getVGrammarView()?.updateLayoutTag();
 
@@ -985,17 +995,18 @@ export class VChart implements IVChart {
         change: true,
         reMake: true,
         reCompile: false,
-        reSize: reSize
+        reSize: reSize,
+        changeBackground
       };
     }
     this._initChartSpec(this._spec, 'render');
-
     return mergeUpdateResult(this._chart.updateSpec(this._spec), {
       reTransformSpec: false,
       change: reSize,
-      reMake: false,
+      reMake: !!changeBackground,
       reCompile: false,
-      reSize
+      reSize,
+      changeBackground
     });
   }
 
