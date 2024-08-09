@@ -1,4 +1,5 @@
-import type { ILayoutRect, IPoint, IPolarOrientType } from '../../../../typings';
+import type { IPointLike } from '@visactor/vutils';
+import type { ILayoutRect, IPolarOrientType } from '../../../../typings';
 import type { IBandAxisSpec, IDomainLine, ILinearAxisSpec, ITitle, ILabel, ICommonAxisSpec } from '../../interface';
 import type { IPolarGrid } from './common';
 
@@ -11,7 +12,7 @@ export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
    * 默认值为: region宽度、高度最小值的一般
    * @since 1.11.2
    */
-  layoutRadius?: 'auto' | number | ((layoutRect: ILayoutRect, center: IPoint) => number);
+  layoutRadius?: 'auto' | number | ((layoutRect: ILayoutRect, center: IPointLike) => number);
   /**
    * 当配置了 innerRadius 时，可以通过设置 inside: true，将坐标轴展示在内圆。
    * @default false

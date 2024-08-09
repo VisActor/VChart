@@ -6,6 +6,8 @@ import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
 import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 import type { ICustomPath2D, ILineGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { ILayoutRect } from '../../typings/layout';
+import type { IPointLike } from '@visactor/vutils';
 
 export type PieMarks = 'pie' | 'label' | 'labelLine';
 
@@ -72,6 +74,11 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
    * @since 1.4.0
    */
   minAngle?: number;
+
+  /**
+   * @since 1.11.12
+   */
+  layoutRadius?: 'auto' | number | ((layoutRect: ILayoutRect, center: IPointLike) => number);
 
   /** 扇区样式 */
   [SeriesMarkNameEnum.pie]?: IMarkSpec<IArcMarkSpec>;
