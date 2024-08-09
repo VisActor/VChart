@@ -837,11 +837,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     // re compute padding & layout
     this._updateLayoutRect(this._viewBox);
-
-    // background need remake
-    if (!isEqual(this._spec.background, oldSpec.background)) {
-      result.reMake = true;
-    }
   }
 
   updateDataSpec() {

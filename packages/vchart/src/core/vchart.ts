@@ -636,6 +636,8 @@ export class VChart implements IVChart {
       if (updateResult.changeTheme) {
         this._setCurrentTheme();
         this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
+      } else if (updateResult.changeBackground) {
+        this._compiler?.setBackground(this._getBackground());
       }
       // 如果不需要动画，那么释放item，避免元素残留
       this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
@@ -652,6 +654,8 @@ export class VChart implements IVChart {
       if (updateResult.changeTheme) {
         this._setCurrentTheme();
         this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
+      } else if (updateResult.changeBackground) {
+        this._compiler?.setBackground(this._getBackground());
       }
       if (updateResult.reCompile) {
         // recompile
@@ -1055,6 +1059,9 @@ export class VChart implements IVChart {
       // setCurrentTheme 会导致 chart 实例的 reInit。
       // 只要模块从 vchart 实例获取与 spec 相关的信息，都会出现错误，它们已经不匹配了
       // this._setCurrentTheme();
+    } else if (!isEqual(this._spec.background, lastSpec.background)) {
+      result.reMake = true;
+      result.changeBackground = true;
     }
 
     const reSize = this._shouldChartResize(lastSpec);
