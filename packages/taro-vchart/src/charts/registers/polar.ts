@@ -11,10 +11,12 @@ import {
   registerPolarBandAxis, // 必选
   registerPolarCrossHair,
   registerTooltip,
-  registerCanvasTooltipHandler
+  registerCanvasTooltipHandler,
+  registerAnimate
 } from '@visactor/vchart';
 
 export const registers = [
+  registerAnimate,
   registerTooltip,
   registerCanvasTooltipHandler,
   registerPolarLinearAxis, // 必选

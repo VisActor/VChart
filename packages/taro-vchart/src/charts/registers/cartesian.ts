@@ -16,10 +16,12 @@ import {
   registerCartesianLogAxis,
   registerCartesianCrossHair,
   registerTooltip,
-  registerCanvasTooltipHandler
+  registerCanvasTooltipHandler,
+  registerAnimate
 } from '@visactor/vchart';
 
 export const registers = [
+  registerAnimate,
   registerTooltip,
   registerCanvasTooltipHandler,
   registerCartesianLinearAxis,
