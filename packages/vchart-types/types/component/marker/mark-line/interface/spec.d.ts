@@ -1,8 +1,8 @@
 import type { IComponent } from '../../../interface';
-import type { IAggrType, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IDataPos, IDataPosCallback, IMarkerLabelSpec, IMarkerCrossSeriesSpec, OffsetPoint, MarkerStateValue, MarkerStateCallback } from '../../interface';
+import type { IAggrType, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IDataPos, IDataPosCallback, IMarkerLabelSpec, IMarkerCrossSeriesSpec, OffsetPoint, MarkerStateValue, MarkerStateCallback, IMarkerSupportSeries } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
-import type { ILineMarkSpec, IPoint } from '../../../../typings';
+import type { Datum, ILineMarkSpec, IPoint } from '../../../../typings';
 import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components/es/marker/type';
 export type IMarkLine = IComponent;
 export type IMarkLineSpec = (IMarkerSpec & (IMarkLineXSpec | IMarkLineYSpec | IMarkLineXYSpec | IMarkLineXYY1Spec | IMarkLineYXX1Spec | IMarkLineAngleSpec | IMarkLineRadiusSpec | IMarkLineAngRadRad1Spec | IMarkLineRadAngAng1Spec | IMarkLineAngRadSpec | IMarkLineCoordinateSpec | IMarkerPositionsSpec) & IMarkLineTheme & BaseMarkerAnimation<MarkCommonLineAnimationType>) | (IStepMarkLineSpec & BaseMarkerAnimation<MarkCommonLineAnimationType>);
@@ -51,7 +51,7 @@ export interface IMarkLineAngRadSpec extends IMarkerCrossSeriesSpec {
     radius1: IDataPos | IDataPosCallback;
 }
 export type IMarkLineCoordinateSpec = {
-    coordinates: IDataPointSpec[];
+    coordinates: IDataPointSpec[] | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => IDataPointSpec[]);
     coordinatesOffset?: OffsetPoint[];
     process?: {
         x: IAggrType;
@@ -73,7 +73,7 @@ export type IStepMarkLineSpec = IMarkerSpec & {
         state?: Record<MarkerStateValue, ILineMarkSpec | ILineMarkSpec[] | MarkerStateCallback<ILineMarkSpec | ILineMarkSpec[]>>;
     };
 } & Omit<IMarkLineTheme, 'label' | 'line'> & ({
-    coordinates: [IDataPointSpec, IDataPointSpec];
+    coordinates: [IDataPointSpec, IDataPointSpec] | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => [IDataPointSpec, IDataPointSpec]);
     process?: {
         x: IAggrType;
     } | {
@@ -82,6 +82,6 @@ export type IStepMarkLineSpec = IMarkerSpec & {
         xy: IRegressType;
     };
 } | {
-    positions: [IPoint, IPoint];
+    positions: [IPoint, IPoint] | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => [IPoint, IPoint]);
     regionRelative?: boolean;
 });

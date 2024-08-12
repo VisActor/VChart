@@ -98,7 +98,7 @@ export declare class VChart implements IVChart {
     protected _afterRender(): boolean;
     renderSync(morphConfig?: IMorphConfig): IVChart;
     renderAsync(morphConfig?: IMorphConfig): Promise<IVChart>;
-    protected _renderSync(option?: IVChartRenderOption): IVChart;
+    protected _renderSync: (option?: IVChartRenderOption) => IVChart;
     protected _renderAsync(option?: IVChartRenderOption): Promise<IVChart>;
     private _updateAnimateState;
     release(): void;

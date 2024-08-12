@@ -9,15 +9,13 @@ export declare class LinearProgressSeries<T extends ILinearProgressSeriesSpec = 
     static readonly mark: SeriesMarkMap;
     private _progressMark;
     private _trackMark;
-    private _progressGroupMark;
     initMark(): void;
     initMarkStyle(): void;
     private _initProgressMark;
     private _initProgressMarkStyle;
+    private _defaultProgressCustomShape;
     private _initTrackMark;
     private _initTrackMarkStyle;
-    private _initProgressGroupMark;
-    private _initProgressGroupMarkStyle;
     initInteraction(): void;
     initAnimation(): void;
     protected initTooltip(): void;

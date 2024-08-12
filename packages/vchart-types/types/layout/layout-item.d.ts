@@ -59,7 +59,7 @@ export declare class LayoutItem implements ILayoutItem {
     setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>): void;
     getLayout(): IRect;
     mergeLayoutRect({ width, height }: ILayoutRect): ILayoutRect;
-    getOrientPosAttribute(): "y" | "x";
+    getOrientPosAttribute(): "x" | "y";
     getOrientSizeAttribute(): "width" | "height";
     protected changeBoundsBySetting(bounds: IBoundsLike): IBoundsLike;
     setRectInSpec(rect: ILayoutRect): {
