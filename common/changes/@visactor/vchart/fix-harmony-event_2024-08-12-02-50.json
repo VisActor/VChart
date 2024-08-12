@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix issue with harmony event",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
