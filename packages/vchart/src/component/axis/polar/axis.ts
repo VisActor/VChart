@@ -122,7 +122,9 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     }
     const specInfos: IModelSpecInfo[] = [];
     let angleAxisIndex: number;
+    let radiusAxisIndex: number;
     const radiusAxisSpecInfos: IModelSpecInfo[] = [];
+    const angleAxisSpecInfos: IModelSpecInfo[] = [];
     axesSpec.forEach((s: any, i: number) => {
       if (!isValidPolarAxis(s)) {
         return;
@@ -146,12 +148,18 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       specInfos.push(info);
       if (s.orient === 'radius') {
         radiusAxisSpecInfos.push(info);
+        radiusAxisIndex = i;
       } else {
+        angleAxisSpecInfos.push(info);
         angleAxisIndex = i;
       }
     });
     radiusAxisSpecInfos.forEach(info => {
       (info as any).angleAxisIndex = angleAxisIndex;
+    });
+
+    angleAxisSpecInfos.forEach(info => {
+      (info as any).radiusAxisIndex = radiusAxisIndex;
     });
     return specInfos;
   }
@@ -462,7 +470,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       radius,
       innerRadius,
       startAngle: this._startAngle,
-      endAngle: this._endAngle
+      endAngle: this._endAngle,
+      sides: this._getRelatedAxis((this._option as any).radiusAxisIndex)?.getSpec()?.grid?.smooth
+        ? undefined
+        : this.getScale().domain().length
     };
     const attrs: any = {
       ...commonAttrs,
@@ -511,7 +522,9 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         type: this._spec.grid?.smooth ? 'circle' : 'polygon',
         center,
         closed: true,
-        sides: this._getRelatedAngleAxis()?.getScale().domain().length,
+        sides: this._getRelatedAxis((this._option as any).angleAxisIndex)
+          ?.getScale()
+          .domain().length,
         startAngle: this._startAngle,
         endAngle: this._endAngle,
         ...commonAttrs
@@ -520,8 +533,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     this._update(attrs);
   }
 
-  protected _getRelatedAngleAxis(): IPolarAxis | undefined {
-    const index = (this._option as any).angleAxisIndex;
+  protected _getRelatedAxis(index: number): IPolarAxis | undefined {
     if (isValid(index)) {
       return this._option.getComponentByIndex(this.specKey, index) as IPolarAxis;
     }
