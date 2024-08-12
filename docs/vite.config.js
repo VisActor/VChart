@@ -24,30 +24,7 @@ export default {
       '@visactor/react-vchart': path.resolve('../packages/react-vchart/src/index.ts'),
       '@visactor/openinula-vchart': path.resolve('../packages/openinula-vchart/src/index.ts'),
       '@visactor/vutils-extension': path.resolve('../packages/vutils-extension/src/index.ts'),
-      '@internal/story-player': path.resolve('../tools/story-player/src/index.ts'),
-
-      '@visactor/vgrammar-core': '/Users/bytedance/Documents/opensource/vgrammar/packages/vgrammar-core/src/index.ts',
-      '@visactor/vgrammar-util': '/Users/bytedance/Documents/opensource/vgrammar/packages/vgrammar-util/src/index.ts',
-      '@visactor/vgrammar-wordcloud':
-        '/Users/bytedance/Documents/opensource/vgrammar/packages/vgrammar-wordcloud/src/index.ts',
-      '@visactor/vgrammar-wordcloud-shape':
-        '/Users/bytedance/Documents/opensource/vgrammar/packages/vgrammar-wordcloud-shape/src/index.ts',
-      '@visactor/vgrammar-sankey':
-        '/Users/bytedance/Documents/opensource/vgrammar/packages/vgrammar-sankey/src/index.ts',
-      '@visactor/vgrammar-hierarchy':
-        '/Users/bytedance/Documents/opensource/vgrammar/packages/vgrammar-hierarchy/src/index.ts',
-      '@visactor/vgrammar-projection':
-        '/Users/bytedance/Documents/opensource/vgrammar/packages/vgrammar-projection/src/index.ts',
-      '@visactor/vgrammar-coordinate':
-        '/Users/bytedance/Documents/opensource/vgrammar/packages/vgrammar-coordinate/src/index.ts',
-      '@visactor/vgrammar-venn': '/Users/bytedance/Documents/opensource/vgrammar/packages/vgrammar-venn/src/index.ts',
-
-
-      '@visactor/vrender': '/Users/bytedance/Documents/opensource/VRender/packages/vrender/src/index.js',
-      '@visactor/vrender-core': '/Users/bytedance/Documents/opensource/VRender/packages/vrender-core/src/index.js',
-      '@visactor/vrender-kits': '/Users/bytedance/Documents/opensource/VRender/packages/vrender-kits/src/index.js',
-      '@visactor/vrender-components':
-        '/Users/bytedance/Documents/opensource/VRender/packages/vrender-components/src/index.js'
+      '@internal/story-player': path.resolve('../tools/story-player/src/index.ts')
     }
   },
   plugins: [react()]

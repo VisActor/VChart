@@ -699,3 +699,41 @@ VChart.useRegisters([registerWXEnv]);
         <td>三维金字塔图元用于绘制金字塔形状的六面体，可以用来创建三维可视化中的漏斗图等可视化效果。</td>
     </tr>
 </table>
+
+## 附录四：插件注册列表
+
+<table>
+    <tr>
+        <td>插件</td>
+        <td>插件注册方法</td>
+    </tr>
+    <tr>
+        <td>全局形变动画</td>
+        <td><code>registerMorph</code></td>
+    </tr>
+     <tr>
+        <td>3d渲染</td>
+        <td><code>register3DPlugin</code></td>
+    </tr>
+     <tr>
+        <td>动画</td>
+        <td><code>registerAnimate</code></td>
+    </tr>
+     <tr>
+        <td>React插件</td>
+        <td><code>registerReactAttributePlugin</code></td>
+    </tr>
+     <tr>
+        <td>HTML插件</td>
+        <td><code>registerHtmlAttributePlugin</code></td>
+    </tr>
+     <tr>
+        <td>拖拽插件</td>
+        <td><code>registerDragPlugin</code></td>
+    </tr>
+     <tr>
+        <td>手势插件</td>
+        <td><code>registerGesturePlugin</code></td>
+    </tr>
+     
+</table>

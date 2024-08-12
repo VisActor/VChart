@@ -744,7 +744,7 @@ export class VChart implements IVChart {
     });
   }
 
-  protected _renderSync(option: IVChartRenderOption = {}) {
+  protected _renderSync = (option: IVChartRenderOption = {}) => {
     const self = this as unknown as IVChart;
     if (!this._beforeRender(option)) {
       return self;
@@ -753,7 +753,7 @@ export class VChart implements IVChart {
     this._compiler?.render(option.morphConfig);
     this._afterRender();
     return self;
-  }
+  };
 
   protected async _renderAsync(option: IVChartRenderOption = {}) {
     return this._renderSync(option);
@@ -1026,11 +1026,11 @@ export class VChart implements IVChart {
     });
   }
 
-  private _updateSpec(
+  private _updateSpec = (
     spec: ISpec,
     forceMerge: boolean = false,
     userUpdateOptions?: IUpdateSpecResult
-  ): IUpdateSpecResult | undefined {
+  ): IUpdateSpecResult | undefined => {
     const lastSpec = this._spec;
 
     const result: IUpdateSpecResult = {
@@ -1077,7 +1077,7 @@ export class VChart implements IVChart {
           ...userUpdateOptions
         }
       : res;
-  }
+  };
 
   /**
    * **异步方法** spec 更新

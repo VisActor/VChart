@@ -17,6 +17,14 @@ We often use different chart types for different visualization purposes. The sam
 ## Demo source
 
 ```javascript livedemo
+/**
+ * 自1.12.0后，全局形变动画需要手动注册才能生效
+ *
+ * import { registerMorph } from '@visactor/vchart';
+ *
+ * registerMorph();
+ */
+VCHART_MODULE.registerMorph();
 const pieSpec = {
   type: 'pie',
   data: [
