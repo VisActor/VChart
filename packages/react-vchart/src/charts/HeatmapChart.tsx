@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import type { IHeatmapChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
@@ -7,16 +7,17 @@ import {
   registerCartesianCrossHair,
   registerLabel
 } from '@visactor/vchart';
-import { BaseChartProps, createChart } from './BaseChart';
+import type { BaseChartProps } from './BaseChart';
+import { createChart } from './BaseChart';
 import { cartesianComponentsRegisters } from './register';
 
 export interface HeatmapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<IHeatmapChartSpec, 'type'> {
+    Omit<Partial<IHeatmapChartSpec>, 'type'> {
   //
 }
 
-export const HeatmapChart = createChart<React.PropsWithChildren<HeatmapChartProps> & { type: 'heatmap' }>(
+export const HeatmapChart = createChart<React.PropsWithChildren<HeatmapChartProps> & { type?: 'heatmap' }>(
   'HeatmapChart',
   {
     type: 'heatmap',
