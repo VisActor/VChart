@@ -19,6 +19,9 @@ export * from '../event/interface';
 export * from '../theme/interface';
 export * from './interface';
 
+// some constants
+export * from '../constant/base';
+
 /**
  * spec
  */
