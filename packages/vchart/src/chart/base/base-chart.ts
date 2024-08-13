@@ -61,7 +61,7 @@ import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension';
 import type { ITooltip } from '../../component/tooltip/interface';

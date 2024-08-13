@@ -22,6 +22,14 @@ Based on the 2D scatter chart, configure the zField to be recognized as a 3D sca
 ## Demo source
 
 ```javascript livedemo
+/**
+ * 自1.12.0后，普通图表开启3d渲染的功能，需要手动加载3d插件，
+ *
+ * import { register3DPlugin } from '@visactor/vchart';
+ *
+ * register3DPlugin();
+ */
+VCHART_MODULE.register3DPlugin();
 const data = [
   { continent: 'Americas', Country: 'Argentina', LifeExpectancy: 75.32, GDP: 12779.37964, Population: 40301927 },
   { continent: 'Americas', Country: 'Brazil', LifeExpectancy: 72.39, GDP: 9065.800825, Population: 190010647 },

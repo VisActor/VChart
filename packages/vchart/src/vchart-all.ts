@@ -58,7 +58,8 @@ import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
-import { registerCanvasTooltipHandler, registerDomTooltipHandler, registerFormatPlugin } from './plugin';
+import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin/components/tooltip-handler';
+import { registerFormatPlugin } from './plugin/chart/formatter';
 
 import {
   registerElementActive,
@@ -69,6 +70,12 @@ import {
   registerElementHighlightByKey
 } from './interaction';
 import { registerAllMarks } from './mark';
+import {
+  register3DPlugin,
+  registerAnimate,
+  registerHtmlAttributePlugin,
+  registerReactAttributePlugin
+} from './plugin/other';
 
 VChart.useRegisters([
   // charts
@@ -170,7 +177,12 @@ VChart.useRegisters([
 
   registerElementHighlightByName,
   registerElementHighlightByGroup,
-  registerElementHighlightByKey
+  registerElementHighlightByKey,
+
+  // vgrammar animate,
+  registerAnimate,
+  registerReactAttributePlugin,
+  registerHtmlAttributePlugin
 ]);
 
 export { VChart };

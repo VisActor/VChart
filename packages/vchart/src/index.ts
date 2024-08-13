@@ -17,3 +17,4 @@ export * from './event';
 export * from './plugin/chart';
 export * from './plugin/components/tooltip-handler';
 export * from './plugin/components/axis-sync';
+export * from './plugin/other';

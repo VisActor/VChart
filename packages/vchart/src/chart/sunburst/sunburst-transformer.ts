@@ -1,7 +1,7 @@
 import { isValid, radianToDegree } from '@visactor/vutils';
 import { BaseChartSpecTransformer } from '../base';
 import type { ISunburstChartSpec } from './interface';
-import { POLAR_START_ANGLE } from '../../constant';
+import { POLAR_START_ANGLE } from '../../constant/polar';
 import type { ISunburstSeriesSpec } from '../../series';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../series';

@@ -7,6 +7,7 @@ import { Factory } from '../../../core/factory';
 import type { IPie3dChartSpec } from '../interface';
 import type { AdaptiveSpec, ISeriesSpec } from '../../../typings';
 import { BasePieChartSpecTransformer } from '../base';
+import { register3DPlugin } from '../../../plugin/other';
 
 export class Pie3dChartSpecTransformer<T extends IPie3dChartSpec = IPie3dChartSpec> extends BasePieChartSpecTransformer<
   AdaptiveSpec<T, 'type'>
@@ -32,6 +33,7 @@ export class Pie3dChart<T extends IPie3dChartSpec = IPie3dChartSpec> extends Bas
 }
 
 export const registerPie3dChart = () => {
+  register3DPlugin();
   registerPie3dSeries();
   Factory.registerChart(Pie3dChart.type, Pie3dChart);
 };

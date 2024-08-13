@@ -1,5 +1,5 @@
 import { isValid } from '@visactor/vutils';
-import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_START_ANGLE } from '../../../../constant';
+import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_START_ANGLE } from '../../../../constant/polar';
 import { ComponentTypeEnum } from '../../../interface';
 import type { IPolarAxisCommonSpec } from '../interface';
 

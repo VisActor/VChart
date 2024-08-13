@@ -1,7 +1,7 @@
 import { markContext as ctx } from '../../util/context';
 import { SymbolMark } from '../../../src/mark/symbol';
 import { OrdinalScale } from '@visactor/vscale';
-import { LayoutZIndex } from '../../../src/constant';
+import { LayoutZIndex } from '../../../src/constant/layout';
 
 test('symbol initial style', () => {
   const symbolMark = new SymbolMark('symbol0', ctx);

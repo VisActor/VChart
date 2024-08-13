@@ -4,7 +4,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNil, isValidNumber } from '@visactor/vutils';
 import { calcLayoutNumber, calcPadding, normalizeLayoutPaddingSpec, boundsInRect } from '../util/space';
-import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, USER_LAYOUT_RECT_LEVEL } from '../constant';
+import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, USER_LAYOUT_RECT_LEVEL } from '../constant/layout';
 
 import type { ILayoutItem, ILayoutItemInitOption, ILayoutItemSpec } from './interface';
 import type { IChartLayoutOption } from '../chart/interface/common';

@@ -1,10 +1,11 @@
-import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
+import { ChartEvent } from '../../constant/event';
+import { AttributeLevel } from '../../constant/attribute';
+import { LayoutZIndex } from '../../constant/layout';
 import { BaseComponent } from '../base/base-component';
-import type { IComponent, IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
-import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
+import type { IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
