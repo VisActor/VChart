@@ -112,7 +112,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       this._funnelAlign = ['left', 'right'].includes(this._spec.funnelAlign) ? this._spec.funnelAlign : 'center';
     }
 
-    if (this._spec.categoryField) {
+    if (!this._seriesField && this._spec.categoryField) {
       this.setSeriesField(this._spec.categoryField);
     }
   }
