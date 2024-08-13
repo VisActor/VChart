@@ -1,14 +1,15 @@
-import React from 'react';
+import type React from 'react';
 import type { ILiquidChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerLiquidChart } from '@visactor/vchart';
-import { BaseChartProps, createChart } from './BaseChart';
+import type { BaseChartProps } from './BaseChart';
+import { createChart } from './BaseChart';
 import { simpleComponentsRegisters } from './register';
 
 export interface LiquidChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data' | 'data'>,
-    Omit<ILiquidChartSpec, 'type'> {}
+    Omit<Partial<ILiquidChartSpec>, 'type'> {}
 
-export const LiquidChart = createChart<React.PropsWithChildren<LiquidChartProps> & { type: 'liquid' }>(
+export const LiquidChart = createChart<React.PropsWithChildren<LiquidChartProps> & { type?: 'liquid' }>(
   'LiquidChart',
   {
     type: 'liquid',
