@@ -278,3 +278,12 @@ export function getPercentValue(valueList: number[], precision = 2) {
 
   return seats.map(entry => entry / digits);
 }
+
+export function valueInRange(v: number, range?: number[]) {
+  if (!range) {
+    return v;
+  }
+  const min = Math.min(range[0], range[range.length - 1]);
+  const max = Math.max(range[0], range[range.length - 1]);
+  return Math.min(Math.max(min, v), max);
+}
