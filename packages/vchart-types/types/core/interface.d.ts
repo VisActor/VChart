@@ -10,7 +10,7 @@ import type { ITheme } from '../theme';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
-import type { IChart, IChartSpecInfo } from '../chart/interface';
+import type { DimensionIndexOption, IChart, IChartSpecInfo } from '../chart/interface';
 import type { Stage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
@@ -29,8 +29,8 @@ export interface IVChartConstructor {
 }
 export interface IVChart {
     readonly id: number;
-    renderSync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => IVChart;
-    renderAsync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => Promise<IVChart>;
+    renderSync: (morphConfig?: IMorphConfig) => IVChart;
+    renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
     updateData: (id: StringOrNumber, data: Datum[] | string, options?: IParserOptions) => Promise<IVChart>;
     updateDataInBatches: (list: {
         id: string;
@@ -39,6 +39,7 @@ export interface IVChart {
     }[]) => Promise<IVChart>;
     updateDataSync: (id: StringOrNumber, data: Datum[], options?: IParserOptions) => IVChart;
     updateFullDataSync: (data: IDataValues | IDataValues[], reRender?: boolean) => IVChart;
+    updateFullData: (data: IDataValues | IDataValues[], reRender?: boolean) => Promise<IVChart>;
     updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, userUpdateOptions?: IUpdateSpecResult) => Promise<IVChart>;
     updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, userUpdateOptions?: IUpdateSpecResult) => void;
     updateModelSpecSync: (filter: string | {
@@ -89,8 +90,19 @@ export interface IVChart {
     getComponents: () => IComponent[];
     getDataSet: () => Maybe<DataSet>;
     getScale: (scaleId: string) => IBaseScale | null;
+    setDimensionIndex: (value: StringOrNumber, options?: DimensionIndexOption) => void;
     convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean, checkInViewData?: boolean) => IPoint | null;
     convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isRelativeToCanvas?: boolean) => number | null) & ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean) => IPoint | null);
+    updateIndicatorDataById: (id: string, datum?: Datum) => void;
+    updateIndicatorDataByIndex: (index?: number, datum?: Datum) => void;
+    geoZoomByIndex: (regionIndex: number, zoom: number, center?: {
+        x: number;
+        y: number;
+    }) => void;
+    geoZoomById: (regionId: string | number, zoom: number, center?: {
+        x: number;
+        y: number;
+    }) => void;
     stopAnimation: () => void;
     pauseAnimation: () => void;
     resumeAnimation: () => void;
