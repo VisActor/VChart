@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " git push --set-upstream origin fix/gauge-angle",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
