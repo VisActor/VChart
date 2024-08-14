@@ -27,9 +27,9 @@
     "@visactor/vutils": "~0.18.15"
   },
   "devDependencies": {
-    "@internal/bundler": "workspace:*",
-    "@internal/eslint-config": "workspace:*",
-    "@internal/ts-config": "workspace:*",
+    "@internal/bundler": "0.0.1",
+    "@internal/eslint-config": "0.0.1",
+    "@internal/ts-config": "0.0.1",
     "@rushstack/eslint-patch": "~1.1.4",
     "@types/node": "*",
     "@types/offscreencanvas": "2019.6.4",
