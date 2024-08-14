@@ -1,10 +1,9 @@
 import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
 import { BaseComponent } from '../base/base-component';
-import type { IComponent, IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
-import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
+import type { IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
@@ -136,7 +135,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   protected _extendDatumOutOfBrush(elementsMap: { [elementKey: string]: IElement }) {
     const data = [];
     for (const elementKey in elementsMap) {
-      data.push(elementsMap[elementKey].data[0]);
+      // 图例筛选后, elementKey未更新, 导致data可能为null
+      // FIXME: brush透出的map维护逻辑有待优化
+      data.push(elementsMap[elementKey].data?.[0]);
     }
     return data;
   }

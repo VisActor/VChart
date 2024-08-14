@@ -49,6 +49,7 @@ import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { isNil, polarToCartesian } from '@visactor/vutils';
 import { PieSeriesSpecTransformer } from './pie-transformer';
+import { computeLayoutRadius } from '../../component/axis/polar/util/common';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;
@@ -62,13 +63,13 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _viewDataLabel!: SeriesData;
 
   // 饼图渲染不依赖于极坐标系轴，因此由 series 自己存储相关配置信息
-  getCenter(): IPoint {
+  getCenter = (): IPoint => {
     const { width, height } = this._region.getLayoutRect();
     return {
       x: this._spec?.centerX ?? width / 2,
       y: this._spec?.centerY ?? height / 2
     };
-  }
+  };
   protected _centerOffset!: number;
 
   protected _cornerRadius!: number;
@@ -132,10 +133,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       {
         type: 'pie',
         options: {
-          angleField: this._angleField[0],
-          startAngle: this._startAngle,
-          endAngle: this._endAngle,
-          minAngle: isValid(this._spec.minAngle) ? degreeToRadian(this._spec.minAngle) : 0,
+          angleField: () => this._angleField[0],
+          startAngle: () => this._startAngle,
+          endAngle: () => this._endAngle,
+          minAngle: () => (isValid(this._spec.minAngle) ? degreeToRadian(this._spec.minAngle) : 0),
           asStartAngle: ARC_START_ANGLE,
           asEndAngle: ARC_END_ANGLE,
           asRatio: ARC_RATIO,
@@ -184,6 +185,16 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return field(ARC_END_ANGLE)(datum);
   }
 
+  protected _computeLayoutRadius() {
+    return computeLayoutRadius(
+      this._spec.layoutRadius,
+      this.getLayoutRect,
+      this.getCenter,
+      this._startAngle,
+      this._endAngle
+    );
+  }
+
   initMarkStyle(): void {
     const pieMark = this._pieMark;
     if (pieMark) {
@@ -225,7 +236,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     super.initMarkStyleWithSpec(mark, spec, key);
     if (mark.name === this._pieMarkName) {
       // radius 配置需要额外处理比例值
-      const pieSpec = this.getSpec()[mark.name];
+      const pieSpec = this.getSpec()[mark.name as 'pie'];
       if (pieSpec) {
         for (const state in pieSpec.state || {}) {
           this.setMarkStyle(mark, this.generateRadiusStyle(pieSpec.state[state]), state, AttributeLevel.User_Mark);
@@ -328,31 +339,24 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
     ignoreCheckKeys = ignoreCheckKeys ?? { data: true };
-    ignoreCheckKeys.centerX = true;
-    ignoreCheckKeys.centerX = true;
-    ignoreCheckKeys.centerY = true;
-    ignoreCheckKeys.centerOffset = true;
-    ignoreCheckKeys.radius = true;
-    ignoreCheckKeys.innerRadius = true;
-    ignoreCheckKeys.cornerRadius = true;
-    ignoreCheckKeys.startAngle = true;
-    ignoreCheckKeys.endAngle = true;
-    ignoreCheckKeys.padAngle = true;
-    const { centerX, centerY, centerOffset, radius, innerRadius, cornerRadius, startAngle, endAngle, padAngle } =
-      prevSpec;
+    const defaultIgnoreKeys: string[] = [
+      'centerX',
+      'centerY',
+      'centerOffset',
+      'radius',
+      'innerRadius',
+      'cornerRadius',
+      'startAngle',
+      'endAngle',
+      'padAngle'
+    ];
+    defaultIgnoreKeys.forEach(key => {
+      ignoreCheckKeys[key] = true;
+    });
+
     const result = super._compareSpec(spec, prevSpec, ignoreCheckKeys);
     spec = spec ?? ({} as T);
-    if (
-      spec.centerY !== centerY ||
-      spec.centerX !== centerX ||
-      spec.centerOffset !== centerOffset ||
-      spec.radius !== radius ||
-      spec.innerRadius !== innerRadius ||
-      spec.cornerRadius !== cornerRadius ||
-      spec.startAngle !== startAngle ||
-      spec.endAngle !== endAngle ||
-      spec.padAngle !== padAngle
-    ) {
+    if (defaultIgnoreKeys.some(key => (spec as any)[key] !== (prevSpec as any)[key])) {
       result.reRender = true;
       result.change = true;
     }

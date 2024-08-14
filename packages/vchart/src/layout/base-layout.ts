@@ -285,9 +285,12 @@ export class Layout implements IBaseLayout {
       0
     );
     regionItems.forEach(region => {
+      const width = regionWidth - region.layoutPaddingLeft - region.layoutPaddingRight;
+      const height = regionHeight - region.layoutPaddingTop - region.layoutPaddingBottom;
+
       region.setLayoutRect({
-        width: regionWidth,
-        height: regionHeight
+        width: width,
+        height: height
       });
 
       region.setLayoutStartPosition({

@@ -24,10 +24,11 @@ Whether or not to enable the checking of the legend, the default is on.
 
 ### selectMode(string) = 'multiple'
 
-The check mode of the legend, with optional values: 
-* `'multiple'` multiple selection mode
-* `'single'` single selection mode
-* `'focus'` focus selection mode
+The check mode of the legend, with optional values:
+
+- `'multiple'` multiple selection mode
+- `'single'` single selection mode
+- `'focus'` focus selection mode
 
 ### scale(string)
 
@@ -465,7 +466,7 @@ formatMethod: text => {
 };
 ```
 
-For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
 #### formatter(string | string[])
 
