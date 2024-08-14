@@ -314,7 +314,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       coordToPoint: this.coordToPoint.bind(this),
       pointToCoord: this.pointToCoord.bind(this),
       center: this.getCenter.bind(this),
-      layoutRadius: this.computeLayoutRadius.bind(this),
+      layoutRadius: this._computeLayoutRadius.bind(this),
       getScale,
       getAxisId: () => this.id,
       getSpec: () => this._spec
@@ -518,7 +518,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return undefined;
   }
 
-  private computeLayoutRadius() {
+  private _computeLayoutRadius() {
     return computeLayoutRadius(
       this._spec.layoutRadius,
       this.getRefLayoutRect,
@@ -535,12 +535,12 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
      */
     const radius = this._spec.outerRadius ?? this._spec.radius;
     const outerRadius = radius ?? this.getRefSeriesRadius().outerRadius;
-    return this.computeLayoutRadius() * outerRadius;
+    return this._computeLayoutRadius() * outerRadius;
   }
 
   private computeLayoutInnerRadius() {
     const innerRadius = this._spec.innerRadius ?? this.getRefSeriesRadius().innerRadius;
-    return this.computeLayoutRadius() * innerRadius;
+    return this._computeLayoutRadius() * innerRadius;
   }
 
   private getRefLayoutRect = () => {
