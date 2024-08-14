@@ -19,7 +19,7 @@
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser"
   },
   "pearDependencies": {
-    "@visactor/vchart": "~1.11.11"
+    "@visactor/vchart": "^1.11.11"
   },
   "dependencies": {
     "@visactor/vrender-core": "0.20.2",
@@ -51,6 +51,10 @@
     "rollup-plugin-bundle-size": "1.0.3",
     "rollup-plugin-sizes": "1.0.5",
     "rollup": "3.20.5",
-    "@visactor/vchart": "workspace:1.11.11"
+    "@visactor/vchart": "1.11.11"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
