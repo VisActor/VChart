@@ -1,9 +1,9 @@
 import type { DataView } from '@visactor/vdataset';
 export interface IPieOpt {
-    angleField: string;
-    startAngle: number;
-    endAngle: number;
-    minAngle: number;
+    angleField: () => string;
+    startAngle: () => number;
+    endAngle: () => number;
+    minAngle: () => number;
     asStartAngle: string;
     asEndAngle: string;
     asMiddleAngle: string;

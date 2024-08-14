@@ -1,6 +1,40 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 06 Aug 2024 09:20:16 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Aug 2024 14:51:54 GMT and should not be manually modified.
+
+## 1.11.12
+Wed, 14 Aug 2024 14:51:54 GMT
+
+### Updates
+
+- fix: fix params of tickCount in linear-axis-mixin,  fix #3053
+
+
+- feat: support `layoutRadius` of pie
+
+
+- fix: fix `padding` of region not work
+
+
+- fix: brush error after legend filter. fix#3061
+- fix: fix funnel chart color bug with different category and series fields
+-  git push --set-upstream origin fix/gauge-angle
+- fix: fix issue with harmony event
+- fix: fix type error of react vchart, fix #3065
+
+
+- fix: tooltip should show when chart has multiple regions
+
+
+- fix: fix the issue background of chart not updated, fix #3054
+
+
+- fix: fix the update of `startAngle` and `endAngle` in pie chart, fix #3059
+
+
+- fix: fix switch `visible` of legend, fix #3060
+
+
 
 ## 1.11.11
 Tue, 06 Aug 2024 09:20:16 GMT
