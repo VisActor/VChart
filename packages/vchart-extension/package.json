@@ -18,8 +18,10 @@
     "build:umd": "bundle --clean -f  umd",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser"
   },
+  "pearDependencies": {
+    "@visactor/vchart": "~1.11.11"
+  },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.12.3",
     "@visactor/vrender-core": "0.20.2",
     "@visactor/vrender-kits": "0.20.2",
     "@visactor/vutils": "~0.18.15"
