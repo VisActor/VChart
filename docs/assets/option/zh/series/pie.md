@@ -53,11 +53,25 @@ pie: {
 }
 ```
 
+#${prefix} layoutRadius(string|number|function)
+
+自 **1.11.12**版本开始支持
+
+极坐标的布局半径，即计算内径、外径的基准值，可选值如下：
+
+- 不设置： 默认值为`Math.min(width, height) / 2`，**1.11.2**之前的版本相当于这个效果
+- `'auto'`： 根据`center`、`startAngle`、`endAngle`自动计算最大可用的布局半径
+- 自定义函数，函数的类型定义如下：
+
+```ts
+(layoutRect: { width: number; height: number }, center: { x: number; y: number }) => number;
+```
+
 #${prefix} outerRadius(number)
 
 饼图扇区外半径。默认值为 0.6。
 
-#${prefix} outerRadius(number)
+#${prefix} innerRadius(number)
 
 饼图扇区内半径。默认值为 0。
 
@@ -181,7 +195,7 @@ pie: {
 ) }}
 
 ##${prefix} customShape(function)
-自1.11.11版本, 标签引导线支持自定义path.
+自 1.11.11 版本, 标签引导线支持自定义 path.
 
 回调函数的定义如下:
 
@@ -192,11 +206,7 @@ pie: {
  * @params path对象, 用户自定义绘制
  * @return 返回绘制完成后的path
  */
-(
-  text: ITextGraphicAttribute,
-  attrs: Partial<ILineGraphicAttribute>,
-  path: ICustomPath2D
-) => ICustomPath2D;
+(text: ITextGraphicAttribute, attrs: Partial<ILineGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
 ```
 
 ###${prefix} style(Object)
