@@ -9,14 +9,13 @@ import type { Datum } from '@visactor/vgrammar-core';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { gaugeSeriesMark } from './constant';
-import { degreeToRadian, isValid } from '@visactor/vutils';
+import { clamper, degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { registerProgressLikeAnimation } from '../polar/progress-like';
 import type { IMark } from '../../mark/interface';
 import { GaugeSeriesSpecTransformer } from './gauge-transformer';
 import { registerArcMark, type IArcMark } from '../../mark/arc';
 import { registerPolarLinearAxis } from '../../component/axis/polar';
-import { valueInRange } from '../../util';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -134,19 +133,19 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   protected _getAngleValueStartWithoutMask(datum: Datum) {
     const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
     const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
-    return valueInRange(startAngle + (endAngle > startAngle ? 1 : -1) * Math.abs(this._padAngle / 2), [
+    return clamper(
       startAngle,
       (startAngle + endAngle) / 2
-    ]);
+    )(startAngle + (endAngle > startAngle ? 1 : -1) * Math.abs(this._padAngle / 2));
   }
 
   protected _getAngleValueEndWithoutMask(datum: Datum) {
     const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
     const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
-    return valueInRange(endAngle - (endAngle > startAngle ? 1 : -1) * Math.abs(this._padAngle / 2), [
+    return clamper(
       endAngle,
       (startAngle + endAngle) / 2
-    ]);
+    )(endAngle - (endAngle > startAngle ? 1 : -1) * Math.abs(this._padAngle / 2));
   }
 
   protected _getAngleValueStartWithoutPadAngle(datum: Datum) {
