@@ -4,22 +4,20 @@
 
 
 **🆕 新增功能**
-
-- **@visactor/vchart**: support `layoutRadius` of pie
+- **@visactor/vchart**: 支持饼图的 `layoutRadius`
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: fix params of tickCount in linear-axis-mixin,  fix [#3053](https://github.com/VisActor/VChart/issues/3053)
-- **@visactor/vchart**: fix `padding` of region not work
-- **@visactor/vchart**: brush error after legend filter. fix[#3061](https://github.com/VisActor/VChart/issues/3061)
-- **@visactor/vchart**: fix funnel chart color bug with different category and series fields
-- **@visactor/vchart**: fix issue with harmony event
-- **@visactor/vchart**: fix type error of react vchart, fix [#3065](https://github.com/VisActor/VChart/issues/3065)
-- **@visactor/vchart**: tooltip should show when chart has multiple regions
-- **@visactor/vchart**: fix the issue background of chart not updated, fix [#3054](https://github.com/VisActor/VChart/issues/3054)
-- **@visactor/vchart**: fix the update of `startAngle` and `endAngle` in pie chart, fix [#3059](https://github.com/VisActor/VChart/issues/3059)
-- **@visactor/vchart**: fix switch `visible` of legend, fix [#3060](https://github.com/VisActor/VChart/issues/3060)
-
+- **@visactor/vchart**: 修复 linear-axis-mixin 中 tickCount 参数不一致的问题，修复 [#3053](https://github.com/VisActor/VChart/issues/3053)
+- **@visactor/vchart**: 修复region `padding` 不生效的问题
+- **@visactor/vchart**: 修复图例过滤后Brush组件报错的问题，修复 [#3061](https://github.com/VisActor/VChart/issues/3061)
+- **@visactor/vchart**: 修复不同类别和系列字段带来的漏斗图颜色问题
+- **@visactor/vchart**: 修复 harmony 事件的问题
+- **@visactor/vchart**: 修复 react vchart 的类型错误，修复 [#3065](https://github.com/VisActor/VChart/issues/3065)
+- **@visactor/vchart**: 当图表有多个区域时，tooltip 应该显示
+- **@visactor/vchart**: 修复图表背景未更新的问题，修复 [#3054](https://github.com/VisActor/VChart/issues/3054)
+- **@visactor/vchart**: 修复饼图中 `startAngle` 和 `endAngle` 更新的问题，修复 [#3059](https://github.com/VisActor/VChart/issues/3059)
+- **@visactor/vchart**: 修复图例 `visible` 切换的问题，修复 [#3060](https://github.com/VisActor/VChart/issues/3060)
 
 
 [更多详情请查看 v1.11.12](https://github.com/VisActor/VChart/releases/tag/v1.11.12)
