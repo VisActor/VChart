@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: y-axis is reverted after brush zoomin. fix#3089",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

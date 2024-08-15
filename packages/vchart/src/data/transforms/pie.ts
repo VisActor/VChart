@@ -6,11 +6,10 @@ import { ARC_TRANSFORM_VALUE } from '../../constant/polar';
 import { computeQuadrant } from '@visactor/vutils';
 
 export interface IPieOpt {
-  angleField: string;
-
-  startAngle: number;
-  endAngle: number;
-  minAngle: number;
+  angleField: () => string;
+  startAngle: () => number;
+  endAngle: () => number;
+  minAngle: () => number;
 
   asStartAngle: string;
   asEndAngle: string;
@@ -35,21 +34,13 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
   if (!data || data.length === 0) {
     return data;
   }
-  const {
-    angleField,
-    startAngle,
-    endAngle,
-    minAngle,
-    asStartAngle,
-    asEndAngle,
-    asMiddleAngle,
-    asRadian,
-    asRatio,
-    asQuadrant,
-    asK,
-    showAllZero,
-    supportNegative
-  } = op;
+  const { asStartAngle, asEndAngle, asMiddleAngle, asRadian, asRatio, asQuadrant, asK, showAllZero, supportNegative } =
+    op;
+
+  const angleField = op.angleField();
+  const startAngle = op.startAngle();
+  const endAngle = op.endAngle();
+  const minAngle = op.minAngle();
 
   const appendArcInfo = (data: Datum, startAngle: number, angle: number) => {
     data[asStartAngle] = startAngle;
@@ -99,7 +90,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
 
     d[asRatio] = ratio;
     d[asK] = max ? angleFieldValue / max : 0;
-    d._percent_ = percents[i];
+    d._percent_ = (percents as number[])[i];
     appendArcInfo(d, dStartAngle, radian);
 
     lastAngle = dEndAngle;

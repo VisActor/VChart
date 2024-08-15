@@ -7,10 +7,10 @@ import { registers } from './registers/polar';
 
 export interface CircularProgressChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<ICircularProgressChartSpec, 'type'> {}
+    Omit<Partial<ICircularProgressChartSpec>, 'type'> {}
 
 export const CircularProgressChart = createChart<
-  React.PropsWithChildren<CircularProgressChartProps> & { type: 'circularProgress' }
+  React.PropsWithChildren<CircularProgressChartProps> & { type?: 'circularProgress' }
 >(
   'CircularProgressChart',
   {

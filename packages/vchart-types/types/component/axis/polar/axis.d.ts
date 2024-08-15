@@ -81,8 +81,8 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     protected _getStartValue(): number;
     private _layoutAngleAxis;
     private _layoutRadiusAxis;
-    protected _getRelatedAngleAxis(): IPolarAxis | undefined;
-    private computeLayoutRadius;
+    protected _getRelatedAxis(index: number): IPolarAxis | undefined;
+    private _computeLayoutRadius;
     private computeLayoutOuterRadius;
     private computeLayoutInnerRadius;
     private getRefLayoutRect;

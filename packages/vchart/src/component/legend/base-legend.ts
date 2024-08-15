@@ -209,6 +209,10 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
 
   getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     if (!this._visible) {
+      if (this._legendComponent && this._legendComponent.parent) {
+        this._legendComponent.parent.removeChild(this._legendComponent);
+        this._legendComponent = null;
+      }
       return { x1: 0, y1: 0, x2: 0, y2: 0 };
     }
     const result = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };

@@ -7,9 +7,9 @@ import { registers } from './registers/simple';
 
 export interface PieChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<IPieChartSpec, 'type'> {}
+    Omit<Partial<IPieChartSpec>, 'type'> {}
 
-export const PieChart = createChart<React.PropsWithChildren<PieChartProps> & { type: 'pie' }>(
+export const PieChart = createChart<React.PropsWithChildren<PieChartProps> & { type?: 'pie' }>(
   'PieChart',
   {
     type: 'pie',

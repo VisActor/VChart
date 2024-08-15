@@ -7,11 +7,11 @@ import { registers } from './registers/cartesian';
 
 export interface HeatmapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<IHeatmapChartSpec, 'type'> {
+    Omit<Partial<IHeatmapChartSpec>, 'type'> {
   //
 }
 
-export const HeatmapChart = createChart<React.PropsWithChildren<HeatmapChartProps> & { type: 'heatmap' }>(
+export const HeatmapChart = createChart<React.PropsWithChildren<HeatmapChartProps> & { type?: 'heatmap' }>(
   'HeatmapChart',
   {
     type: 'heatmap',

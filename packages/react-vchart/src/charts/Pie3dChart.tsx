@@ -7,9 +7,9 @@ import { registers } from './registers/simple';
 
 export interface Pie3dChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<IPie3dChartSpec, 'type'> {}
+    Omit<Partial<IPie3dChartSpec>, 'type'> {}
 
-export const Pie3dChart = createChart<React.PropsWithChildren<Pie3dChartProps> & { type: 'pie3d' }>(
+export const Pie3dChart = createChart<React.PropsWithChildren<Pie3dChartProps> & { type?: 'pie3d' }>(
   'Pie3dChart',
   {
     type: 'pie3d',

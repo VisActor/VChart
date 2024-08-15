@@ -59,6 +59,7 @@ export interface IUpdateSpecResult {
   reTransformSpec?: boolean;
   reAnimate?: boolean;
   changeTheme?: boolean;
+  changeBackground?: boolean;
 }
 
 export interface IUpdateDataResult {

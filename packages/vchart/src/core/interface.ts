@@ -24,7 +24,7 @@ import type { ITheme } from '../theme';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
-import type { IChart, IChartSpecInfo } from '../chart/interface';
+import type { DimensionIndexOption, IChart, IChartSpecInfo } from '../chart/interface';
 import type { Stage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
@@ -69,7 +69,7 @@ export interface IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderSync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => IVChart;
+  renderSync: (morphConfig?: IMorphConfig) => IVChart;
 
   /**
    * **异步**渲染图表。
@@ -77,10 +77,11 @@ export interface IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderAsync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => Promise<IVChart>;
+  renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
 
   /**
    * **异步**更新数据。
+   * @async
    * @param id 数据 id
    * @param data 数据值
    * @param options 数据参数
@@ -90,6 +91,7 @@ export interface IVChart {
 
   /**
    * **异步**批量更新数据。
+   * @async
    * @param list 待更新的数据列表
    * @returns VChart 实例
    */
@@ -106,12 +108,22 @@ export interface IVChart {
 
   /**
    * **同步方法** 更新数据
+   * @async
    * @param data 图表配置结构中的数据对象
    * @returns VChart 实例
    */
   updateFullDataSync: (data: IDataValues | IDataValues[], reRender?: boolean) => IVChart;
+
+  /**
+   * **同步方法** 更新数据
+   * @param data 图表配置结构中的数据对象
+   * @returns VChart 实例
+   */
+  updateFullData: (data: IDataValues | IDataValues[], reRender?: boolean) => Promise<IVChart>;
+
   /**
    * **异步**spec 更新。
+   * @sync
    * @param spec
    * @param forceMerge
    * @returns
@@ -142,7 +154,7 @@ export interface IVChart {
    * @param spec
    * @param forceMerge
    * @returns
-   * @sync 1.4.0
+   * @since 1.4.0
    */
   updateModelSpecSync: (
     filter: string | { type: string; index: number },
@@ -153,11 +165,12 @@ export interface IVChart {
 
   /**
    * **异步方法** 模块 spec 更新
+   * @async
    * @param filter
    * @param spec
    * @param forceMerge
    * @returns
-   * @sync 1.4.0
+   * @since 1.4.0
    */
   updateModelSpec: (
     filter: string | { type: string; index: number },
@@ -179,6 +192,7 @@ export interface IVChart {
 
   /**
    * **异步方法**，图表尺寸更新方法。
+   * @async
    * @param width 宽度
    * @param height 高度
    * @returns VChart 当前实例
@@ -431,6 +445,14 @@ export interface IVChart {
    */
   getScale: (scaleId: string) => IBaseScale | null;
 
+  /**
+   * 手动调用触发 dimension 交互效果。
+   * @param datum dimension 值
+   * @param options 触发配置
+   * @returns
+   */
+  setDimensionIndex: (value: StringOrNumber, options?: DimensionIndexOption) => void;
+
   // 数据转换相关的 api
   /**
    * Convert the data to coordinate position
@@ -464,6 +486,40 @@ export interface IVChart {
       dataLinkInfo: DataLinkSeries,
       isRelativeToCanvas?: boolean
     ) => IPoint | null);
+
+  /**
+   * 根据 indicator 组件 id 更新 indicator 数据
+   * @param id spec 中定义的 indicator id
+   * @param datum 具体数据项
+   * @since 1.11.7
+   */
+  updateIndicatorDataById: (id: string, datum?: Datum) => void;
+
+  /**
+   * 根据 indicator 组件 id 更新 indicator 数据
+   * @param index  indicator 索引下标
+   * @param datum 具体数据项
+   * @since 1.11.7
+   */
+  updateIndicatorDataByIndex: (index?: number, datum?: Datum) => void;
+
+  /**
+   * 地图缩放 API
+   * @param [regionIndex=0] 根据索引顺序指定某个 region 区域的地图坐标系进行缩放
+   * @param zoom 缩放比例
+   * @param center 缩放中心
+   * @since 1.11.10
+   */
+  geoZoomByIndex: (regionIndex: number, zoom: number, center?: { x: number; y: number }) => void;
+
+  /**
+   * 地图缩放 API
+   * @param 根据 region id 指定某个 region 区域的地图坐标系进行缩放
+   * @param zoom 缩放比例
+   * @param center 缩放中心
+   * @since 1.11.10
+   */
+  geoZoomById: (regionId: string | number, zoom: number, center?: { x: number; y: number }) => void;
 
   /** 停止正在进行的所有动画 */
   stopAnimation: () => void;

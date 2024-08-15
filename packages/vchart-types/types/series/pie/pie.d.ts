@@ -18,7 +18,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     protected _pieMarkType: MarkTypeEnum;
     static readonly mark: SeriesMarkMap;
     protected _viewDataLabel: SeriesData;
-    getCenter(): IPoint;
+    getCenter: () => IPoint;
     protected _centerOffset: number;
     protected _cornerRadius: number;
     protected _startAngle: number;
@@ -33,6 +33,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     initMark(): void;
     private startAngleScale;
     private endAngleScale;
+    protected _computeLayoutRadius(): number;
     initMarkStyle(): void;
     initInteraction(): void;
     protected initTooltip(): void;

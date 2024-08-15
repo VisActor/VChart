@@ -51,7 +51,7 @@
   IFormatMethod<[activeDatum: Datum]> | ITextMarkSpec['text'] | ReturnType<IFormatMethod<[activeDatum: Datum]>>;
 ```
 
-支持返回富文本配置，html 配置、react 配置，更详细的使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+支持返回富文本配置，html 配置、react 配置，更详细的使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
 #${prefix} style(Object)
 

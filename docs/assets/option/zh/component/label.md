@@ -12,7 +12,7 @@
 
 自 1.7.0 版本支持，文本类型。`1.10.0`版本后，建议使用 `formatMethod` 配置富文本。
 
-富文本的具体使用方式，请参考[富文本教程文档](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+富文本的具体使用方式，请参考[富文本教程文档](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
 可选：
 
@@ -58,7 +58,7 @@ formatMethod: text => {
 };
 ```
 
-更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
 #${prefix} formatter(string)
 
