@@ -1,3 +1,29 @@
+# v1.11.12
+
+2024-08-15
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support `layoutRadius` of pie
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: fix params of tickCount in linear-axis-mixin,  fix [#3053](https://github.com/VisActor/VChart/issues/3053)
+- **@visactor/vchart**: fix `padding` of region not work
+- **@visactor/vchart**: brush error after legend filter. fix[#3061](https://github.com/VisActor/VChart/issues/3061)
+- **@visactor/vchart**: fix funnel chart color bug with different category and series fields
+- **@visactor/vchart**: fix issue with harmony event
+- **@visactor/vchart**: fix type error of react vchart, fix [#3065](https://github.com/VisActor/VChart/issues/3065)
+- **@visactor/vchart**: tooltip should show when chart has multiple regions
+- **@visactor/vchart**: fix the issue background of chart not updated, fix [#3054](https://github.com/VisActor/VChart/issues/3054)
+- **@visactor/vchart**: fix the update of `startAngle` and `endAngle` in pie chart, fix [#3059](https://github.com/VisActor/VChart/issues/3059)
+- **@visactor/vchart**: fix switch `visible` of legend, fix [#3060](https://github.com/VisActor/VChart/issues/3060)
+
+
+
+[更多详情请查看 v1.11.12](https://github.com/VisActor/VChart/releases/tag/v1.11.12)
+
 # v1.11.11
 
 2024-08-06
