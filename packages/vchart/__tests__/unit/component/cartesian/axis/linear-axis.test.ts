@@ -13,7 +13,6 @@ import { getTestCompiler } from '../../../../util/factory/compiler';
 import { initChartDataSet } from '../../../../util/context';
 import type { StringOrNumber } from '../../../../../src/typings/common';
 import { getCartesianAxisInfo } from '../../../../../src/component/axis/cartesian/util';
-// @ts-ignore
 import { wilkinsonExtended } from '@visactor/vscale';
 
 const dataSet = new DataSet();
