@@ -1,3 +1,34 @@
+# v1.12.0
+
+2024-08-16
+
+
+**🆕 New feature**
+
+  - **@visactor/vchart**: marker's `coordinates` and `positions` property support callback
+  - **@visactor/vchart**: support `animationState` config
+  - **@visactor/vchart**: show evenly divided pie chart with `showAllZero`
+  - **@visactor/vchart**: enable `supportNegative` option to treat negative values as absolute values
+  - **@visactor/vchart**: support theme config by chart type
+  - **@visactor/vchart**: support text shape of word-cloud
+  - **@visactor/vchart**: add new chart mosaic chart 
+  - **@visactor/vchart**: support customized tick function of linear axis
+  - **@visactor/vchart**: add emptyPlaceholder and emptyCircle for pie chart
+
+  ## 🐛 fix 
+  - **@visactor/vchart**: y-axis is reverted after brush zoomin. fix [#3089](https://github.com/VisActor/VChart/issues/3089)
+  - **@visactor/vchart**: mark-point position type error fix
+  ## 🔨 refactor 
+  - **@visactor/vchart**: refactor the graphics in linear-progress chart
+  - **@visactor/vchart**: use label component to refactor sankey label
+  - **@visactor/vchart**: stack can be required by need
+  ## 🔖 other 
+  - **@visactor/vchart**: sequence support bottom axes. fix [#2927](https://github.com/VisActor/VChart/issues/2927) 
+
+
+
+[more detail about v1.12.0](https://github.com/VisActor/VChart/releases/tag/v1.12.0)
+
 # v1.11.12
 
 2024-08-15
