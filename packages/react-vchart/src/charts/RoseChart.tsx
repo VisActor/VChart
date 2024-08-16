@@ -3,7 +3,7 @@ import type { IRoseChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerRoseChart, registerLabel } from '@visactor/vchart';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
-import { polarComponentsRegisters } from './register';
+import { registers } from './registers/polar';
 
 export interface RoseChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -15,5 +15,5 @@ export const RoseChart = createChart<React.PropsWithChildren<RoseChartProps> & {
     type: 'rose',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerRoseChart, registerLabel, ...polarComponentsRegisters]
+  [registerRoseChart, registerLabel, ...registers]
 );

@@ -1,9 +1,8 @@
 import type React from 'react';
 import type { ICorrelationChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerCorrelationChart } from '@visactor/vchart';
-import type { BaseChartProps } from './BaseChart';
-import { createChart } from './BaseChart';
-import { simpleComponentsRegisters } from './register';
+import { BaseChartProps, createChart } from './BaseChart';
+import { registers } from './registers/simple';
 
 export interface CorrelationChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -15,5 +14,5 @@ export const CorrelationChart = createChart<React.PropsWithChildren<CorrelationC
     type: 'correlation',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerCorrelationChart, ...simpleComponentsRegisters]
+  [registerCorrelationChart, ...registers]
 );

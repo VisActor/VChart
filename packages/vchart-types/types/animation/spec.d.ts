@@ -1,4 +1,4 @@
-import type { IAnimationConfig } from '@visactor/vgrammar-core';
+import type { IAnimationConfig, IStateAnimationConfig } from '@visactor/vgrammar-core';
 import type { EasingType } from '@visactor/vrender-core';
 export type { IRunningConfig as IMorphConfig, IMorphAnimationConfig } from '@visactor/vgrammar-core';
 export type IStateAnimateSpec<Preset extends string> = {
@@ -15,6 +15,7 @@ export interface IAnimationSpec<MarkName extends string, Preset extends string> 
     animationUpdate?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
     animationExit?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
     animationDisappear?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
+    animationState?: boolean | IStateAnimationConfig;
     animationNormal?: IMarkAnimateSpec<MarkName>;
 }
 export interface IMorphSeriesSpec {

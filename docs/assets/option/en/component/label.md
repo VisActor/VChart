@@ -371,3 +371,12 @@ Label animation playback timing. Defaults to "same-time".
 
   ##${prefix} increaseEffect(boolean)=true
   Enable number increase animation while label data updated.
+
+#${prefix} stackDataFilterType('min'|'max')
+
+Effective from version 1.12.0
+
+Used for filtering stacked group data
+
+- 'min' displays labels for the maximum value in the stacked group
+- 'max' displays labels for the minimum value in the stacked group

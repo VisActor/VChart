@@ -94,12 +94,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   getMarkSet() {
     return this._marks;
   }
-  getMarkInfoList(): IModelMarkInfo[] {
-    return this.getMarks().map(mark => ({
-      type: mark.type as MarkTypeEnum,
-      name: mark.name
-    }));
-  }
 
   getChart() {
     return this._option.getChart();

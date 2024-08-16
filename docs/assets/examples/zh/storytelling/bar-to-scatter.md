@@ -20,6 +20,15 @@ option: commonChart#series-bar.animationUpdate
 ## 代码演示
 
 ```javascript livedemo
+/**
+ * 自1.12.0后，全局形变动画需要手动注册才能生效
+ *
+ * import { registerMorph } from '@visactor/vchart';
+ *
+ * registerMorph();
+ */
+VCHART_MODULE.registerMorph();
+
 function calculateAverage(data, dim) {
   let total = 0;
   for (let i = 0; i < data.length; i++) {

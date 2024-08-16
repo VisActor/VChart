@@ -2,7 +2,7 @@ import type { ITextMark } from '../../mark/text';
 import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
 import type { ISeries } from '../interface';
 
 // 直角坐标系下 固定点位的标签

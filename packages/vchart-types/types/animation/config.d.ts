@@ -20,6 +20,10 @@ export declare const DEFAULT_ANIMATION_CONFIG: {
         duration: number;
         easing: string;
     };
+    state: {
+        duration: number;
+        easing: string;
+    };
 };
 export declare const ScaleInOutAnimation: {
     appear: {

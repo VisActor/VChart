@@ -1,12 +1,13 @@
 import { ComponentTypeEnum } from '../../interface/type';
 import { BaseMarkPoint } from './base-mark-point';
 import type { IMarkProcessOptions } from '../interface';
+import type { CoordinateType } from '../../../typings';
 export declare class PolarMarkPoint extends BaseMarkPoint {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
     static coordinateType: string;
-    coordinateType: string;
+    coordinateType: CoordinateType;
     protected _computePointsAttr(): {
         point: {
             x: number;

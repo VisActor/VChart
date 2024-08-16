@@ -1,14 +1,16 @@
-import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod } from '../../typings';
+import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod, IRectMarkSpec } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { WordcloudAppearPreset } from './animation';
 import type { shapes } from '@visactor/vgrammar-wordcloud';
+import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
 export type WordCloudShapeType = keyof typeof shapes;
 export type EllipsisType = {
     string?: string;
     limitLength?: number;
 };
 export type ZoomToFitType = {
+    repeat?: boolean;
     shrink?: boolean;
     enlarge?: boolean;
     fontSizeLimitMin?: number;
@@ -64,7 +66,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     rotateAngles?: number[];
     fontWeightRange?: [number, number];
     fontSizeRange?: [number, number] | 'auto';
-    maskShape?: string | WordCloudShapeType;
+    maskShape?: string | WordCloudShapeType | TextShapeMask | GeometricMaskShape;
     keepAspect?: boolean;
     random?: boolean;
     wordCloudConfig?: WordCloudConfigType;
@@ -76,6 +78,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
         padding?: number;
     };
+    [SeriesMarkNameEnum.wordMask]?: IMarkSpec<IRectMarkSpec>;
     animationAppear?: boolean | (IStateAnimateSpec<WordcloudAppearPreset> & {
         duration?: number;
         totalTime?: number;

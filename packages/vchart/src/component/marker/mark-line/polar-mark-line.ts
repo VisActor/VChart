@@ -2,7 +2,7 @@ import type { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
-import type { IOptionAggr } from '../../../data/transforms/aggregation';
+import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/aggregation';
 import { polarLayout, getMarkLineProcessInfo, polarCoordinateLayout } from '../utils';
 import type { MarkArcLineAttrs, MarkLineAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
@@ -14,7 +14,7 @@ import {
 } from '@visactor/vrender-components';
 import type { IOptionRegr } from '../../../data/transforms/regression';
 import { Factory } from '../../../core/factory';
-import type { IPoint, IPolarPoint } from '../../../typings';
+import type { CoordinateType, IPoint, IPolarPoint } from '../../../typings';
 import type { IPolarSeries } from 'src/series';
 import { BaseMarkLine } from './base-mark-line';
 import { polarToCartesian } from '@visactor/vutils';
@@ -24,7 +24,7 @@ export class PolarMarkLine extends BaseMarkLine {
   type = ComponentTypeEnum.polarMarkLine;
   name: string = ComponentTypeEnum.polarMarkLine;
   static coordinateType = 'polar';
-  coordinateType = 'polar';
+  coordinateType = 'polar' as CoordinateType;
 
   protected declare _markerComponent: MarkArcLineComponent;
 
@@ -118,7 +118,7 @@ export class PolarMarkLine extends BaseMarkLine {
       doCoordinatesProcess
     } = getMarkLineProcessInfo(spec);
 
-    let options: IOptionAggr[] | IOptionRegr;
+    let options: IOptionAggr[] | IOptionRegr | IOptionWithCoordinates;
     const processData: DataView = this._getRelativeDataView();
     const needAggr: boolean = true;
     const needRegr: boolean = false;

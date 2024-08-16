@@ -1,5 +1,35 @@
 {{ target: component-marker-data-point }}
 
+{{ if: ${isSingle} }}
+
+自 1.12.0 版本，`coordinate` 可以直接配置回调函数，回调函数返回数据结构为 `IDataPointSpec`，与未配置回调的结构一致，如下：
+
+```ts
+/**
+ * @param `seriesData` 为关联系列的数据
+ * @param `series` 为关联系列实例
+ */
+coordinate: (seriesData, series) => {
+  return { x: 10, y: 30 };
+};
+```
+
+{{ else }}
+
+自 1.12.0 版本，`coordinates` 可以直接配置回调函数，回调函数返回数据结构为 `IDataPointSpec[]`，与未配置回调的结构一致，如下：
+
+```ts
+/**
+ * @param `seriesData` 为关联系列的数据
+ * @param `series` 为关联系列实例
+ */
+coordinates: (seriesData, series) => {
+  return [{ x: 10, y: 30 }];
+};
+```
+
+{{/if}}
+
 #${prefix} [key(string | number)](string | number)
 
 数据字段及数据值配置，支持：

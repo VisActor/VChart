@@ -84,6 +84,29 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
   [SeriesMarkNameEnum.pie]?: IMarkSpec<IArcMarkSpec>;
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: IMultiLabelSpec<IArcLabelSpec>;
+
+  /** 数据为空时显示的占位图形 */
+  emptyPlaceholder?: {
+    /** 是否显示占位圆
+     * @default false
+     */
+    showEmptyCircle?: boolean;
+
+    /** 占位圆样式 */
+    emptyCircle?: IMarkSpec<IArcMarkSpec>;
+  };
+
+  /**
+   * 是否在数据均为0时显示均分扇区。
+   * @default false
+   */
+  showAllZero?: boolean;
+
+  /**
+   * 是否将负数按照绝对值进行处理。
+   * @default false
+   */
+  supportNegative?: boolean;
 }
 
 export interface IPieSeriesTheme extends IPolarSeriesTheme {
@@ -100,6 +123,10 @@ export interface IPieSeriesTheme extends IPolarSeriesTheme {
    * @since 1.5.1
    */
   outerLabel?: IArcLabelSpec;
+  /** 数据为空时显示的占位圆样式
+   * @since 1.12.0
+   */
+  emptyCircle?: Partial<IMarkTheme<IArcMarkSpec>>;
 }
 
 export type IPie3dSeriesSpec = {

@@ -1,9 +1,9 @@
 import type React from 'react';
 import type { IRangeColumnChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerRangeColumnChart, registerLabel } from '@visactor/vchart';
+import { registers } from './registers/cartesian';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
-import { cartesianComponentsRegisters } from './register';
 
 export interface RangeColumnChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -15,5 +15,5 @@ export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnC
     type: 'rangeColumn',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerRangeColumnChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerRangeColumnChart, registerLabel, ...registers]
 );

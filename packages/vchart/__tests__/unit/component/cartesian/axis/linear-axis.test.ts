@@ -13,6 +13,7 @@ import { getTestCompiler } from '../../../../util/factory/compiler';
 import { initChartDataSet } from '../../../../util/context';
 import type { StringOrNumber } from '../../../../../src/typings/common';
 import { getCartesianAxisInfo } from '../../../../../src/component/axis/cartesian/util';
+import { wilkinsonExtended } from '@visactor/vscale';
 
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
@@ -586,4 +587,86 @@ test('dynamic tickCount', () => {
     const tickCount = linearAxis.getTickData().getLatestData()?.length;
     expect(tickCount).toEqual(4);
   }
+});
+
+test('dynamic tickCount', () => {
+  let spec = getAxisSpec({
+    orient: 'left',
+    tick: {
+      tickMode: (scale: any, count: number) => {
+        return [0, 25000, 50000];
+      }
+    }
+  });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme(true),
+    mode: 'desktop-browser'
+  });
+  spec = transformer.transformSpec(spec, {}).spec;
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: getCartesianAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  );
+
+  linearAxis.created();
+  linearAxis.init({});
+  // @ts-ignore
+  linearAxis.updateScaleDomain();
+  const scale = linearAxis.getScale();
+  scale.range([0, 50000]);
+  // @ts-ignore
+  linearAxis.computeData();
+  // @ts-ignore
+  const tickValues = linearAxis
+    // @ts-ignore
+    .getTickData()
+    .getLatestData()
+    .map((tick: any) => tick.value);
+  expect(tickValues).toEqual([0, 25000, 50000]);
+});
+
+test('dynamic tickCount with wilkson', () => {
+  let spec = getAxisSpec({
+    orient: 'left',
+    tick: {
+      tickMode: (scale: any, count: number) => {
+        const d = scale.calculateVisibleDomain(scale.get('_range'));
+        return wilkinsonExtended(d[0], d[1], count);
+      }
+    }
+  });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme(true),
+    mode: 'desktop-browser'
+  });
+  spec = transformer.transformSpec(spec, {}).spec;
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: getCartesianAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  );
+
+  linearAxis.created();
+  linearAxis.init({});
+  // @ts-ignore
+  linearAxis.updateScaleDomain();
+  const scale = linearAxis.getScale();
+  scale.range([0, 50000]);
+  scale.domain([0, 100]);
+  // @ts-ignore
+  linearAxis.computeData();
+  // @ts-ignore
+  const tickValues = linearAxis
+    // @ts-ignore
+    .getTickData()
+    .getLatestData()
+    .map((tick: any) => tick.value);
+  expect(tickValues).toEqual([0, 25, 50, 75, 100]);
 });

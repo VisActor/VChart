@@ -8,7 +8,7 @@ import type { EventType, IEvent } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec';
 import { getDefaultTriggerEventByMode } from '../../component/common/trigger/config';
 import { findHierarchyPath } from '../../util/hierarchy';
-import { ChartEvent } from '../../constant';
+import { ChartEvent } from '../../constant/event';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IModel } from '../../model/interface';
 import type { BaseSeries } from '../../series/base/base-series';

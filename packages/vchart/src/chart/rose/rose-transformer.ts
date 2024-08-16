@@ -1,6 +1,6 @@
 import { array, isNil } from '@visactor/vutils';
 import type { IPolarAxisSpec, IPolarBandAxisSpec } from '../../component';
-import { POLAR_DEFAULT_RADIUS } from '../../constant';
+import { POLAR_DEFAULT_RADIUS } from '../../constant/polar';
 import { RoseLikeChartSpecTransformer } from '../polar';
 import type { IRoseChartSpec } from './interface';
 import { mergeSpec } from '@visactor/vutils-extension';

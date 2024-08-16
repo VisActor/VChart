@@ -1,4 +1,4 @@
-import type { IBaseScale } from '@visactor/vscale';
+import type { ContinuousScale, IBaseScale, CustomTicksFunc } from '@visactor/vscale';
 import type { CoordinateType, Datum, IPolarOrientType, StringOrNumber } from '../../../typings';
 import type { IComponent } from '../../interface/common';
 import type { ICartesianAxisSpec } from '../cartesian/interface';
@@ -42,7 +42,7 @@ export interface ITickCalculationCfg {
     tickStep?: number;
     tickCount?: number | ((option: ITickCallbackOption) => number);
     forceTickCount?: number;
-    tickMode?: 'average' | 'd3';
+    tickMode?: 'average' | 'd3' | CustomTicksFunc<ContinuousScale>;
     noDecimals?: boolean;
 }
 export interface IBandAxisLayer extends Omit<ITickCalculationCfg, 'noDecimals' | 'tickMode'> {

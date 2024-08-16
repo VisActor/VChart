@@ -47,7 +47,6 @@ import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
 import { isArray, isValid, createID, calcPadding, normalizeLayoutPaddingSpec, array } from '../../util';
-import { Stack } from '../stack';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
@@ -57,12 +56,12 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
+import type { IElement, IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension';
 import type { ITooltip } from '../../component/tooltip/interface';
@@ -172,8 +171,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   };
 
   // stack
-  protected _stack: Stack;
-  protected _canStack: boolean;
 
   padding: IPadding = { top: 0, left: 0, right: 0, bottom: 0 };
   protected _paddingSpec: ILayoutOrientPadding;
@@ -230,6 +227,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   init() {
+    (this as any)._beforeInit?.();
     // 元素创建完毕后再执行各元素的初始化 方便各元素能获取到其他模块
     this._regions.forEach(r => r.init({}));
     this._series.forEach(s => s.init({}));
@@ -238,12 +236,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // event
     this._initEvent();
 
-    // TODO: to component
-    // stack
-    if (this._canStack) {
-      this._stack = new Stack(this);
-      this._stack.init();
-    }
+    (this as any)._initStack?.();
+
     // data flow start
     this.reDataFlow();
   }
@@ -1213,7 +1207,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           if (!filter || (isFunction(filter) && filter(s, m))) {
             const isCollect = m.getProduct().isCollectionMark();
             const elements = m.getProduct().elements;
-            let pickElements = elements;
+            let pickElements = [] as IElement[];
             if (isCollect) {
               pickElements = elements.filter(e => {
                 const elDatum = e.getDatum();

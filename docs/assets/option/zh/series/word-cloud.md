@@ -70,9 +70,11 @@
 
 自 1.8.7 版本支持'auto'配置。即如果配置为'auto', 则 fontSizeRange 不传入, 字体大小会随画布大小改变而改变。
 
-#${prefix} maskShape(string)
+#${prefix} maskShape(string | object)
 
-词云形状，url 或 svg 字符串 或 base64，或内值字符串（svg 字符串、base64 暂未支持）。
+支持多种格式：
+
+- 字符串: 词云形状，url 或 svg 字符串 或 base64，或内值字符串（svg 字符串、base64 暂未支持）。
 
 内值字符串可选值：
 
@@ -85,6 +87,59 @@
 - `'circle'`: 圆形
 - `'pentagon'`: 五角形
 - `rect`: 矩形（自 1.9.3 版本支持）
+
+* （自 1.12.0 版本开始支持）文字轮廓，设置该格式的时候，默认创建形状词云，ts 类型定义如下：
+
+```ts
+interface TextShapeMask {
+  /** 指定形状词云根据文字生成轮廓 */
+  type: 'text';
+  /** 文字内容 */
+  text: string;
+  /** 是否空心，只填充背景区域 */
+  hollow?: boolean;
+  /** 背景颜色 */
+  backgroundColor?: string;
+  /** 填充颜色 */
+  fill?: string;
+  /** 文字轮廓的字体 */
+  fontFamily?: string;
+  /** 文字轮廓的自重 */
+  fontWeight?: string | number;
+  /** 文字轮廓的样式 */
+  fontStyle?: string;
+  /** 文字轮廓的font-variant */
+  fontVariant: string;
+}
+```
+
+- （自 1.12.0 版本开始支持）几何形状轮廓，设置该格式的时候，默认创建形状词云，ts 类型定义如下：
+
+```ts
+export interface GeometricMaskShape {
+  /** 指定形状词云根据几何形状生成轮廓 */
+  type: 'geometric';
+  /**
+   * 指定几何形状的类型，现在支持的类型如下：
+   * - `'triangleForward'`: 右箭头
+   * - `'triangle'`: 三角形
+   * - `'diamond'`: 菱形
+   * - `'square'`: 方形
+   * - `'star'`: 星形
+   * - `'cardioid'`: 心形
+   * - `'circle'`: 圆形
+   * - `'pentagon'`: 五角形
+   * - `rect`: 矩形（自 1.9.3 版本支持）
+   */
+  shape: string;
+  /** 是否空心，只填充背景区域 */
+  hollow?: boolean;
+  /** 背景颜色 */
+  backgroundColor?: string;
+  /** 填充颜色 */
+  fill?: string;
+}
+```
 
 #${prefix} random(boolean)
 
@@ -314,29 +369,25 @@
 
 {{ use: mark-state-style() }}
 
-#${prefix} fillingWord(Object)
+#${prefix} wordMask(Object)
 
-形状词云填充词文字图元配置。
+自 1.12.0 版本开始支持
 
-不增加 formatMethod 的原因：形状词云在做布局时，word 和 fillingWord 用的是同一份数据，即 text 相同，所以 fillingWords 的 format 不会生效。
+形状词云背景轮廓配置
 
-{{ use: common-mark(
-  prefix = '#' + ${prefix}
-) }}
+##${prefix} visible(boolean)
 
-##${prefix} padding(number)
-
-文字间距。
+是否展示背景轮廓，注意当前仅支持配置文字轮廓和几何图形轮廓的时候，才支持显示
 
 ##${prefix} style(Object)
 
-文字样式。
+背景轮廓样式
 
 {{ use: mark-style(
-  markName = 'fillingWord'
+  markName = 'wordMask'
 ) }}
 
-{{ use: mark-text(
+{{ use: mark-rect(
   prefix = '##' + ${prefix}
 ) }}
 

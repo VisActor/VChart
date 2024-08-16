@@ -9,6 +9,7 @@ export const pie: IPieSeriesTheme = {
   },
   label: {
     visible: false,
+    interactive: true,
     position: 'outside',
     style: {
       fontWeight: 'normal',
@@ -19,6 +20,12 @@ export const pie: IPieSeriesTheme = {
   innerLabel: {
     style: {
       lineWidth: 2
+    }
+  },
+  emptyCircle: {
+    style: {
+      fill: { type: 'palette', key: 'emptyCircleColor' },
+      fillOpacity: 1
     }
   }
 };

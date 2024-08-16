@@ -1,5 +1,31 @@
 import type { IPlayerTheme } from '../../../../component/player';
 
+const getDirectionTheme = (position: 'start' | 'end'): IPlayerTheme['controller']['forward'] => {
+  return {
+    order: 0,
+    space: 10,
+    position: 'start',
+    style: {
+      size: 12,
+      fill: { type: 'palette', key: 'playerControllerColor' },
+      fillOpacity: 0.8
+    }
+  };
+};
+
+const getPlayTheme = (): IPlayerTheme['controller']['pause'] => {
+  return {
+    order: 0,
+    space: 10,
+    position: 'start',
+    style: {
+      size: 12,
+      fill: { type: 'palette', key: 'playerControllerColor' },
+      fillOpacity: 0.8
+    }
+  };
+};
+
 export const player: IPlayerTheme = {
   visible: true,
   position: 'start',
@@ -24,43 +50,9 @@ export const player: IPlayerTheme = {
     }
   },
   controller: {
-    start: {
-      order: 0,
-      space: 0,
-      style: {
-        size: 25,
-        fill: { type: 'palette', key: 'playerControllerColor' },
-        fillOpacity: 0.8
-      }
-    },
-    pause: {
-      order: 0,
-      space: 0,
-      style: {
-        size: 25,
-        fill: { type: 'palette', key: 'playerControllerColor' },
-        fillOpacity: 0.8
-      }
-    },
-    backward: {
-      order: 0,
-      space: 10,
-      position: 'start',
-      style: {
-        size: 12,
-        fill: { type: 'palette', key: 'playerControllerColor' },
-        fillOpacity: 0.8
-      }
-    },
-    forward: {
-      order: 0,
-      space: 10,
-      position: 'end',
-      style: {
-        size: 12,
-        fill: { type: 'palette', key: 'playerControllerColor' },
-        fillOpacity: 0.8
-      }
-    }
+    start: getPlayTheme(),
+    pause: getPlayTheme(),
+    backward: getDirectionTheme('start'),
+    forward: getDirectionTheme('end')
   }
 };

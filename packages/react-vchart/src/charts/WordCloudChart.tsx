@@ -1,9 +1,8 @@
 import type React from 'react';
 import type { IWordCloudChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerWordCloudChart } from '@visactor/vchart';
-import type { BaseChartProps } from './BaseChart';
-import { createChart } from './BaseChart';
-import { simpleComponentsRegisters } from './register';
+import { BaseChartProps, createChart } from './BaseChart';
+import { registers } from './registers/simple';
 
 export interface WordCloudChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -15,5 +14,5 @@ export const WordCloudChart = createChart<React.PropsWithChildren<WordCloudChart
     type: 'wordCloud',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerWordCloudChart, ...simpleComponentsRegisters]
+  [registerWordCloudChart, ...registers]
 );

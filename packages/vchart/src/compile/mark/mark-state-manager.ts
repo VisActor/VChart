@@ -1,7 +1,7 @@
 import type { IElement, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import { isContinuous } from '@visactor/vscale';
 import { isArray, isObject, isValid, isBoolean } from '@visactor/vutils';
-import { PREFIX } from '../../constant';
+import { PREFIX } from '../../constant/base';
 import type { MarkTypeEnum } from '../../mark/interface';
 import { isMultiDatumMark } from '../../mark/utils/common';
 import type { Datum, StringOrNumber } from '../../typings';

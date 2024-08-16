@@ -48,6 +48,11 @@ export interface ILabelSpec extends IComponentSpec {
   smartInvert?: BaseLabelAttrs['smartInvert'];
   /** 动画配置 */
   animation?: BaseLabelAttrs['animation'];
+  /**
+   * 堆积数据过滤类型
+   * @since 1.12.0
+   */
+  stackDataFilterType?: 'min' | 'max';
   /** 自定义标签数据筛选和排序
    * @since 1.3.0
    */
@@ -85,7 +90,7 @@ type LabelStateStyle<T> = {
 
 export type ITotalLabelSpec = Pick<
   ILabelSpec,
-  'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType'
+  'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType' | 'overlap'
 >;
 
 export interface ITotalLabelTheme

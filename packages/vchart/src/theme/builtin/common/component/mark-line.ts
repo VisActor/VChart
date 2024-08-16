@@ -1,4 +1,18 @@
+import type { IMarkerSymbol } from '../../../../component/marker/interface';
 import type { IMarkLineTheme } from '../../../../component/marker/mark-line/interface';
+
+const getSymbolTheme = (visible?: boolean): IMarkerSymbol => {
+  return {
+    visible,
+    symbolType: 'triangle',
+    size: 10,
+    style: {
+      fill: { type: 'palette', key: 'markLineStrokeColor' },
+      stroke: null,
+      lineWidth: 0
+    }
+  };
+};
 
 export const markLine: IMarkLineTheme = {
   line: {
@@ -7,26 +21,8 @@ export const markLine: IMarkLineTheme = {
       stroke: { type: 'palette', key: 'markLineStrokeColor' }
     }
   },
-  startSymbol: {
-    visible: false,
-    symbolType: 'triangle',
-    size: 10,
-    style: {
-      fill: { type: 'palette', key: 'markLineStrokeColor' },
-      stroke: null,
-      lineWidth: 0
-    }
-  },
-  endSymbol: {
-    visible: true,
-    symbolType: 'triangle',
-    size: 10,
-    style: {
-      fill: { type: 'palette', key: 'markLineStrokeColor' },
-      stroke: null,
-      lineWidth: 0
-    }
-  },
+  startSymbol: getSymbolTheme(false),
+  endSymbol: getSymbolTheme(true),
   label: {
     refY: 5,
     style: {

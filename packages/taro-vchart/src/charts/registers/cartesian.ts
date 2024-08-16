@@ -15,12 +15,15 @@ import {
   registerCartesianTimeAxis,
   registerCartesianLogAxis,
   registerCartesianCrossHair,
-  registerPolarLinearAxis, // 必选
-  registerPolarBandAxis, // 必选
-  registerPolarCrossHair
+  registerTooltip,
+  registerCanvasTooltipHandler,
+  registerAnimate
 } from '@visactor/vchart';
 
-export const cartesianComponentsRegisters = [
+export const registers = [
+  registerAnimate,
+  registerTooltip,
+  registerCanvasTooltipHandler,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis,
@@ -36,28 +39,5 @@ export const cartesianComponentsRegisters = [
   registerMarkLine,
   registerMarkPoint,
   registerScrollBar,
-  registerTitle
-];
-
-export const polarComponentsRegisters = [
-  registerPolarLinearAxis, // 必选
-  registerPolarBandAxis, // 必选
-  registerPolarCrossHair,
-
-  registerBrush, // optional
-  registerContinuousLegend,
-  registerDataZoom,
-  registerDiscreteLegend,
-  registerCustomMark,
-  registerAllMarks,
-  registerScrollBar,
-  registerTitle
-];
-
-export const simpleComponentsRegisters = [
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerCustomMark,
-  registerAllMarks,
   registerTitle
 ];

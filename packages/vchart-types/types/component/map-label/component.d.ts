@@ -1,7 +1,7 @@
 import type { IRect } from '../../typings/space';
 import { BaseComponent } from '../base/base-component';
 import { ComponentTypeEnum } from '../interface/type';
-import { LayoutZIndex } from '../../constant';
+import { LayoutZIndex } from '../../constant/layout';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import type { IPoint, Datum } from '../../typings';
