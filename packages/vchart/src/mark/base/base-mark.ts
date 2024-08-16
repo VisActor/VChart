@@ -25,7 +25,8 @@ import type {
   VisualScaleType,
   MarkInputStyle
 } from '../interface';
-import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant';
+import { GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant/gradient';
+import { AttributeLevel } from '../../constant/attribute';
 import { isValidScaleType } from '@visactor/vscale';
 import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
 import type { ISeries } from '../../series/interface';

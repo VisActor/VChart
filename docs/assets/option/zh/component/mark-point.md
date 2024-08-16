@@ -56,7 +56,8 @@
 指定数据点的标注区域。基于指定数据点进行标注区域的绘制。
 
 {{ use: component-marker-data-point(
-  prefix = '###'
+  prefix = '###',
+   isSingle = true
 ) }}
 
 {{ use: component-marker-data-point-offset(
@@ -70,7 +71,8 @@
 指定坐标点的标注区域。基于指定坐标点进行标注区域的绘制。
 
 {{ use: component-marker-point-like(
-  prefix = '###'
+  prefix = '###',
+   isSingle = true
 ) }}
 
 ### regionRelative(boolean) = false

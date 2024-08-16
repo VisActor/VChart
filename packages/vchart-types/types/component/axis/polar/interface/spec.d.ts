@@ -1,9 +1,10 @@
-import type { ILayoutRect, IPoint, IPolarOrientType } from '../../../../typings';
+import type { IPointLike } from '@visactor/vutils';
+import type { ILayoutRect, IPolarOrientType } from '../../../../typings';
 import type { IBandAxisSpec, IDomainLine, ILinearAxisSpec, ITitle, ILabel, ICommonAxisSpec } from '../../interface';
 import type { IPolarGrid } from './common';
 export type IPolarAxisSpec = IPolarLinearAxisSpec | IPolarBandAxisSpec;
 export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
-    layoutRadius?: 'auto' | number | ((layoutRect: ILayoutRect, center: IPoint) => number);
+    layoutRadius?: 'auto' | number | ((layoutRect: ILayoutRect, center: IPointLike) => number);
     inside?: boolean;
     orient: IPolarOrientType;
     grid?: IPolarGrid;

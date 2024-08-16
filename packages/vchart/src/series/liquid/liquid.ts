@@ -14,7 +14,8 @@ import { Factory } from '../../core/factory';
 import type { IMark, IMarkRaw } from '../../mark/interface';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { registerLiquidMark } from '../../mark/liquid';
-import { AttributeLevel, ChartEvent } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
+import { ChartEvent } from '../../constant/event';
 import { BaseSeries } from '../base';
 import type { IGroupMark } from '../../mark/group';
 // eslint-disable-next-line no-duplicate-imports

@@ -4,7 +4,7 @@ import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import { LayoutZIndex } from '../../constant';
+import { LayoutZIndex } from '../../constant/layout';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import type { IPoint, Datum } from '../../typings';

@@ -130,9 +130,11 @@ VChart.useRegisters([registerAllMarks]);
 
 ## react-vchart 按需加载
 
-React-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的时候，需要使用 `<VChartSimple />` 标签。
+React-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的时候，有两种办法：
 
-`<VChartSimple />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart` 引用 `VChart` 构造类，根据本文描述，注册需要的图表和组件，并传入给 `<VChartSimple />`;
+- 使用 `<VChartSimple />` 标签，实现自定义的按需加载
+
+`<VChartSimple />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart` 引用 `VChart` 构造类，并传入给 `<VChartSimple />`;
 
 ```typescript
 interface VChartSimpleProps extends EventsProps {
@@ -165,13 +167,189 @@ interface VChartSimpleProps extends EventsProps {
 }
 ```
 
+- 使用语义化标签，自**1.11.0**版本，所有的语义化标签默认支持按需加载，其中各种语义化标签默认注册的内容如下：
+
+| 图表                       | 分类           | 额外注册的组件                        |
+| -------------------------- | -------------- | ------------------------------------- |
+| `<LineChart/>`             | 直角坐标系图表 | `registerLabel`                       |
+| `<AreaChart/>`             | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
+| `<BarChart/>`              | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
+| `<Bar3dChart/>`            | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
+| `<BoxPlotChart/>`          | 直角坐标系图表 | `registerLabel`,                      |
+| `<HeatmapChart/>`          | 直角坐标系图表 | `registerLabel`                       |
+| `<Histogram3dChart/>`      | 直角坐标系图表 | `registerLabel`                       |
+| `<HistogramChart/>`        | 直角坐标系图表 | `registerLabel`                       |
+| `<LinearProgressChart/>`   | 直角坐标系图表 | `registerLabel`                       |
+| `<RangeColumnChart/>`      | 直角坐标系图表 | `registerLabel`                       |
+| `<RangeColumn3dChart/>`    | 直角坐标系图表 | `registerLabel`                       |
+| `<ScatterChart/>`          | 直角坐标系图表 | `registerLabel`                       |
+| `<SequenceChart/>`         | 直角坐标系图表 | `registerLabel`                       |
+| `<WaterfallChart/>`        | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
+| `<RadarChart/>`            | 极坐标系图表   | `registerLabel`                       |
+| `<RoseChart/>`             | 极坐标系图表   | `registerLabel`                       |
+| `<CircularProgressChart/>` | 极坐标系图表   | `registerLabel`, `registerIndicator`  |
+| `<Pie3dChart/>`            | 通用图表       | `registerLabel`, `registerIndicator`  |
+| `<PieChart/>`              | 通用图表       | `registerLabel`, `registerIndicator`  |
+| `<CirclePackingChart/>`    | 通用图表       | 无                                    |
+| `<FunnelChart/>`           | 通用图表       | `registerLabel`                       |
+| `<Funnel3dChart/>`         | 通用图表       | `registerLabel`                       |
+| `<GaugeChart/>`            | 通用图表       | 无                                    |
+| `<MapChart/>`              | 通用图表       | `registerLabel`                       |
+| `<SankeyChart/>`           | 通用图表       | 无                                    |
+| `<SunburstChart/>`         | 通用图表       | 无                                    |
+| `<TreemapChart/>`          | 通用图表       | 无                                    |
+| `<VennChart/>`             | 通用图表       | 无                                    |
+| `<WordCloud3dChart/>`      | 通用图表       | 无                                    |
+| `<WordCloudChart/>`        | 通用图表       | 无                                    |
+| `<LiquidChart/>`           | 通用图表       | `registerIndicator`                   |
+
+其中，直角坐标系图表默认注册组件如下：
+
+- `registerCartesianLinearAxis`
+- `registerCartesianBandAxis`
+- `registerCartesianTimeAxis`
+- `registerCartesianLogAxis`
+- `registerCartesianCrossHair`
+- `registerBrush`
+- `registerContinuousLegend`
+- `registerDataZoom`
+- `registerDiscreteLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerMarkArea`
+- `registerMarkLine`
+- `registerMarkPoint`
+- `registerScrollBar`
+- `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
+
+极坐标系图表默认注册组件如下：
+
+- `registerPolarLinearAxis`
+- `registerPolarBandAxis`
+- `registerPolarCrossHair`
+- `registerBrush`
+- `registerContinuousLegend`
+- `registerDataZoom`
+- `registerDiscreteLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerScrollBar`
+- `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
+
+通用图表默认注册组件如下：
+
+- `registerDiscreteLegend`
+- `registerContinuousLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerTitle`
+- `registerTooltip`
+- `registerDomTooltipHandler`
+
+使用语义化标签的时候，如果用到其他没有默认加载的组件，只需要注册未加载的组件即可；
+
+也可以参考[react-vchart](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/react) 教程中的按需加载章节
+
 ## taro-vchart 按需加载
 
-> 自 1.10.0 版本后支持
+taro-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的时候，有两种办法：
 
-与 react-vchart 类似，当需要 VChart 按需加载的时候，也是需要使用 `<VChartSimple />` 标签。
+- 使用 `<VChartSimple />` 标签，实现自定义的按需加载
+
+> 自**1.10.0**版本开始支持
 
 `<VChartSimple />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart/esm/core` 引用 `VChart` 构造类，根据本文描述，注册需要的图表和组件，并传入给 `<VChartSimple />`;
+
+- 使用语义化标签，，所有的语义化标签默认支持按需加载，其中各种语义化标签默认注册的内容如下：
+
+> 自**1.12.0**版本开始支持
+
+| 图表                       | 分类           | 额外注册的组件                        |
+| -------------------------- | -------------- | ------------------------------------- |
+| `<LineChart/>`             | 直角坐标系图表 | `registerLabel`                       |
+| `<AreaChart/>`             | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
+| `<BarChart/>`              | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
+| `<Bar3dChart/>`            | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
+| `<BoxPlotChart/>`          | 直角坐标系图表 | `registerLabel`,                      |
+| `<HeatmapChart/>`          | 直角坐标系图表 | `registerLabel`                       |
+| `<Histogram3dChart/>`      | 直角坐标系图表 | `registerLabel`                       |
+| `<HistogramChart/>`        | 直角坐标系图表 | `registerLabel`                       |
+| `<LinearProgressChart/>`   | 直角坐标系图表 | `registerLabel`                       |
+| `<RangeColumnChart/>`      | 直角坐标系图表 | `registerLabel`                       |
+| `<RangeColumn3dChart/>`    | 直角坐标系图表 | `registerLabel`                       |
+| `<ScatterChart/>`          | 直角坐标系图表 | `registerLabel`                       |
+| `<SequenceChart/>`         | 直角坐标系图表 | `registerLabel`                       |
+| `<WaterfallChart/>`        | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
+| `<RadarChart/>`            | 极坐标系图表   | `registerLabel`                       |
+| `<RoseChart/>`             | 极坐标系图表   | `registerLabel`                       |
+| `<CircularProgressChart/>` | 极坐标系图表   | `registerLabel`, `registerIndicator`  |
+| `<Pie3dChart/>`            | 通用图表       | `registerLabel`, `registerIndicator`  |
+| `<PieChart/>`              | 通用图表       | `registerLabel`, `registerIndicator`  |
+| `<CirclePackingChart/>`    | 通用图表       | 无                                    |
+| `<FunnelChart/>`           | 通用图表       | `registerLabel`                       |
+| `<Funnel3dChart/>`         | 通用图表       | `registerLabel`                       |
+| `<GaugeChart/>`            | 通用图表       | 无                                    |
+| `<MapChart/>`              | 通用图表       | `registerLabel`                       |
+| `<SankeyChart/>`           | 通用图表       | 无                                    |
+| `<SunburstChart/>`         | 通用图表       | 无                                    |
+| `<TreemapChart/>`          | 通用图表       | 无                                    |
+| `<VennChart/>`             | 通用图表       | 无                                    |
+| `<WordCloud3dChart/>`      | 通用图表       | 无                                    |
+| `<WordCloudChart/>`        | 通用图表       | 无                                    |
+| `<LiquidChart/>`           | 通用图表       | `registerIndicator`                   |
+
+其中，直角坐标系图表默认注册组件如下：
+
+- `registerCartesianLinearAxis`
+- `registerCartesianBandAxis`
+- `registerCartesianTimeAxis`
+- `registerCartesianLogAxis`
+- `registerCartesianCrossHair`
+- `registerBrush`
+- `registerContinuousLegend`
+- `registerDataZoom`
+- `registerDiscreteLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerMarkArea`
+- `registerMarkLine`
+- `registerMarkPoint`
+- `registerScrollBar`
+- `registerCanvasTooltipHandler`
+- `registerTitle`
+
+极坐标系图表默认注册组件如下：
+
+- `registerPolarLinearAxis`
+- `registerPolarBandAxis`
+- `registerPolarCrossHair`
+- `registerBrush`
+- `registerContinuousLegend`
+- `registerDataZoom`
+- `registerDiscreteLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerScrollBar`
+- `registerCanvasTooltipHandler`
+- `registerTitle`
+
+通用图表默认注册组件如下：
+
+- `registerDiscreteLegend`
+- `registerContinuousLegend`
+- `registerCustomMark`
+- `registerAllMarks`
+- `registerTitle`
+- `registerTooltip`
+- `registerCanvasTooltipHandler`
+
+使用语义化标签的时候，如果用到其他没有默认加载的组件，只需要注册未加载的组件即可；
+
+也可以参考[taro-vchart](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/taro) 教程中的按需加载章节
 
 ## 跨端
 
@@ -520,4 +698,42 @@ VChart.useRegisters([registerWXEnv]);
         <td><code>registerPyramid3dMark</code></td>
         <td>三维金字塔图元用于绘制金字塔形状的六面体，可以用来创建三维可视化中的漏斗图等可视化效果。</td>
     </tr>
+</table>
+
+## 附录四：插件注册列表
+
+<table>
+    <tr>
+        <td>插件</td>
+        <td>插件注册方法</td>
+    </tr>
+    <tr>
+        <td>全局形变动画</td>
+        <td><code>registerMorph</code></td>
+    </tr>
+     <tr>
+        <td>3d渲染</td>
+        <td><code>register3DPlugin</code></td>
+    </tr>
+     <tr>
+        <td>动画</td>
+        <td><code>registerAnimate</code></td>
+    </tr>
+     <tr>
+        <td>React插件</td>
+        <td><code>registerReactAttributePlugin</code></td>
+    </tr>
+     <tr>
+        <td>HTML插件</td>
+        <td><code>registerHtmlAttributePlugin</code></td>
+    </tr>
+     <tr>
+        <td>拖拽插件</td>
+        <td><code>registerDragPlugin</code></td>
+    </tr>
+     <tr>
+        <td>手势插件</td>
+        <td><code>registerGesturePlugin</code></td>
+    </tr>
+     
 </table>

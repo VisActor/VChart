@@ -12,7 +12,7 @@
 
 自 1.7.0 版本支持，文本类型。`1.10.0`版本后，建议使用 `formatMethod` 配置富文本。
 
-富文本的具体使用方式，请参考[富文本教程文档](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+富文本的具体使用方式，请参考[富文本教程文档](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
 可选：
 
@@ -58,7 +58,7 @@ formatMethod: text => {
 };
 ```
 
-更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
 #${prefix} formatter(string)
 
@@ -369,3 +369,12 @@ const layout = (attribute, text, getRelatedGraphic) => {
 
 ##${prefix} increaseEffect(boolean)=true
 标签数值增长动画，当标签数据更新且为数值数据时触发。设置为 `false` 可以关闭此动画效果。
+
+#${prefix} stackDataFilterType('min'|'max')
+
+自 1.12.0 开始生效
+
+用于对堆积分组数据进行过滤
+
+- 'min' 对堆积分组中的最大值展示标签
+- 'max' 对堆积分组中的最小值展示标签

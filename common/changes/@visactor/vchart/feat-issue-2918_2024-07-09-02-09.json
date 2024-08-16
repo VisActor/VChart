@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: marker's `coordinates` and `positions` property support callback",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

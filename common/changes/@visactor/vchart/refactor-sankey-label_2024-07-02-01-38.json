@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: use label component to refactor sankey label",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

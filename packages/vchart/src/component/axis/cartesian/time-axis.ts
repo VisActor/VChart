@@ -16,6 +16,9 @@ import { registerAxis } from '../base-axis';
 import { getAxisItem } from '../util';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '@visactor/vutils-extension';
+import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
+import { continuousTicks } from '@visactor/vrender-components';
+import { registerDataSetInstanceTransform } from '../../../data/register';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition'>,
@@ -69,7 +72,7 @@ export class CartesianTimeAxis<
         })
         .transform(
           {
-            type: 'ticks',
+            type: `${this.type}-ticks`,
             options: {
               ...this._tickTransformOption(),
               tickCount: this._spec.layers[1].tickCount,
@@ -139,12 +142,21 @@ export class CartesianTimeAxis<
 
     return items;
   }
+
+  protected registerTicksTransform() {
+    const name = `${this.type}-ticks`;
+    registerDataSetInstanceTransform(this._option.dataSet, name, continuousTicks);
+
+    return name;
+  }
   transformScaleDomain() {
     // do nothing
   }
 }
 
 export const registerCartesianTimeAxis = () => {
+  registerLineAxis();
+  registerLineGrid();
   registerAxis();
   Factory.registerComponent(CartesianTimeAxis.type, CartesianTimeAxis);
 };

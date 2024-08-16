@@ -1,4 +1,6 @@
-import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
+import { ChartEvent } from '../../constant/event';
+import { AttributeLevel } from '../../constant/attribute';
+import { LayoutZIndex } from '../../constant/layout';
 import { BaseComponent } from '../base/base-component';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
@@ -519,8 +521,15 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         } else {
           const range = axis.getScale().range();
           const rangeFactor = (axis.getScale() as IContinuousScale | IBandLikeScale).rangeFactor() ?? [0, 1];
-          const startPos = boundsStart - region.getLayoutStartPoint()[regionStartAttr];
-          const endPos = boundsEnd - region.getLayoutStartPoint()[regionStartAttr];
+
+          // 判断轴是否为反向轴（range[1] < range[0])，即从右到左, 或从下到上
+          // 如果是反向轴, 计算start和end时, 也要保持 start < end
+          const isAxisReverse = range[1] < range[0];
+          const startPosTemp = boundsStart - region.getLayoutStartPoint()[regionStartAttr];
+          const endPosTemp = boundsEnd - region.getLayoutStartPoint()[regionStartAttr];
+          const endPos = isAxisReverse ? Math.min(startPosTemp, endPosTemp) : Math.max(startPosTemp, endPosTemp);
+          const startPos = isAxisReverse ? Math.max(startPosTemp, endPosTemp) : Math.min(startPosTemp, endPosTemp);
+
           const start =
             ((startPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
           const end =

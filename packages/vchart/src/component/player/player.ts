@@ -21,7 +21,8 @@ import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import { transformContinuousSpecToAttrs, transformDiscreteSpecToAttrs } from './utils/transform';
 import { isHorizontal, isVertical } from './utils/orient';
-import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
+import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
+import { ChartEvent } from '../../constant/event';
 
 export class Player extends BaseComponent<IPlayer> implements IComponent {
   layoutZIndex: number = LayoutZIndex.Player;

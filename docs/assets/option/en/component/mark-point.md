@@ -56,7 +56,8 @@ Mark target: data element.
 Specifies the mark area for the data point. Draw the mark area based on the specified data point.
 
 {{ use: component-marker-data-point(
-  prefix = '###'
+  prefix = '###',
+   isSingle = true
 ) }}
 
 {{ use: component-marker-data-point-offset(
@@ -70,7 +71,8 @@ Mark target: coordinate point.
 Specifies the mark area for the coordinate point. Draw the mark area based on the specified coordinate point.
 
 {{ use: component-marker-point-like(
-  prefix = '###'
+  prefix = '###',
+   isSingle = true
 ) }}
 
 ### regionRelative(boolean) = false

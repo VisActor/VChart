@@ -1,14 +1,15 @@
 {
   "name": "@visactor/taro-vchart",
-  "version": "1.11.11",
+  "version": "1.11.12",
   "description": "Taro VChart 图表组件",
   "sideEffects": false,
-  "main": "lib/src/index.js",
+  "main": "esm/index.js",
   "files": [
-    "lib"
+    "esm",
+    "cjs"
   ],
   "scripts": {
-    "build": "rimraf lib && rollup -c --bundleConfigAsCjs",
+    "build": "bundle --clean",
     "build:tt": "taro build --type tt",
     "build:lark": "taro build --type lark",
     "build:h5": "taro build --type h5",
@@ -42,9 +43,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@visactor/vchart": "workspace:1.11.11"
+    "@visactor/vchart": "workspace:1.11.12"
   },
   "devDependencies": {
+    "@internal/bundler": "workspace:*",
     "@internal/eslint-config": "workspace:*",
     "@rushstack/eslint-patch": "~1.1.4",
     "@internal/ts-config": "workspace:*",

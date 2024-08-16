@@ -6,6 +6,7 @@ import { registerWordCloud3dSeries, registerWordCloudShape3dSeries } from '../..
 import { Factory } from '../../../core/factory';
 import type { AdaptiveSpec } from '../../../typings';
 import { WordCloud3dChartSpecTransformer } from './word-cloud-3d-transformer';
+import { register3DPlugin } from '../../../plugin/other';
 
 export class WordCloud3dChart<T extends IWordCloud3dChartSpec = IWordCloud3dChartSpec> extends BaseWordCloudChart<
   AdaptiveSpec<T, 'type' | 'series'>
@@ -20,11 +21,13 @@ export class WordCloud3dChart<T extends IWordCloud3dChartSpec = IWordCloud3dChar
 }
 
 export const registerWordCloud3dChart = () => {
+  register3DPlugin();
   registerWordCloud3dSeries();
   Factory.registerChart(WordCloud3dChart.type, WordCloud3dChart);
 };
 
 export const registerWordCloudShape3dChart = () => {
+  register3DPlugin();
   registerWordCloudShape3dSeries();
   registerWordCloud3dChart();
 };

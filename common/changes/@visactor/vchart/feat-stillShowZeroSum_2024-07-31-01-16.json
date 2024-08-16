@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: show evenly divided pie chart with showAllZero",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

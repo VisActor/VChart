@@ -1,4 +1,4 @@
-import { Event_Source_Type } from '../../../constant';
+import { Event_Source_Type } from '../../../constant/event';
 import type { BaseEventParams, EventHandler, EventParamsDefinition, EventType } from '../../interface';
 import { DimensionEvent } from './base';
 

@@ -17,7 +17,7 @@ import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import { isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
-import { LayoutZIndex } from '../../../constant';
+import { LayoutZIndex } from '../../../constant/layout';
 import type { IGroup } from '@visactor/vrender-core';
 import { markerFilter } from '../../../data/transforms/marker-filter';
 import type { IMarkProcessOptions } from '../interface';

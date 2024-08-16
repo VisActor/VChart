@@ -1,10 +1,13 @@
-import { ChartEvent } from '../constant/index';
+import { ChartEvent } from '../constant/event';
 import type { IRegion } from '../region/interface';
 import type { IChart } from './interface';
-import type { IStackCacheNode } from '../util';
+import type { IStackCacheNode, IStackCacheRoot } from '../util';
 // eslint-disable-next-line no-duplicate-imports
 import { getRegionStackGroup, stack, stackOffsetSilhouette, stackTotal } from '../util';
 import type { EventCallback } from '../event/interface';
+import type { DataSet } from '@visactor/vdataset';
+import { registerDataSetInstanceTransform } from '../data/register';
+import { stackSplit } from '../data/transforms/stack-split';
 
 // stack
 // 1. 不可以多个region之间的series进行堆积，目前看这种需求没有场景。将堆积改为针对 region
@@ -14,9 +17,18 @@ import type { EventCallback } from '../event/interface';
 // 现有功能，有支持堆积时的方向可以调整。也就是sort
 export class Stack {
   protected _chart: IChart;
+  protected _options?: {
+    afterStackRegion?: (region: IRegion, stackValueGroup: { [key: string]: IStackCacheRoot }) => void;
+  };
 
-  constructor(chart: IChart) {
+  constructor(
+    chart: IChart,
+    options?: {
+      afterStackRegion?: (region: IRegion, stackValueGroup: { [key: string]: IStackCacheRoot }) => void;
+    }
+  ) {
     this._chart = chart;
+    this._options = options;
   }
 
   init() {
@@ -43,7 +55,9 @@ export class Stack {
       return;
     }
     // total label need percent
-    const hasTotalLabel = series.some(s => s.getSpec()?.totalLabel?.visible);
+    const hasTotalLabel = series.some(s => {
+      return s.getSpec()?.totalLabel?.visible;
+    });
     const hasPercent = hasTotalLabel || series.some(s => s.getPercent());
     const hasOffsetSilhouette = series.some(s => s.getStackOffsetSilhouette());
 
@@ -52,7 +66,7 @@ export class Stack {
     // 计算堆积
     for (const stackValue in stackValueGroup) {
       for (const key in stackValueGroup[stackValue].nodes) {
-        stack(stackValueGroup[stackValue].nodes[key], model.getStackInverse(), hasPercent);
+        stack(stackValueGroup[stackValue].nodes[key], model.getStackInverse(), hasPercent, hasTotalLabel);
       }
     }
 
@@ -75,5 +89,25 @@ export class Stack {
         }
       });
     }
+
+    if (this._options?.afterStackRegion) {
+      this._options.afterStackRegion(model, stackValueGroup);
+    }
   };
+}
+
+export class StackChartMixin {
+  protected _stack: Stack;
+  protected _dataSet: DataSet;
+
+  protected _beforeInit() {
+    if (this._dataSet) {
+      registerDataSetInstanceTransform(this._dataSet, 'stackSplit', stackSplit);
+    }
+  }
+
+  protected _initStack() {
+    this._stack = new Stack(this as unknown as IChart);
+    this._stack.init();
+  }
 }

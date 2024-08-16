@@ -402,6 +402,13 @@
               }
             },
             {
+              "path": "Mosaic",
+              "title": {
+                "zh": "马赛克图",
+                "en": "Mosaic Chart"
+              }
+            },
+            {
               "path": "3d_Line",
               "title": {
                 "zh": "3d 折线图",
@@ -547,6 +554,13 @@
               "title": {
                 "zh": "自定义 mark",
                 "en": "Custom Mark"
+              }
+            },
+            {
+              "path": "Richtext_and_Dom",
+              "title": {
+                "zh": "富文本和 Dom 扩展",
+                "en": "Richtext and dom extension"
               }
             }
           ]
@@ -825,13 +839,6 @@
           "title": {
             "zh": "函数",
             "en": "Function"
-          }
-        },
-        {
-          "path": "Richtext_and_Dom",
-          "title": {
-            "zh": "富文本和 Dom 扩展",
-            "en": "Richtext and dom extension"
           }
         },
         {

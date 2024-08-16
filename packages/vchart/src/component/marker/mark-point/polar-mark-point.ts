@@ -6,13 +6,14 @@ import { BaseMarkPoint } from './base-mark-point';
 import type { IPolarSeries } from 'src/series';
 import type { IMarkProcessOptions } from '../interface';
 import { polarToCartesian } from '@visactor/vutils';
+import type { CoordinateType } from '../../../typings';
 
 export class PolarMarkPoint extends BaseMarkPoint {
   static type = ComponentTypeEnum.polarMarkPoint;
   type = ComponentTypeEnum.polarMarkPoint;
   name: string = ComponentTypeEnum.polarMarkPoint;
   static coordinateType = 'polar';
-  coordinateType = 'polar';
+  coordinateType = 'polar' as CoordinateType;
 
   protected _computePointsAttr() {
     const data = this._markerData;

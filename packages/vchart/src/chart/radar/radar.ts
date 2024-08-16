@@ -5,6 +5,8 @@ import { Factory } from '../../core/factory';
 import type { IRoseChartSpec } from '../rose';
 import { RadarChartSpecTransformer } from './radar-transformer';
 import { BaseChart } from '../base';
+import { StackChartMixin } from '../stack';
+import { mixin } from '@visactor/vutils';
 
 export class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.radar;
@@ -14,8 +16,9 @@ export class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseC
   readonly transformerConstructor = RadarChartSpecTransformer;
   readonly type: string = ChartTypeEnum.radar;
   readonly seriesType: string = SeriesTypeEnum.radar;
-  protected _canStack: boolean = true;
 }
+
+mixin(RadarChart, StackChartMixin);
 
 export const registerRadarChart = () => {
   registerRadarSeries();

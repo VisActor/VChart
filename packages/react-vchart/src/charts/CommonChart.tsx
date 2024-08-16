@@ -1,5 +1,5 @@
-import React from 'react';
-import { ICommonChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type React from 'react';
+import type { ICommonChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
   registerCommonChart,
@@ -16,13 +16,14 @@ import {
   registerScatterSeries,
   registerPieSeries
 } from '@visactor/vchart';
-import { BaseChartProps, createChart } from './BaseChart';
+import type { BaseChartProps } from './BaseChart';
+import { createChart } from './BaseChart';
 
 export interface CommonChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<ICommonChartSpec, 'type'> {}
+    Omit<Partial<ICommonChartSpec>, 'type'> {}
 
-export const CommonChart = createChart<React.PropsWithChildren<CommonChartProps> & { type: 'common' }>(
+export const CommonChart = createChart<React.PropsWithChildren<CommonChartProps> & { type?: 'common' }>(
   'CommonChart',
   {
     type: 'common',

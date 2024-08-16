@@ -6,6 +6,7 @@ import { Factory } from '../../../core/factory';
 import { BarChart } from '../bar';
 import type { AdaptiveSpec } from '../../../typings';
 import { Bar3dChartSpecTransformer } from './bar-3d-transformer';
+import { register3DPlugin } from '../../../plugin/other';
 
 export class Bar3dChart<T extends IBar3dChartSpec = IBar3dChartSpec> extends BarChart<
   AdaptiveSpec<T, 'type' | 'series'>
@@ -20,6 +21,7 @@ export class Bar3dChart<T extends IBar3dChartSpec = IBar3dChartSpec> extends Bar
 }
 
 export const registerBar3dChart = () => {
+  register3DPlugin();
   registerBar3dSeries();
   Factory.registerChart(Bar3dChart.type, Bar3dChart);
 };

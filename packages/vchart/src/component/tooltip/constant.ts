@@ -1,4 +1,4 @@
-import { PREFIX } from '../../constant';
+import { PREFIX } from '../../constant/base';
 import type { ITooltipLineActual } from '../../typings';
 
 export class TooltipHandlerType {

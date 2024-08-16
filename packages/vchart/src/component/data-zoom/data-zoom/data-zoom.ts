@@ -26,7 +26,8 @@ import type { Datum, ILayoutType } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
-import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
+import { LayoutLevel, LayoutZIndex } from '../../../constant/layout';
+import { ChartEvent } from '../../../constant/event';
 import type { IDataZoomSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';

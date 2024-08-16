@@ -5,7 +5,9 @@ import type { IOrientType, IPoint, TextAlign, TextBaseLine, Datum, StringOrNumbe
 import { SeriesTypeEnum } from '../interface/type';
 import type { IPolygonMark } from '../../mark/polygon/polygon';
 import { BaseSeries } from '../base/base-series';
-import { AttributeLevel, DEFAULT_DATA_KEY, PREFIX } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
+import { DEFAULT_DATA_KEY } from '../../constant/data';
+import { PREFIX } from '../../constant/base';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
 import type { IMark } from '../../mark/interface';

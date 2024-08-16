@@ -4,12 +4,12 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IGaugeSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { SEGMENT_FIELD_END, SEGMENT_FIELD_START } from '../../constant';
+import { SEGMENT_FIELD_END, SEGMENT_FIELD_START } from '../../constant/data';
 import type { Datum } from '@visactor/vgrammar-core';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { gaugeSeriesMark } from './constant';
-import { degreeToRadian, isValid } from '@visactor/vutils';
+import { clamper, degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { registerProgressLikeAnimation } from '../polar/progress-like';
 import type { IMark } from '../../mark/interface';
@@ -133,13 +133,19 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   protected _getAngleValueStartWithoutMask(datum: Datum) {
     const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
     const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
-    return Math.min(startAngle + this._padAngle / 2, (startAngle + endAngle) / 2);
+    return clamper(
+      startAngle,
+      (startAngle + endAngle) / 2
+    )(startAngle + (endAngle > startAngle ? 1 : -1) * Math.abs(this._padAngle / 2));
   }
 
   protected _getAngleValueEndWithoutMask(datum: Datum) {
     const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
     const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
-    return Math.max(endAngle - this._padAngle / 2, (startAngle + endAngle) / 2);
+    return clamper(
+      endAngle,
+      (startAngle + endAngle) / 2
+    )(endAngle - (endAngle > startAngle ? 1 : -1) * Math.abs(this._padAngle / 2));
   }
 
   protected _getAngleValueStartWithoutPadAngle(datum: Datum) {

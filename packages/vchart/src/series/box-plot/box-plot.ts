@@ -1,6 +1,8 @@
 /* eslint-disable no-duplicate-imports */
 import type { ISymbolMark } from '../../mark/symbol';
-import { AttributeLevel, DEFAULT_DATA_INDEX, PREFIX } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
+import { DEFAULT_DATA_INDEX } from '../../constant/data';
+import { PREFIX } from '../../constant/base';
 import type { IBoxPlotMark } from '../../mark/box-plot';
 import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
 import type { BoxPlotShaftShape, IOutlierMarkSpec, Maybe, Datum } from '../../typings';

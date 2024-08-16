@@ -4,7 +4,7 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
-import { LayoutZIndex } from '../../constant';
+import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import type { LooseFunction } from '@visactor/vutils';

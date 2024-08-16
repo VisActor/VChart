@@ -1,18 +1,18 @@
-import React from 'react';
-import { IFunnel3dChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type React from 'react';
+import type { IFunnel3dChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerFunnel3dChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
-import { simpleComponentsRegisters } from './register';
+import { registers } from './registers/simple';
 
 export interface Funnel3dChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<IFunnel3dChartSpec, 'type'> {}
+    Omit<Partial<IFunnel3dChartSpec>, 'type'> {}
 
-export const Funnel3dChart = createChart<React.PropsWithChildren<Funnel3dChartProps> & { type: 'funnel3d' }>(
+export const Funnel3dChart = createChart<React.PropsWithChildren<Funnel3dChartProps> & { type?: 'funnel3d' }>(
   'Funnel3dChart',
   {
     type: 'funnel3d',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerFunnel3dChart, registerLabel, ...simpleComponentsRegisters]
+  [registerFunnel3dChart, registerLabel, ...registers]
 );
