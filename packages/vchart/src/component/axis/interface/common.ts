@@ -75,7 +75,7 @@ export interface ITickCalculationCfg {
    * @param {ContinuousScale} scale - 连续轴的比例尺对象
    * @param {number} tickCount - 生成tick的数量
    * @returns {number[]} - 生成的 tick 数组
-   * @since 1.1.12
+   * @since 1.12.0
    *
    * @example
    * // 自定义 tick 生成函数示例

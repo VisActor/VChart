@@ -130,7 +130,7 @@ tickCount?: (option: {
 
 - `'average'`：根据轴范围尽可能均分
 - `'d3'`：与 d3 默认逻辑一致，以 [1, 2, 5] 为基数生成；
-- `CustomTicksFunc`: 自定义 tick 生成算法，自`1.1.12`版本开始支持，**仅当轴为线性轴时生效**，具体使用方式如下：
+- `CustomTicksFunc`: 自定义 tick 生成算法，自`1.12.0`版本开始支持，**仅当轴为线性轴时生效**，具体使用方式如下：
 
 ```ts
 /**
@@ -143,10 +143,10 @@ tickMode: CustomTicksFunc<ContinuousScale>;
 /**
  * @example
  */
-tickMode: (scale, tickCount=5) => {
-    const domain = scale.domain();
-    const step = (domain[1] - domain[0]) / (tickCount - 1);
-    return Array.from({ length: tickCount }, (_, i) => domain[0] + i * step);
+tickMode: (scale, tickCount = 5) => {
+  const domain = scale.domain();
+  const step = (domain[1] - domain[0]) / (tickCount - 1);
+  return Array.from({ length: tickCount }, (_, i) => domain[0] + i * step);
 };
 ```
 

@@ -130,7 +130,7 @@ The continuous axis tick generation algorithm, supported since version `1.3.0`, 
 
 - 'average': Ticks are evenly distributed based on the axis range as much as possible.
 - 'd3': Generates tick values like the default logic of d3, using a base of [1, 2, 5].
-- `CustomTicksFunc`: Custom ticks, supported since version `1.1.12`, **only effective when the axis is linear**. The specific usage is as follows:
+- `CustomTicksFunc`: Custom ticks, supported since version `1.12.0`, **only effective when the axis is linear**. The specific usage is as follows:
 
 ```ts
 /**
