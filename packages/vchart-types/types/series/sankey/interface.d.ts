@@ -5,6 +5,10 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { SankeyAppearPreset, SankeyMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILabelSpec } from '../../component/label';
+export type ISankeyLabelSpec = ILabelSpec & {
+    position?: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right';
+    limit?: number;
+};
 export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSpec<SankeyMark, SankeyAppearPreset> {
     nameKey: any;
     type: 'sankey';
@@ -37,10 +41,7 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
         trigger?: 'click' | 'hover';
         effect: 'self' | 'adjacency' | 'related';
     };
-    [SeriesMarkNameEnum.label]?: ILabelSpec & {
-        position?: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right';
-        limit?: number;
-    };
+    [SeriesMarkNameEnum.label]?: ISankeyLabelSpec | ISankeyLabelSpec[];
 }
 export interface SankeyLinkDatum {
     source: string | number;

@@ -1,6 +1,29 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 14 Aug 2024 14:51:54 GMT and should not be manually modified.
+This log was last generated on Fri, 16 Aug 2024 06:12:54 GMT and should not be manually modified.
+
+## 1.12.0
+Fri, 16 Aug 2024 06:12:54 GMT
+
+### Updates
+
+- feat: marker's `coordinates` and `positions` property support callback
+- add emptyPlaceholder and emptyCircle for pie chart
+- sequence support bottom axes. fix#2927
+- feat: support `animationState` config
+- feat: show evenly divided pie chart with showAllZero
+- feat: enable supportNegative option to treat negative values as absolute values
+- feat: support theme config by chart type
+- feat: support text shape of word-cloud
+
+
+- fix: y-axis is reverted after brush zoomin. fix#3089
+- fix: mark-point position type error fix
+- refactor: refactor the graphics in linear-progress chart
+- refactor: use label component to refactor sankey label
+- refactor: stack can be required by need
+
+
 
 ## 1.11.12
 Wed, 14 Aug 2024 14:51:54 GMT

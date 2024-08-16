@@ -11,7 +11,6 @@ import type { IMark } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
-import { Stack } from '../stack';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
@@ -51,8 +50,6 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     get chartData(): ChartData;
     protected _option: IChartOption;
     readonly state: ILayoutModelState;
-    protected _stack: Stack;
-    protected _canStack: boolean;
     padding: IPadding;
     protected _paddingSpec: ILayoutOrientPadding;
     protected _canvasRect: ILayoutRect;

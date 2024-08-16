@@ -1,5 +1,5 @@
 import { ComponentTypeEnum } from '../../interface/type';
-import type { IPoint } from '../../../typings';
+import type { CoordinateType, IPoint } from '../../../typings';
 import { BaseMarkPoint } from './base-mark-point';
 import type { IMarkProcessOptions } from '../interface';
 export declare class CartesianMarkPoint extends BaseMarkPoint {
@@ -7,7 +7,7 @@ export declare class CartesianMarkPoint extends BaseMarkPoint {
     type: ComponentTypeEnum;
     name: string;
     static coordinateType: string;
-    coordinateType: string;
+    coordinateType: CoordinateType;
     protected _computePointsAttr(): {
         point: IPoint;
     };

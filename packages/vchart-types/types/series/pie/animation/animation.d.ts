@@ -22,4 +22,5 @@ export declare function piePresetAnimation(params: IPieAnimationParams, preset: 
     type: string;
 };
 export declare const registerPieAnimation: () => void;
+export declare const registerEmptyCircleAnimation: () => void;
 export declare const registerPie3dAnimation: () => void;

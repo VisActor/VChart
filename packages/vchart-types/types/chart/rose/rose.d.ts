@@ -8,6 +8,5 @@ export declare class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extend
     readonly transformerConstructor: typeof RoseChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _canStack: boolean;
 }
 export declare const registerRoseChart: () => void;

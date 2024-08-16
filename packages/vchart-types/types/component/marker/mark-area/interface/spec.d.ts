@@ -1,7 +1,8 @@
 import type { BaseMarkerAnimation, CommonMarkAreaAnimationType } from '@visactor/vrender-components';
 import type { IComponent } from '../../../interface';
-import type { IMarkerPositionsSpec, IDataPointSpec, IDataPos, IMarkerSpec, IDataPosCallback, IMarkerCrossSeriesSpec, OffsetPoint } from '../../interface';
+import type { IMarkerPositionsSpec, IDataPointSpec, IDataPos, IMarkerSpec, IDataPosCallback, IMarkerCrossSeriesSpec, OffsetPoint, IMarkerSupportSeries } from '../../interface';
 import type { IMarkAreaTheme } from './theme';
+import type { Datum } from '../../../../typings/common';
 export type IMarkArea = IComponent;
 export type IRegressType = 'regression';
 export type IMarkAreaSpec = IMarkerSpec & (IMarkAreaXSpec | IMarkAreaYSpec | IMarkAreaXYSpec | IMarkAreaAngleSpec | IMarkAreaRadiusSpec | IMarkAreaAngleRadiusSpec | IMarkAreaCoordinateSpec | IMarkerPositionsSpec) & IMarkAreaTheme & BaseMarkerAnimation<CommonMarkAreaAnimationType>;
@@ -34,6 +35,6 @@ export interface IMarkAreaAngleRadiusSpec extends IMarkerCrossSeriesSpec {
     radius1: IDataPos | IDataPosCallback;
 }
 export type IMarkAreaCoordinateSpec = {
-    coordinates: IDataPointSpec[];
+    coordinates: IDataPointSpec[] | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => IDataPointSpec[]);
     coordinatesOffset?: OffsetPoint[];
 };

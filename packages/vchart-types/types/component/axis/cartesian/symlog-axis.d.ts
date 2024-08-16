@@ -13,6 +13,7 @@ export declare class CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = IC
     protected _scale: SymlogScale;
     protected _scales: SymlogScale[];
     protected initScales(): void;
+    protected registerTicksTransform(): string;
     transformScaleDomain(): void;
 }
 export declare const registerCartesianSymlogAxis: () => void;

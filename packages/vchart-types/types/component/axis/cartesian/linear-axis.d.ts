@@ -25,5 +25,6 @@ export declare class CartesianLinearAxis<T extends ICartesianLinearAxisSpec = IC
         values: any[];
     }[]): number[];
     protected axisHelper(): IAxisHelper;
+    protected registerTicksTransform(): string;
 }
 export declare const registerCartesianLinearAxis: () => void;
