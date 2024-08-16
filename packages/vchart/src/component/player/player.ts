@@ -324,6 +324,21 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     return 0;
   };
 
+  changePlayerIndex(index: number) {
+    const spec = this._specs[index];
+    (array(spec.data) as IDataValues[]).forEach(data => {
+      this._option?.globalInstance?.updateData(data.id, data.values);
+    });
+    this.event.emit(ChartEvent.playerChange, {
+      model: this,
+      value: {
+        spec: spec,
+        index: index,
+        specs: this._specs
+      }
+    });
+  }
+
   /**
    * 事件
    */
@@ -361,19 +376,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     this._playerComponent.addEventListener(PlayerEventEnum.change, (e: { detail: { index: number } }) => {
       // 更新data
       const { index } = e.detail;
-      const spec = this._specs[index];
-      (array(spec.data) as IDataValues[]).forEach(data => {
-        this._option?.globalInstance?.updateData(data.id, data.values);
-      });
-
-      this.event.emit(ChartEvent.playerChange, {
-        model: this,
-        value: {
-          spec: spec,
-          index: index,
-          specs: this._specs
-        }
-      });
+      this.changePlayerIndex(index);
     });
 
     // 后退
