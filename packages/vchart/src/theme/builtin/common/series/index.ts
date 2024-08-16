@@ -4,8 +4,7 @@ import { bar } from './bar';
 import { bar3d } from './bar3d';
 import { circularProgress } from './circular-progress';
 import { dot } from './dot';
-import { funnel } from './funnel';
-import { funnel3d } from './funnel3d';
+import { funnel, funnel3d } from './funnel';
 import { gauge } from './gauge';
 import { gaugePointer } from './gauge-pointer';
 import { line } from './line';
@@ -17,8 +16,7 @@ import { pie3d } from './pie3d';
 import { radar } from './radar';
 import { scatter } from './scatter';
 import { waterfall } from './waterfall';
-import { wordCloud } from './word-cloud';
-import { wordCloud3d } from './word-cloud3d';
+import { wordCloud, wordCloud3d } from './word-cloud';
 import { treemap } from './treemap';
 import { sunburst } from './sunburst';
 import { rangeColumn } from './rangeColumn';
@@ -30,6 +28,7 @@ import { boxPlot } from './box-plot';
 import { correlation } from './correlation';
 import { liquid } from './liquid';
 import { venn } from './venn';
+import { mosaic } from './mosaic';
 
 export const series: ISeriesTheme = {
   scatter,
@@ -62,5 +61,6 @@ export const series: ISeriesTheme = {
   boxPlot,
   correlation,
   liquid,
-  venn
+  venn,
+  mosaic
 };

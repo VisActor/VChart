@@ -1059,6 +1059,22 @@
             "zh": "形状词云图随机旋转角",
             "en": "Shape Word Cloud with Random Rotation Angles"
           }
+        },
+
+        {
+          "path": "word-cloud-shape-text",
+          "title": {
+            "zh": "文字轮廓词云图",
+            "en": "Text outline Word Cloud"
+          }
+        },
+
+        {
+          "path": "word-cloud-shape-geometry",
+          "title": {
+            "zh": "几何形状词云图",
+            "en": "geometric outline Word Cloud"
+          }
         }
       ]
     },
@@ -1428,6 +1444,38 @@
           "title": {
             "zh": "空心韦恩图",
             "en": "Hollow Venn Chart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "mosaic-chart",
+      "title": {
+        "zh": "马赛克图",
+        "en": "mosaic-chart"
+      },
+      "children": [
+        {
+          "path": "basic-mosaic",
+          "title": {
+            "zh": "基础马赛克图",
+            "en": "Basic mosaic chart"
+          }
+        },
+
+        {
+          "path": "simple-mosaic",
+          "title": {
+            "zh": "简化马赛克图",
+            "en": "simple mosaic chart"
+          }
+        },
+
+        {
+          "path": "group-mosaic",
+          "title": {
+            "zh": "分组马赛克图",
+            "en": "group mosaic chart"
           }
         }
       ]
@@ -2313,6 +2361,13 @@
           "title": {
             "zh": "地理坐标系下的markPoint",
             "en": "markPoint in geo coordinates"
+          }
+        },
+        {
+          "path": "trend-line",
+          "title": {
+            "zh": "使用 MarkLine 绘制趋势线",
+            "en": "Draw trend line using MarkLine"
           }
         }
       ]

@@ -86,41 +86,48 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
 - 回调函数
 
 ### angle(string|number|function)
-自`1.11.0`版本开始支持, 该参考线在极坐标系的angle轴上，可以配置angle轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+自`1.11.0`版本开始支持, 该参考线在极坐标系的 angle 轴上，可以配置 angle 轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
 
 **注意该属性的使用场景为极坐标系下：**
-1. 仅声明angle属性, 用于绘制分割整个极坐标系的angle轴
-2. 配合配置 angle，radius 和 radius1属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
+
+1. 仅声明 angle 属性, 用于绘制分割整个极坐标系的 angle 轴
+2. 配合配置 angle，radius 和 radius1 属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
 3. 配合配置 radius，angle 和 angle1 属性，用于在 radius 轴上绘制 angle 到 angle1 范围的标注线
-4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到radius1， angle 到 angle1 范围的标注线
+4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到 radius1， angle 到 angle1 范围的标注线
 
 ### radius(string|number|function)
-自`1.11.0`版本开始支持, 该参考线在极坐标系的radius轴上，可以配置radius轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+自`1.11.0`版本开始支持, 该参考线在极坐标系的 radius 轴上，可以配置 radius 轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
 
 **注意该属性的使用场景为极坐标系下：**
-1. 仅声明radius属性, 用于绘制radius为某个属性值的整圆
-2. 配合配置 angle，radius 和 radius1属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
+
+1. 仅声明 radius 属性, 用于绘制 radius 为某个属性值的整圆
+2. 配合配置 angle，radius 和 radius1 属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
 3. 配合配置 radius，angle 和 angle1 属性，用于在 radius 轴上绘制 angle 到 angle1 范围的标注线
-4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到radius1， angle 到 angle1 范围的标注线
+4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到 radius1， angle 到 angle1 范围的标注线
 
 ### angle1(string|number|function)
-自`1.11.0`版本开始支持, 该参考线在极坐标系的angle轴上，可以配置angle轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+自`1.11.0`版本开始支持, 该参考线在极坐标系的 angle 轴上，可以配置 angle 轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
 
 **注意该属性的使用场景为极坐标系下：**
-1. 仅声明angle属性, 用于绘制分割整个极坐标系的angle轴
-2. 配合配置 angle，radius 和 radius1属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
+
+1. 仅声明 angle 属性, 用于绘制分割整个极坐标系的 angle 轴
+2. 配合配置 angle，radius 和 radius1 属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
 3. 配合配置 radius，angle 和 angle1 属性，用于在 radius 轴上绘制 angle 到 angle1 范围的标注线
-4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到radius1， angle 到 angle1 范围的标注线
+4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到 radius1， angle 到 angle1 范围的标注线
 
 ### radius1(string|number|function)
-自`1.11.0`版本开始支持, 该参考线在极坐标系的radius轴上，可以配置radius轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+自`1.11.0`版本开始支持, 该参考线在极坐标系的 radius 轴上，可以配置 radius 轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
 
 **注意该属性的使用场景为极坐标系下：**
-1. 仅声明radius属性, 用于绘制radius为某个属性值的整圆
-2. 配合配置 angle，radius 和 radius1属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
-3. 配合配置 radius，angle 和 angle1 属性，用于在 radius 轴上绘制 angle 到 angle1 范围的标注线
-4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到radius1， angle 到 angle1 范围的标注线
 
+1. 仅声明 radius 属性, 用于绘制 radius 为某个属性值的整圆
+2. 配合配置 angle，radius 和 radius1 属性，用于在 angle 轴上绘制 radius 到 radius1 范围的标注线
+3. 配合配置 radius，angle 和 angle1 属性，用于在 radius 轴上绘制 angle 到 angle1 范围的标注线
+4. 配合配置 radius，radius1，angle 和 angle1 属性，用于在 radius 到 radius1， angle 到 angle1 范围的标注线
 
 {{ use: component-marker-aggregation-type() }}
 
@@ -223,6 +230,7 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
 可选值：
 
 直角坐标系下:
+
 - `'start'`: 线起点外侧
 - `'middle'`: 线中点
 - `'end'`: 线终点外侧
@@ -234,6 +242,7 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
 - `'insideEndBottom'`: 线终点内侧下部
 
 极坐标系下:
+
 - `'arcInnerStart'`: 弧线起点内侧
 - `'arcInnerEnd'`: 弧线终点内侧
 - `'arcInnerMiddle'` : 弧线中点内侧
@@ -269,4 +278,3 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
   markerType = 'markLine',
   animationType = 'clipIn | fadeIn'
 ) }}
-

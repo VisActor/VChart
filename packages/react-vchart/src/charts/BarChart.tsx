@@ -1,9 +1,8 @@
 import type React from 'react';
 import type { IBarChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerBarChart, registerLabel, registerTotalLabel } from '@visactor/vchart';
-import type { BaseChartProps } from './BaseChart';
-import { createChart } from './BaseChart';
-import { cartesianComponentsRegisters } from './register';
+import { BaseChartProps, createChart } from './BaseChart';
+import { registers } from './registers/cartesian';
 
 export interface BarChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -17,5 +16,5 @@ export const BarChart = createChart<React.PropsWithChildren<BarChartProps> & { t
     type: 'bar',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerBarChart, registerLabel, registerTotalLabel, ...cartesianComponentsRegisters]
+  [registerBarChart, registerLabel, registerTotalLabel, ...registers]
 );

@@ -10,6 +10,7 @@ export const pie3d: IPie3dSeriesTheme = {
   },
   label: {
     visible: false,
+    interactive: true,
     position: 'outside'
   }
 };

@@ -124,12 +124,31 @@ tickCount?: (option: {
 
 Forcing the number of ticks to be set ensures that the number of ticks matches the set value, but may cause the tick value to be a decimal due to the data range.
 
-##${prefix} tickMode('average'|'d3') = 'average'
+##${prefix} tickMode('average'|'d3'|function) = 'average'
 
 The continuous axis tick generation algorithm, supported since version `1.3.0`, **only takes effect when the axis is a linear axis**.
 
 - 'average': Ticks are evenly distributed based on the axis range as much as possible.
 - 'd3': Generates tick values like the default logic of d3, using a base of [1, 2, 5].
+- `CustomTicksFunc`: Custom ticks, supported since version `1.12.0`, **only effective when the axis is linear**. The specific usage is as follows:
+
+```ts
+/**
+ * @typedef {function} CustomTicksFunc
+ * @param {ContinuousScale} scale - The scale object of the continuous axis
+ * @param {number} tickCount - The number of ticks to generate
+ * @returns {number[]} - The array of generated ticks
+ */
+tickMode: CustomTicksFunc<ContinuousScale>;
+/**
+ * @example
+ */
+tickMode: (scale, tickCount = 5) => {
+  const domain = scale.domain();
+  const step = (domain[1] - domain[0]) / (tickCount - 1);
+  return Array.from({ length: tickCount }, (_, i) => domain[0] + i * step);
+};
+```
 
 ##${prefix} noDecimals(boolean) = false
 

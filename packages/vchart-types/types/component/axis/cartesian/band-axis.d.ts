@@ -29,6 +29,7 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
         isInverse: () => boolean;
         getSpec: () => T;
     };
+    protected registerTicksTransform(): string;
     transformScaleDomain(): void;
     updateFixedWholeLength(): void;
     protected _getOuterBandSizeFromSpec(): {

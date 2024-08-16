@@ -24,7 +24,8 @@ export const tickAlign = (data: Array<Datum>, op: ITickAlignOpt) => {
   if (!currentData) {
     return data;
   }
-  const currentTickTransform = currentData.transformsArr.find(t => t.type === 'ticks');
+  // TODO 这种方法有点hack
+  const currentTickTransform = currentData.transformsArr.find(t => t.type.includes('ticks'));
   if (!currentTickTransform) {
     return data;
   }

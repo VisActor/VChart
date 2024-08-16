@@ -1,4 +1,6 @@
-import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
+import { ChartEvent } from '../../constant/event';
+import { AttributeLevel } from '../../constant/attribute';
+import { LayoutZIndex } from '../../constant/layout';
 import { BaseComponent } from '../base/base-component';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';

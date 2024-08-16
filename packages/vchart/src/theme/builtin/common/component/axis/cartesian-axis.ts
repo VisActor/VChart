@@ -1,4 +1,16 @@
-import type { ICartesianAxisCommonTheme } from '../../../../../component/axis/cartesian/interface';
+import type { ICartesianAxisCommonTheme, ICartesianAxisUnit } from '../../../../../component/axis/cartesian/interface';
+
+const getUnitTheme = (): ICartesianAxisUnit => {
+  return {
+    visible: false,
+    style: {
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      fill: { type: 'palette', key: 'axisLabelFontColor' },
+      fontWeight: 'normal',
+      fillOpacity: 1
+    }
+  };
+};
 
 export const axisX: ICartesianAxisCommonTheme = {
   label: {
@@ -8,15 +20,7 @@ export const axisX: ICartesianAxisCommonTheme = {
     space: 8
   },
   maxHeight: '30%',
-  unit: {
-    visible: false,
-    style: {
-      fontSize: { type: 'token', key: 'l5FontSize' },
-      fill: { type: 'palette', key: 'axisLabelFontColor' },
-      fontWeight: 'normal',
-      fillOpacity: 1
-    }
-  }
+  unit: getUnitTheme()
 };
 
 export const axisY: ICartesianAxisCommonTheme = {
@@ -29,15 +33,7 @@ export const axisY: ICartesianAxisCommonTheme = {
     autoRotate: true
   },
   maxWidth: '30%',
-  unit: {
-    visible: false,
-    style: {
-      fontSize: { type: 'token', key: 'l5FontSize' },
-      fill: { type: 'palette', key: 'axisLabelFontColor' },
-      fontWeight: 'normal',
-      fillOpacity: 1
-    }
-  }
+  unit: getUnitTheme()
 };
 
 export const axisZ: ICartesianAxisCommonTheme = {

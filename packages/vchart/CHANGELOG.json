@@ -2,6 +2,54 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.0",
+      "tag": "@visactor/vchart_v1.12.0",
+      "date": "Fri, 16 Aug 2024 06:12:54 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: marker's `coordinates` and `positions` property support callback"
+          },
+          {
+            "comment": "add emptyPlaceholder and emptyCircle for pie chart"
+          },
+          {
+            "comment": "sequence support bottom axes. fix#2927"
+          },
+          {
+            "comment": "feat: support `animationState` config"
+          },
+          {
+            "comment": "feat: show evenly divided pie chart with showAllZero"
+          },
+          {
+            "comment": "feat: enable supportNegative option to treat negative values as absolute values"
+          },
+          {
+            "comment": "feat: support theme config by chart type"
+          },
+          {
+            "comment": "feat: support text shape of word-cloud\n\n"
+          },
+          {
+            "comment": "fix: y-axis is reverted after brush zoomin. fix#3089"
+          },
+          {
+            "comment": "fix: mark-point position type error fix"
+          },
+          {
+            "comment": "refactor: refactor the graphics in linear-progress chart"
+          },
+          {
+            "comment": "refactor: use label component to refactor sankey label"
+          },
+          {
+            "comment": "refactor: stack can be required by need\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.12",
       "tag": "@visactor/vchart_v1.11.12",
       "date": "Wed, 14 Aug 2024 14:51:54 GMT",

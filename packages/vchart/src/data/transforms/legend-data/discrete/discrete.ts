@@ -1,7 +1,7 @@
 import { isValid, isArray } from '@visactor/vutils';
 import type { ISeries } from '../../../../series/interface';
 import type { IDiscreteLegendData, IDiscreteLegendDataMakeOption, IDiscreteLegendFilterOption } from './interface';
-import { DEFAULT_DATA_SERIES_FIELD } from '../../../../constant';
+import { DEFAULT_DATA_SERIES_FIELD } from '../../../../constant/data';
 
 export const discreteLegendDataMake = (data: Array<ISeries>, op: IDiscreteLegendDataMakeOption) => {
   const result: IDiscreteLegendData[] = [];

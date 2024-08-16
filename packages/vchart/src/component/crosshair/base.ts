@@ -16,7 +16,8 @@ import type {
   IPolarCrosshairSpec,
   ICrosshairCategoryFieldSpec
 } from './interface';
-import { ChartEvent, Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
+import { ChartEvent, Event_Bubble_Level, Event_Source_Type } from '../../constant/event';
+import { LayoutZIndex } from '../../constant/layout';
 import { getDefaultCrosshairTriggerEventByMode } from './config';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IAxis } from '../axis/interface';

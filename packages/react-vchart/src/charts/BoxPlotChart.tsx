@@ -1,9 +1,8 @@
 import type React from 'react';
 import type { IBoxPlotChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerBoxplotChart, registerLabel } from '@visactor/vchart';
-import type { BaseChartProps } from './BaseChart';
-import { createChart } from './BaseChart';
-import { cartesianComponentsRegisters } from './register';
+import { BaseChartProps, createChart } from './BaseChart';
+import { registers } from './registers/cartesian';
 
 export interface BoxPlotChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -15,5 +14,5 @@ export const BoxPlotChart = createChart<React.PropsWithChildren<BoxPlotChartProp
     type: 'boxPlot',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerBoxplotChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerBoxplotChart, registerLabel, ...registers]
 );

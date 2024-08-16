@@ -124,12 +124,31 @@ tickCount?: (option: {
 
 强制设置的 tick 数量，可以保证 tick 的数量于设置的数值匹配，但是可能由于数据范围导致 tick 值为小数。
 
-##${prefix} tickMode('average'|'d3') = 'average'
+##${prefix} tickMode('average'|'d3'|function) = 'average'
 
 连续轴 tick 生成算法，自`1.3.0`版本开始支持，**仅当轴为线性轴时生效**。
 
 - `'average'`：根据轴范围尽可能均分
 - `'d3'`：与 d3 默认逻辑一致，以 [1, 2, 5] 为基数生成；
+- `CustomTicksFunc`: 自定义 tick 生成算法，自`1.12.0`版本开始支持，**仅当轴为线性轴时生效**，具体使用方式如下：
+
+```ts
+/**
+ * @typedef {function} CustomTicksFunc
+ * @param {ContinuousScale} scale - 连续轴的比例尺对象
+ * @param {number} tickCount - 生成tick的数量
+ * @returns {number[]} - 生成的 tick 数组
+ */
+tickMode: CustomTicksFunc<ContinuousScale>;
+/**
+ * @example
+ */
+tickMode: (scale, tickCount = 5) => {
+  const domain = scale.domain();
+  const step = (domain[1] - domain[0]) / (tickCount - 1);
+  return Array.from({ length: tickCount }, (_, i) => domain[0] + i * step);
+};
+```
 
 ##${prefix} noDecimals(boolean) = false
 

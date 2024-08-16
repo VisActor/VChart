@@ -369,3 +369,12 @@ const layout = (attribute, text, getRelatedGraphic) => {
 
 ##${prefix} increaseEffect(boolean)=true
 标签数值增长动画，当标签数据更新且为数值数据时触发。设置为 `false` 可以关闭此动画效果。
+
+#${prefix} stackDataFilterType('min'|'max')
+
+自 1.12.0 开始生效
+
+用于对堆积分组数据进行过滤
+
+- 'min' 对堆积分组中的最大值展示标签
+- 'max' 对堆积分组中的最小值展示标签

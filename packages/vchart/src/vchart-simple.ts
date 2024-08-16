@@ -14,7 +14,8 @@ import { registerTooltip } from './component/tooltip/tooltip';
 import { registerDiscreteLegend } from './component/legend/discrete/legend';
 import { registerCartesianBandAxis } from './component/axis/cartesian/band-axis';
 import { registerCartesianLinearAxis } from './component/axis/cartesian/linear-axis';
-import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin';
+import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin/components/tooltip-handler';
+import { registerAnimate, registerHtmlAttributePlugin, registerReactAttributePlugin } from './plugin/other';
 
 export * from './core';
 
@@ -36,7 +37,11 @@ VChart.useRegisters([
 
   // plugin
   registerDomTooltipHandler,
-  registerCanvasTooltipHandler
+  registerCanvasTooltipHandler,
+
+  registerAnimate,
+  registerReactAttributePlugin,
+  registerHtmlAttributePlugin
 ]);
 
 export { VChart };

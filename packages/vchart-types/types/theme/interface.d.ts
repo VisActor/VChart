@@ -6,6 +6,7 @@ import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
 import type { IColor } from '@visactor/vrender-core';
 import type { IComponentTheme } from '../component/interface';
 import type { ITokenKey, TokenMap } from './token';
+import type { ChartType } from '../chart/interface';
 export interface ITheme {
     name?: string;
     description?: string;
@@ -20,6 +21,7 @@ export interface ITheme {
     series?: ISeriesTheme;
     animationThreshold?: number;
     component?: IComponentTheme;
+    chart?: Record<ChartType, Omit<ITheme, 'name' | 'type' | 'description'>>;
 }
 export interface IGlobalMarkThemeByType {
     [MarkTypeEnum.line]?: Partial<IMarkTheme<ILineMarkSpec>>;

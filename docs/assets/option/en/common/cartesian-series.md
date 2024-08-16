@@ -12,6 +12,7 @@
   useInChart = ${useInChart},
   noPreset = ${noPreset},
   preset = ${preset},
+  noStack = ${noStack},
   defaultPreset = ${defaultPreset}
 ) }}
 

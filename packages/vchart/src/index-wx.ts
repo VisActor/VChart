@@ -55,7 +55,7 @@ import { registerCustomMark } from './component/custom-mark';
 import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
-import { registerCanvasTooltipHandler } from './plugin';
+import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
 import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
 
 VChart.useRegisters([
@@ -146,3 +146,6 @@ export { VChart };
 export default VChart;
 
 export * from './core';
+export * from './plugin/chart';
+export * from './plugin/components/tooltip-handler';
+export * from './plugin/components/axis-sync';

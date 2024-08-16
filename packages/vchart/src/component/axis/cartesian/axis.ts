@@ -25,9 +25,9 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
 import { isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo, transformInverse } from './util/common';
-import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
-import { LayoutLevel } from '../../../constant/index';
-import { AxisSyncPlugin } from '../../../plugin/components';
+import { ChartEvent } from '../../../constant/event';
+import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant/layout';
+import { AxisSyncPlugin } from '../../../plugin/components/axis-sync/axis-sync';
 import type { Datum, StringOrNumber } from '../../../typings/common';
 import type { IPoint } from '../../../typings/coordinate';
 import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
@@ -48,7 +48,7 @@ import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
-import type { ICartesianChartSpec } from '../../../chart';
+import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
 
 const CartesianAxisPlugin = [AxisSyncPlugin];
 

@@ -11,6 +11,8 @@ export interface IPieOpt {
     asRatio: string;
     asQuadrant: string;
     asK: string;
+    showAllZero: boolean;
+    supportNegative: boolean;
 }
 export declare const pie: (originData: Array<DataView>, op: IPieOpt) => {
     [x: string]: any;

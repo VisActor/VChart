@@ -1,9 +1,9 @@
 import type React from 'react';
 import type { ICircularProgressChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerCircularProgressChart, registerLabel } from '@visactor/vchart';
+import { VChart, registerCircularProgressChart, registerLabel, registerIndicator } from '@visactor/vchart';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
-import { polarComponentsRegisters } from './register';
+import { registers } from './registers/polar';
 
 export interface CircularProgressChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -17,5 +17,5 @@ export const CircularProgressChart = createChart<
     type: 'circularProgress',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerCircularProgressChart, registerLabel, ...polarComponentsRegisters]
+  [registerCircularProgressChart, registerLabel, registerIndicator, ...registers]
 );

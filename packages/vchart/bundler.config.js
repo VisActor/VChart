@@ -28,7 +28,8 @@ const plugins = bundle_analyze_mode
         open: true,
         gzipSize: true,
         emitFile: true,
-        filename: `stats-${bundle_analyze_mode}`,
+        filename: `stats-${bundle_analyze_mode}.html`,
+        // 可选项：sunburst, treemap, network, raw-data, list.
         template: 'treemap'
       }),
       gzipPlugin({
@@ -39,7 +40,7 @@ const plugins = bundle_analyze_mode
     ]
   : [];
 
-const crossEnvs = {
+const crossEnvs = bundle_analyze_mode ? {} : {
   lark: {
     input: 'index-lark',
     output: '../lark-vchart/src/vchart/index.js'

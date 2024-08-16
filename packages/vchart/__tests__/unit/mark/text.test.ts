@@ -1,6 +1,6 @@
 import { markContext as ctx } from '../../util/context';
 import { TextMark } from '../../../src/mark/text';
-import { LayoutZIndex } from '../../../src/constant';
+import { LayoutZIndex } from '../../../src/constant/layout';
 
 test('rule mark initial style', () => {
   const textMark = new TextMark('rule0', ctx);
