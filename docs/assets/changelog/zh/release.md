@@ -5,26 +5,25 @@
 
 **🆕 新增功能**
 
-  - **@visactor/vchart**: marker's `coordinates` and `positions` property support callback
-  - **@visactor/vchart**: support `animationState` config
-  - **@visactor/vchart**: show evenly divided pie chart with `showAllZero`
-  - **@visactor/vchart**: enable `supportNegative` option to treat negative values as absolute values
-  - **@visactor/vchart**: support theme config by chart type
-  - **@visactor/vchart**: support text shape of word-cloud
-  - **@visactor/vchart**: add new chart mosaic chart 
-  - **@visactor/vchart**: support customized tick function of linear axis
-  - **@visactor/vchart**: add emptyPlaceholder and emptyCircle for pie chart
+  - **@visactor/vchart**: marker 的 `coordinates` 和 `positions` 属性支持回调函数
+  - **@visactor/vchart**: 支持 `animationState` 配置，用于配置状态动画
+  - **@visactor/vchart**: 饼图支持使用属性 `showAllZero` ，在数据全为0时，显示均分的饼图
+  - **@visactor/vchart**: 饼图支持 `supportNegative` 选项，将负值视为绝对值处理
+  - **@visactor/vchart**: 主题支持按图表类型配置
+  - **@visactor/vchart**: 词云图支持文字作为轮廓
+  - **@visactor/vchart**: 新增马赛克图表 MosaicChart
+  - **@visactor/vchart**: 支持线性轴的自定义刻度函数
+  - **@visactor/vchart**: 为饼图添加 ·emptyPlaceholder` 和 `emptyCircle`配置，设置数据为空的展位展示
 
-  ## 🐛 fix 
-  - **@visactor/vchart**: y-axis is reverted after brush zoomin. fix [#3089](https://github.com/VisActor/VChart/issues/3089)
-  - **@visactor/vchart**: mark-point position type error fix
-  ## 🔨 refactor 
-  - **@visactor/vchart**: refactor the graphics in linear-progress chart
-  - **@visactor/vchart**: use label component to refactor sankey label
-  - **@visactor/vchart**: stack can be required by need
-  ## 🔖 other 
-  - **@visactor/vchart**: sequence support bottom axes. fix [#2927](https://github.com/VisActor/VChart/issues/2927) 
-
+  ## 🐛 修复
+  - **@visactor/vchart**: 修复brush缩放后，导致y轴倒置的问题。修复 [#3089](https://github.com/VisActor/VChart/issues/3089)
+  - **@visactor/vchart**: 修复MarkPoint位置类型错误
+  ## 🔨 重构
+  - **@visactor/vchart**: 重构线性进度图中的图形
+  - **@visactor/vchart**: 使用Label组件重构桑基图标签
+  - **@visactor/vchart**: 按需加载堆叠功能
+  ## 🔖 其他
+  - **@visactor/vchart**: sequence 图支持底部轴。修复 [#2927](https://github.com/VisActor/VChart/issues/2927) 
 
 
 [更多详情请查看 v1.12.0](https://github.com/VisActor/VChart/releases/tag/v1.12.0)
