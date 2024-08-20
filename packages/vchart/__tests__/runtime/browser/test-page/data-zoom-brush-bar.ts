@@ -69,14 +69,11 @@ const spec = {
       colorAlpha: 0.2
     },
     zoomAfterBrush: true,
-    axisIndex: 0
-  },
-  dataZoom: [
-    {
-      orient: 'bottom',
-      filterMode: 'axis'
-    }
-  ]
+    axisIndex: 1
+  }
+  // dataZoom: [{
+  //   orient: 'bottom'
+  // }]
 };
 // const spec = {
 //   type: 'scatter',
@@ -183,39 +180,39 @@ const run = () => {
     ]
   };
 
-  // cs.on('brushEnd', args => {
-  //   args.value.releatedDataZoom.forEach(dz => {
-  //     history[dz.userId].push(dz?.state);
-  //   });
+  cs.on('brushEnd', args => {
+    args.value.releatedDataZoom.forEach(dz => {
+      history[dz.userId].push(dz?.state);
+    });
 
-  //   console.log('history', cloneDeep(history));
-  // });
+    console.log('history', cloneDeep(history));
+  });
 
-  // createButton('back', () => {
-  //   history['xDataZoom'].pop();
-  //   history['yDataZoom'].pop();
-  //   const xDataZoom = history['xDataZoom'][history['xDataZoom'].length - 1];
-  //   const yDataZoom = history['yDataZoom'][history['yDataZoom'].length - 1];
-  //   const newSpec = {
-  //     ...spec,
-  //     dataZoom: [
-  //       {
-  //         ...spec.dataZoom[0],
-  //         start: xDataZoom.start,
-  //         end: xDataZoom.end
-  //       },
-  //       {
-  //         ...spec.dataZoom[1],
-  //         start: yDataZoom.start,
-  //         end: yDataZoom.end
-  //       }
-  //     ]
-  //   };
+  createButton('back', () => {
+    history['xDataZoom'].pop();
+    history['yDataZoom'].pop();
+    const xDataZoom = history['xDataZoom'][history['xDataZoom'].length - 1];
+    const yDataZoom = history['yDataZoom'][history['yDataZoom'].length - 1];
+    const newSpec = {
+      ...spec,
+      dataZoom: [
+        {
+          ...spec.dataZoom[0],
+          start: xDataZoom.start,
+          end: xDataZoom.end
+        },
+        {
+          ...spec.dataZoom[1],
+          start: yDataZoom.start,
+          end: yDataZoom.end
+        }
+      ]
+    };
 
-  //   console.log('newSpec', newSpec);
+    console.log('newSpec', newSpec);
 
-  //   cs.updateSpec(newSpec);
-  // }) as HTMLButtonElement;
+    cs.updateSpec(newSpec);
+  }) as HTMLButtonElement;
 
   window['vchart'] = cs;
   console.log(cs);
