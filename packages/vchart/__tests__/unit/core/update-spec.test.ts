@@ -1499,4 +1499,115 @@ describe('vchart updateSpec of different about label', () => {
       reTransformSpec: false
     });
   });
+
+  it('should reMake when `visible` of title change from `true` to `false`', () => {
+    const spec = {
+      type: 'area',
+      data: [
+        {
+          id: 'area',
+          values: [
+            { x: '1990', y: 110, from: 'video ad' },
+            { x: '1995', y: 160, from: 'video ad' },
+            { x: '2000', y: 230, from: 'video ad' },
+            { x: '2005', y: 300, from: 'video ad' },
+            { x: '2010', y: 448, from: 'video ad' },
+            { x: '2015', y: 500, from: 'video ad' },
+            { x: '1990', y: 120, from: 'email marketing' },
+            { x: '1995', y: 150, from: 'email marketing' },
+            { x: '2000', y: 200, from: 'email marketing' },
+            { x: '2005', y: 210, from: 'email marketing' },
+            { x: '2010', y: 300, from: 'email marketing' },
+            { x: '2015', y: 320, from: 'email marketing' }
+          ]
+        }
+      ],
+      title: {
+        visible: true,
+        text: 'test'
+      },
+      xField: 'x',
+      yField: 'y',
+      seriesField: 'from'
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        title: {
+          visible: false
+        }
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      changeBackground: undefined,
+      change: true,
+      changeTheme: false,
+      reCompile: true,
+      reMake: true,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should reMake when `visible` of title change from `false` to `true`', () => {
+    const spec = {
+      type: 'area',
+      data: [
+        {
+          id: 'area',
+          values: [
+            { x: '1990', y: 110, from: 'video ad' },
+            { x: '1995', y: 160, from: 'video ad' },
+            { x: '2000', y: 230, from: 'video ad' },
+            { x: '2005', y: 300, from: 'video ad' },
+            { x: '2010', y: 448, from: 'video ad' },
+            { x: '2015', y: 500, from: 'video ad' },
+            { x: '1990', y: 120, from: 'email marketing' },
+            { x: '1995', y: 150, from: 'email marketing' },
+            { x: '2000', y: 200, from: 'email marketing' },
+            { x: '2005', y: 210, from: 'email marketing' },
+            { x: '2010', y: 300, from: 'email marketing' },
+            { x: '2015', y: 320, from: 'email marketing' }
+          ]
+        }
+      ],
+      title: {
+        visible: false,
+        text: 'test'
+      },
+      xField: 'x',
+      yField: 'y',
+      seriesField: 'from'
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        title: {
+          visible: true
+        }
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeTheme: false,
+      reCompile: false,
+      reMake: true,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
 });
