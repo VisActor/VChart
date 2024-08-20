@@ -824,6 +824,13 @@
                 "zh": "univer",
                 "en": "univer"
               }
+            },
+            {
+              "path": "svg",
+              "title": {
+                "zh": "svg 插件",
+                "en": "svg plugin"
+              }
             }
           ]
         },
