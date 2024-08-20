@@ -10,4 +10,7 @@ export declare const getPolarAxisInfo: (spec: IPolarAxisCommonSpec, chartSpec: a
     outerRadius: any;
     layoutRadius: any;
 };
-export declare const computeLayoutRadius: (layoutRadius: number | "auto" | ((layoutRect: ILayoutRect, center: IPoint) => number), getLayoutRect: () => ILayoutRect, getCenter: () => IPoint, startAngle?: number, endAngle?: number) => number;
+export declare const computeLayoutRadius: (getLayoutRadius: () => number | "auto" | ((layoutRect: ILayoutRect, center: IPoint) => number), getLayoutRect: () => ILayoutRect, getCenter: () => IPoint, getAngles: () => {
+    startAngle: number;
+    endAngle: number;
+}) => number;
