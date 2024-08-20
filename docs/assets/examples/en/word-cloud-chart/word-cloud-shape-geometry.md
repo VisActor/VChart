@@ -4,7 +4,7 @@ group: word chart
 title: 几何轮廓形状词云图
 keywords: wordCloud,text,distribution
 order: 14-7
-cover:
+cover: /vchart/preview/word-cloud-chart-word-cloud-shape-geometry_1.12.0.png
 option: wordCloudChart
 ---
 

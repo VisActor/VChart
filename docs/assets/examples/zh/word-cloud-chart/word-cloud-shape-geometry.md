@@ -4,7 +4,7 @@ group: word chart
 title: 几何轮廓形状词云图
 keywords: wordCloud,text,distribution
 order: 14-10
-cover: 
+cover: /vchart/preview/word-cloud-chart-word-cloud-shape-geometry_1.12.0.png
 option: wordCloudChart
 ---
 
@@ -15,7 +15,7 @@ option: wordCloudChart
 ## 关键配置
 
 - `maskShape` 属性声明形状词云的轮廓类型为几何形状类型
-- `wordMask` 将自动计算的几何形状轮廓作为背景展示   
+- `wordMask` 将自动计算的几何形状轮廓作为背景展示
 
 ## 代码演示
 

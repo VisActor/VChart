@@ -4,7 +4,7 @@ group: word chart
 title: 文字轮廓形状词云图
 keywords: wordCloud,text,distribution
 order: 14-10
-cover: 
+cover: /vchart/preview/word-cloud-chart-word-cloud-shape-text_1.12.0.png
 option: wordCloudChart
 ---
 
@@ -15,14 +15,13 @@ option: wordCloudChart
 ## 关键配置
 
 - `maskShape` 属性声明为形状词云的轮廓类型为文字类型
-- `wordMask` 将自动计算的文字轮廓作为背景展示   
+- `wordMask` 将自动计算的文字轮廓作为背景展示
 
 ## 代码演示
 
 ```javascript livedemo
 const spec = {
   type: 'wordCloud',
-  // 待申请新外网可访问的存储空间后更换
   maskShape: {
     type: 'text',
     text: 'VChart',
