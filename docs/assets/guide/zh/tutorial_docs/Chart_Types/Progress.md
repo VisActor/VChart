@@ -278,7 +278,7 @@ window.vchart = vchart;
 
 - `circularProgressChart.type`: 图表类型，环形进度图的类型为`'circularProgress'`
 - `circularProgressChart.data`: 图表绘制的数据源
-- `circularProgressChart.radiusField`: 分类字段，映射不同进度条，即进度条的数量由类别数量决定
+- `circularProgressChart.categoryField`: 分类字段，映射不同进度条，即进度条的数量由类别数量决定
 - `circularProgressChart.valueField`: 数值字段，映射表示进度的弧形图元弧度范围
 
 提示信息等作为辅助图表展示的组件，属于可选配置，自带默认效果和功能:
@@ -303,7 +303,7 @@ const spec = {
     }
   ],
   valueField: 'value',
-  radiusField: 'type',
+  categoryField: 'type',
   outerRadius: 0.6,
   innerRadius: 0.5,
   cornerRadius: 20
@@ -461,7 +461,7 @@ const spec = {
     }
   ],
   valueField: 'value',
-  radiusField: 'type',
+  categoryField: 'type',
   outerRadius: 0.6,
   innerRadius: 0.5,
   cornerRadius: 20,
