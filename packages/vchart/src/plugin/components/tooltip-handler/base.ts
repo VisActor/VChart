@@ -325,7 +325,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       containerSize.height = window.innerHeight;
 
       if (!isCanvas) {
-        tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect() ?? invalidPosition;
+        tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect?.() ?? invalidPosition;
         const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
         const chartElementRect = chartElement?.getBoundingClientRect();
         relativePosOffset = {
