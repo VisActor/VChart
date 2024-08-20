@@ -84,7 +84,9 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
    */
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
-    if (prevSpec?.orient !== spec?.orient) {
+
+    if (prevSpec?.orient !== spec?.orient || (prevSpec as any)?.visible !== (spec as any).visible) {
+      // title 组件切换visible会影响布局，所以需要重新remake
       result.reMake = true;
     }
 
@@ -150,6 +152,10 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
   private _getTitleAttrs() {
     // 当 width 小于 0 时，设置为 0，负数场景容易引起不可预知的问题
     const realWidth = Math.max(0, this._spec.width ?? this.getLayoutRect().width);
+    if (this._spec.visible === false) {
+      return { visible: false };
+    }
+
     return {
       ...(pickWithout(this._spec, ['padding']) as any),
       textType: this._spec.textType ?? 'text',

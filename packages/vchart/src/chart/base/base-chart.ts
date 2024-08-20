@@ -862,14 +862,24 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         componentCount: number;
       };
     } = {};
+    const checkVisibleComponents: Record<string, boolean> = {
+      [ComponentTypeEnum.title]: true,
+      [ComponentTypeEnum.brush]: true,
+      [ComponentTypeEnum.mapLabel]: true
+    };
+
     this._components.forEach(c => {
       if (c.type === ComponentTypeEnum.label || c.type === ComponentTypeEnum.totalLabel) {
         // label配置都会被解析到series中，所以不适合放在这里进行比对
         return;
       }
+      if (checkVisibleComponents[c.type]) {
+        checkVisibleComponents[c.type] = false;
+      }
+
       const compSpecKey = c.specKey || c.type;
       // 每一个组件获取对应的speck
-      const cmpSpec = this._spec[compSpecKey] ?? {};
+      const cmpSpec = (this._spec as any)[compSpecKey] ?? {};
 
       if (isArray(cmpSpec)) {
         componentCache[compSpecKey] = componentCache[compSpecKey] || {
@@ -890,6 +900,18 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         }
       }
     }
+
+    /** 这些组件 visible: false 不创建组件，也在this._components中，所以需要额外检测是否有visible 的切换 */
+    Object.keys(checkVisibleComponents).forEach(type => {
+      if (checkVisibleComponents[type]) {
+        const compSpec = (this._spec as any)[type];
+        const switchToVisible = isArray(compSpec) ? compSpec.some(entry => entry?.visible) : compSpec?.visible;
+
+        if (switchToVisible) {
+          result.reMake = true;
+        }
+      }
+    });
   }
 
   updateSeriesSpec(result: IUpdateSpecResult) {
