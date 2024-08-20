@@ -98,8 +98,11 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
           ...this._option,
           type
         });
+        const transformResult = transformer.transformSpec(spec, chartSpec, chartSpecInfo);
+
         setProperty(chartSpecInfo, specInfoPath ?? specPath, {
           ...specInfo,
+          ...transformResult,
           theme: transformer.getTheme(spec, chartSpec)
         });
       };
