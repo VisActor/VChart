@@ -1,6 +1,15 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 14 Aug 2024 14:51:54 GMT and should not be manually modified.
+This log was last generated on Tue, 20 Aug 2024 10:25:40 GMT and should not be manually modified.
+
+## 1.11.13
+Tue, 20 Aug 2024 10:25:40 GMT
+
+### Updates
+
+- fix: fix error of `getCenter` when layoutRadius is a customized function in radar
+
+
 
 ## 1.11.12
 Wed, 14 Aug 2024 14:51:54 GMT

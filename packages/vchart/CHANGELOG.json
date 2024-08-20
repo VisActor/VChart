@@ -2,6 +2,18 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.11.13",
+      "tag": "@visactor/vchart_v1.11.13",
+      "date": "Tue, 20 Aug 2024 10:25:40 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix error of `getCenter` when layoutRadius is a customized function in radar\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.12",
       "tag": "@visactor/vchart_v1.11.12",
       "date": "Wed, 14 Aug 2024 14:51:54 GMT",
