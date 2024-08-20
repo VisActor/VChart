@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: media query causes incorrect render result, #3102",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
