@@ -83,6 +83,9 @@
    * PNPM documentation: https://pnpm.io/package_json#pnpmoverrides
    */
   "globalOverrides": {
+    "@visactor/vutils": "0.18.15",
+    "@visactor/vscale": "0.18.15",
+    "@visactor/vdataset": "0.18.15"
     // "@visactor/vgrammar-core": "0.14.0-alpha.2",
     // "@visactor/vgrammar-projection": "0.14.0-alpha.2",
     // "@visactor/vgrammar-wordcloud": "0.14.0-alpha.2",
