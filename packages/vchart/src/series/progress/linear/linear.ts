@@ -109,7 +109,7 @@ export class LinearProgressSeries<
   }
 
   private _defaultProgressCustomShape = (datum: any[], attrs: any, path: ICustomPath2D) => {
-    const cornerRadius = this._spec.cornerRadius;
+    const cornerRadius = this._spec?.cornerRadius;
     const width = isValid(attrs.width) ? attrs.width : attrs.x1 - attrs.x;
     const height = isValid(attrs.height) ? attrs.height : attrs.y1 - attrs.y;
     const x0 = Math.min(0, width);
@@ -120,7 +120,7 @@ export class LinearProgressSeries<
     if (cornerRadius > 0) {
       let realCornerRadius = cornerRadius;
 
-      if (this._spec.direction === 'vertical') {
+      if (this._spec?.direction === 'vertical') {
         realCornerRadius = Math.min(Math.abs(width / 2), cornerRadius);
 
         if (2 * realCornerRadius > Math.abs(height)) {
