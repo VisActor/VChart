@@ -12,7 +12,7 @@ export interface IAddVChartPropertyOpt {
 
 export const addVChartProperty = (data: Array<any>, op: IAddVChartPropertyOpt) => {
   const context = op.beforeCall();
-  data.forEach((d, i) => op.call(d, i, context));
+  data && data.forEach((d, i) => op.call(d, i, context));
 
   if (context.keyMap) {
     context.keyMap.clear();

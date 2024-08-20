@@ -1,4 +1,4 @@
-import type { IBarChartSpec } from '../../../src';
+import type { IBarChartSpec, ICommonChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { series } from '../../../src/theme/builtin/common/series';
 import { createDiv, removeDom } from '../../util/dom';
@@ -1090,6 +1090,97 @@ describe('vchart updateSpec of same spec', () => {
         }
       ]
     };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(spec, false);
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeTheme: false,
+      reCompile: false,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should not throw error when data is empty in series', () => {
+    const spec: any = {
+      type: 'common',
+      seriesField: 'color',
+      data: [
+        {
+          id: 'id0',
+          values: [
+            { x: '周一', type: '早餐', y: 15 },
+            { x: '周一', type: '午餐', y: 25 },
+            { x: '周二', type: '早餐', y: 12 },
+            { x: '周二', type: '午餐', y: 30 },
+            { x: '周三', type: '早餐', y: 15 },
+            { x: '周三', type: '午餐', y: 24 },
+            { x: '周四', type: '早餐', y: 10 },
+            { x: '周四', type: '午餐', y: 25 },
+            { x: '周五', type: '早餐', y: 13 },
+            { x: '周五', type: '午餐', y: 20 },
+            { x: '周六', type: '早餐', y: 10 },
+            { x: '周六', type: '午餐', y: 22 },
+            { x: '周日', type: '早餐', y: 12 },
+            { x: '周日', type: '午餐', y: 19 }
+          ]
+        },
+        {
+          id: 'id1',
+          values: [
+            { x: '周一', type: '饮料', y: 22 },
+            { x: '周二', type: '饮料', y: 43 },
+            { x: '周三', type: '饮料', y: 33 },
+            { x: '周四', type: '饮料', y: 22 },
+            { x: '周五', type: '饮料', y: 10 },
+            { x: '周六', type: '饮料', y: 30 },
+            { x: '周日', type: '饮料', y: 50 }
+          ]
+        }
+      ],
+      series: [
+        {
+          type: 'bar',
+          id: 'bar',
+          data: {
+            id: 'id0'
+          },
+          label: { visible: true },
+          seriesField: 'type',
+
+          xField: ['x', 'type'],
+          yField: 'y'
+        },
+        {
+          type: 'line',
+          id: 'line',
+          data: {
+            id: 'id1'
+          },
+          label: { visible: true },
+          seriesField: 'type',
+          xField: 'x',
+          yField: 'y',
+          stack: false
+        }
+      ],
+      axes: [
+        { orient: 'left', seriesIndex: [0] },
+        { orient: 'right', seriesId: ['line'], grid: { visible: false } },
+        { orient: 'bottom', label: { visible: true }, type: 'band' }
+      ],
+      legends: {
+        visible: true,
+        orient: 'bottom'
+      }
+    };
+
     vchart = new VChart(spec, {
       dom
     });
