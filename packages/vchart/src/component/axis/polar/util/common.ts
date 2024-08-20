@@ -32,12 +32,12 @@ export const getPolarAxisInfo = (spec: IPolarAxisCommonSpec, chartSpec: any) => 
 };
 
 export const computeLayoutRadius = (
-  layoutRadius: 'auto' | number | ((layoutRect: ILayoutRect, center: IPoint) => number),
+  getLayoutRadius: () => 'auto' | number | ((layoutRect: ILayoutRect, center: IPoint) => number),
   getLayoutRect: () => ILayoutRect,
   getCenter: () => IPoint,
-  startAngle: number = 0,
-  endAngle: number = 0 * Math.PI
+  getAngles: () => { startAngle: number; endAngle: number }
 ) => {
+  const layoutRadius = getLayoutRadius();
   if (isNumber(layoutRadius)) {
     return layoutRadius;
   } else if (isFunction(layoutRadius)) {
@@ -47,6 +47,7 @@ export const computeLayoutRadius = (
   const rect = getLayoutRect();
 
   if (layoutRadius === 'auto' && rect.width > 0 && rect.height > 0) {
+    const { startAngle = 0, endAngle = 2 * Math.PI } = getAngles();
     return calculateMaxRadius(rect, getCenter(), startAngle, endAngle);
   }
 
