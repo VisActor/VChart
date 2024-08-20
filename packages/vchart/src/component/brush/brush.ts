@@ -511,7 +511,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           const endPercent = dataZoom.dataToStatePoint(endValue);
           const newStartPercent = this._stateClamp(startPercent - axisRangeExpand);
           const newEndPercent = this._stateClamp(endPercent + axisRangeExpand);
-          dataZoom.setStartAndEnd(newStartPercent, newEndPercent, ['percent', 'percent']);
+          dataZoom.setStartAndEnd(Math.min(newStartPercent, newEndPercent), Math.max(newStartPercent, newEndPercent), [
+            'percent',
+            'percent'
+          ]);
 
           this._zoomRecord.push({
             operateComponent: dataZoom,
