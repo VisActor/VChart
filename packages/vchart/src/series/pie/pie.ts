@@ -209,11 +209,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   protected _computeLayoutRadius() {
     return computeLayoutRadius(
-      this._spec.layoutRadius,
+      () => this._spec.layoutRadius,
       this.getLayoutRect,
       this.getCenter,
-      this._startAngle,
-      this._endAngle
+      () => ({ startAngle: this._startAngle, endAngle: this._endAngle })
     );
   }
 

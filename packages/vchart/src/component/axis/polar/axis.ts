@@ -386,7 +386,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
    * 获取坐标轴圆心位置
    * @returns 圆心位置
    */
-  getCenter(): IPoint {
+  getCenter = (): IPoint => {
     const layoutRect = this.getRefLayoutRect();
     const { width, height } = layoutRect;
 
@@ -394,7 +394,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       x: calcLayoutNumber(this._center?.x as ILayoutNumber, width, layoutRect, width / 2),
       y: calcLayoutNumber(this._center?.y as ILayoutNumber, height, layoutRect, height / 2)
     };
-  }
+  };
 
   /**
    * 获取极坐标半径值
@@ -532,11 +532,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   private _computeLayoutRadius() {
     return computeLayoutRadius(
-      this._spec.layoutRadius,
+      () => this._spec.layoutRadius,
       this.getRefLayoutRect,
       this.getCenter,
-      this._startAngle,
-      this._endAngle
+      () => ({ startAngle: this._startAngle, endAngle: this._endAngle })
     );
   }
 
