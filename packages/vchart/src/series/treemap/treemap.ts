@@ -14,7 +14,7 @@ import type { ITreemapSeriesSpec } from './interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { flatten } from '../../data/transforms/flatten';
 import type { IBounds } from '@visactor/vutils';
-import { isValidNumber, Bounds, Matrix, mixin } from '@visactor/vutils';
+import { isValidNumber, Bounds, Matrix, mixin, merge } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { registerTreemapTransforms } from '@visactor/vgrammar-hierarchy';
 import type { TreemapNodeElement } from '@visactor/vgrammar-hierarchy';
@@ -39,6 +39,7 @@ import { registerTreemapAnimation } from './animation';
 import type { ILabelMark } from '../../mark/label';
 import { TreemapSeriesSpecTransformer } from './treemap-transform';
 import { registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
+import { collectHierarchyField } from '../../data/transforms/sankey';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
@@ -182,14 +183,21 @@ export class TreemapSeries extends CartesianSeries<any> {
   }
 
   getRawDataStatisticsByField(field: string, isNumeric?: boolean) {
-    if (!this._rawDataStatistics) {
-      const rawDataName = `${this.type}_${this.id}_rawDataStatic`;
-      this._rawDataStatistics = this._createHierarchyDataStatistics(rawDataName, [this._rawData]);
-      this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
-      this._rawDataStatistics.reRunAllTransform();
+    // overwrite the getRawDataStatisticsByField of base-series
+    if (!this._rawStatisticsCache) {
+      this._rawStatisticsCache = {};
     }
 
-    return this._rawDataStatistics.latestData?.[field];
+    if (!this._rawStatisticsCache[field]) {
+      if (this._rawData) {
+        const result = hierarchyDimensionStatistics([this._rawData], {
+          fields: [{ key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }]
+        })[field];
+        this._rawStatisticsCache[field] = merge(this._rawStatisticsCache[field] ?? {}, result);
+      }
+    }
+
+    return this._rawStatisticsCache[field];
   }
 
   protected _createHierarchyDataStatistics(dataName: string, rawData: DataView[]) {
