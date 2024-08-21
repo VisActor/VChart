@@ -533,6 +533,10 @@ export class TreemapSeries extends CartesianSeries<any> {
   isHierarchyData = () => {
     return true;
   };
+
+  getMarkData(datum: Datum) {
+    return datum?.datum ? datum.datum[datum.datum.length - 1] : datum;
+  }
 }
 
 mixin(TreemapSeries, Drillable);

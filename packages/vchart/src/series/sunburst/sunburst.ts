@@ -423,6 +423,10 @@ export class SunburstSeries extends PolarSeries<any> {
   getActiveMarks(): IMark[] {
     return [this._sunburstMark];
   }
+
+  getMarkData(datum: Datum) {
+    return datum?.datum ? datum.datum[datum.datum.length - 1] : datum;
+  }
 }
 
 mixin(SunburstSeries, Drillable);

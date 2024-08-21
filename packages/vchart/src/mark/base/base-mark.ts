@@ -380,7 +380,14 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
 
     if (isValidScaleType(stateStyle.style.scale?.type)) {
-      return (datum: Datum, opt: IAttributeOpt) => stateStyle.style.scale.scale(datum[stateStyle.style.field]);
+      return (datum: Datum, opt: IAttributeOpt) => {
+        let data = datum;
+        if (this.model.modelType === 'series' && (this.model as ISeries).getMarkData) {
+          data = (this.model as ISeries).getMarkData(datum);
+        }
+
+        return stateStyle.style.scale.scale(data[stateStyle.style.field]);
+      };
     }
     return (datum: Datum, opt: IAttributeOpt) => {
       return stateStyle.style;

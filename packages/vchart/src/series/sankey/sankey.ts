@@ -22,7 +22,7 @@ import { Event_Bubble_Level } from '../../constant/event';
 import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
-import { Bounds, array, isNil, isValid, isNumber } from '@visactor/vutils';
+import { Bounds, array, isNil, isValid, isNumber, isArray } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import { registerSankeyAnimation } from './animation';
 import type { ISankeySeriesSpec, SankeyLinkElement, ISankeyLabelSpec } from './interface';
@@ -1126,6 +1126,16 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   getActiveMarks(): IMark[] {
     return [this._nodeMark, this._linkMark];
+  }
+
+  getMarkData(datum: Datum) {
+    if (datum.datum) {
+      if (isArray(datum.datum)) {
+        return datum.datum[datum.datum.length - 1];
+      }
+      return datum.datum;
+    }
+    return datum;
   }
 }
 
