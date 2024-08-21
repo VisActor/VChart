@@ -1,3 +1,19 @@
+# v1.12.1
+
+2024-08-21
+
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复 x 方向框选不生效的问题，修复 [#3111](https://github.com/VisActor/VChart/issues/3111)
+- **@visactor/vchart**: 修复当`layoutRadius`为自定义函数时，`getCenter`报错的问题
+- **@visactor/vchart**: 修复媒体查询器导致渲染效果不正确的问题， [#3102](https://github.com/VisActor/VChart/issues/3102)
+- **@visactor/vchart**: 修复系列数据为空时的报错问题，修复 [#3082](https://github.com/VisActor/VChart/issues/3082)
+
+
+
+[更多详情请查看 v1.12.1](https://github.com/VisActor/VChart/releases/tag/v1.12.1)
+
 # v1.12.0
 
 2024-08-16
