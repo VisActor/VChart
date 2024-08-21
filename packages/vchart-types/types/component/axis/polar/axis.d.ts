@@ -72,7 +72,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     positionToData(position: IPoint): number;
     coordToPoint(point: IPolarPoint): IPoint;
     pointToCoord(point: IPoint): IPolarPoint;
-    getCenter(): IPoint;
+    getCenter: () => IPoint;
     getOuterRadius(): number;
     getInnerRadius(): number;
     updateLayoutAttribute(): void;

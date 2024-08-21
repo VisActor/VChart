@@ -1,6 +1,20 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 16 Aug 2024 06:12:54 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Aug 2024 01:09:17 GMT and should not be manually modified.
+
+## 1.12.1
+Wed, 21 Aug 2024 01:09:17 GMT
+
+### Updates
+
+- fix: x brush filter not work. fix#3111
+- fix: fix error of `getCenter` when layoutRadius is a customized function in radar
+
+
+- fix: media query causes incorrect render result, #3102
+- fix: vchart should not throw error when the values of series data is empty, fix #3082
+
+
 
 ## 1.12.0
 Fri, 16 Aug 2024 06:12:54 GMT

@@ -2,6 +2,27 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.1",
+      "tag": "@visactor/vchart_v1.12.1",
+      "date": "Wed, 21 Aug 2024 01:09:17 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: x brush filter not work. fix#3111"
+          },
+          {
+            "comment": "fix: fix error of `getCenter` when layoutRadius is a customized function in radar\n\n"
+          },
+          {
+            "comment": "fix: media query causes incorrect render result, #3102"
+          },
+          {
+            "comment": "fix: vchart should not throw error when the values of series data is empty, fix #3082\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.0",
       "tag": "@visactor/vchart_v1.12.0",
       "date": "Fri, 16 Aug 2024 06:12:54 GMT",
