@@ -65,7 +65,7 @@ Whether to enable series animation.
 
 #${prefix} seriesField(string)
 
-Series grouping field.
+Series grouping field, typically used for color mapping;
 
 {{ use: common-series-style(
   prefix = ${prefix}

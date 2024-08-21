@@ -10,17 +10,23 @@
   noData = ${noData},
   noMorph = ${noMorph},
   useInChart = ${useInChart},
+  noCategoryField = true,
+  noValueField = true,
   seriesType = 'circularProgress',
   seriesMarks = ['progress', 'track']
 ) }}
 
-#${prefix} categoryField(string | Array)
+#${prefix} categoryField(string|string[])
 
-分类字段。
+类别字段，映射到半径轴。可以声明为数组类型，内部会依次按照声明的字段进行数据分组。
+
+#${prefix} valueField(string)
+
+数值字段，映射到角度轴。
 
 #${prefix} radiusField(string)
 
-半径字段。
+半径字段，同`categoryField`，建议统一使用`categoryField`，后续将废弃
 
 #${prefix} maxValue(number)
 

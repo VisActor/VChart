@@ -65,7 +65,7 @@
 
 #${prefix} seriesField(string)
 
-系列分组字段。
+系列分组字段，默认会用于颜色映射；
 
 {{ use: common-series-style(
   prefix = ${prefix}

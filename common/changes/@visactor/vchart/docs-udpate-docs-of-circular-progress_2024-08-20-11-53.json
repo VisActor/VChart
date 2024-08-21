@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "docs: update docs about circular progress, close #2987\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
