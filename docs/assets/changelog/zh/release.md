@@ -5,10 +5,10 @@
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: x brush filter not work. fix [#3111](https://github.com/VisActor/VChart/issues/3111)
-- **@visactor/vchart**: fix error of `getCenter` when layoutRadius is a customized function in radar
-- **@visactor/vchart**: media query causes incorrect render result, [#3102](https://github.com/VisActor/VChart/issues/3102)
-- **@visactor/vchart**: vchart should not throw error when the values of series data is empty, fix [#3082](https://github.com/VisActor/VChart/issues/3082)
+- **@visactor/vchart**: 修复 x 方向框选不生效的问题，修复 [#3111](https://github.com/VisActor/VChart/issues/3111)
+- **@visactor/vchart**: 修复当`layoutRadius`为自定义函数时，`getCenter`报错的问题
+- **@visactor/vchart**: 修复媒体查询器导致渲染效果不正确的问题， [#3102](https://github.com/VisActor/VChart/issues/3102)
+- **@visactor/vchart**: 修复系列数据为空时的报错问题，修复 [#3082](https://github.com/VisActor/VChart/issues/3082)
 
 
 
