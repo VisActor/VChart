@@ -39,7 +39,6 @@ import { registerTreemapAnimation } from './animation';
 import type { ILabelMark } from '../../mark/label';
 import { TreemapSeriesSpecTransformer } from './treemap-transform';
 import { registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
-import { collectHierarchyField } from '../../data/transforms/sankey';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
@@ -57,7 +56,8 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   protected declare _spec: ITreemapSeriesSpec;
 
-  protected _categoryField!: string;
+  protected _categoryField: string = 'name';
+
   getCategoryField() {
     return this._categoryField;
   }
@@ -66,7 +66,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     return this._categoryField;
   }
 
-  protected _valueField!: string;
+  protected _valueField: string = 'value';
   getValueField() {
     return this._valueField;
   }
@@ -131,6 +131,8 @@ export class TreemapSeries extends CartesianSeries<any> {
       viewDataProduct.transform([
         {
           type: 'treemap',
+          nameField: this._categoryField,
+          valueField: this._valueField,
           x0: this._viewBox.x1,
           x1: this._viewBox.x2,
           y0: this._viewBox.y1,
@@ -152,7 +154,7 @@ export class TreemapSeries extends CartesianSeries<any> {
           callback: (datum: TreemapNodeElement) => {
             if (datum) {
               [DEFAULT_HIERARCHY_ROOT, 'name'].forEach(key => {
-                datum[key] = datum.datum[datum.depth][key];
+                datum[key] = datum.datum[datum.depth][this._categoryField];
               });
             }
             return datum;

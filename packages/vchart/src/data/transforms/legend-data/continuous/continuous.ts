@@ -48,11 +48,10 @@ export const continuousLegendFilter = (data: Array<any>, op: IContinuousLegendFi
   if (selectedRange === dataRange) {
     return data;
   }
-
   if (datumField && !isEmpty(selectedRange)) {
     const [min, max] = selectedRange;
     if (isHierarchy(data)) {
-      return filterHierarchyDataByRange(data, +min, +max);
+      return filterHierarchyDataByRange(data, +min, +max, datumField);
     } else {
       return data.filter(datum => {
         return datum[datumField] >= min && datum[datumField] <= max;
