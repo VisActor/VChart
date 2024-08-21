@@ -91,9 +91,16 @@ tooltip 渲染方式，桌面端默认为`html`，小程序端默认为`canvas`�
 
 **可选** tooltip dom 根元素的 className，仅当 `renderMode` 为 `'html'` 时生效。**_（只作用于默认 html handler）_**
 
-##${prefix} parentElement(HTMLElement)
+##${prefix} parentElement(HTMLElement | string)
 
 **可选** tooltip dom 元素的挂载点，仅当 `renderMode` 为 `'html'` 时生效。**_（只作用于默认 html handler）_**
+
+可选项有：
+
+- string dom 元素的 id
+- HTMLElement dom 元素
+
+如果没有传，默认值为`document.body`
 
 ##${prefix} enterable(boolean) = false
 
