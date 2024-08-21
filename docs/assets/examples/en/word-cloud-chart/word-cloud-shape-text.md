@@ -4,7 +4,7 @@ group: word chart
 title: 文字轮廓形状词云图
 keywords: wordCloud,text,distribution
 order: 14-10
-cover: 
+cover: /vchart/preview/word-cloud-chart-word-cloud-shape-text_1.12.0.png
 option: wordCloudChart
 ---
 
@@ -18,6 +18,7 @@ This chart forms a word cloud based on text outlines, where the size of the text
 - `wordMask` displays the automatically calculated text outline as a background.
 
 ## Code Demonstration
+
 ```javascript livedemo
 const spec = {
   type: 'wordCloud',
