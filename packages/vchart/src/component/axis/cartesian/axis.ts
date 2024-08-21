@@ -15,7 +15,8 @@ import {
   isUndefined,
   calcLayoutNumber,
   maxInArr,
-  minInArr
+  minInArr,
+  clamp
 } from '../../../util';
 import type { IOrientType, IRect } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
@@ -586,6 +587,26 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this._latestBounds = product.getBounds();
     }
     return result;
+  }
+
+  positionToData(pos: number, isViewPos?: boolean) {
+    const isX = isXAxis(this.getOrient());
+    if (isViewPos) {
+      pos -= isX ? this.getLayoutStartPoint().x : this.getLayoutStartPoint().y;
+    }
+
+    if (this._innerOffset) {
+      pos = isX
+        ? clamp(pos, this._innerOffset.left, this.getLayoutRect().width - this._innerOffset.right)
+        : clamp(pos, this._innerOffset.top, this.getLayoutRect().height - this._innerOffset.bottom);
+    }
+    const range = this._scale.range();
+
+    if ((pos - range[0]) * (pos - range[1]) > 0) {
+      return null;
+    }
+
+    return this._scale.invert(pos);
   }
 
   private _getTitleLimit(isX: boolean) {

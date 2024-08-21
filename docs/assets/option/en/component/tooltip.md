@@ -89,6 +89,13 @@ Whether or not to restrict the tooltip box to the canvas area, enabled by defaul
 
 **Optional** Mount point for tooltip dom elements, only works if `renderMode` is `'html'`. **_(only works with the default html handler)_**
 
+Options include:
+
+- string: The id of the DOM element.
+- HTMLElement: The DOM element.
+
+If not provided, the default value is `document.body`.
+
 ##${prefix} enterable(boolean) = false
 
 If or not the mouse can enter the tooltip float, default is false, can be set to true if you need to interact with the details, such as adding links, buttons, etc. Currently only works when `renderMode` is `'html'`. \*\*Currently it only works when `renderMode` is `'html'`.
