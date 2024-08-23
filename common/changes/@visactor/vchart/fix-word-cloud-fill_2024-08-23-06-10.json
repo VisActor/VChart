@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: wordcloud fill not update after updateSpec. fix#3122",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
