@@ -161,12 +161,25 @@ describe('wordCloud chart test', () => {
             value: 574
           }
         ]
+      },
+      word: {
+        style: {}
       }
     };
-    const cs = new VChart(spec, {
-      mode: 'desktop-browser',
-      renderCanvas: canvasDom
-    });
+    const cs = new VChart(
+      {
+        ...spec,
+        word: {
+          style: {
+            fill: 'red'
+          }
+        }
+      },
+      {
+        mode: 'desktop-browser',
+        renderCanvas: canvasDom
+      }
+    );
     await cs.renderAsync();
     await cs.updateSpec(spec1 as any);
     const series: WordCloudSeries = cs.getChart().getAllSeries()[0] as WordCloudSeries;
@@ -181,5 +194,9 @@ describe('wordCloud chart test', () => {
     expect(dataResult[1].fontStyle).toBe('normal');
     expect(dataResult[1].fontWeight).toBeCloseTo(488.2506527415144);
     expect(dataResult[1].angle).toBe(0);
+
+    const marks = series.getMarks();
+    const wordMark = marks[1];
+    expect(wordMark.getProduct()?.elements[0].getGraphicAttribute('fill')).toBe('#1664FF');
   });
 });
