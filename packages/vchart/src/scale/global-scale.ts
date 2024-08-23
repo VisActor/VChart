@@ -112,6 +112,10 @@ export class GlobalScale implements IGlobalScale {
         result.reMake = true;
         return result;
       }
+      if (!isEqual(lastSpec.specified, s.specified)) {
+        result.reMake = true;
+        return result;
+      }
       if (s.range && !isEqual(s.range, scale.range())) {
         scale.range(s.range);
         result.reRender = true;
