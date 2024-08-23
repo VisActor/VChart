@@ -67,7 +67,7 @@ export class CartesianLinearAxis<
   protected _tickTransformOption() {
     return {
       ...super._tickTransformOption(),
-      breakData: () => this._break
+      breakData: this._spec.breaks?.length ? () => this._break : null
     } as ICartesianTickDataOpt;
   }
 
