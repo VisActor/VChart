@@ -163,7 +163,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       this.setMarkStyle(
         wordMark,
         {
-          fill: this.getWordColor,
           text: (datum: Datum) => datum[this._textField],
           x: (datum: Datum) => datum.x,
           y: (datum: Datum) => datum.y,
@@ -180,7 +179,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       this.setMarkStyle(
         wordMark,
         {
-          fontFamily: wordSpec.style?.fontFamily ?? this._defaultFontFamily
+          fontFamily: wordSpec.style?.fontFamily ?? this._defaultFontFamily,
+          fill: wordSpec?.style?.fill ?? this.getWordColor
         },
         'normal',
         AttributeLevel.User_Mark
