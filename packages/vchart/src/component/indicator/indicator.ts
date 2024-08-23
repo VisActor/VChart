@@ -200,8 +200,13 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       });
     });
 
+    if (visible === false || (fixed === false && this._activeDatum === null)) {
+      return {
+        visible: false
+      };
+    }
     return {
-      visible: visible !== false && (fixed !== false || this._activeDatum !== null),
+      visible: true,
       size: {
         width: width,
         height: height
@@ -225,8 +230,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         }
       },
       content: contentComponentSpec,
-      ...(restSpec as unknown as IndicatorAttributes),
-      pickable: false
+      ...(restSpec as unknown as IndicatorAttributes)
     } as IndicatorAttributes;
   }
 
