@@ -178,10 +178,16 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   }
 
   private _getIndicatorAttrs() {
+    if (this._spec.visible === false || (this._spec.fixed === false && this._activeDatum === null)) {
+      return {
+        visible: false
+      } as IndicatorAttributes;
+    }
+
     const region = this._regions[0];
     const { width, height } = region.getLayoutRect();
     const { x, y } = region.getLayoutStartPoint();
-    const { content, visible, fixed, offsetX, offsetY, limitRatio, title, ...restSpec } = this._spec;
+    const { content, offsetX, offsetY, limitRatio, title, ...restSpec } = this._spec;
 
     const contentComponentSpec: IIndicatorItemSpec[] = [];
     array(content).forEach((eachItem: IIndicatorItemSpec) => {
@@ -200,11 +206,6 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       });
     });
 
-    if (visible === false || (fixed === false && this._activeDatum === null)) {
-      return {
-        visible: false
-      } as IndicatorAttributes;
-    }
     return {
       visible: true,
       size: {
