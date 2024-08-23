@@ -1,6 +1,15 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 20 Aug 2024 10:25:40 GMT and should not be manually modified.
+This log was last generated on Fri, 23 Aug 2024 15:04:16 GMT and should not be manually modified.
+
+## 1.11.14
+Fri, 23 Aug 2024 15:04:16 GMT
+
+### Updates
+
+- fix: indicator stop tooltip interactive. fix#3123
+- fix: wordcloud fill not update after updateSpec. fix#3122
+- fix: wordcloud scale update not work. fix#3129
 
 ## 1.11.13
 Tue, 20 Aug 2024 10:25:40 GMT

@@ -2,6 +2,24 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.11.14",
+      "tag": "@visactor/vchart_v1.11.14",
+      "date": "Fri, 23 Aug 2024 15:04:16 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: indicator stop tooltip interactive. fix#3123"
+          },
+          {
+            "comment": "fix: wordcloud fill not update after updateSpec. fix#3122"
+          },
+          {
+            "comment": "fix: wordcloud scale update not work. fix#3129"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.11.13",
       "tag": "@visactor/vchart_v1.11.13",
       "date": "Tue, 20 Aug 2024 10:25:40 GMT",
