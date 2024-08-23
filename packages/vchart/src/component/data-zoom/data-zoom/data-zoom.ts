@@ -7,6 +7,7 @@ import {
   isNil,
   isNumber,
   isValid,
+  last,
   maxInArray,
   minInArray,
   uniqArray
@@ -263,7 +264,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       return false;
     }
     const domain = scale.domain();
-    if (isContinuous(scale.type) && domain[0] === domain[1]) {
+    if (isContinuous(scale.type) && domain[0] === last(domain)) {
       return false;
     }
     if (isDiscrete(scale.type) && uniqArray(domain).length === 1) {

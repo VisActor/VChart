@@ -1,14 +1,15 @@
-import { isValidNumber, isNil, isValid, isFunction } from '@visactor/vutils';
+import { isValidNumber, isNil, isValid, isFunction, last } from '@visactor/vutils';
 import type { LinearScale } from '@visactor/vscale';
-import { maxInArr, minInArr } from '../../../util/array';
+import { combineArray, maxInArr, minInArr } from '../../../util/array';
 import { getLinearAxisSpecDomain } from '../util';
-import type { IAxisLocationCfg, ITick } from '../interface';
+import type { IAxisLocationCfg, ILinearAxisBreakSpec, ITick } from '../interface';
 import { ChartEvent } from '../../../constant/event';
 import type { IEvent } from '../../../event/interface';
 import { isXAxis } from '../cartesian/util/common';
 import type { IOrientType } from '../../../typings/space';
 import type { IComponentOption } from '../../interface/common';
 import type { StringOrNumber } from '../../../typings';
+import { breakData, mergeAndSortRanges } from './util/break-data';
 
 export const e10 = Math.sqrt(50);
 export const e5 = Math.sqrt(10);
@@ -37,6 +38,7 @@ export interface LinearAxisMixin {
   isSeriesDataEnable: any;
   computeDomain: any;
   collectData: (depth?: number) => { min: number; max: number; values: any[] }[];
+  _break: { domain: [number, number][]; scope: [number, number][]; range: [number, number][] };
   event: IEvent;
   _orient: IOrientType;
   _option: IComponentOption;
@@ -137,14 +139,67 @@ export class LinearAxisMixin {
   }
 
   computeLinearDomain(data: { min: number; max: number; values: any[] }[]): number[] {
-    const domain: number[] = [];
+    let domain: number[] = [];
 
     if (data.length) {
+      const userSetBreaks = this._spec.breaks && this._spec.breaks.length;
+      let values: any[] = [];
+      let minDomain: number;
+      let maxDomain: number;
       data.forEach(d => {
         const { min, max } = d;
-        domain[0] = domain[0] === undefined ? min : Math.min(domain[0] as number, min as number);
-        domain[1] = domain[1] === undefined ? max : Math.max(domain[1] as number, max as number);
+        minDomain = minDomain === undefined ? min : Math.min(minDomain, min as number);
+        maxDomain = maxDomain === undefined ? max : Math.max(maxDomain, max as number);
+        if (userSetBreaks) {
+          values = values.concat(d.values);
+        }
       });
+
+      if (userSetBreaks) {
+        const breakRanges = mergeAndSortRanges(
+          this._spec.breaks.map((breakSpec: ILinearAxisBreakSpec) => breakSpec.range)
+        );
+
+        const breakDomains: [number, number][] = [];
+        const breakScopes: [number, number][] = [];
+        let source = [...values];
+        for (let index = 0; index < breakRanges.length; index++) {
+          const breakRange = breakRanges[index];
+          const { domain, scope } = breakData(source, breakRange);
+          let finalScope = scope;
+          const finalDomain = domain;
+          if (index > 0) {
+            const lastRatio = last(breakScopes)[1];
+            const restRarioRange = 1 - lastRatio;
+            finalScope = scope.map(eachScope => {
+              return [lastRatio + eachScope[0] * restRarioRange, lastRatio + eachScope[1] * restRarioRange];
+            });
+
+            finalDomain[0][0] = last(breakDomains)[1];
+          }
+
+          breakDomains.push(finalDomain[0]);
+          breakDomains.push(finalDomain[1]);
+          breakScopes.push(finalScope[0]);
+          breakScopes.push(finalScope[1]);
+
+          if (index === breakRanges.length - 1) {
+            breakDomains.push(finalDomain[2]);
+            breakScopes.push(finalScope[2]);
+          } else {
+            source = source.filter(val => val >= finalDomain[2][0]);
+          }
+        }
+
+        domain = combineArray(breakDomains);
+        this._break = {
+          domain: breakDomains,
+          scope: breakScopes,
+          range: breakRanges
+        };
+      } else {
+        domain = [minDomain, maxDomain];
+      }
     } else {
       // default value for linear axis
       domain[0] = 0;
@@ -196,7 +251,7 @@ export class LinearAxisMixin {
       num = Math.abs(num);
       if (num < 1) {
         domain[0] = 0;
-        domain[1] = 1; // 在[0, 1) 区间变成[0, 1]
+        domain[domain.length - 1] = 1; // 在[0, 1) 区间变成[0, 1]
       } else {
         let step = num / DEFAULT_TICK_COUNT; // 默认5个ticks
         const power = Math.floor(Math.log(step) / Math.LN10);
@@ -204,12 +259,12 @@ export class LinearAxisMixin {
         step = (err >= e10 ? 10 : err >= e5 ? 5 : err >= e2 ? 2 : 1) * Math.pow(10, power);
 
         domain[0] = 0;
-        domain[1] = step * 10;
+        domain[domain.length - 1] = step * 10;
       }
       if (flag < 0) {
         domain.reverse();
         domain[0] *= -1;
-        domain[1] *= -1;
+        domain[domain.length - 1] *= -1;
       }
     }
     return domain;
@@ -268,7 +323,7 @@ export class LinearAxisMixin {
     }
     const { min, max } = this._domain;
     isValid(min) && (domain[0] = min);
-    isValid(max) && (domain[1] = max);
+    isValid(max) && (domain[domain.length - 1] = max);
   }
 
   protected setSoftDomainMinMax(domain: number[]): void {
@@ -291,11 +346,11 @@ export class LinearAxisMixin {
       let softMaxValue = isFunction(softMax) ? softMax(domain) : (softMax as number);
 
       if (isNil(softMaxValue)) {
-        softMaxValue = domain[1];
+        softMaxValue = domain[domain.length - 1];
       }
 
-      if (softMaxValue >= domain[1]) {
-        domain[1] = softMaxValue;
+      if (softMaxValue >= domain[domain.length - 1]) {
+        domain[domain.length - 1] = softMaxValue;
       }
 
       this._softMaxValue = softMaxValue;
@@ -354,7 +409,7 @@ export class LinearAxisMixin {
 
   protected _updateNiceLabelFormatter(domain: number[]) {
     // 根据轴 domain 范围做动态判断，取最多 n + 2 位小数
-    const domainSpan = Math.abs(domain[1] - domain[0]);
+    const domainSpan = Math.abs(domain[domain.length - 1] - domain[0]);
     const n = Math.max(-Math.floor(Math.log10(domainSpan)), 0) + 2;
     const unit = Math.pow(10, n);
     this.niceLabelFormatter = (value: StringOrNumber) => {

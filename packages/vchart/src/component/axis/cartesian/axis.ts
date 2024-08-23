@@ -1,5 +1,5 @@
 import type { ICartesianHorizontal } from './interface/spec';
-import type { IBounds, IBoundsLike, Maybe } from '@visactor/vutils';
+import { last, type IBounds, type IBoundsLike, type Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
@@ -230,8 +230,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   protected abstract computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[];
   abstract valueToPosition(value: any): number;
 
-  protected updateScaleRange() {
-    let isScaleChange = false;
+  protected getNewScaleRange() {
     const { width, height } = this.getLayoutRect();
     const { left, right, top, bottom } = this._innerOffset;
     let newRange: number[] = [];
@@ -249,9 +248,19 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         newRange = this._inverse ? [top, height - bottom] : [height - bottom, top];
       }
     }
-    const [start, end] = this._scale.range();
-    if (newRange[0] !== start || newRange[1] !== end) {
-      isScaleChange = true;
+
+    return newRange;
+  }
+
+  protected updateScaleRange() {
+    let isScaleChange = false;
+
+    const newRange = this.getNewScaleRange();
+    const range = this._scale.range();
+    if (newRange.length === range.length && newRange.every((value, index) => value === range[index])) {
+      isScaleChange = false; // No change
+    } else {
+      isScaleChange = true; // Change detected
       this._scale.range(newRange);
     }
 
@@ -296,16 +305,16 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       const spec = this._spec as ICartesianVertical | ICartesianHorizontal;
       if (isYAxis(this.getOrient())) {
         ['top', 'bottom'].forEach(orient => {
-          this._innerOffset[orient] = calcLayoutNumber(
-            (spec as ICartesianVertical).innerOffset[orient],
+          this._innerOffset[orient as 'top' | 'bottom'] = calcLayoutNumber(
+            (spec as ICartesianVertical).innerOffset[orient as 'top' | 'bottom'],
             viewRect.height,
             viewRect
           );
         });
       } else {
         ['left', 'right'].forEach(orient => {
-          this._innerOffset[orient] = calcLayoutNumber(
-            (spec as ICartesianHorizontal).innerOffset[orient],
+          this._innerOffset[orient as 'left' | 'right'] = calcLayoutNumber(
+            (spec as ICartesianHorizontal).innerOffset[orient as 'left' | 'right'],
             viewRect.width,
             viewRect
           );
@@ -602,7 +611,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     }
     const range = this._scale.range();
 
-    if ((pos - range[0]) * (pos - range[1]) > 0) {
+    if ((pos - range[0]) * (pos - last(range)) > 0) {
       return null;
     }
 
@@ -629,7 +638,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return null;
   }
 
-  private _getUpdateAttribute(ignoreGrid: boolean) {
+  protected _getUpdateAttribute(ignoreGrid: boolean) {
     // 获取更新的坐标轴属性
     let regionHeight = 0;
     let regionWidth = 0;
@@ -741,7 +750,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         length: gridLength
       };
     }
-
     return attrs;
   }
 
@@ -749,12 +757,12 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     const tickLatestData = this.getTickData()?.getLatestData();
     if (tickLatestData && tickLatestData.length) {
       return [
-        tickLatestData
-          .map((obj: Datum) => {
-            const normalizedValue = this._getNormalizedValue([obj.value], length);
-            return getAxisItem(obj.value, normalizedValue);
-          })
-          .filter((entry: AxisItem) => entry.value >= 0 && entry.value <= 1)
+        tickLatestData.map((obj: Datum) => {
+          const normalizedValue = this._getNormalizedValue([obj.value], length);
+          return getAxisItem(obj.value, normalizedValue);
+        })
+        // TODO: 添加一个在数值范围内的判断
+        // .filter((entry: AxisItem) => (entry.value >= 0 && entry.value <= 1))
       ];
     }
     return [];
@@ -812,7 +820,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                 .getTickData()
                 .getLatestData()
                 ?.find((d: any) => d.value === 0)
-            : item.getScale().domain()[0] <= 0 && item.getScale().domain()[1] >= 0)
+            : item.getScale().domain()[0] <= 0 && last(item.getScale().domain()) >= 0)
         );
       };
       const relativeAxes = axesComponents.filter(item => isValidAxis(item));
@@ -856,10 +864,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   protected _layoutCacheProcessing(rect: ILayoutRect) {
     ['width', 'height'].forEach(key => {
-      if (rect[key] < this._layoutCache[key]) {
-        rect[key] = this._layoutCache[key];
+      if (rect[key as 'width' | 'height'] < this._layoutCache[key as 'width' | 'height']) {
+        rect[key as 'width' | 'height'] = this._layoutCache[key as 'width' | 'height'];
       } else {
-        this._layoutCache[key] = rect[key];
+        this._layoutCache[key as 'width' | 'height'] = rect[key as 'width' | 'height'];
       }
     });
 
@@ -867,15 +875,21 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (this._autoIndentOnce && this._hasAutoIndent) {
       // use cache
       ['x1', 'x2', 'y1', 'y2'].forEach(key => {
-        this.layout.getLastComputeOutBounds()[key] = this._layoutCache._lastComputeOutBounds[key];
+        this.layout.getLastComputeOutBounds()[key as 'x1' | 'x2' | 'y1' | 'y2'] =
+          this._layoutCache._lastComputeOutBounds[key as 'x1' | 'x2' | 'y1' | 'y2'];
       });
     } else {
       this._hasAutoIndent = true;
       ['x1', 'x2', 'y1', 'y2'].forEach(key => {
-        if (this.layout.getLastComputeOutBounds()[key] < this._layoutCache._lastComputeOutBounds[key]) {
-          this.layout.getLastComputeOutBounds()[key] = this._layoutCache._lastComputeOutBounds[key];
+        if (
+          this.layout.getLastComputeOutBounds()[key as 'x1' | 'x2' | 'y1' | 'y2'] <
+          this._layoutCache._lastComputeOutBounds[key as 'x1' | 'x2' | 'y1' | 'y2']
+        ) {
+          this.layout.getLastComputeOutBounds()[key as 'x1' | 'x2' | 'y1' | 'y2'] =
+            this._layoutCache._lastComputeOutBounds[key as 'x1' | 'x2' | 'y1' | 'y2'];
         } else {
-          this._layoutCache._lastComputeOutBounds[key] = this.layout.getLastComputeOutBounds()[key];
+          this._layoutCache._lastComputeOutBounds[key as 'x1' | 'x2' | 'y1' | 'y2'] =
+            this.layout.getLastComputeOutBounds()[key as 'x1' | 'x2' | 'y1' | 'y2'];
         }
       });
     }

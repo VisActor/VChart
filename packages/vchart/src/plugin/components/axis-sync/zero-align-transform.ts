@@ -1,4 +1,4 @@
-import { isValidNumber } from '@visactor/vutils';
+import { isValidNumber, last } from '@visactor/vutils';
 import { isContinuous } from '@visactor/vscale';
 import type { CartesianAxis } from '../../../component';
 import type { LinearAxisMixin } from '../../../component/axis/mixin/linear-axis-mixin';
@@ -14,15 +14,15 @@ type ScaleInfo = {
 };
 
 export function isValidAlignDomain(domain: number[]): boolean {
-  return domain.length === 2 && isValidNumber(domain[0]) && isValidNumber(domain[1]) && domain[1] >= domain[0];
+  return domain.length === 2 && isValidNumber(domain[0]) && isValidNumber(last(domain)) && last(domain) >= domain[0];
 }
 
 export function getScaleInfo(axis: LinearAxisMixin, domain: number[]): ScaleInfo {
   // example: -10 -20 total = 10 negative = 10
-  const total = domain[1] - domain[0];
-  const includeZero = domain[1] * domain[0] < 0;
+  const total = last(domain) - domain[0];
+  const includeZero = last(domain) * domain[0] < 0;
   let negative = domain[0] <= 0 ? 0 - domain[0] : 0;
-  let positive = domain[1] > 0 ? domain[1] - 0 : 0;
+  let positive = last(domain) > 0 ? last(domain) - 0 : 0;
   if (total === 0) {
     if (domain[0] < 0) {
       negative = 1;

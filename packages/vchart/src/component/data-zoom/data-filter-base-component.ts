@@ -18,7 +18,19 @@ import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { mixin, clamp, isNil, merge, isEqual, isValid, array, minInArray, maxInArray, abs } from '@visactor/vutils';
+import {
+  mixin,
+  clamp,
+  isNil,
+  merge,
+  isEqual,
+  isValid,
+  array,
+  minInArray,
+  maxInArray,
+  abs,
+  last
+} from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IFilterMode } from './interface';
 import type {
@@ -558,9 +570,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     // continuous scale: 本来可以用scale invert，但scale invert在大数据场景下性能不太好，所以这里自行计算
     if (isContinuous(scale.type)) {
       if (this._isReverse()) {
-        return domain[0] + (domain[1] - domain[0]) * (1 - state);
+        return domain[0] + (last(domain) - domain[0]) * (1 - state);
       }
-      return domain[0] + (domain[1] - domain[0]) * state;
+      return domain[0] + (last(domain) - domain[0]) * state;
     }
 
     // discete scale: 根据bandSize计算不准确, bandSize不是最新的, 导致index计算错误, 所以仍然使用invert
@@ -568,7 +580,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (this._isReverse()) {
       range = range.slice().reverse();
     }
-    const posInRange: number = range[0] + (range[1] - range[0]) * state;
+    const posInRange: number = range[0] + (last(range) - range[0]) * state;
     // const bandSize = (scale as BandScale).bandwidth();
     // const domainIndex = Math.min(Math.max(0, Math.floor(posInRange / bandSize)), domain.length - 1);
     // return domain[domainIndex];
@@ -584,7 +596,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       range = range.slice().reverse();
     }
 
-    return (pos - range[0]) / (range[1] - range[0]);
+    return (pos - range[0]) / (last(range) - range[0]);
   }
 
   protected _modeCheck(statePoint: 'start' | 'end', mode: string): any {
@@ -620,12 +632,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._end = end;
     this._minSpan = this._spec.minSpan ?? 0;
     this._maxSpan = this._spec.maxSpan ?? 1;
-    if (isContinuous(this._stateScale.type) && this._stateScale.domain()[0] !== this._stateScale.domain()[1]) {
+    if (isContinuous(this._stateScale.type) && this._stateScale.domain()[0] !== last(this._stateScale.domain())) {
       if (this._spec.minValueSpan) {
-        this._minSpan = this._spec.minValueSpan / (this._stateScale.domain()[1] - this._stateScale.domain()[0]);
+        this._minSpan = this._spec.minValueSpan / (last(this._stateScale.domain()) - this._stateScale.domain()[0]);
       }
       if (this._spec.maxValueSpan) {
-        this._maxSpan = this._spec.maxValueSpan / (this._stateScale.domain()[1] - this._stateScale.domain()[0]);
+        this._maxSpan = this._spec.maxValueSpan / (last(this._stateScale.domain()) - this._stateScale.domain()[0]);
       }
     }
     this._minSpan = Math.max(0, this._minSpan);

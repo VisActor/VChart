@@ -7,7 +7,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
 import type { IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
+import { array, isNil, polygonIntersectPolygon, isValid, last } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic, IGroup, INode, IPolygon, ISymbolGraphicAttribute } from '@visactor/vrender-core';
@@ -525,18 +525,18 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           const range = axis.getScale().range();
           const rangeFactor = (axis.getScale() as IContinuousScale | IBandLikeScale).rangeFactor() ?? [0, 1];
 
-          // 判断轴是否为反向轴（range[1] < range[0])，即从右到左, 或从下到上
+          // 判断轴是否为反向轴（last(range) < range[0])，即从右到左, 或从下到上
           // 如果是反向轴, 计算start和end时, 也要保持 start < end
-          const isAxisReverse = range[1] < range[0];
+          const isAxisReverse = last(range) < range[0];
           const startPosTemp = boundsStart - region.getLayoutStartPoint()[regionStartAttr];
           const endPosTemp = boundsEnd - region.getLayoutStartPoint()[regionStartAttr];
           const endPos = isAxisReverse ? Math.min(startPosTemp, endPosTemp) : Math.max(startPosTemp, endPosTemp);
           const startPos = isAxisReverse ? Math.max(startPosTemp, endPosTemp) : Math.min(startPosTemp, endPosTemp);
 
           const start =
-            ((startPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
+            ((startPos - range[0]) / (last(range) - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
           const end =
-            ((endPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
+            ((endPos - range[0]) / (last(range) - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
           const newStart = this._stateClamp(start - axisRangeExpand);
           const newEnd = this._stateClamp(end + axisRangeExpand);
           (axis.getScale() as ILinearScale).rangeFactor([newStart, newEnd]);

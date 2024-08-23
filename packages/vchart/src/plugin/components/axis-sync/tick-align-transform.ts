@@ -1,6 +1,7 @@
 import type { Datum } from '../../../typings';
 import type { CartesianAxis } from '../../../component';
 import { convertDomainToTickData } from '@visactor/vrender-components';
+import { last } from '@visactor/vutils';
 
 export interface ITickAlignOpt {
   targetAxis: () => CartesianAxis;
@@ -42,12 +43,12 @@ export const tickAlign = (data: Array<Datum>, op: ITickAlignOpt) => {
     return data;
   }
   const targetDomain = targetScale.domain();
-  const targetRange = targetDomain[1] - targetDomain[0];
+  const targetRange = last(targetDomain) - targetDomain[0];
   if (targetRange === 0) {
     return data;
   }
   const currentDomain = currentScale.domain();
-  const currentRange = currentDomain[1] - currentDomain[0];
+  const currentRange = last(currentDomain) - currentDomain[0];
   if (targetRange === 0) {
     return data;
   }

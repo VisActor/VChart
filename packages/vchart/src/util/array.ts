@@ -14,4 +14,16 @@ export function shallowCompare<T, U>(arrA: T | T[], arrB: U | U[]): boolean {
   return true;
 }
 
+export function combineArray(arr: number[][]): number[] {
+  const uniqueValues = new Set<number>();
+
+  arr.forEach(subArray => {
+    subArray.forEach(value => {
+      uniqueValues.add(value);
+    });
+  });
+
+  return Array.from(uniqueValues);
+}
+
 export { array, peek, maxInArr, minInArr };
