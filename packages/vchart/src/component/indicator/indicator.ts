@@ -203,7 +203,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     if (visible === false || (fixed === false && this._activeDatum === null)) {
       return {
         visible: false
-      };
+      } as IndicatorAttributes;
     }
     return {
       visible: true,
