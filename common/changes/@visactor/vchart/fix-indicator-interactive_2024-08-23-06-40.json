@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: indicator stop tooltip interactive. fix#3123",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
