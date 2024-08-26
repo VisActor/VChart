@@ -11,7 +11,7 @@ function breakDomain(data: number[], points: number[]): [number, number][] {
   // 默认数据已经排序
   const min = data[0];
   const max = data[data.length - 1];
-  const breaks = points.sort().filter(point => point > min && point < max);
+  const breaks = points.filter(point => point > min && point < max);
   return setDomain(min, max, breaks);
 }
 

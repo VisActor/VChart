@@ -156,38 +156,45 @@ export class LinearAxisMixin {
       });
 
       if (userSetBreaks) {
-        const breakRanges = mergeAndSortRanges(
-          this._spec.breaks.map((breakSpec: ILinearAxisBreakSpec) => breakSpec.range)
-        );
-
-        const breakDomains: [number, number][] = [];
-        const breakScopes: [number, number][] = [];
+        let breakDomains: [number, number][] = [];
+        let breakScopes: [number, number][] = [];
+        let breakRanges: [number, number][];
         let source = [...values];
-        for (let index = 0; index < breakRanges.length; index++) {
-          const breakRange = breakRanges[index];
-          const { domain, scope } = breakData(source, breakRange);
-          let finalScope = scope;
-          const finalDomain = domain;
-          if (index > 0) {
-            const lastRatio = last(breakScopes)[1];
-            const restRarioRange = 1 - lastRatio;
-            finalScope = scope.map(eachScope => {
-              return [lastRatio + eachScope[0] * restRarioRange, lastRatio + eachScope[1] * restRarioRange];
-            });
 
-            finalDomain[0][0] = last(breakDomains)[1];
-          }
+        if (this._spec.breaks.length === 1) {
+          const { domain, scope } = breakData(source, this._spec.breaks[0].range);
+          breakDomains = domain;
+          breakScopes = scope;
+          breakRanges = [this._spec.breaks[0].range];
+        } else {
+          breakRanges = mergeAndSortRanges(this._spec.breaks.map((breakSpec: ILinearAxisBreakSpec) => breakSpec.range));
 
-          breakDomains.push(finalDomain[0]);
-          breakDomains.push(finalDomain[1]);
-          breakScopes.push(finalScope[0]);
-          breakScopes.push(finalScope[1]);
+          for (let index = 0; index < breakRanges.length; index++) {
+            const breakRange = breakRanges[index];
+            const { domain, scope } = breakData(source, breakRange);
+            let finalScope = scope;
+            const finalDomain = domain;
+            if (index > 0) {
+              const lastRatio = last(breakScopes)[1];
+              const restRarioRange = 1 - lastRatio;
+              finalScope = scope.map(eachScope => {
+                return [lastRatio + eachScope[0] * restRarioRange, lastRatio + eachScope[1] * restRarioRange];
+              });
 
-          if (index === breakRanges.length - 1) {
-            breakDomains.push(finalDomain[2]);
-            breakScopes.push(finalScope[2]);
-          } else {
-            source = source.filter(val => val >= finalDomain[2][0]);
+              finalDomain[0][0] = last(breakDomains)[1];
+            }
+
+            breakDomains.push(finalDomain[0]);
+            breakDomains.push(finalDomain[1]);
+            breakScopes.push(finalScope[0]);
+            breakScopes.push(finalScope[1]);
+
+            if (index === breakRanges.length - 1) {
+              breakDomains.push(finalDomain[2]);
+              breakScopes.push(finalScope[2]);
+            } else {
+              source = source.filter(val => val >= finalDomain[2][0]);
+            }
           }
         }
 
