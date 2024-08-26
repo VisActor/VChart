@@ -122,10 +122,15 @@
 
 #${prefix} label(Object)
 
+标签配置。
+
+矩形树图叶节点标签默认在矩形居中位置显示，自定义标签位置可以参考[示例](/vchart/demo/treemap-chart/treemap-show-parent-level)
+
 {{ use: component-label(
   prefix = '#' + ${prefix},
   noPosition = true,
   noOffset = true,
+  hasOverlap = false,
 ) }}
 
 #${prefix} nonLeafLabel(Object)
