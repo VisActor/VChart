@@ -111,16 +111,6 @@ export class Event implements IEvent {
     return this;
   }
 
-  prevent<Evt extends EventType>(eType: Evt, except?: EventCallback<EventParamsDefinition[Evt]>) {
-    this._eventDispatcher.prevent(eType, except);
-    return this;
-  }
-
-  allow<Evt extends EventType>(eType: Evt) {
-    this._eventDispatcher.allow(eType);
-    return this;
-  }
-
   release(): void {
     this._eventDispatcher.clear();
     this._composedEventMap.clear();

@@ -12,8 +12,7 @@ import type {
   EventParams,
   EventFilter,
   EventSourceType,
-  InteractionEventParam,
-  EventCallback
+  InteractionEventParam
 } from './interface';
 import type { VChart } from '../core/vchart';
 import type { CompilerListenerParameters } from '../compile/interface';
@@ -168,32 +167,6 @@ export class EventDispatcher implements IEventDispatcher {
       }
     }
 
-    return this;
-  }
-
-  prevent<Evt extends EventType>(eType: Evt, except?: EventCallback<EventParams>): this {
-    const eventTypes = ['canvas', 'chart', 'window'] as EventSourceType[];
-    eventTypes.forEach(type => {
-      const bubble = this.getEventBubble(type).get(eType);
-      if (bubble) {
-        bubble.getAllHandlers().forEach(handler => {
-          if (!except || handler.callback !== except) {
-            bubble.preventHandler(handler);
-          }
-        });
-      }
-    });
-    return this;
-  }
-
-  allow<Evt extends EventType>(eType: Evt): this {
-    const eventTypes = ['canvas', 'chart', 'window'] as EventSourceType[];
-    eventTypes.forEach(type => {
-      const bubble = this.getEventBubble(type).get(eType);
-      if (bubble) {
-        bubble.getAllHandlers().forEach(handler => bubble.allowHandler(handler));
-      }
-    });
     return this;
   }
 
@@ -360,7 +333,7 @@ export class EventDispatcher implements IEventDispatcher {
   ): boolean {
     const result = handlers.map(handler => {
       const filter = handler.filter as EventFilter;
-      if (!handler.prevented && (!handler.query || this._filter(filter, type, params))) {
+      if (!handler.query || this._filter(filter, type, params)) {
         const callback = handler.wrappedCallback || handler.callback;
         const stopBubble = callback.call(null, this._prepareParams(filter, params));
         const doStopBubble = stopBubble ?? handler.query?.consume;
