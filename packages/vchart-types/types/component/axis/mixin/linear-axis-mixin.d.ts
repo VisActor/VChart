@@ -32,6 +32,11 @@ export interface LinearAxisMixin {
         max: number;
         values: any[];
     }[];
+    _break: {
+        domain: [number, number][];
+        scope: [number, number][];
+        range: [number, number][];
+    };
     event: IEvent;
     _orient: IOrientType;
     _option: IComponentOption;
