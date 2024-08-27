@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "docs: fix issue of treemap.label not shown in option pages, fix #2562",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

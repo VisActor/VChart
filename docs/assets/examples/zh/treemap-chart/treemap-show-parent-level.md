@@ -402,7 +402,23 @@ const spec = {
   label: {
     visible: true,
     style: {
-      fontSize: 12
+      fontSize: 12,
+      x: data => {
+        // Label will be placed at the center of node rect.
+        // Here we adjust the x attribute to position label to the left
+        // 默认标签显示在矩形中心位置，这里配置为左对齐，预留 4px 间距
+        return data?.x0 + 4;
+      },
+      y: data => {
+        // Label will be placed at the center of node rect.
+        // Here we adjust the x attribute to position label to the Top
+        // 默认标签显示在矩形中心位置，这里配置为左上角
+        return data?.y0;
+      },
+      visible: data => Math.abs(data.y1 - data.y0) >= 12,
+      maxLength: data => Math.abs(data.x1 - data.x0 - 4),
+      textAlign: 'left',
+      textBaseline: 'top'
     }
   },
   nonLeaf: {
