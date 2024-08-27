@@ -220,12 +220,12 @@ const getSeriesTooltipPattern = (
   return seriesPattern;
 };
 
-const getSeriesListFromDimensionInfo = memoize((dimensionInfo: IDimensionInfo[]): ISeries[] => {
+const getSeriesListFromDimensionInfo = (dimensionInfo: IDimensionInfo[]): ISeries[] => {
   return dimensionInfo.reduce(
     (list, cur) => list.concat(cur.data.map(data => data.series).filter(isValid)),
     [] as ISeries[]
   );
-});
+};
 
 /** 获取每个系列对应的 shape pattern */
 const getShapePatternMapOfEachSeries = (content: ITooltipLinePattern[]): Record<number, ITooltipShapePattern> => {
