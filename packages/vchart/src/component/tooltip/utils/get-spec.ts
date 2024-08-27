@@ -1,6 +1,5 @@
 import type { ITooltipLinePattern, ITooltipPattern, ITooltipShapePattern, TooltipActiveType } from '../../../typings';
 import type { ISeries } from '../../../series/interface';
-import { mergeSpec } from '@visactor/vutils-extension';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 import { isValid, array, isNil, cloneDeep, isFunction } from '@visactor/vutils';
 import type { ITooltipSpec, ITooltipTheme } from '..';
@@ -59,19 +58,7 @@ export const getTooltipSpecForShow = (
   // 默认的 pattern
   const defaultPattern = getDefaultTooltipPattern(activeType, series, dimensionInfo) ?? {};
   // 来自系列的 pattern
-  const seriesPattern = getSeriesTooltipPattern(activeType, series, dimensionInfo);
-  // 来自用户配置的 pattern
-  const userPattern: ITooltipPattern =
-    globalSpec[activeType] || seriesPattern
-      ? mergeSpec(
-          {},
-          addSeriesInfo(
-            globalSpec[activeType],
-            activeType === 'dimension' ? getSeriesListFromDimensionInfo(dimensionInfo) : [series]
-          ),
-          seriesPattern
-        )
-      : null;
+  const userPattern = getSeriesTooltipPattern(activeType, globalSpec, series, dimensionInfo);
 
   if (userPattern) {
     // 对pattern进行组装
@@ -166,36 +153,62 @@ const getDefaultTooltipPattern = (
 /** 获取来自系列 spec 的 tooltip pattern */
 const getSeriesTooltipPattern = (
   activeType: TooltipActiveType,
+  globalSpec: ITooltipSpec,
   series?: ISeries,
   dimensionInfo?: IDimensionInfo[]
 ): ITooltipPattern => {
-  switch (activeType) {
-    case 'mark':
-    case 'group':
-      if (series) {
-        const seriesSpec = series.tooltipHelper?.spec as ITooltipSpec;
-        return seriesSpec && seriesSpec[activeType] ? cloneDeep(seriesSpec[activeType]) : undefined;
-      }
-      break;
-    case 'dimension':
-      if (dimensionInfo?.length) {
-        // dimension tooltip
-        const seriesList = getSeriesListFromDimensionInfo(dimensionInfo);
+  const allSeries =
+    activeType === 'dimension' && dimensionInfo?.length
+      ? getSeriesListFromDimensionInfo(dimensionInfo)
+      : (activeType === 'mark' || activeType === 'group') && series
+      ? [series]
+      : null;
 
-        const seriesPatternList: ITooltipPattern[] = [];
+  if (allSeries && allSeries.length) {
+    const seriesPatternList: ITooltipPattern[] = [];
 
-        seriesList.forEach(series => {
-          const spec = series.tooltipHelper?.spec;
+    allSeries.forEach(s => {
+      const seriesSpec = s.tooltipHelper?.spec as ITooltipSpec;
 
-          if (isActiveTypeVisible(activeType, spec) && spec?.dimension) {
-            seriesPatternList.push(spec.dimension);
+      if (isActiveTypeVisible(activeType, seriesSpec)) {
+        let finalPattern =
+          seriesSpec && seriesSpec[activeType]
+            ? {
+                ...globalSpec[activeType],
+                ...seriesSpec[activeType]
+              }
+            : globalSpec[activeType];
+
+        if (finalPattern) {
+          finalPattern = cloneDeep(finalPattern);
+
+          if (finalPattern.title) {
+            finalPattern.title = addExtraInfoToTooltipTitlePattern(
+              finalPattern.title,
+              {
+                seriesId: s.id
+              },
+              true
+            );
           }
-        });
+          if (finalPattern.content) {
+            finalPattern.content = addExtraInfoToTooltipContentPattern(
+              finalPattern.content,
+              {
+                seriesId: s.id
+              },
+              true
+            );
+          }
 
-        return combinePattern(seriesPatternList);
+          seriesPatternList.push(finalPattern);
+        }
       }
-      break;
+    });
+
+    return seriesPatternList && seriesPatternList.length ? combinePattern(seriesPatternList) : null;
   }
+
   return undefined;
 };
 
@@ -292,25 +305,4 @@ const addExtraInfoToTooltipContentPattern = <T>(
       )
     : undefined;
   return result;
-};
-
-const addSeriesInfo = (pattern: ITooltipPattern, series: ISeries[]) => {
-  if (pattern && pattern.content) {
-    return combinePattern(
-      series.map(s => {
-        return {
-          ...pattern,
-          content: addExtraInfoToTooltipContentPattern(
-            pattern.content,
-            {
-              seriesId: s.id
-            },
-            true
-          )
-        };
-      })
-    );
-  }
-
-  return pattern;
 };
