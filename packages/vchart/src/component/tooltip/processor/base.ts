@@ -29,7 +29,7 @@ export abstract class BaseTooltipProcessor {
   /** 触发对应类型的 tooltip */
   abstract showTooltip(info: TooltipInfo, params: BaseEventParams, changePositionOnly: boolean): TooltipResult;
   /** 获取触发 tooltip 需要的信息 */
-  abstract getMouseEventData(params: BaseEventParams, dimensionInfo?: DimensionTooltipInfo): MouseEventData;
+  abstract getMouseEventData(params: BaseEventParams): MouseEventData;
 
   protected _showTooltipByHandler = (data: TooltipData | undefined, params: TooltipHandlerParams): TooltipResult => {
     if (isNil(data)) {

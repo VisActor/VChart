@@ -1,9 +1,9 @@
 import type { BaseEventParams } from '../../../event/interface';
 import type { Datum, IGroupTooltipPattern, TooltipActiveType } from '../../../typings';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
-import type { DimensionTooltipInfo, GroupTooltipInfo, MouseEventData } from './interface';
+import type { GroupTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
-import { array, isNil, isValid } from '@visactor/vutils';
+import { array } from '@visactor/vutils';
 import type { ISeries } from '../../../series/interface';
 
 export class GroupTooltipProcessor extends BaseTooltipProcessor {
@@ -11,12 +11,11 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
 
   /** 触发对应类型的 tooltip */
   showTooltip(info: GroupTooltipInfo, params: BaseEventParams, changePositionOnly: boolean) {
-    const { datum, series, dimensionInfo } = info;
+    const { datum, series } = info;
     const tooltipData = [{ datum: array(datum), series }];
     const newParams: TooltipHandlerParams = {
       ...(params as any),
       groupDatum: this._getGroupDatum(params),
-      dimensionInfo: this._preprocessDimensionInfo(dimensionInfo),
       changePositionOnly,
       tooltip: this.component
     };
@@ -24,7 +23,7 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
   }
 
   /** 获取触发 tooltip 需要的信息 */
-  getMouseEventData(params: BaseEventParams, dimensionInfo?: DimensionTooltipInfo): MouseEventData {
+  getMouseEventData(params: BaseEventParams): MouseEventData {
     let info: GroupTooltipInfo | undefined;
     let ignore: boolean | undefined;
 
@@ -42,8 +41,7 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
           info = {
             mark: params.mark,
             datum: params.datum,
-            series,
-            dimensionInfo
+            series
           };
         }
       } else if (ignoreTriggers?.has(params.model) || ignoreTriggers?.has(params.mark)) {

@@ -415,20 +415,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       ignore: {}
     };
 
-    let activeType: TooltipActiveType = 'dimension';
-    const { tooltipInfo, ignore } = this.processor[activeType].getMouseEventData(params);
-    result.tooltipInfo[activeType] = tooltipInfo as any;
-    result.ignore[activeType] = ignore;
-
-    const dimensionInfo = tooltipInfo as DimensionTooltipInfo;
-
-    for (activeType of Object.keys(this.processor) as any) {
-      if (activeType !== 'dimension') {
-        const { tooltipInfo, ignore } = this.processor[activeType].getMouseEventData(params, dimensionInfo);
-        result.tooltipInfo[activeType] = tooltipInfo as any;
-        result.ignore[activeType] = ignore;
-      }
-    }
+    Object.keys(this.processor).forEach(activeType => {
+      const { tooltipInfo, ignore } = this.processor[activeType as TooltipActiveType].getMouseEventData(params);
+      result.tooltipInfo[activeType as TooltipActiveType] = tooltipInfo as any;
+      result.ignore[activeType as TooltipActiveType] = ignore;
+    });
     return result;
   };
 
