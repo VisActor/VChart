@@ -25,12 +25,17 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
     return null;
   }
 
-  const { x, y } = pos;
   const angleAxisList = getAxis(chart, (cmp: PolarAxis) => cmp.getOrient() === 'angle', pos);
   const radiusAxisList = getAxis(chart, (cmp: PolarAxis) => cmp.getOrient() === 'radius', pos);
+
+  if ((!angleAxisList || !angleAxisList.length) && (!radiusAxisList || !radiusAxisList.length)) {
+    return null;
+  }
+
   const targetAxisInfo: IDimensionInfo[] = [];
 
   const getDimensionField = (series: IPolarSeries) => series.getDimensionField()[0];
+  const { x, y } = pos;
 
   if (angleAxisList) {
     angleAxisList.forEach(axis => {

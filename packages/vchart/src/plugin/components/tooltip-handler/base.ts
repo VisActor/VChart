@@ -297,10 +297,10 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     }
 
     const { activeType, data } = actualTooltip;
-    const pattern = tooltipSpec[activeType];
-    const position = getTooltipPatternValue(pattern.position, data, params);
+    const spec = tooltipSpec[activeType];
+    const position = getTooltipPatternValue(spec.position, data, params);
     const positionMode =
-      getTooltipPatternValue(pattern.positionMode, data, params) ?? (activeType === 'mark' ? 'mark' : 'pointer');
+      getTooltipPatternValue(spec.positionMode, data, params) ?? (activeType === 'mark' ? 'mark' : 'pointer');
     const tooltipParentElement = this._getParentElement(tooltipSpec);
     const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } = tooltipBoxSize ?? {};
 

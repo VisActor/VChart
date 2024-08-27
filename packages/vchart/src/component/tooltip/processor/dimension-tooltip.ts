@@ -3,8 +3,12 @@ import type { TooltipActiveType } from '../../../typings';
 import type { TooltipHandlerParams } from '../interface';
 import type { DimensionTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
-import { isNil } from '@visactor/vutils';
-import type { ISeries } from '../../../series/interface';
+import { isNil, isValid } from '@visactor/vutils';
+import type { ICartesianSeries, ISeries } from '../../../series/interface';
+import { getCartesianDimensionInfo } from '../../../event/events/dimension/util/cartesian';
+import { getPolarDimensionInfo } from '../../../event/events/dimension/util/polar';
+import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
+import { isDiscrete } from '@visactor/vscale';
 
 export class DimensionTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'dimension';
@@ -20,19 +24,72 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
     return this._showTooltipByHandler(info, newParams);
   }
 
-  /** 判断是否应该触发 tooltip */
-  shouldHandleTooltip(params: BaseEventParams, mouseEventData: Partial<MouseEventData>): boolean {
-    const { tooltipInfo: info } = mouseEventData;
-    if (isNil(info)) {
-      return false;
+  protected _getDimensionInfo(params: BaseEventParams): IDimensionInfo[] {
+    let targetDimensionInfo: IDimensionInfo[] | undefined;
+    // 处理dimension info
+    const chart = this.component.getChart();
+
+    // compute layer offset
+    const layer = chart.getCompiler().getStage().getLayer(undefined);
+    const point = { x: params.event.viewX, y: params.event.viewY };
+    layer.globalTransMatrix.transformPoint({ x: params.event.viewX, y: params.event.viewY }, point);
+
+    targetDimensionInfo = [
+      ...(getCartesianDimensionInfo(chart, point, true) ?? []),
+      ...(getPolarDimensionInfo(chart, point) ?? [])
+    ];
+    if (targetDimensionInfo.length === 0) {
+      targetDimensionInfo = undefined;
+    } else if (targetDimensionInfo.length > 1) {
+      // 只保留一个轴的dimension info
+      const dimensionAxisInfo = targetDimensionInfo.filter(info => {
+        const axis = info.axis;
+        if (axis.getSpec().hasDimensionTooltip) {
+          return true;
+        }
+
+        // 优先显示离散轴 tooltip
+        if (!isDiscrete(axis.getScale().type)) {
+          return false;
+        }
+        // 下面的逻辑用来判断当前的离散轴是不是维度轴
+        let firstSeries: ICartesianSeries | undefined;
+        for (const region of axis?.getRegions() ?? []) {
+          for (const series of region.getSeries()) {
+            if (series.coordinate === 'cartesian') {
+              firstSeries = series as ICartesianSeries;
+              break;
+            }
+          }
+          if (isValid(firstSeries)) {
+            break;
+          }
+        }
+        if (isValid(firstSeries) && firstSeries.getDimensionField()[0] === firstSeries.fieldY[0]) {
+          // 维度轴为Y轴时，选择只显示Y轴tooltip
+          return axis.getOrient() === 'left' || axis.getOrient() === 'right';
+        }
+        // 维度轴为X轴时，选择只显示X轴tooltip
+        return axis.getOrient() === 'bottom' || axis.getOrient() === 'top';
+      });
+      targetDimensionInfo = dimensionAxisInfo.length ? dimensionAxisInfo : targetDimensionInfo.slice(0, 1);
+
+      // datum 去重，保证每个系列的每个数据项只对应于一行 tooltip 内容项
+      if (targetDimensionInfo.length > 1) {
+        const dimensionDataKeySet = new Set<string>();
+        targetDimensionInfo.forEach(info => {
+          info.data = info.data.filter(({ key }: IDimensionData) => {
+            if (dimensionDataKeySet.has(key)) {
+              return false;
+            }
+            dimensionDataKeySet.add(key);
+            return true;
+          });
+        });
+      }
     }
 
-    const helper = (params.model as ISeries)?.tooltipHelper;
-    const activeType = helper?.activeType ?? this.component.getSpec().activeType;
-    if (!activeType.includes('dimension')) {
-      return false;
-    }
-    return true;
+    return targetDimensionInfo;
   }
 
   /** 获取触发 tooltip 需要的信息 */

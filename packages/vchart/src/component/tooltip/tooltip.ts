@@ -31,7 +31,7 @@ import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
 import { error } from '../../util';
-import { TooltipHandlerType } from './constant';
+import { TOOLTIP_TYPES, TooltipHandlerType } from './constant';
 
 type EventHandlerList = {
   eventType: EventType;
@@ -179,11 +179,21 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   protected _initProcessor() {
     // 初始化 tooltip 类型
-    this.processor = {
-      mark: new MarkTooltipProcessor(this),
-      dimension: new DimensionTooltipProcessor(this),
-      group: new GroupTooltipProcessor(this)
-    };
+    const activeType = this._spec.activeType;
+
+    this.processor = {};
+
+    if (activeType.includes('dimension')) {
+      this.processor.dimension = new DimensionTooltipProcessor(this);
+    }
+
+    if (activeType.includes('group')) {
+      this.processor.group = new GroupTooltipProcessor(this);
+    }
+
+    if (activeType.includes('mark')) {
+      this.processor.mark = new MarkTooltipProcessor(this);
+    }
   }
 
   protected _initEvent() {
@@ -308,13 +318,14 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       group: false
     };
 
-    /* 显示常规tooltip */
-    success.group = this._showTooltipByMouseEvent('group', mouseEventData, params, isClick);
-    if (!success.group) {
-      success.mark = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick);
-    }
-    if (!success.mark && !success.group) {
-      success.dimension = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
+    for (let i = 0, len = TOOLTIP_TYPES.length; i < len; i++) {
+      const type = TOOLTIP_TYPES[i];
+      const res = this.processor[type] ? this._showTooltipByMouseEvent(type, mouseEventData, params, isClick) : false;
+
+      if (res) {
+        success[type] = true;
+        break;
+      }
     }
 
     /* 如果不是常规情况，进行一些特殊情况tooltip处理 */
@@ -440,14 +451,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     });
 
     // 隐藏 tooltip
-    let hideTooltip;
-    if (this._spec.handler?.hideTooltip) {
-      hideTooltip = this._spec.handler.hideTooltip.bind(this._spec.handler);
-    } else if (this.tooltipHandler?.hideTooltip) {
-      hideTooltip = this.tooltipHandler.hideTooltip.bind(this.tooltipHandler);
-    }
-    if (hideTooltip) {
-      const result = hideTooltip(params);
+    const handler = this._spec.handler ?? this.tooltipHandler;
+
+    if (handler.hideTooltip) {
+      const result = handler.hideTooltip.call(handler, params);
       if (!result) {
         this._isTooltipShown = false;
       }

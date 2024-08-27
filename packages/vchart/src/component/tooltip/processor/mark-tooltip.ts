@@ -3,7 +3,7 @@ import type { TooltipActiveType } from '../../../typings';
 import type { TooltipHandlerParams } from '../interface';
 import type { DimensionTooltipInfo, MarkTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
-import { isNil } from '@visactor/vutils';
+import { isNil, isValid } from '@visactor/vutils';
 import type { ISeries } from '../../../series/interface';
 
 export class MarkTooltipProcessor extends BaseTooltipProcessor {
@@ -20,20 +20,6 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
       tooltip: this.component
     };
     return this._showTooltipByHandler(tooltipData, newParams);
-  }
-
-  /** 判断是否应该触发 tooltip */
-  shouldHandleTooltip(params: BaseEventParams, mouseEventData: Partial<MouseEventData>): boolean {
-    const { tooltipInfo: info } = mouseEventData;
-    if (isNil(info)) {
-      return false;
-    }
-
-    const helper = (params.model as ISeries)?.tooltipHelper;
-    if (!helper?.activeType.includes('mark')) {
-      return false;
-    }
-    return true;
   }
 
   /** 获取触发 tooltip 需要的信息 */

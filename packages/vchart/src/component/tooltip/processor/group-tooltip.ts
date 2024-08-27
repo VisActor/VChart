@@ -3,7 +3,7 @@ import type { Datum, IGroupTooltipPattern, TooltipActiveType } from '../../../ty
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 import type { DimensionTooltipInfo, GroupTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
-import { array, isNil } from '@visactor/vutils';
+import { array, isNil, isValid } from '@visactor/vutils';
 import type { ISeries } from '../../../series/interface';
 
 export class GroupTooltipProcessor extends BaseTooltipProcessor {
@@ -21,20 +21,6 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
       tooltip: this.component
     };
     return this._showTooltipByHandler(tooltipData, newParams);
-  }
-
-  /** 判断是否应该触发 tooltip */
-  shouldHandleTooltip(params: BaseEventParams, mouseEventData: Partial<MouseEventData>): boolean {
-    const { tooltipInfo: info } = mouseEventData;
-    if (isNil(info)) {
-      return false;
-    }
-
-    const helper = (params.model as ISeries)?.tooltipHelper;
-    if (!helper?.activeType.includes('group')) {
-      return false;
-    }
-    return true;
   }
 
   /** 获取触发 tooltip 需要的信息 */
