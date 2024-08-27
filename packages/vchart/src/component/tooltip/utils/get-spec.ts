@@ -206,10 +206,16 @@ const getSeriesListFromDimensionInfo = (dimensionInfo: IDimensionInfo[]): ISerie
 /** 获取每个系列对应的 shape pattern */
 const getShapePatternMapOfEachSeries = (content: ITooltipLinePattern[]): Record<number, ITooltipShapePattern> => {
   const shapePatternMap: Record<number, ITooltipShapePattern> = {};
+
   content.forEach(line => {
-    const key = line.seriesId ?? 0;
-    if (!shapePatternMap[key]) {
+    const key = line.seriesId;
+
+    if (isValid(key) && !shapePatternMap[key]) {
       shapePatternMap[key] = line;
+    }
+
+    if (!shapePatternMap[-1]) {
+      shapePatternMap[-1] = line;
     }
   });
   return shapePatternMap;
@@ -228,7 +234,9 @@ const getShapePattern = (
   if (userStyle) {
     userStyle.shapeSize = userStyle.shapeSize ?? userStyle.size; // 兼容旧配置
   }
-  const shapePatternFromMap = shapePatternMap?.[userLinePattern?.seriesId ?? 0] ?? shapePatternMap?.[0];
+  const shapePatternFromMap = shapePatternMap
+    ? shapePatternMap[userLinePattern?.seriesId] ?? shapePatternMap[-1]
+    : null;
   const shapePattern: ITooltipShapePattern = {};
 
   [userLinePattern, userPattern, userStyle, shapePatternFromMap, defaultShapePattern].forEach(cfg => {
