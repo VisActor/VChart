@@ -71,8 +71,13 @@ export function combinePattern(patternList: ITooltipPattern[]) {
       defaultPatternContent.push(content);
     }
   });
-  return {
-    ...patternList[0],
-    content: defaultPatternContent
-  };
+
+  if (defaultPatternContent.length) {
+    return {
+      ...patternList[0],
+      content: defaultPatternContent
+    };
+  }
+
+  return patternList[0];
 }

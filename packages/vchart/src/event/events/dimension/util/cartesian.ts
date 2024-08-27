@@ -42,6 +42,10 @@ export const getCartesianDimensionInfo = (
   const xAxisList = getAxis(chart, (cmp: CartesianAxis) => isXAxis(cmp.getOrient()), pos) ?? [];
   const yAxisList = getAxis(chart, (cmp: CartesianAxis) => isYAxis(cmp.getOrient()), pos) ?? [];
 
+  if (!xAxisList.length && !yAxisList.length) {
+    return null;
+  }
+
   /** 离散轴集合 */
   const bandAxisSet: Set<CartesianAxis> = new Set();
   /** 连续轴集合 */
