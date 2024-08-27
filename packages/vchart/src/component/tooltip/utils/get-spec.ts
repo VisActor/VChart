@@ -62,28 +62,37 @@ export const getTooltipSpecForShow = (
   const seriesPattern = getSeriesTooltipPattern(activeType, series, dimensionInfo);
   // 来自用户配置的 pattern
   const userPattern: ITooltipPattern =
-    globalSpec[activeType] || seriesPattern ? mergeSpec({}, globalSpec[activeType], seriesPattern) : null;
+    globalSpec[activeType] || seriesPattern
+      ? mergeSpec(
+          {},
+          addSeriesInfo(
+            globalSpec[activeType],
+            activeType === 'dimension' ? getSeriesListFromDimensionInfo(dimensionInfo) : [series]
+          ),
+          seriesPattern
+        )
+      : null;
 
-  // 对pattern进行组装
-  // 组装 title
-  const defaultPatternTitle = defaultPattern.title as ITooltipLinePattern | undefined;
-  const titleShape: ITooltipShapePattern = getShapePattern(
-    undefined,
-    userPattern,
-    style.shape,
-    undefined,
-    defaultPatternTitle
-  );
   if (userPattern) {
+    // 对pattern进行组装
+    // 组装 title
+    const defaultPatternTitle = defaultPattern.title as ITooltipLinePattern | undefined;
+    const defaultTitleShape: ITooltipShapePattern = getShapePattern(
+      undefined,
+      userPattern,
+      style.shape,
+      undefined,
+      defaultPatternTitle
+    );
     if (isValid(userPattern.title)) {
       userPattern.title = addExtraInfoToTooltipTitlePattern(userPattern.title, {
         ...defaultPatternTitle,
-        ...titleShape // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+        ...defaultTitleShape // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
       });
     } else {
       userPattern.title = addExtraInfoToTooltipTitlePattern(
         defaultPatternTitle,
-        titleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+        defaultTitleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
         true
       );
     }
@@ -257,7 +266,7 @@ const merge = <T, K>(source: K, extraInfo: T | ((source: K) => T), overwrite?: b
   return overwrite ? { ...source, ...info } : { ...info, ...source };
 };
 
-export const addExtraInfoToTooltipTitlePattern = <T>(
+const addExtraInfoToTooltipTitlePattern = <T>(
   pattern: ITooltipPattern['title'],
   extraInfo: T | ((line: ITooltipLinePattern) => T),
   overwrite?: boolean
@@ -270,7 +279,7 @@ export const addExtraInfoToTooltipTitlePattern = <T>(
   return result;
 };
 
-export const addExtraInfoToTooltipContentPattern = <T>(
+const addExtraInfoToTooltipContentPattern = <T>(
   pattern: ITooltipPattern['content'],
   extraInfo: T | ((line: ITooltipLinePattern) => T),
   overwrite?: boolean
@@ -283,4 +292,25 @@ export const addExtraInfoToTooltipContentPattern = <T>(
       )
     : undefined;
   return result;
+};
+
+const addSeriesInfo = (pattern: ITooltipPattern, series: ISeries[]) => {
+  if (pattern && pattern.content) {
+    return combinePattern(
+      series.map(s => {
+        return {
+          ...pattern,
+          content: addExtraInfoToTooltipContentPattern(
+            pattern.content,
+            {
+              seriesId: s.id
+            },
+            true
+          )
+        };
+      })
+    );
+  }
+
+  return pattern;
 };
