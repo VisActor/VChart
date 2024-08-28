@@ -60,24 +60,3 @@ export function breakData(data: number[], points: number[]) {
     scope: breakScope(data, points)
   };
 }
-
-export function mergeAndSortRanges(ranges: [number, number][]) {
-  // 排序范围，从小到大
-  ranges.sort((a, b) => a[0] - b[0]);
-
-  const merged = [ranges[0]];
-
-  for (let index = 1; index < ranges.length; index++) {
-    const last = merged[merged.length - 1];
-    const range = ranges[index];
-    // 检查是否有交集
-    if (range[0] <= last[1]) {
-      // 合并范围
-      last[1] = Math.max(last[1], range[1]);
-    } else {
-      merged.push(range); // 没有交集，添加当前范围
-    }
-  }
-
-  return merged;
-}

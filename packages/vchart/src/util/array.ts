@@ -15,15 +15,17 @@ export function shallowCompare<T, U>(arrA: T | T[], arrB: U | U[]): boolean {
 }
 
 export function combineArray(arr: number[][]): number[] {
-  const uniqueValues = new Set<number>();
+  const result = [];
+  for (let index = 0; index < arr.length; index++) {
+    const element = arr[index];
+    if (index === 0) {
+      result.push(element[0]);
+    }
 
-  arr.forEach(subArray => {
-    subArray.forEach(value => {
-      uniqueValues.add(value);
-    });
-  });
+    result.push(element[1]);
+  }
 
-  return Array.from(uniqueValues);
+  return result;
 }
 
 export { array, peek, maxInArr, minInArr };

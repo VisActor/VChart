@@ -757,12 +757,20 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     const tickLatestData = this.getTickData()?.getLatestData();
     if (tickLatestData && tickLatestData.length) {
       return [
-        tickLatestData.map((obj: Datum) => {
-          const normalizedValue = this._getNormalizedValue([obj.value], length);
-          return getAxisItem(obj.value, normalizedValue);
-        })
-        // TODO: 添加一个在数值范围内的判断
-        // .filter((entry: AxisItem) => (entry.value >= 0 && entry.value <= 1))
+        tickLatestData
+          .map((obj: Datum) => {
+            const normalizedValue = this._getNormalizedValue([obj.value], length);
+            return getAxisItem(obj.value, normalizedValue);
+          })
+          // TODO: 添加一个在数值范围内的判断
+          .filter((entry: AxisItem) => {
+            const { value, rawValue } = entry;
+            const domain = this._scale.domain();
+            if (isContinuous(this._scale.type)) {
+              return rawValue >= domain[0] && rawValue <= last(domain);
+            }
+            return domain.includes(rawValue);
+          })
       ];
     }
     return [];

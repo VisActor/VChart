@@ -9,7 +9,7 @@ import { isXAxis } from '../cartesian/util/common';
 import type { IOrientType } from '../../../typings/space';
 import type { IComponentOption } from '../../interface/common';
 import type { StringOrNumber } from '../../../typings';
-import { breakData, mergeAndSortRanges } from './util/break-data';
+import { breakData } from './util/break-data';
 
 export const e10 = Math.sqrt(50);
 export const e5 = Math.sqrt(10);
@@ -167,7 +167,9 @@ export class LinearAxisMixin {
           breakScopes = scope;
           breakRanges = [this._spec.breaks[0].range];
         } else {
-          breakRanges = mergeAndSortRanges(this._spec.breaks.map((breakSpec: ILinearAxisBreakSpec) => breakSpec.range));
+          breakRanges = this._spec.breaks
+            .map((breakSpec: ILinearAxisBreakSpec) => breakSpec.range)
+            .sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
 
           for (let index = 0; index < breakRanges.length; index++) {
             const breakRange = breakRanges[index];
@@ -185,15 +187,17 @@ export class LinearAxisMixin {
             }
 
             breakDomains.push(finalDomain[0]);
-            breakDomains.push(finalDomain[1]);
             breakScopes.push(finalScope[0]);
-            breakScopes.push(finalScope[1]);
+            if (finalDomain.length > 2) {
+              breakDomains.push(finalDomain[1]);
+              breakScopes.push(finalScope[1]);
+            }
 
             if (index === breakRanges.length - 1) {
-              breakDomains.push(finalDomain[2]);
-              breakScopes.push(finalScope[2]);
+              breakDomains.push(last(finalDomain));
+              breakScopes.push(last(finalScope));
             } else {
-              source = source.filter(val => val >= finalDomain[2][0]);
+              source = source.filter(val => val >= last(finalDomain)[0]);
             }
           }
         }

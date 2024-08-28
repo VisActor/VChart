@@ -97,7 +97,8 @@ export class CartesianLinearAxis<
           breakSymbol: {
             visible: true,
             ...breakSymbol
-          }
+          },
+          rawRange: range
         };
       });
     }
