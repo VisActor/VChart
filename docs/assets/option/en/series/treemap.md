@@ -122,10 +122,15 @@ Non-leaf node graphic style settings.
 
 #${prefix} label(Object)
 
+Label configuration.
+
+The labels of the leaf nodes in the treemap are displayed in the center of the rectangle by default. You can customize the label positions by referring to the [example](/vchart/demo/treemap-chart/treemap-show-parent-level).
+
 {{ use: component-label(
   prefix = '#' + ${prefix},
   noPosition = true,
   noOffset = true,
+  hasOverlap = false,
 ) }}
 
 #${prefix} nonLeafLabel(Object)

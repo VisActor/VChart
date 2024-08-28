@@ -58,6 +58,7 @@ export interface ISeries extends IModel {
   reTransformViewData: () => void;
   fillData: () => void;
   isHierarchyData?: () => boolean;
+  getMarkData?: (d: Datum) => Datum;
 
   /**
    * 常见数据使用问题

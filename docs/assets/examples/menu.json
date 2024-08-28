@@ -665,6 +665,20 @@
             "zh": "自定义饼图的图例交互",
             "en": "Customized legend interaction of pie chart"
           }
+        },
+        {
+          "path": "richtext-autowrap",
+          "title": {
+            "zh": "饼图富文本自动换行",
+            "en": "Auto-wrap richtext label in pie chart"
+          }
+        },
+        {
+          "path": "richtext-autoEllipsis",
+          "title": {
+            "zh": "饼图富文本自动省略",
+            "en": "Auto-ellipsis richtext label in pie chart"
+          }
         }
       ]
     },
