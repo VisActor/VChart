@@ -5,7 +5,7 @@ import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../interface/common';
 import type { Tooltip } from '../tooltip';
-import type { DimensionTooltipInfo, MouseEventData, TooltipInfo } from './interface';
+import type { MouseEventData, TooltipInfo } from './interface';
 import { ChartEvent } from '../../../constant/event';
 import type { TooltipEventParams } from '../interface/event';
 import type { IDimensionInfo } from '../../../event/events/dimension';
@@ -155,7 +155,7 @@ export abstract class BaseTooltipProcessor {
       return false;
     }
 
-    return isActiveTypeVisible(this.activeType, (params.model as ISeries)?.getSpec()?.tooltip);
+    return isActiveTypeVisible(this.activeType, (params.model as ISeries)?.tooltipHelper?.spec);
   }
 
   clearCache() {

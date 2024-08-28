@@ -40,7 +40,7 @@ export const getTooltipSpecForShow = (
         const seriesList = getSeriesListFromDimensionInfo(dimensionInfo);
 
         // visible
-        if (seriesList.every(series => !isActiveTypeVisible('dimension', series.getSpec()?.tooltip))) {
+        if (seriesList.every(series => !isActiveTypeVisible('dimension', series.tooltipHelper?.spec))) {
           finalSpec.visible = false;
         } else {
           finalSpec.visible = true;
