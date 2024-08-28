@@ -77,5 +77,6 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     getDefaultShapeType(): string;
     protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined;
     getActiveMarks(): IMark[];
+    getMarkData(datum: Datum): any;
 }
 export declare const registerSankeySeries: () => void;

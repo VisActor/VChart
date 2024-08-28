@@ -56,5 +56,6 @@ export declare class SunburstSeries extends PolarSeries<any> {
     getStackValueField(): string;
     protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined;
     getActiveMarks(): IMark[];
+    getMarkData(datum: Datum): any;
 }
 export declare const registerSunBurstSeries: () => void;
