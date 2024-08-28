@@ -53,8 +53,8 @@ import { TooltipResult } from '../../../component/tooltip';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
 import type { ITooltipAttributes } from './interface';
-import { getFirstSeries } from '../../../util';
 import { getTooltipPatternValue } from '../../../component/tooltip/utils';
+import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
 
 type ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, data?: TooltipData) => TooltipResult;
 
@@ -281,27 +281,26 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     params: TooltipHandlerParams,
     tooltipBoxSize: IContainerSize | undefined
   ): ITooltipPositionActual => {
-    const event = params.event as MouseEvent;
     const { tooltipSpec } = params;
-    const firstDimensionInfo = params.dimensionInfo?.[0];
-
     const invalidPosition = {
       x: Infinity,
       y: Infinity
     };
-
-    let { offsetX, offsetY } = this._option;
     if (!tooltipSpec) {
       this._cacheTooltipPosition = undefined;
       return invalidPosition;
     }
-
+    const event = params.event as MouseEvent;
     const { activeType, data } = actualTooltip;
+    const firstDim =
+      activeType === 'dimension' ? (data as IDimensionInfo[])[0]?.data?.[0] : (data as IDimensionData[])?.[0];
+
+    let { offsetX, offsetY } = this._option;
+
     const spec = tooltipSpec[activeType];
     const position = getTooltipPatternValue(spec.position, data, params);
     const positionMode =
       getTooltipPatternValue(spec.positionMode, data, params) ?? (activeType === 'mark' ? 'mark' : 'pointer');
-    const tooltipParentElement = this._getParentElement(tooltipSpec);
     const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } = tooltipBoxSize ?? {};
 
     const isCanvas = tooltipSpec.renderMode === 'canvas';
@@ -325,6 +324,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       containerSize.height = window.innerHeight;
 
       if (!isCanvas) {
+        const tooltipParentElement = this._getParentElement(tooltipSpec);
         tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect?.() ?? invalidPosition;
         const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
         const chartElementRect = chartElement?.getBoundingClientRect();
@@ -365,13 +365,14 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
           x1 = bounds.x1 + startPoint.x;
           x2 = bounds.x2 + startPoint.x;
         }
-      } else if (mode === 'crosshair' && firstDimensionInfo?.axis?.getCoordinateType() === 'cartesian') {
+      } else if (
+        mode === 'crosshair' &&
+        firstDim?.series?.coordinate === 'cartesian' &&
+        firstDim.datum &&
+        firstDim.datum.length
+      ) {
         isFixedPosition = true;
-        const rect = getCartesianCrosshairRect(
-          params.dimensionInfo,
-          getFirstSeries(this._component.getRegions(), 'cartesian') as ICartesianSeries,
-          startPoint
-        );
+        const rect = getCartesianCrosshairRect(firstDim, startPoint);
         if (rect) {
           x1 = rect.start.x;
           x2 = rect.end.x;
@@ -415,13 +416,14 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
           y1 = bounds.y1 + startPoint.y;
           y2 = bounds.y2 + startPoint.y;
         }
-      } else if (mode === 'crosshair' && firstDimensionInfo?.axis?.getCoordinateType() === 'cartesian') {
+      } else if (
+        mode === 'crosshair' &&
+        firstDim?.series?.coordinate === 'cartesian' &&
+        firstDim.datum &&
+        firstDim.datum.length
+      ) {
         isFixedPosition = true;
-        const rect = getCartesianCrosshairRect(
-          params.dimensionInfo,
-          getFirstSeries(this._component.getRegions(), 'cartesian') as ICartesianSeries,
-          startPoint
-        );
+        const rect = getCartesianCrosshairRect(firstDim, startPoint);
         if (rect) {
           y1 = rect.start.y;
           y2 = rect.end.y;
@@ -628,48 +630,23 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     };
 
     // 处理左右
-    switch (getHorizontalPositionType(position as TooltipFixedPosition, 'right')) {
-      case 'center':
-      case 'centerLeft':
-      case 'centerRight':
-        if (isLeftOut()) {
-          detectLeftFirst();
-          detectRightLast();
-        } else {
-          detectRightFirst();
-          detectLeftLast();
-        }
-        break;
-      case 'left':
-        detectLeftFirst();
-        detectRightLast();
-        break;
-      case 'right':
-        detectRightFirst();
-        detectLeftLast();
-        break;
+    const horizontalType = getHorizontalPositionType(position as TooltipFixedPosition, 'right');
+    if (horizontalType === 'left' || (horizontalType.includes('center') && isLeftOut())) {
+      detectLeftFirst();
+      detectRightLast();
+    } else {
+      detectRightFirst();
+      detectLeftLast();
     }
+
     // 处理上下
-    switch (getVerticalPositionType(position as TooltipFixedPosition, 'bottom')) {
-      case 'center':
-      case 'centerTop':
-      case 'centerBottom':
-        if (isTopOut()) {
-          detectTopFirst();
-          detectBottomLast();
-        } else {
-          detectBottomFirst();
-          detectTopLast();
-        }
-        break;
-      case 'top':
-        detectTopFirst();
-        detectBottomLast();
-        break;
-      case 'bottom':
-        detectBottomFirst();
-        detectTopLast();
-        break;
+    const verticalType = getVerticalPositionType(position as TooltipFixedPosition, 'bottom');
+    if (verticalType === 'top' || (verticalType.includes('center') && isTopOut())) {
+      detectTopFirst();
+      detectBottomLast();
+    } else {
+      detectBottomFirst();
+      detectTopLast();
     }
 
     const result = { x, y };

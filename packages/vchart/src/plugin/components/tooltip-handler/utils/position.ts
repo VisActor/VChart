@@ -1,3 +1,4 @@
+import type { IAxis } from '../../../../component/axis';
 import type { AxisCurrentValueMap } from '../../../../component/crosshair';
 import type { IHair } from '../../../../component/crosshair/base';
 import { LayoutType } from '../../../../component/crosshair/config';
@@ -6,9 +7,9 @@ import {
   layoutHorizontalCrosshair,
   layoutVerticalCrosshair
 } from '../../../../component/crosshair/utils/cartesian';
-import type { IDimensionInfo } from '../../../../event';
+import type { IDimensionData } from '../../../../event';
 import type { ICartesianSeries } from '../../../../series';
-import type { ILayoutPoint } from '../../../../typings';
+import { Direction, type ILayoutPoint } from '../../../../typings';
 import type {
   IFixedTooltipPositionPattern,
   IGlobalTooltipPositionPattern,
@@ -72,26 +73,26 @@ export const getVerticalPositionType = (
   defaultCase?: TooltipVerticalPositionType
 ): TooltipVerticalPositionType => positionType[position]?.[1] ?? defaultCase;
 
-export const getCartesianCrosshairRect = (
-  dimensionInfo: IDimensionInfo[],
-  series: ICartesianSeries,
-  layoutStartPoint: ILayoutPoint
-) => {
+export const getCartesianCrosshairRect = (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => {
   const currValueX: AxisCurrentValueMap = new Map();
   const currValueY: AxisCurrentValueMap = new Map();
-  // 将 dimensionInfo 转换为 AxisCurrentValueMap
-  dimensionInfo.forEach(({ axis, value }) => {
-    if (['top', 'bottom'].includes(axis.getOrient())) {
-      currValueX.set(axis.getSpecIndex(), {
-        value,
-        axis
-      });
-    } else {
-      currValueY.set(axis.getSpecIndex(), {
-        value,
-        axis
-      });
-    }
+  const { series, datum } = dimensionData;
+  const isHorizontal = (series as ICartesianSeries).direction === Direction.horizontal;
+  const axisHelper = isHorizontal
+    ? (series as ICartesianSeries).getYAxisHelper()
+    : (series as ICartesianSeries).getXAxisHelper();
+  const axisId = axisHelper.getAxisId();
+  const axis = series
+    .getChart()
+    .getComponentsByKey('axes')
+    .find(axis => axis.id === axisId) as IAxis;
+
+  if (!axis) {
+    return undefined;
+  }
+  (isHorizontal ? currValueY : currValueX).set(axis.getSpecIndex(), {
+    value: series.getDatumPositionValues(datum[0], series.getDimensionField())?.[0],
+    axis
   });
 
   const xHair: IHair = {
@@ -110,7 +111,7 @@ export const getCartesianCrosshairRect = (
     offsetHeight,
     bandWidth,
     bandHeight
-  } = layoutByValue(LayoutType.ALL, series, layoutStartPoint, currValueX, currValueY, xHair, yHair);
+  } = layoutByValue(LayoutType.ALL, series as ICartesianSeries, layoutStartPoint, currValueX, currValueY, xHair, yHair);
 
   if (crosshairInfoX) {
     return layoutVerticalCrosshair(xHair, crosshairInfoX, bandWidth, offsetWidth);
