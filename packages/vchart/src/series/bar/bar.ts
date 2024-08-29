@@ -690,10 +690,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
 
     const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
-    const hasBarWidth = this._spec.barWidth !== undefined && depth === depthFromSpec;
+    const hasBarWidth = isValid(this._spec.barWidth) && depth === depthFromSpec;
 
-    const hasBarMinWidth = this._spec.barMinWidth !== undefined;
-    const hasBarMaxWidth = this._spec.barMaxWidth !== undefined;
+    const hasBarMinWidth = isValid(this._spec.barMinWidth);
+    const hasBarMaxWidth = isValid(this._spec.barMaxWidth);
     let width = bandWidth;
     if (hasBarWidth) {
       width = getActualNumValue(this._spec.barWidth, bandWidth);
