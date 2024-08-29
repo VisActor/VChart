@@ -145,7 +145,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           nodeHeight: this._spec.nodeHeight,
           linkHeight: this._spec.linkHeight,
           equalNodeHeight: this._spec.equalNodeHeight,
-          linkOverlap: this._spec.linkOverlap
+          linkOverlap: this._spec.linkOverlap,
+          inverse: this._spec.inverse
         } as ISankeyOpt,
         level: TransformLevel.sankeyLayout
       });

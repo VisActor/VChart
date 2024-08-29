@@ -45,6 +45,11 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
    */
   nodeAlign?: 'left' | 'right' | 'center' | 'justify' | 'start' | 'end';
   /**
+   * 是否反向
+   * @since 1.12.2
+   */
+  inverse?: boolean;
+  /**
    * 同一层中两个节点之间的间隙大小
    */
   nodeGap?: number;
