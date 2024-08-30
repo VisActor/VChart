@@ -210,13 +210,11 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   protected initTooltip() {
     this._tooltipHelper = new AreaSeriesTooltipHelper(this);
-    const { dimension, group, mark } = this._tooltipHelper.activeTriggerSet;
+    const { group, mark } = this._tooltipHelper.activeTriggerSet;
     if (this._areaMark) {
-      dimension.add(this._areaMark);
       group.add(this._areaMark);
     }
     if (this._lineMark) {
-      dimension.add(this._lineMark);
       group.add(this._lineMark);
     }
     if (this._symbolMark) {
