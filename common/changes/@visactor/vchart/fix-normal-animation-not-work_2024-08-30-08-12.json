@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " fix: normal animation not work since v1.12.0",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
