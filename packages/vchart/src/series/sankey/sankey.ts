@@ -358,6 +358,15 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
+
+    this.setMarkStyle(
+      linkMark,
+      {
+        fill: this._spec.link.style?.fill ?? this._fillByLink
+      },
+      'normal',
+      AttributeLevel.User_Mark
+    );
   }
 
   protected _initLabelMarkStyle() {
