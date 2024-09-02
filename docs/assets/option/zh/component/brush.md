@@ -10,11 +10,11 @@
 
 ### regionIndex(number|number[])
 
-支持框选的region索引。
+支持框选的 region 索引。
 
 ### regionId(string|string[])
 
-支持框选的region ID。
+支持框选的 region ID。
 
 ### seriesIndex(number|number[])
 
@@ -53,6 +53,7 @@
 框选模式。
 
 可选值：
+
 - `'single'`: 单选
 - `'multiple'`: 多选
 
@@ -61,6 +62,7 @@
 选框类型。
 
 可选值：
+
 - `'x'`: 横向选择
 - `'y'`: 纵向选择
 - `'rect'`: 矩形选框
@@ -79,6 +81,7 @@
 事件触发延迟类型。
 
 可选值：
+
 - `'throttle'`: 节流
 - `'debounce'`: 防抖
 
@@ -88,27 +91,36 @@
 
 ### sizeThreshold(number) = 5
 
-brush选框的大小阈值。自 `1.2.0` 版本开始支持。
+brush 选框的大小阈值。自 `1.2.0` 版本开始支持。
 
 ### zoomAfterBrush(boolean) = false
-是否开启刷取下钻。自0.10.0版本生效。
+
+是否开启刷取下钻。自 0.10.0 版本生效。
+
+## zoomWhenEmpty(boolean) = false
+
+刷取到空数据时, 是否下钻。自 1.12.2 版本生效。
 
 ### axisId(string|string[])
 
-刷取联动的axisId。自0.10.0版本生效。
-1. 如果开启刷取下钻, 默认联动所有关联axis和dataZoom。
-2. dataZoom filterMode: 'axis'时刷取才能正常进行（filterMode: 'filter'会改变axis domain, 导致计算错误）
+刷取联动的 axisId。自 0.10.0 版本生效。
+
+1. 如果开启刷取下钻, 默认联动所有关联 axis 和 dataZoom。
+2. dataZoom filterMode: 'axis'时刷取才能正常进行（filterMode: 'filter'会改变 axis domain, 导致计算错误）
 
 ### axisIndex(number|number[])
 
-刷取联动的axisIndex。自0.10.0版本生效。
-1. 如果开启刷取下钻, 默认联动所有关联axis和dataZoom。
-2. dataZoom filterMode: 'axis'时刷取才能正常进行（filterMode: 'filter'会改变axis domain, 导致计算错误）
+刷取联动的 axisIndex。自 0.10.0 版本生效。
+
+1. 如果开启刷取下钻, 默认联动所有关联 axis 和 dataZoom。
+2. dataZoom filterMode: 'axis'时刷取才能正常进行（filterMode: 'filter'会改变 axis domain, 导致计算错误）
 
 ### axisRangeExpand(number)
-更新dataZoom范围时, 按百分比进行范围拓展, 比如: dataZoomRangeExpand = 0.05, 则代表更新时newStart - 0.05 & newEnd + 0.05。
-可能需要配置dataZoomRangeExpand的情况:
-1. 缩放连续轴时: 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致（这个问题最好通过DataZoom.customDomain解决）
+
+更新 dataZoom 范围时, 按百分比进行范围拓展, 比如: dataZoomRangeExpand = 0.05, 则代表更新时 newStart - 0.05 & newEnd + 0.05。
+可能需要配置 dataZoomRangeExpand 的情况:
+
+1. 缩放连续轴时: 轴的 zero、nice、min、max 等配置可能导致轴范围与 dataZoom 范围不一致（这个问题最好通过 DataZoom.customDomain 解决）
 2. 缩放连续轴时: 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象
 3. 缩放离散轴时: 不希望严格按照筛选的数据范围缩放, 而是希望缩放后两端仍有空间
 
@@ -119,10 +131,3 @@ brush选框的大小阈值。自 `1.2.0` 版本开始支持。
 {{ use: graphic-polygon(
   prefix = '###'
 ) }}
-
-
-
-
-
-
-

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix error of `barWidth`, `barMinWidth`, `barMaxWidth` when value is null\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

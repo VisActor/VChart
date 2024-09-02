@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(brush): add config to control zoom when brush empty data. close#2934",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

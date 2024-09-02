@@ -1,11 +1,6 @@
 import type { IAnimationConfig } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
-import type {
-  IElement,
-  IAnimationTypeConfig,
-  IStateAnimationConfig,
-  IAnimationTimeline
-} from '@visactor/vgrammar-core';
+import type { IElement, IAnimationTypeConfig, IAnimationTimeline } from '@visactor/vgrammar-core';
 import type { MarkAnimationSpec, IAnimationState } from './interface';
 import type { IStateAnimateSpec, IAnimationSpec } from './spec';
 import { isFunction, isValidNumber } from '../util/type';
@@ -18,7 +13,7 @@ import type { ISeries } from '../series';
 import type { ISeriesSpec } from '../typings';
 import type { IModelMarkAttributeContext } from '../compile/mark';
 
-export const AnimationStates = Object.keys(DEFAULT_ANIMATION_CONFIG);
+export const AnimationStates = [...Object.keys(DEFAULT_ANIMATION_CONFIG), 'normal'];
 
 export function animationConfig<Preset extends string>(
   defaultConfig: MarkAnimationSpec = {},

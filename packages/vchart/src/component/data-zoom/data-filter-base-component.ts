@@ -601,9 +601,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _modeCheck(statePoint: 'start' | 'end', mode: string): any {
     if (statePoint === 'start') {
-      return (mode === 'percent' && this._spec.start) || (mode === 'value' && this._spec.startValue);
+      return (mode === 'percent' && isValid(this._spec.start)) || (mode === 'value' && isValid(this._spec.startValue));
     }
-    return (mode === 'percent' && this._spec.end) || (mode === 'value' && this._spec.endValue);
+    return (mode === 'percent' && isValid(this._spec.end)) || (mode === 'value' && isValid(this._spec.endValue));
   }
 
   protected _setStateFromSpec() {
