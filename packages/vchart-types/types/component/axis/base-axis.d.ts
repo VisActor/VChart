@@ -5,7 +5,7 @@ import type { IOrientType, IPolarOrientType, StringOrNumber, CoordinateType } fr
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
-import type { IComponentOption } from '../interface';
+import { type IComponentOption } from '../interface';
 import type { ISeries } from '../../series/interface';
 import type { ITransformOptions } from '@visactor/vdataset';
 import { DataView } from '@visactor/vdataset';

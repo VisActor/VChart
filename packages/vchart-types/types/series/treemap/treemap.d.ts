@@ -1,4 +1,5 @@
 import type { IMark } from '../../mark/interface';
+import type { Datum } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
@@ -33,7 +34,11 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     compile(): void;
     protected _runTreemapTransform(render?: boolean): void;
     protected _addDataIndexAndKey(): void;
-    getRawDataStatisticsByField(field: string, isNumeric?: boolean): any;
+    getRawDataStatisticsByField(field: string, isNumeric?: boolean): {
+        values?: any[];
+        min?: number;
+        max?: number;
+    };
     protected _createHierarchyDataStatistics(dataName: string, rawData: DataView[]): DataView;
     getStatisticFields(): {
         key: string;
@@ -60,5 +65,6 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];
     isHierarchyData: () => boolean;
+    getMarkData(datum: Datum): any;
 }
 export declare const registerTreemapSeries: () => void;

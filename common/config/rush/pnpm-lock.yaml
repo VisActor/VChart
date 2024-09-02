@@ -25,9 +25,9 @@ importers:
       '@types/markdown-it': ^13.0.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@visactor/openinula-vchart': workspace:1.12.1
-      '@visactor/react-vchart': workspace:1.12.1
-      '@visactor/vchart': workspace:1.12.1
+      '@visactor/openinula-vchart': workspace:1.12.2-alpha.3
+      '@visactor/react-vchart': workspace:1.12.2-alpha.3
+      '@visactor/vchart': workspace:1.12.2-alpha.3
       '@visactor/vchart-theme': ~1.6.6
       '@visactor/vgrammar': 0.14.1
       '@visactor/vmind': 1.2.4-alpha.5
@@ -144,7 +144,7 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:1.12.1
+      '@visactor/vchart': workspace:1.12.2-alpha.3
       '@visactor/vgrammar-core': 0.14.1
       '@visactor/vrender-core': 0.20.1-alpha.7
       '@visactor/vrender-kits': 0.20.1-alpha.7
@@ -209,7 +209,7 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:1.12.1
+      '@visactor/vchart': workspace:1.12.2-alpha.3
       '@visactor/vgrammar-core': 0.14.1
       '@visactor/vrender-core': 0.20.1-alpha.7
       '@visactor/vrender-kits': 0.20.1-alpha.7
@@ -292,7 +292,7 @@ importers:
       '@types/webpack-env': ^1.13.6
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.12.1
+      '@visactor/vchart': workspace:1.12.2-alpha.3
       '@vitejs/plugin-react': 3.1.0
       babel-preset-taro: 3.3.17
       eslint: ~8.18.0
@@ -384,7 +384,7 @@ importers:
       '@visactor/vrender-kits': 0.20.1-alpha.7
       '@visactor/vscale': ~0.18.15
       '@visactor/vutils': ~0.18.15
-      '@visactor/vutils-extension': workspace:1.12.1
+      '@visactor/vutils-extension': workspace:1.12.2-alpha.3
       canvas: 2.11.2
       cross-env: ^7.0.3
       d3-array: ^1.2.4
@@ -488,7 +488,7 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@visactor/vchart': workspace:1.12.1
+      '@visactor/vchart': workspace:1.12.2-alpha.3
       '@visactor/vrender-core': 0.20.1-alpha.7
       '@visactor/vrender-kits': 0.20.1-alpha.7
       '@visactor/vutils': ~0.18.15
@@ -849,7 +849,7 @@ importers:
       '@types/node': '*'
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.12.1
+      '@visactor/vchart': workspace:1.12.2-alpha.3
       '@visactor/vrender': 0.20.1-alpha.7
       '@visactor/vrender-core': 0.20.1-alpha.7
       '@visactor/vrender-kits': 0.20.1-alpha.7
@@ -2727,7 +2727,7 @@ packages:
       jest-resolve: 26.6.2
       jest-resolve-dependencies: 26.6.3
       jest-runner: 26.6.3_ts-node@10.9.0
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_ts-node@10.9.0
       jest-snapshot: 26.6.2
       jest-util: 26.6.2
       jest-validate: 26.6.2
@@ -2767,7 +2767,7 @@ packages:
       jest-resolve: 26.6.2
       jest-resolve-dependencies: 26.6.3
       jest-runner: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-snapshot: 26.6.2
       jest-util: 26.6.2
       jest-validate: 26.6.2
@@ -2945,7 +2945,7 @@ packages:
       graceful-fs: 4.2.11
       jest-haste-map: 26.6.2
       jest-runner: 26.6.3_ts-node@10.9.0
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_ts-node@10.9.0
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -2962,7 +2962,7 @@ packages:
       graceful-fs: 4.2.11
       jest-haste-map: 26.6.2
       jest-runner: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -14429,7 +14429,7 @@ packages:
       jest-leak-detector: 26.6.2
       jest-message-util: 26.6.2
       jest-resolve: 26.6.2
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_ts-node@10.9.0
       jest-util: 26.6.2
       jest-worker: 26.6.2
       source-map-support: 0.5.21
@@ -14461,7 +14461,7 @@ packages:
       jest-leak-detector: 26.6.2
       jest-message-util: 26.6.2
       jest-resolve: 26.6.2
-      jest-runtime: 26.6.3
+      jest-runtime: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-util: 26.6.2
       jest-worker: 26.6.2
       source-map-support: 0.5.21
