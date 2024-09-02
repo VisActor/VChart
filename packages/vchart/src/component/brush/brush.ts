@@ -236,14 +236,20 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needDisablePickable = false;
       const { operateMask } = e.detail as any;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
-      this._setAxisAndDataZoom(operateMask, region);
+      const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
+      if (!this._spec.zoomWhenEmpty && inBrushData.length > 0) {
+        this._setAxisAndDataZoom(operateMask, region);
+      }
       this._emitEvent(ChartEvent.brushEnd, region);
     });
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
       const { operateMask } = e.detail as any;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
-      this._setAxisAndDataZoom(operateMask, region);
+      const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
+      if (!this._spec.zoomWhenEmpty && inBrushData.length > 0) {
+        this._setAxisAndDataZoom(operateMask, region);
+      }
       this._emitEvent(ChartEvent.brushEnd, region);
     });
   }
