@@ -178,12 +178,19 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   }
 
   private _getIndicatorAttrs() {
+    if (this._spec.visible === false || (this._spec.fixed === false && this._activeDatum === null)) {
+      return {
+        visible: false
+      } as IndicatorAttributes;
+    }
+
     const region = this._regions[0];
     const { width, height } = region.getLayoutRect();
     const { x, y } = region.getLayoutStartPoint();
+    const { content, offsetX, offsetY, limitRatio, title, ...restSpec } = this._spec;
 
     const contentComponentSpec: IIndicatorItemSpec[] = [];
-    array(this._spec.content).forEach((eachItem: IIndicatorItemSpec) => {
+    array(content).forEach((eachItem: IIndicatorItemSpec) => {
       const contentSpec = mergeSpec({}, this._theme.content, eachItem);
       contentComponentSpec.push({
         visible: contentSpec.visible !== false && (contentSpec.field ? this._activeDatum !== null : true),
@@ -200,7 +207,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     });
 
     return {
-      visible: this._spec.visible !== false && (this._spec.fixed !== false || this._activeDatum !== null),
+      visible: true,
       size: {
         width: width,
         height: height
@@ -208,22 +215,23 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       zIndex: this.layoutZIndex,
       x: x,
       y: y,
-      dx: this._spec.offsetX ? getActualNumValue(this._spec.offsetX, this._computeLayoutRadius()) : 0,
-      dy: this._spec.offsetY ? getActualNumValue(this._spec.offsetY, this._computeLayoutRadius()) : 0,
-      limitRatio: this._spec.limitRatio || Infinity,
+      dx: offsetX ? getActualNumValue(offsetX, this._computeLayoutRadius()) : 0,
+      dy: offsetY ? getActualNumValue(offsetY, this._computeLayoutRadius()) : 0,
+      limitRatio: limitRatio || Infinity,
       title: {
-        visible: this._spec.title.visible !== false && (!isValid(this._spec.title.field) || this._activeDatum !== null),
-        space: this._spec.title.space || this._gap,
-        autoLimit: this._spec.title.autoLimit,
-        autoFit: this._spec.title.autoFit,
-        fitPercent: this._spec.title.fitPercent,
-        fitStrategy: this._spec.title.fitStrategy,
+        visible: title.visible !== false && (!isValid(title.field) || this._activeDatum !== null),
+        space: title.space || this._gap,
+        autoLimit: title.autoLimit,
+        autoFit: title.autoFit,
+        fitPercent: title.fitPercent,
+        fitStrategy: title.fitStrategy,
         style: {
-          ...transformIndicatorStyle(pickWithout(this._spec.title.style, ['text']), this._activeDatum),
-          text: this._createText(this._spec.title.field, this._spec.title.style.text as any) // FIXME: type
+          ...transformIndicatorStyle(pickWithout(title.style, ['text']), this._activeDatum),
+          text: this._createText(title.field, title.style.text as any) // FIXME: type
         }
       },
-      content: contentComponentSpec
+      content: contentComponentSpec,
+      ...(restSpec as unknown as IndicatorAttributes)
     } as IndicatorAttributes;
   }
 
