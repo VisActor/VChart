@@ -40,7 +40,7 @@ interface IBrushDataBindSpec {
   /**
    * 刷取到空数据时, 是否更新axis/dataZoom范围
    * @default false
-   * @since 0.11.10
+   * @since 1.12.2
    */
   zoomWhenEmpty?: boolean;
   /**
