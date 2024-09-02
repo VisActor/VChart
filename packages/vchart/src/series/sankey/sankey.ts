@@ -293,11 +293,19 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         },
         x1: (datum: Datum) => datum.x1,
         y: (datum: Datum) => datum.y0,
-        y1: (datum: Datum) => datum.y1,
-        fill: this._fillByNode
+        y1: (datum: Datum) => datum.y1
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Mark
+    );
+
+    this.setMarkStyle(
+      nodeMark,
+      {
+        fill: this._spec.node.style?.fill ?? this._fillByNode
+      },
+      'normal',
+      AttributeLevel.User_Mark
     );
   }
 
