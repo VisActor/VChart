@@ -1,4 +1,5 @@
-import { DEFAULT_DATA_INDEX, PREFIX } from '../../constant';
+import { DEFAULT_DATA_INDEX } from '../../constant/data';
+import { PREFIX } from '../../constant/base';
 import type { GeoSourceType } from '../../typings/geo';
 
 export interface IMapOpt {

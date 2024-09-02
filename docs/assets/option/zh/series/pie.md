@@ -53,11 +53,25 @@ pie: {
 }
 ```
 
+#${prefix} layoutRadius(string|number|function)
+
+自 **1.11.12**版本开始支持
+
+极坐标的布局半径，即计算内径、外径的基准值，可选值如下：
+
+- 不设置： 默认值为`Math.min(width, height) / 2`，**1.11.2**之前的版本相当于这个效果
+- `'auto'`： 根据`center`、`startAngle`、`endAngle`自动计算最大可用的布局半径
+- 自定义函数，函数的类型定义如下：
+
+```ts
+(layoutRect: { width: number; height: number }, center: { x: number; y: number }) => number;
+```
+
 #${prefix} outerRadius(number)
 
 饼图扇区外半径。默认值为 0.6。
 
-#${prefix} outerRadius(number)
+#${prefix} innerRadius(number)
 
 饼图扇区内半径。默认值为 0。
 
@@ -180,6 +194,21 @@ pie: {
   prefix = '##' + ${prefix}
 ) }}
 
+##${prefix} customShape(function)
+自 1.11.11 版本, 标签引导线支持自定义 path.
+
+回调函数的定义如下:
+
+```ts
+/**
+ * @params 标签文字属性
+ * @params attrs 折点
+ * @params path对象, 用户自定义绘制
+ * @return 返回绘制完成后的path
+ */
+(text: ITextGraphicAttribute, attrs: Partial<ILineGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
+```
+
 ###${prefix} style(Object)
 
 引导线样式。
@@ -226,3 +255,38 @@ pie: {
 
 是否启用切线约束。
 默认值为`true`。
+
+#${prefix} emptyPlaceholder(Object)
+
+设置当数据为空时呈现的占位符。
+
+##${prefix} showEmptyCircle(Boolean)
+
+从 1.12.0 版本开始支持，是否在数据为空时显示占位圆。
+默认值为`false`。
+
+##${prefix} emptyCircle(Object)
+
+占位圆图元样式配置。
+
+```ts
+emptyPlaceholder: {
+  showEmptyCircle: true,
+  emptyCircle: {
+    style: {
+      innerRadius: 0.5,
+      fill: '#66ccff'
+    }
+  }
+}
+```
+
+#${prefix} showAllZero(boolean)
+
+是否在数据均为0时显示均分扇区。
+默认值为`false`。
+
+#${prefix} supportNegative(boolean)
+
+是否将负数按照绝对值进行处理。
+默认值为`false`。

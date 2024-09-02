@@ -1,16 +1,15 @@
 import { ChartEvent } from '../../constant/event';
 import {
-  AttributeLevel,
   DEFAULT_DATA_KEY,
   DEFAULT_DATA_SERIES_FIELD,
   DEFAULT_SERIES_STYLE_NAME,
-  PREFIX,
   STACK_FIELD_END,
   STACK_FIELD_END_PERCENT,
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT
-} from '../../constant/index';
-import { seriesMarkInfoMap } from '../interface/theme';
+} from '../../constant/data';
+import { AttributeLevel } from '../../constant/attribute';
+import { PREFIX } from '../../constant/base';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
@@ -964,13 +963,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
             style = markStyle[datum[0][groupBy]]?.[key];
           }
           style = markStyle[datum[groupBy]]?.[key];
-          if (style) {
+          if (isValid(style)) {
             return style;
           }
           return mark.getAttribute(key as any, datum);
         };
       });
-      this.setMarkStyle(mark, style, DEFAULT_SERIES_STYLE_NAME);
+      this.setMarkStyle(mark, style, DEFAULT_SERIES_STYLE_NAME, AttributeLevel.User_SeriesStyle);
     });
   }
 
@@ -1412,14 +1411,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       field = this.getStackValueField();
     }
     return getFieldAlias(this.getRawData(), field) ?? field;
-  }
-
-  getMarkInfoList() {
-    const list = super.getMarkInfoList();
-    if (!list.length) {
-      return Object.values<ISeriesMarkInfo>(seriesMarkInfoMap[this.type] ?? {});
-    }
-    return list;
   }
 
   protected _getInvalidConnectType() {

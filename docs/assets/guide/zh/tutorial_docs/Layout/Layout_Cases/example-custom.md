@@ -61,7 +61,7 @@ const vchart = new VChart(spec, {
         y: center.y + Math.cos(angle) * regionPosRadius - regionSize * 0.5
       });
       i.setLayoutRect({ width: regionSize, height: regionSize });
-      i.updateLayoutAttribute();
+      i.model.updateLayoutAttribute();
     });
   }
 });

@@ -1,5 +1,5 @@
 import { ComponentTypeEnum } from '../../interface/type';
-import type { IOptionAggr } from '../../../data/transforms/aggregation';
+import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/aggregation';
 import { cartesianCoordinateLayout, getMarkAreaProcessInfo, positionLayout, xyLayout } from '../utils';
 import type { MarkAreaAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
@@ -7,7 +7,7 @@ import { MarkArea as MarkAreaComponent, registerMarkAreaAnimate } from '@visacto
 // eslint-disable-next-line no-duplicate-imports
 import { isValid } from '@visactor/vutils';
 import { Factory } from '../../../core/factory';
-import type { IPoint } from '../../../typings';
+import type { CoordinateType, IPoint } from '../../../typings';
 import type { IMarkProcessOptions } from '../interface';
 import { BaseMarkArea } from './base-mark-area';
 
@@ -16,7 +16,7 @@ export class CartesianMarkArea extends BaseMarkArea {
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
   static coordinateType = 'cartesian';
-  coordinateType = 'cartesian';
+  coordinateType = 'cartesian' as CoordinateType;
 
   protected _newMarkAreaComponent(attr: MarkAreaAttrs): MarkAreaComponent {
     return new MarkAreaComponent(attr);
@@ -74,7 +74,7 @@ export class CartesianMarkArea extends BaseMarkArea {
     const spec = this._spec as any;
     const { doXProcess, doYProcess, doXYProcess, doCoordinatesProcess } = getMarkAreaProcessInfo(spec);
 
-    let options: IOptionAggr[];
+    let options: IOptionAggr[] | IOptionWithCoordinates;
     if (doXYProcess) {
       options = [
         this._processSpecByDims([

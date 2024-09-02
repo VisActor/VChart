@@ -134,3 +134,15 @@ ${markName} 图元的动画配置。
 {{ use: marks-animate(type = ${markName}, name = ${markName},prefix = '###' + ${prefix}) }}
 
 {{ /for }}
+
+#${prefix} animationState(boolean|object)
+
+图元状态切换时的动画效果。自 `1.12.0` 版本后支持。
+
+##${prefix} duration(number) = 300
+
+图表动画时长。
+
+##${prefix} easing(string) = 'easing'
+
+动画缓动效果。默认内置效果类型有：'linear', 'quadIn', 'quadOut', 'quadInOut', 'quadInOut', 'cubicIn', 'cubicOut', 'cubicInOut', 'quartIn', 'quartOut', 'quartInOut', 'quintIn', 'quintOut', 'quintInOut', 'backIn', 'backOut', 'backInOut', 'circIn', 'circOut', 'circInOut', 'bounceOut', 'bounceIn', 'bounceInOut', 'elasticIn', 'elasticOut', 'elasticInOut'。

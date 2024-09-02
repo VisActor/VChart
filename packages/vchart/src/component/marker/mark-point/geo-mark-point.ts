@@ -3,13 +3,14 @@ import { geoLayout } from '../utils';
 import { registerMarkPointAnimate } from '@visactor/vrender-components';
 import { Factory } from '../../../core/factory';
 import { BaseMarkPoint } from './base-mark-point';
+import type { CoordinateType } from '../../../typings';
 
 export class GeoMarkPoint extends BaseMarkPoint {
   static type = ComponentTypeEnum.geoMarkPoint;
   type = ComponentTypeEnum.geoMarkPoint;
   name: string = ComponentTypeEnum.geoMarkPoint;
   static coordinateType: string = 'geo';
-  coordinateType = 'geo';
+  coordinateType = 'geo' as CoordinateType;
 
   protected _computePointsAttr() {
     const data = this._markerData;

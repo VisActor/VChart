@@ -25,7 +25,8 @@ export class WordCloudChartSpecTransformer<
       wordCloudConfig: spec.wordCloudConfig,
       wordCloudShapeConfig: spec.wordCloudShapeConfig,
       word: spec.word,
-      fillingWord: spec.fillingWord
+      fillingWord: spec.fillingWord,
+      wordMask: spec.wordMask
     };
     const seriesType = this.seriesType;
     if (seriesType) {

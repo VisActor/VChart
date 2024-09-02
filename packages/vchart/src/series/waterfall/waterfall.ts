@@ -1,13 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import type { IRuleMark } from '../../mark/rule';
 import { isNil, precisionSub } from '@visactor/vutils';
-import {
-  AttributeLevel,
-  PREFIX,
-  STACK_FIELD_END,
-  STACK_FIELD_START,
-  WaterfallDefaultSeriesField
-} from '../../constant/index';
+import { STACK_FIELD_END, STACK_FIELD_START } from '../../constant/data';
 import { waterfall, waterfallFillTotal } from '../../data/transforms/waterfall';
 import { BarSeries } from '../bar/bar';
 import { valueInScaleRange } from '../../util/scale';
@@ -39,6 +33,9 @@ import { WaterfallSeriesSpecTransformer } from './waterfall-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { stackLabel } from '../../component/label/util';
 import type { ILabelInfo } from '../../component/label/label';
+import { WaterfallDefaultSeriesField } from '../../constant/waterfall';
+import { PREFIX } from '../../constant/base';
+import { AttributeLevel } from '../../constant/attribute';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

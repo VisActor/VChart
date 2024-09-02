@@ -93,11 +93,11 @@
 
 ## 自定义图例
 
-VChart 的图例组件提供了丰富的配置项，可以满足各种数据可视化需求，同时也提供了相关的 [API 接口](/vchart/api/API)，当默认的图例无法满足业务需求时，可以通过图例配置项以及相关的 api 接口来进行图例的自定义。
+VChart 的图例组件提供了丰富的配置项，可以满足各种数据可视化需求，同时也提供了相关的 [API 接口](/vchart/api/API/vchart)，当默认的图例无法满足业务需求时，可以通过图例配置项以及相关的 api 接口来进行图例的自定义。
 
 ### UI 自定义
 
-当图例整体的展示样式不满足需求时，可以通过 `visible` 属性关闭图例的展示，然后通过提供的相关图例的 api （`vchart.getLegendSelectedDataByIndex()` 获取图例项数据，`vchart.setLegendSelectedDataByIndex()` 设置图例项的选中数据）实现自定义图例的展示及交互。
+当图例整体的展示样式不满足需求时，可以通过 `visible` 属性关闭图例的展示，然后通过提供的相关图例的 [API](/vchart/api/API/vchart)（`vchart.getLegendSelectedDataByIndex()` 获取图例项数据，`vchart.setLegendSelectedDataByIndex()` 设置图例项的选中数据）实现自定义图例的展示及交互。
 
 ```javascript livedemo
 const spec = {

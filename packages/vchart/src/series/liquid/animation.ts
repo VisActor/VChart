@@ -6,7 +6,7 @@ export interface ILiquidAnimationParams {
     from: () => number | number;
     to: () => number | number;
   };
-  y: {
+  dy: {
     from: () => number | number;
     to: () => number | number;
   };
@@ -28,7 +28,7 @@ const Appear_Grow = (params: ILiquidAnimationParams): IAnimationTypeConfig => {
     channel: {
       wave: { from: 0, to: 1 },
       height: params.height,
-      y: params.y
+      dy: params.dy
     }
   };
 };
@@ -39,7 +39,25 @@ const Appear_WaveGrow = (params: ILiquidAnimationParams): IAnimationTypeConfig =
     channel: {
       wave: { from: 0, to: 1 },
       height: params.height,
-      y: params.y
+      dy: params.dy
+    }
+  };
+};
+
+const Appear_Group_Grow = (params: ILiquidAnimationParams): IAnimationTypeConfig => {
+  return {
+    duration: 2000,
+    channel: {
+      dy: params.dy
+    }
+  };
+};
+
+const Appear_Group_WaveGrow = (params: ILiquidAnimationParams): IAnimationTypeConfig => {
+  return {
+    duration: 2000,
+    channel: {
+      dy: params.dy
     }
   };
 };
@@ -60,12 +78,36 @@ export function liquidPresetAnimation(
   }
 }
 
+export function liquidGroupPresetAnimation(
+  params: ILiquidAnimationParams,
+  preset: LiquidAppearPreset
+): IAnimationTypeConfig {
+  switch (preset) {
+    case 'wave':
+      return Appear_Wave;
+    case 'grow':
+      return Appear_Group_Grow(params);
+    case 'waveGrow':
+      return Appear_Group_WaveGrow(params);
+    default:
+      return Appear_Wave;
+  }
+}
+
 export const registerLiquidAnimation = () => {
   Factory.registerAnimation('liquid', (params: ILiquidAnimationParams, preset: LiquidAppearPreset) => {
     return {
       appear: liquidPresetAnimation(params, preset),
       enter: liquidPresetAnimation(params, preset),
       exit: liquidPresetAnimation(params, preset)
+    };
+  });
+
+  Factory.registerAnimation('liquidGroup', (params: ILiquidAnimationParams, preset: LiquidAppearPreset) => {
+    return {
+      appear: liquidGroupPresetAnimation(params, preset),
+      enter: liquidGroupPresetAnimation(params, preset),
+      exit: liquidGroupPresetAnimation(params, preset)
     };
   });
 };

@@ -21,7 +21,8 @@ import { SeriesTypeEnum } from '../interface/type';
 
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
-import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
+import { DEFAULT_DATA_KEY } from '../../constant/data';
+import { AttributeLevel } from '../../constant/attribute';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { registerFadeInOutAnimation } from '../../animation/config';
@@ -421,6 +422,10 @@ export class SunburstSeries extends PolarSeries<any> {
 
   getActiveMarks(): IMark[] {
     return [this._sunburstMark];
+  }
+
+  getMarkData(datum: Datum) {
+    return datum?.datum ? datum.datum[datum.datum.length - 1] : datum;
   }
 }
 

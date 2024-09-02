@@ -56,7 +56,7 @@ formatMethod: text => {
 };
 ```
 
-更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
 #${prefix} formatter(string|string[])
 

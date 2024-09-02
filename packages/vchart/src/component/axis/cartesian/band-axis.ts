@@ -7,6 +7,9 @@ import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
+import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
+import { linearDiscreteTicks } from '@visactor/vrender-components';
+import { registerDataSetInstanceTransform } from '../../../data/register';
 
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
   extends Pick<
@@ -61,6 +64,12 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
     };
   }
 
+  protected registerTicksTransform() {
+    const name = `${this.type}-ticks`;
+    registerDataSetInstanceTransform(this._option.dataSet, name, linearDiscreteTicks);
+
+    return name;
+  }
   transformScaleDomain() {
     this.updateFixedWholeLength();
   }
@@ -139,6 +148,8 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
 mixin(CartesianBandAxis, BandAxisMixin);
 
 export const registerCartesianBandAxis = () => {
+  registerLineAxis();
+  registerLineGrid();
   registerAxis();
   Factory.registerComponent(CartesianBandAxis.type, CartesianBandAxis);
 };

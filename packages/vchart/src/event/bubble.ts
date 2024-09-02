@@ -1,4 +1,4 @@
-import { Event_Bubble_Level } from '../constant';
+import { Event_Bubble_Level } from '../constant/event';
 import type { EventCallback, EventHandler, EventParams, EventBubbleLevel } from './interface';
 
 export type BubbleNode = {
@@ -37,8 +37,26 @@ export class Bubble {
     return this;
   }
 
+  preventHandler(handler: EventHandler<EventParams>): this {
+    if (handler) {
+      handler.prevented = true;
+    }
+    return this;
+  }
+
+  allowHandler(handler: EventHandler<EventParams>): this {
+    if (handler) {
+      handler.prevented = false;
+    }
+    return this;
+  }
+
   getHandlers(level: EventBubbleLevel): EventHandler<EventParams>[] {
     return this._levelNodes.get(level)?.map(node => node.handler) || [];
+  }
+
+  getAllHandlers(): EventHandler<EventParams>[] {
+    return Array.from(this._map.values()).map(node => node.handler) || [];
   }
 
   getCount() {

@@ -1,10 +1,11 @@
-import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
+import { ChartEvent } from '../../constant/event';
+import { AttributeLevel } from '../../constant/attribute';
+import { LayoutZIndex } from '../../constant/layout';
 import { BaseComponent } from '../base/base-component';
-import type { IComponent, IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
-import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
+import type { IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
@@ -136,6 +137,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   protected _extendDatumOutOfBrush(elementsMap: { [elementKey: string]: IElement }) {
     const data = [];
     for (const elementKey in elementsMap) {
+      // 图例筛选后, elementKey未更新, 导致data可能为null
+      // FIXME: brush透出的map维护逻辑有待优化
       data.push(elementsMap[elementKey].data?.[0]);
     }
     return data;
@@ -514,7 +517,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           const endPercent = dataZoom.dataToStatePoint(endValue);
           const newStartPercent = this._stateClamp(startPercent - axisRangeExpand);
           const newEndPercent = this._stateClamp(endPercent + axisRangeExpand);
-          dataZoom.setStartAndEnd(newStartPercent, newEndPercent, ['percent', 'percent']);
+          dataZoom.setStartAndEnd(Math.min(newStartPercent, newEndPercent), Math.max(newStartPercent, newEndPercent), [
+            'percent',
+            'percent'
+          ]);
 
           this._zoomRecord.push({
             operateComponent: dataZoom,
@@ -524,8 +530,15 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         } else {
           const range = axis.getScale().range();
           const rangeFactor = (axis.getScale() as IContinuousScale | IBandLikeScale).rangeFactor() ?? [0, 1];
-          const startPos = boundsStart - region.getLayoutStartPoint()[regionStartAttr];
-          const endPos = boundsEnd - region.getLayoutStartPoint()[regionStartAttr];
+
+          // 判断轴是否为反向轴（range[1] < range[0])，即从右到左, 或从下到上
+          // 如果是反向轴, 计算start和end时, 也要保持 start < end
+          const isAxisReverse = range[1] < range[0];
+          const startPosTemp = boundsStart - region.getLayoutStartPoint()[regionStartAttr];
+          const endPosTemp = boundsEnd - region.getLayoutStartPoint()[regionStartAttr];
+          const endPos = isAxisReverse ? Math.min(startPosTemp, endPosTemp) : Math.max(startPosTemp, endPosTemp);
+          const startPos = isAxisReverse ? Math.max(startPosTemp, endPosTemp) : Math.min(startPosTemp, endPosTemp);
+
           const start =
             ((startPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
           const end =

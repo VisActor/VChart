@@ -1,6 +1,6 @@
 ---
 category: examples
-group: funnel chart
+group: react attributes
 title: 使用react渲染漏斗图标签
 keywords: funnelChart,composition,trend,triangle
 order: 5-0

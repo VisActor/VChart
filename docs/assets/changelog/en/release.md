@@ -1,3 +1,144 @@
+# v1.12.1
+
+2024-08-21
+
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: x brush filter not work. fix [#3111](https://github.com/VisActor/VChart/issues/3111)
+- **@visactor/vchart**: fix error of `getCenter` when layoutRadius is a customized function in radar
+- **@visactor/vchart**: media query causes incorrect render result, [#3102](https://github.com/VisActor/VChart/issues/3102)
+- **@visactor/vchart**: vchart should not throw error when the values of series data is empty, fix [#3082](https://github.com/VisActor/VChart/issues/3082)
+
+
+
+[more detail about v1.12.1](https://github.com/VisActor/VChart/releases/tag/v1.12.1)
+
+# v1.12.0
+
+2024-08-16
+
+
+**🆕 New feature**
+
+  - **@visactor/vchart**: marker's `coordinates` and `positions` property support callback
+  - **@visactor/vchart**: support `animationState` config
+  - **@visactor/vchart**: show evenly divided pie chart with `showAllZero`
+  - **@visactor/vchart**: enable `supportNegative` option to treat negative values as absolute values
+  - **@visactor/vchart**: support theme config by chart type
+  - **@visactor/vchart**: support text shape of word-cloud
+  - **@visactor/vchart**: add new chart mosaic chart 
+  - **@visactor/vchart**: support customized tick function of linear axis
+  - **@visactor/vchart**: add emptyPlaceholder and emptyCircle for pie chart
+
+  ## 🐛 fix 
+  - **@visactor/vchart**: y-axis is reverted after brush zoomin. fix [#3089](https://github.com/VisActor/VChart/issues/3089)
+  - **@visactor/vchart**: mark-point position type error fix
+  ## 🔨 refactor 
+  - **@visactor/vchart**: refactor the graphics in linear-progress chart
+  - **@visactor/vchart**: use label component to refactor sankey label
+  - **@visactor/vchart**: stack can be required by need
+  ## 🔖 other 
+  - **@visactor/vchart**: sequence support bottom axes. fix [#2927](https://github.com/VisActor/VChart/issues/2927) 
+
+
+
+[more detail about v1.12.0](https://github.com/VisActor/VChart/releases/tag/v1.12.0)
+
+# v1.11.12
+
+2024-08-15
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support `layoutRadius` of pie
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix params of tickCount in linear-axis-mixin,  fix [#3053](https://github.com/VisActor/VChart/issues/3053)
+- **@visactor/vchart**: fix `padding` of region not work
+- **@visactor/vchart**: brush error after legend filter. fix[#3061](https://github.com/VisActor/VChart/issues/3061)
+- **@visactor/vchart**: fix funnel chart color bug with different category and series fields
+- **@visactor/vchart**: fix issue with harmony event
+- **@visactor/vchart**: fix type error of react vchart, fix [#3065](https://github.com/VisActor/VChart/issues/3065)
+- **@visactor/vchart**: tooltip should show when chart has multiple regions
+- **@visactor/vchart**: fix the issue background of chart not updated, fix [#3054](https://github.com/VisActor/VChart/issues/3054)
+- **@visactor/vchart**: fix the update of `startAngle` and `endAngle` in pie chart, fix [#3059](https://github.com/VisActor/VChart/issues/3059)
+- **@visactor/vchart**: fix switch `visible` of legend, fix [#3060](https://github.com/VisActor/VChart/issues/3060)
+
+
+
+[more detail about v1.11.12](https://github.com/VisActor/VChart/releases/tag/v1.11.12)
+
+# v1.11.11
+
+2024-08-06
+
+**🆕 New feature**
+
+- **@visactor/vchart**: label line support custom path. close[#3000](https://github.com/VisActor/VChart/issues/3000)
+- **@visactor/vchart**: upgrade vrender to 0.19.20, to support `catmullRom` and `catmullRomClosed` curveType, related [#2610](https://github.com/VisActor/VChart/issues/2610)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix crosshair of histogram, fix [#2826](https://github.com/VisActor/VChart/issues/2826)
+- **@visactor/vchart**: use `vglobal.getElementById` to replace `document.getElementById`
+- **@visactor/vchart**: liquid gradient not work after reverse
+- **@visactor/vchart**: add group mark to fix gradient color bug of liquid and add rect shape to fix rect symbol padding bug
+- **@visactor/vchart**: fix `lockAfterClick` of tooltip, related [#1574](https://github.com/VisActor/VChart/issues/1574)
+- **@visactor/vchart**: prevent trigger original event in panEnd composite event [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: charts should not stack when only specify `stackValue` but `stack` is false, fix [#3005](https://github.com/VisActor/VChart/issues/3005)
+- **@visactor/vchart**: `updateData` incorrect with datazoom, related [#3041](https://github.com/VisActor/VChart/issues/3041)
+- **@visactor/vchart**: fix issue of `updateSpec` when visible of grid in axis change, fix [#3004](https://github.com/VisActor/VChart/issues/3004)
+- **@visactor/vchart**: fix fontFamily when update theme, fix [#3028](https://github.com/VisActor/VChart/issues/3028)
+- **@visactor/vchart**: fix:curveType `monotone` in seriesStyle not work
+
+[more detail about v1.11.11](https://github.com/VisActor/VChart/releases/tag/v1.11.11)
+
+# v1.11.10
+
+2024-07-24
+
+**🆕 New feature**
+
+- **@visactor/vchart**: liquid support reverse and target mark. close [#2977](https://github.com/VisActor/VChart/issues/2977) & close [#2978](https://github.com/VisActor/VChart/issues/2978)
+- **@visactor/vchart**: add `totalScale` params in geo zoom event
+- **@visactor/vchart**: support `geoZoomByIndex`/`geoZoomById` API, close [#2925](https://github.com/VisActor/VChart/issues/2925)
+- **@visactor/vchart**: marker label background support custom path. close [#2959](https://github.com/VisActor/VChart/issues/2959)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: prevent issue with ios bug while pointEvent is configed
+- **@visactor/vchart**: liquid gradient not work after reverse
+- **@visactor/vchart**: prevent trigger original event in zoomEnd composite event [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: fix error of setDimentionIndex when dimension axis is linear
+
+**🔧 Configuration releated**
+
+- **@visactor/vchart**: update rollup.config.js to fix es5/index.js, fix [#2971](https://github.com/VisActor/VChart/issues/2971)
+
+[more detail about v1.11.10](https://github.com/VisActor/VChart/releases/tag/v1.11.10)
+
+# v1.11.9
+
+2024-07-17
+
+**🆕 New feature**
+
+2024-07-17
+
+**🐛 Bug fix**
+
+- @visactor/vchart: fix statistics confict of linear and discrete field, close [#2926](https://github.com/VisActor/VChart/issues/2926)
+- @visactor/vchart: fix theme error of update spec
+- @visactor/vchart: fix update of label when udpate spec
+- @visactor/vchart: fix bug of polar point update aniamtion
+- @visactor/vchart: react attributes should support react 17
+- @visactor/vchart: fix height of link when set `minNodeHeight` of sankey
+
+[more detail about v1.11.9](https://github.com/VisActor/VChart/releases/tag/v1.11.9)
+
 # v1.11.7
 
 2024-07-06
@@ -24,7 +165,6 @@
 
 2024-06-27
 
-
 **🐛 Bug fix**
 
 - **@visactor/vchart**: background of chart should support gradient color
@@ -32,28 +172,19 @@
 - **@visactor/vchart**: fix the type of `ITooltipTheme`, fix [#2850](https://github.com/VisActor/VChart/issues/2850)
 - **@visactor/vchart**: fix the issue of update animation not executed when updateSpec, [#2835](https://github.com/VisActor/VChart/issues/2835) [#2836](https://github.com/VisActor/VChart/issues/2836)
 
-
-
 [more detail about v1.11.6](https://github.com/VisActor/VChart/releases/tag/v1.11.6)
 
 # v1.11.5
 
 2024-06-21
 
-
 **🆕 New feature**
 
 - **@visactor/vchart**: add option `style.align` of Tooltip, support RTL tooltip
-- 
+- **🐛 Bug fix**
 
-**🐛 Bug fix**
-
-  - **@visactor/vchart**: optimize discrete legend pager color in dark theme, related [#2654](https://github.com/VisActor/VChart/issues/2654)
-  - **@visactor/vchart**: fix the issue issue with stacked waterfall charts where positive and negative values were not stacked separately when there were both positive and negative values in the same stack, fix [#2212](https://github.com/VisActor/VChart/issues/2212)
-
-
-
-
+- **@visactor/vchart**: optimize discrete legend pager color in dark theme, related [#2654](https://github.com/VisActor/VChart/issues/2654)
+- **@visactor/vchart**: fix the issue issue with stacked waterfall charts where positive and negative values were not stacked separately when there were both positive and negative values in the same stack, fix [#2212](https://github.com/VisActor/VChart/issues/2212)
 
 [more detail about v1.11.5](https://github.com/VisActor/VChart/releases/tag/v1.11.5)
 
@@ -61,23 +192,19 @@
 
 2024-06-18
 
-
 **🐛 Bug fix**
 
-  - **@visactor/vchart**: fix bug of `updateSpec` when has `scales`, close [#2744](https://github.com/VisActor/VChart/issues/2744)
-  - **@visactor/vchart**: gauge chart might throw error when the value is close to its maximum, fix [#2783](https://github.com/VisActor/VChart/issues/2783)
-  - **@visactor/vchart**: fix the behavior of the gauge pointer when it exceeds the axis range, fix [#2780](https://github.com/VisActor/VChart/issues/2780)
-  - **@visactor/vchart**: normal animation not work when appear animation is disabled, fix [#2807](https://github.com/VisActor/VChart/issues/2807)
-  - **@visactor/vchart**: upgrade vrender to 0.19.10, vgrammar to 0.13.9
-
-
+- **@visactor/vchart**: fix bug of `updateSpec` when has `scales`, close [#2744](https://github.com/VisActor/VChart/issues/2744)
+- **@visactor/vchart**: gauge chart might throw error when the value is close to its maximum, fix [#2783](https://github.com/VisActor/VChart/issues/2783)
+- **@visactor/vchart**: fix the behavior of the gauge pointer when it exceeds the axis range, fix [#2780](https://github.com/VisActor/VChart/issues/2780)
+- **@visactor/vchart**: normal animation not work when appear animation is disabled, fix [#2807](https://github.com/VisActor/VChart/issues/2807)
+- **@visactor/vchart**: upgrade vrender to 0.19.10, vgrammar to 0.13.9
 
 [more detail about v1.11.4](https://github.com/VisActor/VChart/releases/tag/v1.11.4)
 
 # v1.11.3
 
 2024-06-06
-
 
 **🆕 New feature**
 
@@ -90,19 +217,16 @@
 - **@visactor/vchart**: fixed the issue that the newly added component type could not take effect when updateSpec
 - **@visactor/vchart**: fixed `setSelected` of sankey chart, fix [#2757](https://github.com/VisActor/VChart/issues/2757) , fix [#2765](https://github.com/VisActor/VChart/issues/2765)
 
-
-
 [more detail about v1.11.3](https://github.com/VisActor/VChart/releases/tag/v1.11.3)
 
 # v1.11.2
 
 2024-05-30
 
-
 **🐛 Bug fix**
 
 - **@visactor/vchart**: fix the bug that `animationThreshold` not work, close [#2745](https://github.com/VisActor/VChart/issues/2745)
-- **@visactor/vchart**: fix the issue of  update animation in area chart is not work
+- **@visactor/vchart**: fix the issue of update animation in area chart is not work
 - **common**: bar series support auto band size in common chart. fix[#2704](https://github.com/VisActor/VChart/issues/2704)
 - **@visactor/vchart**: corsshair should hide when pointer out view, fix [#2726](https://github.com/VisActor/VChart/issues/2726)
 - **@visactor/vchart**: close animation cause by datazoom/scrollbar
@@ -113,8 +237,6 @@
 **🔧 Configuration releated**
 
 - **@visactor/vchart**: when build es5 , `targets` of `@babel/preset-env` should be `defaults`, fix [#2702](https://github.com/VisActor/VChart/issues/2702)
-
-
 
 [more detail about v1.11.2](https://github.com/VisActor/VChart/releases/tag/v1.11.2)
 
@@ -147,7 +269,6 @@
 # v1.11.0
 
 2024-05-08
-
 
 **🆕 New feature**
 
@@ -189,14 +310,11 @@
 
 - **@visactor/vchart**: upgrade dependencies
 
-
-
 [more detail about v1.11.0](https://github.com/VisActor/VChart/releases/tag/v1.11.0)
 
 # v1.10.6
 
 2024-05-08
-
 
 **🆕 New feature**
 
@@ -204,7 +322,7 @@
 
 **🐛 Bug fix**
 
-- **wordCloud**: wordCloud layout error and color scale error when updateData. fix [#2605](https://github.com/VisActor/VChart/issues/2605) 
+- **wordCloud**: wordCloud layout error and color scale error when updateData. fix [#2605](https://github.com/VisActor/VChart/issues/2605)
 - **@visactor/vchart**: fix error of position when update viewBox
 - **scroll**: scroll not work in ios. fix[#1224](https://github.com/VisActor/VChart/issues/1224)
 - **@visactor/vchart**: fix range-column-chart spec
@@ -213,14 +331,11 @@
 - **@visactor/vchart**: fix the issue of scatter when the legend switch visible encode, close [#2625](https://github.com/VisActor/VChart/issues/2625)
 - **@visactor/vchart**: fix the trigger off of default select interactions
 
-
-
 [more detail about v1.10.6](https://github.com/VisActor/VChart/releases/tag/v1.10.6)
 
 # v1.10.5
 
 2024-04-26
-
 
 **🆕 New feature**
 
@@ -239,14 +354,11 @@
 
 - **@visactor/vchart**: optimize the performance of pie chart, fix [#2568](https://github.com/VisActor/VChart/issues/2568)
 
-
-
 [more detail about v1.10.5](https://github.com/VisActor/VChart/releases/tag/v1.10.5)
 
 # v1.10.4
 
 2024-04-03
-
 
 **🆕 New feature**
 
@@ -271,7 +383,6 @@
 
 2024-03-28
 
-
 **🆕 New feature**
 
 - **@visactor/vchart**: support interaction events of `element-select` and `element-highlight`
@@ -286,10 +397,8 @@
 - **@visactor/vchart**: map data will not show if not configured in nameMap
 - **@visactor/vchart**: axis label missing in the sampled angle axis, related [#2439](https://github.com/VisActor/VChart/issues/2439)
 - **@visactor/vchart**: fix radar chart clipAngle animation error when loading on demand.
-- **@visactor/vchart**: fix the release order of _eventDispatcher
-- **@visactor/vchart**: should use series's _seriesMark to calculate total mark, not all series mark names are the same as series.type
-
-
+- **@visactor/vchart**: fix the release order of \_eventDispatcher
+- **@visactor/vchart**: should use series's \_seriesMark to calculate total mark, not all series mark names are the same as series.type
 
 [more detail about v1.10.3](https://github.com/VisActor/VChart/releases/tag/v1.10.3)
 
@@ -297,10 +406,12 @@
 
 2024-03-26
 
-## 🆕 New feat 
+## 🆕 New feat
+
 - **@visactor/vchart**: support interaction events of `element-select` and `element-highlight`
 
-## 🐛 Bug fix 
+## 🐛 Bug fix
+
 - **@visactor/vchart**: `lineWidth` is invalid in rect-type-crosshair, related [#2432](https://github.com/VisActor/VChart/issues/2432)
 - **@visactor/vchart**: should use `series.getMarkInName` to get the mark for total label's caculation, fixed [#2448](https://github.com/VisActor/VChart/issues/2448)
 - **@visactor/vchart**: fix the issue of event trigger count after `updateSpecSync()`
@@ -311,7 +422,6 @@
 # v1.10.0
 
 2024-03-13
-
 
 **🆕 New feature**
 
@@ -337,7 +447,7 @@
 - **@visactor/vchart**: upgrade version of vgrammar to fix end state of animation
 - **@visactor/vchart**: `tickMask` is invalid in circular progress charts, related [#2316](https://github.com/VisActor/VChart/issues/2316)
 - **@visactor/vchart**: rect crosshair should lock when lockAfterClick is true
-- **@visactor/vchart**: when region style is empty, should not create _backgroundMark or _foregroundMark
+- **@visactor/vchart**: when region style is empty, should not create \_backgroundMark or \_foregroundMark
 - **@visactor/vchart**: fixed the issue of being unable to listen to customMark events on vchart
 - **@visactor/vchart**: grid component should not be pickable expect its children
 - **@visactor/vchart**: events on `<Bar />` should not trigged twice
@@ -351,14 +461,11 @@
 
 - **@visactor/vchart**: use `rimraf` to replace `rm -rf`
 
-
-
 [more detail about v1.10.0](https://github.com/VisActor/VChart/releases/tag/v1.10.0)
 
 # v1.9.6
 
 2024-03-11
-
 
 **🆕 New feature**
 
@@ -375,14 +482,11 @@
 - **@visactor/vchart**: upgrade vrender to 0.17.27, vgrammar to 0.11.15
 - **scrollbar**: click stopped by zoomable. fix[#2333](https://github.com/VisActor/VChart/issues/2333)
 
-
-
 [more detail about v1.9.6](https://github.com/VisActor/VChart/releases/tag/v1.9.6)
 
 # v1.9.5
 
 2024-03-04
-
 
 **🆕 New feature**
 
@@ -394,14 +498,11 @@
 - **@visactor/vchart**: `animationAppear: false` not work
 - **@visactor/vchart**: optimize totoal label position when axis is inversed
 
-
-
 [more detail about v1.9.5](https://github.com/VisActor/VChart/releases/tag/v1.9.5)
 
 # v1.9.3
 
 2024-02-07
-
 
 **🆕 New feature**
 
@@ -420,14 +521,13 @@
 
 2024-02-05
 
-
 **🐛 Bug fix**
 
 - **@visactor/vchart**: bar label issue when position is 'inside-bottom' or 'inside-top'
 - **@visactor/vchart**: in block-vchart demo, the `dpr` acquisition method is wrong and needs to be obtained in real time
 - **@visactor/vchart**: series can read `direction` from chart spec, releated to [#2181](https://github.com/VisActor/VChart/issues/2181)
 - **@visactor/vchart**: dataZoom min and max span does not effect, related [#2195](https://github.com/VisActor/VChart/issues/2195)
-- **@visactor/vchart**: fix the problem that multi-layer axis labels are not displayed after closing  tail labels, related [#2179](https://github.com/VisActor/VChart/issues/2179)
+- **@visactor/vchart**: fix the problem that multi-layer axis labels are not displayed after closing tail labels, related [#2179](https://github.com/VisActor/VChart/issues/2179)
 - **@visactor/vchart**: fix polar animation interpolation
 - **@visactor/react-vchart**: fix the error when `onClick` of `<VChart />` is null, close [#2186](https://github.com/VisActor/VChart/issues/2186)
 - **@visactor/vchart**: charts should not stack toggle when series has same type but differernt axes, related [#2210](https://github.com/VisActor/VChart/issues/2210)
@@ -443,7 +543,6 @@
 
 2024-01-31
 
-
 **🐛 Bug fix**
 
 - **@visactor/vchart**: custom mark should run after all the series marks, fix [#2156](https://github.com/VisActor/VChart/issues/2156)
@@ -452,14 +551,11 @@
 - **@visactor/vchart**: fix error of vchart in strict-mode
 - **@visactor/vchart**: fix the zero-align of axes, fix [#2167](https://github.com/VisActor/VChart/issues/2167)
 
-
-
 [more detail about v1.9.1](https://github.com/VisActor/VChart/releases/tag/v1.9.1)
 
 # v1.9.0
 
 2024-01-26
-
 
 **🆕 New feature**
 
@@ -486,14 +582,11 @@
 
 - **@visactor/vchart**: deprecated `useSyncRender` in react-vchart
 
-
-
 [more detail about v1.9.0](https://github.com/VisActor/VChart/releases/tag/v1.9.0)
 
 # v1.8.10
 
 2024-01-25
-
 
 **🆕 New feature**
 
@@ -510,14 +603,11 @@
 - **@visactor/vchart**: treemap drill event error
 - **@visactor/vchart**: treemap drill error when turn off the animation
 
-
-
 [more detail about v1.8.10](https://github.com/VisActor/VChart/releases/tag/v1.8.10)
 
 # v1.8.9
 
 2024-01-23
-
 
 **🆕 New feature**
 
@@ -531,14 +621,11 @@
 - **@visactor/vchart**: fix the bugs of axis's onZero property, fixed [#2098](https://github.com/VisActor/VChart/issues/2098),[#2099](https://github.com/VisActor/VChart/issues/2099)
 - **@visactor/vchart**: update animation should exludes `defined` channel
 
-
-
 [more detail about v1.8.9](https://github.com/VisActor/VChart/releases/tag/v1.8.9)
 
 # v1.8.8
 
 2024-01-19
-
 
 **🆕 New feature**
 

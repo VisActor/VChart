@@ -1,6 +1,6 @@
 ---
 category: examples
-group: area chart
+group: react attributes
 title: 自定义图例icon
 keywords: funnelChart,composition,trend,triangle
 order: 5-0

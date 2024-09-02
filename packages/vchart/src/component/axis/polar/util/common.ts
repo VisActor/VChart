@@ -1,7 +1,9 @@
-import { isValid } from '@visactor/vutils';
-import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_START_ANGLE } from '../../../../constant';
+import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_START_ANGLE } from '../../../../constant/polar';
+import { calculateMaxRadius, isFunction, isNumber, isValid } from '@visactor/vutils';
 import { ComponentTypeEnum } from '../../../interface';
 import type { IPolarAxisCommonSpec } from '../interface';
+import type { ILayoutRect } from '../../../../typings/layout';
+import type { IPoint } from '../../../../typings/coordinate';
 
 export const getPolarAxisInfo = (spec: IPolarAxisCommonSpec, chartSpec: any) => {
   // TODO: 基于数据处理 axis 类型
@@ -27,4 +29,27 @@ export const getPolarAxisInfo = (spec: IPolarAxisCommonSpec, chartSpec: any) => 
     outerRadius: spec.radius ?? chartSpec.outerRadius ?? chartSpec.radius ?? POLAR_DEFAULT_RADIUS,
     layoutRadius: chartSpec.layoutRadius
   };
+};
+
+export const computeLayoutRadius = (
+  getLayoutRadius: () => 'auto' | number | ((layoutRect: ILayoutRect, center: IPoint) => number),
+  getLayoutRect: () => ILayoutRect,
+  getCenter: () => IPoint,
+  getAngles: () => { startAngle: number; endAngle: number }
+) => {
+  const layoutRadius = getLayoutRadius();
+  if (isNumber(layoutRadius)) {
+    return layoutRadius;
+  } else if (isFunction(layoutRadius)) {
+    return layoutRadius(getLayoutRect(), getCenter());
+  }
+
+  const rect = getLayoutRect();
+
+  if (layoutRadius === 'auto' && rect.width > 0 && rect.height > 0) {
+    const { startAngle = 0, endAngle = 2 * Math.PI } = getAngles();
+    return calculateMaxRadius(rect, getCenter(), startAngle, endAngle);
+  }
+
+  return Math.min(rect.width / 2, rect.height / 2);
 };

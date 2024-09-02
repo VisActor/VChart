@@ -5,22 +5,15 @@ import { array, isValid, isNil, isString, isEmpty, isArray, isEqual } from '@vis
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
-import type { ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
+import type { CoordinateType, ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base/base-component';
-import type {
-  IAggrType,
-  ICoordinateOption,
-  IDataPointSpec,
-  IDataPos,
-  IDataPosCallback,
-  IMarkerSpec,
-  IMarkerSupportSeries
-} from './interface';
+import type { IAggrType, IDataPos, IDataPosCallback, IMarkerSpec, IMarkerSupportSeries } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
 import { isAggrSpec } from './utils';
 import { getFirstSeries } from '../../util';
 import { arrayParser } from '../../data/parser/array';
+import type { IOptionWithCoordinates } from '../../data/transforms/aggregation';
 
 export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
@@ -29,7 +22,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
   static specKey: string;
   static type: string;
   static coordinateType: string;
-  coordinateType: string;
+  coordinateType: CoordinateType;
 
   protected _startRelativeSeries!: IMarkerSupportSeries;
   protected _endRelativeSeries!: IMarkerSupportSeries;
@@ -145,86 +138,14 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     };
   }
 
-  protected _processSpecCoo(spec: any) {
-    const coordinates = spec.coordinates ?? array(spec.coordinate);
-    let option: ICoordinateOption;
-    return coordinates.map((coordinate: IDataPointSpec) => {
-      const refRelativeSeries = this._getSeriesByIdOrIndex(
-        coordinate.refRelativeSeriesId,
-        coordinate.refRelativeSeriesIndex
-      );
-
-      if (this.coordinateType === 'cartesian') {
-        const { xField, yField } = refRelativeSeries.getSpec();
-        const { xFieldDim, xFieldIndex, yFieldDim, yFieldIndex } = coordinate;
-        let bindXField = xField;
-        if (isValid(xFieldIndex)) {
-          bindXField = array(xField)[xFieldIndex];
-        }
-        if (xFieldDim && array(xField).includes(xFieldDim)) {
-          bindXField = xFieldDim;
-        }
-
-        let bindYField = yField;
-        if (isValid(yFieldIndex)) {
-          bindYField = array(yField)[yFieldIndex];
-        }
-        if (yFieldDim && array(yField).includes(yFieldDim)) {
-          bindYField = yFieldDim;
-        }
-
-        option = {
-          x: undefined,
-          y: undefined,
-          ...this._getAllRelativeSeries()
-        };
-
-        if (isString(coordinate[bindXField]) && isAggrSpec(coordinate[bindXField] as IDataPos)) {
-          option.x = { field: bindXField, aggrType: coordinate[bindXField] as IAggrType };
-        } else {
-          option.x = array(bindXField).map(field => coordinate[field]);
-        }
-
-        if (isString(coordinate[bindYField]) && isAggrSpec(coordinate[bindYField] as IDataPos)) {
-          option.y = { field: bindYField, aggrType: coordinate[bindYField] as IAggrType };
-        } else {
-          option.y = array(bindYField).map(field => coordinate[field]);
-        }
-      } else if (this.coordinateType === 'polar') {
-        const { valueField: radiusField, categoryField: angleField } = refRelativeSeries.getSpec();
-        const { angleFieldDim, angleFieldIndex } = coordinate;
-        let bindAngleField = angleField;
-        if (isValid(angleFieldIndex)) {
-          bindAngleField = array(angleField)[angleFieldIndex];
-        }
-        if (angleFieldDim && array(angleField).includes(angleFieldDim)) {
-          bindAngleField = angleFieldDim;
-        }
-
-        const bindRadiusField = radiusField;
-
-        option = {
-          angle: undefined,
-          radius: undefined,
-          ...this._getAllRelativeSeries()
-        };
-
-        if (isString(coordinate[bindAngleField]) && isAggrSpec(coordinate[bindAngleField] as IDataPos)) {
-          option.angle = { field: bindAngleField, aggrType: coordinate[bindAngleField] as IAggrType };
-        } else {
-          option.angle = array(bindAngleField).map(field => coordinate[field]);
-        }
-
-        if (isString(coordinate[bindRadiusField]) && isAggrSpec(coordinate[bindRadiusField] as IDataPos)) {
-          option.radius = { field: bindRadiusField, aggrType: coordinate[bindRadiusField] as IAggrType };
-        } else {
-          option.radius = array(bindRadiusField).map(field => coordinate[field]);
-        }
-      }
-
-      option.getRefRelativeSeries = () => refRelativeSeries;
-      return option;
-    });
+  protected _processSpecCoo(spec: any): IOptionWithCoordinates {
+    return {
+      coordinates: spec.coordinates || spec.coordinate,
+      ...this._getAllRelativeSeries(),
+      getSeriesByIdOrIndex: (seriesUserId: StringOrNumber, seriesIndex: number) =>
+        this._getSeriesByIdOrIndex(seriesUserId, seriesIndex),
+      coordinateType: this.coordinateType
+    };
   }
 
   protected _getRelativeDataView() {

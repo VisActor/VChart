@@ -47,7 +47,6 @@ import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
 import { isArray, isValid, createID, calcPadding, normalizeLayoutPaddingSpec, array } from '../../util';
-import { Stack } from '../stack';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
@@ -57,12 +56,12 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
+import type { IElement, IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension';
 import type { ITooltip } from '../../component/tooltip/interface';
@@ -172,8 +171,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   };
 
   // stack
-  protected _stack: Stack;
-  protected _canStack: boolean;
 
   padding: IPadding = { top: 0, left: 0, right: 0, bottom: 0 };
   protected _paddingSpec: ILayoutOrientPadding;
@@ -230,6 +227,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   init() {
+    (this as any)._beforeInit?.();
     // 元素创建完毕后再执行各元素的初始化 方便各元素能获取到其他模块
     this._regions.forEach(r => r.init({}));
     this._series.forEach(s => s.init({}));
@@ -238,12 +236,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // event
     this._initEvent();
 
-    // TODO: to component
-    // stack
-    if (this._canStack) {
-      this._stack = new Stack(this);
-      this._stack.init();
-    }
+    (this as any)._initStack?.();
+
     // data flow start
     this.reDataFlow();
   }
@@ -789,7 +783,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // spec key 的个数一致，但是数组长度不一致时。remake
     for (let i = 0; i < currentKeys.length; i++) {
       const key = currentKeys[i];
-      if (isArray(this._spec[key]) && this._spec[key].length !== spec[key].length) {
+      if (isArray((this._spec as any)[key]) && (this._spec as any)[key].length !== array((spec as any)[key]).length) {
         result.reMake = true;
         return result;
       }
@@ -837,11 +831,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     // re compute padding & layout
     this._updateLayoutRect(this._viewBox);
-
-    // background need remake
-    if (!isEqual(this._spec.background, oldSpec.background)) {
-      result.reMake = true;
-    }
   }
 
   updateDataSpec() {
@@ -873,14 +862,24 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         componentCount: number;
       };
     } = {};
+    const checkVisibleComponents: Record<string, boolean> = {
+      [ComponentTypeEnum.title]: true,
+      [ComponentTypeEnum.brush]: true,
+      [ComponentTypeEnum.mapLabel]: true
+    };
+
     this._components.forEach(c => {
       if (c.type === ComponentTypeEnum.label || c.type === ComponentTypeEnum.totalLabel) {
         // label配置都会被解析到series中，所以不适合放在这里进行比对
         return;
       }
+      if (checkVisibleComponents[c.type]) {
+        checkVisibleComponents[c.type] = false;
+      }
+
       const compSpecKey = c.specKey || c.type;
       // 每一个组件获取对应的speck
-      const cmpSpec = this._spec[compSpecKey] ?? {};
+      const cmpSpec = (this._spec as any)[compSpecKey] ?? {};
 
       if (isArray(cmpSpec)) {
         componentCache[compSpecKey] = componentCache[compSpecKey] || {
@@ -901,6 +900,18 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         }
       }
     }
+
+    /** 这些组件 visible: false 不创建组件，也在this._components中，所以需要额外检测是否有visible 的切换 */
+    Object.keys(checkVisibleComponents).forEach(type => {
+      if (checkVisibleComponents[type]) {
+        const compSpec = (this._spec as any)[type];
+        const switchToVisible = isArray(compSpec) ? compSpec.some(entry => entry?.visible) : compSpec?.visible;
+
+        if (switchToVisible) {
+          result.reMake = true;
+        }
+      }
+    });
   }
 
   updateSeriesSpec(result: IUpdateSpecResult) {
@@ -1218,7 +1229,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           if (!filter || (isFunction(filter) && filter(s, m))) {
             const isCollect = m.getProduct().isCollectionMark();
             const elements = m.getProduct().elements;
-            let pickElements = elements;
+            let pickElements = [] as IElement[];
             if (isCollect) {
               pickElements = elements.filter(e => {
                 const elDatum = e.getDatum();
@@ -1291,11 +1302,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
             const { axis, value, data } = d;
             const isY = axis.getOrient() === 'left' || axis.getOrient() === 'right';
             data.forEach(d => {
-              if (isY) {
-                dataFilter[(<ICartesianSeries>d.series).fieldY[0]] = value;
-              } else {
-                dataFilter[(<ICartesianSeries>d.series).fieldX[0]] = value;
-              }
+              const field = isY ? (<ICartesianSeries>d.series).fieldY[0] : (<ICartesianSeries>d.series).fieldX[0];
+
+              dataFilter[field] = d.datum?.[0]?.[field] ?? value;
             });
           });
           tooltip.showTooltip(dataFilter, opt.showTooltipOption);

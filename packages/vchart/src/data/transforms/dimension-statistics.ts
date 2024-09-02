@@ -110,11 +110,12 @@ export const dimensionStatisticsOfSimpleData = (
     let allValid = true;
     fValues.length = 0;
 
-    latestData.forEach((d: Datum) => {
-      if (d) {
-        fValues.push(d[key]);
-      }
-    });
+    latestData &&
+      latestData.forEach((d: Datum) => {
+        if (d) {
+          fValues.push(d[key]);
+        }
+      });
     const len = fValues.length;
 
     if (isNumberField) {

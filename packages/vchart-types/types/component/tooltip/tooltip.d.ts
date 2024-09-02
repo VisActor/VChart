@@ -48,6 +48,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _initProcessor(): void;
     protected _initEvent(): void;
     protected _mountEvent: (eType: EventType, query: EventQuery, callback: EventCallback<any>) => void;
+    protected _handleClickToLock: (params: BaseEventParams) => void;
     protected _getMouseOutHandler: (needPointerDetection?: boolean) => (params: BaseEventParams) => void;
     protected _handleChartMouseOut: (params?: BaseEventParams) => void;
     protected _getMouseMoveHandler: (isClick: boolean) => (params: BaseEventParams) => void;

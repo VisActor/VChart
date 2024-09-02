@@ -5,7 +5,8 @@ import { BaseComponent } from '../base/base-component';
 import type { IEffect } from '../../model/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILayoutRect, ILayoutType, IOrientType, IPoint, StringOrNumber } from '../../typings';
-import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
+import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
+import { ChartEvent } from '../../constant/event';
 import { eachSeries } from '../../util/model';
 import { isValidOrient } from '../../util/space';
 import { mergeSpec } from '@visactor/vutils-extension';
@@ -208,6 +209,10 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
 
   getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     if (!this._visible) {
+      if (this._legendComponent && this._legendComponent.parent) {
+        this._legendComponent.parent.removeChild(this._legendComponent);
+        this._legendComponent = null;
+      }
       return { x1: 0, y1: 0, x2: 0, y2: 0 };
     }
     const result = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };

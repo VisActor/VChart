@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
+import { DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Datum } from '../../typings';
 import { mergeSpec } from '@visactor/vutils-extension';
@@ -30,6 +30,7 @@ import { registerRectMark } from '../../mark/rect';
 import { dotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
+import { AttributeLevel } from '../../constant/attribute';
 
 export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;

@@ -1,6 +1,129 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 16 Jul 2024 12:19:22 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Aug 2024 01:09:17 GMT and should not be manually modified.
+
+## 1.12.1
+Wed, 21 Aug 2024 01:09:17 GMT
+
+### Updates
+
+- fix: x brush filter not work. fix#3111
+- fix: fix error of `getCenter` when layoutRadius is a customized function in radar
+
+
+- fix: media query causes incorrect render result, #3102
+- fix: vchart should not throw error when the values of series data is empty, fix #3082
+
+
+
+## 1.12.0
+Fri, 16 Aug 2024 06:12:54 GMT
+
+### Updates
+
+- feat: marker's `coordinates` and `positions` property support callback
+- add emptyPlaceholder and emptyCircle for pie chart
+- sequence support bottom axes. fix#2927
+- feat: support `animationState` config
+- feat: show evenly divided pie chart with showAllZero
+- feat: enable supportNegative option to treat negative values as absolute values
+- feat: support theme config by chart type
+- feat: support text shape of word-cloud
+
+
+- fix: y-axis is reverted after brush zoomin. fix#3089
+- fix: mark-point position type error fix
+- refactor: refactor the graphics in linear-progress chart
+- refactor: use label component to refactor sankey label
+- refactor: stack can be required by need
+
+
+
+## 1.11.12
+Wed, 14 Aug 2024 14:51:54 GMT
+
+### Updates
+
+- fix: fix params of tickCount in linear-axis-mixin,  fix #3053
+
+
+- feat: support `layoutRadius` of pie
+
+
+- fix: fix `padding` of region not work
+
+
+- fix: brush error after legend filter. fix#3061
+- fix: fix funnel chart color bug with different category and series fields
+-  git push --set-upstream origin fix/gauge-angle
+- fix: fix issue with harmony event
+- fix: fix type error of react vchart, fix #3065
+
+
+- fix: tooltip should show when chart has multiple regions
+
+
+- fix: fix the issue background of chart not updated, fix #3054
+
+
+- fix: fix the update of `startAngle` and `endAngle` in pie chart, fix #3059
+
+
+- fix: fix switch `visible` of legend, fix #3060
+
+
+
+## 1.11.11
+Tue, 06 Aug 2024 09:20:16 GMT
+
+### Updates
+
+- feat: label line support custom path. close#3000
+- feat: upgrade vrender to 0.19.20, to support `catmullRom` and `catmullRomClosed` curveType, related #2610
+
+
+- fix: fix crosshair of histogram, fix #2826
+
+
+- fix: use `vglobal.getElementById` to replace `document.getElementById`
+
+
+- fix: liquid gradient not work after reverse
+- fix: add group mark to fix gradient color bug of liquid and add rect shape to fix rect symbol padding bug
+- fix: fix `lockAfterClick` of tooltip, related #1574
+
+
+- fix:  prevent trigger original event in panEnd composite event #2931
+- fix:curveType `monotone` in seriesStyle not work 
+- fix: charts should not stack when only specify `stackValue` but `stack` is false, fix #3005
+
+
+- fix: `updateData` incorrect with datazoom, related #3041
+- fix: fix issue of `updateSpec` when visible of grid in axis change, fix #3004
+
+
+- fix: fix fontFamily when update theme, fix #3028
+
+
+
+## 1.11.10
+Wed, 24 Jul 2024 13:32:11 GMT
+
+### Updates
+
+- chore: update rollup.config.js to fix es5/index.js, fix #2971
+
+
+- fix: prevent issue with ios bug while pointEvent is configed
+- feat: liquid support reverse and target mark. close#2977 & close#2978
+- feat: add `totalScale` params in geo zoom event
+-  feat: support `geoZoomByIndex`/`geoZoomById` API
+- feat: marker label background support  custom path. close#2959
+- fix: liquid gradient not work after reverse
+- fix: prevent trigger original event in zoomEnd composite event #2931
+- fix: fix error of setDimentionIndex when dimension axis is linear
+
+
 
 ## 1.11.7
 Tue, 16 Jul 2024 12:19:22 GMT

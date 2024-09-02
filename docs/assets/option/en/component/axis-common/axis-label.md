@@ -57,7 +57,7 @@ formatMethod: text => {
 };
 ```
 
-For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/Richtext_and_Dom)
+For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
 #${prefix} formatter(string | string[])
 

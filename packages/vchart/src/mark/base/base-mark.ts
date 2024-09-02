@@ -25,13 +25,15 @@ import type {
   VisualScaleType,
   MarkInputStyle
 } from '../interface';
-import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant';
+import { GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant/gradient';
+import { AttributeLevel } from '../../constant/attribute';
 import { isValidScaleType } from '@visactor/vscale';
 import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
 import type { ISeries } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
 import { degreeToRadian, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
+import { curveTypeTransform } from '../utils';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -122,7 +124,12 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   }
 
   isUserLevel(level: number) {
-    return [AttributeLevel.User_Mark, AttributeLevel.User_Series, AttributeLevel.User_Chart].includes(level);
+    return [
+      AttributeLevel.User_Mark,
+      AttributeLevel.User_Series,
+      AttributeLevel.User_Chart,
+      AttributeLevel.User_SeriesStyle
+    ].includes(level);
   }
 
   /**
@@ -182,6 +189,11 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
         case 'outerPadding':
           // VRender 的 padding 定义基于 centent-box 盒模型，默认正方向是向外扩，与 VChart 不一致。这里将 padding 符号取反
           newStyle = this._transformStyleValue(newStyle, (value: number) => -value);
+          break;
+        case 'curveType':
+          newStyle = this._transformStyleValue(newStyle, (value: string) =>
+            curveTypeTransform(value, (this._option.model as any).direction)
+          );
           break;
       }
     }
@@ -368,7 +380,14 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
 
     if (isValidScaleType(stateStyle.style.scale?.type)) {
-      return (datum: Datum, opt: IAttributeOpt) => stateStyle.style.scale.scale(datum[stateStyle.style.field]);
+      return (datum: Datum, opt: IAttributeOpt) => {
+        let data = datum;
+        if (this.model.modelType === 'series' && (this.model as ISeries).getMarkData) {
+          data = (this.model as ISeries).getMarkData(datum);
+        }
+
+        return stateStyle.style.scale.scale(data[stateStyle.style.field]);
+      };
     }
     return (datum: Datum, opt: IAttributeOpt) => {
       return stateStyle.style;

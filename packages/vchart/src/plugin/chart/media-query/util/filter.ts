@@ -25,6 +25,7 @@ export const executeMediaQueryActionFilter = <T extends Record<string, unknown>>
   chartSpecInfo: IChartSpecInfo
 ): IMediaQueryActionFilterResult => {
   const result = executeMediaQueryActionFilterType<T>(filterType, chartSpec, chartSpecInfo);
+
   return {
     ...result,
     modelInfo: result.modelInfo.filter(info => {
@@ -103,9 +104,15 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
     const infoList = array(chartSpecInfo.component?.[specKey] ?? []);
     array(chartSpec[specKey] ?? [])?.forEach((componentSpec, i) => {
       const specInfo = infoList[i];
-      if (specInfo.type === filterType) {
+
+      if (specInfo && specInfo.type === filterType) {
         result.modelInfo.push({
           ...specInfo,
+          spec: componentSpec
+        });
+      } else if (componentSpec && componentSpec.visible === false) {
+        result.modelInfo.push({
+          type: filterType,
           spec: componentSpec
         });
       }

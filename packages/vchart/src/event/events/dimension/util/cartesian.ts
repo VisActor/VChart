@@ -8,7 +8,6 @@ import { isNil } from '@visactor/vutils';
 import { isXAxis, isYAxis } from '../../../../component/axis/cartesian/util/common';
 import { Direction } from '../../../../typings/space';
 import type { ILayoutPoint } from '../../../../typings/layout';
-import { getFirstSeries } from '../../../../util/model';
 
 const discreteXAxisGetDimensionField = (series: ICartesianSeries) => series.fieldX[0];
 const discreteYAxisGetDimensionField = (series: ICartesianSeries) => series.fieldY[0];
@@ -36,10 +35,6 @@ export const getCartesianDimensionInfo = (
   isTooltip?: boolean
 ): IDimensionInfo[] | null => {
   if (!chart) {
-    return null;
-  }
-  const series = getFirstSeries(chart.getRegionsInIndex(), 'cartesian');
-  if (!series) {
     return null;
   }
 
@@ -125,15 +120,8 @@ export const getDimensionInfoByPosition = (
   posKey: 'x' | 'y',
   getDimensionField: (series: ICartesianSeries) => string | string[]
 ): IDimensionInfo | null => {
-  const scale = axis.getScale();
-  const scalePos = posValue - axis.getLayoutStartPoint()[posKey];
-  // 判断是否在 range 范围内
-  if ((scalePos - scale.range()[0]) * (scalePos - scale.range()[1]) > 0) {
-    return null;
-  }
-
-  const value = scale.invert(scalePos);
-  return getDimensionInfoByValue(axis, value, getDimensionField);
+  const value = axis.positionToData(posValue, true);
+  return isNil(value) ? null : getDimensionInfoByValue(axis, value, getDimensionField);
 };
 
 export const getDimensionInfoByValue = (

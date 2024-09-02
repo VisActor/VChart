@@ -1,4 +1,3 @@
-import { ticks } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { ITickDataOpt } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
@@ -22,7 +21,8 @@ import { eachSeries, getSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '@visactor/vutils-extension';
 import type { ISeries } from '../../series/interface';
-import { ChartEvent, LayoutZIndex } from '../../constant';
+import { ChartEvent } from '../../constant/event';
+import { LayoutZIndex } from '../../constant/layout';
 import { animationConfig } from '../../animation/utils';
 import type { LooseFunction } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -44,21 +44,17 @@ import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic }
 import type { ITransformOptions } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataView } from '@visactor/vdataset';
-import {
-  GridEnum,
-  registerAxis as registerVGrammarAxis,
-  registerGrid as registerVGrammarGrid
-} from '@visactor/vgrammar-core';
+import { GridEnum } from '@visactor/vgrammar-core';
 import type { IComponentMark } from '../../mark/component';
 // eslint-disable-next-line no-duplicate-imports
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
+import { GroupTransition } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupFadeOut } from '@visactor/vrender-core';
+import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-core';
 import { scaleParser } from '../../data/parser/scale';
-import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
+import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
@@ -140,7 +136,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   getVRenderComponents() {
-    return array(this._axisMark?.getProduct()?.getGroupGraphicItem());
+    return [
+      this._axisMark?.getProduct()?.getGroupGraphicItem(),
+      this._gridMark?.getProduct()?.getGroupGraphicItem()
+    ].filter(isValid);
   }
 
   created() {
@@ -406,6 +405,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   /** Update API **/
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
+    if (result.reMake) {
+      return result;
+    }
+
     result.reRender = true;
     /**
      * 存在轴同步相关配置的时候，暂时通过`reMake`触发更新
@@ -414,6 +417,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       result.reMake = true;
       return result;
     }
+
+    result.reMake = ['grid', 'subGrid', 'tick', 'subTick', 'label', 'domainLine', 'title'].some(k => {
+      return prevSpec?.[k]?.visible !== spec?.[k]?.visible;
+    });
+
     return result;
   }
 
@@ -625,16 +633,18 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return formatFunc ? (value: any, datum: any, index: number) => formatFunc(datum.rawValue, datum, formatter) : null;
   }
 
+  protected abstract registerTicksTransform(): string;
+
   protected _initTickDataSet<T extends ITickDataOpt>(options: T, index: number = 0) {
     registerDataSetInstanceParser(this._option.dataSet, 'scale', scaleParser);
-    registerDataSetInstanceTransform(this._option.dataSet, 'ticks', ticks);
+    const name = this.registerTicksTransform();
     const tickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_ticks_${index}` })
       .parse(this._scales[index], {
         type: 'scale'
       })
       .transform(
         {
-          type: 'ticks',
+          type: name,
           options
         },
         false
@@ -674,8 +684,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 }
 
 export const registerAxis = () => {
-  registerVGrammarAxis();
-  registerVGrammarGrid();
   registerComponentMark();
   Factory.registerAnimation('axis', () => ({
     appear: {

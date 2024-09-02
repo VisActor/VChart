@@ -1,6 +1,6 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean, isObject } from '@visactor/vutils';
+import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean, isObject, array } from '@visactor/vutils';
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
@@ -16,7 +16,8 @@ import type {
   IPolarCrosshairSpec,
   ICrosshairCategoryFieldSpec
 } from './interface';
-import { ChartEvent, Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
+import { ChartEvent, Event_Bubble_Level, Event_Source_Type } from '../../constant/event';
+import { LayoutZIndex } from '../../constant/layout';
 import { getDefaultCrosshairTriggerEventByMode } from './config';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IAxis } from '../axis/interface';
@@ -82,6 +83,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   private _timer?: number;
   private _clickLock?: boolean;
   private _hasActive?: boolean;
+  private _onlyLockClick?: boolean;
 
   get enableRemain(): boolean {
     return this.triggerOff === 'none';
@@ -227,17 +229,27 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   };
 
   private _handleClickInEvent = (params: any) => {
+    if (this._hasActive && this._spec.lockAfterClick && !this._clickLock) {
+      this._clickLock = true;
+      return;
+    } else if (this._clickLock) {
+      this._clickLock = false;
+      this._handleOutEvent();
+      return;
+    }
+
+    if (this._onlyLockClick) {
+      return;
+    }
+
     this._handleIn(params);
 
-    this._clickLock = this._hasActive && this._spec.lockAfterClick;
-
-    if (this._clickLock && isNumber(this.triggerOff)) {
+    if (isNumber(this.triggerOff)) {
       if (this._timer) {
         clearTimeout(this._timer);
       }
 
       this._timer = setTimeout(() => {
-        this._clickLock = false;
         this._handleOutEvent();
       }, this.triggerOff as number) as unknown as number;
     }
@@ -264,32 +276,30 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     const { mode = RenderModeEnum['desktop-browser'] } = this._option;
     const triggerConfig = getDefaultCrosshairTriggerEventByMode(mode);
     if (triggerConfig) {
-      const trigger = this.trigger || 'hover';
+      const trigger: string[] = array(this.trigger || 'hover');
       const outTrigger = (inTrigger: CrossHairTrigger) => {
         if (inTrigger === 'click') {
           return this.triggerOff === 'none' ? null : triggerConfig.clickOut;
         }
         return triggerConfig.hoverOut;
       };
-      if (isArray(trigger)) {
-        // 同时配置了多个触发事件
-        const res: { in: EventType | EventType[]; out: EventType | EventType[]; click: boolean }[] = [];
-        (trigger as ['click', 'hover']).forEach(item => {
-          res.push({
-            click: item === 'click',
-            in: triggerConfig[item],
-            out: outTrigger(item)
-          });
-        });
-        return res;
+
+      if (this._spec.lockAfterClick && !trigger.includes('click')) {
+        trigger.push('click');
+        this._onlyLockClick = true;
+      } else {
+        this._onlyLockClick = false;
       }
-      return [
-        {
-          click: trigger === 'click',
-          in: triggerConfig[trigger as 'hover' | 'click'],
-          out: outTrigger(trigger)
-        }
-      ];
+      // 同时配置了多个触发事件
+      const res: { in: EventType | EventType[]; out: EventType | EventType[]; click: boolean }[] = [];
+      (trigger as ['click', 'hover']).forEach(item => {
+        res.push({
+          click: item === 'click',
+          in: triggerConfig[item],
+          out: outTrigger(item)
+        });
+      });
+      return res;
     }
     return null;
   }

@@ -54,7 +54,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   initEl() {
     const tooltipSpec = this._component.getSpec() as ITooltipSpec;
     const parentElement = tooltipSpec.parentElement as HTMLElement | HTMLCanvasElement;
-    if (domDocument && parentElement) {
+    if (domDocument && parentElement && parentElement.children && parentElement.children.length) {
       for (let i = 0; i < parentElement.children.length; i++) {
         if (parentElement.children[i].classList.contains(TOOLTIP_CONTAINER_EL_CLASS_NAME)) {
           this._container = parentElement.children[i] as HTMLDivElement;

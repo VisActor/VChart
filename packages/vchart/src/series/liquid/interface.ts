@@ -45,7 +45,12 @@ export interface ILiquidSeriesSpec extends IAnimationSpec<LiquidMarks, LiquidApp
    * @default false
    */
   indicatorSmartInvert?: boolean;
-
+  /**
+   * 是否反向绘制
+   * @default false
+   * @since 1.11.10
+   */
+  reverse?: boolean;
   /**
    * 水波图元配置
    */

@@ -47,6 +47,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     private _timer?;
     private _clickLock?;
     private _hasActive?;
+    private _onlyLockClick?;
     get enableRemain(): boolean;
     private _limitBounds;
     constructor(spec: T, options: IComponentOption);

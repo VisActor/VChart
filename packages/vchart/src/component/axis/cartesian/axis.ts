@@ -15,7 +15,8 @@ import {
   isUndefined,
   calcLayoutNumber,
   maxInArr,
-  minInArr
+  minInArr,
+  clamp
 } from '../../../util';
 import type { IOrientType, IRect } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
@@ -25,9 +26,9 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
 import { isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo, transformInverse } from './util/common';
-import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
-import { LayoutLevel } from '../../../constant/index';
-import { AxisSyncPlugin } from '../../../plugin/components';
+import { ChartEvent } from '../../../constant/event';
+import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant/layout';
+import { AxisSyncPlugin } from '../../../plugin/components/axis-sync/axis-sync';
 import type { Datum, StringOrNumber } from '../../../typings/common';
 import type { IPoint } from '../../../typings/coordinate';
 import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
@@ -48,7 +49,7 @@ import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
-import type { ICartesianChartSpec } from '../../../chart';
+import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
 
 const CartesianAxisPlugin = [AxisSyncPlugin];
 
@@ -586,6 +587,26 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this._latestBounds = product.getBounds();
     }
     return result;
+  }
+
+  positionToData(pos: number, isViewPos?: boolean) {
+    const isX = isXAxis(this.getOrient());
+    if (isViewPos) {
+      pos -= isX ? this.getLayoutStartPoint().x : this.getLayoutStartPoint().y;
+    }
+
+    if (this._innerOffset) {
+      pos = isX
+        ? clamp(pos, this._innerOffset.left, this.getLayoutRect().width - this._innerOffset.right)
+        : clamp(pos, this._innerOffset.top, this.getLayoutRect().height - this._innerOffset.bottom);
+    }
+    const range = this._scale.range();
+
+    if ((pos - range[0]) * (pos - range[1]) > 0) {
+      return null;
+    }
+
+    return this._scale.invert(pos);
   }
 
   private _getTitleLimit(isX: boolean) {

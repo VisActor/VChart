@@ -26,6 +26,7 @@ test('stackSplit of one field', () => {
   const { dataView } = generateDataSet();
 
   expect(stackSplit([dataView], { fields: ['x'] })).toEqual({
+    groupField: 'x',
     nodes: {
       '1': {
         values: [
@@ -56,8 +57,10 @@ test('stackSplit of one field', () => {
   const { dataView } = generateDataSet();
 
   expect(stackSplit([dataView], { fields: ['x', 'type'] })).toEqual({
+    groupField: 'x',
     nodes: {
       '1': {
+        groupField: 'type',
         nodes: {
           '1': {
             values: [{ type: '1', x: '1', y: '850' }]
@@ -68,6 +71,7 @@ test('stackSplit of one field', () => {
         }
       },
       '2': {
+        groupField: 'type',
         nodes: {
           '2': {
             values: [{ type: '2', x: '2', y: '740' }]
@@ -78,6 +82,7 @@ test('stackSplit of one field', () => {
         }
       },
       '3': {
+        groupField: 'type',
         nodes: {
           '3': {
             values: [{ type: '3', x: '3', y: '900' }]
@@ -85,6 +90,7 @@ test('stackSplit of one field', () => {
         }
       },
       '4': {
+        groupField: 'type',
         nodes: {
           '4': {
             values: [{ type: '4', x: '4', y: '570' }]
@@ -92,6 +98,7 @@ test('stackSplit of one field', () => {
         }
       },
       '5': {
+        groupField: 'type',
         nodes: {
           '5': { values: [{ type: '5', x: '5', y: '670' }] }
         }

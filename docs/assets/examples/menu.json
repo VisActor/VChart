@@ -665,6 +665,20 @@
             "zh": "自定义饼图的图例交互",
             "en": "Customized legend interaction of pie chart"
           }
+        },
+        {
+          "path": "richtext-autowrap",
+          "title": {
+            "zh": "饼图富文本自动换行",
+            "en": "Auto-wrap richtext label in pie chart"
+          }
+        },
+        {
+          "path": "richtext-autoEllipsis",
+          "title": {
+            "zh": "饼图富文本自动省略",
+            "en": "Auto-ellipsis richtext label in pie chart"
+          }
         }
       ]
     },
@@ -1059,6 +1073,22 @@
             "zh": "形状词云图随机旋转角",
             "en": "Shape Word Cloud with Random Rotation Angles"
           }
+        },
+
+        {
+          "path": "word-cloud-shape-text",
+          "title": {
+            "zh": "文字轮廓词云图",
+            "en": "Text outline Word Cloud"
+          }
+        },
+
+        {
+          "path": "word-cloud-shape-geometry",
+          "title": {
+            "zh": "几何形状词云图",
+            "en": "geometric outline Word Cloud"
+          }
         }
       ]
     },
@@ -1392,6 +1422,20 @@
             "zh": "水波图指标智能反色",
             "en": "Liquid Chart Smart Invert"
           }
+        },
+        {
+          "path": "liquid-chart-reverse",
+          "title": {
+            "zh": "水波图支持反向绘制",
+            "en": "Liquid Chart Reverse"
+          }
+        },
+        {
+          "path": "liquid-chart-target",
+          "title": {
+            "zh": "水波图支持目标值标记",
+            "en": "Liquid Chart Target"
+          }
         }
       ]
     },
@@ -1414,6 +1458,38 @@
           "title": {
             "zh": "空心韦恩图",
             "en": "Hollow Venn Chart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "mosaic-chart",
+      "title": {
+        "zh": "马赛克图",
+        "en": "mosaic-chart"
+      },
+      "children": [
+        {
+          "path": "basic-mosaic",
+          "title": {
+            "zh": "基础马赛克图",
+            "en": "Basic mosaic chart"
+          }
+        },
+
+        {
+          "path": "simple-mosaic",
+          "title": {
+            "zh": "简化马赛克图",
+            "en": "simple mosaic chart"
+          }
+        },
+
+        {
+          "path": "group-mosaic",
+          "title": {
+            "zh": "分组马赛克图",
+            "en": "group mosaic chart"
           }
         }
       ]
@@ -2141,6 +2217,13 @@
           }
         },
         {
+          "path": "mark-line-custom-label-back",
+          "title": {
+            "zh": "markLine 支持自定义标签背景path",
+            "en": "markLine supports custom label background path"
+          }
+        },
+        {
           "path": "mark-line-axis",
           "title": {
             "zh": "markLine 轴空间定位",
@@ -2292,6 +2375,13 @@
           "title": {
             "zh": "地理坐标系下的markPoint",
             "en": "markPoint in geo coordinates"
+          }
+        },
+        {
+          "path": "trend-line",
+          "title": {
+            "zh": "使用 MarkLine 绘制趋势线",
+            "en": "Draw trend line using MarkLine"
           }
         }
       ]
@@ -2549,6 +2639,13 @@
           "title": {
             "zh": "自定义矩形渲染html拓展属性",
             "en": "Render html in custom rect"
+          }
+        },
+        {
+          "path": "business-funnel",
+          "title": {
+            "zh": "业务漏斗图（柱状图模拟）",
+            "en": "Business Funnel(Simulated with Bar)"
           }
         }
       ]

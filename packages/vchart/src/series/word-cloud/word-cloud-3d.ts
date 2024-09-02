@@ -1,4 +1,4 @@
-import { AttributeLevel } from '../../constant';
+import { AttributeLevel } from '../../constant/attribute';
 import type { ITextMark } from '../../mark/text';
 // eslint-disable-next-line no-duplicate-imports
 import { registerTextMark } from '../../mark/text';

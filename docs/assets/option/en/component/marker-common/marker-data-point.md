@@ -1,5 +1,35 @@
 {{ target: component-marker-data-point }}
 
+{{ if: ${isSingle} }}
+
+Since version 1.12.0, `coordinate` can directly configure the callback function. The data structure returned by the callback function is `IDataPointSpec`, which is consistent with the structure of the unconfigured callback, as follows:
+
+```ts
+/**
+ * @param `seriesData` is the data of the associated series
+ * @param `series` is the associated series instance
+ */
+coordinate: (seriesData, series) => {
+  return { x: 10, y: 30 };
+};
+```
+
+{{ else }}
+
+Since version 1.12.0, `coordinates` can directly configure the callback function, and the data structure returned by the callback function is `IDataPointSpec[]`, which is consistent with the structure of the unconfigured callback, as follows:
+
+```ts
+/**
+ * @param `seriesData` is the data of the associated series
+ * @param `series` is the associated series instance
+ */
+coordinates: (seriesData, series) => {
+  return [{ x: 10, y: 30 }];
+};
+```
+
+{{/if}}
+
 #${prefix} [key(string | number)](string | number)
 
 Data field and data value configuration supports:

@@ -10,18 +10,23 @@
   noData = ${noData},
   noMorph = ${noMorph},
   useInChart = ${useInChart},
+  noCategoryField = true,
+  noValueField = true,
   seriesType = 'circularProgress',
   seriesMarks = ['progress', 'track']
 ) }}
 
-#${prefix} categoryField(string | Array)
+#${prefix} categoryField(string|string[])
 
-Category field.
+Category field, mapped to the radius axis. Can be declared as an array type, internally grouping data according to the declared fields.
+
+#${prefix} valueField(string)
+
+Value field, mapped to the angle axis.
 
 #${prefix} radiusField(string)
 
-Radius field.
-
+Radius field, same as `categoryField`, recommended to use `categoryField` uniformly, will be deprecated in the future
 #${prefix} maxValue(number)
 
 The maximum data value, default is 1.

@@ -15,6 +15,7 @@ import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
 import type { IColor } from '@visactor/vrender-core';
 import type { IComponentTheme } from '../component/interface';
 import type { ITokenKey, TokenMap } from './token';
+import type { ChartType } from '../chart/interface';
 
 export interface ITheme {
   /**
@@ -74,6 +75,10 @@ export interface ITheme {
    */
   /** 组件样式属性 */
   component?: IComponentTheme;
+  /**
+   * 第 7 种配置：根据图表类型配置不同主题样式
+   */
+  chart?: Record<ChartType, Omit<ITheme, 'name' | 'type' | 'description'>>;
 }
 
 export interface IGlobalMarkThemeByType {

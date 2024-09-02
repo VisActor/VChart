@@ -1,6 +1,12 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IPadding } from '@visactor/vutils';
-import type { SymbolType } from '@visactor/vrender-core';
+import type {
+  SymbolType,
+  IGraphicAttribute,
+  ICustomPath2D,
+  ITextGraphicAttribute,
+  IRichTextGraphicAttribute
+} from '@visactor/vrender-core';
 import type {
   IComposedTextMarkSpec,
   IFormatMethod,
@@ -12,7 +18,12 @@ import type {
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries, IGeoSeries, IPolarSeries } from '../../series/interface';
-import type { IOptionAggr, IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
+import type {
+  IOptionAggr,
+  IOptionAggrField,
+  IOptionSeries,
+  IOptionWithCoordinates
+} from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
 
 export type IMarkerSupportSeries = ICartesianSeries | IPolarSeries | IGeoSeries;
@@ -129,8 +140,11 @@ export type ICoordinateOption = {
 export type IMarkerPositionsSpec = {
   /**
    * 画布坐标
+   * `positions` 自 1.12.0 版本开始支持回调函数
    */
-  positions: MarkerPositionPoint[];
+  positions:
+    | MarkerPositionPoint[]
+    | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => MarkerPositionPoint[]);
   /**
    * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
    * @default false
@@ -159,6 +173,15 @@ export type IMarkerLabelWithoutRefSpec = {
    */
   labelBackground?: {
     visible?: boolean;
+    /**
+     * 标签背景支持自定义path
+     * @since 1.11.10
+     */
+    customShape?: (
+      text: ITextGraphicAttribute | IRichTextGraphicAttribute,
+      attrs: Partial<IGraphicAttribute>,
+      path: ICustomPath2D
+    ) => ICustomPath2D;
     /**
      * 内部边距
      */
@@ -310,7 +333,7 @@ export type IMarkerState<T> = {
 export type MarkCoordinateType = 'cartesian' | 'polar' | 'geo';
 
 export type IMarkProcessOptions = {
-  options: IOptionAggr[] | IOptionRegr;
+  options: IOptionAggr[] | IOptionRegr | IOptionWithCoordinates;
   needAggr?: boolean;
   needRegr?: boolean;
   processData?: DataView;

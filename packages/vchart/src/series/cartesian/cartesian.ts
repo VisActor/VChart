@@ -8,16 +8,13 @@ import {
   STACK_FIELD_END_OffsetSilhouette,
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT,
-  STACK_FIELD_START_OffsetSilhouette,
-  PREFIX,
-  ChartEvent
-} from '../../constant';
+  STACK_FIELD_START_OffsetSilhouette
+} from '../../constant/data';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { Datum, StringOrNumber } from '../../typings';
-import { couldBeValidNumber } from '../../util/type';
 import { array, isValid } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
@@ -25,9 +22,9 @@ import type { StatisticOperations } from '../../data/transforms/dimension-statis
 import type { ICartesianSeriesSpec } from './interface';
 import { sortDataInAxisHelper } from '../util/utils';
 import type { IAxisLocationCfg } from '../../component/axis';
-import { registerDataSetInstanceTransform } from '../../data/register';
-import { invalidTravel } from '../../data/transforms/invalid-travel';
 import { ComponentTypeEnum } from '../../component/interface/type';
+import { ChartEvent } from '../../constant/event';
+import { PREFIX } from '../../constant/base';
 
 export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec>
   extends BaseSeries<T>

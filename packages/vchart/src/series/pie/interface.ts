@@ -5,6 +5,9 @@ import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
 import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
+import type { ICustomPath2D, ILineGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { ILayoutRect } from '../../typings/layout';
+import type { IPointLike } from '@visactor/vutils';
 
 export type PieMarks = 'pie' | 'label' | 'labelLine';
 
@@ -72,10 +75,38 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
    */
   minAngle?: number;
 
+  /**
+   * @since 1.11.12
+   */
+  layoutRadius?: 'auto' | number | ((layoutRect: ILayoutRect, center: IPointLike) => number);
+
   /** 扇区样式 */
   [SeriesMarkNameEnum.pie]?: IMarkSpec<IArcMarkSpec>;
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: IMultiLabelSpec<IArcLabelSpec>;
+
+  /** 数据为空时显示的占位图形 */
+  emptyPlaceholder?: {
+    /** 是否显示占位圆
+     * @default false
+     */
+    showEmptyCircle?: boolean;
+
+    /** 占位圆样式 */
+    emptyCircle?: IMarkSpec<IArcMarkSpec>;
+  };
+
+  /**
+   * 是否在数据均为0时显示均分扇区。
+   * @default false
+   */
+  showAllZero?: boolean;
+
+  /**
+   * 是否将负数按照绝对值进行处理。
+   * @default false
+   */
+  supportNegative?: boolean;
 }
 
 export interface IPieSeriesTheme extends IPolarSeriesTheme {
@@ -92,6 +123,10 @@ export interface IPieSeriesTheme extends IPolarSeriesTheme {
    * @since 1.5.1
    */
   outerLabel?: IArcLabelSpec;
+  /** 数据为空时显示的占位圆样式
+   * @since 1.12.0
+   */
+  emptyCircle?: Partial<IMarkTheme<IArcMarkSpec>>;
 }
 
 export type IPie3dSeriesSpec = {
@@ -116,7 +151,7 @@ export interface IPie3dSeriesTheme extends IPolarSeriesTheme {
   outerLabel?: IArcLabelSpec;
 }
 
-export interface IArcLabelLineSpec extends IMarkSpec<ILineMarkSpec> {
+export interface IArcLabelLineSpec extends Omit<IMarkSpec<ILineMarkSpec>, 'customShape'> {
   /**
    * 是否显示引导线
    * @default true
@@ -138,6 +173,15 @@ export interface IArcLabelLineSpec extends IMarkSpec<ILineMarkSpec> {
    * @since 1.4.0
    */
   smooth?: boolean;
+  /**
+   * 标签引导线支持自定义path
+   * @since 1.11.11
+   */
+  customShape?: (
+    text: ITextGraphicAttribute,
+    attrs: Partial<ILineGraphicAttribute>,
+    path: ICustomPath2D
+  ) => ICustomPath2D;
 }
 
 export type ArcLabelAlignType = 'arc' | 'labelLine' | 'edge';

@@ -19,6 +19,14 @@ Configure the zField on the basis of the 2D area map, it can be recognized as a 
 ## Demo source
 
 ```javascript livedemo
+/**
+ * 自1.12.0后，普通图表开启3d渲染的功能，需要手动加载3d插件，
+ *
+ * import { register3DPlugin } from '@visactor/vchart';
+ *
+ * register3DPlugin();
+ */
+VCHART_MODULE.register3DPlugin();
 const spec = {
   type: 'area',
   data: {

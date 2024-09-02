@@ -21,9 +21,11 @@ seriesMarks = ${seriesMarks},
 类别字段，映射到角度轴。可以声明为数组类型，内部会依次按照声明的字段进行数据分组。
 {{ /if }}
 
+{{ if: !${noValueField} }}
 #${prefix} valueField(string|string[])
 
 数值字段，映射到半径轴。可以声明为数组类型，内部会依次按照声明的字段进行数据分组。
+{{ /if }}
 
 #${prefix} outerRadius(number) = 0.6
 

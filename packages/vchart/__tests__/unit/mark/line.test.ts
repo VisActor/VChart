@@ -1,6 +1,5 @@
 import { markContext as ctx } from '../../util/context';
 import { LineMark } from '../../../src/mark/line';
-import { LayoutZIndex } from '../../../src/constant';
 
 describe('Line Mark', () => {
   it('enableSegments', () => {

@@ -49,6 +49,7 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
     private _computeDy;
     private _maxSize;
     private _sliderExceededSize;
+    changePlayerIndex(index: number): void;
     private _initEvent;
 }
 export declare const registerPlayer: () => void;

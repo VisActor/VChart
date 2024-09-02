@@ -3,7 +3,7 @@ import type { LinearScale } from '@visactor/vscale';
 import { maxInArr, minInArr } from '../../../util/array';
 import { getLinearAxisSpecDomain } from '../util';
 import type { IAxisLocationCfg, ITick } from '../interface';
-import { ChartEvent } from '../../../constant';
+import { ChartEvent } from '../../../constant/event';
 import type { IEvent } from '../../../event/interface';
 import { isXAxis } from '../cartesian/util/common';
 import type { IOrientType } from '../../../typings/space';
@@ -79,7 +79,7 @@ export class LinearAxisMixin {
 
       // tickCount需要一致，不然会导致效果不一致, fix #2050
       tickCount = tick.tickCount({
-        rangeSize,
+        axisLength: rangeSize,
         labelStyle: this._spec.label && this._spec.label.style
       });
     } else if (isValidNumber(tick.tickCount)) {

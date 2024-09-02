@@ -7,6 +7,7 @@ import { mergeSpec } from '@visactor/vutils-extension';
 import type { ICartesianChartSpec } from './cartesian/interface';
 import type { IChartOption } from './interface/common';
 import type { IUpdateSpecResult } from '../model/interface';
+import { vglobal } from '@visactor/vgrammar-core';
 
 export function setDefaultCrosshairForCartesianChart(spec: ICartesianChartSpec) {
   spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
@@ -52,7 +53,7 @@ export function calculateChartSize(
   } else if (canvas && isTrueBrowser(option.mode)) {
     let canvasNode;
     if (isString(canvas)) {
-      canvasNode = document?.getElementById(canvas);
+      canvasNode = vglobal.getElementById(canvas);
     } else {
       canvasNode = canvas;
     }
@@ -80,6 +81,7 @@ export function calculateChartSize(
 
 export function mergeUpdateResult(target: IUpdateSpecResult, ...sources: IUpdateSpecResult[]) {
   const merge = (key: keyof IUpdateSpecResult) => sources.reduce((value, cur) => value || cur?.[key], target[key]);
+
   Object.assign(target, {
     change: merge('change'),
     reCompile: merge('reCompile'),
@@ -87,7 +89,8 @@ export function mergeUpdateResult(target: IUpdateSpecResult, ...sources: IUpdate
     reRender: merge('reRender'),
     reSize: merge('reSize'),
     reTransformSpec: merge('reTransformSpec'),
-    changeTheme: merge('changeTheme')
+    changeTheme: merge('changeTheme'),
+    changeBackground: merge('changeBackground')
   } as Required<IUpdateSpecResult>);
   return target;
 }

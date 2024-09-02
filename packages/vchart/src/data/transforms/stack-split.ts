@@ -20,30 +20,32 @@ export const stackSplit = (data: Array<DataView>, op: IStackOption) => {
   let nextNode: ISeriesStackDataNode;
   let leaf: ISeriesStackDataLeaf;
   data.forEach(dv => {
-    dv.latestData.forEach((d: Datum) => {
-      temp = result;
-      for (let i = 0; i < fields.length; i++) {
-        const f = fields[i];
-        const fV = d[f];
-        if (isNil(fV)) {
-          break;
-        }
-        if (!temp.nodes[fV]) {
+    dv.latestData &&
+      dv.latestData.forEach((d: Datum) => {
+        temp = result;
+        for (let i = 0; i < fields.length; i++) {
+          const f = fields[i];
+          const fV = d[f];
+          if (isNil(fV)) {
+            break;
+          }
+          temp.groupField = f;
+          if (!temp.nodes[fV]) {
+            if (i === lastFieldIndex) {
+              temp.nodes[fV] = { values: [] };
+            } else {
+              nextNode = { nodes: {} };
+              temp.nodes[fV] = nextNode;
+            }
+          }
           if (i === lastFieldIndex) {
-            temp.nodes[fV] = { values: [] };
+            leaf = temp.nodes[fV] as ISeriesStackDataLeaf;
+            leaf.values.push(d);
           } else {
-            nextNode = { nodes: {} };
-            temp.nodes[fV] = nextNode;
+            temp = temp.nodes[fV] as ISeriesStackDataNode;
           }
         }
-        if (i === lastFieldIndex) {
-          leaf = temp.nodes[fV] as ISeriesStackDataLeaf;
-          leaf.values.push(d);
-        } else {
-          temp = temp.nodes[fV] as ISeriesStackDataNode;
-        }
-      }
-    });
+      });
   });
   return result;
 };

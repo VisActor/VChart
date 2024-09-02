@@ -23,7 +23,14 @@ export class BasePieChartSpecTransformer<T extends IPieChartSpec> extends PolarC
       cornerRadius: spec.cornerRadius,
 
       padAngle: spec.padAngle,
-      minAngle: spec.minAngle
+      minAngle: spec.minAngle,
+
+      emptyPlaceholder: spec.emptyPlaceholder,
+      emptyCircle: spec.emptyPlaceholder?.emptyCircle,
+
+      showAllZero: spec.showAllZero,
+      supportNegative: spec.supportNegative,
+      layoutRadius: spec.layoutRadius
     };
   }
 }

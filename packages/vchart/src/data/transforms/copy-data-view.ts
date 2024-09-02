@@ -10,7 +10,7 @@ function copyOneDataView(d: DataView, deep = false) {
     return cloneDeep(d.latestData);
   }
 
-  return d.latestData.slice();
+  return d.latestData && d.latestData.slice();
 }
 
 /**

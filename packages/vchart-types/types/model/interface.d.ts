@@ -46,6 +46,7 @@ export interface IUpdateSpecResult {
     reTransformSpec?: boolean;
     reAnimate?: boolean;
     changeTheme?: boolean;
+    changeBackground?: boolean;
 }
 export interface IUpdateDataResult {
     reAnimate?: boolean;
@@ -68,7 +69,6 @@ export interface IModel extends ICompilable {
     getOption: () => IModelOption;
     getMarks: () => IMark[];
     getMarkNameMap: () => Record<string, IMark>;
-    getMarkInfoList: () => IModelMarkInfo[];
     getData: () => ICompilableData;
     getChart: () => IChart;
     created: () => void;

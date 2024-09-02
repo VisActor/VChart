@@ -12,7 +12,8 @@ import type {
   EventParams,
   EventFilter,
   EventSourceType,
-  InteractionEventParam
+  InteractionEventParam,
+  EventCallback
 } from './interface';
 import type { VChart } from '../core/vchart';
 import type { CompilerListenerParameters } from '../compile/interface';
@@ -149,52 +150,67 @@ export class EventDispatcher implements IEventDispatcher {
       const handlers = bubble.getHandlers(level);
       stopBubble = this._invoke(handlers, eType, params);
     } else {
-      // Mark 级别的事件只包含对语法层代理的基础事件
-      const handlers = bubble.getHandlers(Event_Bubble_Level.mark);
-      stopBubble = this._invoke(handlers, eType, params);
+      const levels = [
+        Event_Bubble_Level.mark,
+        Event_Bubble_Level.model,
+        Event_Bubble_Level.chart,
+        Event_Bubble_Level.vchart
+      ];
+      let i = 0;
 
-      if (!stopBubble) {
-        const handlers = bubble.getHandlers(Event_Bubble_Level.model);
-        stopBubble = this._invoke(handlers, eType, params);
-      }
-      if (!stopBubble) {
-        const handlers = bubble.getHandlers(Event_Bubble_Level.chart);
-        stopBubble = this._invoke(handlers, eType, params);
-      }
-      if (!stopBubble) {
-        const handlers = bubble.getHandlers(Event_Bubble_Level.vchart);
-        stopBubble = this._invoke(handlers, eType, params);
+      // Mark 级别的事件只包含对语法层代理的基础事件
+      while (!stopBubble && i < levels.length) {
+        stopBubble = this._invoke(bubble.getHandlers(levels[i]), eType, params);
+        i++;
       }
     }
 
     return this;
   }
 
+  prevent<Evt extends EventType>(eType: Evt, except?: EventCallback<EventParams>): this {
+    const eventTypes = ['canvas', 'chart', 'window'] as EventSourceType[];
+    eventTypes.forEach(type => {
+      const bubble = this.getEventBubble(type).get(eType);
+      if (bubble) {
+        bubble.getAllHandlers().forEach(handler => {
+          if (!except || handler.callback !== except) {
+            bubble.preventHandler(handler);
+          }
+        });
+      }
+    });
+    return this;
+  }
+
+  allow<Evt extends EventType>(eType: Evt): this {
+    const eventTypes = ['canvas', 'chart', 'window'] as EventSourceType[];
+    eventTypes.forEach(type => {
+      const bubble = this.getEventBubble(type).get(eType);
+      if (bubble) {
+        bubble.getAllHandlers().forEach(handler => bubble.allowHandler(handler));
+      }
+    });
+    return this;
+  }
+
   clear(): void {
-    for (const entry of this._viewListeners.entries()) {
-      this._compiler.removeEventListener(Event_Source_Type.chart, entry[0], entry[1]);
-    }
-    this._viewListeners.clear();
-    for (const entry of this._windowListeners.entries()) {
-      this._compiler.removeEventListener(Event_Source_Type.window, entry[0], entry[1]);
-    }
-    this._windowListeners.clear();
-    for (const entry of this._canvasListeners.entries()) {
-      this._compiler.removeEventListener(Event_Source_Type.canvas, entry[0], entry[1]);
-    }
-    this._canvasListeners.clear();
-    for (const bubble of this._viewBubbles.values()) {
-      bubble.release();
-    }
-    this._viewBubbles.clear();
-    for (const bubble of this._windowBubbles.values()) {
-      bubble.release();
-    }
-    this._windowBubbles.clear();
-    for (const bubble of this._canvasBubbles.values()) {
-      bubble.release();
-    }
-    this._canvasBubbles.clear();
+    const types = [Event_Source_Type.chart, Event_Source_Type.window, Event_Source_Type.canvas];
+
+    types.forEach(type => {
+      const listeners = this.getEventListeners(type);
+      for (const entry of listeners.entries()) {
+        this._compiler.removeEventListener(type, entry[0], entry[1]);
+      }
+      listeners.clear();
+    });
+
+    [this._viewBubbles, this._windowBubbles, this._canvasBubbles].forEach(bubbles => {
+      for (const bubble of bubbles.values()) {
+        bubble.release();
+      }
+      bubbles.clear();
+    });
   }
 
   release(): void {
@@ -333,7 +349,7 @@ export class EventDispatcher implements IEventDispatcher {
   ): boolean {
     const result = handlers.map(handler => {
       const filter = handler.filter as EventFilter;
-      if (!handler.query || this._filter(filter, type, params)) {
+      if (!handler.prevented && (!handler.query || this._filter(filter, type, params))) {
         const callback = handler.wrappedCallback || handler.callback;
         const stopBubble = callback.call(null, this._prepareParams(filter, params));
         const doStopBubble = stopBubble ?? handler.query?.consume;

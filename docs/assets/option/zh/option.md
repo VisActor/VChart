@@ -60,4 +60,6 @@
 
 {{import: chart-venn}}
 
+{{import: chart-mosaic}}
+
 {{import: chart-common}}

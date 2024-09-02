@@ -1,20 +1,21 @@
-import React from 'react';
-import { ILinearProgressChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type React from 'react';
+import type { ILinearProgressChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerLinearProgressChart, registerLabel } from '@visactor/vchart';
-import { BaseChartProps, createChart } from './BaseChart';
-import { cartesianComponentsRegisters } from './register';
+import { registers } from './registers/cartesian';
+import type { BaseChartProps } from './BaseChart';
+import { createChart } from './BaseChart';
 
 export interface LinearProgressChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<ILinearProgressChartSpec, 'type'> {}
+    Omit<Partial<ILinearProgressChartSpec>, 'type'> {}
 
 export const LinearProgressChart = createChart<
-  React.PropsWithChildren<LinearProgressChartProps> & { type: 'linearProgress' }
+  React.PropsWithChildren<LinearProgressChartProps> & { type?: 'linearProgress' }
 >(
   'LinearProgressChart',
   {
     type: 'linearProgress',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerLinearProgressChart, registerLabel, ...cartesianComponentsRegisters]
+  [registerLinearProgressChart, registerLabel, ...registers]
 );

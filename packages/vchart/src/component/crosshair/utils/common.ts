@@ -46,23 +46,26 @@ export function limitTagInBounds(shape: Tag, bounds: IBoundsLike) {
   }
 }
 
-// 二分查找数据
+/**
+ * 查找系列中的数据
+ * @todo 待重构优化，和 `getDimensionData` 中的逻辑存在重合
+ * @param data 系列数据
+ * @param value 数据值
+ * @param startField 开始值对应的字段
+ * @param endField   结束值对应的字段
+ * @returns 系列数据
+ */
 export function getDatumByValue(data: Datum[], value: number, startField: string, endField?: string): Datum | null {
-  let left = 0;
-  let right = data.length - 1;
+  for (let i = 0, len = data.length; i < len; i++) {
+    const record = data[i];
 
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-    const record = data[mid];
+    if (record) {
+      const startValue = record[startField];
+      const endValue = record[endField || startField];
 
-    if (record[startField] <= value && record[endField || startField] >= value) {
-      return record;
-    }
-
-    if (record[startField] > value) {
-      right = mid - 1;
-    } else {
-      left = mid + 1;
+      if (startValue <= value && endValue >= value) {
+        return record;
+      }
     }
   }
 
