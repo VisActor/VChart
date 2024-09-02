@@ -101,6 +101,13 @@ Optional:
 - `start`
 - `end`
 
+#${prefix} inverse(boolean)
+
+Since version **1.12.2** is supported
+Reverse display, nodes and edges are displayed in reverse
+For Sankey diagrams with a `horizontal` layout direction, nodes are displayed from left to right by default; setting `inverse: true` displays nodes from right to left;
+For Sankey diagrams with a `vertical` layout direction, nodes are displayed from top to bottom by default; setting `inverse: true` displays nodes from bottom to top;
+
 #${prefix} nodeGap(number)
 
 Gap size between two nodes in the same layer.
