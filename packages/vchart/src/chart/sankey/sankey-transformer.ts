@@ -36,7 +36,8 @@ export class SankeyChartSpecTransformer<
       link: spec.link,
       label: spec.label,
 
-      emphasis: spec.emphasis
+      emphasis: spec.emphasis,
+      inverse: spec.inverse
     };
     const seriesType = this.seriesType;
     if (seriesType) {
