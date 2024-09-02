@@ -352,7 +352,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y0: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
         thickness: (datum: Datum) => datum.thickness,
-        fill: this._fillByLink,
         direction: this._spec.direction ?? 'horizontal'
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
