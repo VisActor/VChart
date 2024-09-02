@@ -73,7 +73,7 @@ export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center
   forceInitTick?: boolean;
 }
 
-export type ILinearAxisBreakSpec = AxisBreakProps & {
+export type ILinearAxisBreakSpec = Omit<AxisBreakProps, 'rawRange'> & {
   /**
    * 截断标识之间的间距：
    * 1. `number` 为像素值

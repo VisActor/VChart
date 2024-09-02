@@ -38,7 +38,12 @@ export interface LinearAxisMixin {
   isSeriesDataEnable: any;
   computeDomain: any;
   collectData: (depth?: number) => { min: number; max: number; values: any[] }[];
-  _break: { domain: [number, number][]; scope: [number, number][]; range: [number, number][] };
+  _break: {
+    domain: [number, number][];
+    scope: [number, number][];
+    range: [number, number][];
+    breaks: ILinearAxisBreakSpec[];
+  };
   event: IEvent;
   _orient: IOrientType;
   _option: IComponentOption;
@@ -156,58 +161,29 @@ export class LinearAxisMixin {
       });
 
       if (userSetBreaks) {
-        let breakDomains: [number, number][] = [];
-        let breakScopes: [number, number][] = [];
-        let breakRanges: [number, number][];
-        let source = [...values];
-
-        if (this._spec.breaks.length === 1) {
-          const { domain, scope } = breakData(source, this._spec.breaks[0].range);
-          breakDomains = domain;
-          breakScopes = scope;
-          breakRanges = [this._spec.breaks[0].range];
-        } else {
-          breakRanges = this._spec.breaks
-            .map((breakSpec: ILinearAxisBreakSpec) => breakSpec.range)
-            .sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
-
-          for (let index = 0; index < breakRanges.length; index++) {
-            const breakRange = breakRanges[index];
-            const { domain, scope } = breakData(source, breakRange);
-            let finalScope = scope;
-            const finalDomain = domain;
-            if (index > 0) {
-              const lastRatio = last(breakScopes)[1];
-              const restRarioRange = 1 - lastRatio;
-              finalScope = scope.map(eachScope => {
-                return [lastRatio + eachScope[0] * restRarioRange, lastRatio + eachScope[1] * restRarioRange];
-              });
-
-              finalDomain[0][0] = last(breakDomains)[1];
-            }
-
-            breakDomains.push(finalDomain[0]);
-            breakScopes.push(finalScope[0]);
-            if (finalDomain.length > 2) {
-              breakDomains.push(finalDomain[1]);
-              breakScopes.push(finalScope[1]);
-            }
-
-            if (index === breakRanges.length - 1) {
-              breakDomains.push(last(finalDomain));
-              breakScopes.push(last(finalScope));
-            } else {
-              source = source.filter(val => val >= last(finalDomain)[0]);
-            }
+        const breakRanges = [];
+        const breaks = [];
+        for (let index = 0; index < this._spec.breaks.length; index++) {
+          const { range } = this._spec.breaks[index];
+          if (range[0] <= range[1] && (range[1] <= maxDomain || range[1] <= minDomain)) {
+            breakRanges.push(range);
+            breaks.push(this._spec.breaks[index]);
           }
         }
+        breakRanges.sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
+        if (breakRanges.length) {
+          const { domain: breakDomains, scope: breakScopes } = breakData(values, combineArray(breakRanges));
 
-        domain = combineArray(breakDomains);
-        this._break = {
-          domain: breakDomains,
-          scope: breakScopes,
-          range: breakRanges
-        };
+          domain = combineArray(breakDomains);
+          this._break = {
+            domain: breakDomains,
+            scope: breakScopes,
+            range: breakRanges,
+            breaks
+          };
+        } else {
+          domain = [minDomain, maxDomain];
+        }
       } else {
         domain = [minDomain, maxDomain];
       }

@@ -2,7 +2,7 @@ import type { LogScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
-import { isValid, last, mixin } from '@visactor/vutils';
+import { isValid, isValidNumber, last, mixin } from '@visactor/vutils';
 import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
@@ -75,28 +75,30 @@ export class CartesianLinearAxis<
     const attrs = super._getUpdateAttribute(ignoreGrid);
 
     // get axis break configuration
-    if (!isZAxis(this._orient) && this._spec.breaks?.length && this._break) {
+    if (!isZAxis(this._orient) && this._break?.breaks?.length) {
       const { width, height } = this.getLayoutRect();
       const isX = isXAxis(this._orient);
       const axisLength = isX ? width : height;
 
-      attrs.breaks = this._spec.breaks.map(obj => {
+      attrs.breaks = this._break.breaks.map(obj => {
         const { range, breakSymbol, gap = 6 } = obj;
-        const index = this._break.domain.findIndex(
-          domainRange => range[0] === domainRange[0] && range[1] === domainRange[1]
-        );
-        const ratio = 1 - (this._break.scope[index][0] + this._break.scope[index][1]) / 2;
+        const position = this.valueToPosition((range[0] + range[1]) / 2);
+        const ratio = position / axisLength;
+
         let gapRatio;
         if (isPercent(gap)) {
           gapRatio = Number(gap.substring(0, gap.length - 1)) / 100;
         } else {
           gapRatio = (gap as number) / axisLength;
         }
+        const symbolAngle = isValidNumber(breakSymbol.angle) ? breakSymbol.angle : isX ? 60 : 15;
+
         return {
           range: [ratio - gapRatio / 2, ratio + gapRatio / 2],
           breakSymbol: {
             visible: true,
-            ...breakSymbol
+            ...breakSymbol,
+            angle: (symbolAngle * Math.PI) / 180
           },
           rawRange: range
         };

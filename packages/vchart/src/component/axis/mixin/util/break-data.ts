@@ -12,6 +12,9 @@ function breakDomain(data: number[], points: number[]): [number, number][] {
   const min = data[0];
   const max = data[data.length - 1];
   const breaks = points.filter(point => point > min && point < max);
+  if (breaks.length === 0) {
+    return [[min, max]];
+  }
   return setDomain(min, max, breaks);
 }
 
