@@ -1,4 +1,4 @@
-import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
+import type { AxisBreakProps, AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
 import type { IAnimationSpec } from '../../../animation/spec';
 import type { Datum, IFormatMethod, IPadding, IRectMarkSpec, IRichTextFormatMethod, IRuleMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
@@ -15,6 +15,9 @@ export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center
     sampling?: boolean;
     forceInitTick?: boolean;
 }
+export type ILinearAxisBreakSpec = AxisBreakProps & {
+    gap?: number | string;
+};
 export interface ILinearAxisSpec {
     min?: number;
     max?: number;
@@ -32,6 +35,7 @@ export interface ILinearAxisSpec {
         max?: number;
     };
     tooltipFilterRange?: number | [number, number];
+    breaks?: ILinearAxisBreakSpec[];
 }
 export interface IBandAxisSpec {
     trimPadding?: boolean;
