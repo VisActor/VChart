@@ -1,35 +1,9 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { ITooltipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
-import { isValid, TimeUtil } from '@visactor/vutils';
+import { TimeUtil } from '@visactor/vutils';
 
 export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
-  updateTooltipSpec() {
-    super.updateTooltipSpec();
-    if (isValid(this.spec?.mark)) {
-      this.spec!.mark.updateContent = (prev: any, datum: any, params: any) => {
-        const childrenContent: ITooltipLinePattern[] = [];
-        const childrenPrev = prev.filter((p: any) => p.key === 'children');
-        childrenPrev.length > 0 &&
-          childrenPrev[0].value.forEach((element: any) => {
-            let flag = true;
-            for (const key in element) {
-              childrenContent.push({
-                shapeType: 'circle',
-                hasShape: flag,
-                shapeColor: this.shapeColorCallback(datum[0].datum[0]),
-                shapeStroke: this.shapeStrokeCallback(datum[0].datum[0]),
-                key: key,
-                value: element[key] + ''
-              });
-              flag = false;
-            }
-          });
-        return prev.concat(childrenContent);
-      };
-    }
-  }
-
   /** 获取默认的tooltip pattern */
   getDefaultTooltipPattern(activeType: TooltipActiveType): ITooltipPattern | null {
     if (activeType === 'mark') {
@@ -78,20 +52,23 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
         ],
         updateContent: (prev: any, datum: any, params: any) => {
           const childrenContent: ITooltipLinePattern[] = [];
-          prev[3].value.forEach((element: any) => {
-            let flag = true;
-            for (const key in element) {
-              childrenContent.push({
-                shapeType: 'circle',
-                hasShape: flag,
-                shapeColor: this.shapeColorCallback(datum[0].datum[0]),
-                shapeStroke: this.shapeStrokeCallback(datum[0].datum[0]),
-                key: key,
-                value: element[key] + ''
-              } as ITooltipLinePattern);
-              flag = false;
-            }
-          });
+          const childrenPrev = prev.filter((p: any) => p.key === 'children');
+
+          childrenPrev.length > 0 &&
+            childrenPrev[0].value.forEach((element: any) => {
+              let flag = true;
+              for (const key in element) {
+                childrenContent.push({
+                  shapeType: 'circle',
+                  hasShape: flag,
+                  shapeColor: this.shapeColorCallback(datum[0].datum[0]),
+                  shapeStroke: this.shapeStrokeCallback(datum[0].datum[0]),
+                  key: key,
+                  value: element[key] + ''
+                } as ITooltipLinePattern);
+                flag = false;
+              }
+            });
           return prev.concat(childrenContent);
         }
       };

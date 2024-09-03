@@ -18,9 +18,9 @@ export type TooltipHandlerParams = DimensionEventParams & {
 };
 
 export interface ITooltipActiveTypeAsKeys<T, K, U> {
-  mark: T;
-  dimension: K;
-  group: U;
+  mark?: T;
+  dimension?: K;
+  group?: U;
 }
 
 export type TotalMouseEventData = {

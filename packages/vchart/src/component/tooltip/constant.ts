@@ -1,5 +1,5 @@
 import { PREFIX } from '../../constant/base';
-import type { ITooltipLineActual } from '../../typings';
+import type { ITooltipLineActual, TooltipActiveType } from '../../typings';
 
 export class TooltipHandlerType {
   static dom = `${PREFIX}_TOOLTIP_HANDLER_DOM`; // 模拟 enum
@@ -15,3 +15,5 @@ export const TOOLTIP_OTHERS_LINE = {
   key: '其他',
   value: '...'
 } as ITooltipLineActual;
+
+export const TOOLTIP_TYPES: TooltipActiveType[] = ['group', 'mark', 'dimension'];
