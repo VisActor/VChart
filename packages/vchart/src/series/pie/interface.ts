@@ -213,7 +213,7 @@ export type IArcLabelSpec = Omit<ILabelSpec, 'position'> & {
    * 标签布局方式
    * @default 'outside'
    */
-  position?: 'outside' | 'inside';
+  position?: 'outside' | 'inside' | 'inside-center';
   /**
    * 标签内容显示规则
    * @default 'all'

@@ -161,6 +161,8 @@ export interface ISeries extends IModel {
   getDimensionField: () => string[];
   getMeasureField: () => string[];
   getStatisticFields: () => { key: string; operations: StatisticOperations }[];
+  getDatumPositionValues: (datum: Datum, fields: string | string[]) => any[];
+  getDatumPositionValue: (datum: Datum, field: string) => any;
 
   setSeriesField: (field: string) => void;
   handleZoom?: (e: ZoomEventParam) => void;

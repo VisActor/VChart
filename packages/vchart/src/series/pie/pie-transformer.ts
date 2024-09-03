@@ -24,7 +24,7 @@ export class PieSeriesSpecTransformer<
       newSpec = mergeSpec({}, this._theme, specFromChart, spec) as any;
 
       const getMergedLabelSpec = (position: IArcLabelSpec['position'], label: IArcLabelSpec) => {
-        if (position === 'inside') {
+        if (position === 'inside' || position === 'inside-center') {
           return mergeSpec({}, this._theme.innerLabel, label);
         }
         return mergeSpec({}, this._theme.outerLabel, label);

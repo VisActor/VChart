@@ -138,6 +138,7 @@ pie: {
 - `'inside'`
 - `'inside-outer'`
 - `'inside-inner'`
+- `'inside-center'`（自 `1.12.2` 版本支持）
 
 ##${prefix} offsetRadius(number)
 
@@ -283,7 +284,7 @@ emptyPlaceholder: {
 
 #${prefix} showAllZero(boolean)
 
-是否在数据均为0时显示均分扇区。
+是否在数据均为 0 时显示均分扇区。
 默认值为`false`。
 
 #${prefix} supportNegative(boolean)

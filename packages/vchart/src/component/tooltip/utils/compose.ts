@@ -14,7 +14,7 @@ import {
 } from './get-value';
 import type { IDimensionData, IDimensionInfo } from '../../../event';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constant';
-import { getTooltipActualActiveType } from './common';
+import { isActiveTypeVisible } from './common';
 import type { TooltipHandlerParams } from '../interface/common';
 import type { Datum } from '../../../typings';
 
@@ -126,7 +126,7 @@ export const getShowContent = (
     case 'dimension':
       for (const { data: d } of data as IDimensionInfo[]) {
         for (const { datum: datumList, series } of d) {
-          if (!getTooltipActualActiveType(series.tooltipHelper?.spec).includes('dimension')) {
+          if (!isActiveTypeVisible('dimension', series.tooltipHelper?.spec)) {
             continue;
           }
           const contentPatterns =
