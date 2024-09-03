@@ -91,7 +91,7 @@ export class CartesianLinearAxis<
         } else {
           gapRatio = (gap as number) / axisLength;
         }
-        const symbolAngle = isValidNumber(breakSymbol.angle) ? breakSymbol.angle : isX ? 60 : 15;
+        const symbolAngle = isValidNumber(breakSymbol?.angle) ? breakSymbol.angle : isX ? 60 : 15;
 
         return {
           range: [ratio - gapRatio / 2, ratio + gapRatio / 2],

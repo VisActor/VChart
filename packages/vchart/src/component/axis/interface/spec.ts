@@ -146,7 +146,10 @@ export interface ILinearAxisSpec {
    * @since 1.4.0
    */
   tooltipFilterRange?: number | [number, number];
-
+  /**
+   * 轴截断配置，只对笛卡尔坐标系的 linear 轴生效
+   * @since XXXXXXXXX
+   */
   breaks?: ILinearAxisBreakSpec[];
 }
 

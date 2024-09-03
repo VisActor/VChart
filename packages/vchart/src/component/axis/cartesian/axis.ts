@@ -762,7 +762,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
             const normalizedValue = this._getNormalizedValue([obj.value], length);
             return getAxisItem(obj.value, normalizedValue);
           })
-          // TODO: 添加一个在数值范围内的判断
           .filter((entry: AxisItem) => {
             const { value, rawValue } = entry;
             const domain = this._scale.domain();
