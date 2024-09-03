@@ -1835,6 +1835,13 @@
             "zh": "轴富文本标签",
             "en": "Axis Richtext Label"
           }
+        },
+        {
+          "path": "axis-break",
+          "title": {
+            "zh": "轴截断",
+            "en": "Axis Break"
+          }
         }
       ]
     },
