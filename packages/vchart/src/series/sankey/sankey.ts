@@ -69,6 +69,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected _categoryField!: string;
   private _colorScale: IBaseScale;
   private _nodeList: (string | number)[];
+  private _needClear: boolean;
 
   get direction() {
     return this._spec.direction ?? 'horizontal';
@@ -473,17 +474,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const element = params.item;
 
     if (emphasisSpec.effect === 'adjacency') {
-      if (element && element.mark.id().includes('node')) {
+      if (element && element.mark === this._nodeMark?.getProduct()) {
         this._handleNodeAdjacencyClick(element);
-      } else if (element && element.mark.id().includes('link')) {
+      } else if (element && element.mark === this._linkMark?.getProduct()) {
         this._handleLinkAdjacencyClick(element);
       } else {
         this._handleClearEmpty();
       }
     } else if (emphasisSpec.effect === 'related') {
-      if (element && element.mark.id().includes('node')) {
+      if (element && element.mark === this._nodeMark?.getProduct()) {
         this._handleNodeRelatedClick(element);
-      } else if (element && element.mark.id().includes('link')) {
+      } else if (element && element.mark === this._linkMark?.getProduct()) {
         this._handleLinkRelatedClick(element);
       } else {
         this._handleClearEmpty();
@@ -492,6 +493,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   };
 
   protected _handleClearEmpty = () => {
+    if (!this._needClear) {
+      return;
+    }
+
     const allNodeElements = this._nodeMark?.getProductElements();
 
     if (!allNodeElements || !allNodeElements.length) {
@@ -512,6 +517,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     allLinkElements.forEach(el => {
       el.removeState(states);
     });
+
+    this._needClear = false;
   };
 
   protected _handleNodeAdjacencyClick = (element: IElement) => {
@@ -569,6 +576,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._nodeMark) {
       this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
+
+    this._needClear = true;
   };
 
   protected _handleLinkAdjacencyClick = (element: IGlyphElement) => {
@@ -594,6 +603,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._nodeMark) {
       this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
+
+    this._needClear = true;
   };
 
   protected _handleNodeRelatedClick = (element: IElement) => {
@@ -812,6 +823,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
     }
+
+    this._needClear = true;
   };
 
   protected _handleLinkRelatedClick = (element: IGlyphElement) => {
@@ -945,6 +958,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
       this._highLightElements(allNodeElements, highlightNodes);
     }
+
+    this._needClear = true;
   };
 
   protected _highLightElements(vGrammarElements: IVgrammarMark['elements'], highlightNodes: string[]) {
