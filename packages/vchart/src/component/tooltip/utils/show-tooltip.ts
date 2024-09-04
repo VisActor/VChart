@@ -197,8 +197,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
       {
         datum: mockDatum,
         mark: null,
-        series: info.series,
-        dimensionInfo: mockDimensionInfo
+        series: info.series
       },
       mockParams,
       false

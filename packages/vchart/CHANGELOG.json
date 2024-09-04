@@ -2,6 +2,72 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.2",
+      "tag": "@visactor/vchart_v1.12.2",
+      "date": "Tue, 03 Sep 2024 12:46:51 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: rangeMode of scrollbar not work. fix#3147"
+          },
+          {
+            "comment": "docs: fix issue of treemap.label not shown in option pages, fix #2562"
+          },
+          {
+            "comment": "docs: update docs about circular progress, close #2987\n\n"
+          },
+          {
+            "comment": "feat(brush): add config to control zoom when brush empty data. close#2934"
+          },
+          {
+            "comment": "feat: support 'inside-center' label position in pie chart"
+          },
+          {
+            "comment": "fix: fix error of `barWidth`, `barMinWidth`, `barMaxWidth` when value is null\n\n"
+          },
+          {
+            "comment": "fix: x brush filter not work. fix#3111"
+          },
+          {
+            "comment": "fix: indicator stop tooltip interactive. fix#3123"
+          },
+          {
+            "comment": "fix: fix error of `getCenter` when layoutRadius is a customized function in radar\n\n"
+          },
+          {
+            "comment": "fix: media query causes incorrect render result, #3102"
+          },
+          {
+            "comment": " fix: normal animation not work since v1.12.0"
+          },
+          {
+            "comment": "fix: sankey scale update not work"
+          },
+          {
+            "comment": "fix: fix error of sankey when some customized mark has name \"node\"\n\n"
+          },
+          {
+            "comment": "fix: fix dimension value of tooltip when has innerOffset, fix #2923\n\n"
+          },
+          {
+            "comment": "fix: vchart should not throw error when the values of series data is empty, fix #3082\n\n"
+          },
+          {
+            "comment": "fix: fix error of `updateSpec` when array change\n\n"
+          },
+          {
+            "comment": "fix: wordcloud fill not update after updateSpec. fix#3122"
+          },
+          {
+            "comment": "fix: wordcloud scale update not work. fix#3129"
+          },
+          {
+            "comment": "refactor: refactor the parser of tooltip pattern\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.1",
       "tag": "@visactor/vchart_v1.12.1",
       "date": "Wed, 21 Aug 2024 01:09:17 GMT",

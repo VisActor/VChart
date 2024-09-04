@@ -25351,6 +25351,12 @@
           "description": "刷取后是否更新axis/dataZoom范围",
           "since": "0.10.0",
           "type": "boolean"
+        },
+        "zoomWhenEmpty": {
+          "default": false,
+          "description": "刷取到空数据时, 是否更新axis/dataZoom范围",
+          "since": "1.12.2",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -66867,6 +66873,11 @@
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
         },
+        "inverse": {
+          "description": "是否反向",
+          "since": "1.12.2",
+          "type": "boolean"
+        },
         "iterations": {
           "description": "布局的迭代次数",
           "type": "number"
@@ -67372,6 +67383,11 @@
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
+        },
+        "inverse": {
+          "description": "是否反向",
+          "since": "1.12.2",
+          "type": "boolean"
         },
         "iterations": {
           "description": "布局的迭代次数",
@@ -81588,7 +81604,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         },
         "size": {
@@ -81596,14 +81612,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13576",
+        "__@toStringTag@13577",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         },
         "size": {
@@ -81611,14 +81627,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13576",
+        "__@toStringTag@13577",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         },
         "size": {
@@ -81626,14 +81642,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13576",
+        "__@toStringTag@13577",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         },
         "size": {
@@ -81641,14 +81657,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13576",
+        "__@toStringTag@13577",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         },
         "size": {
@@ -81656,14 +81672,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13576",
+        "__@toStringTag@13577",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         },
         "size": {
@@ -81671,14 +81687,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13576",
+        "__@toStringTag@13577",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         },
         "size": {
@@ -81686,14 +81702,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13576",
+        "__@toStringTag@13577",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         },
         "size": {
@@ -81701,14 +81717,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13576",
+        "__@toStringTag@13577",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         },
         "size": {
@@ -81716,7 +81732,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13576",
+        "__@toStringTag@13577",
         "size"
       ],
       "type": "object"
@@ -102597,34 +102613,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13576"
+        "__@toStringTag@13577"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13576"
+        "__@toStringTag@13577"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13576": {
+        "__@toStringTag@13577": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13576"
+        "__@toStringTag@13577"
       ],
       "type": "object"
     },

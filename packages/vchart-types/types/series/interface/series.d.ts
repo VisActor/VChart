@@ -47,6 +47,7 @@ export interface ISeries extends IModel {
     reTransformViewData: () => void;
     fillData: () => void;
     isHierarchyData?: () => boolean;
+    getMarkData?: (d: Datum) => Datum;
     getRegion: () => IRegion;
     initMark: () => void;
     getMarks: () => IMark[];
@@ -80,6 +81,8 @@ export interface ISeries extends IModel {
         key: string;
         operations: StatisticOperations;
     }[];
+    getDatumPositionValues: (datum: Datum, fields: string | string[]) => any[];
+    getDatumPositionValue: (datum: Datum, field: string) => any;
     setSeriesField: (field: string) => void;
     handleZoom?: (e: ZoomEventParam) => void;
     handlePan?: (e: PanEventParam) => void;

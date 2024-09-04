@@ -93,6 +93,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     };
     _transformLayoutRect: (result: ILayoutRect) => ILayoutRect;
     getBoundsInRect(rect: ILayoutRect): IBoundsLike;
+    positionToData(pos: number, isViewPos?: boolean): any;
     private _getTitleLimit;
     private _getUpdateAttribute;
     protected getLabelItems(length: number): any[];
