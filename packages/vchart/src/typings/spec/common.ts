@@ -1,3 +1,4 @@
+import type { IVChart } from './../../core/interface';
 import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
@@ -551,6 +552,10 @@ export type IMarkTheme<T> = {
 };
 
 export interface IPerformanceHook {
+  // constructor
+  // 创建完成。在使用 vstory 的场景下，图表实例不由业务创建，业务想要获取图表时机非常靠后，因此补充一个钩子
+  afterCreateVChart?: (vchart?: IVChart) => void;
+
   // InitRender
   //   ├── InitializeChart
   //   ├── CompileToVGrammar
@@ -567,8 +572,8 @@ export interface IPerformanceHook {
   //      └── VRenderDraw
 
   // 初始化图表配置
-  beforeInitializeChart?: () => void;
-  afterInitializeChart?: () => void;
+  beforeInitializeChart?: (vchart?: IVChart) => void;
+  afterInitializeChart?: (vchart?: IVChart) => void;
 
   // 编译
   beforeCompileToVGrammar?: () => void;
