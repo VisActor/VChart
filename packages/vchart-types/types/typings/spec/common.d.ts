@@ -1,3 +1,4 @@
+import type { IVChart } from './../../core/interface';
 import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
@@ -208,8 +209,9 @@ export type IMarkTheme<T> = {
     interactive?: boolean;
 };
 export interface IPerformanceHook {
-    beforeInitializeChart?: () => void;
-    afterInitializeChart?: () => void;
+    afterCreateVChart?: (vchart?: IVChart) => void;
+    beforeInitializeChart?: (vchart?: IVChart) => void;
+    afterInitializeChart?: (vchart?: IVChart) => void;
     beforeCompileToVGrammar?: () => void;
     afterCompileToVGrammar?: () => void;
     beforeRegionCompile?: () => void;
