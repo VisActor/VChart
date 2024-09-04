@@ -277,7 +277,7 @@ The circular progress chart consists of the arc chart element representing progr
 
 - `circularProgressChart.type`: Chart type, the type of circular progress chart is `'circularProgress'`
 - `circularProgressChart.data`: Data source for chart drawing
-- `circularProgressChart.radiusField`: Category field, mapping different progress bars, i.e., the number of progress bars is determined by the number of categories
+- `circularProgressChart.categoryField`: Category field, mapping different progress bars, i.e., the number of progress bars is determined by the number of categories
 - `circularProgressChart.valueField`: Value field, mapping the arc range of the arc chart element representing progress
 
 Optional components, which are auxiliary chart displays, have self-contained default effects and functionality:
@@ -302,7 +302,7 @@ const spec = {
     }
   ],
   valueField: 'value',
-  radiusField: 'type',
+  categoryField: 'type',
   outerRadius: 0.6,
   innerRadius: 0.5,
   cornerRadius: 20
@@ -459,7 +459,7 @@ const spec = {
     }
   ],
   valueField: 'value',
-  radiusField: 'type',
+  categoryField: 'type',
   outerRadius: 0.6,
   innerRadius: 0.5,
   cornerRadius: 20,

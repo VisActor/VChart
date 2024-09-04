@@ -101,6 +101,13 @@ node 节点样式配置。
 - `start`
 - `end`
 
+#${prefix} inverse(boolean)
+
+自版本**1.12.2**开始支持
+反向展示，节点和边整体反向展示
+对于布局方向为`horizontal`的桑基图，默认是节点从左往右展示；设置`inverse: true`，节点从右往左展示；
+对于布局方向为`vertical`的桑基图，默认是节点从上到下展示；设置`inverse: true`，节点从下到上展示；
+
 #${prefix} nodeGap(number)
 
 同一层中两个节点之间的间隙大小。

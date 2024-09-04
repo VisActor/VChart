@@ -22,7 +22,7 @@ import { Event_Bubble_Level } from '../../constant/event';
 import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
-import { Bounds, array, isNil, isValid, isNumber } from '@visactor/vutils';
+import { Bounds, array, isNil, isValid, isNumber, isArray } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import { registerSankeyAnimation } from './animation';
 import type { ISankeySeriesSpec, SankeyLinkElement, ISankeyLabelSpec } from './interface';
@@ -69,6 +69,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected _categoryField!: string;
   private _colorScale: IBaseScale;
   private _nodeList: (string | number)[];
+  private _needClear: boolean;
 
   get direction() {
     return this._spec.direction ?? 'horizontal';
@@ -145,7 +146,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           nodeHeight: this._spec.nodeHeight,
           linkHeight: this._spec.linkHeight,
           equalNodeHeight: this._spec.equalNodeHeight,
-          linkOverlap: this._spec.linkOverlap
+          linkOverlap: this._spec.linkOverlap,
+          inverse: this._spec.inverse
         } as ISankeyOpt,
         level: TransformLevel.sankeyLayout
       });
@@ -293,11 +295,19 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         },
         x1: (datum: Datum) => datum.x1,
         y: (datum: Datum) => datum.y0,
-        y1: (datum: Datum) => datum.y1,
-        fill: this._fillByNode
+        y1: (datum: Datum) => datum.y1
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Mark
+    );
+
+    this.setMarkStyle(
+      nodeMark,
+      {
+        fill: this._spec.node.style?.fill ?? this._fillByNode
+      },
+      'normal',
+      AttributeLevel.User_Mark
     );
   }
 
@@ -351,11 +361,19 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y0: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
         thickness: (datum: Datum) => datum.thickness,
-        fill: this._fillByLink,
         direction: this.direction
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
+    );
+
+    this.setMarkStyle(
+      linkMark,
+      {
+        fill: this._spec.link.style?.fill ?? this._fillByLink
+      },
+      'normal',
+      AttributeLevel.User_Mark
     );
   }
 
@@ -456,17 +474,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const element = params.item;
 
     if (emphasisSpec.effect === 'adjacency') {
-      if (element && element.mark.id().includes('node')) {
+      if (element && element.mark === this._nodeMark?.getProduct()) {
         this._handleNodeAdjacencyClick(element);
-      } else if (element && element.mark.id().includes('link')) {
+      } else if (element && element.mark === this._linkMark?.getProduct()) {
         this._handleLinkAdjacencyClick(element);
       } else {
         this._handleClearEmpty();
       }
     } else if (emphasisSpec.effect === 'related') {
-      if (element && element.mark.id().includes('node')) {
+      if (element && element.mark === this._nodeMark?.getProduct()) {
         this._handleNodeRelatedClick(element);
-      } else if (element && element.mark.id().includes('link')) {
+      } else if (element && element.mark === this._linkMark?.getProduct()) {
         this._handleLinkRelatedClick(element);
       } else {
         this._handleClearEmpty();
@@ -475,6 +493,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   };
 
   protected _handleClearEmpty = () => {
+    if (!this._needClear) {
+      return;
+    }
+
     const allNodeElements = this._nodeMark?.getProductElements();
 
     if (!allNodeElements || !allNodeElements.length) {
@@ -495,6 +517,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     allLinkElements.forEach(el => {
       el.removeState(states);
     });
+
+    this._needClear = false;
   };
 
   protected _handleNodeAdjacencyClick = (element: IElement) => {
@@ -552,6 +576,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._nodeMark) {
       this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
+
+    this._needClear = true;
   };
 
   protected _handleLinkAdjacencyClick = (element: IGlyphElement) => {
@@ -577,6 +603,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (this._nodeMark) {
       this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
+
+    this._needClear = true;
   };
 
   protected _handleNodeRelatedClick = (element: IElement) => {
@@ -795,6 +823,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
     }
+
+    this._needClear = true;
   };
 
   protected _handleLinkRelatedClick = (element: IGlyphElement) => {
@@ -928,6 +958,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
       this._highLightElements(allNodeElements, highlightNodes);
     }
+
+    this._needClear = true;
   };
 
   protected _highLightElements(vGrammarElements: IVgrammarMark['elements'], highlightNodes: string[]) {
@@ -1126,6 +1158,16 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   getActiveMarks(): IMark[] {
     return [this._nodeMark, this._linkMark];
+  }
+
+  getMarkData(datum: Datum) {
+    if (datum.datum) {
+      if (isArray(datum.datum)) {
+        return datum.datum[datum.datum.length - 1];
+      }
+      return datum.datum;
+    }
+    return datum;
   }
 }
 

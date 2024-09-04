@@ -137,6 +137,7 @@ Optional values:
 - `'inside'`
 - `'inside-outer'`
 - `'inside-inner'`
+- `'inside-center'`(since v1.12.2)
 
 ##${prefix} offsetRadius(number)
 

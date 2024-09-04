@@ -15,13 +15,19 @@
   seriesMarks = ${seriesMarks}
 ) }}
 
+{{ if: !${noCategoryField} }}
 #${prefix} categoryField(string|string[])
 
-Category field, mapped to the angle axis. Can be declared as an array type, and the data will be grouped by the declared fields in turn.
+Category field, mapped to the angle axis. Can be declared as an array type, internally grouping data according to the declared fields.
 
+{{ /if }}
+
+{{ if: !${noValueField} }}
 #${prefix} valueField(string|string[])
 
-Value field, mapped to the radius axis. Can be declared as an array type, and the data will be grouped by the declared fields in turn.
+Value field, mapped to the radius axis. Can be declared as an array type, internally grouping data according to the declared fields.
+
+{{ /if }}
 
 #${prefix} outerRadius(number) = 0.6
 

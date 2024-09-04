@@ -18,6 +18,7 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
     targetField?: string;
     direction?: DirectionType;
     nodeAlign?: 'left' | 'right' | 'center' | 'justify' | 'start' | 'end';
+    inverse?: boolean;
     nodeGap?: number;
     nodeWidth?: string | number | ((node: SankeyNodeElement) => number);
     linkWidth?: number | ((link: SankeyLinkElement) => number);

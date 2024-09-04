@@ -14,7 +14,7 @@ option: circularProgress
 
 - `player` attribute configures the player data and logic
   - `player.specs` attribute configures all data specs on the playback timeline
-- `radiusField` attribute is declared as the classification field
+- `categoryField` attribute is declared as the classification field
 - `valueField` attribute is declared as the classification field
 - `seriesField` attribute is used to declare the field participating in color mapping
 - `sizeField` attribute is declared as the size field
@@ -63,7 +63,7 @@ for (let date = firstDay; date <= lastDay; date++) {
       regionId: `${date}`,
       id: `${type}_${date}`,
       valueField: 'value',
-      radiusField: 'type',
+      categoryField: 'type',
       seriesField: 'type',
       stack: false,
       background: {

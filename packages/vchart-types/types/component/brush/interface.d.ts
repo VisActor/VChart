@@ -11,6 +11,7 @@ interface IBrushDataBindSpec {
     brushLinkSeriesIndex?: number | number[];
     brushLinkSeriesId?: string | string[];
     zoomAfterBrush?: boolean;
+    zoomWhenEmpty?: boolean;
     axisId?: string | string[];
     axisIndex?: number | number[];
     axisRangeExpand?: number;

@@ -128,10 +128,10 @@ const lineOrAreaAnimation = (params: ILineAnimationParams, preset: LineAppearPre
     update: [
       {
         type: 'update',
-        options: { excludeChannels: ['points', 'defined'] }
+        options: { excludeChannels: ['points', 'defined', 'segments'] }
       },
       {
-        channel: ['points'],
+        channel: ['points', 'segments'],
         custom: TagPointsUpdate,
         duration: DEFAULT_ANIMATION_CONFIG.update.duration,
         easing: DEFAULT_ANIMATION_CONFIG.update.easing,

@@ -1611,3 +1611,106 @@ describe('vchart updateSpec of different about label', () => {
     });
   });
 });
+
+describe('vchart updateSpec should not throw error', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterAll(() => {
+    removeDom(container);
+    vchart.release();
+  });
+
+  it('should remake when length of `axes` change', () => {
+    const spec: IBarChartSpec = {
+      type: 'bar',
+      data: [
+        {
+          id: 'barData',
+          values: [
+            {
+              name: 'Apple',
+              value: 214480
+            },
+            {
+              name: 'Google',
+              value: 155506
+            }
+          ]
+        }
+      ],
+      direction: 'horizontal',
+      series: [
+        {
+          type: 'bar',
+          xField: 'value',
+          yField: 'name',
+          label: {
+            visible: true
+          }
+        }
+      ],
+      axes: [
+        {
+          orient: 'bottom',
+          visible: true
+        }
+      ],
+      markLine: [
+        {
+          y: 50,
+          startSymbol: {
+            visible: true,
+            style: {
+              symbolType: 'circle',
+              size: 8
+            }
+          },
+          label: {
+            formatMethod: (...p: any[]) => {
+              return p[0][0].y;
+            },
+            position: 'insideEndBottom',
+            refY: -5,
+            labelBackground: {
+              visible: false
+            }
+          }
+        }
+      ]
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        markLine: null
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: undefined,
+      changeTheme: false,
+      reCompile: false,
+      reMake: true,
+      reRender: undefined,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});

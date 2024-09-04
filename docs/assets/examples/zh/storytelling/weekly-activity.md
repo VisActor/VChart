@@ -14,7 +14,7 @@ option: circularProgress
 
 - `player` 属性配置播放器数据和逻辑
   - `player.specs` 属性配置了所有播放时间线上的数据 spec
-- `radiusField` 属性声明为分类字段
+- `categoryField` 属性声明为分类字段
 - `valueField` 属性声明为分类字段
 - `seriesField` 属性用来声明参与颜色映射的字段
 - `sizeField` 属性声明为尺寸字段
@@ -63,7 +63,7 @@ for (let date = firstDay; date <= lastDay; date++) {
       regionId: `${date}`,
       id: `${type}_${date}`,
       valueField: 'value',
-      radiusField: 'type',
+      categoryField: 'type',
       seriesField: 'type',
       stack: false,
       background: {

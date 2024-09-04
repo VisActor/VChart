@@ -1,3 +1,19 @@
+# v1.12.1
+
+2024-08-21
+
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: x brush filter not work. fix [#3111](https://github.com/VisActor/VChart/issues/3111)
+- **@visactor/vchart**: fix error of `getCenter` when layoutRadius is a customized function in radar
+- **@visactor/vchart**: media query causes incorrect render result, [#3102](https://github.com/VisActor/VChart/issues/3102)
+- **@visactor/vchart**: vchart should not throw error when the values of series data is empty, fix [#3082](https://github.com/VisActor/VChart/issues/3082)
+
+
+
+[more detail about v1.12.1](https://github.com/VisActor/VChart/releases/tag/v1.12.1)
+
 # v1.12.0
 
 2024-08-16

@@ -42,6 +42,10 @@ export const getCartesianDimensionInfo = (
   const xAxisList = getAxis(chart, (cmp: CartesianAxis) => isXAxis(cmp.getOrient()), pos) ?? [];
   const yAxisList = getAxis(chart, (cmp: CartesianAxis) => isYAxis(cmp.getOrient()), pos) ?? [];
 
+  if (!xAxisList.length && !yAxisList.length) {
+    return null;
+  }
+
   /** 离散轴集合 */
   const bandAxisSet: Set<CartesianAxis> = new Set();
   /** 连续轴集合 */
@@ -75,7 +79,6 @@ export const getCartesianDimensionInfo = (
           const info = getDimensionInfoByPosition(
             axis,
             posValue,
-            orient,
             getDimensionFieldFunc(isXAxis, isDiscrete(axis.getScale().type))
           );
           info && targetAxisInfo.push(info);
@@ -83,12 +86,7 @@ export const getCartesianDimensionInfo = (
       } else {
         const hasDiscreteAxis = bandAxisSet.size > 0;
         if ((hasDiscreteAxis ? bandAxisSet : linearAxisSet).has(axis)) {
-          const info = getDimensionInfoByPosition(
-            axis,
-            posValue,
-            orient,
-            getDimensionFieldFunc(isXAxis, hasDiscreteAxis)
-          );
+          const info = getDimensionInfoByPosition(axis, posValue, getDimensionFieldFunc(isXAxis, hasDiscreteAxis));
           info && targetAxisInfo.push(info);
         }
       }
@@ -117,18 +115,10 @@ export const getCartesianDimensionInfo = (
 export const getDimensionInfoByPosition = (
   axis: CartesianAxis,
   posValue: number,
-  posKey: 'x' | 'y',
   getDimensionField: (series: ICartesianSeries) => string | string[]
 ): IDimensionInfo | null => {
-  const scale = axis.getScale();
-  const scalePos = posValue - axis.getLayoutStartPoint()[posKey];
-  // 判断是否在 range 范围内
-  if ((scalePos - scale.range()[0]) * (scalePos - scale.range()[1]) > 0) {
-    return null;
-  }
-
-  const value = scale.invert(scalePos);
-  return getDimensionInfoByValue(axis, value, getDimensionField);
+  const value = axis.positionToData(posValue, true);
+  return isNil(value) ? null : getDimensionInfoByValue(axis, value, getDimensionField);
 };
 
 export const getDimensionInfoByValue = (

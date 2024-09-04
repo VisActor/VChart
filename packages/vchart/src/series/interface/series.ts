@@ -58,6 +58,7 @@ export interface ISeries extends IModel {
   reTransformViewData: () => void;
   fillData: () => void;
   isHierarchyData?: () => boolean;
+  getMarkData?: (d: Datum) => Datum;
 
   /**
    * 常见数据使用问题
@@ -160,6 +161,8 @@ export interface ISeries extends IModel {
   getDimensionField: () => string[];
   getMeasureField: () => string[];
   getStatisticFields: () => { key: string; operations: StatisticOperations }[];
+  getDatumPositionValues: (datum: Datum, fields: string | string[]) => any[];
+  getDatumPositionValue: (datum: Datum, field: string) => any;
 
   setSeriesField: (field: string) => void;
   handleZoom?: (e: ZoomEventParam) => void;
