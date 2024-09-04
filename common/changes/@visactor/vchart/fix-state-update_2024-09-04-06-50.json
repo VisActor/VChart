@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "chore: clear state when updateSpec. fix#3162",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

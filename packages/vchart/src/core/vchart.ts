@@ -858,6 +858,7 @@ export class VChart implements IVChart {
    */
   async updateDataInBatches(list: { id: string; data: Datum[]; options?: IParserOptions }[]): Promise<IVChart> {
     if (this._chart) {
+      this._chart.clearAllStates();
       this._chart.updateFullData(
         list.map(({ id, data, options }) => {
           return { id, values: data, parser: options };
@@ -892,6 +893,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     if (this._chart) {
+      this._chart.clearAllStates();
       if (userUpdateOptions?.reAnimate) {
         this.stopAnimation();
         this._updateAnimateState(true);
@@ -921,6 +923,7 @@ export class VChart implements IVChart {
     userUpdateOptions?: IUpdateSpecResult
   ) {
     if (this._chart) {
+      this._chart.clearAllStates();
       if (userUpdateOptions?.reAnimate) {
         this.stopAnimation();
         this._updateAnimateState(true);
@@ -983,6 +986,7 @@ export class VChart implements IVChart {
     morphConfig?: IMorphConfig,
     userUpdateOptions?: IUpdateSpecResult
   ) {
+    this.clearAllStates();
     const result = this._updateSpec(spec, forceMerge, userUpdateOptions);
 
     if (!result) {
@@ -1009,6 +1013,7 @@ export class VChart implements IVChart {
     morphConfig?: IMorphConfig,
     userUpdateOptions?: IUpdateSpecResult
   ) {
+    this.clearAllStates();
     const result = this._updateSpec(spec, forceMerge, userUpdateOptions);
 
     if (!result) {
@@ -1361,6 +1366,18 @@ export class VChart implements IVChart {
       return;
     }
     this._chart.clearState(state);
+  }
+
+  /**
+   * 清除所有图元的所有状态
+   *
+   * @since 1.12.3
+   */
+  clearAllStates() {
+    if (!this._chart) {
+      return;
+    }
+    this._chart.clearAllStates();
   }
 
   /**
