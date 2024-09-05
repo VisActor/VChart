@@ -1,3 +1,43 @@
+# v1.12.2
+
+2024-09-05
+
+
+**🆕 New feature**
+
+- **brush**: add config to control zoom when brush empty data. close[#2934](https://github.com/VisActor/VChart/issues/2934)
+- **@visactor/vchart**: support 'inside-center' label position in pie chart
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: rangeMode of scrollbar not work. fix[#3147](https://github.com/VisActor/VChart/issues/3147)
+- **@visactor/vchart**: fix error of `barWidth`, `barMinWidth`, `barMaxWidth` when value is null
+- **@visactor/vchart**: x brush filter not work. fix[#3111](https://github.com/VisActor/VChart/issues/3111)
+- **@visactor/vchart**: indicator stop tooltip interactive. fix[#3123](https://github.com/VisActor/VChart/issues/3123)
+- **@visactor/vchart**: fix error of `getCenter` when layoutRadius is a customized function in radar
+- **@visactor/vchart**: media query causes incorrect render result, [#3102](https://github.com/VisActor/VChart/issues/3102)
+- **@visactor/vchart**: normal animation not work since v1.12.0
+- **@visactor/vchart**: sankey scale update not work
+- **@visactor/vchart**: fix error of sankey when some customized mark has name "node"
+- **@visactor/vchart**: fix dimension value of tooltip when has innerOffset, fix [#2923](https://github.com/VisActor/VChart/issues/2923)
+- **@visactor/vchart**: vchart should not throw error when the values of series data is empty, fix [#3082](https://github.com/VisActor/VChart/issues/3082)
+- **@visactor/vchart**: fix error of `updateSpec` when array change
+- **@visactor/vchart**: wordcloud fill not update after updateSpec. fix[#3122](https://github.com/VisActor/VChart/issues/3122)
+- **@visactor/vchart**: wordcloud scale update not work. fix[#3129](https://github.com/VisActor/VChart/issues/3129)
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: refactor the parser of tooltip pattern
+
+**📖 Site / documentation update**
+
+- **@visactor/vchart**: fix issue of treemap.label not shown in option pages, fix [#2562](https://github.com/VisActor/VChart/issues/2562)
+- **@visactor/vchart**: update docs about circular progress, close [#2987](https://github.com/VisActor/VChart/issues/2987)
+
+
+
+[more detail about v1.12.2](https://github.com/VisActor/VChart/releases/tag/v1.12.2)
+
 # v1.12.1
 
 2024-08-21
