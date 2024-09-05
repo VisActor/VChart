@@ -1,3 +1,16 @@
+# v1.12.3
+
+2024-09-05
+
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: cannot disable label update animation by `option.animation:false`
+
+
+
+[更多详情请查看 v1.12.3](https://github.com/VisActor/VChart/releases/tag/v1.12.3)
+
 # v1.12.2
 
 2024-09-05
