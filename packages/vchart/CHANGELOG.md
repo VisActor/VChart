@@ -1,6 +1,16 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 03 Sep 2024 12:46:51 GMT and should not be manually modified.
+This log was last generated on Thu, 05 Sep 2024 05:54:53 GMT and should not be manually modified.
+
+## 1.12.3
+Thu, 05 Sep 2024 05:54:53 GMT
+
+### Updates
+
+- fix: cannot disable label update animation by `option.animation:false`
+- fix: upgrade vrender to 0.20.2, vgrammar to 0.14.3
+
+
 
 ## 1.12.2
 Tue, 03 Sep 2024 12:46:51 GMT
