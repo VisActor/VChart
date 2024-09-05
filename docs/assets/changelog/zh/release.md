@@ -5,34 +5,34 @@
 
 **🆕 新增功能**
 
-- **brush**: add config to control zoom when brush empty data. close[#2934](https://github.com/VisActor/VChart/issues/2934)
-- **@visactor/vchart**: support 'inside-center' label position in pie chart
+- **brush**: 添加配置以控制Brush组件在空数据时的缩放行为。关闭 [#2934](https://github.com/VisActor/VChart/issues/2934)
+- **@visactor/vchart**: 在饼图中支持 'inside-center' 标签位置
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: rangeMode of scrollbar not work. fix[#3147](https://github.com/VisActor/VChart/issues/3147)
-- **@visactor/vchart**: fix error of `barWidth`, `barMinWidth`, `barMaxWidth` when value is null
-- **@visactor/vchart**: x brush filter not work. fix[#3111](https://github.com/VisActor/VChart/issues/3111)
-- **@visactor/vchart**: indicator stop tooltip interactive. fix[#3123](https://github.com/VisActor/VChart/issues/3123)
-- **@visactor/vchart**: fix error of `getCenter` when layoutRadius is a customized function in radar
-- **@visactor/vchart**: media query causes incorrect render result, [#3102](https://github.com/VisActor/VChart/issues/3102)
-- **@visactor/vchart**: normal animation not work since v1.12.0
-- **@visactor/vchart**: sankey scale update not work
-- **@visactor/vchart**: fix error of sankey when some customized mark has name "node"
-- **@visactor/vchart**: fix dimension value of tooltip when has innerOffset, fix [#2923](https://github.com/VisActor/VChart/issues/2923)
-- **@visactor/vchart**: vchart should not throw error when the values of series data is empty, fix [#3082](https://github.com/VisActor/VChart/issues/3082)
-- **@visactor/vchart**: fix error of `updateSpec` when array change
-- **@visactor/vchart**: wordcloud fill not update after updateSpec. fix[#3122](https://github.com/VisActor/VChart/issues/3122)
-- **@visactor/vchart**: wordcloud scale update not work. fix[#3129](https://github.com/VisActor/VChart/issues/3129)
+- **@visactor/vchart**: 滚动条的 rangeMode 不生效。修复 [#3147](https://github.com/VisActor/VChart/issues/3147)
+- **@visactor/vchart**: 修复当 `barWidth`、`barMinWidth`、`barMaxWidth` 的值为 null 时的错误
+- **@visactor/vchart**: x 轴的 brush 过滤器不生效。修复 [#3111](https://github.com/VisActor/VChart/issues/3111)
+- **@visactor/vchart**: 修复 Indicator 阻止了 tooltip 的交互。修复 [#3123](https://github.com/VisActor/VChart/issues/3123)
+- **@visactor/vchart**: 修复雷达图中当 layoutRadius 是自定义函数时 `getCenter` 的错误
+- **@visactor/vchart**: 媒体查询导致渲染结果不正确，[#3102](https://github.com/VisActor/VChart/issues/3102)
+- **@visactor/vchart**: 修复normal动画不生效的问题
+- **@visactor/vchart**: 修复桑基图scale更新不生效
+- **@visactor/vchart**: 修复桑基图中某些自定义mark名称为 "node" 时导致事件错误
+- **@visactor/vchart**: 修复当有 innerOffset 时 tooltip 的维度值，修复 [#2923](https://github.com/VisActor/VChart/issues/2923)
+- **@visactor/vchart**: 当系列数据的值为空时，vchart 不应抛出错误，修复 [#3082](https://github.com/VisActor/VChart/issues/3082)
+- **@visactor/vchart**: 修复数组变化时 `updateSpec` 的错误
+- **@visactor/vchart**: 词云图在 updateSpec 后填充不更新。修复 [#3122](https://github.com/VisActor/VChart/issues/3122)
+- **@visactor/vchart**: 词云图比例尺更新不生效。修复 [#3129](https://github.com/VisActor/VChart/issues/3129)
 
 **🔨 功能重构**
 
-- **@visactor/vchart**: refactor the parser of tooltip pattern
+- **@visactor/vchart**: 重构 tooltip 模式的解析器
 
 **📖 文档更新**
 
-- **@visactor/vchart**: fix issue of treemap.label not shown in option pages, fix [#2562](https://github.com/VisActor/VChart/issues/2562)
-- **@visactor/vchart**: update docs about circular progress, close [#2987](https://github.com/VisActor/VChart/issues/2987)
+- **@visactor/vchart**: 修复树图标签在选项页面中不显示的问题，修复 [#2562](https://github.com/VisActor/VChart/issues/2562)
+- **@visactor/vchart**: 更新关于环形进度图的文档，关闭 [#2987](https://github.com/VisActor/VChart/issues/2987)
 
 
 
