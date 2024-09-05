@@ -381,16 +381,15 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
       fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange,
 
-      // mark style > style field > value field > default
+      // style field > value field > default > mark style
+      // 因为主题中默认fontWeight是'normal', 所以如果mark style优先级放最高的话, 其他配置都不会生效
       padding: this._spec.word?.padding ?? DEFAULT_FONT_PADDING,
       fontFamily: wordStyleSpec.fontFamily ?? this._spec.fontFamilyField ?? this._defaultFontFamily,
-      fontWeight:
-        wordStyleSpec.fontWeight ??
-        (this._spec.fontWeightField
-          ? { field: this._spec.fontWeightField }
-          : this._valueField
-          ? this._calculateFontWeight
-          : null),
+      fontWeight: this._spec.fontWeightField
+        ? { field: this._spec.fontWeightField }
+        : this._valueField
+        ? this._calculateFontWeight
+        : wordStyleSpec.fontWeight,
       fontStyle: wordStyleSpec.fontStyle ?? this._spec.fontStyleField
     };
   }
@@ -425,12 +424,13 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       rotateList: this._rotateAngles,
       fillingRotateList: wordCloudShapeConfig.fillingRotateAngles,
 
-      // mark style > style field > default
+      //  style field > mark style > default
+      // 因为主题中默认fontWeight是'normal', 所以如果mark style优先级放最高的话, 其他配置都不会生效
       fillingFontFamily:
-        fillingWordStyleSpec.fontFamily ?? wordCloudShapeConfig.fillingFontFamilyField ?? this._defaultFontFamily,
+        wordCloudShapeConfig.fillingFontFamilyField ?? fillingWordStyleSpec.fontFamily ?? this._defaultFontFamily,
       fillingPadding: this._spec.fillingWord?.padding ?? DEFAULT_FONT_PADDING,
-      fillingFontStyle: fillingWordStyleSpec.fontStyle ?? wordCloudShapeConfig.fillingFontStyleField,
-      fillingFontWeight: fillingWordStyleSpec.fontWeight ?? wordCloudShapeConfig.fillingFontWeightField // 填充词fontWeight默认不跟随valueField
+      fillingFontStyle: wordCloudShapeConfig.fillingFontStyleField ?? fillingWordStyleSpec.fontStyle,
+      fillingFontWeight: wordCloudShapeConfig.fillingFontWeightField ?? fillingWordStyleSpec.fontWeight // 填充词fontWeight默认不跟随valueField
     };
   }
 
