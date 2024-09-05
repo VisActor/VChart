@@ -381,16 +381,16 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
       fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange,
 
-      // style field > value field > default > mark style
+      // style field > value field > mark style > default
       // 因为主题中默认fontWeight是'normal', 所以如果mark style优先级放最高的话, 其他配置都不会生效
       padding: this._spec.word?.padding ?? DEFAULT_FONT_PADDING,
-      fontFamily: wordStyleSpec.fontFamily ?? this._spec.fontFamilyField ?? this._defaultFontFamily,
+      fontFamily: this._spec.fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
       fontWeight: this._spec.fontWeightField
         ? { field: this._spec.fontWeightField }
         : this._valueField
         ? this._calculateFontWeight
         : wordStyleSpec.fontWeight,
-      fontStyle: wordStyleSpec.fontStyle ?? this._spec.fontStyleField
+      fontStyle: this._spec.fontStyleField ?? wordStyleSpec.fontStyle
     };
   }
 
