@@ -201,12 +201,11 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
           : (datum: Datum) => datum[this._textField],
         x: (datum: Datum) => datum.x,
         y: (datum: Datum) => datum.y,
-        fontFamily: (datum: Datum) => datum.fontFamily,
         fontSize: (datum: Datum) => datum.fontSize,
         fontStyle: (datum: Datum) => datum.fontStyle,
-        fontWeight: (datum: Datum) => datum.fontWeight,
+
         angle: (datum: Datum) => datum.angle,
-        visible: datum => datum.visible
+        visible: (datum: Datum) => datum.visible
       },
       'normal',
       AttributeLevel.Series
@@ -214,8 +213,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     this.setMarkStyle(
       wordMark,
       {
-        fontFamily: wordSpec?.style?.fontFamily ?? this._defaultFontFamily,
-        fill: wordSpec?.style?.fill ?? this.getWordColor
+        fill: wordSpec?.style?.fill ?? this.getWordColor,
+        // style和field相关的配置都已经传给vgrammar, 所以这里直接拿结果就可以
+        fontWeight: (datum: Datum) => datum.fontWeight,
+        fontFamily: (datum: Datum) => datum.fontFamily
       },
       'normal',
       AttributeLevel.User_Mark
@@ -379,14 +380,18 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         : { field: this._textField },
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
       fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange,
+
+      // mark style > style field > value field > default
       padding: this._spec.word?.padding ?? DEFAULT_FONT_PADDING,
-      fontFamily: this._spec.fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
-      fontWeight: this._spec.fontWeightField
-        ? { field: this._spec.fontWeightField }
-        : this._valueField
-        ? this._calculateFontWeight
-        : null,
-      fontStyle: this._spec.fontStyleField ?? wordStyleSpec.fontStyle
+      fontFamily: wordStyleSpec.fontFamily ?? this._spec.fontFamilyField ?? this._defaultFontFamily,
+      fontWeight:
+        wordStyleSpec.fontWeight ??
+        (this._spec.fontWeightField
+          ? { field: this._spec.fontWeightField }
+          : this._valueField
+          ? this._calculateFontWeight
+          : null),
+      fontStyle: wordStyleSpec.fontStyle ?? this._spec.fontStyleField
     };
   }
 
@@ -410,7 +415,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   protected _wordCloudShapeTransformOption(): Object {
-    const wordStyleSpec = this._spec.word?.style ?? {};
+    const fillingWordStyleSpec = this._spec.fillingWord?.style ?? {};
     const wordCloudShapeConfig = this._wordCloudShapeConfig ?? {};
 
     return {
@@ -420,11 +425,12 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       rotateList: this._rotateAngles,
       fillingRotateList: wordCloudShapeConfig.fillingRotateAngles,
 
+      // mark style > style field > default
       fillingFontFamily:
-        wordCloudShapeConfig.fillingFontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
+        fillingWordStyleSpec.fontFamily ?? wordCloudShapeConfig.fillingFontFamilyField ?? this._defaultFontFamily,
       fillingPadding: this._spec.fillingWord?.padding ?? DEFAULT_FONT_PADDING,
-      fillingFontStyle: wordCloudShapeConfig.fillingFontStyleField ?? wordStyleSpec.fontStyle,
-      fillingFontWeight: wordCloudShapeConfig.fillingFontWeightField ?? wordStyleSpec.fontWeight // 填充词fontWeight默认不跟随valueField
+      fillingFontStyle: fillingWordStyleSpec.fontStyle ?? wordCloudShapeConfig.fillingFontStyleField,
+      fillingFontWeight: fillingWordStyleSpec.fontWeight ?? wordCloudShapeConfig.fillingFontWeightField // 填充词fontWeight默认不跟随valueField
     };
   }
 
