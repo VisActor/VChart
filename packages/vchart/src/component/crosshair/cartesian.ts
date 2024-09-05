@@ -427,9 +427,33 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     const { xField, yField } = this._spec as ICartesianCrosshairSpec;
     if (xField && xField.visible) {
       this._xHair = this._parseField(xField, 'xField');
+      if (this._xCrosshair) {
+        const { style, type } = this._xHair;
+        if (type === 'rect') {
+          this._xCrosshair.setAttributes({
+            rectStyle: style
+          } as any);
+        } else if (type === 'line') {
+          this._xCrosshair.setAttributes({
+            lineStyle: style
+          } as any);
+        }
+      }
     }
     if (yField && yField.visible) {
       this._yHair = this._parseField(yField, 'yField');
+      if (this._yCrosshair) {
+        const { style, type } = this._yHair;
+        if (type === 'rect') {
+          this._yCrosshair.setAttributes({
+            rectStyle: style
+          } as any);
+        } else if (type === 'line') {
+          this._yCrosshair.setAttributes({
+            lineStyle: style
+          } as any);
+        }
+      }
     }
   }
 
