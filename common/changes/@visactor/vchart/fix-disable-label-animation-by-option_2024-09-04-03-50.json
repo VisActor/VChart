@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: cannot disable label update animation by `option.animation:false`",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -99,11 +99,13 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
     const labels = array<ILabelSpec>(spec[labelSpecKey]);
     labels.forEach(labelSpec => {
       if (labelSpec && labelSpec.visible) {
+        // animation config priority: option.animation > spec.animation > spec.label.animation
+        const animationEnabled = this._option?.animation ?? spec.animation ?? labelSpec.animation ?? true;
         this.addLabelSpec(
           markName,
           {
-            animation: hasAnimation ?? spec.animation,
             ...labelSpec,
+            animation: animationEnabled && hasAnimation,
             getStyleHandler: (series: V) => (series[styleHandlerName] as any)?.bind(series)
           } as TransformedLabelSpec,
           head
