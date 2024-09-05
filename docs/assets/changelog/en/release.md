@@ -1,3 +1,16 @@
+# v1.12.3
+
+2024-09-05
+
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: cannot disable label update animation by `option.animation:false`
+
+
+
+[more detail about v1.12.3](https://github.com/VisActor/VChart/releases/tag/v1.12.3)
+
 # v1.12.2
 
 2024-09-05
