@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-extension",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.2",
   "description": "",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -27,9 +27,9 @@
     "@visactor/vutils": "~0.18.15"
   },
   "devDependencies": {
-    "@internal/bundler": "0.0.1",
-    "@internal/eslint-config": "0.0.1",
-    "@internal/ts-config": "0.0.1",
+    "@internal/bundler": "workspace:*",
+    "@internal/eslint-config": "workspace:*",
+    "@internal/ts-config": "workspace:*",
     "@rushstack/eslint-patch": "~1.1.4",
     "@types/node": "*",
     "@types/offscreencanvas": "2019.6.4",
@@ -51,7 +51,7 @@
     "rollup-plugin-bundle-size": "1.0.3",
     "rollup-plugin-sizes": "1.0.5",
     "rollup": "3.20.5",
-    "@visactor/vchart": "1.11.11"
+    "@visactor/vchart": "workspace:1.12.3"
   },
   "publishConfig": {
     "access": "public",
