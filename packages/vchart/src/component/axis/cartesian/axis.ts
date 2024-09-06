@@ -209,13 +209,21 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         this._regions,
         s => {
           const orient = this.getOrient();
-
           if (isXAxis(orient)) {
-            (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
+            (s as ICartesianSeries).setXAxisHelper(
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            );
           } else if (isYAxis(orient)) {
-            (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+            (s as ICartesianSeries).setYAxisHelper(
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            );
           } else if (isZAxis(orient)) {
-            (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
+            (s as ICartesianSeries).setZAxisHelper(
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            );
           }
         },
         {

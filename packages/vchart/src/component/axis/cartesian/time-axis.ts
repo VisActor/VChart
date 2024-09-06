@@ -1,7 +1,7 @@
 import type { IEffect } from '../../../model/interface';
 import { DataView } from '@visactor/vdataset';
 import { isXAxis } from './util/common';
-import { TimeUtil } from '@visactor/vutils';
+import { isValid, TimeUtil } from '@visactor/vutils';
 import { eachSeries } from '../../../util/model';
 import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
@@ -40,9 +40,15 @@ export class CartesianTimeAxis<
         this._regions,
         s => {
           if (isXAxis(this.getOrient())) {
-            (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
+            (s as ICartesianSeries).setXAxisHelper(
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            );
           } else {
-            (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+            (s as ICartesianSeries).setYAxisHelper(
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            );
           }
         },
         {

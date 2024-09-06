@@ -14,6 +14,7 @@ import { sortDataInAxisHelper } from '../util/utils';
 import { ChartEvent } from '../../constant';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { invalidTravel } from '../../data/transforms/invalid-travel';
+import { shouldUpdateHelper } from '../../component/axis/util';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>
@@ -80,13 +81,13 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   }
 
   private _angleAxisHelper!: IPolarAxisHelper;
-  public get angleAxisHelper() {
+  getAngleAxisHelper() {
     return this._angleAxisHelper;
   }
-  public set angleAxisHelper(h: IPolarAxisHelper) {
-    if (!this._angleAxisHelper || this._angleAxisHelper.getAxisId() === h.getAxisId()) {
+
+  setAngleAxisHelper(h: IPolarAxisHelper, forceUpdate: boolean = false) {
+    if (shouldUpdateHelper(this._angleAxisHelper, h, forceUpdate)) {
       this._angleAxisHelper = h;
-      this.onAngleAxisHelperUpdate();
     }
   }
 
@@ -94,10 +95,9 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   public get radiusAxisHelper() {
     return this._radiusAxisHelper;
   }
-  public set radiusAxisHelper(h: IPolarAxisHelper) {
-    if (!this._radiusAxisHelper || this._radiusAxisHelper.getAxisId() === h.getAxisId()) {
+  setRadiusAxisHelper(h: IPolarAxisHelper, forceUpdate: boolean = false) {
+    if (shouldUpdateHelper(this._radiusAxisHelper, h, forceUpdate)) {
       this._radiusAxisHelper = h;
-      this.onRadiusAxisHelperUpdate();
     }
   }
 
