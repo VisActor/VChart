@@ -188,15 +188,17 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       }
     ) as IArcMark;
 
-    this._emptyArcMark = this._createMark(
-      {
-        name: 'emptyCircle',
-        type: 'arc'
-      },
-      {
-        dataView: false
-      }
-    ) as IArcMark;
+    if (this._showEmptyCircle) {
+      this._emptyArcMark = this._createMark(
+        {
+          name: 'emptyCircle',
+          type: 'arc'
+        },
+        {
+          dataView: false
+        }
+      ) as IArcMark;
+    }
   }
 
   private startAngleScale(datum: Datum) {
@@ -245,7 +247,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         emptyPieMark,
         {
           ...initialStyle,
-          visible: () => this._showEmptyCircle && this.getViewData().latestData.length === 0
+          visible: () => this.getViewData().latestData.length === 0
         },
         'normal',
         AttributeLevel.Series
