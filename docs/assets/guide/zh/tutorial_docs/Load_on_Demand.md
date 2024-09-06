@@ -351,6 +351,22 @@ taro-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的
 
 也可以参考[taro-vchart](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/taro) 教程中的按需加载章节
 
+## NuxtJs 按需加载
+
+在 NuxtJs 中按需加载需要在`nuxt.config.ts`中进行如下配置，否则将会出现不支持 CommonJS 导入的错误
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  build: {
+    transpile: [
+      // ...
+      /visactor/
+    ]
+  }
+});
+```
+
 ## 跨端
 
 VChart 默认对浏览器和 node 环境提供了支持。如果你的项目需要运行在小程序环境下，按需加载时，请注意引入小程序环境代码。

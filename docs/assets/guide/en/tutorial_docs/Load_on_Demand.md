@@ -140,6 +140,7 @@ React-VChart inherently supports on-demand loading. When on-demand loading of VC
 - Use the `<VChartSimple />` tag to implement custom on-demand loading.
 
 The `<VChartSimple />` component and the `<VChart />` component are used in almost the same way. The only difference is that users need to import the `VChart` constructor class from `@visactor/vchart` and pass it to `<VChartSimple />`.
+
 ```typescript
 interface VChartSimpleProps extends EventsProps {
   /** Chart definition */
@@ -173,39 +174,39 @@ interface VChartSimpleProps extends EventsProps {
 
 - Use semantic tags, from version **1.11.0**, all semantic tags support on-demand loading by default. The default registered components for various semantic tags are as follows:
 
-| Chart                        | Category             | Additional Registered Components     |
-| ---------------------------- | -------------------- | ------------------------------------ |
-| `<LineChart/>`               | Cartesian Coordinate | `registerLabel`                     |
-| `<AreaChart/>`               | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
-| `<BarChart/>`                | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
-| `<Bar3dChart/>`              | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
-| `<BoxPlotChart/>`            | Cartesian Coordinate | `registerLabel`,                    |
-| `<HeatmapChart/>`            | Cartesian Coordinate | `registerLabel`                     |
-| `<Histogram3dChart/>`        | Cartesian Coordinate | `registerLabel`                     |
-| `<HistogramChart/>`          | Cartesian Coordinate | `registerLabel`                     |
-| `<LinearProgressChart/>`     | Cartesian Coordinate | `registerLabel`                     |
-| `<RangeColumnChart/>`        | Cartesian Coordinate | `registerLabel`                     |
-| `<RangeColumn3dChart/>`      | Cartesian Coordinate | `registerLabel`                     |
-| `<ScatterChart/>`            | Cartesian Coordinate | `registerLabel`                     |
-| `<SequenceChart/>`           | Cartesian Coordinate | `registerLabel`                     |
-| `<WaterfallChart/>`          | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
-| `<RadarChart/>`              | Polar Coordinate     | `registerLabel`                     |
-| `<RoseChart/>`               | Polar Coordinate     | `registerLabel`                     |
-| `<CircularProgressChart/>`   | Polar Coordinate     | `registerLabel`, `registerIndicator` |
-| `<Pie3dChart/>`              | General              | `registerLabel`, `registerIndicator` |
-| `<PieChart/>`                | General              | `registerLabel`, `registerIndicator` |
-| `<CirclePackingChart/>`      | General              | None                                |
-| `<FunnelChart/>`             | General              | `registerLabel`                     |
-| `<Funnel3dChart/>`           | General              | `registerLabel`                     |
-| `<GaugeChart/>`              | General              | None                                |
-| `<MapChart/>`                | General              | `registerLabel`                     |
-| `<SankeyChart/>`             | General              | None                                |
-| `<SunburstChart/>`           | General              | None                                |
-| `<TreemapChart/>`            | General              | None                                |
-| `<VennChart/>`               | General              | None                                |
-| `<WordCloud3dChart/>`        | General              | None                                |
-| `<WordCloudChart/>`          | General              | None                                |
-| `<LiquidChart/>`             | General              | `registerIndicator`                 |
+| Chart                      | Category             | Additional Registered Components      |
+| -------------------------- | -------------------- | ------------------------------------- |
+| `<LineChart/>`             | Cartesian Coordinate | `registerLabel`                       |
+| `<AreaChart/>`             | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
+| `<BarChart/>`              | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
+| `<Bar3dChart/>`            | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
+| `<BoxPlotChart/>`          | Cartesian Coordinate | `registerLabel`,                      |
+| `<HeatmapChart/>`          | Cartesian Coordinate | `registerLabel`                       |
+| `<Histogram3dChart/>`      | Cartesian Coordinate | `registerLabel`                       |
+| `<HistogramChart/>`        | Cartesian Coordinate | `registerLabel`                       |
+| `<LinearProgressChart/>`   | Cartesian Coordinate | `registerLabel`                       |
+| `<RangeColumnChart/>`      | Cartesian Coordinate | `registerLabel`                       |
+| `<RangeColumn3dChart/>`    | Cartesian Coordinate | `registerLabel`                       |
+| `<ScatterChart/>`          | Cartesian Coordinate | `registerLabel`                       |
+| `<SequenceChart/>`         | Cartesian Coordinate | `registerLabel`                       |
+| `<WaterfallChart/>`        | Cartesian Coordinate | `registerLabel`, `registerTotalLabel` |
+| `<RadarChart/>`            | Polar Coordinate     | `registerLabel`                       |
+| `<RoseChart/>`             | Polar Coordinate     | `registerLabel`                       |
+| `<CircularProgressChart/>` | Polar Coordinate     | `registerLabel`, `registerIndicator`  |
+| `<Pie3dChart/>`            | General              | `registerLabel`, `registerIndicator`  |
+| `<PieChart/>`              | General              | `registerLabel`, `registerIndicator`  |
+| `<CirclePackingChart/>`    | General              | None                                  |
+| `<FunnelChart/>`           | General              | `registerLabel`                       |
+| `<Funnel3dChart/>`         | General              | `registerLabel`                       |
+| `<GaugeChart/>`            | General              | None                                  |
+| `<MapChart/>`              | General              | `registerLabel`                       |
+| `<SankeyChart/>`           | General              | None                                  |
+| `<SunburstChart/>`         | General              | None                                  |
+| `<TreemapChart/>`          | General              | None                                  |
+| `<VennChart/>`             | General              | None                                  |
+| `<WordCloud3dChart/>`      | General              | None                                  |
+| `<WordCloudChart/>`        | General              | None                                  |
+| `<LiquidChart/>`           | General              | `registerIndicator`                   |
 
 For Cartesian coordinate charts, the default registered components are as follows:
 
@@ -272,39 +273,39 @@ The `<VChartSimple />` component and the `<VChart />` component are used in almo
 
 > Supported starting from version **1.12.0**
 
-| Chart                        | Category         | Additional Registered Components     |
-| ---------------------------- | ---------------- | ------------------------------------ |
-| `<LineChart/>`               | Cartesian Charts | `registerLabel`                      |
-| `<AreaChart/>`               | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
-| `<BarChart/>`                | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
-| `<Bar3dChart/>`              | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
-| `<BoxPlotChart/>`            | Cartesian Charts | `registerLabel`                      |
-| `<HeatmapChart/>`            | Cartesian Charts | `registerLabel`                      |
-| `<Histogram3dChart/>`        | Cartesian Charts | `registerLabel`                      |
-| `<HistogramChart/>`          | Cartesian Charts | `registerLabel`                      |
-| `<LinearProgressChart/>`     | Cartesian Charts | `registerLabel`                      |
-| `<RangeColumnChart/>`        | Cartesian Charts | `registerLabel`                      |
-| `<RangeColumn3dChart/>`      | Cartesian Charts | `registerLabel`                      |
-| `<ScatterChart/>`            | Cartesian Charts | `registerLabel`                      |
-| `<SequenceChart/>`           | Cartesian Charts | `registerLabel`                      |
-| `<WaterfallChart/>`          | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
-| `<RadarChart/>`              | Polar Charts     | `registerLabel`                      |
-| `<RoseChart/>`               | Polar Charts     | `registerLabel`                      |
-| `<CircularProgressChart/>`   | Polar Charts     | `registerLabel`, `registerIndicator` |
-| `<Pie3dChart/>`              | General Charts   | `registerLabel`, `registerIndicator` |
-| `<PieChart/>`                | General Charts   | `registerLabel`, `registerIndicator` |
-| `<CirclePackingChart/>`      | General Charts   | None                                 |
-| `<FunnelChart/>`             | General Charts   | `registerLabel`                      |
-| `<Funnel3dChart/>`           | General Charts   | `registerLabel`                      |
-| `<GaugeChart/>`              | General Charts   | None                                 |
-| `<MapChart/>`                | General Charts   | `registerLabel`                      |
-| `<SankeyChart/>`             | General Charts   | None                                 |
-| `<SunburstChart/>`           | General Charts   | None                                 |
-| `<TreemapChart/>`            | General Charts   | None                                 |
-| `<VennChart/>`               | General Charts   | None                                 |
-| `<WordCloud3dChart/>`        | General Charts   | None                                 |
-| `<WordCloudChart/>`          | General Charts   | None                                 |
-| `<LiquidChart/>`             | General Charts   | `registerIndicator`                  |
+| Chart                      | Category         | Additional Registered Components      |
+| -------------------------- | ---------------- | ------------------------------------- |
+| `<LineChart/>`             | Cartesian Charts | `registerLabel`                       |
+| `<AreaChart/>`             | Cartesian Charts | `registerLabel`, `registerTotalLabel` |
+| `<BarChart/>`              | Cartesian Charts | `registerLabel`, `registerTotalLabel` |
+| `<Bar3dChart/>`            | Cartesian Charts | `registerLabel`, `registerTotalLabel` |
+| `<BoxPlotChart/>`          | Cartesian Charts | `registerLabel`                       |
+| `<HeatmapChart/>`          | Cartesian Charts | `registerLabel`                       |
+| `<Histogram3dChart/>`      | Cartesian Charts | `registerLabel`                       |
+| `<HistogramChart/>`        | Cartesian Charts | `registerLabel`                       |
+| `<LinearProgressChart/>`   | Cartesian Charts | `registerLabel`                       |
+| `<RangeColumnChart/>`      | Cartesian Charts | `registerLabel`                       |
+| `<RangeColumn3dChart/>`    | Cartesian Charts | `registerLabel`                       |
+| `<ScatterChart/>`          | Cartesian Charts | `registerLabel`                       |
+| `<SequenceChart/>`         | Cartesian Charts | `registerLabel`                       |
+| `<WaterfallChart/>`        | Cartesian Charts | `registerLabel`, `registerTotalLabel` |
+| `<RadarChart/>`            | Polar Charts     | `registerLabel`                       |
+| `<RoseChart/>`             | Polar Charts     | `registerLabel`                       |
+| `<CircularProgressChart/>` | Polar Charts     | `registerLabel`, `registerIndicator`  |
+| `<Pie3dChart/>`            | General Charts   | `registerLabel`, `registerIndicator`  |
+| `<PieChart/>`              | General Charts   | `registerLabel`, `registerIndicator`  |
+| `<CirclePackingChart/>`    | General Charts   | None                                  |
+| `<FunnelChart/>`           | General Charts   | `registerLabel`                       |
+| `<Funnel3dChart/>`         | General Charts   | `registerLabel`                       |
+| `<GaugeChart/>`            | General Charts   | None                                  |
+| `<MapChart/>`              | General Charts   | `registerLabel`                       |
+| `<SankeyChart/>`           | General Charts   | None                                  |
+| `<SunburstChart/>`         | General Charts   | None                                  |
+| `<TreemapChart/>`          | General Charts   | None                                  |
+| `<VennChart/>`             | General Charts   | None                                  |
+| `<WordCloud3dChart/>`      | General Charts   | None                                  |
+| `<WordCloudChart/>`        | General Charts   | None                                  |
+| `<LiquidChart/>`           | General Charts   | `registerIndicator`                   |
 
 For Cartesian coordinate charts, the default registered components are as follows:
 
@@ -355,6 +356,21 @@ When using semantic tags, if other components not loaded by default are needed, 
 
 For more details on on-demand loading, refer to the [taro-vchart](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/taro) tutorial section.
 
+## On-Demand Loading for NuxtJs
+
+In NuxtJs, on-demand loading requires the following configuration in nuxt.config.ts, otherwise an error indicating that CommonJS imports are not supported will occur.
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  build: {
+    transpile: [
+      // ...
+      /visactor/
+    ]
+  }
+});
+```
 
 ## Cross-platform Related
 
