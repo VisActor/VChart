@@ -11,7 +11,6 @@ import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
 import { ChartEvent } from '../../constant/event';
-import { shouldUpdateAxis } from '../../component/axis/util';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>

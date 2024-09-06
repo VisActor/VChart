@@ -25,7 +25,6 @@ import type { IAxisLocationCfg } from '../../component/axis';
 import { ComponentTypeEnum } from '../../component/interface/type';
 import { ChartEvent } from '../../constant/event';
 import { PREFIX } from '../../constant/base';
-import { shouldUpdateAxis } from '../../component/axis/util';
 
 export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec>
   extends BaseSeries<T>

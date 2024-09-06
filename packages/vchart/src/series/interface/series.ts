@@ -271,6 +271,7 @@ export interface IPolarSeries extends ISeries {
   // 轴
   radiusAxisHelper: IPolarAxisHelper;
   angleAxisHelper: IPolarAxisHelper;
+
   valueToPosition: (value1: any, value2: any) => IPoint;
 }
 
