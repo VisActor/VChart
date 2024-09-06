@@ -109,14 +109,14 @@ const spec = {
     {
       id: 'fieldsData',
       values: [
-        {date: '1-2', value: '20', type: '利润'},
         {date: '1-3', value: '22', type: '利润'},
+        {date: '1-2', value: '20', type: '利润'},
         {date: '1-4', value: '30', type: '销售额'},
         {date: '1-2', value: '220', type: '销售额'},
         {date: '1-3', value: '230', type: '销售额'},
         {date: '1-4', value: '-40', type: '销售额'}
       ],
-      transform: [{
+      transforms: [{
         type: 'fields',
         options: {
           fields: {
@@ -138,12 +138,14 @@ const spec = {
   ]
 }
 // 最终数据
+// 数据会按照 date 在原数据中出现的顺序进行排序
 vchart.getDataSet().getDataView('fieldsData').latestData ===
-[{date: '1-2', value: '20', type: '利润'},
-{date: '1-2', value: '220', type: '销售额'},
-{date: '1-3', value: '22', type: '利润'},
+[{date: '1-3', value: '22', type: '利润'},
 {date: '1-3', value: '230', type: '销售额'},
-{date: '1-4', value: '30', type: '销售额'}]
+{date: '1-2', value: '20', type: '利润'},
+{date: '1-2', value: '220', type: '销售额'},
+{date: '1-4', value: '30', type: '销售额'}，
+{date: '1-4', value: '-40', type: '销售额'}]
 
 ```
 
@@ -241,8 +243,8 @@ const spec = {
     {
       id: 'fieldsData',
       values: [
-        {date: '1-2', value: '20', type: '利润'},
         {date: '1-3', value: '22', type: '利润'},
+        {date: '1-2', value: '20', type: '利润'},
         {date: '1-4', value: '30', type: '销售额'},
         {date: '1-2', value: '220', type: '销售额'},
         {date: '1-3', value: '230', type: '销售额'},
@@ -267,11 +269,12 @@ const spec = {
 // 最终数据
 vchart.getDataSet().getDataView('fieldsData').latestData ===
   [
-    {date: '1-2', value: '20', type: '利润'},
-    {date: '1-2', value: '220', type: '销售额'},
     {date: '1-3', value: '22', type: '利润'},
     {date: '1-3', value: '230', type: '销售额'},
-    {date: '1-4', value: '30', type: '销售额'}
+    {date: '1-2', value: '20', type: '利润'},
+    {date: '1-2', value: '220', type: '销售额'},
+    {date: '1-4', value: '30', type: '销售额'}，
+    {date: '1-4', value: '-40', type: '销售额'}
   ]
 ```
 
