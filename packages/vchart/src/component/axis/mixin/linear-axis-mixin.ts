@@ -41,7 +41,7 @@ export interface LinearAxisMixin {
   _break: {
     domain: [number, number][];
     scope: [number, number][];
-    range: [number, number][];
+    breakDomains: [number, number][];
     breaks: ILinearAxisBreakSpec[];
   };
   event: IEvent;
@@ -178,7 +178,7 @@ export class LinearAxisMixin {
           this._break = {
             domain: breakDomains,
             scope: breakScopes,
-            range: breakRanges,
+            breakDomains: breakRanges,
             breaks
           };
         } else {
