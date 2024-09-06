@@ -83,7 +83,7 @@
 
 #${prefix} breaks(Array|Object)
 
-自 `XXXXXXXXX` 版本开始支持。
+自 `1.12.4` 版本开始支持。
 
 轴截断配置，只对笛卡尔坐标系的 linear 轴生效。
 

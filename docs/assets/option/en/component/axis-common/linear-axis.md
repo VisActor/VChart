@@ -83,7 +83,7 @@ If configured as a single number such as `d`, the filtering interval is `[x0 - d
 
 #${prefix} breaks(Array|Object)
 
-Supported since `XXXXXXXXX` version.
+Supported since `1.12.4` version.
 
 Axis truncation configuration, only valid for linear axis of Cartesian coordinate system.
 
