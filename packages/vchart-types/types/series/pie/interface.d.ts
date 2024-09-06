@@ -70,7 +70,7 @@ export interface IArcLabelLayoutSpec {
     tangentConstraint?: boolean;
 }
 export type IArcLabelSpec = Omit<ILabelSpec, 'position'> & {
-    position?: 'outside' | 'inside';
+    position?: 'outside' | 'inside' | 'inside-center';
     showRule?: 'all' | 'max' | 'min' | 'minAndMax' | 'headAndTail';
     coverEnable?: boolean;
     rotate?: boolean;

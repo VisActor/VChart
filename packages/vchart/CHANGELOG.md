@@ -1,6 +1,57 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 21 Aug 2024 01:09:17 GMT and should not be manually modified.
+This log was last generated on Thu, 05 Sep 2024 05:54:53 GMT and should not be manually modified.
+
+## 1.12.3
+Thu, 05 Sep 2024 05:54:53 GMT
+
+### Updates
+
+- fix: cannot disable label update animation by `option.animation:false`
+- fix: upgrade vrender to 0.20.2, vgrammar to 0.14.3
+
+
+
+## 1.12.2
+Tue, 03 Sep 2024 12:46:51 GMT
+
+### Updates
+
+- fix: rangeMode of scrollbar not work. fix#3147
+- docs: fix issue of treemap.label not shown in option pages, fix #2562
+- docs: update docs about circular progress, close #2987
+
+
+- feat(brush): add config to control zoom when brush empty data. close#2934
+- feat: support 'inside-center' label position in pie chart
+- fix: fix error of `barWidth`, `barMinWidth`, `barMaxWidth` when value is null
+
+
+- fix: x brush filter not work. fix#3111
+- fix: indicator stop tooltip interactive. fix#3123
+- fix: fix error of `getCenter` when layoutRadius is a customized function in radar
+
+
+- fix: media query causes incorrect render result, #3102
+-  fix: normal animation not work since v1.12.0
+- fix: sankey scale update not work
+- fix: fix error of sankey when some customized mark has name "node"
+
+
+- fix: fix dimension value of tooltip when has innerOffset, fix #2923
+
+
+- fix: vchart should not throw error when the values of series data is empty, fix #3082
+
+
+- fix: fix error of `updateSpec` when array change
+
+
+- fix: wordcloud fill not update after updateSpec. fix#3122
+- fix: wordcloud scale update not work. fix#3129
+- refactor: refactor the parser of tooltip pattern
+
+
 
 ## 1.12.1
 Wed, 21 Aug 2024 01:09:17 GMT
