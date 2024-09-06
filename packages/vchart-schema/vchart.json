@@ -305,6 +305,9 @@
           },
           "type": "array"
         },
+        "autoWrap": {
+          "type": "boolean"
+        },
         "layoutFunc": {
           "typeof": "function"
         },
@@ -343,6 +346,20 @@
         "line"
       ],
       "type": "string"
+    },
+    "BreakSymbol": {
+      "properties": {
+        "angle": {
+          "type": "number"
+        },
+        "style": {
+          "$ref": "#/definitions/Partial<ISymbolGraphicAttribute>"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
     },
     "BuildInTransformOptions": {
       "anyOf": [
@@ -48806,8 +48823,26 @@
       ],
       "type": "object"
     },
+    "ILinearAxisBreakSpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Omit<AxisBreakProps,\"rawRange\">"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
+    },
     "ILinearAxisSpec": {
       "properties": {
+        "breaks": {
+          "description": "轴截断配置，只对笛卡尔坐标系的 linear 轴生效",
+          "items": {
+            "$ref": "#/definitions/ILinearAxisBreakSpec"
+          },
+          "since": "1.12.4",
+          "type": "array"
+        },
         "expand": {
           "typeof": "function"
         },
@@ -81604,7 +81639,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         },
         "size": {
@@ -81612,14 +81647,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13692",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         },
         "size": {
@@ -81627,14 +81662,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13692",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         },
         "size": {
@@ -81642,14 +81677,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13692",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         },
         "size": {
@@ -81657,14 +81692,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13692",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         },
         "size": {
@@ -81672,14 +81707,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13692",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         },
         "size": {
@@ -81687,14 +81722,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13692",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         },
         "size": {
@@ -81702,14 +81737,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13692",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         },
         "size": {
@@ -81717,14 +81752,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13692",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         },
         "size": {
@@ -81732,7 +81767,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13692",
         "size"
       ],
       "type": "object"
@@ -82166,6 +82201,30 @@
         "vendor",
         "vendorSub",
         "webdriver"
+      ],
+      "type": "object"
+    },
+    "Omit<AxisBreakProps,\"rawRange\">": {
+      "properties": {
+        "breakSymbol": {
+          "$ref": "#/definitions/BreakSymbol"
+        },
+        "range": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "range"
       ],
       "type": "object"
     },
@@ -102613,34 +102672,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13577"
+        "__@toStringTag@13692"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13577"
+        "__@toStringTag@13692"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13692": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13577"
+        "__@toStringTag@13692"
       ],
       "type": "object"
     },
