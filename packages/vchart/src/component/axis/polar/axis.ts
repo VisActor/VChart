@@ -180,15 +180,25 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         this._regions,
         s => {
           if (this.getOrient() === 'radius') {
-            (s as IPolarSeries).setRadiusAxisHelper(
-              this.axisHelper(),
-              isValid(this._seriesUserId) || isValid(this._seriesIndex)
-            );
+            if (
+              shouldUpdateAxis(
+                (s as IPolarSeries).radiusAxisHelper,
+                this.axisHelper(),
+                isValid(this._seriesUserId) || isValid(this._seriesIndex)
+              )
+            ) {
+              (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
+            }
           } else {
-            (s as IPolarSeries).setAngleAxisHelper(
-              this.axisHelper(),
-              isValid(this._seriesUserId) || isValid(this._seriesIndex)
-            );
+            if (
+              shouldUpdateAxis(
+                (s as IPolarSeries).angleAxisHelper,
+                this.axisHelper(),
+                isValid(this._seriesUserId) || isValid(this._seriesIndex)
+              )
+            ) {
+              (s as IPolarSeries).angleAxisHelper = this.axisHelper();
+            }
           }
         },
         {
