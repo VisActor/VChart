@@ -18,7 +18,7 @@ import { LineCrosshair, RectCrosshair, Tag } from '@visactor/vrender-components'
 import type { IAxisInfo, IHair } from './base';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
-import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
+import type { IGraphic, INode } from '@visactor/vrender-core';
 import { limitTagInBounds } from './utils';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
