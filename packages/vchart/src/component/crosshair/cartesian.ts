@@ -12,7 +12,6 @@ import type {
   ICrosshairInfoY
 } from './interface';
 import type { ICartesianSeries } from '../../series/interface';
-// eslint-disable-next-line no-duplicate-imports
 import { isDiscrete } from '@visactor/vscale';
 import { LineCrosshair, RectCrosshair, Tag } from '@visactor/vrender-components';
 import type { IAxisInfo, IHair } from './base';
@@ -273,9 +272,6 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   }
 
   hide() {
-    this._cacheXCrossHairInfo = undefined;
-    this._cacheYCrossHairInfo = undefined;
-
     // 隐藏
     this._xCrosshair && this._xCrosshair.hideAll();
     this._xTopLabel && this._xTopLabel.hideAll();
@@ -439,10 +435,9 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   }
 
   private _parseAndSetCrosshair(field: ICrosshairCategoryFieldSpec, axis: 'x' | 'y') {
+    const hairProp = `_${axis}Hair` as '_xHair' | '_yHair';
+    const crosshairProp = `_${axis}Crosshair` as '_xCrosshair' | '_yCrosshair';
     if (field && field.visible) {
-      const hairProp = `_${axis}Hair` as '_xHair' | '_yHair';
-      const crosshairProp = `_${axis}Crosshair` as '_xCrosshair' | '_yCrosshair';
-
       this[hairProp] = this._parseField(field, `${axis}Field` as 'xField' | 'yField');
 
       if (this[crosshairProp]) {
@@ -453,6 +448,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
           [styleKey]: style
         });
       }
+    } else if (this[crosshairProp] && this[crosshairProp].parent) {
+      this[crosshairProp].parent.removeChild(this[crosshairProp]);
     }
   }
 
