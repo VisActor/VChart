@@ -272,9 +272,7 @@ export interface IPolarSeries extends ISeries {
   radiusAxisHelper: IPolarAxisHelper;
   angleAxisHelper: IPolarAxisHelper;
 
-  getAngleAxisHelper: () => IPolarAxisHelper;
   setAngleAxisHelper: (h: IPolarAxisHelper, forceUpdate?: boolean) => void;
-  getRadiusAxisHelper: () => IPolarAxisHelper;
   setRadiusAxisHelper: (h: IPolarAxisHelper, forceUpdate?: boolean) => void;
 
   valueToPosition: (value1: any, value2: any) => IPoint;

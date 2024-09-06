@@ -78,7 +78,7 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   }
 
   private _angleAxisHelper!: IPolarAxisHelper;
-  getAngleAxisHelper() {
+  public get angleAxisHelper() {
     return this._angleAxisHelper;
   }
 
