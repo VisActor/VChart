@@ -273,6 +273,9 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   }
 
   hide() {
+    this._cacheXCrossHairInfo = undefined;
+    this._cacheYCrossHairInfo = undefined;
+
     // 隐藏
     this._xCrosshair && this._xCrosshair.hideAll();
     this._xTopLabel && this._xTopLabel.hideAll();
@@ -486,9 +489,9 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       // 添加至场景树
       container?.add(crosshair as unknown as INode);
       if (dim === 'x') {
-        this._xCrosshair = crosshair as unknown as IGroup;
+        this._xCrosshair = crosshair;
       } else {
-        this._yCrosshair = crosshair as unknown as IGroup;
+        this._yCrosshair = crosshair;
       }
     }
   }
