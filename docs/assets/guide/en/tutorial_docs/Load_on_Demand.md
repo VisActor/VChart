@@ -356,22 +356,6 @@ When using semantic tags, if other components not loaded by default are needed, 
 
 For more details on on-demand loading, refer to the [taro-vchart](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/taro) tutorial section.
 
-## On-Demand Loading for NuxtJs
-
-In NuxtJs, on-demand loading requires the following configuration in nuxt.config.ts, otherwise an error indicating that CommonJS imports are not supported will occur.
-
-```ts
-// nuxt.config.ts
-export default defineNuxtConfig({
-  build: {
-    transpile: [
-      // ...
-      /visactor/
-    ]
-  }
-});
-```
-
 ## Cross-platform Related
 
 VChart provides support for the browser and node environments by default. If your project needs to run in a mini-program environment, please note to import the mini-program environment code when loading on demand.
@@ -414,6 +398,42 @@ The environment compatibility registrars currently supported by VChart include:
     <td><code>registerAllEnv</code></td>
   </tr>
 </table>
+
+## FAQ
+
+### Why is on-demand loading not working in the development environment?
+
+In the development environment, tree-shaking is not applied, so the following on-demand import is equivalent to `import VChart from '@visactor/vchart'` (full import).
+
+However, note that tree-shaking will be enabled during the build, so missing necessary imports may cause runtime errors.
+
+```ts
+// import VChart core module
+import { VChart } from '@visactor/vchart';
+// import bar chart
+import { registerBarChart } from '@visactor/vchart';
+// import tooltip, crosshair components
+import { registerTooltip, registerDomTooltipHandler, registerCartesianCrossHair } from '@visactor/vchart';
+
+// register chart and components
+VChart.useRegisters([registerBarChart, registerTooltip, registerDomTooltipHandler, registerCartesianCrossHair]);
+```
+
+### How to fix the issue when NuxtJs works in development but errors after build?
+
+In NuxtJs, on-demand loading requires the following configuration in nuxt.config.ts, otherwise an error indicating that CommonJS imports are not supported will occur.
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  build: {
+    transpile: [
+      // ...
+      /visactor/
+    ]
+  }
+});
+```
 
 ## Appendix I: List of series registration methods
 
