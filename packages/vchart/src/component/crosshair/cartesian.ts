@@ -4,7 +4,13 @@ import { isArray, isNil, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { AxisCurrentValueMap, ICartesianCrosshairSpec, ICrosshairInfoX, ICrosshairInfoY } from './interface';
+import type {
+  AxisCurrentValueMap,
+  ICartesianCrosshairSpec,
+  ICrosshairCategoryFieldSpec,
+  ICrosshairInfoX,
+  ICrosshairInfoY
+} from './interface';
 import type { ICartesianSeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isDiscrete } from '@visactor/vscale';
@@ -42,11 +48,11 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   private _cacheXCrossHairInfo: ICrosshairInfoX | undefined;
   private _cacheYCrossHairInfo: ICrosshairInfoY | undefined;
 
-  private _xCrosshair: IGroup;
+  private _xCrosshair: LineCrosshair | RectCrosshair;
   private _xTopLabel: Tag;
   private _xBottomLabel: Tag;
 
-  private _yCrosshair: IGroup;
+  private _yCrosshair: LineCrosshair | RectCrosshair;
   private _yLeftLabel: Tag;
   private _yRightLabel: Tag;
 
@@ -425,34 +431,24 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
 
   protected _parseFieldInfo() {
     const { xField, yField } = this._spec as ICartesianCrosshairSpec;
-    if (xField && xField.visible) {
-      this._xHair = this._parseField(xField, 'xField');
-      if (this._xCrosshair) {
-        const { style, type } = this._xHair;
-        if (type === 'rect') {
-          this._xCrosshair.setAttributes({
-            rectStyle: style
-          } as any);
-        } else if (type === 'line') {
-          this._xCrosshair.setAttributes({
-            lineStyle: style
-          } as any);
-        }
-      }
-    }
-    if (yField && yField.visible) {
-      this._yHair = this._parseField(yField, 'yField');
-      if (this._yCrosshair) {
-        const { style, type } = this._yHair;
-        if (type === 'rect') {
-          this._yCrosshair.setAttributes({
-            rectStyle: style
-          } as any);
-        } else if (type === 'line') {
-          this._yCrosshair.setAttributes({
-            lineStyle: style
-          } as any);
-        }
+    this._parseAndSetCrosshair(xField, 'x');
+    this._parseAndSetCrosshair(yField, 'y');
+  }
+
+  private _parseAndSetCrosshair(field: ICrosshairCategoryFieldSpec, axis: 'x' | 'y') {
+    if (field && field.visible) {
+      const hairProp = `_${axis}Hair` as '_xHair' | '_yHair';
+      const crosshairProp = `_${axis}Crosshair` as '_xCrosshair' | '_yCrosshair';
+
+      this[hairProp] = this._parseField(field, `${axis}Field` as 'xField' | 'yField');
+
+      if (this[crosshairProp]) {
+        const { style, type } = this[hairProp];
+        const styleKey = type === 'rect' ? 'rectStyle' : 'lineStyle';
+
+        this[crosshairProp].setAttributes({
+          [styleKey]: style
+        });
       }
     }
   }
