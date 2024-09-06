@@ -232,11 +232,11 @@ export interface ICartesianSeries extends ISeries {
 
   // 轴API
   getXAxisHelper: () => IAxisHelper;
-  setXAxisHelper: (h: IAxisHelper, forceUpdate?: boolean) => void;
+  setXAxisHelper: (h: IAxisHelper) => void;
   getYAxisHelper: () => IAxisHelper;
-  setYAxisHelper: (h: IAxisHelper, forceUpdate?: boolean) => void;
+  setYAxisHelper: (h: IAxisHelper) => void;
   getZAxisHelper: () => IAxisHelper | undefined;
-  setZAxisHelper: (h: IAxisHelper, forceUpdate?: boolean) => void;
+  setZAxisHelper: (h: IAxisHelper) => void;
 
   dataToPositionX1: (datum: Datum) => number | null;
   dataToPositionY1: (datum: Datum) => number | null;
@@ -271,10 +271,6 @@ export interface IPolarSeries extends ISeries {
   // 轴
   radiusAxisHelper: IPolarAxisHelper;
   angleAxisHelper: IPolarAxisHelper;
-
-  setAngleAxisHelper: (h: IPolarAxisHelper, forceUpdate?: boolean) => void;
-  setRadiusAxisHelper: (h: IPolarAxisHelper, forceUpdate?: boolean) => void;
-
   valueToPosition: (value1: any, value2: any) => IPoint;
 }
 

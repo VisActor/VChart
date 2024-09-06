@@ -110,7 +110,7 @@ export function getAxisItem(value: any, normalizedValue: number) {
 }
 
 // 更新的条件: 指定绑定关系 或 初次绑定 或 更新前后id一致(防止声明多个轴时, 后面的轴覆盖前面的轴)
-export function shouldUpdateHelper(
+export function shouldUpdateAxis(
   preHelper: IAxisHelper | IPolarAxisHelper,
   curHelper: IAxisHelper | IPolarAxisHelper,
   forceUpdate: boolean

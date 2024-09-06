@@ -11,7 +11,7 @@ import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
 import { ChartEvent } from '../../constant/event';
-import { shouldUpdateHelper } from '../../component/axis/util';
+import { shouldUpdateAxis } from '../../component/axis/util';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>
@@ -82,20 +82,18 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return this._angleAxisHelper;
   }
 
-  setAngleAxisHelper(h: IPolarAxisHelper, forceUpdate: boolean = false) {
-    if (shouldUpdateHelper(this._angleAxisHelper, h, forceUpdate)) {
-      this._angleAxisHelper = h;
-    }
+  public set angleAxisHelper(h: IPolarAxisHelper) {
+    this._angleAxisHelper = h;
+    this.onAngleAxisHelperUpdate();
   }
 
   private _radiusAxisHelper!: IPolarAxisHelper;
   public get radiusAxisHelper() {
     return this._radiusAxisHelper;
   }
-  setRadiusAxisHelper(h: IPolarAxisHelper, forceUpdate: boolean = false) {
-    if (shouldUpdateHelper(this._radiusAxisHelper, h, forceUpdate)) {
-      this._radiusAxisHelper = h;
-    }
+  public set radiusAxisHelper(h: IPolarAxisHelper) {
+    this._radiusAxisHelper = h;
+    this.onRadiusAxisHelperUpdate();
   }
 
   protected _sortDataByAxis: boolean = false;
