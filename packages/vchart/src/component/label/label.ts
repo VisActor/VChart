@@ -21,7 +21,7 @@ import { registerComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isFunction, pickWithout } from '@visactor/vutils';
+import { isArray, isFunction, isValid, pickWithout } from '@visactor/vutils';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
 import type { ILabelMark } from '../../mark/label';
@@ -205,6 +205,10 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         );
         if (component) {
           component.setSkipBeforeLayouted(true);
+
+          if (regionLabelInfo[0] && isValid(regionLabelInfo[0].labelSpec.zIndex)) {
+            component.setZIndex(regionLabelInfo[0].labelSpec.zIndex);
+          }
           this._marks.addMark(component);
           this._labelComponentMap.set(component, () => {
             return this._labelInfoMap.get(region);
@@ -221,6 +225,10 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             }
           );
           if (component) {
+            if (isValid(labelInfo.labelSpec.zIndex)) {
+              component.setZIndex(labelInfo.labelSpec.zIndex);
+            }
+
             component.setSkipBeforeLayouted(true);
             this._marks.addMark(component);
             this._labelComponentMap.set(component, () => {
