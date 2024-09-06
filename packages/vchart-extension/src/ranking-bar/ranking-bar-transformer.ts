@@ -54,7 +54,7 @@ export class RankingBarChartSpecTransformer<T extends ICommonChartSpec> extends 
         xField,
         seriesField: yField,
         extensionMark: [],
-        label: labelSpec(label, { ...nameLabel, yField }, { interval, exchangeDuration }) as any
+        label: labelSpec(label, { ...nameLabel, yField }) as any
       }
     ];
     spec.axes = axisSpec(xAxis, yAxis);
@@ -174,11 +174,7 @@ function transformAnimationSpec(
   };
 }
 
-function labelSpec(
-  label: IRankingBarSpec['label'] = {},
-  nameLabel: IRankingBarSpec['nameLabel'] & { yField: string },
-  { interval, exchangeDuration }: any
-) {
+function labelSpec(label: IRankingBarSpec['label'] = {}, nameLabel: IRankingBarSpec['nameLabel'] & { yField: string }) {
   const spec: ILabelSpec[] = [];
 
   if (label.visible !== false) {
@@ -193,19 +189,7 @@ function labelSpec(
       smartInvert: {
         fillStrategy: label.style?.fill ? 'null' : undefined,
         strokeStrategy: label.style?.stroke ? 'null' : undefined
-      },
-      animationUpdate: [
-        {
-          duration: exchangeDuration,
-          easing: 'cubicInOut',
-          channel: ['y']
-        },
-        {
-          options: { excludeChannels: ['y'] },
-          easing: 'linear',
-          duration: interval
-        }
-      ]
+      }
     });
   }
 
@@ -222,8 +206,7 @@ function labelSpec(
         strokeStrategy: nameLabel.style?.stroke ? 'null' : undefined
       },
       position: nameLabel.position === 'bar-end' ? 'inside-right' : 'inside-left',
-      formatter: `{${nameLabel.yField}}`,
-      animationUpdate: customMarkUpdateAnimation(interval, exchangeDuration)
+      formatter: `{${nameLabel.yField}}`
     });
   }
 

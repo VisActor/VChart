@@ -1,5 +1,5 @@
 import { IRankingBarSpec } from './interface';
-import { BaseChart, VChart } from '@visactor/vchart';
+import VChart, { BaseChart } from '@visactor/vchart';
 import { RankingBarChartSpecTransformer } from './ranking-bar-transformer';
 
 export class RankingBar extends BaseChart<Omit<IRankingBarSpec, 'color'>> {
@@ -33,6 +33,9 @@ export class RankingBar extends BaseChart<Omit<IRankingBarSpec, 'color'>> {
   }
 }
 
-export const registerRankingBarChart = () => {
-  VChart.useChart([RankingBar]);
+export const registerRankingBarChart = (option?: { VChart?: typeof VChart }) => {
+  const vchartConstructor = option?.VChart || VChart;
+  if (vchartConstructor) {
+    vchartConstructor.useChart([RankingBar]);
+  }
 };

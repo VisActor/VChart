@@ -1,15 +1,15 @@
 {
   "name": "@visactor/vchart-extension",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "sideEffects": false,
   "main": "cjs/index.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
   "files": [
     "cjs",
-    "es",
-    "dist"
+    "esm",
+    "build"
   ],
   "scripts": {
     "compile": "tsc --noEmit",
@@ -18,8 +18,10 @@
     "build:umd": "bundle --clean -f  umd",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser"
   },
+  "pearDependencies": {
+    "@visactor/vchart": "^1.11.11"
+  },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.12.3",
     "@visactor/vrender-core": "0.20.3-alpha.0",
     "@visactor/vrender-kits": "0.20.3-alpha.0",
     "@visactor/vutils": "~0.18.15"
@@ -48,6 +50,11 @@
     "rollup-plugin-gzip": "3.1.0",
     "rollup-plugin-bundle-size": "1.0.3",
     "rollup-plugin-sizes": "1.0.5",
-    "rollup": "3.20.5"
+    "rollup": "3.20.5",
+    "@visactor/vchart": "workspace:1.12.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
