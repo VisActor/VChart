@@ -182,7 +182,7 @@ export interface IChart extends ICompilable {
   /**
    * 清除所有图元的所有状态
    *
-   * @since 1.12.3
+   * @since 1.12.4
    */
   clearAllStates: () => void;
   /**
