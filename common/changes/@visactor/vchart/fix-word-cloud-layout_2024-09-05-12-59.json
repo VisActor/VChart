@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: wordcloud text overlap. fix#3177",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
