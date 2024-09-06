@@ -143,7 +143,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._zAxisHelper;
   }
   setZAxisHelper(h: IAxisHelper, forceUpdate: boolean = false) {
-    if (shouldUpdateHelper(this._xAxisHelper, h, forceUpdate)) {
+    if (shouldUpdateHelper(this._zAxisHelper, h, forceUpdate)) {
       this._zAxisHelper = h;
       this.onYAxisHelperUpdate();
     }
