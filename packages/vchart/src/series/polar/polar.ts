@@ -84,8 +84,10 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return this._angleAxisHelper;
   }
   public set angleAxisHelper(h: IPolarAxisHelper) {
-    this._angleAxisHelper = h;
-    this.onAngleAxisHelperUpdate();
+    if (!this._angleAxisHelper || this._angleAxisHelper.getAxisId() === h.getAxisId()) {
+      this._angleAxisHelper = h;
+      this.onAngleAxisHelperUpdate();
+    }
   }
 
   private _radiusAxisHelper!: IPolarAxisHelper;
@@ -93,8 +95,10 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return this._radiusAxisHelper;
   }
   public set radiusAxisHelper(h: IPolarAxisHelper) {
-    this._radiusAxisHelper = h;
-    this.onRadiusAxisHelperUpdate();
+    if (!this._radiusAxisHelper || this._radiusAxisHelper.getAxisId() === h.getAxisId()) {
+      this._radiusAxisHelper = h;
+      this.onRadiusAxisHelperUpdate();
+    }
   }
 
   protected _sortDataByAxis: boolean = false;
