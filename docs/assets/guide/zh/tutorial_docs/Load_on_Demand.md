@@ -394,6 +394,41 @@ VChart.useRegisters([registerWXEnv]);
     </tr>
 </table>
 
+## 常见问题
+
+### 开发环境按需加载不起作用？
+
+开发环境并未做 tree-shaking 处理，以下按需导入等同于`import VChart from '@visactor/vchart'`全量导入
+
+但需注意，当打包编译时将会开启 tree-shaking，如缺少必要组件导入，项目运行将会报错！
+
+```ts
+// 引入 VChart 核心模块
+import { VChart } from '@visactor/vchart';
+// 引入柱状图
+import { registerBarChart } from '@visactor/vchart';
+// 引入坐标轴、提示信息、十字准星组件
+import { registerTooltip, registerCartesianCrossHair, registerDomTooltipHandler } from '@visactor/vchart';
+// 注册柱状图和组件
+VChart.useRegisters([registerBarChart, registerTooltip, registerDomTooltipHandler, registerCartesianCrossHair]);
+```
+
+### NuxtJs 开发环境使用正常，打包后报错如何解决？
+
+在 NuxtJs 中按需加载需要在`nuxt.config.ts`中进行如下配置，否则将会出现不支持 CommonJS 导入的错误
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  build: {
+    transpile: [
+      // ...
+      /visactor/
+    ]
+  }
+});
+```
+
 ## 附录一：系列注册方法列表
 
 <table>
