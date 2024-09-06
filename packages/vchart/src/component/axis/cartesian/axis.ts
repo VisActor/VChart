@@ -218,7 +218,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                 isValid(this._seriesUserId) || isValid(this._seriesIndex)
               )
             ) {
-              (s as ICartesianSeries).setScaleX(this._scale);
               (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
             }
           } else if (isYAxis(orient)) {
@@ -229,7 +228,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                 isValid(this._seriesUserId) || isValid(this._seriesIndex)
               )
             ) {
-              (s as ICartesianSeries).setScaleY(this._scale);
               (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
             }
           } else if (isZAxis(orient)) {
@@ -240,7 +238,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                 isValid(this._seriesUserId) || isValid(this._seriesIndex)
               )
             ) {
-              (s as ICartesianSeries).setScaleZ(this._scale);
               (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
             }
           }
@@ -480,20 +477,38 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this._regions,
       s => {
         if (isXAxis(orient)) {
-          (s as ICartesianSeries).setXAxisHelper(
-            this.axisHelper(),
-            isValid(this._seriesUserId) || isValid(this._seriesIndex)
-          );
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getXAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setScaleX(this._scale);
+            (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
+          }
         } else if (isYAxis(orient)) {
-          (s as ICartesianSeries).setYAxisHelper(
-            this.axisHelper(),
-            isValid(this._seriesUserId) || isValid(this._seriesIndex)
-          );
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getYAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setScaleY(this._scale);
+            (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+          }
         } else if (isZAxis(orient)) {
-          (s as ICartesianSeries).setZAxisHelper(
-            this.axisHelper(),
-            isValid(this._seriesUserId) || isValid(this._seriesIndex)
-          );
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getZAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setScaleZ(this._scale);
+            (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
+          }
         }
       },
       {
