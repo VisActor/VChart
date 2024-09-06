@@ -94,6 +94,11 @@ Axis label autohide switch, off by default, ** needs to be turned on manually, a
 
 Only works if `autoLimit` is true, omits placeholders, defaults to '...'. .
 
+##${prefix} autoWrap(boolean) = false
+
+Axis label automatic line wrapping is supported from version `1.12.4`.
+It will not be effective when `autoRotate` is set to `true`. If autoRotate is enabled, the automatic rotation strategy will be used preferentially.
+
 ##${prefix} layoutFunc(function)
 
 `sampling` takes effect when `sampling` is turned off, custom layout configurations, and if `layoutFunc` is declared, none of the anti-overlap related configurations (`autoHide`, `autoRotate`, `autoLimit`) provided by default take effect.
