@@ -674,7 +674,7 @@ Clear all states of the marks
  /**
    * clear all states of marks
    *
-   * @since 1.12.3
+   * @since 1.12.4
    */
   clearAllStates: (state: string) => void;
 ```
