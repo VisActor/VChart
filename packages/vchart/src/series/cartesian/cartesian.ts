@@ -118,8 +118,10 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._xAxisHelper;
   }
   setXAxisHelper(h: IAxisHelper) {
-    this._xAxisHelper = h;
-    this.onXAxisHelperUpdate();
+    if (!this._xAxisHelper || this._xAxisHelper.getAxisId() === h.getAxisId()) {
+      this._xAxisHelper = h;
+      this.onXAxisHelperUpdate();
+    }
   }
 
   _yAxisHelper!: IAxisHelper;
@@ -127,8 +129,10 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._yAxisHelper;
   }
   setYAxisHelper(h: IAxisHelper) {
-    this._yAxisHelper = h;
-    this.onYAxisHelperUpdate();
+    if (!this._yAxisHelper || this._yAxisHelper.getAxisId() === h.getAxisId()) {
+      this._yAxisHelper = h;
+      this.onYAxisHelperUpdate();
+    }
   }
 
   _zAxisHelper?: IAxisHelper;
@@ -136,8 +140,10 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._zAxisHelper;
   }
   setZAxisHelper(h: IAxisHelper) {
-    this._zAxisHelper = h;
-    this.onYAxisHelperUpdate();
+    if (!this._zAxisHelper || this._zAxisHelper.getAxisId() === h.getAxisId()) {
+      this._zAxisHelper = h;
+      this.onYAxisHelperUpdate();
+    }
   }
 
   protected _sortDataByAxis: boolean = false;
