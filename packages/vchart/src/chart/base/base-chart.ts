@@ -1159,7 +1159,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   /**
    * 清除所有图元的所有状态
    *
-   * @since 1.12.3
+   * @since 1.12.4
    */
   clearAllStates() {
     this.getAllRegions().forEach(r => {
