@@ -96,7 +96,7 @@ export type CustomMethod = (items: IText[], separation: number) => IText[];
 
 ##${prefix} autoWrap(boolean) = false
 
-标签自动换行，自 `1.12.4` 版本支持。
+标签自动换行，自 `1.12.5` 版本支持。
 与 `autoRotate` 不能同时生效，若开启了 `autoRotate`，则优先使用自动旋转策略。
 
 ##${prefix} layoutFunc(function)

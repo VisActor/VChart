@@ -96,7 +96,7 @@ Only works if `autoLimit` is true, omits placeholders, defaults to '...'. .
 
 ##${prefix} autoWrap(boolean) = false
 
-Axis label automatic line wrapping is supported from version `1.12.4`.
+Axis label automatic line wrapping is supported from version `1.12.5`.
 It will not be effective when `autoRotate` is set to `true`. If autoRotate is enabled, the automatic rotation strategy will be used preferentially.
 
 ##${prefix} layoutFunc(function)
