@@ -165,7 +165,7 @@ export class LinearAxisMixin {
         const breaks = [];
         for (let index = 0; index < this._spec.breaks.length; index++) {
           const { range } = this._spec.breaks[index];
-          if (range[0] <= range[1] && (range[1] <= maxDomain || range[1] <= minDomain)) {
+          if (range[0] <= range[1] && range[1] <= maxDomain) {
             breakRanges.push(range);
             breaks.push(this._spec.breaks[index]);
           }
