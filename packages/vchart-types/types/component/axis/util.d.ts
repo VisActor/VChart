@@ -1,6 +1,8 @@
 import type { IOrientType, IPolarOrientType } from '../../typings';
 import type { AxisType, ICommonAxisSpec, ILinearAxisSpec } from './interface';
 import type { ITheme } from '../../theme';
+import type { IAxisHelper } from './cartesian';
+import type { IPolarAxisHelper } from './polar';
 export declare const DEFAULT_TITLE_STYLE: {
     left: {
         textAlign: string;
@@ -33,3 +35,4 @@ export declare function getAxisItem(value: any, normalizedValue: number): {
     value: number;
     rawValue: any;
 };
+export declare function shouldUpdateAxis(preHelper: IAxisHelper | IPolarAxisHelper, curHelper: IAxisHelper | IPolarAxisHelper, forceUpdate: boolean): boolean;

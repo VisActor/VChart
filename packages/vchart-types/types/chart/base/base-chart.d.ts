@@ -140,6 +140,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     setSelected(datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
     setHovered(datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
     clearState(state: string): void;
+    clearAllStates(): void;
     clearSelected(): void;
     clearHovered(): void;
     private _initEvent;
