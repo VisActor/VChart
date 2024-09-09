@@ -97,10 +97,7 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
     return {
       tooltipInfo: this._getDimensionInfo(params),
       // 排除被声明要忽略的项
-      ignore: [...((this.component.getOption() as any).getAllSeries() ?? [])].some(model => {
-        const ignoreTriggers = model.tooltipHelper?.ignoreTriggerSet.dimension;
-        return (params.model && ignoreTriggers?.has(params.model)) || (params.mark && ignoreTriggers?.has(params.mark));
-      })
+      ignore: false
     };
   }
 }

@@ -79,7 +79,6 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
 
   protected initTooltip() {
     this._tooltipHelper = new RangeAreaSeriesTooltipHelper(this);
-    this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
   }
 
   protected _isFieldAllValid() {

@@ -248,7 +248,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      // this._tooltipHelper?.activeTriggerSet.mark.add(gridMark);
     }
 
     const gridMark = this._gridMark;
@@ -265,7 +264,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      // this._tooltipHelper?.activeTriggerSet.mark.add(gridMark);
     }
 
     const dotMark = this._dotMark;
@@ -298,7 +296,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      // this._tooltipHelper?.activeTriggerSet.mark.add(titleMark);
     }
 
     const subTitleMark = this._subTitleMark;
@@ -316,7 +313,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      // this._tooltipHelper?.activeTriggerSet.mark.add(subTitleMark);
     }
 
     const symbolMark = this._symbolMark;
@@ -331,7 +327,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      // this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
     }
   }
 

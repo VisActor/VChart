@@ -13,9 +13,14 @@ export interface ITooltipHelper {
   activeType: TooltipActiveType[];
 
   /** 可以响应mark tooltip或者dimension tooltip的对象 */
-  activeTriggerSet: ITooltipActiveTypeAsKeys<Set<TooltipTrigger>, Set<TooltipTrigger>, Set<TooltipTrigger>>;
+  activeTriggerSet: {
+    mark?: Set<TooltipTrigger>;
+    group?: Set<TooltipTrigger>;
+  };
   /** 不响应tooltip且不会影响已有tooltip的对象 */
-  ignoreTriggerSet: ITooltipActiveTypeAsKeys<Set<TooltipTrigger>, Set<TooltipTrigger>, Set<TooltipTrigger>>;
+  ignoreTriggerSet: {
+    mark?: Set<TooltipTrigger>;
+  };
 
   /** 更新spec */
   updateTooltipSpec: () => void;
@@ -27,13 +32,10 @@ export abstract class BaseTooltipHelper implements ITooltipHelper {
 
   activeTriggerSet = {
     mark: new Set<TooltipTrigger>(),
-    dimension: new Set<TooltipTrigger>(),
     group: new Set<TooltipTrigger>()
   };
   ignoreTriggerSet = {
-    mark: new Set<TooltipTrigger>(),
-    dimension: new Set<TooltipTrigger>(),
-    group: new Set<TooltipTrigger>()
+    mark: new Set<TooltipTrigger>()
   };
 
   abstract updateTooltipSpec(): void;
