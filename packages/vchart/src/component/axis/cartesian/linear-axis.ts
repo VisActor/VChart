@@ -12,7 +12,7 @@ import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { continuousTicks, ICartesianTickDataOpt } from '@visactor/vrender-components';
 import { isXAxis, isZAxis } from './util';
-import { combineArray, isPercent } from '../../../util';
+import { combineDomains, isPercent } from '../../../util';
 
 export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec>
   extends Pick<
@@ -112,7 +112,7 @@ export class CartesianLinearAxis<
     let newRange = super.getNewScaleRange();
     if (this._spec.breaks?.length && this._break?.scope) {
       // get axis breaks
-      newRange = combineArray(this._break.scope).map(val => newRange[0] + (last(newRange) - newRange[0]) * val);
+      newRange = combineDomains(this._break.scope).map(val => newRange[0] + (last(newRange) - newRange[0]) * val);
     }
 
     return newRange;

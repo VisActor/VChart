@@ -1,6 +1,6 @@
 import { isValidNumber, isNil, isValid, isFunction, last } from '@visactor/vutils';
 import type { LinearScale } from '@visactor/vscale';
-import { combineArray, maxInArr, minInArr } from '../../../util/array';
+import { combineDomains, maxInArr, minInArr } from '../../../util/array';
 import { getLinearAxisSpecDomain } from '../util';
 import type { IAxisLocationCfg, ILinearAxisBreakSpec, ITick } from '../interface';
 import { ChartEvent } from '../../../constant/event';
@@ -76,7 +76,7 @@ export class LinearAxisMixin {
       tickCount = tick.forceTickCount;
     } else if (isFunction(tick.tickCount)) {
       const range = this._scale.range();
-      let rangeSize = Math.abs(range[range.length - 1] - range[0]);
+      let rangeSize = Math.abs(last(range) - range[0]);
 
       if (rangeSize === 1 && this._option) {
         // TODO: need to be optimized, when the range is not updated, use the size of view
@@ -172,9 +172,9 @@ export class LinearAxisMixin {
         }
         breakRanges.sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
         if (breakRanges.length) {
-          const { domain: breakDomains, scope: breakScopes } = breakData(values, combineArray(breakRanges));
+          const { domain: breakDomains, scope: breakScopes } = breakData(values, combineDomains(breakRanges));
 
-          domain = combineArray(breakDomains);
+          domain = combineDomains(breakDomains);
           this._break = {
             domain: breakDomains,
             scope: breakScopes,
@@ -205,7 +205,7 @@ export class LinearAxisMixin {
     }
 
     let domainMin = domain[0];
-    let domainMax = domain[domain.length - 1];
+    let domainMax = last(domain);
 
     if (domainMin === domainMax) {
       if (domainMax === 0) {
@@ -260,7 +260,7 @@ export class LinearAxisMixin {
   protected includeZero(domain: number[]): void {
     if (this._zero) {
       domain[0] = Math.min(domain[0], 0);
-      domain[domain.length - 1] = Math.max(domain[domain.length - 1], 0);
+      domain[domain.length - 1] = Math.max(last(domain), 0);
     }
   }
 
@@ -333,10 +333,10 @@ export class LinearAxisMixin {
       let softMaxValue = isFunction(softMax) ? softMax(domain) : (softMax as number);
 
       if (isNil(softMaxValue)) {
-        softMaxValue = domain[domain.length - 1];
+        softMaxValue = last(domain);
       }
 
-      if (softMaxValue >= domain[domain.length - 1]) {
+      if (softMaxValue >= last(domain)) {
         domain[domain.length - 1] = softMaxValue;
       }
 
@@ -396,7 +396,7 @@ export class LinearAxisMixin {
 
   protected _updateNiceLabelFormatter(domain: number[]) {
     // 根据轴 domain 范围做动态判断，取最多 n + 2 位小数
-    const domainSpan = Math.abs(domain[domain.length - 1] - domain[0]);
+    const domainSpan = Math.abs(last(domain) - domain[0]);
     const n = Math.max(-Math.floor(Math.log10(domainSpan)), 0) + 2;
     const unit = Math.pow(10, n);
     this.niceLabelFormatter = (value: StringOrNumber) => {

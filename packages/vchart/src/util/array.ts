@@ -14,15 +14,15 @@ export function shallowCompare<T, U>(arrA: T | T[], arrB: U | U[]): boolean {
   return true;
 }
 
-export function combineArray(arr: number[][]): number[] {
+export function combineDomains(domains: number[][]): number[] {
   const result = [];
-  for (let index = 0; index < arr.length; index++) {
-    const element = arr[index];
+  for (let index = 0; index < domains.length; index++) {
+    const domain = domains[index];
     if (index === 0) {
-      result.push(element[0]);
+      result.push(domain[0]);
     }
 
-    result.push(element[1]);
+    result.push(domain[1]);
   }
 
   return result;
