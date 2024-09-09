@@ -1,6 +1,24 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 05 Sep 2024 05:54:53 GMT and should not be manually modified.
+This log was last generated on Mon, 09 Sep 2024 08:09:07 GMT and should not be manually modified.
+
+## 1.12.4
+Mon, 09 Sep 2024 08:09:07 GMT
+
+### Updates
+
+- feat: support axis break
+- feat: stackCornerRadius support callback. feat#3164
+- feat: add `crossNodeAlign` to sankey
+
+
+- fix: bind first axis to series but not last. fix#3139
+- chore: clear state when updateSpec. fix#3162
+- fix: crosshair won't update when switch theme
+- fix: wordcloud text overlap. fix#3177
+- fix: fix zIndex of label in pie-chart
+
+
 
 ## 1.12.3
 Thu, 05 Sep 2024 05:54:53 GMT

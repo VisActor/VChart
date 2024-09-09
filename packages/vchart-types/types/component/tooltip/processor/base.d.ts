@@ -17,6 +17,6 @@ export declare abstract class BaseTooltipProcessor {
     protected _preprocessDimensionInfo(dimensionInfo?: IDimensionInfo[]): IDimensionInfo[] | undefined;
     protected _updateViewSpec(params: TooltipHandlerParams): void;
     protected _updateActualTooltip(data: TooltipData, params: TooltipHandlerParams): void;
-    shouldHandleTooltip(params: BaseEventParams, mouseEventData: Partial<MouseEventData>): boolean;
+    shouldHandleTooltip(params: BaseEventParams, info: TooltipInfo): boolean;
     clearCache(): void;
 }
