@@ -1,3 +1,29 @@
+# v1.12.4
+
+2024-09-09
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support axis break
+- **@visactor/vchart**: stackCornerRadius support callback. feat[#3164](https://github.com/VisActor/VChart/issues/3164)
+- **@visactor/vchart**: add `crossNodeAlign` to sankey
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: bind first axis to series but not last. fix[#3139](https://github.com/VisActor/VChart/issues/3139)
+- **@visactor/vchart**: crosshair won't update when switch theme
+- **@visactor/vchart**: wordcloud text overlap. fix[#3177](https://github.com/VisActor/VChart/issues/3177)
+- **@visactor/vchart**: fix zIndex of label in pie-chart
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: clear state when updateSpec. fix[#3162](https://github.com/VisActor/VChart/issues/3162)
+
+
+
+[更多详情请查看 v1.12.4](https://github.com/VisActor/VChart/releases/tag/v1.12.4)
+
 # v1.12.3
 
 2024-09-05
