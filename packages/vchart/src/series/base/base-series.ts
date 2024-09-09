@@ -92,6 +92,7 @@ import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } fro
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
 import type { EventType } from '@visactor/vgrammar-core';
 import { getDefaultInteractionConfigByMode } from '../../interaction/config';
+import { LayoutZIndex } from '../../constant/layout';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -251,7 +252,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._tooltipHelper;
   }
 
-  layoutZIndex: number = 0;
+  layoutZIndex: number = LayoutZIndex.SeriesGroup;
 
   protected _invalidType: IInvalidType = 'break';
   getInvalidType() {

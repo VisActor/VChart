@@ -676,6 +676,19 @@ vchart.setHovered(null);
   clearState: (state: string) => void;
 ```
 
+### clearAllStates
+
+清除图元的所有状态
+
+```ts
+ /**
+   * 清除所有图元的状态
+   *
+   * @since 1.12.4
+   */
+  clearAllStates: (state: string) => void;
+```
+
 ### clearSelected
 
 清除图元的选中状态

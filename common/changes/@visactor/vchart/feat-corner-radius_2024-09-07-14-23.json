@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: stackCornerRadius support callback. feat#3164",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

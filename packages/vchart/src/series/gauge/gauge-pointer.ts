@@ -18,6 +18,7 @@ import { Factory } from '../../core/factory';
 import { registerGaugePointerAnimation } from './animation';
 import { GaugePointerSeriesSpecTransformer } from './gauge-pointer-transformer';
 import { registerPolarBandAxis, registerPolarLinearAxis } from '../../component/axis/polar';
+import { GaugePointerTooltipHelper } from './pointer-tooltip-helper';
 
 export class GaugePointerSeries<
   T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec
@@ -106,7 +107,7 @@ export class GaugePointerSeries<
   }
 
   protected initTooltip() {
-    super.initTooltip();
+    this._tooltipHelper = new GaugePointerTooltipHelper(this);
 
     this._pointerMark && this._tooltipHelper.activeTriggerSet.mark.add(this._pointerMark);
   }

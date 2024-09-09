@@ -16,40 +16,32 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
         },
         content: [
           {
-            hasShape: true,
-            shapeType: 'square',
-            shapeColor: this.shapeColorCallback,
-            shapeStroke: this.shapeStrokeCallback,
             key: (datum: any) => datum.type,
             value: (datum: any) => datum.id
           },
           {
-            hasShape: true,
-            shapeType: 'square',
-            shapeColor: this.shapeColorCallback,
-            shapeStroke: this.shapeStrokeCallback,
             key: 'event_time',
             value: (datum: any) => TimeUtil.getInstance().timeFormat('%Y%m%d', datum.event_time)
           },
           {
-            hasShape: true,
-            shapeType: 'square',
-            shapeColor: this.shapeColorCallback,
-            shapeStroke: this.shapeStrokeCallback,
             key: 'action_type',
             value: (datum: any) => datum.action_type
           },
           {
-            shapeType: 'square',
-            hasShape: true,
-            shapeColor: this.shapeColorCallback,
-            shapeStroke: this.shapeStrokeCallback,
             key: 'children',
             value: (datum: any) => {
               return datum.children;
             }
           }
-        ],
+        ].map(entry => {
+          return {
+            hasShape: true,
+            shapeType: 'square',
+            shapeColor: this.shapeColorCallback,
+            shapeStroke: this.shapeStrokeCallback,
+            ...entry
+          };
+        }),
         updateContent: (prev: any, datum: any, params: any) => {
           const childrenContent: ITooltipLinePattern[] = [];
           const childrenPrev = prev.filter((p: any) => p.key === 'children');

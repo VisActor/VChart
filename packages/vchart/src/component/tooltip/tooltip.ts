@@ -333,8 +333,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       // 用户手动配置ignore，则继续显示缓存tooltip
       if (ignoreMark && isMarkInfo(this._cacheInfo)) {
         success.mark = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick, true);
-      } else if (ignoreDimension && isDimensionInfo(this._cacheInfo)) {
-        success.dimension = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick, true);
       } else if (isValid(dimensionInfo)) {
         // 用户没有手动配置ignore的话，默认显示dimension tooltip
         success.dimension = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
@@ -364,12 +362,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   ): boolean => {
     const processor = this.processor[activeType];
     // 判断是否应该触发 tooltip
-    if (
-      !processor.shouldHandleTooltip(params, {
-        tooltipInfo: mouseEventData.tooltipInfo[activeType],
-        ignore: mouseEventData.ignore[activeType]
-      })
-    ) {
+    if (!processor.shouldHandleTooltip(params, mouseEventData.tooltipInfo[activeType])) {
       return false;
     }
     if (this._timer) {

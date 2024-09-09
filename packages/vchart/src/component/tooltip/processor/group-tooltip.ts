@@ -25,14 +25,12 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
   /** 获取触发 tooltip 需要的信息 */
   getMouseEventData(params: BaseEventParams): MouseEventData {
     let info: GroupTooltipInfo | undefined;
-    let ignore: boolean | undefined;
 
     // 处理mark info
     if (params.model?.modelType === 'series') {
       const series = params.model as ISeries;
       const helper = series.tooltipHelper;
       const activeTriggers = helper?.activeTriggerSet.group;
-      const ignoreTriggers = helper?.ignoreTriggerSet.group;
 
       if (activeTriggers?.has(params.model) || activeTriggers?.has(params.mark)) {
         const patternSpec: IGroupTooltipPattern = (this.component.getSpec() as ITooltipSpec)[this.activeType];
@@ -44,14 +42,12 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
             series
           };
         }
-      } else if (ignoreTriggers?.has(params.model) || ignoreTriggers?.has(params.mark)) {
-        ignore = true;
       }
     }
 
     return {
       tooltipInfo: info,
-      ignore
+      ignore: false
     };
   }
 
