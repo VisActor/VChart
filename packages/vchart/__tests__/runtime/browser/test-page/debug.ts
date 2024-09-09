@@ -1,251 +1,332 @@
-import type { IDataZoom } from '../../../../src/component/data-zoom';
 import { default as VChart } from '../../../../src/index';
 const CONTAINER_ID = 'chart';
 
 const run = async () => {
   const spec = {
-    type: 'scatter',
+    direction: 'vertical',
+    type: 'common',
+    color: ['#00295C', '#2568BD', '#9F9F9F', '#C5C5C5', '#00B0F0', '#4BCFFF', '#C2C2C2', '#D7D7D7'],
+    series: [
+      {
+        type: 'bar',
+        stack: true,
+        direction: 'vertical',
+        bar: {
+          style: {
+            stroke: '',
+            lineWidth: 1
+          },
+          state: {
+            hover: {
+              stroke: '#000',
+              lineWidth: 1
+            }
+          }
+        },
+        barBackground: {
+          style: {
+            stroke: '',
+            lineWidth: 1
+          }
+        },
+        label: {
+          visible: true,
+          position: 'inside',
+          style: {
+            lineHeight: '100%',
+            fontSize: 16,
+            fontWeight: 'bold'
+          },
+          overlap: {
+            strategy: []
+          },
+          smartInvert: true,
+          formatConfig: {},
+          interactive: true
+        },
+        totalLabel: {
+          visible: false,
+          position: 'top',
+          overlap: false,
+          clampForce: false,
+          formatConfig: {
+            fixed: 0,
+            content: 'value'
+          },
+          style: {
+            lineHeight: '100%',
+            lineWidth: 1,
+            fill: '#1F2329',
+            stroke: '#ffffff',
+            fontSize: 16,
+            fontWeight: 'bold'
+          },
+          interactive: true
+        },
+        seriesLabel: {
+          visible: true,
+          position: 'end',
+          label: {
+            style: {
+              lineHeight: '100%',
+              lineWidth: 1,
+              stroke: '#ffffff',
+              fontSize: 16,
+              fontWeight: 'bold'
+            },
+            space: 10
+          }
+        },
+        xField: '_editor_dimension_field',
+        yField: '_editor_value_field',
+        dataId: '0',
+        id: 'series-0',
+        EDITOR_SERIES_DATA_KEY: 'visits',
+        seriesField: '_editor_type_field'
+      }
+    ],
+    legends: {
+      id: 'legend-discrete',
+      visible: false,
+      autoPage: false,
+      position: 'start',
+      interactive: false,
+      item: {
+        label: {
+          style: {
+            fill: '#1F2329',
+            fontSize: 16
+          }
+        }
+      }
+    },
+    region: [
+      {
+        id: 'region-0'
+      }
+    ],
+    tooltip: {
+      visible: true,
+      mark: {
+        content: [{}],
+        title: {}
+      },
+      dimension: {
+        content: [{}],
+        title: {}
+      }
+    },
     axes: [
       {
         orient: 'left',
+        id: 'axis-left',
         type: 'linear',
-        grid: {
-          visible: false
+        label: {
+          autoLimit: false,
+          style: {
+            fill: '#1F2329',
+            fontSize: 16
+          },
+          formatConfig: {}
         },
         domainLine: {
-          visible: true
+          visible: true,
+          style: {
+            stroke: '#000000'
+          }
         },
-        max: 0.1,
-        min: 0,
-        label: {},
-        id: 'yAxis'
+        tick: {
+          visible: true,
+          style: {
+            stroke: '#000000'
+          }
+        },
+        grid: {
+          visible: false,
+          style: {
+            stroke: '#bbbfc4'
+          }
+        },
+        autoIndent: false,
+        maxWidth: null,
+        maxHeight: null,
+        breaks: [
+          {
+            range: [2000, 10000],
+            gap: 5,
+            breakSymbol: {
+              visible: true,
+              style: {
+                size: 8,
+                stroke: '#000',
+                lineWidth: 1,
+                pickable: false
+              }
+            }
+          }
+        ],
+        zIndex: 550,
+        visible: true
       },
       {
         orient: 'bottom',
-        type: 'linear',
-        grid: {
-          visible: false
+        id: 'axis-bottom',
+        type: 'band',
+        label: {
+          autoLimit: false,
+          style: {
+            fill: '#1F2329',
+            fontSize: 16
+          },
+          formatConfig: {}
         },
         domainLine: {
-          visible: true
+          visible: true,
+          style: {
+            stroke: '#000000'
+          },
+          onZero: true
         },
-        max: 0.01,
-        min: 0,
-        label: {}
-      }
-    ],
-    markArea: [
-      {
-        x: '50%',
-        y: '0%',
-        x1: '100%',
-        y1: '50%',
-        area: {
+        tick: {
+          visible: true,
           style: {
-            fill: 'transparent',
-            stroke: '#E6E8F2'
-          }
-        }
-      },
-      {
-        x: '0%',
-        y: '0%',
-        x1: '50%',
-        y1: '50%',
-        area: {
-          style: {
-            fill: 'rgba(255, 187, 51, 0.7)',
-            stroke: '#E6E8F2'
-          }
-        }
-      },
-      {
-        x: '0%',
-        y: '50%',
-        x1: '50%',
-        y1: '100%',
-        area: {
-          style: {
-            fill: 'transparent',
-            stroke: '#E6E8F2'
-          }
-        }
-      },
-      {
-        x: '50%',
-        y: '50%',
-        x1: '100%',
-        y1: '100%',
-        area: {
-          style: {
-            fill: 'rgba(64, 113, 255, 0.7)',
-            stroke: '#E6E8F2'
-          }
-        }
-      }
-    ],
-    markLine: [
-      {
-        x: '0%',
-        y: '100%',
-        x1: '100%',
-        y1: '0%',
-        line: {
-          style: {
-            lineDash: [0],
-            stroke: '#E6E8F2'
+            stroke: '#000000'
           }
         },
-        endSymbol: {
-          visible: false
+        grid: {
+          visible: false,
+          style: {
+            stroke: '#bbbfc4'
+          }
         },
-        zIndex: 0
+        autoIndent: false,
+        maxWidth: null,
+        maxHeight: null,
+        trimPadding: false,
+        paddingInner: [0.2, 0],
+        paddingOuter: [0.2, 0],
+        zIndex: 550,
+        visible: true
       }
     ],
-    extensionMark: [
+    data: [
       {
-        type: 'text',
-        style: {
-          fontSize: 20,
-          fill: '#1F2129',
-          textBaseline: 'top',
-          zIndex: 1,
-          y: 12,
-          textAlign: 'end',
-          text: '第一象限'
-        }
-      },
-      {
-        type: 'text',
-        style: {
-          fontSize: 20,
-          fill: '#1F2129',
-          textBaseline: 'top',
-          zIndex: 1,
-          x: 8,
-          y: 12,
-          textAlign: 'start',
-          text: '第二象限'
-        }
-      },
-      {
-        type: 'text',
-        style: {
-          fontSize: 20,
-          fill: '#1F2129',
-          textBaseline: 'bottom',
-          zIndex: 1,
-          x: 8,
-          textAlign: 'start',
-          text: '第三象限'
-        }
-      },
-      {
-        type: 'text',
-        style: {
-          fontSize: 20,
-          fill: '#1F2129',
-          textBaseline: 'bottom',
-          zIndex: 1,
-          textAlign: 'end',
-          text: '第四象限'
-        }
-      }
-    ],
-    padding: [0, 30, 30, 30],
-    data: {
-      values: []
-    },
-    color: ['#FF995A'],
-    xField: 'x_rate',
-    yField: 'y_rate',
-    size: 48,
-    seriesField: 'type',
-    point: {
-      state: {
-        hover: {
-          scaleX: 1.2,
-          scaleY: 1.2,
-          fillOpacity: 1,
-          cursor: 'pointer',
-          zIndex: 99
-        }
-      },
-      style: {
-        fillOpacity: 0.8,
-        zIndex: 3
-      }
-    },
-    legends: [
-      {
-        visible: true,
-        orient: 'top',
-        position: 'middle'
-      }
-    ],
-    dataZoom: [
-      {
-        filterMode: 'axis',
-        orient: 'bottom',
-        start: 0,
-        end: 1,
-        id: 'xDataZoom',
-        offsetY: 20,
-        showDetail: false
-      },
-      {
-        filterMode: 'axis',
-        orient: 'right',
-        axisId: 'yAxis',
-        offsetX: 20,
-        start: 0,
-        end: 1,
-        id: 'yDataZoom',
-        showDetail: false
-      }
-    ],
-    brush: {
-      visible: false,
-      brushType: 'rect',
-      inBrush: {
-        colorAlpha: 1
-      },
-      outOfBrush: {
-        colorAlpha: 0.2
-      }
-    },
-    tooltip: {
-      activeType: 'mark',
-      mark: {
-        title: {},
-        content: [
+        id: '0',
+        sourceKey: 'visits',
+        values: [
           {
-            key: '线索用户覆盖度'
+            _editor_dimension_field: 'USA',
+            _editor_value_field: 23725,
+            _editor_type_field: 'visits'
           },
           {
-            key: '深度兴趣用户覆盖度'
+            _editor_dimension_field: 'China',
+            _editor_value_field: 1882,
+            _editor_type_field: 'visits'
           },
           {
-            key: '有效阅读线索用户数',
-            visible: false
+            _editor_dimension_field: 'Japan',
+            _editor_value_field: 1809,
+            _editor_type_field: 'visits'
+          },
+          {
+            _editor_dimension_field: 'Germany',
+            _editor_value_field: 1322,
+            _editor_type_field: 'visits'
+          },
+          {
+            _editor_dimension_field: 'UK',
+            _editor_value_field: 1122,
+            _editor_type_field: 'visits'
+          },
+          {
+            _editor_dimension_field: 'France',
+            _editor_value_field: 1114,
+            _editor_type_field: 'visits'
+          },
+          {
+            _editor_dimension_field: 'India',
+            _editor_value_field: 984,
+            _editor_type_field: 'visits'
+          },
+          {
+            _editor_dimension_field: 'Spain',
+            _editor_value_field: 711,
+            _editor_type_field: 'visits'
+          },
+          {
+            _editor_dimension_field: 'Netherlands',
+            _editor_value_field: 665,
+            _editor_type_field: 'visits'
+          },
+          {
+            _editor_dimension_field: 'Russia',
+            _editor_value_field: 580,
+            _editor_type_field: 'visits'
+          },
+          {
+            _editor_dimension_field: 'South Korea',
+            _editor_value_field: 443,
+            _editor_type_field: 'visits'
+          },
+          {
+            _editor_dimension_field: 'Canada',
+            _editor_value_field: 441,
+            _editor_type_field: 'visits'
           }
-        ]
+        ],
+        specField: {
+          _editor_dimension_field: {
+            type: 'dimension',
+            order: 0
+          },
+          _editor_type_field: {
+            type: 'series',
+            order: 0
+          },
+          _editor_value_field: {
+            type: 'value',
+            order: 0
+          }
+        }
       }
-    },
-    label: {
-      position: 'center',
-      visible: true,
-      style: {
-        fontSize: 10,
-        fill: '#fff',
-        strokeOpacity: 0,
-        zIndex: 1
+    ],
+    labelLayout: 'region',
+    customMark: [
+      {
+        type: 'component',
+        componentType: 'seriesLabel',
+        interactive: false,
+        style: {
+          id: 'b4d0a7d9-42d3-41bd-9d24-8e978947b0e9',
+          position: 'end',
+          label: {
+            space: 10,
+            style: {
+              lineHeight: '100%',
+              lineWidth: 1,
+              stroke: '#ffffff',
+              fontSize: 16,
+              fontWeight: 'bold'
+            }
+          }
+        }
       },
-      overlap: false
-    },
-    animation: false
+      {
+        type: 'component',
+        componentType: 'seriesBreak',
+        interactive: true,
+        zIndex: 500,
+        style: {}
+      }
+    ],
+    width: 640,
+    height: 360,
+    background: 'transparent'
   };
+
   const vchart = new VChart(spec, { dom: CONTAINER_ID });
   vchart.renderSync();
+  window['vchart'] = vchart;
 };
 run();

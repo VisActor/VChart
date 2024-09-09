@@ -80,3 +80,36 @@ Make this axis' ticks proportionally aligned with the target axis
 **Applies only when the axis is a linear or time axis**. Configure the dimension tooltip data filtering range on the linear axis. Supported since version 1.4.0.
 
 If configured as a single number such as `d`, the filtering interval is `[x0 - d, x0 + d]`. If configured as a binary tuple such as `[d1, d2]`, the filtering interval is `[x0 + d1, x0 + d2]`.
+
+#${prefix} breaks(Array|Object)
+
+Supported since `1.12.4` version.
+
+Axis truncation configuration, only valid for linear axis of Cartesian coordinate system.
+
+##${prefix} range(number[])
+
+Data range of axis truncation, such as `[300, 500]`, please ensure the size order of the data range, otherwise it will be considered as invalid configuration.
+
+##${prefix} breakSymbol(Object)
+
+Truncation graphic style configuration.
+
+###${prefix} visible(boolean)
+
+Whether to display, the default is `true`.
+
+###${prefix} gap(number | string)
+
+Gap configuration between truncation marks, the default is `6`.
+
+- 1. `number` is pixel value
+- 2. `string` is percentage relative value, such as '1%'
+
+###${prefix} angle(number)
+
+Truncation graphic rotation angle configuration.
+
+###${prefix} style(Object)
+
+The style configuration of the truncation graphic, you can configure the line width (`lineWidth`), color (`stroke`), etc.

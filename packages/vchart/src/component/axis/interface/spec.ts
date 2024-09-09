@@ -1,5 +1,5 @@
 import { ITextFormatMethod } from './../../../typings/spec/common';
-import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
+import type { AxisBreakProps, AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
 import type { IAnimationSpec } from '../../../animation/spec';
 import type {
   Datum,
@@ -73,6 +73,16 @@ export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center
   forceInitTick?: boolean;
 }
 
+export type ILinearAxisBreakSpec = Omit<AxisBreakProps, 'rawRange'> & {
+  /**
+   * 截断标识之间的间距：
+   * 1. `number` 为像素值
+   * 2. `string` 为百分比相对值，如 '1%'
+   * @default 6
+   */
+  gap?: number | string;
+};
+
 export interface ILinearAxisSpec {
   // 线性轴数值范围配置
   /** 最小值，**优先级高于 zero，nice** */
@@ -136,6 +146,11 @@ export interface ILinearAxisSpec {
    * @since 1.4.0
    */
   tooltipFilterRange?: number | [number, number];
+  /**
+   * 轴截断配置，只对笛卡尔坐标系的 linear 轴生效
+   * @since 1.12.4
+   */
+  breaks?: ILinearAxisBreakSpec[];
 }
 
 export interface IBandAxisSpec {

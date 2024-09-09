@@ -2,7 +2,7 @@ import type { LogScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
-import { isValid, mixin } from '@visactor/vutils';
+import { isValid, isValidNumber, last, mixin } from '@visactor/vutils';
 import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
@@ -10,7 +10,9 @@ import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { continuousTicks } from '@visactor/vrender-components';
+import { continuousTicks, ICartesianTickDataOpt } from '@visactor/vrender-components';
+import { isXAxis, isZAxis } from './util';
+import { combineDomains, isPercent } from '../../../util';
 
 export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec>
   extends Pick<
@@ -22,6 +24,7 @@ export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICarte
       | '_domain'
       | 'transformScaleDomain'
       | 'setExtendDomain'
+      | '_break'
     >,
     CartesianAxis<T> {}
 
@@ -59,6 +62,60 @@ export class CartesianLinearAxis<
     }
     this._scale.domain(range);
     // this.setScaleNice();
+  }
+
+  protected _tickTransformOption() {
+    return {
+      ...super._tickTransformOption(),
+      breakData: this._spec.breaks?.length ? () => this._break : null
+    } as ICartesianTickDataOpt;
+  }
+
+  protected _getUpdateAttribute(ignoreGrid: boolean) {
+    const attrs = super._getUpdateAttribute(ignoreGrid);
+
+    // get axis break configuration
+    if (!isZAxis(this._orient) && this._break?.breaks?.length) {
+      const { width, height } = this.getLayoutRect();
+      const isX = isXAxis(this._orient);
+      const axisLength = isX ? width : height;
+
+      attrs.breaks = this._break.breaks.map(obj => {
+        const { range, breakSymbol, gap = 6 } = obj;
+        const position = this.valueToPosition((range[0] + range[1]) / 2);
+        const ratio = position / axisLength;
+
+        let gapRatio;
+        if (isPercent(gap)) {
+          gapRatio = Number(gap.substring(0, gap.length - 1)) / 100;
+        } else {
+          gapRatio = (gap as number) / axisLength;
+        }
+        const symbolAngle = isValidNumber(breakSymbol?.angle) ? breakSymbol.angle : isX ? 60 : 15;
+
+        return {
+          range: [ratio - gapRatio / 2, ratio + gapRatio / 2],
+          breakSymbol: {
+            visible: true,
+            ...breakSymbol,
+            angle: (symbolAngle * Math.PI) / 180
+          },
+          rawRange: range
+        };
+      });
+    }
+
+    return attrs;
+  }
+
+  protected getNewScaleRange() {
+    let newRange = super.getNewScaleRange();
+    if (this._spec.breaks?.length && this._break?.scope) {
+      // get axis breaks
+      newRange = combineDomains(this._break.scope).map(val => newRange[0] + (last(newRange) - newRange[0]) * val);
+    }
+
+    return newRange;
   }
 
   protected computeDomain(data: { min: number; max: number; values: any[] }[]): number[] {

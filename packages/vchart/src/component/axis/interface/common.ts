@@ -81,7 +81,7 @@ export interface ITickCalculationCfg {
    * // 自定义 tick 生成函数示例
    * const customTickFunc: CustomTicksFunc = (scale, tickCount=5) => {
    *   const domain = scale.domain();
-   *   const step = (domain[1] - domain[0]) / (tickCount - 1);
+   *   const step = (domain[domain.length - 1] - domain[0]) / (tickCount - 1);
    *   return Array.from({ length: tickCount }, (_, i) => domain[0] + i * step);
    * };
    */
