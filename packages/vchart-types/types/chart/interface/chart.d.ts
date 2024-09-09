@@ -84,6 +84,7 @@ export interface IChart extends ICompilable {
     setSelected: (datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
     setHovered: (datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
     clearState: (state: string) => void;
+    clearAllStates: () => void;
     clearSelected: () => void;
     clearHovered: () => void;
     updateViewBox: (viewBox: IBoundsLike, reLayout: boolean) => void;

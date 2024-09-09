@@ -21,7 +21,9 @@ export declare class Interaction implements IInteraction {
     removeEventElement(stateValue: StateValue, element: IElement): void;
     addEventElement(stateValue: StateValue, element: IElement): void;
     clearEventElement(stateValue: StateValue, clearReverse: boolean): void;
+    clearAllEventElement(): void;
     reverseEventElement(stateValue: StateValue): void;
     startInteraction(stateValue: StateValue, element: IElement): void;
     resetInteraction(stateValue: StateValue, element: IElement): void;
+    resetAllInteraction(): void;
 }

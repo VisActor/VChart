@@ -29,7 +29,7 @@ export declare abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSer
     get angleScale(): IBaseScale;
     setAngleScale(s: IBaseScale): IBaseScale;
     private _angleAxisHelper;
-    get angleAxisHelper(): IPolarAxisHelper;
+    getAngleAxisHelper(): IPolarAxisHelper;
     set angleAxisHelper(h: IPolarAxisHelper);
     private _radiusAxisHelper;
     get radiusAxisHelper(): IPolarAxisHelper;
