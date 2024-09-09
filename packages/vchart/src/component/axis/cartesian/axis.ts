@@ -38,7 +38,7 @@ import { ComponentTypeEnum } from '../../interface/type';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import type { AxisItem, LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { getAxisItem, isValidCartesianAxis } from '../util';
+import { getAxisItem, isValidCartesianAxis, shouldUpdateAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
@@ -210,13 +210,36 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         this._regions,
         s => {
           const orient = this.getOrient();
-
           if (isXAxis(orient)) {
-            (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
+            if (
+              shouldUpdateAxis(
+                (s as ICartesianSeries).getXAxisHelper(),
+                this.axisHelper(),
+                isValid(this._seriesUserId) || isValid(this._seriesIndex)
+              )
+            ) {
+              (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
+            }
           } else if (isYAxis(orient)) {
-            (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+            if (
+              shouldUpdateAxis(
+                (s as ICartesianSeries).getYAxisHelper(),
+                this.axisHelper(),
+                isValid(this._seriesUserId) || isValid(this._seriesIndex)
+              )
+            ) {
+              (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+            }
           } else if (isZAxis(orient)) {
-            (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
+            if (
+              shouldUpdateAxis(
+                (s as ICartesianSeries).getZAxisHelper(),
+                this.axisHelper(),
+                isValid(this._seriesUserId) || isValid(this._seriesIndex)
+              )
+            ) {
+              (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
+            }
           }
         },
         {
@@ -454,14 +477,38 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this._regions,
       s => {
         if (isXAxis(orient)) {
-          (s as ICartesianSeries).setScaleX(this._scale);
-          (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getXAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setScaleX(this._scale);
+            (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
+          }
         } else if (isYAxis(orient)) {
-          (s as ICartesianSeries).setScaleY(this._scale);
-          (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getYAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setScaleY(this._scale);
+            (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+          }
         } else if (isZAxis(orient)) {
-          (s as ICartesianSeries).setScaleZ(this._scale);
-          (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getZAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setScaleZ(this._scale);
+            (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
+          }
         }
       },
       {

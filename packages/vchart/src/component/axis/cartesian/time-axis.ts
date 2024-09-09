@@ -1,7 +1,7 @@
 import type { IEffect } from '../../../model/interface';
 import { DataView } from '@visactor/vdataset';
 import { isXAxis } from './util/common';
-import { TimeUtil } from '@visactor/vutils';
+import { isValid, TimeUtil } from '@visactor/vutils';
 import { eachSeries } from '../../../util/model';
 import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
@@ -13,7 +13,7 @@ import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import type { ICartesianTimeAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
-import { getAxisItem } from '../util';
+import { getAxisItem, shouldUpdateAxis } from '../util';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '@visactor/vutils-extension';
 import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
@@ -43,9 +43,25 @@ export class CartesianTimeAxis<
         this._regions,
         s => {
           if (isXAxis(this.getOrient())) {
-            (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
+            if (
+              shouldUpdateAxis(
+                (s as ICartesianSeries).getXAxisHelper(),
+                this.axisHelper(),
+                isValid(this._seriesUserId) || isValid(this._seriesIndex)
+              )
+            ) {
+              (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
+            }
           } else {
-            (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+            if (
+              shouldUpdateAxis(
+                (s as ICartesianSeries).getYAxisHelper(),
+                this.axisHelper(),
+                isValid(this._seriesUserId) || isValid(this._seriesIndex)
+              )
+            ) {
+              (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+            }
           }
         },
         {
