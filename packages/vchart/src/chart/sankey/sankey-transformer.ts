@@ -15,6 +15,7 @@ export class SankeyChartSpecTransformer<
 
       direction: spec.direction,
       nodeAlign: spec.nodeAlign,
+      crossNodeAlign: spec.crossNodeAlign,
       nodeGap: spec.nodeGap,
       nodeWidth: spec.nodeWidth,
       linkWidth: spec.linkWidth,

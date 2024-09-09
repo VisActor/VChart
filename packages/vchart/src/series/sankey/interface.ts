@@ -41,9 +41,25 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
    */
   direction?: DirectionType;
   /**
-   * 节点的对齐类型
+   * 节点的对齐类型，所有深度相同的节点，采用什么对齐方式，决定了节点在第几层：
+   * - 横向布局的桑基图，用于计算节点x坐标
+   * - 纵向布局的桑基图，用于计算节点y坐标
    */
   nodeAlign?: 'left' | 'right' | 'center' | 'justify' | 'start' | 'end';
+  /**
+   * 横向布局的桑基图，设置节点Y坐标的对齐方式：
+   * 'start' - '顶部对齐'
+   * 'end' - '底部对齐'
+   * 'middle' - '居中对齐'
+   *
+   * 纵向布局的桑基图，设置节点X坐标的对齐方式：
+   * 'start' - '左对齐'
+   * 'end' - '右对齐'
+   * 'middle' - '居中对齐'
+   *
+   * @since 1.12.4
+   */
+  crossNodeAlign?: 'start' | 'end' | 'middle';
   /**
    * 是否反向
    * @since 1.12.2
