@@ -72,15 +72,6 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._support3d = support3d;
   }
 
-  /** 分片 */
-  protected _facet?: string;
-  getFacet() {
-    return this._facet;
-  }
-  setFacet(facet: string) {
-    this._facet = facet;
-  }
-
   /** 交互开关 */
   protected _interactive: boolean = true;
   getInteractive() {
@@ -344,7 +335,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     // 绑定数据
     const dataProduct = this._data.getProduct();
     if (isValid(this._product) && isValid(dataProduct)) {
-      this._product.join(dataProduct, this.key, undefined, this._groupKey ?? this._facet);
+      this._product.join(dataProduct, this.key, undefined, this.getGroupKey());
     }
   }
 
@@ -369,7 +360,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         return;
       }
 
-      if (this._option.noSeparateStyle || isStateAttrChangeable(key, normalStyle, this.getFacet())) {
+      if (this._option.noSeparateStyle || isStateAttrChangeable(key, normalStyle, this.getGroupKey())) {
         updateStyles[key] = {
           callback: this.compileCommonAttributeCallback(key, 'normal'),
           dependency: [this.stateKeyToSignalName('markUpdateRank')]

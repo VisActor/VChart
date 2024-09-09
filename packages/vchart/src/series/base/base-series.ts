@@ -213,13 +213,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   setSeriesField(field: string) {
     if (isValid(field)) {
       this._seriesField = field;
-      this.getMarks()
-        .filter(m => {
-          return m.getDataView() === this.getViewData();
-        })
-        .forEach(m => {
-          m.setFacet(this._seriesField);
-        });
     }
   }
 
