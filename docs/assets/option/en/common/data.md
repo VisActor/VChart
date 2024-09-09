@@ -88,63 +88,71 @@ Currently built-in data transformations:
 ```ts
 // type
 export interface IFieldsMeta {
-    type: 'ordinal' | 'linear'; // 维度类型，ordinal 为离散型，linear 为连续型。
-    alias?: string; //  字段别名。
-    domain?: any[]; // 当前维度的数值区间。在数值区间外的数据会被剔除。
-    lockStatisticsByDomain?: boolean; // 是否使用 domain 锁定统计信息。默认为 false 。
-    sortIndex?: number; // 当前维度的排序顺序，如果不设置，则不参与排序。可以多个维度按照此属性对数据进行排序。
-    sortReverse?: boolean; // 当前维度在排序时是否逆序，只有在配置了 sortIndex 后才有效。默认为 false 。
+  type: 'ordinal' | 'linear'; // Dimension type, 'ordinal' for discrete type, 'linear' for continuous type.
+  alias?: string; // Field alias.
+  domain?: any[]; // Value range of the current dimension. Data outside this range will be filtered out.
+  lockStatisticsByDomain?: boolean; // Whether to lock statistics information using the domain. Default is false.
+  sortIndex?: number; // Sorting order of the current dimension. If not set, it will not participate in sorting. Multiple dimensions can be sorted based on this property.
+  sortReverse?: boolean; // Whether to sort the current dimension in reverse order during sorting. Only effective when sortIndex is configured. Default is false.
 }
+
 type fieldType = {
   type: 'fields';
   options: {
-      fields: {
-        [key: string]: IFieldsMeta;
-      }
+    fields: {
+      [key: string]: IFieldsMeta;
+    };
   };
-}
+};
+
 // example
 const spec = {
   data: [
     {
       id: 'fieldsData',
       values: [
-        {date: '1-2', value: '20', type: '利润'},
-        {date: '1-3', value: '22', type: '利润'},
-        {date: '1-4', value: '30', type: '销售额'},
-        {date: '1-2', value: '220', type: '销售额'},
-        {date: '1-3', value: '230', type: '销售额'},
-        {date: '1-4', value: '-40', type: '销售额'}
+        { date: '1-3', value: '22', type: 'Profit' },
+        { date: '1-2', value: '20', type: 'Profit' },
+        { date: '1-4', value: '30', type: 'Sales' },
+        { date: '1-2', value: '220', type: 'Sales' },
+        { date: '1-3', value: '230', type: 'Sales' },
+        { date: '1-4', value: '-40', type: 'Sales' }
       ],
-      transform: [{
-        type: 'fields',
-        options: {
-          fields: {
-            date: {
-              type: 'ordinal' // 数据维度 date 的类型是离散类型
-              sortIndex: 1 // 数据会按照 date 进行排序
-            },
-            value: {
-              type: 'linear' // 数据维度 value 的类型是连续类型
-              domain: [0,10000] // 会提出 value 值不在 0-10000内的数据
-            },
-            type: {
-              alias: '类型' // 数据维度 type 的别名。如果图例对应这个维度，那么图例的标题文本默认值将是 '类型' 。
+      transforms: [
+        {
+          type: 'fields',
+          options: {
+            fields: {
+              date: {
+                type: 'ordinal', // The data dimension 'date' is of ordinal type
+                sortIndex: 1 // The data will be sorted based on 'date'
+              },
+              value: {
+                type: 'linear', // The data dimension 'value' is of linear type
+                domain: [0, 10000] // Data values outside the range of 0-10000 will be filtered out
+              },
+              type: {
+                alias: 'Type' // The alias for the data dimension 'type'. If the legend corresponds to this dimension, the default title text of the legend will be 'Type'.
+              }
             }
           }
         }
-      }]
+      ]
     }
   ]
-}
-// 最终数据
-vchart.getDataSet().getDataView('fieldsData').latestData ===
-[{date: '1-2', value: '20', type: '利润'},
-{date: '1-2', value: '220', type: '销售额'},
-{date: '1-3', value: '22', type: '利润'},
-{date: '1-3', value: '230', type: '销售额'},
-{date: '1-4', value: '30', type: '销售额'}]
+};
 
+// Final data
+// The data will be sorted based on the order of 'date' in the original data
+vchart.getDataSet().getDataView('fieldsData').latestData ===
+  [
+    { date: '1-3', value: '22', type: 'Profit' },
+    { date: '1-3', value: '230', type: 'Sales' },
+    { date: '1-2', value: '20', type: 'Profit' },
+    { date: '1-2', value: '220', type: 'Sales' },
+    { date: '1-4', value: '30', type: 'Sales' },
+    { date: '1-4', value: '-40', type: 'Sales' }
+  ];
 ```
 
 - filter: Custom filtering using a callback
@@ -241,38 +249,40 @@ const spec = {
     {
       id: 'fieldsData',
       values: [
-        {date: '1-2', value: '20', type: '利润'},
-        {date: '1-3', value: '22', type: '利润'},
-        {date: '1-4', value: '30', type: '销售额'},
-        {date: '1-2', value: '220', type: '销售额'},
-        {date: '1-3', value: '230', type: '销售额'},
-        {date: '1-4', value: '-40', type: '销售额'}
+        { date: '1-3', value: '22', type: 'Profit' },
+        { date: '1-2', value: '20', type: 'Profit' },
+        { date: '1-4', value: '30', type: 'Sales' },
+        { date: '1-2', value: '220', type: 'Sales' },
+        { date: '1-3', value: '230', type: 'Sales' },
+        { date: '1-4', value: '-40', type: 'Sales' }
       ],
       fields: {
         date: {
-          type: 'ordinal' // 数据维度 date 的类型是离散类型
-          sortIndex: 1 // 数据会按照 date 进行排序
+          type: 'ordinal', // The data dimension 'date' is of ordinal type
+          sortIndex: 1 // The data will be sorted based on 'date'
         },
         value: {
-          type: 'linear' // 数据维度 value 的类型是连续类型
-          domain: [0,10000] // 会提出 value 值不在 0-10000内的数据
+          type: 'linear', // The data dimension 'value' is of linear type
+          domain: [0, 10000] // Data values outside the range of 0-10000 will be filtered out
         },
         type: {
-          alias: '类型' // 数据维度 type 的别名。如果图例对应这个维度，那么图例的标题文本默认值将是 '类型' 。
+          alias: 'Type' // The alias for the data dimension 'type'. If the legend corresponds to this dimension, the default title text of the legend will be 'Type'.
         }
       }
     }
   ]
-}
-// 最终数据
+};
+
+// Final data
 vchart.getDataSet().getDataView('fieldsData').latestData ===
   [
-    {date: '1-2', value: '20', type: '利润'},
-    {date: '1-2', value: '220', type: '销售额'},
-    {date: '1-3', value: '22', type: '利润'},
-    {date: '1-3', value: '230', type: '销售额'},
-    {date: '1-4', value: '30', type: '销售额'}
-  ]
+    { date: '1-3', value: '22', type: 'Profit' },
+    { date: '1-3', value: '230', type: 'Sales' },
+    { date: '1-2', value: '20', type: 'Profit' },
+    { date: '1-2', value: '220', type: 'Sales' },
+    { date: '1-4', value: '30', type: 'Sales' },
+    { date: '1-4', value: '-40', type: 'Sales' }
+  ];
 ```
 
 ##${prefix} parser(Object)

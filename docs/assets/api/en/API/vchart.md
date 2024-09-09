@@ -666,6 +666,19 @@ Clear the state of the marks
   clearState: (state: string) => void;
 ```
 
+### clearAllStates
+
+Clear all states of the marks
+
+```ts
+ /**
+   * clear all states of marks
+   *
+   * @since 1.12.4
+   */
+  clearAllStates: (state: string) => void;
+```
+
 ### clearSelected
 
 clear the `selected` state of marks

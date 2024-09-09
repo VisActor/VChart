@@ -39,6 +39,7 @@ export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICar
     private _layoutVertical;
     private _layoutHorizontal;
     protected _parseFieldInfo(): void;
+    private _parseAndSetCrosshair;
     private _updateCrosshair;
     private _updateCrosshairLabel;
     protected _getNeedClearVRenderComponents(): IGraphic[];

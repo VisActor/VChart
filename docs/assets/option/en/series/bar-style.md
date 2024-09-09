@@ -34,6 +34,22 @@ If the number of arrays in `barGapInGroup` is less than the number of grouping l
 
 Supported since `1.4.0` version, used to configure the minimum height of the bar, which can be used to prevent visual adjustments of a data item whose value is too small.
 
-#${prefix} stackCornerRadius(number|number[])
+#${prefix} stackCornerRadius(number|number[]|Function)
 
 Supported since `1.4.0` version, used to configure the overall rounded corners of stacked bar groups.
+
+Supported since `1.12.4` version, you can use callback to set stackCornerRadius, The function type is defined as follows:
+
+```ts
+/**
+ * @param attr bar group attribute
+ * @param datum bar group datum
+ * @param ctx context of series
+ * @returns
+ */
+export type IStackCornerRadiusCallback = (
+  attr: IRectGraphicAttribute,
+  datum: Datum,
+  ctx: ISeriesMarkAttributeContext
+) => number | number[];
+```

@@ -7,9 +7,17 @@ import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 import type { IDataSamping, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { Functional } from '@visactor/vrender-components';
+import type { IRectGraphicAttribute } from '@visactor/vrender-core';
+import type { Datum } from '../../typings';
+import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 
 type BarMarks = 'bar';
 
+export type IStackCornerRadiusCallback = (
+  attr: IRectGraphicAttribute,
+  datum: Datum,
+  ctx: ISeriesMarkAttributeContext
+) => number | number[];
 export interface IBarSeriesSpec
   extends ICartesianSeriesSpec,
     IAnimationSpec<BarMarks, BarAppearPreset>,
@@ -97,10 +105,10 @@ export interface IBarSeriesSpec
   barMinHeight?: number;
 
   /**
-   * 堆叠柱整体的圆角
-   * @since 1.10.0
+   * 堆叠柱整体的圆角 @since 1.10.0
+   * 圆角支持回调配置 @since 1.12.4
    */
-  stackCornerRadius?: number | number[];
+  stackCornerRadius?: number | number[] | IStackCornerRadiusCallback;
 }
 
 export interface IBarBackgroundSpec {

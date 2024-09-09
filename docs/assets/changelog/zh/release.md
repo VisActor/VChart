@@ -1,3 +1,15 @@
+# v1.12.3
+
+2024-09-05
+
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复无法通过 `option.animation:false` 禁用标签更新动画
+
+
+[更多详情请查看 v1.12.3](https://github.com/VisActor/VChart/releases/tag/v1.12.3)
+
 # v1.12.2
 
 2024-09-05

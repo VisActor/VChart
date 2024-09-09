@@ -29,11 +29,13 @@ export interface IInteraction {
   exchangeEventElement: (stateValue: StateValue, elements: IElement) => void;
   clearEventElement: (stateValue: StateValue, clearReverse: boolean) => void;
   reverseEventElement: (stateValue: StateValue) => void;
+  clearAllEventElement: () => void;
 
   setDisableActiveEffect: (disable: boolean) => void;
   addVgrammarInteraction: (state: StateValue, i: IVGrammarInteraction) => void;
   startInteraction: (state: StateValue, element: IElement) => void;
   resetInteraction: (state: StateValue, element: IElement) => void;
+  resetAllInteraction: () => void;
 }
 
 export interface ITrigger {

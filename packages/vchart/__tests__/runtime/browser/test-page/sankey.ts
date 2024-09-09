@@ -64,31 +64,31 @@ const run = () => {
                     outDegree: 0,
                     inDegree: 4,
                     children: []
-                  },
-                  {
-                    '231021145757119': '别名1',
-                    color: '别名1',
-                    group: '231021145757119',
-                    key: '231021145757119-别名1',
-                    name: '别名1',
-                    type: 'node',
-                    value: '1.5',
-                    outDegree: 0,
-                    inDegree: 4,
-                    children: []
-                  },
-                  {
-                    '231021145757119': '别名2',
-                    color: '别名2',
-                    group: '231021145757119',
-                    key: '231021145757119-别名2',
-                    name: '别名2',
-                    type: 'node',
-                    value: '1.5',
-                    outDegree: 0,
-                    inDegree: 4,
-                    children: []
                   }
+                  // {
+                  //   '231021145757119': '别名1',
+                  //   color: '别名1',
+                  //   group: '231021145757119',
+                  //   key: '231021145757119-别名1',
+                  //   name: '别名1',
+                  //   type: 'node',
+                  //   value: '1.5',
+                  //   outDegree: 0,
+                  //   inDegree: 4,
+                  //   children: []
+                  // },
+                  // {
+                  //   '231021145757119': '别名2',
+                  //   color: '别名2',
+                  //   group: '231021145757119',
+                  //   key: '231021145757119-别名2',
+                  //   name: '别名2',
+                  //   type: 'node',
+                  //   value: '1.5',
+                  //   outDegree: 0,
+                  //   inDegree: 4,
+                  //   children: []
+                  // }
                 ]
               }
             ]
@@ -2245,52 +2245,53 @@ const run = () => {
                     value: 30
                   }
                 ]
-              },
-              {
-                // value: 80,
-                name: 'B',
-                children: [
-                  {
-                    name: 'top',
-                    // value: 40,
-                    children: [
-                      { name: '00', value: 100 },
-                      { name: '01', value: 40 }
-                    ]
-                  },
-                  {
-                    name: 'middle',
-                    value: 10
-                  },
-                  {
-                    name: 'bottom',
-                    value: 30
-                  }
-                ]
-              },
-              {
-                value: 50,
-                name: 'C',
-                children: [
-                  {
-                    name: 'top',
-                    value: 20
-                  },
-                  {
-                    name: 'middle',
-                    value: 20
-                  },
-                  {
-                    name: 'bottom',
-                    value: 10
-                  }
-                ]
               }
+              // {
+              //   // value: 80,
+              //   name: 'B',
+              //   children: [
+              //     {
+              //       name: 'top',
+              //       // value: 40,
+              //       children: [
+              //         { name: '00', value: 100 },
+              //         { name: '01', value: 40 }
+              //       ]
+              //     },
+              //     {
+              //       name: 'middle',
+              //       value: 10
+              //     },
+              //     {
+              //       name: 'bottom',
+              //       value: 30
+              //     }
+              //   ]
+              // },
+              // {
+              //   value: 50,
+              //   name: 'C',
+              //   children: [
+              //     {
+              //       name: 'top',
+              //       value: 20
+              //     },
+              //     {
+              //       name: 'middle',
+              //       value: 20
+              //     },
+              //     {
+              //       name: 'bottom',
+              //       value: 10
+              //     }
+              //   ]
+              // }
             ]
           }
         ]
       }
     ],
+    crossNodeAlign: 'start',
     categoryField: 'name',
     valueField: 'value',
     color: {

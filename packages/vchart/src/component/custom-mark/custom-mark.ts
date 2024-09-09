@@ -200,7 +200,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
           if (this._isLayout === false) {
             const component = product.getGroupGraphicItem();
             // TODO: 待 vgrammar 提供接口后进行优化 @zwx
-            if (component.listenerCount('*') === 0) {
+            if (component?.listenerCount('*') === 0) {
               component.addEventListener('*', ((event: any, type: string) =>
                 this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
             }

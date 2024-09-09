@@ -16,7 +16,7 @@ import type {
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
-import type { IComponentOption } from '../interface';
+import { ComponentTypeEnum, type IComponentOption } from '../interface';
 import { eachSeries, getSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '@visactor/vutils-extension';
@@ -263,10 +263,19 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
             });
           } else if (viewData && viewData.latestData && viewData.latestData.length) {
             const seriesData = s.getViewDataStatistics?.();
+            const userSetBreaks =
+              this.type === ComponentTypeEnum.cartesianLinearAxis && this._spec.breaks && this._spec.breaks.length;
 
             field.forEach(f => {
               if (seriesData?.latestData?.[f]) {
-                data.push(seriesData.latestData[f]);
+                if (userSetBreaks) {
+                  data.push({
+                    ...seriesData.latestData[f],
+                    values: viewData.latestData.map((obj: Datum) => obj[f])
+                  });
+                } else {
+                  data.push(seriesData.latestData[f]);
+                }
               }
             });
           }

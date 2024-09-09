@@ -19,7 +19,6 @@ import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
-import { IFilterMode } from '../component/data-zoom';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
 
@@ -113,7 +112,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     // 交互层
     this._interactionMark = this._createGroupMark(
       'regionInteractionGroup',
-      this.userId + '_interaction',
+      (this.userId ?? this.type) + '_interaction',
       LayoutZIndex.Interaction
     );
 
@@ -138,7 +137,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
           this._groupMark.addMark(mark);
         }
       });
-      this._backgroundMark && this._backgroundMark.setZIndex(0);
+      this._backgroundMark && this._backgroundMark.setZIndex(LayoutZIndex.SeriesGroup - 1);
       this._foregroundMark && this._foregroundMark.setZIndex(LayoutZIndex.Mark + 1);
     }
     this.createTrigger();

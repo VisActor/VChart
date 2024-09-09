@@ -89,10 +89,12 @@ Optional:
 - `horizontal`
 
 #${prefix} nodeAlign(string)
+Node alignment type, calculated based on node depth, determines which layer the node is in:
 
-Node alignment type.
+- For horizontally laid out Sankey diagrams, used to calculate node x-coordinates
+- For vertically laid out Sankey diagrams, used to calculate node y-coordinates
 
-Optional:
+Options:
 
 - `left`
 - `right`
@@ -100,6 +102,22 @@ Optional:
 - `justify`
 - `start`
 - `end`
+
+#${prefix} crossNodeAlign(string)
+
+Supported since version **1.12.4**
+
+For horizontally laid out Sankey diagrams, sets the Y-coordinate alignment of nodes:
+
+- 'start' - 'Top alignment'
+- 'end' - 'Bottom alignment'
+- 'middle' - 'Center alignment'
+
+For vertically laid out Sankey diagrams, sets the X-coordinate alignment of nodes:
+
+- 'start' - 'Left alignment'
+- 'end' - 'Right alignment'
+- 'middle' - 'Center alignment'
 
 #${prefix} inverse(boolean)
 

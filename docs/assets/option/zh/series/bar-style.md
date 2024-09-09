@@ -37,3 +37,19 @@
 #${prefix} stackCornerRadius(number|number[])
 
 自 `1.10.0` 版本开始支持，用于配置堆叠柱整体的圆角。
+
+从`1.12.4`版本开始支持，可以使用回调来设置 stackCornerRadius，函数类型定义如下：
+
+```ts
+/**
+ * @param attr 分组属性
+ * @param datum 分组数据
+ * @param ctx 上下文
+ * @returns
+ */
+export type IStackCornerRadiusCallback = (
+  attr: IRectGraphicAttribute,
+  datum: Datum,
+  ctx: ISeriesMarkAttributeContext
+) => number | number[];
+```

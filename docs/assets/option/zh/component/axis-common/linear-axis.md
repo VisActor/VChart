@@ -80,3 +80,36 @@
 **仅当轴为线性轴或时间轴时生效**，配置连续轴上的 dimension tooltip 数据筛选范围。从 1.4.0 版本开始支持。
 
 如果配置为单个数字形如 `d`，则筛选区间为 `[x0 - d, x0 + d]`；如果配置为二元组形如 `[d1, d2]`，则筛选区间为 `[x0 + d1, x0 + d2]`。
+
+#${prefix} breaks(Array|Object)
+
+自 `1.12.4` 版本开始支持。
+
+轴截断配置，只对笛卡尔坐标系的 linear 轴生效。
+
+##${prefix} range(number[])
+
+轴截断的数据范围，如 `[300, 500]`，请确保数据范围的大小顺序，否则会被视为无效配置。
+
+##${prefix} breakSymbol(Object)
+
+截断图形样式配置。
+
+###${prefix} visible(boolean)
+
+是否显示，默认为 `true`。
+
+###${prefix} gap(number | string)
+
+截断标识之间的间距配置，默认为 `6`。
+
+- 1. `number` 为像素值
+- 2. `string` 为百分比相对值，如 '1%'
+
+###${prefix} angle(number)
+
+截断图形旋转的角度配置。
+
+###${prefix} style(Object)
+
+截断图形的样式配置，可以配置线宽(`lineWidth`)、颜色(`stroke`)等。

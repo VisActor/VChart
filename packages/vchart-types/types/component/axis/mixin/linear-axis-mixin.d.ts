@@ -1,5 +1,5 @@
 import type { LinearScale } from '@visactor/vscale';
-import type { IAxisLocationCfg, ITick } from '../interface';
+import type { IAxisLocationCfg, ILinearAxisBreakSpec, ITick } from '../interface';
 import type { IEvent } from '../../../event/interface';
 import type { IOrientType } from '../../../typings/space';
 import type { IComponentOption } from '../../interface/common';
@@ -32,6 +32,12 @@ export interface LinearAxisMixin {
         max: number;
         values: any[];
     }[];
+    _break: {
+        domain: [number, number][];
+        scope: [number, number][];
+        breakDomains: [number, number][];
+        breaks: ILinearAxisBreakSpec[];
+    };
     event: IEvent;
     _orient: IOrientType;
     _option: IComponentOption;

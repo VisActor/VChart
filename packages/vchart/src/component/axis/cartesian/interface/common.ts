@@ -14,21 +14,6 @@ import type { ITextMarkSpec, StringOrNumber } from '../../../../typings';
 export type ICartesianDomainLineSpec = {
   startSymbol?: SegmentAttributes['startSymbol'];
   endSymbol?: SegmentAttributes['endSymbol'];
-  // /**
-  //  * TODO: 待支持
-  //  * 坐标轴截断范围，当需要对坐标轴轴线截断时，可配置该属性
-  //  */
-  // breakRange?: [number, number];
-  // /**
-  //  * TODO: 待支持
-  //  * 截断区域的形状
-  //  */
-  // breakShape?: SymbolType | [SymbolType, SymbolType];
-  // /**
-  //  * TODO: 待支持
-  //  * 截断图形样式
-  //  */
-  // breakShapeStyle?: Partial<IAttribute>;
   /**
    * X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。
    * 默认为 false，交由用户按需打开

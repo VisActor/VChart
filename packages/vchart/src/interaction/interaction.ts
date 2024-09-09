@@ -130,6 +130,18 @@ export class Interaction implements IInteraction {
     }
   }
 
+  clearAllEventElement() {
+    if (this._disableTriggerEvent) {
+      return;
+    }
+    for (const [stateValue, elements] of this._stateElements) {
+      elements.forEach(e => {
+        e.clearStates();
+      });
+      this._stateElements.set(stateValue, []);
+    }
+  }
+
   /**
    * 激活交互元素时 进行反选
    * 需要先将元素添加到已交互状态再使用此方法反选
@@ -206,6 +218,20 @@ export class Interaction implements IInteraction {
       interactions.forEach(vgInteraction => {
         vgInteraction.reset(element);
       });
+    }
+  }
+
+  /**
+   * 清空所有通过 vgrammar 代理的交互
+   * @returns
+   */
+  resetAllInteraction() {
+    for (const [stateValue, interactions] of this._vgrammarInteractions) {
+      if (interactions) {
+        interactions.forEach(vgInteraction => {
+          vgInteraction.reset(null);
+        });
+      }
     }
   }
 }

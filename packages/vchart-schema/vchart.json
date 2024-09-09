@@ -305,11 +305,24 @@
           },
           "type": "array"
         },
+        "autoWrap": {
+          "type": "boolean"
+        },
         "layoutFunc": {
           "typeof": "function"
         },
         "limitEllipsis": {
           "type": "string"
+        },
+        "overflowLimitLength": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ]
         }
       },
       "type": "object"
@@ -343,6 +356,20 @@
         "line"
       ],
       "type": "string"
+    },
+    "BreakSymbol": {
+      "properties": {
+        "angle": {
+          "type": "number"
+        },
+        "style": {
+          "$ref": "#/definitions/Partial<ISymbolGraphicAttribute>"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
     },
     "BuildInTransformOptions": {
       "anyOf": [
@@ -21562,11 +21589,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackInverse": {
           "default": false,
@@ -22745,11 +22774,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackInverse": {
           "default": false,
@@ -23181,11 +23212,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
@@ -43753,11 +43786,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackInverse": {
           "default": false,
@@ -44887,11 +44922,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackInverse": {
           "default": false,
@@ -48806,8 +48843,26 @@
       ],
       "type": "object"
     },
+    "ILinearAxisBreakSpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Omit<AxisBreakProps,\"rawRange\">"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
+    },
     "ILinearAxisSpec": {
       "properties": {
+        "breaks": {
+          "description": "轴截断配置，只对笛卡尔坐标系的 linear 轴生效",
+          "items": {
+            "$ref": "#/definitions/ILinearAxisBreakSpec"
+          },
+          "since": "1.12.4",
+          "type": "array"
+        },
         "expand": {
           "typeof": "function"
         },
@@ -62448,11 +62503,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackInverse": {
           "default": false,
@@ -62900,11 +62957,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
@@ -64023,11 +64082,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackInverse": {
           "default": false,
@@ -64475,11 +64536,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
@@ -66757,6 +66820,16 @@
           ],
           "description": "图表色系配置"
         },
+        "crossNodeAlign": {
+          "description": "横向布局的桑基图，设置节点Y坐标的对齐方式：\n'start' - '顶部对齐'\n'end' - '底部对齐'\n'middle' - '居中对齐'\n\n纵向布局的桑基图，设置节点X坐标的对齐方式：\n'start' - '左对齐'\n'end' - '右对齐'\n'middle' - '居中对齐'",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "since": "1.12.4",
+          "type": "string"
+        },
         "crosshair": {
           "anyOf": [
             {
@@ -66991,7 +67064,7 @@
           "description": "节点配置"
         },
         "nodeAlign": {
-          "description": "节点的对齐类型",
+          "description": "节点的对齐类型，所有深度相同的节点，采用什么对齐方式，决定了节点在第几层：\n- 横向布局的桑基图，用于计算节点x坐标\n- 纵向布局的桑基图，用于计算节点y坐标",
           "enum": [
             "center",
             "end",
@@ -67315,6 +67388,16 @@
           "description": "节点名称字段配置",
           "type": "string"
         },
+        "crossNodeAlign": {
+          "description": "横向布局的桑基图，设置节点Y坐标的对齐方式：\n'start' - '顶部对齐'\n'end' - '底部对齐'\n'middle' - '居中对齐'\n\n纵向布局的桑基图，设置节点X坐标的对齐方式：\n'start' - '左对齐'\n'end' - '右对齐'\n'middle' - '居中对齐'",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "since": "1.12.4",
+          "type": "string"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "系列关联的数据id"
@@ -67473,7 +67556,7 @@
           "description": "节点配置"
         },
         "nodeAlign": {
-          "description": "节点的对齐类型",
+          "description": "节点的对齐类型，所有深度相同的节点，采用什么对齐方式，决定了节点在第几层：\n- 横向布局的桑基图，用于计算节点x坐标\n- 纵向布局的桑基图，用于计算节点y坐标",
           "enum": [
             "center",
             "end",
@@ -78576,11 +78659,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackInverse": {
           "default": false,
@@ -79054,11 +79139,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackLabel": {
           "allOf": [
@@ -81604,7 +81691,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         },
         "size": {
@@ -81612,14 +81699,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13700",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         },
         "size": {
@@ -81627,14 +81714,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13700",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         },
         "size": {
@@ -81642,14 +81729,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13700",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         },
         "size": {
@@ -81657,14 +81744,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13700",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         },
         "size": {
@@ -81672,14 +81759,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13700",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         },
         "size": {
@@ -81687,14 +81774,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13700",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         },
         "size": {
@@ -81702,14 +81789,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13700",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         },
         "size": {
@@ -81717,14 +81804,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13700",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         },
         "size": {
@@ -81732,7 +81819,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13577",
+        "__@toStringTag@13700",
         "size"
       ],
       "type": "object"
@@ -82166,6 +82253,30 @@
         "vendor",
         "vendorSub",
         "webdriver"
+      ],
+      "type": "object"
+    },
+    "Omit<AxisBreakProps,\"rawRange\">": {
+      "properties": {
+        "breakSymbol": {
+          "$ref": "#/definitions/BreakSymbol"
+        },
+        "range": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "range"
       ],
       "type": "object"
     },
@@ -83092,11 +83203,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "堆叠柱整体的圆角",
-          "since": "1.10.0"
+          "description": "堆叠柱整体的圆角 @since 1.10.0\n圆角支持回调配置 @since 1.12.4"
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
@@ -102613,34 +102726,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13577"
+        "__@toStringTag@13700"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13577"
+        "__@toStringTag@13700"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13577": {
+        "__@toStringTag@13700": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13577"
+        "__@toStringTag@13700"
       ],
       "type": "object"
     },

@@ -59,7 +59,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   private _nodeLayoutZIndex = LayoutZIndex.Node;
   private _labelLayoutZIndex = LayoutZIndex.Label;
-  private _labelLimit: number;
 
   protected _nodesSeriesData?: SeriesData;
   protected _linksSeriesData?: SeriesData;
@@ -130,6 +129,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           targetField: this._spec.targetField,
           valueField: this._spec.valueField,
           direction: this.direction,
+          crossNodeAlign: this._spec.crossNodeAlign,
           nodeAlign: this._spec.nodeAlign ?? 'justify',
           nodeGap: this._spec.nodeGap ?? 8,
           nodeWidth: this._spec.nodeWidth ?? 10,

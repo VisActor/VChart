@@ -20,7 +20,6 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     private _linkMark;
     private _nodeLayoutZIndex;
     private _labelLayoutZIndex;
-    private _labelLimit;
     protected _nodesSeriesData?: SeriesData;
     protected _linksSeriesData?: SeriesData;
     private _viewBox;
