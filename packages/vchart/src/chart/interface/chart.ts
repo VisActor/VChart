@@ -180,6 +180,12 @@ export interface IChart extends ICompilable {
    */
   clearState: (state: string) => void;
   /**
+   * 清除所有图元的所有状态
+   *
+   * @since 1.12.4
+   */
+  clearAllStates: () => void;
+  /**
    * 清除所有图元的选中状态
    *
    * @since 1.11.0
