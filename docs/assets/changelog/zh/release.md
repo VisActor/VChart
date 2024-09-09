@@ -2,25 +2,22 @@
 
 2024-09-09
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: support axis break
-- **@visactor/vchart**: stackCornerRadius support callback. feat[#3164](https://github.com/VisActor/VChart/issues/3164)
-- **@visactor/vchart**: add `crossNodeAlign` to sankey
+- **@visactor/vchart**: 支持坐标轴断开
+- **@visactor/vchart**: stackCornerRadius 支持回调函数。特性[#3164](https://github.com/VisActor/VChart/issues/3164)
+- **@visactor/vchart**: 为桑基图添加 `crossNodeAlign` 配置
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: bind first axis to series but not last. fix[#3139](https://github.com/VisActor/VChart/issues/3139)
-- **@visactor/vchart**: crosshair won't update when switch theme
-- **@visactor/vchart**: wordcloud text overlap. fix[#3177](https://github.com/VisActor/VChart/issues/3177)
-- **@visactor/vchart**: fix zIndex of label in pie-chart
+- **@visactor/vchart**: 当系列没有显式的和轴进行绑定的时候，将系列绑定到将第一个相关坐标轴，而不是最后一个，修复[#3139](https://github.com/VisActor/VChart/issues/3139)
+- **@visactor/vchart**: 切换主题时 Crosshair 不会更新
+- **@visactor/vchart**: 修复词云图文本重叠的问题。修复[#3177](https://github.com/VisActor/VChart/issues/3177)
+- **@visactor/vchart**: 修复饼图中 label 的 zIndex 不可配置的问题
 
 **🔧 项目配置**
 
-- **@visactor/vchart**: clear state when updateSpec. fix[#3162](https://github.com/VisActor/VChart/issues/3162)
-
-
+- **@visactor/vchart**: 新增 api `clearclearAllStates`。修复[#3162](https://github.com/VisActor/VChart/issues/3162)
 
 [更多详情请查看 v1.12.4](https://github.com/VisActor/VChart/releases/tag/v1.12.4)
 
@@ -28,11 +25,9 @@
 
 2024-09-05
 
-
 **🐛 功能修复**
 
 - **@visactor/vchart**: 修复无法通过 `option.animation:false` 禁用标签更新动画
-
 
 [更多详情请查看 v1.12.3](https://github.com/VisActor/VChart/releases/tag/v1.12.3)
 
@@ -40,10 +35,9 @@
 
 2024-09-05
 
-
 **🆕 新增功能**
 
-- **brush**: 添加配置以控制Brush组件在空数据时的缩放行为。关闭 [#2934](https://github.com/VisActor/VChart/issues/2934)
+- **brush**: 添加配置以控制 Brush 组件在空数据时的缩放行为。关闭 [#2934](https://github.com/VisActor/VChart/issues/2934)
 - **@visactor/vchart**: 在饼图中支持 'inside-center' 标签位置
 
 **🐛 功能修复**
@@ -54,9 +48,9 @@
 - **@visactor/vchart**: 修复 Indicator 阻止了 tooltip 的交互。修复 [#3123](https://github.com/VisActor/VChart/issues/3123)
 - **@visactor/vchart**: 修复雷达图中当 layoutRadius 是自定义函数时 `getCenter` 的错误
 - **@visactor/vchart**: 媒体查询导致渲染结果不正确，[#3102](https://github.com/VisActor/VChart/issues/3102)
-- **@visactor/vchart**: 修复normal动画不生效的问题
-- **@visactor/vchart**: 修复桑基图scale更新不生效
-- **@visactor/vchart**: 修复桑基图中某些自定义mark名称为 "node" 时导致事件错误
+- **@visactor/vchart**: 修复 normal 动画不生效的问题
+- **@visactor/vchart**: 修复桑基图 scale 更新不生效
+- **@visactor/vchart**: 修复桑基图中某些自定义 mark 名称为 "node" 时导致事件错误
 - **@visactor/vchart**: 修复当有 innerOffset 时 tooltip 的维度值，修复 [#2923](https://github.com/VisActor/VChart/issues/2923)
 - **@visactor/vchart**: 当系列数据的值为空时，vchart 不应抛出错误，修复 [#3082](https://github.com/VisActor/VChart/issues/3082)
 - **@visactor/vchart**: 修复数组变化时 `updateSpec` 的错误
@@ -72,14 +66,11 @@
 - **@visactor/vchart**: 修复树图标签在选项页面中不显示的问题，修复 [#2562](https://github.com/VisActor/VChart/issues/2562)
 - **@visactor/vchart**: 更新关于环形进度图的文档，关闭 [#2987](https://github.com/VisActor/VChart/issues/2987)
 
-
-
 [更多详情请查看 v1.12.2](https://github.com/VisActor/VChart/releases/tag/v1.12.2)
 
 # v1.12.1
 
 2024-08-21
-
 
 **🐛 功能修复**
 
@@ -88,37 +79,38 @@
 - **@visactor/vchart**: 修复媒体查询器导致渲染效果不正确的问题， [#3102](https://github.com/VisActor/VChart/issues/3102)
 - **@visactor/vchart**: 修复系列数据为空时的报错问题，修复 [#3082](https://github.com/VisActor/VChart/issues/3082)
 
-
-
 [更多详情请查看 v1.12.1](https://github.com/VisActor/VChart/releases/tag/v1.12.1)
 
 # v1.12.0
 
 2024-08-16
 
-
 **🆕 新增功能**
 
-  - **@visactor/vchart**: marker 的 `coordinates` 和 `positions` 属性支持回调函数
-  - **@visactor/vchart**: 支持 `animationState` 配置，用于配置状态动画
-  - **@visactor/vchart**: 饼图支持使用属性 `showAllZero` ，在数据全为0时，显示均分的饼图
-  - **@visactor/vchart**: 饼图支持 `supportNegative` 选项，将负值视为绝对值处理
-  - **@visactor/vchart**: 主题支持按图表类型配置
-  - **@visactor/vchart**: 词云图支持文字作为轮廓
-  - **@visactor/vchart**: 新增马赛克图表 MosaicChart
-  - **@visactor/vchart**: 支持线性轴的自定义刻度函数
-  - **@visactor/vchart**: 为饼图添加 ·emptyPlaceholder` 和 `emptyCircle`配置，设置数据为空的展位展示
+- **@visactor/vchart**: marker 的 `coordinates` 和 `positions` 属性支持回调函数
+- **@visactor/vchart**: 支持 `animationState` 配置，用于配置状态动画
+- **@visactor/vchart**: 饼图支持使用属性 `showAllZero` ，在数据全为 0 时，显示均分的饼图
+- **@visactor/vchart**: 饼图支持 `supportNegative` 选项，将负值视为绝对值处理
+- **@visactor/vchart**: 主题支持按图表类型配置
+- **@visactor/vchart**: 词云图支持文字作为轮廓
+- **@visactor/vchart**: 新增马赛克图表 MosaicChart
+- **@visactor/vchart**: 支持线性轴的自定义刻度函数
+- **@visactor/vchart**: 为饼图添加 ·emptyPlaceholder`和`emptyCircle`配置，设置数据为空的展位展示
 
-  ## 🐛 修复
-  - **@visactor/vchart**: 修复brush缩放后，导致y轴倒置的问题。修复 [#3089](https://github.com/VisActor/VChart/issues/3089)
-  - **@visactor/vchart**: 修复MarkPoint位置类型错误
-  ## 🔨 重构
-  - **@visactor/vchart**: 重构线性进度图中的图形
-  - **@visactor/vchart**: 使用Label组件重构桑基图标签
-  - **@visactor/vchart**: 按需加载堆叠功能
-  ## 🔖 其他
-  - **@visactor/vchart**: sequence 图支持底部轴。修复 [#2927](https://github.com/VisActor/VChart/issues/2927) 
+## 🐛 修复
 
+- **@visactor/vchart**: 修复 brush 缩放后，导致 y 轴倒置的问题。修复 [#3089](https://github.com/VisActor/VChart/issues/3089)
+- **@visactor/vchart**: 修复 MarkPoint 位置类型错误
+
+## 🔨 重构
+
+- **@visactor/vchart**: 重构线性进度图中的图形
+- **@visactor/vchart**: 使用 Label 组件重构桑基图标签
+- **@visactor/vchart**: 按需加载堆叠功能
+
+## 🔖 其他
+
+- **@visactor/vchart**: sequence 图支持底部轴。修复 [#2927](https://github.com/VisActor/VChart/issues/2927)
 
 [更多详情请查看 v1.12.0](https://github.com/VisActor/VChart/releases/tag/v1.12.0)
 
@@ -126,15 +118,15 @@
 
 2024-08-15
 
-
 **🆕 新增功能**
+
 - **@visactor/vchart**: 支持饼图的 `layoutRadius`
 
 **🐛 功能修复**
 
 - **@visactor/vchart**: 修复 linear-axis-mixin 中 tickCount 参数不一致的问题，修复 [#3053](https://github.com/VisActor/VChart/issues/3053)
-- **@visactor/vchart**: 修复region `padding` 不生效的问题
-- **@visactor/vchart**: 修复图例过滤后Brush组件报错的问题，修复 [#3061](https://github.com/VisActor/VChart/issues/3061)
+- **@visactor/vchart**: 修复 region `padding` 不生效的问题
+- **@visactor/vchart**: 修复图例过滤后 Brush 组件报错的问题，修复 [#3061](https://github.com/VisActor/VChart/issues/3061)
 - **@visactor/vchart**: 修复不同类别和系列字段带来的漏斗图颜色问题
 - **@visactor/vchart**: 修复 harmony 事件的问题
 - **@visactor/vchart**: 修复 react vchart 的类型错误，修复 [#3065](https://github.com/VisActor/VChart/issues/3065)
@@ -143,36 +135,31 @@
 - **@visactor/vchart**: 修复饼图中 `startAngle` 和 `endAngle` 更新的问题，修复 [#3059](https://github.com/VisActor/VChart/issues/3059)
 - **@visactor/vchart**: 修复图例 `visible` 切换的问题，修复 [#3060](https://github.com/VisActor/VChart/issues/3060)
 
-
 [更多详情请查看 v1.11.12](https://github.com/VisActor/VChart/releases/tag/v1.11.12)
 
 # v1.11.11
 
 2024-08-06
 
-
 **🆕 新增功能**
 
 - **@visactor/vchart**: 标签引导线支持自定义形状，关闭[#3000](https://github.com/VisActor/VChart/issues/3000)
-- **@visactor/vchart**: 新增曲线插值算法`catmullRom` 和 `catmullRomClosed`，相关issue[#2610](https://github.com/VisActor/VChart/issues/2610)
-
+- **@visactor/vchart**: 新增曲线插值算法`catmullRom` 和 `catmullRomClosed`，相关 issue[#2610](https://github.com/VisActor/VChart/issues/2610)
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: 修复直方图crosshair不展示的问题, 关闭 [#2826](https://github.com/VisActor/VChart/issues/2826)
+- **@visactor/vchart**: 修复直方图 crosshair 不展示的问题, 关闭 [#2826](https://github.com/VisActor/VChart/issues/2826)
 - **@visactor/vchart**: 使用 `vglobal.getElementById` 替代 `document.getElementById`，修复小程序报错问题
 - **@visactor/vchart**: 修复水波图反转后不支持渐变色的问题
 - **@visactor/vchart**: 优化水波图渐变色效果
-- **@visactor/vchart**: 修复tooltip `lockAfterClick` 配置不生效的问题，相关issue [#1574](https://github.com/VisActor/VChart/issues/1574)
-- **@visactor/vchart**: 在`panEnd` 事件完成前，阻止默认事件，相关issue [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: 修复 tooltip `lockAfterClick` 配置不生效的问题，相关 issue [#1574](https://github.com/VisActor/VChart/issues/1574)
+- **@visactor/vchart**: 在`panEnd` 事件完成前，阻止默认事件，相关 issue [#2931](https://github.com/VisActor/VChart/issues/2931)
 - **@visactor/vchart**: 当申明了 `stackValue` ，但是配置`stack` 为`false`的时候，图表不应该堆积, 修复[#3005](https://github.com/VisActor/VChart/issues/3005)
-- **@visactor/vchart**: 修复`updateData` 在存在 datazoom组件时，更新错误的问题, 相关issue [#3041](https://github.com/VisActor/VChart/issues/3041)
+- **@visactor/vchart**: 修复`updateData` 在存在 datazoom 组件时，更新错误的问题, 相关 issue [#3041](https://github.com/VisActor/VChart/issues/3041)
 - **@visactor/vchart**: 修复坐标轴网格线显示/隐藏切换时，图表不更新的问题，修复[#3004](https://github.com/VisActor/VChart/issues/3004)
 - **@visactor/vchart**: 修复更新主题中`fontFamily` 时，更新不生效的问题，修复 [#3028](https://github.com/VisActor/VChart/issues/3028)
 
 - **@visactor/vchart**: 修复`seriesStyle`配置`monotone` 不生效的问题
-
-
 
 [更多详情请查看 v1.11.11](https://github.com/VisActor/VChart/releases/tag/v1.11.11)
 
@@ -180,26 +167,23 @@
 
 2024-07-24
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: 水波图支持反转和通过自定义mark实现目标线的能力。关闭 [#2977](https://github.com/VisActor/VChart/issues/2977) 和关闭 [#2978](https://github.com/VisActor/VChart/issues/2978)
+- **@visactor/vchart**: 水波图支持反转和通过自定义 mark 实现目标线的能力。关闭 [#2977](https://github.com/VisActor/VChart/issues/2977) 和关闭 [#2978](https://github.com/VisActor/VChart/issues/2978)
 - **@visactor/vchart**: 在地理缩放事件中添加 `totalScale` 参数
 - **@visactor/vchart**: 支持 `geoZoomByIndex`/`geoZoomById` API，关闭 [#2925](https://github.com/VisActor/VChart/issues/2925)
-- **@visactor/vchart**: MarkLine的标签签背景支持自定义路径。关闭 [#2959](https://github.com/VisActor/VChart/issues/2959)
+- **@visactor/vchart**: MarkLine 的标签签背景支持自定义路径。关闭 [#2959](https://github.com/VisActor/VChart/issues/2959)
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: 修复ios设备中，`pointEvent` 开启后导致的问题
+- **@visactor/vchart**: 修复 ios 设备中，`pointEvent` 开启后导致的问题
 - **@visactor/vchart**: 修复水波图反转后，渐变色不生效的问题
-- **@visactor/vchart**: 修复`zoomEnd` 组合事件中，触发原始事件的bug [#2931](https://github.com/VisActor/VChart/issues/2931)
-- **@visactor/vchart**: 修复当维度轴为连续类型时，`setDimensionIndex`不能正常的展示 tooltip的问题
+- **@visactor/vchart**: 修复`zoomEnd` 组合事件中，触发原始事件的 bug [#2931](https://github.com/VisActor/VChart/issues/2931)
+- **@visactor/vchart**: 修复当维度轴为连续类型时，`setDimensionIndex`不能正常的展示 tooltip 的问题
 
 **🔧 项目配置**
 
-- **@visactor/vchart**: 更新 rollup.config.js，修复 es5/index.js在浏览器中报错的问题，修复 [#2971](https://github.com/VisActor/VChart/issues/2971)
-
-
+- **@visactor/vchart**: 更新 rollup.config.js，修复 es5/index.js 在浏览器中报错的问题，修复 [#2971](https://github.com/VisActor/VChart/issues/2971)
 
 [更多详情请查看 v1.11.10](https://github.com/VisActor/VChart/releases/tag/v1.11.10)
 
@@ -207,20 +191,18 @@
 
 2024-07-17
 
-
 **🆕 新增功能**
 
-* @visactor/vchart: 主题支持配置tooltip更新动画过渡持续时间
-
+- @visactor/vchart: 主题支持配置 tooltip 更新动画过渡持续时间
 
 **🐛 功能修复**
-* @visactor/vchart: 修复字段作为离散类型和连续类型时，计算统计值冲突的问题，关闭 [#2926](https://github.com/VisActor/VChart/issues/2926) 
-* @visactor/vchart: 修复更新图表时主题错误的问题
-* @visactor/vchart: 修复更新图表时标签错误更新的问题
-* @visactor/vchart: 修复极坐标系点更新动画的 bug
-* @visactor/vchart: React 属性应支持 React 17
-* @visactor/vchart: 修复设置桑基最小节点高度 `minNodeHeight` 时，边的高度计算不合理的问题
 
+- @visactor/vchart: 修复字段作为离散类型和连续类型时，计算统计值冲突的问题，关闭 [#2926](https://github.com/VisActor/VChart/issues/2926)
+- @visactor/vchart: 修复更新图表时主题错误的问题
+- @visactor/vchart: 修复更新图表时标签错误更新的问题
+- @visactor/vchart: 修复极坐标系点更新动画的 bug
+- @visactor/vchart: React 属性应支持 React 17
+- @visactor/vchart: 修复设置桑基最小节点高度 `minNodeHeight` 时，边的高度计算不合理的问题
 
 [更多详情请查看 v1.11.9](https://github.com/VisActor/VChart/releases/tag/v1.11.9)
 
@@ -235,7 +217,7 @@
 - **@visactor/vchart**：支持 updateIndicatorDataById/updateIndicatorDataByIndex API，相关 [#2776](https://github.com/VisActor/VChart/issues/2776)
 - **@visactor/vchart**：添加 userUpdateOptions 让用户指定图表的更新类型，修复一些动画错误
 
-**🐛功能修复**
+**🐛 功能修复**
 
 - **barbackground**：设置自定义数据键修复时数据键未定义[#2908](https://github.com/VisActor/VChart/issues/2908)
 - **@visactor/vchart**：修复配置 barWidth 时 barMaxWidth 不起作用的问题，修复[#2885](https://github.com/VisActor/VChart/issues/2885)
@@ -250,15 +232,12 @@
 
 2024-06-27
 
-
 **🐛 功能修复**
 
 - **@visactor/vchart**: 修复图表背景不支持渐变色配置的问题
-- **animation**: 修复玫瑰图重复更新，动画bug，关闭[#2856](https://github.com/VisActor/VChart/issues/2856)
+- **animation**: 修复玫瑰图重复更新，动画 bug，关闭[#2856](https://github.com/VisActor/VChart/issues/2856)
 - **@visactor/vchart**:修复类型定义 `ITooltipTheme`, 关闭 [#2850](https://github.com/VisActor/VChart/issues/2850)
 - **@visactor/vchart**: 修复`updateSpec`时，更新动画没有触发的问题 [#2835](https://github.com/VisActor/VChart/issues/2835) [#2836](https://github.com/VisActor/VChart/issues/2836)
-
-
 
 [更多详情请查看 v1.11.6](https://github.com/VisActor/VChart/releases/tag/v1.11.6)
 
@@ -266,16 +245,13 @@
 
 2024-06-21
 
-
 **🆕 新增功能**
 
 - **@visactor/vchart**: Tooltip 支持配置`style.align`，用于支持 RTL 模式
-- 
+- **🐛 功能修复**
 
-**🐛 功能修复**
-
-  - **@visactor/vchart**: 优化暗色主题中，图例分页器的样式，关联问题 [#2654](https://github.com/VisActor/VChart/issues/2654)
-  - **@visactor/vchart**: 修复瀑布图堆积中，正数、负数在同一堆积下，表现错误的问题，修复 [#2212](https://github.com/VisActor/VChart/issues/2212)
+- **@visactor/vchart**: 优化暗色主题中，图例分页器的样式，关联问题 [#2654](https://github.com/VisActor/VChart/issues/2654)
+- **@visactor/vchart**: 修复瀑布图堆积中，正数、负数在同一堆积下，表现错误的问题，修复 [#2212](https://github.com/VisActor/VChart/issues/2212)
 
 [更多详情请查看 v1.11.5](https://github.com/VisActor/VChart/releases/tag/v1.11.5)
 
@@ -283,15 +259,12 @@
 
 2024-06-18
 
-
 **🐛 功能修复**
 
-  - **@visactor/vchart**: 修复当配置了`scales`的时候，`updateSpec` 效果错误的问题 [#2744](https://github.com/VisActor/VChart/issues/2744)
-  - **@visactor/vchart**: 修复当值接近最大值时，仪表盘可能抛错的问题，关闭[#2783](https://github.com/VisActor/VChart/issues/2783)
-  - **@visactor/vchart**: 修复仪表盘指针位置超出轴范围的问题，修复[#2780](https://github.com/VisActor/VChart/issues/2780)
-  - **@visactor/vchart**: 修复关闭appear动画后，循环动画不生效的问题，关闭[#2807](https://github.com/VisActor/VChart/issues/2807)
-
-
+- **@visactor/vchart**: 修复当配置了`scales`的时候，`updateSpec` 效果错误的问题 [#2744](https://github.com/VisActor/VChart/issues/2744)
+- **@visactor/vchart**: 修复当值接近最大值时，仪表盘可能抛错的问题，关闭[#2783](https://github.com/VisActor/VChart/issues/2783)
+- **@visactor/vchart**: 修复仪表盘指针位置超出轴范围的问题，修复[#2780](https://github.com/VisActor/VChart/issues/2780)
+- **@visactor/vchart**: 修复关闭 appear 动画后，循环动画不生效的问题，关闭[#2807](https://github.com/VisActor/VChart/issues/2807)
 
 [更多详情请查看 v1.11.4](https://github.com/VisActor/VChart/releases/tag/v1.11.4)
 
@@ -299,19 +272,16 @@
 
 2024-06-06
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: DataZoom新增配置项`showBackgroundChart`，用于显示/隐藏背景图
+- **@visactor/vchart**: DataZoom 新增配置项`showBackgroundChart`，用于显示/隐藏背景图
 
 **🐛 功能修复**
 
 - **@visactor/vchart**: 修复当 x 轴为线性轴时，柱形图应该正常工作，修复 [#2758](https://github.com/VisActor/VChart/issues/2758)
-- **@visactor/vchart**: 修复Treemap连续图例数据过滤问题
+- **@visactor/vchart**: 修复 Treemap 连续图例数据过滤问题
 - **@visactor/vchart**: 修复更新 Spec 时，新增组件类型无法生效的问题
 - **@visactor/vchart**: 修复桑基图的 `setSelected` 方法，修复 [#2757](https://github.com/VisActor/VChart/issues/2757) 和 [#2765](https://github.com/VisActor/VChart/issues/2765)
-
-
 
 [更多详情请查看 v1.11.3](https://github.com/VisActor/VChart/releases/tag/v1.11.3)
 
@@ -319,22 +289,20 @@
 
 2024-05-30
 
-
 **🐛 功能修复**
+
 - **@visactor/vchart**: 修复配置 `animationThreshold` 不生效的问题，关闭 [#2745](https://github.com/VisActor/VChart/issues/2745)
 - **@visactor/vchart**: 修复面积图更新动画不生效的问题
-- **common**: 在common图表中，柱系列支持自动带宽尺寸，即`autoBandSize`。修复[#2704](https://github.com/VisActor/VChart/issues/2704)
+- **common**: 在 common 图表中，柱系列支持自动带宽尺寸，即`autoBandSize`。修复[#2704](https://github.com/VisActor/VChart/issues/2704)
 - **@visactor/vchart**: 修复`Corsshiar`没有正常隐藏的问题，修复 [#2726](https://github.com/VisActor/VChart/issues/2726)
 - **@visactor/vchart**: 关闭由`Datazoom`、`Scrollbar`交互引发的更新动画
-- **@visactor/vchart**: 设置了 `type-step`的 markLine的标签应该考虑用户设置的`refX`,`refY`,`dx`,`dy`，修复[#2739](https://github.com/VisActor/VChart/issues/2739)
-- **react-vchart**: 修复 `<Axis />` 中的props `id` 不生效的问题
+- **@visactor/vchart**: 设置了 `type-step`的 markLine 的标签应该考虑用户设置的`refX`,`refY`,`dx`,`dy`，修复[#2739](https://github.com/VisActor/VChart/issues/2739)
+- **react-vchart**: 修复 `<Axis />` 中的 props `id` 不生效的问题
 - **@visactor/vchart**: 修复在主题配置中，`polarAxis.grid.smooth` 不生效的问题
 
 **🔧 项目配置**
 
-- **@visactor/vchart**: 在构建es5时，`@babel/preset-env` 的 `targets` 应该是 `defaults`，修复 [#2702](https://github.com/VisActor/VChart/issues/2702)
-
-
+- **@visactor/vchart**: 在构建 es5 时，`@babel/preset-env` 的 `targets` 应该是 `defaults`，修复 [#2702](https://github.com/VisActor/VChart/issues/2702)
 
 [更多详情请查看 v1.11.2](https://github.com/VisActor/VChart/releases/tag/v1.11.2)
 
@@ -344,58 +312,57 @@
 
 **🆕 新增功能**
 **marker**：标记点支持圆弧线和前置标注符号。关闭[#2590](https://github.com/VisActor/VChart/issues/2590)
-**@visactor/vchart**：添加option实现crosshair和tooltip保持同步
+**@visactor/vchart**：添加 option 实现 crosshair 和 tooltip 保持同步
 **🐛 功能修复**
-**@visactor/vchart**：修复扩展标记中缺失defaultDataIndex的问题
-**@visactor/vchart**：修复空spec的错误，修复[#1193](https://github.com/VisActor/VChart/issues/1193)
-**@visactor/vchart**：修复发布后renderNextTick导致的错误
-**@visactor/vchart**： layout-model应该在spec中读取layoutLevel，并且不为隐藏组件创建layoutItem，相关[#1674](https://github.com/VisActor/VChart/issues/1674)
-**@visactor/vchart**：当标记的spec更新时，应该调用vchart. updateSpec更新
-**@visactor/vchart**：修复flush为true时采样的问题，修复[#2272](https://github.com/VisActor/VChart/issues/2272)
-**@visactor/vchart**：修复sankey的api valueToPositionX和valueToPositionY
-**@visactor/vchart**： sankey应该按序列字段着色，修复[#2678](https://github.com/VisActor/VChart/issues/2678)
-**@visactor/vchart**：修复当轴为线性轴时setDimensionIndex的bug
-**@visactor/vchart**：修复导入registerTTEnv的问题
-**@visactor/vchart**：修复taro tt env的问题，已关闭[#2648](https://github.com/VisActor/VChart/issues/2648)
-**@visactor/vchart**：修复renderSync()之前调用updateFullDataSync()的错误，修复[#2655](https://github.com/VisActor/VChart/issues/2655)
-**📖新增文档**
+**@visactor/vchart**：修复扩展标记中缺失 defaultDataIndex 的问题
+**@visactor/vchart**：修复空 spec 的错误，修复[#1193](https://github.com/VisActor/VChart/issues/1193)
+**@visactor/vchart**：修复发布后 renderNextTick 导致的错误
+**@visactor/vchart**： layout-model 应该在 spec 中读取 layoutLevel，并且不为隐藏组件创建 layoutItem，相关[#1674](https://github.com/VisActor/VChart/issues/1674)
+**@visactor/vchart**：当标记的 spec 更新时，应该调用 vchart. updateSpec 更新
+**@visactor/vchart**：修复 flush 为 true 时采样的问题，修复[#2272](https://github.com/VisActor/VChart/issues/2272)
+**@visactor/vchart**：修复 sankey 的 api valueToPositionX 和 valueToPositionY
+**@visactor/vchart**： sankey 应该按序列字段着色，修复[#2678](https://github.com/VisActor/VChart/issues/2678)
+**@visactor/vchart**：修复当轴为线性轴时 setDimensionIndex 的 bug
+**@visactor/vchart**：修复导入 registerTTEnv 的问题
+**@visactor/vchart**：修复 taro tt env 的问题，已关闭[#2648](https://github.com/VisActor/VChart/issues/2648)
+**@visactor/vchart**：修复 renderSync()之前调用 updateFullDataSync()的错误，修复[#2655](https://github.com/VisActor/VChart/issues/2655)
+**📖 新增文档**
 **@visactor/vchart**：添加自定义动画文档
-**@visactor/vchart**：react-lynx-vgraph的完美文档
+**@visactor/vchart**：react-lynx-vgraph 的完美文档
 
 [更多详情请查看 v1.11.1](https://github.com/VisActor/VChart/releases/tag/v1.11.1)
-
 
 # v1.11.0
 
 2024-05-08
 
-
 **🆕 新增功能**
-- **@visactor/vchart**: 支持自定义Mark配置动画
-- **@visactor/vchart**: 更新图表spec或数据时，图例应保持未选中状态，修复 [#2531](https://github.com/VisActor/VChart/issues/2531)，相关 [#2443](https://github.com/VisActor/VChart/issues/2443)
-- **marker**: 增强Marker相关组件的的状态和动画，并支持极坐标和地理坐标轴。关闭[#1165](https://github.com/VisActor/VChart/issues/1165)
-- **marker**: 为Marker相关组件添加交互式事件监听器。关闭[#2248](https://github.com/VisActor/VChart/issues/2248)
-- **marker**: Marker组件添加关于所有相关系列的自定义数据的配置。关闭[#2183](https://github.com/VisActor/VChart/issues/2183)
-- **@visactor/vchart**: 在react-vchart中支持spec相同时的数据更新
+
+- **@visactor/vchart**: 支持自定义 Mark 配置动画
+- **@visactor/vchart**: 更新图表 spec 或数据时，图例应保持未选中状态，修复 [#2531](https://github.com/VisActor/VChart/issues/2531)，相关 [#2443](https://github.com/VisActor/VChart/issues/2443)
+- **marker**: 增强 Marker 相关组件的的状态和动画，并支持极坐标和地理坐标轴。关闭[#1165](https://github.com/VisActor/VChart/issues/1165)
+- **marker**: 为 Marker 相关组件添加交互式事件监听器。关闭[#2248](https://github.com/VisActor/VChart/issues/2248)
+- **marker**: Marker 组件添加关于所有相关系列的自定义数据的配置。关闭[#2183](https://github.com/VisActor/VChart/issues/2183)
+- **@visactor/vchart**: 在 react-vchart 中支持 spec 相同时的数据更新
 - **@visactor/vchart**: 在线性轴中支持`softMin`和`softMax`，关闭 [#2498](https://github.com/VisActor/VChart/issues/2498)
-- **@visactor/vchart**: 在Tooltip事件参数中添加新属性`tooltipSpec`和`tooltipActual`，相关 [#2454](https://github.com/VisActor/VChart/issues/2454)
-- **@visactor/vchart**: 添加`othersLine`为tooltip超过显示行数后显示的“其他”行内容
-- **@visactor/vchart**: 新增图表类型Venn，相关 [#2144](https://github.com/VisActor/VChart/issues/2144)
+- **@visactor/vchart**: 在 Tooltip 事件参数中添加新属性`tooltipSpec`和`tooltipActual`，相关 [#2454](https://github.com/VisActor/VChart/issues/2454)
+- **@visactor/vchart**: 添加`othersLine`为 tooltip 超过显示行数后显示的“其他”行内容
+- **@visactor/vchart**: 新增图表类型 Venn，相关 [#2144](https://github.com/VisActor/VChart/issues/2144)
 - **@visactor/vchart**: 增强瀑布图总标签的功能
-- **@visactor/vchart**: 添加`clearState()`、`clearSelected()`、`clearHovered()`的API，修复 [#2552](https://github.com/VisActor/VChart/issues/2552)
-- **@visactor/vchart**: 在`registerMap` API中支持`simplify.tolerance`配置
+- **@visactor/vchart**: 添加`clearState()`、`clearSelected()`、`clearHovered()`的 API，修复 [#2552](https://github.com/VisActor/VChart/issues/2552)
+- **@visactor/vchart**: 在`registerMap` API 中支持`simplify.tolerance`配置
 
 **🐛 功能修复**
 
-- **wordCloud**: 修复更新数据时，wordCloud布局错误问题以及颜色Scale错误的问题。修复 [#2605](https://github.com/VisActor/VChart/issues/2605)
+- **wordCloud**: 修复更新数据时，wordCloud 布局错误问题以及颜色 Scale 错误的问题。修复 [#2605](https://github.com/VisActor/VChart/issues/2605)
 - **@visactor/vchart**: 修复更新 viewBox 时，位置错误问题
-- **scroll**: 在iOS中滚动不生效。修复 [#1224](https://github.com/VisActor/VChart/issues/1224)
-- **@visactor/vchart**: 修复RangeColumn图中`barWidth`等配置不生效的问题   
-- **marker**: 修复Marker组件位置偏移问题。修复 [#2579](https://github.com/VisActor/VChart/issues/2579)
-- **@visactor/vchart**: 修复数据更新时，自定义Mark应该更新的问题
-- **@visactor/vchart**: 修复漏斗图中重复的categoryField数据将导致意外的渲染结果
-- **@visactor/vchart**: 修复散点图的x轴和y轴类型为band时报错的问题
-- **@visactor/vchart**: vchart不应重复创建相同的scale
+- **scroll**: 在 iOS 中滚动不生效。修复 [#1224](https://github.com/VisActor/VChart/issues/1224)
+- **@visactor/vchart**: 修复 RangeColumn 图中`barWidth`等配置不生效的问题
+- **marker**: 修复 Marker 组件位置偏移问题。修复 [#2579](https://github.com/VisActor/VChart/issues/2579)
+- **@visactor/vchart**: 修复数据更新时，自定义 Mark 应该更新的问题
+- **@visactor/vchart**: 修复漏斗图中重复的 categoryField 数据将导致意外的渲染结果
+- **@visactor/vchart**: 修复散点图的 x 轴和 y 轴类型为 band 时报错的问题
+- **@visactor/vchart**: vchart 不应重复创建相同的 scale
 - **@visactor/vchart**: 修复桑基图标签隐藏时，点击空白处会报错的问题
 - **@visactor/vchart**: 修复图例切换，导致散点图中`visible`通道发生变更，带来的渲染错误问题，关闭 [#2625](https://github.com/VisActor/VChart/issues/2625)
 - **@visactor/vchart**: 修复默认的选中交互的关闭触发条件
@@ -409,14 +376,11 @@
 
 - **@visactor/vchart**: 升级依赖
 
-
-
 [更多详情请查看 v1.11.0](https://github.com/VisActor/VChart/releases/tag/v1.11.0)
 
 # v1.10.6
 
 2024-05-08
-
 
 **🆕 新增功能**
 
@@ -424,16 +388,14 @@
 
 **🐛 功能修复**
 
-- **wordCloud**: 修复更新数据时，wordCloud布局错误问题以及颜色比例尺错误的问题。修复 [#2605](https://github.com/VisActor/VChart/issues/2605)
-- **@visactor/vchart**: 修复更新 viewBox 时，crosshair位置错误问题
-- **scroll**: 修复在iOS中滚动不生效的问题。修复 [#1224](https://github.com/VisActor/VChart/issues/1224)
-- **@visactor/vchart**: 修复range-column图表`barWidth`等配置不生效问题 
-- **@visactor/vchart**: 修复漏斗图中重复的categoryField数据将导致意外的渲染结果
+- **wordCloud**: 修复更新数据时，wordCloud 布局错误问题以及颜色比例尺错误的问题。修复 [#2605](https://github.com/VisActor/VChart/issues/2605)
+- **@visactor/vchart**: 修复更新 viewBox 时，crosshair 位置错误问题
+- **scroll**: 修复在 iOS 中滚动不生效的问题。修复 [#1224](https://github.com/VisActor/VChart/issues/1224)
+- **@visactor/vchart**: 修复 range-column 图表`barWidth`等配置不生效问题
+- **@visactor/vchart**: 修复漏斗图中重复的 categoryField 数据将导致意外的渲染结果
 - **@visactor/vchart**: 修复桑基图标签隐藏时，点击空白处会报错的问题
 - **@visactor/vchart**: 修复图例切换，导致散点图中`visible`通道发生变更，带来的渲染错误问题，关闭 [#2625](https://github.com/VisActor/VChart/issues/2625)
 - **@visactor/vchart**: 修复默认的选中交互的关闭触发条件
-
-
 
 [更多详情请查看 v1.10.6](https://github.com/VisActor/VChart/releases/tag/v1.10.6)
 
@@ -441,14 +403,13 @@
 
 2024-04-26
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: player组件支持隐藏播放的功能。新增功能[#2524](https://github.com/VisActor/VChart/issues/2524)
+- **@visactor/vchart**: player 组件支持隐藏播放的功能。新增功能[#2524](https://github.com/VisActor/VChart/issues/2524)
 
 **🐛 功能修复**
 
-- **datazoom**: 修复DataZoom组件在外部拖拽开始、结束icon，仍然触发`minSpan`和`maxSpan`更新的问题。 修复 [#2559](https://github.com/VisActor/VChart/issues/2559)
+- **datazoom**: 修复 DataZoom 组件在外部拖拽开始、结束 icon，仍然触发`minSpan`和`maxSpan`更新的问题。 修复 [#2559](https://github.com/VisActor/VChart/issues/2559)
 - **@visactor/vchart**：修复连续图例指定 `seriesId` 或 `seriesIndex`的时候，图例数据计算错误的问题
 - **@visactor/vchart**：修复在 `react-vchart` 中 `eventsBinded`更新顺序问题
 - **滚动条**：修复标签位置没有和`mark`对齐的问题。修复[#2534](https://github.com/VisActor/VChart/issues/2534)
@@ -459,14 +420,11 @@
 
 - **@visactor/vchart**：优化饼图性能，修复[#2568](https://github.com/VisActor/VChart/issues/2568)
 
-
-
 [更多详情请查看 v1.10.5](https://github.com/VisActor/VChart/releases/tag/v1.10.5)
 
 # v1.10.4
 
 2024-04-03
-
 
 **🆕 新增功能**
 
@@ -491,24 +449,22 @@
 
 2024-03-28
 
-
 **🆕 新增功能**
+
 - **@visactor/vchart**：支持`element-select`和`element-highlight`的交互事件
 - **@visactor/vchart**：支持在地图图表中使用`showDefaultName`来显示地图数据中未匹配的名称
 
 **🐛 功能修复**
 
-- **@visactor/vchart**：修复Tooltip边框被裁减的问题[#2471](https://github.com/VisActor/VChart/issues/2471)
-- **@visactor/vchart**：修复矩形Crosshair中`lineWidth`无效，相关[#2432](https://github.com/VisActor/VChart/issues/2432)
+- **@visactor/vchart**：修复 Tooltip 边框被裁减的问题[#2471](https://github.com/VisActor/VChart/issues/2471)
+- **@visactor/vchart**：修复矩形 Crosshair 中`lineWidth`无效，相关[#2432](https://github.com/VisActor/VChart/issues/2432)
 - **@visactor/vchart**：应该使用`series.getMarkInName`来获取总标签的计算标记，已修复[#2448](https://github.com/VisActor/VChart/issues/2448)
 - **@visactor/vchart**：修复`updateSpecSync()`后事件触发次数不断增加的问题
-- **@visactor/vchart**：如果未在nameMap中配置，地图数据将不会显示
+- **@visactor/vchart**：如果未在 nameMap 中配置，地图数据将不会显示
 - **@visactor/vchart**：在采样角度轴上缺少轴标签，相关[#2439](https://github.com/VisActor/VChart/issues/2439)
-- **@visactor/vchart**：修复雷达图clipAngle动画在按需加载时的错误
-- **@visactor/vchart**：修复_eventDispatcher的释放顺序问题
-- **@visactor/vchart**：应该使用系列的_seriesMark来计算总标记，不是所有系列标记名称都与系列类型相同
-
-
+- **@visactor/vchart**：修复雷达图 clipAngle 动画在按需加载时的错误
+- **@visactor/vchart**：修复\_eventDispatcher 的释放顺序问题
+- **@visactor/vchart**：应该使用系列的\_seriesMark 来计算总标记，不是所有系列标记名称都与系列类型相同
 
 [更多详情请查看 v1.10.3](https://github.com/VisActor/VChart/releases/tag/v1.10.3)
 
@@ -517,13 +473,15 @@
 2024-03-26
 
 **🆕 新增功能**
+
 - **@visactor/vchart**：: 支持`element-select`和`element-highlight`交互事件
 
 **🐛 功能修复**
+
 - **@visactor/vchart**：：`lineWidth`在矩形十字准线中无效，相关[#2432](https://github.com/VisActor/VChart/issues/2432)
 - **@visactor/vchart**：：应该使用 `series.getMarkInName` 来获取总标签计算的标记，修复[#2448](https://github.com/VisActor/VChart/issues/2448)
 - **@visactor/vchart**：：修复`updateSpecSync()`之后事件触发计数的问题
-- **@visactor/vchart**：：修复雷达图按需加载时的clipAngle动画错误
+- **@visactor/vchart**：：修复雷达图按需加载时的 clipAngle 动画错误
 
 [更多详情请查看 v1.10.2](https://github.com/VisActor/VChart/releases/tag/v1.10.2)
 
@@ -533,42 +491,41 @@
 
 **🆕 新增功能**
 
-- **@visactor/vchart**：柱状图支持`autoBandSize`，根据传入的配置（如`barWidth`）自动计算bandSize，从而影响轴的实际长度，相关[#2268](https://github.com/VisActor/VChart/issues/2268)
+- **@visactor/vchart**：柱状图支持`autoBandSize`，根据传入的配置（如`barWidth`）自动计算 bandSize，从而影响轴的实际长度，相关[#2268](https://github.com/VisActor/VChart/issues/2268)
 - **@visactor/vchart**：堆叠柱状图支持配置`stackCornerRadius`，用于配置堆叠柱状图组的圆角半径，相关[#2185](https://github.com/VisActor/VChart/issues/2185)
-- **@visactor/vchart**：优化DataZoom在大数据场景，已经存在`Brush`的场景下的性能以及体验
+- **@visactor/vchart**：优化 DataZoom 在大数据场景，已经存在`Brush`的场景下的性能以及体验
 - **@visactor/vchart**：DataZoom 预览图，至此采样相关功能
 - **@visactor/vchart**：支持图例中的滚动条
 - **@visactor/vchart**：图例主题支持在不同方向中单独配置不同主题，相关[#2216](https://github.com/VisActor/VChart/issues/2216)
-- **@visactor/vchart**：react-vchart支持自定义Tooltip渲染，相关[#2288](https://github.com/VisActor/VChart/issues/2288)
+- **@visactor/vchart**：react-vchart 支持自定义 Tooltip 渲染，相关[#2288](https://github.com/VisActor/VChart/issues/2288)
 - **@visactor/vchart**：主题支持配置堆叠状态下的系列主题，相关[#2331](https://github.com/VisActor/VChart/issues/2331)
-- **@visactor/vchart**：主题支持自定义token，相关[#2255](https://github.com/VisActor/VChart/issues/2255)
-- **@visactor/vchart**：Tooltip支持`lockAfterClick`，相关[#2352](https://github.com/VisActor/VChart/issues/2352)
-- **@visactor/vchart**：Tooltip的`x`和`y`位置可以分别固定，相关[#2320](https://github.com/VisActor/VChart/issues/2320)
-- **@visactor/vchart**：在图表spec配置中，`tooltip.style`中添加更多提示形状配置，相关[#2292](https://github.com/VisActor/VChart/issues/2292)
-- **@visactor/vchart**：arc图元的状态样式支持`innerPadding`和`outerPadding`，相关[#2038](https://github.com/VisActor/VChart/issues/2038)
+- **@visactor/vchart**：主题支持自定义 token，相关[#2255](https://github.com/VisActor/VChart/issues/2255)
+- **@visactor/vchart**：Tooltip 支持`lockAfterClick`，相关[#2352](https://github.com/VisActor/VChart/issues/2352)
+- **@visactor/vchart**：Tooltip 的`x`和`y`位置可以分别固定，相关[#2320](https://github.com/VisActor/VChart/issues/2320)
+- **@visactor/vchart**：在图表 spec 配置中，`tooltip.style`中添加更多提示形状配置，相关[#2292](https://github.com/VisActor/VChart/issues/2292)
+- **@visactor/vchart**：arc 图元的状态样式支持`innerPadding`和`outerPadding`，相关[#2038](https://github.com/VisActor/VChart/issues/2038)
 - **@visactor/vchart**：默认注册悬停/选择交互
 - **@visactor/vchart**：在简单捆绑中移除高级交互
 
 **🐛 功能修复**
 
 - **@visactor/vchart**：可进入的提示在鼠标直接从提示移动到非图表区域时不会隐藏，相关[#2315](https://github.com/VisActor/VChart/issues/2315)
-- **@visactor/vchart**：升级vgrammar版本以修复动画结束状态
+- **@visactor/vchart**：升级 vgrammar 版本以修复动画结束状态
 - **@visactor/vchart**：在圆形进度图中`tickMask`无效，相关[#2316](https://github.com/VisActor/VChart/issues/2316)
-- **@visactor/vchart**：矩形十字准线应在`lockAfterClick`为true时锁定
+- **@visactor/vchart**：矩形十字准线应在`lockAfterClick`为 true 时锁定
 - **@visactor/vchart**：当区域样式为空时，不应创建`_backgroundMark`或`_foregroundMark`
-- **@visactor/vchart**：修复无法监听vchart上的自定义标记事件的问题
+- **@visactor/vchart**：修复无法监听 vchart 上的自定义标记事件的问题
 - **@visactor/vchart**：网格组件及其子元素不应该可选
 - **@visactor/vchart**：`<Bar />`上的事件不应触发两次
 - **@visactor/vchart**：插件应在`release()`中释放
 
 **🔨 功能重构**
 
-- **react-vchart**：重构react-vchart以支持在严格模式下渲染
+- **react-vchart**：重构 react-vchart 以支持在严格模式下渲染
 
 **🔧 项目配置**
 
 - **@visactor/vchart**：使用`rimraf`替换`rm -rf`
-
 
 [更多详情请查看 v1.10.0](https://github.com/VisActor/VChart/releases/tag/v1.10.0)
 
@@ -578,20 +535,18 @@
 
 **🆕 新增功能**
 
-- **@visactor/vchart**：支持在CustomMark和ExtensionMark中设置`dataKey`
+- **@visactor/vchart**：支持在 CustomMark 和 ExtensionMark 中设置`dataKey`
 - **@visactor/vchart**：支持瀑布图总维度中的多个数据
 
 **🐛 功能修复**
 
 - **@visactor/vchart**：修复`animationAppear: false`不起作用的问题
-- **@visactor/vchart**：修复设置Mark样式为无效值时引发错误的问题
+- **@visactor/vchart**：修复设置 Mark 样式为无效值时引发错误的问题
 - **@visactor/vchart**：修复重复事件注册的问题，修复[#2336](https://github.com/VisActor/VChart/issues/2336)
-- **@visactor/vchart**：修复无法监听vchart上的标签和totalLabel组件事件的问题，`vchart.on('click', { level: 'model', type: 'label' })`
+- **@visactor/vchart**：修复无法监听 vchart 上的标签和 totalLabel 组件事件的问题，`vchart.on('click', { level: 'model', type: 'label' })`
 - **@visactor/vchart**：优化当轴反转时的总标签位置
-- **@visactor/vchart**：升级vrender至0.17.27，vgrammar至0.11.15
+- **@visactor/vchart**：升级 vrender 至 0.17.27，vgrammar 至 0.11.15
 - **scrollbar**：被可缩放组件阻止点击。修复[#2333](https://github.com/VisActor/VChart/issues/2333)
-
-
 
 [更多详情请查看 v1.9.6](https://github.com/VisActor/VChart/releases/tag/v1.9.6)
 
@@ -599,10 +554,9 @@
 
 2024-03-04
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: 自定义Mark和拓展Mark支持`dataKey`配置，用于配置数据对应的唯一key
+- **@visactor/vchart**: 自定义 Mark 和拓展 Mark 支持`dataKey`配置，用于配置数据对应的唯一 key
 - **@visactor/vchart**: 瀑布图总计支持多分组数据
 
 **🐛 功能修复**
@@ -610,14 +564,11 @@
 - **@visactor/vchart**: 修复动画配置`animationAppear: false`不生效的问题
 - **@visactor/vchart**: 优化坐标轴反转时，总计`label`展示位置
 
-
-
 [更多详情请查看 v1.9.5](https://github.com/VisActor/VChart/releases/tag/v1.9.5)
 
 # v1.9.3
 
 2024-02-07
-
 
 **🆕 新增功能**
 
@@ -626,7 +577,7 @@
 **🐛 功能修复**
 
 - **@visactor/vchart**: 由于收集数据导致轴零不工作。修复[#2226](https://github.com/VisActor/VChart/issues/2226)
-- **@visactor/vchart**: 标记区域xy布局需要处理空坐标点的问题
+- **@visactor/vchart**: 标记区域 xy 布局需要处理空坐标点的问题
 - **player**: 默认属性导致布局错误。修复[#241](https://github.com/VisActor/VChart/issues/241)
 - **@visactor/vchart**: 词云支持矩形形状。修复[#2220](https://github.com/VisActor/VChart/issues/2220)
 
@@ -636,18 +587,17 @@
 
 2024-02-05
 
-
 **🐛 功能修复**
 
 - **@visactor/vchart**: 当位置为'inside-bottom'或'inside-top'时，条形图标签存在问题
-- **@visactor/vchart**: 在block-vchart演示中，`dpr`获取方法错误，需要实时获取
+- **@visactor/vchart**: 在 block-vchart 演示中，`dpr`获取方法错误，需要实时获取
 - **@visactor/vchart**: 系列可以从图表规格中读取`direction`，相关[#2181](https://github.com/VisActor/VChart/issues/2181)
-- **@visactor/vchart**: dataZoom的最小和最大范围无效，相关[#2195](https://github.com/VisActor/VChart/issues/2195)
+- **@visactor/vchart**: dataZoom 的最小和最大范围无效，相关[#2195](https://github.com/VisActor/VChart/issues/2195)
 - **@visactor/vchart**: 修复关闭尾部标签后，多层轴标签不显示的问题，相关[#2179](https://github.com/VisActor/VChart/issues/2179)
 - **@visactor/vchart**: 修复极地动画插值问题
-- **@visactor/react-vchart**: 修复当`<VChart />`的`onClick`为null时的错误，关闭[#2186](https://github.com/VisActor/VChart/issues/2186)
+- **@visactor/react-vchart**: 修复当`<VChart />`的`onClick`为 null 时的错误，关闭[#2186](https://github.com/VisActor/VChart/issues/2186)
 - **@visactor/vchart**: 当系列类型相同但轴不同时，图表不应切换堆叠，相关[#2210](https://github.com/VisActor/VChart/issues/2210)
-- **@visactor/vchart**: DOM工具提示形状的位置存在一些偏移，相关[#2188](https://github.com/VisActor/VChart/issues/2188)
+- **@visactor/vchart**: DOM 工具提示形状的位置存在一些偏移，相关[#2188](https://github.com/VisActor/VChart/issues/2188)
 
 **🔧 项目配置**
 
@@ -659,16 +609,13 @@
 
 2024-01-31
 
-
 **🐛 功能修复**
 
-- **@visactor/vchart**: 自定义拓展mark运行顺序需要在所有系列mark的最后，修复[#2156](https://github.com/VisActor/VChart/issues/2156)
+- **@visactor/vchart**: 自定义拓展 mark 运行顺序需要在所有系列 mark 的最后，修复[#2156](https://github.com/VisActor/VChart/issues/2156)
 - **@visactor/vchart**: 通过`interactions`配置的交互能够通过配置 `option.disableTriggerEvent`关闭
-- **@visactor/vchart**: 当图表有多个类目轴的时候，相同的数据在维度tooltip中只能展示一条，相关issue[#2148](https://github.com/VisActor/VChart/issues/2148)
-- **@visactor/react-vchart**: 修复react-vchart在react的 `strict-mode` 报错的问题
-- **@visactor/vchart**: 修复双轴图，0值没有对齐的问题，[#2167](https://github.com/VisActor/VChart/issues/2167)
-
-
+- **@visactor/vchart**: 当图表有多个类目轴的时候，相同的数据在维度 tooltip 中只能展示一条，相关 issue[#2148](https://github.com/VisActor/VChart/issues/2148)
+- **@visactor/react-vchart**: 修复 react-vchart 在 react 的 `strict-mode` 报错的问题
+- **@visactor/vchart**: 修复双轴图，0 值没有对齐的问题，[#2167](https://github.com/VisActor/VChart/issues/2167)
 
 [更多详情请查看 v1.9.1](https://github.com/VisActor/VChart/releases/tag/v1.9.1)
 
@@ -676,40 +623,36 @@
 
 2024-01-26
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**：轴支持 `hasDimensionTooltip` 以强制指定DimensionTooltip，相关 [#1678](https://github.com/VisActor/VChart/issues/1678)
-- **@visactor/vchart**：crosshiar支持定时关闭，修复 [#1676](https://github.com/VisActor/VChart/issues/1676)
-- **@visactor/vchart**：条形图中的 `barBackground` 支持 `fieldLevel` 配置，指定 `barBackground` 是在group级别展示还是特定的层级展示，相关 [#1601](https://github.com/VisActor/VChart/issues/1601)
+- **@visactor/vchart**：轴支持 `hasDimensionTooltip` 以强制指定 DimensionTooltip，相关 [#1678](https://github.com/VisActor/VChart/issues/1678)
+- **@visactor/vchart**：crosshiar 支持定时关闭，修复 [#1676](https://github.com/VisActor/VChart/issues/1676)
+- **@visactor/vchart**：条形图中的 `barBackground` 支持 `fieldLevel` 配置，指定 `barBackground` 是在 group 级别展示还是特定的层级展示，相关 [#1601](https://github.com/VisActor/VChart/issues/1601)
 - **@visactor/vchart**：直方图图表支持条形背景，相关 [#1979](https://github.com/VisActor/VChart/issues/1979)
 - **@visactor/vchart**：支持指标的 `fitStrategy`
 - **liquid**：新增水波图。关闭[#1158](https://github.com/VisActor/VChart/issues/1158)
 - **@visactor/vchart**：类目轴支持多层轴标签展示
 - **@visactor/vchart**：面积图，支持分别配置线、面积是否支持交互响应，参见 [#1592](https://github.com/VisActor/VChart/issues/1592)
-- **@visactor/vchart**：支持mark状态的 `stateSort`，修复 [#2003](https://github.com/VisActor/VChart/issues/2003)
+- **@visactor/vchart**：支持 mark 状态的 `stateSort`，修复 [#2003](https://github.com/VisActor/VChart/issues/2003)
 - **@visactor/vchart**：支持在 extensionMark 中自定义 vrender 组件
-- **@visactor/vchart**：Tooltip支持html类型和canvas类型的按需引用，相关 [#1397](https://github.com/VisActor/VChart/issues/1397)
+- **@visactor/vchart**：Tooltip 支持 html 类型和 canvas 类型的按需引用，相关 [#1397](https://github.com/VisActor/VChart/issues/1397)
 
 **🐛 功能修复**
 
-- **@visactor/vchart**：修复当悬停和单击都配置时，Crosshair触发的 bug，修复 [#1574](https://github.com/VisActor/VChart/issues/1574)
-- **@visactor/vchart**：Tooltip支持内容区域滚动，相关 [#2001](https://github.com/VisActor/VChart/issues/2001)
+- **@visactor/vchart**：修复当悬停和单击都配置时，Crosshair 触发的 bug，修复 [#1574](https://github.com/VisActor/VChart/issues/1574)
+- **@visactor/vchart**：Tooltip 支持内容区域滚动，相关 [#2001](https://github.com/VisActor/VChart/issues/2001)
 - **@visactor/vchart**：在默认主题中移除标签行高，相关 [#1983](https://github.com/VisActor/VChart/issues/1983)
-- **@visactor/vchart**：修复某些情况下Tooltip回调可能无效的问题，相关 [#1943](https://github.com/VisActor/VChart/issues/1943)
+- **@visactor/vchart**：修复某些情况下 Tooltip 回调可能无效的问题，相关 [#1943](https://github.com/VisActor/VChart/issues/1943)
 
 **🔨 功能重构**
 
 - **@visactor/vchart**：在 react-vchart 中弃用 `useSyncRender`，统一使用同步渲染
-
-
 
 [更多详情请查看 v1.9.0](https://github.com/VisActor/VChart/releases/tag/v1.9.0)
 
 # v1.8.10
 
 2024-01-25
-
 
 **🆕 新增功能**
 
@@ -726,14 +669,11 @@
 - **@visactor/vchart**: 旋转树图的事件错误
 - **@visactor/vchart**: 关闭动画时旋转树图的事件错误
 
-
-
 [更多详情请查看 v1.8.10](https://github.com/VisActor/VChart/releases/tag/v1.8.10)
 
 # v1.8.9
 
 2024-01-23
-
 
 **🆕 新增功能**
 
@@ -743,18 +683,15 @@
 
 **🐛 功能修复**
 
-- **@visactor/vchart**：修复Crosshair定时器的 bug，修复 [#2088](https://github.com/VisActor/VChart/issues/2088)
+- **@visactor/vchart**：修复 Crosshair 定时器的 bug，修复 [#2088](https://github.com/VisActor/VChart/issues/2088)
 - **@visactor/vchart**：修复轴的 onZero 属性的 bug，已修复 [#2098](https://github.com/VisActor/VChart/issues/2098)，[#2099](https://github.com/VisActor/VChart/issues/2099)
 - **@visactor/vchart**：更新线图动画应排除 `defined` 通道的问题
-
-
 
 [更多详情请查看 v1.8.9](https://github.com/VisActor/VChart/releases/tag/v1.8.9)
 
 # v1.8.8
 
 2024-01-19
-
 
 **🆕 新增功能**
 
