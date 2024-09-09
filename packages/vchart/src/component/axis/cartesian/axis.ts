@@ -765,6 +765,9 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           .filter((entry: AxisItem) => {
             const { value, rawValue } = entry;
             const domain = this._scale.domain();
+            if (this.getSpec().type === 'log') {
+              return value >= 0 && value <= 1;
+            }
             if (isContinuous(this._scale.type)) {
               return rawValue >= domain[0] && rawValue <= last(domain);
             }
