@@ -90,7 +90,7 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
     markName: SeriesMarkNameEnum,
     labelSpecKey: keyof T = 'label' as any,
     styleHandlerName: keyof V = 'initLabelMarkStyle',
-    hasAnimation?: boolean,
+    hasAnimation: boolean = true,
     head?: boolean
   ): void {
     if (!spec) {
@@ -100,14 +100,26 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
     labels.forEach(labelSpec => {
       if (labelSpec && labelSpec.visible) {
         // animation config priority: option.animation > spec.animation > spec.label.animation
-        const animationEnabled = this._option?.animation ?? spec.animation ?? labelSpec.animation ?? true;
+        const {
+          animation = true,
+          animationUpdate: labelAnimationUpdate = true,
+          animationEnter: labelAnimationEnter = true,
+          animationExit: labelAnimationExit = true
+        } = labelSpec;
+        const { animationUpdate = true, animationEnter = true, animationExit = true } = spec as any;
+        const animationEnabled = this._option?.animation ?? spec.animation ?? labelSpec.animation;
+        const labelAnimationEnabled = !!animationEnabled && !!hasAnimation;
+
         this.addLabelSpec(
           markName,
           {
             ...labelSpec,
-            animation: animationEnabled && hasAnimation,
+            animation: labelAnimationEnabled ? animation : false,
+            animationUpdate: labelAnimationEnabled && animationUpdate && labelAnimationUpdate ? animationUpdate : false,
+            animationEnter: labelAnimationEnabled && animationEnter && labelAnimationEnter ? animationEnter : false,
+            animationExit: labelAnimationEnabled && animationEnter && labelAnimationExit ? animationExit : false,
             getStyleHandler: (series: V) => (series[styleHandlerName] as any)?.bind(series)
-          } as TransformedLabelSpec,
+          } as any,
           head
         );
       }
