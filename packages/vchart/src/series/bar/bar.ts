@@ -29,7 +29,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerRectMark } from '../../mark/rect';
-import { array, isNil, isValid, last } from '@visactor/vutils';
+import { array, isFunction, isNil, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
 import { Factory } from '../../core/factory';
@@ -501,22 +501,26 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
               }
             : undefined)
         };
+        const rectAttr =
+          this.direction === Direction.horizontal
+            ? {
+                x: this._getBarXStart(mockDatum, xScale),
+                x1: this._getBarXEnd(mockDatum, xScale),
+                y: this._getPosition(this.direction, mockDatum),
+                height: this._getBarWidth(this._yAxisHelper)
+              }
+            : {
+                y: this._getBarYStart(mockDatum, yScale),
+                y1: this._getBarYEnd(mockDatum, yScale),
+                x: this._getPosition(this.direction, mockDatum),
+                width: this._getBarWidth(this._xAxisHelper)
+              };
         rectPaths.push(
           createRect({
-            ...(this.direction === Direction.horizontal
-              ? {
-                  x: this._getBarXStart(mockDatum, xScale),
-                  x1: this._getBarXEnd(mockDatum, xScale),
-                  y: this._getPosition(this.direction, mockDatum),
-                  height: this._getBarWidth(this._yAxisHelper)
-                }
-              : {
-                  y: this._getBarYStart(mockDatum, yScale),
-                  y1: this._getBarYEnd(mockDatum, yScale),
-                  x: this._getPosition(this.direction, mockDatum),
-                  width: this._getBarWidth(this._xAxisHelper)
-                }),
-            cornerRadius: this._spec.stackCornerRadius,
+            ...rectAttr,
+            cornerRadius: isFunction(this._spec.stackCornerRadius)
+              ? this._spec.stackCornerRadius(rectAttr, mockDatum, this._markAttributeContext)
+              : this._spec.stackCornerRadius,
             fill: true
           })
         );
