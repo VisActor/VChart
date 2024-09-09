@@ -119,7 +119,7 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
             animationEnter: labelAnimationEnabled && animationEnter && labelAnimationEnter ? animationEnter : false,
             animationExit: labelAnimationEnabled && animationEnter && labelAnimationExit ? animationExit : false,
             getStyleHandler: (series: V) => (series[styleHandlerName] as any)?.bind(series)
-          } as any,
+          } as TransformedLabelSpec,
           head
         );
       }
