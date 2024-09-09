@@ -22,7 +22,7 @@ import type {
   ILayoutNumber
 } from '../../../typings';
 import { isPolarAxisSeries } from '../../../series/util/utils';
-import { getAxisItem, getAxisLabelOffset, isValidPolarAxis } from '../util';
+import { getAxisItem, getAxisLabelOffset, isValidPolarAxis, shouldUpdateAxis } from '../util';
 import type { Dict, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { PointService, degreeToRadian, isValid, isArray, isValidNumber, polarToCartesian } from '@visactor/vutils';
@@ -290,17 +290,27 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       this._regions,
       s => {
         if (this.getOrient() === 'radius') {
-          (s as IPolarSeries).setRadiusScale(this._scale);
-          (s as IPolarSeries).setRadiusAxisHelper(
-            this.axisHelper(),
-            isValid(this._seriesUserId) || isValid(this._seriesIndex)
-          );
+          if (
+            shouldUpdateAxis(
+              (s as IPolarSeries).radiusAxisHelper,
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as IPolarSeries).setRadiusScale(this._scale);
+            (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
+          }
         } else {
-          (s as IPolarSeries).setAngleScale(this._scale);
-          (s as IPolarSeries).setAngleAxisHelper(
-            this.axisHelper(),
-            isValid(this._seriesUserId) || isValid(this._seriesIndex)
-          );
+          if (
+            shouldUpdateAxis(
+              (s as IPolarSeries).angleAxisHelper,
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as IPolarSeries).setAngleScale(this._scale);
+            (s as IPolarSeries).angleAxisHelper = this.axisHelper();
+          }
         }
       },
       {

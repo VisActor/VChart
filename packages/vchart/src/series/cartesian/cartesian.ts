@@ -28,7 +28,7 @@ import type { IAxisLocationCfg } from '../../component/axis';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { invalidTravel } from '../../data/transforms/invalid-travel';
 import { ComponentTypeEnum } from '../../component/interface/type';
-import { shouldUpdateHelper } from '../../component/axis/util';
+import { shouldUpdateAxis } from '../../component/axis/util';
 
 export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec>
   extends BaseSeries<T>
@@ -121,35 +121,27 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   getXAxisHelper() {
     return this._xAxisHelper;
   }
-  // 更新的条件: 指定绑定关系 或 初次绑定 或 更新前后id一致
-  setXAxisHelper(h: IAxisHelper, forceUpdate: boolean = false) {
-    if (shouldUpdateHelper(this._xAxisHelper, h, forceUpdate)) {
-      this._xAxisHelper = h;
-      this.onXAxisHelperUpdate();
-    }
+  setXAxisHelper(h: IAxisHelper) {
+    this._xAxisHelper = h;
+    this.onXAxisHelperUpdate();
   }
 
   _yAxisHelper!: IAxisHelper;
   getYAxisHelper() {
     return this._yAxisHelper;
   }
-  // 更新的条件: 指定绑定关系 或 初次绑定 或 更新前后id一致
-  setYAxisHelper(h: IAxisHelper, forceUpdate: boolean = false) {
-    if (shouldUpdateHelper(this._yAxisHelper, h, forceUpdate)) {
-      this._yAxisHelper = h;
-      this.onYAxisHelperUpdate();
-    }
+  setYAxisHelper(h: IAxisHelper) {
+    this._yAxisHelper = h;
+    this.onYAxisHelperUpdate();
   }
 
   _zAxisHelper?: IAxisHelper;
   getZAxisHelper() {
     return this._zAxisHelper;
   }
-  setZAxisHelper(h: IAxisHelper, forceUpdate: boolean = false) {
-    if (shouldUpdateHelper(this._zAxisHelper, h, forceUpdate)) {
-      this._zAxisHelper = h;
-      this.onYAxisHelperUpdate();
-    }
+  setZAxisHelper(h: IAxisHelper) {
+    this._zAxisHelper = h;
+    this.onYAxisHelperUpdate();
   }
 
   protected _sortDataByAxis: boolean = false;
