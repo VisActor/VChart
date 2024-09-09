@@ -105,8 +105,8 @@ export interface IBarSeriesSpec
   barMinHeight?: number;
 
   /**
-   * 堆叠柱整体的圆角
-   * @since 1.10.0
+   * 堆叠柱整体的圆角 @since 1.10.0
+   * 圆角支持回调配置 @since 1.12.4
    */
   stackCornerRadius?: number | number[] | IStackCornerRadiusCallback;
 }
