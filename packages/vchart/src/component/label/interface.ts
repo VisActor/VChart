@@ -8,7 +8,7 @@ export interface ILabelFormatMethodContext {
   series?: ISeries;
 }
 
-export interface ILabelSpec extends IComponentSpec {
+export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
   /** 默认不显示标签 */
   visible?: boolean;
   /**
@@ -46,8 +46,6 @@ export interface ILabelSpec extends IComponentSpec {
   overlap?: BaseLabelAttrs['overlap'];
   /** 标签智能反色配置 */
   smartInvert?: BaseLabelAttrs['smartInvert'];
-  /** 动画配置 */
-  animation?: BaseLabelAttrs['animation'];
   /**
    * 堆积数据过滤类型
    * @since 1.12.0
@@ -79,6 +77,10 @@ export interface ILabelSpec extends IComponentSpec {
   syncState?: boolean;
 }
 
+export type ILabelAnimationSpec = Pick<
+  BaseLabelAttrs,
+  'animation' | 'animationEnter' | 'animationUpdate' | 'animationExit'
+>;
 export type IMultiLabelSpec<T extends Omit<ILabelSpec, 'position'>> = T | T[];
 
 type LabelStateStyle<T> = {
