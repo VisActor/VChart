@@ -25,15 +25,7 @@ import { isPolarAxisSeries } from '../../../series/util/utils';
 import { getAxisItem, getAxisLabelOffset, isValidPolarAxis, shouldUpdateAxis } from '../util';
 import type { Dict, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import {
-  PointService,
-  degreeToRadian,
-  isValid,
-  isArray,
-  isValidNumber,
-  polarToCartesian,
-  array
-} from '@visactor/vutils';
+import { PointService, degreeToRadian, isValid, isArray, isValidNumber, polarToCartesian } from '@visactor/vutils';
 import type { IEffect, IModelSpecInfo } from '../../../model/interface';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';

@@ -26,7 +26,7 @@ export const getPolarAxisInfo = (spec: IPolarAxisCommonSpec, chartSpec: any) => 
         }
       : undefined,
     // 优先使用 outerRadius, 但要兼容 radius
-    outerRadius: spec.radius ?? chartSpec.outerRadius ?? chartSpec.radius,
+    outerRadius: spec.outerRadius ?? spec.radius ?? chartSpec.outerRadius ?? chartSpec.radius,
     layoutRadius: chartSpec.layoutRadius
   };
 };
