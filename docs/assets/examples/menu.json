@@ -1788,6 +1788,13 @@
           }
         },
         {
+          "path": "axis-label-autoWrap",
+          "title": {
+            "zh": "坐标轴文本自动换行",
+            "en": "Axis label autoWrap"
+          }
+        },
+        {
           "path": "axis-label-autoHide-and-autoRotate",
           "title": {
             "zh": "坐标轴组件标签布局组合使用",
