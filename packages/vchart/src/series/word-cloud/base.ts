@@ -381,16 +381,19 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
       fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange,
 
-      // style field > value field > mark style > default
-      // 因为主题中默认fontWeight是'normal', 所以如果mark style优先级放最高的话, 其他配置都不会生效
       padding: this._spec.word?.padding ?? DEFAULT_FONT_PADDING,
-      fontFamily: this._spec.fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
-      fontWeight: this._spec.fontWeightField
+      fontFamily: isValid(this._spec.fontFamilyField)
+        ? { field: this._spec.fontFamilyField }
+        : wordStyleSpec.fontFamily ?? this._defaultFontFamily,
+      // 为了保持和旧版逻辑一致，优先级如下： spec field > mark style > default (根据valueField映射)
+      fontWeight: isValid(this._spec.fontWeightField)
         ? { field: this._spec.fontWeightField }
-        : this._valueField
+        : isValid(wordStyleSpec.fontWeight)
+        ? wordStyleSpec.fontWeight
+        : isValid(this._valueField)
         ? this._calculateFontWeight
-        : wordStyleSpec.fontWeight,
-      fontStyle: this._spec.fontStyleField ?? wordStyleSpec.fontStyle
+        : 'normal',
+      fontStyle: isValid(this._spec.fontStyleField) ? { field: this._spec.fontStyleField } : wordStyleSpec.fontStyle
     };
   }
 
@@ -424,13 +427,19 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       rotateList: this._rotateAngles,
       fillingRotateList: wordCloudShapeConfig.fillingRotateAngles,
 
-      //  style field > mark style > default
-      // 因为主题中默认fontWeight是'normal', 所以如果mark style优先级放最高的话, 其他配置都不会生效
-      fillingFontFamily:
-        wordCloudShapeConfig.fillingFontFamilyField ?? fillingWordStyleSpec.fontFamily ?? this._defaultFontFamily,
+      fillingFontFamily: isValid(wordCloudShapeConfig.fillingFontFamilyField)
+        ? { field: wordCloudShapeConfig.fillingFontFamilyField }
+        : fillingWordStyleSpec.fontFamily ?? this._defaultFontFamily,
       fillingPadding: this._spec.fillingWord?.padding ?? DEFAULT_FONT_PADDING,
-      fillingFontStyle: wordCloudShapeConfig.fillingFontStyleField ?? fillingWordStyleSpec.fontStyle,
-      fillingFontWeight: wordCloudShapeConfig.fillingFontWeightField ?? fillingWordStyleSpec.fontWeight // 填充词fontWeight默认不跟随valueField
+      fillingFontStyle: isValid(wordCloudShapeConfig.fillingFontStyleField)
+        ? { field: wordCloudShapeConfig.fillingFontStyleField }
+        : fillingWordStyleSpec.fontStyle,
+      // 如果配置了字段映射，优先按照映射进行展示
+      fillingFontWeight: isValid(wordCloudShapeConfig.fillingFontWeightField)
+        ? {
+            field: wordCloudShapeConfig.fillingFontWeightField
+          }
+        : fillingWordStyleSpec.fontWeight // 填充词fontWeight默认不跟随valueField
     };
   }
 

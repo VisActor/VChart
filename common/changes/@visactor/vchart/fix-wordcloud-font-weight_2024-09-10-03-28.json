@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: `word.style.fontWeight` should change the style of text in wordcloud\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
