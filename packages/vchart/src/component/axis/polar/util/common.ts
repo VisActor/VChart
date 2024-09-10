@@ -1,4 +1,4 @@
-import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_START_ANGLE } from '../../../../constant/polar';
+import { POLAR_END_ANGLE, POLAR_START_ANGLE } from '../../../../constant/polar';
 import { calculateMaxRadius, isFunction, isNumber, isValid } from '@visactor/vutils';
 import { ComponentTypeEnum } from '../../../interface';
 import type { IPolarAxisCommonSpec } from '../interface';
@@ -26,7 +26,7 @@ export const getPolarAxisInfo = (spec: IPolarAxisCommonSpec, chartSpec: any) => 
         }
       : undefined,
     // 优先使用 outerRadius, 但要兼容 radius
-    outerRadius: spec.radius ?? chartSpec.outerRadius ?? chartSpec.radius ?? POLAR_DEFAULT_RADIUS,
+    outerRadius: spec.outerRadius ?? spec.radius ?? chartSpec.outerRadius ?? chartSpec.radius,
     layoutRadius: chartSpec.layoutRadius
   };
 };
