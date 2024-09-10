@@ -21,6 +21,7 @@ import type { IModelSpecInfo } from '../../model/interface';
 import { layoutByValue, layoutAngleCrosshair, layoutRadiusCrosshair } from './utils/polar';
 import { getFirstSeries } from '../../util';
 import type { IDimensionData, IDimensionInfo } from '../../event/events/dimension/interface';
+import { getSpecInfo } from '../util';
 
 export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
   static specKey = 'crosshair';
@@ -43,38 +44,9 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
   private _angleLabelCrosshair: Tag;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const crosshairSpec = chartSpec[this.specKey];
-    if (isNil(crosshairSpec)) {
-      return undefined;
-    }
-    if (!isArray(crosshairSpec)) {
-      if (
-        (crosshairSpec.categoryField && crosshairSpec.categoryField.visible !== false) ||
-        (crosshairSpec.valueField && crosshairSpec.valueField.visible !== false)
-      ) {
-        return [
-          {
-            spec: crosshairSpec,
-            specPath: [this.specKey],
-            specInfoPath: ['component', this.specKey, 0],
-            type: ComponentTypeEnum.polarCrosshair
-          }
-        ];
-      }
-      return undefined;
-    }
-    const specInfos: IModelSpecInfo[] = [];
-    crosshairSpec.forEach((s: IPolarCrosshairSpec, i: number) => {
-      if ((s.categoryField && s.categoryField.visible !== false) || (s.valueField && s.valueField.visible !== false)) {
-        specInfos.push({
-          spec: s,
-          specPath: [this.specKey, i],
-          specInfoPath: ['component', this.specKey, i],
-          type: ComponentTypeEnum.polarCrosshair
-        });
-      }
+    return getSpecInfo<IPolarCrosshairSpec>(chartSpec, this.specKey, this.type, (s: IPolarCrosshairSpec) => {
+      return (s.categoryField && s.categoryField.visible !== false) || (s.valueField && s.valueField.visible !== false);
     });
-    return specInfos;
   }
 
   constructor(spec: T, options: IComponentOption) {

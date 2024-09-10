@@ -1,7 +1,6 @@
 import type { IPadding, IRect, IOrientType } from '../../typings/space';
 import { DataView } from '@visactor/vdataset';
 import { BaseComponent } from '../base/base-component';
-import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { LayoutZIndex } from '../../constant/layout';
@@ -25,6 +24,7 @@ import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel, IModelSpecInfo } from '../../model/interface';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
+import { getSpecInfo } from '../util';
 
 export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type = ComponentTypeEnum.mapLabel;
@@ -51,19 +51,9 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   private _activeDatum: Datum[] = [];
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    // TODO: 限制mapSeries使用
-    const labelSpec = chartSpec[this.specKey];
-    if (!labelSpec || !labelSpec.visible || isValid(labelSpec.series)) {
-      return null;
-    }
-    return [
-      {
-        spec: labelSpec,
-        specPath: [this.specKey],
-        specInfoPath: ['component', this.specKey, 0],
-        type: ComponentTypeEnum.mapLabel
-      }
-    ];
+    return getSpecInfo<IMapLabelSpec>(chartSpec, this.specKey, this.type, (s: IMapLabelSpec) => {
+      return s.visible && isValid(s.seriesId);
+    });
   }
 
   setAttrFromSpec(): void {

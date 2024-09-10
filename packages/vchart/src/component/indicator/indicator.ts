@@ -9,7 +9,7 @@ import type { Maybe } from '../../typings';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { transformIndicatorStyle } from '../../util/style';
 import { getActualNumValue } from '../../util/space';
-import { isEqual, isValid, isFunction, array, isArray, pickWithout } from '@visactor/vutils';
+import { isEqual, isValid, isFunction, array, pickWithout } from '@visactor/vutils';
 import { indicatorMapper } from './util';
 import type { IModelSpecInfo } from '../../model/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -22,6 +22,7 @@ import type { FunctionType } from '../../typings/visual';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRichTextCharacter } from '@visactor/vrender-core';
+import { getSpecInfo } from '../util';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static type = ComponentTypeEnum.indicator;
@@ -47,36 +48,9 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   private _cacheAttrs: IndicatorAttributes;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    if (this.type !== Indicator.type) {
-      return null;
-    }
-    const indicatorSpec = chartSpec[this.specKey];
-    if (!isArray(indicatorSpec)) {
-      if (indicatorSpec.visible === false) {
-        return [];
-      }
-      return [
-        {
-          spec: indicatorSpec,
-          specPath: [this.specKey],
-          specInfoPath: ['component', this.specKey, 0],
-          type: ComponentTypeEnum.indicator
-        }
-      ];
-    }
-
-    const specInfos: IModelSpecInfo[] = [];
-    indicatorSpec.forEach((s, i) => {
-      if (s && s.visible !== false) {
-        specInfos.push({
-          spec: s,
-          specPath: [this.specKey, i],
-          specInfoPath: ['component', this.specKey, i],
-          type: ComponentTypeEnum.indicator
-        });
-      }
+    return getSpecInfo<IIndicatorSpec>(chartSpec, this.specKey, this.type, (s: IIndicatorSpec) => {
+      return s && s.visible !== false;
     });
-    return specInfos;
   }
 
   created() {

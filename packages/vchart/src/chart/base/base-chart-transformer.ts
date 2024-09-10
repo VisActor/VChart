@@ -11,6 +11,7 @@ import { setProperty } from '@visactor/vutils-extension';
 import { getRelatedRegionInfo, getRelatedSeriesInfo } from './util';
 import type { ICartesianBandAxisSpec } from '../..//component/axis/cartesian/interface';
 import { array } from '../../util';
+import { getSpecInfo } from '../../component/util';
 
 export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
   readonly type: string;
@@ -310,15 +311,19 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
 
     otherComponents.forEach(C => {
-      C.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
-        results.push(callbackfn(C, info, chartSpecInfo));
-      });
+      (C.getSpecInfo ? C.getSpecInfo(chartSpec, chartSpecInfo) : getSpecInfo(chartSpec, C.specKey, C.type))?.forEach(
+        info => {
+          results.push(callbackfn(C, info, chartSpecInfo));
+        }
+      );
     });
 
     // NOTE: tooltip 组件需要在 crosshair 组件之后创建
-    tooltip?.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
-      results.push(callbackfn(tooltip, info, chartSpecInfo));
-    });
+    if (tooltip) {
+      getSpecInfo(chartSpec, tooltip.specKey, tooltip.type)?.forEach(info => {
+        results.push(callbackfn(tooltip, info, chartSpecInfo));
+      });
+    }
 
     return results;
   }

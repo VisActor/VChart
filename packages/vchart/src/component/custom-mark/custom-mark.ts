@@ -2,15 +2,15 @@ import { BaseComponent } from '../base/base-component';
 import { ComponentTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRegion } from '../../region/interface';
-import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { PREFIX } from '../../constant/base';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
 import type { IMark } from '../../mark/interface';
-import type { LooseFunction, Maybe } from '@visactor/vutils';
+import type { LooseFunction } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { Bounds, isArray, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
+import { Bounds, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
@@ -30,33 +30,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
   layoutLevel: number = LayoutLevel.CustomMark;
 
   protected declare _spec: ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec;
-
-  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const spec = chartSpec[this.specKey];
-    if (!spec) {
-      return null;
-    }
-
-    if (!isArray(spec)) {
-      return [
-        {
-          spec,
-          specPath: [this.specKey],
-          specInfoPath: ['component', this.specKey, 0],
-          type: ComponentTypeEnum.customMark
-        }
-      ];
-    }
-
-    return (spec as ICustomMarkSpec<EnableMarkType>[]).map((specItem, i) => {
-      return {
-        spec: specItem,
-        specPath: [this.specKey, i],
-        specInfoPath: ['component', this.specKey, i],
-        type: ComponentTypeEnum.customMark
-      };
-    });
-  }
 
   created() {
     super.created();
