@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " fix: optimize first axis label autolimit effect",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
