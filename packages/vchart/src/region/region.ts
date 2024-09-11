@@ -1,7 +1,7 @@
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isEqual, array, isValid, last, polarToCartesian } from '@visactor/vutils';
-import type { IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@visactor/vgrammar-core';
+import type { IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark, IAxis } from '@visactor/vgrammar-core';
 import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
 import { DimensionTrigger } from '../interaction/dimension-trigger';
 import { MarkTypeEnum } from '../mark/interface/type';
@@ -22,6 +22,7 @@ import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
 import { createArc, createPolygon } from '@visactor/vrender-core';
+import type { IPolarAxis } from '../component/axis';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
@@ -193,8 +194,13 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   protected _initGroupMarkStyle() {
     const series = this.getSeries();
     const clip = this.needClip();
+    const clipAngleAxis = this.getChart()
+      .getComponentsByKey('axes')
+      .find(comp => {
+        return (comp as IPolarAxis).getOrient() === 'angle' && comp.getSpec()?.clip;
+      });
 
-    if (this._groupMark && clip && series?.[0]?.coordinate === 'polar') {
+    if (this._groupMark && clipAngleAxis) {
       this._groupMark.setClip(() => {
         const angleAxisHelper = (series[0] as IPolarSeries).angleAxisHelper;
         const radiusAxisHelper = (series[0] as IPolarSeries).radiusAxisHelper;

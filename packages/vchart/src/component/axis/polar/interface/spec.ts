@@ -69,6 +69,11 @@ export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
    * 终止角度
    */
   endAngle?: number;
+  /**
+   * 根据角度轴对系列元素进行剪裁，仅对角度轴有效
+   * @since 1.12.5
+   */
+  clip?: boolean;
 };
 
 export type IPolarLinearAxisSpec = IPolarAxisCommonSpec & ILinearAxisSpec;
