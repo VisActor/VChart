@@ -10,7 +10,7 @@ In VChart, if you want to clear the entire chart, you can directly call the `rel
 
 ```ts
 // Assume your data id is 'data'
-vchart.updateDate('data', []);
+vchart.updateData('data', []);
 ```
 
 ## Result display
