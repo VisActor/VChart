@@ -2,6 +2,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IPoint, IPolarOrientType, IPolarPoint } from '../../../../typings';
 import type { IAxis, IGrid } from '../../interface';
 import type { ICompilableData } from '../../../../compile/data';
+import type { IPolarAxisSpec } from './spec';
 
 export type IPolarGrid = IGrid & {
   /**
@@ -25,6 +26,7 @@ export interface IPolarAxisHelper {
   getAxisId: () => number;
   // 用户其他模块扩充轴scale的区间
   setExtendDomain?: (key: string, value: number | undefined) => void;
+  getSpec: () => IPolarAxisSpec;
 }
 
 export interface IPolarAxis extends IAxis {

@@ -296,10 +296,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     });
   }
 
-  afterInitMark(): void {
-    super.afterInitMark();
-  }
-
   initEvent(): void {
     super.initEvent();
     this._viewDataLabel.getDataView()?.target.addListener('change', this.viewDataLabelUpdate.bind(this));

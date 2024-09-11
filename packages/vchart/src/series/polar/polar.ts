@@ -207,10 +207,6 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     this.onMarkPositionUpdate();
   }
 
-  afterInitMark(): void {
-    super.afterInitMark();
-  }
-
   protected _computeLayoutRadius() {
     const axisHelper = this._angleAxisHelper || this._radiusAxisHelper;
 

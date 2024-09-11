@@ -40,6 +40,7 @@ export interface IRegion extends ILayoutModel {
   getInteractionMark: () => IGroupMark;
 
   getSpecInfo: () => IRegionSpecInfo;
+  needClip: () => boolean;
 }
 
 export type ISeriesFilter = {

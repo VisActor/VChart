@@ -270,4 +270,4 @@ export interface ISeriesMarkAttributeContext extends IModelMarkAttributeContext 
   getRegion: () => IRegion;
 }
 
-export type MarkClip = false | IGraphic[] | ((elements: IElement[]) => IGraphic[]);
+export type MarkClip = boolean | IGraphic[] | ((elements: IElement[]) => IGraphic[]);

@@ -207,10 +207,6 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     }
   }
 
-  afterInitMark(): void {
-    super.afterInitMark();
-  }
-
   /** 以下函数用于定位link和arrow */
 
   dataToPositionXFrom(datum: Datum): number {

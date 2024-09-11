@@ -1,11 +1,11 @@
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isEqual, array, isValid } from '@visactor/vutils';
+import { isEmpty, isEqual, array, isValid, last, polarToCartesian } from '@visactor/vutils';
 import type { IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@visactor/vgrammar-core';
 import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
 import { DimensionTrigger } from '../interaction/dimension-trigger';
 import { MarkTypeEnum } from '../mark/interface/type';
-import type { ISeries } from '../series/interface';
+import type { IPolarSeries, ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
@@ -21,6 +21,7 @@ import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
+import { createArc, createPolygon } from '@visactor/vrender-core';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
@@ -104,10 +105,14 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     return hasDataZoom || hasScrollBar ? true : this._layout.layoutClip;
   }
 
+  needClip() {
+    return this._spec.clip ?? this._getClipDefaultValue();
+  }
+
   created(): void {
     this.initLayout();
     super.created();
-    const clip = this._spec.clip ?? this._getClipDefaultValue();
+    const clip = this.needClip();
     this._groupMark = this._createGroupMark('regionGroup', this.userId, this.layoutZIndex);
     // 交互层
     this._interactionMark = this._createGroupMark(
@@ -147,7 +152,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     const groupMark = this._createMark({ type: MarkTypeEnum.group, name }) as IGroupMark;
     groupMark.setUserId(userId);
     groupMark.setZIndex(zIndex);
-    const clip = this._spec.clip ?? this._getClipDefaultValue();
+    const clip = this.needClip();
     this.setMarkStyle(
       groupMark,
       {
@@ -174,14 +179,71 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
 
   init(option: any) {
     super.init(option);
-    this.initMark();
+    this.initMarkStyle();
     this.initSeriesDataflow();
     this.initInteraction();
     this.initTrigger();
   }
-  initMark() {
+  initMarkStyle() {
+    this._initGroupMarkStyle();
     this._initBackgroundMarkStyle();
     this._initForegroundMarkStyle();
+  }
+
+  protected _initGroupMarkStyle() {
+    const series = this.getSeries();
+    const clip = this.needClip();
+
+    if (this._groupMark && clip && series?.[0]?.coordinate === 'polar') {
+      this._groupMark.setClip(() => {
+        const angleAxisHelper = (series[0] as IPolarSeries).angleAxisHelper;
+        const radiusAxisHelper = (series[0] as IPolarSeries).radiusAxisHelper;
+
+        if (angleAxisHelper && radiusAxisHelper) {
+          const center = radiusAxisHelper.center();
+          const smooth = radiusAxisHelper.getSpec()?.grid?.smooth;
+          const angleRange = angleAxisHelper.getScale().range();
+          const radiusRange = radiusAxisHelper.getScale().range();
+          const innerRadius = radiusRange[0];
+          const outerRadius = last(radiusRange);
+          const startAngle = angleRange[0];
+          const endAngle = last(angleRange);
+
+          if (smooth) {
+            return [
+              createArc({
+                ...center,
+                innerRadius,
+                outerRadius,
+                startAngle,
+                endAngle
+              })
+            ];
+          }
+          const sides = angleAxisHelper.getScale().domain().length;
+          const points = [];
+          const stepAngle = (endAngle - startAngle) / sides;
+
+          for (let i = 0; i < sides; i++) {
+            const angle = startAngle + i * stepAngle;
+            points.push(polarToCartesian(center, outerRadius, angle));
+          }
+
+          if (innerRadius > 0) {
+            for (let i = 0; i < sides; i++) {
+              const angle = endAngle - i * stepAngle;
+              points.push(polarToCartesian(center, innerRadius, angle));
+            }
+          }
+
+          return [createPolygon({ points, closePath: true, fill: 'red' })];
+        }
+
+        return [];
+      });
+    } else {
+      this._groupMark.setClip(clip);
+    }
   }
 
   protected _initBackgroundMarkStyle() {
@@ -195,7 +257,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
         'normal',
         AttributeLevel.User_Mark
       );
-      if (this._spec.clip ?? this._getClipDefaultValue()) {
+      if (this.needClip()) {
         this.setMarkStyle(
           this._backgroundMark,
           {
@@ -232,8 +294,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
 
   reInit(spec?: T) {
     super.reInit(spec);
-    this._initBackgroundMarkStyle();
-    this._initForegroundMarkStyle();
+    this.initMarkStyle();
   }
 
   addSeries(s: ISeries) {
