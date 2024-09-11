@@ -260,3 +260,7 @@ export function getPercentValue(valueList: number[], precision = 2) {
 
   return seats.map(entry => entry / digits);
 }
+
+export function isValidPoint(p: IPoint) {
+  return isValidNumber(p.x) && isValidNumber(p.y);
+}
