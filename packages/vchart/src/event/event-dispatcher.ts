@@ -34,7 +34,7 @@ const componentTypeMap: Record<string, string> = {
   continuousLegend: 'legend',
   colorLegend: 'legend',
   sizeLegend: 'legend'
-  // 组件的 type 和 spec 中的
+  // 组件的 type 如果没有细化的分类，不需要在这里进行映射
   // label: 'label',
   // markLine: 'markLine',
   // markArea: 'markArea',
