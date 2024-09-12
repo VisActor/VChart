@@ -1,4 +1,3 @@
-import type { Maybe } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
@@ -7,7 +6,6 @@ import { ScrollBar as ScrollBarComponent } from '@visactor/vrender-components';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IScrollBarSpec } from './interface';
 import type { ILayoutType } from '../../../typings/layout';
-import type { IModelSpecInfo } from '../../../model/interface';
 export declare class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
@@ -18,7 +16,6 @@ export declare class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extend
     layoutLevel: number;
     layoutType: ILayoutType;
     protected _component: ScrollBarComponent;
-    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     constructor(spec: T, options: IComponentOption);
     setAttrFromSpec(): void;
     onLayoutEnd(ctx: any): void;

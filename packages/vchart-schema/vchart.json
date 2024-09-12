@@ -32195,6 +32195,11 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最小宽度"
         },
+        "name": {
+          "description": "mark对应的名称，主要用于事件过滤如： { markName: 'yourName' }",
+          "since": "1.12.5",
+          "type": "string"
+        },
         "noOuterPadding": {
           "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
           "type": "boolean"
@@ -34415,56 +34420,6 @@
       },
       "type": "object"
     },
-    "IDrawContribution": {
-      "properties": {
-        "afterDraw": {
-          "typeof": "function"
-        },
-        "backupDirtyBounds": {
-          "$ref": "#/definitions/IBounds"
-        },
-        "currentRenderMap": {
-          "$ref": "#/definitions/Map<number,IGraphicRender>"
-        },
-        "defaultRenderMap": {
-          "$ref": "#/definitions/Map<number,IGraphicRender>"
-        },
-        "dirtyBounds": {
-          "$ref": "#/definitions/IBounds"
-        },
-        "draw": {
-          "typeof": "function"
-        },
-        "getRenderContribution": {
-          "typeof": "function"
-        },
-        "hooks": {
-          "typeof": "function"
-        },
-        "renderGroup": {
-          "typeof": "function"
-        },
-        "renderItem": {
-          "typeof": "function"
-        },
-        "rendering": {
-          "type": "boolean"
-        },
-        "styleRenderMap": {
-          "$ref": "#/definitions/Map<string,Map<number,IGraphicRender>>"
-        }
-      },
-      "required": [
-        "currentRenderMap",
-        "defaultRenderMap",
-        "draw",
-        "getRenderContribution",
-        "renderGroup",
-        "renderItem",
-        "styleRenderMap"
-      ],
-      "type": "object"
-    },
     "IDsvParserOptions": {
       "properties": {
         "delimiter": {
@@ -34748,6 +34703,11 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最小宽度"
         },
+        "name": {
+          "description": "mark对应的名称，主要用于事件过滤如： { markName: 'yourName' }",
+          "since": "1.12.5",
+          "type": "string"
+        },
         "noOuterPadding": {
           "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
           "type": "boolean"
@@ -35007,6 +34967,11 @@
         "minWidth": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最小宽度"
+        },
+        "name": {
+          "description": "mark对应的名称，主要用于事件过滤如： { markName: 'yourName' }",
+          "since": "1.12.5",
+          "type": "string"
         },
         "noOuterPadding": {
           "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
@@ -36299,8 +36264,43 @@
             {
               "type": "boolean"
             }
-          ],
-          "description": "动画配置"
+          ]
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelExitAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILabelUpdateChannelAnimation"
+              },
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -45874,6 +45874,20 @@
       },
       "type": "object"
     },
+    "ILabelExitAnimation": {
+      "properties": {
+        "delay": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType"
+        }
+      },
+      "type": "object"
+    },
     "ILabelSpec": {
       "properties": {
         "alignSelf": {
@@ -45893,8 +45907,43 @@
             {
               "type": "boolean"
             }
-          ],
-          "description": "动画配置"
+          ]
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelExitAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILabelUpdateChannelAnimation"
+              },
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -46150,6 +46199,49 @@
         "zIndex": {
           "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
           "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "ILabelUpdateAnimation": {
+      "properties": {
+        "delay": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType"
+        },
+        "increaseEffect": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "ILabelUpdateChannelAnimation": {
+      "properties": {
+        "channel": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "delay": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType"
+        },
+        "increaseEffect": {
+          "type": "boolean"
+        },
+        "options": {
+          "typeof": "function"
         }
       },
       "type": "object"
@@ -55337,47 +55429,6 @@
           "type": "number"
         }
       },
-      "type": "object"
-    },
-    "IPickerService": {
-      "properties": {
-        "configure": {
-          "typeof": "function"
-        },
-        "containsPoint": {
-          "typeof": "function"
-        },
-        "drawContribution": {
-          "$ref": "#/definitions/IDrawContribution"
-        },
-        "pick": {
-          "typeof": "function"
-        },
-        "pickContext": {
-          "$ref": "#/definitions/IContext2d"
-        },
-        "pickGroup": {
-          "typeof": "function"
-        },
-        "pickItem": {
-          "typeof": "function"
-        },
-        "pickerMap": {
-          "$ref": "#/definitions/Map<number,IGraphicPicker>"
-        },
-        "type": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "configure",
-        "containsPoint",
-        "pick",
-        "pickGroup",
-        "pickItem",
-        "pickerMap",
-        "type"
-      ],
       "type": "object"
     },
     "IPie3dChartSpec": {
@@ -71154,6 +71205,9 @@
         "getLayer": {
           "typeof": "function"
         },
+        "getPickerService": {
+          "typeof": "function"
+        },
         "getPluginsByName": {
           "typeof": "function"
         },
@@ -71261,9 +71315,6 @@
         },
         "pick": {
           "typeof": "function"
-        },
-        "pickerService": {
-          "$ref": "#/definitions/IPickerService"
         },
         "pluginService": {
           "$ref": "#/definitions/IPluginService"
@@ -71461,6 +71512,7 @@
         "getElementsByName",
         "getElementsByType",
         "getLayer",
+        "getPickerService",
         "getPluginsByName",
         "getTheme",
         "getTimeline",
@@ -74683,8 +74735,7 @@
             {
               "type": "boolean"
             }
-          ],
-          "description": "动画配置"
+          ]
         },
         "interactive": {
           "default": false,
@@ -81691,7 +81742,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13700": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -81699,44 +81750,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13700",
-        "size"
-      ],
-      "type": "object"
-    },
-    "Map<number,IGraphicPicker>": {
-      "properties": {
-        "__@toStringTag@13700": {
-          "type": "string"
-        },
-        "size": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "__@toStringTag@13700",
-        "size"
-      ],
-      "type": "object"
-    },
-    "Map<number,IGraphicRender>": {
-      "properties": {
-        "__@toStringTag@13700": {
-          "type": "string"
-        },
-        "size": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "__@toStringTag@13700",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13700": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -81744,29 +81765,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13700",
-        "size"
-      ],
-      "type": "object"
-    },
-    "Map<string,Map<number,IGraphicRender>>": {
-      "properties": {
-        "__@toStringTag@13700": {
-          "type": "string"
-        },
-        "size": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "__@toStringTag@13700",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13700": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -81774,14 +81780,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13700",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13700": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -81789,14 +81795,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13700",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13700": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -81804,14 +81810,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13700",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13700": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -81819,7 +81825,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13700",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
@@ -85710,8 +85716,43 @@
             {
               "type": "boolean"
             }
-          ],
-          "description": "动画配置"
+          ]
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelExitAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILabelUpdateChannelAnimation"
+              },
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -85986,8 +86027,43 @@
             {
               "type": "boolean"
             }
-          ],
-          "description": "动画配置"
+          ]
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelExitAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILabelUpdateChannelAnimation"
+              },
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -93374,8 +93450,43 @@
             {
               "type": "boolean"
             }
-          ],
-          "description": "动画配置"
+          ]
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelExitAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILabelUpdateChannelAnimation"
+              },
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -94160,8 +94271,43 @@
             {
               "type": "boolean"
             }
-          ],
-          "description": "动画配置"
+          ]
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelExitAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILabelUpdateChannelAnimation"
+              },
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -102726,34 +102872,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13700": {
+        "__@toStringTag@13701": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13700"
+        "__@toStringTag@13701"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13700": {
+        "__@toStringTag@13701": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13700"
+        "__@toStringTag@13701"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13700": {
+        "__@toStringTag@13701": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13700"
+        "__@toStringTag@13701"
       ],
       "type": "object"
     },
