@@ -1,6 +1,6 @@
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isFunction, isNil, isValidNumber, isArray, get } from '@visactor/vutils';
+import { isFunction, isNil, isValidNumber, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import type { IDiscreteLegendSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -27,7 +27,7 @@ import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 import type { ILayoutRect } from '../../../typings/layout';
 import type { StringOrNumber } from '../../../typings';
-import { getFormatFunction } from '../../util';
+import { getFormatFunction, getSpecInfo } from '../../util';
 import type { IDiscreteLegendData } from '../../../data/transforms/legend-data/discrete';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
@@ -40,35 +40,9 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   protected _unselectedData: StringOrNumber[];
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const legendSpec = chartSpec[this.specKey];
-    if (!legendSpec) {
-      return undefined;
-    }
-    if (!isArray(legendSpec)) {
-      if (!legendSpec.type || legendSpec.type === 'discrete') {
-        return [
-          {
-            spec: legendSpec,
-            specPath: [this.specKey],
-            specInfoPath: ['component', this.specKey, 0],
-            type: ComponentTypeEnum.discreteLegend
-          }
-        ];
-      }
-      return undefined;
-    }
-    const specInfos: IModelSpecInfo[] = [];
-    legendSpec.forEach((s: IDiscreteLegendSpec, i: number) => {
-      if (!s.type || s.type === 'discrete') {
-        specInfos.push({
-          spec: s,
-          specPath: [this.specKey, i],
-          specInfoPath: ['component', this.specKey, i],
-          type: ComponentTypeEnum.discreteLegend
-        });
-      }
+    return getSpecInfo<IDiscreteLegendSpec>(chartSpec, this.specKey, this.type, (s: IDiscreteLegendSpec) => {
+      return !s.type || s.type === 'discrete';
     });
-    return specInfos;
   }
 
   init(option: IModelInitOption): void {

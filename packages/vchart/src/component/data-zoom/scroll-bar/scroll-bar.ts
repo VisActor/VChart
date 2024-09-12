@@ -1,5 +1,4 @@
-import type { Maybe } from '@visactor/vutils';
-import { isArray, isBoolean, isEmpty, isFunction, isNil, isNumber, isValid } from '@visactor/vutils';
+import { isBoolean, isEmpty, isFunction, isNil, isNumber, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -13,11 +12,9 @@ import { LayoutLevel, LayoutZIndex } from '../../../constant/layout';
 import { ChartEvent } from '../../../constant/event';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
-import { IFilterMode } from '../interface';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { ILayoutType } from '../../../typings/layout';
-import type { IModelSpecInfo } from '../../../model/interface';
 import { isClose } from '../../../util';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
@@ -34,33 +31,6 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   // datazoom组件
   protected _component!: ScrollBarComponent;
-
-  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const compSpec = chartSpec[this.specKey];
-    if (isNil(compSpec)) {
-      return undefined;
-    }
-    if (!isArray(compSpec)) {
-      return [
-        {
-          spec: compSpec,
-          specPath: [this.specKey],
-          specInfoPath: ['component', this.specKey, 0],
-          type: ComponentTypeEnum.scrollBar
-        }
-      ];
-    }
-    const specInfos: IModelSpecInfo[] = [];
-    compSpec.forEach((s, i: number) => {
-      specInfos.push({
-        spec: s,
-        specPath: [this.specKey, i],
-        specInfoPath: ['component', this.specKey, i],
-        type: ComponentTypeEnum.scrollBar
-      });
-    });
-    return specInfos;
-  }
 
   constructor(spec: T, options: IComponentOption) {
     super(spec as any, options);

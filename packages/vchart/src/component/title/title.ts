@@ -16,6 +16,7 @@ import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual, isArray, isValidNumber, pickWithout } from '@visactor/vutils';
+import { getSpecInfo } from '../util';
 
 export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> implements ITitle {
   static type = ComponentTypeEnum.title;
@@ -47,32 +48,9 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
   }
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const titleSpec = chartSpec[this.specKey];
-    if (!titleSpec || titleSpec.visible === false) {
-      return null;
-    }
-    if (!isArray(titleSpec)) {
-      return [
-        {
-          spec: titleSpec,
-          specPath: [this.specKey],
-          specInfoPath: ['component', this.specKey, 0],
-          type: ComponentTypeEnum.title
-        }
-      ];
-    }
-    const specInfos: IModelSpecInfo[] = [];
-    titleSpec.forEach((s: any, i: number) => {
-      if (s.visible !== false) {
-        specInfos.push({
-          spec: s,
-          specPath: [this.specKey, i],
-          specInfoPath: ['component', this.specKey, i],
-          type: ComponentTypeEnum.title
-        });
-      }
+    return getSpecInfo<ITitleSpec>(chartSpec, this.specKey, ComponentTypeEnum.title, (s: ITitleSpec) => {
+      return s.visible !== false;
     });
-    return specInfos;
   }
 
   onRender(ctx: any): void {

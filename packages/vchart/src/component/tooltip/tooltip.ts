@@ -1,5 +1,5 @@
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
@@ -52,33 +52,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   layoutType: 'none' = 'none';
   private _timer?: number;
   protected declare _spec: ITooltipSpec;
-
-  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const tooltipSpec = chartSpec[this.specKey];
-    if (!tooltipSpec) {
-      return null;
-    }
-    if (!isArray(tooltipSpec)) {
-      return [
-        {
-          spec: tooltipSpec,
-          specPath: [this.specKey],
-          specInfoPath: ['component', this.specKey, 0],
-          type: ComponentTypeEnum.tooltip
-        }
-      ];
-    }
-    const specInfos: IModelSpecInfo[] = [];
-    tooltipSpec.forEach((s: any, i: number) => {
-      specInfos.push({
-        spec: s,
-        specPath: [this.specKey, i],
-        specInfoPath: ['component', this.specKey, i],
-        type: ComponentTypeEnum.tooltip
-      });
-    });
-    return specInfos;
-  }
 
   tooltipHandler?: ITooltipHandler;
 

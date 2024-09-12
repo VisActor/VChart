@@ -7,7 +7,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
 import type { IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, isNil, polygonIntersectPolygon, isValid, last } from '@visactor/vutils';
+import { array, polygonIntersectPolygon, isValid, last } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic, IGroup, INode, IPolygon, ISymbolGraphicAttribute } from '@visactor/vrender-core';
@@ -22,6 +22,7 @@ import { Factory } from '../../core/factory';
 import type { DataZoom } from '../data-zoom';
 import type { IBandLikeScale, IContinuousScale, ILinearScale } from '@visactor/vscale';
 import type { AxisComponent } from '../axis/base-axis';
+import { getSpecInfo } from '../util';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -95,19 +96,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const brushSpec = chartSpec[this.specKey];
-    // brush不支持数组的形式配置
-    if (isNil(brushSpec) || brushSpec.visible === false) {
-      return undefined;
-    }
-    return [
-      {
-        spec: brushSpec,
-        specPath: [this.specKey],
-        specInfoPath: ['component', this.specKey, 0],
-        type: ComponentTypeEnum.brush
-      }
-    ];
+    return getSpecInfo<IBrushSpec>(chartSpec, this.specKey, this.type, (s: IBrushSpec) => {
+      return s.visible !== false;
+    });
   }
 
   created() {
