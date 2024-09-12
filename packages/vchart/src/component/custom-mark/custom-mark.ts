@@ -87,7 +87,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     const mark = this._createMark(
       {
         type: spec.type,
-        name: `${namePrefix}_${index}`
+        name: isValid(spec.name) ? `${spec.name}` : `${namePrefix}_${index}`
       },
       {
         // 避免二次dataflow
@@ -99,6 +99,10 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     ) as IGroupMark;
     if (!mark) {
       return;
+    }
+
+    if (isValid(spec.id)) {
+      mark.setUserId(spec.id);
     }
 
     if (options.hasAnimation && spec.animation) {
