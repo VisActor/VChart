@@ -1,6 +1,6 @@
 # Tooltip 提示信息
 
-Tooltip 提示信息是我们在使用 VChart 图表时，用以显示在图表不同元素上的附加信息，通过鼠标悬停操作展示出来。本教程主要讲解提示信心组件的相关概念以及组成，关于组件更加详细的配置及示例，详见[配置项文档](../../../option)及[示例](../../../example)页面。
+Tooltip 提示信息是我们在使用 VChart 图表时，用以显示在图表不同元素上的附加信息，通过鼠标悬停操作展示出来。本教程主要讲解提示信息组件的相关概念以及组成，关于组件更加详细的配置及示例，详见[配置项文档](../../../option)及[示例](../../../example)页面。
 
 <div style="text-align: center;">
   <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a212.png" alt="tooltip">
