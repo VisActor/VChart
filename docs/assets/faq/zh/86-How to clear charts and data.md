@@ -10,7 +10,7 @@
 
 ```ts
 // 假设你的数据 id 为 'data'
-vchart.updateDate('data', []);
+vchart.updateData('data', []);
 ```
 
 ## 结果展示

@@ -107,4 +107,5 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     onDataUpdate(): void;
     private _appendAxisUnit;
     protected _getNeedClearVRenderComponents(): IGraphic[];
+    private _getLabelOverflowLimit;
 }

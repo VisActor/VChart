@@ -29,7 +29,6 @@ export declare class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extend
     protected _gridBackground?: IFillMarkSpec;
     setGridBackground(gridBackground: IFillMarkSpec): void;
     initData(): void;
-    setSeriesField(field: string): void;
     getStatisticFields(): {
         key: string;
         operations: Array<'max' | 'min' | 'values'>;

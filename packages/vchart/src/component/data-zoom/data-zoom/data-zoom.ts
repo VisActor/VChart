@@ -1,7 +1,5 @@
-import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import {
-  isArray,
   isBoolean,
   isFunction,
   isNil,
@@ -33,7 +31,6 @@ import type { IDataZoomSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
-import type { IModelSpecInfo } from '../../../model/interface';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
 import { getFormatFunction } from '../../util';
 
@@ -62,33 +59,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _endHandlerSize!: number;
 
   protected _isReverseCache: boolean = false;
-
-  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const compSpec = chartSpec[this.specKey];
-    if (isNil(compSpec)) {
-      return undefined;
-    }
-    if (!isArray(compSpec)) {
-      return [
-        {
-          spec: compSpec,
-          specPath: [this.specKey],
-          specInfoPath: ['component', this.specKey, 0],
-          type: ComponentTypeEnum.dataZoom
-        }
-      ];
-    }
-    const specInfos: IModelSpecInfo[] = [];
-    compSpec.forEach((s, i: number) => {
-      specInfos.push({
-        spec: s,
-        specPath: [this.specKey, i],
-        specInfoPath: ['component', this.specKey, i],
-        type: ComponentTypeEnum.dataZoom
-      });
-    });
-    return specInfos;
-  }
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);

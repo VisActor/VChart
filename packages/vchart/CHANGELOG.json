@@ -2,6 +2,39 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.5",
+      "tag": "@visactor/vchart_v1.12.5",
+      "date": "Thu, 12 Sep 2024 14:07:06 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": " fix: optimize first axis label autolimit effect"
+          },
+          {
+            "comment": " fix: `animationUpdate` should also control labels animation"
+          },
+          {
+            "comment": "fix: fix default value of circular-progress, fix #2683\n\n"
+          },
+          {
+            "comment": "feat: extension mark and customized mark support `markName` event filter\n\n"
+          },
+          {
+            "comment": "fix: fix typos in FAQ documents 86\n\n"
+          },
+          {
+            "comment": "fix: fix display of radar-chart when has negative radius\n\n"
+          },
+          {
+            "comment": "fix: `word.style.fontWeight` should change the style of text in wordcloud\n\n"
+          },
+          {
+            "comment": "refactor: reduce duplicated `getSpecInfo`\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.4",
       "tag": "@visactor/vchart_v1.12.4",
       "date": "Mon, 09 Sep 2024 08:09:07 GMT",

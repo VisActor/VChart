@@ -22,7 +22,7 @@ import type { StringOrNumber } from '../typings';
 import type { IElement } from '@visactor/vgrammar-core';
 import { Factory as VGrammarFactory } from '@visactor/vgrammar-core';
 
-const componentTypeMap = {
+const componentTypeMap: Record<string, string> = {
   cartesianAxis: 'axis',
   'cartesianAxis-band': 'axis',
   'cartesianAxis-linear': 'axis',
@@ -33,15 +33,16 @@ const componentTypeMap = {
   discreteLegend: 'legend',
   continuousLegend: 'legend',
   colorLegend: 'legend',
-  sizeLegend: 'legend',
-  label: 'label',
-  markLine: 'markLine',
-  markArea: 'markArea',
-  markPoint: 'markPoint',
-  polarMarkLine: 'polarMarkLine',
-  polarMarkArea: 'polarMarkArea',
-  polarMarkPoint: 'polarMarkPoint',
-  geoMarkPoint: 'geoMarkPoint'
+  sizeLegend: 'legend'
+  // 组件的 type 如果没有细化的分类，不需要在这里进行映射
+  // label: 'label',
+  // markLine: 'markLine',
+  // markArea: 'markArea',
+  // markPoint: 'markPoint',
+  // polarMarkLine: 'polarMarkLine',
+  // polarMarkArea: 'polarMarkArea',
+  // polarMarkPoint: 'polarMarkPoint',
+  // geoMarkPoint: 'geoMarkPoint'
 };
 
 export class EventDispatcher implements IEventDispatcher {

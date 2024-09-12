@@ -41,11 +41,13 @@ export const markByName: IGlobalMarkThemeByName = {
   },
   word: {
     style: {
+      fontWeight: null,
       fontSize: null
     }
   },
   fillingWord: {
     style: {
+      fontWeight: null,
       fontSize: null
     }
   },

@@ -649,6 +649,11 @@ export interface ICustomMarkSpec<T extends EnableMarkType>
     IAnimationSpec<string, string> {
   type: T;
   /**
+   * mark对应的名称，主要用于事件过滤如： { markName: 'yourName' }
+   * @since 1.12.5
+   */
+  name?: string;
+  /**
    * 关联的数据索引
    * @default 与系列使用同一份数据
    */

@@ -82,39 +82,17 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   private _gridStyle: any;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const axesSpec = chartSpec[this.specKey];
-    if (!axesSpec) {
+    if (!chartSpec[this.specKey]) {
       return null;
     }
-
-    if (!isArray(axesSpec)) {
-      if (!isValidPolarAxis(axesSpec)) {
-        return null;
-      }
-      const { axisType, componentName, startAngle, endAngle, center, outerRadius, layoutRadius } = getPolarAxisInfo(
-        axesSpec,
-        chartSpec
-      );
-      axesSpec.center = center;
-      axesSpec.startAngle = startAngle;
-      axesSpec.endAngle = endAngle;
-      axesSpec.outerRadius = outerRadius;
-      axesSpec.type = axisType;
-      axesSpec.layoutRadius = layoutRadius;
-      return [
-        {
-          spec: axesSpec,
-          specPath: [this.specKey],
-          specInfoPath: ['component', this.specKey, 0],
-          type: componentName
-        }
-      ];
-    }
+    const isArraySpec = isArray(chartSpec[this.specKey]);
+    const axesSpec = isArraySpec ? chartSpec[this.specKey] : [chartSpec[this.specKey]];
     const specInfos: IModelSpecInfo[] = [];
     let angleAxisIndex: number;
     let radiusAxisIndex: number;
     const radiusAxisSpecInfos: IModelSpecInfo[] = [];
     const angleAxisSpecInfos: IModelSpecInfo[] = [];
+
     axesSpec.forEach((s: any, i: number) => {
       if (!isValidPolarAxis(s)) {
         return;
@@ -131,7 +109,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       s.layoutRadius = layoutRadius;
       const info = {
         spec: s,
-        specPath: [this.specKey, i],
+        specPath: isArraySpec ? [this.specKey, i] : [this.specKey],
         specInfoPath: ['component', this.specKey, i],
         type: componentName
       };

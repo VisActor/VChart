@@ -784,7 +784,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       },
       items,
       verticalLimitSize: this._verticalLimitSize,
-      verticalMinSize
+      verticalMinSize,
+      label: {
+        overflowLimitLength: this._getLabelOverflowLimit(isX)
+      }
     };
     if (!ignoreGrid) {
       attrs.grid = {
@@ -1023,5 +1026,36 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return this._unitText ? [this._unitText] : [];
+  }
+
+  private _getLabelOverflowLimit(isX: boolean) {
+    if (isX && this._spec.label?.visible !== false && this._spec.label?.autoLimit === true) {
+      const axesComponents = this._option.getComponentsByKey('axes') as IAxis[];
+      const relativeRegions = this.getRegions();
+      const relativeAxes = axesComponents.filter(item => {
+        const orient = item.getOrient();
+        return (
+          (orient === 'left' || orient === 'right') &&
+          item.getRegions().some(region => relativeRegions.includes(region))
+        );
+      });
+
+      let leftLimitLength = 0;
+      let rightLimitLength = 0;
+      const startX = this.getLayoutStartPoint().x;
+      const endX = startX + this.getLayoutRect().width;
+      relativeAxes.forEach(axis => {
+        const relativeStartX = axis.getLayoutStartPoint().x;
+        if (axis.getOrient() === 'left' && relativeStartX === startX) {
+          const leftAxisWidth = axis.getLayoutRect().width;
+          leftLimitLength = Math.max(leftLimitLength, leftAxisWidth);
+        } else if (relativeStartX === endX) {
+          const rightAxisWidth = axis.getLayoutRect().width;
+          rightLimitLength = Math.max(rightLimitLength, rightAxisWidth);
+        }
+      });
+      return { left: leftLimitLength, right: rightLimitLength };
+    }
+    return undefined;
   }
 }

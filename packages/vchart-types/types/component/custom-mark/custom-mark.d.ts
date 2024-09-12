@@ -1,9 +1,8 @@
 import { BaseComponent } from '../base/base-component';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
-import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
-import type { Maybe } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IModelMarkAttributeContext } from '../../compile/mark/interface';
 export declare class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
@@ -15,7 +14,6 @@ export declare class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMark
     layoutZIndex: number;
     layoutLevel: number;
     protected _spec: ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec;
-    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     created(): void;
     protected _markAttributeContext: IModelMarkAttributeContext;
     getMarkAttributeContext(): IModelMarkAttributeContext;

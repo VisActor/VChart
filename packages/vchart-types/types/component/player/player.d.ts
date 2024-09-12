@@ -1,6 +1,5 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import type { Maybe } from '@visactor/vutils';
-import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IPlayer } from './interface';
 import type { IComponent } from '../interface';
@@ -28,7 +27,6 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
     private _position;
     get orient(): IOrientType;
     set layoutOrient(v: IOrientType);
-    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     setAttrFromSpec(): void;
     afterSetLayoutStartPoint(pos: IPoint): void;
     getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): {

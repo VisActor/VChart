@@ -1,6 +1,6 @@
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isNil, isValid } from '@visactor/vutils';
+import { isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
@@ -28,6 +28,7 @@ import type { IModelSpecInfo } from '../../model/interface';
 import { layoutByValue, layoutHorizontalCrosshair, layoutVerticalCrosshair } from './utils/cartesian';
 import { getFirstSeries } from '../../util';
 import type { IDimensionData, IDimensionInfo } from '../../event/events/dimension/interface';
+import { getSpecInfo } from '../util';
 
 // 1. crosshair保存上次记录的x和y轴dimension
 // 2. 每次交互触发时，首先转化成dimension保存，然后依据dimension计算x和y绘制
@@ -59,38 +60,9 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   private _currValueY: AxisCurrentValueMap;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const crosshairSpec = chartSpec[this.specKey];
-    if (isNil(crosshairSpec)) {
-      return undefined;
-    }
-    if (!isArray(crosshairSpec)) {
-      if (
-        (crosshairSpec.xField && crosshairSpec.xField.visible !== false) ||
-        (crosshairSpec.yField && crosshairSpec.yField.visible !== false)
-      ) {
-        return [
-          {
-            spec: crosshairSpec,
-            specPath: [this.specKey],
-            specInfoPath: ['component', this.specKey, 0],
-            type: ComponentTypeEnum.cartesianCrosshair
-          }
-        ];
-      }
-      return undefined;
-    }
-    const specInfos: IModelSpecInfo[] = [];
-    crosshairSpec.forEach((s: ICartesianCrosshairSpec, i: number) => {
-      if ((s.xField && s.xField.visible !== false) || (s.yField && s.yField.visible !== false)) {
-        specInfos.push({
-          spec: s,
-          specPath: [this.specKey, i],
-          specInfoPath: ['component', this.specKey, i],
-          type: ComponentTypeEnum.cartesianCrosshair
-        });
-      }
+    return getSpecInfo<ICartesianCrosshairSpec>(chartSpec, this.specKey, this.type, (s: ICartesianCrosshairSpec) => {
+      return (s.xField && s.xField.visible !== false) || (s.yField && s.yField.visible !== false);
     });
-    return specInfos;
   }
 
   constructor(spec: T, options: IComponentOption) {

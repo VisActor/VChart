@@ -4,7 +4,8 @@ import type { IPointLike } from '@visactor/vutils';
 import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender-core';
 import { Point, isFunction, isNil, isValidNumber } from '@visactor/vutils';
 import type { IPolarAxisHelper } from '../../component/axis';
-import { isClose, normalizeAngle } from '../../util';
+import { isClose, isValidPoint, normalizeAngle } from '../../util';
+import type { IPoint } from '../../typings';
 
 export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
   declare valid: boolean;
@@ -128,41 +129,41 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
     out.points = this.points;
   }
 
-  private polarPointInterpolation(pointA: IPointLike, pointB: IPointLike, ratio: number): IPointLike {
-    const polarPointA0 = this._pointToCoord(pointA);
-    const polarPointA1 = this._pointToCoord({ x: pointA.x1, y: pointA.y1 });
-    // normalize angle
-    let angleA0 = normalizeAngle(polarPointA0.angle);
-    let angleA1 = normalizeAngle(polarPointA1.angle);
-
-    const polarPointB0 = this._pointToCoord(pointB);
-    const polarPointB1 = this._pointToCoord({ x: pointB.x1, y: pointB.y1 });
-    // normalize angle
-    let angleB0 = normalizeAngle(polarPointB0.angle);
-    let angleB1 = normalizeAngle(polarPointB1.angle);
+  private _interpolationSinglePoint(pointA: IPoint, pointB: IPoint, ratio: number): IPoint {
+    if (!isValidPoint(pointA) && !isValidPoint(pointB)) {
+      return pointB;
+    }
+    const polarPointA = this._pointToCoord(pointA);
+    const polarPointB = this._pointToCoord(pointB);
+    let angleA = normalizeAngle(polarPointA.angle);
+    let angleB = normalizeAngle(polarPointB.angle);
 
     // handle center point radius
-    if (!isValidNumber(angleA0) && isValidNumber(angleB0)) {
-      angleA0 = angleB0;
+    if (!isValidNumber(angleA) && isValidNumber(angleB)) {
+      angleA = angleB;
     }
-    if (isValidNumber(angleA0) && !isValidNumber(angleB0)) {
-      angleB0 = angleA0;
+    if (isValidNumber(angleA) && !isValidNumber(angleB)) {
+      angleB = angleA;
     }
-    if (!isValidNumber(angleA1) && isValidNumber(angleB1)) {
-      angleA1 = angleB1;
-    }
-    if (isValidNumber(angleA1) && !isValidNumber(angleB1)) {
-      angleB1 = angleA1;
-    }
+    const angle = angleA + (angleB - angleA) * ratio;
+    const radius = polarPointA.radius + (polarPointB.radius - polarPointA.radius) * ratio;
 
-    const angle0 = angleA0 + (angleB0 - angleA0) * ratio;
-    const radius0 = polarPointA0.radius + (polarPointB0.radius - polarPointA0.radius) * ratio;
+    return this._coordToPoint({ angle, radius });
+  }
 
-    const angle1 = angleA1 + (angleB1 - angleA1) * ratio;
-    const radius1 = polarPointA1.radius + (polarPointB1.radius - polarPointA1.radius) * ratio;
-
-    const { x, y } = this._coordToPoint({ angle: angle0, radius: radius0 });
-    const { x: x1, y: y1 } = this._coordToPoint({ angle: angle1, radius: radius1 });
+  private polarPointInterpolation(pointA: IPointLike, pointB: IPointLike, ratio: number): IPointLike {
+    const { x, y } = this._interpolationSinglePoint(pointA, pointB, ratio);
+    const { x: x1, y: y1 } = this._interpolationSinglePoint(
+      {
+        x: pointA.x1,
+        y: pointA.y1
+      },
+      {
+        x: pointB.x1,
+        y: pointB.y1
+      },
+      ratio
+    );
 
     const point = new Point(x as number, y as number, x1, y1);
     point.defined = pointB.defined;

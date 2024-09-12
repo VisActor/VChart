@@ -3,7 +3,7 @@
  */
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { debounce, isEmpty, isNil, isArray, get } from '@visactor/vutils';
+import { debounce, isEmpty, isNil, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { IModelInitOption, IModelSpecInfo } from '../../../model/interface';
@@ -26,6 +26,7 @@ import { ChartEvent } from '../../../constant/event';
 import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 import type { ILayoutRect } from '../../../typings/layout';
+import { getSpecInfo } from '../../util';
 
 const SINGLE_SEQUENCE = ['#C4E7FF', '#98CAFF', '#75ACFF', '#518FF9', '#2775DC', '#005CBE', '#00429F', '#00287E'];
 const SIZE = [2, 10];
@@ -43,35 +44,22 @@ export class ContinuousLegend<
   private _legendType: string;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const legendSpec = chartSpec[this.specKey];
-    if (!legendSpec) {
-      return undefined;
-    }
-    if (!isArray(legendSpec)) {
-      if (isContinuousLegend(legendSpec.type)) {
-        return [
-          {
-            spec: legendSpec,
-            specPath: [this.specKey],
-            specInfoPath: ['component', this.specKey, 0],
-            type: legendSpec.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend
-          }
-        ];
+    const infos = getSpecInfo<IColorLegendSpec | ISizeLegendSpec>(
+      chartSpec,
+      this.specKey,
+      this.type,
+      (s: IColorLegendSpec | ISizeLegendSpec) => {
+        return isContinuousLegend(s.type);
       }
-      return undefined;
+    );
+
+    if (infos) {
+      infos.forEach(info => {
+        info.type = info.spec.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend;
+      });
     }
-    const specInfos: IModelSpecInfo[] = [];
-    legendSpec.forEach((s: IColorLegendSpec | ISizeLegendSpec, i: number) => {
-      if (isContinuousLegend(s.type)) {
-        specInfos.push({
-          spec: s,
-          specPath: [this.specKey, i],
-          specInfoPath: ['component', this.specKey, i],
-          type: s.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend
-        });
-      }
-    });
-    return specInfos;
+
+    return infos;
   }
 
   constructor(spec: T, options: IComponentOption) {

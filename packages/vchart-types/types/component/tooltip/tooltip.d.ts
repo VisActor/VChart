@@ -1,5 +1,5 @@
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
@@ -8,7 +8,6 @@ import type { Datum, IShowTooltipOption } from '../../typings';
 import type { ITooltip, ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams, TotalMouseEventData } from './interface';
 import { TooltipResult } from './interface/common';
 import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
-import type { Maybe } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
 export declare class Tooltip extends BaseComponent<any> implements ITooltip {
@@ -23,7 +22,6 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     layoutType: 'none';
     private _timer?;
     protected _spec: ITooltipSpec;
-    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     tooltipHandler?: ITooltipHandler;
     processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor, GroupTooltipProcessor>;
     private _alwaysShow;

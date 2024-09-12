@@ -112,8 +112,17 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     if (isNil(angleValue) || isNil(radiusValue) || !this.angleAxisHelper || !this.radiusAxisHelper) {
       return { x: Number.NaN, y: Number.NaN };
     }
-    const angle = this.angleAxisHelper.dataToPosition(array(angleValue));
     const radius = this.radiusAxisHelper.dataToPosition(array(radiusValue));
+    if (radius < 0) {
+      // 'link' 实现还有问题
+      if (this._invalidType === 'break' || this._invalidType === 'link') {
+        return { x: Number.NaN, y: Number.NaN };
+      } else if (this._invalidType === 'zero') {
+        return this.angleAxisHelper.center();
+      }
+    }
+    const angle = this.angleAxisHelper.dataToPosition(array(angleValue));
+
     // FIXME: 由于存在两个轴，这里的 坐标系转换逻辑会有点尬
     return this.angleAxisHelper.coordToPoint({ angle, radius });
   }

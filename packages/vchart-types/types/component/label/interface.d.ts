@@ -6,7 +6,7 @@ import type { ISeries } from '../../series';
 export interface ILabelFormatMethodContext {
     series?: ISeries;
 }
-export interface ILabelSpec extends IComponentSpec {
+export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
     visible?: boolean;
     interactive?: boolean;
     textType?: 'text' | 'rich';
@@ -18,7 +18,6 @@ export interface ILabelSpec extends IComponentSpec {
     state?: LabelStateStyle<Partial<IComposedTextMarkSpec>>;
     overlap?: BaseLabelAttrs['overlap'];
     smartInvert?: BaseLabelAttrs['smartInvert'];
-    animation?: BaseLabelAttrs['animation'];
     stackDataFilterType?: 'min' | 'max';
     dataFilter?: BaseLabelAttrs['dataFilter'];
     customLayoutFunc?: BaseLabelAttrs['customLayoutFunc'];
@@ -27,6 +26,7 @@ export interface ILabelSpec extends IComponentSpec {
     support3d?: boolean;
     syncState?: boolean;
 }
+export type ILabelAnimationSpec = Pick<BaseLabelAttrs, 'animation' | 'animationEnter' | 'animationUpdate' | 'animationExit'>;
 export type IMultiLabelSpec<T extends Omit<ILabelSpec, 'position'>> = T | T[];
 type LabelStateStyle<T> = {
     hover?: T;

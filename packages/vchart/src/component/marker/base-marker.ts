@@ -1,7 +1,7 @@
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, isValid, isNil, isString, isEmpty, isArray, isEqual } from '@visactor/vutils';
+import { array, isValid, isNil, isString, isEqual } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
@@ -14,6 +14,7 @@ import { isAggrSpec } from './utils';
 import { getFirstSeries } from '../../util';
 import { arrayParser } from '../../data/parser/array';
 import type { IOptionWithCoordinates } from '../../data/transforms/aggregation';
+import { getSpecInfo } from '../util';
 
 export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
@@ -54,36 +55,9 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
   }
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const markerSpec = chartSpec[this.specKey];
-    if (isEmpty(markerSpec)) {
-      return undefined;
-    }
-    if (
-      !isArray(markerSpec) &&
-      markerSpec.visible !== false &&
-      this._getMarkerCoordinateType(markerSpec) === this.coordinateType
-    ) {
-      return [
-        {
-          spec: markerSpec,
-          specPath: [this.specKey],
-          specInfoPath: ['component', this.specKey, 0],
-          type: this.type
-        }
-      ];
-    }
-    const specInfos: IModelSpecInfo[] = [];
-    array(markerSpec).forEach((m: any, i: number) => {
-      if (m.visible !== false && this._getMarkerCoordinateType(m) === this.coordinateType) {
-        specInfos.push({
-          spec: m,
-          specPath: [this.specKey, i],
-          specInfoPath: ['component', this.specKey, i],
-          type: this.type
-        });
-      }
+    return getSpecInfo<IMarkerSpec>(chartSpec, this.specKey, this.type, (s: IMarkerSpec) => {
+      return s.visible !== false && this._getMarkerCoordinateType(s) === this.coordinateType;
     });
-    return specInfos;
   }
 
   created() {

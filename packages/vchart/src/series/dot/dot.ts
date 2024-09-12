@@ -8,7 +8,6 @@ import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { IRuleMark } from '../../mark/rule';
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface/type';
 import { SeriesTypeEnum } from '../interface/type';
 import { dataViewParser } from '@visactor/vdataset';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
@@ -118,18 +117,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
       },
       false
     );
-  }
-
-  /**
-   * @override
-   */
-  setSeriesField(field: string) {
-    if (isValid(field)) {
-      this._seriesField = field;
-      this.getMarksInType([MarkTypeEnum.line, MarkTypeEnum.area]).forEach(m => {
-        m.setFacet(this._seriesField);
-      });
-    }
   }
 
   getStatisticFields() {

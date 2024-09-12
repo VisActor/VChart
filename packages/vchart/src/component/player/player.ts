@@ -4,11 +4,10 @@ import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visa
 
 // eslint-disable-next-line no-duplicate-imports
 import { DiscretePlayer, ContinuousPlayer, PlayerEventEnum } from '@visactor/vrender-components';
-import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNumber, array, isEqual, isNil, isValidNumber } from '@visactor/vutils';
+import { isNumber, array, isEqual, isValidNumber } from '@visactor/vutils';
 
-import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 
 import type { DirectionType, IPlayer } from './interface';
@@ -54,21 +53,6 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
 
   set layoutOrient(v: IOrientType) {
     this._orient = v;
-  }
-
-  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const playerSpec = chartSpec[this.specKey];
-    if (isNil(playerSpec)) {
-      return null;
-    }
-    return [
-      {
-        spec: playerSpec,
-        specPath: [this.specKey],
-        specInfoPath: ['component', this.specKey, 0],
-        type: ComponentTypeEnum.player
-      }
-    ];
   }
 
   /**
