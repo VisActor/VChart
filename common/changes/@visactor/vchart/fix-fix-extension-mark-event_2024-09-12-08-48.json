@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: extension mark and customized mark support `markName` event filter\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
