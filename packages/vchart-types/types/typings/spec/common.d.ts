@@ -261,6 +261,7 @@ export type IBuildinMarkSpec = {
 export type EnableMarkType = keyof IBuildinMarkSpec;
 export interface ICustomMarkSpec<T extends EnableMarkType> extends IModelSpec, IMarkSpec<IBuildinMarkSpec[T]>, IAnimationSpec<string, string> {
     type: T;
+    name?: string;
     dataIndex?: number;
     dataKey?: string | ((datum: any) => string);
     dataId?: StringOrNumber;

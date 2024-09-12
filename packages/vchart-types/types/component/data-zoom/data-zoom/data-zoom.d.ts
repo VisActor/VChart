@@ -1,4 +1,3 @@
-import type { Maybe } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
@@ -7,7 +6,6 @@ import type { IRectGraphicAttribute, ISymbolGraphicAttribute, IGraphic } from '@
 import type { Datum, ILayoutType } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 import type { IDataZoomSpec } from './interface';
-import type { IModelSpecInfo } from '../../../model/interface';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
 export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
     static type: ComponentTypeEnum;
@@ -27,7 +25,6 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     protected _startHandlerSize: number;
     protected _endHandlerSize: number;
     protected _isReverseCache: boolean;
-    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     constructor(spec: T, options: IComponentOption);
     created(): void;
     setAttrFromSpec(): void;

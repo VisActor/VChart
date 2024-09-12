@@ -21,9 +21,6 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     protected _support3d?: boolean;
     getSupport3d(): boolean;
     setSupport3d(support3d: boolean): void;
-    protected _facet?: string;
-    getFacet(): string;
-    setFacet(facet: string): void;
     protected _interactive: boolean;
     getInteractive(): boolean;
     setInteractive(interactive: boolean): void;

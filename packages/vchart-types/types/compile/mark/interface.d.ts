@@ -28,8 +28,6 @@ export interface ICompilableMark extends IGrammarItem {
     setData: (d: MarkData) => void;
     getDataView: () => DataView | undefined;
     setDataView: (d?: DataView, productId?: string) => void;
-    getFacet: () => string | undefined;
-    setFacet: (facet: string) => void;
     state: MarkStateManager;
     readonly stateStyle: IMarkStateStyle<any>;
     hasState: (state: string) => boolean;

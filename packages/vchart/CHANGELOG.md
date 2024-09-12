@@ -1,6 +1,32 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 09 Sep 2024 08:09:07 GMT and should not be manually modified.
+This log was last generated on Thu, 12 Sep 2024 14:07:06 GMT and should not be manually modified.
+
+## 1.12.5
+Thu, 12 Sep 2024 14:07:06 GMT
+
+### Updates
+
+-  fix: optimize first axis label autolimit effect
+-  fix: `animationUpdate` should also control labels animation
+- fix: fix default value of circular-progress, fix #2683
+
+
+- feat: extension mark and customized mark support `markName` event filter
+
+
+- fix: fix typos in FAQ documents 86
+
+
+- fix: fix display of radar-chart when has negative radius
+
+
+- fix: `word.style.fontWeight` should change the style of text in wordcloud
+
+
+- refactor: reduce duplicated `getSpecInfo`
+
+
 
 ## 1.12.4
 Mon, 09 Sep 2024 08:09:07 GMT

@@ -37,5 +37,6 @@ export declare class PolarTagPointsUpdate extends TagPointsUpdate {
         coordToPoint: IPolarAxisHelper['coordToPoint'];
     });
     onUpdate(end: boolean, ratio: number, out: Record<string, any>): void;
+    private _interpolationSinglePoint;
     private polarPointInterpolation;
 }
