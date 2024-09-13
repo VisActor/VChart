@@ -24,5 +24,5 @@ export interface IPolarChartSpec extends IChartSpec {
   /**
    * 指标卡配置
    */
-  indicator?: IIndicatorSpec[];
+  indicator?: IIndicatorSpec | IIndicatorSpec[];
 }

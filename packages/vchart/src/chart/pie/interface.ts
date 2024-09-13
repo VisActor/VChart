@@ -5,11 +5,11 @@ import type { IChartExtendsSeriesSpec, IChartSpec } from '../../typings/spec/com
 export interface IPieChartSpec extends IChartSpec, IChartExtendsSeriesSpec<IPieSeriesSpec> {
   type: 'pie';
   /** 饼图指标卡 */
-  indicator?: IIndicatorSpec;
+  indicator?: IIndicatorSpec | IIndicatorSpec[];
 }
 
 export interface IPie3dChartSpec extends IChartSpec, IChartExtendsSeriesSpec<IPie3dSeriesSpec> {
   type: 'pie3d';
   /** 饼图指标卡 */
-  indicator?: IIndicatorSpec;
+  indicator?: IIndicatorSpec | IIndicatorSpec[];
 }
