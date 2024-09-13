@@ -227,18 +227,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     } as IPolarTickDataOpt;
   }
 
-  afterCompile() {
-    const product = this._axisMark?.getProduct();
-    if (product) {
-      product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
-        if (this._isLayout === false) {
-          // 布局结束之后再进行插件的调用
-          this._delegateAxisContainerEvent(product.getGroupGraphicItem());
-        }
-      });
-    }
-  }
-
   protected updateScaleRange() {
     const prevRange = this._scale.range();
     let newRange: [number, number];

@@ -134,19 +134,6 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     };
   }
 
-  afterCompile() {
-    this._labelComponentMap.forEach((info, component) => {
-      const product = component.getProduct();
-      if (product) {
-        product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
-          if (this._isLayout === false) {
-            this._delegateLabelEvent(product.getGroupGraphicItem());
-          }
-        });
-      }
-    });
-  }
-
   protected _initTextMark() {
     if (!this._labelInfoMap) {
       this._labelInfoMap = new Map();

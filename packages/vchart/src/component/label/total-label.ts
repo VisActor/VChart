@@ -113,19 +113,6 @@ export class TotalLabel extends BaseLabelComponent {
     }
   }
 
-  afterCompile() {
-    this._marks.forEach((componentMark, index) => {
-      const product = componentMark.getProduct() as ReturnType<IView['label']>;
-      if (product) {
-        product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
-          if (this._isLayout === false) {
-            this._delegateLabelEvent(product.getGroupGraphicItem());
-          }
-        });
-      }
-    });
-  }
-
   updateLayoutAttribute(): void {
     super.updateLayoutAttribute();
     const series = this._getSeries();

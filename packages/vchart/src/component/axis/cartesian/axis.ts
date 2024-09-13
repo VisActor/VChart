@@ -404,7 +404,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
               this.pluginService && plugin.onDidLayoutVertical && plugin.onDidLayoutVertical(this.pluginService, this);
             });
           }
-          this._delegateAxisContainerEvent(product.getGroupGraphicItem());
 
           // 更新单位的显示位置
           if (this._unitText) {
