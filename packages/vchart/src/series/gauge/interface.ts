@@ -28,7 +28,7 @@ export interface IGaugePointerSeriesSpec
 }
 
 export type PointerMarkSpec = {
-  type: 'path' | 'rect';
+  type?: 'path' | 'rect';
 
   /** 指针宽度比例（0~1） */
   width?: number;
