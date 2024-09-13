@@ -180,12 +180,7 @@ export class TotalLabel extends BaseLabelComponent {
   compileMarks() {
     this.getMarks().forEach(m => {
       const group = this._regions[0].getGroupMark().getProduct() as IGroupMark;
-      m.compile({ group });
-      m.getProduct()?.configure({
-        context: {
-          model: this
-        }
-      });
+      m.compile({ group, context: { model: this } });
     });
   }
 

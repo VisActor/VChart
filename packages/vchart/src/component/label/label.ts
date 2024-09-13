@@ -366,13 +366,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
       } else {
         group = labelInfo.series.getRegion().getGroupMark().getProduct() as IGroupMark;
       }
-      m.compile({ group });
-      m.getProduct()?.configure({
-        context: {
-          model: this,
-          labelInfo
-        }
-      });
+      m.compile({ group, context: { model: this, labelInfo } });
     });
   }
 
