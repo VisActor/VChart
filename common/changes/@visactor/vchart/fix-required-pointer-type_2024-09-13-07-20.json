@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: type of pointermarkspec is not required anymore\n\n",
+      "comment": "fix: type of pointermarkspec is not required anymore",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
