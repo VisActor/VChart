@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: type of pointermarkspec is not required anymore\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "z1219202167@outlook.com"
+}
