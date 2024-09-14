@@ -177,6 +177,15 @@ interface VChartProps extends EventsProps {
    * @since 1.6.5
    **/
   skipFunctionDiff?: boolean;
+  /**
+   *  图表更新的动画配置，默认会关闭morph动画，默认值为：
+   * {
+   *   morph: false,
+   *   enableExitAnimation: false
+   * }
+   * @since 1.12.6
+   */
+  morphConfig?: IVChartRenderOption['morphConfig'];
 }
 ```
 
