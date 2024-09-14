@@ -63,6 +63,11 @@ export class TotalLabel extends BaseLabelComponent {
     this._initLabelComponent();
   }
 
+  reInit(spec?: any) {
+    super.reInit(spec);
+    this._initTextMark();
+  }
+
   protected _initTextMark() {
     const series = this._getSeries();
     if (series.getSpec().totalLabel?.visible) {

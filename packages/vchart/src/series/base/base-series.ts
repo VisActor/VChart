@@ -1072,12 +1072,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       ...defaultSeriesCompileCheckKeys,
       ...ignoreCheckKeys,
       extensionMark: true,
-      label: true
+      label: true,
+      totalLabel: true
     };
 
     this._compareExtensionMarksSpec(array((spec as any).extensionMark), array((prevSpec as any).extensionMark), result);
     // 比较label
     !result.reMake && this._compareLabelSpec(array((spec as any).label), array((prevSpec as any).label), result);
+    // 比较totalLabel
+    !result.reMake &&
+      this._compareLabelSpec(array((spec as any).totalLabel), array((prevSpec as any).totalLabel), result);
 
     if (result.reMake) {
       return result;
