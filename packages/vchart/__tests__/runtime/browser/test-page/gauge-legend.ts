@@ -2,37 +2,6 @@ import { isMobile } from 'react-device-detect';
 import type { IGaugeChartSpec } from '../../../../src/index';
 // eslint-disable-next-line no-duplicate-imports
 import { default as VChart, registerMediaQuery } from '../../../../src/index';
-import type { Datum } from '../../../../src/typings';
-
-const data = [
-  {
-    type: 'Email',
-    value: 2013,
-    realValue: 2013
-  },
-  {
-    type: 'Live Chat',
-    value: 2847,
-    realValue: 834
-  },
-  {
-    type: 'Contact Form',
-    value: 3123,
-    realValue: 276
-  },
-  {
-    type: 'Messenger',
-    value: 3373,
-    realValue: 250
-  },
-  {
-    type: 'WhatsApp',
-    value: 3476,
-    realValue: 103
-  }
-];
-
-const totalTickets = data.reduce((acc, curr) => acc + curr.value, 0);
 
 const spec: IGaugeChartSpec = {
   type: 'gauge',
