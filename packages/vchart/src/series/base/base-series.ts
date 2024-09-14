@@ -1049,7 +1049,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     } else if (
       !compareResult.reCompile &&
       prevLabels.some((prev, index) => {
-        return prev.visible !== newLabels[index].visible;
+        return !isEqual(prev, newLabels[index]);
       })
     ) {
       compareResult.reCompile = true;
