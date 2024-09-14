@@ -76,7 +76,10 @@ export const colorScheme: IThemeColorScheme = {
       discreteLegendPagerHandlerDisableColor: 'rgb(170, 170, 170)',
 
       /** 占位圆颜色 */
-      emptyCircleColor: '#e3e5e8'
+      emptyCircleColor: '#e3e5e8',
+
+      /** 线性进度条颜色 */
+      linearProgressTrackColor: '#E7EBED'
     } as BuiltinColorPalette
   }
 };

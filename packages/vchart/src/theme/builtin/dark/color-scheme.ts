@@ -76,7 +76,10 @@ export const colorScheme: IThemeColorScheme = {
       discreteLegendPagerHandlerDisableColor: '#55595F',
 
       /** 占位圆颜色 */
-      emptyCircleColor: '#bbbdc3'
+      emptyCircleColor: '#bbbdc3',
+
+      /** 线性进度条颜色 */
+      linearProgressTrackColor: '#3A3D42'
     } as BuiltinColorPalette
   }
 };
