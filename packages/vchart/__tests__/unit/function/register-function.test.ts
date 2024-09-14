@@ -67,7 +67,7 @@ const spec = {
     visible: true,
     formatMethod: 'labelFormat'
   },
-  animation: true
+  animation: false
 };
 
 const spec2 = {
@@ -87,7 +87,7 @@ const spec2 = {
     visible: true,
     formatMethod: 'labelFormat'
   },
-  animation: true
+  animation: false
 };
 
 const spec3 = {
@@ -109,7 +109,7 @@ const spec3 = {
       fill: 'labelColor'
     }
   },
-  animation: true
+  animation: false
 };
 
 function labelFormat(key: string) {
@@ -142,7 +142,8 @@ describe('register function test', () => {
     VChart.registerFunction('labelFormat', labelFormat);
 
     chart = new VChart(spec as unknown as IBarChartSpec, {
-      renderCanvas: canvasDom
+      renderCanvas: canvasDom,
+      onError: () => {}
     });
 
     chart.renderSync();
@@ -165,7 +166,8 @@ describe('register function test', () => {
 
   test('instance function register', () => {
     chart2 = new VChart(spec2 as unknown as IBarChartSpec, {
-      renderCanvas: canvasDom
+      renderCanvas: canvasDom,
+      onError: () => {}
     });
 
     // 实例注册函数

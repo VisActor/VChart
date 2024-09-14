@@ -1038,6 +1038,7 @@ export class VChart implements IVChart {
     const lastSpec = this._spec;
 
     const result: IUpdateSpecResult = {
+      changeBackground: false,
       reTransformSpec: false,
       change: false,
       reMake: false,

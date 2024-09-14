@@ -996,6 +996,7 @@ describe('vchart updateSpec of same spec', () => {
     const updateRes = (vchart as any)._updateSpec(spec, false);
 
     expect(updateRes).toEqual({
+      changeBackground: false,
       change: false,
       reCompile: false,
       reMake: false,
@@ -1049,6 +1050,7 @@ describe('vchart updateSpec of same spec', () => {
     const updateRes = (vchart as any)._updateSpec(spec, false);
 
     expect(updateRes).toEqual({
+      changeBackground: false,
       change: false,
       changeTheme: false,
       reCompile: false,
@@ -1097,6 +1099,7 @@ describe('vchart updateSpec of same spec', () => {
     const updateRes = (vchart as any)._updateSpec(spec, false);
 
     expect(updateRes).toEqual({
+      changeBackground: false,
       change: false,
       changeTheme: false,
       reCompile: false,
@@ -1188,6 +1191,7 @@ describe('vchart updateSpec of same spec', () => {
     const updateRes = (vchart as any)._updateSpec(spec, false);
 
     expect(updateRes).toEqual({
+      changeBackground: false,
       change: false,
       changeTheme: false,
       reCompile: false,
@@ -1219,7 +1223,7 @@ describe('vchart updateSpec of different about label', () => {
     vchart.release();
   });
 
-  it('should remake when label is in series update', () => {
+  it('should reCompile when label config is in series update', () => {
     const spec = {
       type: 'bar',
       data: [
@@ -1278,17 +1282,18 @@ describe('vchart updateSpec of different about label', () => {
     );
 
     expect(updateRes).toEqual({
+      changeBackground: false,
       change: false,
       changeTheme: false,
       reCompile: false,
-      reMake: true,
+      reMake: false,
       reRender: true,
       reSize: false,
       reTransformSpec: false
     });
   });
 
-  it('should remake when label is in chart update', () => {
+  it('should reCompile when visible of label is in chart update', () => {
     const spec = {
       data: [
         {
@@ -1336,9 +1341,10 @@ describe('vchart updateSpec of different about label', () => {
 
     expect(updateRes).toEqual({
       change: false,
+      changeBackground: false,
       changeTheme: false,
       reCompile: false,
-      reMake: true,
+      reMake: false,
       reRender: true,
       reSize: false,
       reTransformSpec: false
@@ -1412,6 +1418,7 @@ describe('vchart updateSpec of different about label', () => {
     );
 
     expect(updateRes).toEqual({
+      changeBackground: false,
       change: false,
       changeTheme: false,
       reCompile: false,
@@ -1490,6 +1497,7 @@ describe('vchart updateSpec of different about label', () => {
     );
 
     expect(updateRes).toEqual({
+      changeBackground: false,
       change: false,
       changeTheme: false,
       reCompile: false,
@@ -1545,7 +1553,7 @@ describe('vchart updateSpec of different about label', () => {
     );
 
     expect(updateRes).toEqual({
-      changeBackground: undefined,
+      changeBackground: false,
       change: true,
       changeTheme: false,
       reCompile: true,
@@ -1601,6 +1609,7 @@ describe('vchart updateSpec of different about label', () => {
     );
 
     expect(updateRes).toEqual({
+      changeBackground: false,
       change: false,
       changeTheme: false,
       reCompile: false,
@@ -1704,7 +1713,7 @@ describe('vchart updateSpec should not throw error', () => {
 
     expect(updateRes).toEqual({
       change: false,
-      changeBackground: undefined,
+      changeBackground: false,
       changeTheme: false,
       reCompile: false,
       reMake: true,
