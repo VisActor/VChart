@@ -8,11 +8,11 @@ cover: /vchart/preview/mark-line-custom-label-back_1.11.10.png
 option: scatterChart#markLine
 ---
 
-# markLine 支持自定义标签背景path
+# markLine 支持自定义标签背景 path
 
 ## 关键配置
 
-- 使用 `markLine.label.labelBackground.customShape` 属性声明标签背景path
+- 使用 `markLine.label.labelBackground.customShape` 属性声明标签背景 path
 
 ## 代码演示
 
@@ -86,11 +86,10 @@ const spec = {
         },
         labelBackground: {
           visible: true,
-          customShape: (data, attrs, path) => {
-
+          customShape: (component, attrs, path) => {
             const { width: textWidth, height } = attrs;
             const width = textWidth + 10;
-            const arrowWidth = 10
+            const arrowWidth = 10;
 
             path.beginPath();
             path.moveTo(0, 0);

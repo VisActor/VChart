@@ -37,16 +37,12 @@ The callback function is defined as follows:
 
 ```ts
 /**
- * @params text Label attr
+ * @params vrender marker component
  * @params label background attribute
  * @params path object, user-defined drawing
  * @return Returns the path after drawing is completed
  */
-(
-  text: ITextGraphicAttribute | IRichTextAttribute,
-  attrs: Partial<IGraphicAttribute>,
-  path: ICustomPath2D
-) => ICustomPath2D;
+(component: IGroup, attrs: Partial<IGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
 ```
 
 ##${prefix} padding(Object)

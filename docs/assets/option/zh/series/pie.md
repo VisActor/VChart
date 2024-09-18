@@ -202,12 +202,13 @@ pie: {
 
 ```ts
 /**
- * @params 标签文字属性
+ * @params 标签文字和对应图元属性
  * @params attrs 折点
  * @params path对象, 用户自定义绘制
  * @return 返回绘制完成后的path
  */
-(text: ITextGraphicAttribute, attrs: Partial<ILineGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
+(mark: { text: IText; baseMark: IGraphic }, attrs: Partial<ILineGraphicAttribute>, path: ICustomPath2D) =>
+  ICustomPath2D;
 ```
 
 ###${prefix} style(Object)

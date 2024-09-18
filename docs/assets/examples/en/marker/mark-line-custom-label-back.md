@@ -86,11 +86,10 @@ const spec = {
         },
         labelBackground: {
           visible: true,
-          customShape: (data, attrs, path) => {
-
+          customShape: (component, attrs, path) => {
             const { width: textWidth, height } = attrs;
             const width = textWidth + 10;
-            const arrowWidth = 10
+            const arrowWidth = 10;
 
             path.beginPath();
             path.moveTo(0, 0);
