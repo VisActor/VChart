@@ -481,7 +481,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           originalStateFields[s.id] =
             s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
 
-          stateFields.push(...originalStateFields[s.id]);
+          stateFields.push(...(originalStateFields[s.id] as string[]));
           if (this._valueField) {
             const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
             if (isValidateValueAxis) {
