@@ -190,8 +190,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       this._shouldChange = false;
     } else {
       this._shouldChange = true;
-      this._spanCache = end - start;
     }
+    this._spanCache = end - start;
   }
 
   protected _isReverse() {
@@ -471,15 +471,19 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
           const xFields = array(seriesSpec.xField);
           const yFields = array(seriesSpec.yField);
-          const xField = s.coordinate === 'cartesian' ? xFields[0] : seriesSpec.angleField ?? seriesSpec.categoryField;
-          const yField = s.coordinate === 'cartesian' ? yFields[0] : seriesSpec.radiusField ?? seriesSpec.valueField;
+          const angleField = array(seriesSpec.angleField);
+          const categoryField = array(seriesSpec.categoryField);
+          const radiusField = array(seriesSpec.radiusField);
+          const valueField = array(seriesSpec.valueField);
+          const xField = s.coordinate === 'cartesian' ? xFields : angleField ?? categoryField;
+          const yField = s.coordinate === 'cartesian' ? yFields : radiusField ?? valueField;
 
           originalStateFields[s.id] =
-            s.type === 'link' ? 'from_xField' : stateAxisHelper === xAxisHelper ? xField : yField;
+            s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
 
           stateFields.push(originalStateFields[s.id]);
           if (this._valueField) {
-            const valueField = s.type === 'link' ? 'from_yField' : valueAxisHelper === xAxisHelper ? xField : yField;
+            const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
             valueFields.push(isValidateValueAxis ? valueField : null);
           }
         },
