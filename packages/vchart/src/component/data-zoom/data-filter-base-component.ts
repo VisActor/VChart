@@ -75,7 +75,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _stateScale: IBaseScale;
 
   protected _relatedAxisComponent!: IComponent;
-  protected _originalStateFields: Record<number, string | number>;
+  protected _originalStateFields: Record<number, (string | number)[]>;
 
   // 与系列的关联关系
   // 优先级：id > index
@@ -432,7 +432,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const valueFields: string[] = [];
 
     if (this._relatedAxisComponent) {
-      const originalStateFields = {};
+      const originalStateFields: Record<number, (string | number)[]> = {};
       eachSeries(
         this._regions,
         s => {
@@ -481,10 +481,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           originalStateFields[s.id] =
             s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
 
-          stateFields.push(originalStateFields[s.id]);
+          stateFields.push(...originalStateFields[s.id]);
           if (this._valueField) {
             const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
-            valueFields.push(isValidateValueAxis ? valueField : null);
+            if (isValidateValueAxis) {
+              valueFields.push(...valueField);
+            }
           }
         },
         {
