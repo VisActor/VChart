@@ -53,7 +53,7 @@ import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../.
 import { mergeFields, getFieldAlias } from '../../util/data';
 import { couldBeValidNumber } from '../../util/type';
 import { mergeSpec } from '@visactor/vutils-extension';
-import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
+import type { IModelEvaluateOption, IModelRenderOption, IUpdateSpecResult } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';
@@ -93,6 +93,7 @@ import { BaseSeriesSpecTransformer } from './base-series-transformer';
 import type { EventType } from '@visactor/vgrammar-core';
 import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 import { LayoutZIndex } from '../../constant/layout';
+import type { ILabelSpec } from '../../component/label/interface';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -1016,8 +1017,47 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._tooltipHelper = new BaseSeriesTooltipHelper(this);
   }
 
+  _compareExtensionMarksSpec(
+    newMarks: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[],
+    prevMarks: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[],
+    compareResult: IUpdateSpecResult
+  ) {
+    if (
+      newMarks.length !== prevMarks.length ||
+      prevMarks.some((prev, index) => {
+        return prev.type !== newMarks[index].type || prev.id !== newMarks[index].id;
+      })
+    ) {
+      compareResult.reMake = true;
+    } else if (
+      prevMarks.some((prev, index) => {
+        return prev.visible !== newMarks[index].visible;
+      })
+    ) {
+      compareResult.reCompile = true;
+    }
+  }
+
+  _compareLabelSpec(newLabels: ILabelSpec[], prevLabels: ILabelSpec[], compareResult: IUpdateSpecResult) {
+    if (
+      newLabels.length !== prevLabels.length ||
+      prevLabels.some((prev, index) => {
+        return prev.labelLayout !== newLabels[index].labelLayout;
+      })
+    ) {
+      compareResult.reMake = true;
+    } else if (
+      !compareResult.reCompile &&
+      prevLabels.some((prev, index) => {
+        return !isEqual(prev, newLabels[index]);
+      })
+    ) {
+      compareResult.reCompile = true;
+    }
+  }
+
   /** updateSpec */
-  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
+  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>) {
     const result = super._compareSpec(spec, prevSpec);
 
     const currentKeys = Object.keys(prevSpec || {}).sort();
@@ -1027,26 +1067,21 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return result;
     }
 
-    ignoreCheckKeys = {
+    const ignores: Record<string, boolean> = {
       ...defaultSeriesIgnoreCheckKeys,
       ...defaultSeriesCompileCheckKeys,
-      ...ignoreCheckKeys
+      ...ignoreCheckKeys,
+      extensionMark: true,
+      label: true,
+      totalLabel: true
     };
 
-    ignoreCheckKeys.invalidType = true;
-    if (spec.invalidType !== prevSpec.invalidType) {
-      result.reCompile = true;
-    }
-
-    ignoreCheckKeys.extensionMark = true;
-    if (
-      array(spec.extensionMark).length !== array(prevSpec.extensionMark).length ||
-      (<Array<any>>prevSpec.extensionMark)?.some(
-        (mark, index) => mark.type !== spec.extensionMark[index].type || mark.id !== spec.extensionMark[index].id
-      )
-    ) {
-      result.reMake = true;
-    }
+    this._compareExtensionMarksSpec(array((spec as any).extensionMark), array((prevSpec as any).extensionMark), result);
+    // 比较label
+    !result.reMake && this._compareLabelSpec(array((spec as any).label), array((prevSpec as any).label), result);
+    // 比较totalLabel
+    !result.reMake &&
+      this._compareLabelSpec(array((spec as any).totalLabel), array((prevSpec as any).totalLabel), result);
 
     if (result.reMake) {
       return result;
@@ -1054,16 +1089,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     // mark visible logic in compile
     if (
-      (<Array<any>>prevSpec.extensionMark)?.some((mark, index) => mark.visible !== spec.extensionMark[index].visible)
-    ) {
-      result.reCompile = true;
-    }
-
-    // mark visible logic in compile
-    if (
+      !result.reCompile &&
       this._marks.getMarks().some(m => {
-        ignoreCheckKeys[m.name] = true;
-        return prevSpec[m.name]?.visible !== spec[m.name]?.visible;
+        (ignores as { [key: string]: true })[m.name] = true;
+        return (prevSpec as any)[m.name]?.visible !== (spec as any)[m.name]?.visible;
       })
     ) {
       result.reCompile = true;
@@ -1071,8 +1100,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     // check default compile keys
     if (
+      !result.reCompile &&
       currentKeys.some((k: string) => {
-        return defaultSeriesCompileCheckKeys[k] && !isEqual(spec[k], prevSpec[k]);
+        return defaultSeriesCompileCheckKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
       })
     ) {
       result.reCompile = true;
@@ -1080,7 +1110,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     if (
       currentKeys.some((k: string) => {
-        return !ignoreCheckKeys[k] && !isEqual(spec[k], prevSpec[k]);
+        return !ignores[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
       })
     ) {
       result.reMake = true;
