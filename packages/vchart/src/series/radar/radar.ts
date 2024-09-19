@@ -80,6 +80,15 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
     this.initAreaMarkStyle();
     this.initLineMarkStyle();
     this.initSymbolMarkStyle();
+    [this._lineMark, this._symbolMark, this._areaMark].forEach(mark => {
+      if (mark) {
+        this.setMarkStyle(mark, {
+          center: () => {
+            return this.angleAxisHelper?.center();
+          }
+        });
+      }
+    });
   }
 
   initAreaMark(progressive: IMarkProgressiveConfig, isSeriesMark: boolean) {
@@ -171,9 +180,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         const rect = this.getLayoutRect();
         return Math.min(rect.width, rect.height);
       },
-      startAngle: isValid(this._spec.startAngle) ? degreeToRadian(this._spec.startAngle) : POLAR_START_RADIAN,
-      pointToCoord: (point: IPoint) => this.angleAxisHelper?.pointToCoord(point),
-      coordToPoint: (coord: IPolarPoint) => this.angleAxisHelper.coordToPoint(coord)
+      startAngle: isValid(this._spec.startAngle) ? degreeToRadian(this._spec.startAngle) : POLAR_START_RADIAN
     };
     const appearPreset = ((this._spec?.animationAppear as IStateAnimateSpec<RadarAppearPreset>)?.preset ??
       'clipIn') as RadarAppearPreset;

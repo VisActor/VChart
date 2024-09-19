@@ -11,8 +11,6 @@ export interface IRadarAnimationParams {
   center: () => Maybe<IPoint>;
   radius: () => number;
   startAngle: number;
-  pointToCoord: IPolarAxisHelper['pointToCoord'];
-  coordToPoint: IPolarAxisHelper['coordToPoint'];
 }
 
 export type RadarAppearPreset = 'grow' | 'fadeIn' | 'clipIn';
@@ -107,10 +105,10 @@ export const registerRadarAnimation = () => {
       disappear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'out'),
       update: [
         {
-          options: { excludeChannels: ['points', 'defined'] }
+          options: { excludeChannels: ['points', 'defined', 'center'] }
         },
         {
-          channel: ['points'],
+          channel: ['points', 'center'],
           custom: PolarTagPointsUpdate,
           customParameters: params,
           duration: DEFAULT_ANIMATION_CONFIG.update.duration,
@@ -129,10 +127,10 @@ export const registerRadarAnimation = () => {
         disappear: preset === 'clipIn' ? undefined : radarSymbolPresetAnimation(params, preset, 'out'),
         update: [
           {
-            options: { excludeChannels: ['x', 'y'] }
+            options: { excludeChannels: ['x', 'y', 'center'] }
           },
           {
-            channel: ['x', 'y'],
+            channel: ['x', 'y', 'center'],
             custom: PolarPointUpdate,
             customParameters: params,
             duration: DEFAULT_ANIMATION_CONFIG.update.duration,
