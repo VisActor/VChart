@@ -399,6 +399,7 @@ export class VChart implements IVChart {
     this._initChartPlugin();
 
     InstanceManager.registerInstance(this);
+    this._option.performanceHook?.afterCreateVChart?.(this);
   }
 
   /** 设置新 spec，返回是否成功 */
@@ -694,9 +695,9 @@ export class VChart implements IVChart {
     this._chartPluginApply('onBeforeInitChart', this._spec, actionSource);
 
     // 实例化图表
-    this._option.performanceHook?.beforeInitializeChart?.();
+    this._option.performanceHook?.beforeInitializeChart?.(this);
     this._initChart(this._spec);
-    this._option.performanceHook?.afterInitializeChart?.();
+    this._option.performanceHook?.afterInitializeChart?.(this);
     // 如果实例化失败，终止渲染
     if (!this._chart || !this._compiler) {
       return false;
