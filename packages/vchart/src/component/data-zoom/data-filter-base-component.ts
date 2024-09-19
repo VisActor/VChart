@@ -469,14 +469,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           // 2. datazoom计算的是原始的value值，如果要根据stack后的数据来算，则需要__VCHART_STACK_END - __VCHART_STACK_START
           const seriesSpec = s.getSpec();
 
-          const xFields = array(seriesSpec.xField);
-          const yFields = array(seriesSpec.yField);
-          const angleField = array(seriesSpec.angleField);
-          const categoryField = array(seriesSpec.categoryField);
-          const radiusField = array(seriesSpec.radiusField);
-          const valueField = array(seriesSpec.valueField);
-          const xField = s.coordinate === 'cartesian' ? xFields : angleField ?? categoryField;
-          const yField = s.coordinate === 'cartesian' ? yFields : radiusField ?? valueField;
+          const xField =
+            s.coordinate === 'cartesian'
+              ? array(seriesSpec.xField)
+              : array(seriesSpec.angleField ?? seriesSpec.categoryField);
+          const yField =
+            s.coordinate === 'cartesian'
+              ? array(seriesSpec.yField)
+              : array(seriesSpec.radiusField ?? seriesSpec.valueField);
 
           originalStateFields[s.id] =
             s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
