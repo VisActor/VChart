@@ -137,9 +137,9 @@ export function barLabel(labelInfo: ILabelInfo) {
     const { data } = datum;
 
     const labelPosition =
-      typeof labelSpec.position === 'function'
+      (typeof labelSpec.position === 'function'
         ? (labelSpec.position as (a: Datum) => string)(data)
-        : labelSpec.position ?? 'outside';
+        : labelSpec.position) ?? 'outside';
 
     if (labelPosition === 'outside') {
       const dataField = series.getMeasureField()[0];
