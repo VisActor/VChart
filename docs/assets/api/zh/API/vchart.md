@@ -239,6 +239,7 @@ new VChart(spec: ISpec, options: IInitOption);
 | `supportsTouchEvents`   | `boolean`                   | 否   | 是否支持 touch 事件，不支持就不监听 touch 事件; 从`1.8.9`版本开始支持                                                                                                                                                                                                |
 | `supportsPointerEvents` | `boolean`                   | 否   | 是否支持 pointer 事件，不支持就监听 mouse 事件; 从`1.8.9`版本开始支持                                                                                                                                                                                                |
 | `ReactDOM`              | `object`                    | 否   | `react-dom`包导出产物，用于开启 vrender 渲染 react 元素; 从`1.11.0`版本开始支持                                                                                                                                                                                      |
+| `resizeDelay`           | `number`                    | 否   | 当自动响应容器 resize 事件时，触发 resize 的间隔时长，单位毫秒；从`1.12.5`开始支持                                                                                                                                                                                   |
 
 - `srIOption3DType` 类型定义如下
 

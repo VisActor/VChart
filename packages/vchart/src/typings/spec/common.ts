@@ -119,6 +119,12 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @default false
    */
   disableTriggerEvent?: boolean;
+  /**
+   * 当自动响应容器resize 事件时，触发resize 的间隔时长，单位毫秒
+   * @since 1.12.5
+   * @default 100
+   */
+  resizeDelay?: number;
 }
 
 export enum RenderModeEnum {
