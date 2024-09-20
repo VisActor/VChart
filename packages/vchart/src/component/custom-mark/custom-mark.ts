@@ -169,23 +169,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     // do nothing;
   }
 
-  afterCompile() {
-    this.getMarks().forEach(mark => {
-      const product = mark.getProduct();
-      if (product) {
-        product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
-          if (this._isLayout === false) {
-            const component = product.getGroupGraphicItem();
-            // TODO: 待 vgrammar 提供接口后进行优化 @zwx
-            if (component?.listenerCount('*') === 0) {
-              component.addEventListener('*', ((event: any, type: string) =>
-                this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
-            }
-          }
-        });
-      }
-    });
-  }
   private _getMarkAttributeContext() {
     return {
       vchart: this._option.globalInstance,

@@ -9,9 +9,6 @@ export const discreteLegendDataMake = (data: Array<ISeries>, op: IDiscreteLegend
   const { series, seriesField } = op;
   series().forEach(s => {
     const field = seriesField(s);
-    if (!field) {
-      return;
-    }
     let infoList;
     if (field === s.getSeriesField()) {
       infoList = s.getSeriesInfoList();

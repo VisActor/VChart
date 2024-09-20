@@ -305,7 +305,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this.compileState();
     this.compileEncode();
     this.compileAnimation();
-    this.compileContext();
+    this.compileContext(option?.context);
     this.compileTransform();
   }
 
@@ -437,7 +437,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     }
   }
 
-  compileContext() {
+  compileContext(extraContext?: any) {
     const config: IMarkConfig = {
       interactive: this.getInteractive(),
       zIndex: this.getZIndex(),
@@ -445,7 +445,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         markId: this.id,
         modelId: this.model.id,
         markUserId: this._userId,
-        modelUserId: this.model.userId
+        modelUserId: this.model.userId,
+        ...extraContext
       },
       skipTheme: this.getSkipTheme(),
       support3d: this.getSupport3d(),

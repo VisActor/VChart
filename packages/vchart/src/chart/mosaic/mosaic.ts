@@ -21,10 +21,6 @@ export class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> extends 
   readonly seriesType: string = SeriesTypeEnum.mosaic;
   protected _stack: Stack;
 
-  afterCompile() {
-    super.afterCompile();
-  }
-
   protected _beforeInit() {
     if (this._dataSet) {
       registerDataSetInstanceTransform(this._dataSet, 'stackSplit', stackSplit);
