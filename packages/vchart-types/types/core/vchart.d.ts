@@ -74,6 +74,7 @@ export declare class VChart implements IVChart {
     private _context;
     private _isReleased;
     private _chartPlugin?;
+    private _onResize?;
     constructor(spec: ISpec, options: IInitOption);
     private _setNewSpec;
     private _getSpecFromOriginalSpec;
@@ -89,7 +90,6 @@ export declare class VChart implements IVChart {
         height: number;
     };
     private _doResize;
-    private _onResize;
     private _initDataSet;
     updateCustomConfigAndRerender(updateSpecResult: IUpdateSpecResult | (() => IUpdateSpecResult), sync?: boolean, option?: IVChartRenderOption): IVChart | Promise<IVChart>;
     protected _updateCustomConfigAndRecompile(updateSpecResult: IUpdateSpecResult, option?: IVChartRenderOption): boolean;

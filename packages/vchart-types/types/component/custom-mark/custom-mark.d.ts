@@ -31,7 +31,6 @@ export declare class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMark
     changeRegions(regions: IRegion[]): void;
     protected _getNeedClearVRenderComponents(): IGraphic[];
     onRender(ctx: IModelRenderOption): void;
-    afterCompile(): void;
     private _getMarkAttributeContext;
     private _getLayoutRect;
     getBoundsInRect(rect: ILayoutRect): {

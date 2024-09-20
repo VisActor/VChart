@@ -2,10 +2,10 @@ import { DataView } from '@visactor/vdataset';
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
 import type { IMark } from '../../mark/interface';
-import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IGroup, ILayoutType, ILayoutPoint, ILayoutRect } from '../../typings';
+import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IExtensionMarkSpec, IExtensionGroupMarkSpec, EnableMarkType, IGroup, ILayoutType, ILayoutPoint, ILayoutRect } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo, ISeriesStackDataLeaf, ISeriesStackDataMeta, ISeriesSeriesInfo } from '../interface';
-import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
+import type { IModelEvaluateOption, IModelRenderOption, IUpdateSpecResult } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 import type { IBaseInteractionSpec } from '../../interaction/interface';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -15,6 +15,7 @@ import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
 import type { EventType } from '@visactor/vgrammar-core';
+import type { ILabelSpec } from '../../component/label/interface';
 export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
     readonly specKey: string;
     readonly type: string;
@@ -169,9 +170,9 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected initEvent(): void;
     protected _releaseEvent(): void;
     protected initTooltip(): void;
-    _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: {
-        [key: string]: true;
-    }): {
+    _compareExtensionMarksSpec(newMarks: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[], prevMarks: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[], compareResult: IUpdateSpecResult): void;
+    _compareLabelSpec(newLabels: ILabelSpec[], prevLabels: ILabelSpec[], compareResult: IUpdateSpecResult): void;
+    _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;

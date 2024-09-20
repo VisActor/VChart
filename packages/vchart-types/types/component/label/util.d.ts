@@ -34,7 +34,7 @@ export declare function lineDataLabel(labelInfo: ILabelInfo): {
     };
 };
 export declare function barLabel(labelInfo: ILabelInfo): {
-    position: import("@visactor/vrender-components").Functional<string>;
+    position: (data: any) => string;
     overlap: boolean | {
         strategy: Strategy[];
     };
