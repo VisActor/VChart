@@ -31,24 +31,19 @@
 标签背景面板是否可见。
 
 ##${prefix} customShape(function)
-自1.11.10版本, 标签背景支持自定义path.
+自 1.11.10 版本, 标签背景支持自定义 path.
 
 回调函数的定义如下:
 
 ```ts
 /**
- * @params text 标签文字属性
+ * @params vrender marker组件
  * @params 标签背景属性
  * @params path对象, 用户自定义绘制
  * @return 返回绘制完成后的path
  */
-(
-  text: ITextGraphicAttribute | IRichTextAttribute,
-  attrs: Partial<IGraphicAttribute>,
-  path: ICustomPath2D
-) => ICustomPath2D;
+(component: IGroup, attrs: Partial<IGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
 ```
-
 
 ##${prefix} padding(Object)
 
@@ -57,7 +52,6 @@
 {{ use: common-padding(
   prefix = '##' + ${prefix}
 ) }}
-
 
 {{ use: component-marker-state(
   prefix = '#' + ${prefix},
