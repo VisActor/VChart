@@ -31,7 +31,7 @@ import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender-core';
-import { isString, isValid, isNil, array, debounce, specTransform, functionTransform } from '../util';
+import { isString, isValid, isNil, array, specTransform, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
 import { isTrueBrowser } from '../util/env';
@@ -84,7 +84,8 @@ import {
   isEqual,
   get,
   cloneDeep,
-  isObject
+  isObject,
+  throttle
 } from '@visactor/vutils';
 import type {
   DataLinkAxis,
@@ -336,6 +337,7 @@ export class VChart implements IVChart {
   private _isReleased: boolean;
 
   private _chartPlugin?: IChartPluginService;
+  private _onResize?: () => void;
 
   constructor(spec: ISpec, options: IInitOption) {
     this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
@@ -520,6 +522,8 @@ export class VChart implements IVChart {
 
   private _bindResizeEvent() {
     if (this._autoSize) {
+      this._onResize = throttle(this._doResize, this._option.resizeDelay ?? 100);
+
       if (this._container) {
         const ResizeObserverWindow: any = window.ResizeObserver;
 
@@ -558,17 +562,13 @@ export class VChart implements IVChart {
     );
   }
 
-  private _doResize() {
+  private _doResize = () => {
     const { width, height } = this.getCurrentSize();
     if (this._currentSize.width !== width || this._currentSize.height !== height) {
       this._currentSize = { width, height };
       this.resizeSync(width, height);
     }
-  }
-
-  private _onResize = debounce((...args: any[]) => {
-    this._doResize();
-  }, 100);
+  };
 
   private _initDataSet(dataSet?: DataSet) {
     if (dataSet instanceof DataSet) {
