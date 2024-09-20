@@ -465,6 +465,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     };
     const attrs: any = {
       ...commonAttrs,
+      ...this.getRefLayoutRect(),
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
