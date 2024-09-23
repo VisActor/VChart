@@ -32,11 +32,27 @@ export const dataFilterWithNewDomain = (data: Array<any>, op: IDataFilterWithNew
 
   let filter = null;
   if (isContinuous()) {
-    filter = (d: any) => d[datumField] >= newDomain[0] && d[datumField] <= last(newDomain);
+    filter = (d: any) => {
+      let flag = false;
+      array(datumField).every(field => {
+        if (d[field] >= newDomain[0] && d[field] <= last(newDomain)) {
+          flag = true;
+        }
+        return;
+      });
+      return flag;
+    };
   } else {
     filter = (d: any) => {
-      // 这里d[f] + ''的原因是：数据是number类型的，但轴声明为band轴，domain会强制将number => string，所以filter的时候要将data中的number => string
-      return domainMap[d[datumField] + ''] || domainMap[d[datumField]];
+      let flag = false;
+      array(datumField).every(field => {
+        // 这里d[f] + ''的原因是：数据是number类型的，但轴声明为band轴，domain会强制将number => string，所以filter的时候要将data中的number => string
+        if (domainMap[d[field] + ''] || domainMap[d[field]]) {
+          flag = true;
+        }
+        return;
+      });
+      return flag;
     };
   }
 
