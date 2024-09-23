@@ -1,3 +1,4 @@
+import type { IVChart } from './../../core/interface';
 import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
@@ -41,6 +42,7 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     onError?: (...args: any[]) => void;
     theme?: string | ITheme;
     disableTriggerEvent?: boolean;
+    resizeDelay?: number;
 }
 export declare enum RenderModeEnum {
     'desktop-browser' = "desktop-browser",
@@ -208,8 +210,9 @@ export type IMarkTheme<T> = {
     interactive?: boolean;
 };
 export interface IPerformanceHook {
-    beforeInitializeChart?: () => void;
-    afterInitializeChart?: () => void;
+    afterCreateVChart?: (vchart?: IVChart) => void;
+    beforeInitializeChart?: (vchart?: IVChart) => void;
+    afterInitializeChart?: (vchart?: IVChart) => void;
     beforeCompileToVGrammar?: () => void;
     afterCompileToVGrammar?: () => void;
     beforeRegionCompile?: () => void;

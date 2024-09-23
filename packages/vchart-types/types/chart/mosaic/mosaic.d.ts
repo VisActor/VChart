@@ -12,7 +12,6 @@ export declare class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> 
     readonly type: string;
     readonly seriesType: string;
     protected _stack: Stack;
-    afterCompile(): void;
     protected _beforeInit(): void;
     protected _initStack(): void;
     handleAfterStackRegion: (region: IRegion, stackValueGroup: {

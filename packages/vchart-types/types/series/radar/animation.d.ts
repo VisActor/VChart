@@ -1,12 +1,9 @@
 import type { Datum, IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import type { IPoint, Maybe } from '../../typings';
-import type { IPolarAxisHelper } from '../../component/axis';
 export interface IRadarAnimationParams {
     center: () => Maybe<IPoint>;
     radius: () => number;
     startAngle: number;
-    pointToCoord: IPolarAxisHelper['pointToCoord'];
-    coordToPoint: IPolarAxisHelper['coordToPoint'];
 }
 export type RadarAppearPreset = 'grow' | 'fadeIn' | 'clipIn';
 export declare const radarFadeAnimation: (animationType: 'in' | 'out') => {

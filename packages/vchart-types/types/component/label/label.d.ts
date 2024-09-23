@@ -40,7 +40,6 @@ export declare class Label<T extends IChartSpec = any> extends BaseLabelComponen
     init(option: IModelInitOption): void;
     reInit(spec?: T): void;
     initEvent(): void;
-    afterCompile(): void;
     protected _initTextMark(): void;
     protected _initLabelComponent(): void;
     protected _initTextMarkStyle(): void;

@@ -47,7 +47,6 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     onRender(ctx: any): void;
     changeRegions(): void;
     protected _tickTransformOption(): IPolarTickDataOpt;
-    afterCompile(): void;
     protected updateScaleRange(): boolean;
     protected collectSeriesField(depth: number, series: IPolarSeries): string | string[];
     protected abstract computeDomain(data: {

@@ -1,8 +1,10 @@
 import type { IPointLike } from '@visactor/vutils';
+import type { AxisLabelOverlap } from '@visactor/vrender-components';
 import type { ILayoutRect, IPolarOrientType } from '../../../../typings';
 import type { IBandAxisSpec, IDomainLine, ILinearAxisSpec, ITitle, ILabel, ICommonAxisSpec } from '../../interface';
 import type { IPolarGrid } from './common';
 export type IPolarAxisSpec = IPolarLinearAxisSpec | IPolarBandAxisSpec;
+export type IPolarAxisLabel = ILabel & Pick<AxisLabelOverlap, 'autoHide' | 'autoHideMethod' | 'autoHideSeparation' | 'autoLimit' | 'limitEllipsis' | 'layoutFunc' | 'autoWrap'>;
 export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
     layoutRadius?: 'auto' | number | ((layoutRect: ILayoutRect, center: IPointLike) => number);
     inside?: boolean;
@@ -11,7 +13,7 @@ export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
     radius?: number;
     subGrid?: IPolarGrid;
     domainLine?: IDomainLine;
-    label?: ILabel;
+    label?: IPolarAxisLabel;
     title?: ITitle;
     innerRadius?: number;
     outerRadius?: number;
