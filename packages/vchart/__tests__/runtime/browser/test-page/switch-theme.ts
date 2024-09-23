@@ -1,24 +1,49 @@
 import { isMobile } from 'react-device-detect';
 // eslint-disable-next-line no-duplicate-imports
-import type { IBarChartSpec } from '../../../../src/index';
-import { default as VChart, registerVennChart } from '../../../../src/index';
+import type { ILinearProgressChartSpec } from '../../../../src/index';
+import { default as VChart } from '../../../../src/index';
 
-const spec: IBarChartSpec = {
-  type: 'bar',
+const spec: ILinearProgressChartSpec = {
+  type: 'linearProgress',
   data: [
     {
-      id: 'barData',
+      id: 'id0',
       values: [
-        { month: 'Monday', sales: 22 },
-        { month: 'Tuesday', sales: 13 },
-        { month: 'Wednesday', sales: 25 },
-        { month: 'Thursday', sales: 29 },
-        { month: 'Friday', sales: 38 }
+        {
+          type: 'Tradition Industries',
+          value: 0.795,
+          text: '79.5%'
+        },
+        {
+          type: 'Business Companies',
+          value: 0.25,
+          text: '25%'
+        },
+        {
+          type: 'Customer-facing Companies',
+          value: 0.065,
+          text: '6.5%'
+        }
       ]
     }
   ],
-  xField: 'month',
-  yField: 'sales'
+  direction: 'horizontal',
+  xField: 'value',
+  yField: 'type',
+  seriesField: 'type',
+
+  cornerRadius: 20,
+  bandWidth: 30,
+  axes: [
+    {
+      orient: 'left',
+      label: { visible: true },
+      type: 'band',
+      domainLine: { visible: false },
+      tick: { visible: false }
+    },
+    { orient: 'bottom', label: { visible: true }, type: 'linear', visible: false }
+  ]
 };
 
 const run = () => {

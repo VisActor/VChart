@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: color of linear progress track in dark mode\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "z1219202167@outlook.com"
+}

@@ -9,7 +9,7 @@ export const linearProgress: ILinearProgressSeriesTheme = {
   },
   track: {
     style: {
-      fill: '#E7EBED',
+      fill: { type: 'palette', key: 'linearProgressTrackColor' },
       fillOpacity: 1
     }
   }
