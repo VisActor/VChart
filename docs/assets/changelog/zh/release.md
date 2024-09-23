@@ -2,24 +2,20 @@
 
 2024-09-23
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: add life cycle hooks
+- **@visactor/vchart**: 添加生命周期钩子，`afterCreateVChart`, `beforeInitializeChart`, `afterInitializeChart`
+- **@visactor/vchart**: 极坐标系角度轴，支持`autoLimit`、`autoWrap`、`autoHide` 等配置
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: allow indicator spec in polar chart
-- **@visactor/vchart**: default value
-- **@visactor/vchart**: type of pointermarkspec is not required anymore
-- **@visactor/vchart**: use `throttle` when trigger resize
-- **@visactor/vchart**: fix the compare of label in series
-
-**🔧 项目配置**
-
-- **@visactor/vchart**: delete useless code in test demo
-
-
+- **@visactor/vchart**: 允许极坐标图中的增加`indicator`组件
+- **@visactor/vchart**: 修复`label`组件中`position`默认值的问题，修复[#3242](https://github.com/VisActor/VChart/issues/3242)
+- **@visactor/vchart**: 修复类型错误，`PointerMarkSpec`中`type`修改为可选类型，修复 [#3227](https://github.com/VisActor/VChart/issues/3227)
+- **@visactor/vchart**: 在触发`resize`时使用 `throttle`节流
+- **@visactor/vchart**: 修复`label`配置更新的时候，图表更新类型应该为`reCompile`而不是`remake`
+- **@visactor/vchart**: 修复`customMark`不支持`markName` 事件过滤器的问题
+- **@visactor/vchart**: 修复雷达图更新动画触发错误的问题，修复[#3228](https://github.com/VisActor/VChart/issues/3228)
 
 [更多详情请查看 v1.12.6](https://github.com/VisActor/VChart/releases/tag/v1.12.6)
 

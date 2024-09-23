@@ -2,31 +2,26 @@
 
 2024-09-23
 
+**🆕 New Features**
 
-**🆕 New feature**
+- **@visactor/vchart**: Added lifecycle hooks, `afterCreateVChart`, `beforeInitializeChart`, `afterInitializeChart`
+- **@visactor/vchart**: Polar coordinate angle axis supports configurations like `autoLimit`, `autoWrap`, `autoHide`, etc.
 
-- **@visactor/vchart**: add life cycle hooks
+**🐛 Bug Fixes**
 
-**🐛 Bug fix**
-
-- **@visactor/vchart**: allow indicator spec in polar chart
-- **@visactor/vchart**: default value
-- **@visactor/vchart**: type of pointermarkspec is not required anymore
-- **@visactor/vchart**: use `throttle` when trigger resize
-- **@visactor/vchart**: fix the compare of label in series
-
-**🔧 Configuration releated**
-
-- **@visactor/vchart**: delete useless code in test demo
-
-
+- **@visactor/vchart**: Allow adding `indicator` components in polar charts
+- **@visactor/vchart**: Fix the default value issue of `position` in the `label` component, fix [#3242](https://github.com/VisActor/VChart/issues/3242)
+- **@visactor/vchart**: Fix type error, change `type` in `PointerMarkSpec` to an optional type, fix [#3227](https://github.com/VisActor/VChart/issues/3227)
+- **@visactor/vchart**: Use `throttle` for throttling when triggering `resize`
+- **@visactor/vchart**: Fix the chart update type to be `reCompile` instead of `remake` when updating `label` configurations
+- **@visactor/vchart**: Fix the issue where `customMark` does not support `markName` event filters
+- **@visactor/vchart**: Fix the issue of incorrect animation triggering during radar chart updates, fix [#3228](https://github.com/VisActor/VChart/issues/3228)
 
 [more detail about v1.12.6](https://github.com/VisActor/VChart/releases/tag/v1.12.6)
 
 # v1.12.4
 
 2024-09-09
-
 
 **🆕 New feature**
 
@@ -45,27 +40,21 @@
 
 - **@visactor/vchart**: clear state when updateSpec. fix[#3162](https://github.com/VisActor/VChart/issues/3162)
 
-
-
 [more detail about v1.12.4](https://github.com/VisActor/VChart/releases/tag/v1.12.4)
 
 # v1.12.3
 
 2024-09-05
 
-
 **🐛 Bug fix**
 
 - **@visactor/vchart**: cannot disable label update animation by `option.animation:false`
-
-
 
 [more detail about v1.12.3](https://github.com/VisActor/VChart/releases/tag/v1.12.3)
 
 # v1.12.2
 
 2024-09-05
-
 
 **🆕 New feature**
 
@@ -98,14 +87,11 @@
 - **@visactor/vchart**: fix issue of treemap.label not shown in option pages, fix [#2562](https://github.com/VisActor/VChart/issues/2562)
 - **@visactor/vchart**: update docs about circular progress, close [#2987](https://github.com/VisActor/VChart/issues/2987)
 
-
-
 [more detail about v1.12.2](https://github.com/VisActor/VChart/releases/tag/v1.12.2)
 
 # v1.12.1
 
 2024-08-21
-
 
 **🐛 Bug fix**
 
@@ -114,38 +100,38 @@
 - **@visactor/vchart**: media query causes incorrect render result, [#3102](https://github.com/VisActor/VChart/issues/3102)
 - **@visactor/vchart**: vchart should not throw error when the values of series data is empty, fix [#3082](https://github.com/VisActor/VChart/issues/3082)
 
-
-
 [more detail about v1.12.1](https://github.com/VisActor/VChart/releases/tag/v1.12.1)
 
 # v1.12.0
 
 2024-08-16
 
-
 **🆕 New feature**
 
-  - **@visactor/vchart**: marker's `coordinates` and `positions` property support callback
-  - **@visactor/vchart**: support `animationState` config
-  - **@visactor/vchart**: show evenly divided pie chart with `showAllZero`
-  - **@visactor/vchart**: enable `supportNegative` option to treat negative values as absolute values
-  - **@visactor/vchart**: support theme config by chart type
-  - **@visactor/vchart**: support text shape of word-cloud
-  - **@visactor/vchart**: add new chart mosaic chart 
-  - **@visactor/vchart**: support customized tick function of linear axis
-  - **@visactor/vchart**: add emptyPlaceholder and emptyCircle for pie chart
+- **@visactor/vchart**: marker's `coordinates` and `positions` property support callback
+- **@visactor/vchart**: support `animationState` config
+- **@visactor/vchart**: show evenly divided pie chart with `showAllZero`
+- **@visactor/vchart**: enable `supportNegative` option to treat negative values as absolute values
+- **@visactor/vchart**: support theme config by chart type
+- **@visactor/vchart**: support text shape of word-cloud
+- **@visactor/vchart**: add new chart mosaic chart
+- **@visactor/vchart**: support customized tick function of linear axis
+- **@visactor/vchart**: add emptyPlaceholder and emptyCircle for pie chart
 
-  ## 🐛 fix 
-  - **@visactor/vchart**: y-axis is reverted after brush zoomin. fix [#3089](https://github.com/VisActor/VChart/issues/3089)
-  - **@visactor/vchart**: mark-point position type error fix
-  ## 🔨 refactor 
-  - **@visactor/vchart**: refactor the graphics in linear-progress chart
-  - **@visactor/vchart**: use label component to refactor sankey label
-  - **@visactor/vchart**: stack can be required by need
-  ## 🔖 other 
-  - **@visactor/vchart**: sequence support bottom axes. fix [#2927](https://github.com/VisActor/VChart/issues/2927) 
+## 🐛 fix
 
+- **@visactor/vchart**: y-axis is reverted after brush zoomin. fix [#3089](https://github.com/VisActor/VChart/issues/3089)
+- **@visactor/vchart**: mark-point position type error fix
 
+## 🔨 refactor
+
+- **@visactor/vchart**: refactor the graphics in linear-progress chart
+- **@visactor/vchart**: use label component to refactor sankey label
+- **@visactor/vchart**: stack can be required by need
+
+## 🔖 other
+
+- **@visactor/vchart**: sequence support bottom axes. fix [#2927](https://github.com/VisActor/VChart/issues/2927)
 
 [more detail about v1.12.0](https://github.com/VisActor/VChart/releases/tag/v1.12.0)
 
@@ -153,14 +139,13 @@
 
 2024-08-15
 
-
 **🆕 New feature**
 
 - **@visactor/vchart**: support `layoutRadius` of pie
 
 **🐛 Bug fix**
 
-- **@visactor/vchart**: fix params of tickCount in linear-axis-mixin,  fix [#3053](https://github.com/VisActor/VChart/issues/3053)
+- **@visactor/vchart**: fix params of tickCount in linear-axis-mixin, fix [#3053](https://github.com/VisActor/VChart/issues/3053)
 - **@visactor/vchart**: fix `padding` of region not work
 - **@visactor/vchart**: brush error after legend filter. fix[#3061](https://github.com/VisActor/VChart/issues/3061)
 - **@visactor/vchart**: fix funnel chart color bug with different category and series fields
@@ -170,8 +155,6 @@
 - **@visactor/vchart**: fix the issue background of chart not updated, fix [#3054](https://github.com/VisActor/VChart/issues/3054)
 - **@visactor/vchart**: fix the update of `startAngle` and `endAngle` in pie chart, fix [#3059](https://github.com/VisActor/VChart/issues/3059)
 - **@visactor/vchart**: fix switch `visible` of legend, fix [#3060](https://github.com/VisActor/VChart/issues/3060)
-
-
 
 [more detail about v1.11.12](https://github.com/VisActor/VChart/releases/tag/v1.11.12)
 

@@ -2,26 +2,23 @@
 
 2024-09-23
 
+**🆕 New Features**
 
-**🆕 New feature**
+- **@visactor/vchart**: Added lifecycle hooks, `afterCreateVChart`, `beforeInitializeChart`, `afterInitializeChart`
+- **@visactor/vchart**: Polar coordinate angle axis supports configurations like `autoLimit`, `autoWrap`, `autoHide`, etc.
 
-- **@visactor/vchart**: add life cycle hooks
+**🐛 Bug Fixes**
 
-**🐛 Bug fix**
-
-- **@visactor/vchart**: allow indicator spec in polar chart
-- **@visactor/vchart**: default value
-- **@visactor/vchart**: type of pointermarkspec is not required anymore
-- **@visactor/vchart**: use `throttle` when trigger resize
-- **@visactor/vchart**: fix the compare of label in series
-
-**🔧 Configuration releated**
-
-- **@visactor/vchart**: delete useless code in test demo
-
-
+- **@visactor/vchart**: Allow adding `indicator` components in polar charts
+- **@visactor/vchart**: Fix the default value issue of `position` in the `label` component, fix [#3242](https://github.com/VisActor/VChart/issues/3242)
+- **@visactor/vchart**: Fix type error, change `type` in `PointerMarkSpec` to an optional type, fix [#3227](https://github.com/VisActor/VChart/issues/3227)
+- **@visactor/vchart**: Use `throttle` for throttling when triggering `resize`
+- **@visactor/vchart**: Fix the chart update type to be `reCompile` instead of `remake` when updating `label` configurations
+- **@visactor/vchart**: Fix the issue where `customMark` does not support `markName` event filters
+- **@visactor/vchart**: Fix the issue of incorrect animation triggering during radar chart updates, fix [#3228](https://github.com/VisActor/VChart/issues/3228)
 
 [more detail about v1.12.6](https://github.com/VisActor/VChart/releases/tag/v1.12.6)
+
 
 # v1.12.4
 
