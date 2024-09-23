@@ -1,9 +1,6 @@
-import type { ITooltipActiveTypeAsKeys, ITooltipSpec } from '../component/tooltip/interface';
+import type { ITooltipSpec } from '../component/tooltip/interface';
 import type { TooltipActiveType } from '../typings';
-import type { IModel } from './interface';
 import type { IMark } from '../mark/interface';
-
-export type TooltipTrigger = IModel | IMark;
 
 export interface ITooltipHelper {
   /** tooltip对应spec */
@@ -14,12 +11,12 @@ export interface ITooltipHelper {
 
   /** 可以响应mark tooltip或者dimension tooltip的对象 */
   activeTriggerSet: {
-    mark?: Set<TooltipTrigger>;
-    group?: Set<TooltipTrigger>;
+    mark?: Set<IMark>;
+    group?: Set<IMark>;
   };
   /** 不响应tooltip且不会影响已有tooltip的对象 */
   ignoreTriggerSet: {
-    mark?: Set<TooltipTrigger>;
+    mark?: Set<IMark>;
   };
 
   /** 更新spec */
@@ -31,11 +28,11 @@ export abstract class BaseTooltipHelper implements ITooltipHelper {
   activeType: TooltipActiveType[];
 
   activeTriggerSet = {
-    mark: new Set<TooltipTrigger>(),
-    group: new Set<TooltipTrigger>()
+    mark: new Set<IMark>(),
+    group: new Set<IMark>()
   };
   ignoreTriggerSet = {
-    mark: new Set<TooltipTrigger>()
+    mark: new Set<IMark>()
   };
 
   abstract updateTooltipSpec(): void;

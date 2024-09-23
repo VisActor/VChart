@@ -32,7 +32,7 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
       const helper = series.tooltipHelper;
       const activeTriggers = helper?.activeTriggerSet.group;
 
-      if (activeTriggers?.has(params.model) || activeTriggers?.has(params.mark)) {
+      if (activeTriggers?.has(params.mark)) {
         const patternSpec: IGroupTooltipPattern = (this.component.getSpec() as ITooltipSpec)[this.activeType];
         const triggerMark = patternSpec?.triggerMark ? array(patternSpec.triggerMark) : [];
         if (triggerMark.includes(params.mark?.name as any)) {

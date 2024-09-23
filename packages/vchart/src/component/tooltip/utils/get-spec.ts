@@ -25,10 +25,13 @@ export const getTooltipSpecForShow = (
       if (series) {
         // tooltip spec覆盖优先级: series spec > global spec > default pattern
         const seriesSpec = series.getSpec()?.tooltip as ITooltipSpec;
+
         finalSpec.visible = true;
 
-        // 优先使用自定义handler
-        finalSpec.handler = seriesSpec?.handler ?? globalSpec.handler;
+        if (seriesSpec?.handler) {
+          // 优先使用自定义handler
+          finalSpec.handler = seriesSpec.handler;
+        }
         if (finalSpec.handler?.showTooltip) {
           return finalSpec;
         }
@@ -47,7 +50,7 @@ export const getTooltipSpecForShow = (
         }
 
         // 优先使用自定义handler
-        finalSpec.handler = globalSpec.handler ?? undefined;
+        finalSpec.handler = globalSpec.handler;
         if (finalSpec.handler?.showTooltip) {
           return finalSpec;
         }

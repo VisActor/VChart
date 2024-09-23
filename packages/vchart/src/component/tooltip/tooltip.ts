@@ -22,9 +22,8 @@ import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, Toolt
 // eslint-disable-next-line no-duplicate-imports
 import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
-import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { hasParentElement, isArray, isValid, isNil, array } from '@visactor/vutils';
+import { hasParentElement, isValid, isNil, array } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';

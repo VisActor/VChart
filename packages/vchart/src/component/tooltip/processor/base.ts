@@ -141,10 +141,14 @@ export abstract class BaseTooltipProcessor {
         activeType: pattern.activeType,
         data
       };
-
-      const { title, content } = this._cacheActualTooltip;
-      this._cacheActualTooltip.title = pattern.updateTitle?.(title, data, params) ?? title;
-      this._cacheActualTooltip.content = pattern.updateContent?.(content, data, params) ?? content;
+      if (pattern.updateTitle) {
+        const prevTitle = this._cacheActualTooltip.title;
+        this._cacheActualTooltip.title = pattern.updateTitle(prevTitle, data, params) ?? prevTitle;
+      }
+      if (pattern.updateContent) {
+        const prevContent = this._cacheActualTooltip.content;
+        this._cacheActualTooltip.content = pattern.updateContent?.(prevContent, data, params) ?? prevContent;
+      }
     }
   }
 
