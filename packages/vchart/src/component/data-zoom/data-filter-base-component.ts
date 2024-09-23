@@ -75,7 +75,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _stateScale: IBaseScale;
 
   protected _relatedAxisComponent!: IComponent;
-  protected _originalStateFields: Record<number, (string | number)[]>;
+  protected _originalStateFields: Record<number, string | number>;
 
   // 与系列的关联关系
   // 优先级：id > index
@@ -190,8 +190,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       this._shouldChange = false;
     } else {
       this._shouldChange = true;
+      this._spanCache = end - start;
     }
-    this._spanCache = end - start;
   }
 
   protected _isReverse() {
@@ -432,7 +432,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const valueFields: string[] = [];
 
     if (this._relatedAxisComponent) {
-      const originalStateFields: Record<number, (string | number)[]> = {};
+      const originalStateFields = {};
       eachSeries(
         this._regions,
         s => {
@@ -462,6 +462,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
               : yAxisHelper;
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
           const isValidateValueAxis = isContinuous(valueAxisHelper.getScale(0).type);
+          const isValidateStateAxis = isContinuous(stateAxisHelper.getScale(0).type);
 
           dataCollection.push(s.getRawData());
           // 这里获取原始的spec中的xField和yField，而非经过stack处理后的fieldX和fieldY，原因如下：
@@ -481,12 +482,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           originalStateFields[s.id] =
             s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
 
-          stateFields.push(...(originalStateFields[s.id] as string[]));
+          if (isValidateStateAxis) {
+            stateFields.push(originalStateFields[s.id]);
+          } else {
+            stateFields.push(originalStateFields[s.id][0]);
+          }
+
           if (this._valueField) {
-            const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
-            if (isValidateValueAxis) {
-              valueFields.push(...valueField);
-            }
+            const valueField = s.type === 'link' ? 'from_yField' : valueAxisHelper === xAxisHelper ? xField : yField;
+            valueFields.push(isValidateValueAxis ? valueField : null);
           }
         },
         {
