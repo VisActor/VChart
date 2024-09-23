@@ -489,8 +489,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           }
 
           if (this._valueField) {
-            const valueField = s.type === 'link' ? 'from_yField' : valueAxisHelper === xAxisHelper ? xField : yField;
-            valueFields.push(isValidateValueAxis ? valueField : null);
+            const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
+            if (isValidateValueAxis) {
+              valueFields.push(...valueField);
+            }
           }
         },
         {
