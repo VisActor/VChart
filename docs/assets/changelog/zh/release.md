@@ -1,3 +1,28 @@
+# v1.12.6
+
+2024-09-23
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: add life cycle hooks
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: allow indicator spec in polar chart
+- **@visactor/vchart**: default value
+- **@visactor/vchart**: type of pointermarkspec is not required anymore
+- **@visactor/vchart**: use `throttle` when trigger resize
+- **@visactor/vchart**: fix the compare of label in series
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: delete useless code in test demo
+
+
+
+[更多详情请查看 v1.12.6](https://github.com/VisActor/VChart/releases/tag/v1.12.6)
+
 # v1.12.4
 
 2024-09-09
