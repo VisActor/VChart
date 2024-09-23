@@ -79,7 +79,7 @@ export const colorScheme: IThemeColorScheme = {
       emptyCircleColor: '#bbbdc3',
 
       /** 线性进度条颜色 */
-      linearProgressTrackColor: '#3A3D42'
+      linearProgressTrackColor: '#404349'
     } as BuiltinColorPalette
   }
 };
