@@ -5416,7 +5416,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IGroupMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5431,35 +5431,7 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5467,11 +5439,23 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5479,7 +5463,23 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5489,7 +5489,7 @@
       ],
       "description": "style格式转换"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -5504,31 +5504,7 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5536,11 +5512,23 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5548,7 +5536,19 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -18794,6 +18794,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -18890,25 +18909,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -20920,6 +20920,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -21016,25 +21035,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -22105,6 +22105,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -22201,25 +22220,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -23837,6 +23837,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -23933,25 +23952,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -28910,6 +28910,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -29006,25 +29025,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -29516,58 +29516,16 @@
                 "$ref": "#/definitions/IBar3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IPieSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IPie3dSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ITreemapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ISunburstSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ICirclePackingSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IBoxPlotSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILineSeriesSpec"
+                "$ref": "#/definitions/IWaterfallSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IAreaSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IMapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IScatterSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRoseSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRadarSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IDotSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILinkSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/ICircularProgressSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ILinearProgressSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IWordCloudSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+                "$ref": "#/definitions/IDotSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IFunnelSeriesSpec"
@@ -29576,22 +29534,64 @@
                 "$ref": "#/definitions/IFunnel3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ISankeySeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IGaugePointerSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IGaugeSeriesSpec"
               },
               {
+                "$ref": "#/definitions/ILineSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ILinearProgressSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ILinkSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IMapSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IPieSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IPie3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IRadarSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IScatterSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IWordCloudSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISunburstSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICirclePackingSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/IHeatmapSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISankeySeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IRoseSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IBoxPlotSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICorrelationSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWaterfallSeriesSpec"
+                "$ref": "#/definitions/ITreemapSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IRangeColumnChartSpec"
@@ -32233,14 +32233,14 @@
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IGroupMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IGroupMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IGroupMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -35006,14 +35006,14 @@
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -37299,6 +37299,20 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "indicator": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IIndicatorSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IIndicatorSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "指标卡配置"
         },
         "innerRadius": {
           "description": "扇区内半径",
@@ -41596,6 +41610,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -41692,25 +41725,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -43117,6 +43131,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -43213,25 +43246,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -44253,6 +44267,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -44349,25 +44382,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -47468,6 +47482,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -47564,25 +47597,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -50341,6 +50355,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -50437,25 +50470,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -52510,6 +52524,25 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IMarkAreaTheme"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IComponentSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
               "$ref": "#/definitions/IMarkAreaXSpec"
             },
             {
@@ -52633,32 +52666,13 @@
               "typeof": "function"
             }
           ]
-        },
-        {
-          "allOf": [
-            {
-              "$ref": "#/definitions/IComponentSpec"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "$ref": "#/definitions/IMarkAreaTheme"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
         }
       ]
     },
     "IMarkAreaTheme": {
       "properties": {
         "area": {
-          "$ref": "#/definitions/Partial<IMarkerState<IPolygonMarkSpec|IArcMarkSpec>>"
+          "$ref": "#/definitions/Partial<IMarkerState<IArcMarkSpec|IPolygonMarkSpec>>"
         },
         "label": {
           "allOf": [
@@ -55695,7 +55709,17 @@
           "description": "用户自定义的 series id"
         },
         "indicator": {
-          "$ref": "#/definitions/IIndicatorSpec",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IIndicatorSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IIndicatorSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "饼图指标卡"
         },
         "innerRadius": {
@@ -56283,7 +56307,17 @@
           "description": "用户自定义的 series id"
         },
         "indicator": {
-          "$ref": "#/definitions/IIndicatorSpec",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IIndicatorSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IIndicatorSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "饼图指标卡"
         },
         "innerRadius": {
@@ -58433,7 +58467,7 @@
         "panel": {
           "allOf": [
             {
-              "$ref": "#/definitions/Partial<Omit<{visible:boolean;customShape?:(text:ITextGraphicAttribute|IRichTextAttribute,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>"
+              "$ref": "#/definitions/Partial<Omit<{visible:boolean;customShape?:(container:IGroup,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>"
             },
             {
               "typeof": "function"
@@ -59237,6 +59271,20 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "indicator": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IIndicatorSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IIndicatorSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "指标卡配置"
         },
         "innerRadius": {
           "description": "扇区内半径",
@@ -60325,6 +60373,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -60421,25 +60488,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -61878,6 +61926,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -61974,25 +62041,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -63457,6 +63505,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -63553,25 +63620,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -65829,6 +65877,20 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "indicator": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IIndicatorSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IIndicatorSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "指标卡配置"
+        },
         "innerRadius": {
           "description": "扇区内半径",
           "type": "number"
@@ -68043,6 +68105,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -68139,25 +68220,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -78041,6 +78103,25 @@
                   "typeof": "function"
                 },
                 {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -78137,25 +78218,6 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
-                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -81742,7 +81804,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13705": {
           "type": "string"
         },
         "size": {
@@ -81750,14 +81812,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13705",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13705": {
           "type": "string"
         },
         "size": {
@@ -81765,14 +81827,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13705",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13705": {
           "type": "string"
         },
         "size": {
@@ -81780,14 +81842,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13705",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13705": {
           "type": "string"
         },
         "size": {
@@ -81795,14 +81857,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13705",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13705": {
           "type": "string"
         },
         "size": {
@@ -81810,14 +81872,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13705",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13705": {
           "type": "string"
         },
         "size": {
@@ -81825,7 +81887,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13705",
         "size"
       ],
       "type": "object"
@@ -95097,6 +95159,29 @@
       },
       "type": "object"
     },
+    "Partial<IMarkerState<IArcMarkSpec|IPolygonMarkSpec>>": {
+      "properties": {
+        "state": {
+          "$ref": "#/definitions/Record<MarkerStateValue,IArcMarkSpec|IPolygonMarkSpec|MarkerStateCallback<IArcMarkSpec|IPolygonMarkSpec>>",
+          "description": "不同状态下的样式配置"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "默认样式设置"
+        }
+      },
+      "type": "object"
+    },
     "Partial<IMarkerState<IGroupGraphicAttribute>>": {
       "properties": {
         "state": {
@@ -95147,29 +95232,6 @@
           "anyOf": [
             {
               "$ref": "#/definitions/ILineMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ],
-          "description": "默认样式设置"
-        }
-      },
-      "type": "object"
-    },
-    "Partial<IMarkerState<IPolygonMarkSpec|IArcMarkSpec>>": {
-      "properties": {
-        "state": {
-          "$ref": "#/definitions/Record<MarkerStateValue,IPolygonMarkSpec|IArcMarkSpec|MarkerStateCallback<IPolygonMarkSpec|IArcMarkSpec>>",
-          "description": "不同状态下的样式配置"
-        },
-        "style": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
             },
             {
               "$ref": "#/definitions/IArcMarkSpec"
@@ -99713,7 +99775,7 @@
       },
       "type": "object"
     },
-    "Partial<Omit<{visible:boolean;customShape?:(text:ITextGraphicAttribute|IRichTextAttribute,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>": {
+    "Partial<Omit<{visible:boolean;customShape?:(container:IGroup,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -102872,34 +102934,97 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13705": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13701"
+        "__@toStringTag@13705"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13705": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13701"
+        "__@toStringTag@13705"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13705": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13701"
+        "__@toStringTag@13705"
+      ],
+      "type": "object"
+    },
+    "Record<MarkerStateValue,IArcMarkSpec|IPolygonMarkSpec|MarkerStateCallback<IArcMarkSpec|IPolygonMarkSpec>>": {
+      "properties": {
+        "hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "hover_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "selected": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "selected_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        }
+      },
+      "required": [
+        "hover",
+        "hover_reverse",
+        "selected",
+        "selected_reverse"
       ],
       "type": "object"
     },
@@ -103050,69 +103175,6 @@
           "anyOf": [
             {
               "$ref": "#/definitions/ILineMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        }
-      },
-      "required": [
-        "hover",
-        "hover_reverse",
-        "selected",
-        "selected_reverse"
-      ],
-      "type": "object"
-    },
-    "Record<MarkerStateValue,IPolygonMarkSpec|IArcMarkSpec|MarkerStateCallback<IPolygonMarkSpec|IArcMarkSpec>>": {
-      "properties": {
-        "hover": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        },
-        "hover_reverse": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        },
-        "selected": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IArcMarkSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        },
-        "selected_reverse": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPolygonMarkSpec"
             },
             {
               "$ref": "#/definitions/IArcMarkSpec"
@@ -103373,10 +103435,10 @@
     "Record<string,ConvertToMarkStyleSpec<IGroupMarkSpec>|IMarkStateSpec<IGroupMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IGroupMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IGroupMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|ISymbolMarkSpec|IPolygonMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IArc3dMarkSpec|IPyramid3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IBoxPlotMarkSpec|IRippleMarkSpec|IPathMarkSpec|ILinkPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,IArc3dMarkSpec>": {

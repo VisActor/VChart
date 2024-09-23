@@ -1,6 +1,6 @@
 import type { ITickDataOpt } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
-import type { IGroup, IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IOrientType, IPolarOrientType, StringOrNumber, CoordinateType } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
@@ -77,7 +77,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         reSize: boolean;
         reCompile: boolean;
     };
-    protected _delegateAxisContainerEvent(component: IGroup): void;
     protected _getAxisAttributes(): any;
     protected _getGridAttributes(): {
         alternateColor: any;

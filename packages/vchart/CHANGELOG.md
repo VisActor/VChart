@@ -1,6 +1,31 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 12 Sep 2024 14:07:06 GMT and should not be manually modified.
+This log was last generated on Fri, 20 Sep 2024 11:03:33 GMT and should not be manually modified.
+
+## 1.12.6
+Fri, 20 Sep 2024 11:03:33 GMT
+
+### Updates
+
+- feat: add life cycle hooks
+
+
+- fix: allow indicator spec in polar chart
+
+
+- chore: delete useless code in test demo
+
+
+- fix: default value
+
+
+- fix: type of pointermarkspec is not required anymore
+- fix: use `throttle` when trigger resize
+
+
+- fix: fix the compare of label in series
+
+
 
 ## 1.12.5
 Thu, 12 Sep 2024 14:07:06 GMT

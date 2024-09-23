@@ -81,6 +81,7 @@ export interface IMarkDataInitOption extends ICompilableMarkOption {
 export interface IMarkCompileOption extends GrammarItemCompileOption {
     group?: string | IGroupMark;
     ignoreChildren?: boolean;
+    context?: any;
 }
 export interface IStateInfo {
     stateValue: StateValue;

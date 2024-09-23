@@ -16,10 +16,10 @@ export declare class TotalLabel extends BaseLabelComponent {
     private _baseMark?;
     static getSpecInfo(chartSpec: any, chartSpecInfo?: IChartSpecInfo): Maybe<IModelSpecInfo[]>;
     init(option: IModelInitOption): void;
+    reInit(spec?: any): void;
     protected _initTextMark(): void;
     _initTextMarkStyle(): void;
     protected _initLabelComponent(): void;
-    afterCompile(): void;
     updateLayoutAttribute(): void;
     compileMarks(): void;
     getVRenderComponents(): any[];

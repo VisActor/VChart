@@ -88,7 +88,7 @@ Effective only when `autoHide` is true, sets the distance in px between texts.
 
 ##${prefix} autoLimit(boolean) = false
 
-Axis label autohide switch, off by default, ** needs to be turned on manually, and `sampling` needs to be turned off**.
+Axis label auto-truncation switch, off by default, **needs to be turned on manually, and `sampling` needs to be turned off**.
 
 ##${prefix} limitEllipsis(string) = '...'
 
