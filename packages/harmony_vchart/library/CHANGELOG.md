@@ -19,6 +19,28 @@
 
 [more detail about v1.12.6](https://github.com/VisActor/VChart/releases/tag/v1.12.6)
 
+# v1.12.5
+
+2024-09-23
+
+**🆕 New Features**
+
+- **@visactor/vchart**: extension mark and customized mark support `markName` event filter
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: optimize first axis label autolimit effect of cartesian chart
+- **@visactor/vchart**: `animationUpdate` should also control labels animation
+- **@visactor/vchart**: fix default value of circular-progress, fix [#2683](https://github.com/VisActor/VChart/issues/2683)
+- **@visactor/vchart**: fix display of radar-chart when has negative radius
+- **@visactor/vchart**: `word.style.fontWeight` should change the style of text in wordcloud, fix [#3212](https://github.com/VisActor/VChart/issues/3212)
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: simplify `getSpecInfo`
+
+[more detail about v1.12.5](https://github.com/VisActor/VChart/releases/tag/v1.12.5)
+
 
 # v1.12.4
 

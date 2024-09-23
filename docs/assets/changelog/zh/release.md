@@ -19,6 +19,28 @@
 
 [更多详情请查看 v1.12.6](https://github.com/VisActor/VChart/releases/tag/v1.12.6)
 
+# v1.12.5
+
+2024-09-23
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: `customMark`和`extensionMark`支持 `markName` 事件过滤器
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 优化笛卡尔图表的第一个坐标轴标签自动限制效果
+- **@visactor/vchart**: `animationUpdate` 也应控制标签动画
+- **@visactor/vchart**: 修复环形进度条的默认值，修复 [#2683](https://github.com/VisActor/VChart/issues/2683)
+- **@visactor/vchart**: 修复雷达图在存在负半径时的显示问题
+- **@visactor/vchart**: `word.style.fontWeight` 应该改变词云中文本的样式，修复 [#3212](https://github.com/VisActor/VChart/issues/3212)
+
+**🔨 重构**
+
+- **@visactor/vchart**: 简化 `getSpecInfo`
+
+[more detail about v1.12.5](https://github.com/VisActor/VChart/releases/tag/v1.12.5)
+
 # v1.12.4
 
 2024-09-09
