@@ -31,7 +31,7 @@ import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender-core';
-import { isString, isValid, isNil, array, debounce, specTransform, functionTransform } from '../util';
+import { isString, isValid, isNil, array, specTransform, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
 import { isTrueBrowser } from '../util/env';
@@ -84,7 +84,8 @@ import {
   isEqual,
   get,
   cloneDeep,
-  isObject
+  isObject,
+  throttle
 } from '@visactor/vutils';
 import type {
   DataLinkAxis,
@@ -336,6 +337,7 @@ export class VChart implements IVChart {
   private _isReleased: boolean;
 
   private _chartPlugin?: IChartPluginService;
+  private _onResize?: () => void;
 
   constructor(spec: ISpec, options: IInitOption) {
     this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
@@ -399,6 +401,7 @@ export class VChart implements IVChart {
     this._initChartPlugin();
 
     InstanceManager.registerInstance(this);
+    this._option.performanceHook?.afterCreateVChart?.(this);
   }
 
   /** 设置新 spec，返回是否成功 */
@@ -519,6 +522,8 @@ export class VChart implements IVChart {
 
   private _bindResizeEvent() {
     if (this._autoSize) {
+      this._onResize = throttle(this._doResize, this._option.resizeDelay ?? 100);
+
       if (this._container) {
         const ResizeObserverWindow: any = window.ResizeObserver;
 
@@ -557,17 +562,13 @@ export class VChart implements IVChart {
     );
   }
 
-  private _doResize() {
+  private _doResize = () => {
     const { width, height } = this.getCurrentSize();
     if (this._currentSize.width !== width || this._currentSize.height !== height) {
       this._currentSize = { width, height };
       this.resizeSync(width, height);
     }
-  }
-
-  private _onResize = debounce((...args: any[]) => {
-    this._doResize();
-  }, 100);
+  };
 
   private _initDataSet(dataSet?: DataSet) {
     if (dataSet instanceof DataSet) {
@@ -658,7 +659,10 @@ export class VChart implements IVChart {
       if (updateResult.reCompile) {
         // recompile
         // 清除之前的所有 compile 内容
-        this._compiler?.clear({ chart: this._chart, vChart: this }, !this._option.animation || !this._spec.animation);
+        this._compiler?.clear(
+          { chart: this._chart, vChart: this },
+          this._option?.animation === false || this._spec?.animation === false
+        );
         // TODO: 释放事件？ vgrammar 的 view 应该不需要释放，响应的stage也没有释放，所以事件可以不绑定
         // 重新绑定事件
         // TODO: 释放XX？
@@ -694,9 +698,9 @@ export class VChart implements IVChart {
     this._chartPluginApply('onBeforeInitChart', this._spec, actionSource);
 
     // 实例化图表
-    this._option.performanceHook?.beforeInitializeChart?.();
+    this._option.performanceHook?.beforeInitializeChart?.(this);
     this._initChart(this._spec);
-    this._option.performanceHook?.afterInitializeChart?.();
+    this._option.performanceHook?.afterInitializeChart?.(this);
     // 如果实例化失败，终止渲染
     if (!this._chart || !this._compiler) {
       return false;
@@ -1038,6 +1042,7 @@ export class VChart implements IVChart {
     const lastSpec = this._spec;
 
     const result: IUpdateSpecResult = {
+      changeBackground: false,
       reTransformSpec: false,
       change: false,
       reMake: false,

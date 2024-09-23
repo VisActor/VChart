@@ -15,7 +15,7 @@ export interface IGaugePointerSeriesSpec extends IProgressLikeSeriesSpec, IAnima
     [SeriesMarkNameEnum.pointer]?: IMarkSpec<IPathMarkSpec | IRectMarkSpec> & PointerMarkSpec;
 }
 export type PointerMarkSpec = {
-    type: 'path' | 'rect';
+    type?: 'path' | 'rect';
     width?: number;
     height?: number;
     innerPadding?: number;

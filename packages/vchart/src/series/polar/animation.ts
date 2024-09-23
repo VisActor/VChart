@@ -2,8 +2,7 @@
 import type { EasingType } from '@visactor/vrender-core';
 import type { IPointLike } from '@visactor/vutils';
 import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender-core';
-import { Point, isFunction, isNil, isValidNumber } from '@visactor/vutils';
-import type { IPolarAxisHelper } from '../../component/axis';
+import { Point, isValidNumber, polarToCartesian, cartesianToPolar } from '@visactor/vutils';
 import { isClose, isValidPoint, normalizeAngle } from '../../util';
 import type { IPoint } from '../../typings';
 
@@ -16,43 +15,34 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
   private _toAngle: number;
   private _toRadius: number;
 
-  private _pointToCoord: IPolarAxisHelper['pointToCoord'];
-  private _coordToPoint: IPolarAxisHelper['coordToPoint'];
+  private _center: IPointLike;
+  private _prevCenter: IPointLike;
 
   constructor(
-    from: { x: number; y: number },
-    to: { x: number; y: number },
+    from: { x: number; y: number; center: IPointLike },
+    to: { x: number; y: number; center: IPointLike },
     duration: number,
     easing: EasingType,
-    params: {
-      pointToCoord: IPolarAxisHelper['pointToCoord'];
-      coordToPoint: IPolarAxisHelper['coordToPoint'];
-    }
+    params: any
   ) {
     super(from, to, duration, easing, params);
-
-    const pointToCoord = this.params.pointToCoord as IPolarAxisHelper['pointToCoord'];
-    const coordToPoint = this.params.coordToPoint as IPolarAxisHelper['coordToPoint'];
-
-    if (!isFunction(pointToCoord) || !isFunction(coordToPoint)) {
+    this._center = to.center;
+    this._prevCenter = from.center;
+    if (!this._center || !this._prevCenter) {
       this.valid = false;
     }
-    this._pointToCoord = pointToCoord;
-    this._coordToPoint = coordToPoint;
   }
 
   getEndProps(): Record<string, any> {
     if (this.valid === false) {
       return {};
     }
-
-    return this._coordToPoint({ angle: this._toAngle, radius: this._toRadius });
+    return polarToCartesian(this._center, this._toRadius, this._toAngle);
   }
 
   onBind(): void {
-    const { angle: fromAngle, radius: fromRadius } = this._pointToCoord(this.from);
-
-    const { angle: toAngle, radius: toRadius } = this._pointToCoord(this.to);
+    const { angle: fromAngle, radius: fromRadius } = cartesianToPolar(this.from, this._prevCenter);
+    const { angle: toAngle, radius: toRadius } = cartesianToPolar(this.to, this._center);
     if (!isValidNumber(toAngle * toRadius)) {
       this.valid = false;
     }
@@ -60,7 +50,6 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
     this._fromRadius = isValidNumber(fromRadius) ? fromRadius : toRadius;
     this._toAngle = toAngle;
     this._toRadius = toRadius;
-
     if (isClose(this._fromAngle, this._toAngle) && isClose(this._fromRadius, this._toRadius)) {
       this.valid = false;
     }
@@ -76,11 +65,16 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
       const { x, y } = this.getEndProps();
       out.x = x;
       out.y = y;
+      out.center = this._center;
     } else {
-      const { x, y } = this._coordToPoint({
-        angle: this._fromAngle + (this._toAngle - this._fromAngle) * ratio,
-        radius: this._fromRadius + (this._toRadius - this._fromRadius) * ratio
-      });
+      const { x, y } = polarToCartesian(
+        {
+          x: this._prevCenter.x + (this._center.x - this._prevCenter.x) * ratio,
+          y: this._prevCenter.y + (this._center.y - this._prevCenter.y) * ratio
+        },
+        this._fromRadius + (this._toRadius - this._fromRadius) * ratio,
+        this._fromAngle + (this._toAngle - this._fromAngle) * ratio
+      );
       out.x = x;
       out.y = y;
     }
@@ -93,8 +87,8 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
   private declare points: IPointLike[];
   private declare interpolatePoints: [IPointLike, IPointLike][];
 
-  private _pointToCoord: IPolarAxisHelper['pointToCoord'];
-  private _coordToPoint: IPolarAxisHelper['coordToPoint'];
+  private _center: IPointLike;
+  private _prevCenter: IPointLike;
 
   constructor(
     from: any,
@@ -103,17 +97,12 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
     easing: EasingType,
     params?: {
       newPointAnimateType?: 'grow' | 'appear';
-      pointToCoord: IPolarAxisHelper['pointToCoord'];
-      coordToPoint: IPolarAxisHelper['coordToPoint'];
     }
   ) {
     super(from, to, duration, easing, params);
-    const pointToCoord = this.params.pointToCoord as IPolarAxisHelper['pointToCoord'];
-    const coordToPoint = this.params.coordToPoint as IPolarAxisHelper['coordToPoint'];
-    this._pointToCoord = pointToCoord;
-    this._coordToPoint = coordToPoint;
+    this._center = to.center;
+    this._prevCenter = from.center;
   }
-
   onUpdate(end: boolean, ratio: number, out: Record<string, any>): void {
     // if not create new points, multi points animation might not work well.
     this.points = this.points.map((point, index) => {
@@ -122,7 +111,9 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
         this.interpolatePoints[index][1],
         ratio
       );
-
+      if (end) {
+        out.center = this._center;
+      }
       newPoint.context = point.context;
       return newPoint;
     });
@@ -133,8 +124,8 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
     if (!isValidPoint(pointA) && !isValidPoint(pointB)) {
       return pointB;
     }
-    const polarPointA = this._pointToCoord(pointA);
-    const polarPointB = this._pointToCoord(pointB);
+    const polarPointA = cartesianToPolar(pointA, this._prevCenter);
+    const polarPointB = cartesianToPolar(pointB, this._center);
     let angleA = normalizeAngle(polarPointA.angle);
     let angleB = normalizeAngle(polarPointB.angle);
 
@@ -148,7 +139,14 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
     const angle = angleA + (angleB - angleA) * ratio;
     const radius = polarPointA.radius + (polarPointB.radius - polarPointA.radius) * ratio;
 
-    return this._coordToPoint({ angle, radius });
+    return polarToCartesian(
+      {
+        x: this._prevCenter.x + (this._center.x - this._prevCenter.x) * ratio,
+        y: this._prevCenter.y + (this._center.y - this._prevCenter.y) * ratio
+      },
+      radius,
+      angle
+    );
   }
 
   private polarPointInterpolation(pointA: IPointLike, pointB: IPointLike, ratio: number): IPointLike {

@@ -25,7 +25,15 @@ import { isPolarAxisSeries } from '../../../series/util/utils';
 import { getAxisItem, getAxisLabelOffset, isValidPolarAxis, shouldUpdateAxis } from '../util';
 import type { Dict, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { PointService, degreeToRadian, isValid, isArray, isValidNumber, polarToCartesian } from '@visactor/vutils';
+import {
+  PointService,
+  degreeToRadian,
+  isValid,
+  isArray,
+  isValidNumber,
+  polarToCartesian,
+  cartesianToPolar
+} from '@visactor/vutils';
 import type { IEffect, IModelSpecInfo } from '../../../model/interface';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
@@ -227,18 +235,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     } as IPolarTickDataOpt;
   }
 
-  afterCompile() {
-    const product = this._axisMark?.getProduct();
-    if (product) {
-      product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
-        if (this._isLayout === false) {
-          // 布局结束之后再进行插件的调用
-          this._delegateAxisContainerEvent(product.getGroupGraphicItem());
-        }
-      });
-    }
-  }
-
   protected updateScaleRange() {
     const prevRange = this._scale.range();
     let newRange: [number, number];
@@ -366,30 +362,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
    * @returns 角度 & 弧度信息 { radius, angle }
    */
   pointToCoord(point: IPoint): IPolarPoint {
-    const { x: centerX, y: centerY } = this.getCenter();
-    let dx = point.x - centerX;
-    let dy = point.y - centerY;
+    const center = this.getCenter();
     const startAngle = this._startAngle;
     const endAngle = this._endAngle;
-    const radius = Math.sqrt(dx * dx + dy * dy);
-    dx /= radius;
-    dy /= radius;
-
-    let radian = Math.atan2(dy, dx);
-    if (radian < startAngle) {
-      while (radian <= startAngle) {
-        radian += Math.PI * 2;
-      }
-    }
-    if (radian > endAngle) {
-      while (radian >= endAngle) {
-        radian -= Math.PI * 2;
-      }
-    }
-    return {
-      radius,
-      angle: radian
-    };
+    return cartesianToPolar(point, center, startAngle, endAngle);
   }
 
   /**
@@ -477,6 +453,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     };
     const attrs: any = {
       ...commonAttrs,
+      ...this.getRefLayoutRect(),
       title: {
         text: this._spec.title.text || this._dataFieldText
       },

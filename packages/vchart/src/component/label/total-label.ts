@@ -63,6 +63,11 @@ export class TotalLabel extends BaseLabelComponent {
     this._initLabelComponent();
   }
 
+  reInit(spec?: any) {
+    super.reInit(spec);
+    this._initTextMark();
+  }
+
   protected _initTextMark() {
     const series = this._getSeries();
     if (series.getSpec().totalLabel?.visible) {
@@ -106,19 +111,6 @@ export class TotalLabel extends BaseLabelComponent {
     if (component) {
       this._marks.addMark(component);
     }
-  }
-
-  afterCompile() {
-    this._marks.forEach((componentMark, index) => {
-      const product = componentMark.getProduct() as ReturnType<IView['label']>;
-      if (product) {
-        product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
-          if (this._isLayout === false) {
-            this._delegateLabelEvent(product.getGroupGraphicItem());
-          }
-        });
-      }
-    });
   }
 
   updateLayoutAttribute(): void {
@@ -175,12 +167,7 @@ export class TotalLabel extends BaseLabelComponent {
   compileMarks() {
     this.getMarks().forEach(m => {
       const group = this._regions[0].getGroupMark().getProduct() as IGroupMark;
-      m.compile({ group });
-      m.getProduct()?.configure({
-        context: {
-          model: this
-        }
-      });
+      m.compile({ group, context: { model: this } });
     });
   }
 

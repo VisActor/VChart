@@ -98,7 +98,7 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     compileEncode(): void;
     compileState(): void;
     compileAnimation(): void;
-    compileContext(): void;
+    compileContext(extraContext?: any): void;
     compileSignal(): void;
     protected _computeAttribute(key: string, state: StateValueType): (datum: Datum, opt: IAttributeOpt) => any;
     protected compileCommonAttributeCallback(key: string, state: string): MarkFunctionCallback<any>;

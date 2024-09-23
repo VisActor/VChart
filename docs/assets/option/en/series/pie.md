@@ -201,12 +201,19 @@ The callback function is defined as follows:
 
 ```ts
 /**
- * @params label text attr
+ * @params label text and base mark
  * @params attrs vertex
  * @params path object, user-defined drawing
  * @return Returns the path after drawing is completed
  */
-(text: ITextGraphicAttribute, attrs: Partial<ILineGraphicAttribute>, path: ICustomPath2D) => ICustomPath2D;
+(
+  mark: {
+    text: IText;
+    baseMark: IGraphic;
+  },
+  attrs: Partial<ILineGraphicAttribute>,
+  path: ICustomPath2D
+) => ICustomPath2D;
 ```
 
 ###${prefix} style(Object)

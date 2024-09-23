@@ -133,15 +133,24 @@ export function barLabel(labelInfo: ILabelInfo) {
 
   let position = originPosition as BaseLabelAttrs['position'];
 
-  if (isString(originPosition) && originPosition === 'outside') {
-    position = (data: Datum) => {
-      const { data: datum } = data;
+  position = (datum: Datum) => {
+    const { data } = datum;
+
+    const labelPosition =
+      (typeof labelSpec.position === 'function'
+        ? (labelSpec.position as (a: Datum) => string)(data)
+        : labelSpec.position) ?? 'outside';
+
+    if (labelPosition === 'outside') {
       const dataField = series.getMeasureField()[0];
       const positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
-      const index = (datum?.[dataField] >= 0 && isInverse) || (datum?.[dataField] < 0 && !isInverse) ? 1 : 0;
+      const index = (data?.[dataField] >= 0 && isInverse) || (data?.[dataField] < 0 && !isInverse) ? 1 : 0;
       return positionMap[direction][index];
-    };
-  }
+    }
+
+    return labelPosition;
+  };
+
   // encode overlap config
   let overlap;
   if (labelSpec.overlap === false) {

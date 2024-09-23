@@ -359,18 +359,12 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
 
   compileMarks(group?: string | IVGrammarGroupMark) {
     this.getMarks().forEach(m => {
-      m.compile({ group });
-      m.getProduct()
-        ?.configure({
-          context: {
-            model: this
-          }
-        })
-        .layout(
-          (group: IVGrammarGroupMark, children: IMark[], parentLayoutBounds: IBoundsLike, options?: ILayoutOptions) => {
-            // console.log('region mark layout');
-          }
-        );
+      m.compile({ group, context: { model: this } });
+      m.getProduct()?.layout(
+        (group: IVGrammarGroupMark, children: IMark[], parentLayoutBounds: IBoundsLike, options?: ILayoutOptions) => {
+          // console.log('region mark layout');
+        }
+      );
     });
   }
 

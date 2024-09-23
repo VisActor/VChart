@@ -1013,17 +1013,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (!this._backgroundMark) {
       return;
     }
-    this._backgroundMark.compile();
-    this._backgroundMark
-      .getProduct()
-      ?.configure({
-        context: {
-          model: this
-        }
-      })
-      .layout(() => {
-        // console.log('region mark layout');
-      });
+    this._backgroundMark.compile({ context: { model: this } });
+    this._backgroundMark.getProduct()?.layout(() => {
+      // console.log('region mark layout');
+    });
   }
 
   compileRegions() {

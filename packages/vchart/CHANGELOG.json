@@ -2,6 +2,36 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.6",
+      "tag": "@visactor/vchart_v1.12.6",
+      "date": "Fri, 20 Sep 2024 11:03:33 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add life cycle hooks\n\n"
+          },
+          {
+            "comment": "fix: allow indicator spec in polar chart\n\n"
+          },
+          {
+            "comment": "chore: delete useless code in test demo\n\n"
+          },
+          {
+            "comment": "fix: default value\n\n"
+          },
+          {
+            "comment": "fix: type of pointermarkspec is not required anymore"
+          },
+          {
+            "comment": "fix: use `throttle` when trigger resize\n\n"
+          },
+          {
+            "comment": "fix: fix the compare of label in series\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.5",
       "tag": "@visactor/vchart_v1.12.5",
       "date": "Thu, 12 Sep 2024 14:07:06 GMT",

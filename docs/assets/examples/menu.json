@@ -130,6 +130,148 @@
       ]
     },
     {
+      "path": "vscreen",
+      "title": {
+        "zh": "大屏数据可视化",
+        "en": "big screen visualization"
+      },
+      "children": [
+        {
+          "path": "column-parallel-highlight",
+          "title": {
+            "zh": "带高亮动画的并列柱状图",
+            "en": "Column Parallel With HightLight"
+          }
+        },
+        {
+          "path": "column-parallel-streamlight",
+          "title": {
+            "zh": "带流光动画的并列柱状图",
+            "en": "Column Parallel with StreamLight"
+          }
+        },
+        {
+          "path": "line-growth",
+          "title": {
+            "zh": "带生长动画的折线图",
+            "en": "Line with Growth"
+          }
+        },
+        {
+          "path": "line-load",
+          "title": {
+            "zh": "带加载动画的折线图",
+            "en": "Line with Load"
+          }
+        },
+        {
+          "path": "area-growth",
+          "title": {
+            "zh": "带生长动画的面积图",
+            "en": "Area with Growth"
+          }
+        },
+        {
+          "path": "area-load",
+          "title": {
+            "zh": "带加载动画的面积图",
+            "en": "Area with Load"
+          }
+        },
+        {
+          "path": "bar-highlight",
+          "title": {
+            "zh": "带高亮动画的条形图",
+            "en": "Bar With HightLight"
+          }
+        },
+        {
+          "path": "bar-streamlight",
+          "title": {
+            "zh": "带流光动画的条形图",
+            "en": "Bar with StreamLight"
+          }
+        },
+        {
+          "path": "double-axis-load",
+          "title": {
+            "zh": "带加载动画的双轴图",
+            "en": "Double Axis with Load"
+          }
+        },
+        {
+          "path": "pie-scale",
+          "title": {
+            "zh": "带改变尺寸动画的饼图",
+            "en": "Pie with Scale"
+          }
+        },
+        {
+          "path": "pie-relocate",
+          "title": {
+            "zh": "带改变中心位置动画的饼图",
+            "en": "Pie with Relocate"
+          }
+        },
+        {
+          "path": "bilateral-growth",
+          "title": {
+            "zh": "带生长动画的双向条形图",
+            "en": "Bilateral with Growth"
+          }
+        },
+        {
+          "path": "scatter-ripple",
+          "title": {
+            "zh": "带涟漪动画的散点图",
+            "en": "Scatter with Ripple"
+          }
+        },
+        {
+          "path": "radar-ridial",
+          "title": {
+            "zh": "带径向动画的雷达图",
+            "en": "Radar with Ridial"
+          }
+        },
+        {
+          "path": "word-cloud-scale",
+          "title": {
+            "zh": "带文字缩放动画的词云图",
+            "en": "WordCloud with Scale"
+          }
+        },
+        {
+          "path": "sankey",
+          "title": {
+            "zh": "桑基图",
+            "en": "Sankey"
+          }
+        },
+        {
+          "path": "funnel",
+          "title": {
+            "zh": "漏斗图",
+            "en": "Funnel"
+          }
+        },
+        {
+          "path": "gauge",
+          "title": {
+            "zh": "仪表图",
+            "en": "Gauge"
+          }
+        },
+        {
+          "path": "liquid",
+          "title": {
+            "zh": "水波图",
+            "en": "Liquid"
+          }
+        }
+      ]
+    },
+    {
       "path": "line-chart",
       "title": {
         "zh": "line-chart",

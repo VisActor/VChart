@@ -138,12 +138,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
 
   compileMarks(group?: string | IGroupMark) {
     this.getMarks().forEach(m => {
-      m.compile({ group });
-      m.getProduct()?.configure({
-        context: {
-          model: this
-        }
-      });
+      m.compile({ group, context: { model: this } });
     });
   }
 
