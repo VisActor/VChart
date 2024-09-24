@@ -154,6 +154,9 @@ The spacing between text and guide line, default is 5px.
 ##${prefix} line(Object)
 Guide line style settings.
 
+###${prefix} minLength(number) = 20
+Min length of guide line. Default is 20px. Supported since version `1.12.7`
+
 ###${prefix} style(Object)
 
 {{ use: graphic-line(
