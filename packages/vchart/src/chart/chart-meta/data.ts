@@ -72,10 +72,6 @@ export class ChartData {
       if (metchData[0]) {
         return metchData[0];
       }
-
-      // id不匹配，报错处理
-      this._onError?.(`no data matches dataId ${id}!`);
-      return null;
     }
 
     // 其次使用dataIndex
@@ -83,9 +79,6 @@ export class ChartData {
       if (this._dataArr[index]) {
         return this._dataArr[index];
       }
-      // index不匹配，报错处理
-      this._onError?.(`no data matches dataIndex ${index}!`);
-      return null;
     }
 
     // 最后返回第一条数据
