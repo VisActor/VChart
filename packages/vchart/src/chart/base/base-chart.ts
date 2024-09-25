@@ -756,6 +756,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
+  private _getSpecKeys(spec: T) {
+    const ignoreKeys: Record<string, boolean> = { width: true, height: true };
+    return Object.keys(spec)
+      .filter(key => !ignoreKeys[key])
+      .sort();
+  }
+
   updateSpec(spec: T) {
     const result = {
       change: false,
@@ -774,9 +781,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
     // spec set & transformSpec
     // diff meta length;
-    const currentKeys = Object.keys(this._spec).sort();
-    const nextKeys = Object.keys(spec).sort();
-    if (JSON.stringify(currentKeys) !== JSON.stringify(nextKeys)) {
+
+    const currentKeys = this._getSpecKeys(this._spec);
+    const nextKeys = this._getSpecKeys(spec);
+    if (!isEqual(currentKeys, nextKeys)) {
       result.reMake = true;
       return result;
     }

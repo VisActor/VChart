@@ -430,9 +430,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
             this._rawStatisticsCache[field].values = fieldInfo.domain;
           }
         } else {
-          const result = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
-            { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
-          ])[field];
+          const result = (
+            dimensionStatisticsOfSimpleData(this._rawData.latestData as Datum[], [
+              { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
+            ]) as any
+          )[field];
           this._rawStatisticsCache[field] = merge(this._rawStatisticsCache[field] ?? {}, result);
         }
       }
