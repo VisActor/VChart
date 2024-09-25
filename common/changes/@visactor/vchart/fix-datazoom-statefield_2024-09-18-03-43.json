@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: datazoom state field and value field is incomplete problem. fix#3199",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

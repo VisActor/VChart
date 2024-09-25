@@ -462,6 +462,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
               : yAxisHelper;
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
           const isValidateValueAxis = isContinuous(valueAxisHelper.getScale(0).type);
+          const isValidateStateAxis = isContinuous(stateAxisHelper.getScale(0).type);
 
           dataCollection.push(s.getRawData());
           // 这里获取原始的spec中的xField和yField，而非经过stack处理后的fieldX和fieldY，原因如下：
@@ -469,18 +470,29 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           // 2. datazoom计算的是原始的value值，如果要根据stack后的数据来算，则需要__VCHART_STACK_END - __VCHART_STACK_START
           const seriesSpec = s.getSpec();
 
-          const xFields = array(seriesSpec.xField);
-          const yFields = array(seriesSpec.yField);
-          const xField = s.coordinate === 'cartesian' ? xFields[0] : seriesSpec.angleField ?? seriesSpec.categoryField;
-          const yField = s.coordinate === 'cartesian' ? yFields[0] : seriesSpec.radiusField ?? seriesSpec.valueField;
+          const xField =
+            s.coordinate === 'cartesian'
+              ? array(seriesSpec.xField)
+              : array(seriesSpec.angleField ?? seriesSpec.categoryField);
+          const yField =
+            s.coordinate === 'cartesian'
+              ? array(seriesSpec.yField)
+              : array(seriesSpec.radiusField ?? seriesSpec.valueField);
 
           originalStateFields[s.id] =
-            s.type === 'link' ? 'from_xField' : stateAxisHelper === xAxisHelper ? xField : yField;
+            s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
 
-          stateFields.push(originalStateFields[s.id]);
+          if (isValidateStateAxis) {
+            stateFields.push(originalStateFields[s.id]);
+          } else {
+            stateFields.push(originalStateFields[s.id][0]);
+          }
+
           if (this._valueField) {
-            const valueField = s.type === 'link' ? 'from_yField' : valueAxisHelper === xAxisHelper ? xField : yField;
-            valueFields.push(isValidateValueAxis ? valueField : null);
+            const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
+            if (isValidateValueAxis) {
+              valueFields.push(...valueField);
+            }
           }
         },
         {
