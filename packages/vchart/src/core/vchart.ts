@@ -951,9 +951,7 @@ export class VChart implements IVChart {
         }
       } else {
         // new data
-        const dataView = dataToDataView(d, <DataSet>this._dataSet, prevData, {
-          onError: this._option?.onError
-        });
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, prevData);
 
         if (isArray(this._spec.data)) {
           this._spec.data.push(dataView);
