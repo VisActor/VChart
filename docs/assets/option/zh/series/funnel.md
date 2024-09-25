@@ -155,6 +155,9 @@
 ##${prefix} line(Object)
 引导线样式设置。
 
+###${prefix} minLength(number) = 20
+引导线的最小长度，默认为 20px。自 `1.12.7` 版本支持。
+
 ###${prefix} style(Object)
 
 {{ use: graphic-line(

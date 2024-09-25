@@ -99,6 +99,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   protected _transformLabelMark: ILabelMark | null = null;
   protected _funnelOuterLabelMark: { label?: ITextMark; line?: IRuleMark } = {};
 
+  protected _minLabelLineWidth: number;
+
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
 
@@ -107,6 +109,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
     this._funnelOrient = this._spec.funnelOrient ?? 'top';
     this._shape = this._spec.shape ?? 'trapezoid';
+    this._minLabelLineWidth = this._spec.outerLabel?.line?.minLength ?? FUNNEL_LABEL_LINE_LENGTH;
 
     if (this._isHorizontal()) {
       this._funnelAlign = ['top', 'bottom'].includes(this._spec.funnelAlign) ? this._spec.funnelAlign : 'center';
@@ -777,7 +780,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       }, true)?.AABBBounds;
 
     const funnelLabelWidth = funnelLabelBounds ? funnelLabelBounds.x2 - funnelLabelBounds.x1 : 0;
-    const outerLineSpace = this._funnelOuterLabelMark.line ? FUNNEL_LABEL_LINE_LENGTH : 0;
+    const outerLineSpace = this._funnelOuterLabelMark.line ? this._minLabelLineWidth : 0;
 
     let space = this.getLayoutRect().width - Math.max(shapeMiddleWidth, funnelLabelWidth);
     if (this._funnelAlign === 'center') {
@@ -813,13 +816,13 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         y1 = this._getPolygonCenter(points).y - shapeMiddleHeight / 2 - spaceWidth;
         y2 = outerLabelSpec.alignLabel !== false ? outerLabelMarkBounds?.y2 + spaceWidth : y1 - spaceWidth;
         x1 = this._getPolygonCenter(points).x;
-        y1 - y2 < FUNNEL_LABEL_LINE_LENGTH && (y2 = y1 - FUNNEL_LABEL_LINE_LENGTH);
+        y1 - y2 < this._minLabelLineWidth && (y2 = y1 - this._minLabelLineWidth);
         x2 = x1;
       } else {
         y1 = this._getPolygonCenter(points).y + shapeMiddleHeight / 2 + spaceWidth;
         y2 = outerLabelSpec.alignLabel !== false ? outerLabelMarkBounds?.y1 - spaceWidth : y1 + spaceWidth;
         x1 = this._getPolygonCenter(points).x;
-        y2 - y1 < FUNNEL_LABEL_LINE_LENGTH && (y2 = y1 + FUNNEL_LABEL_LINE_LENGTH);
+        y2 - y1 < this._minLabelLineWidth && (y2 = y1 + this._minLabelLineWidth);
         x2 = x1;
       }
       return { x1, x2, y1, y2 };
@@ -833,13 +836,13 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       x1 = this._getPolygonCenter(points).x + Math.max(labelWidth / 2, shapeMiddleWidth / 2) + spaceWidth;
       x2 = outerLabelSpec.alignLabel !== false ? outerLabelMarkBounds?.x1 - spaceWidth : x1 + spaceWidth;
       y1 = this._getPolygonCenter(points).y;
-      x2 - x1 < FUNNEL_LABEL_LINE_LENGTH && (x2 = x1 + FUNNEL_LABEL_LINE_LENGTH);
+      x2 - x1 < this._minLabelLineWidth && (x2 = x1 + this._minLabelLineWidth);
       y2 = y1;
     } else {
       x1 = this._getPolygonCenter(points).x - Math.max(labelWidth / 2, shapeMiddleWidth / 2) - spaceWidth;
       x2 = outerLabelSpec.alignLabel !== false ? outerLabelMarkBounds?.x2 + spaceWidth : x1 - spaceWidth;
       y1 = this._getPolygonCenter(points).y;
-      x1 - x2 < FUNNEL_LABEL_LINE_LENGTH && (x2 = x1 - FUNNEL_LABEL_LINE_LENGTH);
+      x1 - x2 < this._minLabelLineWidth && (x2 = x1 - this._minLabelLineWidth);
       y2 = y1;
     }
     return { x1, x2, y1, y2 };
