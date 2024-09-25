@@ -1,3 +1,47 @@
+# v1.12.6
+
+2024-09-23
+
+**🆕 New Features**
+
+- **@visactor/vchart**: Added lifecycle hooks, `afterCreateVChart`, `beforeInitializeChart`, `afterInitializeChart`
+- **@visactor/vchart**: Polar coordinate angle axis supports configurations like `autoLimit`, `autoWrap`, `autoHide`, etc.
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: Allow adding `indicator` components in polar charts
+- **@visactor/vchart**: Fix the default value issue of `position` in the `label` component, fix [#3242](https://github.com/VisActor/VChart/issues/3242)
+- **@visactor/vchart**: Fix type error, change `type` in `PointerMarkSpec` to an optional type, fix [#3227](https://github.com/VisActor/VChart/issues/3227)
+- **@visactor/vchart**: Use `throttle` for throttling when triggering `resize`
+- **@visactor/vchart**: Fix the chart update type to be `reCompile` instead of `remake` when updating `label` configurations
+- **@visactor/vchart**: Fix the issue where `customMark` does not support `markName` event filters
+- **@visactor/vchart**: Fix the issue of incorrect animation triggering during radar chart updates, fix [#3228](https://github.com/VisActor/VChart/issues/3228)
+
+[more detail about v1.12.6](https://github.com/VisActor/VChart/releases/tag/v1.12.6)
+
+# v1.12.5
+
+2024-09-23
+
+**🆕 New Features**
+
+- **@visactor/vchart**: extension mark and customized mark support `markName` event filter
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: optimize first axis label autolimit effect of cartesian chart
+- **@visactor/vchart**: `animationUpdate` should also control labels animation
+- **@visactor/vchart**: fix default value of circular-progress, fix [#2683](https://github.com/VisActor/VChart/issues/2683)
+- **@visactor/vchart**: fix display of radar-chart when has negative radius
+- **@visactor/vchart**: `word.style.fontWeight` should change the style of text in wordcloud, fix [#3212](https://github.com/VisActor/VChart/issues/3212)
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: simplify `getSpecInfo`
+
+[more detail about v1.12.5](https://github.com/VisActor/VChart/releases/tag/v1.12.5)
+
+
 # v1.12.4
 
 2024-09-09
