@@ -1,7 +1,7 @@
 import type { ITooltipPattern, ShapeType, TooltipActiveType, TooltipContentCallback } from '../../typings';
 import type { ISeries } from './series';
-import type { ITooltipHelper } from '../../model/tooltip-helper';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
+import type { ITooltipHelper } from '../../model/interface';
 
 export interface ISeriesTooltipHelper extends ITooltipHelper {
   /** 对应系列 */

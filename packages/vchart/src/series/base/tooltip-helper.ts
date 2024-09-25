@@ -1,10 +1,10 @@
-import type { TooltipHandlerParams } from '../../component/tooltip/interface';
+import type { ITooltipSpec, TooltipHandlerParams } from '../../component/tooltip/interface';
 import type { ITooltipLinePattern, ITooltipPattern, ShapeType, TooltipActiveType } from '../../typings';
 import { array, isValid } from '@visactor/vutils';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
-import { BaseTooltipHelper } from '../../model/tooltip-helper';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
 import type { Datum } from '@visactor/vgrammar-core';
+import type { IMark } from '../../mark/interface/common';
 
 interface ISeriesCacheInfo {
   seriesFields: string[];
@@ -13,13 +13,22 @@ interface ISeriesCacheInfo {
   type: string;
 }
 
-export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISeriesTooltipHelper {
+export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   series: ISeries;
 
+  spec: ITooltipSpec | undefined;
+  activeType: TooltipActiveType[];
+
+  activeTriggerSet = {
+    mark: new Set<IMark>(),
+    group: new Set<IMark>()
+  };
+  ignoreTriggerSet = {
+    mark: new Set<IMark>()
+  };
   protected _seriesCacheInfo: ISeriesCacheInfo;
 
   constructor(series: ISeries) {
-    super();
     this.series = series;
     this.updateTooltipSpec();
   }
