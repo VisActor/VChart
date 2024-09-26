@@ -4,9 +4,10 @@ import type {
   ITooltipPattern,
   MaybeArray,
   TooltipActiveType,
+  TooltipData,
   TooltipPatternProperty
 } from '../../../typings';
-import type { ISeriesTooltipSpec, ITooltipActiveTypeAsKeys, ITooltipSpec } from '../interface';
+import type { ISeriesTooltipSpec, ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams } from '../interface';
 import type { BaseEventParams } from '../../../event/interface';
 
 export const getTooltipActualActiveType = (spec?: ITooltipSpec): TooltipActiveType[] => {
@@ -53,22 +54,63 @@ export function isEmptyPos(params: BaseEventParams): boolean {
   return isNil(params.mark) && isNil(params.model) && isNil(params.datum);
 }
 
+function addContentLine(result: ITooltipPattern[], contentSpec: MaybeArray<ITooltipLinePattern>) {
+  if (isArray(contentSpec)) {
+    contentSpec.forEach(spec => {
+      spec && result.push(spec as ITooltipLinePattern);
+    });
+  } else if (contentSpec) {
+    result.push(contentSpec as ITooltipLinePattern);
+  }
+}
+
+function parseContentFunction(
+  result: ITooltipPattern[],
+  contentSpec: TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>,
+  data?: TooltipData,
+  params?: TooltipHandlerParams
+) {
+  if (isFunction(contentSpec)) {
+    const specs = contentSpec(data, params);
+
+    addContentLine(result, specs);
+  } else if (contentSpec) {
+    addContentLine(result, contentSpec);
+  }
+}
+
+export function parseContent(
+  contentSpec: MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>,
+  data?: TooltipData,
+  params?: TooltipHandlerParams
+) {
+  const contents: ITooltipLinePattern[] = [];
+
+  if (isArray(contentSpec)) {
+    contentSpec.forEach(spec => {
+      parseContentFunction(contents, spec, data, params);
+    });
+  } else if (isFunction(contentSpec)) {
+    parseContentFunction(contents, contentSpec, data, params);
+  } else if (contentSpec) {
+    addContentLine(contents, contentSpec as MaybeArray<ITooltipLinePattern>);
+  }
+
+  return contents;
+}
+
 export function combinePattern(patternList: ITooltipPattern[]) {
   if (!patternList || !patternList.length) {
     return null;
   }
 
   // 拼接默认 tooltip content
-  const defaultPatternContent: Array<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>> = [];
+  const defaultPatternContent: ITooltipLinePattern[] = [];
   patternList.forEach(({ content }) => {
-    if (isFunction(content)) {
-      defaultPatternContent.push(content);
-    } else if (isArray(content)) {
-      content.forEach(c => {
+    if (content) {
+      (content as ITooltipLinePattern[]).forEach(c => {
         defaultPatternContent.push(c);
       });
-    } else if (content) {
-      defaultPatternContent.push(content);
     }
   });
 

@@ -1,6 +1,5 @@
-import type { ITooltipPattern, ShapeType, TooltipActiveType, TooltipContentCallback } from '../../typings';
+import type { ITooltipPattern, ShapeType, TooltipActiveType, TooltipContentCallback, TooltipData } from '../../typings';
 import type { ISeries } from './series';
-import type { IDimensionInfo } from '../../event/events/dimension/interface';
 import type { ITooltipHelper } from '../../model/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface/spec';
 
@@ -11,11 +10,10 @@ export interface ISeriesTooltipHelper extends ITooltipHelper {
   getTooltipPattern: (
     activeType: TooltipActiveType,
     chartTooltipSpec?: ITooltipSpec,
-    dimensionInfo?: IDimensionInfo[]
+    data?: TooltipData
   ) => ITooltipPattern | null;
 
-  /** 获得默认tooltip pattern */
-  getDefaultTooltipPattern: (activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]) => ITooltipPattern | null;
+  enableByType: (activeType: TooltipActiveType) => boolean;
 
   // 可以继承的原子化回调
   markTooltipKeyCallback: TooltipContentCallback<string>;

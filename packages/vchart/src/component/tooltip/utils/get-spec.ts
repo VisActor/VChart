@@ -1,4 +1,10 @@
-import type { ITooltipLinePattern, ITooltipPattern, ITooltipShapePattern, TooltipActiveType } from '../../../typings';
+import type {
+  ITooltipLinePattern,
+  ITooltipPattern,
+  ITooltipShapePattern,
+  TooltipActiveType,
+  TooltipData
+} from '../../../typings';
 import type { ISeries } from '../../../series/interface';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 import { isValid, array, isNil, cloneDeep, isFunction } from '@visactor/vutils';
@@ -9,14 +15,12 @@ export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,
   globalSpec: ITooltipSpec,
   series?: ISeries,
-  dimensionInfo?: IDimensionInfo[]
+  data?: TooltipData
 ): ITooltipSpec => {
   // 组装tooltip spec
   const finalSpec = {
     activeType
   } as ITooltipSpec;
-
-  const { style = {} } = globalSpec;
 
   switch (activeType) {
     case 'mark':
@@ -35,13 +39,13 @@ export const getTooltipSpecForShow = (
           return finalSpec;
         }
 
-        finalSpec[activeType] = series.tooltipHelper.getTooltipPattern(activeType);
+        finalSpec[activeType] = series.tooltipHelper.getTooltipPattern(activeType, globalSpec, data);
       }
       break;
     case 'dimension':
-      if (dimensionInfo?.length) {
+      if ((data as IDimensionInfo[])?.length) {
         // tooltip spec覆盖优先级: series spec > global spec > default pattern
-        const seriesList = getSeriesListFromDimensionInfo(dimensionInfo);
+        const seriesList = getSeriesListFromDimensionInfo(data as IDimensionInfo[]);
 
         // visible
         if (seriesList.every(series => !isActiveTypeVisible('dimension', series.tooltipHelper?.spec))) {
@@ -57,7 +61,7 @@ export const getTooltipSpecForShow = (
         }
 
         const patternList: ITooltipPattern[] = [];
-        dimensionInfo.forEach(info =>
+        (data as IDimensionInfo[]).forEach(info =>
           info.data.forEach(datum => {
             const { series } = datum;
             const mockDimensionInfo = [

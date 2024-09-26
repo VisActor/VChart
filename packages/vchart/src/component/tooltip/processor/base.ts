@@ -41,7 +41,7 @@ export abstract class BaseTooltipProcessor {
     }
 
     // 更新 this._cacheViewSpec
-    this._updateViewSpec(params);
+    this._updateViewSpec(data, params);
     const spec = this._cacheViewSpec;
     if (isNil(spec?.[this.activeType]) || spec.visible === false) {
       return TooltipResult.failed;
@@ -106,16 +106,11 @@ export abstract class BaseTooltipProcessor {
    * 合成实际显示的 tooltip spec
    * @param params
    */
-  protected _updateViewSpec(params: TooltipHandlerParams) {
-    const { changePositionOnly, model, dimensionInfo } = params;
+  protected _updateViewSpec(data: TooltipData, params: TooltipHandlerParams) {
+    const { changePositionOnly, model } = params;
     if (!changePositionOnly || !this._cacheViewSpec) {
       /** spec 预处理 */
-      this._cacheViewSpec = getTooltipSpecForShow(
-        this.activeType,
-        this.component.getSpec(),
-        model as ISeries,
-        dimensionInfo
-      );
+      this._cacheViewSpec = getTooltipSpecForShow(this.activeType, this.component.getSpec(), model as ISeries, data);
     }
   }
 

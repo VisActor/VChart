@@ -2,16 +2,18 @@ import type { ISeriesTooltipSpec, ITooltipSpec, TooltipHandlerParams } from '../
 import type {
   ITooltipLinePattern,
   ITooltipPattern,
-  ITooltipShapePattern,
+  MaybeArray,
   ShapeType,
-  TooltipActiveType
+  TooltipActiveType,
+  TooltipData,
+  TooltipPatternProperty
 } from '../../typings';
-import { array, isArray, isValid } from '@visactor/vutils';
+import { array, isValid } from '@visactor/vutils';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
 import type { Datum } from '@visactor/vgrammar-core';
 import type { IMark } from '../../mark/interface/common';
-import { isActiveTypeVisible } from '../../component/tooltip/utils';
+import { isActiveTypeVisible, parseContent } from '../../component/tooltip/utils/common';
 
 interface ISeriesCacheInfo {
   seriesFields: string[];
@@ -143,38 +145,56 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
 
     return {
       shapeType: shapeAttrs.shapeType ?? this.shapeTypeCallback,
-      shapeFill: shapeAttrs.shapeFill ?? this.shapeColorCallback,
-      shapeColor: shapeAttrs.shapeColor ?? this.shapeColorCallback,
+      shapeFill: shapeAttrs.shapeFill ?? shapeAttrs.shapeColor ?? this.shapeColorCallback,
       shapeStroke: shapeAttrs.shapeStroke ?? this.shapeStrokeCallback,
       shapeHollow: shapeAttrs.shapeHollow ?? false,
-      shapeLineWidth: shapeAttrs.shapeLineWidth
+      shapeLineWidth: shapeAttrs.shapeLineWidth,
+      shapeSize: shapeAttrs.shapeSize ?? shapeAttrs.size
     };
+  }
+
+  enableByType(activeType: TooltipActiveType) {
+    return true;
+  }
+
+  getDefaultContentList(
+    activeType: TooltipActiveType
+  ): MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>> {
+    return [{}];
+  }
+
+  getContentList(
+    activeType: TooltipActiveType,
+    contentSpec: MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>,
+    data?: TooltipData,
+    params?: TooltipHandlerParams
+  ): ITooltipLinePattern[] {
+    return parseContent(contentSpec ?? this.getDefaultContentList(activeType), data, params);
   }
 
   getTooltipPattern(
     activeType: TooltipActiveType,
     chartTooltipSpec?: ITooltipSpec,
-    dimensionInfo?: IDimensionInfo[]
+    data?: TooltipData,
+    params?: TooltipHandlerParams
   ): ITooltipPattern | null {
-    if (!isActiveTypeVisible(activeType, this.spec)) {
+    if (!this.enableByType(activeType) || !isActiveTypeVisible(activeType, this.spec)) {
       return null;
     }
     const patternSpec = this.spec?.[activeType] ?? chartTooltipSpec?.[activeType];
     const shapeAttrs = this.getShapeAttrs(activeType, chartTooltipSpec);
 
     if (activeType === 'dimension') {
-      if (dimensionInfo && dimensionInfo.length) {
+      if (data && data.length) {
         const content: ITooltipLinePattern[] = [];
-        dimensionInfo.forEach(({ data }) =>
-          data.forEach(({ series }) => {
-            const userContents = isArray(patternSpec?.content)
-              ? (patternSpec.content as ITooltipLinePattern[])
-              : [{ ...shapeAttrs, ...patternSpec?.content }];
+        (data as IDimensionInfo[]).forEach(info =>
+          info.data.forEach(({ series }) => {
+            const userContents = this.getContentList(activeType, patternSpec?.content, data, params);
 
             userContents.forEach(entry => {
               content.push({
                 ...shapeAttrs,
-                ...this.getContentPattern(activeType),
+                ...this.getDefaultContentPattern(activeType),
                 ...entry
               });
             });
@@ -185,8 +205,8 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
           visible: true,
           activeType,
           title: patternSpec?.title
-            ? { ...shapeAttrs, ...this.getTitlePattern(activeType), ...patternSpec.title }
-            : { ...shapeAttrs, ...this.getTitlePattern(activeType) },
+            ? { ...shapeAttrs, ...this.getDefaultTitlePattern(activeType), ...patternSpec.title }
+            : { ...shapeAttrs, ...this.getDefaultTitlePattern(activeType) },
           content
         };
       }
@@ -197,15 +217,15 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
       visible: true,
       activeType,
       title: patternSpec?.title
-        ? { ...shapeAttrs, ...this.getTitlePattern(activeType), ...patternSpec.title }
-        : { ...shapeAttrs, ...this.getTitlePattern(activeType) },
-      content: (isArray(patternSpec?.content) ? patternSpec.content : [{ ...patternSpec?.content }]).map(entry => {
-        return { ...shapeAttrs, ...this.getContentPattern(activeType), ...entry };
+        ? { ...shapeAttrs, ...this.getDefaultTitlePattern(activeType), ...patternSpec.title }
+        : { ...shapeAttrs, ...this.getDefaultTitlePattern(activeType) },
+      content: this.getContentList(activeType, patternSpec?.content, data, params).map(entry => {
+        return { ...shapeAttrs, ...this.getDefaultContentPattern(activeType), ...entry };
       })
     };
   }
 
-  getTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
+  getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
     return {
       key: undefined,
       value: activeType === 'group' ? this.groupTooltipTitleCallback : this.dimensionTooltipTitleCallback,
@@ -213,93 +233,12 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     };
   }
 
-  getContentPattern(activeType: TooltipActiveType): ITooltipPattern['content'] {
+  getDefaultContentPattern(activeType: TooltipActiveType): ITooltipPattern['content'] {
     return {
       seriesId: this.series.id,
       key: activeType === 'group' ? this.groupTooltipKeyCallback : this.markTooltipKeyCallback,
       value: this.markTooltipValueCallback,
       hasShape: true
     };
-  }
-
-  /** 获取默认的tooltip pattern */
-  getDefaultTooltipPattern(activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]): ITooltipPattern | null {
-    switch (activeType) {
-      case 'mark':
-        return {
-          visible: true,
-          activeType,
-          title: {
-            key: undefined,
-            value: this.dimensionTooltipTitleCallback,
-            hasShape: false
-          },
-          content: [
-            {
-              seriesId: this.series.id,
-              key: this.markTooltipKeyCallback,
-              value: this.markTooltipValueCallback,
-              hasShape: true,
-              shapeType: this.shapeTypeCallback,
-              shapeColor: this.shapeColorCallback,
-              shapeStroke: this.shapeStrokeCallback,
-              shapeHollow: false
-            }
-          ]
-        };
-      case 'group':
-        return {
-          visible: true,
-          activeType,
-          title: {
-            key: undefined,
-            value: this.groupTooltipTitleCallback,
-            hasShape: false
-          },
-          content: [
-            {
-              seriesId: this.series.id,
-              key: this.groupTooltipKeyCallback,
-              value: this.markTooltipValueCallback,
-              hasShape: true,
-              shapeType: this.shapeTypeCallback,
-              shapeColor: this.shapeColorCallback,
-              shapeStroke: this.shapeStrokeCallback,
-              shapeHollow: false
-            }
-          ]
-        };
-      case 'dimension':
-        if (dimensionInfo) {
-          const title: ITooltipLinePattern = {
-            key: undefined,
-            value: this.dimensionTooltipTitleCallback,
-            hasShape: false
-          };
-          const content: ITooltipLinePattern[] = [];
-          dimensionInfo.forEach(({ data }) =>
-            data.forEach(({ series }) => {
-              content.push({
-                seriesId: series.id,
-                key: this.markTooltipKeyCallback,
-                value: this.markTooltipValueCallback,
-                hasShape: true,
-                shapeType: this.shapeTypeCallback,
-                shapeColor: this.shapeColorCallback,
-                shapeStroke: this.shapeStrokeCallback,
-                shapeHollow: false
-              });
-            })
-          );
-          return {
-            visible: true,
-            activeType,
-            title,
-            content
-          };
-        }
-        break;
-    }
-    return null;
   }
 }
