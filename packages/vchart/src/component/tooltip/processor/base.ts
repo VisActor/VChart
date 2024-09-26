@@ -46,7 +46,8 @@ export abstract class BaseTooltipProcessor {
     if (isNil(spec?.[this.activeType]) || spec.visible === false) {
       return TooltipResult.failed;
     }
-    params.tooltipSpec = spec;
+    params.tooltipSpec = this.component.getSpec();
+    params.activeTooltipSpec = spec;
 
     // 更新 this._cacheActualTooltip
     this._updateActualTooltip(data, params);

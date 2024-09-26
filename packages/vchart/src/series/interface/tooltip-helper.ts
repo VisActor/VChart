@@ -2,10 +2,17 @@ import type { ITooltipPattern, ShapeType, TooltipActiveType, TooltipContentCallb
 import type { ISeries } from './series';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
 import type { ITooltipHelper } from '../../model/interface';
+import type { ITooltipSpec } from '../../component/tooltip/interface/spec';
 
 export interface ISeriesTooltipHelper extends ITooltipHelper {
   /** 对应系列 */
   series: ISeries;
+
+  getTooltipPattern: (
+    activeType: TooltipActiveType,
+    chartTooltipSpec?: ITooltipSpec,
+    dimensionInfo?: IDimensionInfo[]
+  ) => ITooltipPattern | null;
 
   /** 获得默认tooltip pattern */
   getDefaultTooltipPattern: (activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]) => ITooltipPattern | null;

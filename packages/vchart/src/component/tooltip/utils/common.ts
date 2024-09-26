@@ -6,7 +6,7 @@ import type {
   TooltipActiveType,
   TooltipPatternProperty
 } from '../../../typings';
-import type { ITooltipActiveTypeAsKeys, ITooltipSpec } from '../interface';
+import type { ISeriesTooltipSpec, ITooltipActiveTypeAsKeys, ITooltipSpec } from '../interface';
 import type { BaseEventParams } from '../../../event/interface';
 
 export const getTooltipActualActiveType = (spec?: ITooltipSpec): TooltipActiveType[] => {
@@ -29,7 +29,7 @@ export const getTooltipActualActiveType = (spec?: ITooltipSpec): TooltipActiveTy
   return Object.keys(activeTypeMap).filter(t => activeTypeMap[t as TooltipActiveType]) as TooltipActiveType[];
 };
 
-export const isActiveTypeVisible = (type: TooltipActiveType, spec?: ITooltipSpec) => {
+export const isActiveTypeVisible = (type: TooltipActiveType, spec?: ISeriesTooltipSpec) => {
   if (!spec) {
     return true;
   }
@@ -42,7 +42,7 @@ export const isActiveTypeVisible = (type: TooltipActiveType, spec?: ITooltipSpec
     return false;
   }
 
-  if (spec.activeType && !spec.activeType.includes(type)) {
+  if (spec.activeType && (isArray(spec.activeType) ? !spec.activeType.includes(type) : spec.activeType !== type)) {
     return false;
   }
 

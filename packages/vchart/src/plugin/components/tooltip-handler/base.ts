@@ -154,7 +154,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     }
 
     const event = params.event as MouseEvent;
-    const { tooltipSpec, tooltipActual, changePositionOnly } = params;
+    const { tooltipSpec, activeTooltipSpec, tooltipActual, changePositionOnly } = params;
 
     if (tooltipSpec.enterable) {
       if (!this._isPointerEscaped && this._isPointerMovingToTooltip(params)) {
@@ -175,12 +175,12 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     const activeType = tooltipActual.activeType;
 
     /** 用户自定义逻辑 */
-    if (tooltipSpec.handler) {
-      return tooltipSpec.handler.showTooltip?.(activeType, data, params) ?? TooltipResult.success;
+    if (activeTooltipSpec.handler) {
+      return activeTooltipSpec.handler.showTooltip?.(activeType, data, params) ?? TooltipResult.success;
     }
 
     /** 默认逻辑 */
-    const pattern = tooltipSpec[activeType];
+    const pattern = activeTooltipSpec;
     if (!pattern) {
       return TooltipResult.failed;
     }
@@ -192,8 +192,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       this._getTooltipBoxSize(tooltipActual, changePositionOnly)
     );
     tooltipActual.position = position;
-    if (pattern.updatePosition) {
-      tooltipActual.position = pattern.updatePosition(tooltipActual.position, data, params);
+
+    if (tooltipSpec[activeType]?.updatePosition) {
+      tooltipActual.position = tooltipSpec[activeType].updatePosition(tooltipActual.position, data, params);
     }
 
     // 判断 tooltip 可见性
@@ -298,9 +299,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     let { offsetX, offsetY } = this._option;
 
     const spec = tooltipSpec[activeType];
-    const position = getTooltipPatternValue(spec.position, data, params);
+    const position = getTooltipPatternValue(spec?.position, data, params);
     const positionMode =
-      getTooltipPatternValue(spec.positionMode, data, params) ?? (activeType === 'mark' ? 'mark' : 'pointer');
+      getTooltipPatternValue(spec?.positionMode, data, params) ?? (activeType === 'mark' ? 'mark' : 'pointer');
     const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } = tooltipBoxSize ?? {};
 
     const isCanvas = tooltipSpec.renderMode === 'canvas';

@@ -35,9 +35,11 @@ export class TooltipSpecTransformer extends BaseComponentSpecTransformer<any> {
     spec.triggerOff = spec.triggerOff ?? spec.trigger;
     spec.confine = spec.confine ?? spec.renderMode === 'canvas';
 
+    // TODO: 逻辑感觉有点冗余
     if (isValid(spec.mark)) {
       spec.mark.activeType = 'mark';
     }
+    // TODO: 逻辑感觉有点冗余
     if (isValid(spec.dimension)) {
       spec.dimension.activeType = 'dimension';
     }
