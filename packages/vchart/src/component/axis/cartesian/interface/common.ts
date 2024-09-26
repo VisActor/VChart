@@ -53,17 +53,17 @@ export type ICartesianLabel = ILabel & {
    * @default false
    */
   flush?: boolean;
-  // /**
-  //  * 第一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
-  //  * @default null
-  //  */
-  // firstVisible?: boolean | null;
   /**
-   * `sampling` 开启时生效。
    * 最后一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
    * @default null
    */
   lastVisible?: boolean | null;
+  /**
+   * 第一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
+   * @default null
+   * @since 1.12.8
+   */
+  firstVisible?: boolean | null;
   /**
    * label 相对于容器整体的对齐方式
    * - `top`：整体向上对齐（垂直方向）
