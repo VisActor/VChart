@@ -6,6 +6,7 @@ import type {
   ShapeType,
   TooltipActiveType,
   TooltipData,
+  TooltipPatternCallback,
   TooltipPatternProperty
 } from '../../typings';
 import { array, isFunction, isValid } from '@visactor/vutils';
@@ -160,7 +161,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   protected getDefaultContentList(
     activeType: TooltipActiveType
   ): MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>> {
-    return [{}];
+    return [this.getDefaultContentPattern(activeType)];
   }
 
   protected getContentList(
@@ -179,12 +180,11 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     params?: TooltipHandlerParams
   ) {
     const titlePattern = isFunction(titleSpec)
-      ? (titleSpec(data, params) as ITooltipLinePattern)
+      ? ((titleSpec as TooltipPatternCallback<ITooltipLinePattern>)(data, params) as ITooltipLinePattern)
       : (titleSpec as ITooltipLinePattern);
 
     return titlePattern
       ? {
-          ...this.getDefaultTitlePattern(activeType),
           ...titlePattern
         }
       : this.getDefaultTitlePattern(activeType);
@@ -212,7 +212,6 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
             userContents.forEach(entry => {
               content.push({
                 ...shapeAttrs,
-                ...this.getDefaultContentPattern(activeType),
                 ...entry
               });
             });
@@ -239,7 +238,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     };
   }
 
-  protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
+  protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipLinePattern {
     return {
       key: undefined,
       value: activeType === 'group' ? this.groupTooltipTitleCallback : this.dimensionTooltipTitleCallback,
@@ -247,7 +246,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     };
   }
 
-  protected getDefaultContentPattern(activeType: TooltipActiveType): ITooltipPattern['content'] {
+  protected getDefaultContentPattern(activeType: TooltipActiveType): ITooltipLinePattern {
     return {
       seriesId: this.series.id,
       key: activeType === 'group' ? this.groupTooltipKeyCallback : this.markTooltipKeyCallback,
