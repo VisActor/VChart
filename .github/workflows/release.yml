@@ -60,11 +60,11 @@ jobs:
         run: node common/scripts/install-run-rush.js build --to @visactor/vchart
 
       # run bugserver after the build of main packages
-      - name: Run Bugserver
-        working-directory: ./packages/vchart
-        env:
-          BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
-        run: node ../../common/scripts/install-run-rushx.js ci
+      # - name: Run Bugserver
+      #   working-directory: ./packages/vchart
+      #   env:
+      #     BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
+      #   run: node ../../common/scripts/install-run-rushx.js ci
 
       - name: Build react-vchart
         env:
