@@ -40,6 +40,7 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
         label?: ITextMark;
         line?: IRuleMark;
     };
+    protected _minLabelLineWidth: number;
     setAttrFromSpec(): void;
     initData(): void;
     getStatisticFields(): {

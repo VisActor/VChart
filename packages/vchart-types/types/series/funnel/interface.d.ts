@@ -36,7 +36,9 @@ export interface IFunnelOuterLabelSpec extends IMarkSpec<IComposedTextMarkSpec> 
     spaceWidth?: number;
     alignLabel?: boolean;
     style?: ITextMarkSpec;
-    line?: IMarkSpec<IRuleMarkSpec>;
+    line?: {
+        minLength?: number;
+    } & IMarkSpec<IRuleMarkSpec>;
 }
 export interface IFunnelSeriesTheme {
     [SeriesMarkNameEnum.funnel]?: Partial<IMarkTheme<IPolygonMarkSpec>>;

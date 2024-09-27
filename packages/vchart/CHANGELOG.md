@@ -1,6 +1,32 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 20 Sep 2024 11:03:33 GMT and should not be manually modified.
+This log was last generated on Fri, 27 Sep 2024 10:40:30 GMT and should not be manually modified.
+
+## 1.12.7
+Fri, 27 Sep 2024 10:40:30 GMT
+
+### Updates
+
+- fix: fix error of `updateSpec` when data changed, fix #3261
+
+
+- feat: feat: support `minLength` in funnel outerlabel line
+- feat(react-vchart): support `morphConfig` of react-vchart, close #3219
+
+
+- fix: color of linear progress track in dark mode
+
+
+- fix: datazoom state field and value field is incomplete problem. fix#3199
+- fix: fix title of axis when the bounds is empty, fix #3265
+
+
+- fix: fix media-query when `updateSpec`
+
+
+- fix: fix updateSpec when add attributes `width`, `height` to `spec`
+
+
 
 ## 1.12.6
 Fri, 20 Sep 2024 11:03:33 GMT

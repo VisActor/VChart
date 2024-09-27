@@ -5,9 +5,8 @@ import type { StringOrNumber } from '../../typings';
 export declare class ChartData {
     protected _dataArr: DataView[];
     get dataList(): DataView[];
-    protected _onError: (...args: any[]) => void;
     protected _dataSet: DataSet;
-    constructor(dataSet: DataSet, onError: (...args: any[]) => void);
+    constructor(dataSet: DataSet);
     parseData(dataSpec: IData): void;
     updateData(dataSpec: IData, fullUp?: boolean, forceMerge?: boolean): boolean;
     private _dataValueForEach;
