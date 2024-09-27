@@ -469,7 +469,7 @@ export interface ISeriesSpec extends IInteractionSpec {
   // background?: IBackgroundSpec;
 }
 
-export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph' | 'stackValue'>;
+export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph' | 'stackValue' | 'tooltip'>;
 
 export type AdaptiveSpec<T, K extends keyof any> = {
   [key in Exclude<keyof T, K>]: T[key];
