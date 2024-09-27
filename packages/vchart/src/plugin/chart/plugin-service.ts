@@ -2,6 +2,7 @@ import type { IChartPlugin, IChartPluginService } from './interface';
 import type { IVChart } from '../../core';
 import { BasePluginService } from '../base/base-plugin-service';
 import type { VChartRenderActionSource } from '../../core/interface';
+import type { IChartSpecInfo } from '../../chart/interface/common';
 
 export class ChartPluginService<T extends IChartPlugin = IChartPlugin>
   extends BasePluginService<T>
@@ -29,6 +30,13 @@ export class ChartPluginService<T extends IChartPlugin = IChartPlugin>
   onAfterChartSpecTransform(chartSpec: any, actionSource: VChartRenderActionSource) {
     this._plugins.forEach(plugin => {
       plugin.onAfterChartSpecTransform && plugin.onAfterChartSpecTransform(this, chartSpec, actionSource);
+    });
+  }
+
+  onAfterModelSpecTransform(chartSpec: any, chartSpecInfo: IChartSpecInfo, actionSource: VChartRenderActionSource) {
+    this._plugins.forEach(plugin => {
+      plugin.onAfterModelSpecTransform &&
+        plugin.onAfterModelSpecTransform(this, chartSpec, chartSpecInfo, actionSource);
     });
   }
 
