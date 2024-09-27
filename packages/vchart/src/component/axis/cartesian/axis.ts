@@ -1,5 +1,5 @@
 import type { ICartesianHorizontal } from './interface/spec';
-import { last, type IBounds, type IBoundsLike, type Maybe } from '@visactor/vutils';
+import { Bounds, last, type IBounds, type IBoundsLike, type Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
@@ -627,15 +627,18 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       const axisComponent = product.getGroupGraphicItem();
 
       const spec = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs, { line: { visible: false } });
-      const updateBounds = axisComponent.getBoundsWithoutRender(spec);
+      let updateBounds = axisComponent.getBoundsWithoutRender(spec);
+
+      if (updateBounds.empty()) {
+        // 如果包围盒为空，设置为布局起点，宽高为0的包围盒
+        updateBounds = new Bounds().set(spec.x, spec.y, spec.x, spec.y);
+      }
 
       hasBounds = true;
       this._latestBounds = updateBounds;
-      if (isFinite(updateBounds.width())) {
-        // 因为轴单位在某些区域显示的时候，是不参与轴某个方向的包围盒计算的，
-        // 所以不太合适放在轴组件内支持，所以就在 VChart 层的轴组件上通过添加 text 图元支持
-        result = this._appendAxisUnit(updateBounds, isX);
-      }
+      // 因为轴单位在某些区域显示的时候，是不参与轴某个方向的包围盒计算的，
+      // 所以不太合适放在轴组件内支持，所以就在 VChart 层的轴组件上通过添加 text 图元支持
+      result = this._appendAxisUnit(updateBounds, isX);
     }
 
     if (!hasBounds) {
