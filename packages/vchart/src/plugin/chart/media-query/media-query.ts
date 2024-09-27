@@ -83,6 +83,8 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     if (actionSource === 'setCurrentTheme') {
       // 重新执行已生效的所有媒体查询
       this._reInit(false, false);
+    } else if (actionSource === 'updateSpec') {
+      this.onBeforeInitChart(service, chartSpec, actionSource);
     }
   }
 

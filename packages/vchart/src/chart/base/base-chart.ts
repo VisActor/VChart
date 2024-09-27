@@ -186,7 +186,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     this._event = new Event(option.eventDispatcher, option.mode);
     this._dataSet = option.dataSet;
-    this._chartData = new ChartData(this._dataSet, this._option?.onError);
+    this._chartData = new ChartData(this._dataSet);
     this._modelOption = {
       ...option,
       mode: this._option.mode,
