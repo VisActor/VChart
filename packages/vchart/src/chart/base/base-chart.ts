@@ -910,10 +910,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
 
     /** 这些组件 visible: false 不创建组件，也在this._components中，所以需要额外检测是否有visible 的切换 */
+    const isVisible = (compSpec: any) => compSpec && compSpec.visible !== false;
     Object.keys(checkVisibleComponents).forEach(type => {
       if (checkVisibleComponents[type]) {
         const compSpec = (this._spec as any)[type];
-        const switchToVisible = isArray(compSpec) ? compSpec.some((entry: any) => entry?.visible) : compSpec?.visible;
+        const switchToVisible = isArray(compSpec) ? compSpec.some(isVisible) : isVisible(compSpec);
 
         if (switchToVisible) {
           result.reMake = true;
