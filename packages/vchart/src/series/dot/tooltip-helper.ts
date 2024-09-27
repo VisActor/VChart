@@ -12,11 +12,11 @@ import { TimeUtil } from '@visactor/vutils';
 import type { IDimensionData } from '../../event';
 
 export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
-  enableByType(activeType: TooltipActiveType): boolean {
+  protected enableByType(activeType: TooltipActiveType): boolean {
     return activeType === 'mark';
   }
 
-  getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
+  protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
     return {
       key: 'event info',
       value: 'event info'
@@ -27,7 +27,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
     return 'square';
   };
 
-  getDefaultContentList(): MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>> {
+  protected getDefaultContentList(): MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>> {
     return (data: TooltipData) => {
       const datum = (data as IDimensionData[])?.[0]?.datum?.[0];
       const contents: ITooltipLinePattern[] = [

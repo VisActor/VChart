@@ -121,7 +121,7 @@ export abstract class BaseTooltipProcessor {
    * @param changePositionOnly
    */
   protected _updateActualTooltip(data: TooltipData, params: TooltipHandlerParams) {
-    const pattern = this._cacheViewSpec[this.activeType] as ITooltipPattern;
+    const pattern = this._cacheViewSpec[this.activeType] ?? (params.tooltipSpec?.[this.activeType] as ITooltipPattern);
     const { changePositionOnly } = params;
 
     if (!changePositionOnly || !this._cacheActualTooltip) {
@@ -137,13 +137,18 @@ export abstract class BaseTooltipProcessor {
         activeType: pattern.activeType,
         data
       };
-      if (pattern.updateTitle) {
+      const updateTitle =
+        this._cacheViewSpec[this.activeType]?.updateTitle ?? params.tooltipSpec?.[this.activeType]?.updateTitle;
+
+      if (updateTitle) {
         const prevTitle = this._cacheActualTooltip.title;
-        this._cacheActualTooltip.title = pattern.updateTitle(prevTitle, data, params) ?? prevTitle;
+        this._cacheActualTooltip.title = updateTitle(prevTitle, data, params) ?? prevTitle;
       }
-      if (pattern.updateContent) {
+      const updateContent =
+        this._cacheViewSpec[this.activeType]?.updateContent ?? params.tooltipSpec?.[this.activeType]?.updateContent;
+      if (updateContent) {
         const prevContent = this._cacheActualTooltip.content;
-        this._cacheActualTooltip.content = pattern.updateContent?.(prevContent, data, params) ?? prevContent;
+        this._cacheActualTooltip.content = updateContent?.(prevContent, data, params) ?? prevContent;
       }
     }
   }

@@ -7,7 +7,7 @@ import type { BoxPlotSeries } from './box-plot';
 
 export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   /** 获取默认的tooltip pattern */
-  getDefaultContentList(activeType: TooltipActiveType): ITooltipLinePattern[] {
+  protected getDefaultContentList(activeType: TooltipActiveType): ITooltipLinePattern[] {
     return [
       {
         key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.OUTLIER),

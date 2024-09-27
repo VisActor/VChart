@@ -4,7 +4,7 @@ import type { TooltipActiveType } from '../../../typings';
 
 export class LinearProgressSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   /** 获取默认的tooltip pattern */
-  enableByType(activeType: TooltipActiveType): boolean {
+  protected enableByType(activeType: TooltipActiveType): boolean {
     return activeType !== 'dimension';
   }
 }

@@ -8,7 +8,7 @@ import type {
   TooltipData,
   TooltipPatternProperty
 } from '../../typings';
-import { array, isValid } from '@visactor/vutils';
+import { array, isFunction, isValid } from '@visactor/vutils';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
 import type { Datum } from '@visactor/vgrammar-core';
@@ -136,7 +136,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     return dimensionFields.map(field => datum?.[field]).join('-');
   };
 
-  getShapeAttrs(activeType: TooltipActiveType, chartTooltipSpec?: ITooltipSpec) {
+  protected getShapeAttrs(activeType: TooltipActiveType, chartTooltipSpec?: ITooltipSpec) {
     const shapeAttrs = {
       ...chartTooltipSpec?.style?.shape,
       ...chartTooltipSpec?.[activeType],
@@ -153,23 +153,41 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     };
   }
 
-  enableByType(activeType: TooltipActiveType) {
+  protected enableByType(activeType: TooltipActiveType) {
     return true;
   }
 
-  getDefaultContentList(
+  protected getDefaultContentList(
     activeType: TooltipActiveType
   ): MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>> {
     return [{}];
   }
 
-  getContentList(
+  protected getContentList(
     activeType: TooltipActiveType,
     contentSpec: MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>,
     data?: TooltipData,
     params?: TooltipHandlerParams
   ): ITooltipLinePattern[] {
     return parseContent(contentSpec ?? this.getDefaultContentList(activeType), data, params);
+  }
+
+  protected getTitlePattern(
+    activeType: TooltipActiveType,
+    titleSpec: TooltipPatternProperty<ITooltipLinePattern>,
+    data?: TooltipData,
+    params?: TooltipHandlerParams
+  ) {
+    const titlePattern = isFunction(titleSpec)
+      ? (titleSpec(data, params) as ITooltipLinePattern)
+      : (titleSpec as ITooltipLinePattern);
+
+    return titlePattern
+      ? {
+          ...this.getDefaultTitlePattern(activeType),
+          ...titlePattern
+        }
+      : this.getDefaultTitlePattern(activeType);
   }
 
   getTooltipPattern(
@@ -204,9 +222,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
         return {
           visible: true,
           activeType,
-          title: patternSpec?.title
-            ? { ...shapeAttrs, ...this.getDefaultTitlePattern(activeType), ...patternSpec.title }
-            : { ...shapeAttrs, ...this.getDefaultTitlePattern(activeType) },
+          title: { ...shapeAttrs, ...this.getTitlePattern(activeType, patternSpec?.title, data, params) },
           content
         };
       }
@@ -216,16 +232,14 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     return {
       visible: true,
       activeType,
-      title: patternSpec?.title
-        ? { ...shapeAttrs, ...this.getDefaultTitlePattern(activeType), ...patternSpec.title }
-        : { ...shapeAttrs, ...this.getDefaultTitlePattern(activeType) },
+      title: { ...shapeAttrs, ...this.getTitlePattern(activeType, patternSpec?.title, data, params) },
       content: this.getContentList(activeType, patternSpec?.content, data, params).map(entry => {
         return { ...shapeAttrs, ...this.getDefaultContentPattern(activeType), ...entry };
       })
     };
   }
 
-  getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
+  protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
     return {
       key: undefined,
       value: activeType === 'group' ? this.groupTooltipTitleCallback : this.dimensionTooltipTitleCallback,
@@ -233,7 +247,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     };
   }
 
-  getDefaultContentPattern(activeType: TooltipActiveType): ITooltipPattern['content'] {
+  protected getDefaultContentPattern(activeType: TooltipActiveType): ITooltipPattern['content'] {
     return {
       seriesId: this.series.id,
       key: activeType === 'group' ? this.groupTooltipKeyCallback : this.markTooltipKeyCallback,

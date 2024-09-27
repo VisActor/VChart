@@ -4,11 +4,11 @@ import type { ITooltipLinePattern, ITooltipPattern, TooltipActiveType } from '..
 import { TimeUtil } from '@visactor/vutils';
 
 export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
-  enableByType(activeType: TooltipActiveType): boolean {
+  protected enableByType(activeType: TooltipActiveType): boolean {
     return activeType === 'mark';
   }
 
-  getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
+  protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
     return {
       key: 'link info',
       value: 'link info'
@@ -19,7 +19,7 @@ export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements 
     return 'square';
   };
 
-  getDefaultContentList(): ITooltipLinePattern[] {
+  protected getDefaultContentList(): ITooltipLinePattern[] {
     return [
       {
         key: 'time',

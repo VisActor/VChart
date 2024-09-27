@@ -13,8 +13,6 @@ export interface ISeriesTooltipHelper extends ITooltipHelper {
     data?: TooltipData
   ) => ITooltipPattern | null;
 
-  enableByType: (activeType: TooltipActiveType) => boolean;
-
   // 可以继承的原子化回调
   markTooltipKeyCallback: TooltipContentCallback<string>;
   markTooltipValueCallback: TooltipContentCallback<string>;
