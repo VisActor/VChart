@@ -204,7 +204,7 @@ export class ContentColumnModel extends BaseTooltipModel {
       hasShape: line.hasShape,
       symbolType: line.shapeType,
       size: shapeColumn.width,
-      fill: line.shapeFill ?? line.shapeColor,
+      fill: line.shapeFill,
       stroke: line.shapeStroke,
       lineWidth: line.shapeLineWidth,
       hollow: line.shapeHollow,

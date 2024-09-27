@@ -172,8 +172,8 @@ export const getShowContent = (
       if (isNil(tooltipActualTitleContent.title.shapeType)) {
         tooltipActualTitleContent.title.shapeType = tooltipActualTitleContent.content[0].shapeType;
       }
-      if (isNil(tooltipActualTitleContent.title.shapeColor)) {
-        tooltipActualTitleContent.title.shapeColor = tooltipActualTitleContent.content[0].shapeColor;
+      if (isNil(tooltipActualTitleContent.title.shapeFill)) {
+        tooltipActualTitleContent.title.shapeFill = tooltipActualTitleContent.content[0].shapeFill;
       }
     } else {
       tooltipActualTitleContent.title.hasShape = false;
@@ -225,11 +225,10 @@ export const getOneLineData = (
     isKeyAdaptive,
     hasShape: config.hasShape,
     shapeType,
-    shapeFill,
+    shapeFill: shapeFill ?? shapeColor,
     shapeStroke,
     shapeLineWidth,
     shapeHollow,
-    shapeColor,
     keyStyle,
     valueStyle,
     spaceRow,

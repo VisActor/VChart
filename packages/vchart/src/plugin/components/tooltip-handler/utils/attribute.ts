@@ -179,9 +179,7 @@ export const getTooltipAttributes = (
         spaceRow: actualSpaceRow,
         keyStyle: actualKeyStyle,
         valueStyle: actualValueStyle,
-        shapeHollow: actualShapeHollow,
-        // 弃用的属性，做下兼容
-        shapeColor: actualShapeColor
+        shapeHollow: actualShapeHollow
       } = item;
       const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow: actualSpaceRow ?? commonSpaceRow };
       if (isValid(actualKey)) {
@@ -225,13 +223,12 @@ export const getTooltipAttributes = (
           visible: true,
           symbolType: actualShapeType
         };
-        const adaptiveShapeFill = actualShapeFill ?? actualShapeColor;
         if (actualShapeHollow) {
-          shape.stroke = adaptiveShapeFill;
+          shape.stroke = actualShapeFill;
         } else {
-          shape.fill = adaptiveShapeFill;
+          shape.fill = actualShapeFill;
         }
-        shape.stroke = actualShapeStroke ?? adaptiveShapeFill;
+        shape.stroke = actualShapeStroke ?? actualShapeFill;
         shape.lineWidth = actualShapeLineWidth;
         itemAttrs.shape = shape;
 
