@@ -1,3 +1,46 @@
+# v1.12.6
+
+2024-09-23
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 添加生命周期钩子，`afterCreateVChart`, `beforeInitializeChart`, `afterInitializeChart`
+- **@visactor/vchart**: 极坐标系角度轴，支持`autoLimit`、`autoWrap`、`autoHide` 等配置
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 允许极坐标图中的增加`indicator`组件
+- **@visactor/vchart**: 修复`label`组件中`position`默认值的问题，修复[#3242](https://github.com/VisActor/VChart/issues/3242)
+- **@visactor/vchart**: 修复类型错误，`PointerMarkSpec`中`type`修改为可选类型，修复 [#3227](https://github.com/VisActor/VChart/issues/3227)
+- **@visactor/vchart**: 在触发`resize`时使用 `throttle`节流
+- **@visactor/vchart**: 修复`label`配置更新的时候，图表更新类型应该为`reCompile`而不是`remake`
+- **@visactor/vchart**: 修复`customMark`不支持`markName` 事件过滤器的问题
+- **@visactor/vchart**: 修复雷达图更新动画触发错误的问题，修复[#3228](https://github.com/VisActor/VChart/issues/3228)
+
+[更多详情请查看 v1.12.6](https://github.com/VisActor/VChart/releases/tag/v1.12.6)
+
+# v1.12.5
+
+2024-09-23
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: `customMark`和`extensionMark`支持 `markName` 事件过滤器
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 优化笛卡尔图表的第一个坐标轴标签自动限制效果
+- **@visactor/vchart**: `animationUpdate` 也应控制标签动画
+- **@visactor/vchart**: 修复环形进度条的默认值，修复 [#2683](https://github.com/VisActor/VChart/issues/2683)
+- **@visactor/vchart**: 修复雷达图在存在负半径时的显示问题
+- **@visactor/vchart**: `word.style.fontWeight` 应该改变词云中文本的样式，修复 [#3212](https://github.com/VisActor/VChart/issues/3212)
+
+**🔨 重构**
+
+- **@visactor/vchart**: 简化 `getSpecInfo`
+
+[more detail about v1.12.5](https://github.com/VisActor/VChart/releases/tag/v1.12.5)
+
 # v1.12.4
 
 2024-09-09

@@ -177,6 +177,16 @@ interface VChartProps extends EventsProps {
    * @since 1.6.5
    **/
   skipFunctionDiff?: boolean;
+  /**
+   * The animation configuration for chart updates, with morph animations disabled by default. The default values are:
+   * {
+   *   morph: false,
+   *   enableExitAnimation: false
+   * }
+   * @since 1.12.7
+   */
+
+  morphConfig?: IVChartRenderOption['morphConfig'];
 }
 ```
 
@@ -448,39 +458,39 @@ interface VChartSimpleProps extends EventsProps {
 
 - Use semantic tags, from version **1.11.0**, all semantic tags support on-demand loading by default, with the default registered components for each type of chart as follows:
 
-| Chart                        | Category         | Additional Registered Components     |
-| ---------------------------- | ---------------- | ------------------------------------ |
-| `<LineChart/>`               | Cartesian Charts | `registerLabel`                      |
-| `<AreaChart/>`               | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
-| `<BarChart/>`                | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
-| `<Bar3dChart/>`              | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
-| `<BoxPlotChart/>`            | Cartesian Charts | `registerLabel`,                     |
-| `<HeatmapChart/>`            | Cartesian Charts | `registerLabel`                      |
-| `<Histogram3dChart/>`        | Cartesian Charts | `registerLabel`                      |
-| `<HistogramChart/>`          | Cartesian Charts | `registerLabel`                      |
-| `<LinearProgressChart/>`     | Cartesian Charts | `registerLabel`                      |
-| `<RangeColumnChart/>`        | Cartesian Charts | `registerLabel`                      |
-| `<RangeColumn3dChart/>`      | Cartesian Charts | `registerLabel`                      |
-| `<ScatterChart/>`            | Cartesian Charts | `registerLabel`                      |
-| `<SequenceChart/>`           | Cartesian Charts | `registerLabel`                      |
-| `<WaterfallChart/>`          | Cartesian Charts | `registerLabel`, `registerTotalLabel`|
-| `<RadarChart/>`              | Polar Charts     | `registerLabel`                      |
-| `<RoseChart/>`               | Polar Charts     | `registerLabel`                      |
-| `<CircularProgressChart/>`   | Polar Charts     | `registerLabel`, `registerIndicator` |
-| `<Pie3dChart/>`              | General Charts   | `registerLabel`, `registerIndicator` |
-| `<PieChart/>`                | General Charts   | `registerLabel`, `registerIndicator` |
-| `<CirclePackingChart/>`      | General Charts   | None                                 |
-| `<FunnelChart/>`             | General Charts   | `registerLabel`                      |
-| `<Funnel3dChart/>`           | General Charts   | `registerLabel`                      |
-| `<GaugeChart/>`              | General Charts   | None                                 |
-| `<MapChart/>`                | General Charts   | `registerLabel`                      |
-| `<SankeyChart/>`             | General Charts   | None                                 |
-| `<SunburstChart/>`           | General Charts   | None                                 |
-| `<TreemapChart/>`            | General Charts   | None                                 |
-| `<VennChart/>`               | General Charts   | None                                 |
-| `<WordCloud3dChart/>`        | General Charts   | None                                 |
-| `<WordCloudChart/>`          | General Charts   | None                                 |
-| `<LiquidChart/>`             | General Charts   | `registerIndicator`                  |
+| Chart                      | Category         | Additional Registered Components      |
+| -------------------------- | ---------------- | ------------------------------------- |
+| `<LineChart/>`             | Cartesian Charts | `registerLabel`                       |
+| `<AreaChart/>`             | Cartesian Charts | `registerLabel`, `registerTotalLabel` |
+| `<BarChart/>`              | Cartesian Charts | `registerLabel`, `registerTotalLabel` |
+| `<Bar3dChart/>`            | Cartesian Charts | `registerLabel`, `registerTotalLabel` |
+| `<BoxPlotChart/>`          | Cartesian Charts | `registerLabel`,                      |
+| `<HeatmapChart/>`          | Cartesian Charts | `registerLabel`                       |
+| `<Histogram3dChart/>`      | Cartesian Charts | `registerLabel`                       |
+| `<HistogramChart/>`        | Cartesian Charts | `registerLabel`                       |
+| `<LinearProgressChart/>`   | Cartesian Charts | `registerLabel`                       |
+| `<RangeColumnChart/>`      | Cartesian Charts | `registerLabel`                       |
+| `<RangeColumn3dChart/>`    | Cartesian Charts | `registerLabel`                       |
+| `<ScatterChart/>`          | Cartesian Charts | `registerLabel`                       |
+| `<SequenceChart/>`         | Cartesian Charts | `registerLabel`                       |
+| `<WaterfallChart/>`        | Cartesian Charts | `registerLabel`, `registerTotalLabel` |
+| `<RadarChart/>`            | Polar Charts     | `registerLabel`                       |
+| `<RoseChart/>`             | Polar Charts     | `registerLabel`                       |
+| `<CircularProgressChart/>` | Polar Charts     | `registerLabel`, `registerIndicator`  |
+| `<Pie3dChart/>`            | General Charts   | `registerLabel`, `registerIndicator`  |
+| `<PieChart/>`              | General Charts   | `registerLabel`, `registerIndicator`  |
+| `<CirclePackingChart/>`    | General Charts   | None                                  |
+| `<FunnelChart/>`           | General Charts   | `registerLabel`                       |
+| `<Funnel3dChart/>`         | General Charts   | `registerLabel`                       |
+| `<GaugeChart/>`            | General Charts   | None                                  |
+| `<MapChart/>`              | General Charts   | `registerLabel`                       |
+| `<SankeyChart/>`           | General Charts   | None                                  |
+| `<SunburstChart/>`         | General Charts   | None                                  |
+| `<TreemapChart/>`          | General Charts   | None                                  |
+| `<VennChart/>`             | General Charts   | None                                  |
+| `<WordCloud3dChart/>`      | General Charts   | None                                  |
+| `<WordCloudChart/>`        | General Charts   | None                                  |
+| `<LiquidChart/>`           | General Charts   | `registerIndicator`                   |
 
 For Cartesian charts, the default registered components are as follows:
 

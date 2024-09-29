@@ -1,6 +1,5 @@
-import type { utilFunctionCtx } from '../typings/params';
-import { warn, error } from '../util/debug';
-import { isString, merge, cloneDeep } from '@visactor/vutils';
+import { warn } from '../util/debug';
+import { isString, cloneDeep } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vdataset';
@@ -45,12 +44,7 @@ export function dataViewFromDataView(rawData: DataView, dataSet?: DataSet, op?: 
  * @param dataSet 数据集
  * @returns
  */
-export function dataToDataView(
-  data: DataView | IDataValues,
-  dataSet: DataSet,
-  sourceDataViews: DataView[] = [],
-  ctx: utilFunctionCtx = {}
-) {
+export function dataToDataView(data: DataView | IDataValues, dataSet: DataSet, sourceDataViews: DataView[] = []) {
   if (data instanceof DataView) {
     return data;
   }
@@ -75,7 +69,7 @@ export function dataToDataView(
       // 使用id查找上游dataview
       const fromDataView = sourceDataViews.find(dv => dv.name === fromDataId);
       if (!fromDataView) {
-        (ctx.onError ?? error)(`no data matches fromDataId ${fromDataId}`);
+        warn(`no data matches fromDataId ${fromDataId}`);
         return null;
       }
 
@@ -89,7 +83,7 @@ export function dataToDataView(
       // 使用index查找上游dataview
       const fromDataView = sourceDataViews[fromDataIndex];
       if (!fromDataView) {
-        (ctx.onError ?? error)(`no data matches fromDataIndex ${fromDataIndex}`);
+        warn(`no data matches fromDataIndex ${fromDataIndex}`);
         return null;
       }
 

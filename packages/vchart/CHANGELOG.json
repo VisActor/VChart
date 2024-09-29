@@ -2,6 +2,39 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.7",
+      "tag": "@visactor/vchart_v1.12.7",
+      "date": "Fri, 27 Sep 2024 10:40:30 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix error of `updateSpec` when data changed, fix #3261\n\n"
+          },
+          {
+            "comment": "feat: feat: support `minLength` in funnel outerlabel line"
+          },
+          {
+            "comment": "feat(react-vchart): support `morphConfig` of react-vchart, close #3219\n\n"
+          },
+          {
+            "comment": "fix: color of linear progress track in dark mode\n\n"
+          },
+          {
+            "comment": "fix: datazoom state field and value field is incomplete problem. fix#3199"
+          },
+          {
+            "comment": "fix: fix title of axis when the bounds is empty, fix #3265\n\n"
+          },
+          {
+            "comment": "fix: fix media-query when `updateSpec`\n\n"
+          },
+          {
+            "comment": "fix: fix updateSpec when add attributes `width`, `height` to `spec`\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.6",
       "tag": "@visactor/vchart_v1.12.6",
       "date": "Fri, 20 Sep 2024 11:03:33 GMT",

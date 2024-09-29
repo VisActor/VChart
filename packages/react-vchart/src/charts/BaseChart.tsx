@@ -1,4 +1,12 @@
-import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor, IHierarchyData } from '@visactor/vchart';
+import type {
+  IVChart,
+  IData,
+  IInitOption,
+  ISpec,
+  IVChartConstructor,
+  IHierarchyData,
+  IVChartRenderOption
+} from '@visactor/vchart';
 import type { ReactNode } from 'react';
 import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import type { ContainerProps } from '../containers/withContainer';
@@ -56,6 +64,11 @@ export interface BaseChartProps
   options?: ChartOptions;
   /** skip function diff when component update */
   skipFunctionDiff?: boolean;
+  /**
+   * add `morphConfig` for chart
+   * @since 1.12.7
+   */
+  morphConfig?: IVChartRenderOption['morphConfig'];
   /** 图表渲染完成事件 */
   onReady?: (instance: IVChart, isInitial: boolean) => void;
   /** throw error when chart run into an error */
@@ -81,8 +94,13 @@ const notSpecKeys = [
   'onReady',
   'spec',
   'container',
-  'options'
+  'options',
+  'morphConfig'
 ];
+const defaultMorphConfig = {
+  morph: false,
+  enableExitAnimation: false
+};
 
 const getComponentId = (child: React.ReactNode, index: number) => {
   const componentName = child && (child as any).type && ((child as any).type.displayName || (child as any).type.name);
@@ -106,13 +124,13 @@ const parseSpecFromChildren = (props: Props) => {
       const specResult = parseSpec(childProps);
 
       if (specResult.isSingle) {
-        specFromChildren[specResult.specName] = specResult.spec;
+        (specFromChildren as any)[specResult.specName] = specResult.spec;
       } else {
-        if (!specFromChildren[specResult.specName]) {
-          specFromChildren[specResult.specName] = [];
+        if (!(specFromChildren as any)[specResult.specName]) {
+          (specFromChildren as any)[specResult.specName] = [];
         }
 
-        specFromChildren[specResult.specName].push(specResult.spec);
+        (specFromChildren as any)[specResult.specName].push(specResult.spec);
       }
     }
   });
@@ -214,10 +232,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
-        chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
-          morph: false,
-          enableExitAnimation: false
-        });
+        chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, props.morphConfig ?? defaultMorphConfig);
         handleChartRender();
         eventsBinded.current = props;
       } else if (eventsBinded.current.data !== props.data) {
@@ -237,10 +252,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       prevSpec.current = newSpec;
       specFromChildren.current = newSpecFromChildren;
 
-      chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
-        morph: false,
-        enableExitAnimation: false
-      });
+      chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, props.morphConfig ?? defaultMorphConfig);
       handleChartRender();
       eventsBinded.current = props;
     }

@@ -19,6 +19,7 @@ export declare class MediaQuery extends BasePlugin implements IChartPlugin {
     onInit(service: IChartPluginService, chartSpec: any): void;
     onBeforeResize(service: IChartPluginService, width: number, height: number): void;
     onAfterChartSpecTransform(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource): void;
+    onAfterModelSpecTransform(service: IChartPluginService, chartSpec: any, chartInfo: IChartSpecInfo, actionSource: VChartRenderActionSource): void;
     onBeforeInitChart(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource): void;
     protected _changeSize(width: number, height: number, compile?: boolean, render?: boolean): boolean;
     protected _applyQueries(compile?: boolean, render?: boolean): boolean;

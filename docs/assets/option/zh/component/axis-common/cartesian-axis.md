@@ -88,7 +88,7 @@ export type CustomMethod = (items: IText[], separation: number) => IText[];
 
 ##${prefix} autoLimit(boolean) = false
 
-轴标签自动隐藏开关，默认关闭，**需要手动开启，同时需要将 `sampling` 关闭**。
+轴标签自动截断开关，默认关闭，**需要手动开启，同时需要将 `sampling` 关闭**。
 
 ##${prefix} limitEllipsis(string) = '...'
 

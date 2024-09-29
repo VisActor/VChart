@@ -86,6 +86,21 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     }
   }
 
+  onAfterModelSpecTransform(
+    service: IChartPluginService,
+    chartSpec: any,
+    chartInfo: IChartSpecInfo,
+    actionSource: VChartRenderActionSource
+  ) {
+    if (!this._initialized) {
+      return;
+    }
+
+    if (actionSource === 'updateSpec') {
+      this.onBeforeInitChart(service, chartSpec, 'setCurrentTheme');
+    }
+  }
+
   onBeforeInitChart(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource) {
     if (!this._initialized) {
       return;
@@ -100,7 +115,6 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
         resetMediaQuery = false;
         checkMediaQuery = true;
         break;
-      case 'updateSpec':
       case 'setCurrentTheme':
         resetMediaQuery = true;
         checkMediaQuery = false;

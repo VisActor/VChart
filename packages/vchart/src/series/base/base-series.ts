@@ -356,9 +356,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   protected initData(): void {
     const d = this._spec.data ?? this._option.getSeriesData(this._spec.dataId, this._spec.dataIndex);
     if (d) {
-      this._rawData = dataToDataView(d, this._dataSet, this._option.sourceDataList, {
-        onError: this._option?.onError
-      });
+      this._rawData = dataToDataView(d, this._dataSet, this._option.sourceDataList);
     }
     this._rawData?.target?.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
@@ -430,9 +428,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
             this._rawStatisticsCache[field].values = fieldInfo.domain;
           }
         } else {
-          const result = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
-            { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
-          ])[field];
+          const result = (
+            dimensionStatisticsOfSimpleData(this._rawData.latestData as Datum[], [
+              { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
+            ]) as any
+          )[field];
           this._rawStatisticsCache[field] = merge(this._rawStatisticsCache[field] ?? {}, result);
         }
       }

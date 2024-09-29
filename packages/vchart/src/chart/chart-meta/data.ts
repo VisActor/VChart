@@ -5,17 +5,16 @@ import { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import type { IDataValues, StringOrNumber } from '../../typings';
 import { dataToDataView, updateDataViewInData } from '../../data/initialize';
+import { warn } from '../../util/debug';
 export class ChartData {
   protected _dataArr: DataView[] = [];
   get dataList() {
     return this._dataArr;
   }
 
-  protected _onError: (...args: any[]) => void;
   protected _dataSet: DataSet;
 
-  constructor(dataSet: DataSet, onError: (...args: any[]) => void) {
-    this._onError = onError;
+  constructor(dataSet: DataSet) {
     this._dataSet = dataSet;
   }
 
@@ -23,7 +22,7 @@ export class ChartData {
     this._dataArr = [];
     const list = array(dataSpec);
     for (let i = 0; i < list.length; i++) {
-      this._dataArr.push(dataToDataView(list[i], this._dataSet, this._dataArr, { onError: this._onError }));
+      this._dataArr.push(dataToDataView(list[i], this._dataSet, this._dataArr));
     }
   }
 
@@ -72,10 +71,7 @@ export class ChartData {
       if (metchData[0]) {
         return metchData[0];
       }
-
-      // id不匹配，报错处理
-      this._onError?.(`no data matches dataId ${id}!`);
-      return null;
+      warn(`no data matches dataId ${id}!`);
     }
 
     // 其次使用dataIndex
@@ -83,9 +79,8 @@ export class ChartData {
       if (this._dataArr[index]) {
         return this._dataArr[index];
       }
-      // index不匹配，报错处理
-      this._onError?.(`no data matches dataIndex ${index}!`);
-      return null;
+
+      warn(`no data matches dataIndex ${index}!`);
     }
 
     // 最后返回第一条数据

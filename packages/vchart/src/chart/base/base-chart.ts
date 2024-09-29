@@ -186,7 +186,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     this._event = new Event(option.eventDispatcher, option.mode);
     this._dataSet = option.dataSet;
-    this._chartData = new ChartData(this._dataSet, this._option?.onError);
+    this._chartData = new ChartData(this._dataSet);
     this._modelOption = {
       ...option,
       mode: this._option.mode,
@@ -756,6 +756,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
+  private _getSpecKeys(spec: T) {
+    const ignoreKeys: Record<string, boolean> = { width: true, height: true };
+    return Object.keys(spec)
+      .filter(key => !ignoreKeys[key])
+      .sort();
+  }
+
   updateSpec(spec: T) {
     const result = {
       change: false,
@@ -774,9 +781,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
     // spec set & transformSpec
     // diff meta length;
-    const currentKeys = Object.keys(this._spec).sort();
-    const nextKeys = Object.keys(spec).sort();
-    if (JSON.stringify(currentKeys) !== JSON.stringify(nextKeys)) {
+
+    const currentKeys = this._getSpecKeys(this._spec);
+    const nextKeys = this._getSpecKeys(spec);
+    if (!isEqual(currentKeys, nextKeys)) {
       result.reMake = true;
       return result;
     }
@@ -902,10 +910,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
 
     /** 这些组件 visible: false 不创建组件，也在this._components中，所以需要额外检测是否有visible 的切换 */
+    const isVisible = (compSpec: any) => compSpec && compSpec.visible !== false;
     Object.keys(checkVisibleComponents).forEach(type => {
       if (checkVisibleComponents[type]) {
         const compSpec = (this._spec as any)[type];
-        const switchToVisible = isArray(compSpec) ? compSpec.some(entry => entry?.visible) : compSpec?.visible;
+        const switchToVisible = isArray(compSpec) ? compSpec.some(isVisible) : isVisible(compSpec);
 
         if (switchToVisible) {
           result.reMake = true;

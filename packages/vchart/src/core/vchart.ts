@@ -689,12 +689,12 @@ export class VChart implements IVChart {
     }
 
     const { transformSpec, actionSource } = option;
+
     if (transformSpec) {
       // 初始化图表 spec
       this._initChartSpec(this._spec, 'render');
+      // 插件生命周期
     }
-
-    // 插件生命周期
     this._chartPluginApply('onBeforeInitChart', this._spec, actionSource);
 
     // 实例化图表
@@ -951,9 +951,7 @@ export class VChart implements IVChart {
         }
       } else {
         // new data
-        const dataView = dataToDataView(d, <DataSet>this._dataSet, prevData, {
-          onError: this._option?.onError
-        });
+        const dataView = dataToDataView(d, <DataSet>this._dataSet, prevData);
 
         if (isArray(this._spec.data)) {
           this._spec.data.push(dataView);
@@ -1079,7 +1077,7 @@ export class VChart implements IVChart {
       return result;
     }
     // 再次处理 spec 并得到 specInfo
-    this._initChartSpec(this._spec, 'render');
+    this._initChartSpec(this._spec, 'updateSpec');
 
     const res = mergeUpdateResult(this._chart.updateSpec(this._spec), result);
 

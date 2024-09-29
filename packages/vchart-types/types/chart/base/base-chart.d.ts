@@ -110,6 +110,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     updateGlobalScaleDomain(): void;
     updateGlobalScale(result: IUpdateSpecResult): void;
     updateGlobalScaleTheme(): void;
+    private _getSpecKeys;
     updateSpec(spec: T): {
         change: boolean;
         reMake: boolean;

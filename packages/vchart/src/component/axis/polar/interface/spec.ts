@@ -7,6 +7,10 @@ import type { IPolarGrid } from './common';
 /** spec */
 export type IPolarAxisSpec = IPolarLinearAxisSpec | IPolarBandAxisSpec;
 
+/**
+ * 自1.12.6版本，角度轴也支持自动省略、自动隐藏、自动换行等功能
+ * @since 1.12.6
+ */
 export type IPolarAxisLabel = ILabel &
   Pick<
     AxisLabelOverlap,
