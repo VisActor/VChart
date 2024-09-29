@@ -192,6 +192,11 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
 
     if (!titlePattern) {
       titlePattern = this.getDefaultTitlePattern(activeType);
+    } else if (isNil(titlePattern.value)) {
+      titlePattern = {
+        ...this.getDefaultTitlePattern(activeType),
+        ...titlePattern
+      };
     }
 
     if (titlePattern && titlePattern.visible !== false) {
