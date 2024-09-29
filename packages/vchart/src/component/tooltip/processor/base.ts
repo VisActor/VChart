@@ -105,7 +105,13 @@ export abstract class BaseTooltipProcessor {
     if (!changePositionOnly || !this._cacheViewSpec) {
       const tooltipSpec = this.component.getSpec();
       /** spec 预处理 */
-      this._cacheViewSpec = getTooltipSpecForShow(this.activeType, this.component.getSpec(), model as ISeries, data);
+      this._cacheViewSpec = getTooltipSpecForShow(
+        this.activeType,
+        this.component.getSpec(),
+        model as ISeries,
+        data,
+        params
+      );
 
       if (this._cacheViewSpec) {
         if (isNil(this._cacheViewSpec.handler) && isValid(tooltipSpec.handler)) {
