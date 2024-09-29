@@ -1,7 +1,7 @@
-import { isNil, isValid } from '@visactor/vutils';
+import { isNil } from '@visactor/vutils';
 import type { BaseEventParams } from '../../../event/interface';
-import type { ITooltipActual, ITooltipPattern, TooltipActiveType, TooltipData } from '../../../typings';
-import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
+import type { ITooltipActual, TooltipActiveType, TooltipData } from '../../../typings';
+import type { TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../interface/common';
 import type { Tooltip } from '../tooltip';
@@ -11,16 +11,13 @@ import type { TooltipEventParams } from '../interface/event';
 import type { IDimensionInfo } from '../../../event/events/dimension';
 import type { ISeries } from '../../../series/interface';
 import { getTooltipSpecForShow } from '../utils/get-spec';
-import { getShowContent } from '../utils/compose';
-import { getTooltipPatternValue } from '../utils/get-value';
 import { isActiveTypeVisible } from '../utils/common';
 
 export abstract class BaseTooltipProcessor {
   readonly component: Tooltip;
   abstract activeType: TooltipActiveType;
 
-  protected _cacheViewSpec: ITooltipSpec | undefined;
-  protected _cacheActualTooltip: ITooltipActual | undefined;
+  protected _cacheViewSpec: ITooltipActual | undefined;
 
   constructor(component: Tooltip) {
     this.component = component;
@@ -43,18 +40,14 @@ export abstract class BaseTooltipProcessor {
     // 更新 this._cacheViewSpec
     this._updateViewSpec(data, params);
     const spec = this._cacheViewSpec;
-    if (isNil(spec?.[this.activeType]) || spec.visible === false) {
+    if (isNil(spec) || spec.visible === false) {
       return TooltipResult.failed;
     }
     params.tooltipSpec = this.component.getSpec();
     params.activeTooltipSpec = spec;
 
-    // 更新 this._cacheActualTooltip
-    this._updateActualTooltip(data, params);
-    params.tooltipActual = this._cacheActualTooltip;
-
     // 判断 tooltip 是否为空
-    const { title, content } = this._cacheActualTooltip;
+    const { title, content } = spec;
 
     const isEmpty = isNil(title?.key) && isNil(title?.value) && !content?.length;
     // 触发事件
@@ -114,45 +107,6 @@ export abstract class BaseTooltipProcessor {
     }
   }
 
-  /**
-   * 合成 tooltip 内容
-   * @param data
-   * @param params
-   * @param changePositionOnly
-   */
-  protected _updateActualTooltip(data: TooltipData, params: TooltipHandlerParams) {
-    const pattern = this._cacheViewSpec[this.activeType] ?? (params.tooltipSpec?.[this.activeType] as ITooltipPattern);
-    const { changePositionOnly } = params;
-
-    if (!changePositionOnly || !this._cacheActualTooltip) {
-      // 合成 tooltip 内容
-      const tooltipContent = getShowContent(pattern, data, params);
-
-      // 判断可见性
-      const visible = isValid(tooltipContent) ? getTooltipPatternValue(pattern.visible, data, params) !== false : false; // 最终展示数据为 null 则不展示
-
-      this._cacheActualTooltip = {
-        ...tooltipContent,
-        visible,
-        activeType: pattern.activeType,
-        data
-      };
-      const updateTitle =
-        this._cacheViewSpec[this.activeType]?.updateTitle ?? params.tooltipSpec?.[this.activeType]?.updateTitle;
-
-      if (updateTitle) {
-        const prevTitle = this._cacheActualTooltip.title;
-        this._cacheActualTooltip.title = updateTitle(prevTitle, data, params) ?? prevTitle;
-      }
-      const updateContent =
-        this._cacheViewSpec[this.activeType]?.updateContent ?? params.tooltipSpec?.[this.activeType]?.updateContent;
-      if (updateContent) {
-        const prevContent = this._cacheActualTooltip.content;
-        this._cacheActualTooltip.content = updateContent?.(prevContent, data, params) ?? prevContent;
-      }
-    }
-  }
-
   /** 判断是否应该触发 tooltip */
   shouldHandleTooltip(params: BaseEventParams, info: TooltipInfo): boolean {
     if (isNil(info)) {
@@ -164,6 +118,5 @@ export abstract class BaseTooltipProcessor {
 
   clearCache() {
     this._cacheViewSpec = undefined;
-    this._cacheActualTooltip = undefined;
   }
 }

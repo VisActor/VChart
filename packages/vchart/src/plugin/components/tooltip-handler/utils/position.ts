@@ -20,14 +20,14 @@ import { isFunction, isNumber, isObject, isValid } from '@visactor/vutils';
 export const getActualTooltipPositionValue = (
   position: number | ((event: MouseEvent) => number) | null | undefined,
   event: MouseEvent
-) => {
-  let result;
+): number => {
+  let result: number;
   if (isValid(position)) {
     if (isNumber(position)) {
-      result = position;
+      result = position as number;
     } else if (isFunction(position)) {
       //  这里额外判断下是否合法
-      const tooltipPosition = position(event);
+      const tooltipPosition = (position as (event: MouseEvent) => number)(event);
 
       if (isNumber(tooltipPosition)) {
         result = tooltipPosition;

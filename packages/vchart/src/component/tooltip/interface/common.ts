@@ -12,9 +12,8 @@ export type TooltipHandlerParams = DimensionEventParams & {
   /** tooltip 原始的spec */
   tooltipSpec?: ITooltipSpec;
   /** TODO: 本次触发的tooltip，主要包含pattern数据，待优化 */
-  activeTooltipSpec?: Pick<ITooltipSpec, 'activeType' | 'dimension' | 'mark' | 'group' | 'visible' | 'handler'>;
-  /** 本次触发的 tooltip 的显示数据 */
-  tooltipActual?: ITooltipActual;
+  activeTooltipSpec?: ITooltipActual;
+  // Pick<ITooltipSpec, 'activeType' | 'dimension' | 'mark' | 'group' | 'visible' | 'handler'>;
   /** 和 datum 同组的数据项 */
   groupDatum?: Datum[];
 };

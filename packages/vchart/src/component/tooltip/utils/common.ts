@@ -1,14 +1,20 @@
-import { isArray, isFunction, isNil, isValid } from '@visactor/vutils';
+import { isArray, isFunction, isNil, isValid, TimeUtil } from '@visactor/vutils';
 import type {
+  Datum,
+  ITooltipActual,
+  ITooltipLineActual,
   ITooltipLinePattern,
   ITooltipPattern,
   MaybeArray,
   TooltipActiveType,
+  TooltipContentProperty,
   TooltipData,
+  TooltipPatternCallback,
   TooltipPatternProperty
 } from '../../../typings';
 import type { ISeriesTooltipSpec, ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams } from '../interface';
 import type { BaseEventParams } from '../../../event/interface';
+import { getTooltipContentValue } from './get-value';
 
 export const getTooltipActualActiveType = (spec?: ITooltipSpec): TooltipActiveType[] => {
   if (spec?.visible === false) {
@@ -54,61 +60,106 @@ export function isEmptyPos(params: BaseEventParams): boolean {
   return isNil(params.mark) && isNil(params.model) && isNil(params.datum);
 }
 
-function addContentLine(result: ITooltipPattern[], contentSpec: MaybeArray<ITooltipLinePattern>) {
+function addContentLine(
+  result: ITooltipLineActual[],
+  contentSpec: MaybeArray<ITooltipLinePattern>,
+  shapeAttrs: Record<string, TooltipContentProperty<any>>,
+  datum: Datum[],
+  params?: TooltipHandlerParams
+) {
+  const addByDatum = (spec: ITooltipLinePattern) => {
+    if (spec) {
+      datum.forEach(d => {
+        const res: ITooltipLineActual = {};
+        const finalSpec: ITooltipLinePattern = { ...shapeAttrs, ...spec };
+
+        Object.keys(finalSpec).forEach(k => {
+          if (k === 'key') {
+            res.key = getTimeString(
+              getTooltipContentValue(finalSpec.key, d, params, finalSpec.keyFormatter),
+              finalSpec.keyTimeFormat,
+              finalSpec.keyTimeFormatMode
+            );
+          } else if (k === 'value') {
+            res.value = getTimeString(
+              getTooltipContentValue(finalSpec.value, d, params, finalSpec.valueFormatter),
+              finalSpec.valueTimeFormat,
+              finalSpec.valueTimeFormatMode
+            );
+          } else {
+            (res as any)[k] = getTooltipContentValue((finalSpec as any)[k], d, params);
+          }
+        });
+        result.push(res);
+      });
+    }
+  };
+
   if (isArray(contentSpec)) {
-    contentSpec.forEach(spec => {
-      spec && result.push(spec as ITooltipLinePattern);
+    (contentSpec as ITooltipLinePattern[]).forEach(spec => {
+      addByDatum(spec);
     });
-  } else if (contentSpec) {
-    result.push(contentSpec as ITooltipLinePattern);
+  } else {
+    addByDatum(contentSpec as ITooltipLinePattern);
   }
 }
 
 function parseContentFunction(
-  result: ITooltipPattern[],
+  result: ITooltipLineActual[],
   contentSpec: TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>,
+  shapeAttrs: Record<string, TooltipContentProperty<any>>,
   data?: TooltipData,
+  datum?: Datum[],
   params?: TooltipHandlerParams
 ) {
   if (isFunction(contentSpec)) {
-    const specs = contentSpec(data, params);
+    const specs = (contentSpec as TooltipPatternCallback<MaybeArray<ITooltipLinePattern>>)(data, params);
 
-    addContentLine(result, specs);
+    addContentLine(result, specs, shapeAttrs, datum, params);
   } else if (contentSpec) {
-    addContentLine(result, contentSpec);
+    addContentLine(result, contentSpec as MaybeArray<ITooltipLinePattern>, shapeAttrs, datum, params);
   }
 }
 
 export function parseContent(
   contentSpec: MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>,
+  shapeAttrs: Record<string, TooltipContentProperty<any>>,
   data?: TooltipData,
+  datum?: Datum[],
   params?: TooltipHandlerParams
-) {
-  const contents: ITooltipLinePattern[] = [];
+): ITooltipLineActual[] {
+  const contents: ITooltipLineActual[] = [];
 
   if (isArray(contentSpec)) {
-    contentSpec.forEach(spec => {
-      parseContentFunction(contents, spec, data, params);
+    (contentSpec as TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>[]).forEach(spec => {
+      parseContentFunction(contents, spec, shapeAttrs, data, datum, params);
     });
   } else if (isFunction(contentSpec)) {
-    parseContentFunction(contents, contentSpec, data, params);
+    parseContentFunction(
+      contents,
+      contentSpec as TooltipPatternCallback<MaybeArray<ITooltipLinePattern>>,
+      shapeAttrs,
+      data,
+      datum,
+      params
+    );
   } else if (contentSpec) {
-    addContentLine(contents, contentSpec as MaybeArray<ITooltipLinePattern>);
+    addContentLine(contents, contentSpec as MaybeArray<ITooltipLinePattern>, shapeAttrs, datum, params);
   }
 
   return contents;
 }
 
-export function combinePattern(patternList: ITooltipPattern[]) {
+export function combineContents(patternList: ITooltipActual[]) {
   if (!patternList || !patternList.length) {
     return null;
   }
 
   // 拼接默认 tooltip content
-  const defaultPatternContent: ITooltipLinePattern[] = [];
+  const defaultPatternContent: ITooltipLineActual[] = [];
   patternList.forEach(({ content }) => {
     if (content) {
-      (content as ITooltipLinePattern[]).forEach(c => {
+      (content as ITooltipLineActual[]).forEach(c => {
         defaultPatternContent.push(c);
       });
     }
@@ -123,3 +174,18 @@ export function combinePattern(patternList: ITooltipPattern[]) {
 
   return patternList[0];
 }
+
+export const getTimeString = (value: any, timeFormat?: string, timeFormatMode?: 'local' | 'utc') => {
+  if (!timeFormat && !timeFormatMode) {
+    if (typeof value !== 'object') {
+      return value?.toString();
+    }
+    return value;
+  }
+
+  const timeUtil = TimeUtil.getInstance();
+  timeFormat = timeFormat || '%Y%m%d';
+  timeFormatMode = timeFormatMode || 'local';
+  const timeFormatter = timeFormatMode === 'local' ? timeUtil.timeFormat : timeUtil.timeUTCFormat;
+  return timeFormatter(timeFormat, value);
+};

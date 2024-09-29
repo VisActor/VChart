@@ -1,3 +1,4 @@
+import type { ITooltipHandlerSpec } from '../../component/tooltip/interface/spec';
 import type { MaybeArray } from '../common';
 import type { TooltipPatternProperty, TooltipUpdateCallback } from './common';
 import type { TooltipActiveType, TooltipData } from './handler';
@@ -46,4 +47,5 @@ export interface ITooltipActual {
   activeType?: TooltipActiveType;
   position?: ITooltipPositionActual;
   data?: TooltipData;
+  handler?: Partial<ITooltipHandlerSpec>;
 }

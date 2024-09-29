@@ -1,20 +1,20 @@
-import type { ITooltipPattern, TooltipActiveType, TooltipData } from '../../../typings';
+import type { ITooltipActual, TooltipActiveType, TooltipData } from '../../../typings';
 import type { ISeries } from '../../../series/interface';
-import type { IDimensionInfo } from '../../../event/events/dimension/interface';
+import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
 import { isValid } from '@visactor/vutils';
 import type { ITooltipSpec } from '..';
-import { combinePattern, isActiveTypeVisible } from './common';
+import { combineContents, isActiveTypeVisible } from './common';
 
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,
   globalSpec: ITooltipSpec,
   series?: ISeries,
   data?: TooltipData
-): ITooltipSpec => {
+): ITooltipActual => {
   // 组装tooltip spec
   const finalSpec = {
     activeType
-  } as ITooltipSpec;
+  } as ITooltipActual;
 
   switch (activeType) {
     case 'mark':
@@ -33,7 +33,12 @@ export const getTooltipSpecForShow = (
           return finalSpec;
         }
 
-        finalSpec[activeType] = series.tooltipHelper.getTooltipPattern(activeType, globalSpec, data);
+        return series.tooltipHelper.getTooltipPattern(
+          activeType,
+          globalSpec,
+          data as IDimensionData[],
+          (data as IDimensionData[])[0].datum
+        );
       }
       break;
     case 'dimension':
@@ -54,29 +59,23 @@ export const getTooltipSpecForShow = (
           return finalSpec;
         }
 
-        const patternList: ITooltipPattern[] = [];
+        const patternList: ITooltipActual[] = [];
         (data as IDimensionInfo[]).forEach(info =>
           info.data.forEach(datum => {
             const { series } = datum;
-            const mockDimensionInfo = [
-              {
-                ...info,
-                data: [datum]
-              }
-            ] as IDimensionInfo[];
-            const pattern = series.tooltipHelper.getTooltipPattern(activeType, globalSpec, mockDimensionInfo);
+            const pattern = series.tooltipHelper.getTooltipPattern(activeType, globalSpec, data, datum.datum);
             if (pattern) {
               patternList.push(pattern);
             }
           })
         );
 
-        finalSpec[activeType] = combinePattern(patternList);
+        return combineContents(patternList);
       }
       break;
   }
 
-  return finalSpec;
+  return null;
 };
 
 const getSeriesListFromDimensionInfo = (dimensionInfo: IDimensionInfo[]): ISeries[] => {

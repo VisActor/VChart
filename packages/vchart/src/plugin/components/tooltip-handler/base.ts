@@ -4,7 +4,7 @@ import type { Options } from './constants';
 import { DEFAULT_OPTIONS } from './constants';
 import type { Maybe, IPoint, ILayoutPoint, RenderMode } from '../../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import type { ITooltipPositionFixedValue } from '../../../typings/tooltip/position';
+import type { IFixedTooltipPositionPattern, ITooltipPositionFixedValue } from '../../../typings/tooltip/position';
 // eslint-disable-next-line no-duplicate-imports
 import { isTrueBrowser } from '../../../util/env';
 import type {
@@ -26,7 +26,6 @@ import {
   isFixedTooltipPositionPattern,
   isGlobalTooltipPositionPattern
 } from './utils/position';
-import type { ICartesianSeries } from '../../../series/interface';
 import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -154,7 +153,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     }
 
     const event = params.event as MouseEvent;
-    const { tooltipSpec, activeTooltipSpec, tooltipActual, changePositionOnly } = params;
+    const { tooltipSpec, activeTooltipSpec, changePositionOnly } = params;
 
     if (tooltipSpec.enterable) {
       if (!this._isPointerEscaped && this._isPointerMovingToTooltip(params)) {
@@ -171,8 +170,11 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       clearTimeout(this._cachePointerTimer);
       this._cachePointerPosition = this._getPointerPositionRelativeToTooltipParent(params);
     }
+    if (!activeTooltipSpec) {
+      return TooltipResult.failed;
+    }
 
-    const activeType = tooltipActual.activeType;
+    const activeType = activeTooltipSpec.activeType;
 
     /** 用户自定义逻辑 */
     if (activeTooltipSpec.handler) {
@@ -181,20 +183,17 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
     /** 默认逻辑 */
     const pattern = activeTooltipSpec;
-    if (!pattern) {
-      return TooltipResult.failed;
-    }
 
     // 计算 tooltip 位置
     const position = this._getActualTooltipPosition(
-      tooltipActual,
+      activeTooltipSpec,
       params,
-      this._getTooltipBoxSize(tooltipActual, changePositionOnly)
+      this._getTooltipBoxSize(activeTooltipSpec, changePositionOnly)
     );
-    tooltipActual.position = position;
+    activeTooltipSpec.position = position;
 
     if (tooltipSpec[activeType]?.updatePosition) {
-      tooltipActual.position = tooltipSpec[activeType].updatePosition(tooltipActual.position, data, params);
+      activeTooltipSpec.position = tooltipSpec[activeType].updatePosition(activeTooltipSpec.position, data, params);
     }
 
     // 判断 tooltip 可见性
@@ -202,8 +201,8 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     if (
       !data ||
       event.type === 'pointerout' ||
-      !tooltipActual.visible ||
-      (!tooltipActual.title && !tooltipActual.content)
+      !activeTooltipSpec.visible ||
+      (!activeTooltipSpec.title && !activeTooltipSpec.content)
     ) {
       tooltipVisible = false;
     }
@@ -469,19 +468,19 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       } else if (isFixedTooltipPositionPattern(position)) {
         const { x, y } = position;
         if (isNumber(x) || isFunction(x)) {
-          left = getActualTooltipPositionValue(x, event);
+          left = getActualTooltipPositionValue(x as number | ((event: MouseEvent) => number), event);
         } else {
-          processCartesianFixedPositionX(x);
+          processCartesianFixedPositionX(x as ITooltipPositionFixedValue);
         }
         if (isNumber(y) || isFunction(y)) {
-          top = getActualTooltipPositionValue(y, event);
+          top = getActualTooltipPositionValue(y as number | ((event: MouseEvent) => number), event);
         } else {
-          processCartesianFixedPositionY(y);
+          processCartesianFixedPositionY(y as ITooltipPositionFixedValue);
         }
       }
     } else if (isValid(position)) {
-      processCartesianFixedPositionX({ orient: position, mode: positionMode });
-      processCartesianFixedPositionY({ orient: position, mode: positionMode });
+      processCartesianFixedPositionX({ orient: position, mode: positionMode } as ITooltipPositionFixedValue);
+      processCartesianFixedPositionY({ orient: position, mode: positionMode } as ITooltipPositionFixedValue);
     }
 
     /* 二、换算成 x 和 y */

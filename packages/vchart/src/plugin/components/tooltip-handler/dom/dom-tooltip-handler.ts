@@ -88,13 +88,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   }
 
   protected _updateTooltip(visible: boolean, params: TooltipHandlerParams) {
-    const { tooltipActual, tooltipSpec } = params;
     if (!visible || !this.model) {
       this.setVisibility(visible);
       this._cacheCustomTooltipPosition = undefined;
     } else {
+      const { tooltipSpec, activeTooltipSpec } = params;
+
       if (!params.changePositionOnly) {
-        this._tooltipActual = tooltipActual;
+        this._tooltipActual = activeTooltipSpec;
         this._initStyle();
 
         const firstInit = !this.model.product;
@@ -110,14 +111,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       // 位置
       const el = this.model.product;
       if (el) {
-        const { x = 0, y = 0 } = tooltipActual.position ?? {};
+        const { x = 0, y = 0 } = activeTooltipSpec.position ?? {};
         if (tooltipSpec.updateElement) {
           // 此处先设定一次位置，防止页面暂时出现滚动条（优先设置上次的位置）
           this._updatePosition(this._cacheCustomTooltipPosition ?? { x, y });
           // 更新 tooltip dom
-          tooltipSpec.updateElement(el, tooltipActual, params);
+          tooltipSpec.updateElement(el, activeTooltipSpec, params);
           // 重新计算 tooltip 位置
-          const position = this._getActualTooltipPosition(tooltipActual, params, {
+          const position = this._getActualTooltipPosition(activeTooltipSpec, params, {
             width: el.offsetWidth,
             height: el.offsetHeight
           });
