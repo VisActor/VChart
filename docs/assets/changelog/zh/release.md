@@ -2,22 +2,19 @@
 
 2024-09-29
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: feat: support `minLength` in funnel outerlabel line
-- **react-vchart**: support `morphConfig` of react-vchart, close [#3219](https://github.com/VisActor/VChart/issues/3219)
+- **@visactor/vchart**: feat: 支持漏斗图外标签线的 `minLength`
+- **react-vchart**: 支持 react-vchart 的 `morphConfig`，关闭 [#3219](https://github.com/VisActor/VChart/issues/3219)
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: fix error of `updateSpec` when data changed, fix [#3261](https://github.com/VisActor/VChart/issues/3261)
-- **@visactor/vchart**: color of linear progress track in dark mode
-- **@visactor/vchart**: datazoom state field and value field is incomplete problem. fix[#3199](https://github.com/VisActor/VChart/issues/3199)
-- **@visactor/vchart**: fix title of axis when the bounds is empty, fix [#3265](https://github.com/VisActor/VChart/issues/3265)
-- **@visactor/vchart**: fix media-query when `updateSpec`
-- **@visactor/vchart**: fix updateSpec when add attributes `width`, `height` to `spec`
-
-
+- **@visactor/vchart**: 修复数据变化时 `updateSpec` 的错误，修复 [#3261](https://github.com/VisActor/VChart/issues/3261)
+- **@visactor/vchart**: 修复暗模式下线性进度条轨道的颜色
+- **@visactor/vchart**: 修复 datazoom 状态字段和值字段不完整的问题，修复 [#3199](https://github.com/VisActor/VChart/issues/3199)
+- **@visactor/vchart**: 修复轴标题在边界为空时的问题，修复 [#3265](https://github.com/VisActor/VChart/issues/3265)
+- **@visactor/vchart**: 修复 `updateSpec` 时的媒体查询问题
+- **@visactor/vchart**: 修复在 `spec` 中添加 `width` 和 `height` 属性时的 `updateSpec` 问题
 
 [更多详情请查看 v1.12.7](https://github.com/VisActor/VChart/releases/tag/v1.12.7)
 
