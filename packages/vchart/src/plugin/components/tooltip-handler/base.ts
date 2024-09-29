@@ -191,9 +191,10 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       this._getTooltipBoxSize(activeTooltipSpec, changePositionOnly)
     );
     activeTooltipSpec.position = position;
+    const updatePosition = activeTooltipSpec.updatePosition ?? tooltipSpec[activeType]?.updatePosition;
 
-    if (tooltipSpec[activeType]?.updatePosition) {
-      activeTooltipSpec.position = tooltipSpec[activeType].updatePosition(activeTooltipSpec.position, data, params);
+    if (updatePosition) {
+      activeTooltipSpec.position = updatePosition(activeTooltipSpec.position, data, params);
     }
 
     // 判断 tooltip 可见性

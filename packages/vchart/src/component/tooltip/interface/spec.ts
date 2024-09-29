@@ -108,53 +108,32 @@ export interface ITooltipSpec
   };
 }
 
+type ISeriesToolipPattern = Pick<
+  ITooltipPattern,
+  | 'visible'
+  | 'title'
+  | 'content'
+  | 'hasShape'
+  | 'shapeColor'
+  | 'shapeFill'
+  | 'shapeHollow'
+  | 'shapeLineWidth'
+  | 'shapeSize'
+  | 'shapeStroke'
+  | 'shapeType'
+  | 'updateContent'
+  | 'updateTitle'
+  | 'updatePosition'
+>;
+
 /**
  * 系列上的tooltip配置，优先级高于全局tooltip配置
  * 对于visible相当配置，系列tooltip只能关闭，不能覆盖全局tooltip配置
  */
 export interface ISeriesTooltipSpec extends Pick<ITooltipSpec, 'visible' | 'activeType' | 'handler'> {
-  dimension?: Pick<
-    ITooltipPattern,
-    | 'visible'
-    | 'title'
-    | 'content'
-    | 'hasShape'
-    | 'shapeColor'
-    | 'shapeFill'
-    | 'shapeHollow'
-    | 'shapeLineWidth'
-    | 'shapeSize'
-    | 'shapeStroke'
-    | 'shapeType'
-  >;
-  mark?: Pick<
-    ITooltipPattern,
-    | 'visible'
-    | 'title'
-    | 'content'
-    | 'hasShape'
-    | 'shapeColor'
-    | 'shapeFill'
-    | 'shapeHollow'
-    | 'shapeLineWidth'
-    | 'shapeSize'
-    | 'shapeStroke'
-    | 'shapeType'
-  >;
-  group?: Pick<
-    IGroupTooltipPattern,
-    | 'visible'
-    | 'title'
-    | 'content'
-    | 'hasShape'
-    | 'shapeColor'
-    | 'shapeFill'
-    | 'shapeHollow'
-    | 'shapeLineWidth'
-    | 'shapeSize'
-    | 'shapeStroke'
-    | 'shapeType'
-  >;
+  dimension?: ISeriesToolipPattern;
+  mark?: ISeriesToolipPattern;
+  group?: Pick<IGroupTooltipPattern, 'triggerMark'> & ISeriesToolipPattern;
 }
 
 export interface ITooltipHandlerSpec {

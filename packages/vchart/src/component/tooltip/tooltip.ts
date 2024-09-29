@@ -280,7 +280,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const mouseEventData = this._getMouseEventData(params);
     const {
       tooltipInfo: { dimension: dimensionInfo },
-      ignore: { mark: ignoreMark, dimension: ignoreDimension }
+      ignore: { mark: ignoreMark }
     } = mouseEventData;
 
     /** tooltip 是否显示成功 */

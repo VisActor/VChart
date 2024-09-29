@@ -32,6 +32,17 @@ export const getTooltipSpecForShow = (
         if (finalSpec.handler?.showTooltip) {
           return finalSpec;
         }
+        if (seriesSpec?.[activeType]) {
+          if (seriesSpec[activeType].updateTitle) {
+            finalSpec.updateTitle = seriesSpec[activeType].updateTitle;
+          }
+          if (seriesSpec[activeType].updateContent) {
+            finalSpec.updateContent = seriesSpec[activeType].updateContent;
+          }
+          if (seriesSpec[activeType].updatePosition) {
+            finalSpec.updatePosition = seriesSpec[activeType].updatePosition;
+          }
+        }
 
         return series.tooltipHelper.getTooltipPattern(
           activeType,

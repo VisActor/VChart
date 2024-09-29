@@ -12,6 +12,7 @@ import type { IDimensionInfo } from '../../../event/events/dimension';
 import type { ISeries } from '../../../series/interface';
 import { getTooltipSpecForShow } from '../utils/get-spec';
 import { isActiveTypeVisible } from '../utils/common';
+import { isValid } from '@visactor/vutils';
 
 export abstract class BaseTooltipProcessor {
   readonly component: Tooltip;
@@ -102,8 +103,26 @@ export abstract class BaseTooltipProcessor {
   protected _updateViewSpec(data: TooltipData, params: TooltipHandlerParams) {
     const { changePositionOnly, model } = params;
     if (!changePositionOnly || !this._cacheViewSpec) {
+      const tooltipSpec = this.component.getSpec();
       /** spec 预处理 */
       this._cacheViewSpec = getTooltipSpecForShow(this.activeType, this.component.getSpec(), model as ISeries, data);
+
+      if (this._cacheViewSpec) {
+        if (isNil(this._cacheViewSpec.handler) && isValid(tooltipSpec.handler)) {
+          this._cacheViewSpec.handler = tooltipSpec.handler;
+        }
+        const updateTitle = this._cacheViewSpec.updateTitle ?? tooltipSpec[this.activeType]?.updateTitle;
+        const updateContent = this._cacheViewSpec.updateContent ?? tooltipSpec[this.activeType]?.updateContent;
+
+        if (updateTitle) {
+          this._cacheViewSpec.title = updateTitle(this._cacheViewSpec.title, data, params) ?? this._cacheViewSpec.title;
+        }
+
+        if (updateContent) {
+          this._cacheViewSpec.content =
+            updateContent(this._cacheViewSpec.content, data, params) ?? this._cacheViewSpec.content;
+        }
+      }
     }
   }
 

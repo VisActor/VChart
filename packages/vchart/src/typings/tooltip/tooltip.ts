@@ -48,4 +48,7 @@ export interface ITooltipActual {
   position?: ITooltipPositionActual;
   data?: TooltipData;
   handler?: Partial<ITooltipHandlerSpec>;
+  updateTitle?: TooltipUpdateCallback<ITooltipLineActual>;
+  updateContent?: TooltipUpdateCallback<ITooltipLineActual[]>;
+  updatePosition?: TooltipUpdateCallback<ITooltipPositionActual>;
 }
