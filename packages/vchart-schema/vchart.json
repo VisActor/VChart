@@ -36594,7 +36594,17 @@
           "type": "number"
         },
         "line": {
-          "$ref": "#/definitions/IMarkSpec<IRuleMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
           "description": "标签引导线样式"
         },
         "position": {
@@ -38896,6 +38906,9 @@
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
         },
+        "OBBBounds": {
+          "$ref": "#/definitions/IOBBBounds"
+        },
         "_next": {
           "$ref": "#/definitions/INode"
         },
@@ -39341,6 +39354,7 @@
       },
       "required": [
         "AABBBounds",
+        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -39449,6 +39463,9 @@
       "properties": {
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
+        },
+        "OBBBounds": {
+          "$ref": "#/definitions/IOBBBounds"
         },
         "_next": {
           "$ref": "#/definitions/INode"
@@ -39895,6 +39912,7 @@
       },
       "required": [
         "AABBBounds",
+        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -40003,6 +40021,9 @@
       "properties": {
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
+        },
+        "OBBBounds": {
+          "$ref": "#/definitions/IOBBBounds"
         },
         "_next": {
           "$ref": "#/definitions/INode"
@@ -40449,6 +40470,7 @@
       },
       "required": [
         "AABBBounds",
+        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -40640,6 +40662,9 @@
       "properties": {
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
+        },
+        "OBBBounds": {
+          "$ref": "#/definitions/IOBBBounds"
         },
         "_next": {
           "$ref": "#/definitions/INode"
@@ -41113,6 +41138,7 @@
       },
       "required": [
         "AABBBounds",
+        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -46265,6 +46291,9 @@
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
         },
+        "OBBBounds": {
+          "$ref": "#/definitions/IOBBBounds"
+        },
         "_next": {
           "$ref": "#/definitions/INode"
         },
@@ -46822,6 +46851,7 @@
       },
       "required": [
         "AABBBounds",
+        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -55098,6 +55128,133 @@
         "removeChild",
         "removeEventListener",
         "setAllDescendantsProps"
+      ],
+      "type": "object"
+    },
+    "IOBBBounds": {
+      "properties": {
+        "add": {
+          "typeof": "function"
+        },
+        "alignsWith": {
+          "typeof": "function"
+        },
+        "angle": {
+          "type": "number"
+        },
+        "clear": {
+          "typeof": "function"
+        },
+        "clone": {
+          "typeof": "function"
+        },
+        "contains": {
+          "typeof": "function"
+        },
+        "containsPoint": {
+          "typeof": "function"
+        },
+        "copy": {
+          "typeof": "function"
+        },
+        "empty": {
+          "typeof": "function"
+        },
+        "encloses": {
+          "typeof": "function"
+        },
+        "equals": {
+          "typeof": "function"
+        },
+        "expand": {
+          "typeof": "function"
+        },
+        "height": {
+          "typeof": "function"
+        },
+        "intersect": {
+          "typeof": "function"
+        },
+        "intersects": {
+          "typeof": "function"
+        },
+        "rotate": {
+          "typeof": "function"
+        },
+        "round": {
+          "typeof": "function"
+        },
+        "scale": {
+          "typeof": "function"
+        },
+        "scaleX": {
+          "typeof": "function"
+        },
+        "scaleY": {
+          "typeof": "function"
+        },
+        "set": {
+          "typeof": "function"
+        },
+        "setValue": {
+          "typeof": "function"
+        },
+        "transformWithMatrix": {
+          "typeof": "function"
+        },
+        "translate": {
+          "typeof": "function"
+        },
+        "union": {
+          "typeof": "function"
+        },
+        "width": {
+          "typeof": "function"
+        },
+        "x1": {
+          "type": "number"
+        },
+        "x2": {
+          "type": "number"
+        },
+        "y1": {
+          "type": "number"
+        },
+        "y2": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "add",
+        "alignsWith",
+        "angle",
+        "clear",
+        "clone",
+        "contains",
+        "containsPoint",
+        "copy",
+        "empty",
+        "encloses",
+        "equals",
+        "expand",
+        "height",
+        "intersect",
+        "intersects",
+        "rotate",
+        "round",
+        "scale",
+        "scaleX",
+        "scaleY",
+        "set",
+        "setValue",
+        "transformWithMatrix",
+        "translate",
+        "union",
+        "width",
+        "x1",
+        "x2",
+        "y1",
+        "y2"
       ],
       "type": "object"
     },
@@ -70501,6 +70658,9 @@
         "AABBBounds": {
           "$ref": "#/definitions/IBounds"
         },
+        "OBBBounds": {
+          "$ref": "#/definitions/IOBBBounds"
+        },
         "_next": {
           "$ref": "#/definitions/INode"
         },
@@ -70976,6 +71136,7 @@
       },
       "required": [
         "AABBBounds",
+        "OBBBounds",
         "_uid",
         "add",
         "addEventListener",
@@ -81804,7 +81965,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13705": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -81812,14 +81973,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13705",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13705": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -81827,14 +81988,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13705",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13705": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -81842,14 +82003,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13705",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13705": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -81857,14 +82018,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13705",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13705": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -81872,14 +82033,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13705",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13705": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -81887,7 +82048,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13705",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
@@ -88646,6 +88807,9 @@
         },
         "renderStyle": {},
         "renderable": {
+          "type": "boolean"
+        },
+        "roamScroll": {
           "type": "boolean"
         },
         "round": {
@@ -102934,34 +103098,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13705": {
+        "__@toStringTag@13708": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13705"
+        "__@toStringTag@13708"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13705": {
+        "__@toStringTag@13708": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13705"
+        "__@toStringTag@13708"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13705": {
+        "__@toStringTag@13708": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13705"
+        "__@toStringTag@13708"
       ],
       "type": "object"
     },
