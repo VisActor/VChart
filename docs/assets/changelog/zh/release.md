@@ -1,3 +1,26 @@
+# v1.12.7
+
+2024-09-29
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: feat: support `minLength` in funnel outerlabel line
+- **react-vchart**: support `morphConfig` of react-vchart, close [#3219](https://github.com/VisActor/VChart/issues/3219)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: fix error of `updateSpec` when data changed, fix [#3261](https://github.com/VisActor/VChart/issues/3261)
+- **@visactor/vchart**: color of linear progress track in dark mode
+- **@visactor/vchart**: datazoom state field and value field is incomplete problem. fix[#3199](https://github.com/VisActor/VChart/issues/3199)
+- **@visactor/vchart**: fix title of axis when the bounds is empty, fix [#3265](https://github.com/VisActor/VChart/issues/3265)
+- **@visactor/vchart**: fix media-query when `updateSpec`
+- **@visactor/vchart**: fix updateSpec when add attributes `width`, `height` to `spec`
+
+
+
+[更多详情请查看 v1.12.7](https://github.com/VisActor/VChart/releases/tag/v1.12.7)
+
 # v1.12.6
 
 2024-09-23
