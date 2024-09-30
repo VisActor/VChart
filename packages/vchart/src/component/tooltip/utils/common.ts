@@ -4,7 +4,6 @@ import type {
   ITooltipActual,
   ITooltipLineActual,
   ITooltipLinePattern,
-  ITooltipPattern,
   MaybeArray,
   TooltipActiveType,
   TooltipContentProperty,
@@ -89,7 +88,7 @@ function addContentLine(
           (res as any)[k] = getTooltipContentValue((finalSpec as any)[k], datum, params);
         }
       });
-      if (res.visible !== false) {
+      if (res.visible !== false && (isValid(res.key) || isValid(res.value))) {
         result.push(res);
       }
     }

@@ -147,11 +147,8 @@ export const getTooltipAttributes = (
 
   // calculate content
   let contentMaxWidth = 0;
-  // filter content
-  const filteredContent = content.filter(item => {
-    return (item.key || item.value) && item.visible !== false;
-  });
-  const hasContent = !!filteredContent.length;
+
+  const hasContent = !!content.length;
   let maxKeyWidth = 0;
   let maxAdaptiveKeyWidth = 0;
   let maxValueWidth = 0;
@@ -164,7 +161,7 @@ export const getTooltipAttributes = (
     const shapeWidths: number[] = [];
 
     let contentHeight = 0;
-    attributes.content = filteredContent.map((item, i) => {
+    attributes.content = content.map((item, i) => {
       let itemHeight = 0;
       const {
         hasShape: actualHasShape,
@@ -241,7 +238,7 @@ export const getTooltipAttributes = (
 
       itemAttrs.height = itemHeight;
       contentHeight += itemHeight;
-      if (i < filteredContent.length - 1) {
+      if (i < content.length - 1) {
         contentHeight += itemAttrs.spaceRow;
       }
 

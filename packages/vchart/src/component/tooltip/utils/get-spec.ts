@@ -6,6 +6,8 @@ import type { TooltipHandlerParams } from '../interface/common';
 import { combineContents, isActiveTypeVisible } from './common';
 import type { ITooltipSpec } from '../interface/spec';
 
+const pick_keys = ['updateTitle', 'updateContent', 'updatePosition', 'maxLineCount', 'othersLine'];
+
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,
   globalSpec: ITooltipSpec,
@@ -35,24 +37,23 @@ export const getTooltipSpecForShow = (
           return finalSpec;
         }
         if (seriesSpec?.[activeType]) {
-          if (seriesSpec[activeType].updateTitle) {
-            finalSpec.updateTitle = seriesSpec[activeType].updateTitle;
-          }
-          if (seriesSpec[activeType].updateContent) {
-            finalSpec.updateContent = seriesSpec[activeType].updateContent;
-          }
-          if (seriesSpec[activeType].updatePosition) {
-            finalSpec.updatePosition = seriesSpec[activeType].updatePosition;
-          }
+          pick_keys.forEach(k => {
+            if (isValid((seriesSpec[activeType] as any)[k])) {
+              (finalSpec as any)[k] = (seriesSpec as any)[activeType][k];
+            }
+          });
         }
 
-        return series.tooltipHelper.getTooltipPattern(
-          activeType,
-          globalSpec,
-          data as IDimensionData[],
-          (data as IDimensionData[])[0].datum,
-          params
-        );
+        return {
+          ...finalSpec,
+          ...series.tooltipHelper.getTooltipPattern(
+            activeType,
+            globalSpec,
+            data as IDimensionData[],
+            (data as IDimensionData[])[0].datum,
+            params
+          )
+        };
       }
       break;
     case 'dimension':

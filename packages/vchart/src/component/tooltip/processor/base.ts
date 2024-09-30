@@ -13,6 +13,7 @@ import type { ISeries } from '../../../series/interface';
 import { getTooltipSpecForShow } from '../utils/get-spec';
 import { isActiveTypeVisible } from '../utils/common';
 import { isValid } from '@visactor/vutils';
+import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constant';
 
 export abstract class BaseTooltipProcessor {
   readonly component: Tooltip;
@@ -119,6 +120,8 @@ export abstract class BaseTooltipProcessor {
         }
         const updateTitle = this._cacheViewSpec.updateTitle ?? tooltipSpec[this.activeType]?.updateTitle;
         const updateContent = this._cacheViewSpec.updateContent ?? tooltipSpec[this.activeType]?.updateContent;
+        const maxLineCount =
+          this._cacheViewSpec.maxLineCount ?? tooltipSpec[this.activeType]?.maxLineCount ?? TOOLTIP_MAX_LINE_COUNT;
 
         if (updateTitle) {
           this._cacheViewSpec.title = updateTitle(this._cacheViewSpec.title, data, params) ?? this._cacheViewSpec.title;
@@ -127,6 +130,21 @@ export abstract class BaseTooltipProcessor {
         if (updateContent) {
           this._cacheViewSpec.content =
             updateContent(this._cacheViewSpec.content, data, params) ?? this._cacheViewSpec.content;
+        } else if (maxLineCount >= 1 && this._cacheViewSpec.content?.length > maxLineCount) {
+          const othersLine = this._cacheViewSpec.othersLine ?? tooltipSpec[this.activeType]?.othersLine;
+          const otherLine = othersLine
+            ? {
+                ...TOOLTIP_OTHERS_LINE,
+                ...othersLine
+              }
+            : TOOLTIP_OTHERS_LINE;
+          this._cacheViewSpec.content = [
+            ...this._cacheViewSpec.content.slice(0, maxLineCount - 1),
+            {
+              ...this._cacheViewSpec.content[maxLineCount - 1],
+              ...otherLine
+            }
+          ];
         }
       }
     }
