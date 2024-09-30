@@ -175,7 +175,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   protected getDefaultContentList(
     activeType: TooltipActiveType
   ): MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>> {
-    return [{}];
+    return [this.getDefaultContentPattern(activeType)];
   }
 
   protected getContentList(

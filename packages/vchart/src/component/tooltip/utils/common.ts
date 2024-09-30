@@ -1,4 +1,4 @@
-import { isArray, isFunction, isNil, isValid, TimeUtil } from '@visactor/vutils';
+import { isArray, isFunction, isNil, isValid, TimeUtil, isEmpty } from '@visactor/vutils';
 import type {
   Datum,
   ITooltipActual,
@@ -71,7 +71,7 @@ function addContentLine(
     if (spec) {
       const res: ITooltipLineActual = {};
       const finalSpec: ITooltipLinePattern =
-        isNil(spec.key) && isNil(spec.value)
+        isNil(spec.key) && isNil(spec.value) && !isEmpty(spec)
           ? {
               ...shapeAttrs,
               ...defaultContent,
