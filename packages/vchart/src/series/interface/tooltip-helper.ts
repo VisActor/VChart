@@ -15,7 +15,7 @@ export interface ISeriesTooltipHelper extends ITooltipHelper {
   /** 对应系列 */
   series: ISeries;
 
-  getTooltipPattern: (
+  getTooltipData: (
     activeType: TooltipActiveType,
     chartTooltipSpec?: ITooltipSpec,
     allData?: TooltipData,

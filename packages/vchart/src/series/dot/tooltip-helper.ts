@@ -11,10 +11,8 @@ import type {
   TooltipPatternProperty
 } from '../../typings';
 import { TimeUtil } from '@visactor/vutils';
-import type { IDimensionData } from '../../event';
 import type { ITooltipSpec } from '../../component/tooltip/interface/spec';
 import type { TooltipHandlerParams } from '../../component/tooltip/interface/common';
-import { isNil } from '../../util';
 
 export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   protected enableByType(activeType: TooltipActiveType): boolean {
@@ -55,14 +53,14 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
     ];
   }
 
-  getTooltipPattern(
+  getTooltipData(
     activeType: TooltipActiveType,
     chartTooltipSpec?: ITooltipSpec,
     data?: TooltipData,
     datum?: Datum[],
     params?: TooltipHandlerParams
   ): ITooltipActual | null {
-    const res = super.getTooltipPattern(activeType, chartTooltipSpec, data, datum, params);
+    const res = super.getTooltipData(activeType, chartTooltipSpec, data, datum, params);
     const userUpdateContent = this.spec?.[activeType]?.updateContent ?? chartTooltipSpec?.[activeType]?.updateContent;
 
     if (res && !userUpdateContent) {

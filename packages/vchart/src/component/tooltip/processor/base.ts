@@ -1,4 +1,4 @@
-import { isNil } from '@visactor/vutils';
+import { isNil, isValid } from '@visactor/vutils';
 import type { BaseEventParams } from '../../../event/interface';
 import type { ITooltipActual, TooltipActiveType, TooltipData } from '../../../typings';
 import type { TooltipHandlerParams } from '../interface';
@@ -12,14 +12,13 @@ import type { IDimensionInfo } from '../../../event/events/dimension';
 import type { ISeries } from '../../../series/interface';
 import { getTooltipSpecForShow } from '../utils/get-spec';
 import { isActiveTypeVisible } from '../utils/common';
-import { isValid } from '@visactor/vutils';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constant';
 
 export abstract class BaseTooltipProcessor {
   readonly component: Tooltip;
   abstract activeType: TooltipActiveType;
 
-  protected _cacheViewSpec: ITooltipActual | undefined;
+  protected _cacheActiveSpec: ITooltipActual | undefined;
 
   constructor(component: Tooltip) {
     this.component = component;
@@ -39,9 +38,9 @@ export abstract class BaseTooltipProcessor {
       this.clearCache();
     }
 
-    // 更新 this._cacheViewSpec
+    // 更新 this._cacheActiveSpec
     this._updateViewSpec(data, params);
-    const spec = this._cacheViewSpec;
+    const spec = this._cacheActiveSpec;
     if (isNil(spec) || spec.visible === false) {
       return TooltipResult.failed;
     }
@@ -103,10 +102,10 @@ export abstract class BaseTooltipProcessor {
    */
   protected _updateViewSpec(data: TooltipData, params: TooltipHandlerParams) {
     const { changePositionOnly, model } = params;
-    if (!changePositionOnly || !this._cacheViewSpec) {
+    if (!changePositionOnly || !this._cacheActiveSpec) {
       const tooltipSpec = this.component.getSpec();
       /** spec 预处理 */
-      this._cacheViewSpec = getTooltipSpecForShow(
+      this._cacheActiveSpec = getTooltipSpecForShow(
         this.activeType,
         this.component.getSpec(),
         model as ISeries,
@@ -114,34 +113,35 @@ export abstract class BaseTooltipProcessor {
         params
       );
 
-      if (this._cacheViewSpec) {
-        if (isNil(this._cacheViewSpec.handler) && isValid(tooltipSpec.handler)) {
-          this._cacheViewSpec.handler = tooltipSpec.handler;
+      if (this._cacheActiveSpec) {
+        if (isNil(this._cacheActiveSpec.handler) && isValid(tooltipSpec.handler)) {
+          this._cacheActiveSpec.handler = tooltipSpec.handler;
         }
-        const updateTitle = this._cacheViewSpec.updateTitle ?? tooltipSpec[this.activeType]?.updateTitle;
-        const updateContent = this._cacheViewSpec.updateContent ?? tooltipSpec[this.activeType]?.updateContent;
+        const updateTitle = this._cacheActiveSpec.updateTitle ?? tooltipSpec[this.activeType]?.updateTitle;
+        const updateContent = this._cacheActiveSpec.updateContent ?? tooltipSpec[this.activeType]?.updateContent;
         const maxLineCount =
-          this._cacheViewSpec.maxLineCount ?? tooltipSpec[this.activeType]?.maxLineCount ?? TOOLTIP_MAX_LINE_COUNT;
+          this._cacheActiveSpec.maxLineCount ?? tooltipSpec[this.activeType]?.maxLineCount ?? TOOLTIP_MAX_LINE_COUNT;
 
         if (updateTitle) {
-          this._cacheViewSpec.title = updateTitle(this._cacheViewSpec.title, data, params) ?? this._cacheViewSpec.title;
+          this._cacheActiveSpec.title =
+            updateTitle(this._cacheActiveSpec.title, data, params) ?? this._cacheActiveSpec.title;
         }
 
         if (updateContent) {
-          this._cacheViewSpec.content =
-            updateContent(this._cacheViewSpec.content, data, params) ?? this._cacheViewSpec.content;
-        } else if (maxLineCount >= 1 && this._cacheViewSpec.content?.length > maxLineCount) {
-          const othersLine = this._cacheViewSpec.othersLine ?? tooltipSpec[this.activeType]?.othersLine;
+          this._cacheActiveSpec.content =
+            updateContent(this._cacheActiveSpec.content, data, params) ?? this._cacheActiveSpec.content;
+        } else if (maxLineCount >= 1 && this._cacheActiveSpec.content?.length > maxLineCount) {
+          const othersLine = this._cacheActiveSpec.othersLine ?? tooltipSpec[this.activeType]?.othersLine;
           const otherLine = othersLine
             ? {
                 ...TOOLTIP_OTHERS_LINE,
                 ...othersLine
               }
             : TOOLTIP_OTHERS_LINE;
-          this._cacheViewSpec.content = [
-            ...this._cacheViewSpec.content.slice(0, maxLineCount - 1),
+          this._cacheActiveSpec.content = [
+            ...this._cacheActiveSpec.content.slice(0, maxLineCount - 1),
             {
-              ...this._cacheViewSpec.content[maxLineCount - 1],
+              ...this._cacheActiveSpec.content[maxLineCount - 1],
               ...otherLine
             }
           ];
@@ -160,6 +160,6 @@ export abstract class BaseTooltipProcessor {
   }
 
   clearCache() {
-    this._cacheViewSpec = undefined;
+    this._cacheActiveSpec = undefined;
   }
 }

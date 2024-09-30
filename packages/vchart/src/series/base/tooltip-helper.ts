@@ -241,7 +241,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     } as ITooltipActual['title'];
   }
 
-  getTooltipPattern(
+  getTooltipData(
     activeType: TooltipActiveType,
     chartTooltipSpec?: ITooltipSpec,
     data?: TooltipData,

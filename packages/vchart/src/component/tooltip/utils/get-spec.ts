@@ -46,7 +46,7 @@ export const getTooltipSpecForShow = (
 
         return {
           ...finalSpec,
-          ...series.tooltipHelper.getTooltipPattern(
+          ...series.tooltipHelper.getTooltipData(
             activeType,
             globalSpec,
             data as IDimensionData[],
@@ -78,7 +78,7 @@ export const getTooltipSpecForShow = (
         (data as IDimensionInfo[]).forEach(info =>
           info.data.forEach(datum => {
             const { series } = datum;
-            const pattern = series.tooltipHelper.getTooltipPattern(activeType, globalSpec, data, datum.datum, params);
+            const pattern = series.tooltipHelper.getTooltipData(activeType, globalSpec, data, datum.datum, params);
             if (pattern) {
               patternList.push(pattern);
             }
