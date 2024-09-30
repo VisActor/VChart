@@ -175,7 +175,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   protected getDefaultContentList(
     activeType: TooltipActiveType
   ): MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>> {
-    return [this.getDefaultContentPattern(activeType)];
+    return [{}];
   }
 
   protected getContentList(
@@ -186,7 +186,14 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     datum?: Datum[],
     params?: TooltipHandlerParams
   ): ITooltipLineActual[] {
-    return parseContent(spec?.content ?? this.getDefaultContentList(activeType), shapeAttrs, data, datum, params);
+    return parseContent(
+      spec?.content ?? this.getDefaultContentList(activeType),
+      this.getDefaultContentPattern(activeType),
+      shapeAttrs,
+      data,
+      datum,
+      params
+    );
   }
 
   protected getTitleResult(

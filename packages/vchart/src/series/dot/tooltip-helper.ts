@@ -2,7 +2,6 @@ import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type {
   ITooltipLinePattern,
-  ITooltipPattern,
   MaybeArray,
   TooltipActiveType,
   TooltipData,
@@ -16,7 +15,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
     return activeType === 'mark';
   }
 
-  protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
+  protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipLinePattern {
     return {
       key: 'event info',
       value: 'event info'

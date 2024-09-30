@@ -1,6 +1,6 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { ITooltipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
+import type { ITooltipLinePattern, TooltipActiveType } from '../../typings';
 import { TimeUtil } from '@visactor/vutils';
 
 export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
@@ -8,7 +8,7 @@ export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements 
     return activeType === 'mark';
   }
 
-  protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipPattern['title'] {
+  protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipLinePattern {
     return {
       key: 'link info',
       value: 'link info'

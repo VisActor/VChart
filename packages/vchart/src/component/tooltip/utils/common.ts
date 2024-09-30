@@ -62,6 +62,7 @@ export function isEmptyPos(params: BaseEventParams): boolean {
 function addContentLine(
   result: ITooltipLineActual[],
   contentSpec: MaybeArray<ITooltipLinePattern>,
+  defaultContent: ITooltipLinePattern,
   shapeAttrs: Record<string, TooltipContentProperty<any>>,
   datum: Datum,
   params?: TooltipHandlerParams
@@ -69,7 +70,14 @@ function addContentLine(
   const addByDatum = (spec: ITooltipLinePattern) => {
     if (spec) {
       const res: ITooltipLineActual = {};
-      const finalSpec: ITooltipLinePattern = { ...shapeAttrs, ...spec };
+      const finalSpec: ITooltipLinePattern =
+        isNil(spec.key) && isNil(spec.value)
+          ? {
+              ...shapeAttrs,
+              ...defaultContent,
+              ...spec
+            }
+          : { ...shapeAttrs, ...spec };
 
       Object.keys(finalSpec).forEach(k => {
         if (k === 'key') {
@@ -106,6 +114,7 @@ function addContentLine(
 function parseContentFunction(
   result: ITooltipLineActual[],
   contentSpec: TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>,
+  defaultContent: ITooltipLinePattern,
   shapeAttrs: Record<string, TooltipContentProperty<any>>,
   data?: TooltipData,
   datum?: Datum,
@@ -114,14 +123,15 @@ function parseContentFunction(
   if (isFunction(contentSpec)) {
     const specs = (contentSpec as TooltipPatternCallback<MaybeArray<ITooltipLinePattern>>)(data, params);
 
-    addContentLine(result, specs, shapeAttrs, datum, params);
+    addContentLine(result, specs, defaultContent, shapeAttrs, datum, params);
   } else if (contentSpec) {
-    addContentLine(result, contentSpec as MaybeArray<ITooltipLinePattern>, shapeAttrs, datum, params);
+    addContentLine(result, contentSpec as MaybeArray<ITooltipLinePattern>, defaultContent, shapeAttrs, datum, params);
   }
 }
 
 export function parseContent(
   contentSpec: MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>,
+  defaultContent: ITooltipLinePattern,
   shapeAttrs: Record<string, TooltipContentProperty<any>>,
   data?: TooltipData,
   datum?: Datum[],
@@ -133,19 +143,20 @@ export function parseContent(
     datum.forEach(d => {
       if (isArray(contentSpec)) {
         (contentSpec as TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>[]).forEach(spec => {
-          parseContentFunction(contents, spec, shapeAttrs, data, d, params);
+          parseContentFunction(contents, spec, defaultContent, shapeAttrs, data, d, params);
         });
       } else if (isFunction(contentSpec)) {
         parseContentFunction(
           contents,
           contentSpec as TooltipPatternCallback<MaybeArray<ITooltipLinePattern>>,
+          defaultContent,
           shapeAttrs,
           data,
           d,
           params
         );
       } else if (contentSpec) {
-        addContentLine(contents, contentSpec as MaybeArray<ITooltipLinePattern>, shapeAttrs, d, params);
+        addContentLine(contents, contentSpec as MaybeArray<ITooltipLinePattern>, defaultContent, shapeAttrs, d, params);
       }
     });
 
