@@ -1416,6 +1416,13 @@ export class VChart implements IVChart {
       this._currentThemeName = nextThemeName;
     }
 
+    const processThemeByChartType = (type: string, theme: ITheme) => {
+      if (theme.chart?.[type]) {
+        theme = mergeTheme({}, theme, theme.chart[type]);
+      }
+      return theme;
+    };
+
     let currentTheme;
     // 处理 specTheme 和 optionTheme, merge -> transform
     // 优先级 currentTheme < optionTheme < specTheme
@@ -1424,29 +1431,26 @@ export class VChart implements IVChart {
         (isString(optionTheme) && (!specTheme || isString(specTheme))) ||
         (isString(specTheme) && (!optionTheme || isString(optionTheme)))
       ) {
-        currentTheme = getThemeObject(this._currentThemeName, true);
         const finalTheme = mergeTheme(
           {},
-          currentTheme,
-          currentTheme.chart?.[chartType],
+          getThemeObject(this._currentThemeName, true),
           getThemeObject(optionTheme, true),
           getThemeObject(specTheme, true)
         );
-        this._currentTheme = finalTheme;
+
+        this._currentTheme = processThemeByChartType(chartType, finalTheme);
       } else {
-        currentTheme = getThemeObject(this._currentThemeName);
         const finalTheme = mergeTheme(
           {},
-          currentTheme,
-          currentTheme.chart?.[chartType],
+          getThemeObject(this._currentThemeName),
           getThemeObject(optionTheme),
           getThemeObject(specTheme)
         );
-        this._currentTheme = preprocessTheme(finalTheme);
+        this._currentTheme = preprocessTheme(processThemeByChartType(chartType, finalTheme));
       }
     } else {
       currentTheme = getThemeObject(this._currentThemeName, true);
-      this._currentTheme = mergeTheme({}, currentTheme, currentTheme.chart?.[chartType]);
+      this._currentTheme = processThemeByChartType(chartType, currentTheme);
     }
 
     // 设置 poptip 的主题
