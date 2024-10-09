@@ -54,7 +54,7 @@ export abstract class BaseTooltipProcessor {
     // 触发事件
     this.component.event.emit(ChartEvent.tooltipShow, {
       ...params,
-      isEmptyTooltip: isNil(title?.key) && isNil(title?.value) && !content?.length,
+      isEmptyTooltip: isEmpty,
       tooltipData: data,
       activeType: this.activeType,
       tooltip: this.component
