@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: custom theme by chartType cannot work in initial options, #3285",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
