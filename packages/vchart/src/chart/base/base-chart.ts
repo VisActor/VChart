@@ -1005,7 +1005,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       r.afterCompile?.();
     });
     this.getAllSeries().forEach(s => {
-      // console.log('s', s.afterCompile())
       s.afterCompile?.();
     });
     this.getAllComponents().forEach(c => {

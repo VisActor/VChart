@@ -4,7 +4,7 @@ import { getDomStyles } from './utils';
 import type { IDomTooltipStyle } from './interface';
 import { TooltipModel } from './model/tooltip-model';
 import { TOOLTIP_CONTAINER_EL_CLASS_NAME } from '../constants';
-import { hasParentElement, isNil, type Maybe } from '@visactor/vutils';
+import { type Maybe } from '@visactor/vutils';
 import { domDocument } from '../../../../util/env';
 import type { ITooltipSpec, TooltipHandlerParams } from '../../../../component/tooltip';
 import type { IComponentPluginService } from '../../interface';
@@ -98,11 +98,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         this._tooltipActual = activeTooltipSpec;
         this._initStyle();
 
-        const firstInit = !this.model.product;
         this.model.initAll();
-        if (firstInit) {
-          this._initEvent(this.model.product);
-        }
         this.model.setStyle();
         this.model.setContent();
       }
@@ -156,23 +152,6 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       // translate3d 性能较好：https://stackoverflow.com/questions/22111256/translate3d-vs-translate-performance
       el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     }
-  }
-
-  protected _initEvent(el: HTMLElement) {
-    el.addEventListener('pointerleave', event => {
-      const { renderMode, enterable } = this._component.getSpec();
-      const relatedTarget = event.relatedTarget as HTMLElement;
-      if (renderMode === 'html' && enterable) {
-        if (
-          // 判断用户鼠标是否从 tooltip 内部直接滑入非图表区域
-          isNil(relatedTarget) ||
-          (relatedTarget !== this._compiler.getCanvas() &&
-            !hasParentElement(relatedTarget, this.getTooltipContainer() as HTMLElement))
-        ) {
-          this._component.hideTooltip();
-        }
-      }
-    });
   }
 }
 
