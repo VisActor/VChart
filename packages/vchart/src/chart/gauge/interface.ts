@@ -6,7 +6,7 @@ import type { IPolarChartSpec } from '../polar';
 
 export interface IGaugeChartSpec
   extends Omit<IPolarChartSpec, 'axes'>,
-    Omit<IGaugePointerSeriesSpec, 'data' | 'type' | 'morph'> {
+    Omit<IGaugePointerSeriesSpec, 'data' | 'type' | 'morph' | 'tooltip'> {
   type: 'gauge';
 
   /** 表盘背景，可选择 gauge 系列或 circularProgress 系列的配置 */
