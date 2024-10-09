@@ -65,6 +65,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   private _cacheInfo: TooltipInfo | undefined;
   private _cacheParams: BaseEventParams | undefined;
   private _cacheActiveType: TooltipActiveType | undefined;
+  private _cacheEnterableRect: { x: number; y: number; width: number; height: number };
 
   private _eventList: EventHandlerList = [];
 
@@ -171,6 +172,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     if (element) {
       element.addEventListener('mouseenter', () => {
+        const rect = element.getBoundingClientRect?.();
+        if (rect) {
+          this._cacheEnterableRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+        }
         if (this._outTimer) {
           clearTimeout(this._outTimer);
           this._outTimer = null;
@@ -183,8 +188,22 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       });
 
       element.addEventListener('mouseleave', () => {
-        //
-        this._outTimer = setTimeout(this.hideTooltip, this._spec.showDelay ?? DEFAULT_SHOW_DELAY) as unknown as number;
+        if (this._cacheEnterableRect) {
+          const newRect = element.getBoundingClientRect?.();
+
+          if (
+            newRect &&
+            Object.keys(this._cacheEnterableRect).every(
+              k => (this._cacheEnterableRect as any)[k] === (newRect as any)[k]
+            )
+          ) {
+            this._cacheEnterableRect = null;
+            this._outTimer = setTimeout(
+              this.hideTooltip,
+              this._spec.showDelay ?? DEFAULT_SHOW_DELAY
+            ) as unknown as number;
+          }
+        }
       });
 
       this._needInitEventOfTooltip = false;
@@ -289,6 +308,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         ...(params as any),
         tooltip: this
       });
+      this._cacheEnterableRect = null;
       this._cacheInfo = undefined;
       this._cacheParams = undefined;
       this._cacheActiveType = undefined;
