@@ -17,3 +17,5 @@ export const TOOLTIP_OTHERS_LINE = {
 } as ITooltipLineActual;
 
 export const TOOLTIP_TYPES: TooltipActiveType[] = ['group', 'mark', 'dimension'];
+
+export const DEFAULT_SHOW_DELAY = 50;
