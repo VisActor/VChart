@@ -54,7 +54,7 @@ export abstract class BaseTooltipProcessor {
     // 触发事件
     this.component.event.emit(ChartEvent.tooltipShow, {
       ...params,
-      isEmptyTooltip: isNil(title?.key) && isNil(title?.value) && !content?.length,
+      isEmptyTooltip: isEmpty,
       tooltipData: data,
       activeType: this.activeType,
       tooltip: this.component
@@ -117,10 +117,10 @@ export abstract class BaseTooltipProcessor {
         if (isNil(this._cacheActiveSpec.handler) && isValid(tooltipSpec.handler)) {
           this._cacheActiveSpec.handler = tooltipSpec.handler;
         }
-        const updateTitle = this._cacheActiveSpec.updateTitle ?? tooltipSpec[this.activeType]?.updateTitle;
-        const updateContent = this._cacheActiveSpec.updateContent ?? tooltipSpec[this.activeType]?.updateContent;
-        const maxLineCount =
-          this._cacheActiveSpec.maxLineCount ?? tooltipSpec[this.activeType]?.maxLineCount ?? TOOLTIP_MAX_LINE_COUNT;
+        const specByType = tooltipSpec[this.activeType] ?? {};
+        const updateTitle = this._cacheActiveSpec.updateTitle ?? specByType.updateTitle;
+        const updateContent = this._cacheActiveSpec.updateContent ?? specByType.updateContent;
+        const maxLineCount = this._cacheActiveSpec.maxLineCount ?? specByType.maxLineCount ?? TOOLTIP_MAX_LINE_COUNT;
 
         if (updateTitle) {
           this._cacheActiveSpec.title =
@@ -131,7 +131,7 @@ export abstract class BaseTooltipProcessor {
           this._cacheActiveSpec.content =
             updateContent(this._cacheActiveSpec.content, data, params) ?? this._cacheActiveSpec.content;
         } else if (maxLineCount >= 1 && this._cacheActiveSpec.content?.length > maxLineCount) {
-          const othersLine = this._cacheActiveSpec.othersLine ?? tooltipSpec[this.activeType]?.othersLine;
+          const othersLine = this._cacheActiveSpec.othersLine ?? specByType.othersLine;
           const otherLine = othersLine
             ? {
                 ...TOOLTIP_OTHERS_LINE,
