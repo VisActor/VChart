@@ -1,4 +1,4 @@
-import type { IBarChartSpec, ICommonChartSpec, ILineChartSpec } from '../../../src';
+import type { IBarChartSpec, ILineChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { totalLabel } from '../../../src/theme/builtin/common/component/total-label';
 import { series } from '../../../src/theme/builtin/common/series';
@@ -1960,6 +1960,117 @@ describe('vchart updateSpec of width, height', () => {
       reMake: false,
       reRender: true,
       reSize: true,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of different axes', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterAll(() => {
+    removeDom(container);
+    vchart.release();
+  });
+
+  it('should remake when label is in series update', () => {
+    const spec: ILineChartSpec = {
+      type: 'line',
+      data: {
+        values: [
+          {
+            time: '2:00',
+            value: 38
+          },
+          {
+            time: '4:00',
+            value: 56
+          },
+          {
+            time: '6:00',
+            value: 10
+          },
+          {
+            time: '8:00',
+            value: 70
+          },
+          {
+            time: '10:00',
+            value: 36
+          },
+          {
+            time: '12:00',
+            value: 94
+          },
+          {
+            time: '14:00',
+            value: 24
+          },
+          {
+            time: '16:00',
+            value: 44
+          },
+          {
+            time: '18:00',
+            value: 36
+          },
+          {
+            time: '20:00',
+            value: 68
+          },
+          {
+            time: '22:00',
+            value: 22
+          }
+        ]
+      },
+      xField: 'time',
+      yField: 'value',
+      line: {
+        style: {
+          curveType: 'monotone'
+        }
+      },
+      axes: [{ orient: 'bottom', label: { style: { fill: 'red' } } }]
+    };
+
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        axes: [
+          {
+            ...(spec.axes as any)[0],
+            visible: false
+          }
+        ]
+      } as any,
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      reCompile: true,
+      reMake: true,
+      reRender: true,
+      reSize: false,
       reTransformSpec: false
     });
   });
