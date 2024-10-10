@@ -54,7 +54,8 @@ import type { IComponentMark } from '../../mark/component';
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
+import { GroupFadeIn } from '@visactor/vrender-core';
+import { GroupTransition } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { GroupFadeOut } from '@visactor/vrender-core';
 import { scaleParser } from '../../data/parser/scale';
@@ -414,7 +415,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     /**
      * 存在轴同步相关配置的时候，暂时通过`reMake`触发更新
      */
-    if (prevSpec?.type !== spec?.type) {
+    if (prevSpec?.type !== spec?.type || prevSpec?.visible !== spec?.visible) {
       result.reMake = true;
       return result;
     }
