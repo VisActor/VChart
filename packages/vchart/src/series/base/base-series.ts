@@ -1042,7 +1042,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (
       newLabels.length !== prevLabels.length ||
       prevLabels.some((prev, index) => {
-        return prev.labelLayout !== newLabels[index].labelLayout;
+        return prev.labelLayout !== newLabels[index].labelLayout || prev.visible !== newLabels[index].visible;
       })
     ) {
       compareResult.reMake = true;
