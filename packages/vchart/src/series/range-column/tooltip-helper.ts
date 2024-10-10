@@ -5,30 +5,9 @@ import type { Datum, ITooltipPattern, TooltipActiveType } from '../../typings';
 import { Direction } from '../../typings/space';
 
 export class RangeColumnSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
-  /** 获取默认的tooltip pattern */
-  getDefaultTooltipPattern(activeType: TooltipActiveType): ITooltipPattern | null {
-    return {
-      visible: true,
-      activeType,
-      title: {
-        key: undefined,
-        value: this.dimensionTooltipTitleCallback,
-        hasShape: false
-      },
-      content: [
-        {
-          key: this.markTooltipKeyCallback,
-          value: (datum: Datum) =>
-            this.series.getSpec().direction === Direction.horizontal
-              ? datum[this.series.getSpec().xField[0]] + '-' + datum[this.series.getSpec().xField[1]]
-              : datum[this.series.getSpec().yField[0]] + '-' + datum[this.series.getSpec().yField[1]],
-          hasShape: true,
-          shapeType: this.shapeTypeCallback,
-          shapeColor: this.shapeColorCallback,
-          shapeStroke: this.shapeStrokeCallback,
-          shapeHollow: false
-        }
-      ]
-    };
-  }
+  protected _getMeasureData = (datum: any) => {
+    return this.series.getSpec().direction === Direction.horizontal
+      ? datum[this.series.getSpec().xField[0]] + '-' + datum[this.series.getSpec().xField[1]]
+      : datum[this.series.getSpec().yField[0]] + '-' + datum[this.series.getSpec().yField[1]];
+  };
 }

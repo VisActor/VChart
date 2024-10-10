@@ -16,6 +16,7 @@ import { TOOLTIP_EMPTY_STRING } from '../../constants';
 import { getPixelPropertyStr } from '../utils';
 import type { ITooltipLineActual } from '../../../../../typings';
 import { mergeSpec } from '@visactor/vutils-extension';
+import type { TooltipRowAttrs } from '@visactor/vrender-components';
 
 export type ContentColumnType = 'shape-box' | 'key-box' | 'value-box';
 
@@ -85,9 +86,13 @@ export class ContentColumnModel extends BaseTooltipModel {
     const renderContent = this._option.getTooltipActual()?.content ?? [];
     const contentAttributes = this._option.getTooltipAttributes()?.content ?? [];
 
-    const getKeyItemStyle = (line: ITooltipLineActual, i: number): Partial<CSSStyleDeclaration> => {
+    const getKeyItemStyle = (
+      line: ITooltipLineActual,
+      attrs: TooltipRowAttrs,
+      i: number
+    ): Partial<CSSStyleDeclaration> => {
       const { key, isKeyAdaptive } = line;
-      const { height } = contentAttributes[i];
+      const { height } = attrs;
       const { keyColumn } = tooltipStyle;
       const style: Partial<CSSStyleDeclaration> = mergeSpec(
         {},
@@ -108,8 +113,12 @@ export class ContentColumnModel extends BaseTooltipModel {
       return style;
     };
 
-    const getValueItemStyle = (line: ITooltipLineActual, i: number): Partial<CSSStyleDeclaration> => {
-      const { height } = contentAttributes[i];
+    const getValueItemStyle = (
+      line: ITooltipLineActual,
+      attrs: TooltipRowAttrs,
+      i: number
+    ): Partial<CSSStyleDeclaration> => {
+      const { height } = attrs;
       const { valueColumn } = tooltipStyle;
       const style: Partial<CSSStyleDeclaration> = mergeSpec({}, defaultValueStyle, {
         height: getPixelPropertyStr(height),
@@ -120,10 +129,14 @@ export class ContentColumnModel extends BaseTooltipModel {
       return style;
     };
 
-    const getShapeItemStyle = (line: ITooltipLineActual, i: number): Partial<CSSStyleDeclaration> => {
-      const { height } = contentAttributes[i];
+    const getShapeItemStyle = (
+      line: ITooltipLineActual,
+      attrs: TooltipRowAttrs,
+      i: number
+    ): Partial<CSSStyleDeclaration> => {
+      const { height } = attrs;
       const { shapeColumn } = tooltipStyle;
-      const keyStyle = getKeyItemStyle(line, i);
+      const keyStyle = getKeyItemStyle(line, attrs, i);
       const paddingTop = `calc((${keyStyle.lineHeight ?? keyStyle.fontSize ?? '18px'} - ${
         shapeColumn.width ?? '8px'
       }) / 2)`; // shape 和 key 的第一行文字对齐
@@ -136,13 +149,15 @@ export class ContentColumnModel extends BaseTooltipModel {
       return style;
     };
 
-    renderContent.forEach((line, i) => {
+    contentAttributes.forEach((attrs: TooltipRowAttrs, i: number) => {
+      const line = renderContent[i];
+
       if (this.className === 'key-box') {
-        (this.children[i] as TextModel).setStyle(getKeyItemStyle(line, i));
+        (this.children[i] as TextModel).setStyle(getKeyItemStyle(line, attrs, i));
       } else if (this.className === 'value-box') {
-        (this.children[i] as TextModel).setStyle(getValueItemStyle(line, i));
+        (this.children[i] as TextModel).setStyle(getValueItemStyle(line, attrs, i));
       } else if (this.className === 'shape-box') {
-        (this.children[i] as ShapeModel)?.setStyle(getShapeItemStyle(line, i), this._getShapeSvgOption(line, i));
+        (this.children[i] as ShapeModel)?.setStyle(getShapeItemStyle(line, attrs, i), this._getShapeSvgOption(line, i));
       }
     });
   }
@@ -150,8 +165,10 @@ export class ContentColumnModel extends BaseTooltipModel {
   setContent(): void {
     const renderContent = this._option.getTooltipActual()?.content ?? [];
     const contentAttributes = this._option.getTooltipAttributes()?.content ?? [];
-    renderContent.forEach((line, i) => {
+
+    contentAttributes.forEach((attributes: TooltipRowAttrs, i: number) => {
       let childContent: any;
+      const line = renderContent[i];
       if (this.className === 'key-box') {
         const keyContent = line.key;
         if ((isString(keyContent) && keyContent?.trim?.() !== '') || isNumber(keyContent)) {
@@ -159,7 +176,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         } else {
           childContent = TOOLTIP_EMPTY_STRING;
         }
-        (this.children[i] as TextModel)?.setContent(childContent, contentAttributes[i].key?.multiLine);
+        (this.children[i] as TextModel)?.setContent(childContent, attributes.key?.multiLine);
       } else if (this.className === 'value-box') {
         const valueContent = line.value;
         if ((isString(valueContent) && valueContent?.trim?.() !== '') || isNumber(valueContent)) {
@@ -167,7 +184,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         } else {
           childContent = TOOLTIP_EMPTY_STRING;
         }
-        (this.children[i] as TextModel)?.setContent(childContent, contentAttributes[i].value?.multiLine);
+        (this.children[i] as TextModel)?.setContent(childContent, attributes.value?.multiLine);
       } else if (this.className === 'shape-box') {
         childContent = this._getShapeSvgOption(line, i);
         this.children[i]?.setContent(childContent);
@@ -204,7 +221,7 @@ export class ContentColumnModel extends BaseTooltipModel {
       hasShape: line.hasShape,
       symbolType: line.shapeType,
       size: shapeColumn.width,
-      fill: line.shapeFill ?? line.shapeColor,
+      fill: line.shapeFill,
       stroke: line.shapeStroke,
       lineWidth: line.shapeLineWidth,
       hollow: line.shapeHollow,

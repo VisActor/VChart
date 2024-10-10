@@ -31,13 +31,13 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
       const helper = series.tooltipHelper;
       const activeTriggers = helper?.activeTriggerSet.mark;
       const ignoreTriggers = helper?.ignoreTriggerSet.mark;
-      if (activeTriggers?.has(params.model) || activeTriggers?.has(params.mark)) {
+      if (activeTriggers?.has(params.mark)) {
         info = {
           mark: params.mark,
           datum: params.datum,
           series
         };
-      } else if (ignoreTriggers?.has(params.model) || ignoreTriggers?.has(params.mark)) {
+      } else if (ignoreTriggers?.has(params.mark)) {
         ignore = true;
       }
     }

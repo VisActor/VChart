@@ -4,7 +4,7 @@ import type { Options } from './constants';
 import { DEFAULT_OPTIONS } from './constants';
 import type { Maybe, IPoint, ILayoutPoint, RenderMode } from '../../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import type { ITooltipPositionFixedValue } from '../../../typings/tooltip/position';
+import type { IFixedTooltipPositionPattern, ITooltipPositionFixedValue } from '../../../typings/tooltip/position';
 // eslint-disable-next-line no-duplicate-imports
 import { isTrueBrowser } from '../../../util/env';
 import type {
@@ -26,7 +26,6 @@ import {
   isFixedTooltipPositionPattern,
   isGlobalTooltipPositionPattern
 } from './utils/position';
-import type { ICartesianSeries } from '../../../series/interface';
 import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -154,7 +153,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     }
 
     const event = params.event as MouseEvent;
-    const { tooltipSpec, tooltipActual, changePositionOnly } = params;
+    const { tooltipSpec, activeTooltipSpec, changePositionOnly } = params;
 
     if (tooltipSpec.enterable) {
       if (!this._isPointerEscaped && this._isPointerMovingToTooltip(params)) {
@@ -171,29 +170,31 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       clearTimeout(this._cachePointerTimer);
       this._cachePointerPosition = this._getPointerPositionRelativeToTooltipParent(params);
     }
-
-    const activeType = tooltipActual.activeType;
-
-    /** 用户自定义逻辑 */
-    if (tooltipSpec.handler) {
-      return tooltipSpec.handler.showTooltip?.(activeType, data, params) ?? TooltipResult.success;
-    }
-
-    /** 默认逻辑 */
-    const pattern = tooltipSpec[activeType];
-    if (!pattern) {
+    if (!activeTooltipSpec) {
       return TooltipResult.failed;
     }
 
+    const activeType = activeTooltipSpec.activeType;
+
+    /** 用户自定义逻辑 */
+    if (activeTooltipSpec.handler) {
+      return activeTooltipSpec.handler.showTooltip?.(activeType, data, params) ?? TooltipResult.success;
+    }
+
+    /** 默认逻辑 */
+    const pattern = activeTooltipSpec;
+
     // 计算 tooltip 位置
     const position = this._getActualTooltipPosition(
-      tooltipActual,
+      activeTooltipSpec,
       params,
-      this._getTooltipBoxSize(tooltipActual, changePositionOnly)
+      this._getTooltipBoxSize(activeTooltipSpec, changePositionOnly)
     );
-    tooltipActual.position = position;
-    if (pattern.updatePosition) {
-      tooltipActual.position = pattern.updatePosition(tooltipActual.position, data, params);
+    activeTooltipSpec.position = position;
+    const updatePosition = activeTooltipSpec.updatePosition ?? tooltipSpec[activeType]?.updatePosition;
+
+    if (updatePosition) {
+      activeTooltipSpec.position = updatePosition(activeTooltipSpec.position, data, params);
     }
 
     // 判断 tooltip 可见性
@@ -201,8 +202,8 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     if (
       !data ||
       event.type === 'pointerout' ||
-      !tooltipActual.visible ||
-      (!tooltipActual.title && !tooltipActual.content)
+      !activeTooltipSpec.visible ||
+      (!activeTooltipSpec.title && !activeTooltipSpec.content)
     ) {
       tooltipVisible = false;
     }
@@ -298,9 +299,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     let { offsetX, offsetY } = this._option;
 
     const spec = tooltipSpec[activeType];
-    const position = getTooltipPatternValue(spec.position, data, params);
+    const position = getTooltipPatternValue(spec?.position, data, params);
     const positionMode =
-      getTooltipPatternValue(spec.positionMode, data, params) ?? (activeType === 'mark' ? 'mark' : 'pointer');
+      getTooltipPatternValue(spec?.positionMode, data, params) ?? (activeType === 'mark' ? 'mark' : 'pointer');
     const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } = tooltipBoxSize ?? {};
 
     const isCanvas = tooltipSpec.renderMode === 'canvas';
@@ -468,19 +469,19 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       } else if (isFixedTooltipPositionPattern(position)) {
         const { x, y } = position;
         if (isNumber(x) || isFunction(x)) {
-          left = getActualTooltipPositionValue(x, event);
+          left = getActualTooltipPositionValue(x as number | ((event: MouseEvent) => number), event);
         } else {
-          processCartesianFixedPositionX(x);
+          processCartesianFixedPositionX(x as ITooltipPositionFixedValue);
         }
         if (isNumber(y) || isFunction(y)) {
-          top = getActualTooltipPositionValue(y, event);
+          top = getActualTooltipPositionValue(y as number | ((event: MouseEvent) => number), event);
         } else {
-          processCartesianFixedPositionY(y);
+          processCartesianFixedPositionY(y as ITooltipPositionFixedValue);
         }
       }
     } else if (isValid(position)) {
-      processCartesianFixedPositionX({ orient: position, mode: positionMode });
-      processCartesianFixedPositionY({ orient: position, mode: positionMode });
+      processCartesianFixedPositionX({ orient: position, mode: positionMode } as ITooltipPositionFixedValue);
+      processCartesianFixedPositionY({ orient: position, mode: positionMode } as ITooltipPositionFixedValue);
     }
 
     /* 二、换算成 x 和 y */

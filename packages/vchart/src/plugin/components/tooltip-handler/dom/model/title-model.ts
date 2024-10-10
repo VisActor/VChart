@@ -73,7 +73,7 @@ export class TitleModel extends BaseTooltipModel {
         hasShape: title?.hasShape,
         symbolType: title?.shapeType,
         size: tooltipStyle.shapeColumn.common?.width,
-        fill: title?.shapeColor,
+        fill: title?.shapeFill,
         hollow: title?.shapeHollow
       }
     );
@@ -93,7 +93,7 @@ export class TitleModel extends BaseTooltipModel {
       hasShape: title?.hasShape,
       symbolType: title?.shapeType,
       size: tooltipStyle.shapeColumn.common?.width,
-      fill: title?.shapeColor,
+      fill: title?.shapeFill,
       hollow: title?.shapeHollow
     });
     this.textSpan?.setStyle({

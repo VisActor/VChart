@@ -1,3 +1,4 @@
+import type { ITooltipHandlerSpec } from '../../component/tooltip/interface/spec';
 import type { MaybeArray } from '../common';
 import type { TooltipPatternProperty, TooltipUpdateCallback } from './common';
 import type { TooltipActiveType, TooltipData } from './handler';
@@ -25,7 +26,6 @@ export interface ITooltipPattern extends ITooltipShapePattern {
 
   /** tooltip content 保留最大数据行数后，代表“其他”的数据行内容 */
   othersLine?: ITooltipLineActual;
-
   /** 方便内部逻辑辨别 tooltip 类型，不暴露给用户 */
   activeType?: TooltipActiveType;
 }
@@ -47,4 +47,10 @@ export interface ITooltipActual {
   activeType?: TooltipActiveType;
   position?: ITooltipPositionActual;
   data?: TooltipData;
+  handler?: Partial<ITooltipHandlerSpec>;
+  maxLineCount?: number;
+  updateTitle?: TooltipUpdateCallback<ITooltipLineActual>;
+  updateContent?: TooltipUpdateCallback<ITooltipLineActual[]>;
+  updatePosition?: TooltipUpdateCallback<ITooltipPositionActual>;
+  othersLine?: ITooltipLineActual;
 }

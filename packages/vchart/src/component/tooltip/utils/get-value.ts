@@ -1,8 +1,7 @@
-import { array, isFunction, isNil } from '@visactor/vutils';
+import { isFunction, isNil } from '@visactor/vutils';
 import type {
   Datum,
-  ITooltipLinePattern,
-  ITooltipPattern,
+  TooltipContentCallback,
   TooltipContentProperty,
   TooltipData,
   TooltipPatternProperty
@@ -19,9 +18,9 @@ export const getTooltipContentValue = <T>(
 ): T | undefined => {
   let value: T;
   if (isFunction(field)) {
-    value = field(datum, params);
+    value = (field as TooltipContentCallback<T>)(datum, params);
   } else {
-    value = field;
+    value = field as T;
   }
 
   if (formatter) {
@@ -40,31 +39,12 @@ export const getTooltipPatternValue = <T>(
   params?: TooltipHandlerParams
 ): T | undefined => {
   if (isNil(field)) {
-    return field;
+    return field as undefined;
   }
   if (isFunction(field)) {
-    return field(data, params);
+    return (field as TooltipContentCallback<T>)(data, params);
   }
-  return field;
-};
-
-export const getTooltipContentPattern = (
-  field?: ITooltipPattern['content'],
-  data?: TooltipData,
-  params?: TooltipHandlerParams
-): Array<ITooltipLinePattern> | undefined => {
-  if (isNil(field)) {
-    return field;
-  }
-  let result: ITooltipLinePattern[] = [];
-  array(field).forEach(patternItem => {
-    if (isFunction(patternItem)) {
-      result = result.concat(array(patternItem(data, params)));
-    } else {
-      result.push(patternItem as ITooltipLinePattern);
-    }
-  });
-  return result;
+  return field as T;
 };
 
 export function getFirstDatumFromTooltipData(data: TooltipData): Datum {

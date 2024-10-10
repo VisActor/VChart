@@ -1,87 +1,46 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { Datum, ITooltipPattern, TooltipActiveType } from '../../typings';
+import type { Datum, ITooltipLinePattern, TooltipActiveType } from '../../typings';
 import { isValid } from '@visactor/vutils';
 import { BOX_PLOT_OUTLIER_VALUE_FIELD, BOX_PLOT_TOOLTIP_KEYS } from '../../constant/box-plot';
 import type { BoxPlotSeries } from './box-plot';
 
 export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   /** 获取默认的tooltip pattern */
-  getDefaultTooltipPattern(activeType: TooltipActiveType): ITooltipPattern | null {
-    return {
-      visible: true,
-      activeType,
-      title: {
-        key: undefined,
-        value: this.dimensionTooltipTitleCallback,
-        hasShape: false
+  protected getDefaultContentList(activeType: TooltipActiveType): ITooltipLinePattern[] {
+    return [
+      {
+        key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.OUTLIER),
+        value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.OUTLIER),
+        shapeType: this.shapeTypeCallback,
+        shapeColor: this.getOutlierFillColor,
+        shapeStroke: this.getOutlierFillColor
       },
-      content: [
-        {
-          key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.OUTLIER),
-          value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.OUTLIER),
-          hasShape: true,
-          shapeType: this.shapeTypeCallback,
-          shapeColor: this.getOutlierFillColor,
-          shapeStroke: this.getOutlierFillColor,
-          shapeHollow: false
-        },
-        {
-          key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.MAX),
-          value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.MAX),
-          hasShape: true,
-          shapeType: this.shapeTypeCallback,
-          shapeColor: this.shapeColorCallback,
-          shapeStroke: this.shapeStrokeCallback,
-          shapeHollow: false
-        },
-        {
-          key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.Q3),
-          value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.Q3),
-          hasShape: true,
-          shapeType: this.shapeTypeCallback,
-          shapeColor: this.shapeColorCallback,
-          shapeStroke: this.shapeStrokeCallback,
-          shapeHollow: false
-        },
-        {
-          key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.MEDIAN),
-          value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.MEDIAN),
-          hasShape: true,
-          shapeType: this.shapeTypeCallback,
-          shapeColor: this.shapeColorCallback,
-          shapeStroke: this.shapeStrokeCallback,
-          shapeHollow: false
-        },
-        {
-          key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.Q1),
-          value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.Q1),
-          hasShape: true,
-          shapeType: this.shapeTypeCallback,
-          shapeColor: this.shapeColorCallback,
-          shapeStroke: this.shapeStrokeCallback,
-          shapeHollow: false
-        },
-        {
-          key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.MIN),
-          value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.MIN),
-          hasShape: true,
-          shapeType: this.shapeTypeCallback,
-          shapeColor: this.shapeColorCallback,
-          shapeStroke: this.shapeStrokeCallback,
-          shapeHollow: false
-        },
-        {
-          key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.SERIES_FIELD),
-          value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.SERIES_FIELD),
-          hasShape: true,
-          shapeType: this.shapeTypeCallback,
-          shapeColor: this.shapeColorCallback,
-          shapeStroke: this.shapeStrokeCallback,
-          shapeHollow: false
-        }
-      ]
-    };
+      {
+        key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.MAX),
+        value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.MAX)
+      },
+      {
+        key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.Q3),
+        value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.Q3)
+      },
+      {
+        key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.MEDIAN),
+        value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.MEDIAN)
+      },
+      {
+        key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.Q1),
+        value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.Q1)
+      },
+      {
+        key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.MIN),
+        value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.MIN)
+      },
+      {
+        key: this.getContentKey(BOX_PLOT_TOOLTIP_KEYS.SERIES_FIELD),
+        value: this.getContentValue(BOX_PLOT_TOOLTIP_KEYS.SERIES_FIELD)
+      }
+    ];
   }
   getContentKey = (contentType: BOX_PLOT_TOOLTIP_KEYS) => (datum: any) => {
     if (this.isOutlierMark(datum)) {

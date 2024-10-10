@@ -49,6 +49,4 @@ export interface ITooltipShapeActual {
   shapeLineWidth?: number;
   shapeSize?: number;
   shapeHollow?: boolean;
-  /** @deprecated 用户 spec 中建议用 shapeFill 代替，内部默认值可以维持使用 shapeColor */
-  shapeColor?: string;
 }

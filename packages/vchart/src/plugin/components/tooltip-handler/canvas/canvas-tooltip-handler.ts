@@ -85,8 +85,8 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
       this._initTooltipComponent(stage);
     }
 
-    const { tooltipActual } = params;
-    const pos = tooltipActual.position;
+    const { activeTooltipSpec } = params;
+    const pos = activeTooltipSpec.position;
     if (!params.changePositionOnly) {
       this._tooltipComponent.setAttributes({
         ...this._attributes,
