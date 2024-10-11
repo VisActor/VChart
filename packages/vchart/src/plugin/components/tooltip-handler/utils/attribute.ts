@@ -147,11 +147,8 @@ export const getTooltipAttributes = (
 
   // calculate content
   let contentMaxWidth = 0;
-  // filter content
-  const filteredContent = content.filter(item => {
-    return (item.key || item.value) && item.visible !== false;
-  });
-  const hasContent = !!filteredContent.length;
+
+  const hasContent = !!content.length;
   let maxKeyWidth = 0;
   let maxAdaptiveKeyWidth = 0;
   let maxValueWidth = 0;
@@ -164,7 +161,7 @@ export const getTooltipAttributes = (
     const shapeWidths: number[] = [];
 
     let contentHeight = 0;
-    attributes.content = filteredContent.map((item, i) => {
+    attributes.content = content.map((item, i) => {
       let itemHeight = 0;
       const {
         hasShape: actualHasShape,
@@ -179,9 +176,7 @@ export const getTooltipAttributes = (
         spaceRow: actualSpaceRow,
         keyStyle: actualKeyStyle,
         valueStyle: actualValueStyle,
-        shapeHollow: actualShapeHollow,
-        // 弃用的属性，做下兼容
-        shapeColor: actualShapeColor
+        shapeHollow: actualShapeHollow
       } = item;
       const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow: actualSpaceRow ?? commonSpaceRow };
       if (isValid(actualKey)) {
@@ -225,13 +220,12 @@ export const getTooltipAttributes = (
           visible: true,
           symbolType: actualShapeType
         };
-        const adaptiveShapeFill = actualShapeFill ?? actualShapeColor;
         if (actualShapeHollow) {
-          shape.stroke = adaptiveShapeFill;
+          shape.stroke = actualShapeFill;
         } else {
-          shape.fill = adaptiveShapeFill;
+          shape.fill = actualShapeFill;
         }
-        shape.stroke = actualShapeStroke ?? adaptiveShapeFill;
+        shape.stroke = actualShapeStroke ?? actualShapeFill;
         shape.lineWidth = actualShapeLineWidth;
         itemAttrs.shape = shape;
 
@@ -244,7 +238,7 @@ export const getTooltipAttributes = (
 
       itemAttrs.height = itemHeight;
       contentHeight += itemHeight;
-      if (i < filteredContent.length - 1) {
+      if (i < content.length - 1) {
         contentHeight += itemAttrs.spaceRow;
       }
 

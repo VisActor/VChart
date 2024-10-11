@@ -22,9 +22,8 @@ import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, Toolt
 // eslint-disable-next-line no-duplicate-imports
 import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
-import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { hasParentElement, isArray, isValid, isNil, array } from '@visactor/vutils';
+import { hasParentElement, isValid, isNil, array } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
@@ -281,7 +280,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const mouseEventData = this._getMouseEventData(params);
     const {
       tooltipInfo: { dimension: dimensionInfo },
-      ignore: { mark: ignoreMark, dimension: ignoreDimension }
+      ignore: { mark: ignoreMark }
     } = mouseEventData;
 
     /** tooltip 是否显示成功 */

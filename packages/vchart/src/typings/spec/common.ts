@@ -14,7 +14,7 @@ import type {
 import type { RegionSpec } from '../../region/interface';
 import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
-import type { ITooltipSpec } from '../../component/tooltip/interface';
+import type { ISeriesTooltipSpec, ITooltipSpec } from '../../component/tooltip/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILayoutSpec } from '../../layout/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -435,7 +435,7 @@ export interface ISeriesSpec extends IInteractionSpec {
   invalidType?: IInvalidType;
 
   /** 提示信息 */
-  tooltip?: ITooltipSpec;
+  tooltip?: ISeriesTooltipSpec;
 
   /**
    * 是否开启系列动画
@@ -469,7 +469,7 @@ export interface ISeriesSpec extends IInteractionSpec {
   // background?: IBackgroundSpec;
 }
 
-export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph' | 'stackValue'>;
+export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph' | 'stackValue' | 'tooltip'>;
 
 export type AdaptiveSpec<T, K extends keyof any> = {
   [key in Exclude<keyof T, K>]: T[key];

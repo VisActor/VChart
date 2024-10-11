@@ -37,7 +37,6 @@ import {
 import type { IEffect, IModelSpecInfo } from '../../../model/interface';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
-import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import { computeLayoutRadius, getPolarAxisInfo } from './util';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '@visactor/vutils-extension';
