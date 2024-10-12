@@ -1,7 +1,8 @@
 import type React from 'react';
 import type { ICirclePackingChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerCirclePackingChart } from '@visactor/vchart';
-import { BaseChartProps, createChart } from './BaseChart';
+import { VChart, registerCirclePackingChart, registerLabel } from '@visactor/vchart';
+import type { BaseChartProps } from './BaseChart';
+import { createChart } from './BaseChart';
 import { registers } from './registers/simple';
 
 export interface CirclePackingChartProps
@@ -16,5 +17,5 @@ export const CirclePackingChart = createChart<
     type: 'circlePacking',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerCirclePackingChart, ...registers]
+  [registerCirclePackingChart, registerLabel, ...registers]
 );

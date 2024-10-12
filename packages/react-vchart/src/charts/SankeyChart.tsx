@@ -1,6 +1,6 @@
 import type React from 'react';
 import type { ISankeyChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerSankeyChart } from '@visactor/vchart';
+import { VChart, registerLabel, registerSankeyChart } from '@visactor/vchart';
 import { registers } from './registers/simple';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
@@ -15,5 +15,5 @@ export const SankeyChart = createChart<React.PropsWithChildren<SankeyChartProps>
     type: 'sankey',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerSankeyChart, ...registers]
+  [registerSankeyChart, registerLabel, ...registers]
 );
