@@ -6,7 +6,7 @@ import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 
 export interface SequenceChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<ISequenceChartSpec>, 'type'> {}
 
 export const SequenceChart = createChart<React.PropsWithChildren<SequenceChartProps> & { type?: 'sequence' }>(

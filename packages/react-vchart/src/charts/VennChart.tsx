@@ -6,7 +6,7 @@ import { createChart } from './BaseChart';
 import { registers } from './registers/simple';
 
 export interface VennChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<IVennChartSpec, 'type'> {}
 
 export const VennChart = createChart<React.PropsWithChildren<VennChartProps> & { type: 'venn' }>(

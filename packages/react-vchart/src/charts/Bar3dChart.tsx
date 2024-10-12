@@ -1,11 +1,12 @@
 import type React from 'react';
 import type { IBar3dChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerBar3dChart, registerLabel, registerTotalLabel } from '@visactor/vchart';
-import { BaseChartProps, createChart } from './BaseChart';
+import type { BaseChartProps } from './BaseChart';
+import { createChart } from './BaseChart';
 import { registers } from './registers/cartesian';
 
 export interface Bar3dChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<IBar3dChartSpec>, 'type'> {
   //
 }

@@ -6,7 +6,7 @@ import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 
 export interface SunburstChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<ISunburstChartSpec>, 'type'> {}
 
 export const SunburstChart = createChart<React.PropsWithChildren<SunburstChartProps> & { type?: 'sunburst' }>(

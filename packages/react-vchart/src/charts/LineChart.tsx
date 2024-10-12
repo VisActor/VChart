@@ -6,7 +6,7 @@ import { createChart } from './BaseChart';
 import { registers } from './registers/cartesian';
 
 export interface LineChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<ILineChartSpec>, 'type'> {}
 
 export const LineChart = createChart<React.PropsWithChildren<LineChartProps> & { type?: 'line' }>(

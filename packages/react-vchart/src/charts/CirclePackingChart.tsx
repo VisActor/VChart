@@ -6,7 +6,7 @@ import { createChart } from './BaseChart';
 import { registers } from './registers/simple';
 
 export interface CirclePackingChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<ICirclePackingChartSpec>, 'type'> {}
 
 export const CirclePackingChart = createChart<

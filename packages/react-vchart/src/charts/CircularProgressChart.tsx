@@ -6,7 +6,7 @@ import { createChart } from './BaseChart';
 import { registers } from './registers/polar';
 
 export interface CircularProgressChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<ICircularProgressChartSpec>, 'type'> {}
 
 export const CircularProgressChart = createChart<

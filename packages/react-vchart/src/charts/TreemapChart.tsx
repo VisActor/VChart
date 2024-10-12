@@ -7,7 +7,7 @@ import { createChart } from './BaseChart';
 import { registerLabel } from '@visactor/vgrammar-core';
 
 export interface TreemapChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<ITreemapChartSpec>, 'type'> {}
 
 export const TreemapChart = createChart<React.PropsWithChildren<TreemapChartProps> & { type?: 'treemap' }>(
