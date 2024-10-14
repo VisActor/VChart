@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: axis line on zero should consider the bindAxis's inverse, fixed#3306",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
