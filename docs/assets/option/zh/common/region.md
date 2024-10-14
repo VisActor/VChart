@@ -27,9 +27,10 @@ region 的 id，可以在其他功能模块中使用这个 id 来索引这个 re
 
 {{ if: ${regionType} === 'geo' }}
 
-### roam(boolean) = false
+### roam(boolean|Object) = false
 
-是否可以拖拽和缩放
+是否可以拖拽和缩放。
+自 `1.12.8` 版本后，支持配置 `roam.blank: true` 来开启 region 空白区域的拖拽。
 
 ### longitudeField(string)
 
