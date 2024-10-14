@@ -54,7 +54,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     return data;
   }
 
-  if (showEmptyCircle && isDataEmpty(data, angleField, supportNegative)) {
+  if (!showAllZero && showEmptyCircle && isDataEmpty(data, angleField, supportNegative)) {
     return data;
   }
 
@@ -146,23 +146,19 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
 };
 
 export const isDataEmpty = (data: Datum[], angleField: string, supportNegative: boolean) => {
-  try {
-    if (isNil(data)) {
-      return true;
-    }
-    if (data.length === 0) {
-      return true;
-    }
-    if (data.every(datum => transformInvalidValue(datum[angleField]) === 0)) {
-      return true;
-    }
-    // 未支持负数, 并且和为0, 则也认为是空数据
-    if (!supportNegative && data.reduce((sum, datum) => sum + transformInvalidValue(datum[angleField]), 0) === 0) {
-      return true;
-    }
-
-    return false;
-  } catch (e) {
-    return false;
+  if (isNil(data)) {
+    return true;
   }
+  if (data.length === 0) {
+    return true;
+  }
+  if (data.every(datum => transformInvalidValue(datum[angleField]) === 0)) {
+    return true;
+  }
+  // 未支持负数, 并且和为0, 则也认为是空数据
+  if (!supportNegative && data.reduce((sum, datum) => sum + transformInvalidValue(datum[angleField]), 0) === 0) {
+    return true;
+  }
+
+  return false;
 };
