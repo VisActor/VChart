@@ -908,14 +908,26 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
             axisMark.encode({
               line: {
                 ...this._axisStyle.line,
-                dy: this._orient === 'bottom' ? -(bindAxis.getScale().range()[0] - position) : position
+                dy:
+                  this._orient === 'bottom'
+                    ? -(
+                        (bindAxis.getInverse() ? bindAxis.getScale().range()[1] : bindAxis.getScale().range()[0]) -
+                        position
+                      )
+                    : position
               }
             });
           } else {
             axisMark.encode({
               line: {
                 ...this._axisStyle.line,
-                dx: this._orient === 'left' ? position : -(bindAxis.getScale().range()[1] - position)
+                dx:
+                  this._orient === 'left'
+                    ? position
+                    : -(
+                        (bindAxis.getInverse() ? bindAxis.getScale().range()[0] : bindAxis.getScale().range()[1]) -
+                        position
+                      )
               }
             });
           }
