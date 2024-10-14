@@ -104,7 +104,7 @@ bindChartEvent(event) {
 
 ```ts
 import barSpec from './data/bar';
-import VChart from '@visactor/vchart';
+import VChart, { registerLynxEnv } from '@visactor/vchart';
 import mapJson from './data/map-data-china';
 
 Card({
@@ -126,6 +126,7 @@ Card({
   },
 
   init() {
+    registerLynxEnv();
     this.data.chartList.forEach(item => {
       this.createSelectorQuery()
         .select(`#${item.id}_draw_canvas`)
