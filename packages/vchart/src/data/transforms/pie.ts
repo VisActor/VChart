@@ -153,11 +153,11 @@ export const isDataEmpty = (data: Datum[], angleField: string, supportNegative: 
     if (data.length === 0) {
       return true;
     }
-    if (data.every(datum => datum[angleField] === 0 || isNil(datum[angleField]))) {
+    if (data.every(datum => transformInvalidValue(datum[angleField]) === 0)) {
       return true;
     }
     // 未支持负数, 并且和为0, 则也认为是空数据
-    if (!supportNegative && data.reduce((sum, datum) => sum + datum[angleField], 0) === 0) {
+    if (!supportNegative && data.reduce((sum, datum) => sum + transformInvalidValue(datum[angleField]), 0) === 0) {
       return true;
     }
 
