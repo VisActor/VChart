@@ -30,7 +30,7 @@ import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IPieOpt } from '../../data/transforms/pie';
 // eslint-disable-next-line no-duplicate-imports
-import { pie } from '../../data/transforms/pie';
+import { isDataEmpty, pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
 import { registerEmptyCircleAnimation, registerPieAnimation } from './animation/animation';
@@ -155,7 +155,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           asQuadrant: ARC_QUADRANT,
           asK: ARC_K,
           showAllZero: this._showAllZero,
-          supportNegative: this._supportNegative
+          supportNegative: this._supportNegative,
+          showEmptyCircle: this._showEmptyCircle
         } as IPieOpt
       },
       false
@@ -247,7 +248,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         emptyPieMark,
         {
           ...initialStyle,
-          visible: () => this.getViewData().latestData.length === 0
+          visible: () => {
+            const angleField = this.getAngleField()[0];
+            return isDataEmpty(this.getViewData().latestData, angleField, this._supportNegative);
+          }
         },
         'normal',
         AttributeLevel.Series
