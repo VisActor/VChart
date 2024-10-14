@@ -1,4 +1,4 @@
-import type { IBarChartSpec, ICommonChartSpec, ILineChartSpec } from '../../../src';
+import type { IBarChartSpec, ILineChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { totalLabel } from '../../../src/theme/builtin/common/component/total-label';
 import { series } from '../../../src/theme/builtin/common/series';
@@ -1509,35 +1509,54 @@ describe('vchart updateSpec of different about label', () => {
     });
   });
 
-  it('should reMake when `visible` of title change from `true` to `false`', () => {
+  it('should reMake when `visible` of label change from `false` to `true`', () => {
     const spec = {
       type: 'area',
-      data: [
-        {
-          id: 'area',
-          values: [
-            { x: '1990', y: 110, from: 'video ad' },
-            { x: '1995', y: 160, from: 'video ad' },
-            { x: '2000', y: 230, from: 'video ad' },
-            { x: '2005', y: 300, from: 'video ad' },
-            { x: '2010', y: 448, from: 'video ad' },
-            { x: '2015', y: 500, from: 'video ad' },
-            { x: '1990', y: 120, from: 'email marketing' },
-            { x: '1995', y: 150, from: 'email marketing' },
-            { x: '2000', y: 200, from: 'email marketing' },
-            { x: '2005', y: 210, from: 'email marketing' },
-            { x: '2010', y: 300, from: 'email marketing' },
-            { x: '2015', y: 320, from: 'email marketing' }
-          ]
-        }
-      ],
-      title: {
-        visible: true,
-        text: 'test'
+      data: {
+        values: [
+          {
+            time: '2:00',
+            value: 8
+          },
+          {
+            time: '4:00',
+            value: 9
+          },
+          {
+            time: '6:00',
+            value: 11
+          },
+          {
+            time: '8:00',
+            value: 14
+          },
+          {
+            time: '10:00',
+            value: 16
+          },
+          {
+            time: '12:00',
+            value: 17
+          },
+          {
+            time: '14:00',
+            value: 17
+          },
+          {
+            time: '16:00',
+            value: 16
+          },
+          {
+            time: '18:00',
+            value: 15
+          }
+        ]
       },
-      xField: 'x',
-      yField: 'y',
-      seriesField: 'from'
+      xField: 'time',
+      yField: 'value',
+      label: {
+        visible: false
+      }
     };
     vchart = new VChart(spec, {
       dom
@@ -1546,8 +1565,8 @@ describe('vchart updateSpec of different about label', () => {
     const updateRes = (vchart as any)._updateSpec(
       {
         ...spec,
-        title: {
-          visible: false
+        label: {
+          visible: true
         }
       },
       false
@@ -1555,9 +1574,9 @@ describe('vchart updateSpec of different about label', () => {
 
     expect(updateRes).toEqual({
       changeBackground: false,
-      change: true,
+      change: false,
       changeTheme: false,
-      reCompile: true,
+      reCompile: false,
       reMake: true,
       reRender: true,
       reSize: false,
@@ -1565,35 +1584,54 @@ describe('vchart updateSpec of different about label', () => {
     });
   });
 
-  it('should reMake when `visible` of title change from `false` to `true`', () => {
+  it('should reMake when `visible` of label change from `false` to `true`', () => {
     const spec = {
       type: 'area',
-      data: [
-        {
-          id: 'area',
-          values: [
-            { x: '1990', y: 110, from: 'video ad' },
-            { x: '1995', y: 160, from: 'video ad' },
-            { x: '2000', y: 230, from: 'video ad' },
-            { x: '2005', y: 300, from: 'video ad' },
-            { x: '2010', y: 448, from: 'video ad' },
-            { x: '2015', y: 500, from: 'video ad' },
-            { x: '1990', y: 120, from: 'email marketing' },
-            { x: '1995', y: 150, from: 'email marketing' },
-            { x: '2000', y: 200, from: 'email marketing' },
-            { x: '2005', y: 210, from: 'email marketing' },
-            { x: '2010', y: 300, from: 'email marketing' },
-            { x: '2015', y: 320, from: 'email marketing' }
-          ]
-        }
-      ],
-      title: {
-        visible: false,
-        text: 'test'
+      data: {
+        values: [
+          {
+            time: '2:00',
+            value: 8
+          },
+          {
+            time: '4:00',
+            value: 9
+          },
+          {
+            time: '6:00',
+            value: 11
+          },
+          {
+            time: '8:00',
+            value: 14
+          },
+          {
+            time: '10:00',
+            value: 16
+          },
+          {
+            time: '12:00',
+            value: 17
+          },
+          {
+            time: '14:00',
+            value: 17
+          },
+          {
+            time: '16:00',
+            value: 16
+          },
+          {
+            time: '18:00',
+            value: 15
+          }
+        ]
       },
-      xField: 'x',
-      yField: 'y',
-      seriesField: 'from'
+      xField: 'time',
+      yField: 'value',
+      label: {
+        visible: true
+      }
     };
     vchart = new VChart(spec, {
       dom
@@ -1602,8 +1640,8 @@ describe('vchart updateSpec of different about label', () => {
     const updateRes = (vchart as any)._updateSpec(
       {
         ...spec,
-        title: {
-          visible: true
+        label: {
+          visible: false
         }
       },
       false
@@ -1960,6 +1998,250 @@ describe('vchart updateSpec of width, height', () => {
       reMake: false,
       reRender: true,
       reSize: true,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of different axes', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterAll(() => {
+    removeDom(container);
+    vchart.release();
+  });
+
+  it('should remake when label is in series update', () => {
+    const spec: ILineChartSpec = {
+      type: 'line',
+      data: {
+        values: [
+          {
+            time: '2:00',
+            value: 38
+          },
+          {
+            time: '4:00',
+            value: 56
+          },
+          {
+            time: '6:00',
+            value: 10
+          },
+          {
+            time: '8:00',
+            value: 70
+          },
+          {
+            time: '10:00',
+            value: 36
+          },
+          {
+            time: '12:00',
+            value: 94
+          },
+          {
+            time: '14:00',
+            value: 24
+          },
+          {
+            time: '16:00',
+            value: 44
+          },
+          {
+            time: '18:00',
+            value: 36
+          },
+          {
+            time: '20:00',
+            value: 68
+          },
+          {
+            time: '22:00',
+            value: 22
+          }
+        ]
+      },
+      xField: 'time',
+      yField: 'value',
+      line: {
+        style: {
+          curveType: 'monotone'
+        }
+      },
+      axes: [{ orient: 'bottom', label: { style: { fill: 'red' } } }]
+    };
+
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        axes: [
+          {
+            ...(spec.axes as any)[0],
+            visible: false
+          }
+        ]
+      } as any,
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      reCompile: true,
+      reMake: true,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of different title', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterAll(() => {
+    removeDom(container);
+    vchart.release();
+  });
+
+  it('should reMake when `visible` of title change from `true` to `false`', () => {
+    const spec = {
+      type: 'area',
+      data: [
+        {
+          id: 'area',
+          values: [
+            { x: '1990', y: 110, from: 'video ad' },
+            { x: '1995', y: 160, from: 'video ad' },
+            { x: '2000', y: 230, from: 'video ad' },
+            { x: '2005', y: 300, from: 'video ad' },
+            { x: '2010', y: 448, from: 'video ad' },
+            { x: '2015', y: 500, from: 'video ad' },
+            { x: '1990', y: 120, from: 'email marketing' },
+            { x: '1995', y: 150, from: 'email marketing' },
+            { x: '2000', y: 200, from: 'email marketing' },
+            { x: '2005', y: 210, from: 'email marketing' },
+            { x: '2010', y: 300, from: 'email marketing' },
+            { x: '2015', y: 320, from: 'email marketing' }
+          ]
+        }
+      ],
+      title: {
+        visible: true,
+        text: 'test'
+      },
+      xField: 'x',
+      yField: 'y',
+      seriesField: 'from'
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        title: {
+          visible: false
+        }
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      changeBackground: false,
+      change: true,
+      changeTheme: false,
+      reCompile: true,
+      reMake: true,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should reMake when `visible` of title change from `false` to `true`', () => {
+    const spec = {
+      type: 'area',
+      data: [
+        {
+          id: 'area',
+          values: [
+            { x: '1990', y: 110, from: 'video ad' },
+            { x: '1995', y: 160, from: 'video ad' },
+            { x: '2000', y: 230, from: 'video ad' },
+            { x: '2005', y: 300, from: 'video ad' },
+            { x: '2010', y: 448, from: 'video ad' },
+            { x: '2015', y: 500, from: 'video ad' },
+            { x: '1990', y: 120, from: 'email marketing' },
+            { x: '1995', y: 150, from: 'email marketing' },
+            { x: '2000', y: 200, from: 'email marketing' },
+            { x: '2005', y: 210, from: 'email marketing' },
+            { x: '2010', y: 300, from: 'email marketing' },
+            { x: '2015', y: 320, from: 'email marketing' }
+          ]
+        }
+      ],
+      title: {
+        visible: false,
+        text: 'test'
+      },
+      xField: 'x',
+      yField: 'y',
+      seriesField: 'from'
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        title: {
+          visible: true
+        }
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      changeBackground: false,
+      change: false,
+      changeTheme: false,
+      reCompile: false,
+      reMake: true,
+      reRender: true,
+      reSize: false,
       reTransformSpec: false
     });
   });

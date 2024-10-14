@@ -422,7 +422,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     /**
      * 存在轴同步相关配置的时候，暂时通过`reMake`触发更新
      */
-    if (prevSpec?.type !== spec?.type) {
+    if (prevSpec?.type !== spec?.type || prevSpec?.visible !== spec?.visible) {
       result.reMake = true;
       return result;
     }
