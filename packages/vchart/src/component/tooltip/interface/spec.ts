@@ -44,6 +44,7 @@ export interface ITooltipSpec
   /**
    * 当设置了`enterable: true`，且 trigger类型为`hover`的时候，为了方便鼠标进入提示信息的内容区域，设置的显示延迟时长
    * 其他情况设置无效
+   * @since 1.12.8
    */
   showDelay?: number;
 
