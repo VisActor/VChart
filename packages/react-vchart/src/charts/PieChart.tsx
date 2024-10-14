@@ -6,7 +6,7 @@ import { createChart } from './BaseChart';
 import { registers } from './registers/simple';
 
 export interface PieChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<IPieChartSpec>, 'type'> {}
 
 export const PieChart = createChart<React.PropsWithChildren<PieChartProps> & { type?: 'pie' }>(

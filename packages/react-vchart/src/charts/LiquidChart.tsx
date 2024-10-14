@@ -6,7 +6,7 @@ import { createChart } from './BaseChart';
 import { registers } from './registers/simple';
 
 export interface LiquidChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<ILiquidChartSpec>, 'type'> {}
 
 export const LiquidChart = createChart<React.PropsWithChildren<LiquidChartProps> & { type?: 'liquid' }>(

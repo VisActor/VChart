@@ -6,7 +6,7 @@ import { createChart } from './BaseChart';
 import { registers } from './registers/cartesian';
 
 export interface AreaChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<IAreaChartSpec>, 'type'> {}
 
 export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & { type?: 'area' }>(

@@ -6,7 +6,7 @@ import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 
 export interface WordCloud3dChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<IWordCloud3dChartSpec>, 'type'> {}
 
 export const WordCloud3dChart = createChart<React.PropsWithChildren<WordCloud3dChartProps> & { type?: 'wordCloud3d' }>(

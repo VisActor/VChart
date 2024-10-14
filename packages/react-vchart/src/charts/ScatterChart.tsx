@@ -6,7 +6,7 @@ import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 
 export interface ScatterChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<IScatterChartSpec>, 'type'> {}
 
 export const ScatterChart = createChart<React.PropsWithChildren<ScatterChartProps> & { type?: 'scatter' }>(

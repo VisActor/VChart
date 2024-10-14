@@ -6,7 +6,7 @@ import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 
 export interface MapChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<IMapChartSpec>, 'type'> {}
 
 export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { type?: 'map' }>(
