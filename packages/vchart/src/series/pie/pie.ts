@@ -242,6 +242,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this.setMarkStyle(pieMark, initialStyle, 'normal', AttributeLevel.Series);
     }
 
+    /**
+     * !important
+     * !TODO: isDataEmpty执行了2次, 需要结构上优化, 保存isEmpty的状态, 尝试将2次执行优化为1次
+     */
     const emptyPieMark = this._emptyArcMark;
     if (emptyPieMark) {
       this.setMarkStyle(
