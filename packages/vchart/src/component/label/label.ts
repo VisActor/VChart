@@ -108,8 +108,6 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
 
   reInit(spec?: T) {
     super.reInit(spec);
-    this._labelInfoMap && this._labelInfoMap.clear();
-    this._initTextMark();
     this._initTextMarkStyle();
   }
 
