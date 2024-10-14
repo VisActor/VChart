@@ -30,7 +30,7 @@ import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IPieOpt } from '../../data/transforms/pie';
 // eslint-disable-next-line no-duplicate-imports
-import { pie } from '../../data/transforms/pie';
+import { isDataEmpty, pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
 import { registerEmptyCircleAnimation, registerPieAnimation } from './animation/animation';
@@ -155,7 +155,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           asQuadrant: ARC_QUADRANT,
           asK: ARC_K,
           showAllZero: this._showAllZero,
-          supportNegative: this._supportNegative
+          supportNegative: this._supportNegative,
+          showEmptyCircle: this._showEmptyCircle
         } as IPieOpt
       },
       false
@@ -241,13 +242,20 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this.setMarkStyle(pieMark, initialStyle, 'normal', AttributeLevel.Series);
     }
 
+    /**
+     * !important
+     * !TODO: isDataEmpty执行了2次, 需要结构上优化, 保存isEmpty的状态, 尝试将2次执行优化为1次
+     */
     const emptyPieMark = this._emptyArcMark;
     if (emptyPieMark) {
       this.setMarkStyle(
         emptyPieMark,
         {
           ...initialStyle,
-          visible: () => this.getViewData().latestData.length === 0
+          visible: () => {
+            const angleField = this.getAngleField()[0];
+            return isDataEmpty(this.getViewData().latestData, angleField, this._supportNegative);
+          }
         },
         'normal',
         AttributeLevel.Series
