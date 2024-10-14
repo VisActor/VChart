@@ -79,8 +79,9 @@ export interface IGeoRegionSpec extends IRegionSpec {
   /**
    * 是否可以拖拽
    * @default false
+   * @since 1.12.8 支持 blank 配置，在 region 空白区域也能触发拖拽
    */
-  roam?: boolean;
+  roam?: boolean | { blank?: boolean };
   /**
    * 数据中的经度字段名
    */

@@ -169,9 +169,14 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
       this.effect.scaleUpdate.bind(this)
     );
 
-    if (this._spec.roam) {
+    const { roam } = this._spec;
+    if (roam) {
       (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom);
-      (this as unknown as IZoomable).initDragEventOfRegions(this._regions, () => true, this.pan);
+      (this as unknown as IZoomable).initDragEventOfRegions(
+        this._regions,
+        (roam as any).blank ? null : () => true,
+        this.pan
+      );
 
       this._regions.forEach(r => {
         r.getSeries().forEach(s => {
