@@ -27,9 +27,10 @@ Available options:
 
 {{ if: ${regionType} === 'geo' }}
 
-### roam(boolean) = false
+### roam(boolean|Object) = false
 
-Allow dragging and scaling
+Allow dragging and scaling.
+Since version `1.12.8`, it supports configuring `roam.blank: true` to enable dragging in the blank area fo region.
 
 ### longitudeField(string)
 
