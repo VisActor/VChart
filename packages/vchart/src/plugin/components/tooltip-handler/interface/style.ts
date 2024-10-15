@@ -1,5 +1,5 @@
 import type { TooltipAttributes } from '@visactor/vrender-components';
-import type { ITextAttribute, IFillStyle, RichTextWordBreak } from '@visactor/vrender-core';
+import type { ITextAttribute, IFillStyle } from '@visactor/vrender-core';
 
 export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> {
   /** 和相邻元素的水平间距 */
@@ -8,8 +8,6 @@ export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> 
   multiLine?: boolean;
   /** 文本元素的最大宽度 */
   maxWidth?: number;
-  /** 换行模式 */
-  wordBreak?: RichTextWordBreak;
   /** 是否开启自动宽度 */
   autoWidth?: boolean;
 }

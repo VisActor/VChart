@@ -40,10 +40,11 @@
 
 #${prefix} wordBreak(string) = 'break-word'
 
-**可选** 配置${componentName}的换行模式，有以下两种模式：
+**可选** 配置${componentName}的换行模式，有以下三种模式：
 
-- `'break-word'`: 在单词结尾换行
-- `'break-all'`: 在任意位置换行
+- "break-all": 允许任意非 CJK（中文/日文/韩文）文本间的单词断行。
+- "break-word": 不允许 CJK（中文/日文/韩文）文本中的单词换行，只能在半角空格或连字符处换行。
+- "keep-all": CJK（中文/日文/韩文）文本不断行。非 CJK 文本单词不断行。（从 1.12.8 版本开始支持）
 
 {{ if: ${labelType} === 'title' }}
 

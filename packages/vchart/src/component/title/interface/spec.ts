@@ -1,5 +1,5 @@
 import type { IComponent } from '../../interface';
-import type { ITextGraphicAttribute, IRichTextCharacter, RichTextWordBreak } from '@visactor/vrender-core';
+import type { ITextGraphicAttribute, IRichTextCharacter, ITextAttribute } from '@visactor/vrender-core';
 import type { IOrientType, IPadding } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 
@@ -77,9 +77,9 @@ interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
     verticalAlign?: string;
     /**
      * 折行方式
-     * 'break-word' | 'break-all'
+     * 'break-word' | 'break-all' | 'keep-all'
      */
-    wordBreak?: RichTextWordBreak;
+    wordBreak?: ITextAttribute['wordBreak'];
     /**
      * 按照宽度限制自动折行或显示省略号(maxLineWidth)
      * 默认设置为title宽度
@@ -119,9 +119,9 @@ interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
     verticalAlign?: string;
     /**
      * 折行方式
-     * 'break-word' | 'break-all'
+     * 'break-word' | 'break-all' | 'keep-all
      */
-    wordBreak?: RichTextWordBreak;
+    wordBreak?: ITextAttribute['wordBreak'];
     /**
      * 按照宽度限制自动折行或显示省略号(maxLineWidth)
      * 默认设置为title宽度
