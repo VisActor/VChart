@@ -40,10 +40,11 @@
 
 #${prefix} wordBreak(string) = 'break-word'
 
-**Optional** Configuration for the line break mode of ${componentName}, with the following two modes:
+**Optional** Configuration for the line break mode of ${componentName}, with the following three modes:
 
-- `'break-word'`: Wrap at the end of a word
-- `'break-all'`: Wrap at any position
+- "break-all ": Allows any non-CJK(Chinese/Japanese/Korean) text between words to break.
+- "break-word": Does not allow CJK(Chinese/Japanese/Korean) text words to wrap, can only wrap at half-width spaces or hyphens.
+- "keep-all": CJK (Chinese/Japanese/Korean) text does not break. Non-CJK text words do not break.(support since 1.12.8)
 
 {{ if: ${labelType} === 'title' }}
 

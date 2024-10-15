@@ -125,8 +125,9 @@
 
 可选值：
 
-- "break-all ": 允许任意非 CJK(Chinese/Japanese/Korean)文本间的单词断行。
-- "break-word": 不允许 CJK(Chinese/Japanese/Korean)文本中的单词换行，只能在半角空格或连字符处换行。
+- "break-all": 允许任意非 CJK（中文/日文/韩文）文本间的单词断行。
+- "break-word": 不允许 CJK（中文/日文/韩文）文本中的单词换行，只能在半角空格或连字符处换行。
+- "keep-all": CJK（中文/日文/韩文）文本不断行。非 CJK 文本单词不断行。（从 1.12.8 版本开始支持）
 
 #### maxLineWidth(number)
 
@@ -193,6 +194,7 @@
 
 - "break-all ": 允许任意非 CJK(Chinese/Japanese/Korean)文本间的单词断行。
 - "break-word": 不允许 CJK(Chinese/Japanese/Korean)文本中的单词换行，只能在半角空格或连字符处换行。
+- “keep-all”: CJK(Chinese/Japanese/Korean) 文本不断行。非 CJK 文本单词不断行
 
 #### maxLineWidth(number)
 

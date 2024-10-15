@@ -40,10 +40,10 @@ There are currently five types of axes supported in VChart:
 
 1. Linear axis (type: 'linear'), suitable for numerical data;
 2. Discrete axis (type: 'band'), suitable for discrete data;
-3. Time axis (type: 'time'), suitable for representing time series data, for specific usage please refer to [SequenceChart Time Series Chart demo](../../../demo/sequence-chart/social-media-event);
+3. Time axis (type: 'time'), suitable for representing time series data, for specific usage please refer to [SequenceChart Time Series Chart demo](/vchart/demo/sequence-chart/social-media-event);
    It should be noted that histograms do not support discrete axes, as histograms are used to count the frequency distribution of data intervals, and the main axis must be passed in as value intervals, which the discrete axis does not support.
-4. Log axis (type: 'log'), the characteristic of the log axis is that the interval between the scales is calculated according to the logarithmic function (usually base 10). This means that each logarithmic unit (unit of size) of the data has the same physical length, e.g. from 1 to 10, 10 to 100, 100 to 1000, etc. For exponential growth or decline of data, the log axis can better show the relative change of data, the specific use can be viewed [log axis demo](../../../demo/axis/log-axis)
-5. Symlog axis (type: 'symlog'), unlike the log axis, symlog can support negative numbers. For specific usage, the specific use can be viewed[symlog axis demo](../../../demo/axis/symlog-axis)
+4. Log axis (type: 'log'), the characteristic of the log axis is that the interval between the scales is calculated according to the logarithmic function (usually base 10). This means that each logarithmic unit (unit of size) of the data has the same physical length, e.g. from 1 to 10, 10 to 100, 100 to 1000, etc. For exponential growth or decline of data, the log axis can better show the relative change of data, the specific use can be viewed [log axis demo](/vchart/demo/axis/log-axis)
+5. Symlog axis (type: 'symlog'), unlike the log axis, symlog can support negative numbers. For specific usage, the specific use can be viewed[symlog axis demo](/vchart/demo/axis/symlog-axis)
 
 ### Cartesian coordinate system axis configuration
 
@@ -384,11 +384,11 @@ window['vchart'] = vchart;
 
 We also provide other demos on axis label layout:
 
-- [Turn off axis label sampling & dataFilter](../../examples/axis/disable-sampling)
-- [The first and last text of the coordinate axis shrink inwards](../../examples/axis/flush)
-- [Axis text auto-hide](../../examples/axis/axis-label-autoHide)
-- [Axis Text Auto Rotate](../../examples/axis/axis-label-autoRotate)
-- [Axis text is automatically omitted](../../examples/axis/axis-label-autoLimit)
+- [Turn off axis label sampling & dataFilter](/vchart/demo/axis/disable-sampling)
+- [The first and last text of the coordinate axis shrink inwards](/vchart/demo/axis/flush)
+- [Axis text auto-hide](/vchart/demo/axis/axis-label-autoHide)
+- [Axis Text Auto Rotate](/vchart/demo/axis/axis-label-autoRotate)
+- [Axis text is automatically omitted](/vchart/demo/axis/axis-label-autoLimit)
 
 ## Drawing multiple axes
 

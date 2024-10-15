@@ -212,6 +212,7 @@ Optional values:
 
 - "break-all ": Allows any non-CJK(Chinese/Japanese/Korean) text between words to break.
 - "break-word": Does not allow CJK(Chinese/Japanese/Korean) text words to wrap, can only wrap at half-width spaces or hyphens.
+- "keep-all": CJK (Chinese/Japanese/Korean) text does not break. Non-CJK text words do not break.(support since 1.12.8)
 
 #### maxLineWidth(number)
 
