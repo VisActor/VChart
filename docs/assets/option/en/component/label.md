@@ -302,6 +302,15 @@ The default setting is '#000000'.
 If the label exceeds the mark range, mark will also be used as the background color for inversion.
 The default setting is `false`.
 
+##${prefix} interactInvertType('none' | 'stroked' | 'inside')
+Supported since version 1.12.8
+
+When the label intersects with the graphic but is not completely inside the mark, three handling methods are supported:
+
+- `none`: Do nothing
+- `stroked`: When the label has a stroke, handle it based on the stroke (default behavior)
+- `inside`: Handle it as if the label is completely inside the mark
+
 {{ /if }}
 
 {{ if: !${ignoreCustom} }}
