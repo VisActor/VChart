@@ -6,7 +6,7 @@ import { createChart } from './BaseChart';
 import { registers } from './registers/polar';
 
 export interface RoseChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<IRoseChartSpec>, 'type'> {}
 
 export const RoseChart = createChart<React.PropsWithChildren<RoseChartProps> & { type?: 'rose' }>(

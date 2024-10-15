@@ -18794,25 +18794,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -18909,6 +18890,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -20236,7 +20236,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -20920,25 +20920,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -21035,6 +21016,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -22105,25 +22105,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -22220,6 +22201,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -23234,7 +23234,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -23837,25 +23837,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -23952,6 +23933,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -25114,7 +25114,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -26303,7 +26303,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -27328,7 +27328,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -28280,7 +28280,7 @@
           "since": "1.4.0"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -28910,25 +28910,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -29025,6 +29006,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -29519,55 +29519,13 @@
                 "$ref": "#/definitions/IWaterfallSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IAreaSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ICircularProgressSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IDotSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IFunnelSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IFunnel3dSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IGaugePointerSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IGaugeSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILineSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILinearProgressSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILinkSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IMapSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IPieSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IPie3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IRadarSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IScatterSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IWordCloudSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+                "$ref": "#/definitions/ITreemapSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ISunburstSeriesSpec"
@@ -29576,22 +29534,64 @@
                 "$ref": "#/definitions/ICirclePackingSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IHeatmapSeriesSpec"
+                "$ref": "#/definitions/IBoxPlotSeriesSpec"
               },
               {
-                "$ref": "#/definitions/ISankeySeriesSpec"
+                "$ref": "#/definitions/ILineSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IAreaSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IMapSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IScatterSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IRoseSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IBoxPlotSeriesSpec"
+                "$ref": "#/definitions/IRadarSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IDotSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ILinkSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICircularProgressSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ILinearProgressSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IWordCloudSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnelSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnel3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISankeySeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IGaugePointerSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IGaugeSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IHeatmapSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICorrelationSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ITreemapSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IRangeColumnChartSpec"
@@ -31370,7 +31370,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -34330,7 +34330,7 @@
           "type": "string"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -36963,7 +36963,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -38019,7 +38019,7 @@
           "since": "1.4.0"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -38469,7 +38469,7 @@
           "since": "1.4.0"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -38678,9 +38678,17 @@
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "roam": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
           "default": false,
           "description": "是否可以拖拽",
-          "type": "boolean"
+          "since": "1.12.8 支持 blank 配置，在 region 空白区域也能触发拖拽"
         },
         "stackInverse": {
           "default": false,
@@ -41636,25 +41644,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -41751,6 +41740,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -42656,7 +42664,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -43157,25 +43165,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -43272,6 +43261,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -44293,25 +44301,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -44408,6 +44397,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -47512,25 +47520,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -47627,6 +47616,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -48910,7 +48918,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -49822,7 +49830,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -50062,7 +50070,7 @@
           "type": "string"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -50385,25 +50393,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -50500,6 +50489,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -52221,7 +52229,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -52554,25 +52562,6 @@
               "typeof": "function"
             },
             {
-              "typeof": "function"
-            },
-            {
-              "$ref": "#/definitions/IMarkAreaTheme"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        },
-        {
-          "allOf": [
-            {
-              "$ref": "#/definitions/IComponentSpec"
-            },
-            {
-              "typeof": "function"
-            },
-            {
               "$ref": "#/definitions/IMarkAreaXSpec"
             },
             {
@@ -52669,6 +52658,25 @@
             },
             {
               "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+            },
+            {
+              "$ref": "#/definitions/IMarkAreaTheme"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IComponentSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
             },
             {
               "$ref": "#/definitions/IMarkAreaTheme"
@@ -57091,7 +57099,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -60117,7 +60125,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -60530,25 +60538,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -60645,6 +60634,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -61657,7 +61665,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -62083,25 +62091,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -62198,6 +62187,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -63235,7 +63243,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -63662,25 +63670,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -63777,6 +63766,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -64814,7 +64822,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -66618,7 +66626,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -67947,7 +67955,7 @@
           "type": "string"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -68262,25 +68270,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -68377,6 +68366,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -69363,7 +69371,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -70437,7 +70445,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -70649,6 +70657,109 @@
         },
         "wordCloud3d": {
           "$ref": "#/definitions/IWordCloud3dSeriesTheme"
+        }
+      },
+      "type": "object"
+    },
+    "ISeriesToolipPattern": {
+      "properties": {
+        "content": {
+          "$ref": "#/definitions/MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>"
+        },
+        "hasShape": {
+          "type": "boolean"
+        },
+        "shapeColor": {
+          "$ref": "#/definitions/TooltipContentProperty<string>"
+        },
+        "shapeFill": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状填充颜色",
+          "since": "1.4.0"
+        },
+        "shapeHollow": {
+          "$ref": "#/definitions/TooltipContentProperty<boolean>",
+          "description": "形状是否空心"
+        },
+        "shapeLineWidth": {
+          "$ref": "#/definitions/TooltipContentProperty<number>",
+          "description": "形状描边宽度",
+          "since": "1.4.0"
+        },
+        "shapeSize": {
+          "$ref": "#/definitions/TooltipContentProperty<number>"
+        },
+        "shapeStroke": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状描边颜色",
+          "since": "1.4.0"
+        },
+        "shapeType": {
+          "$ref": "#/definitions/TooltipContentProperty<string>"
+        },
+        "title": {
+          "$ref": "#/definitions/TooltipPatternProperty<ITooltipLinePattern>"
+        },
+        "updateContent": {
+          "typeof": "function"
+        },
+        "updatePosition": {
+          "typeof": "function"
+        },
+        "updateTitle": {
+          "typeof": "function"
+        },
+        "visible": {
+          "$ref": "#/definitions/TooltipPatternProperty<boolean>"
+        }
+      },
+      "type": "object"
+    },
+    "ISeriesTooltipSpec": {
+      "description": "系列上的tooltip配置，优先级高于全局tooltip配置\n对于visible相当配置，系列tooltip只能关闭，不能覆盖全局tooltip配置",
+      "properties": {
+        "activeType": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/TooltipActiveType"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "dimension",
+                "group",
+                "mark"
+              ],
+              "type": "string"
+            }
+          ],
+          "description": "受支持的激活类型\n（*支持在series上设置）\n（*会影响自定义handler）"
+        },
+        "dimension": {
+          "$ref": "#/definitions/ISeriesToolipPattern"
+        },
+        "group": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Pick<IGroupTooltipPattern,\"triggerMark\">"
+            },
+            {
+              "$ref": "#/definitions/ISeriesToolipPattern"
+            }
+          ]
+        },
+        "handler": {
+          "$ref": "#/definitions/Partial<ITooltipHandlerSpec>",
+          "description": "自定义handler方法"
+        },
+        "mark": {
+          "$ref": "#/definitions/ISeriesToolipPattern"
+        },
+        "visible": {
+          "description": "是否显示\n（*支持在series上设置）\n（*会影响自定义handler）",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -72714,7 +72825,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -74276,9 +74387,6 @@
         "keyStyle": {
           "$ref": "#/definitions/ITooltipTextTheme<string>"
         },
-        "shapeColor": {
-          "type": "string"
-        },
         "shapeFill": {
           "description": "形状填充颜色",
           "since": "1.4.0",
@@ -74615,6 +74723,11 @@
           ],
           "type": "string"
         },
+        "showDelay": {
+          "description": "当设置了`enterable: true`，且 trigger类型为`hover`的时候，为了方便鼠标进入提示信息的内容区域，设置的显示延迟时长\n其他情况设置无效",
+          "since": "1.12.8",
+          "type": "number"
+        },
         "style": {
           "$ref": "#/definitions/Omit<ITooltipTheme<string>,\"offset\"|\"transitionDuration\">",
           "description": "tooltip样式"
@@ -74751,8 +74864,13 @@
           "description": "字体基线"
         },
         "wordBreak": {
-          "$ref": "#/definitions/RichTextWordBreak",
-          "description": "换行模式，默认为'break-word'"
+          "description": "换行模式，默认为'break-word'",
+          "enum": [
+            "break-all",
+            "break-word",
+            "keep-all"
+          ],
+          "type": "string"
         }
       },
       "type": "object"
@@ -74839,8 +74957,13 @@
           "description": "字体基线"
         },
         "wordBreak": {
-          "$ref": "#/definitions/RichTextWordBreak",
-          "description": "换行模式，默认为'break-word'"
+          "description": "换行模式，默认为'break-word'",
+          "enum": [
+            "break-all",
+            "break-word",
+            "keep-all"
+          ],
+          "type": "string"
         }
       },
       "type": "object"
@@ -75927,7 +76050,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -78264,25 +78387,6 @@
                   "typeof": "function"
                 },
                 {
-                  "typeof": "function"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaTheme"
-                },
-                {
-                  "typeof": "function"
-                }
-              ]
-            },
-            {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/IComponentSpec"
-                },
-                {
-                  "typeof": "function"
-                },
-                {
                   "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
@@ -78379,6 +78483,25 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaAngleRadiusSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IComponentSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -79446,7 +79569,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "total": {
@@ -80754,7 +80877,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -81732,7 +81855,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -81965,7 +82088,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13708": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -81973,14 +82096,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13708",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13708": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -81988,14 +82111,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13708",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13708": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -82003,14 +82126,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13708",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13708": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -82018,14 +82141,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13708",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13708": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -82033,14 +82156,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13708",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13708": {
+        "__@toStringTag@13701": {
           "type": "string"
         },
         "size": {
@@ -82048,7 +82171,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13708",
+        "__@toStringTag@13701",
         "size"
       ],
       "type": "object"
@@ -83454,7 +83577,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -84185,7 +84308,7 @@
           "since": "1.4.0"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -84986,7 +85109,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -85355,7 +85478,7 @@
           "since": "1.4.0"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -86946,7 +87069,7 @@
           "type": "boolean"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
+          "$ref": "#/definitions/ISeriesTooltipSpec",
           "description": "提示信息"
         },
         "totalLabel": {
@@ -87569,8 +87692,13 @@
           "description": "字体基线"
         },
         "wordBreak": {
-          "$ref": "#/definitions/RichTextWordBreak",
-          "description": "换行模式，默认为'break-word'"
+          "description": "换行模式，默认为'break-word'",
+          "enum": [
+            "break-all",
+            "break-word",
+            "keep-all"
+          ],
+          "type": "string"
         }
       },
       "type": "object"
@@ -87652,8 +87780,13 @@
           "description": "字体基线"
         },
         "wordBreak": {
-          "$ref": "#/definitions/RichTextWordBreak",
-          "description": "换行模式，默认为'break-word'"
+          "description": "换行模式，默认为'break-word'",
+          "enum": [
+            "break-all",
+            "break-word",
+            "keep-all"
+          ],
+          "type": "string"
         }
       },
       "type": "object"
@@ -91499,7 +91632,8 @@
         "wordBreak": {
           "enum": [
             "break-all",
-            "break-word"
+            "break-word",
+            "keep-all"
           ],
           "type": "string"
         },
@@ -98688,7 +98822,8 @@
         "wordBreak": {
           "enum": [
             "break-all",
-            "break-word"
+            "break-word",
+            "keep-all"
           ],
           "type": "string"
         },
@@ -99917,7 +100052,8 @@
         "wordBreak": {
           "enum": [
             "break-all",
-            "break-word"
+            "break-word",
+            "keep-all"
           ],
           "type": "string"
         },
@@ -102834,6 +102970,16 @@
       ],
       "type": "object"
     },
+    "Pick<IGroupTooltipPattern,\"triggerMark\">": {
+      "properties": {
+        "triggerMark": {
+          "$ref": "#/definitions/MaybeArray<GroupTooltipTriggerMark>",
+          "description": "group tooltip 的触发 mark",
+          "since": "1.11.0"
+        }
+      },
+      "type": "object"
+    },
     "Pick<IRectMarkSpec,\"fillOpacity\"|\"fill\"|\"cornerRadius\">": {
       "properties": {
         "cornerRadius": {
@@ -103098,34 +103244,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13708": {
+        "__@toStringTag@13701": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13708"
+        "__@toStringTag@13701"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13708": {
+        "__@toStringTag@13701": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13708"
+        "__@toStringTag@13701"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13708": {
+        "__@toStringTag@13701": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13708"
+        "__@toStringTag@13701"
       ],
       "type": "object"
     },
@@ -112064,7 +112210,8 @@
         "wordBreak": {
           "enum": [
             "break-all",
-            "break-word"
+            "break-word",
+            "keep-all"
           ],
           "type": "string"
         },
@@ -115616,6 +115763,14 @@
             "invertBase",
             "null",
             "similarBase"
+          ],
+          "type": "string"
+        },
+        "interactInvertType": {
+          "enum": [
+            "inside",
+            "none",
+            "stroked"
           ],
           "type": "string"
         },

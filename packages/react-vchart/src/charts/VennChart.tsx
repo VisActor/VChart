@@ -1,12 +1,12 @@
 import type React from 'react';
 import type { IVennChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerVennChart } from '@visactor/vchart';
+import { VChart, registerLabel, registerVennChart } from '@visactor/vchart';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 import { registers } from './registers/simple';
 
 export interface VennChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<IVennChartSpec, 'type'> {}
 
 export const VennChart = createChart<React.PropsWithChildren<VennChartProps> & { type: 'venn' }>(
@@ -15,5 +15,5 @@ export const VennChart = createChart<React.PropsWithChildren<VennChartProps> & {
     type: 'venn',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerVennChart, ...registers]
+  [registerVennChart, registerLabel, ...registers]
 );

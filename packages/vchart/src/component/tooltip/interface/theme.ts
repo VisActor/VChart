@@ -1,4 +1,4 @@
-import type { RichTextWordBreak } from '@visactor/vrender-core';
+import type { ITextAttribute } from '@visactor/vrender-core';
 import type { ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components';
 import type { ITokenKey } from '../../../theme/token';
@@ -27,7 +27,7 @@ export interface ITooltipTextTheme<ColorType = string> {
   /** 最大宽度 */
   maxWidth?: number;
   /** 换行模式，默认为'break-word' */
-  wordBreak?: RichTextWordBreak;
+  wordBreak?: ITextAttribute['wordBreak'];
   /**
    * 是否开启自动宽度。效果分为以下几种情况：
    * - tooltip 标题：`autoWidth` 默认为 `false`。如果配置为 `true`，则 tooltip 标题会保持和 tooltip 内容一致的宽度

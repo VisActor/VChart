@@ -20,6 +20,8 @@ import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
 import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
 import type { ComponentTypeEnum } from '../component/interface';
 import type { SeriesTypeEnum } from '../series';
+import type { ITooltipSpec } from '../component/tooltip/interface';
+import type { TooltipActiveType } from '../typings';
 export interface IModelInitOption {
 }
 export interface IModelLayoutOption {
@@ -151,4 +153,16 @@ export interface IBaseModelSpecTransformerResult<T, K> {
 export interface IBaseModelSpecTransformer {
     getTheme: (spec: any, chartSpec: any) => any;
     transformSpec: (spec: any, chartSpec: any, chartSpecInfo?: IChartSpecInfo) => IBaseModelSpecTransformerResult<any, any>;
+}
+export interface ITooltipHelper {
+    spec: ITooltipSpec | undefined;
+    activeType: TooltipActiveType[];
+    activeTriggerSet: {
+        mark?: Set<IMark>;
+        group?: Set<IMark>;
+    };
+    ignoreTriggerSet: {
+        mark?: Set<IMark>;
+    };
+    updateTooltipSpec: () => void;
 }

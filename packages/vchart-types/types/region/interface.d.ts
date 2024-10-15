@@ -53,7 +53,9 @@ export interface IRegionSpec extends ILayoutItemSpec {
 }
 export interface IGeoRegionSpec extends IRegionSpec {
     coordinate?: 'geo';
-    roam?: boolean;
+    roam?: boolean | {
+        blank?: boolean;
+    };
     longitudeField?: string;
     latitudeField?: string;
     projection?: Partial<Omit<IProjectionSpec, 'name'>>;

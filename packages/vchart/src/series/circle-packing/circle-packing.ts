@@ -272,7 +272,6 @@ export class CirclePackingSeries<
 
   protected initTooltip() {
     this._tooltipHelper = new CirclePackingTooltipHelper(this);
-    this._tooltipHelper.updateTooltipSpec();
     this._circlePackingMark && this._tooltipHelper.activeTriggerSet.mark.add(this._circlePackingMark);
     this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }

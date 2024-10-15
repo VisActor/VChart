@@ -951,7 +951,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
           return filterMap[datum[groupBy]] === true;
         }
       });
-      const style = {};
+      const style: Record<string, (datum: Datum) => any> = {};
       Object.keys(attrMap).forEach(key => {
         style[key] = (datum: Datum) => {
           let style;
@@ -1042,7 +1042,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (
       newLabels.length !== prevLabels.length ||
       prevLabels.some((prev, index) => {
-        return prev.labelLayout !== newLabels[index].labelLayout;
+        return prev.labelLayout !== newLabels[index].labelLayout || prev.visible !== newLabels[index].visible;
       })
     ) {
       compareResult.reMake = true;
@@ -1132,7 +1132,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const marks = this.getMarksWithoutRoot();
     // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
     marks.forEach(mark => {
-      this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+      (this._spec as any)[mark.name] && this.initMarkStyleWithSpec(mark, (this._spec as any)[mark.name]);
     });
     this.initMarkStyle();
     marks.forEach(mark => {

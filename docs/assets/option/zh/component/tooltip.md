@@ -48,6 +48,11 @@ tooltip 配置。
 
 当 `triggerOff` 设置为 `'none'` 时，该配置不生效。
 
+##${prefix} showDelay(Number)
+
+`1.12.8` 版本后支持该配置；
+当设置了`enterable: true`，且 trigger 类型为`hover`的时候，为了方便鼠标进入提示信息的内容区域，设置的显示延迟时长，其他情况设置无效
+
 ##${prefix} mark(Object)
 
 图元 tooltip 的自定义配置。 **_（支持在系列上设置）（只作用于默认 handler）_**

@@ -1,7 +1,6 @@
 import { BaseSeriesTooltipHelper } from '../../base/tooltip-helper';
 import type { ISeriesTooltipHelper } from '../../interface';
-import type { ITooltipPattern, TooltipActiveType } from '../../../typings';
-import type { IDimensionInfo } from '../../../event/events/dimension/interface';
+import type { TooltipActiveType } from '../../../typings';
 export declare class LinearProgressSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
-    getDefaultTooltipPattern(activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]): ITooltipPattern | null;
+    protected enableByType(activeType: TooltipActiveType): boolean;
 }

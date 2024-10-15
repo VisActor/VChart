@@ -23,3 +23,4 @@ export interface ITooltipPositionActual {
     x: number;
     y: number;
 }
+export type TooltipPositionKeys = 'top' | 'left' | 'right' | 'bottom';

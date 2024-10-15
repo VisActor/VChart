@@ -1,17 +1,25 @@
-import type { TooltipHandlerParams } from '../../component/tooltip/interface';
-import type { ITooltipPattern, ShapeType, TooltipActiveType } from '../../typings';
+import type { ISeriesTooltipSpec, ITooltipSpec, TooltipHandlerParams } from '../../component/tooltip/interface';
+import type { ITooltipActual, ITooltipLineActual, ITooltipLinePattern, ITooltipPattern, MaybeArray, ShapeType, TooltipActiveType, TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../typings';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
-import { BaseTooltipHelper } from '../../model/tooltip-helper';
-import type { IDimensionInfo } from '../../event/events/dimension/interface';
 import type { Datum } from '@visactor/vgrammar-core';
+import type { IMark } from '../../mark/interface/common';
 interface ISeriesCacheInfo {
     seriesFields: string[];
     dimensionFields: string[];
     measureFields: string[];
     type: string;
 }
-export declare class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISeriesTooltipHelper {
+export declare class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     series: ISeries;
+    spec: ISeriesTooltipSpec | undefined;
+    activeType: TooltipActiveType[];
+    activeTriggerSet: {
+        mark: Set<IMark>;
+        group: Set<IMark>;
+    };
+    ignoreTriggerSet: {
+        mark: Set<IMark>;
+    };
     protected _seriesCacheInfo: ISeriesCacheInfo;
     constructor(series: ISeries);
     updateTooltipSpec(): void;
@@ -28,6 +36,22 @@ export declare class BaseSeriesTooltipHelper extends BaseTooltipHelper implement
     dimensionTooltipTitleCallback: (datum: Datum, params?: TooltipHandlerParams) => string | undefined;
     groupTooltipTitleCallback: (datum: Datum, params?: TooltipHandlerParams) => string | undefined;
     groupTooltipKeyCallback: (datum: Datum, params?: TooltipHandlerParams) => string | undefined;
-    getDefaultTooltipPattern(activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]): ITooltipPattern | null;
+    getHasShape: (isContent: boolean) => boolean;
+    protected getShapeAttrs(activeType: TooltipActiveType, isContent: boolean, chartTooltipSpec?: ITooltipSpec): {
+        shapeType: TooltipContentProperty<string>;
+        shapeFill: TooltipContentProperty<string>;
+        shapeStroke: TooltipContentProperty<string>;
+        shapeHollow: TooltipContentProperty<boolean>;
+        shapeLineWidth: TooltipContentProperty<number>;
+        shapeSize: any;
+        hasShape: boolean;
+    };
+    protected enableByType(activeType: TooltipActiveType): boolean;
+    protected getDefaultContentList(activeType: TooltipActiveType): MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>;
+    protected getContentList(activeType: TooltipActiveType, spec: ITooltipPattern, shapeAttrs: Record<string, TooltipContentProperty<any>>, data?: TooltipData, datum?: Datum[], params?: TooltipHandlerParams): ITooltipLineActual[];
+    protected getTitleResult(activeType: TooltipActiveType, titleSpec: TooltipPatternProperty<ITooltipLinePattern>, shapeAttrs: Record<string, TooltipContentProperty<any>>, data?: TooltipData, params?: TooltipHandlerParams): ITooltipLineActual;
+    getTooltipData(activeType: TooltipActiveType, chartTooltipSpec?: ITooltipSpec, data?: TooltipData, datum?: Datum[], params?: TooltipHandlerParams): ITooltipActual | null;
+    protected getDefaultTitlePattern(activeType: TooltipActiveType): ITooltipLinePattern;
+    protected getDefaultContentPattern(activeType: TooltipActiveType): ITooltipLinePattern;
 }
 export {};

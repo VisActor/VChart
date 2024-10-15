@@ -6,7 +6,7 @@ import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 
 export interface RadarChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<IRadarChartSpec>, 'type'> {}
 
 export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps> & { type?: 'radar' }>(

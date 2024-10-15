@@ -366,6 +366,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       ...super._tickTransformOption(),
       noDecimals: this._tick?.noDecimals,
       labelLastVisible: this._spec.label?.lastVisible,
+      labelFirstVisible: this._spec.label?.firstVisible,
       labelFlush: this._spec.label?.flush
     } as ICartesianTickDataOpt;
   }
@@ -908,14 +909,26 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
             axisMark.encode({
               line: {
                 ...this._axisStyle.line,
-                dy: this._orient === 'bottom' ? -(bindAxis.getScale().range()[0] - position) : position
+                dy:
+                  this._orient === 'bottom'
+                    ? -(
+                        (bindAxis.getInverse() ? bindAxis.getScale().range()[1] : bindAxis.getScale().range()[0]) -
+                        position
+                      )
+                    : position
               }
             });
           } else {
             axisMark.encode({
               line: {
                 ...this._axisStyle.line,
-                dx: this._orient === 'left' ? position : -(bindAxis.getScale().range()[1] - position)
+                dx:
+                  this._orient === 'left'
+                    ? position
+                    : -(
+                        (bindAxis.getInverse() ? bindAxis.getScale().range()[0] : bindAxis.getScale().range()[1]) -
+                        position
+                      )
               }
             });
           }

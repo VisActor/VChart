@@ -20,7 +20,11 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     static specKey: string;
     specKey: string;
     layoutType: 'none';
-    private _timer?;
+    private _hideTimer?;
+    private _outTimer?;
+    private _showTimer?;
+    private _needInitEventOfTooltip?;
+    private _enterable;
     protected _spec: ITooltipSpec;
     tooltipHandler?: ITooltipHandler;
     processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor, GroupTooltipProcessor>;
@@ -28,8 +32,8 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     private _cacheInfo;
     private _cacheParams;
     private _cacheActiveType;
+    private _cacheEnterableRect;
     private _eventList;
-    protected _isTooltipShown: boolean;
     protected _clickLock: boolean;
     isTooltipShown(): boolean;
     changeRegions(regions: IRegion[]): void;
@@ -43,6 +47,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     release(): void;
     beforeRelease(): void;
     protected _initHandler(): void;
+    protected _initEventOfTooltipContent(): void;
     protected _initProcessor(): void;
     protected _initEvent(): void;
     protected _mountEvent: (eType: EventType, query: EventQuery, callback: EventCallback<any>) => void;
@@ -50,15 +55,15 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _getMouseOutHandler: (needPointerDetection?: boolean) => (params: BaseEventParams) => void;
     protected _handleChartMouseOut: (params?: BaseEventParams) => void;
     protected _getMouseMoveHandler: (isClick: boolean) => (params: BaseEventParams) => void;
+    protected _handleChartMouseMove: (params: BaseEventParams, isClick: boolean) => void;
     protected _showTooltipByMouseEvent: (activeType: TooltipActiveType, mouseEventData: TotalMouseEventData, params: BaseEventParams, isClick: boolean, useCache?: boolean) => boolean;
     protected _getMouseEventData: (params: BaseEventParams) => TotalMouseEventData;
     protected _hideTooltipByHandler: (params: TooltipHandlerParams) => TooltipResult;
     reInit(spec?: any): void;
     showTooltip(datum: Datum, options: IShowTooltipOption): false | "none" | TooltipActiveType;
-    hideTooltip(): boolean;
+    hideTooltip: () => boolean;
     private _isSameAsCache;
     private _isPointerInChart;
-    private _isPointerOnTooltip;
     getVisible(): boolean;
 }
 export declare const registerTooltip: () => void;

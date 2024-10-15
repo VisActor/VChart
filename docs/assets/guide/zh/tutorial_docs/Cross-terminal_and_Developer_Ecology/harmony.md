@@ -48,7 +48,12 @@ const spec = '{"type":"bar","data":[{"id":"barData","values":[{"month":"Monday",
 @Entry
 @Component
 struct Index {
-@State message: string = 'Hello World';
+  @State message: string = 'Hello World';
+  @State spec: Object | null = null;
+
+  onPageShow(): void {
+    this.spec = JSON.parse(spec);
+  }
 
   build() {
     Row() {
@@ -57,7 +62,7 @@ struct Index {
           .fontSize(50)
           .fontWeight(FontWeight.Bold)
         VChart({
-          spec: JSON.parse(spec), w: 300, h: 300,
+          spec: this.spec, w: 300, h: 300,
           onChartInitCb: () => {},
           onChartReadyCb: () => {}
         })

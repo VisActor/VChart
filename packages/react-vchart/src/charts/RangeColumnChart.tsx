@@ -6,7 +6,7 @@ import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 
 export interface RangeColumnChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,
     Omit<Partial<IRangeColumnChartSpec>, 'type'> {}
 
 export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnChartProps> & { type?: 'rangeColumn' }>(

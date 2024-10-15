@@ -20,14 +20,14 @@ import { isFunction, isNumber, isObject, isValid } from '@visactor/vutils';
 export const getActualTooltipPositionValue = (
   position: number | ((event: MouseEvent) => number) | null | undefined,
   event: MouseEvent
-) => {
-  let result;
+): number => {
+  let result: number;
   if (isValid(position)) {
     if (isNumber(position)) {
-      result = position;
+      result = position as number;
     } else if (isFunction(position)) {
       //  这里额外判断下是否合法
-      const tooltipPosition = position(event);
+      const tooltipPosition = (position as (event: MouseEvent) => number)(event);
 
       if (isNumber(tooltipPosition)) {
         result = tooltipPosition;
@@ -37,41 +37,37 @@ export const getActualTooltipPositionValue = (
   return result;
 };
 
-export type TooltipHorizontalPositionType = 'left' | 'right' | 'center' | 'centerLeft' | 'centerRight';
-export type TooltipVerticalPositionType = 'top' | 'bottom' | 'center' | 'centerTop' | 'centerBottom';
+// 'left' | 'centerLeft' | 'center'  | 'centerRight' |  'right'
+// 'top' | 'centerTop' | 'center' | 'centerBottom' | 'bottom'
+export type TooltipPositionType = -2 | -1 | 0 | 1 | 2;
 
 /** position 对齐方式在 x、y 分量下的分解 */
-export const positionType: Record<TooltipFixedPosition, [TooltipHorizontalPositionType, TooltipVerticalPositionType]> =
-  {
-    left: ['left', 'center'],
-    right: ['right', 'center'],
-    top: ['center', 'top'],
-    lt: ['left', 'top'],
-    tl: ['left', 'top'],
-    rt: ['right', 'top'],
-    tr: ['right', 'top'],
-    bottom: ['center', 'bottom'],
-    bl: ['left', 'bottom'],
-    lb: ['left', 'bottom'],
-    br: ['right', 'bottom'],
-    rb: ['right', 'bottom'],
-    inside: ['center', 'center'], // 旧版兼容
-    center: ['center', 'center'],
-    centerBottom: ['center', 'centerBottom'],
-    centerTop: ['center', 'centerTop'],
-    centerLeft: ['centerLeft', 'center'],
-    centerRight: ['centerRight', 'center']
-  };
+export const positionType: Record<TooltipFixedPosition, [TooltipPositionType, TooltipPositionType]> = {
+  left: [-2, 0],
+  right: [2, 0],
+  top: [0, -2],
+  lt: [-2, -2],
+  tl: [-2, -2],
+  rt: [2, -2],
+  tr: [2, -2],
+  bottom: [0, 2],
+  bl: [-2, 2],
+  lb: [-2, 2],
+  br: [2, 2],
+  rb: [2, 2],
+  inside: [0, 0], // 旧版兼容
+  center: [0, 0],
+  centerBottom: [0, 1],
+  centerTop: [0, -1],
+  centerLeft: [-1, 0],
+  centerRight: [1, 0]
+};
 
-export const getHorizontalPositionType = (
+export const getPositionType = (
   position: TooltipFixedPosition,
-  defaultCase?: TooltipHorizontalPositionType
-): TooltipHorizontalPositionType => positionType[position]?.[0] ?? defaultCase;
-
-export const getVerticalPositionType = (
-  position: TooltipFixedPosition,
-  defaultCase?: TooltipVerticalPositionType
-): TooltipVerticalPositionType => positionType[position]?.[1] ?? defaultCase;
+  dim: 'x' | 'y',
+  defaultCase: TooltipPositionType = 2
+): TooltipPositionType => positionType[position]?.[dim === 'x' ? 0 : 1] ?? defaultCase;
 
 export const getCartesianCrosshairRect = (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => {
   const currValueX: AxisCurrentValueMap = new Map();

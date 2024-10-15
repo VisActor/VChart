@@ -17,6 +17,7 @@ export type ICartesianTitle = ITitle & {
 export type ICartesianLabel = ILabel & {
     flush?: boolean;
     lastVisible?: boolean | null;
+    firstVisible?: boolean | null;
     containerAlign?: 'left' | 'right' | 'center' | 'top' | 'bottom' | 'middle';
 } & AxisLabelOverlap;
 export interface ILinearAxis extends IAxis {

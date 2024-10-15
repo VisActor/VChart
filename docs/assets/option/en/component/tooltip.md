@@ -48,6 +48,12 @@ hide the tooltip after a certain time, the unit is `ms`.
 
 this option not work with `triggerOff` set to `'none'`.
 
+##${prefix} showDelay(Number)
+
+Supported since version `1.12.8`;
+
+When `enterable: true` is set and the trigger type is `hover`, this sets the display delay duration to facilitate mouse entry into the tooltip content area. This setting is invalid in other cases.
+
 ##${prefix} mark(Object)
 
 Customized configuration of the mark tooltip. **_(supports setting on series)(only works on default handler)_**

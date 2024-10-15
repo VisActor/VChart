@@ -6,7 +6,7 @@ import type { DataSet, DataView, ISimplifyOptions, IFieldsOptions, IFilterOption
 import type { RegionSpec } from '../../region/interface';
 import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
-import type { ITooltipSpec } from '../../component/tooltip/interface';
+import type { ISeriesTooltipSpec, ITooltipSpec } from '../../component/tooltip/interface';
 import type { ILayoutSpec } from '../../layout/interface';
 import type { ConvertToMarkStyleSpec, IArc3dMarkSpec, IArcMarkSpec, IAreaMarkSpec, IBoxPlotMarkSpec, ICommonSpec, IGroupMarkSpec, ILineMarkSpec, ILinkPathMarkSpec, IPathMarkSpec, IPolygonMarkSpec, IPyramid3dMarkSpec, IRect3dMarkSpec, IRectMarkSpec, IRuleMarkSpec, ISymbolMarkSpec, IRippleMarkSpec, ITextMarkSpec, IVisualSpecScale } from '../visual';
 import type { StateValue } from '../../compile/mark';
@@ -160,14 +160,14 @@ export interface ISeriesSpec extends IInteractionSpec {
     percent?: boolean;
     stackOffsetSilhouette?: boolean;
     invalidType?: IInvalidType;
-    tooltip?: ITooltipSpec;
+    tooltip?: ISeriesTooltipSpec;
     animation?: boolean;
     animationThreshold?: number;
     support3d?: boolean;
     morph?: IMorphSeriesSpec;
     extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[];
 }
-export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph' | 'stackValue'>;
+export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph' | 'stackValue' | 'tooltip'>;
 export type AdaptiveSpec<T, K extends keyof any> = {
     [key in Exclude<keyof T, K>]: T[key];
 } & {

@@ -42,6 +42,13 @@ export interface ITooltipSpec
    */
   triggerOff?: MaybeArray<'hover' | 'click'> | 'none';
   /**
+   * 当设置了`enterable: true`，且 trigger类型为`hover`的时候，为了方便鼠标进入提示信息的内容区域，设置的显示延迟时长
+   * 其他情况设置无效
+   * @since 1.12.8
+   */
+  showDelay?: number;
+
+  /**
    * 隐藏计时器
    * @since 1.11.7
    */
@@ -106,6 +113,34 @@ export interface ITooltipSpec
     x?: number;
     y?: number;
   };
+}
+
+type ISeriesToolipPattern = Pick<
+  ITooltipPattern,
+  | 'visible'
+  | 'title'
+  | 'content'
+  | 'hasShape'
+  | 'shapeColor'
+  | 'shapeFill'
+  | 'shapeHollow'
+  | 'shapeLineWidth'
+  | 'shapeSize'
+  | 'shapeStroke'
+  | 'shapeType'
+  | 'updateContent'
+  | 'updateTitle'
+  | 'updatePosition'
+>;
+
+/**
+ * 系列上的tooltip配置，优先级高于全局tooltip配置
+ * 对于visible相当配置，系列tooltip只能关闭，不能覆盖全局tooltip配置
+ */
+export interface ISeriesTooltipSpec extends Pick<ITooltipSpec, 'visible' | 'activeType' | 'handler'> {
+  dimension?: ISeriesToolipPattern;
+  mark?: ISeriesToolipPattern;
+  group?: Pick<IGroupTooltipPattern, 'triggerMark'> & ISeriesToolipPattern;
 }
 
 export interface ITooltipHandlerSpec {

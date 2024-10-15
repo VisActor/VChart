@@ -1,23 +1,24 @@
-import type { ITooltipLinePattern, ITooltipPattern, ITooltipShapePattern, TooltipActiveType } from '../../../typings';
+import type { ITooltipActual, TooltipActiveType, TooltipData } from '../../../typings';
 import type { ISeries } from '../../../series/interface';
-import type { IDimensionInfo } from '../../../event/events/dimension/interface';
-import { isValid, array, isNil, cloneDeep, isFunction } from '@visactor/vutils';
-import type { ITooltipSpec, ITooltipTheme } from '..';
-import { combinePattern, isActiveTypeVisible } from './common';
+import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
+import { isValid } from '@visactor/vutils';
+import type { TooltipHandlerParams } from '../interface/common';
+import { combineContents, isActiveTypeVisible } from './common';
+import type { ITooltipSpec } from '../interface/spec';
+
+const pick_keys = ['updateTitle', 'updateContent', 'updatePosition', 'maxLineCount', 'othersLine'];
 
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,
   globalSpec: ITooltipSpec,
   series?: ISeries,
-  dimensionInfo?: IDimensionInfo[]
-): ITooltipSpec => {
+  data?: TooltipData,
+  params?: TooltipHandlerParams
+): ITooltipActual => {
   // 组装tooltip spec
   const finalSpec = {
-    ...globalSpec,
     activeType
-  } as ITooltipSpec;
-
-  const { style = {} } = globalSpec;
+  } as ITooltipActual;
 
   switch (activeType) {
     case 'mark':
@@ -25,19 +26,40 @@ export const getTooltipSpecForShow = (
       if (series) {
         // tooltip spec覆盖优先级: series spec > global spec > default pattern
         const seriesSpec = series.getSpec()?.tooltip as ITooltipSpec;
+
         finalSpec.visible = true;
 
-        // 优先使用自定义handler
-        finalSpec.handler = seriesSpec?.handler ?? globalSpec.handler;
+        if (seriesSpec?.handler) {
+          // 优先使用自定义handler
+          finalSpec.handler = seriesSpec.handler;
+        }
         if (finalSpec.handler?.showTooltip) {
           return finalSpec;
         }
+        if (seriesSpec?.[activeType]) {
+          pick_keys.forEach(k => {
+            if (isValid((seriesSpec[activeType] as any)[k])) {
+              (finalSpec as any)[k] = (seriesSpec as any)[activeType][k];
+            }
+          });
+        }
+
+        return {
+          ...finalSpec,
+          ...series.tooltipHelper.getTooltipData(
+            activeType,
+            globalSpec,
+            data as IDimensionData[],
+            (data as IDimensionData[])[0].datum,
+            params
+          )
+        };
       }
       break;
     case 'dimension':
-      if (dimensionInfo?.length) {
+      if ((data as IDimensionInfo[])?.length) {
         // tooltip spec覆盖优先级: series spec > global spec > default pattern
-        const seriesList = getSeriesListFromDimensionInfo(dimensionInfo);
+        const seriesList = getSeriesListFromDimensionInfo(data as IDimensionInfo[]);
 
         // visible
         if (seriesList.every(series => !isActiveTypeVisible('dimension', series.tooltipHelper?.spec))) {
@@ -47,169 +69,28 @@ export const getTooltipSpecForShow = (
         }
 
         // 优先使用自定义handler
-        finalSpec.handler = globalSpec.handler ?? undefined;
+        finalSpec.handler = globalSpec.handler;
         if (finalSpec.handler?.showTooltip) {
           return finalSpec;
         }
-      }
-      break;
-  }
 
-  // 默认的 pattern
-  const defaultPattern = getDefaultTooltipPattern(activeType, series, dimensionInfo) ?? {};
-  // 来自系列的 pattern
-  const userPattern = getSeriesTooltipPattern(activeType, globalSpec, series, dimensionInfo);
-
-  if (userPattern) {
-    // 对pattern进行组装
-    // 组装 title
-    const defaultPatternTitle = defaultPattern.title as ITooltipLinePattern | undefined;
-    const defaultTitleShape: ITooltipShapePattern = getShapePattern(
-      undefined,
-      userPattern,
-      style.shape,
-      undefined,
-      defaultPatternTitle
-    );
-    if (isValid(userPattern.title)) {
-      userPattern.title = addExtraInfoToTooltipTitlePattern(userPattern.title, {
-        ...defaultPatternTitle,
-        ...defaultTitleShape // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-      });
-    } else {
-      userPattern.title = addExtraInfoToTooltipTitlePattern(
-        defaultPatternTitle,
-        defaultTitleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-        true
-      );
-    }
-
-    // 组装 content
-    const defaultPatternContent = array(defaultPattern.content) as ITooltipLinePattern[];
-    if (isValid(userPattern.content)) {
-      const shapePatternMap = getShapePatternMapOfEachSeries(defaultPatternContent);
-      userPattern.content = addExtraInfoToTooltipContentPattern(
-        userPattern.content,
-        // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-        userLine => getShapePattern(userLine, userPattern, style.shape, shapePatternMap)
-      );
-    } else {
-      userPattern.content = addExtraInfoToTooltipContentPattern(
-        defaultPatternContent,
-        // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-        line => getShapePattern(undefined, userPattern, style.shape, undefined, line),
-        true
-      );
-    }
-  }
-
-  finalSpec[activeType] = {
-    ...defaultPattern,
-    ...userPattern,
-    activeType
-  };
-
-  return finalSpec;
-};
-
-/** 获取默认 tooltip pattern */
-const getDefaultTooltipPattern = (
-  activeType: TooltipActiveType,
-  series?: ISeries,
-  dimensionInfo?: IDimensionInfo[]
-): ITooltipPattern => {
-  switch (activeType) {
-    case 'mark':
-    case 'group':
-      if (series) {
-        return series.tooltipHelper.getDefaultTooltipPattern(activeType);
-      }
-      break;
-    case 'dimension':
-      if (dimensionInfo?.length) {
-        const patternList: ITooltipPattern[] = [];
-        dimensionInfo.forEach(info =>
+        const patternList: ITooltipActual[] = [];
+        (data as IDimensionInfo[]).forEach(info =>
           info.data.forEach(datum => {
             const { series } = datum;
-            const mockDimensionInfo = [
-              {
-                ...info,
-                data: [datum]
-              }
-            ] as IDimensionInfo[];
-            const pattern = series.tooltipHelper.getDefaultTooltipPattern(activeType, mockDimensionInfo);
+            const pattern = series.tooltipHelper.getTooltipData(activeType, globalSpec, data, datum.datum, params);
             if (pattern) {
               patternList.push(pattern);
             }
           })
         );
-        return combinePattern(patternList);
+
+        return combineContents(patternList);
       }
       break;
   }
-  return undefined;
-};
 
-/** 获取来自系列 spec 的 tooltip pattern */
-const getSeriesTooltipPattern = (
-  activeType: TooltipActiveType,
-  globalSpec: ITooltipSpec,
-  series?: ISeries,
-  dimensionInfo?: IDimensionInfo[]
-): ITooltipPattern => {
-  const allSeries =
-    activeType === 'dimension' && dimensionInfo?.length
-      ? getSeriesListFromDimensionInfo(dimensionInfo)
-      : (activeType === 'mark' || activeType === 'group') && series
-      ? [series]
-      : null;
-
-  if (allSeries && allSeries.length) {
-    const seriesPatternList: ITooltipPattern[] = [];
-
-    allSeries.forEach(s => {
-      const seriesSpec = s.tooltipHelper?.spec as ITooltipSpec;
-
-      if (isActiveTypeVisible(activeType, seriesSpec)) {
-        let finalPattern =
-          seriesSpec && seriesSpec[activeType]
-            ? {
-                ...globalSpec[activeType],
-                ...seriesSpec[activeType]
-              }
-            : globalSpec[activeType];
-
-        if (finalPattern) {
-          finalPattern = cloneDeep(finalPattern);
-
-          if (finalPattern.title) {
-            finalPattern.title = addExtraInfoToTooltipTitlePattern(
-              finalPattern.title,
-              {
-                seriesId: s.id
-              },
-              true
-            );
-          }
-          if (finalPattern.content) {
-            finalPattern.content = addExtraInfoToTooltipContentPattern(
-              finalPattern.content,
-              {
-                seriesId: s.id
-              },
-              true
-            );
-          }
-
-          seriesPatternList.push(finalPattern);
-        }
-      }
-    });
-
-    return seriesPatternList && seriesPatternList.length ? combinePattern(seriesPatternList) : null;
-  }
-
-  return undefined;
+  return null;
 };
 
 const getSeriesListFromDimensionInfo = (dimensionInfo: IDimensionInfo[]): ISeries[] => {
@@ -223,86 +104,4 @@ const getSeriesListFromDimensionInfo = (dimensionInfo: IDimensionInfo[]): ISerie
   });
 
   return list;
-};
-
-/** 获取每个系列对应的 shape pattern */
-const getShapePatternMapOfEachSeries = (content: ITooltipLinePattern[]): Record<number, ITooltipShapePattern> => {
-  const shapePatternMap: Record<number, ITooltipShapePattern> = {};
-
-  content.forEach(line => {
-    const key = line.seriesId;
-
-    if (isValid(key) && !shapePatternMap[key]) {
-      shapePatternMap[key] = line;
-    }
-
-    if (!shapePatternMap[-1]) {
-      shapePatternMap[-1] = line;
-    }
-  });
-  return shapePatternMap;
-};
-
-const isShapeKey = (key: string) => key.toLowerCase().includes('shape');
-
-/** 根据优先级获取形状配置 */
-const getShapePattern = (
-  userLinePattern?: ITooltipLinePattern,
-  userPattern?: ITooltipPattern,
-  userStyle?: ITooltipTheme['shape'],
-  shapePatternMap?: Record<number, ITooltipShapePattern>,
-  defaultShapePattern?: ITooltipShapePattern
-): ITooltipShapePattern => {
-  if (userStyle) {
-    userStyle.shapeSize = userStyle.shapeSize ?? userStyle.size; // 兼容旧配置
-  }
-  const shapePatternFromMap = shapePatternMap
-    ? shapePatternMap[userLinePattern?.seriesId] ?? shapePatternMap[-1]
-    : null;
-  const shapePattern: ITooltipShapePattern = {};
-
-  [userLinePattern, userPattern, userStyle, shapePatternFromMap, defaultShapePattern].forEach(cfg => {
-    if (isValid(cfg)) {
-      Object.keys(cfg).forEach(key => {
-        if (isShapeKey(key) && isNil((shapePattern as any)[key]) && !isNil((cfg as any)[key])) {
-          (shapePattern as any)[key] = (cfg as any)[key];
-        }
-      });
-    }
-  });
-
-  return shapePattern;
-};
-
-const merge = <T, K>(source: K, extraInfo: T | ((source: K) => T), overwrite?: boolean) => {
-  const info = isFunction(extraInfo) ? extraInfo(source) : extraInfo;
-  return overwrite ? { ...source, ...info } : { ...info, ...source };
-};
-
-const addExtraInfoToTooltipTitlePattern = <T>(
-  pattern: ITooltipPattern['title'],
-  extraInfo: T | ((line: ITooltipLinePattern) => T),
-  overwrite?: boolean
-): ITooltipPattern['title'] | undefined => {
-  const result = isValid(pattern)
-    ? isFunction(pattern)
-      ? (...args: any[]) => merge(pattern(...args), extraInfo, overwrite)
-      : merge(pattern, extraInfo, overwrite)
-    : undefined;
-  return result;
-};
-
-const addExtraInfoToTooltipContentPattern = <T>(
-  pattern: ITooltipPattern['content'],
-  extraInfo: T | ((line: ITooltipLinePattern) => T),
-  overwrite?: boolean
-): ITooltipPattern['content'] | undefined => {
-  const result = isValid(pattern)
-    ? array(pattern).map(patternItem =>
-        isFunction(patternItem)
-          ? (...args: any[]) => array(patternItem(...args)).map(line => merge(line, extraInfo, overwrite))
-          : merge(patternItem as ITooltipLinePattern, extraInfo, overwrite)
-      )
-    : undefined;
-  return result;
 };

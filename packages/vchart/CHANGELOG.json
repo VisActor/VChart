@@ -2,6 +2,48 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.8",
+      "tag": "@visactor/vchart_v1.12.8",
+      "date": "Tue, 15 Oct 2024 09:20:45 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: upgrade vrender to 0.20.9, vgrammar to 0.14.10\n\n"
+          },
+          {
+            "comment": "feat: support `firstVisible` of axis label, close #3200"
+          },
+          {
+            "comment": "feat: support `roam.blank` to enable dragging from blank area of region in map chart"
+          },
+          {
+            "comment": "feat: optimize data empty condition\n\n"
+          },
+          {
+            "comment": "fix: chart should `remake` when visible of axis change, fix #3287\n\n"
+          },
+          {
+            "comment": "fix: fix visible change of label, fix #3277\n\n"
+          },
+          {
+            "comment": "fix: custom theme by chartType cannot work in initial options, #3285"
+          },
+          {
+            "comment": "fix: fix issue of `html` and `dom` not work correctly in label"
+          },
+          {
+            "comment": "fix: axis line on zero should consider the bindAxis's inverse, fixed#3306"
+          },
+          {
+            "comment": "fix(react-vchart): register labels by default in circlePacking, sankey, sunburst, treemap, venn, fix #3148"
+          },
+          {
+            "comment": "refactor: refactor implement of `enterable` in tooltip component\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.7",
       "tag": "@visactor/vchart_v1.12.7",
       "date": "Fri, 27 Sep 2024 10:40:30 GMT",

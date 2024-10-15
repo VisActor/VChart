@@ -58,6 +58,7 @@ export function textAttribute(
   if (series.type !== SeriesTypeEnum.sankey) {
     const { formatFunc, args } = getFormatFunction(formatMethod, formatter, textAttribute.text, datum);
     if (formatFunc) {
+      textAttribute._originText = textAttribute.text;
       textAttribute.text = formatFunc(...args, { series });
     }
   }

@@ -6,6 +6,7 @@ export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipP
     activeType?: TooltipActiveType | TooltipActiveType[];
     trigger?: MaybeArray<'hover' | 'click'> | 'none';
     triggerOff?: MaybeArray<'hover' | 'click'> | 'none';
+    showDelay?: number;
     hideTimer?: number;
     lockAfterClick?: boolean;
     style?: Omit<ITooltipTheme<string>, 'offset' | 'transitionDuration'>;
@@ -23,9 +24,16 @@ export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipP
         y?: number;
     };
 }
+type ISeriesToolipPattern = Pick<ITooltipPattern, 'visible' | 'title' | 'content' | 'hasShape' | 'shapeColor' | 'shapeFill' | 'shapeHollow' | 'shapeLineWidth' | 'shapeSize' | 'shapeStroke' | 'shapeType' | 'updateContent' | 'updateTitle' | 'updatePosition'>;
+export interface ISeriesTooltipSpec extends Pick<ITooltipSpec, 'visible' | 'activeType' | 'handler'> {
+    dimension?: ISeriesToolipPattern;
+    mark?: ISeriesToolipPattern;
+    group?: Pick<IGroupTooltipPattern, 'triggerMark'> & ISeriesToolipPattern;
+}
 export interface ITooltipHandlerSpec {
     showTooltip: (activeType: TooltipActiveType, tooltipData: TooltipData, params: TooltipHandlerParams) => Maybe<TooltipResult>;
     hideTooltip: (params: TooltipHandlerParams) => Maybe<TooltipResult>;
     release: () => void;
     isTooltipShown?: () => boolean;
 }
+export {};

@@ -300,6 +300,15 @@ label 描边色在智能反色时的四种策略：
 label 超出 mark 范围，也以 mark 作为背景色进行反色。
 默认设置为`false`。
 
+##${prefix} interactInvertType('none' | 'stroked' | 'inside')
+
+自 1.12.8 版本开始支持
+当标签和图形相交，但是没有完全在 mark 内部的时候，支持三种处理方式：
+
+- none: 不做任何处理
+- stroked: 标签存在描边的时候，根据描边进行处理 (默认行为)
+- inside: 和标签完全在 mark 内部一样处理
+
 {{ /if }}
 
 {{ if: !${ignoreCustom} }}
