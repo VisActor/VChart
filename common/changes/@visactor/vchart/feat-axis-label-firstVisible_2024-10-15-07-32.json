@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support `firstVisible` of axis label, close #3200",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
