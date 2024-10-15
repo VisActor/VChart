@@ -228,6 +228,12 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
   }
 
   protected _initTextMarkStyle() {
+    this._labelComponentMap.forEach((labelInfoCb, labelComponent) => {
+      const labelInfoArray = array(labelInfoCb());
+      labelInfoArray.forEach(({ labelMark }) => {
+        labelMark.setComponent(labelComponent);
+      });
+    });
     this._labelInfoMap.forEach(labelInfos => {
       labelInfos.forEach(info => {
         const { labelMark, labelSpec, series } = info;
@@ -239,12 +245,6 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         if (labelMark.stateStyle?.normal?.lineWidth) {
           labelMark.setAttribute('stroke', series.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
         }
-      });
-      this._labelComponentMap.forEach((labelInfoCb, labelComponent) => {
-        const labelInfoArray = array(labelInfoCb());
-        labelInfoArray.forEach(({ labelMark }) => {
-          labelMark.setComponent(labelComponent);
-        });
       });
     });
   }
