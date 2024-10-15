@@ -24,24 +24,167 @@ ohpm install @visactor/harmony-vchart
 ```typescript
 import { VChart } from '@visactor/harmony-vchart';
 
-const spec = '{"type":"bar","data":[{"id":"barData","values":[{"type":"Autocracies","year":"1930","value":129},{"type":"Autocracies","year":"1940","value":133},{"type":"Autocracies","year":"1950","value":130},{"type":"Autocracies","year":"1960","value":126},{"type":"Autocracies","year":"1970","value":117},{"type":"Autocracies","year":"1980","value":114},{"type":"Autocracies","year":"1990","value":111},{"type":"Autocracies","year":"2000","value":89},{"type":"Autocracies","year":"2010","value":80},{"type":"Autocracies","year":"2018","value":80},{"type":"Democracies","year":"1930","value":22},{"type":"Democracies","year":"1940","value":13},{"type":"Democracies","year":"1950","value":25},{"type":"Democracies","year":"1960","value":29},{"type":"Democracies","year":"1970","value":38},{"type":"Democracies","year":"1980","value":41},{"type":"Democracies","year":"1990","value":57},{"type":"Democracies","year":"2000","value":87},{"type":"Democracies","year":"2010","value":98},{"type":"Democracies","year":"2018","value":99}]}],"seriesField":"type","xField":["year","type"],"yField":"value","bar":{"style":{"stroke":"#000","lineWidth":1},"state":{"hover":{"stroke":"black"}}},"legends":{"visible":true,"position":"start","orient":"top"}}'
+interface Event {
+  item: ItemType
+}
+
+interface ItemType {
+  addState(str: string): void;
+}
 
 @Entry
 @Component
 struct Index {
-@State message: string = 'Hello World';
+  @State message: string = 'Hello World';
+  @State spec:Record<string, string|ESObject> = {
+    'type': 'bar',
+    'data': {
+      values: ([
+        {
+          "type": "Autocracies",
+          "year": "1930",
+          "value": 129
+        },
+        {
+          "type": "Autocracies",
+          "year": "1940",
+          "value": 133
+        },
+        {
+          "type": "Autocracies",
+          "year": "1950",
+          "value": 130
+        },
+        {
+          "type": "Autocracies",
+          "year": "1960",
+          "value": 126
+        },
+        {
+          "type": "Autocracies",
+          "year": "1970",
+          "value": 117
+        },
+        {
+          "type": "Autocracies",
+          "year": "1980",
+          "value": 114
+        },
+        {
+          "type": "Autocracies",
+          "year": "1990",
+          "value": 111
+        },
+        {
+          "type": "Autocracies",
+          "year": "2000",
+          "value": 89
+        },
+        {
+          "type": "Autocracies",
+          "year": "2010",
+          "value": 80
+        },
+        {
+          "type": "Autocracies",
+          "year": "2018",
+          "value": 80
+        },
+        {
+          "type": "Democracies",
+          "year": "1930",
+          "value": 22
+        },
+        {
+          "type": "Democracies",
+          "year": "1940",
+          "value": 13
+        },
+        {
+          "type": "Democracies",
+          "year": "1950",
+          "value": 25
+        },
+        {
+          "type": "Democracies",
+          "year": "1960",
+          "value": 29
+        },
+        {
+          "type": "Democracies",
+          "year": "1970",
+          "value": 38
+        },
+        {
+          "type": "Democracies",
+          "year": "1980",
+          "value": 41
+        },
+        {
+          "type": "Democracies",
+          "year": "1990",
+          "value": 57
+        },
+        {
+          "type": "Democracies",
+          "year": "2000",
+          "value": 87
+        },
+        {
+          "type": "Democracies",
+          "year": "2010",
+          "value": 98
+        },
+        {
+          "type": "Democracies",
+          "year": "2018",
+          "value": 99
+        }
+      ]) as ESObject
+    },
+    'xField': ['year', 'type'],
+    'yField': 'value',
+    'seriesField': 'type',
+    'bar': {
+      'state': ({
+        'aaa': ({
+          'fill': 'red'
+        } as ESObject)
+      } as ESObject),
+      'style': ({
+        "stroke": "#000",
+        "lineWidth": 1
+      } as ESObject)
+    },
+    'legends': {
+      "visible": true,
+      "position": "start",
+      "orient": "top"
+    }
+  }
 
   build() {
     Row() {
       Column() {
-        Text(this.message)
-          .fontSize(50)
-          .fontWeight(FontWeight.Bold)
         VChart({
-          spec: JSON.parse(spec), w: 300, h: 300,
-          onChartInitCb: () => {},
-          onChartReadyCb: () => {}
-        })
+          spec: this.spec, w: 300, h: 300,
+          onChartInitCb: (vchart) => {
+            return;
+          },
+          onChartReadyCb: (vchart) => {
+            vchart.on('touchstart', {level: 'mark', type: 'bar'}, (e: Event) => {
+              e.item.addState('aaa')
+            })
+          },
+          initOption: {
+            beforeRender: () => {
+              // this.t = Date.now();
+            },
+            afterRender: () => {
+              // this.delta = Date.now() - this.t;
+            }
+          }
+        });
       }
       .width('100%')
     }
