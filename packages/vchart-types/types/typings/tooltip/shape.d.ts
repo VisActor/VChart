@@ -19,5 +19,4 @@ export interface ITooltipShapeActual {
     shapeLineWidth?: number;
     shapeSize?: number;
     shapeHollow?: boolean;
-    shapeColor?: string;
 }

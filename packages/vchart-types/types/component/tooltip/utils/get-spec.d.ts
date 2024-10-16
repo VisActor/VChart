@@ -1,5 +1,5 @@
-import type { TooltipActiveType } from '../../../typings';
+import type { ITooltipActual, TooltipActiveType, TooltipData } from '../../../typings';
 import type { ISeries } from '../../../series/interface';
-import type { IDimensionInfo } from '../../../event/events/dimension/interface';
-import type { ITooltipSpec } from '..';
-export declare const getTooltipSpecForShow: (activeType: TooltipActiveType, globalSpec: ITooltipSpec, series?: ISeries, dimensionInfo?: IDimensionInfo[]) => ITooltipSpec;
+import type { TooltipHandlerParams } from '../interface/common';
+import type { ITooltipSpec } from '../interface/spec';
+export declare const getTooltipSpecForShow: (activeType: TooltipActiveType, globalSpec: ITooltipSpec, series?: ISeries, data?: TooltipData, params?: TooltipHandlerParams) => ITooltipActual;

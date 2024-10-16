@@ -1,7 +1,7 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { ITooltipPattern, TooltipActiveType } from '../../typings';
-import type { IDimensionInfo } from '../../event/events/dimension/interface';
+import type { Datum } from '@visactor/vgrammar-core';
 export declare class SankeySeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
-    getDefaultTooltipPattern(activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]): ITooltipPattern | null;
+    protected _getDimensionData: (datum: any) => any;
+    markTooltipValueCallback: (datum: Datum) => string | undefined;
 }

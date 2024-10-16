@@ -1,6 +1,33 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 27 Sep 2024 10:40:30 GMT and should not be manually modified.
+This log was last generated on Tue, 15 Oct 2024 09:20:45 GMT and should not be manually modified.
+
+## 1.12.8
+Tue, 15 Oct 2024 09:20:45 GMT
+
+### Updates
+
+- fix: upgrade vrender to 0.20.9, vgrammar to 0.14.10
+
+
+- feat: support `firstVisible` of axis label, close #3200
+- feat: support `roam.blank` to enable dragging from blank area of region in map chart
+- feat: optimize data empty condition
+
+
+- fix: chart should `remake` when visible of axis change, fix #3287
+
+
+- fix: fix visible change of label, fix #3277
+
+
+- fix: custom theme by chartType cannot work in initial options, #3285
+- fix: fix issue of `html` and `dom` not work correctly in label
+- fix: axis line on zero should consider the bindAxis's inverse, fixed#3306
+- fix(react-vchart): register labels by default in circlePacking, sankey, sunburst, treemap, venn, fix #3148
+- refactor: refactor implement of `enterable` in tooltip component
+
+
 
 ## 1.12.7
 Fri, 27 Sep 2024 10:40:30 GMT

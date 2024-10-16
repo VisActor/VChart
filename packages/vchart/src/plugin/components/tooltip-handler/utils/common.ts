@@ -100,7 +100,7 @@ export const measureTooltipText = (text: string | TooltipRichTextAttrs, style: I
   }
 
   const bound = getRichTextBounds({
-    wordBreak: style.wordBreak ?? 'break-word',
+    wordBreak: (style as any).wordBreak ?? 'break-word',
     maxWidth: style.maxWidth ? style.maxWidth : undefined,
     width: 0,
     height: 0,

@@ -27,6 +27,5 @@ export declare class DomTooltipHandler extends BaseTooltipHandler {
     isTooltipShown(): boolean;
     reInit(): void;
     protected _updatePosition({ x, y }: ITooltipPositionActual): void;
-    protected _initEvent(el: HTMLElement): void;
 }
 export declare const registerDomTooltipHandler: () => void;

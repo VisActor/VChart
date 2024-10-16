@@ -1,5 +1,5 @@
 import type { IComponent } from '../../interface';
-import type { ITextGraphicAttribute, IRichTextCharacter, RichTextWordBreak } from '@visactor/vrender-core';
+import type { ITextGraphicAttribute, IRichTextCharacter, ITextAttribute } from '@visactor/vrender-core';
 import type { IOrientType, IPadding } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
@@ -21,7 +21,7 @@ interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
         height?: number;
         align?: string;
         verticalAlign?: string;
-        wordBreak?: RichTextWordBreak;
+        wordBreak?: ITextAttribute['wordBreak'];
         maxLineWidth?: number;
         heightLimit?: number;
         lineClamp?: number;
@@ -32,7 +32,7 @@ interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
         height?: number;
         align?: string;
         verticalAlign?: string;
-        wordBreak?: RichTextWordBreak;
+        wordBreak?: ITextAttribute['wordBreak'];
         maxLineWidth?: number;
         heightLimit?: number;
         lineClamp?: number;

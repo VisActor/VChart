@@ -1,4 +1,4 @@
-import type { RichTextWordBreak } from '@visactor/vrender-core';
+import type { ITextAttribute } from '@visactor/vrender-core';
 import type { ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components';
 import type { ITokenKey } from '../../../theme/token';
@@ -14,7 +14,7 @@ export interface ITooltipTextTheme<ColorType = string> {
     spacing?: number;
     multiLine?: boolean;
     maxWidth?: number;
-    wordBreak?: RichTextWordBreak;
+    wordBreak?: ITextAttribute['wordBreak'];
     autoWidth?: boolean;
 }
 export interface ITooltipTheme<ColorType = string> {

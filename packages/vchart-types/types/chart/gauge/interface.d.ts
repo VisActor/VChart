@@ -3,7 +3,7 @@ import type { IGaugePointerSeriesSpec, IGaugeSeriesSpec } from '../../series/gau
 import type { ILinearAxisSpec } from '../../component/axis/interface';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
 import type { IPolarChartSpec } from '../polar';
-export interface IGaugeChartSpec extends Omit<IPolarChartSpec, 'axes'>, Omit<IGaugePointerSeriesSpec, 'data' | 'type' | 'morph'> {
+export interface IGaugeChartSpec extends Omit<IPolarChartSpec, 'axes'>, Omit<IGaugePointerSeriesSpec, 'data' | 'type' | 'morph' | 'tooltip'> {
     type: 'gauge';
     gauge?: Omit<IGaugeSeriesSpec, 'data'> | Omit<ICircularProgressSeriesSpec, 'data'>;
     axes?: (IPolarAxisSpec | ILinearAxisSpec)[];

@@ -27,7 +27,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     private _colorScale;
     private _nodeList;
     private _needClear;
-    get direction(): "vertical" | "horizontal";
+    get direction(): "horizontal" | "vertical";
     getCategoryField(): string;
     setCategoryField(f: string): string;
     protected _valueField: string;
