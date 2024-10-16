@@ -58,6 +58,5 @@ export const continuousLegendFilter = (data: Array<any>, op: IContinuousLegendFi
       });
     }
   }
-
   return data;
 };

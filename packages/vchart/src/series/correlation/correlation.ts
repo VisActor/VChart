@@ -284,8 +284,6 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
 
   protected initTooltip() {
     super.initTooltip();
-
-    this._nodePointMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nodePointMark);
   }
 
   initLabelMarkStyle(labelMark?: ILabelMark): void {

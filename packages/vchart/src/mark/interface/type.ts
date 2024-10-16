@@ -21,7 +21,10 @@ export const enum MarkTypeEnum {
   cell = 'cell',
   ripple = 'ripple',
   liquid = 'liquid',
+  circle = 'circle',
 
   component = 'component',
-  label = 'label'
+  label = 'label',
+
+  pictogram = 'pictogram'
 }

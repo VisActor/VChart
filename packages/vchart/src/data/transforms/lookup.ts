@@ -17,7 +17,6 @@ export const lookup = (data: Array<DataView>, opt: ILookUpOpt) => {
   if (!opt.from || !opt.from()) {
     return data;
   }
-
   const fields = opt.fields;
   const key = opt.key;
   const values = opt.values;
