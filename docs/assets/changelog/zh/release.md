@@ -1,3 +1,32 @@
+# v1.12.8
+
+2024-10-15
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support `firstVisible` of axis label, close [#3200](https://github.com/VisActor/VChart/issues/3200)
+- **@visactor/vchart**: support `roam.blank` to enable dragging from blank area of region in map chart
+- **@visactor/vchart**: optimize data empty condition
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: upgrade vrender to 0.20.9, vgrammar to 0.14.10
+- **@visactor/vchart**: chart should `remake` when visible of axis change, fix [#3287](https://github.com/VisActor/VChart/issues/3287)
+- **@visactor/vchart**: fix visible change of label, fix [#3277](https://github.com/VisActor/VChart/issues/3277)
+- **@visactor/vchart**: custom theme by chartType cannot work in initial options, [#3285](https://github.com/VisActor/VChart/issues/3285)
+- **@visactor/vchart**: fix issue of `html` and `dom` not work correctly in label
+- **@visactor/vchart**: axis line on zero should consider the bindAxis's inverse, fixed[#3306](https://github.com/VisActor/VChart/issues/3306)
+- **react-vchart**: register labels by default in circlePacking, sankey, sunburst, treemap, venn, fix [#3148](https://github.com/VisActor/VChart/issues/3148)
+
+**🔨 功能重构**
+
+- **@visactor/vchart**: refactor implement of `enterable` in tooltip component
+
+
+
+[更多详情请查看 v1.12.8](https://github.com/VisActor/VChart/releases/tag/v1.12.8)
+
 # v1.12.7
 
 2024-09-29
