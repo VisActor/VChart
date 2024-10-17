@@ -54,7 +54,7 @@ export class ShapeModel extends BaseTooltipModel {
   }
 }
 
-function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: any) => string) {
+export function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: any) => string) {
   if (!option?.hasShape || !option.symbolType) {
     return '';
   }
