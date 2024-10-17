@@ -35,7 +35,7 @@ VChart, more than just a cross-platform charting library, but also an expressive
 
 <div align="center">
 
-English| [简体中文](./README.zh-CN.md)
+English | [简体中文](./README.zh-CN.md) | [日本語](./README.ja-JP.md)
 
 </div>
 
