@@ -1,3 +1,32 @@
+# v1.12.8
+
+2024-10-15
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support `firstVisible` of axis label, close [#3200](https://github.com/VisActor/VChart/issues/3200)
+- **@visactor/vchart**: support `roam.blank` to enable dragging from blank area of region in map chart
+- **@visactor/vchart**: optimize data empty condition
+ **@visactor/vchart**: Label component text style supports `wordBreak: "keep-all"`
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: chart should `remake` when visible of axis change, fix [#3287](https://github.com/VisActor/VChart/issues/3287)
+- **@visactor/vchart**: fix visible change of label, fix [#3277](https://github.com/VisActor/VChart/issues/3277)
+- **@visactor/vchart**: custom theme by chartType cannot work in initial options, [#3285](https://github.com/VisActor/VChart/issues/3285)
+- **@visactor/vchart**: fix issue of `html` and `dom` not work correctly in label
+- **@visactor/vchart**: axis line on zero should consider the bindAxis's inverse, fixed[#3306](https://github.com/VisActor/VChart/issues/3306)
+- **react-vchart**: register labels by default in circlePacking, sankey, sunburst, treemap, venn, fix [#3148](https://github.com/VisActor/VChart/issues/3148)
+- **@visactor/vchart**: Fix the issue where `item.label.space` and `pager.space` are not effective in discrete legends
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: refactor implement of `enterable` in tooltip component
+
+
+[more detail about v1.12.8](https://github.com/VisActor/VChart/releases/tag/v1.12.8)
+
 # v1.12.7
 
 2024-09-29
