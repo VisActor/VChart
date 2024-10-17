@@ -2,28 +2,26 @@
 
 2024-10-15
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: support `firstVisible` of axis label, close [#3200](https://github.com/VisActor/VChart/issues/3200)
-- **@visactor/vchart**: support `roam.blank` to enable dragging from blank area of region in map chart
-- **@visactor/vchart**: optimize data empty condition
+- **@visactor/vchart**: 支持坐标轴标签的 `firstVisible` 属性，关闭 [#3200](https://github.com/VisActor/VChart/issues/3200)
+- **@visactor/vchart**: 支持地图图表中通过 `roam.blank` 启用从区域空白处拖拽
+- **@visactor/vchart**: 优化饼图中，空白占位圆中数据为空的判断条件
+- **@visactor/vchart**: label 组件文字样式支持`wordBreak: "keep-all"`
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: upgrade vrender to 0.20.9, vgrammar to 0.14.10
-- **@visactor/vchart**: chart should `remake` when visible of axis change, fix [#3287](https://github.com/VisActor/VChart/issues/3287)
-- **@visactor/vchart**: fix visible change of label, fix [#3277](https://github.com/VisActor/VChart/issues/3277)
-- **@visactor/vchart**: custom theme by chartType cannot work in initial options, [#3285](https://github.com/VisActor/VChart/issues/3285)
-- **@visactor/vchart**: fix issue of `html` and `dom` not work correctly in label
-- **@visactor/vchart**: axis line on zero should consider the bindAxis's inverse, fixed[#3306](https://github.com/VisActor/VChart/issues/3306)
-- **react-vchart**: register labels by default in circlePacking, sankey, sunburst, treemap, venn, fix [#3148](https://github.com/VisActor/VChart/issues/3148)
+- **@visactor/vchart**: 当坐标轴的 visible 发生变化时，图表应该进行 `remake`，修复 [#3287](https://github.com/VisActor/VChart/issues/3287)
+- **@visactor/vchart**: 修复 label 组件 visible 发生变化时的问题，修复 [#3277](https://github.com/VisActor/VChart/issues/3277)
+- **@visactor/vchart**: 在初始 options 中，按图表类型自定义主题无法生效，[#3285](https://github.com/VisActor/VChart/issues/3285)
+- **@visactor/vchart**: 修复 label 组件中 `html` 和 `dom` 不能正确工作的问题
+- **@visactor/vchart**: 零点处的坐标轴线应考虑绑定坐标轴的反转，修复 [#3306](https://github.com/VisActor/VChart/issues/3306)
+- **@visactor/react-vchart**: 在 circlePacking、sankey、sunburst、treemap、venn 中默认注册标签，修复 [#3148](https://github.com/VisActor/VChart/issues/3148)
+- **@visactor/vchart**: 修复离散图例中，`item.label.space` 和 `pager.space` 不生效的问题
 
 **🔨 功能重构**
 
-- **@visactor/vchart**: refactor implement of `enterable` in tooltip component
-
-
+- **@visactor/vchart**: 重构 tooltip 组件中 `enterable` 的实现
 
 [更多详情请查看 v1.12.8](https://github.com/VisActor/VChart/releases/tag/v1.12.8)
 
