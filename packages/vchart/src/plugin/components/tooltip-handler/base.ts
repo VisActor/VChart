@@ -33,14 +33,12 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { ILayoutModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize } from '@visactor/vrender-components';
-import { getTooltipAttributes } from './utils/attribute';
 import type { IChartOption } from '../../../chart/interface';
 import type { ITooltipSpec, Tooltip, TooltipHandlerParams } from '../../../component/tooltip';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../../../component/tooltip';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
-import type { ITooltipAttributes } from './interface';
 import { getTooltipPatternValue } from '../../../component/tooltip/utils';
 import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
 
@@ -72,7 +70,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   }
 
   protected _component: Tooltip;
-  protected _attributes?: ITooltipAttributes | null = null;
 
   protected _chartContainer: Maybe<HTMLElement>;
   protected _compiler: Compiler;
@@ -192,13 +189,17 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
   protected abstract _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;
   protected abstract _removeTooltip(): void;
+  protected abstract _getTooltipBoxSize(
+    actualTooltip: ITooltipActual,
+    changePositionOnly: boolean
+  ): IContainerSize | undefined;
 
   /* -----需要子类继承的方法结束----- */
 
   protected _getDefaultOption(): Options {
     const { offset } = this._component.getSpec();
+
     return {
-      ...DEFAULT_OPTIONS,
       offsetX: offset?.x ?? DEFAULT_OPTIONS.offsetX,
       offsetY: offset?.y ?? DEFAULT_OPTIONS.offsetY
     };
@@ -443,23 +444,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
     return result;
   };
-
-  // 计算 tooltip 内容区域的宽高，并缓存结果
-  protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined {
-    if (!changePositionOnly || isNil(this._attributes)) {
-      const chartTheme = this._chartOption?.getTheme() ?? {};
-      this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartTheme);
-    }
-    const { panel, panelDomHeight } = this._attributes ?? {};
-    // canvas模式下, size需要考虑border size, 目的是为了精准判断边界是否超出画布，达到confine效果
-    // html模式不提供confine, 所以不考虑精准计算size
-    const isCanvas = this._component.getSpec().renderMode === 'canvas';
-
-    return {
-      width: panel?.width + (isCanvas ? panel.lineWidth : 0),
-      height: (panelDomHeight ?? panel?.height) + (isCanvas ? panel.lineWidth : 0)
-    };
-  }
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {
     return spec.parentElement as any;
