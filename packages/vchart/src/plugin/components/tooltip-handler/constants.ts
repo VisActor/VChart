@@ -1,5 +1,3 @@
-import { escapeHTML } from './utils/common';
-
 export const TOOLTIP_CONTAINER_EL_CLASS_NAME = 'vchart-tooltip-container';
 export const TOOLTIP_EMPTY_STRING = '';
 
@@ -12,14 +10,7 @@ export const DEFAULT_OPTIONS = {
   /**
    * Y offset.
    */
-  offsetY: 10,
-
-  /**
-   * HTML sanitizer function that removes dangerous HTML to prevent XSS.
-   *
-   * This should be a function from string to string. You may replace it with a formatter such as a markdown formatter.
-   */
-  sanitize: escapeHTML
+  offsetY: 10
 };
 
 // FIXME: 命名规范
