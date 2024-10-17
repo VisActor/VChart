@@ -181,40 +181,32 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       })}"><span>${title.value ?? ''}</span></h2>`;
     }
     if (hasContent) {
-      const shapeContent = content
+      const rowItems = content
         .map((entry, index) => {
-          return `<div class="shape" style="${cssToStyleString({
+          const rowStyleString = cssToStyleString({
             ...(index === content.length - 1 ? null : rowStyle)
-          })}">${getSvgHtml(entry)}</div>`;
-        })
-        .join('');
-      const keyContent = content
-        .map((entry, index) => {
-          return `<div class="key" style="${cssToStyleString({
-            ...(entry.keyStyle ? getTextStyle(entry.keyStyle) : null),
-            ...(index === content.length - 1 ? null : rowStyle)
-          })}">${escapeHTML(entry.key)}</div>`;
-        })
-        .join('');
-      const valueContent = content
-        .map((entry, index) => {
-          return `<div class="value" style="${cssToStyleString({
-            ...(entry.valueStyle ? getTextStyle(entry.valueStyle) : null),
-            ...(index === content.length - 1 ? null : rowStyle)
-          })}">${escapeHTML(entry.value)}</div>`;
+          });
+
+          return `<div class="tooltip-row" style="${rowStyleString}">
+        <div class="shape" style="${cssToStyleString({
+          display: 'inline-block',
+          ...this._domStyle.shape
+        })}">${getSvgHtml(entry)}</div>
+        <div class="key" style="${cssToStyleString({
+          display: 'inline-block',
+          ...this._domStyle.key,
+          ...(entry.keyStyle ? getTextStyle(entry.keyStyle) : null)
+        })}">${escapeHTML(entry.key)}</div>
+        <div class="value" style="${cssToStyleString({
+          display: 'inline-block',
+          ...this._domStyle.value,
+          ...(entry.valueStyle ? getTextStyle(entry.valueStyle) : null)
+        })}">${escapeHTML(entry.value)}</div>
+        </div>`;
         })
         .join('');
 
-      domString += `<div class="container-box">
-      <div class="shape-box" style="float:left;${cssToStyleString(this._domStyle.shape)}">
-        ${shapeContent}
-      </div>
-      <div class="key-box" style="float:left;${cssToStyleString(this._domStyle.key)}">
-        ${keyContent}
-      </div>
-      <div class="value-box" style="float:left;${cssToStyleString(this._domStyle.value)}">
-       ${valueContent}
-      </div>`;
+      domString += `<div class="container-box">${rowItems}</div>`;
     }
 
     this._domString = domString;
@@ -226,33 +218,27 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       const contentDom = rootDom.children[rootDom.children.length - 1];
 
       if (contentDom.className.includes('container-box')) {
-        const columns = contentDom.children;
-        const heightByRow: number[] = [];
+        const rows = contentDom.children;
+        const widthByCol: number[] = [];
+        if (rows) {
+          for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const cols = row.children ?? ([] as HTMLElement[]);
 
-        if (columns) {
-          for (let i = 0; i < columns.length; i++) {
-            const column = columns[i];
-
-            const rows = column.children ?? ([] as HTMLElement[]);
-
-            for (let j = 0; j < rows.length; j++) {
-              const height = rows[j].getBoundingClientRect().height;
-
-              if (heightByRow[j] === undefined || heightByRow[j] < height) {
-                heightByRow[j] = height;
+            for (let j = 0; j < cols.length; j++) {
+              const width = cols[j].getBoundingClientRect().width;
+              if (widthByCol[j] === undefined || widthByCol[j] < width) {
+                widthByCol[j] = width;
               }
             }
           }
 
-          for (let i = 0; i < columns.length; i++) {
-            const column = columns[i];
+          for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const cols = row.children ?? ([] as HTMLElement[]);
 
-            const rows = column.children ?? ([] as HTMLElement[]);
-
-            for (let j = 0; j < rows.length; j++) {
-              const row = rows[j];
-
-              (row as HTMLElement).style.height = `${heightByRow[j]}px`;
+            for (let j = 0; j < cols.length; j++) {
+              (cols[j] as HTMLElement).style.width = `${widthByCol[j]}px`;
             }
           }
         }
