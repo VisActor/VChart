@@ -184,6 +184,7 @@ export const getDomStyle = (spec: ITooltipSpec = {}, globalTheme: ITheme) => {
 
   if (align === 'right') {
     // rtl
+    panelStyle.direction = 'rtl';
     titleStyle.textAlign = 'right';
     keyStyle.textAlign = 'right';
     valueStyle.textAlign = 'left';
