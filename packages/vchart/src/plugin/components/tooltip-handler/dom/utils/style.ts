@@ -132,7 +132,6 @@ export const getTextStyle = (style: ITooltipTextTheme = {}) => {
     fontFamily: style.fontFamily,
     fontSize: getPixelPropertyStr(style.fontSize as number),
     fontWeight: style.fontWeight as string,
-    lineHeight: /^[0-9]*$/.test(`${style.lineHeight}`) ? `${style.lineHeight}px` : `${style.lineHeight}`,
     textAlign: style.textAlign,
     maxWidth: getPixelPropertyStr(style.maxWidth),
     whiteSpace: style.multiLine ? 'initial' : 'nowrap',
@@ -197,8 +196,10 @@ export const getDomStyle = (spec: ITooltipSpec = {}, globalTheme: ITheme) => {
   keyStyle[marginKey] = getPixelPropertyStr(keyLabel.spacing ?? DEFAULT_KEY_SPACING);
   valueStyle[marginKey] = getPixelPropertyStr(valueLabel.spacing ?? DEFAULT_VALUE_SPACING);
 
-  if (keyStyle.lineHeight) {
-    shapeStyle.lineHeight = keyStyle.lineHeight;
+  const lineHeight = keyStyle.lineHeight ?? valueStyle.lineHeight;
+
+  if (isValid(lineHeight)) {
+    rowStyle.lineHeight = /^[0-9]*$/.test(`${lineHeight}`) ? `${lineHeight}px` : `${lineHeight}`;
   }
 
   return {
