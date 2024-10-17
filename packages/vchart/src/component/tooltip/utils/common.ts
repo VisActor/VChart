@@ -69,7 +69,7 @@ function addContentLine(
 ) {
   const addByDatum = (spec: ITooltipLinePattern) => {
     if (spec) {
-      const res: ITooltipLineActual = {};
+      const res: ITooltipLineActual = { datum };
       const finalSpec: ITooltipLinePattern =
         isNil(spec.key) && isNil(spec.value) && !isEmpty(spec)
           ? {
