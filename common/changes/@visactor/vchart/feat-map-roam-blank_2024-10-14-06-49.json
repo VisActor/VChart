@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fixed the issue where map labels do not scale accordingly after updateSpec.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

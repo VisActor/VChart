@@ -774,8 +774,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     const funnelLabelBounds = this._labelMark
       ?.getComponent()
       ?.getProduct()
-      .getGroupGraphicItem()
-      .find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
+      ?.getGroupGraphicItem()
+      ?.find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
         return type === 'text' && attribute.data?.[categoryField] === datum[categoryField];
       }, true)?.AABBBounds;
 
@@ -799,8 +799,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     const labelMarkBounds = this._labelMark
       ?.getComponent()
       ?.getProduct()
-      .getGroupGraphicItem()
-      .find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
+      ?.getGroupGraphicItem()
+      ?.find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
         return type === 'text' && attribute.data?.[categoryField] === datum[categoryField];
       }, true)?.AABBBounds;
     const outerLabelSpec = this._spec.outerLabel ?? {};
