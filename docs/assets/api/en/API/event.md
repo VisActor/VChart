@@ -495,6 +495,8 @@ The event parameters are as follows:
 
 - `'layoutEnd'` Layout end event
 
+- `'afterResize'` Triggered when the chart resized
+
 The event parameters are as follows:
 
 ```ts
