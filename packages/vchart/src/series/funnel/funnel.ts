@@ -139,6 +139,11 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     this._viewDataTransform = new SeriesData(this._option, viewDataTransform);
   }
 
+  compileData() {
+    super.compileData();
+    this._viewDataTransform?.compile();
+  }
+
   getStatisticFields() {
     const fields: { key: string; operations: Array<'max' | 'min' | 'values'> }[] = [];
     fields.push({ key: this._categoryField, operations: ['values'] });

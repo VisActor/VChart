@@ -306,6 +306,11 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     this._outlierDataView = new SeriesData(this._option, outlierDataView);
   }
 
+  compileData() {
+    super.compileData();
+    this._outlierDataView?.compile();
+  }
+
   init(option: IModelInitOption): void {
     super.init(option);
     //init在axis初始化之后才被执行，此时axisHelper不为空

@@ -170,6 +170,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     this._viewDataLabel = new SeriesData(this._option, viewDataLabel);
   }
 
+  compileData() {
+    super.compileData();
+    this._viewDataLabel?.compile();
+  }
+
   initMark(): void {
     this._pieMark = this._createMark(
       {

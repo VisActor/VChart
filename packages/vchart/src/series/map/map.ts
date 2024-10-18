@@ -119,6 +119,11 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._mapViewData = new SeriesData(this._option, mapData);
   }
 
+  compileData() {
+    super.compileData();
+    this._mapViewData?.compile();
+  }
+
   // mark
   initMark() {
     this._pathMark = this._createMark(MapSeries.mark.area, {
