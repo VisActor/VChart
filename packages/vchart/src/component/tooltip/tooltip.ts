@@ -69,11 +69,13 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   private _eventList: EventHandlerList = [];
 
+  protected _isTooltipShown: boolean = false;
+
   protected _clickLock: boolean = false;
 
   /** 当前是否正在显示 tooltip */
   isTooltipShown() {
-    return this.tooltipHandler?.isTooltipShown?.();
+    return this._isTooltipShown;
   }
 
   changeRegions(regions: IRegion[]) {
@@ -116,6 +118,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     });
     this._eventList = [];
     this.tooltipHandler?.release?.();
+    this._isTooltipShown = false;
   }
 
   beforeRelease() {
@@ -274,7 +277,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
-    if (!this.tooltipHandler?.isTooltipShown?.()) {
+    if (!this._isTooltipShown && !this.tooltipHandler?.isTooltipShown?.()) {
       return;
     }
 
@@ -338,7 +341,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
-    if (!isClick && this._enterable && this.isTooltipShown()) {
+    if (!isClick && this._enterable && this._isTooltipShown) {
       if (this._showTimer) {
         clearTimeout(this._showTimer);
       }
@@ -436,6 +439,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       }
     }
     if (success) {
+      this._isTooltipShown = true;
       if (isClick && this._spec.lockAfterClick && !this._clickLock) {
         this._clickLock = true;
       } else if (Number.isFinite(this._spec.hideTimer)) {
@@ -467,7 +471,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   };
 
   protected _hideTooltipByHandler = (params: TooltipHandlerParams): TooltipResult => {
-    if (!this.tooltipHandler?.isTooltipShown?.()) {
+    if (!this._isTooltipShown && !this.tooltipHandler?.isTooltipShown?.()) {
       // 如果当前 tooltip 未显示，则提前退出
       return TooltipResult.success;
     }
@@ -488,7 +492,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const handler = this._spec.handler ?? this.tooltipHandler;
 
     if (handler.hideTooltip) {
-      return handler.hideTooltip.call(handler, params);
+      const result = handler.hideTooltip.call(handler, params);
+      if (!result) {
+        this._isTooltipShown = false;
+      }
+      return result;
     }
     return TooltipResult.failed;
   };
