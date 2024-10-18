@@ -133,6 +133,11 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     );
   }
 
+  compileData() {
+    super.compileData();
+    this._totalData?.compile();
+  }
+
   initAnimation() {
     // 这个数据在这个时候拿不到，因为组件还没创建结束，统计和筛选也还没添加。
     // 而且这个值理论上是动态的，建议 监听 viewDataStatisticsUpdate 消息动态更新
