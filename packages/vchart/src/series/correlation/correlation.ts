@@ -142,6 +142,11 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
     this._centerSeriesData = new SeriesData(this._option, centerDataView);
   }
 
+  compileData() {
+    super.compileData();
+    this._centerSeriesData?.compile();
+  }
+
   protected _statisticViewData(): void {
     super._statisticViewData();
     this._data.getDataView().transform({

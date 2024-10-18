@@ -53,6 +53,7 @@ export class ChartData {
       if (!dv) {
         return;
       }
+
       callBack(data, dv, i);
     });
   }
