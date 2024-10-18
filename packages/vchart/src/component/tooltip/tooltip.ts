@@ -341,7 +341,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
-    if (!isClick && this._enterable && this._isTooltipShown) {
+    if (!isClick && this._enterable && this.tooltipHandler?.isTooltipShown?.()) {
       if (this._showTimer) {
         clearTimeout(this._showTimer);
       }
