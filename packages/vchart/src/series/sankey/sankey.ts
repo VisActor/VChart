@@ -216,6 +216,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
   }
 
+  compileData() {
+    super.compileData();
+    this._linksSeriesData?.compile();
+    this._nodesSeriesData?.compile();
+  }
+
   initMark(): void {
     const nodeMark = this._createMark(SankeySeries.mark.node, {
       isSeriesMark: true,
