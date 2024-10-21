@@ -30,6 +30,7 @@ export declare class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extend
     private _labelMark;
     setAttrFromSpec(): void;
     initData(): void;
+    compileData(): void;
     initMark(): void;
     initMarkStyle(): void;
     initLabelMarkStyle(labelMark: ILabelMark): void;

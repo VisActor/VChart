@@ -34,6 +34,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     private _cacheActiveType;
     private _cacheEnterableRect;
     private _eventList;
+    protected _isTooltipShown: boolean;
     protected _clickLock: boolean;
     isTooltipShown(): boolean;
     changeRegions(regions: IRegion[]): void;
