@@ -420,12 +420,14 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     }
 
     let success: boolean;
+
     if (useCache) {
       // 直接显示缓存 tooltip
       success = !processor.showTooltip(this._cacheInfo as any, params, true);
     } else {
       const tooltipInfo = mouseEventData.tooltipInfo[activeType];
       const isSameAsCache = this._isSameAsCache(tooltipInfo, params, activeType);
+
       success = !processor.showTooltip(tooltipInfo as any, params, isSameAsCache);
 
       if (success) {

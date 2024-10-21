@@ -1,9 +1,11 @@
 import type { BaseEventParams } from '../../../event/interface';
 import type { TooltipActiveType } from '../../../typings';
-import type { TooltipHandlerParams } from '../interface';
+import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 import type { MarkTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
 import type { ISeries } from '../../../series/interface';
+import { IContainPointMode } from '@visactor/vrender-core';
+import type { IDimensionData } from '../../../event/events/dimension/interface';
 
 export class MarkTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'mark';
@@ -11,12 +13,57 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
   /** 触发对应类型的 tooltip */
   showTooltip(info: MarkTooltipInfo, params: BaseEventParams, changePositionOnly: boolean) {
     const { datum, series } = info;
+    const tooltipSpec = this.component.getSpec();
     const tooltipData = [{ datum: [datum], series }];
+    const helper = series.tooltipHelper;
+    const seriesSpec = series.getSpec()?.tooltip as ITooltipSpec;
+    const seriesCheckOverlap = seriesSpec?.mark?.checkOverlap;
+    let checkOverlap = false;
+
+    if (seriesCheckOverlap === true || (tooltipSpec.mark?.checkOverlap === true && seriesCheckOverlap !== false)) {
+      const activeTriggers = helper?.activeTriggerSet.mark;
+
+      if (activeTriggers) {
+        checkOverlap = true;
+        const chart = this.component.getChart();
+        // compute layer offset
+        const layer = chart.getCompiler().getStage().getLayer(undefined);
+        const point = { x: params.event.viewX, y: params.event.viewY };
+        layer.globalTransMatrix.transformPoint({ x: params.event.viewX, y: params.event.viewY }, point);
+
+        activeTriggers.forEach(mark => {
+          mark.getProductElements().forEach(el => {
+            const graphic = el.getGraphicItem();
+
+            if (
+              el !== params.item &&
+              graphic &&
+              graphic.containsPoint(point.x, point.y, IContainPointMode.GLOBAL, graphic.stage.getPickerService())
+            ) {
+              tooltipData[0].datum.push(el.getDatum());
+            }
+          });
+        });
+      }
+    }
+
     const newParams: TooltipHandlerParams = {
       ...(params as any),
       changePositionOnly,
       tooltip: this.component
     };
+    if (changePositionOnly && checkOverlap) {
+      const cacheData = this._cacheActiveSpec && this._cacheActiveSpec.data;
+
+      if (
+        !cacheData ||
+        (cacheData as IDimensionData[])[0].series !== tooltipData[0].series ||
+        (cacheData as IDimensionData[])[0].datum.length !== tooltipData[0].datum.length ||
+        (cacheData as IDimensionData[])[0].datum.some((d, index) => d !== tooltipData[0].datum[index])
+      ) {
+        newParams.changePositionOnly = false;
+      }
+    }
     return this._showTooltipByHandler(tooltipData, newParams);
   }
 

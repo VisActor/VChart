@@ -17,7 +17,13 @@ export interface ITooltipSpec
      * & dimension tooltip pattern
      * （*支持在series上设置）
      */
-    ITooltipActiveTypeAsKeys<ITooltipPattern, ITooltipPattern, IGroupTooltipPattern>
+    ITooltipActiveTypeAsKeys<
+      ITooltipPattern & {
+        checkOverlap?: boolean;
+      },
+      ITooltipPattern,
+      IGroupTooltipPattern
+    >
   > {
   /**
    * 是否显示
