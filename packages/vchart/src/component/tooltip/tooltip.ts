@@ -171,7 +171,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const element = container?.firstChild as HTMLElement;
 
     if (element) {
-      element.addEventListener('mouseenter', () => {
+      element.addEventListener('pointerenter', () => {
         const rect = element.getBoundingClientRect?.();
         if (rect) {
           this._cacheEnterableRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
@@ -187,7 +187,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         }
       });
 
-      element.addEventListener('mouseleave', () => {
+      element.addEventListener('pointerleave', () => {
         if (this._cacheEnterableRect) {
           const newRect = element.getBoundingClientRect?.();
 
@@ -245,7 +245,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
         this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
       }
-      this._mountEvent('pointerleave', { source: 'canvas' }, this._getMouseOutHandler(false));
+      this._mountEvent('pointerout', { source: 'canvas' }, this._getMouseOutHandler(false));
     }
     if (trigger.includes('click')) {
       this._mountEvent('pointertap', { source: 'chart' }, this._getMouseMoveHandler(true));
@@ -295,6 +295,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this._outTimer = setTimeout(() => {
         this._handleChartMouseOut(params);
       }, this._spec.showDelay ?? DEFAULT_SHOW_DELAY) as unknown as number;
+    } else {
+      this._handleChartMouseOut(params);
     }
   };
 
