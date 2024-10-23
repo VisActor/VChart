@@ -1,16 +1,15 @@
 import type { ILayer, INode, Stage } from '@visactor/vrender-core';
-import { BaseTooltipHandler } from '../base';
+import { BaseTooltipHandler } from './base';
 import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
-import { isValid } from '@visactor/vutils';
-import type { TooltipHandlerParams } from '../../../../component/tooltip';
-import type { IComponentPluginService } from '../../interface';
-import { registerComponentPlugin } from '../../register';
-import { TooltipHandlerType } from '../../../../component/tooltip/constant';
-import type { ITooltipActual } from '../../../../typings';
+import { isValid, isNil } from '@visactor/vutils';
+import type { TooltipHandlerParams } from '../../../component/tooltip';
+import type { IComponentPluginService } from '../interface';
+import { registerComponentPlugin } from '../register';
+import { TooltipHandlerType } from '../../../component/tooltip/constant';
+import type { ITooltipActual } from '../../../typings';
 import type { IContainerSize } from '@visactor/vrender-components';
-import { isNil } from '@visactor/vutils';
-import { getTooltipAttributes } from '../utils/attribute';
-import type { ITooltipAttributes } from '../interface/style';
+import { getTooltipAttributes } from './utils/attribute';
+import type { ITooltipAttributes } from './interface';
 
 /**
  * The tooltip handler class.

@@ -1,18 +1,17 @@
-import type { ITooltipActual, ITooltipPositionActual } from '../../../../typings/tooltip';
-import { BaseTooltipHandler } from '../base';
+import type { ITooltipActual, ITooltipPositionActual } from '../../../typings/tooltip';
+import { BaseTooltipHandler } from './base';
 import { cssToStyleString, getDomStyle, getTextStyle, setStyleToDom } from './utils/style';
-import { TOOLTIP_CONTAINER_EL_CLASS_NAME } from '../constants';
+import { TOOLTIP_CONTAINER_EL_CLASS_NAME, DEFAULT_TOOLTIP_Z_INDEX } from './constants';
 import { type Maybe, isNil } from '@visactor/vutils';
 import type { IContainerSize } from '@visactor/vrender-components';
-import { domDocument } from '../../../../util/env';
-import type { ITooltipSpec, TooltipHandlerParams } from '../../../../component/tooltip';
-import type { IComponentPluginService } from '../../interface';
-import { registerComponentPlugin } from '../../register';
-import { DEFAULT_TOOLTIP_Z_INDEX } from './constant';
-import type { ILayoutPoint } from '../../../../typings';
-import { TooltipHandlerType } from '../../../../component/tooltip/constant';
+import { domDocument } from '../../../util/env';
+import type { ITooltipSpec, TooltipHandlerParams } from '../../../component/tooltip';
+import type { IComponentPluginService } from '../interface';
+import { registerComponentPlugin } from '../register';
+import type { ILayoutPoint } from '../../../typings';
+import { TooltipHandlerType } from '../../../component/tooltip/constant';
 import { getSvgHtml } from './utils/svg';
-import { escapeHTML } from '../utils';
+import { escapeHTML } from './utils/common';
 
 /**
  * The tooltip handler class.

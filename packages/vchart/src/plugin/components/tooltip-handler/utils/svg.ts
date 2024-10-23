@@ -1,10 +1,9 @@
-import { escapeHTML } from '../../utils/common';
+import { escapeHTML } from './common';
 // eslint-disable-next-line no-duplicate-imports
 import type { IGradientColor, ILinearGradient } from '@visactor/vrender-core';
 import { Symbol } from '@visactor/vrender-core';
-import { pixelPropertyStrToNumber } from './common';
 import { isObject, isString } from '@visactor/vutils';
-import type { ITooltipShapeActual } from '../../../../../typings';
+import type { ITooltipShapeActual } from '../../../../typings';
 
 export function getSvgHtml(option: ITooltipShapeActual | undefined, index?: number) {
   if (!option || !option.hasShape || !option.shapeType) {
@@ -13,12 +12,12 @@ export function getSvgHtml(option: ITooltipShapeActual | undefined, index?: numb
 
   const styleString = `style="display:inline-block;vertical-align:middle;"`;
   const { shapeType, shapeFill, shapeStroke, shapeHollow = false } = option;
-  const size = option.shapeSize ? escapeHTML(option.shapeSize) : '8px';
+  const size = option.shapeSize ?? 8;
   const lineWidth = option.shapeLineWidth ? escapeHTML(option.shapeLineWidth) + 'px' : '0px';
   let fillString: string = 'currentColor';
   const getStroke = () => (shapeStroke ? escapeHTML(shapeStroke) : fillString);
 
-  const sizeNumber = pixelPropertyStrToNumber(size) as number;
+  const sizeNumber = size;
   const createSymbol = (symbolType: string) => new Symbol({ symbolType, size: sizeNumber, fill: true });
 
   let symbol = createSymbol(shapeType);
