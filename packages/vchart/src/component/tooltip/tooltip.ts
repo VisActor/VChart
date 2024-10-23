@@ -23,7 +23,7 @@ import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, Toolt
 import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
 // eslint-disable-next-line no-duplicate-imports
-import { isValid, isNil, array } from '@visactor/vutils';
+import { isValid, isNil, array, isNumber, throttle } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
@@ -239,7 +239,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const mode = this._option.mode;
 
     if (trigger.includes('hover')) {
-      this._mountEvent('pointermove', { source: 'chart' }, this._getMouseMoveHandler(false));
+      this._mountEvent('pointermove', { source: 'chart' }, this._throttle(this._getMouseMoveHandler(false)));
       // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
         this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
@@ -253,6 +253,20 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     } else if (this._spec.lockAfterClick) {
       this._mountEvent('pointertap', { source: 'chart' }, this._handleClickToLock);
     }
+  }
+
+  protected _throttle(callback: (...args: any[]) => any): (...args: any[]) => any {
+    let wait: number;
+    if (isNumber(this._spec.throttleInterval)) {
+      wait = this._spec.throttleInterval;
+    } else {
+      if (this._spec.renderMode !== 'html' || !this._spec.transitionDuration) {
+        wait = 10;
+      } else {
+        wait = 50;
+      }
+    }
+    return throttle(callback, wait);
   }
 
   protected _mountEvent = (eType: EventType, query: EventQuery, callback: EventCallback<any>) => {
