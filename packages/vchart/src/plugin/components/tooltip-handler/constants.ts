@@ -14,3 +14,4 @@ export const DEFAULT_OPTIONS: ITooltipHandlerOptions = {
    */
   offsetY: 10
 };
+export const DEFAULT_TOOLTIP_Z_INDEX = '99999999999999';
