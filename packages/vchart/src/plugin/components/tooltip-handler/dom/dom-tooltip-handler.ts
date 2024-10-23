@@ -23,6 +23,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _tooltipContainer = domDocument?.body;
   protected _domStyle: {
+    content: Partial<CSSStyleDeclaration>;
     panel: Partial<CSSStyleDeclaration>;
     row: Partial<CSSStyleDeclaration>;
     title: Partial<CSSStyleDeclaration>;
@@ -206,7 +207,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         })
         .join('');
 
-      domString += `<div class="container-box">${rowItems}</div>`;
+      domString += `<div class="container-box" style="${cssToStyleString(this._domStyle.content)}">${rowItems}</div>`;
     }
 
     this._domString = domString;

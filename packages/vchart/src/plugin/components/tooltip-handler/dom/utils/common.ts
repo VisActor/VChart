@@ -1,4 +1,4 @@
-import { isArray, isNil, isValid } from '@visactor/vutils';
+import { isArray, isValid } from '@visactor/vutils';
 
 export const getPixelPropertyStr = (num?: number | number[], defaultStr?: string) => {
   if (isValid(num)) {
@@ -22,19 +22,4 @@ export const pixelPropertyStrToNumber = (str: string): number | number[] => {
     return numArr[0];
   }
   return numArr;
-};
-
-let cacheScrollbarWidth: number | undefined;
-export const getScrollbarWidth = (container = document.body) => {
-  if (isNil(cacheScrollbarWidth)) {
-    const outer = document.createElement('div');
-    outer.style.visibility = 'hidden';
-    outer.style.overflow = 'scroll';
-    container.appendChild(outer);
-    const inner = document.createElement('div');
-    outer.appendChild(inner);
-    cacheScrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-    outer.parentNode.removeChild(outer);
-  }
-  return cacheScrollbarWidth;
 };

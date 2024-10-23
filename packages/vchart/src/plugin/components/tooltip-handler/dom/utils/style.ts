@@ -1,10 +1,4 @@
-import { isValid, isValidNumber, lowerCamelCaseToMiddle, normalizePadding, type Maybe } from '@visactor/vutils';
-import type { FontWeight, ITooltipActual, TextAlign } from '../../../../../typings';
-import { mergeSpec } from '@visactor/vutils-extension';
-import { normalizeLayoutPaddingSpec } from '../../../../../util/space';
-import type { ITooltipAttributes, ITooltipTextStyle } from '../../interface';
-import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from '../interface';
-import { calculateLineHeight } from '@visactor/vrender-core';
+import { isValid, isValidNumber, lowerCamelCaseToMiddle, normalizePadding } from '@visactor/vutils';
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../../component/tooltip';
 import { getPixelPropertyStr } from './common';
 import type { ITheme } from '../../../../../theme';
@@ -13,118 +7,6 @@ import { token } from '../../../../../theme/token';
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;
 const DEFAULT_VALUE_SPACING = 0;
-
-// export function getDomStylesBack(attributes?: Maybe<ITooltipAttributes>): IDomTooltipStyle {
-//   const {
-//     panel = {},
-//     title: titleAttribute,
-//     content: contentAttribute,
-//     titleStyle = {},
-//     contentStyle = {},
-//     padding,
-//     keyWidth,
-//     valueWidth,
-//     enterable,
-//     transitionDuration,
-//     panelDomHeight = 0,
-//     align = 'left'
-//   } = attributes ?? {};
-
-//   const {
-//     fill: backgroundColor,
-//     shadow,
-//     shadowBlur,
-//     shadowColor,
-//     shadowOffsetX,
-//     shadowOffsetY,
-//     shadowSpread,
-//     cornerRadius,
-//     stroke: strokeColor,
-//     lineWidth = 0,
-//     width = 0
-//   } = panel;
-
-//   const { value: title = {} } = titleStyle;
-//   const { shape = {}, key = {}, value = {} } = contentStyle;
-
-//   const shapeStyle = getShapeStyle(shape);
-//   const keyStyle = getLabelStyle(key);
-//   const valueStyle = getLabelStyle(value);
-//   const { bottom, left, right, top } = normalizeLayoutPaddingSpec(padding);
-//   const marginKey = align === 'right' ? 'marginLeft' : 'marginRight';
-
-//   const styles: IDomTooltipStyle = {
-//     align,
-//     panel: {
-//       width: getPixelPropertyStr(width + lineWidth * 2),
-//       minHeight: getPixelPropertyStr(panelDomHeight + lineWidth * 2),
-//       paddingBottom: getPixelPropertyStr(bottom as number),
-//       paddingLeft: getPixelPropertyStr(left as number),
-//       paddingRight: getPixelPropertyStr(right as number),
-//       paddingTop: getPixelPropertyStr(top as number),
-//       borderColor: strokeColor as string,
-//       borderWidth: getPixelPropertyStr(lineWidth),
-//       borderRadius: getPixelPropertyStr(cornerRadius),
-//       backgroundColor: backgroundColor ? `${backgroundColor}` : 'transparent',
-//       boxShadow: shadow
-//         ? `${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlur}px ${shadowSpread}px ${shadowColor}`
-//         : 'initial',
-//       pointerEvents: enterable ? 'auto' : 'none',
-//       transitionDuration: transitionDuration ? `${transitionDuration}ms` : 'initial',
-//       transitionProperty: transitionDuration ? 'transform' : 'initial',
-//       transitionTimingFunction: transitionDuration ? 'ease-out' : 'initial'
-//     },
-//     title: {
-//       marginTop: '0px',
-//       marginBottom: contentAttribute?.length ? getPixelPropertyStr(titleAttribute?.spaceRow) : '0px',
-//       ...getLabelStyle(mergeSpec({}, title, titleAttribute?.value))
-//     },
-//     content: {},
-//     shapeColumn: {
-//       common: shapeStyle,
-//       items: contentAttribute?.map(
-//         ({ spaceRow }, i) =>
-//           ({
-//             marginTop: '0px',
-//             marginBottom: i < contentAttribute.length - 1 ? getPixelPropertyStr(spaceRow) : '0px'
-//           } as IShapeStyle)
-//       ),
-//       width: getPixelPropertyStr(shape.size),
-//       [marginKey]: getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING)
-//     },
-//     keyColumn: {
-//       common: keyStyle,
-//       items: contentAttribute?.map(
-//         ({ key, spaceRow }, i) =>
-//           ({
-//             marginTop: '0px',
-//             marginBottom: i < contentAttribute.length - 1 ? getPixelPropertyStr(spaceRow) : '0px',
-//             ...keyStyle,
-//             ...getLabelStyle(key as ITooltipTextStyle),
-//             ...(key?.multiLine ? { width: getPixelPropertyStr(Math.ceil(key.width)) } : undefined) // 对多行文本使用定宽
-//           } as ILabelStyle)
-//       ),
-//       width: getPixelPropertyStr(keyWidth),
-//       [marginKey]: getPixelPropertyStr(key.spacing ?? DEFAULT_KEY_SPACING)
-//     },
-//     valueColumn: {
-//       common: valueStyle,
-//       items: contentAttribute?.map(
-//         ({ value, spaceRow }, i) =>
-//           ({
-//             marginTop: '0px',
-//             marginBottom: i < contentAttribute.length - 1 ? getPixelPropertyStr(spaceRow) : '0px',
-//             ...valueStyle,
-//             ...getLabelStyle(value as ITooltipTextStyle),
-//             ...(value?.multiLine ? { width: getPixelPropertyStr(Math.ceil(value.width)) } : undefined) // 对多行文本使用定宽
-//           } as ILabelStyle)
-//       ),
-//       width: getPixelPropertyStr(valueWidth),
-//       [marginKey]: getPixelPropertyStr(value.spacing ?? DEFAULT_VALUE_SPACING)
-//     }
-//   };
-//   return styles;
-// }
 
 export const getTextStyle = (style: ITooltipTextTheme = {}) => {
   const textStyle: Partial<CSSStyleDeclaration> = {
@@ -158,20 +40,25 @@ export const getDomStyle = (spec: ITooltipSpec = {}, globalTheme: ITheme) => {
     marginTop: '0px',
     marginBottom: '0px'
   };
+  const contentStyle: Partial<CSSStyleDeclaration> = {};
 
-  if (isValidNumber(maxContentHeight)) {
-    panelStyle.maxHeight = `${maxContentHeight}px`;
-  }
   panelStyle.pointerEvents = enterable ? 'auto' : 'none';
   if (transitionDuration) {
     panelStyle.transitionDuration = transitionDuration ? `${transitionDuration}ms` : 'initial';
     panelStyle.transitionProperty = transitionDuration ? 'transform' : 'initial';
     panelStyle.transitionTimingFunction = transitionDuration ? 'ease-out' : 'initial';
   }
+  panelStyle.fontFamily = (globalTheme?.fontFamily ?? token.fontFamily) as string;
+
   if (isValidNumber(commonSpaceRow)) {
     rowStyle.marginBottom = `${commonSpaceRow}px`;
   }
-  panelStyle.fontFamily = (globalTheme?.fontFamily ?? token.fontFamily) as string;
+  if (isValidNumber(maxContentHeight)) {
+    contentStyle.maxHeight = `${maxContentHeight}px`;
+    contentStyle.overflowY = 'auto';
+    // todo 让内容宽度往外阔一点，给滚动条留出位置
+    contentStyle.width = `calc(100% + ${panelStyle.padding ? panelStyle.padding.split(' ')[1] : '10px'})`;
+  }
 
   const shapeStyle: Partial<CSSStyleDeclaration> = {
     // TODO 默认值优化
@@ -205,6 +92,7 @@ export const getDomStyle = (spec: ITooltipSpec = {}, globalTheme: ITheme) => {
 
   return {
     row: rowStyle,
+    content: contentStyle,
     panel: panelStyle,
     title: titleStyle,
     shape: shapeStyle,
@@ -235,9 +123,7 @@ export const getPanelStyle = (style: ITooltipTheme['panel']): Partial<CSSStyleDe
   }
 
   if (padding) {
-    panelStyle.padding = normalizePadding(padding)
-      .map(p => `${p}px`)
-      .join(' ');
+    panelStyle.padding = getPixelPropertyStr(normalizePadding(padding));
   }
 
   return panelStyle;
