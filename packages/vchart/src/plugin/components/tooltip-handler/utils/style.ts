@@ -1,12 +1,21 @@
-import { isValid, isValidNumber, lowerCamelCaseToMiddle, normalizePadding } from '@visactor/vutils';
-import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../../component/tooltip';
-import { getPixelPropertyStr } from './common';
-import type { ITheme } from '../../../../../theme';
-import { token } from '../../../../../theme/token';
+import { isArray, isValid, isValidNumber, lowerCamelCaseToMiddle, normalizePadding } from '@visactor/vutils';
+import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
+import type { ITheme } from '../../../../theme';
+import { token } from '../../../../theme/token';
 
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;
 const DEFAULT_VALUE_SPACING = 0;
+
+export const getPixelPropertyStr = (num?: number | number[], defaultStr?: string) => {
+  if (isValid(num)) {
+    if (isArray(num)) {
+      return num.map(n => `${n}px`).join(' ');
+    }
+    return `${num}px`;
+  }
+  return defaultStr ?? 'initial';
+};
 
 export const getTextStyle = (style: ITooltipTextTheme = {}) => {
   const textStyle: Partial<CSSStyleDeclaration> = {
