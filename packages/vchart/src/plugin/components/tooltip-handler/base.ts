@@ -102,15 +102,8 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     return this.changeTooltip(true, params, data);
   };
 
-  /** 改变 tooltip 内容和位置（带 throttle 版本），返回是否遇到异常 */
-  protected changeTooltip: ChangeTooltipFunc;
-
   /** 改变 tooltip 内容和位置（不带 throttle 版本），返回是否遇到异常 */
-  protected _changeTooltip: ChangeTooltipFunc = (
-    visible: boolean,
-    params: TooltipHandlerParams,
-    data?: TooltipData
-  ) => {
+  protected changeTooltip: ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, data?: TooltipData) => {
     if (this._isReleased) {
       return TooltipResult.failed;
     }
@@ -121,14 +114,11 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       return TooltipResult.success;
     }
 
-    return this._changeTooltipPosition(params, data);
+    return this.changeTooltipPosition(params, data);
   };
 
-  /** 改变 tooltip 位置（带 throttle 版本），返回是否遇到异常 */
-  protected changeTooltipPosition: ChangeTooltipPositionFunc;
-
   /** 改变 tooltip 位置（不带 throttle 版本），返回是否遇到异常 */
-  protected _changeTooltipPosition: ChangeTooltipPositionFunc = (params: TooltipHandlerParams, data: TooltipData) => {
+  protected changeTooltipPosition: ChangeTooltipPositionFunc = (params: TooltipHandlerParams, data: TooltipData) => {
     if (this._isReleased) {
       return TooltipResult.failed;
     }
@@ -204,21 +194,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   protected abstract _removeTooltip(): void;
 
   /* -----需要子类继承的方法结束----- */
-
-  protected _throttle(callback: any) {
-    const tooltipSpec = this._component.getSpec();
-    let wait: number;
-    if (isNumber(tooltipSpec.throttleInterval)) {
-      wait = tooltipSpec.throttleInterval;
-    } else {
-      if (tooltipSpec.renderMode !== 'html' || !tooltipSpec.transitionDuration) {
-        wait = 10;
-      } else {
-        wait = 50;
-      }
-    }
-    return throttle(callback, wait);
-  }
 
   protected _getDefaultOption(): Options {
     const { offset } = this._component.getSpec();
@@ -494,9 +469,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
   protected _initFromSpec() {
     this._option = this._getDefaultOption();
-    // 为方法加防抖
-    this.changeTooltip = this._throttle(this._changeTooltip) as any;
-    this.changeTooltipPosition = this._throttle(this._changeTooltipPosition) as any;
   }
 
   reInit() {
