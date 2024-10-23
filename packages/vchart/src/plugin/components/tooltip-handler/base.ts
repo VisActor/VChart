@@ -1,5 +1,4 @@
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../../constant/base';
-import type { Options } from './constants';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_OPTIONS } from './constants';
 import type { Maybe, IPoint, RenderMode } from '../../../typings';
@@ -28,7 +27,7 @@ import {
 import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNumber, isObject, isValidNumber, isValid, throttle, isNil, isFunction } from '@visactor/vutils';
+import { isNumber, isObject, isValidNumber, isValid, isFunction } from '@visactor/vutils';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { ILayoutModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
@@ -41,6 +40,7 @@ import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
 import { getTooltipPatternValue } from '../../../component/tooltip/utils';
 import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
+import type { ITooltipHandlerOptions } from './interface';
 
 type ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, data?: TooltipData) => TooltipResult;
 
@@ -60,7 +60,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
   // protected _style: ITooltipStyle = {};
 
-  protected _option: Options;
+  protected _option: ITooltipHandlerOptions;
 
   protected _chartOption: IChartOption;
 
@@ -196,13 +196,10 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
   /* -----需要子类继承的方法结束----- */
 
-  protected _getDefaultOption(): Options {
+  protected _getDefaultOption(): ITooltipHandlerOptions {
     const { offset } = this._component.getSpec();
 
-    return {
-      offsetX: offset?.x ?? DEFAULT_OPTIONS.offsetX,
-      offsetY: offset?.y ?? DEFAULT_OPTIONS.offsetY
-    };
+    return offset ? { ...DEFAULT_OPTIONS, ...offset } : DEFAULT_OPTIONS;
   }
 
   /**
