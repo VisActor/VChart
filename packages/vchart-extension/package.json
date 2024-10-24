@@ -51,7 +51,7 @@
     "rollup-plugin-bundle-size": "1.0.3",
     "rollup-plugin-sizes": "1.0.5",
     "rollup": "3.20.5",
-    "@visactor/vchart": "workspace:1.12.8"
+    "@visactor/vchart": "workspace:1.12.9-alpha.3"
   },
   "publishConfig": {
     "access": "public",

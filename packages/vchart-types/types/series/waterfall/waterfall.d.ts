@@ -27,6 +27,7 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
     setAttrFromSpec(): void;
     getSeriesKeys(): string[];
     protected initData(): void;
+    compileData(): void;
     initAnimation(): void;
     viewDataUpdate(d: DataView): void;
     addViewDataFilter(_option: ITransformOptions): void;
