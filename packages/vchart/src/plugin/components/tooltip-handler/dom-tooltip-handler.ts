@@ -1,7 +1,12 @@
 import type { ITooltipActual, ITooltipPositionActual } from '../../../typings/tooltip';
 import { BaseTooltipHandler } from './base';
 import { cssToStyleString, getDomStyle, getTextStyle, setStyleToDom } from './utils/style';
-import { TOOLTIP_CONTAINER_EL_CLASS_NAME, DEFAULT_TOOLTIP_Z_INDEX } from './constants';
+import {
+  TOOLTIP_CONTAINER_EL_CLASS_NAME,
+  DEFAULT_TOOLTIP_Z_INDEX,
+  TOOLTIP_PREFIX,
+  TOOLTIP_CONTENT_BOX_CLASS_NAME
+} from './constants';
 import { type Maybe, isNil } from '@visactor/vutils';
 import type { IContainerSize } from '@visactor/vrender-components';
 import { domDocument } from '../../../util/env';
@@ -77,6 +82,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         parentElement.appendChild(this._container);
       }
       const tooltipElement = document.createElement('div');
+
       setStyleToDom(tooltipElement, {
         left: '0',
         top: '0',
@@ -104,11 +110,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   // 计算 tooltip 内容区域的宽高，并缓存结果
   protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined {
     if (!changePositionOnly || isNil(this._domString)) {
-      this._updateDomString(actualTooltip);
+      this._updateDomStringByCol(actualTooltip);
     }
     this._rootDom.innerHTML = this._domString ?? '';
 
-    this._updateDomStyle();
+    this._updateDomStyle('height');
 
     const rect = this._rootDom?.getBoundingClientRect();
 
@@ -167,7 +173,54 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     this._domStyle = getDomStyle(this._component.getSpec(), this._chartOption?.getTheme() ?? {});
   }
 
-  protected _updateDomString(actualTooltip?: ITooltipActual) {
+  // protected _updateDomString(actualTooltip?: ITooltipActual) {
+  //   let domString = '';
+  //   const { title = {}, content } = actualTooltip;
+  //   const hasContent = content && content.length;
+  //   const rowStyle = this._domStyle.row;
+
+  //   if (title.visible !== false) {
+  //     domString += `<h2 style="${cssToStyleString({
+  //       ...this._domStyle.title,
+  //       ...(hasContent ? rowStyle : { marginBottom: '0px' }),
+  //       marginTop: '0px'
+  //     })}"><span>${title.value ?? ''}</span></h2>`;
+  //   }
+  //   if (hasContent) {
+  //     const rowItems = content
+  //       .map((entry, index) => {
+  //         const rowStyleString = cssToStyleString({
+  //           ...(index === content.length - 1 ? null : rowStyle)
+  //         });
+
+  //         return `<div class="${TOOLTIP_PREFIX}-row" style="${rowStyleString}">
+  //       <div class="${TOOLTIP_PREFIX}-shape" style="${cssToStyleString({
+  //           display: 'inline-block',
+  //           ...this._domStyle.shape
+  //         })}">${getSvgHtml(entry)}</div>
+  //       <div class="${TOOLTIP_PREFIX}-key" style="${cssToStyleString({
+  //           display: 'inline-block',
+  //           ...this._domStyle.key,
+  //           ...(entry.keyStyle ? getTextStyle(entry.keyStyle) : null)
+  //         })}">${escapeHTML(entry.key)}</div>
+  //       <div class="${TOOLTIP_PREFIX}-value" style="${cssToStyleString({
+  //           display: 'inline-block',
+  //           ...this._domStyle.value,
+  //           ...(entry.valueStyle ? getTextStyle(entry.valueStyle) : null)
+  //         })}">${escapeHTML(entry.value)}</div>
+  //       </div>`;
+  //       })
+  //       .join('');
+
+  //     domString += `<div class="${TOOLTIP_CONTENT_BOX_CLASS_NAME}" style="${cssToStyleString(
+  //       this._domStyle.content
+  //     )}">${rowItems}</div>`;
+  //   }
+
+  //   this._domString = domString;
+  // }
+
+  protected _updateDomStringByCol(actualTooltip?: ITooltipActual) {
     let domString = '';
     const { title = {}, content } = actualTooltip;
     const hasContent = content && content.length;
@@ -181,43 +234,61 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       })}"><span>${title.value ?? ''}</span></h2>`;
     }
     if (hasContent) {
-      const rowItems = content
-        .map((entry, index) => {
-          const rowStyleString = cssToStyleString({
-            ...(index === content.length - 1 ? null : rowStyle)
-          });
+      let shapeItems = '';
+      let keyItems = '';
+      let valueItems = '';
+      content.forEach((entry, index) => {
+        const styleByRow = index === content.length - 1 ? null : rowStyle;
 
-          return `<div class="tooltip-row" style="${rowStyleString}">
-        <div class="shape" style="${cssToStyleString({
-          display: 'inline-block',
-          ...this._domStyle.shape
-        })}">${getSvgHtml(entry)}</div>
-        <div class="key" style="${cssToStyleString({
-          display: 'inline-block',
-          ...this._domStyle.key,
+        shapeItems += `<div class="${TOOLTIP_PREFIX}-shape" style="${cssToStyleString(styleByRow)}">${getSvgHtml(
+          entry
+        )}</div>`;
+
+        keyItems += `<div class="${TOOLTIP_PREFIX}-key" style="${cssToStyleString({
+          ...styleByRow,
           ...(entry.keyStyle ? getTextStyle(entry.keyStyle) : null)
-        })}">${escapeHTML(entry.key)}</div>
-        <div class="value" style="${cssToStyleString({
-          display: 'inline-block',
-          ...this._domStyle.value,
-          ...(entry.valueStyle ? getTextStyle(entry.valueStyle) : null)
-        })}">${escapeHTML(entry.value)}</div>
-        </div>`;
-        })
-        .join('');
+        })}">${escapeHTML(entry.key)}</div>`;
 
-      domString += `<div class="container-box" style="${cssToStyleString(this._domStyle.content)}">${rowItems}</div>`;
+        valueItems += `<div class="${TOOLTIP_PREFIX}-value" style="${cssToStyleString({
+          ...styleByRow,
+          ...(entry.valueStyle ? getTextStyle(entry.valueStyle) : null)
+        })}">${escapeHTML(entry.value)}</div>`;
+      });
+
+      domString += `<div class="${TOOLTIP_CONTENT_BOX_CLASS_NAME}" style="${cssToStyleString(this._domStyle.content)}">
+        <div class="${TOOLTIP_PREFIX}-shape-column" style="${cssToStyleString({
+        ...this._domStyle.shape,
+        display: 'inline-block',
+        verticalAlign: 'top'
+      })}">
+        ${shapeItems}
+        </div>
+        <div class="${TOOLTIP_PREFIX}-key-column" style="${cssToStyleString({
+        ...this._domStyle.key,
+        display: 'inline-block',
+        verticalAlign: 'top'
+      })}">
+        ${keyItems}
+        </div>
+        <div class="${TOOLTIP_PREFIX}-value-column" style="${cssToStyleString({
+        ...this._domStyle.value,
+        display: 'inline-block',
+        verticalAlign: 'top'
+      })}">
+        ${valueItems}
+        </div>
+      </div>`;
     }
 
     this._domString = domString;
   }
-  protected _updateDomStyle(actualTooltip?: ITooltipActual) {
+  protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width') {
     const rootDom = this._rootDom;
 
     if (rootDom) {
       const contentDom = rootDom.children[rootDom.children.length - 1];
 
-      if (contentDom.className.includes('container-box')) {
+      if (contentDom.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)) {
         const rows = contentDom.children;
         const widthByCol: number[] = [];
         if (rows) {
@@ -226,7 +297,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
             const cols = row.children ?? ([] as HTMLElement[]);
 
             for (let j = 0; j < cols.length; j++) {
-              const width = cols[j].getBoundingClientRect().width;
+              const width = cols[j].getBoundingClientRect()[sizeKey];
               if (widthByCol[j] === undefined || widthByCol[j] < width) {
                 widthByCol[j] = width;
               }
@@ -238,7 +309,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
             const cols = row.children ?? ([] as HTMLElement[]);
 
             for (let j = 0; j < cols.length; j++) {
-              (cols[j] as HTMLElement).style.width = `${widthByCol[j]}px`;
+              (cols[j] as HTMLElement).style[sizeKey] = `${widthByCol[j]}px`;
             }
           }
         }
