@@ -72,6 +72,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   protected _isTooltipShown: boolean = false;
 
   protected _clickLock: boolean = false;
+  private _handleMouseMove: (params: BaseEventParams) => void;
 
   /** 当前是否正在显示 tooltip */
   isTooltipShown() {
@@ -239,13 +240,15 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const mode = this._option.mode;
 
     if (trigger.includes('hover')) {
-      this._mountEvent('pointermove', { source: 'chart' }, this._throttle(this._getMouseMoveHandler(false)));
+      this._handleMouseMove = this._throttle(this._getMouseMoveHandler(false));
+
+      this._mountEvent('pointermove', { source: 'chart' }, this._handleMouseMove);
       // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
         this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
         this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
       }
-      this._mountEvent('pointerout', { source: 'canvas' }, this._getMouseOutHandler(false));
+      this._mountEvent('pointerleave', { source: 'chart' }, this._getMouseOutHandler(false));
     }
     if (trigger.includes('click')) {
       this._mountEvent('pointertap', { source: 'chart' }, this._getMouseMoveHandler(true));
@@ -324,6 +327,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         ...(params as any),
         tooltip: this
       });
+
+      if (this._handleMouseMove && (this._handleMouseMove as any).cancel) {
+        // 防止因为throttle，mousemove事件又触发了一遍，导致 tooltip 隐藏失败
+        (this._handleMouseMove as any).cancel();
+      }
       this._cacheEnterableRect = null;
       this._cacheInfo = undefined;
       this._cacheParams = undefined;
@@ -461,6 +469,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       if (isClick && this._spec.lockAfterClick && !this._clickLock) {
         this._clickLock = true;
       } else if (Number.isFinite(this._spec.hideTimer)) {
+        // hover 事件，设置默认的定时器，避免out事件不触发的问题
         this._hideTimer = setTimeout(() => {
           this._handleChartMouseOut();
         }, this._spec.hideTimer as number) as unknown as number;
