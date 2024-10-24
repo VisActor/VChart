@@ -66,13 +66,13 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
       const chartTheme = this._chartOption?.getTheme() ?? {};
       this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartTheme);
     }
-    const { panel, panelDomHeight } = this._attributes ?? {};
+    const { panel } = this._attributes ?? {};
     // canvas模式下, size需要考虑border size, 目的是为了精准判断边界是否超出画布，达到confine效果
     // html模式不提供confine, 所以不考虑精准计算size
 
     return {
       width: panel.width + panel.lineWidth,
-      height: (panelDomHeight ?? panel.height) + panel.lineWidth
+      height: panel.height + panel.lineWidth
     };
   }
 
