@@ -13,10 +13,6 @@ export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> 
 }
 
 export interface ITooltipAttributes extends TooltipAttributes {
-  /** dom tooltip 的高度。由于 canvas tooltip 不支持滚动条，dom tooltip 单独计算高度 */
-  panelDomHeight?: number;
-  /** dom tooltip 内容区的最大高度，canvas tooltip 不支持 */
-  maxContentHeight?: number;
   /**
    * @since 1.11.5
    *
