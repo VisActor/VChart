@@ -35,7 +35,8 @@ export enum SeriesTypeEnum {
   correlation = 'correlation',
   liquid = 'liquid',
   venn = 'venn',
-  mosaic = 'mosaic'
+  mosaic = 'mosaic',
+  pictogram = 'pictogram'
 }
 
 export const enum SeriesMarkNameEnum {
@@ -101,5 +102,6 @@ export const enum SeriesMarkNameEnum {
   liquidOutline = 'liquidOutline',
   circle = 'circle',
   overlap = 'overlap',
-  overlapLabel = 'overlapLabel'
+  overlapLabel = 'overlapLabel',
+  pictogram = 'pictogram'
 }

@@ -586,6 +586,12 @@ export interface IImageMarkSpec extends IFillMarkSpec {
   image: string | HTMLImageElement | HTMLCanvasElement;
 }
 
+export interface ICircleMarkSpec extends IFillMarkSpec {
+  radius: number;
+  startAngle: number;
+  endAngle: number;
+}
+
 /**
  * text
  */

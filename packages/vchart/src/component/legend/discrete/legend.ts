@@ -228,7 +228,6 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       const strokeOpacity = datum.style('strokeOpacity');
       const opacity = datum.style('opacity');
       const texture = datum.style('texture');
-
       return {
         label: datum.key,
         shape: {

@@ -232,6 +232,11 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._clip = clip;
   }
 
+  protected _graphicName: string | ((element: any) => string);
+  setGraphicName(name: string | ((element: any) => string)) {
+    this._graphicName = name;
+  }
+
   protected _stateSort?: (stateA: string, stateB: string) => number;
   setStateSortCallback(stateSort: (stateA: string, stateB: string) => number) {
     this._stateSort = stateSort;
@@ -316,6 +321,9 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     // 声明语法元素
     const id = this.getProductId();
     this._product = view.mark(this.type as GrammarMarkType, group ?? view.rootMark).id(id);
+    if (this.name && this._product) {
+      this._product.name(this.name);
+    }
     this._compiledProductId = id;
   }
 
@@ -468,6 +476,10 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
 
     if (this._setCustomizedShape) {
       config.setCustomizedShape = this._setCustomizedShape;
+    }
+
+    if (this._graphicName) {
+      config.graphicName = this._graphicName;
     }
 
     this._product.configure(config);
