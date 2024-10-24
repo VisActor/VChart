@@ -245,7 +245,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
         this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
       }
-      this._mountEvent('pointerout', { source: 'canvas' }, this._getMouseOutHandler(false));
+      this._mountEvent('pointerout', { source: 'chart' }, this._getMouseOutHandler(false));
     }
     if (trigger.includes('click')) {
       this._mountEvent('pointertap', { source: 'chart' }, this._getMouseMoveHandler(true));
