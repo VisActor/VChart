@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.9",
+      "tag": "@visactor/vchart_v1.12.9",
+      "date": "Thu, 24 Oct 2024 10:01:43 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fixed the issue where map labels do not scale accordingly after updateSpec."
+          },
+          {
+            "comment": "feat: support tooltip for overlapped points, close #3224\n\n"
+          },
+          {
+            "comment": "fix: all the SeriesData should call `compileData()`, fix #3322\n\n"
+          },
+          {
+            "comment": "fix: clear throttle timer when out, fix #3326\n\n"
+          },
+          {
+            "comment": "fix: fix `tooltipHide` event when handler is empty\n\n"
+          },
+          {
+            "comment": "fix: tooltip data should has `datum` in each line\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.8",
       "tag": "@visactor/vchart_v1.12.8",
       "date": "Tue, 15 Oct 2024 09:20:45 GMT",

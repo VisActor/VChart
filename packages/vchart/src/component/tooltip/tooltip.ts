@@ -23,7 +23,7 @@ import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, Toolt
 import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
 // eslint-disable-next-line no-duplicate-imports
-import { isValid, isNil, array } from '@visactor/vutils';
+import { isValid, isNil, array, isNumber, throttle } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
@@ -69,11 +69,14 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   private _eventList: EventHandlerList = [];
 
+  protected _isTooltipShown: boolean = false;
+
   protected _clickLock: boolean = false;
+  private _handleMouseMove: (params: BaseEventParams) => void;
 
   /** 当前是否正在显示 tooltip */
   isTooltipShown() {
-    return this.tooltipHandler?.isTooltipShown?.();
+    return this._isTooltipShown;
   }
 
   changeRegions(regions: IRegion[]) {
@@ -116,6 +119,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     });
     this._eventList = [];
     this.tooltipHandler?.release?.();
+    this._isTooltipShown = false;
   }
 
   beforeRelease() {
@@ -168,7 +172,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const element = container?.firstChild as HTMLElement;
 
     if (element) {
-      element.addEventListener('mouseenter', () => {
+      element.addEventListener('pointerenter', () => {
         const rect = element.getBoundingClientRect?.();
         if (rect) {
           this._cacheEnterableRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
@@ -184,7 +188,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         }
       });
 
-      element.addEventListener('mouseleave', () => {
+      element.addEventListener('pointerleave', () => {
         if (this._cacheEnterableRect) {
           const newRect = element.getBoundingClientRect?.();
 
@@ -236,13 +240,15 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const mode = this._option.mode;
 
     if (trigger.includes('hover')) {
-      this._mountEvent('pointermove', { source: 'chart' }, this._getMouseMoveHandler(false));
+      this._handleMouseMove = this._throttle(this._getMouseMoveHandler(false));
+
+      this._mountEvent('pointermove', { source: 'chart' }, this._handleMouseMove);
       // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
         this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
         this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
       }
-      this._mountEvent('pointerleave', { source: 'canvas' }, this._getMouseOutHandler(false));
+      this._mountEvent('pointerleave', { source: 'chart' }, this._getMouseOutHandler(false));
     }
     if (trigger.includes('click')) {
       this._mountEvent('pointertap', { source: 'chart' }, this._getMouseMoveHandler(true));
@@ -250,6 +256,20 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     } else if (this._spec.lockAfterClick) {
       this._mountEvent('pointertap', { source: 'chart' }, this._handleClickToLock);
     }
+  }
+
+  protected _throttle(callback: (...args: any[]) => any): (...args: any[]) => any {
+    let wait: number;
+    if (isNumber(this._spec.throttleInterval)) {
+      wait = this._spec.throttleInterval;
+    } else {
+      if (this._spec.renderMode !== 'html' || !this._spec.transitionDuration) {
+        wait = 10;
+      } else {
+        wait = 50;
+      }
+    }
+    return throttle(callback, wait);
   }
 
   protected _mountEvent = (eType: EventType, query: EventQuery, callback: EventCallback<any>) => {
@@ -274,7 +294,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
-    if (!this.tooltipHandler?.isTooltipShown?.()) {
+    if (!this._isTooltipShown && !this.tooltipHandler?.isTooltipShown?.()) {
       return;
     }
 
@@ -292,6 +312,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this._outTimer = setTimeout(() => {
         this._handleChartMouseOut(params);
       }, this._spec.showDelay ?? DEFAULT_SHOW_DELAY) as unknown as number;
+    } else {
+      this._handleChartMouseOut(params);
     }
   };
 
@@ -305,6 +327,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         ...(params as any),
         tooltip: this
       });
+
+      if (this._handleMouseMove && (this._handleMouseMove as any).cancel) {
+        // 防止因为throttle，mousemove事件又触发了一遍，导致 tooltip 隐藏失败
+        (this._handleMouseMove as any).cancel();
+      }
       this._cacheEnterableRect = null;
       this._cacheInfo = undefined;
       this._cacheParams = undefined;
@@ -338,7 +365,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
-    if (!isClick && this._enterable && this.isTooltipShown()) {
+    if (!isClick && this._enterable && this.tooltipHandler?.isTooltipShown?.()) {
       if (this._showTimer) {
         clearTimeout(this._showTimer);
       }
@@ -420,12 +447,14 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     }
 
     let success: boolean;
+
     if (useCache) {
       // 直接显示缓存 tooltip
       success = !processor.showTooltip(this._cacheInfo as any, params, true);
     } else {
       const tooltipInfo = mouseEventData.tooltipInfo[activeType];
       const isSameAsCache = this._isSameAsCache(tooltipInfo, params, activeType);
+
       success = !processor.showTooltip(tooltipInfo as any, params, isSameAsCache);
 
       if (success) {
@@ -436,9 +465,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       }
     }
     if (success) {
+      this._isTooltipShown = true;
       if (isClick && this._spec.lockAfterClick && !this._clickLock) {
         this._clickLock = true;
       } else if (Number.isFinite(this._spec.hideTimer)) {
+        // hover 事件，设置默认的定时器，避免out事件不触发的问题
         this._hideTimer = setTimeout(() => {
           this._handleChartMouseOut();
         }, this._spec.hideTimer as number) as unknown as number;
@@ -467,7 +498,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   };
 
   protected _hideTooltipByHandler = (params: TooltipHandlerParams): TooltipResult => {
-    if (!this.tooltipHandler?.isTooltipShown?.()) {
+    if (!this._isTooltipShown && !this.tooltipHandler?.isTooltipShown?.()) {
       // 如果当前 tooltip 未显示，则提前退出
       return TooltipResult.success;
     }
@@ -488,7 +519,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const handler = this._spec.handler ?? this.tooltipHandler;
 
     if (handler.hideTooltip) {
-      return handler.hideTooltip.call(handler, params);
+      const result = handler.hideTooltip.call(handler, params);
+      if (!result) {
+        this._isTooltipShown = false;
+      }
+      return result;
     }
     return TooltipResult.failed;
   };

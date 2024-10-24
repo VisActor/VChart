@@ -21,7 +21,7 @@ import { registerComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isFunction, isValid, pickWithout } from '@visactor/vutils';
+import { array, isArray, isFunction, isValid, pickWithout } from '@visactor/vutils';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
 import type { ILabelMark } from '../../mark/label';
@@ -221,7 +221,6 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             this._labelComponentMap.set(component, () => {
               return this._labelInfoMap.get(region)[i];
             });
-            labelInfo.labelMark.setComponent(component);
           }
         });
       }
@@ -229,6 +228,12 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
   }
 
   protected _initTextMarkStyle() {
+    this._labelComponentMap.forEach((labelInfoCb, labelComponent) => {
+      const labelInfoArray = array(labelInfoCb());
+      labelInfoArray.forEach(({ labelMark }) => {
+        labelMark.setComponent(labelComponent);
+      });
+    });
     this._labelInfoMap.forEach(labelInfos => {
       labelInfos.forEach(info => {
         const { labelMark, labelSpec, series } = info;

@@ -139,6 +139,11 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     this._viewDataTransform = new SeriesData(this._option, viewDataTransform);
   }
 
+  compileData() {
+    super.compileData();
+    this._viewDataTransform?.compile();
+  }
+
   getStatisticFields() {
     const fields: { key: string; operations: Array<'max' | 'min' | 'values'> }[] = [];
     fields.push({ key: this._categoryField, operations: ['values'] });
@@ -774,8 +779,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     const funnelLabelBounds = this._labelMark
       ?.getComponent()
       ?.getProduct()
-      .getGroupGraphicItem()
-      .find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
+      ?.getGroupGraphicItem()
+      ?.find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
         return type === 'text' && attribute.data?.[categoryField] === datum[categoryField];
       }, true)?.AABBBounds;
 
@@ -799,8 +804,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     const labelMarkBounds = this._labelMark
       ?.getComponent()
       ?.getProduct()
-      .getGroupGraphicItem()
-      .find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
+      ?.getGroupGraphicItem()
+      ?.find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
         return type === 'text' && attribute.data?.[categoryField] === datum[categoryField];
       }, true)?.AABBBounds;
     const outerLabelSpec = this._spec.outerLabel ?? {};
