@@ -1,4 +1,4 @@
-import { isFunction, isNil } from '@visactor/vutils';
+import { get, isFunction, isNil, isPlainObject, isValid } from '@visactor/vutils';
 import type {
   Datum,
   TooltipContentCallback,
@@ -19,6 +19,8 @@ export const getTooltipContentValue = <T>(
   let value: T;
   if (isFunction(field)) {
     value = (field as TooltipContentCallback<T>)(datum, params);
+  } else if (isPlainObject(field) && isValid(field.field)) {
+    value = get(datum, field.field) as T;
   } else {
     value = field as T;
   }
