@@ -3,22 +3,70 @@ import type {
   TooltipRowAttrs,
   TooltipRowStyleAttrs,
   TooltipSymbolAttrs,
-  TooltipTextAttrs
+  TooltipTextAttrs,
+  TooltipRichTextAttrs
 } from '@visactor/vrender-components';
-import type { IPadding, ITooltipActual } from '../../../../typings';
+import type { IPadding, ITooltipActual, MaybeArray } from '../../../../typings';
 import type { ITooltipAttributes, ITooltipTextStyle } from '../interface';
 import { isValid, maxInArray, normalizePadding } from '@visactor/vutils';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { normalizeLayoutPaddingSpec } from '../../../../util/space';
-import { measureTooltipText } from './common';
 import type { ITheme } from '../../../../theme';
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
 import { token } from '../../../../theme/token';
+// eslint-disable-next-line no-duplicate-imports
+import { getRichTextBounds } from '@visactor/vrender-core';
+// eslint-disable-next-line no-duplicate-imports
+import type { IRichTextCharacter, IRichTextParagraphCharacter } from '@visactor/vrender-core';
 
 const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
   fontFamily: token.fontFamily,
   spacing: 10,
   wordBreak: 'break-word'
+};
+
+interface ITooltipTextInfo {
+  width: number;
+  height: number;
+  text: MaybeArray<number> | MaybeArray<string> | TooltipRichTextAttrs;
+}
+
+/** 测量 tooltip 标签文本 */
+export const measureTooltipText = (text: string | TooltipRichTextAttrs, style: ITooltipTextStyle): ITooltipTextInfo => {
+  let textLines: string[] | TooltipRichTextAttrs;
+  let textConfig: IRichTextCharacter[];
+  if (!((text as TooltipRichTextAttrs)?.type === 'rich' || (text as TooltipRichTextAttrs)?.type === 'html')) {
+    text = (text ?? '').toString();
+    if (style.multiLine) {
+      textLines = text.split('\n');
+      textLines = textLines.map((line, i) => (i < (textLines as string[]).length - 1 ? line + '\n' : line));
+    } else {
+      textLines = [text];
+    }
+    textConfig = textLines.map(
+      line =>
+        ({
+          ...style,
+          text: line
+        } as unknown as IRichTextParagraphCharacter)
+    );
+  } else {
+    textConfig = (text as TooltipRichTextAttrs).text as IRichTextCharacter[];
+    textLines = text as TooltipRichTextAttrs;
+  }
+
+  const bound = getRichTextBounds({
+    wordBreak: (style as any).wordBreak ?? 'break-word',
+    maxWidth: style.maxWidth ? style.maxWidth : undefined,
+    width: 0,
+    height: 0,
+    textConfig: textConfig
+  });
+  return {
+    width: bound.width(),
+    height: bound.height(),
+    text: textLines
+  };
 };
 
 export function getTextAttributes(
