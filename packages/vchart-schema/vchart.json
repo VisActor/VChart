@@ -17610,6 +17610,9 @@
     },
     "IAnimationControlOptions": {
       "properties": {
+        "ignoreLoopFinalAttributes": {
+          "type": "boolean"
+        },
         "immediatelyApply": {
           "type": "boolean"
         },
@@ -33352,6 +33355,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "filter": {
           "description": "是否进行数据筛选，默认为 true",
@@ -58477,6 +58483,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "flexDirection": {
           "enum": [
             "column",
@@ -65693,7 +65702,7 @@
     "IRichTextGraphicAttribute": {
       "allOf": [
         {
-          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
+          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
         },
         {
           "$ref": "#/definitions/Partial<IRichTextAttribute>"
@@ -74696,7 +74705,14 @@
           "type": "boolean"
         },
         "mark": {
-          "$ref": "#/definitions/ITooltipPattern"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ITooltipPattern"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         },
         "offset": {
           "typeof": "function"
@@ -82088,7 +82104,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13709": {
           "type": "string"
         },
         "size": {
@@ -82096,14 +82112,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13709",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13709": {
           "type": "string"
         },
         "size": {
@@ -82111,14 +82127,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13709",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13709": {
           "type": "string"
         },
         "size": {
@@ -82126,14 +82142,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13709",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13709": {
           "type": "string"
         },
         "size": {
@@ -82141,14 +82157,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13709",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13709": {
           "type": "string"
         },
         "size": {
@@ -82156,14 +82172,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13709",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13709": {
           "type": "string"
         },
         "size": {
@@ -82171,7 +82187,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13701",
+        "__@toStringTag@13709",
         "size"
       ],
       "type": "object"
@@ -82884,6 +82900,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "flexDirection": {
           "enum": [
@@ -85731,6 +85750,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "flexDirection": {
           "enum": [
             "column",
@@ -88161,6 +88183,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "flexDirection": {
           "enum": [
             "column",
@@ -88756,6 +88781,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "flexDirection": {
           "enum": [
             "column",
@@ -89219,14 +89247,24 @@
         "overlapPadding": {
           "type": "number"
         },
+        "priority": {
+          "typeof": "function"
+        },
         "size": {
           "typeof": "function"
         },
         "strategy": {
-          "items": {
-            "$ref": "#/definitions/Strategy"
-          },
-          "type": "array"
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/Strategy"
+              },
+              "type": "array"
+            }
+          ]
         }
       },
       "type": "object"
@@ -89669,6 +89707,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -90184,6 +90225,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -90728,6 +90772,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "forceBoundsHeight": {
           "anyOf": [
             {
@@ -91066,7 +91113,7 @@
       },
       "type": "object"
     },
-    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
+    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -91272,6 +91319,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "fontFamily": {
           "type": "string"
@@ -91862,6 +91912,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "forceBoundsHeight": {
           "anyOf": [
             {
@@ -92339,6 +92392,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -92936,6 +92992,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "flexDirection": {
           "enum": [
             "column",
@@ -93494,6 +93553,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -94328,6 +94390,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -95825,6 +95890,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "forceBoundsHeight": {
           "anyOf": [
             {
@@ -96312,6 +96380,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -97055,6 +97126,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -97962,6 +98036,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "forceBoundsHeight": {
           "anyOf": [
             {
@@ -98462,6 +98539,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "fontFamily": {
           "type": "string"
@@ -99696,6 +99776,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "fontFamily": {
           "type": "string"
         },
@@ -100279,6 +100362,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "forceBoundsHeight": {
           "anyOf": [
             {
@@ -100750,6 +100836,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -103244,34 +103333,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13709": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13701"
+        "__@toStringTag@13709"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13709": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13701"
+        "__@toStringTag@13709"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13701": {
+        "__@toStringTag@13709": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13701"
+        "__@toStringTag@13709"
       ],
       "type": "object"
     },
@@ -104063,6 +104152,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "forceBoundsHeight": {
           "anyOf": [
             {
@@ -104384,6 +104476,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "forceShowCap",
@@ -104665,6 +104758,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -104980,6 +105076,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -105229,6 +105326,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -105531,6 +105631,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -105793,6 +105894,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -106106,6 +106210,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -106397,6 +106502,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "flexDirection": {
           "enum": [
@@ -106739,6 +106847,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "flexDirection",
         "flexWrap",
         "forceBoundsHeight",
@@ -107003,6 +107112,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -107324,6 +107436,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -107605,6 +107718,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -107921,6 +108037,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -108170,6 +108287,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -108476,6 +108596,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -108737,6 +108858,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -109040,6 +109164,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -109298,6 +109423,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -109606,6 +109734,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -109876,6 +110005,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "fontFamily": {
           "type": "string"
@@ -110313,6 +110445,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "fontFamily",
         "fontSize",
         "fontStyle",
@@ -110666,6 +110799,9 @@
         "fillPickable": {
           "type": "boolean"
         },
+        "fillStrokeOrder": {
+          "type": "number"
+        },
         "forceBoundsHeight": {
           "anyOf": [
             {
@@ -111017,6 +111153,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -111270,6 +111407,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -111588,6 +111728,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -111850,6 +111991,9 @@
         },
         "fillPickable": {
           "type": "boolean"
+        },
+        "fillStrokeOrder": {
+          "type": "number"
         },
         "fontFamily": {
           "type": "string"
@@ -112259,6 +112403,7 @@
         "fill",
         "fillOpacity",
         "fillPickable",
+        "fillStrokeOrder",
         "fontFamily",
         "fontSize",
         "fontStyle",

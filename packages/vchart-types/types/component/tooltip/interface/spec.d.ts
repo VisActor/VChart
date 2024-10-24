@@ -1,7 +1,9 @@
 import type { IGroupTooltipPattern, ITooltipActual, ITooltipPattern, Maybe, MaybeArray, TooltipActiveType, TooltipData } from '../../../typings';
 import type { ITooltipActiveTypeAsKeys, TooltipHandlerParams, TooltipResult } from './common';
 import type { ITooltipTheme } from './theme';
-export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipPattern, ITooltipPattern, IGroupTooltipPattern>> {
+export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipPattern & {
+    checkOverlap?: boolean;
+}, ITooltipPattern, IGroupTooltipPattern>> {
     visible?: boolean;
     activeType?: TooltipActiveType | TooltipActiveType[];
     trigger?: MaybeArray<'hover' | 'click'> | 'none';

@@ -35,6 +35,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     setValueField(f: string): string;
     setAttrFromSpec(): void;
     initData(): void;
+    compileData(): void;
     initMark(): void;
     protected _buildMarkAttributeContext(): void;
     valueToNode(value: StringOrNumber | StringOrNumber[]): any;

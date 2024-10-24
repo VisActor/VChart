@@ -34,6 +34,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     protected _buildMarkAttributeContext(): void;
     setAttrFromSpec(): void;
     initData(): void;
+    compileData(): void;
     initMark(): void;
     private startAngleScale;
     private endAngleScale;

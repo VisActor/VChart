@@ -45,6 +45,7 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
     initMarkStyle(): void;
     initBoxPlotMarkStyle(): void;
     initData(): void;
+    compileData(): void;
     init(option: IModelInitOption): void;
     private _getMarkWidth;
     onLayoutEnd(ctx: any): void;

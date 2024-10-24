@@ -43,6 +43,7 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
     protected _minLabelLineWidth: number;
     setAttrFromSpec(): void;
     initData(): void;
+    compileData(): void;
     getStatisticFields(): {
         key: string;
         operations: Array<'max' | 'min' | 'values'>;

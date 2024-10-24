@@ -36,6 +36,7 @@ export declare class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorre
     protected _viewDataTransform: SeriesData;
     setAttrFromSpec(): void;
     protected initData(): void;
+    compileData(): void;
     protected _statisticViewData(): void;
     initMark(): void;
     initMarkStyle(): void;
