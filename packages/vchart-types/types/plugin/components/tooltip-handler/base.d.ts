@@ -30,14 +30,11 @@ export declare abstract class BaseTooltipHandler extends BasePlugin implements I
     onAdd(service: IComponentPluginService<any>): void;
     showTooltip: (activeType: TooltipActiveType, data: TooltipData, params: TooltipHandlerParams) => TooltipResult;
     protected changeTooltip: ChangeTooltipFunc;
-    protected _changeTooltip: ChangeTooltipFunc;
     protected changeTooltipPosition: ChangeTooltipPositionFunc;
-    protected _changeTooltipPosition: ChangeTooltipPositionFunc;
     hideTooltip(params: TooltipHandlerParams): TooltipResult;
     release(): void;
     protected abstract _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;
     protected abstract _removeTooltip(): void;
-    protected _throttle(callback: any): (...args: unknown[]) => unknown;
     protected _getDefaultOption(): Options;
     protected _getActualTooltipPosition: (actualTooltip: ITooltipActual, params: TooltipHandlerParams, tooltipBoxSize: IContainerSize | undefined) => ITooltipPositionActual;
     protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined;

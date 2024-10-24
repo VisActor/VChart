@@ -22,21 +22,21 @@ export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, forma
 export declare function symbolLabel(labelInfo: ILabelInfo): {
     position: string | ((datum: Datum) => any);
     overlap: boolean | {
-        strategy: Strategy[];
+        strategy: Strategy[] | import("@visactor/vrender-components").ShiftYStrategy;
         avoidBaseMark: boolean;
     };
 };
 export declare function lineDataLabel(labelInfo: ILabelInfo): {
     position: string | ((datum: Datum) => any);
     overlap: boolean | {
-        strategy: Strategy[];
+        strategy: Strategy[] | import("@visactor/vrender-components").ShiftYStrategy;
         avoidBaseMark: boolean;
     };
 };
 export declare function barLabel(labelInfo: ILabelInfo): {
     position: (data: any) => string;
     overlap: boolean | {
-        strategy: Strategy[];
+        strategy: Strategy[] | import("@visactor/vrender-components").ShiftYStrategy;
     };
     smartInvert: boolean;
 };
@@ -74,7 +74,7 @@ export declare function LineLabel(labelInfo: ILabelInfo): {
 export declare function sankeyLabel(labelInfo: ILabelInfo): {
     position: import("@visactor/vrender-components").Functional<string>;
     overlap: boolean | {
-        strategy: Strategy[];
+        strategy: Strategy[] | import("@visactor/vrender-components").ShiftYStrategy;
     };
     smartInvert: boolean;
     offset: number;
