@@ -248,7 +248,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
         this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
       }
-      this._mountEvent('pointerout', { source: 'canvas' }, this._getMouseOutHandler(false));
+      this._mountEvent('pointerleave', { source: 'chart' }, this._getMouseOutHandler(false));
     }
     if (trigger.includes('click')) {
       this._mountEvent('pointertap', { source: 'chart' }, this._getMouseMoveHandler(true));
@@ -469,6 +469,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       if (isClick && this._spec.lockAfterClick && !this._clickLock) {
         this._clickLock = true;
       } else if (Number.isFinite(this._spec.hideTimer)) {
+        // hover 事件，设置默认的定时器，避免out事件不触发的问题
         this._hideTimer = setTimeout(() => {
           this._handleChartMouseOut();
         }, this._spec.hideTimer as number) as unknown as number;
