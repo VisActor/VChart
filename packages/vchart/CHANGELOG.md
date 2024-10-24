@@ -1,6 +1,28 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 15 Oct 2024 09:20:45 GMT and should not be manually modified.
+This log was last generated on Thu, 24 Oct 2024 10:01:43 GMT and should not be manually modified.
+
+## 1.12.9
+Thu, 24 Oct 2024 10:01:43 GMT
+
+### Updates
+
+- fix: fixed the issue where map labels do not scale accordingly after updateSpec.
+- feat: support tooltip for overlapped points, close #3224
+
+
+- fix: all the SeriesData should call `compileData()`, fix #3322
+
+
+- fix: clear throttle timer when out, fix #3326
+
+
+- fix: fix `tooltipHide` event when handler is empty
+
+
+- fix: tooltip data should has `datum` in each line
+
+
 
 ## 1.12.8
 Tue, 15 Oct 2024 09:20:45 GMT
