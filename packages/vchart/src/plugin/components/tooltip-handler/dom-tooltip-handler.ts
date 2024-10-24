@@ -17,7 +17,7 @@ import type { ILayoutPoint } from '../../../typings';
 import { TooltipHandlerType } from '../../../component/tooltip/constant';
 import { getSvgHtml } from './utils/svg';
 import { escapeHTML } from './utils/common';
-
+import { token } from '../../../theme/token';
 /**
  * The tooltip handler class.
  */
@@ -82,6 +82,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         parentElement.appendChild(this._container);
       }
       const tooltipElement = document.createElement('div');
+      const globalTheme = this._chartOption?.getTheme() ?? {};
 
       setStyleToDom(tooltipElement, {
         left: '0',
@@ -90,7 +91,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         padding: '12px',
         position: 'absolute',
         zIndex: DEFAULT_TOOLTIP_Z_INDEX,
-        fontFamily: 'sans-serif',
+        fontFamily: (globalTheme?.fontFamily ?? token.fontFamily) as string,
         fontSize: '11px',
         borderRadius: '3px',
         borderStyle: 'solid',
@@ -170,7 +171,9 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   }
 
   protected _initStyle() {
-    this._domStyle = getDomStyle(this._component.getSpec(), this._chartOption?.getTheme() ?? {});
+    const tooltipSpec = this._component.getSpec() as ITooltipSpec;
+
+    this._domStyle = getDomStyle(tooltipSpec);
   }
 
   // protected _updateDomString(actualTooltip?: ITooltipActual) {

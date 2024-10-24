@@ -1,7 +1,5 @@
 import { isArray, isValid, isValidNumber, lowerCamelCaseToMiddle, normalizePadding } from '@visactor/vutils';
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
-import type { ITheme } from '../../../../theme';
-import { token } from '../../../../theme/token';
 
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;
@@ -32,7 +30,7 @@ export const getTextStyle = (style: ITooltipTextTheme = {}) => {
   return textStyle;
 };
 
-export const getDomStyle = (spec: ITooltipSpec = {}, globalTheme: ITheme) => {
+export const getDomStyle = (spec: ITooltipSpec = {}) => {
   const { style = {}, enterable, transitionDuration } = spec;
   const {
     panel = {},
@@ -57,12 +55,11 @@ export const getDomStyle = (spec: ITooltipSpec = {}, globalTheme: ITheme) => {
     panelStyle.transitionProperty = transitionDuration ? 'transform' : 'initial';
     panelStyle.transitionTimingFunction = transitionDuration ? 'ease-out' : 'initial';
   }
-  panelStyle.fontFamily = (globalTheme?.fontFamily ?? token.fontFamily) as string;
 
   if (isValidNumber(commonSpaceRow)) {
     rowStyle.marginBottom = `${commonSpaceRow}px`;
   }
-  if (isValidNumber(maxContentHeight)) {
+  if (isValid(maxContentHeight)) {
     contentStyle.maxHeight = `${maxContentHeight}px`;
     contentStyle.overflowY = 'auto';
     // todo 让内容宽度往外阔一点，给滚动条留出位置
