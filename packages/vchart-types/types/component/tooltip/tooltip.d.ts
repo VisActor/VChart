@@ -34,6 +34,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     private _cacheActiveType;
     private _cacheEnterableRect;
     private _eventList;
+    protected _isTooltipShown: boolean;
     protected _clickLock: boolean;
     isTooltipShown(): boolean;
     changeRegions(regions: IRegion[]): void;
@@ -50,6 +51,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _initEventOfTooltipContent(): void;
     protected _initProcessor(): void;
     protected _initEvent(): void;
+    protected _throttle(callback: (...args: any[]) => any): (...args: any[]) => any;
     protected _mountEvent: (eType: EventType, query: EventQuery, callback: EventCallback<any>) => void;
     protected _handleClickToLock: (params: BaseEventParams) => void;
     protected _getMouseOutHandler: (needPointerDetection?: boolean) => (params: BaseEventParams) => void;
