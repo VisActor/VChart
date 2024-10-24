@@ -1,6 +1,8 @@
 import type { ITooltipHandlerOptions } from './interface';
 
-export const TOOLTIP_CONTAINER_EL_CLASS_NAME = 'vchart-tooltip-container';
+export const TOOLTIP_PREFIX = 'vchart-tooltip';
+export const TOOLTIP_CONTAINER_EL_CLASS_NAME = `${TOOLTIP_PREFIX}-container`;
+export const TOOLTIP_CONTENT_BOX_CLASS_NAME = `${TOOLTIP_PREFIX}-content-box`;
 export const TOOLTIP_EMPTY_STRING = '';
 
 export const DEFAULT_OPTIONS: ITooltipHandlerOptions = {
