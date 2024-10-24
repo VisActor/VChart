@@ -72,6 +72,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   protected _isTooltipShown: boolean = false;
 
   protected _clickLock: boolean = false;
+  private _handleMouseMove: (params: BaseEventParams) => void;
 
   /** 当前是否正在显示 tooltip */
   isTooltipShown() {
@@ -239,7 +240,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const mode = this._option.mode;
 
     if (trigger.includes('hover')) {
-      this._mountEvent('pointermove', { source: 'chart' }, this._throttle(this._getMouseMoveHandler(false)));
+      this._handleMouseMove = this._throttle(this._getMouseMoveHandler(false));
+
+      this._mountEvent('pointermove', { source: 'chart' }, this._handleMouseMove);
       // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
         this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
@@ -324,6 +327,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         ...(params as any),
         tooltip: this
       });
+
+      if (this._handleMouseMove && (this._handleMouseMove as any).cancel) {
+        // 防止因为throttle，mousemove事件又触发了一遍，导致 tooltip 隐藏失败
+        (this._handleMouseMove as any).cancel();
+      }
       this._cacheEnterableRect = null;
       this._cacheInfo = undefined;
       this._cacheParams = undefined;
