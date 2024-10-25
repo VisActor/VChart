@@ -1,3 +1,23 @@
+# v1.12.9
+
+2024-10-25
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: mark tooltip 支持当图元重叠的时候，检测所有重叠图元，一起展示到 tooltip 中 [#3224](https://github.com/VisActor/VChart/issues/3224)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复了 updateSpec 后地图标签不能相应缩放的问题
+- **@visactor/vchart**: 所有 SeriesData 都应该调用`compileData()`，修复 [#3322](https://github.com/VisActor/VChart/issues/3322)
+- **@visactor/vchart**: 退出时清除节流定时器，修复 [#3326](https://github.com/VisActor/VChart/issues/3326)
+- **@visactor/vchart**: 修复处`tooltip.handler`为空时的`tooltipHide`事件
+- **@visactor/vchart**: tooltip 数据在每行中应该有`datum`
+- **@visactor/vchart**: 修复标签组件在特定情况下有错位的问题
+- **@visactor/vchart**: 修复 dpr 不为整数时，图表 resize 的时候导致图表部分空白的问题，修复 [#3255](https://github.com/VisActor/VChart/issues/3355)
+
+[更多详情请查看 v1.12.9](https://github.com/VisActor/VChart/releases/tag/v1.12.9)
+
 # v1.12.8
 
 2024-10-15
