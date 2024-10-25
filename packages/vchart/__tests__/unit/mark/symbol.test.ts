@@ -26,7 +26,7 @@ test('symbol initial style', () => {
   const borderSpacing = symbolMark.getAttribute('borderSpacing', {});
 
   // mark zindex
-  expect(symbolMark.getZIndex()).toEqual(LayoutZIndex.Mark);
+  expect(symbolMark.getMarkConfig().zIndex).toEqual(LayoutZIndex.Mark);
 
   expect(visible).toEqual(true);
   expect(zindex).toEqual(undefined);
