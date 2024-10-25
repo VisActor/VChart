@@ -87,11 +87,11 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
     // interactive
     if (isBoolean(spec.interactive)) {
-      this._interactive = spec.interactive;
+      this._markConfig.interactive = spec.interactive;
     }
     // zIndex
     if (isValid(spec.zIndex)) {
-      this.setZIndex(spec.zIndex);
+      this._markConfig.zIndex = spec.zIndex;
     }
     // visible
     if (isBoolean(spec.visible)) {

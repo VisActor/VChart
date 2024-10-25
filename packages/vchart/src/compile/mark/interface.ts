@@ -1,4 +1,4 @@
-import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
+import type { IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { GrammarItemCompileOption, GrammarItemInitOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -11,6 +11,7 @@ import type {
   IElement,
   IGroupMark,
   IMark,
+  IMarkConfig,
   MarkAnimationSpec,
   Nil,
   TransformSpec
@@ -18,7 +19,7 @@ import type {
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
 import type { IRegion } from '../../region/interface';
-import type { ICustomPath2D, IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export interface ICompilableMarkOption extends GrammarItemInitOption {
   key?: string | ((datum: Datum) => string);
@@ -73,36 +74,13 @@ export interface ICompilableMark extends IGrammarItem {
   // transform
   setTransform: (transform: TransformSpec[] | Nil) => void;
 
-  // 交互
-  getInteractive: () => boolean;
-  setInteractive: (interactive: boolean) => void;
-
   // 动画配置
   setAnimationConfig: (config: Partial<MarkAnimationSpec>) => void;
   getAnimationConfig: () => Partial<MarkAnimationSpec>;
 
-  // 层级
-  getZIndex: () => number;
-  setZIndex: (zIndex: number) => void;
-
   // 是否显示
   getVisible: () => boolean;
   setVisible: (visible: boolean) => void;
-
-  // 是否开启 morph
-  getMorph: () => boolean;
-  setMorph: (morph: boolean) => void;
-
-  // 是否开启 morph
-  getProgressiveConfig: () => IMarkProgressiveConfig;
-  setProgressiveConfig: (config: IMarkProgressiveConfig) => void;
-
-  // morphKey 配置
-  getMorphKey: () => string | undefined;
-  setMorphKey: (morphKey: string) => void;
-
-  getMorphElementKey: () => string | undefined;
-  setMorphElementKey: (morphKey: string) => void;
 
   // groupKey 配置
   getGroupKey: () => string | undefined;
@@ -111,14 +89,6 @@ export interface ICompilableMark extends IGrammarItem {
   // 用户 id
   getUserId: () => StringOrNumber | undefined;
   setUserId: (id: StringOrNumber) => void;
-
-  // 是否支持 3d
-  getSupport3d: () => boolean | undefined;
-  setSupport3d: (support3d: boolean) => void;
-
-  // 裁剪
-  getClip: () => MarkClip | undefined;
-  setClip: (clip: MarkClip) => void;
 
   compile: (option?: IMarkCompileOption) => void;
 
@@ -132,9 +102,10 @@ export interface ICompilableMark extends IGrammarItem {
   setSkipBeforeLayouted: (skip: boolean) => void;
   getSkipBeforeLayouted: () => boolean;
 
-  setCustomizedShapeCallback: (callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) => void;
-
   setStateSortCallback: (stateSort: (stateA: string, stateB: string) => number) => void;
+
+  getMarkConfig: () => IMarkConfig;
+  setMarkConfig: (config: IMarkConfig) => void;
 
   /** 开始状态动画 */
   runAnimationByState: (animationState?: string) => IAnimateArranger;
@@ -270,5 +241,3 @@ export interface ISeriesMarkAttributeContext extends IModelMarkAttributeContext 
    */
   getRegion: () => IRegion;
 }
-
-export type MarkClip = false | IGraphic[] | ((elements: IElement[]) => IGraphic[]);

@@ -194,7 +194,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
           component.setSkipBeforeLayouted(true);
 
           if (regionLabelInfo[0] && isValid(regionLabelInfo[0].labelSpec.zIndex)) {
-            component.setZIndex(regionLabelInfo[0].labelSpec.zIndex);
+            component.setMarkConfig({ zIndex: regionLabelInfo[0].labelSpec.zIndex });
           }
           this._marks.addMark(component);
           this._labelComponentMap.set(component, () => {
@@ -208,12 +208,12 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             {
               componentType: 'label',
               noSeparateStyle: true,
-              support3d: labelInfo.baseMark.getSupport3d()
+              support3d: labelInfo.baseMark.getMarkConfig().support3d
             }
           );
           if (component) {
             if (isValid(labelInfo.labelSpec.zIndex)) {
-              component.setZIndex(labelInfo.labelSpec.zIndex);
+              component.setMarkConfig({ zIndex: labelInfo.labelSpec.zIndex });
             }
 
             component.setSkipBeforeLayouted(true);

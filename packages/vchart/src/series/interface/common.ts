@@ -16,7 +16,6 @@ import type { ISeriesSpec, StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
 import type { ICustomPath2D } from '@visactor/vrender-core';
-import type { MarkClip } from '../../compile/mark';
 
 // export type SeriesStyle = 'color' | 'size' | 'shape';
 
@@ -132,7 +131,7 @@ export interface ISeriesMarkInitOption extends Partial<IMarkOption> {
    * 裁剪配置
    * @since 1.10.0
    */
-  clip?: MarkClip;
+  clip?: boolean;
 }
 
 export interface ISeriesMarkInfo extends IModelMarkInfo {

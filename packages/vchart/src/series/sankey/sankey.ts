@@ -231,7 +231,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       stateSort: this._spec.node?.stateSort
     }) as IRectMark;
     if (nodeMark) {
-      nodeMark.setZIndex(this._nodeLayoutZIndex);
+      nodeMark.setMarkConfig({ zIndex: this._nodeLayoutZIndex });
       this._nodeMark = nodeMark;
     }
 
@@ -403,7 +403,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
     }
 
-    labelMark.setZIndex(this._labelLayoutZIndex);
+    labelMark.setMarkConfig({ zIndex: this._labelLayoutZIndex });
   }
 
   private _createText(datum: Datum, labelSpec: ISankeyLabelSpec) {

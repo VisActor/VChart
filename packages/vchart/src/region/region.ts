@@ -137,8 +137,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
           this._groupMark.addMark(mark);
         }
       });
-      this._backgroundMark && this._backgroundMark.setZIndex(LayoutZIndex.SeriesGroup - 1);
-      this._foregroundMark && this._foregroundMark.setZIndex(LayoutZIndex.Mark + 1);
+      this._backgroundMark && this._backgroundMark.setMarkConfig({ zIndex: LayoutZIndex.SeriesGroup - 1 });
+      this._foregroundMark && this._foregroundMark.setMarkConfig({ zIndex: LayoutZIndex.Mark + 1 });
     }
     this.createTrigger();
   }
@@ -146,7 +146,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   private _createGroupMark(name: string, userId: StringOrNumber, zIndex: number) {
     const groupMark = this._createMark({ type: MarkTypeEnum.group, name }) as IGroupMark;
     groupMark.setUserId(userId);
-    groupMark.setZIndex(zIndex);
+    groupMark.setMarkConfig({ zIndex });
     const clip = this._spec.clip ?? this._getClipDefaultValue();
     this.setMarkStyle(
       groupMark,

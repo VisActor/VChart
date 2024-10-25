@@ -181,7 +181,7 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       stateSort: this._spec.nodePoint?.stateSort
     }) as ISymbolMark;
     if (nodePointMark) {
-      nodePointMark.setZIndex(LayoutZIndex.Node);
+      nodePointMark.setMarkConfig({ zIndex: LayoutZIndex.Node });
       this._nodePointMark = nodePointMark;
     }
 
@@ -202,7 +202,7 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       stateSort: this._spec.centerPoint?.stateSort
     }) as ISymbolMark;
     if (centerPointMark) {
-      centerPointMark.setZIndex(LayoutZIndex.Node);
+      centerPointMark.setMarkConfig({ zIndex: LayoutZIndex.Node });
       this._centerPointMark = centerPointMark;
     }
   }

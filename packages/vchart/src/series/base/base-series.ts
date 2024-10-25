@@ -90,7 +90,7 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark, defaultSeriesIgnoreCheckKeys, defaultSeriesCompileCheckKeys } from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
-import type { EventType } from '@visactor/vgrammar-core';
+import type { EventType, IMarkConfig } from '@visactor/vgrammar-core';
 import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from '../../component/label/interface';
@@ -680,7 +680,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         dataView: false
       }
     ) as IGroupMark;
-    this._rootMark.setZIndex(this.layoutZIndex);
+    this._rootMark.setMarkConfig({ zIndex: this.layoutZIndex });
   }
 
   private _getExtensionMarkNamePrefix() {
@@ -1344,29 +1344,26 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       const spec = this.getSpec() || ({} as T);
 
-      m.setMorph(morph);
-      m.setMorphKey(spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`);
-
-      m.setMorphElementKey(spec.morph?.morphElementKey ?? option.defaultMorphElementKey);
-
+      const markConfig: IMarkConfig = {
+        morph,
+        morphKey: spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`,
+        morphElementKey: spec.morph?.morphElementKey ?? option.defaultMorphElementKey,
+        clip
+      };
+      if (customShape) {
+        markConfig.setCustomizedShape = customShape;
+      }
+      m.setMarkConfig(markConfig);
       if (!isNil(progressive)) {
-        m.setProgressiveConfig(progressive);
+        m.setMarkConfig(progressive);
       }
 
       if (!isNil(groupKey)) {
         m.setGroupKey(groupKey);
       }
 
-      if (customShape) {
-        m.setCustomizedShapeCallback(customShape);
-      }
-
       if (stateSort) {
         m.setStateSortCallback(stateSort);
-      }
-
-      if (clip) {
-        m.setClip(clip);
       }
 
       this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));

@@ -166,7 +166,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         }
       );
       this._axisMark = axisMark;
-      axisMark.setZIndex(this.layoutZIndex);
+      axisMark.setMarkConfig({ zIndex: this.layoutZIndex });
       if (isValid(this._spec.id)) {
         axisMark.setUserId(this._spec.id);
       }
@@ -182,15 +182,17 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
             skipTheme: true
           }
         );
-        gridMark.setZIndex(this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid);
-        gridMark.setInteractive(false); // 轴网格线关闭交互
+        gridMark.setMarkConfig({
+          zIndex: this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid,
+          interactive: false // 轴网格线关闭交互
+        });
         this._marks.addMark(gridMark);
         this._gridMark = gridMark;
       }
 
       // interactive
       if (isBoolean(this._spec.interactive)) {
-        this._marks.forEach(m => m.setInteractive(this._spec.interactive));
+        this._marks.forEach(m => m.setMarkConfig({ interactive: this._spec.interactive }));
       }
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画
