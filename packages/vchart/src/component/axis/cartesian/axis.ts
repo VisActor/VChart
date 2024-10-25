@@ -83,6 +83,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return this._orient;
   }
 
+  protected getDefaultInteractive() {
+    return true;
+  }
+
   protected _autoIndentOnce: boolean = false;
   protected _hasAutoIndent: boolean = false;
   set autoIndentOnce(v: boolean) {

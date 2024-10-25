@@ -80,6 +80,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return this._orient;
   }
 
+  protected getDefaultInteractive() {
+    return this._orient !== 'angle';
+  }
+
   protected _groupScales: IBaseScale[] = [];
   getGroupScales() {
     return this._groupScales;
@@ -452,7 +456,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     };
     const attrs: any = {
       ...commonAttrs,
-      ...this.getRefLayoutRect(),
+      size: this.getRefLayoutRect(),
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
