@@ -173,7 +173,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       if (isValid(this._spec.id)) {
         axisMark.setUserId(this._spec.id);
       }
-      axisMark.setMarkConfig({ zIndex: this._spec.interactive ?? this.getDefaultInteractive() });
+      axisMark.setMarkConfig({ interactive: this._spec.interactive ?? this.getDefaultInteractive() });
       this._marks.addMark(axisMark);
 
       if (this._spec.grid?.visible) {
