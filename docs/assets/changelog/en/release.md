@@ -2,7 +2,6 @@
 
 2024-10-25
 
-
 **🆕 New feature**
 
 - **@visactor/vchart**: support tooltip for overlapped points, close [#3224](https://github.com/VisActor/VChart/issues/3224)
@@ -14,8 +13,8 @@
 - **@visactor/vchart**: clear throttle timer when out, fix [#3326](https://github.com/VisActor/VChart/issues/3326)
 - **@visactor/vchart**: fix `tooltipHide` event when handler is empty
 - **@visactor/vchart**: tooltip data should has `datum` in each line
-
-
+- **@visactor/vchart**: Fixed the issue of label component misalignment in specific situations
+- **@visactor/vchart**: Fixed the issue of partial blank areas in charts during resizing when dpr is not an integer, fix [#3255](https://github.com/VisActor/VChart/issues/3355)
 
 [more detail about v1.12.9](https://github.com/VisActor/VChart/releases/tag/v1.12.9)
 
