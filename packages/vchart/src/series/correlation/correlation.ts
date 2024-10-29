@@ -173,13 +173,18 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
   }
 
   initMark(): void {
-    const nodePointMark = this._createMark(CorrelationSeries.mark.nodePoint, {
-      groupKey: this._seriesField,
-      isSeriesMark: true,
-      key: DEFAULT_DATA_INDEX,
-      customShape: this._spec.nodePoint?.customShape,
-      stateSort: this._spec.nodePoint?.stateSort
-    }) as ISymbolMark;
+    const nodePointMark = this._createMark(
+      CorrelationSeries.mark.nodePoint,
+      {
+        groupKey: this._seriesField,
+        isSeriesMark: true,
+        key: DEFAULT_DATA_INDEX,
+        stateSort: this._spec.nodePoint?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.nodePoint?.customShape
+      }
+    ) as ISymbolMark;
     if (nodePointMark) {
       nodePointMark.setMarkConfig({ zIndex: LayoutZIndex.Node });
       this._nodePointMark = nodePointMark;
@@ -194,13 +199,18 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       this._ripplePointMark = ripplePointMark;
     }
 
-    const centerPointMark = this._createMark(CorrelationSeries.mark.centerPoint, {
-      key: DEFAULT_DATA_INDEX,
-      dataView: this._centerSeriesData.getDataView(),
-      dataProductId: this._centerSeriesData.getProductId(),
-      customShape: this._spec.centerPoint?.customShape,
-      stateSort: this._spec.centerPoint?.stateSort
-    }) as ISymbolMark;
+    const centerPointMark = this._createMark(
+      CorrelationSeries.mark.centerPoint,
+      {
+        key: DEFAULT_DATA_INDEX,
+        dataView: this._centerSeriesData.getDataView(),
+        dataProductId: this._centerSeriesData.getProductId(),
+        stateSort: this._spec.centerPoint?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.centerPoint?.customShape
+      }
+    ) as ISymbolMark;
     if (centerPointMark) {
       centerPointMark.setMarkConfig({ zIndex: LayoutZIndex.Node });
       this._centerPointMark = centerPointMark;

@@ -35,11 +35,16 @@ export class WordCloud3dSeries<
   }
 
   initMark(): void {
-    this._wordMark = this._createMark(BaseWordCloudSeries.mark.word, {
-      groupKey: this._seriesField,
-      support3d: true,
-      isSeriesMark: true
-    }) as ITextMark;
+    this._wordMark = this._createMark(
+      BaseWordCloudSeries.mark.word,
+      {
+        groupKey: this._seriesField,
+        isSeriesMark: true
+      },
+      {
+        support3d: true
+      }
+    ) as ITextMark;
   }
 
   initMarkStyle() {

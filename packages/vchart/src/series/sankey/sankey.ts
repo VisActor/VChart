@@ -223,24 +223,34 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   initMark(): void {
-    const nodeMark = this._createMark(SankeySeries.mark.node, {
-      isSeriesMark: true,
-      dataView: this._nodesSeriesData.getDataView(),
-      dataProductId: this._nodesSeriesData.getProductId(),
-      customShape: this._spec.node?.customShape,
-      stateSort: this._spec.node?.stateSort
-    }) as IRectMark;
+    const nodeMark = this._createMark(
+      SankeySeries.mark.node,
+      {
+        isSeriesMark: true,
+        dataView: this._nodesSeriesData.getDataView(),
+        dataProductId: this._nodesSeriesData.getProductId(),
+        stateSort: this._spec.node?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.node?.customShape
+      }
+    ) as IRectMark;
     if (nodeMark) {
       nodeMark.setMarkConfig({ zIndex: this._nodeLayoutZIndex });
       this._nodeMark = nodeMark;
     }
 
-    const linkMark = this._createMark(SankeySeries.mark.link, {
-      dataView: this._linksSeriesData.getDataView(),
-      dataProductId: this._linksSeriesData.getProductId(),
-      customShape: this._spec.link?.customShape,
-      stateSort: this._spec.link?.stateSort
-    }) as ILinkPathMark;
+    const linkMark = this._createMark(
+      SankeySeries.mark.link,
+      {
+        dataView: this._linksSeriesData.getDataView(),
+        dataProductId: this._linksSeriesData.getProductId(),
+        stateSort: this._spec.link?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.link?.customShape
+      }
+    ) as ILinkPathMark;
     if (linkMark) {
       this._linkMark = linkMark;
     }

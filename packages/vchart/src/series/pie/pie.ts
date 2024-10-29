@@ -183,14 +183,16 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         type: this._pieMarkType
       },
       {
-        morph: shouldMarkDoMorph(this._spec, this._pieMarkName),
-        defaultMorphElementKey: this._seriesField,
         key: DEFAULT_DATA_KEY,
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        customShape: this._spec.pie?.customShape,
         stateSort: this._spec.pie?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.pie?.customShape,
+        morph: shouldMarkDoMorph(this._spec, this._pieMarkName),
+        morphElementKey: this._seriesField
       }
     ) as IArcMark;
 

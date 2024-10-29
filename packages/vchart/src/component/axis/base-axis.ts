@@ -161,7 +161,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         {
           componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
           mode: this._spec.mode,
-          noSeparateStyle: true,
+          noSeparateStyle: true
+        },
+        {
           skipTheme: true // skip theme of vgrammar to avoid merge
         }
       );
@@ -178,7 +180,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           {
             componentType: this.getOrient() === 'angle' ? GridEnum.circleAxisGrid : GridEnum.lineAxisGrid,
             mode: this._spec.mode,
-            noSeparateStyle: true,
+            noSeparateStyle: true
+          },
+          {
             skipTheme: true
           }
         );

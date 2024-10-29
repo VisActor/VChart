@@ -131,16 +131,22 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       largeThreshold: this._spec.largeThreshold
     };
 
-    this._boxPlotMark = this._createMark(BoxPlotSeries.mark.boxPlot, {
-      isSeriesMark: true,
+    this._boxPlotMark = this._createMark(
+      BoxPlotSeries.mark.boxPlot,
+      {
+        isSeriesMark: true
+      },
       progressive
-    }) as IBoxPlotMark;
-    this._outlierMark = this._createMark(BoxPlotSeries.mark.outlier, {
-      progressive,
-      key: DEFAULT_DATA_INDEX,
-      dataView: this._outlierDataView.getDataView(),
-      dataProductId: this._outlierDataView.getProductId()
-    }) as ISymbolMark;
+    ) as IBoxPlotMark;
+    this._outlierMark = this._createMark(
+      BoxPlotSeries.mark.outlier,
+      {
+        key: DEFAULT_DATA_INDEX,
+        dataView: this._outlierDataView.getDataView(),
+        dataProductId: this._outlierDataView.getProductId()
+      },
+      progressive
+    ) as ISymbolMark;
   }
 
   initMarkStyle(): void {

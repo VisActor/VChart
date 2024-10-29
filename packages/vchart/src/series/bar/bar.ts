@@ -65,14 +65,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barBackgroundViewData: SeriesData;
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
-
-    this._initBarBackgroundMark(progressive);
+    this._initBarBackgroundMark();
 
     this._barMark = this._createMark(
       {
@@ -81,26 +74,39 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         type: this._barMarkType
       },
       {
-        morph: shouldMarkDoMorph(this._spec, this._barMarkName),
-        defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         isSeriesMark: true,
-        progressive,
-        customShape: this._spec.bar?.customShape,
         stateSort: this._spec.bar?.stateSort
+      },
+      {
+        progressiveStep: this._spec.progressiveStep,
+        progressiveThreshold: this._spec.progressiveThreshold,
+        large: this._spec.large,
+        largeThreshold: this._spec.largeThreshold,
+        morphElementKey: this.getDimensionField()[0],
+        morph: shouldMarkDoMorph(this._spec, this._barMarkName),
+        setCustomizedShape: this._spec.bar?.customShape
       }
     ) as IRectMark;
   }
 
-  protected _initBarBackgroundMark(progressive?: IMarkProgressiveConfig): void {
+  protected _initBarBackgroundMark(): void {
     if (this._spec.barBackground && this._spec.barBackground.visible) {
-      this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
-        dataView: this._barBackgroundViewData.getDataView(),
-        dataProductId: this._barBackgroundViewData.getProductId(),
-        progressive,
-        customShape: this._spec.barBackground.customShape,
-        stateSort: this._spec.barBackground.stateSort
-      }) as IRectMark;
+      this._barBackgroundMark = this._createMark(
+        BarSeries.mark.barBackground,
+        {
+          dataView: this._barBackgroundViewData.getDataView(),
+          dataProductId: this._barBackgroundViewData.getProductId(),
+          stateSort: this._spec.barBackground.stateSort
+        },
+        {
+          setCustomizedShape: this._spec.barBackground.customShape,
+          progressiveStep: this._spec.progressiveStep,
+          progressiveThreshold: this._spec.progressiveThreshold,
+          large: this._spec.large,
+          largeThreshold: this._spec.largeThreshold
+        }
+      ) as IRectMark;
     }
   }
 

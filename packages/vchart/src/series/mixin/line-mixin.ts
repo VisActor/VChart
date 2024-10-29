@@ -5,7 +5,7 @@ import { ChartEvent } from '../../constant/event';
 import type { ISeries } from '../interface/series';
 import { AttributeLevel } from '../../constant/attribute';
 
-import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
+import type { ICompileMarkConfig, IMark, IMarkProgressiveConfig } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { ILineMark } from '../../mark/line';
@@ -77,7 +77,7 @@ export interface LineLikeSeriesMixin extends ISeries {
   _fieldY?: string[];
   _fieldZ?: string[];
 
-  _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
+  _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption, config?: ICompileMarkConfig) => IMark;
   _getInvalidDefined: () => boolean;
   _getInvalidConnectType: () => IInvalidType;
 
@@ -125,14 +125,19 @@ export class LineLikeSeriesMixin {
   }
 
   initLineMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
-    this._lineMark = this._createMark(lineLikeSeriesMark.line, {
-      defaultMorphElementKey: this.getDimensionField()[0],
-      groupKey: this._seriesField,
-      isSeriesMark: isSeriesMark ?? true,
-      progressive,
-      customShape: this._spec.line?.customShape,
-      stateSort: this._spec.line?.stateSort
-    }) as ILineMark;
+    this._lineMark = this._createMark(
+      lineLikeSeriesMark.line,
+      {
+        groupKey: this._seriesField,
+        isSeriesMark: isSeriesMark ?? true,
+        stateSort: this._spec.line?.stateSort
+      },
+      {
+        ...progressive,
+        setCustomizedShape: this._spec.line?.customShape,
+        morphElementKey: this.getDimensionField()[0]
+      }
+    ) as ILineMark;
     return this._lineMark;
   }
 
@@ -244,15 +249,20 @@ export class LineLikeSeriesMixin {
     const pointSpec = this._spec.point || {};
 
     if (pointSpec.visible !== false) {
-      this._symbolMark = this._createMark(lineLikeSeriesMark.point, {
-        morph: shouldMarkDoMorph(this._spec, lineLikeSeriesMark.point.name),
-        defaultMorphElementKey: this.getDimensionField()[0],
-        groupKey: this._seriesField,
-        progressive,
-        isSeriesMark: !!isSeriesMark,
-        customShape: pointSpec.customShape,
-        stateSort: pointSpec.stateSort
-      }) as ISymbolMark;
+      this._symbolMark = this._createMark(
+        lineLikeSeriesMark.point,
+        {
+          groupKey: this._seriesField,
+          isSeriesMark: !!isSeriesMark,
+          stateSort: pointSpec.stateSort
+        },
+        {
+          ...progressive,
+          setCustomizedShape: pointSpec.customShape,
+          morph: shouldMarkDoMorph(this._spec, lineLikeSeriesMark.point.name),
+          morphElementKey: this.getDimensionField()[0]
+        }
+      ) as ISymbolMark;
     }
 
     if (this._spec.activePoint === true) {
@@ -261,13 +271,15 @@ export class LineLikeSeriesMixin {
       this._symbolActiveMark = this._createMark(
         { name: `active_point_${this.id}`, type: MarkTypeEnum.symbol },
         {
-          morph: false,
           groupKey: this._seriesField,
           isSeriesMark: false,
           dataView: activeData,
           parent: this._region.getInteractionMark(),
-          customShape: pointSpec.customShape,
           stateSort: pointSpec.stateSort
+        },
+        {
+          setCustomizedShape: pointSpec.customShape,
+          morph: false
         }
       ) as ISymbolMark;
       this._symbolActiveMark.setVisible(false);

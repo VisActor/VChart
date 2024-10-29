@@ -179,8 +179,6 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       },
       this
     );
-    this._option.support3d && (this._markConfig.support3d = true);
-    this._option.skipTheme && (this._markConfig.skipTheme = true);
     this._event = new Event(model.getOption().eventDispatcher, model.getOption().mode);
   }
 

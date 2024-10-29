@@ -186,7 +186,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
           { type: MarkTypeEnum.component, name: `${region.getGroupMark().name}-label-component` },
           {
             componentType: 'label',
-            noSeparateStyle: true,
+            noSeparateStyle: true
+          },
+          {
             support3d: (this._spec as any).support3d
           }
         );
@@ -207,7 +209,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             { type: MarkTypeEnum.component, name: `${labelInfo.labelMark.name}-component` },
             {
               componentType: 'label',
-              noSeparateStyle: true,
+              noSeparateStyle: true
+            },
+            {
               support3d: labelInfo.baseMark.getMarkConfig().support3d
             }
           );

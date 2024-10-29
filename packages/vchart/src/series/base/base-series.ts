@@ -14,7 +14,7 @@ import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
-import type { IMark } from '../../mark/interface';
+import type { ICompileMarkConfig, IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type {
@@ -715,10 +715,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         markSpec: spec,
         parent: parentMark,
         dataView: false,
-        customShape: spec?.customShape,
         componentType: spec.componentType,
         depend: options.depend,
         key: spec.dataKey
+      },
+      {
+        setCustomizedShape: spec?.customShape
       }
     ) as IGroupMark;
     if (!mark) {
@@ -1286,7 +1288,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // do nothing
   }
 
-  protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
+  protected _createMark<M extends IMark>(
+    markInfo: ISeriesMarkInfo,
+    option: ISeriesMarkInitOption = {},
+    config: ICompileMarkConfig = {}
+  ) {
     const {
       key,
       groupKey,
@@ -1298,23 +1304,19 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       parent,
       isSeriesMark,
       depend,
-      progressive,
-      support3d = this._spec.support3d || !!(this._spec as any).zField,
-      morph = false,
-      clip,
-      customShape,
       stateSort,
       noSeparateStyle = false
     } = option;
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
-      support3d,
       seriesId: this.id,
       attributeContext: this._markAttributeContext,
       componentType: option.componentType,
       noSeparateStyle
     });
+
     if (isValid(m)) {
+      const spec = this.getSpec() || ({} as T);
       this._marks.addMark(m, { name: markInfo.name });
 
       if (isSeriesMark) {
@@ -1342,22 +1344,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         m.setDepend(...array(depend));
       }
 
-      const spec = this.getSpec() || ({} as T);
-
-      const markConfig: IMarkConfig = {
-        morph,
-        morphKey: spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`,
-        morphElementKey: spec.morph?.morphElementKey ?? option.defaultMorphElementKey,
-        clip
-      };
-      if (customShape) {
-        markConfig.setCustomizedShape = customShape;
-      }
-      m.setMarkConfig(markConfig);
-      if (!isNil(progressive)) {
-        m.setMarkConfig(progressive);
-      }
-
       if (!isNil(groupKey)) {
         m.setGroupKey(groupKey);
       }
@@ -1365,6 +1351,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       if (stateSort) {
         m.setStateSortCallback(stateSort);
       }
+
+      const markConfig: IMarkConfig = {
+        ...config,
+        morph: config.morph ?? false,
+        support3d: config.support3d ?? (spec.support3d || !!(spec as any).zField),
+        morphKey: spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`,
+        morphElementKey: spec.morph?.morphElementKey ?? config.morphElementKey
+      };
+
+      m.setMarkConfig(markConfig);
 
       this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));
     }

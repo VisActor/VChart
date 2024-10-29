@@ -97,12 +97,6 @@ export interface ISeriesMarkInitOption extends Partial<IMarkOption> {
   /** 分组 key 值 */
   groupKey?: string;
 
-  /** morph 配置开关 */
-  morph?: boolean;
-
-  /** morph元素的唯一key */
-  defaultMorphElementKey?: string;
-
   /** 绑定系列数据（如果是 undefined 则默认是系列的 data，如果是 false 则不配置数据） */
   dataView?: DataView | false;
   /** 系列数据编译产物的名称 */
@@ -110,13 +104,6 @@ export interface ISeriesMarkInitOption extends Partial<IMarkOption> {
   /** mark scale 如果需要使用统计信息设置domain的话，使用的series对应的统计数据 */
   seriesId?: number;
 
-  /** 渐进渲染相关配置 */
-  progressive?: IMarkProgressiveConfig;
-
-  /** 是否支持 3d */
-  support3d?: boolean;
-  /* customized shape of mark  */
-  customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
   /**
    * 状态排序方法，默认状态都是按照添加的顺序处理的，如果有特殊的需求，需要指定状态顺序，可以通过这个方法实现
    * @since 1.9.0
@@ -127,11 +114,6 @@ export interface ISeriesMarkInitOption extends Partial<IMarkOption> {
    * @since 1.9.0
    */
   componentType?: string;
-  /**
-   * 裁剪配置
-   * @since 1.10.0
-   */
-  clip?: boolean;
 }
 
 export interface ISeriesMarkInfo extends IModelMarkInfo {

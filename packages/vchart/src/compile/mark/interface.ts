@@ -19,7 +19,6 @@ import type {
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
 import type { IRegion } from '../../region/interface';
-import type { IGraphic } from '@visactor/vrender-core';
 
 export interface ICompilableMarkOption extends GrammarItemInitOption {
   key?: string | ((datum: Datum) => string);
@@ -28,12 +27,8 @@ export interface ICompilableMarkOption extends GrammarItemInitOption {
   /** 是否在dataflow的过程中，布局前跳过该mark */
   skipBeforeLayouted?: boolean;
 
-  /** 这个mark是否支持3d视角 */
-  support3d?: boolean;
   /* VGrammar的组件是否支持3d */
   mode?: '2d' | '3d';
-  /** skip theme of vgrammar or not */
-  skipTheme?: boolean;
   /** don't separate style of mark */
   noSeparateStyle?: boolean;
 }
