@@ -17,7 +17,7 @@ import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam }
 import type { StringOrNumber } from '../../typings';
 import type { IZoomable, ZoomEventParams } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
-import { isValid, mixin, isNil, Matrix } from '@visactor/vutils';
+import { isValid, mixin, isNil, Matrix, isEqual } from '@visactor/vutils';
 import type { Maybe } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 import { Factory } from '../../core/factory';
@@ -402,6 +402,17 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
         }
       });
     });
+  }
+
+  _compareSpec(spec: IGeoRegionSpec, prevSpec: IGeoRegionSpec) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!result.reMake) {
+      result.reMake = ['roam', 'longitudeField', 'latitudeField', 'projection', 'zoomLimit'].some(k => {
+        return !isEqual(prevSpec?.[k], spec[k]);
+      });
+    }
+
+    return result;
   }
 
   release(): void {
