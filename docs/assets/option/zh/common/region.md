@@ -64,9 +64,17 @@ region 的 id，可以在其他功能模块中使用这个 id 来索引这个 re
 - `stereographic`：立体投影，等角，局部形状精确，但通常仅限一个半球。
 - `transverseMercator`：横轴墨卡托投影，可最大程度内减少感兴趣区的变形。
 
+#### zoom(number) = 1
+
+初始化缩放倍数。
+
+#### center([number, number])
+
+初始化聚焦的经纬度。
+
 ### zoomLimit(object)
 
-缩放最大最小倍数限制
+缩放最大最小倍数限制。
 
 #### min(number)
 
