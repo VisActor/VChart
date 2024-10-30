@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: changes to `roam` via  updateSpec do not take effect",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

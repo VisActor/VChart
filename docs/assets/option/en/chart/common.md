@@ -258,3 +258,7 @@ Whether to enable automatic bandSize. If enabled, the bandSize will be automatic
 ### extend(number)
 
 The expansion value added after calculating the bandSize based on barWidth to fix the overall length of the axis. The unit is px.
+
+## labelLayout(string)='series'
+
+By default, it is laid out separately by series, and can be set to 'series' or 'region'. When set to `region`, the label of different series in the same region will be calculated together to prevent overlap.

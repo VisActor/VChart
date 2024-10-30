@@ -202,3 +202,7 @@ IGaugePointerSeriesSpec-->
 ### extend(number)
 
 根据 barWidth 计算出 bandSize，从而固定轴整体长度之后，添加的扩增值。单位为 px。
+
+## labelLayout(string)='series'
+
+标签布局方式。默认按照系列单独布局，可设置为'series' 或 'region'。当设置为 region 时，相同 region 的系列标签会共同进行防重叠计算。
