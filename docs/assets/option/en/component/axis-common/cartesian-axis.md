@@ -246,3 +246,33 @@ Axis title style settings.
 {{ use: graphic-text(
    prefix = '##' + ${prefix}
 ) }}
+
+#${prefix} innerOffset(Object)
+
+The inner indentation of the rectangular coordinate system axis can generate blank space inside the drawing area, which can avoid the scene where some graphics are truncated.
+
+The upper and lower axes support the configuration of `left` and `right`, and the left and right axes support the configuration of `top` and `bottom`.
+
+##${prefix} left(ILayoutNumber)
+
+The left margin of the upper and lower axes.
+
+{{ use: common-layout-number }}
+
+##${prefix} right(ILayoutNumber)
+
+The right margin of the upper and lower axes.
+
+{{ use: common-layout-number }}
+
+##${prefix} top(ILayoutNumber)
+
+The top margin of the left and right axes.
+
+{{ use: common-layout-number }}
+
+##${prefix} bottom(ILayoutNumber)
+
+The bottom margin of the left and right axes.
+
+{{ use: common-layout-number }}
