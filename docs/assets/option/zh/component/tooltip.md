@@ -18,6 +18,27 @@ tooltip 配置。
 
 - `'hover'`: 鼠标悬浮时触发。
 - `'click'`: 鼠标点击时触发。
+- 自定的事件配置，配置格式如下：
+
+```ts
+{
+  /**
+   * 事件类型字符串，如 'press'
+   */
+  eventType: EventType;
+  /**
+   * 事件绑定类型
+   */
+  source?: 'chart' | 'window' | 'canvas';
+  /**
+   * 是否阻止冒泡
+   */
+  consume?: boolean;
+
+}
+```
+
+其中事件类型参考[事件接口文档](/vchart/api/API/event)
 
 **_（作用于所有 handler）_**
 
@@ -27,8 +48,33 @@ tooltip 配置。
 
 - `'hover'`: 鼠标悬浮出热区时触发 tooltip 隐藏。
 - `'click'`: 鼠标点击其他元素时触发 tooltip 隐藏。
+- `'none'`，tooltip 将不会因为用户交互而消失。
+- 自定的事件配置，配置格式如下：
 
-目前 `triggerOff` 仅支持和 `trigger` 一致的设置，以及`'none'`。如果配置为`'none'`，tooltip 将不会因为用户交互而消失。
+```ts
+{
+  /**
+   * 事件类型字符串，如 'press'
+   */
+  eventType: EventType;
+  /**
+   * 事件绑定类型
+   */
+  source?: 'chart' | 'window' | 'canvas';
+  /**
+   * 是否阻止冒泡
+   */
+  consume?: boolean;
+   /**
+   * 是否限制触发点在图表区域之外才隐藏图例
+   */
+  checkOutside?: boolean
+}
+```
+
+其中事件类型参考[事件接口文档](/vchart/api/API/event)
+
+目前当 `trigger` 配置了`hover`或者 `click`的时候，默认`triggerOff`会包含对应的值，如果不想要默认的`hover`或者 `click`触发效果，建议`trigger`和`triggerOff` 都通过自定义事件配置；
 
 **_（作用于所有 handler）_**
 
