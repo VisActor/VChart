@@ -306,6 +306,10 @@ export class LineLikeSeriesMixin {
       for (const state in this._symbolMark.stateStyle) {
         this._symbolActiveMark.stateStyle[state] = {};
         for (const key in this._symbolMark.stateStyle[state]) {
+          // symbolActiveMark 的 visible 具有额外逻辑，不要使用原始 symbol 的 visible
+          if (key === 'visible') {
+            continue;
+          }
           this._symbolActiveMark.stateStyle[state][key] = {
             style: null,
             level: AttributeLevel.Series,
