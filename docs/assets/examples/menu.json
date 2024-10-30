@@ -1216,7 +1216,6 @@
             "en": "Shape Word Cloud with Random Rotation Angles"
           }
         },
-
         {
           "path": "word-cloud-shape-text",
           "title": {
@@ -1224,7 +1223,6 @@
             "en": "Text outline Word Cloud"
           }
         },
-
         {
           "path": "word-cloud-shape-geometry",
           "title": {
@@ -1618,7 +1616,6 @@
             "en": "Basic mosaic chart"
           }
         },
-
         {
           "path": "simple-mosaic",
           "title": {
@@ -1626,7 +1623,6 @@
             "en": "simple mosaic chart"
           }
         },
-
         {
           "path": "group-mosaic",
           "title": {
@@ -1990,6 +1986,13 @@
           "title": {
             "zh": "轴截断",
             "en": "Axis Break"
+          }
+        },
+        {
+          "path": "axis-inner-offset",
+          "title": {
+            "zh": "轴内侧留白",
+            "en": "Axis InnerOffset"
           }
         }
       ]
