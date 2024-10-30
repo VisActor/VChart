@@ -23,7 +23,7 @@ import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, Toolt
 import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
 // eslint-disable-next-line no-duplicate-imports
-import { isValid, isNil, array, isNumber, throttle } from '@visactor/vutils';
+import { isValid, isNil, array, isNumber, throttle, isObject } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
@@ -235,25 +235,42 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
     const trigger = array(this._spec.trigger ?? 'hover');
-    // TODO: triggerOff完整支持
-    // const triggerOff = this._spec.triggerOff ?? trigger;
+    const triggerOff = array(this._spec.triggerOff);
     const mode = this._option.mode;
 
-    if (trigger.includes('hover')) {
-      this._handleMouseMove = this._throttle(this._getMouseMoveHandler(false));
+    trigger.forEach(triggerType => {
+      if (triggerType === 'hover') {
+        this._handleMouseMove = this._throttle(this._getMouseMoveHandler(false));
 
-      this._mountEvent('pointermove', { source: 'chart' }, this._handleMouseMove);
-      // 移动端的点按 + 滑动触发
-      if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
-        this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
+        this._mountEvent('pointermove', { source: 'chart' }, this._handleMouseMove);
+        // 移动端的点按 + 滑动触发
+        if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
+          this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
+          this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
+        }
+        this._mountEvent('pointerleave', { source: 'chart' }, this._getMouseOutHandler(false));
+      } else if (triggerType === 'click') {
+        this._mountEvent('pointertap', { source: 'chart' }, this._getMouseMoveHandler(true));
         this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
+      } else if (isObject(triggerType)) {
+        this._mountEvent(
+          triggerType.eventType,
+          { source: triggerType.source ?? 'chart', consume: triggerType.consume },
+          this._getMouseMoveHandler(true)
+        );
       }
-      this._mountEvent('pointerleave', { source: 'chart' }, this._getMouseOutHandler(false));
-    }
-    if (trigger.includes('click')) {
-      this._mountEvent('pointertap', { source: 'chart' }, this._getMouseMoveHandler(true));
-      this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
-    } else if (this._spec.lockAfterClick) {
+    });
+    const offEvents = triggerOff.filter(entry => isObject(entry));
+
+    offEvents.forEach(entry => {
+      this._mountEvent(
+        entry.eventType,
+        { source: entry.source ?? 'chart', consume: entry.consume },
+        this._getMouseOutHandler(entry.checkOutside ?? false)
+      );
+    });
+
+    if (!trigger.includes('click') && this._spec.lockAfterClick) {
       this._mountEvent('pointertap', { source: 'chart' }, this._handleClickToLock);
     }
   }
