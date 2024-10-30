@@ -21,7 +21,7 @@ export interface ITitleTextTheme {
   /** 字体基线 */
   textBaseline?: TextBaseLine;
   /** 行高 */
-  lineHeight?: number;
+  lineHeight?: number | ITokenKey;
 }
 
 export interface ITitleTheme extends ILayoutItemSpec {
