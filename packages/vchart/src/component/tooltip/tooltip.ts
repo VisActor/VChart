@@ -264,9 +264,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     offEvents.forEach(entry => {
       this._mountEvent(
-        entry.eventType,
-        { source: entry.source ?? 'chart', consume: entry.consume },
-        this._getMouseOutHandler(entry.checkOutside ?? false)
+        (entry as any).eventType,
+        { source: (entry as any).source ?? 'chart', consume: (entry as any).consume },
+        this._getMouseOutHandler((entry as any).checkOutside ?? false)
       );
     });
 
