@@ -385,7 +385,27 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
-    if (this._tickData && this._tickData.length && (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))) {
+    // 对应问题#3287: 轴隐藏(tickData为[])时, dataZoom/scrollBar无法触发视图更新
+    // 解决方式: dataZoom/scrollBar更新时, 使用force, 此时即使没有tickData也要触发视图更新
+    // ps:
+    // 1. 其他逻辑没有使用force更新, 所以不会带来额外影响
+    // 2. force更新时, 如果有tickData仍然走老逻辑, 这里只考虑force && 无tickData的情况
+    if (updateType === 'force' && (!this._tickData || !this._tickData.length)) {
+      eachSeries(
+        this._regions,
+        s => {
+          s.getViewData()?.reRunAllTransform();
+        },
+        {
+          userId: this._seriesUserId,
+          specIndex: this._seriesIndex
+        }
+      );
+    } else if (
+      this._tickData &&
+      this._tickData.length &&
+      (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))
+    ) {
       this._tickData.forEach(tickData => {
         tickData.getDataView().reRunAllTransform();
         tickData.updateData();

@@ -268,7 +268,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
         }
 
-        axis.effect.scaleUpdate();
+        // 强制更新视图, 不管/component/axis/base-axis.ts computeData中的tickData判断
+        axis.effect.scaleUpdate({
+          value: 'force'
+        });
       } else {
         eachSeries(
           this._regions,
