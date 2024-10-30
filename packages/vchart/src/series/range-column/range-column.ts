@@ -50,14 +50,19 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     this._initBarBackgroundMark();
 
     const labelPosition = this._spec.label?.position;
-    this._barMark = this._createMark(RangeColumnSeries.mark.bar, {
-      morph: shouldMarkDoMorph(this._spec, RangeColumnSeries.mark.bar.name),
-      defaultMorphElementKey: this.getDimensionField()[0],
-      groupKey: this._seriesField,
-      isSeriesMark: true,
-      customShape: this._spec.bar?.customShape,
-      stateSort: this._spec.bar?.stateSort
-    }) as IRectMark;
+    this._barMark = this._createMark(
+      RangeColumnSeries.mark.bar,
+      {
+        groupKey: this._seriesField,
+        isSeriesMark: true,
+        stateSort: this._spec.bar?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.bar?.customShape,
+        morph: shouldMarkDoMorph(this._spec, RangeColumnSeries.mark.bar.name),
+        morphElementKey: this.getDimensionField()[0]
+      }
+    ) as IRectMark;
 
     if (this._spec.label?.visible !== false && labelPosition === PositionEnum.bothEnd) {
       if (this._spec.label?.minLabel?.visible !== false) {

@@ -92,13 +92,18 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
   }
 
   initAreaMark(progressive: IMarkProgressiveConfig, isSeriesMark: boolean) {
-    this._areaMark = this._createMark(RadarSeries.mark.area, {
-      groupKey: this._seriesField,
-      progressive,
-      isSeriesMark,
-      customShape: this._spec.area?.customShape,
-      stateSort: this._spec.area?.stateSort
-    }) as IAreaMark;
+    this._areaMark = this._createMark(
+      RadarSeries.mark.area,
+      {
+        groupKey: this._seriesField,
+        isSeriesMark,
+        stateSort: this._spec.area?.stateSort
+      },
+      {
+        ...progressive,
+        setCustomizedShape: this._spec.area?.customShape
+      }
+    ) as IAreaMark;
   }
 
   initAreaMarkStyle() {

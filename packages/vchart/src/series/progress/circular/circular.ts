@@ -54,12 +54,17 @@ export class CircularProgressSeries<
   }
 
   private _initProgressMark() {
-    this._progressMark = this._createMark(CircularProgressSeries.mark.progress, {
-      parent: this._arcGroupMark,
-      isSeriesMark: true,
-      customShape: this._spec.progress?.customShape,
-      stateSort: this._spec.progress?.stateSort
-    }) as IArcMark;
+    this._progressMark = this._createMark(
+      CircularProgressSeries.mark.progress,
+      {
+        parent: this._arcGroupMark,
+        isSeriesMark: true,
+        stateSort: this._spec.progress?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.progress?.customShape
+      }
+    ) as IArcMark;
     return this._progressMark;
   }
 
@@ -111,11 +116,16 @@ export class CircularProgressSeries<
   }
 
   private _initTrackMark() {
-    this._trackMark = this._createMark(CircularProgressSeries.mark.track, {
-      parent: this._arcGroupMark,
-      customShape: this._spec.track?.customShape,
-      stateSort: this._spec.track?.stateSort
-    }) as IArcMark;
+    this._trackMark = this._createMark(
+      CircularProgressSeries.mark.track,
+      {
+        parent: this._arcGroupMark,
+        stateSort: this._spec.track?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.track?.customShape
+      }
+    ) as IArcMark;
     return this._trackMark;
   }
 

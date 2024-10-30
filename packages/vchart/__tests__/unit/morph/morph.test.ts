@@ -177,13 +177,13 @@ describe('Bar chart test', () => {
     const barSeries = barChart.getAllSeries()[0];
     const scatterSeries = scatterChart.getAllSeries()[0];
 
-    expect(barSeries.getMarksInType('rect')[0].getMorphKey()).toEqual(
-      scatterSeries.getMarksInType('symbol')[0].getMorphKey()
+    expect(barSeries.getMarksInType('rect')[0].getMarkConfig().morphKey).toEqual(
+      scatterSeries.getMarksInType('symbol')[0].getMarkConfig().morphKey
     );
 
-    expect(barSeries.getMarksInType('rect')[0].getMorphElementKey()).toBe('name');
-    expect(barSeries.getMarksInType('rect')[0].getMorphElementKey()).toEqual(
-      scatterSeries.getMarksInType('symbol')[0].getMorphElementKey()
+    expect(barSeries.getMarksInType('rect')[0].getMarkConfig().morphElementKey).toBe('name');
+    expect(barSeries.getMarksInType('rect')[0].getMarkConfig().morphElementKey).toEqual(
+      scatterSeries.getMarksInType('symbol')[0].getMarkConfig().morphElementKey
     );
   });
 
@@ -224,14 +224,14 @@ describe('Bar chart test', () => {
     const CSeries = scatterChart.getAllSeries()[2];
 
     // vchart morph config
-    expect(ASeries.getMarksInType('symbol')[0].getMorph()).toBe(false);
-    expect(BSeries.getMarksInType('symbol')[0].getMorph()).toBe(true);
-    expect(CSeries.getMarksInType('symbol')[0].getMorph()).toBe(true);
-    expect(ASeries.getMarksInType('symbol')[0].getMorphKey()).toBe('A');
-    expect(BSeries.getMarksInType('symbol')[0].getMorphKey()).toBe('B');
-    expect(CSeries.getMarksInType('symbol')[0].getMorphKey()).toBe('2_2');
-    expect(ASeries.getMarksInType('symbol')[0].getMorphElementKey()).toBe('sex');
-    expect(BSeries.getMarksInType('symbol')[0].getMorphElementKey()).toBe('sex');
-    expect(CSeries.getMarksInType('symbol')[0].getMorphElementKey()).toBe('ratio');
+    expect(ASeries.getMarksInType('symbol')[0].getMarkConfig().morph).toBe(false);
+    expect(BSeries.getMarksInType('symbol')[0].getMarkConfig().morph).toBe(true);
+    expect(CSeries.getMarksInType('symbol')[0].getMarkConfig().morph).toBe(true);
+    expect(ASeries.getMarksInType('symbol')[0].getMarkConfig().morphKey).toBe('A');
+    expect(BSeries.getMarksInType('symbol')[0].getMarkConfig().morphKey).toBe('B');
+    expect(CSeries.getMarksInType('symbol')[0].getMarkConfig().morphKey).toBe('2_2');
+    expect(ASeries.getMarksInType('symbol')[0].getMarkConfig().morphElementKey).toBe('sex');
+    expect(BSeries.getMarksInType('symbol')[0].getMarkConfig().morphElementKey).toBe('sex');
+    expect(CSeries.getMarksInType('symbol')[0].getMarkConfig().morphElementKey).toBe('ratio');
   });
 });

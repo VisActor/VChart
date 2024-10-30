@@ -253,11 +253,16 @@ export class TreemapSeries extends CartesianSeries<any> {
   }
 
   initMark() {
-    const nonLeafMark = this._createMark(TreemapSeries.mark.nonLeaf, {
-      isSeriesMark: true,
-      customShape: this._spec.nonLeaf?.customShape,
-      stateSort: this._spec.nonLeaf?.stateSort
-    });
+    const nonLeafMark = this._createMark(
+      TreemapSeries.mark.nonLeaf,
+      {
+        isSeriesMark: true,
+        stateSort: this._spec.nonLeaf?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.nonLeaf?.customShape
+      }
+    );
     if (nonLeafMark) {
       nonLeafMark.setTransform([
         {
@@ -270,11 +275,16 @@ export class TreemapSeries extends CartesianSeries<any> {
       this._nonLeafMark = nonLeafMark;
     }
 
-    const leafMark = this._createMark(TreemapSeries.mark.leaf, {
-      isSeriesMark: true,
-      customShape: this._spec.leaf?.customShape,
-      stateSort: this._spec.leaf?.stateSort
-    });
+    const leafMark = this._createMark(
+      TreemapSeries.mark.leaf,
+      {
+        isSeriesMark: true,
+        stateSort: this._spec.leaf?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.leaf?.customShape
+      }
+    );
     if (leafMark) {
       leafMark.setTransform([
         {

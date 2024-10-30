@@ -126,15 +126,20 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   // mark
   initMark() {
-    this._pathMark = this._createMark(MapSeries.mark.area, {
-      morph: shouldMarkDoMorph(this._spec, MapSeries.mark.area.name),
-      defaultMorphElementKey: this.getDimensionField()[0],
-      groupKey: this.getDimensionField()[0],
-      isSeriesMark: true,
-      skipBeforeLayouted: true,
-      dataView: this._mapViewData.getDataView(),
-      dataProductId: this._mapViewData.getProductId()
-    }) as IPathMark;
+    this._pathMark = this._createMark(
+      MapSeries.mark.area,
+      {
+        groupKey: this.getDimensionField()[0],
+        isSeriesMark: true,
+        skipBeforeLayouted: true,
+        dataView: this._mapViewData.getDataView(),
+        dataProductId: this._mapViewData.getProductId()
+      },
+      {
+        morph: shouldMarkDoMorph(this._spec, MapSeries.mark.area.name),
+        morphElementKey: this.getDimensionField()[0]
+      }
+    ) as IPathMark;
   }
 
   initMarkStyle() {

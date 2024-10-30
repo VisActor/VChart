@@ -58,7 +58,7 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
       anchor3d?: (datum: Datum) => any;
       angle?: (datum: Datum) => any;
     } = {};
-    textMark.setSupport3d(true);
+    textMark.setMarkConfig({ support3d: true });
     params3d.beta = this._angle3d;
     params3d.anchor3d = (datum: Datum) => {
       const { x, y } = this.getCenter();

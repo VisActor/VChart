@@ -222,7 +222,6 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
 
   private _initLiquidOutlineMarkStyle() {
     const liquidOutlineMark = this._liquidOutlineMark;
-    liquidOutlineMark.setZIndex(this.layoutZIndex);
     liquidOutlineMark.created();
     this.setMarkStyle(
       liquidOutlineMark,
@@ -235,19 +234,17 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       'normal',
       AttributeLevel.Series
     );
-    this._liquidOutlineMark.setInteractive(false);
+    this._liquidOutlineMark.setMarkConfig({ interactive: false, zIndex: this.layoutZIndex });
   }
 
   private _initLiquidBackgroundMarkStyle() {
     const liquidBackgroundMark = this._liquidBackgroundMark;
-    liquidBackgroundMark.setZIndex(this.layoutZIndex);
     liquidBackgroundMark.created();
     // symbol mark x, y 指定center
     // rect mark x,y 指定左上角
     this.setMarkStyle(
       liquidBackgroundMark,
       {
-        clip: true,
         width: () => this._region.getLayoutRect().width,
         height: () => this._region.getLayoutRect().height,
         path: () => this._getLiquidBackPath()
@@ -255,7 +252,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       'normal',
       AttributeLevel.Series
     );
-    this._liquidBackgroundMark.setInteractive(false);
+    this._liquidBackgroundMark.setMarkConfig({ interactive: false, zIndex: this.layoutZIndex, clip: true });
   }
 
   private _initLiquidMarkStyle() {

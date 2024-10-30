@@ -155,7 +155,7 @@ export class Factory {
     const markInstance = new MarkConstructor(name, options);
     if (markInstance.type === MarkTypeEnum.group) {
       // group 目前关闭交互，不参与事件拾取
-      markInstance.setInteractive(false);
+      markInstance.setMarkConfig({ interactive: false });
     }
     return markInstance;
   }

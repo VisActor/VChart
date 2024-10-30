@@ -18,7 +18,7 @@ import { isNil, isValid } from '@visactor/vutils';
 import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import { PREFIX } from '../../constant/base';
 import { LayoutZIndex } from '../../constant/layout';
-import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
+import type { IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { ISeries } from '../../series/interface';
 import { isStateAttrChangeable } from './util';
@@ -29,8 +29,7 @@ import type {
   ICompilableMarkOption,
   StateValueType,
   IMarkCompileOption,
-  IAttributeOpt,
-  MarkClip
+  IAttributeOpt
 } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from './interface';
@@ -41,7 +40,6 @@ import type { IEvent } from '../../event/interface';
 import { Event } from '../../event/event';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from '../../animation/interface';
-import type { ICustomPath2D } from '@visactor/vrender-core';
 
 /** 可编译的 mark 对象，这个基类只存放编译相关的逻辑 */
 export abstract class CompilableMark extends GrammarItem implements ICompilableMark {
@@ -55,39 +53,19 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   /** key field */
   readonly key: ICompilableMark['key'];
 
-  protected _skipTheme?: boolean;
-  getSkipTheme() {
-    return this._skipTheme;
-  }
-  setSkipTheme(skipTheme: boolean) {
-    this._skipTheme = skipTheme;
-  }
+  protected _markConfig: IMarkConfig = {
+    zIndex: LayoutZIndex.Mark,
+    /** morph动画关联关系配置 */
+    morph: false
+  };
 
-  /** 3d开关 */
-  protected _support3d?: boolean;
-  getSupport3d() {
-    return this._support3d;
+  getMarkConfig(): IMarkConfig {
+    return this._markConfig;
   }
-  setSupport3d(support3d: boolean) {
-    this._support3d = support3d;
-  }
-
-  /** 交互开关 */
-  protected _interactive: boolean = true;
-  getInteractive() {
-    return this._interactive;
-  }
-  setInteractive(interactive: boolean) {
-    this._interactive = interactive;
-  }
-
-  /** 层级 */
-  protected _zIndex: number = LayoutZIndex.Mark;
-  getZIndex() {
-    return this._zIndex;
-  }
-  setZIndex(zIndex: number) {
-    this._zIndex = zIndex;
+  setMarkConfig(config: IMarkConfig) {
+    Object.keys(config).forEach(key => {
+      (this._markConfig as any)[key] = (config as any)[key];
+    });
   }
 
   /** 可见性 */
@@ -174,62 +152,12 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     return this._skipBeforeLayouted;
   }
 
-  /** morph动画关联关系配置 */
-  protected _morph: boolean = false;
-  getMorph() {
-    return this._morph;
-  }
-  setMorph(morph: boolean) {
-    this._morph = morph;
-  }
-  protected _morphKey?: string;
-  getMorphKey() {
-    return this._morphKey;
-  }
-  setMorphKey(morphKey: string) {
-    this._morphKey = morphKey;
-  }
-  protected _morphElementKey?: string;
-  getMorphElementKey() {
-    return this._morphElementKey;
-  }
-  setMorphElementKey(key: string) {
-    this._morphElementKey = key;
-  }
-
   protected _groupKey?: string;
   getGroupKey() {
     return this._groupKey;
   }
   setGroupKey(groupKey: string) {
     this._groupKey = groupKey;
-  }
-
-  protected _progressiveConfig: IMarkProgressiveConfig;
-  getProgressiveConfig() {
-    return this._progressiveConfig;
-  }
-  setProgressiveConfig(config: IMarkProgressiveConfig) {
-    this._progressiveConfig = config;
-  }
-
-  protected _setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
-  setCustomizedShapeCallback(callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) {
-    this._setCustomizedShape = callback;
-  }
-
-  protected _enableSegments: boolean;
-  setEnableSegments(enable: boolean) {
-    this._enableSegments = enable;
-  }
-
-  /** 裁剪配置 */
-  protected _clip: MarkClip;
-  getClip() {
-    return this._clip;
-  }
-  setClip(clip: MarkClip) {
-    this._clip = clip;
   }
 
   protected _stateSort?: (stateA: string, stateB: string) => number;
@@ -251,8 +179,6 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       },
       this
     );
-    this._option.support3d && this.setSupport3d(true);
-    this._option.skipTheme && this.setSkipTheme(true);
     this._event = new Event(model.getOption().eventDispatcher, model.getOption().mode);
   }
 
@@ -439,37 +365,15 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
 
   compileContext(extraContext?: any) {
     const config: IMarkConfig = {
-      interactive: this.getInteractive(),
-      zIndex: this.getZIndex(),
+      ...this._markConfig,
       context: {
         markId: this.id,
         modelId: this.model.id,
         markUserId: this._userId,
         modelUserId: this.model.userId,
         ...extraContext
-      },
-      skipTheme: this.getSkipTheme(),
-      support3d: this.getSupport3d(),
-      enableSegments: !!this._enableSegments,
-      clip: this._clip ? true : this._clip === false ? false : undefined,
-      clipPath: this._clip || undefined
+      }
     };
-
-    if (this._progressiveConfig) {
-      config.progressiveStep = this._progressiveConfig.progressiveStep;
-      config.progressiveThreshold = this._progressiveConfig.progressiveThreshold;
-      config.large = this._progressiveConfig.large;
-      config.largeThreshold = this._progressiveConfig.largeThreshold;
-    }
-
-    config.morph = this._morph;
-    config.morphKey = this._morphKey;
-    config.morphElementKey = this._morphElementKey;
-
-    if (this._setCustomizedShape) {
-      config.setCustomizedShape = this._setCustomizedShape;
-    }
-
     this._product.configure(config);
   }
 

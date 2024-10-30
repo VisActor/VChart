@@ -11,7 +11,7 @@ describe('Line Mark', () => {
         stroke: undefined
       }
     });
-    expect((lineMark1 as any)._enableSegments).toBe(undefined);
+    expect((lineMark1 as any).getMarkConfig().enableSegments).toBe(undefined);
 
     const lineMark2 = new LineMark('line1', ctx);
     lineMark2.created();
@@ -29,7 +29,7 @@ describe('Line Mark', () => {
         }
       }
     });
-    expect((lineMark2 as any)._enableSegments).toBe(true);
+    expect((lineMark2 as any).getMarkConfig().enableSegments).toBe(true);
 
     const lineMark3 = new LineMark('line1', ctx);
     lineMark3.created();
@@ -39,7 +39,7 @@ describe('Line Mark', () => {
         lineDash: undefined
       }
     });
-    expect((lineMark3 as any)._enableSegments).toBe(undefined);
+    expect((lineMark3 as any).getMarkConfig().enableSegments).toBe(undefined);
 
     const lineMark4 = new LineMark('line1', ctx);
     lineMark4.created();
@@ -50,7 +50,7 @@ describe('Line Mark', () => {
         stroke: 'red'
       }
     });
-    expect((lineMark4 as any)._enableSegments).toBeUndefined();
+    expect((lineMark4 as any).getMarkConfig().enableSegments).toBeUndefined();
   });
 
   // FIXME: 'fill' does not exist in type 'IMarkSpec<ILineMarkSpec>'

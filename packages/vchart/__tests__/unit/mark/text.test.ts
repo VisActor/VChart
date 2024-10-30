@@ -19,7 +19,7 @@ test('rule mark initial style', () => {
   const cursor = textMark.getAttribute('cursor', {});
 
   // mark zindex
-  expect(textMark.getZIndex()).toEqual(LayoutZIndex.Mark);
+  expect(textMark.getMarkConfig().zIndex).toEqual(LayoutZIndex.Mark);
 
   expect(visible).toEqual(true);
   expect(zindex).toEqual(undefined);

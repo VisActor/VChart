@@ -23,7 +23,7 @@ test('rule mark initial style', () => {
   const borderSpacing = ruleMark.getAttribute('borderSpacing', {});
 
   // mark zindex
-  expect(ruleMark.getZIndex()).toEqual(LayoutZIndex.Mark);
+  expect(ruleMark.getMarkConfig().zIndex).toEqual(LayoutZIndex.Mark);
 
   expect(visible).toEqual(true);
   expect(zindex).toEqual(undefined);

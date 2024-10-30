@@ -198,7 +198,6 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
 
   protected _initArcGroupMarkStyle() {
     const groupMark = this._arcGroupMark;
-    groupMark.setZIndex(this.layoutZIndex);
     groupMark.created();
     this.setMarkStyle(
       groupMark,
@@ -209,40 +208,44 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
       'normal',
       AttributeLevel.Series
     );
-    groupMark.setClip(() => {
-      const axis = this._getAngleAxis();
-      if (this._isTickMaskVisible(axis)) {
-        const { tickMask } = this._spec;
-        const { angle, offsetAngle, style = {} } = tickMask;
-        const subTickData = this._getAngleAxisSubTickData(axis);
-        const { x, y } = this.angleAxisHelper.center();
-        const radius = this._computeLayoutRadius();
-        const markStyle = style as any;
-        return subTickData.map(({ value }) => {
-          const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);
-          const angleUnit = degreeToRadian(angle) / 2;
-          return createArc({
-            ...markStyle,
-            x,
-            y,
-            startAngle: pos - angleUnit,
-            endAngle: pos + angleUnit,
-            innerRadius: radius * this._innerRadius,
-            outerRadius: radius * this._outerRadius,
-            fill: true
+    this._arcGroupMark.setMarkConfig({
+      interactive: false,
+      zIndex: this.layoutZIndex,
+      clip: true,
+      clipPath: () => {
+        const axis = this._getAngleAxis();
+        if (this._isTickMaskVisible(axis)) {
+          const { tickMask } = this._spec;
+          const { angle, offsetAngle, style = {} } = tickMask;
+          const subTickData = this._getAngleAxisSubTickData(axis);
+          const { x, y } = this.angleAxisHelper.center();
+          const radius = this._computeLayoutRadius();
+          const markStyle = style as any;
+          return subTickData.map(({ value }) => {
+            const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);
+            const angleUnit = degreeToRadian(angle) / 2;
+            return createArc({
+              ...markStyle,
+              x,
+              y,
+              startAngle: pos - angleUnit,
+              endAngle: pos + angleUnit,
+              innerRadius: radius * this._innerRadius,
+              outerRadius: radius * this._outerRadius,
+              fill: true
+            });
           });
-        });
+        }
+        const { width, height } = this.getLayoutRect();
+        return [
+          createRect({
+            width,
+            height,
+            fill: true
+          })
+        ];
       }
-      const { width, height } = this.getLayoutRect();
-      return [
-        createRect({
-          width,
-          height,
-          fill: true
-        })
-      ];
     });
-    this._arcGroupMark.setInteractive(false);
   }
 
   protected _getAngleAxis() {

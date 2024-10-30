@@ -13,7 +13,7 @@ import type {
   IModelSpecInfo
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
+import type { ICompileMarkConfig, IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type {
   Datum,
   StateValueType,
@@ -257,7 +257,11 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     });
   }
 
-  protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option: Partial<IMarkOption> = {}): T {
+  protected _createMark<T extends IMark>(
+    markInfo: IModelMarkInfo,
+    option: Partial<IMarkOption> = {},
+    config?: ICompileMarkConfig
+  ): T {
     const { type, name } = markInfo;
     const m = Factory.createMark(type as any, name, {
       model: this,
@@ -266,7 +270,11 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
       globalScale: this._option.globalScale,
       ...option
     }) as T;
-    m?.created();
+
+    if (m) {
+      m.created();
+      config && m.setMarkConfig(config);
+    }
     return m;
   }
 

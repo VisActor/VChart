@@ -68,7 +68,9 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
       this.setAttribute(attr as any, styleConverter, state, level, stateStyle);
     });
     if (enableSegments) {
-      this.setEnableSegments(enableSegments);
+      this.setMarkConfig({
+        enableSegments: true
+      });
     }
   }
 }
