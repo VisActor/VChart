@@ -1,6 +1,6 @@
 import type { ISeriesOption } from '../interface/common';
 import type { ISeries } from '../interface/series';
-import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
+import type { ICompileMarkConfig, IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import type { ILineMark } from '../../mark/line';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
@@ -39,7 +39,7 @@ export interface LineLikeSeriesMixin extends ISeries {
     _fieldX?: string[];
     _fieldY?: string[];
     _fieldZ?: string[];
-    _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
+    _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption, config?: ICompileMarkConfig) => IMark;
     _getInvalidDefined: () => boolean;
     _getInvalidConnectType: () => IInvalidType;
     getLayoutRect: () => ILayoutRect;
