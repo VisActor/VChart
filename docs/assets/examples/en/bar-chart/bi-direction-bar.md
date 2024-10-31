@@ -4,7 +4,7 @@ group: bar chart
 title: Bi-directional Bar Chart
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 2-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/bi-direction-bar.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/bi-direction-bar.png
 option: barChart
 ---
 

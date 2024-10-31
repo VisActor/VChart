@@ -4,7 +4,7 @@ group: marker
 title: markLine Specifying Related Series Data Points
 keywords: marker,commonChart
 order: 33-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-ref-series.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-ref-series.png
 option: commonChart#markLine
 ---
 

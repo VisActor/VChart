@@ -4,7 +4,7 @@ group: data-zoom
 title: 轴缩放模式
 keywords: scatterChart,dataZoom,scatter
 order: 29-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/filter-mode-axis.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/filter-mode-axis.png
 option: commonChart#dataZoom
 ---
 

@@ -4,7 +4,7 @@ group: axis
 title: Axis label flush
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-10
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/flush.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/flush.png
 option: barChart#axes
 ---
 

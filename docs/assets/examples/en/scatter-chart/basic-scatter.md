@@ -3,7 +3,7 @@ category: examples
 group: scatter chart
 title: Basic Scatter Chart
 order: 9-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/basic-scatter.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/basic-scatter.png
 option: scatterChart
 ---
 

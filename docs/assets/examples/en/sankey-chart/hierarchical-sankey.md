@@ -4,7 +4,7 @@ group: sankey chart
 title: Hierarchical Sankey Chart
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/hierarchical-sankey.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/hierarchical-sankey.png
 option: sankeyChart
 ---
 

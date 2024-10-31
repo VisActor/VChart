@@ -4,7 +4,7 @@ group: line chart
 title: Percentage Stacked Line Chart
 keywords: lineChart,comparison,trend,line,composition,proportion
 order: 0-5
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/percentage-stacked-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/percentage-stacked-line.png
 option: lineChart
 ---
 

@@ -4,7 +4,7 @@ group: CirclePacking
 title: CirclePacking Chart with Padding
 keywords: circlePacking,composition,circle,relationShip
 order: 20-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/circle-packing-chart/circle-packing-padding.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/circle-packing-chart/circle-packing-padding.png
 option: circlePackingChart
 ---
 

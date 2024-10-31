@@ -4,7 +4,7 @@ group: data
 title: 数据筛选
 keywords: data,filter
 order: 34-5
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-filter.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-filter.png
 option: scatterChart#data
 ---
 

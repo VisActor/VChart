@@ -4,7 +4,7 @@ group: data-zoom
 title: Thumbnail Axis Controls Polar Chart
 keywords: polarChart,dataZoom
 order: 29-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/data-zoom-polar.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/data-zoom-polar.png
 option: radarChart#dataZoom
 ---
 

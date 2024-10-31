@@ -3,7 +3,7 @@ category: demo
 group: tooltip
 title: Group Tooltip On Line Marks
 keywords: tooltip
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-radar.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-radar.png
 option: barChart#tooltip
 ---
 

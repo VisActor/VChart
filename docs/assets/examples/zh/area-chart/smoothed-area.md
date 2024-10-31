@@ -4,7 +4,7 @@ group: area chart
 title: 平滑面积图
 keywords: areaChart,comparison,trend,area
 order: 1-7
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/smoothed-area.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/smoothed-area.png
 option: areaChart
 ---
 

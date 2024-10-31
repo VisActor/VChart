@@ -4,7 +4,7 @@ group: line chart
 title: 非堆叠折线图
 keywords: lineChart,comparison,trend,line
 order: 0-9
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/unstacked-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/unstacked-line.png
 option: lineChart
 ---
 

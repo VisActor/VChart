@@ -4,7 +4,7 @@ group: sankey chart
 title: Interactive Sankey Diagram
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/interection-sankey.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/interection-sankey.png
 option: sankeyChart
 ---
 

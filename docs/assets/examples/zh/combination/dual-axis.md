@@ -4,7 +4,7 @@ group: combination
 title: 双轴图
 keywords: commonChart
 order: 22-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/dual-axis.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/dual-axis.png
 option: commonChart
 ---
 

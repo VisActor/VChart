@@ -4,7 +4,7 @@ group: radar chart
 title: 堆叠雷达图
 keywords: radarChart,comparison,line,circle,axis
 order: 10-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-radar.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-radar.png
 option: radarChart
 ---
 

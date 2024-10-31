@@ -4,7 +4,7 @@ group: chart-3d
 title: 3D面积图
 keywords: space
 order: 23-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png
 option: AreaChart
 ---
 

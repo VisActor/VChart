@@ -4,7 +4,7 @@ group: bar chart
 title: 百分比堆叠柱状图
 keywords: barChart,comparison,distribution,rectangle,composition,proportion
 order: 2-5
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/stack-percentage-column.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/stack-percentage-column.png
 option: barChart
 ---
 

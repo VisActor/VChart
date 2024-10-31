@@ -4,7 +4,7 @@ group: title
 title: Customize Style Title
 keywords: title
 order: 24-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/title/style-title.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/title/style-title.png
 option: lineChart#title
 ---
 

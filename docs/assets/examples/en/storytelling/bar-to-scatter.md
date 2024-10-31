@@ -4,7 +4,7 @@ group: storytelling
 title: Global animation for switching between bar charts and scatter plots
 keywords: animation,morphing,bar,scatter,barChart,scatterChart
 order: 42-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-scatter.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-scatter.gif
 option: commonChart#series-bar.animationUpdate
 ---
 

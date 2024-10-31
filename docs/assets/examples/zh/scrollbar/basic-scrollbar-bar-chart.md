@@ -4,7 +4,7 @@ group: scrollBar
 title: scrollBar 基础用法
 keywords: scrollBar
 order: 30-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/basic-scrollbar-bar-chart.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/basic-scrollbar-bar-chart.png
 option: barChart#scrollbar
 ---
 

@@ -4,7 +4,7 @@ group: area chart
 title: 存在空值的面积图
 keywords: areaChart,comparison,trend,area
 order: 1-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/null-value-area.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/null-value-area.png
 option: areaChart
 ---
 

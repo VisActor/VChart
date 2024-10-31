@@ -4,7 +4,7 @@ group: crosshair
 title: Crosshair of Radar Chart
 keywords: radarChart,comparison,crosshair,circle
 order: 28-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/polar-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/polar-line.png
 option: radarChart#crosshair
 ---
 

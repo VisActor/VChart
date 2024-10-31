@@ -4,7 +4,7 @@ group: word chart
 title: Shape Word Cloud Custom Color
 keywords: wordCloud,text,distribution
 order: 14-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shape-custom-color.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shape-custom-color.png
 option: wordCloudChart
 ---
 

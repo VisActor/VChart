@@ -4,7 +4,7 @@ group: gradient
 title: Gradient Bubble Chart
 keywords: scatterChart,comparison,distribution,scatter,gradient
 order: 38-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/scatter.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/scatter.png
 option: scatterChart
 ---
 

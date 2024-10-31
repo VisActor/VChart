@@ -4,7 +4,7 @@ group: scrollBar
 title: 纵向 scrollBar
 keywords: scrollBar
 order: 30-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/scrollbar-specified-value.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/scrollbar-specified-value.png
 option: barChart#scrollbar
 ---
 

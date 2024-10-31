@@ -4,7 +4,7 @@ group: usage
 title: 基础折线图
 keywords: lineChart,comparison,trend,line
 order: 0-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/basic-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/basic-line.png
 option: lineChart
 ---
 

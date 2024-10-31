@@ -4,7 +4,7 @@ group: label
 title: 折线图标签
 keywords: label
 order: 35-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/line-label.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/line-label.png
 option: lineChart#label
 ---
 

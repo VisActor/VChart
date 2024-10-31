@@ -4,7 +4,7 @@ group: axis
 title: Grid Line Fill
 keywords: barChart,comparison,distribution,rank,composition,rectangle,axis
 order: 25-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/grid-style.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/grid-style.png
 option: lineChart#axes
 ---
 

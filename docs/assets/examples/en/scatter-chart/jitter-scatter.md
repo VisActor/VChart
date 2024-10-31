@@ -3,7 +3,7 @@ category: examples
 group: scatter chart
 title: Jitter Scatter Plot
 order: 9-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/jitter-scatter.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/jitter-scatter.png
 option: scatterChart
 ---
 

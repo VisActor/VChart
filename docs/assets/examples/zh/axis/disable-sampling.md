@@ -4,7 +4,7 @@ group: axis
 title: 关闭轴标签采样 & dataFilter
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-9
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/disable-sampling.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/disable-sampling.png
 option: barChart#axes
 ---
 

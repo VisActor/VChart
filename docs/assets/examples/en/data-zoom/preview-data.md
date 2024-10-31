@@ -4,7 +4,7 @@ group: data-zoom
 title: Thumbnail Axis Preview Chart Style Configuration
 keywords: barChart,dataZoom
 order: 29-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/preview-data.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/preview-data.png
 option: barChart#dataZoom
 ---
 

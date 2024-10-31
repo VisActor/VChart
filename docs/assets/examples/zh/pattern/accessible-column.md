@@ -4,7 +4,7 @@ group: pattern
 title: 带纹理的分组柱状图
 keywords: barChart,comparison,distribution,rank,pattern,label,rectangle
 order: 41-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pattern/accessible-column.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pattern/accessible-column.png
 option: barChart
 ---
 

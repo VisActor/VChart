@@ -4,7 +4,7 @@ group: waterfall
 title: 水平瀑布图
 keywords: waterfall,comparison,distribution,rectangle
 order: 18-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/direction-waterfall.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/direction-waterfall.png
 option: waterfallChart
 ---
 

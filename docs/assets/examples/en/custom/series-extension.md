@@ -3,7 +3,7 @@ category: examples
 group: customMark
 title: Custom Symbol Mark
 order: 40-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/custom/series-extension.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/custom/series-extension.png
 keywords: customMark
 option: barChart#customMark
 ---

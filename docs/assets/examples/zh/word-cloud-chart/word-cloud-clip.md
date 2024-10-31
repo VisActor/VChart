@@ -4,7 +4,7 @@ group: word chart
 title: 词云图文本裁剪
 keywords: wordCloud,text,distribution
 order: 14-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-clip.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-clip.png
 option: wordCloudChart
 ---
 

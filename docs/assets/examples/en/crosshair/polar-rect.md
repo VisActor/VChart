@@ -4,7 +4,7 @@ group: crosshair
 title: Rose Chart Crosshair
 keywords: roseChart,comparison,circle,crosshair
 order: 28-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/polar-rect.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/polar-rect.png
 option: roseChart#crosshair
 ---
 

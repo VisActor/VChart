@@ -4,7 +4,7 @@ group: sequence chart
 title: Social Media Seuqnce Chart
 keywords: sequence,comparison,relationShip,line,scatter,rectangle,dataZoom
 order: 13-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequence-chart/social-media-event.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequence-chart/social-media-event.png
 ---
 
 # Social Media Timing Chart

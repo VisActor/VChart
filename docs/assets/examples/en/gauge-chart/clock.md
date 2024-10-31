@@ -4,7 +4,7 @@ group: gauge
 title: Clock Example
 keywords: gauge,comparison,circle,indicator
 order: 15-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/clock.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/clock.gif
 option: gaugeChart
 ---
 

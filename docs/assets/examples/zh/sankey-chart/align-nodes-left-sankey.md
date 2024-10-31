@@ -4,7 +4,7 @@ group: sankey chart
 title: 节点左对齐桑基图
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/align-nodes-left-sankey.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/align-nodes-left-sankey.png
 option: sankeyChart
 ---
 

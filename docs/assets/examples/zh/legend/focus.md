@@ -4,7 +4,7 @@ group: legend
 title: 聚焦模式
 keywords: barChart,comparison,rectangle,legend,distribution,rank
 order: 27-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/focus.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/focus.png
 option: barChart#legends
 ---
 

@@ -4,7 +4,7 @@ group: marker
 title: markLine Data Highlighting
 keywords: lineChart,marker
 order: 33-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-coordinates.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-coordinates.png
 option: lineChart#markLine
 ---
 

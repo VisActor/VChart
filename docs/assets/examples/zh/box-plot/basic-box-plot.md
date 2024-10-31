@@ -4,7 +4,7 @@ group: box plot
 title: 基础箱型图
 keywords: boxPlot,distribution,strip
 order: 5-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/box-plot/basic-box-plot.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/box-plot/basic-box-plot.png
 option: boxPlotChart
 ---
 

@@ -3,7 +3,7 @@ category: examples
 group: tooltip
 title: 在 line 图元上实现 group tooltip
 keywords: tooltip
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-radar.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-radar.png
 option: barChart#tooltip
 ---
 

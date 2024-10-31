@@ -4,7 +4,7 @@ group: marker
 title: markLine 轴空间定位
 keywords: lineChart,marker
 order: 33-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-axis.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-axis.png
 option: lineChart#markLine
 ---
 

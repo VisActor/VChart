@@ -4,7 +4,7 @@ group: axis
 title: Axis label autoHide
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-11
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoHide.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoHide.png
 option: barChart#axes
 ---
 

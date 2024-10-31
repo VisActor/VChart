@@ -45,7 +45,7 @@ graphics.push(
     forceBreakLine: true,
     textConfig: [
       {
-        image: `http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/logo/logo.png`,
+        image: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/logo/logo.png`,
         width: 20,
         height: 20
       },
@@ -83,7 +83,7 @@ graphics.push(
     ellipsis: true,
     textConfig: [
       {
-        image: `http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/logo/logo.png`,
+        image: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/logo/logo.png`,
         width: 20,
         height: 20
       },
@@ -157,7 +157,7 @@ label: {
       type: 'rich',
       text: [
         {
-          image: `http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/logo/logo.png`,
+          image: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/logo/logo.png`,
           width: 20,
           height: 20
         }

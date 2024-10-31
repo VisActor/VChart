@@ -4,7 +4,7 @@ group: sequence chart
 title: NBA Sequence Chart
 keywords: sequence,comparison,relationShip,line,scatter,title,axis
 order: 13-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequence-chart/NBA-player-event.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequence-chart/NBA-player-event.png
 option: sequenceChart
 ---
 

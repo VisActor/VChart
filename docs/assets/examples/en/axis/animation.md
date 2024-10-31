@@ -4,7 +4,7 @@ group: axis
 title: Axis Animation
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-7
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/animation.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/animation.png
 option: barChart#axes
 ---
 

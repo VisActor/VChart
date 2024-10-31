@@ -4,7 +4,7 @@ group: sankey chart
 title: Sankey Diagram Multiple Edge Configurations
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-7
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/sankey-chart-d3.jpeg
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/sankey-chart-d3.jpeg
 option: sankeyChart
 ---
 

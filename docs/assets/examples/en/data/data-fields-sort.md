@@ -4,7 +4,7 @@ group: data
 title: Data Sorting
 keywords: data,sort
 order: 34-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-fields-sort.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-fields-sort.png
 option: barChart#data
 ---
 

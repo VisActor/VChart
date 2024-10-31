@@ -4,7 +4,7 @@ group: storytelling
 title: Dynamic Rose Chart
 keywords: roseChart,comparison,composition,animation
 order: 36-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/dynamic-rose-chart.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/dynamic-rose-chart.gif
 option: roseChart
 ---
 

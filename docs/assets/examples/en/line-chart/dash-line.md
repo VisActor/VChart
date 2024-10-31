@@ -4,7 +4,7 @@ group: line chart
 title: Dashed Line at the End
 keywords: lineChart, comparison, trend, line
 order: 0-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/dash-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/dash-line.png
 option: lineChart
 ---
 

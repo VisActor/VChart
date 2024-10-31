@@ -4,7 +4,7 @@ group: progress
 title: 分段条形进度图
 keywords: linearProgress,comparison,rectangle
 order: 16-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-segment-linear-progress.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-segment-linear-progress.png
 option: linearProgressChart
 ---
 

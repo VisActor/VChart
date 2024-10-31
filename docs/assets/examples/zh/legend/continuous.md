@@ -4,7 +4,7 @@ group: legend
 title: 连续图例
 keywords: scatterChart,comparison,distribution,scatter,legend
 order: 27-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/continuous.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/continuous.png
 option: scatterChart#legends
 ---
 

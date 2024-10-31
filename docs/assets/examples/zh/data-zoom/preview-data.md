@@ -4,7 +4,7 @@ group: data-zoom
 title: 缩略轴预览图表样式配置
 keywords: barChart,dataZoom
 order: 29-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/preview-data.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/preview-data.png
 option: barChart#dataZoom
 ---
 

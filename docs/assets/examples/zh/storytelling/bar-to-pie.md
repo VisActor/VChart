@@ -4,7 +4,7 @@ group: storytelling
 title: 柱状图、饼图间切换的全局动画
 keywords: animation,morphing,bar,pie,barChart,pieChart,comparison
 order: 42-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-pie.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-pie.gif
 option: pieChart#animationUpdate
 ---
 

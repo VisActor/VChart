@@ -4,7 +4,7 @@ group: axis
 title: 通用样式配置
 keywords: lineChart,comparison,trend,line,axis
 order: 25-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/style.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/style.png
 option: lineChart#axes
 ---
 

@@ -4,7 +4,7 @@ group: data
 title: Basic Data Usage
 keywords: data
 order: 34-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/basic-data.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/basic-data.png
 option: lineChart#data
 ---
 

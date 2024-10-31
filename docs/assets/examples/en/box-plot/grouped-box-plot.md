@@ -4,7 +4,7 @@ group: box plot
 title: Grouped Box Plot
 keywords: boxPlot, distribution, comparison, strip
 order: 5-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/box-plot/grouped-box-plot.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/box-plot/grouped-box-plot.png
 option: boxPlotChart
 ---
 

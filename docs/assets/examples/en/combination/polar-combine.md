@@ -4,7 +4,7 @@ group: combination
 title: Combination Chart in Polar Coordinate System
 keywords: commonChart
 order: 22-6
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/polar-combine.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/polar-combine.png
 option: commonChart
 ---
 

@@ -4,7 +4,7 @@ group: brush
 title: 横向选择框选
 keywords: brush
 order: 32-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/x-linked-brush.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/x-linked-brush.png
 option: commonChart#brush
 ---
 

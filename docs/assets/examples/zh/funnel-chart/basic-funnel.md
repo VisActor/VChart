@@ -4,7 +4,7 @@ group: funnel chart
 title: 基础漏斗图
 keywords: funnelChart,composition,trend,triangle
 order: 8-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/basic-funnel.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/basic-funnel.png
 option: funnelChart
 ---
 

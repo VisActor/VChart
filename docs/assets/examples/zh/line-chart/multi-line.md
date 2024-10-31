@@ -4,7 +4,7 @@ group: line chart
 title: 多系列折线图
 keywords: lineChart,comparison,trend,line
 order: 0-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/multi-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/multi-line.png
 option: lineChart
 ---
 

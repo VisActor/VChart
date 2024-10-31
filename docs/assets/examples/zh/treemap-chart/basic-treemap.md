@@ -4,7 +4,7 @@ group: treemap chart
 title: 基础矩形树图
 keywords: treemap,rectangle,comparison,composition,realtionship
 order: 17-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/treemap-chart/basic-treemap.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/treemap-chart/basic-treemap.png
 option: treemapChart
 ---
 

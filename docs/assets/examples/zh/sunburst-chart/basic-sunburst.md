@@ -4,7 +4,7 @@ group: sunburst chart
 title: 基础旭日图
 keywords: sunburst,composition,relationShip,circle
 order: 21-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sunburst-chart/basic-sunburst.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sunburst-chart/basic-sunburst.png
 option: sunburstChart
 ---
 

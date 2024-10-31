@@ -4,7 +4,7 @@ group: crosshair
 title: 组合图 crosshair
 keywords: barChart,comparison,rectangle,crosshair,rank,distribution
 order: 28-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/multiple-region.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/multiple-region.png
 option: commonChart#corsshair
 ---
 

@@ -4,7 +4,7 @@ group: area chart
 title: 多系列面积图
 keywords: areaChart,comparison,trend,area
 order: 1-10
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/area-with-marker.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/area-with-marker.png
 option: areaChart
 ---
 
