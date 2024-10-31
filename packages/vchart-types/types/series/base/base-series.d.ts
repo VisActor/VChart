@@ -1,7 +1,7 @@
 import { DataView } from '@visactor/vdataset';
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
-import type { IMark } from '../../mark/interface';
+import type { ICompileMarkConfig, IMark } from '../../mark/interface';
 import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IExtensionMarkSpec, IExtensionGroupMarkSpec, EnableMarkType, IGroup, ILayoutType, ILayoutPoint, ILayoutRect } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo, ISeriesStackDataLeaf, ISeriesStackDataMeta, ISeriesSeriesInfo } from '../interface';
@@ -202,7 +202,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     getMeasureField(): string[];
     protected onMarkPositionUpdate(): void;
     protected onMarkTreePositionUpdate(marks: IMark[]): void;
-    protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption): NonNullable<M>;
+    protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption, config?: ICompileMarkConfig): NonNullable<M>;
     protected _getDataIdKey(): string | ((datum: Datum) => string);
     protected _getSeriesDataKey(datum: Datum): string;
     addViewDataFilter(option: ITransformOptions): void;

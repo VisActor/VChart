@@ -2,6 +2,42 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.10",
+      "tag": "@visactor/vchart_v1.12.10",
+      "date": "Thu, 31 Oct 2024 12:08:50 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: scroll not dispatch view update when axis is not display. fix#3278"
+          },
+          {
+            "comment": "fix: changes to `roam` via  updateSpec do not take effect"
+          },
+          {
+            "comment": "feat: pie series support center of percent string\n\n"
+          },
+          {
+            "comment": "docs: update changlog of rush\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of symbolActiveMark visible setting\n\n"
+          },
+          {
+            "comment": "fix: fix issue with chart background in harmony"
+          },
+          {
+            "comment": "fix: fix event of angle axis in radarchart, fix #3343\n\n"
+          },
+          {
+            "comment": "fix: type issue of title theme"
+          },
+          {
+            "comment": "refactor: optimize setter and getter about markConfig\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.9",
       "tag": "@visactor/vchart_v1.12.9",
       "date": "Thu, 24 Oct 2024 10:01:43 GMT",

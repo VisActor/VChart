@@ -6,7 +6,7 @@ import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
 import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 import type { ICustomPath2D, ILineGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
-import type { ILayoutRect } from '../../typings/layout';
+import type { ILayoutRect, IPercent } from '../../typings/layout';
 import type { IPointLike } from '@visactor/vutils';
 export type PieMarks = 'pie' | 'label' | 'labelLine';
 export type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & {
@@ -16,8 +16,8 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
     type: 'pie';
     categoryField: string;
     valueField: string;
-    centerX?: number;
-    centerY?: number;
+    centerX?: number | IPercent;
+    centerY?: number | IPercent;
     centerOffset?: number;
     radius?: number;
     outerRadius?: number;

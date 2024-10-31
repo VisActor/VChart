@@ -1,6 +1,31 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 24 Oct 2024 10:01:43 GMT and should not be manually modified.
+This log was last generated on Thu, 31 Oct 2024 12:08:50 GMT and should not be manually modified.
+
+## 1.12.10
+Thu, 31 Oct 2024 12:08:50 GMT
+
+### Updates
+
+- fix: scroll not dispatch view update when axis is not display. fix#3278
+- fix: changes to `roam` via  updateSpec do not take effect
+- feat: pie series support center of percent string
+
+
+- docs: update changlog of rush
+
+
+- fix: fix the issue of symbolActiveMark visible setting
+
+
+- fix: fix issue with chart background in harmony
+- fix: fix event of angle axis in radarchart, fix #3343
+
+
+- fix: type issue of title theme
+- refactor: optimize setter and getter about markConfig
+
+
 
 ## 1.12.9
 Thu, 24 Oct 2024 10:01:43 GMT

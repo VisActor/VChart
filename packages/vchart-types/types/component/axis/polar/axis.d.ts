@@ -34,6 +34,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     get endAngle(): number;
     protected _orient: IPolarOrientType;
     getOrient(): IPolarOrientType;
+    protected getDefaultInteractive(): boolean;
     protected _groupScales: IBaseScale[];
     getGroupScales(): IBaseScale[];
     private _axisStyle;
