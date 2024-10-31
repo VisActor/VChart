@@ -4,7 +4,7 @@ group: histogram chart
 title: Histogram with Different Bin Ranges
 keywords: histogram,distribution,rectangle
 order: 3-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-different-bin.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-different-bin.png
 option: histogramChart
 ---
 

@@ -3,7 +3,7 @@ category: examples
 group: scatter chart
 title: 气泡散点图
 order: 9-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/bubble-scatter.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/bubble-scatter.png
 option: scatterChart
 ---
 

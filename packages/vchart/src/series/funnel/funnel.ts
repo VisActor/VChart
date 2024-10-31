@@ -190,13 +190,15 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       },
       {
         themeSpec: this._theme?.funnel,
-        morph: shouldMarkDoMorph(this._spec, this._funnelMarkName),
-        defaultMorphElementKey: this._seriesField,
         groupKey: this._seriesField,
         isSeriesMark: true,
-        customShape: this._spec.funnel?.customShape,
         stateSort: this._spec.funnel?.stateSort,
         noSeparateStyle: true
+      },
+      {
+        setCustomizedShape: this._spec.funnel?.customShape,
+        morph: shouldMarkDoMorph(this._spec, this._funnelMarkName),
+        morphElementKey: this._seriesField
       }
     ) as IPolygonMark;
 
@@ -212,9 +214,11 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           skipBeforeLayouted: false,
           dataView: this._viewDataTransform.getDataView(),
           dataProductId: this._viewDataTransform.getProductId(),
-          customShape: this._spec.transform?.customShape,
           stateSort: this._spec.transform?.stateSort,
           noSeparateStyle: true
+        },
+        {
+          setCustomizedShape: this._spec.transform?.customShape
         }
       );
     }

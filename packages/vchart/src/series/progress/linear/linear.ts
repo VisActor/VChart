@@ -45,11 +45,16 @@ export class LinearProgressSeries<
   }
 
   private _initProgressMark() {
-    this._progressMark = this._createMark(LinearProgressSeries.mark.progress, {
-      isSeriesMark: true,
-      customShape: this._spec.progress?.customShape ?? this._defaultProgressCustomShape,
-      stateSort: this._spec.progress?.stateSort
-    }) as IRectMark;
+    this._progressMark = this._createMark(
+      LinearProgressSeries.mark.progress,
+      {
+        isSeriesMark: true,
+        stateSort: this._spec.progress?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.progress?.customShape ?? this._defaultProgressCustomShape
+      }
+    ) as IRectMark;
     return this._progressMark;
   }
 
@@ -205,10 +210,15 @@ export class LinearProgressSeries<
   };
 
   private _initTrackMark() {
-    this._trackMark = this._createMark(LinearProgressSeries.mark.track, {
-      customShape: this._spec.track?.customShape,
-      stateSort: this._spec.track?.stateSort
-    }) as IRectMark;
+    this._trackMark = this._createMark(
+      LinearProgressSeries.mark.track,
+      {
+        stateSort: this._spec.track?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.track?.customShape
+      }
+    ) as IRectMark;
     return this._trackMark;
   }
 

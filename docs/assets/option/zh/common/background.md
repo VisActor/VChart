@@ -39,7 +39,7 @@ const spec = {
     // svg
     image: svgImage,
     // url
-    image: 'http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png'
+    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png'
   }
 }
 

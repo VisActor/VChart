@@ -146,13 +146,12 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
           y: 0,
           // 本应使用this.getLayoutRect().width, 但这该返回值为0。考虑到横向不需要裁剪，故先采用一个较大值
           width: 10000,
-          height: this._spec.clipHeight,
-          clip: true
+          height: this._spec.clipHeight
         },
         'normal',
         AttributeLevel.Series
       );
-      clipMark.setInteractive(false);
+      clipMark.setMarkConfig({ interactive: false, clip: true });
     }
 
     const containerMark = this._containerMark;
@@ -166,7 +165,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
         'normal',
         AttributeLevel.Series
       );
-      containerMark.setInteractive(false);
+      containerMark.setMarkConfig({ interactive: false });
     }
 
     const linkMark = this._linkMark;

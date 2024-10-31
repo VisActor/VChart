@@ -4,7 +4,7 @@ group: range column chart
 title: 区间条形图
 keywords: rangeColumnChart,comparison,rectangle,trend
 order: 4-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/range-column-chart/range-bar.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/range-column-chart/range-bar.png
 option: rangeColumnChart
 ---
 

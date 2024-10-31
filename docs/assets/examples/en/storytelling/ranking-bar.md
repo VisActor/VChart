@@ -4,7 +4,7 @@ group: storytelling
 title: Dynamic Bar Chart
 keywords: barChart, animation, player, rank, rectangle
 order: 36-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/ranking-bar.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/ranking-bar.gif
 option: barChart
 ---
 

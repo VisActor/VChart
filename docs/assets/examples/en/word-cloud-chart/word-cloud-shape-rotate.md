@@ -4,7 +4,7 @@ group: word chart
 title: Shape Word Cloud with Random Rotation Angles
 keywords: wordCloud,text,distribution
 order: 14-9
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shape-rotate.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shape-rotate.png
 option: wordCloudChart
 ---
 

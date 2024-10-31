@@ -56,6 +56,13 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
     invert(point: [number, number]): any;
     private evaluateProjection;
     protected _initCenterCache(): void;
+    _compareSpec(spec: IGeoRegionSpec, prevSpec: IGeoRegionSpec): {
+        change: boolean;
+        reMake: boolean;
+        reRender: boolean;
+        reSize: boolean;
+        reCompile: boolean;
+    };
     release(): void;
 }
 export declare const registerGeoCoordinate: () => void;

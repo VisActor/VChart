@@ -61,14 +61,14 @@ const svgImage = '<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xm
 // svg
 background: svgImage,
 // image url
-background: 'http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png',
+background: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png',
 
 // full configuration path
 const spec = {
   region: [
     {
       style: {
-        background:'http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png',
+        background:'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png',
         // Please be sure to configure transparency
         fillOpacity: 1
       }

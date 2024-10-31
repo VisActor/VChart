@@ -4,7 +4,7 @@ group: treemap chart
 title: Treemap Displaying Parent Level
 keywords: treemap,rectangle,comparison,composition,relationship
 order: 17-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/treemap-chart/treemap-show-parent-level.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/treemap-chart/treemap-show-parent-level.png
 option: treemapChart
 ---
 

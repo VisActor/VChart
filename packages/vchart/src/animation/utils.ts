@@ -280,7 +280,7 @@ export function isAnimationEnabledForSeries(series: ISeries) {
   // set mark stroke color follow series color
   // only set normal state in the level lower than level Series
   series.getMarks()?.forEach(m => {
-    const config = m.getProgressiveConfig();
+    const config = m.getMarkConfig();
     if (config) {
       if (config.large && config.largeThreshold) {
         animationThreshold = Math.min(animationThreshold, config.largeThreshold);

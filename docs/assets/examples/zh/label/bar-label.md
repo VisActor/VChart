@@ -4,7 +4,7 @@ group: label
 title: 柱状图标签
 keywords: label
 order: 35-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/bar-label.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/bar-label.png
 option: barChart#label
 ---
 

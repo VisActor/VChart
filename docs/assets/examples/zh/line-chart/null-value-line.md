@@ -4,7 +4,7 @@ group: line chart
 title: 存在空值折线图
 keywords: lineChart,comparison,trend,line
 order: 0-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/null-value-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/null-value-line.png
 option: lineChart
 ---
 

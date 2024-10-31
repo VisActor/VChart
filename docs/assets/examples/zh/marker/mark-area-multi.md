@@ -4,7 +4,7 @@ group: marker
 title: markArea 轴空间 和 数据点定位
 keywords: marker,areaChart
 order: 33-6
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-area-multi.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-area-multi.png
 option: areaChart#markArea
 ---
 

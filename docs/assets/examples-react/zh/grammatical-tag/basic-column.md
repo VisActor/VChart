@@ -4,7 +4,7 @@ group: grammatical-tag
 title: 基础柱状图
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 0-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/basic-column.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/basic-column.png
 option: barChart
 ---
 

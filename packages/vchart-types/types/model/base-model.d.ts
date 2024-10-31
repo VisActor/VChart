@@ -1,7 +1,7 @@
 import type { IEvent } from '../event/interface';
 import type { IEffect, IModel, IModelInitOption, IModelOption, IModelRenderOption, IModelEvaluateOption, IModelSpec, IModelMarkInfo, IModelSpecInfo } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IMark, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
+import type { ICompileMarkConfig, IMark, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect, ILayoutRect } from '../typings';
 import type { CompilableData } from '../compile/data/compilable-data';
 import type { IGroupMark } from '@visactor/vgrammar-core';
@@ -72,7 +72,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     protected stateKeyToSignalName(key: string, opt?: string): string;
     compileData(): void;
     compileMarks(group?: string | IGroupMark): void;
-    protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option?: Partial<IMarkOption>): T;
+    protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option?: Partial<IMarkOption>, config?: ICompileMarkConfig): T;
     protected _getDataIdKey(): string | ((datum: Datum) => string) | undefined;
     getColorScheme(): import("..").IThemeColorScheme;
     getSpecInfo(): IModelSpecInfo<any>;

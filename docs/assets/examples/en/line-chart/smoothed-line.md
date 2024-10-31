@@ -4,7 +4,7 @@ group: line chart
 title: Smooth Line Chart
 keywords: lineChart,comparison,trend,line
 order: 0-6
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/smoothed-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/smoothed-line.png
 option: lineChart
 ---
 

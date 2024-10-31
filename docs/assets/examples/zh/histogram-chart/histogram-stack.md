@@ -4,7 +4,7 @@ group: histogram chart
 title: 堆叠直方图
 keywords: histogram,distribution,rectangle,composition
 order: 3-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-stack.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-stack.png
 option: histogramChart
 ---
 

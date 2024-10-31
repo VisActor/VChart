@@ -4,7 +4,7 @@ group: gradient
 title: 渐变折线图
 keywords: lineChart,comparison,trend,line,gradient
 order: 38-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/line.png
 option: lineChart
 ---
 

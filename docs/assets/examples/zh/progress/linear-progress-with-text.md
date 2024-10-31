@@ -4,7 +4,7 @@ group: progress
 title: 带文本标注的条形进度图
 keywords: linearProgress,comparison,rectangle
 order: 16-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-linear-progress-with-text.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/progress-linear-progress-with-text.png
 option: linearProgressChart
 ---
 

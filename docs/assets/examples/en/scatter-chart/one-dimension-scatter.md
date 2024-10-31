@@ -3,7 +3,7 @@ category: examples
 group: scatter chart
 title: One-Dimensional Scatter Chart
 order: 9-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/one-dimension-scatter.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/one-dimension-scatter.png
 option: scatterChart
 ---
 

@@ -203,22 +203,23 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
    * 初始化Mark
    */
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
-
-    this._symbolMark = this._createMark(ScatterSeries.mark.point, {
-      morph: shouldMarkDoMorph(this._spec, ScatterSeries.mark.point.name),
-      defaultMorphElementKey: this.getDimensionField()[0],
-      groupKey: this._seriesField,
-      progressive,
-      isSeriesMark: true,
-      customShape: this._spec.point?.customShape,
-      stateSort: this._spec.point?.stateSort
-    }) as ISymbolMark;
+    this._symbolMark = this._createMark(
+      ScatterSeries.mark.point,
+      {
+        groupKey: this._seriesField,
+        isSeriesMark: true,
+        stateSort: this._spec.point?.stateSort
+      },
+      {
+        progressiveStep: this._spec.progressiveStep,
+        progressiveThreshold: this._spec.progressiveThreshold,
+        large: this._spec.large,
+        largeThreshold: this._spec.largeThreshold,
+        morph: shouldMarkDoMorph(this._spec, ScatterSeries.mark.point.name),
+        morphElementKey: this.getDimensionField()[0],
+        setCustomizedShape: this._spec.point?.customShape
+      }
+    ) as ISymbolMark;
   }
 
   /**

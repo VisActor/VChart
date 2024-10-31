@@ -20,13 +20,18 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
 
   initMark(): void {
     const { customShape, stateSort } = this._spec.area ?? {};
-    this._areaMark = this._createMark(RangeAreaSeries.mark.area, {
-      defaultMorphElementKey: this.getDimensionField()[0],
-      groupKey: this._seriesField,
-      isSeriesMark: true,
-      customShape,
-      stateSort
-    }) as IAreaMark;
+    this._areaMark = this._createMark(
+      RangeAreaSeries.mark.area,
+      {
+        groupKey: this._seriesField,
+        isSeriesMark: true,
+        stateSort
+      },
+      {
+        setCustomizedShape: customShape,
+        morphElementKey: this.getDimensionField()[0]
+      }
+    ) as IAreaMark;
   }
 
   initMarkStyle(): void {

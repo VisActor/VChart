@@ -4,7 +4,7 @@ group: word chart
 title: 词云图不配置大小字段
 keywords: wordCloud,text,distribution
 order: 14-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-no-valueField.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-no-valueField.png
 option: wordCloudChart
 ---
 

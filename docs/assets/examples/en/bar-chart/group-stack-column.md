@@ -4,7 +4,7 @@ group: bar chart
 title: Grouped Stacked Column Chart
 keywords: barChart,comparison,distribution,rectangle,composition,rank
 order: 2-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-stack-column.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-stack-column.png
 option: barChart
 ---
 

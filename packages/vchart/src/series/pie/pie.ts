@@ -15,7 +15,7 @@ import {
 import { AttributeLevel } from '../../constant/attribute';
 import { DEFAULT_DATA_KEY, DEFAULT_DATA_INDEX } from '../../constant/data';
 import { PREFIX } from '../../constant/base';
-import type { IPoint, Datum, StateValueType, IArcMarkSpec } from '../../typings';
+import type { IPoint, Datum, StateValueType, IArcMarkSpec, ILayoutNumber } from '../../typings';
 import { normalizeStartEndAngle } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
@@ -49,6 +49,7 @@ import { PieSeriesSpecTransformer } from './pie-transformer';
 import { DEFAULT_LABEL_VISIBLE } from '../../constant/label';
 import { ChartEvent } from '../../constant/event';
 import { computeLayoutRadius } from '../../component/axis/polar/util/common';
+import { calcLayoutNumber } from '../../util/space';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;
@@ -63,10 +64,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   // 饼图渲染不依赖于极坐标系轴，因此由 series 自己存储相关配置信息
   getCenter = (): IPoint => {
-    const { width, height } = this._region.getLayoutRect();
+    const layoutRect = this._region.getLayoutRect();
+
     return {
-      x: this._spec?.centerX ?? width / 2,
-      y: this._spec?.centerY ?? height / 2
+      x: calcLayoutNumber(this._spec?.centerX as ILayoutNumber, layoutRect.width, layoutRect, layoutRect.width / 2),
+      y: calcLayoutNumber(this._spec?.centerY as ILayoutNumber, layoutRect.height, layoutRect, layoutRect.height / 2)
     };
   };
   protected _centerOffset!: number;
@@ -183,14 +185,16 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         type: this._pieMarkType
       },
       {
-        morph: shouldMarkDoMorph(this._spec, this._pieMarkName),
-        defaultMorphElementKey: this._seriesField,
         key: DEFAULT_DATA_KEY,
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        customShape: this._spec.pie?.customShape,
         stateSort: this._spec.pie?.stateSort
+      },
+      {
+        setCustomizedShape: this._spec.pie?.customShape,
+        morph: shouldMarkDoMorph(this._spec, this._pieMarkName),
+        morphElementKey: this._seriesField
       }
     ) as IArcMark;
 

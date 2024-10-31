@@ -3,7 +3,7 @@ category: examples
 group: scatter chart
 title: 堆叠散点图
 order: 9-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/stack-scatter.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/stack-scatter.png
 option: scatterChart
 ---
 

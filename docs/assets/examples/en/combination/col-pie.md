@@ -4,7 +4,7 @@ group: combination
 title: Multi-region Pie Chart
 keywords: commonChart
 order: 22-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/col-pie.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/col-pie.png
 option: commonChart
 ---
 

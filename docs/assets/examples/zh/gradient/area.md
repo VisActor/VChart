@@ -4,7 +4,7 @@ group: gradient
 title: 渐变面积图
 keywords: areaChart,comparison,trend,area,gradient
 order: 38-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/area.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/area.png
 option: areaChart
 ---
 

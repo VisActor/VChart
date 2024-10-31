@@ -115,6 +115,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected abstract collectSeriesField(depth: number, series: ISeries): string | string[];
   abstract transformScaleDomain(): void;
   protected abstract updateScaleRange(): boolean;
+  protected abstract getDefaultInteractive(): boolean;
 
   protected _dataFieldText: string;
   protected _axisMark: IComponentMark;
@@ -161,15 +162,18 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         {
           componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
           mode: this._spec.mode,
-          noSeparateStyle: true,
+          noSeparateStyle: true
+        },
+        {
           skipTheme: true // skip theme of vgrammar to avoid merge
         }
       );
       this._axisMark = axisMark;
-      axisMark.setZIndex(this.layoutZIndex);
+      axisMark.setMarkConfig({ zIndex: this.layoutZIndex });
       if (isValid(this._spec.id)) {
         axisMark.setUserId(this._spec.id);
       }
+      axisMark.setMarkConfig({ interactive: this._spec.interactive ?? this.getDefaultInteractive() });
       this._marks.addMark(axisMark);
 
       if (this._spec.grid?.visible) {
@@ -178,19 +182,18 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           {
             componentType: this.getOrient() === 'angle' ? GridEnum.circleAxisGrid : GridEnum.lineAxisGrid,
             mode: this._spec.mode,
-            noSeparateStyle: true,
+            noSeparateStyle: true
+          },
+          {
             skipTheme: true
           }
         );
-        gridMark.setZIndex(this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid);
-        gridMark.setInteractive(false); // 轴网格线关闭交互
+        gridMark.setMarkConfig({
+          zIndex: this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid,
+          interactive: false // 轴网格线关闭交互
+        });
         this._marks.addMark(gridMark);
         this._gridMark = gridMark;
-      }
-
-      // interactive
-      if (isBoolean(this._spec.interactive)) {
-        this._marks.forEach(m => m.setInteractive(this._spec.interactive));
       }
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画
@@ -379,7 +382,27 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
-    if (this._tickData && this._tickData.length && (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))) {
+    // 对应问题#3287: 轴隐藏(tickData为[])时, dataZoom/scrollBar无法触发视图更新
+    // 解决方式: dataZoom/scrollBar更新时, 使用force, 此时即使没有tickData也要触发视图更新
+    // ps:
+    // 1. 其他逻辑没有使用force更新, 所以不会带来额外影响
+    // 2. force更新时, 如果有tickData仍然走老逻辑, 这里只考虑force && 无tickData的情况
+    if (updateType === 'force' && (!this._tickData || !this._tickData.length)) {
+      eachSeries(
+        this._regions,
+        s => {
+          s.getViewData()?.reRunAllTransform();
+        },
+        {
+          userId: this._seriesUserId,
+          specIndex: this._seriesIndex
+        }
+      );
+    } else if (
+      this._tickData &&
+      this._tickData.length &&
+      (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))
+    ) {
       this._tickData.forEach(tickData => {
         tickData.getDataView().reRunAllTransform();
         tickData.updateData();

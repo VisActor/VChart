@@ -4,7 +4,7 @@ group: funnel chart
 title: Custom Funnel Chart
 keywords: funnelChart,composition,trend,custom
 order: 8-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/custom-funnel.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/custom-funnel.png
 option: funnelChart
 ---
 

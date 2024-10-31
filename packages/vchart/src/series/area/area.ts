@@ -70,14 +70,19 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
     const seriesMark = this._spec.seriesMark ?? 'area';
     // area
-    this._areaMark = this._createMark(AreaSeries.mark.area, {
-      groupKey: this._seriesField,
-      defaultMorphElementKey: this.getDimensionField()[0],
-      progressive,
-      isSeriesMark: isAreaVisible && seriesMark !== 'point',
-      customShape: areaSpec.customShape,
-      stateSort: areaSpec.stateSort
-    }) as IAreaMark;
+    this._areaMark = this._createMark(
+      AreaSeries.mark.area,
+      {
+        groupKey: this._seriesField,
+        isSeriesMark: isAreaVisible && seriesMark !== 'point',
+        stateSort: areaSpec.stateSort
+      },
+      {
+        ...progressive,
+        morphElementKey: this.getDimensionField()[0],
+        setCustomizedShape: areaSpec.customShape
+      }
+    ) as IAreaMark;
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 

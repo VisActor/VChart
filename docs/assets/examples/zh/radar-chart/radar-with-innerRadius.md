@@ -4,7 +4,7 @@ group: radar chart
 title: 空心雷达图
 keywords: radarChart,comparison,line,circle,axis,label,indicator
 order: 10-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/radar-with-innerRadius.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/radar-with-innerRadius.png
 option: radarChart
 ---
 

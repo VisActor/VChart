@@ -4,7 +4,7 @@ group: CirclePacking
 title: 带内边距的 CirclePacking 图
 keywords: circlePacking,composition,circle,relationShip
 order: 20-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/circle-packing-chart/circle-packing-padding.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/circle-packing-chart/circle-packing-padding.png
 option: circlePackingChart
 ---
 

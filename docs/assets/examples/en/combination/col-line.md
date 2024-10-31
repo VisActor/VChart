@@ -4,7 +4,7 @@ group: combination
 title: Combination Chart with Single Column
 keywords: commonChart
 order: 22-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/col-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/col-line.png
 option: commonChart
 ---
 

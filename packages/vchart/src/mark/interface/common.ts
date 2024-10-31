@@ -1,4 +1,3 @@
-import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../../scale/interface';
 import type { ICommonSpec, VisualType, ValueType, FunctionType } from '../../typings/visual';
 import type { IModel } from '../../model/interface';
@@ -11,6 +10,8 @@ import type {
   StateValueType
 } from '../../compile/mark';
 import type { StringOrNumber } from '../../typings';
+import type { IMarkConfig } from '@visactor/vgrammar-core';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 export interface VisualScaleType {
   scale: IBaseScale;
@@ -79,6 +80,25 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;
+
+export interface ICompileMarkConfig extends IMarkConfig {
+  /** morph 配置开关 */
+  morph?: boolean;
+
+  /** morph元素的唯一key */
+  morphElementKey?: string;
+  /** 是否支持 3d */
+  support3d?: boolean;
+  /* customized shape of mark  */
+  setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+  /**
+   * 裁剪配置
+   * @since 1.10.0
+   */
+  clip?: boolean;
+  /** skip theme of vgrammar or not */
+  skipTheme?: boolean;
+}
 
 export interface IMarkOption extends ICompilableMarkOption {
   model: IModel;

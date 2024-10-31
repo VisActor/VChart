@@ -4,7 +4,7 @@ group: gauge
 title: 基础仪表图
 keywords: gauge,comparison,circle
 order: 15-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/basic-gauge.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/basic-gauge.png
 option: gaugeChart
 ---
 

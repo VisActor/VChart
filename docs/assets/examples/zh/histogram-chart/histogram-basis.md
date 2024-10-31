@@ -4,7 +4,7 @@ group: histogram chart
 title: 基础直方图
 keywords: histogram,distribution,rectangle
 order: 3-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-basis.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/histogram-chart/histogram-basis.png
 option: histogramChart
 ---
 

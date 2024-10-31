@@ -3,7 +3,7 @@ category: examples
 group: theme
 title: 不同风格的主题注册、切换
 order: 39-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/theme/theme-style.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/theme/theme-style.gif
 option: barChart#theme
 ---
 

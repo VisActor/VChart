@@ -4,7 +4,7 @@ group: area chart
 title: 基础面积图
 keywords: areaChart,comparison,trend,area
 order: 1-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/basic-area.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/basic-area.png
 option: areaChart
 ---
 

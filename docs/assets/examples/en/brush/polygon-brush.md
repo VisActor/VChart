@@ -4,7 +4,7 @@ group: brush
 title: Irregular Rectangle Selection
 keywords: scatterChart,brush
 order: 32-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/polygon-brush.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/polygon-brush.png
 option: scatterChart#brush
 ---
 

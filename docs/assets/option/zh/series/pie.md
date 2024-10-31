@@ -24,13 +24,19 @@
 
 数值字段。
 
-#${prefix} centerX(number)
+#${prefix} centerX (Number|String)
 
-饼图中心点 x 坐标。
+饼图中心点 x 坐标，支持两种格式：
 
-#${prefix} centerY(number)
+- `number`: 具体的坐标值
+- `string`: 格式如`50%`的百分比字符串，相对于布局宽度计算坐标（自**1.12.10**版本开始支持）
 
-饼图中心点 y 坐标。
+#${prefix} centerY (Number|String)
+
+饼图中心点 y 坐标，支持两种格式：
+
+- `number`: 具体的坐标值
+- `string`: 格式如`50%`的百分比字符串，相对于布局高度计算坐标（自**1.12.10**版本开始支持）
 
 #${prefix} centerOffset(number)
 

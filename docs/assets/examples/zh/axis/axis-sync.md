@@ -4,7 +4,7 @@ group: axis
 title: 轴同步
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-15
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-sync.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-sync.png
 option: barChart#axes
 ---
 

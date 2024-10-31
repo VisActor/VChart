@@ -4,7 +4,7 @@ group: combination
 title: 组合图自定义单行多列布局
 keywords: commonChart
 order: 22-7
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/scatter-combine.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/scatter-combine.png
 ---
 
 # 组合图自定义单行多列布局

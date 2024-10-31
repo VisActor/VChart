@@ -4,7 +4,7 @@ group: legend
 title: 自定义图例 UI
 keywords: barChart,comparison,rectangle,legend,distribution,rank,composition
 order: 27-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-ui.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-ui.png
 option: barChart#legends
 ---
 

@@ -4,7 +4,7 @@ group: combination
 title: 基础组合图
 keywords: commonChart
 order: 22-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/single-region.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/single-region.png
 option: commonChart
 ---
 

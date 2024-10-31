@@ -22,9 +22,9 @@
     "@visactor/vchart": "^1.11.11"
   },
   "dependencies": {
-    "@visactor/vrender-core": "0.20.10",
-    "@visactor/vrender-kits": "0.20.10",
-    "@visactor/vutils": "~0.18.17"
+    "@visactor/vrender-core": "0.20.12",
+    "@visactor/vrender-kits": "0.20.12",
+    "@visactor/vutils": "~0.18.18"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
@@ -51,10 +51,11 @@
     "rollup-plugin-bundle-size": "1.0.3",
     "rollup-plugin-sizes": "1.0.5",
     "rollup": "3.20.5",
-    "@visactor/vchart": "workspace:1.12.9"
+    "@visactor/vchart": "workspace:1.12.10"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  }
+  },
+  "license": "MIT"
 }

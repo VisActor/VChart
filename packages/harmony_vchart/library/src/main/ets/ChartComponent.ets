@@ -135,7 +135,6 @@ export struct VChart {
       Canvas(this.context)
         .width(this.w)
         .height(this.h)
-        .backgroundColor('#F5DC62')
         .onReady(() => {
           if (!this.spec) {
             return;

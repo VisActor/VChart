@@ -246,3 +246,33 @@ Axis title style settings.
 {{ use: graphic-text(
   prefix = '##' + ${prefix}
 ) }}
+
+#${prefix} innerOffset(Object)
+
+直角坐标系轴的内缩进，可以在绘图区内部产生留白，能避免一些图形被截断的场景。
+
+上下轴支持配置 `left`、`right`，左右轴支持配置 `top`、`bottom`。
+
+##${prefix} left(ILayoutNumber)
+
+上下轴的左侧留白
+
+{{ use: common-layout-number }}
+
+##${prefix} right(ILayoutNumber)
+
+上下轴的右侧留白
+
+{{ use: common-layout-number }}
+
+##${prefix} top(ILayoutNumber)
+
+左右轴的上侧留白
+
+{{ use: common-layout-number }}
+
+##${prefix} bottom(ILayoutNumber)
+
+左右轴的下侧留白
+
+{{ use: common-layout-number }}

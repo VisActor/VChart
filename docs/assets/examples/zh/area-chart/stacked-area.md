@@ -4,7 +4,7 @@ group: area chart
 title: 堆叠面积图
 keywords: areaChart,comparison,trend,area,composition
 order: 1-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/stacked-area.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/stacked-area.png
 option: areaChart
 ---
 

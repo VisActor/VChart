@@ -4,7 +4,7 @@ group: scrollBar
 title: scrollBar Controls Axis Range
 keywords: scrollBar
 order: 30-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/scrollbar-line-chart.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scrollbar/scrollbar-line-chart.png
 option: lineChart#scrollbar
 ---
 

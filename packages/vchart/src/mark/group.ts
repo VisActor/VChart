@@ -88,7 +88,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
     // 设置zIndex
     this._product.configure({
-      zIndex: this.getZIndex()
+      zIndex: this._markConfig.zIndex
     });
 
     // 编译子元素

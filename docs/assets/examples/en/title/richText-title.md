@@ -4,7 +4,7 @@ group: title
 title: Rich Text Title
 keywords: title
 order: 24-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/title/richText-title.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/title/richText-title.png
 option: lineChart#title
 ---
 

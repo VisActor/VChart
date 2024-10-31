@@ -4,7 +4,7 @@ group: crosshair
 title: 矩形十字辅助线
 keywords: lineChart,comparison,trend,line,crosshair
 order: 28-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/rect.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/crosshair/rect.png
 option: lineChart#crosshair
 ---
 

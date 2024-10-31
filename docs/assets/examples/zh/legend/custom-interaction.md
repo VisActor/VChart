@@ -4,7 +4,7 @@ group: legend
 title: 自定义图例交互
 keywords: barChart,comparison,rectangle,legend,distribution,rank
 order: 27-6
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-interaction.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-interaction.png
 option: barChart#legends
 ---
 

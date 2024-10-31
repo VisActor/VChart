@@ -4,7 +4,7 @@ group: component
 title: 时钟示例
 keywords: gauge,comparison,circle,indicator
 order: 0-7
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/clock.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gauge-chart/clock.gif
 option: gaugeChart
 ---
 

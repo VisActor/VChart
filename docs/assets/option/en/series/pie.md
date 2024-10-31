@@ -23,13 +23,19 @@ By default, each sector of the pie chart is an independent series.
 
 Value field.
 
-#${prefix} centerX(number)
+#${prefix} centerX (Number|String)
 
-Pie chart center point x coordinate.
+The x-coordinate of the pie chart center, supporting two formats:
 
-#${prefix} centerY(number)
+- `number`: Specific coordinate value
+- `string`: A percentage string like `50%`, calculating the coordinate relative to the layout width (supported since version **1.12.10**)
 
-Pie chart center point y coordinate.
+#${prefix} centerY (Number|String)
+
+The y-coordinate of the pie chart center, supporting two formats:
+
+- `number`: Specific coordinate value
+- `string`: A percentage string like `50%`, calculating the coordinate relative to the layout height (supported since version **1.12.10**)
 
 #${prefix} centerOffset(number)
 

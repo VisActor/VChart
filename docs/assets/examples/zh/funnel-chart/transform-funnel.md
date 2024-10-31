@@ -4,7 +4,7 @@ group: funnel chart
 title: 转化漏斗图
 keywords: funnelChart,composition,trend,triangle
 order: 8-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/transform-funnel.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/funnel-chart/transform-funnel.png
 option: funnelChart
 ---
 

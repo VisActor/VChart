@@ -4,7 +4,7 @@ group: pattern
 title: Pie Chart with Texture
 keywords: pieChart,comparison,proportion,composition,pattern,label,circle
 order: 41-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pattern/accessible-pie.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/pattern/accessible-pie.png
 option: pieChart
 ---
 

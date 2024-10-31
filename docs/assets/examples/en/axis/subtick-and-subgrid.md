@@ -4,7 +4,7 @@ group: axis
 title: Sub-ticks and Sub-grid lines
 keywords: lineChart,comparison,trend,line,axis
 order: 25-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/subtick-and-subgrid.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/subtick-and-subgrid.png
 option: lineChart#axes
 ---
 

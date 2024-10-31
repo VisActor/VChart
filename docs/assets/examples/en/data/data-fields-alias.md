@@ -4,7 +4,7 @@ group: data
 title: Data Alias
 keywords: data,alias
 order: 34-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-fields-alias.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data/data-fields-alias.png
 option: lineChart#data
 ---
 

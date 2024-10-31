@@ -3,7 +3,7 @@ category: examples
 group: theme
 title: Theme Registration and Switching
 order: 39-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/theme/theme-switch.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/theme/theme-switch.png
 ---
 
 # Theme Registration and Switching

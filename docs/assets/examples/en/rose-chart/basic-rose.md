@@ -4,7 +4,7 @@ group: rose
 title: Basic Rose Chart
 keywords: roseChart,comparison,composition,circle
 order: 7-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/basic-rose.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/basic-rose.png
 option: roseChart
 ---
 

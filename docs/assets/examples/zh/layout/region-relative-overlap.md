@@ -3,7 +3,7 @@ category: examples
 group: layout
 title: 轴元素重叠
 order: 37-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/layout/grid-layout.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/layout/grid-layout.png
 option: commonChart#layout
 ---
 

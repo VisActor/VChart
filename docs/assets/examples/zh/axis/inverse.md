@@ -4,7 +4,7 @@ group: axis
 title: 坐标轴反转
 keywords: areaChart,comparison,trend,area,axis
 order: 25-5
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/inverse.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/inverse.png
 option: lineChart#axes
 ---
 

@@ -4,7 +4,7 @@ group: combination
 title: 线饼组合图
 keywords: commonChart
 order: 22-5
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/line-pie.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/line-pie.png
 option: commonChart
 ---
 

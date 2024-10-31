@@ -4,7 +4,7 @@ group: area chart
 title: 河流图
 keywords: areaChart,comparison,trend,area,streamgraph,composition
 order: 1-10
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/stream-graph.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/stream-graph.png
 option: areaChart
 ---
 

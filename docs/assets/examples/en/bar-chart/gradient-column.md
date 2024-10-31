@@ -4,7 +4,7 @@ group: bar chart
 title: Gradient Rounded Bar Chart
 keywords: barChart,comparison,distribution,rank,rectangle,gradient
 order: 2-9
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/gradient-column.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/gradient-column.png
 option: barChart
 ---
 

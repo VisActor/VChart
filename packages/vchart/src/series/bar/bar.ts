@@ -65,14 +65,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barBackgroundViewData: SeriesData;
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
-
-    this._initBarBackgroundMark(progressive);
+    this._initBarBackgroundMark();
 
     this._barMark = this._createMark(
       {
@@ -81,26 +74,39 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         type: this._barMarkType
       },
       {
-        morph: shouldMarkDoMorph(this._spec, this._barMarkName),
-        defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         isSeriesMark: true,
-        progressive,
-        customShape: this._spec.bar?.customShape,
         stateSort: this._spec.bar?.stateSort
+      },
+      {
+        progressiveStep: this._spec.progressiveStep,
+        progressiveThreshold: this._spec.progressiveThreshold,
+        large: this._spec.large,
+        largeThreshold: this._spec.largeThreshold,
+        morphElementKey: this.getDimensionField()[0],
+        morph: shouldMarkDoMorph(this._spec, this._barMarkName),
+        setCustomizedShape: this._spec.bar?.customShape
       }
     ) as IRectMark;
   }
 
-  protected _initBarBackgroundMark(progressive?: IMarkProgressiveConfig): void {
+  protected _initBarBackgroundMark(): void {
     if (this._spec.barBackground && this._spec.barBackground.visible) {
-      this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
-        dataView: this._barBackgroundViewData.getDataView(),
-        dataProductId: this._barBackgroundViewData.getProductId(),
-        progressive,
-        customShape: this._spec.barBackground.customShape,
-        stateSort: this._spec.barBackground.stateSort
-      }) as IRectMark;
+      this._barBackgroundMark = this._createMark(
+        BarSeries.mark.barBackground,
+        {
+          dataView: this._barBackgroundViewData.getDataView(),
+          dataProductId: this._barBackgroundViewData.getProductId(),
+          stateSort: this._spec.barBackground.stateSort
+        },
+        {
+          setCustomizedShape: this._spec.barBackground.customShape,
+          progressiveStep: this._spec.progressiveStep,
+          progressiveThreshold: this._spec.progressiveThreshold,
+          large: this._spec.large,
+          largeThreshold: this._spec.largeThreshold
+        }
+      ) as IRectMark;
     }
   }
 
@@ -469,63 +475,66 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
 
-    this._barMark.setClip(() => {
-      const rectPaths: any[] = [];
-      this._forEachStackGroup(node => {
-        let min = Infinity;
-        let max = -Infinity;
-        let hasPercent = false;
-        let minPercent = Infinity;
-        let maxPercent = -Infinity;
-        node.values.forEach(datum => {
-          const start = datum[STACK_FIELD_START];
-          const end = datum[STACK_FIELD_END];
-          const startPercent = datum[STACK_FIELD_START_PERCENT];
-          const endPercent = datum[STACK_FIELD_END_PERCENT];
-          min = Math.min(min, start, end);
-          max = Math.max(max, start, end);
-          if (isValid(startPercent) && isValid(endPercent)) {
-            hasPercent = true;
-            minPercent = Math.min(minPercent, startPercent, endPercent);
-            maxPercent = Math.max(maxPercent, startPercent, endPercent);
-          }
+    this._barMark.setMarkConfig({
+      clip: true,
+      clipPath: () => {
+        const rectPaths: any[] = [];
+        this._forEachStackGroup(node => {
+          let min = Infinity;
+          let max = -Infinity;
+          let hasPercent = false;
+          let minPercent = Infinity;
+          let maxPercent = -Infinity;
+          node.values.forEach(datum => {
+            const start = datum[STACK_FIELD_START];
+            const end = datum[STACK_FIELD_END];
+            const startPercent = datum[STACK_FIELD_START_PERCENT];
+            const endPercent = datum[STACK_FIELD_END_PERCENT];
+            min = Math.min(min, start, end);
+            max = Math.max(max, start, end);
+            if (isValid(startPercent) && isValid(endPercent)) {
+              hasPercent = true;
+              minPercent = Math.min(minPercent, startPercent, endPercent);
+              maxPercent = Math.max(maxPercent, startPercent, endPercent);
+            }
+          });
+          const mockDatum = {
+            ...node.values[0],
+            [STACK_FIELD_START]: min,
+            [STACK_FIELD_END]: max,
+            ...(hasPercent
+              ? {
+                  [STACK_FIELD_START_PERCENT]: minPercent,
+                  [STACK_FIELD_END_PERCENT]: maxPercent
+                }
+              : undefined)
+          };
+          const rectAttr =
+            this.direction === Direction.horizontal
+              ? {
+                  x: this._getBarXStart(mockDatum, xScale),
+                  x1: this._getBarXEnd(mockDatum, xScale),
+                  y: this._getPosition(this.direction, mockDatum),
+                  height: this._getBarWidth(this._yAxisHelper)
+                }
+              : {
+                  y: this._getBarYStart(mockDatum, yScale),
+                  y1: this._getBarYEnd(mockDatum, yScale),
+                  x: this._getPosition(this.direction, mockDatum),
+                  width: this._getBarWidth(this._xAxisHelper)
+                };
+          rectPaths.push(
+            createRect({
+              ...rectAttr,
+              cornerRadius: isFunction(this._spec.stackCornerRadius)
+                ? this._spec.stackCornerRadius(rectAttr, mockDatum, this._markAttributeContext)
+                : this._spec.stackCornerRadius,
+              fill: true
+            })
+          );
         });
-        const mockDatum = {
-          ...node.values[0],
-          [STACK_FIELD_START]: min,
-          [STACK_FIELD_END]: max,
-          ...(hasPercent
-            ? {
-                [STACK_FIELD_START_PERCENT]: minPercent,
-                [STACK_FIELD_END_PERCENT]: maxPercent
-              }
-            : undefined)
-        };
-        const rectAttr =
-          this.direction === Direction.horizontal
-            ? {
-                x: this._getBarXStart(mockDatum, xScale),
-                x1: this._getBarXEnd(mockDatum, xScale),
-                y: this._getPosition(this.direction, mockDatum),
-                height: this._getBarWidth(this._yAxisHelper)
-              }
-            : {
-                y: this._getBarYStart(mockDatum, yScale),
-                y1: this._getBarYEnd(mockDatum, yScale),
-                x: this._getPosition(this.direction, mockDatum),
-                width: this._getBarWidth(this._xAxisHelper)
-              };
-        rectPaths.push(
-          createRect({
-            ...rectAttr,
-            cornerRadius: isFunction(this._spec.stackCornerRadius)
-              ? this._spec.stackCornerRadius(rectAttr, mockDatum, this._markAttributeContext)
-              : this._spec.stackCornerRadius,
-            fill: true
-          })
-        );
-      });
-      return rectPaths;
+        return rectPaths;
+      }
     });
   }
 
