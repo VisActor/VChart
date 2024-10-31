@@ -5,6 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      * {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+    </style>
   </head>
 
   <body style="margin: 0">
@@ -14,5 +24,14 @@
       <!-- <canvas id="canvas" width="500" height="500"></canvas> -->
     </div>
   </body>
+  <script type="text/javascript">
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener('select', function (e) {
+      e.preventDefault();
+    });
+  </script>
   <script src="./index.page.ts" type="module"></script>
 </html>
