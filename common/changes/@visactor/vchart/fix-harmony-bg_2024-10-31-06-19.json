@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix issue with chart background in harmony",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
