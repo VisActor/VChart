@@ -5,12 +5,10 @@ import type { IBaseModelSpecTransformerResult, IModelConstructor, IModelMarkInfo
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
-import type { IMarkOption, IMarkProgressiveConfig } from '../../mark/interface';
+import type { IMarkOption } from '../../mark/interface';
 import type { ISeriesSpec, StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
-import type { ICustomPath2D } from '@visactor/vrender-core';
-import type { MarkClip } from '../../compile/mark';
 export interface ISeriesSeriesInfo {
     key: string;
     originalKey: any;
@@ -63,17 +61,11 @@ export interface ISeriesMarkInitOption extends Partial<IMarkOption> {
     depend?: IGrammarItem | IGrammarItem[];
     key?: string | ((datum: any) => string);
     groupKey?: string;
-    morph?: boolean;
-    defaultMorphElementKey?: string;
     dataView?: DataView | false;
     dataProductId?: string;
     seriesId?: number;
-    progressive?: IMarkProgressiveConfig;
-    support3d?: boolean;
-    customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
     stateSort?: (stateA: string, stateB: string) => number;
     componentType?: string;
-    clip?: MarkClip;
 }
 export interface ISeriesMarkInfo extends IModelMarkInfo {
     name: SeriesMarkNameEnum | string;

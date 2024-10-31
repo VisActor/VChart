@@ -42,6 +42,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected abstract collectSeriesField(depth: number, series: ISeries): string | string[];
     abstract transformScaleDomain(): void;
     protected abstract updateScaleRange(): boolean;
+    protected abstract getDefaultInteractive(): boolean;
     protected _dataFieldText: string;
     protected _axisMark: IComponentMark;
     protected _gridMark: IComponentMark;

@@ -55757,12 +55757,32 @@
           "type": "number"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "饼图中心点 x 坐标"
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "饼图中心点 y 坐标"
         },
         "color": {
           "anyOf": [
@@ -56355,12 +56375,32 @@
           "type": "number"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "饼图中心点 x 坐标"
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "饼图中心点 y 坐标"
         },
         "color": {
           "anyOf": [
@@ -56887,12 +56927,32 @@
           "type": "number"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "饼图中心点 x 坐标"
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "饼图中心点 y 坐标"
         },
         "cornerRadius": {
           "default": 0,
@@ -74224,8 +74284,15 @@
           "type": "number"
         },
         "lineHeight": {
-          "description": "行高",
-          "type": "number"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ITokenKey<any>"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "行高"
         },
         "textAlign": {
           "$ref": "#/definitions/TextAlign",
@@ -82104,7 +82171,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -82112,14 +82179,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -82127,14 +82194,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -82142,14 +82209,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -82157,14 +82224,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -82172,14 +82239,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -82187,7 +82254,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
@@ -86873,12 +86940,32 @@
           "type": "number"
         },
         "centerX": {
-          "description": "饼图中心点 x 坐标",
-          "type": "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "饼图中心点 x 坐标"
         },
         "centerY": {
-          "description": "饼图中心点 y 坐标",
-          "type": "number"
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "饼图中心点 y 坐标"
         },
         "cornerRadius": {
           "default": 0,
@@ -103333,34 +103420,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13706": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13709"
+        "__@toStringTag@13706"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13706": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13709"
+        "__@toStringTag@13706"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13706": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13709"
+        "__@toStringTag@13706"
       ],
       "type": "object"
     },

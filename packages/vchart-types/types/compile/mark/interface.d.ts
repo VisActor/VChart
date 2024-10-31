@@ -1,21 +1,18 @@
-import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
+import type { IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { GrammarItemCompileOption, GrammarItemInitOption } from '../interface';
 import type { IGrammarItem } from '../interface';
 import type { MarkStateManager } from './mark-state-manager';
 import type { DataView } from '@visactor/vdataset';
-import type { IAnimate, IAnimateArranger, IElement, IGroupMark, IMark, MarkAnimationSpec, Nil, TransformSpec } from '@visactor/vgrammar-core';
+import type { IAnimate, IAnimateArranger, IElement, IGroupMark, IMark, IMarkConfig, MarkAnimationSpec, Nil, TransformSpec } from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
 import type { IRegion } from '../../region/interface';
-import type { ICustomPath2D, IGraphic } from '@visactor/vrender-core';
 export interface ICompilableMarkOption extends GrammarItemInitOption {
     key?: string | ((datum: Datum) => string);
     groupKey?: string;
     skipBeforeLayouted?: boolean;
-    support3d?: boolean;
     mode?: '2d' | '3d';
-    skipTheme?: boolean;
     noSeparateStyle?: boolean;
 }
 export interface ICompilableMark extends IGrammarItem {
@@ -38,38 +35,23 @@ export interface ICompilableMark extends IGrammarItem {
     updateLayoutState: (noRender?: boolean, recursion?: boolean) => void;
     updateMarkState: (key: string) => void;
     setTransform: (transform: TransformSpec[] | Nil) => void;
-    getInteractive: () => boolean;
-    setInteractive: (interactive: boolean) => void;
     setAnimationConfig: (config: Partial<MarkAnimationSpec>) => void;
     getAnimationConfig: () => Partial<MarkAnimationSpec>;
-    getZIndex: () => number;
-    setZIndex: (zIndex: number) => void;
     getVisible: () => boolean;
     setVisible: (visible: boolean) => void;
-    getMorph: () => boolean;
-    setMorph: (morph: boolean) => void;
-    getProgressiveConfig: () => IMarkProgressiveConfig;
-    setProgressiveConfig: (config: IMarkProgressiveConfig) => void;
-    getMorphKey: () => string | undefined;
-    setMorphKey: (morphKey: string) => void;
-    getMorphElementKey: () => string | undefined;
-    setMorphElementKey: (morphKey: string) => void;
     getGroupKey: () => string | undefined;
     setGroupKey: (groupKey: string) => void;
     getUserId: () => StringOrNumber | undefined;
     setUserId: (id: StringOrNumber) => void;
-    getSupport3d: () => boolean | undefined;
-    setSupport3d: (support3d: boolean) => void;
-    getClip: () => MarkClip | undefined;
-    setClip: (clip: MarkClip) => void;
     compile: (option?: IMarkCompileOption) => void;
     getProduct: () => Maybe<IMark>;
     getProductElements: () => Maybe<IMark['elements']>;
     getMarks: () => ICompilableMark[];
     setSkipBeforeLayouted: (skip: boolean) => void;
     getSkipBeforeLayouted: () => boolean;
-    setCustomizedShapeCallback: (callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) => void;
     setStateSortCallback: (stateSort: (stateA: string, stateB: string) => number) => void;
+    getMarkConfig: () => IMarkConfig;
+    setMarkConfig: (config: IMarkConfig) => void;
     runAnimationByState: (animationState?: string) => IAnimateArranger;
     stopAnimationByState: (animationState?: string) => IAnimate;
     pauseAnimationByState: (animationState: string) => IAnimate;
@@ -149,4 +131,3 @@ export interface ISeriesMarkAttributeContext extends IModelMarkAttributeContext 
     seriesColor: (seriesValue?: string | number) => string;
     getRegion: () => IRegion;
 }
-export type MarkClip = false | IGraphic[] | ((elements: IElement[]) => IGraphic[]);
