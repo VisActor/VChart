@@ -1,5 +1,5 @@
 import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
-import type { GestureConfig } from '@visactor/vrender-kits';
+
 import type { EventSourceType, EventType } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -22,6 +22,44 @@ export type IOptimizeType = {
   // 如果有dirtyBounds那么该配置不生效
   disableCheckGraphicWidthOutRange?: boolean;
 };
+
+export interface GestureConfig {
+  press?: {
+    /**
+     * @default 251
+     * Minimal press time in ms.
+     * @see http://hammerjs.github.io/recognizer-press/
+     */
+    time?: number;
+    /**
+     * @default 10
+     * Minimal movement that is allowed while pressing.
+     * @see http://hammerjs.github.io/recognizer-press/
+     */
+    threshold?: number;
+  };
+  swipe?: {
+    /**
+     * Minimal distance required before recognizing.
+     * @default 10
+     * @see https://hammerjs.github.io/recognizer-swipe/
+     */
+    threshold?: number;
+    /**
+     * Minimal velocity required before recognizing, unit is in px per ms.
+     * @default 0.3
+     * @see http://hammerjs.github.io/recognizer-swipe/
+     */
+    velocity?: number;
+  };
+  tap?: {
+    /**
+     * max time between the multi-tap taps
+     * @default 300
+     */
+    interval?: number;
+  };
+}
 
 export interface IRenderOption {
   /**
