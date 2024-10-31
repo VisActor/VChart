@@ -1,4 +1,5 @@
 import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
+import type { GestureConfig } from '@visactor/vrender-kits';
 import type { EventSourceType, EventType } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -34,6 +35,8 @@ export interface IRenderOption {
    * @default 'desktop-browser'
    */
   mode?: RenderMode;
+
+  gestureConfig?: GestureConfig;
   /**
    * 渲染环境参数配置
    */
