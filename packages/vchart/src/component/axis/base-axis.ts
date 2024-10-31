@@ -115,6 +115,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected abstract collectSeriesField(depth: number, series: ISeries): string | string[];
   abstract transformScaleDomain(): void;
   protected abstract updateScaleRange(): boolean;
+  protected abstract getDefaultInteractive(): boolean;
 
   protected _dataFieldText: string;
   protected _axisMark: IComponentMark;
@@ -172,6 +173,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       if (isValid(this._spec.id)) {
         axisMark.setUserId(this._spec.id);
       }
+      axisMark.setMarkConfig({ interactive: this._spec.interactive ?? this.getDefaultInteractive() });
       this._marks.addMark(axisMark);
 
       if (this._spec.grid?.visible) {
@@ -192,11 +194,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         });
         this._marks.addMark(gridMark);
         this._gridMark = gridMark;
-      }
-
-      // interactive
-      if (isBoolean(this._spec.interactive)) {
-        this._marks.forEach(m => m.setMarkConfig({ interactive: this._spec.interactive }));
       }
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix event of angle axis in radarchart, fix #3343\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
