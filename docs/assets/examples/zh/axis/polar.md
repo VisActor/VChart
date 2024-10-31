@@ -4,7 +4,7 @@ group: axis
 title: 极坐标轴配置
 keywords: roseChart,comparison,composition,circle,axis
 order: 25-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/polar.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/polar.png
 option: roseChart#axes
 ---
 

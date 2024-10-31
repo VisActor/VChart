@@ -4,7 +4,7 @@ group: rose
 title: 堆叠玫瑰图
 keywords: roseChart,comparison,composition,circle
 order: 7-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/rose-stacked.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/rose-stacked.png
 option: roseChart
 ---
 

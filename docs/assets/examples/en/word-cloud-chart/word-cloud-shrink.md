@@ -4,7 +4,7 @@ group: word chart
 title: Word Cloud Text Scaling
 keywords: wordCloud,text,distribution
 order: 14-6
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shrink.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-shrink.png
 option: wordCloudChart
 ---
 

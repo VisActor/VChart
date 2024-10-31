@@ -4,7 +4,7 @@ group: axis
 title: 坐标轴文本自动旋转
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-12
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoRotate.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoRotate.png
 option: barChart#axes
 ---
 

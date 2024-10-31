@@ -4,7 +4,7 @@ group: player
 title: 基础播放器
 keywords: player
 order: 31-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/player/basic-player.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/player/basic-player.gif
 option: pieChart#player
 ---
 

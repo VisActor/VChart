@@ -4,7 +4,7 @@ group: theme
 title: Stacked Radar Chart and Theme Switching
 keywords: radarChart,comparison,line,circle,axis
 order: 0-5
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-radar.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-radar.png
 option: radarChart
 ---
 

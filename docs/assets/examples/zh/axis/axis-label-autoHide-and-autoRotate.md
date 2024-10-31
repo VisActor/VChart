@@ -4,7 +4,7 @@ group: axis
 title: 坐标轴组件标签布局组合使用
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-14
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoHide-and-autoRotate.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoHide-and-autoRotate.png
 option: barChart#axes
 ---
 

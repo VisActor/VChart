@@ -4,7 +4,7 @@ group: gradient
 title: 渐变色-颜色划分移动端
 keywords: lineChart,comparison,trend,line,gradient
 order: 38-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/enhancement-gradient-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/gradient/enhancement-gradient-line.png
 option: lineChart
 ---
 

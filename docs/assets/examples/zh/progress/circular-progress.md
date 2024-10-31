@@ -4,7 +4,7 @@ group: progress
 title: 环形进度图
 keywords: circularProgress,comparison,circle,indicator
 order: 16-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/progress/circular-progress.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/progress/circular-progress.png
 option: circularProgressChart
 ---
 

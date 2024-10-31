@@ -4,7 +4,7 @@ group: radar chart
 title: 百分比堆叠雷达图
 keywords: radarChart,comparison,line,circle,axis
 order: 10-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-percent-radar.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/radar-chart/stack-percent-radar.png
 option: radarChart
 ---
 

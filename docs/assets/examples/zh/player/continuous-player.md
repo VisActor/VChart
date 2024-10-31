@@ -4,7 +4,7 @@ group: player
 title: 连续播放器
 keywords: player
 order: 31-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/player/continuous-player.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/player/continuous-player.gif
 option: pieChart#player
 ---
 

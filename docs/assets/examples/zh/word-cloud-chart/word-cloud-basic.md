@@ -4,7 +4,7 @@ group: word chart
 title: 基础词云图
 keywords: wordCloud,text,distribution
 order: 14-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-basis.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/word-cloud-chart/word-cloud-basis.png
 option: wordCloudChart
 ---
 

@@ -4,7 +4,7 @@ group: line chart
 title: Step Line Chart
 keywords: lineChart,comparison,trend,line
 order: 0-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/step-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/step-line.png
 option: lineChart
 ---
 

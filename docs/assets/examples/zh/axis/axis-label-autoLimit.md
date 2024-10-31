@@ -4,7 +4,7 @@ group: axis
 title: 坐标轴文本自动省略
 keywords: barChart,animation,axis,trend,comparison,rectangle
 order: 25-13
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoLimit.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/axis-label-autoLimit.png
 option: barChart#axes
 ---
 

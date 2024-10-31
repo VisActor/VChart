@@ -4,7 +4,7 @@ group: rose
 title: Grouped Rose Chart
 keywords: roseChart,comparison,composition,circle
 order: 7-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/rose-grouped.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/rose-chart/rose-grouped.png
 option: roseChart
 ---
 

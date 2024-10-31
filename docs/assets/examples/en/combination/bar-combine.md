@@ -4,7 +4,7 @@ group: combination
 title: Custom Multi-Row Multi-Column Layout in Combination Charts
 keywords: commonChart
 order: 22-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/bar-combine.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/bar-combine.png
 option: commonChart
 ---
 

@@ -4,7 +4,7 @@ group: bar chart
 title: 分组柱状图
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 2-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-column.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-column.png
 option: barChart
 ---
 

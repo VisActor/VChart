@@ -20,11 +20,11 @@ option: barChart#extensionMark
 
 ```javascript livedemo
 const icons = {
-  口红: 'http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E5%8F%A3%E7%BA%A2.png',
-  吹风机: 'http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E5%90%B9%E9%A3%8E%E6%9C%BA.png',
-  化妆刷: 'http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E5%8C%96%E5%A6%86%E5%88%B7.png',
-  洗面仪: 'http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E6%B4%97%E9%9D%A2%E4%BB%AA.png',
-  手套: 'http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E6%89%8B%E5%A5%97.png'
+  口红: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E5%8F%A3%E7%BA%A2.png',
+  吹风机: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E5%90%B9%E9%A3%8E%E6%9C%BA.png',
+  化妆刷: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E5%8C%96%E5%A6%86%E5%88%B7.png',
+  洗面仪: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E6%B4%97%E9%9D%A2%E4%BB%AA.png',
+  手套: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/demo/%E6%89%8B%E5%A5%97.png'
 };
 
 const spec = {

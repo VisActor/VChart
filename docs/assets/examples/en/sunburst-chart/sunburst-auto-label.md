@@ -4,7 +4,7 @@ group: sunburst chart
 title: Sunburst - Hiding Dense Labels
 keywords: sunburst,composition,relationShip,circle
 order: 21-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sunburst-chart/sunburst-auto-label.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sunburst-chart/sunburst-auto-label.png
 option: sunburstChart
 ---
 

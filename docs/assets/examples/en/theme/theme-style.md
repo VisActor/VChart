@@ -3,7 +3,7 @@ category: examples
 group: theme
 title: Deffient Style of Theme Registration and Switching
 order: 39-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/theme/theme-switch.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/theme/theme-switch.png
 option: barChart#theme
 ---
 

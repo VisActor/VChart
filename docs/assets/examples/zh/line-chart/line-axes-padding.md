@@ -4,7 +4,7 @@ group: line chart
 title: 折线图轴 padding 调整
 keywords: lineChart,comparison,trend,line
 order: 0-10
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/line-axes-padding.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/line-axes-padding.png
 option: lineChart
 ---
 

@@ -4,7 +4,7 @@ group: bar chart
 title: Grouped Percentage Stacked Bar Chart
 keywords: barChart,comparison,distribution,rectangle,composition,proportion,rank
 order: 2-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-stack-percentage-column.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/group-stack-percentage-column.png
 option: barChart
 ---
 

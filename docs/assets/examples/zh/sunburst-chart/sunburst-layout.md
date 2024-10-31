@@ -4,7 +4,7 @@ group: sunburst chart
 title: 旭日图布局
 keywords: sunburst,composition,relationShip,circle
 order: 21-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sunburst-chart/sunburst-layout.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sunburst-chart/sunburst-layout.png
 option: sunburstChart
 ---
 

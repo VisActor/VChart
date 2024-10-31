@@ -4,7 +4,7 @@ group: area chart
 title: Area Chart with Negative Values
 keywords: areaChart,comparison,trend,area
 order: 1-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/negative-values-area.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/negative-values-area.png
 option: areaChart
 ---
 

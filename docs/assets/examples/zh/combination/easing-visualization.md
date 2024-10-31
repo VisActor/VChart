@@ -4,7 +4,7 @@ group: combination
 title: 缓动函数可视化
 keywords: commonChart
 order: 22-4
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/easing-visualization.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/easing-visualization.png
 option: commonChart
 ---
 

@@ -4,7 +4,7 @@ group: storytelling
 title: Dynamic Line Chart
 keywords: lineChart,comparison,trend,line,animation
 order: 36-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/dynamic-line-chart.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/dynamic-line-chart.gif
 option: lineChart
 ---
 

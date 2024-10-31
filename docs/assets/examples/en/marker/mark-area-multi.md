@@ -4,7 +4,7 @@ group: marker
 title: markArea Axis Space and Data Point Positioning
 keywords: marker, areaChart
 order: 33-6
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-area-multi.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-area-multi.png
 option: lineChart#markArea
 ---
 

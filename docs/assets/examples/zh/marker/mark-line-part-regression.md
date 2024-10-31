@@ -4,7 +4,7 @@ group: marker
 title: markLine 指定数据点并计算线性回归
 keywords: marker,commonChart
 order: 33-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-part-regression.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-line-part-regression.png
 option: barChart#markLine
 ---
 

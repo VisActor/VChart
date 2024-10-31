@@ -4,7 +4,7 @@ group: data-zoom
 title: 缩略轴以数据的方式定义初始范围
 keywords: rangeColumnChart,dataZoom
 order: 29-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/state-with-data.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/data-zoom/state-with-data.png
 option: rangeColumnChart#dataZoom
 ---
 

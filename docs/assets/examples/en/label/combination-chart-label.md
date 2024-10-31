@@ -4,7 +4,7 @@ group: label
 title: Combination Chart Labels
 keywords: label
 order: 35-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/combination-chart-label.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/combination-chart-label.png
 option: commonChart#series-line.label
 ---
 

@@ -4,7 +4,7 @@ group: legend
 title: 单选模式
 keywords: lineChart,comparison,trend,line,legend
 order: 27-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/single-select.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/single-select.png
 option: lineChart#legends
 ---
 

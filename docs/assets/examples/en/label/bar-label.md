@@ -4,7 +4,7 @@ group: label
 title: Bar Chart Labels
 keywords: label
 order: 35-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/bar-label.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/label/bar-label.png
 option: barChart#label
 ---
 

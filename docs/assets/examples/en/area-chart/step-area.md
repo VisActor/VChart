@@ -4,7 +4,7 @@ group: area chart
 title: Step Area Chart
 keywords: areaChart,comparison,trend,area
 order: 1-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/step-area.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/area-chart/step-area.png
 option: areaChart
 ---
 

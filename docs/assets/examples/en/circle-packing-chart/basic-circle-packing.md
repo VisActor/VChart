@@ -4,7 +4,7 @@ group: CirclePacking
 title: Basic CirclePacking Chart
 keywords: circlePacking,composition,circle,relationShip
 order: 20-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/circle-packing-chart/basic-circle-packing.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/circle-packing-chart/basic-circle-packing.png
 option: circlePackingChart
 ---
 

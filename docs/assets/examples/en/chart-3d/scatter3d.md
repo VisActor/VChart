@@ -4,7 +4,7 @@ group: chart-3d
 title: 3D Scatter Chart
 keywords: space
 order: 23-5
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/scatter3d.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/scatter3d.png
 option: scatterChart
 ---
 

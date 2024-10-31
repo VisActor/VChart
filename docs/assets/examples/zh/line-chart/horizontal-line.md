@@ -4,7 +4,7 @@ group: line chart
 title: 垂直折线图
 keywords: lineChart,comparison,trend,line
 order: 0-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/horizontal-line.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/horizontal-line.png
 option: lineChart
 ---
 

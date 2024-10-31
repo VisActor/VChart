@@ -4,7 +4,7 @@ group: waterfall
 title: Basic Waterfall Chart
 keywords: waterfall, comparison, distribution, rectangle
 order: 18-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/basic-waterfall.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/basic-waterfall.png
 option: waterfallChart
 ---
 

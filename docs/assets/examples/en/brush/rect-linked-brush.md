@@ -4,7 +4,7 @@ group: brush
 title: Rect Linked Brush
 keywords: scatterChart,brush
 order: 32-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/rect-linked-brush.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/brush/rect-linked-brush.png
 option: commonChart#brush
 ---
 

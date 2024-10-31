@@ -4,7 +4,7 @@ group: storytelling
 title: Global animation for switching between bar and pie charts
 keywords: animation,morphing,bar,pie,barChart,pieChart,comparison
 order: 42-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-pie.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-pie.gif
 option: pieChart#animationUpdate
 ---
 

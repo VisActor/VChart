@@ -4,7 +4,7 @@ group: storytelling
 title: Circular Chart
 keywords: circularProgress,circle,animation
 order: 36-5
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/weekly-activity.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/storytelling/weekly-activity.gif
 option: circularProgress
 ---
 

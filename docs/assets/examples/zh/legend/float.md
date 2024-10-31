@@ -4,7 +4,7 @@ group: legend
 title: 图例展示在图表内部
 keywords: barChart,comparison,rectangle,legend
 order: 27-2
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/float.png
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/float.png
 option: barChart#legends
 ---
 
