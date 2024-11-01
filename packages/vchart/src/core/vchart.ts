@@ -373,7 +373,7 @@ export class VChart implements IVChart {
     this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
     this._onError = this._option?.onError;
 
-    const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
+    const { dom, renderCanvas, mode, stage, poptip, enableAutoScrollBarPlugin, ...restOptions } = this._option;
     const isTrueBrowseEnv = isTrueBrowser(mode);
 
     // 根据 mode 配置动态加载浏览器或 node 环境代码
@@ -403,6 +403,15 @@ export class VChart implements IVChart {
     this._setNewSpec(spec);
     this._updateCurrentTheme();
     this._currentSize = this.getCurrentSize();
+    const pluginList: string[] = [];
+
+    if (!poptip !== false) {
+      pluginList.push('poptipForText');
+    }
+
+    if (enableAutoScrollBarPlugin) {
+      pluginList.push('scrollbar');
+    }
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -411,7 +420,7 @@ export class VChart implements IVChart {
       {
         mode: this._option.mode,
         stage,
-        pluginList: poptip !== false ? ['poptipForText'] : [],
+        pluginList,
         ...restOptions,
         background: this._getBackground(),
         onError: this._onError

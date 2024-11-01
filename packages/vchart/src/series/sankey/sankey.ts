@@ -44,6 +44,7 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { SankeySeriesSpecTransformer } from './sankey-transformer';
 import { getFormatFunction } from '../../component/util';
 import type { ILabelSpec } from '../../component';
+import { loadScrollbar } from '@visactor/vrender-components';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -225,6 +226,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   initMark(): void {
+    this._rootMark.setMarkConfig({
+      overflow: this._spec.overflow
+    });
     const nodeMark = this._createMark(
       SankeySeries.mark.node,
       {
@@ -1170,6 +1174,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 }
 
 export const registerSankeySeries = () => {
+  loadScrollbar();
   registerSankeyTransforms();
   registerRectMark();
   registerLinkPathMark();

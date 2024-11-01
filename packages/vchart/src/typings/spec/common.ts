@@ -102,6 +102,12 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
   poptip?: boolean;
 
   /**
+   * 是否支持自动生成滚动条的插件
+   * @since 1.13.0
+   */
+  enableAutoScrollBarPlugin?: boolean;
+
+  /**
    * 报错的回调函数
    * @since 1.2.0
    */
