@@ -5,6 +5,8 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { MarkType } from './type';
 import type { ICompilableMark, ICompilableMarkOption, IModelMarkAttributeContext, StateValueType } from '../../compile/mark';
 import type { StringOrNumber } from '../../typings';
+import type { IMarkConfig } from '@visactor/vgrammar-core';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 export interface VisualScaleType {
     scale: IBaseScale;
     field: StringOrNumber;
@@ -42,6 +44,14 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     setPostProcess: <U extends keyof T, A>(key: U, postProcessFunc: IAttrConfig<A, T>['postProcess'], state?: StateValueType) => void;
 }
 export type IMark = IMarkRaw<ICommonSpec>;
+export interface ICompileMarkConfig extends IMarkConfig {
+    morph?: boolean;
+    morphElementKey?: string;
+    support3d?: boolean;
+    setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+    clip?: boolean;
+    skipTheme?: boolean;
+}
 export interface IMarkOption extends ICompilableMarkOption {
     model: IModel;
     map: Map<StringOrNumber, IModel | IMark>;

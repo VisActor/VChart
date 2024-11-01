@@ -12,7 +12,7 @@ export interface ITitleTextTheme {
     fontWeight?: StringOrNumber;
     textAlign?: TextAlign;
     textBaseline?: TextBaseLine;
-    lineHeight?: number;
+    lineHeight?: number | ITokenKey;
 }
 export interface ITitleTheme extends ILayoutItemSpec {
     textStyle?: ITitleTextTheme;
