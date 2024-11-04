@@ -338,26 +338,30 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       return;
     }
 
-    const wordCloudTransforms: any[] = [];
+    const product = (this._wordMark as ICompilableMark).getProduct();
 
-    // 词云 transform
-    if (!this._isWordCloudShape) {
-      wordCloudTransforms.push({
-        type: 'wordcloud',
-        ...this._wordCloudTransformOption()
-      });
-    }
-    // 形状词云 transform
-    else {
-      wordCloudTransforms.push({
-        type: 'wordcloudShape',
-        // 形状词云中必须要传入dataIndexKey, 否则填充词无法绘制
-        ...this._wordCloudShapeTransformOption()
-      });
-    }
+    if (product) {
+      const wordCloudTransforms: any[] = [];
 
-    // 挂到mark的transform上
-    (this._wordMark as ICompilableMark).getProduct().transform(wordCloudTransforms);
+      // 词云 transform
+      if (!this._isWordCloudShape) {
+        wordCloudTransforms.push({
+          type: 'wordcloud',
+          ...this._wordCloudTransformOption()
+        });
+      }
+      // 形状词云 transform
+      else {
+        wordCloudTransforms.push({
+          type: 'wordcloudShape',
+          // 形状词云中必须要传入dataIndexKey, 否则填充词无法绘制
+          ...this._wordCloudShapeTransformOption()
+        });
+      }
+
+      // 挂到mark的transform上
+      product.transform(wordCloudTransforms);
+    }
   }
 
   protected _getCommonTransformOptions(): any {
