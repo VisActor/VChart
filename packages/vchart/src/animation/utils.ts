@@ -234,32 +234,40 @@ export function uniformAnimationConfig<Preset extends string>(
   if (!config) {
     return config;
   }
-  config = cloneDeep(config);
-  traverseSpec(config, (node: any) => {
-    // 将函数转换为 vchart 代理的函数
-    // 这里可能会传自定义动画的构造函数，不能被代理
-    if (isFunction(node) && node.prototype?.constructor !== node) {
-      const name = (...args: any) => {
-        return node(...args, ctx);
-      };
-      return name;
-    }
-    return node;
-  });
+  console.log(config);
+  const excludeKeys = ['custom', 'customParameters'];
+  config = cloneDeep(config, null, excludeKeys);
+  traverseSpec(
+    config,
+    (node: any) => {
+      // 将函数转换为 vchart 代理的函数
+      // 这里可能会传自定义动画的构造函数，不能被代理
+      if (isFunction(node) && node.prototype?.constructor !== node) {
+        const name = (...args: any) => {
+          return node(...args, ctx);
+        };
+        return name;
+      }
+      return node;
+    },
+    excludeKeys
+  );
 
   return config;
 }
 
-function traverseSpec(spec: any, transform: (node: any, key: string | number) => any) {
+function traverseSpec(spec: any, transform: (node: any, key: string | number) => any, excludeKeys: string[] = []) {
   if (isArray(spec)) {
     spec.forEach((i: any, index: number) => {
       spec[index] = transform(spec[index], index);
-      traverseSpec(spec[index], transform);
+      traverseSpec(spec[index], transform, excludeKeys);
     });
   } else if (isObject(spec)) {
     for (const key in spec) {
-      spec[key] = transform(spec[key], key);
-      traverseSpec(spec[key], transform);
+      if (!excludeKeys.includes(key)) {
+        spec[key] = transform(spec[key], key);
+        traverseSpec(spec[key], transform, excludeKeys);
+      }
     }
   }
 }

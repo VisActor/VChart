@@ -24,7 +24,7 @@ export interface IGroupMark extends IMarkRaw<IGroupMarkSpec> {
   getMarks: () => IMark[];
   getMarkInType: (type: MarkType) => IMark[];
   getMarkInId: (id: number) => IMark | undefined;
-  getMarkInName: (name: string) => IMark | undefined;
+  getMarkInName: (name: string) => IMark[];
 }
 
 export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
@@ -47,7 +47,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
   }
 
   protected isMarkExist(mark: IMark): boolean {
-    return this._marks.find(m => m.id === mark.id || m.name === mark.name) !== undefined;
+    return this._marks.find(m => m.id === mark.id) !== undefined;
   }
 
   addMark(mark: IMark): boolean {
@@ -78,8 +78,31 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     return this._marks.find(m => m.id === id);
   }
 
+  getMarkInUserId(id: string | number) {
+    let result: IMark | undefined;
+    this._marks.forEach(m => {
+      if (m.getUserId() === id) {
+        result = m;
+      }
+    });
+
+    if (!result) {
+      for (let i = 0; i < this._marks.length; i++) {
+        const mark = this._marks[i];
+        if (mark.type === 'group') {
+          result = (mark as GroupMark).getMarkInUserId(id);
+        }
+        if (result) {
+          break;
+        }
+      }
+    }
+
+    return result;
+  }
+
   getMarkInName(name: string) {
-    return this._marks.find(m => m.name === name);
+    return this._marks.filter(m => m.name === name);
   }
 
   protected _compileProduct(option?: IMarkCompileOption): void {

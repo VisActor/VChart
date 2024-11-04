@@ -57,7 +57,7 @@ import type { IModelEvaluateOption, IModelRenderOption, IUpdateSpecResult } from
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';
-import type { IBaseInteractionSpec, ISelectSpec } from '../../interaction/interface';
+import type { IBaseInteractionSpec, IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -831,43 +831,47 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (finalHoverSpec.enable) {
       const selector: string[] = this._parseSelectorOfInteraction(finalHoverSpec as IBaseInteractionSpec, mainMarks);
 
-      selector.length &&
-        res.push({
-          seriesId: this.id,
-          regionId: this._region.id,
-          selector,
-          type: 'element-highlight',
-          trigger: finalHoverSpec.trigger as EventType,
-          triggerOff: finalHoverSpec.triggerOff as EventType,
-          blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
-          highlightState: STATE_VALUE_ENUM.STATE_HOVER
-        });
+      selector.length && res.push(this._defaultHoverConfig(selector, finalHoverSpec));
     }
 
     if (finalSelectSpec.enable) {
       const selector: string[] = this._parseSelectorOfInteraction(finalSelectSpec as IBaseInteractionSpec, mainMarks);
-      const isMultiple = finalSelectSpec.mode === 'multiple';
-      const triggerOff = isValid(finalSelectSpec.triggerOff)
-        ? finalSelectSpec.triggerOff
-        : isMultiple
-        ? ['empty']
-        : ['empty', finalSelectSpec.trigger];
-
-      selector.length &&
-        res.push({
-          type: 'element-select',
-          seriesId: this.id,
-          regionId: this._region.id,
-          selector,
-          trigger: finalSelectSpec.trigger as EventType,
-          triggerOff: triggerOff as EventType,
-          reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
-          state: STATE_VALUE_ENUM.STATE_SELECTED,
-          isMultiple
-        });
+      selector.length && res.push(this._defaultSelectConfig(selector, finalSelectSpec));
     }
-
     return res;
+  }
+
+  protected _defaultHoverConfig(selector: string[], finalHoverSpec: IHoverSpec) {
+    return {
+      seriesId: this.id,
+      regionId: this._region.id,
+      selector,
+      type: 'element-highlight',
+      trigger: finalHoverSpec.trigger as EventType,
+      triggerOff: finalHoverSpec.triggerOff as EventType,
+      blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
+      highlightState: STATE_VALUE_ENUM.STATE_HOVER
+    };
+  }
+
+  protected _defaultSelectConfig(selector: string[], finalSelectSpec: ISelectSpec) {
+    const isMultiple = finalSelectSpec.mode === 'multiple';
+    const triggerOff = isValid(finalSelectSpec.triggerOff)
+      ? finalSelectSpec.triggerOff
+      : isMultiple
+      ? ['empty']
+      : ['empty', finalSelectSpec.trigger];
+    return {
+      type: 'element-select',
+      seriesId: this.id,
+      regionId: this._region.id,
+      selector,
+      trigger: finalSelectSpec.trigger as EventType,
+      triggerOff: triggerOff as EventType,
+      reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
+      state: STATE_VALUE_ENUM.STATE_SELECTED,
+      isMultiple
+    };
   }
 
   protected _parseInteractionConfig(mainMarks?: IMark[]) {
@@ -903,7 +907,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   initInteraction() {
     const marks = this.getMarksWithoutRoot();
-
+    console.log(marks);
     this._parseInteractionConfig(marks);
   }
 
@@ -988,7 +992,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   getMarksWithoutRoot(): IMark[] {
-    return this.getMarks().filter(m => !m.name.includes('seriesGroup'));
+    return this.getMarks().filter(m => !m.name?.includes('seriesGroup'));
   }
   getMarksInType(type: string | string[]): IMark[] {
     return this._marks.getMarksInType(type);

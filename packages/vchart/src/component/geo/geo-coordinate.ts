@@ -215,7 +215,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
 
     this._regions.forEach(r => {
       r.getSeries().forEach(s => {
-        if (s.type === SeriesTypeEnum.map) {
+        if (s.type === SeriesTypeEnum.map || s.type === SeriesTypeEnum.pictogram) {
           (s as IGeoSeries).setCoordinateHelper(helper);
         } else {
           // 散点地图
@@ -279,8 +279,8 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     scale && this._projection.scale(scale);
     center && this._projection.center(center);
     eachSeries(this._regions, s => {
-      if (s.type === SeriesTypeEnum.map) {
-        (s as MapSeries).areaPath.clear();
+      if (s.type === SeriesTypeEnum.map || s.type === SeriesTypeEnum.pictogram) {
+        (s as MapSeries).areaPath?.clear();
         const pathGroup = s.getRootMark().getProduct()?.getGroupGraphicItem();
         if (pathGroup) {
           if (pathGroup.attribute.postMatrix) {
@@ -314,7 +314,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     const features: any[] = [];
     this._regions.forEach(r => {
       r.getSeries().forEach(s => {
-        if (s.type === SeriesTypeEnum.map) {
+        if (s.type === SeriesTypeEnum.map || s.type === SeriesTypeEnum.pictogram) {
           features.push(...((s as unknown as IGeoSeries).getMapViewData()?.latestData ?? []));
         }
       });

@@ -695,6 +695,11 @@ export interface ICustomMarkSpec<T extends EnableMarkType>
    * @since 1.11.0
    */
   animation?: boolean;
+  /**
+   * 指定 parent Id
+   * @since 1.13.0
+   */
+  parent?: string;
 }
 export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
   children?: ICustomMarkSpec<EnableMarkType>[];

@@ -23,5 +23,7 @@ export const enum MarkTypeEnum {
   liquid = 'liquid',
 
   component = 'component',
-  label = 'label'
+  label = 'label',
+
+  pictogram = 'pictogram'
 }
