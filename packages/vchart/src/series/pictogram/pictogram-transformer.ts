@@ -3,6 +3,7 @@ import type { ISeriesSpec } from '../../typings';
 import { BaseSeriesSpecTransformer } from '../base';
 import { svgSourceMap } from './svg-source';
 import type { SVGParserResult } from '@visactor/vdataset';
+import { SeriesMarkNameEnum } from '../interface';
 
 export class PictogramSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseSeriesSpecTransformer<T, K> {
   protected _getDefaultSpecFromChart(chartSpec: any): any {

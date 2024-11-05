@@ -907,7 +907,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   initInteraction() {
     const marks = this.getMarksWithoutRoot();
-    console.log(marks);
     this._parseInteractionConfig(marks);
   }
 

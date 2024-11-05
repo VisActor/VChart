@@ -3,7 +3,7 @@ import type { SVGParsedElement, SVGParserResult } from '@visactor/vdataset';
 import { Factory, PanEventParam, ZoomEventParam } from '../../core';
 import { GeoSeries } from '../geo/geo';
 import { ISeriesSeriesInfo, SeriesMarkMap, SeriesTypeEnum } from '../interface';
-import { IPictogramSeriesSpec } from '../map/interface';
+import type { IPictogramSeriesSpec } from './interface';
 import { PictogramSeriesMark } from './constant';
 import { getSVGSource, registerSVGSource, svgSourceMap, unregisterSVGSource } from './svg-source';
 import { SeriesData } from '../base/series-data';
@@ -14,7 +14,7 @@ import { IGroupMark } from '../../mark/group';
 import { shouldMarkDoMorph } from '../../animation/utils';
 import { AttributeLevel } from '../../constant/attribute';
 import { PictogramSeriesSpecTransformer } from './pictogram-transformer';
-import { IMatrix, Matrix, isValid, merge } from '@visactor/vutils';
+import { Bounds, IMatrix, Matrix, isValid, merge } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
 import type { Group } from '@visactor/vrender-core';
@@ -30,6 +30,7 @@ import { IMark } from '../../mark/interface';
 import { PictogramSeriesTooltipHelper } from './tooltip-helper';
 import { graphicAttributeTransform, pictogram } from '../../data/transforms/pictogram';
 import type { IPoint } from '../../typings/coordinate';
+import { ITextMark } from '../../mark/text';
 
 export interface SVGParsedElementExtend extends SVGParsedElement {
   _finalAttributes: Record<string, any>;
@@ -46,6 +47,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
   protected _pictogramMark: GroupMark;
   protected _parsedSvgResult: SVGParserResult;
+  private _labelMark: ITextMark;
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -136,7 +138,6 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     this._pictogramMark.setUserId(PictogramSeries.mark.pictogram.name);
     for (const element of this._mapViewData.getDataView().latestData as SVGParserResult['elements']) {
       const { graphicType: type, name, parent, id, _nameFromParent, _uniqueId } = element;
-      // console.log(type, name, id, this._pictogramMark.getMarkInUserId(parent?.id));
 
       const mark = this._createMark(
         { type, name: name ?? _nameFromParent },
@@ -167,6 +168,45 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
         ]);
       }
     }
+    this._initLabelMark();
+  }
+
+  private _initLabelMark() {
+    if (this._spec.label.visible !== true) {
+      return;
+    }
+
+    const labelMark = this._createMark(PictogramSeries.mark.label, {
+      isSeriesMark: false,
+      parent: this._pictogramMark,
+      groupKey: '_uniqueId',
+      skipBeforeLayouted: true,
+      depend: this.getMarksWithoutRoot()
+    }) as ITextMark;
+
+    if (labelMark) {
+      this._labelMark = labelMark;
+      this._labelMark.setDataView(this._mapViewData.getDataView());
+    }
+  }
+
+  initLabelMarkStyle() {
+    if (!this._labelMark) {
+      return;
+    }
+    this.setMarkStyle(
+      this._labelMark,
+      {
+        visible: d => this._validElement(d),
+        x: (d: Datum) => this.dataToPosition(d, true)?.x,
+        y: (d: Datum) => this.dataToPosition(d, true)?.y,
+        text: (d: Datum) => d[this.nameField],
+        textAlign: 'center',
+        textBaseline: 'middle'
+      },
+      STATE_VALUE_ENUM.STATE_NORMAL,
+      AttributeLevel.Series
+    );
   }
 
   initMarkStyle() {
@@ -207,11 +247,13 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
           });
         } else {
           // 对于没有设置 name 的元素，不支持响应事件、改变样式
-          // mark.setInteractive(false);
+          mark.setInteractive(false);
           this.setMarkStyle(mark, attributes, 'normal', AttributeLevel.Built_In);
         }
       }
     }
+
+    this.initLabelMarkStyle();
   }
   protected _validElement(element: SVGParsedElement) {
     return element.name || element._nameFromParent;
@@ -226,7 +268,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     });
   }
 
-  dataToPosition(datum: Datum): IPoint {
+  dataToPosition(datum: Datum, global = false): IPoint {
     if (!datum) {
       return null;
     }
@@ -234,12 +276,30 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     if (!name) {
       return null;
     }
-    const mark = this.getMarksWithoutRoot().find(mark => mark.name === name);
-    if (!mark) {
+
+    const mark = this.getMarksWithoutRoot().filter(mark => mark.name === name);
+    if (!mark || mark.length === 0) {
       return null;
     }
-    const bounds = mark.getProduct().getBounds();
-    return { x: (bounds.x1 + bounds.x2) / 2, y: (bounds.y1 + bounds.y2) / 2 };
+    let bounds = new Bounds();
+    if (global) {
+      mark.forEach(m => {
+        bounds = bounds.union(m.getProduct().getGroupGraphicItem().globalAABBBounds);
+      });
+    } else {
+      mark.forEach(m => {
+        bounds = bounds.union(m.getProduct().getBounds());
+      });
+    }
+
+    const point = { x: (bounds.x1 + bounds.x2) / 2, y: (bounds.y1 + bounds.y2) / 2 };
+
+    if (global) {
+      const { x, y } = this.getLayoutStartPoint();
+      point.x -= x;
+      point.y -= y;
+    }
+    return point;
   }
 
   coordToPosition(point: IPoint): IPoint | undefined {

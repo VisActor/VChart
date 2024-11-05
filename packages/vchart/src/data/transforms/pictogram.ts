@@ -157,7 +157,6 @@ export const pictogram = (data: DataView[]) => {
         el._finalAttributes.postMatrix = { ...transform };
       }
     });
-    console.log(elements.find(e => e.value === 'Simmons Pioneer Theatre Stage')?._finalAttributes.x);
 
     // 处理文字布局
     const texts = elements.filter(el => el.tagName === 'text');
