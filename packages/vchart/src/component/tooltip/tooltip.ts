@@ -612,20 +612,19 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       const prevInfo = this._cacheInfo as DimensionTooltipInfo;
       const isSameAsCacheInfo =
         prevInfo.length === nextInfo.length && nextInfo.every((info, i) => isSameDimensionInfo(info, prevInfo[i]));
-      if (!isSameAsCacheInfo) {
-        return false;
-      }
-    } else {
-      if (isDimensionInfo(this._cacheInfo)) {
-        return false;
-      }
 
-      const prevInfo = this._cacheInfo as MarkTooltipInfo;
-      const isSameAsCacheInfo =
-        nextInfo?.datum === prevInfo.datum && nextInfo?.mark === prevInfo.mark && nextInfo?.series === prevInfo.series;
-      if (!isSameAsCacheInfo) {
-        return false;
-      }
+      return isSameAsCacheInfo;
+    }
+
+    if (isDimensionInfo(this._cacheInfo)) {
+      return false;
+    }
+
+    const prevInfo = this._cacheInfo as MarkTooltipInfo;
+    const isSameAsCacheInfo =
+      nextInfo?.datum === prevInfo.datum && nextInfo?.mark === prevInfo.mark && nextInfo?.series === prevInfo.series;
+    if (!isSameAsCacheInfo) {
+      return false;
     }
 
     // 判断事件触发信息是否一致
