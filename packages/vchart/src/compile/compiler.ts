@@ -115,7 +115,9 @@ export class Compiler {
       mode: toRenderMode(this._option.mode),
       autoFit: false,
       eventConfig: {
-        gesture: isValid(this._option.gestureConfig) ? this._option.gestureConfig : isMobileLikeMode(this._option.mode),
+        gesture: isValid(this._option.gestureConfig)
+          ? (this._option.gestureConfig as any)
+          : isMobileLikeMode(this._option.mode),
         disable: this._option.interactive === false
       },
       doLayout: () => {
