@@ -4,7 +4,8 @@ import type { IElement, InteractionSpec, IView } from '@visactor/vgrammar-core';
 import { View } from '@visactor/vgrammar-core';
 import type {
   CompilerListenerParameters,
-  CompilerModel,
+  ICompiler,
+  ICompilerModel,
   IGrammarItem,
   IProductMap,
   IRenderContainer,
@@ -21,7 +22,7 @@ import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import { vglobal } from '@visactor/vrender-core';
-import type { IColor, Stage } from '@visactor/vrender-core';
+import type { IColor, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart } from '../core/interface';
 
@@ -30,7 +31,7 @@ type EventListener = {
   callback: (...args: any[]) => void;
 };
 
-export class Compiler {
+export class Compiler implements ICompiler {
   protected _view: IView;
   /**
    * 获取 VGrammar View 实例
@@ -54,7 +55,7 @@ export class Compiler {
   // 已释放标记
   private _released: boolean = false;
 
-  protected _model: CompilerModel = {
+  protected _model: ICompilerModel = {
     [GrammarType.signal]: {},
     [GrammarType.data]: {},
     [GrammarType.mark]: {}
@@ -87,8 +88,8 @@ export class Compiler {
   /**
    * 获取 渲染引擎
    */
-  getStage(): Stage | undefined {
-    return this._view?.renderer.stage();
+  getStage(): IStage | undefined {
+    return this._view?.renderer.stage() as unknown as IStage;
   }
 
   initView() {
@@ -141,7 +142,7 @@ export class Compiler {
     }
   }
 
-  handleStageRender = () => {
+  protected handleStageRender = () => {
     this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
   };
 
@@ -159,7 +160,7 @@ export class Compiler {
     }
   }
 
-  compileInteractions() {
+  protected compileInteractions() {
     this._view.removeAllInteractions();
     if (this._interactions?.length) {
       const regionCombindInteractions = {};

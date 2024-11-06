@@ -3,25 +3,25 @@ import type { DataSet, DataView } from '@visactor/vdataset';
 import type { IEvent, IEventDispatcher } from '../event/interface';
 import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
-import type { VChart } from '../vchart-all';
 import type { IData } from '@visactor/vgrammar-core';
 import type { StringOrNumber } from '../typings/common';
 import type { IGroupMarkSpec, ConvertToMarkStyleSpec, ICommonSpec } from '../typings/visual';
 import type { IRect } from '../typings/space';
 import type { IPoint, CoordinateType } from '../typings/coordinate';
-import type { ITheme } from '../theme';
+import type { ITheme } from '../theme/interface';
 import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
-import type { ICompilableData } from '../compile/data';
+import type { ICompilableData } from '../compile/data/interface';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart, IChartSpecInfo, IChartSpecTransformerOption } from '../chart/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
 import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
 import type { ComponentTypeEnum } from '../component/interface';
-import type { SeriesTypeEnum } from '../series';
+import type { SeriesTypeEnum } from '../series/interface';
 import type { ITooltipSpec } from '../component/tooltip/interface';
 import type { TooltipActiveType } from '../typings';
+import type { IVChart } from '../core/interface';
 
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -163,7 +163,7 @@ export interface IModelOption extends ICompilableInitOption {
   dataSet: DataSet;
   map: Map<StringOrNumber, IModel | IMark>;
   mode: RenderMode;
-  globalInstance: VChart;
+  globalInstance: IVChart;
   regionIndexes?: Array<number>;
   specKey?: string;
   specPath?: Array<string | number>;

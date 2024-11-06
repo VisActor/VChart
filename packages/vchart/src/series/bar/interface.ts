@@ -2,16 +2,26 @@ import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/i
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IRect3dMarkSpec, IRectMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { BarAppearPreset } from './animation';
-import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
+import type { ILabelSpec, IMultiLabelSpec } from '../../component/label/interface';
 import type { IDataSamping, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { Functional } from '@visactor/vrender-components';
 import type { IRectGraphicAttribute } from '@visactor/vrender-core';
-import type { Datum } from '../../typings';
-import type { ISeriesMarkAttributeContext } from '../../compile/mark';
+import type { Datum, DirectionType } from '../../typings';
+import type { ISeriesMarkAttributeContext } from '../../compile/mark/interface';
 
 type BarMarks = 'bar';
+
+export interface IBarAnimationParams {
+  xField: string;
+  yField: string;
+  direction: DirectionType;
+  // growHeightOverall，需要知道一起生长的起始点
+  // 即 x轴 在canvas上的y（ 或 y轴 在canvas上的x ）。
+  growFrom: () => number;
+}
+
+export type BarAppearPreset = 'grow' | 'fadeIn' | 'scaleIn';
 
 export type IStackCornerRadiusCallback = (
   attr: IRectGraphicAttribute,

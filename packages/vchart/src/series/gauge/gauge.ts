@@ -12,9 +12,9 @@ import { gaugeSeriesMark } from './constant';
 import { clamper, degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { registerProgressLikeAnimation } from '../polar/progress-like';
-import type { IMark } from '../../mark/interface';
+import type { IArcMark, IMark } from '../../mark/interface';
 import { GaugeSeriesSpecTransformer } from './gauge-transformer';
-import { registerArcMark, type IArcMark } from '../../mark/arc';
+import { registerArcMark } from '../../mark/arc';
 import { registerPolarLinearAxis } from '../../component/axis/polar';
 import { AttributeLevel } from '../../constant/attribute';
 

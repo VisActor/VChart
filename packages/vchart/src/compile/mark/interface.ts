@@ -17,8 +17,13 @@ import type {
   TransformSpec
 } from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import type { MarkData } from './mark-data';
 import type { IRegion } from '../../region/interface';
+import type { ICompilableData } from '../data/interface';
+
+export interface IMarkData extends ICompilableData {
+  setCompiledProductId: (name: string) => any;
+  generateProductId: () => string;
+}
 
 export interface ICompilableMarkOption extends GrammarItemInitOption {
   key?: string | ((datum: Datum) => string);
@@ -46,8 +51,8 @@ export interface ICompilableMark extends IGrammarItem {
   readonly model: IModel;
 
   // 数据 可以没有
-  getData: () => MarkData | undefined;
-  setData: (d: MarkData) => void;
+  getData: () => IMarkData | undefined;
+  setData: (d: IMarkData) => void;
   getDataView: () => DataView | undefined;
   setDataView: (d?: DataView, productId?: string) => void;
 

@@ -1,9 +1,10 @@
 import type { Datum, IMarkSpec, IMarkTheme, IRuleMarkSpec, ITextMarkSpec } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { WaterfallAppearPreset } from './animation';
-import type { IBarSeriesSpec, IBarSeriesTheme } from '../bar/interface';
-import type { ILabelSpec, ITotalLabelSpec } from '../../component/label';
+import type { BarAppearPreset, IBarSeriesSpec, IBarSeriesTheme } from '../bar/interface';
+import type { ILabelSpec, ITotalLabelSpec } from '../../component/label/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
+
+export type WaterfallAppearPreset = BarAppearPreset;
 
 type WaterfallMarks = 'bar';
 

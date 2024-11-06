@@ -2,17 +2,7 @@ import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import { RotateBySphereAnimate } from '@visactor/vrender-core';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { Factory } from '../../core/factory';
-
-export interface IWordcloud3dAnimationParams {
-  radius: number;
-  depth_3d: number;
-}
-
-export interface IWordcloudAnimationParams {
-  animationConfig: () => IAnimationTypeConfig;
-}
-
-export type WordcloudAppearPreset = 'scaleIn' | 'fadeIn';
+import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams, WordcloudAppearPreset } from './interface';
 
 export const WordCloud3dAnimation = (params: IWordcloud3dAnimationParams | (() => any)): IAnimationTypeConfig => {
   return {

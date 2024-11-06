@@ -173,28 +173,3 @@ export interface IRenderOption {
    */
   ReactDOM?: any;
 }
-
-export type CompilerListenerParameters = {
-  type: EventType;
-  event: Event;
-  source: EventSourceType;
-  // FIXME: 这里 item 应当为场景树的 Item 类型
-  item: any | null;
-  datum: any | null;
-  markId: number | null;
-  modelId: number | null;
-  markUserId: StringOrNumber | null;
-  modelUserId: StringOrNumber | null;
-};
-
-export type CompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
-
-export interface IProductMap<T extends IGrammarItem> {
-  /** 编译产物 id 和对应的在 vchart 中的 GrammarItem */
-  [productId: string]: IGrammarItemMap<T>;
-}
-
-export interface IGrammarItemMap<T extends IGrammarItem> {
-  /** GrammarItem id 和 对应的引用 */
-  [id: number]: T;
-}

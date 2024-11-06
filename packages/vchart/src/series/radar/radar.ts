@@ -1,22 +1,19 @@
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
-import type { ILineMark } from '../../mark/line';
-import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
+import type { IAreaMark, ILineMark, IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { POLAR_START_RADIAN } from '../../constant/polar';
 import { AttributeLevel } from '../../constant/attribute';
 import { ChartEvent } from '../../constant/event';
 import { DEFAULT_LINEAR_INTERPOLATE } from '../../typings/interpolate';
-import type { Datum, IPoint, IPolarPoint } from '../../typings';
+import type { Datum } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { degreeToRadian, isArray, mixin, isValid } from '@visactor/vutils';
-import type { IRadarSeriesSpec } from './interface';
+import type { IRadarAnimationParams, IRadarSeriesSpec, RadarAppearPreset } from './interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import type { IRadarAnimationParams, RadarAppearPreset } from './animation';
 import { registerRadarAnimation } from './animation';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { IAreaMark } from '../../mark/area';
 import { registerAreaMark } from '../../mark/area';
 import { registerLineMark } from '../../mark/line';
 import { registerSymbolMark } from '../../mark/symbol';

@@ -1,22 +1,18 @@
 /* eslint-disable no-duplicate-imports */
-import type { Maybe } from '@visactor/vutils';
 import { AttributeLevel } from '../../../constant/attribute';
 import { MarkTypeEnum } from '../../../mark/interface/type';
-import type { IPyramid3dMark } from '../../../mark/polygon/pyramid-3d';
-import type { IRuleMark } from '../../../mark/rule';
-import type { ITextMark } from '../../../mark/text';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesTypeEnum, SeriesMarkNameEnum } from '../../interface/type';
 import { FunnelSeries } from '../funnel';
-import type { IFunnel3dSeriesSpec, IFunnel3dSeriesTheme } from '../interface';
-import { Pyramid3dMark, registerPyramid3dMark } from '../../../mark/polygon/pyramid-3d';
-import { TextMark, registerTextMark } from '../../../mark/text';
-import { RuleMark, registerRuleMark } from '../../../mark/rule';
+import type { IFunnel3dSeriesSpec } from '../interface';
+import { registerPyramid3dMark } from '../../../mark/polygon/pyramid-3d';
+import { registerTextMark } from '../../../mark/text';
+import { registerRuleMark } from '../../../mark/rule';
 import type { AdaptiveSpec } from '../../../typings';
 import { funnel3dSeriesMark } from '../constant';
-import type { ILabelMark } from '../../../mark/label';
 import { Factory } from '../../../core/factory';
 import { Funnel3dSeriesSpecTransformer } from './funnel-3d-transformer';
+import type { ILabelMark, IPyramid3dMark, IRuleMark, ITextMark } from '../../../mark/interface';
 
 export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec> extends FunnelSeries<
   AdaptiveSpec<T, 'type'>

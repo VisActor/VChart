@@ -4,7 +4,7 @@ import type { IFormatMethod, IMarkSpec, IMarkTheme } from '../../typings/spec/co
 import type { IPositionedTextMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { RangeColumnAppearPreset } from './animation';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec } from '../../component/label/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 
 export const enum PositionEnum {

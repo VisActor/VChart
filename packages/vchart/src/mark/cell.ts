@@ -1,12 +1,10 @@
 import { Factory } from './../core/factory';
 import type { ICellMarkSpec } from '../typings';
-import type { IMarkRaw, IMarkStyle } from './interface';
+import type { ICellMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { BaseSymbolMark } from './symbol';
 import { registerCellGraphic, registerCellMark as registerVgrammarCellMark } from '@visactor/vgrammar-core';
-
-export type ICellMark = IMarkRaw<ICellMarkSpec>;
 
 export class CellMark extends BaseSymbolMark<ICellMarkSpec> implements ICellMark {
   static readonly type = MarkTypeEnum.cell;

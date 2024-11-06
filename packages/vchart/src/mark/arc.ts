@@ -4,14 +4,12 @@ import type { IArcMarkSpec, Datum, StateValueType } from '../typings';
 import type { ExChannelCall } from './base/base-mark';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseMark } from './base/base-mark';
-import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
+import type { IArcMark, IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerArcGraphic } from '@visactor/vgrammar-core';
 import { registerVGrammarArcAnimation } from '../animation/config';
 import { polarToCartesian } from '@visactor/vutils';
-
-export type IArcMark = IMarkRaw<IArcMarkSpec>;
 
 export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements IMarkRaw<T> {
   readonly type: MarkTypeEnum = ArcMark.type;

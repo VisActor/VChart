@@ -3,13 +3,12 @@ import { degreeToRadian, isNil, isValid, isValidNumber, binaryFuzzySearch } from
 import { SEGMENT_FIELD_START, STACK_FIELD_END, STACK_FIELD_START } from '../../../constant/data';
 import { POLAR_END_RADIAN, POLAR_START_RADIAN } from '../../../constant/polar';
 import { AttributeLevel } from '../../../constant/attribute';
-import type { IMarkStyle } from '../../../mark/interface';
+import type { IGroupMark, IMarkStyle } from '../../../mark/interface';
 import type { ConvertToMarkStyleSpec, ICommonSpec } from '../../../typings';
 import { valueInScaleRange } from '../../../util/scale';
 import { PolarSeries } from '../polar';
 import type { IContinuousTickData, IProgressLikeSeriesSpec } from './interface';
 import type { IPolarAxis, IPolarAxisSpec } from '../../../component/axis';
-import type { IGroupMark } from '../../../mark/group';
 import { createArc, createRect } from '@visactor/vrender-core';
 import type { SeriesMarkMap } from '../../interface';
 import { progressLikeSeriesMark } from './constant';

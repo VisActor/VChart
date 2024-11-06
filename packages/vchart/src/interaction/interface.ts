@@ -14,7 +14,7 @@ import type { IMark } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { BaseEventParams, IEventDispatcher, EventType } from '../event/interface';
 import type { IModel } from '../model/interface';
-import type { StateValue } from '../compile/mark';
+import type { StateValue } from '../compile/mark/interface';
 import type { StringOrNumber } from '../typings/common';
 
 export interface IInteraction {

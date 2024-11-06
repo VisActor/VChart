@@ -2,14 +2,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../typings/common';
 import type { IOrientType, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
-import type {
-  ILayoutAlignSelf,
-  ILayoutNumber,
-  ILayoutPaddingSpec,
-  ILayoutPoint,
-  ILayoutRect,
-  ILayoutType
-} from '../typings/layout';
+import type { ILayoutNumber, ILayoutPaddingSpec, ILayoutPoint, ILayoutRect, ILayoutType } from '../typings/layout';
 import type { ILayoutModel } from '../model/interface';
 
 export interface IBaseLayout {

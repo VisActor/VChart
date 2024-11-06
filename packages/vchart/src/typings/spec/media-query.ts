@@ -1,7 +1,8 @@
 import type { ComponentTypeEnum } from '../../component/interface';
-import type { IChartSpec, IVChart } from '../../core';
+import type { IVChart } from '../../core/interface';
 import type { IModelSpecInfo } from '../../model/interface';
-import type { SeriesTypeEnum } from '../../series';
+import type { SeriesTypeEnum } from '../../series/interface/type';
+import type { IChartSpec } from './common';
 
 export interface IMediaInfo {
   /** 图表宽度 */

@@ -4,8 +4,7 @@ import { array, isArray, isNil, isValid, isObject, degreeToRadian, mixin } from 
 
 import type { IMarkSpec } from '../../typings/spec';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { ITextMark } from '../../mark/text';
-import type { IArcMark } from '../../mark/arc';
+import type { ITextMark, IArcMark } from '../../mark/interface';
 import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { ISunburstAnimationParams, SunburstAppearPreset } from './animation';

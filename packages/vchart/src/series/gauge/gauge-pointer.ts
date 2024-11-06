@@ -1,15 +1,13 @@
 /* eslint-disable no-duplicate-imports */
-import type { IMark } from '../../mark/interface';
+import type { IMark, IPathMark, IRectMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import { clamp, isValid, maxInArray, minInArray } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IGaugePointerSeriesSpec, PinMarkSpec, PointerMarkSpec } from './interface';
 import type { Datum } from '../../typings';
-import type { IPathMark } from '../../mark/path';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { ProgressLikeSeries } from '../polar/progress-like';
-import type { IRectMark } from '../../mark/rect';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerPathMark } from '../../mark/path';
 import { registerRectMark } from '../../mark/rect';

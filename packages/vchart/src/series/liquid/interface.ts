@@ -4,7 +4,7 @@ import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { LiquidAppearPreset } from './animation';
 import type { SymbolType } from '@visactor/vrender-core';
-import type { ISymbolMark } from '../../mark/symbol';
+import type { ISymbolMark } from '../../mark/interface';
 
 type LiquidMarks = 'liquid';
 

@@ -1,12 +1,8 @@
 import type { IAnimationTimeline, IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { ARC_MIDDLE_ANGLE } from '../../../constant/polar';
-import type { IArcMark } from '../../../mark/arc';
 import type { Datum } from '../../../typings';
 import { isValidNumber, polarToCartesian } from '@visactor/vutils';
-
-export type ICenterOffsetAnimationOptions = {
-  distance?: number;
-};
+import type { IArcMark } from '../../../mark/interface';
 
 export function centerOffsetConfig(mark: IArcMark, originalConfig: IAnimationTypeConfig): IAnimationTimeline {
   const offset = originalConfig.options?.distance ?? 10;
