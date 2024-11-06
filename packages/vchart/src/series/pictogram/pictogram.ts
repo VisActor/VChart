@@ -17,7 +17,7 @@ import { PictogramSeriesSpecTransformer } from './pictogram-transformer';
 import { Bounds, IMatrix, Matrix, isValid, merge } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
-import type { Group } from '@visactor/vrender-core';
+import type { Group, IGraphic } from '@visactor/vrender-core';
 import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
@@ -121,15 +121,19 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
   }
 
   initMark() {
-    this._pictogramMark = this._createMark(PictogramSeries.mark.pictogram, {
-      morph: shouldMarkDoMorph(this._spec, PictogramSeries.mark.pictogram.name),
-      defaultMorphElementKey: this.getDimensionField()[0],
-      groupKey: this.getDimensionField()[0],
-      isSeriesMark: true,
-      skipBeforeLayouted: true,
-      dataView: this._mapViewData.getDataView(),
-      dataProductId: this._mapViewData.getProductId()
-    }) as GroupMark;
+    this._pictogramMark = this._createMark(
+      PictogramSeries.mark.pictogram,
+      {
+        groupKey: this.getDimensionField()[0],
+        isSeriesMark: true,
+        skipBeforeLayouted: true,
+        dataView: this._mapViewData.getDataView(),
+        dataProductId: this._mapViewData.getProductId()
+      },
+      {
+        morph: shouldMarkDoMorph(this._spec, PictogramSeries.mark.pictogram.name)
+      }
+    ) as GroupMark;
 
     if (!this._pictogramMark) {
       return;
@@ -142,21 +146,22 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       const mark = this._createMark(
         { type, name: name ?? _nameFromParent },
         {
-          morph: shouldMarkDoMorph(this._spec, PictogramSeries.mark.pictogram.name),
-          defaultMorphElementKey: name,
           groupKey: _uniqueId,
           isSeriesMark: false,
           skipBeforeLayouted: true,
           dataView: this._mapViewData.getDataView(),
           dataProductId: this._mapViewData.getProductId(),
           parent: (this._pictogramMark.getMarkInUserId(parent?._uniqueId) as IGroupMark) ?? this._pictogramMark
+        },
+        {
+          morph: shouldMarkDoMorph(this._spec, PictogramSeries.mark.pictogram.name)
         }
       );
 
       if (mark) {
         mark.setUserId(_uniqueId); // id 必须唯一，但无法控制 svg 中元素有重复 id， 这里做一个保护
         if (mark.type !== 'group') {
-          mark.setGraphicName(mark.name);
+          mark.setMarkConfig({ graphicName: mark.name });
         }
         mark.setTransform([
           {
@@ -197,10 +202,10 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     this.setMarkStyle(
       this._labelMark,
       {
-        visible: d => this._validElement(d),
-        x: (d: Datum) => this.dataToPosition(d, true)?.x,
-        y: (d: Datum) => this.dataToPosition(d, true)?.y,
-        text: (d: Datum) => d[this.nameField],
+        visible: d => !!this._validElement(d as SVGParsedElementExtend),
+        x: d => this.dataToPosition(d, true)?.x,
+        y: d => this.dataToPosition(d, true)?.y,
+        text: d => d[this.nameField],
         textAlign: 'center',
         textBaseline: 'middle'
       },
@@ -231,7 +236,11 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       }
       if (viewBoxRect) {
         // fill should be true or content will be invisible
-        this._pictogramMark.setClip(() => [createRect({ ...viewBoxRect, fill: true })]);
+        // this._pictogramMark.setClip(() => [createRect({ ...viewBoxRect, fill: true })]);
+        this._pictogramMark.setMarkConfig({
+          clip: true,
+          clipPath: [createRect({ ...viewBoxRect, fill: true }) as any]
+        });
       }
     }
     for (const element of elements) {
@@ -247,7 +256,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
           });
         } else {
           // 对于没有设置 name 的元素，不支持响应事件、改变样式
-          mark.setInteractive(false);
+          mark.setMarkConfig({ interactive: false });
           this.setMarkStyle(mark, attributes, 'normal', AttributeLevel.Built_In);
         }
       }

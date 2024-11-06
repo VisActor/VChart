@@ -9,9 +9,9 @@ export interface IPictogramSeriesSpec extends ISeriesSpec, IAnimationSpec<'picto
    */
   type: 'pictogram';
   /**
-   *  地图数据源
+   *  svg 数据源
    */
-  map: string;
+  svg: string;
   /**
    *  名称维度
    */
@@ -21,34 +21,12 @@ export interface IPictogramSeriesSpec extends ISeriesSpec, IAnimationSpec<'picto
    */
   valueField?: string;
   /**
-   * 名称映射字段
-   * @default 'name'
-   */
-  nameProperty?: string;
-  /**
-   * 中心坐标映射字段
-   * @default  undefined
-   * @since 1.5.1
-   */
-  centroidProperty?: string;
-  /**
-   *  名称映射表
-   */
-  nameMap?: { [key: string]: string };
-  /**
    *  图元配置
    */
   pictogram?: IMarkSpec<Omit<IPathMarkSpec, 'smoothScale'>>;
 
   /** 默认填充颜色 */
   defaultFillColor?: string;
-
-  /**
-   * 是否显示数据中没有的地区名称
-   * @default false
-   * @since 1.10.3
-   */
-  showDefaultName?: boolean;
 }
 
 export interface IPictogramThemeSpec {
