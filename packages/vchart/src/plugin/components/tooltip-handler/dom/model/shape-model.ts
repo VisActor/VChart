@@ -1,4 +1,4 @@
-import type { IGradientColor, ILinearGradient } from '@visactor/vrender-core';
+import type { CustomSymbolClass, IGradientColor, ILinearGradient } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { Symbol } from '@visactor/vrender-core';
 
@@ -80,9 +80,9 @@ function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: an
     const pathModel = symbol.getParsedPath().path;
     path = pathModel.toString();
     bounds = pathModel.bounds;
-  } else if (parsedPath.isSvg && parsedPath.svgCache) {
-    path = parsedPath.svgCache.map(s => s.path.toString()).join();
-    bounds = parsedPath.svgCache.reduce((acc, cur) => acc.union(cur.path.bounds), new Bounds());
+  } else if (parsedPath.isSvg && (parsedPath as CustomSymbolClass).svgCache) {
+    path = (parsedPath as CustomSymbolClass).svgCache.map(s => s.path.toString()).join();
+    bounds = (parsedPath as CustomSymbolClass).svgCache.reduce((acc, cur) => acc.union(cur.path.bounds), new Bounds());
   }
 
   let viewBox = `${bounds.x1} ${bounds.y1} ${bounds.width()} ${bounds.height()}`;
