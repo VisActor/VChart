@@ -3,7 +3,6 @@ import type { IMarkSpec, IMarkTheme } from '../../typings/spec';
 import type { IArcMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IRoseLikeSeriesSpec, IRoseLikeSeriesTheme } from '../polar/rose-like/interface';
-import type { RoseAppearPreset } from './animation';
 import type { IArcLabelSpec } from '../pie/interface';
 import type { IMultiLabelSpec } from '../../component/label/interface';
 
@@ -30,3 +29,10 @@ export interface IRoseSeriesTheme extends IRoseLikeSeriesTheme {
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: IArcLabelSpec;
 }
+
+export interface IRoseAnimationParams {
+  innerRadius: () => number;
+  growField?: 'angle' | 'radius';
+}
+
+export type RoseAppearPreset = 'growAngle' | 'growRadius' | 'fadeIn';

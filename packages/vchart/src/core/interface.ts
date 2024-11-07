@@ -1,6 +1,4 @@
-import type { DataSet } from '@visactor/vdataset';
-
-import type { IParserOptions } from '@visactor/vdataset';
+import type { DataSet, IParserOptions } from '@visactor/vdataset';
 import type {
   Datum,
   IDataValues,

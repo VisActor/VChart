@@ -1,6 +1,5 @@
 import type { IMarkPointCoordinateSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
-import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/aggregation';
 import { cartesianCoordinateLayout, getMarkPointProcessInfo, positionLayout, xyLayout } from '../utils';
 import { registerMarkPointAnimate } from '@visactor/vrender-components';
 import { isValid } from '@visactor/vutils';
@@ -8,6 +7,7 @@ import { Factory } from '../../../core/factory';
 import type { CoordinateType, IPoint } from '../../../typings';
 import { BaseMarkPoint } from './base-mark-point';
 import type { IMarkProcessOptions } from '../interface';
+import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/interface';
 
 export class CartesianMarkPoint extends BaseMarkPoint {
   static type = ComponentTypeEnum.markPoint;

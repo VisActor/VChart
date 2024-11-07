@@ -1,5 +1,5 @@
 import { PolarSeries } from '../polar/polar';
-import type { ICorrelationSeriesSpec } from './interface';
+import type { CorrelationAppearPreset, ICorrelationSeriesSpec } from './interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { correlationSeriesMark } from './constant';
@@ -26,7 +26,6 @@ import { registerRippleMark } from '../../mark/ripple';
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant/correlation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { Factory } from '../../core/factory';
-import type { CorrelationAppearPreset } from './animation';
 // eslint-disable-next-line no-duplicate-imports
 import { registerCorrelationAnimation } from './animation';
 import type { IStateAnimateSpec } from '../../animation/spec';

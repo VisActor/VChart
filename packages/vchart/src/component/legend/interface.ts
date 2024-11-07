@@ -10,8 +10,8 @@ import type {
 } from '../../typings';
 import type { IComponent } from '../interface';
 import type { IComponentSpec } from '../base/interface';
-import type { IDiscreteLegendSpec } from './discrete';
-import type { IColorLegendSpec, ISizeLegendSpec } from './continuous';
+import type { IDiscreteLegendSpec } from './discrete/interface';
+import type { IColorLegendSpec, ISizeLegendSpec } from './continuous/interface';
 
 export type ILegend = IComponent & {
   getLegendData: () => Datum[];

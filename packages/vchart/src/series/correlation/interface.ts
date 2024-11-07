@@ -3,7 +3,14 @@ import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec } from '../polar/interface';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { CorrelationAppearPreset, CorrelationMarks } from './animation';
+
+export type CorrelationMarks = 'point' | 'label';
+
+export type CorrelationAppearPreset = 'scaleIn' | 'fadeIn';
+
+export interface ICorrelationAnimationParams {
+  [key: string]: object;
+}
 
 export interface ICorrelationSeriesSpec
   extends Omit<IPolarSeriesSpec, 'innerRadius' | 'outerRadius'>,

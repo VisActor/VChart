@@ -1,8 +1,6 @@
 import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
-import type { EventSourceType, EventType } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { GrammarType, IGrammarItem } from './compilable-item';
 import type { StringOrNumber } from '../../typings';
 
 export interface IRenderContainer {

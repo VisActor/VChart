@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import { TagPointsUpdate, ClipDirectionAnimate } from '@visactor/vrender-core';
 import type { IElement } from '@visactor/vgrammar-core';
-import type { ILineAnimationParams, LineAppearPreset } from '../series/line/animation';
+import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
 import { Factory } from '../core/factory';

@@ -16,7 +16,7 @@ import type {
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
 import type { Datum, ILineMarkSpec, IPoint } from '../../../../typings';
-import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components/es/marker/type';
+import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components';
 
 export type IMarkLine = IComponent;
 

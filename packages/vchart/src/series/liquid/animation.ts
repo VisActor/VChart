@@ -1,18 +1,6 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { Factory } from '../../core/factory';
-
-export interface ILiquidAnimationParams {
-  height: {
-    from: () => number | number;
-    to: () => number | number;
-  };
-  dy: {
-    from: () => number | number;
-    to: () => number | number;
-  };
-}
-
-export type LiquidAppearPreset = 'wave' | 'grow' | 'waveGrow';
+import type { ILiquidAnimationParams, LiquidAppearPreset } from './interface';
 
 const Appear_Wave: IAnimationTypeConfig = {
   duration: 2000,
