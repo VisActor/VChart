@@ -680,7 +680,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         dataView: false
       }
     ) as IGroupMark;
-    this._rootMark.setMarkConfig({ zIndex: this.layoutZIndex });
+    this._rootMark.setMarkConfig({ zIndex: this._spec.zIndex ?? this.layoutZIndex });
   }
 
   private _getExtensionMarkNamePrefix() {
