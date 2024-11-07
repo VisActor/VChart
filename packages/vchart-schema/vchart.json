@@ -74826,12 +74826,22 @@
         "trigger": {
           "anyOf": [
             {
+              "typeof": "function"
+            },
+            {
               "items": {
-                "enum": [
-                  "click",
-                  "hover"
-                ],
-                "type": "string"
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -74844,17 +74854,28 @@
               "type": "string"
             }
           ],
-          "description": "tooltip触发方式\n（*会影响自定义handler）"
+          "description": "tooltip触发方式\n（*会影响自定义handler）",
+          "since": "1.12.10 支持自定义的事件触发"
         },
         "triggerOff": {
           "anyOf": [
             {
+              "typeof": "function"
+            },
+            {
               "items": {
-                "enum": [
-                  "click",
-                  "hover"
-                ],
-                "type": "string"
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -74867,7 +74888,8 @@
               "type": "string"
             }
           ],
-          "description": "隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）\n（*会影响自定义handler）"
+          "description": "隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）\n（*会影响自定义handler）",
+          "since": "1.12.10 支持自定义的事件触发"
         },
         "updateElement": {
           "typeof": "function"
@@ -82171,7 +82193,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -82179,14 +82201,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -82194,14 +82216,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -82209,14 +82231,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -82224,14 +82246,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -82239,14 +82261,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13708": {
           "type": "string"
         },
         "size": {
@@ -82254,7 +82276,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13708",
         "size"
       ],
       "type": "object"
@@ -103420,34 +103442,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13708": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13706"
+        "__@toStringTag@13708"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13708": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13706"
+        "__@toStringTag@13708"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13708": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13706"
+        "__@toStringTag@13708"
       ],
       "type": "object"
     },

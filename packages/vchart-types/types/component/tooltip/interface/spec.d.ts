@@ -1,3 +1,4 @@
+import type { EventSourceType, EventType } from '../../../event/interface';
 import type { IGroupTooltipPattern, ITooltipActual, ITooltipPattern, Maybe, MaybeArray, TooltipActiveType, TooltipData } from '../../../typings';
 import type { ITooltipActiveTypeAsKeys, TooltipHandlerParams, TooltipResult } from './common';
 import type { ITooltipTheme } from './theme';
@@ -6,8 +7,17 @@ export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipP
 }, ITooltipPattern, IGroupTooltipPattern>> {
     visible?: boolean;
     activeType?: TooltipActiveType | TooltipActiveType[];
-    trigger?: MaybeArray<'hover' | 'click'> | 'none';
-    triggerOff?: MaybeArray<'hover' | 'click'> | 'none';
+    trigger?: MaybeArray<'hover' | 'click' | {
+        eventType: EventType;
+        source?: EventSourceType;
+        consume?: boolean;
+    }> | 'none';
+    triggerOff?: MaybeArray<'hover' | 'click' | {
+        eventType: EventType;
+        source?: EventSourceType;
+        consume?: boolean;
+        checkOutside?: boolean;
+    }> | 'none';
     showDelay?: number;
     hideTimer?: number;
     lockAfterClick?: boolean;
