@@ -12,8 +12,22 @@ export type IOptimizeType = {
     skipRenderWithOutRange?: boolean;
     disableCheckGraphicWidthOutRange?: boolean;
 };
+export interface GestureConfig {
+    press?: {
+        time?: number;
+        threshold?: number;
+    };
+    swipe?: {
+        threshold?: number;
+        velocity?: number;
+    };
+    tap?: {
+        interval?: number;
+    };
+}
 export interface IRenderOption {
     mode?: RenderMode;
+    gestureConfig?: GestureConfig;
     modeParams?: {
         tooltipCanvasId?: StringOrNumber;
         [key: string]: any;
