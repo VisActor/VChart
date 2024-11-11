@@ -5,7 +5,7 @@ export const DEFAULT_LAYOUT_RECT_LEVEL_MIN = -1;
 export enum LayoutZIndex {
   SeriesGroup = 0,
 
-  Axis_Grid = 50,
+  Axis_Grid = 460,
   CrossHair_Grid = 100,
   Region = 450,
 
@@ -13,11 +13,11 @@ export enum LayoutZIndex {
 
   Node = 400,
 
-  Axis = 100,
+  Axis = 480,
 
   MarkLine = 500,
 
-  MarkArea = 100,
+  MarkArea = 400,
 
   MarkPoint = 500,
 
