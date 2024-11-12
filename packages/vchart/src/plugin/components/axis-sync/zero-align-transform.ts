@@ -47,7 +47,7 @@ export function getScaleInfo(axis: LinearAxisMixin, domain: number[]): ScaleInfo
   };
   if (axis._break?.scope) {
     // 当前轴有截断
-    const index = domain.findIndex(_d => _d >= 0);
+    const index = domain.findIndex(value => value >= 0);
     let scope;
     let domainTemp;
     // 得到0值位置
