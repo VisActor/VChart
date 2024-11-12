@@ -1,8 +1,8 @@
-import type { IGradientColor, ILinearGradient } from '@visactor/vrender-core';
+import type { CustomSymbolClass, IGradientColor, ILinearGradient } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { Symbol } from '@visactor/vrender-core';
 
-import { isObject, isString } from '@visactor/vutils';
+import { isObject, isString, Bounds } from '@visactor/vutils';
 import type { ShapeType } from '../../../../../typings';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { pixelPropertyStrToNumber } from '../utils';
@@ -70,12 +70,21 @@ function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: an
 
   let symbol = createSymbol(symbolType);
   const parsedPath = symbol.getParsedPath();
-  if (!parsedPath.path) {
+  if (!parsedPath.path && parsedPath.pathStr) {
     symbol = createSymbol(parsedPath.pathStr);
   }
-  const pathModel = symbol.getParsedPath().path;
-  const path = pathModel.toString();
-  const bounds = pathModel.bounds;
+
+  let bounds;
+  let path;
+  if (symbol.getParsedPath().path) {
+    const pathModel = symbol.getParsedPath().path;
+    path = pathModel.toString();
+    bounds = pathModel.bounds;
+  } else if (parsedPath.isSvg && (parsedPath as CustomSymbolClass).svgCache) {
+    path = (parsedPath as CustomSymbolClass).svgCache.map(s => s.path.toString()).join();
+    bounds = (parsedPath as CustomSymbolClass).svgCache.reduce((acc, cur) => acc.union(cur.path.bounds), new Bounds());
+  }
+
   let viewBox = `${bounds.x1} ${bounds.y1} ${bounds.width()} ${bounds.height()}`;
 
   // svg 不支持内描边，需要手动将描边空间预留在 viewBox 上

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of custom svg string in tooltip shape, related #3384",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
