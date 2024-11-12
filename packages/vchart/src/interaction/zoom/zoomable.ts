@@ -107,7 +107,13 @@ export class Zoomable implements IZoomable {
     const event = this._isGestureListener ? params : params.event.clone();
     this._zoomableTrigger.parserZoomEvent(event);
     // FIXME: event类型目前不全
-    const { zoomDelta, zoomX, zoomY } = event as any;
+    const { zoomDelta, zoomX, zoomY, path } = event as any;
+
+    // 不响应由组件触发的 zoom 事件（例如滚动分页的离散图例）
+    if (!path.some((node: any) => node.name && node.name.includes('region'))) {
+      return;
+    }
+
     if (isNil(zoomDelta)) {
       return;
     }
