@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " fix: fix the issue where the scrolling legend triggers map zooming under certain conditions, related #3391",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
