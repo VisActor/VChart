@@ -1,5 +1,4 @@
 import { isValidNumber, last } from '@visactor/vutils';
-import { isContinuous } from '@visactor/vscale';
 import type { CartesianAxis } from '../../../component';
 import type { LinearAxisMixin } from '../../../component/axis/mixin/linear-axis-mixin';
 
@@ -11,10 +10,11 @@ type ScaleInfo = {
   extendable_min: boolean;
   extendable_max: boolean;
   domain: number[];
+  break?: boolean;
 };
 
 export function isValidAlignDomain(domain: number[]): boolean {
-  return domain.length === 2 && isValidNumber(domain[0]) && isValidNumber(last(domain)) && last(domain) >= domain[0];
+  return domain.length >= 2 && isValidNumber(domain[0]) && isValidNumber(last(domain)) && last(domain) >= domain[0];
 }
 
 export function getScaleInfo(axis: LinearAxisMixin, domain: number[]): ScaleInfo {
@@ -36,7 +36,7 @@ export function getScaleInfo(axis: LinearAxisMixin, domain: number[]): ScaleInfo
     positive = positive / total;
   }
   const domainSpec = axis.getDomainSpec();
-  return {
+  const result: ScaleInfo = {
     total,
     negative,
     positive,
@@ -45,6 +45,38 @@ export function getScaleInfo(axis: LinearAxisMixin, domain: number[]): ScaleInfo
     extendable_min: !isValidNumber(domainSpec.min),
     extendable_max: !isValidNumber(domainSpec.max)
   };
+  if (axis._break?.scope) {
+    // 当前轴有截断
+    const index = domain.findIndex(_d => _d >= 0);
+    let scope;
+    let domainTemp;
+    // 得到0值位置
+    if (index === 0) {
+      scope = axis._break.scope[index];
+      domainTemp = [domain[0], domain[1]];
+      result.positive = 1;
+      result.negative = 0;
+    } else {
+      // 如果最大值小于 0
+      if (domain[1] <= 0) {
+        result.positive = 0;
+        result.negative = 1;
+      } else {
+        // 0值在中间
+        scope = axis._break.scope[index - 1];
+        domainTemp = [domain[index - 1], domain[index]];
+        // 得到0值在range中的实际比例
+        result.negative = scope[0] + ((0 - domainTemp[0]) / (domainTemp[1] - domainTemp[0])) * (scope[1] - scope[0]);
+        result.positive = 1 - result.negative;
+      }
+    }
+    // 只要有截断，就不做domain修改
+    result.break = true;
+    result.extendable_max = false;
+    result.extendable_min = false;
+    result.domain = domainTemp;
+  }
+  return result;
 }
 
 function inDifferentCrossZero(info1: ScaleInfo, info2: ScaleInfo): boolean {
@@ -167,6 +199,9 @@ export const zeroAlign = (targetAxis: CartesianAxis, currentAxis: CartesianAxis)
   // 先分别获取正负比例
   const info1 = getScaleInfo(<LinearAxisMixin>(<unknown>targetAxis), domain1);
   const info2 = getScaleInfo(<LinearAxisMixin>(<unknown>currentAxis), domain2);
+  if (info1.break === true && info2.break === true) {
+    return;
+  }
   const {
     positive: positive1,
     negative: negative1,
