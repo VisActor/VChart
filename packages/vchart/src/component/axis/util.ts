@@ -6,7 +6,6 @@ import { transformComponentStyle } from '../../util/style';
 import { isXAxis, isYAxis } from './cartesian/util/common';
 import { getComponentThemeFromOption } from '../util';
 import type { ITheme } from '../../theme';
-import { ISeries } from '../../series';
 import type { IAxisHelper } from './cartesian';
 import type { IPolarAxisHelper } from './polar';
 

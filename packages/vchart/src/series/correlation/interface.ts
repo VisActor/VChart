@@ -1,5 +1,5 @@
 import type { IMarkTheme, IMarkSpec, ISymbolMarkSpec, IRippleMarkSpec } from '../../typings';
-import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
+import type { ILabelSpec, IMultiLabelSpec } from '../../component/label/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec } from '../polar/interface';
 import type { IAnimationSpec } from '../../animation/spec';

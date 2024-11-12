@@ -6,12 +6,12 @@ import { valueInScaleRange } from '../../../util/scale';
 import { AttributeLevel } from '../../../constant/attribute';
 import type { Datum } from '../../../typings';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
-import {
-  registerLinearProgressAnimation,
-  type ILinearProgressAnimationParams,
-  type LinearProgressAppearPreset
-} from './animation';
-import type { ILinearProgressSeriesSpec } from './interface';
+import { registerLinearProgressAnimation } from './animation';
+import type {
+  ILinearProgressAnimationParams,
+  ILinearProgressSeriesSpec,
+  LinearProgressAppearPreset
+} from './interface';
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import { registerRectMark } from '../../../mark/rect';

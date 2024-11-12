@@ -1,4 +1,3 @@
-import type { ILabelInfo } from './../../component/label/interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
 import type { DataSet, DataView, ITransformOptions } from '@visactor/vdataset';
@@ -13,7 +12,7 @@ import type { ISeriesTooltipHelper } from './tooltip-helper';
 import type { IInvalidType, Datum, DirectionType, IGroup, StringOrNumber } from '../../typings';
 import type { ISeriesMarkAttributeContext, StateValueType } from '../../compile/mark/interface';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
-import type { ILabelSpec } from '../../component/label/interface';
+import type { ILabelSpec, ILabelInfo } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
 import type { ILegend } from '../../component/legend/interface';
 

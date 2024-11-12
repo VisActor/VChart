@@ -1,5 +1,5 @@
 import type { IAnimationSpec } from '../../animation/spec';
-import type { IMultiLabelSpec } from '../../component/label';
+import type { IMultiLabelSpec } from '../../component/label/interface';
 import type { IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { Maybe } from '../../typings/common';
 import type { IPoint } from '../../typings/coordinate';
