@@ -58,9 +58,10 @@ export function getScaleInfo(axis: LinearAxisMixin, domain: number[]): ScaleInfo
       result.negative = 0;
     } else {
       // 如果最大值小于 0
-      if (domain[1] <= 0) {
+      if (last(domain) <= 0) {
         result.positive = 0;
         result.negative = 1;
+        domainTemp = [domain[domain.length - 2], domain[domain.length - 1]];
       } else {
         // 0值在中间
         scope = axis._break.scope[index - 1];
