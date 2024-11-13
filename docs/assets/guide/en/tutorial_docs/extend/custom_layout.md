@@ -55,7 +55,7 @@ const spec = {
   series: []
 };
 
-// 随机生成 12 组
+// Randomly generate 12 groups
 for (let i = 0; i < 12; i++) {
   spec.region.push({ id: 'clock' + i });
   const series = {
@@ -84,27 +84,25 @@ const vchart = new VChart(spec, {
   dom: CONTAINER_ID,
   layout: (chart, item, chartLayoutRect, chartViewBox) => {
     /**
-     * chart: 图表对象
-     * item: 参与布局的图表模块
-     * chartLayoutRect: 图表减去padding后的可用布局空间
-     * chartViewBox: 图表在画布中的位置，包含图表的padding。
+     * chart is the chart object
+     * item is the chart module participating in the layout
+     * chartLayoutRect is the available layout space after subtracting padding from the chart
+     * chartViewBox is the position of the chart in the canvas, including the padding of the chart.
      */
     const radius = Math.min(chartLayoutRect.width / 2, chartLayoutRect.height / 2);
     const center = { x: chartLayoutRect.width / 2, y: chartLayoutRect.height / 2 };
     const regionSize = radius * 0.2;
     const regionPosRadius = radius - regionSize * 0.5 * 1.415;
-    // 使用布局元素的属性和提供的方法完成布局
+    // Complete the layout using the properties of the layout element and the provided methods
     item.forEach((i, index) => {
       const angle = (index / 12) * Math.PI * 2;
-      // 设置位置
+      // Be sure to call after the layout is complete
       i.setLayoutStartPosition({
         x: center.x + Math.sin(angle) * regionPosRadius - regionSize * 0.5,
         y: center.y + Math.cos(angle) * regionPosRadius - regionSize * 0.5
       });
-      // 设置大小
       i.setLayoutRect({ width: regionSize, height: regionSize });
-      // 更新属性
-      i.updateLayoutAttribute();
+      i.updateLayoutAttribute && i.updateLayoutAttribute();
     });
   }
 });
