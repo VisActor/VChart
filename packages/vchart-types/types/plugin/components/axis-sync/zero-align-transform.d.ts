@@ -8,6 +8,7 @@ type ScaleInfo = {
     extendable_min: boolean;
     extendable_max: boolean;
     domain: number[];
+    break?: boolean;
 };
 export declare function isValidAlignDomain(domain: number[]): boolean;
 export declare function getScaleInfo(axis: LinearAxisMixin, domain: number[]): ScaleInfo;

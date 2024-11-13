@@ -19591,6 +19591,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -20301,6 +20305,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -21702,6 +21710,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -22887,6 +22899,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -23299,6 +23315,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -24619,6 +24639,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -25179,6 +25203,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -26367,6 +26395,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -27072,6 +27104,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -27347,6 +27383,10 @@
         "valueField": {
           "description": "权重字段",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -27943,6 +27983,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -28313,6 +28357,10 @@
             }
           ],
           "description": "数值字段"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -31042,6 +31090,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -31390,6 +31442,10 @@
         "valueField": {
           "description": "相关性数据字段配置",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -33463,7 +33519,14 @@
           "description": "模块的布局大小：高度"
         },
         "hover": {
-          "type": "boolean"
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "html": {
           "allOf": [
@@ -33962,7 +34025,14 @@
           "type": "number"
         },
         "select": {
-          "type": "boolean"
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "selectMode": {
           "enum": [
@@ -34398,6 +34468,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -35690,6 +35764,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -36241,6 +36319,10 @@
         },
         "width": {
           "description": "画布宽度",
+          "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
           "type": "number"
         }
       },
@@ -36993,6 +37075,10 @@
         "valueField": {
           "description": "数值字段",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -37649,6 +37735,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -38051,6 +38141,10 @@
             }
           ],
           "description": "数值字段（可影响指针角度）"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -38505,6 +38599,10 @@
             }
           ],
           "description": "数值字段"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -42405,6 +42503,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -42736,6 +42838,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -43950,6 +44056,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -45086,6 +45196,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -48319,6 +48433,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -48986,6 +49104,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -49586,6 +49708,10 @@
             }
           ],
           "description": "y轴字段\n因为存在 direction，运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -49880,6 +50006,10 @@
             }
           ],
           "description": "y轴字段\n因为存在 direction，运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -50138,6 +50268,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -51938,6 +52072,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -52251,6 +52389,10 @@
         "valueField": {
           "description": "值维度",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -56181,6 +56323,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -56799,6 +56945,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -57181,6 +57331,10 @@
         "valueField": {
           "description": "数值字段",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -59824,6 +59978,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -60220,6 +60378,10 @@
             }
           ],
           "description": "数值字段"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -61408,6 +61570,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -61796,6 +61962,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -62946,6 +63116,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -63373,6 +63547,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -64525,6 +64703,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -64953,6 +65135,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -66381,6 +66567,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -66721,6 +66911,10 @@
             }
           ],
           "description": "数值字段"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -67614,6 +67808,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -68040,6 +68238,10 @@
         "valueField": {
           "description": "节点之间关系的权重字段",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -69140,6 +69342,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -69502,6 +69708,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -70525,6 +70735,10 @@
         "type": {
           "description": "系列类型",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -72562,6 +72776,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -72910,6 +73128,10 @@
         "valueField": {
           "description": "权重字段",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -74826,12 +75048,22 @@
         "trigger": {
           "anyOf": [
             {
+              "typeof": "function"
+            },
+            {
               "items": {
-                "enum": [
-                  "click",
-                  "hover"
-                ],
-                "type": "string"
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -74844,17 +75076,28 @@
               "type": "string"
             }
           ],
-          "description": "tooltip触发方式\n（*会影响自定义handler）"
+          "description": "tooltip触发方式\n（*会影响自定义handler）",
+          "since": "1.12.10 支持自定义的事件触发"
         },
         "triggerOff": {
           "anyOf": [
             {
+              "typeof": "function"
+            },
+            {
               "items": {
-                "enum": [
-                  "click",
-                  "hover"
-                ],
-                "type": "string"
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -74867,7 +75110,8 @@
               "type": "string"
             }
           ],
-          "description": "隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）\n（*会影响自定义handler）"
+          "description": "隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）\n（*会影响自定义handler）",
+          "since": "1.12.10 支持自定义的事件触发"
         },
         "updateElement": {
           "typeof": "function"
@@ -75772,6 +76016,10 @@
         "width": {
           "description": "画布宽度",
           "type": "number"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -76149,6 +76397,10 @@
         "valueField": {
           "description": "权重字段",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -79280,6 +79532,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -79734,6 +79990,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -80608,6 +80868,10 @@
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "当形状词云的形状为文字类型和几何形状类型的时候，支持绘制形状轮廓",
           "since": "1.12.0"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -81001,6 +81265,10 @@
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "当形状词云的形状为文字类型和几何形状类型的时候，支持绘制形状轮廓",
           "since": "1.12.0"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -81593,6 +81861,10 @@
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "当形状词云的形状为文字类型和几何形状类型的时候，支持绘制形状轮廓",
           "since": "1.12.0"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -81979,6 +82251,10 @@
           "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
           "description": "当形状词云的形状为文字类型和几何形状类型的时候，支持绘制形状轮廓",
           "since": "1.12.0"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -82171,7 +82447,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13714": {
           "type": "string"
         },
         "size": {
@@ -82179,14 +82455,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13714",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13714": {
           "type": "string"
         },
         "size": {
@@ -82194,14 +82470,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13714",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13714": {
           "type": "string"
         },
         "size": {
@@ -82209,14 +82485,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13714",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13714": {
           "type": "string"
         },
         "size": {
@@ -82224,14 +82500,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13714",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13714": {
           "type": "string"
         },
         "size": {
@@ -82239,14 +82515,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13714",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13714": {
           "type": "string"
         },
         "size": {
@@ -82254,7 +82530,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13706",
+        "__@toStringTag@13714",
         "size"
       ],
       "type": "object"
@@ -83046,7 +83322,14 @@
           "type": "number"
         },
         "hover": {
-          "type": "boolean"
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "html": {
           "allOf": [
@@ -83212,7 +83495,14 @@
           "type": "number"
         },
         "select": {
-          "type": "boolean"
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
         },
         "selectMode": {
           "enum": [
@@ -83720,6 +84010,10 @@
             }
           ],
           "description": "z轴字段\n用于3d散点图等"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "type": "object"
@@ -84424,6 +84718,10 @@
             }
           ],
           "description": "数值字段"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -85214,6 +85512,10 @@
         "valueField": {
           "description": "数值字段",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -85594,6 +85896,10 @@
             }
           ],
           "description": "数值字段"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -87189,6 +87495,10 @@
         "valueField": {
           "description": "数值字段",
           "type": "string"
+        },
+        "zIndex": {
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number"
         }
       },
       "required": [
@@ -89093,6 +89403,9 @@
         },
         "scrollByPosition": {
           "type": "boolean"
+        },
+        "scrollMask": {
+          "typeof": "function"
         },
         "scrollX": {
           "type": "number"
@@ -97827,6 +98140,9 @@
         "afterRender": {
           "typeof": "function"
         },
+        "autoRefresh": {
+          "type": "boolean"
+        },
         "autoRender": {
           "type": "boolean"
         },
@@ -103420,34 +103736,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13714": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13706"
+        "__@toStringTag@13714"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13714": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13706"
+        "__@toStringTag@13714"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13706": {
+        "__@toStringTag@13714": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13706"
+        "__@toStringTag@13714"
       ],
       "type": "object"
     },
