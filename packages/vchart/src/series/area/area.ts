@@ -66,15 +66,15 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     };
 
     const areaSpec = this._spec.area || {};
-    const isAreaVisible = areaSpec.visible !== false && areaSpec.style?.visible !== false;
 
     const seriesMark = this._spec.seriesMark ?? 'area';
+    const isAreaMarkVisible = this._isAreaVisible() || this._isLineVisible();
     // area
     this._areaMark = this._createMark(
       AreaSeries.mark.area,
       {
         groupKey: this._seriesField,
-        isSeriesMark: isAreaVisible && seriesMark !== 'point',
+        isSeriesMark: isAreaMarkVisible && seriesMark !== 'point',
         stateSort: areaSpec.stateSort
       },
       {
@@ -83,6 +83,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
         setCustomizedShape: areaSpec.customShape
       }
     ) as IAreaMark;
+
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
@@ -106,6 +107,14 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     // area
     const areaMark = this._areaMark;
     if (areaMark) {
+      const isAreaVisible = this._isAreaVisible();
+      const isLineVisible = this._isLineVisible();
+      if (isAreaVisible || isLineVisible) {
+        areaMark.setVisible(true);
+      } else {
+        areaMark.setVisible(false);
+      }
+
       if (this._direction === Direction.horizontal) {
         this.setMarkStyle(
           this._areaMark,
@@ -139,12 +148,13 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       this.setMarkStyle(
         areaMark,
         {
-          fill: this.getColorAttribute(),
-          stroke: this.getColorAttribute()
+          fill: isAreaVisible ? this.getColorAttribute() : false,
+          stroke: isLineVisible ? this.getColorAttribute() : false
         },
         'normal',
         AttributeLevel.Series
       );
+
       if (this._invalidType !== 'zero') {
         this.setMarkStyle(
           areaMark,
@@ -211,6 +221,16 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
         )
       );
     }
+  }
+
+  protected _isAreaVisible() {
+    const areaSpec = this._spec.area || {};
+    return areaSpec.visible !== false && areaSpec.style?.visible !== false;
+  }
+
+  protected _isLineVisible() {
+    const lineSpec = this._spec.line || {};
+    return lineSpec.visible !== false && lineSpec.style?.visible !== false;
   }
 
   protected initTooltip() {

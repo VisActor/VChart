@@ -63,12 +63,6 @@ export class AreaSeriesSpecTransformer<
     }
     area.style = mergeSpec({}, subSpec.style, mainSpec.style);
     area.state = mergeSpec({}, subSpec.state, mainSpec.state);
-    if (!isAreaVisible) {
-      area.style.fill = false;
-    }
-    if (!isLineVisible) {
-      area.style.stroke = false;
-    }
 
     if (area.interactive === false) {
       area.style.fillPickable = false;
@@ -78,7 +72,6 @@ export class AreaSeriesSpecTransformer<
     }
 
     area.interactive = !!(area.interactive || (line.interactive ?? true));
-    area.visible = !(!isAreaVisible && !isLineVisible);
 
     spec.area = area;
     spec.line = line;
