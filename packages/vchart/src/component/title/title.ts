@@ -154,6 +154,7 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
       align: this._spec.align ?? 'left',
       verticalAlign: this._spec.verticalAlign ?? 'top',
       textStyle: {
+        width: maxWidth,
         maxLineWidth: maxWidth,
         ...this._spec.textStyle
       },
