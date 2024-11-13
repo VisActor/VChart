@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix layout of title when orient is \"left\" or \"right\", fix #3401\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

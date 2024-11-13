@@ -3,7 +3,7 @@ import { Factory } from '../../core/factory';
 import type { IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IPoint, IOrientType, ILayoutType, ILayoutRect } from '../../typings';
-import { isValidOrient } from '../../util/space';
+import { calcLayoutNumber, isValidOrient } from '../../util/space';
 import { BaseComponent } from '../base/base-component';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponentOption } from '../interface';
@@ -15,7 +15,7 @@ import type { TitleAttrs } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEqual, isArray, isValidNumber, pickWithout } from '@visactor/vutils';
+import { isEqual, isValidNumber, pickWithout, isValid } from '@visactor/vutils';
 import { getSpecInfo } from '../util';
 
 export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> implements ITitle {
@@ -129,12 +129,15 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
 
   private _getTitleAttrs() {
     // 当 width 小于 0 时，设置为 0，负数场景容易引起不可预知的问题
-    const realWidth = Math.max(0, this._spec.width ?? this.getLayoutRect().width);
     if (this._spec.visible === false) {
       return { visible: false };
     }
+    const layoutRect = this.getLayoutRect();
+    const titleWidth = calcLayoutNumber(this._spec.width, layoutRect.width, null, layoutRect.width);
+    const titleMaxWidth = calcLayoutNumber(this._spec.maxWidth, layoutRect.width, null, layoutRect.width);
+    const maxWidth = Math.max(Math.min(titleWidth, titleMaxWidth, layoutRect.width), 0);
 
-    return {
+    const attrs = {
       ...(pickWithout(this._spec, ['padding']) as any),
       textType: this._spec.textType ?? 'text',
       text: this._spec.text ?? '',
@@ -142,24 +145,30 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
       subtext: this._spec.subtext ?? '',
       x: this._spec.x ?? 0,
       y: this._spec.y ?? 0,
-      width: realWidth,
       height: this._spec.height,
       minWidth: this._spec.minWidth,
-      maxWidth: this._spec.maxWidth,
+      maxWidth,
       minHeight: this._spec.minHeight,
       maxHeight: this._spec.maxHeight,
       padding: this._spec.innerPadding,
       align: this._spec.align ?? 'left',
       verticalAlign: this._spec.verticalAlign ?? 'top',
       textStyle: {
-        width: realWidth,
+        width: maxWidth,
+        maxLineWidth: maxWidth,
         ...this._spec.textStyle
       },
       subtextStyle: {
-        width: realWidth,
+        maxLineWidth: maxWidth,
         ...this._spec.subtextStyle
       }
     } as TitleAttrs;
+
+    if (isValid(this._spec.width)) {
+      attrs.textStyle.width = Math.max(titleWidth, layoutRect.width);
+      attrs.subtextStyle.width = attrs.textStyle.width;
+    }
+    return attrs;
   }
 
   private _createOrUpdateTitleComponent(attrs: TitleAttrs): TitleComponents {
