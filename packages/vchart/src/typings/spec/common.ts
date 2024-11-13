@@ -462,6 +462,11 @@ export interface ISeriesSpec extends IInteractionSpec {
   extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[];
 
   /**
+   * 今当通过`series`配置的时候，才会生效
+   */
+  zIndex?: number;
+
+  /**
    * series background
    * 作用是支持系列的图形对系列背景进行 mask，或者切分等效果。不是作为背景图
    * 暂时不开放api，避免出现break change
