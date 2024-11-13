@@ -166,6 +166,7 @@ export interface ISeriesSpec extends IInteractionSpec {
     support3d?: boolean;
     morph?: IMorphSeriesSpec;
     extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[];
+    zIndex?: number;
 }
 export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'morph' | 'stackValue' | 'tooltip'>;
 export type AdaptiveSpec<T, K extends keyof any> = {
