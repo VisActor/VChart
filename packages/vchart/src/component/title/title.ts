@@ -146,16 +146,18 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
       y: this._spec.y ?? 0,
       height: this._spec.height,
       minWidth: this._spec.minWidth,
-      maxWidth: Math.max(titleWidth, titleMaxWidth, layoutRect.width),
+      maxWidth: Math.max(Math.min(titleWidth, titleMaxWidth, layoutRect.width), 0),
       minHeight: this._spec.minHeight,
       maxHeight: this._spec.maxHeight,
       padding: this._spec.innerPadding,
       align: this._spec.align ?? 'left',
       verticalAlign: this._spec.verticalAlign ?? 'top',
       textStyle: {
+        width: titleWidth,
         ...this._spec.textStyle
       },
       subtextStyle: {
+        width: titleWidth,
         ...this._spec.subtextStyle
       }
     } as TitleAttrs;
