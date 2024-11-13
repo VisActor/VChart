@@ -382,8 +382,10 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
         if (posType > 0) {
           result[dim] = value0 + offset;
+        } else if (posType === 0) {
+          result[dim] = value0 - (boxSize * tooltipSizeScale) / 2;
         } else {
-          result[dim] = value0 - (boxSize * tooltipSizeScale) / 2 + (posType < 0 ? -1 : 0) * offset;
+          result[dim] = value0 - boxSize * tooltipSizeScale - offset;
         }
       }
       result[dim] *= chartElementScale;
