@@ -135,6 +135,7 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
     const layoutRect = this.getLayoutRect();
     const titleWidth = calcLayoutNumber(this._spec.width, layoutRect.width, null, layoutRect.width);
     const titleMaxWidth = calcLayoutNumber(this._spec.maxWidth, layoutRect.width, null, layoutRect.width);
+    const maxWidth = Math.max(Math.min(titleWidth, titleMaxWidth, layoutRect.width), 0);
 
     const attrs = {
       ...(pickWithout(this._spec, ['padding']) as any),
@@ -146,18 +147,18 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
       y: this._spec.y ?? 0,
       height: this._spec.height,
       minWidth: this._spec.minWidth,
-      maxWidth: Math.max(Math.min(titleWidth, titleMaxWidth, layoutRect.width), 0),
+      maxWidth,
       minHeight: this._spec.minHeight,
       maxHeight: this._spec.maxHeight,
       padding: this._spec.innerPadding,
       align: this._spec.align ?? 'left',
       verticalAlign: this._spec.verticalAlign ?? 'top',
       textStyle: {
-        width: titleWidth,
+        maxLineWidth: maxWidth,
         ...this._spec.textStyle
       },
       subtextStyle: {
-        width: titleWidth,
+        maxLineWidth: maxWidth,
         ...this._spec.subtextStyle
       }
     } as TitleAttrs;
