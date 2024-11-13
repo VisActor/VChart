@@ -85,11 +85,11 @@ pie: {
 
 饼图扇区圆角半径。默认值为 0。
 
-#${prefix} startAngle(number)
+#${prefix} startAngle(number) = -90
 
 扇区起始角度。
 
-#${prefix} endAngle(number)
+#${prefix} endAngle(number) = 270
 
 扇区结束角度。
 

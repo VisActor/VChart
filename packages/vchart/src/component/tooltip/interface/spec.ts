@@ -1,3 +1,4 @@
+import type { EventSourceType, EventType } from '../../../event/interface';
 import type {
   IGroupTooltipPattern,
   ITooltipActual,
@@ -40,13 +41,23 @@ export interface ITooltipSpec
   /**
    * tooltip触发方式
    * （*会影响自定义handler）
+   * @since 1.12.10 支持自定义的事件触发
    */
-  trigger?: MaybeArray<'hover' | 'click'> | 'none';
+  trigger?:
+    | MaybeArray<'hover' | 'click' | { eventType: EventType; source?: EventSourceType; consume?: boolean }>
+    | 'none';
   /**
    * 隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）
    * （*会影响自定义handler）
+   * @since 1.12.10 支持自定义的事件触发
    */
-  triggerOff?: MaybeArray<'hover' | 'click'> | 'none';
+  triggerOff?:
+    | MaybeArray<
+        | 'hover'
+        | 'click'
+        | { eventType: EventType; source?: EventSourceType; consume?: boolean; checkOutside?: boolean }
+      >
+    | 'none';
   /**
    * 当设置了`enterable: true`，且 trigger类型为`hover`的时候，为了方便鼠标进入提示信息的内容区域，设置的显示延迟时长
    * 其他情况设置无效

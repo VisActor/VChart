@@ -84,11 +84,11 @@ Pie chart inner sector radius. The default value is 0.
 
 Pie chart sector corner radius. The default value is 0.
 
-#${prefix} startAngle(number)
+#${prefix} startAngle(number) = -90
 
 Sector start angle.
 
-#${prefix} endAngle(number)
+#${prefix} endAngle(number) = 270
 
 Sector end angle.
 

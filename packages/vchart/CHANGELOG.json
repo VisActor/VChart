@@ -2,6 +2,45 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.11",
+      "tag": "@visactor/vchart_v1.12.11",
+      "date": "Wed, 13 Nov 2024 10:27:47 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support axis sync to the axis that has breaks\n\n"
+          },
+          {
+            "comment": "feat: tooltip can support customized `trigger` and `triggerOff`\n\n"
+          },
+          {
+            "comment": "  fix: fix the issue where the axis breaks render incorrectly in some cases"
+          },
+          {
+            "comment": "fix: fix `zIndex` of series, fix #3395\n\n"
+          },
+          {
+            "comment": "fix: fix layout of title when orient is \"left\" or \"right\", fix #3401\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of custom svg string in tooltip shape, related #3384"
+          },
+          {
+            "comment": "fix: tooltip `enterable` should work when update, fix #3405\n\n"
+          },
+          {
+            "comment": "fix: fix tooltip position by `mode: pointer`, close #3367\n\n"
+          },
+          {
+            "comment": "fix: wordcloud should not throw error when `word.visible` is `false`, fix #3378\n\n"
+          },
+          {
+            "comment": " fix: fix the issue where the scrolling legend triggers map zooming under certain conditions, related #3391"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.10",
       "tag": "@visactor/vchart_v1.12.10",
       "date": "Thu, 31 Oct 2024 12:08:50 GMT",

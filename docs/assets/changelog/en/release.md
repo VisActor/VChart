@@ -1,3 +1,29 @@
+# v1.12.10
+
+2024-10-31
+
+**🆕 New feature**
+
+- **@visactor/vchart**: pie series support center of percent string
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: scroll not dispatch view update when axis is not display. fix[#3278](https://github.com/VisActor/VChart/issues/3278)
+- **@visactor/vchart**: changes to `roam` via updateSpec do not take effect
+- **@visactor/vchart**: fix the issue of symbolActiveMark visible setting
+- **@visactor/vchart**: fix issue with chart background in harmony
+- **@visactor/vchart**: fix event of angle axis in radarchart, fix [#3343](https://github.com/VisActor/VChart/issues/3343)
+- **@visactor/vchart**: type issue of title theme
+- **@visactor/vchart**: fix the issue of incorrect display of legend scrollbar in boundary scenarios
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: optimize setter and getter about markConfig
+- **@visactor/vchart**: Optimize the issue of excessive omission of head and tail labels when axis labels are rotated in Cartesian coordinate systems.
+- **@visactor/vchart**: Optimize the automatic line wrapping effect of axis labels in Cartesian coordinate systems.
+
+[more detail about v1.12.10](https://github.com/VisActor/VChart/releases/tag/v1.12.10)
+
 # v1.12.9
 
 2024-10-25

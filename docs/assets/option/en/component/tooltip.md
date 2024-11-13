@@ -18,6 +18,26 @@ Show how the tooltip is triggered. Defaults to `'hover'`, i.e. triggered on mous
 
 - `'hover'`: Triggered on mouse hover.
 - `'click'`: Triggered on mouse click.
+- Custom event configuration, the configuration format is as follows:
+
+```ts
+{
+  /**
+   * Event type string, such as 'press'
+   */
+  eventType: EventType;
+  /**
+   * Event binding type
+   */
+  source?: 'chart' | 'window' | 'canvas';
+  /**
+   * Whether to prevent bubbling
+   */
+  consume?: boolean;
+}
+```
+
+Refer to the [Event Interface Documentation](/vchart/api/API/event) for event types.
 
 **_(works on all handlers)_**
 
@@ -27,8 +47,32 @@ Hide the tooltip trigger method. Defaults to `'hover'`, which hides the previous
 
 - `'hover'`: Triggers the tooltip to hide when the mouse hovers out of the hotspot.
 - `'click'`: Triggers tooltip hiding when mouse clicks on other elements.
+- Custom event configuration, the configuration format is as follows:
 
-Currently `triggerOff` only supports settings consistent with `trigger` and `'none'`. If configured as `'none'`, the tooltip will not disappear due to user interaction.
+```ts
+{
+  /**
+   * Event type string, such as 'press'
+   */
+  eventType: EventType;
+  /**
+   * Event binding type
+   */
+  source?: 'chart' | 'window' | 'canvas';
+  /**
+   * Whether to prevent bubbling
+   */
+  consume?: boolean;
+  /**
+   * Whether to restrict the trigger point to hide the legend only outside the chart area
+   */
+  checkOutside?: boolean
+}
+```
+
+Refer to the [Event Interface Documentation](/vchart/api/API/event) for event types.
+
+Currently, when `trigger` is configured with `hover` or `click`, the default `triggerOff` will include the corresponding value. If you do not want the default `hover` or `click` trigger effect, it is recommended to configure both `trigger` and `triggerOff` through custom event configuration.
 
 **_(works on all handlers)_**
 

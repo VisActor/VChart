@@ -45,7 +45,7 @@ function breakScope(data: number[], points: number[]): [number, number][] {
     .reduce((res, bin, i) => {
       const last = res[i - 1] ? res[i - 1][1] : 0;
       const next = (last * 100 + +(bin / count).toFixed(2) * 100) / 100; // Fuck you, JavaScript
-      res.push([last, next > 1 ? 1 : next > 0.95 ? 1 : next]);
+      res.push([last, next > 1 ? 1 : next]);
       return res;
     }, [])
     .filter(s => {

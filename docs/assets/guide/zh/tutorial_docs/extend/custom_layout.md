@@ -84,10 +84,10 @@ const vchart = new VChart(spec, {
   dom: CONTAINER_ID,
   layout: (chart, item, chartLayoutRect, chartViewBox) => {
     /**
-     * chart: 图表对象
-     * item: 参与布局的图表模块
-     * chartLayoutRect: 图表减去padding后的可用布局空间
-     * chartViewBox: 图表在画布中的位置，包含图表的padding。
+     * chart 是图表对象
+     * item 是参与布局的图表模块
+     * chartLayoutRect 是图表减去padding后的可用布局空间
+     * chartViewBox 是图表在画布中的位置，包含图表的padding。
      */
     const radius = Math.min(chartLayoutRect.width / 2, chartLayoutRect.height / 2);
     const center = { x: chartLayoutRect.width / 2, y: chartLayoutRect.height / 2 };
@@ -96,15 +96,13 @@ const vchart = new VChart(spec, {
     // 使用布局元素的属性和提供的方法完成布局
     item.forEach((i, index) => {
       const angle = (index / 12) * Math.PI * 2;
-      // 设置位置
+      // 请在布局完成后务必调用
       i.setLayoutStartPosition({
         x: center.x + Math.sin(angle) * regionPosRadius - regionSize * 0.5,
         y: center.y + Math.cos(angle) * regionPosRadius - regionSize * 0.5
       });
-      // 设置大小
       i.setLayoutRect({ width: regionSize, height: regionSize });
-      // 更新属性
-      i.updateLayoutAttribute();
+      i.updateLayoutAttribute && i.updateLayoutAttribute();
     });
   }
 });
