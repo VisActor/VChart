@@ -22,6 +22,44 @@ export type IOptimizeType = {
   disableCheckGraphicWidthOutRange?: boolean;
 };
 
+export interface GestureConfig {
+  press?: {
+    /**
+     * @default 251
+     * Minimal press time in ms.
+     * @see http://hammerjs.github.io/recognizer-press/
+     */
+    time?: number;
+    /**
+     * @default 10
+     * Maximal movement that is allowed while pressing.
+     * @see http://hammerjs.github.io/recognizer-press/
+     */
+    threshold?: number;
+  };
+  swipe?: {
+    /**
+     * Minimal distance required before recognizing.
+     * @default 10
+     * @see https://hammerjs.github.io/recognizer-swipe/
+     */
+    threshold?: number;
+    /**
+     * Minimal velocity required before recognizing, unit is in px per ms.
+     * @default 0.3
+     * @see http://hammerjs.github.io/recognizer-swipe/
+     */
+    velocity?: number;
+  };
+  tap?: {
+    /**
+     * max time between the multi-tap taps
+     * @default 300
+     */
+    interval?: number;
+  };
+}
+
 export interface IRenderOption {
   /**
    * 配置渲染环境，默认为 'desktop-browser'，当需要在非浏览器环境渲染 VChart 时，需要配置该属性。
@@ -34,6 +72,8 @@ export interface IRenderOption {
    * @default 'desktop-browser'
    */
   mode?: RenderMode;
+
+  gestureConfig?: GestureConfig;
   /**
    * 渲染环境参数配置
    */

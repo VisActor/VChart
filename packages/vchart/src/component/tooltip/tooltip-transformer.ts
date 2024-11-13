@@ -32,7 +32,6 @@ export class TooltipSpecTransformer extends BaseComponentSpecTransformer<any> {
     spec.className = spec.className ?? TOOLTIP_EL_CLASS_NAME;
     spec.enterable = spec.enterable ?? false;
     spec.transitionDuration = spec.transitionDuration ?? 150;
-    spec.triggerOff = spec.triggerOff ?? spec.trigger;
     spec.confine = spec.confine ?? spec.renderMode === 'canvas';
 
     if (isValid(spec.parentElement)) {
