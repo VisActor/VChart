@@ -124,6 +124,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
               return valueInScaleRange(this.dataToPositionX1(datum), this._xAxisHelper?.getScale?.(0));
             },
             y: this.dataToPositionY.bind(this),
+            y1: this.dataToPositionY.bind(this),
             z: this._fieldZ ? this.dataToPositionZ.bind(this) : null,
             orient: this._direction
           },
@@ -135,6 +136,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
           this._areaMark,
           {
             x: this.dataToPositionX.bind(this),
+            x1: this.dataToPositionX.bind(this),
             y1: (datum: Datum) => {
               return valueInScaleRange(this.dataToPositionY1(datum), this._yAxisHelper?.getScale?.(0));
             },
