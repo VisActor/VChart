@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix: fix the issue where modifying area.visible through updateSpec does not take effect, related #3393",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
