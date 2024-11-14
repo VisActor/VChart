@@ -2,7 +2,7 @@ import type { IRankingBarSpec } from './interface';
 import type { ICartesianAxisSpec, ICommonChartSpec, ILabelSpec } from '@visactor/vchart';
 import type { ITextGraphicAttribute } from '@visactor/vrender-core';
 import { BaseChartSpecTransformer } from '@visactor/vchart';
-import { isValid } from '@visactor/vutils';
+import { isValid, merge } from '@visactor/vutils';
 
 export class RankingBarChartSpecTransformer<T extends ICommonChartSpec> extends BaseChartSpecTransformer<any> {
   transformSpec(spec: T): void {
@@ -19,7 +19,14 @@ export class RankingBarChartSpecTransformer<T extends ICommonChartSpec> extends 
       label,
       nameLabel,
       xAxis,
-      yAxis
+      yAxis,
+      animationAppear,
+      animationDisappear,
+      animationEnter,
+      animationExit,
+      animationNormal,
+      animationUpdate,
+      player
     } = spec as unknown as IRankingBarSpec;
 
     const interval = userInterval ? userInterval : 1000;
@@ -58,22 +65,44 @@ export class RankingBarChartSpecTransformer<T extends ICommonChartSpec> extends 
       }
     ];
     spec.axes = axisSpec(xAxis, yAxis);
-    spec.player = {
-      type: 'continuous',
-      auto: true,
-      loop: false,
-      interval,
-      specs: timeNodes.map(time => ({
-        data: [
-          { id: 'timeData', values: timeData.get(time) },
-          { id: 'time', values: [{ time }] }
-        ]
-      }))
-    };
+    spec.player = merge(
+      {
+        type: 'continuous',
+        auto: true,
+        loop: false,
+        interval,
+        specs: timeNodes.map(time => ({
+          data: [
+            { id: 'timeData', values: timeData.get(time) },
+            { id: 'time', values: [{ time }] }
+          ]
+        }))
+      },
+      player || {}
+    );
     spec.tooltip = { visible: false };
     spec.customMark = [];
 
     transformAnimationSpec(spec, { interval, exchangeDuration });
+    // 支持外部关闭animate
+    if (animationAppear === false) {
+      (spec as any).animationAppear = animationAppear;
+    }
+    if (animationDisappear === false) {
+      (spec as any).animationDisappear = animationDisappear;
+    }
+    if (animationEnter === false) {
+      (spec as any).animationEnter = animationEnter;
+    }
+    if (animationExit === false) {
+      (spec as any).animationExit = animationExit;
+    }
+    if (animationNormal === false) {
+      (spec as any).animationNormal = animationNormal;
+    }
+    if (animationUpdate === false) {
+      (spec as any).animationUpdate = animationUpdate;
+    }
 
     if (!timeLabel || timeLabel.visible !== false) {
       spec.customMark.push(timeLabelSpec(timeLabel.style) as any);
@@ -221,7 +250,7 @@ function axisSpec(xAxis: IRankingBarSpec['xAxis'] = {}, yAxis: IRankingBarSpec['
     label: { style: yAxis.label },
     domainLine: { style: yAxis.domainLine },
     grid: { style: yAxis.grid }
-  };
+  } as any;
   const bottomAxis: ICartesianAxisSpec = {
     orient: 'bottom',
     type: 'linear',
@@ -231,7 +260,7 @@ function axisSpec(xAxis: IRankingBarSpec['xAxis'] = {}, yAxis: IRankingBarSpec['
     domainLine: { style: xAxis.domainLine },
     grid: { style: xAxis.grid },
     innerOffset: { right: '10%' }
-  };
+  } as any;
 
   if (xAxis.label) {
     bottomAxis.label = xAxis.label;
@@ -244,16 +273,16 @@ function timeLabelSpec(textStyle: ITextGraphicAttribute = {}) {
     type: 'text',
     dataId: 'time',
     style: {
-      textBaseline: 'bottom',
+      textBaseline: 'alphabetic',
       fontSize: 200,
       textAlign: 'end',
       fontWeight: 600,
       text: (datum: any) => datum.time,
       x: (datum: any, ctx: any) => {
-        return ctx.vchart.getChart().getCanvasRect()?.width - 50;
+        return ctx.vchart.getChart().getLayoutRect()?.width;
       },
       y: (datum: any, ctx: any) => {
-        return ctx.vchart.getChart().getCanvasRect()?.height - 80;
+        return ctx.vchart.getChart().getAllRegions()[0]?.getLayoutRect()?.height;
       },
       fill: 'grey',
       fillOpacity: 0.5,

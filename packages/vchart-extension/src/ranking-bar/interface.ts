@@ -58,4 +58,12 @@ export interface IRankingBarSpec extends IPlayConfig {
     domainLine?: ILineGraphicAttribute;
     grid?: ILineGraphicAttribute;
   };
+
+  animationAppear?: boolean | any;
+  animationEnter?: boolean | any;
+  animationUpdate?: boolean | any;
+  animationExit?: boolean | any;
+  animationDisappear?: boolean | any;
+  animationNormal?: boolean | any;
+  player?: any;
 }
