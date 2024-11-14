@@ -86,7 +86,8 @@ Currently, chart examples in the group include multiple categories such as area 
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/BCvZbkvF9oiPWlx6R2zcJxxBn7e.gif' alt='' width='1000' height='auto'>
 
-# Writing Demos with the Help of Doubao [Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)
+# Writing Demos with the Help of Doubao Marscode AI Programming Assistant
+[Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)
 
 With the help of Doubao [Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a), you can get comprehensive assistance throughout the document creation process.
 

@@ -52,7 +52,9 @@ VisActor 整体上属于前端技术栈，能进行前端开发的工具很多�
 
 如果你对VSCode 不是很熟悉的话，建议阅读官方文档：https://vscode.js.cn/docs/setup/setup-overview
 
-## 2.3 安装 豆包[Marscode AI编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)
+## 2.3 安装 豆包 Marscode AI编程助手
+
+[Marscode AI编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)
 
 豆包 MarsCode 编程助手是豆包旗下的 AI 编程助手，提供以智能代码补全为代表的 AI 功能。它支持主流的编程语言和 IDE，在开发过程中提供单行代码或整个函数的编写建议。此外，它还支持代码解释、单测生成和问题修复等功能，提高了开发效率和质量。 更多信息，请参考[豆包 MarsCode 编程助手的文档](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)。
 

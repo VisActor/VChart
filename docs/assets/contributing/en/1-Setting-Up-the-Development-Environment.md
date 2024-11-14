@@ -49,7 +49,11 @@ VisActor predominantly uses a frontend tech stack. There are many tools availabl
 
 If you're not familiar with VSCode, it might be helpful to read the official documentation: https://vscode.js.cn/docs/setup/setup-overview
 
-## 2.3 Install Doubao [Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)
+## 2.3 Install Doubao Marscode AI Programming Assistant
+
+
+[Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)
+
 
 Doubao MarsCode Programming Assistant is an AI coding assistant from Doubao that provides AI features represented by intelligent code completion. It supports mainstream programming languages and IDEs, offering suggestions for writing a single line of code or an entire function during development. In addition, it offers features like code explanation, unit test generation, and problem fixing, improving development efficiency and quality. For more information, please refer to the [Doubao MarsCode Programming Assistant documentation](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a).
 

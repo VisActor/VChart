@@ -52,7 +52,7 @@ VChart 源码在项目的中的位置如下：
 
 VChart 生态所有的组件都在同一目录下，按包名进行拆分，开发者需要在自己的代码分支上开发代码，然后进行提交。 
 
-# 借助豆包[Marscode AI编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)进行代码编写
+# 借助豆包 Marscode AI编程助手 进行代码编写
 
 借助豆包[Marscode AI编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)，可以在代码编写的整个流程中提供全方面的帮助。
 
