@@ -76,7 +76,9 @@ This file corresponds to the final position and name of the document displayed o
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/L6WpbXlFEo15F4xSIsMch9YTnof.gif' alt='' width='1000' height='auto'>
 
-# Use Doubao [Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a) for Document Writing
+# Use Doubao Marscode AI Programming Assistant
+
+[Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)
 
 Using Doubao [Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a) can provide comprehensive assistance throughout the entire process of document creation.
 
