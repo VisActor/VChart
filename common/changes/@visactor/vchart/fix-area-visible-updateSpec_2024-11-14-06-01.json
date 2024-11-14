@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix incorrect rendering when changing `direction` via updateSpec in area chart, related #3406",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
