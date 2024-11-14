@@ -47,13 +47,16 @@ const fillBins = (data: number[], points: number[]) => {
   return bins;
 };
 
-function breakScope(data: number[], points: number[]): [number, number][] {
+function breakScope(data: number[], points: number[], scopeType: 'count' | 'length' = 'length'): [number, number][] {
   // 默认 data 和 points 已经排序
   const bins = fillBins(data, points);
 
-  const totalLength = bins.reduce((res, bin, i) => {
-    return bin.count > 0 ? res + bin.max - bin.min : res;
-  }, 0);
+  const totalLength =
+    scopeType === 'count'
+      ? data.length
+      : bins.reduce((res, bin, i) => {
+          return bin.count > 0 ? res + bin.max - bin.min : res;
+        }, 0);
   const res: [number, number][] = [];
   let acc = 0;
 
@@ -61,24 +64,22 @@ function breakScope(data: number[], points: number[]): [number, number][] {
     if (totalLength === 0) {
       res.push([0, i / bins.length - 1]);
     } else {
-      res.push([
-        res[i - 1] ? res[i - 1][1] : 0,
-        i === bins.length - 1 ? 1 : Math.min((acc + (bin.max - bin.min)) / totalLength, 1)
-      ]);
-      acc += bin.max - bin.min;
+      const length = scopeType === 'count' ? bin.count : bin.max - bin.min;
+      res.push([res[i - 1] ? res[i - 1][1] : 0, i === bins.length - 1 ? 1 : Math.min((acc + length) / totalLength, 1)]);
+      acc += length;
     }
   });
 
   return res;
 }
 
-export function breakData(data: number[], points: number[]) {
+export function breakData(data: number[], points: number[], scopeType?: 'count' | 'length') {
   // 现将数据和断点排序
   data.sort(sorter);
   points.sort(sorter);
 
   return {
     domain: breakDomain(data, points),
-    scope: breakScope(data, points)
+    scope: breakScope(data, points, scopeType)
   };
 }

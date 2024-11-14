@@ -18,7 +18,7 @@ export function combineDomains(domains: number[][]): number[] {
   const result = [];
   for (let index = 0; index < domains.length; index++) {
     const domain = domains[index];
-    if (index === 0) {
+    if (index === 0 || domain[0] !== result[result.length - 1]) {
       result.push(domain[0]);
     }
 

@@ -172,7 +172,11 @@ export class LinearAxisMixin {
         }
         breakRanges.sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
         if (breakRanges.length) {
-          const { domain: breakDomains, scope: breakScopes } = breakData(values, combineDomains(breakRanges));
+          const { domain: breakDomains, scope: breakScopes } = breakData(
+            values,
+            combineDomains(breakRanges),
+            this._spec.breaks[0].scopeType
+          );
 
           domain = combineDomains(breakDomains);
           this._break = {
