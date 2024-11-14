@@ -18,10 +18,12 @@ describe('break data ', () => {
       [3000, 7715]
     ]);
 
-    expect(scope).toStrictEqual([
-      [0, 0.5],
-      [0.5, 0.58],
-      [0.58, 1]
-    ]);
+    expect(scope.length).toEqual(3);
+    expect(scope[0][0]).toBeCloseTo(0);
+    expect(scope[0][1]).toBeCloseTo(0.06136455389584174);
+    expect(scope[1][0]).toBeCloseTo(0.06136455389584174);
+    expect(scope[1][1]).toBeCloseTo(0.36549589557260126);
+    expect(scope[2][0]).toBeCloseTo(0.36549589557260126);
+    expect(scope[2][1]).toBeCloseTo(1);
   });
 });

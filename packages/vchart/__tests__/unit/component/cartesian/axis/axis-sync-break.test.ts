@@ -1503,10 +1503,17 @@ describe('VChart', () => {
       const la = vchart.getChart()?.getComponentByUserId('left_axis') as CartesianLinearAxis;
 
       expect(la.getScale().domain()).toEqual([-5000, 60, 80, 30000]);
-      expect(la.getScale().range()).toEqual([430, 146.2, 133.3, 0]);
+      const range = la.getScale().range();
+      expect(range[0]).toBeCloseTo(428);
+      expect(range[1]).toBeCloseTo(425.87741665195745);
+      expect(range[2]).toBeCloseTo(425.57735448340196);
+      expect(range[3]).toBeCloseTo(0);
 
-      expect(ra.getScale().domain()).toEqual([-150000000000, 80000000000]);
-      expect(ra.getScale().range()).toEqual([430, 0]);
+      const rightDomain = ra.getScale().domain();
+
+      expect(rightDomain[0]).toBeCloseTo(-393970724.0726612);
+      expect(rightDomain[1]).toBeCloseTo(80000000000);
+      expect(ra.getScale().range()).toEqual([428, 0]);
     });
   });
 });

@@ -21,36 +21,55 @@ function breakDomain(data: number[], points: number[]): [number, number][] {
 const sorter = (a: number, b: number) => a - b;
 
 const fillBins = (data: number[], points: number[]) => {
-  const bins = [0];
+  const bins: Array<{ count: number; sub: number[]; max: number; min: number }> = [
+    { count: 0, sub: [], max: points[0], min: points[0] }
+  ];
   let i = 0;
   let j = 0;
   while (i < points.length) {
     if (data[j] <= points[i]) {
-      bins[i] += 1;
+      bins[i].count += 1;
+      bins[i].sub.push(data[j]);
       j += 1;
     } else {
       i += 1;
-      bins[i] = 0;
+      bins[i] = { count: 0, sub: [], max: points[i], min: points[i] };
     }
   }
-  bins[i] = data.slice(j).length;
+  bins.forEach(bin => {
+    if (bin.count) {
+      bin.min = Math.min.apply(null, bin.sub);
+    }
+  });
+
+  const remain = data.slice(j);
+  bins[i] = { count: remain.length, sub: remain, min: points[points.length - 1], max: Math.max.apply(null, remain) };
   return bins;
 };
 
 function breakScope(data: number[], points: number[]): [number, number][] {
   // 默认 data 和 points 已经排序
   const bins = fillBins(data, points);
-  const count = data.length;
-  return bins
-    .reduce((res, bin, i) => {
-      const last = res[i - 1] ? res[i - 1][1] : 0;
-      const next = (last * 100 + +(bin / count).toFixed(2) * 100) / 100; // Fuck you, JavaScript
-      res.push([last, next > 1 ? 1 : next]);
-      return res;
-    }, [])
-    .filter(s => {
-      return !(s[0] === 0 && s[1] === 0) && !(s[0] === 1 && s[1] === 1);
-    });
+
+  const totalLength = bins.reduce((res, bin, i) => {
+    return bin.count > 0 ? res + bin.max - bin.min : res;
+  }, 0);
+  const res: [number, number][] = [];
+  let acc = 0;
+
+  bins.forEach((bin, i) => {
+    if (totalLength === 0) {
+      res.push([0, i / bins.length - 1]);
+    } else {
+      res.push([
+        res[i - 1] ? res[i - 1][1] : 0,
+        i === bins.length - 1 ? 1 : Math.min((acc + (bin.max - bin.min)) / totalLength, 1)
+      ]);
+      acc += bin.max - bin.min;
+    }
+  });
+
+  return res;
 }
 
 export function breakData(data: number[], points: number[]) {
