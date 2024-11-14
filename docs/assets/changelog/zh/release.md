@@ -2,24 +2,21 @@
 
 2024-11-13
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: support axis sync to the axis that has breaks
-- **@visactor/vchart**: tooltip can support customized `trigger` and `triggerOff`
+- **@visactor/vchart**: 当轴截断的时候，支持零值对齐功能
+- **@visactor/vchart**: tooltip 支持自定义 `trigger` 和 `triggerOff`配置触发和关闭事件
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: fix the issue where the axis breaks render incorrectly in some cases
-- **@visactor/vchart**: fix `zIndex` of series, fix [#3395](https://github.com/VisActor/VChart/issues/3395)
-- **@visactor/vchart**: fix layout of title when orient is "left" or "right", fix [#3401](https://github.com/VisActor/VChart/issues/3401)
-- **@visactor/vchart**: fix the issue of custom svg string in tooltip shape, related [#3384](https://github.com/VisActor/VChart/issues/3384)
-- **@visactor/vchart**: tooltip `enterable` should work when update, fix [#3405](https://github.com/VisActor/VChart/issues/3405)
-- **@visactor/vchart**: fix tooltip position by `mode: pointer`, close [#3367](https://github.com/VisActor/VChart/issues/3367)
-- **@visactor/vchart**: wordcloud should not throw error when `word.visible` is `false`, fix [#3378](https://github.com/VisActor/VChart/issues/3378)
-- **@visactor/vchart**: fix the issue where the scrolling legend triggers map zooming under certain conditions, related [#3391](https://github.com/VisActor/VChart/issues/3391)
-
-
+- **@visactor/vchart**: 修复在某些情况下轴断点渲染不正确的问题
+- **@visactor/vchart**: 修复系列的 `zIndex`不生效的问题，修复 [#3395](https://github.com/VisActor/VChart/issues/3395)
+- **@visactor/vchart**: 修复 orient 为 "left" 或 "right" 时标题的布局问题，修复 [#3401](https://github.com/VisActor/VChart/issues/3401)
+- **@visactor/vchart**: 修复 tooltip 形状中的自定义 svg 字符串问题，相关 [#3384](https://github.com/VisActor/VChart/issues/3384)
+- **@visactor/vchart**: tooltip `enterable` 在更新时应生效，修复 [#3405](https://github.com/VisActor/VChart/issues/3405)
+- **@visactor/vchart**: 修复 `mode: pointer` 的 tooltip 位置问题，关闭 [#3367](https://github.com/VisActor/VChart/issues/3367)
+- **@visactor/vchart**: 当 `word.visible` 为 `false` 时，wordcloud 不应抛出错误，修复 [#3378](https://github.com/VisActor/VChart/issues/3378)
+- **@visactor/vchart**: 修复在某些条件下滚动图例触发地图缩放的问题，相关 [#3391](https://github.com/VisActor/VChart/issues/3391)
 
 [更多详情请查看 v1.12.11](https://github.com/VisActor/VChart/releases/tag/v1.12.11)
 
