@@ -69,6 +69,7 @@ import type { IRectMark } from '../../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from '../util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
+import { LayoutZIndex } from '../../constant/layout';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -285,6 +286,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       y: () => this._viewBox.y1,
       width: () => this._viewBox.x2 - this._viewBox.x1,
       height: () => this._viewBox.y2 - this._viewBox.y1
+    });
+    this._backgroundMark.setMarkConfig({
+      zIndex: LayoutZIndex.SeriesGroup - 2
     });
   }
 
