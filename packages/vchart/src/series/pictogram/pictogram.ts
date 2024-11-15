@@ -177,6 +177,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
   }
 
   private _initLabelMark() {
+    // @ts-ignore
     if (this._spec.label.visible !== true) {
       return;
     }
@@ -220,7 +221,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     if (root) {
       this.setMarkStyle(
         this._pictogramMark,
-        graphicAttributeTransform['group'](root.attributes),
+        graphicAttributeTransform.group(root.attributes),
         'normal',
         AttributeLevel.Built_In
       );
@@ -236,7 +237,6 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       }
       if (viewBoxRect) {
         // fill should be true or content will be invisible
-        // this._pictogramMark.setClip(() => [createRect({ ...viewBoxRect, fill: true })]);
         this._pictogramMark.setMarkConfig({
           clip: true,
           clipPath: [createRect({ ...viewBoxRect, fill: true }) as any]
