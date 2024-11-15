@@ -81,6 +81,11 @@ export type ILinearAxisBreakSpec = Omit<AxisBreakProps, 'rawRange'> & {
    * @default 6
    */
   gap?: number | string;
+  /**
+   * 计算截断对应range的类型，根据长度或者记录数进行分段
+   * @since 1.12.12
+   */
+  scopeType?: 'count' | 'length';
 };
 
 export interface ILinearAxisSpec {
