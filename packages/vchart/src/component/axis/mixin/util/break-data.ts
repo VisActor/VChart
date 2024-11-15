@@ -47,7 +47,7 @@ const fillBins = (data: number[], points: number[]) => {
   return bins;
 };
 
-function breakScope(data: number[], points: number[], scopeType: 'count' | 'length' = 'length'): [number, number][] {
+function breakScope(data: number[], points: number[], scopeType: 'count' | 'length' = 'count'): [number, number][] {
   // 默认 data 和 points 已经排序
   const bins = fillBins(data, points);
 
