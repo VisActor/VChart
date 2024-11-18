@@ -22,6 +22,8 @@ export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> ext
     initMarkStyle(): void;
     initAreaMarkStyle(): void;
     initAnimation(): void;
+    protected _isAreaVisible(): boolean;
+    protected _isLineVisible(): boolean;
     protected initTooltip(): void;
     viewDataStatisticsUpdate(d: DataView): void;
     compile(): void;

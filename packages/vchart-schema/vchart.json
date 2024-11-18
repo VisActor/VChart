@@ -33566,6 +33566,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {
           "description": "图例组件的布局配置，默认自动跟随显示位置进行调整。\n1. `orient` 为 'top' 或者 'bottom' 时，默认为 'horizontal' 水平布局\n2. `orient` 为 'left' 或者 'right' 时，默认为 'vertical' 垂直布局",
           "enum": [
@@ -58803,6 +58806,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -65948,7 +65954,7 @@
     "IRichTextGraphicAttribute": {
       "allOf": [
         {
-          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
+          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
         },
         {
           "$ref": "#/definitions/Partial<IRichTextAttribute>"
@@ -82447,7 +82453,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13714": {
+        "__@toStringTag@13718": {
           "type": "string"
         },
         "size": {
@@ -82455,14 +82461,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13714",
+        "__@toStringTag@13718",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13714": {
+        "__@toStringTag@13718": {
           "type": "string"
         },
         "size": {
@@ -82470,14 +82476,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13714",
+        "__@toStringTag@13718",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13714": {
+        "__@toStringTag@13718": {
           "type": "string"
         },
         "size": {
@@ -82485,14 +82491,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13714",
+        "__@toStringTag@13718",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13714": {
+        "__@toStringTag@13718": {
           "type": "string"
         },
         "size": {
@@ -82500,14 +82506,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13714",
+        "__@toStringTag@13718",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13714": {
+        "__@toStringTag@13718": {
           "type": "string"
         },
         "size": {
@@ -82515,14 +82521,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13714",
+        "__@toStringTag@13718",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13714": {
+        "__@toStringTag@13718": {
           "type": "string"
         },
         "size": {
@@ -82530,7 +82536,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13714",
+        "__@toStringTag@13718",
         "size"
       ],
       "type": "object"
@@ -83361,6 +83367,9 @@
           "type": "string"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "lazyload": {
@@ -86229,6 +86238,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -88686,6 +88698,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -89282,6 +89297,9 @@
           "type": "string"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -90194,6 +90212,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -90701,6 +90722,9 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -91249,6 +91273,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -91513,7 +91540,7 @@
       },
       "type": "object"
     },
-    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
+    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -91819,6 +91846,9 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -92392,6 +92422,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -92868,6 +92901,9 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -93498,6 +93534,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -94045,6 +94084,9 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -94866,6 +94908,9 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -96367,6 +96412,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -96856,6 +96904,9 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -97605,6 +97656,9 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -98516,6 +98570,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -99042,6 +99099,9 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -100277,6 +100337,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -100845,6 +100908,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -101315,6 +101381,9 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "keepDirIn3d": {
+          "type": "boolean"
+        },
+        "keepStrokeScale": {
           "type": "boolean"
         },
         "layout": {},
@@ -103736,34 +103805,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13714": {
+        "__@toStringTag@13718": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13714"
+        "__@toStringTag@13718"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13714": {
+        "__@toStringTag@13718": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13714"
+        "__@toStringTag@13718"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13714": {
+        "__@toStringTag@13718": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13714"
+        "__@toStringTag@13718"
       ],
       "type": "object"
     },
@@ -104641,6 +104710,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -104890,6 +104962,7 @@
         "innerPadding",
         "innerRadius",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -105239,6 +105312,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -105487,6 +105563,7 @@
         "html",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -105807,6 +105884,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -106042,6 +106122,7 @@
         "html",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -106378,6 +106459,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -106622,6 +106706,7 @@
         "html",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -107012,6 +107097,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -107262,6 +107350,7 @@
         "innerBorder",
         "justifyContent",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -107609,6 +107698,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -107849,6 +107941,7 @@
         "image",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -108199,6 +108292,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -108448,6 +108544,7 @@
         "html",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -108768,6 +108865,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -109007,6 +109107,7 @@
         "html",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -109339,6 +109440,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -109575,6 +109679,7 @@
         "html",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -109907,6 +110012,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -110146,6 +110254,7 @@
         "html",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -110513,6 +110622,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "layoutDirection": {
           "$ref": "#/definitions/RichTextLayoutDirectionType"
@@ -110864,6 +110976,7 @@
         "ignoreBuf",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "layoutDirection",
         "lineCap",
@@ -111298,6 +111411,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -111567,6 +111683,7 @@
         "image",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -111888,6 +112005,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -112139,6 +112259,7 @@
         "html",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineDash",
@@ -112496,6 +112617,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "keepStrokeScale": {
+          "type": "boolean"
+        },
         "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
@@ -112821,6 +112945,7 @@
         "ignoreBuf",
         "innerBorder",
         "keepDirIn3d",
+        "keepStrokeScale",
         "layout",
         "lineCap",
         "lineClamp",

@@ -17,6 +17,7 @@ export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center
 }
 export type ILinearAxisBreakSpec = Omit<AxisBreakProps, 'rawRange'> & {
     gap?: number | string;
+    scopeType?: 'count' | 'length';
 };
 export interface ILinearAxisSpec {
     min?: number;
