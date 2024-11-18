@@ -25,6 +25,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     private _showTimer?;
     private _needInitEventOfTooltip?;
     private _enterable;
+    private _isReleased;
     protected _spec: ITooltipSpec;
     tooltipHandler?: ITooltipHandler;
     processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor, GroupTooltipProcessor>;

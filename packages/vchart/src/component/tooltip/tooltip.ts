@@ -54,6 +54,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   private _showTimer?: number;
   private _needInitEventOfTooltip?: boolean;
   private _enterable: boolean;
+  private _isReleased: boolean = false;
   protected declare _spec: ITooltipSpec;
 
   tooltipHandler?: ITooltipHandler;
@@ -110,6 +111,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   release() {
     super.release();
+    this._isReleased = true;
     if (this._hideTimer) {
       clearTimeout(this._hideTimer);
     }
@@ -315,6 +317,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   };
 
   protected _getMouseOutHandler = (needPointerDetection?: boolean) => (params: BaseEventParams) => {
+    if (this._isReleased) {
+      return;
+    }
     if (this._alwaysShow || this._clickLock) {
       return;
     }
@@ -365,6 +370,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   };
 
   protected _getMouseMoveHandler = (isClick: boolean) => (params: BaseEventParams) => {
+    if (this._isReleased) {
+      return;
+    }
     if (this._outTimer) {
       clearTimeout(this._outTimer);
       this._outTimer = null;

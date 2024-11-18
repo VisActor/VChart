@@ -2,6 +2,30 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.12",
+      "tag": "@visactor/vchart_v1.12.12",
+      "date": "Fri, 15 Nov 2024 15:21:31 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix: fix the issue where modifying area.visible through updateSpec does not take effect, related #3393"
+          },
+          {
+            "comment": "fix: fix incorrect rendering when changing `direction` via updateSpec in area chart, related #3406"
+          },
+          {
+            "comment": "fix: fix zIndex of background image, fix #3403\n\n"
+          },
+          {
+            "comment": "perf: optimize the effect of break data\n\n"
+          },
+          {
+            "comment": "fix: fix error of tooltip when chart is released, fix #3428\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.11",
       "tag": "@visactor/vchart_v1.12.11",
       "date": "Wed, 13 Nov 2024 10:27:47 GMT",

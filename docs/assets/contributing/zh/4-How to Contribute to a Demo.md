@@ -90,7 +90,7 @@ VChart 文档和demo在项目的中的位置如下（examples）：
 
 
 
-# 借助豆包[Marscode AI编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)进行demo编写
+# 借助豆包 Marscode AI编程助手进行demo编写
 
 借助豆包[Marscode AI编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)，可以在文档创作的整个流程中提供全方面的帮助。
 

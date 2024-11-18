@@ -1,3 +1,28 @@
+# v1.12.11
+
+2024-11-13
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support axis sync to the axis that has breaks
+- **@visactor/vchart**: tooltip can support customized `trigger` and `triggerOff`
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix the issue where the axis breaks render incorrectly in some cases
+- **@visactor/vchart**: fix `zIndex` of series, fix [#3395](https://github.com/VisActor/VChart/issues/3395)
+- **@visactor/vchart**: fix layout of title when orient is "left" or "right", fix [#3401](https://github.com/VisActor/VChart/issues/3401)
+- **@visactor/vchart**: fix the issue of custom svg string in tooltip shape, related [#3384](https://github.com/VisActor/VChart/issues/3384)
+- **@visactor/vchart**: tooltip `enterable` should work when update, fix [#3405](https://github.com/VisActor/VChart/issues/3405)
+- **@visactor/vchart**: fix tooltip position by `mode: pointer`, close [#3367](https://github.com/VisActor/VChart/issues/3367)
+- **@visactor/vchart**: wordcloud should not throw error when `word.visible` is `false`, fix [#3378](https://github.com/VisActor/VChart/issues/3378)
+- **@visactor/vchart**: fix the issue where the scrolling legend triggers map zooming under certain conditions, related [#3391](https://github.com/VisActor/VChart/issues/3391)
+
+
+
+[more detail about v1.12.11](https://github.com/VisActor/VChart/releases/tag/v1.12.11)
+
 # v1.12.10
 
 2024-10-31

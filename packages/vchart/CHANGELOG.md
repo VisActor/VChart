@@ -1,6 +1,23 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 13 Nov 2024 10:27:47 GMT and should not be manually modified.
+This log was last generated on Fri, 15 Nov 2024 15:21:31 GMT and should not be manually modified.
+
+## 1.12.12
+Fri, 15 Nov 2024 15:21:31 GMT
+
+### Updates
+
+- fix: fix: fix the issue where modifying area.visible through updateSpec does not take effect, related #3393
+- fix: fix incorrect rendering when changing `direction` via updateSpec in area chart, related #3406
+- fix: fix zIndex of background image, fix #3403
+
+
+- perf: optimize the effect of break data
+
+
+- fix: fix error of tooltip when chart is released, fix #3428
+
+
 
 ## 1.12.11
 Wed, 13 Nov 2024 10:27:47 GMT
