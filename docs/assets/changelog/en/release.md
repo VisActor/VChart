@@ -1,3 +1,23 @@
+# v1.12.12
+
+2024-11-18
+
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix: fix the issue where modifying area.visible through updateSpec does not take effect, related [#3393](https://github.com/VisActor/VChart/issues/3393)
+- **@visactor/vchart**: fix incorrect rendering when changing `direction` via updateSpec in area chart, related [#3406](https://github.com/VisActor/VChart/issues/3406)
+- **@visactor/vchart**: fix zIndex of background image, fix [#3403](https://github.com/VisActor/VChart/issues/3403)
+- **@visactor/vchart**: fix error of tooltip when chart is released, fix [#3428](https://github.com/VisActor/VChart/issues/3428)
+
+**⚡ Performance optimization**
+
+- **@visactor/vchart**: optimize the effect of break data
+
+
+
+[more detail about v1.12.12](https://github.com/VisActor/VChart/releases/tag/v1.12.12)
+
 # v1.12.11
 
 2024-11-13
