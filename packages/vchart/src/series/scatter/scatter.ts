@@ -334,7 +334,11 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     this.setMarkStyle(
       labelMark,
       {
-        fill: this.getColorAttribute(),
+        fill: this._symbolMark
+          ? (datum: Datum) => {
+              return this._symbolMark?.getAttribute('fill', datum) as string;
+            }
+          : this.getColorAttribute(),
         text: (datum: Datum) => {
           return datum[this.getStackValueField()];
         },

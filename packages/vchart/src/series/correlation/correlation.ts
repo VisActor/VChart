@@ -310,7 +310,11 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
     this.setMarkStyle(
       labelMark,
       {
-        fill: this.getColorAttribute(),
+        fill: this._nodePointMark
+          ? (datum: Datum) => {
+              return this._nodePointMark?.getAttribute('fill', datum) as string;
+            }
+          : this.getColorAttribute(),
         text: (datum: Datum) => {
           return datum[this._categoryField];
         },

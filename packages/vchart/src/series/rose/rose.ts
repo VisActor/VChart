@@ -135,7 +135,11 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       text: (datum: Datum) => {
         return datum[this.getDimensionField()[0]];
       },
-      fill: this.getColorAttribute(),
+      fill: this._roseMark
+        ? (datum: Datum) => {
+            return this._roseMark?.getAttribute('fill', datum) as string;
+          }
+        : this.getColorAttribute(),
       z: 0
     });
   }

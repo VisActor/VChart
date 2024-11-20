@@ -129,9 +129,11 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
 
     this.setMarkStyle(textMark, {
-      fill: (datum: Datum) => {
-        return this._barMark.getAttribute('fill', datum) as string;
-      },
+      fill: this._barMark
+        ? (datum: Datum) => {
+            return this._barMark?.getAttribute('fill', datum) as string;
+          }
+        : this.getColorAttribute(),
       text: (datum: Datum) => {
         return datum[this.getStackValueField()];
       },

@@ -340,7 +340,9 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           x: (datum: Datum) => this._computeLabelPosition(datum).x,
           y: (datum: Datum) => this._computeLabelPosition(datum).y,
           maxLineWidth: (datum: Datum) => this._computeLabelLimit(datum, this._spec.label),
-          stroke: this.getColorAttribute()
+          stroke: (datum: Datum) => {
+            return this._funnelMark?.getAttribute('fill', datum) as string;
+          }
         },
         'normal',
         AttributeLevel.Series

@@ -308,7 +308,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       text: (datum: Datum) => {
         return datum[this.getDimensionField()[0]];
       },
-      fill: this.getColorAttribute(),
+      fill: this._pieMark
+        ? (datum: Datum) => {
+            return this._pieMark?.getAttribute('fill', datum) as string;
+          }
+        : this.getColorAttribute(),
       z: this.dataToPositionZ.bind(this)
     });
   }

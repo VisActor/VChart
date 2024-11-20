@@ -402,7 +402,11 @@ export class LineLikeSeriesMixin {
       labelMark.setRule('line-data');
     }
     this.setMarkStyle(labelMark, {
-      fill: this.getColorAttribute(),
+      fill: this._lineMark
+        ? (datum: Datum) => {
+            return this._lineMark.getAttribute('fill', datum) as string;
+          }
+        : this.getColorAttribute(),
       text: (datum: Datum) => {
         return datum[this.getStackValueField()];
       },
