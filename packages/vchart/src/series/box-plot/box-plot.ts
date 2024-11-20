@@ -5,13 +5,13 @@ import { DEFAULT_DATA_INDEX } from '../../constant/data';
 import { PREFIX } from '../../constant/base';
 import type { IBoxPlotMark } from '../../mark/box-plot';
 import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
-import type { BoxPlotShaftShape, IOutlierMarkSpec, Maybe, Datum } from '../../typings';
+import type { BoxPlotShaftShape, IOutlierMarkSpec, Datum } from '../../typings';
 import { Direction } from '../../typings/space';
 import { valueInScaleRange } from '../../util/scale';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IBoxPlotSeriesSpec, IBoxPlotSeriesTheme } from './interface';
+import type { IBoxPlotSeriesSpec } from './interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
@@ -134,6 +134,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     this._boxPlotMark = this._createMark(
       BoxPlotSeries.mark.boxPlot,
       {
+        groupKey: this._seriesField,
         isSeriesMark: true
       },
       progressive
@@ -142,6 +143,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       BoxPlotSeries.mark.outlier,
       {
         key: DEFAULT_DATA_INDEX,
+        groupKey: this._seriesField,
         dataView: this._outlierDataView.getDataView(),
         dataProductId: this._outlierDataView.getProductId()
       },
