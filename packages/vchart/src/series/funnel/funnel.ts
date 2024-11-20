@@ -290,22 +290,32 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       this.setMarkStyle(
         outerLabelMark,
         {
-          text: (datum: Datum) => {
-            const text = `${datum[this.getCategoryField()]}`;
-            if (isFunction(this._spec.outerLabel.formatMethod)) {
-              return this._spec.outerLabel.formatMethod(text, datum) as unknown as any;
-            }
-            return text;
-          },
+          text: (datum: Datum) => `${datum[this.getCategoryField()]}`,
           x: (datum: Datum) => this._computeOuterLabelPosition(datum).x,
           y: (datum: Datum) => this._computeOuterLabelPosition(datum).y,
           textAlign: (datum: Datum) => this._computeOuterLabelPosition(datum).align,
           textBaseline: (datum: Datum) => this._computeOuterLabelPosition(datum).textBaseline,
-          maxLineWidth: (datum: Datum) => this._computeOuterLabelLimit(datum)
+          maxLineWidth: (datum: Datum) => this._computeOuterLabelLimit(datum),
+          /** 不设置 width/height 会导致 richtext 有默认宽高, case: richtext-bounds */
+          /** width 和 height 对 text 标签不影响 */
+          width: 0,
+          height: 0
         },
         'normal',
         AttributeLevel.Series
       );
+      if (isFunction(this._spec.outerLabel.formatMethod)) {
+        this.setMarkStyle(
+          outerLabelMark,
+          {
+            text: (datum: Datum) => {
+              return this._spec.outerLabel.formatMethod(`${datum[this.getCategoryField()]}`, datum) as any;
+            }
+          },
+          'normal',
+          AttributeLevel.User_Mark
+        );
+      }
     }
     const outerLabelLineMark = this._funnelOuterLabelMark.line;
     if (outerLabelLineMark && outerLabelMark) {
