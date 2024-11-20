@@ -277,4 +277,6 @@ For General charts, the default registered components are as follows:
 
 When using semantic tags, if you need components that are not loaded by default, you only need to register the missing components.
 
+[Note]: If there is an error similar to "No matching export in..." when using Lynx, please upgrade the version of Lynx or configure resolve.enable INodeCache to false
+
 For reference on on-demand loading of VChart, see [related documentation](/vchart/guide/tutorial_docs/Load_on_Demand).
