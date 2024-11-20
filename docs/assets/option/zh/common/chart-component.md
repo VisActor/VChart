@@ -109,7 +109,11 @@
 
 <!-- brush -->
 
+{{ if: !${noBrush} }}
+
 {{ use: component-brush() }}
+
+{{ /if }}
 
 <!-- scales -->
 
