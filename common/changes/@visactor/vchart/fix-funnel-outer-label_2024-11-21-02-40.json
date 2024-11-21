@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue where the length of the outerlabel line is incorrect when richtext",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
