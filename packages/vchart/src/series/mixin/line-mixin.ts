@@ -404,7 +404,7 @@ export class LineLikeSeriesMixin {
     this.setMarkStyle(labelMark, {
       fill: this._lineMark
         ? (datum: Datum) => {
-            return this._lineMark.getAttribute('fill', datum) as string;
+            return this._lineMark.getAttribute('stroke', datum) as string;
           }
         : this.getColorAttribute(),
       text: (datum: Datum) => {
