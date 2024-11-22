@@ -1,3 +1,17 @@
+# v1.12.13
+
+2024-11-22
+
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix `groupKey` of boxplot series, fix [#3409](https://github.com/VisActor/VChart/issues/3409), related to [#2855](https://github.com/VisActor/VChart/issues/2855)
+- **@visactor/vchart**: fix the issue where the length of the outerlabel line is incorrect when richtext, fix [#3441](https://github.com/VisActor/VChart/issues/3441)
+
+
+
+[more detail about v1.12.13](https://github.com/VisActor/VChart/releases/tag/v1.12.13)
+
 # v1.12.12
 
 2024-11-18
