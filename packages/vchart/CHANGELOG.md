@@ -1,6 +1,16 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 15 Nov 2024 15:21:31 GMT and should not be manually modified.
+This log was last generated on Fri, 22 Nov 2024 06:14:56 GMT and should not be manually modified.
+
+## 1.12.13
+Fri, 22 Nov 2024 06:14:56 GMT
+
+### Updates
+
+- fix: fix `groupKey` of boxplot series, fix #3409, related to #2855
+
+
+- fix: fix the issue where the length of the outerlabel line is incorrect when richtext
 
 ## 1.12.12
 Fri, 15 Nov 2024 15:21:31 GMT
