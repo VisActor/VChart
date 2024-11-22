@@ -1,3 +1,20 @@
+# v1.12.12
+
+2024-11-18
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复通过 `updateSpec` 修改 `area.visible` 不生效的问题，相关 [#3393](https://github.com/VisActor/VChart/issues/3393)
+- **@visactor/vchart**: 修复在面积图中通过 `updateSpec` 更改 `direction` 时渲染不正确的问题，相关 [#3406](https://github.com/VisActor/VChart/issues/3406)
+- **@visactor/vchart**: 修复背景图 `zIndex` 问题，修复 [#3403](https://github.com/VisActor/VChart/issues/3403)
+- **@visactor/vchart**: 修复图表释放时 `tooltip` 错误，修复 [#3428](https://github.com/VisActor/VChart/issues/3428)
+
+**⚡ 性能优化**
+
+- **@visactor/vchart**: 优化轴截断效果
+
+[更多详情请查看 v1.12.12](https://github.com/VisActor/VChart/releases/tag/v1.12.12)
+
 # v1.12.11
 
 2024-11-13

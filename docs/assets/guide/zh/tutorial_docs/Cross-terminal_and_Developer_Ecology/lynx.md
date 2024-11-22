@@ -277,4 +277,6 @@ lynx-vchart 本身代码都支持按需加载，当需要 VChart 按需加载的
 
 使用语义化标签的时候，如果用到其他没有默认加载的组件，只需要注册未加载的组件即可；
 
+【注意】：如果使用lynx出现报错类似“No matching export in ...”，请升级lynx的版本，或者配置resolve.enableINodeCache为false
+
 VChart 按需引用参考[相关文档](/vchart/guide/tutorial_docs/Load_on_Demand)

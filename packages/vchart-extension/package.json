@@ -22,8 +22,8 @@
     "@visactor/vchart": "^1.11.11"
   },
   "dependencies": {
-    "@visactor/vrender-core": "0.20.15",
-    "@visactor/vrender-kits": "0.20.15",
+    "@visactor/vrender-core": "0.20.16",
+    "@visactor/vrender-kits": "0.20.16",
     "@visactor/vutils": "~0.18.18"
   },
   "devDependencies": {
@@ -51,7 +51,7 @@
     "rollup-plugin-bundle-size": "1.0.3",
     "rollup-plugin-sizes": "1.0.5",
     "rollup": "3.20.5",
-    "@visactor/vchart": "workspace:1.12.12"
+    "@visactor/vchart": "workspace:1.12.13"
   },
   "publishConfig": {
     "access": "public",

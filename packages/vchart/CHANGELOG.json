@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.13",
+      "tag": "@visactor/vchart_v1.12.13",
+      "date": "Fri, 22 Nov 2024 06:14:56 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix `groupKey` of boxplot series, fix #3409, related to #2855\n\n"
+          },
+          {
+            "comment": "fix: fix the issue where the length of the outerlabel line is incorrect when richtext"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.12",
       "tag": "@visactor/vchart_v1.12.12",
       "date": "Fri, 15 Nov 2024 15:21:31 GMT",
