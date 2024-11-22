@@ -2,13 +2,10 @@
 
 2024-11-22
 
-
 **🐛 功能修复**
 
-- **@visactor/vchart**: fix `groupKey` of boxplot series, fix [#3409](https://github.com/VisActor/VChart/issues/3409), related to [#2855](https://github.com/VisActor/VChart/issues/2855)
-- **@visactor/vchart**: fix the issue where the length of the outerlabel line is incorrect when richtext, fix [#3441](https://github.com/VisActor/VChart/issues/3441)
-
-
+- **@visactor/vchart**: 修复箱线图系列的 `groupKey`，修复 [#3409](https://github.com/VisActor/VChart/issues/3409)，相关 [#2855](https://github.com/VisActor/VChart/issues/2855)
+- **@visactor/vchart**: 修复富文本时外标签线长度不正确的问题，修复 [#3441](https://github.com/VisActor/VChart/issues/3441)
 
 [更多详情请查看 v1.12.13](https://github.com/VisActor/VChart/releases/tag/v1.12.13)
 
