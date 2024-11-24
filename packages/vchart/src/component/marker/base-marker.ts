@@ -7,7 +7,14 @@ import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { CoordinateType, ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base/base-component';
-import type { IAggrType, IDataPos, IDataPosCallback, IMarkerSpec, IMarkerSupportSeries } from './interface';
+import type {
+  IAggrType,
+  IDataPos,
+  IDataPosCallback,
+  IMarkerAttributeContext,
+  IMarkerSpec,
+  IMarkerSupportSeries
+} from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
 import { isAggrSpec } from './utils';
@@ -60,11 +67,26 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     });
   }
 
+  protected _markAttributeContext: IMarkerAttributeContext;
+  getMarkAttributeContext() {
+    return this._markAttributeContext;
+  }
+
+  protected _buildMarkerAttributeContext() {
+    this._markAttributeContext = {
+      relativeSeries: this._relativeSeries,
+      startRelativeSeries: this._startRelativeSeries,
+      endRelativeSeries: this._endRelativeSeries,
+      vchart: this._option.globalInstance
+    };
+  }
+
   created() {
     super.created();
     this._bindSeries();
     this._initDataView();
     this.initEvent();
+    this._buildMarkerAttributeContext();
   }
 
   protected _getAllRelativeSeries() {

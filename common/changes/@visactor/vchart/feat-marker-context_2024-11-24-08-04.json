@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add marker context to support the same color as series. close#3437",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

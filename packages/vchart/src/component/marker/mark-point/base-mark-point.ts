@@ -62,19 +62,43 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         offset: targetSymbol.offset ?? 0,
         visible: targetSymbol.visible ?? false,
         size: targetSymbol.size ?? 20,
-        style: transformStyle(targetSymbol.style, this._markerData)
+        style: transformStyle(targetSymbol.style, this._markerData, this._markAttributeContext)
       },
       state: {
-        line: transformState(this._spec.itemLine.line?.state ?? {}, this._markerData),
-        lineStartSymbol: transformState(this._spec.itemLine.startSymbol?.state ?? {}, this._markerData),
-        lineEndSymbol: transformState(this._spec.itemLine.endSymbol?.state ?? {}, this._markerData),
-        symbol: transformState(this._spec.itemContent.symbol?.state ?? {}, this._markerData),
-        image: transformState(this._spec.itemContent.image?.state ?? {}, this._markerData),
-        text: transformState(this._spec.itemContent.text?.state ?? {}, this._markerData),
-        textBackground: transformState(this._spec.itemContent.text?.labelBackground?.state, this._markerData),
-        richText: transformState(this._spec.itemContent.richText?.state ?? {}, this._markerData),
-        customMark: transformState(this._spec.itemContent.customMark?.state ?? {}, this._markerData),
-        targetItem: transformState(this._spec.targetSymbol?.state ?? {}, this._markerData)
+        line: transformState(this._spec.itemLine.line?.state ?? {}, this._markerData, this._markAttributeContext),
+        lineStartSymbol: transformState(
+          this._spec.itemLine.startSymbol?.state ?? {},
+          this._markerData,
+          this._markAttributeContext
+        ),
+        lineEndSymbol: transformState(
+          this._spec.itemLine.endSymbol?.state ?? {},
+          this._markerData,
+          this._markAttributeContext
+        ),
+        symbol: transformState(
+          this._spec.itemContent.symbol?.state ?? {},
+          this._markerData,
+          this._markAttributeContext
+        ),
+        image: transformState(this._spec.itemContent.image?.state ?? {}, this._markerData, this._markAttributeContext),
+        text: transformState(this._spec.itemContent.text?.state ?? {}, this._markerData, this._markAttributeContext),
+        textBackground: transformState(
+          this._spec.itemContent.text?.labelBackground?.state,
+          this._markerData,
+          this._markAttributeContext
+        ),
+        richText: transformState(
+          this._spec.itemContent.richText?.state ?? {},
+          this._markerData,
+          this._markAttributeContext
+        ),
+        customMark: transformState(
+          this._spec.itemContent.customMark?.state ?? {},
+          this._markerData,
+          this._markAttributeContext
+        ),
+        targetItem: transformState(this._spec.targetSymbol?.state ?? {}, this._markerData, this._markAttributeContext)
       },
       animation: this._spec.animation ?? false,
       animationEnter: this._spec.animationEnter,
@@ -83,16 +107,26 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
     };
 
     if (symbol?.style) {
-      markPointAttrs.itemContent.symbolStyle = transformToGraphic(transformStyle(symbol.style, this._markerData));
+      markPointAttrs.itemContent.symbolStyle = transformToGraphic(
+        transformStyle(symbol.style, this._markerData, this._markAttributeContext)
+      );
     }
     if (image?.style) {
-      markPointAttrs.itemContent.imageStyle = transformStyle(image.style, this._markerData);
+      markPointAttrs.itemContent.imageStyle = transformStyle(image.style, this._markerData, this._markAttributeContext);
     }
     if (label) {
-      markPointAttrs.itemContent.textStyle = transformLabelAttributes(label, this._markerData);
+      markPointAttrs.itemContent.textStyle = transformLabelAttributes(
+        label,
+        this._markerData,
+        this._markAttributeContext
+      );
     }
     if (richText?.style) {
-      markPointAttrs.itemContent.richTextStyle = transformStyle(richText.style, this._markerData);
+      markPointAttrs.itemContent.richTextStyle = transformStyle(
+        richText.style,
+        this._markerData,
+        this._markAttributeContext
+      );
     }
 
     const { visible, line = {}, ...restItemLine } = itemLine;
