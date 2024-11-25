@@ -308,6 +308,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         this.setMarkStyle(
           outerLabelMark,
           {
+            _originText: (datum: Datum) => `${datum[this.getCategoryField()]}`,
             text: (datum: Datum) => {
               return this._spec.outerLabel.formatMethod(`${datum[this.getCategoryField()]}`, datum) as any;
             }
