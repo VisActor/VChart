@@ -45,30 +45,6 @@ const spec = {
           year: '1965',
           type: 'test1'
         }
-        // {
-        //   medalType: 'Silver Medals',
-        //   count: 19,
-        //   year: '1952',
-        //   type: 'test2'
-        // },
-        // {
-        //   medalType: 'Silver Medals',
-        //   count: 29,
-        //   year: '2012',
-        //   type: 'test2'
-        // },
-        // {
-        //   medalType: 'Silver Medals1',
-        //   count: 9,
-        //   year: '1952',
-        //             type: 'test3'
-        // },
-        // {
-        //   medalType: 'Silver Medals2',
-        //   count: 25,
-        //   year: '2012',
-        //             type: 'test3'
-        // },
       ]
     },
     {
@@ -129,7 +105,6 @@ const spec = {
   markLine: [
     {
       y: 'average',
-      // specifiedDataSeriesId: 'test1',
       relativeSeriesIndex: 0,
       label: {
         visible: true,
@@ -139,7 +114,6 @@ const spec = {
         },
         style: (datum, context) => {
           return {
-            // fill: 'red'
             fill: context.relativeSeries._markAttributeContext.seriesColor()
           };
         },
@@ -157,7 +131,6 @@ const spec = {
       endSymbol: {
         style: (datum, context) => {
           return {
-            // fill: 'red'
             fill: context.relativeSeries._markAttributeContext.seriesColor()
           };
         }
@@ -165,7 +138,6 @@ const spec = {
     },
     {
       y: 'average',
-      // specifiedDataSeriesId: 'test2',
       relativeSeriesIndex: 1,
       label: {
         visible: true,
@@ -175,7 +147,6 @@ const spec = {
         },
         style: (datum, context) => {
           return {
-            // fill: 'red'
             fill: context.relativeSeries._markAttributeContext.seriesColor()
           };
         },
@@ -193,7 +164,6 @@ const spec = {
       endSymbol: {
         style: (datum, context) => {
           return {
-            // fill: 'red'
             fill: context.relativeSeries._markAttributeContext.seriesColor()
           };
         }
@@ -201,7 +171,6 @@ const spec = {
     },
     {
       y: 'average',
-      // specifiedDataSeriesId: 'test3',
       relativeSeriesIndex: 2,
       label: {
         visible: true,
@@ -211,7 +180,6 @@ const spec = {
         },
         style: (datum, context) => {
           return {
-            // fill: 'red'
             fill: context.relativeSeries._markAttributeContext.seriesColor()
           };
         },
@@ -229,7 +197,6 @@ const spec = {
       endSymbol: {
         style: (datum, context) => {
           return {
-            // fill: 'red'
             fill: context.relativeSeries._markAttributeContext.seriesColor()
           };
         }
@@ -244,11 +211,6 @@ const spec = {
       orient: 'bottom',
       data: (items, scale, context) => {
         return items.map((item, index) => {
-          console.log(
-            'index',
-            index,
-            context._chart.getComponentsByType('markLine')[index]?._markerData?.latestData?.[0]?.y
-          );
           if (context._chart.getComponentsByType('markLine')[index]?._markerData?.latestData?.[0]?.y) {
             item.value = '均值:' + context._chart.getComponentsByType('markLine')[index]._markerData.latestData[0].y;
           }
@@ -258,7 +220,6 @@ const spec = {
       item: {
         width: '15%',
         value: {
-          // formatMethod: (...p) => console.log(p),
           alignRight: true,
           style: {
             fill: '#333',
