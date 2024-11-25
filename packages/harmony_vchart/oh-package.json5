@@ -1,4 +1,5 @@
 {
+  "modelVersion": "5.0.1",
   "name": "@visactor/harmony-vchart",
   "version": "1.11.0-alpha.2",
   "description": "charts lib based @visactor/vchart for harmonyOS",
