@@ -240,6 +240,7 @@ new VChart(spec: ISpec, options: IInitOption);
 | `supportsPointerEvents` | `boolean`                   | 否   | 是否支持 pointer 事件，不支持就监听 mouse 事件; 从`1.8.9`版本开始支持                                                                                                                                                                                                |
 | `ReactDOM`              | `object`                    | 否   | `react-dom`包导出产物，用于开启 vrender 渲染 react 元素; 从`1.11.0`版本开始支持                                                                                                                                                                                      |
 | `resizeDelay`           | `number`                    | 否   | 当自动响应容器 resize 事件时，触发 resize 的间隔时长，单位毫秒；从`1.12.5`开始支持                                                                                                                                                                                   |
+| `autoRefreshDpr`        | `boolean`                   | 是   | 当切换屏幕的时候，dpr 发发生变更，是否自动刷新 dpr；当没有显示设置 dpr 的时候，默认开启该功能；自`1.12.14`版本开始支持                                                                                                                                               |
 
 - `srIOption3DType` 类型定义如下
 
