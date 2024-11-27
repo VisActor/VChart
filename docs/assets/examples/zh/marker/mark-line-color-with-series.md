@@ -114,7 +114,7 @@ const spec = {
         },
         style: (datum, context) => {
           return {
-            fill: context.relativeSeries._markAttributeContext.seriesColor()
+            fill: context.relativeSeries.getMarkAttributeContext().seriesColor()
           };
         },
         labelBackground: {
@@ -124,14 +124,14 @@ const spec = {
       line: {
         style: (datum, context) => {
           return {
-            stroke: context.relativeSeries._markAttributeContext.seriesColor()
+            stroke: context.relativeSeries.getMarkAttributeContext().seriesColor()
           };
         }
       },
       endSymbol: {
         style: (datum, context) => {
           return {
-            fill: context.relativeSeries._markAttributeContext.seriesColor()
+            fill: context.relativeSeries.getMarkAttributeContext().seriesColor()
           };
         }
       }
@@ -147,7 +147,7 @@ const spec = {
         },
         style: (datum, context) => {
           return {
-            fill: context.relativeSeries._markAttributeContext.seriesColor()
+            fill: context.relativeSeries.getMarkAttributeContext().seriesColor()
           };
         },
         labelBackground: {
@@ -157,14 +157,14 @@ const spec = {
       line: {
         style: (datum, context) => {
           return {
-            stroke: context.relativeSeries._markAttributeContext.seriesColor()
+            stroke: context.relativeSeries.getMarkAttributeContext().seriesColor()
           };
         }
       },
       endSymbol: {
         style: (datum, context) => {
           return {
-            fill: context.relativeSeries._markAttributeContext.seriesColor()
+            fill: context.relativeSeries.getMarkAttributeContext().seriesColor()
           };
         }
       }
@@ -180,7 +180,7 @@ const spec = {
         },
         style: (datum, context) => {
           return {
-            fill: context.relativeSeries._markAttributeContext.seriesColor()
+            fill: context.relativeSeries.getMarkAttributeContext().seriesColor()
           };
         },
         labelBackground: {
@@ -190,14 +190,14 @@ const spec = {
       line: {
         style: (datum, context) => {
           return {
-            stroke: context.relativeSeries._markAttributeContext.seriesColor()
+            stroke: context.relativeSeries.getMarkAttributeContext().seriesColor()
           };
         }
       },
       endSymbol: {
         style: (datum, context) => {
           return {
-            fill: context.relativeSeries._markAttributeContext.seriesColor()
+            fill: context.relativeSeries.getMarkAttributeContext().seriesColor()
           };
         }
       }
