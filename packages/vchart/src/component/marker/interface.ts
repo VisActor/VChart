@@ -25,6 +25,7 @@ import type {
   IOptionWithCoordinates
 } from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
+import type { VChart } from '../../vchart-all';
 
 export type IMarkerSupportSeries = ICartesianSeries | IPolarSeries | IGeoSeries;
 
@@ -320,8 +321,28 @@ export type IMarkerSymbol = IMarkerRef & {
   size?: number;
 } & Partial<IMarkerState<Omit<ISymbolMarkSpec, 'visible'>>>;
 
-export type MarkerStyleCallback<T> = (markerData: DataView) => T;
-export type MarkerStateCallback<T> = (markerData: DataView) => T;
+export type MarkerStyleCallback<T> = (
+  /**
+   * markerData 标注组件聚合后的数据
+   */
+  markerData: DataView,
+  /**
+   * @since 1.13.0
+   * context 组件上下文, 包括相对系列，起始相对系列，结束相对系列和图表实例
+   */
+  context: IMarkerAttributeContext
+) => T;
+export type MarkerStateCallback<T> = (
+  /**
+   * markerData 标注组件聚合后的数据
+   */
+  markerData: DataView,
+  /**
+   * @since 1.13.0
+   * context 组件上下文, 包括相对系列，起始相对系列，结束相对系列和图表实例
+   */
+  context: IMarkerAttributeContext
+) => T;
 export type MarkerStateValue = 'hover' | 'hover_reverse' | 'selected' | 'selected_reverse';
 export type IMarkerState<T> = {
   /** 默认样式设置 */
@@ -337,4 +358,11 @@ export type IMarkProcessOptions = {
   needAggr?: boolean;
   needRegr?: boolean;
   processData?: DataView;
+};
+
+export type IMarkerAttributeContext = {
+  vchart: VChart;
+  relativeSeries: IMarkerSupportSeries;
+  startRelativeSeries: IMarkerSupportSeries;
+  endRelativeSeries: IMarkerSupportSeries;
 };

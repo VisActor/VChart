@@ -72,15 +72,27 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
       radius: 0,
       startAngle: 0,
       endAngle: 0,
-      lineStyle: transformStyle(transformToGraphic(this._spec.line?.style), this._markerData),
+      lineStyle: transformStyle(
+        transformToGraphic(this._spec.line?.style),
+        this._markerData,
+        this._markAttributeContext
+      ),
       clipInRange: this._spec.clip ?? false,
-      label: transformLabelAttributes(label, this._markerData),
+      label: transformLabelAttributes(label, this._markerData, this._markAttributeContext),
       state: {
-        line: transformState(this._spec.line?.state ?? {}, this._markerData),
-        lineStartSymbol: transformState(this._spec.startSymbol?.state ?? {}, this._markerData),
-        lineEndSymbol: transformState(this._spec.endSymbol?.state ?? {}, this._markerData),
-        label: transformState(this._spec?.label?.state ?? {}, this._markerData),
-        labelBackground: transformState(this._spec?.label?.labelBackground?.state ?? {}, this._markerData)
+        line: transformState(this._spec.line?.state ?? {}, this._markerData, this._markAttributeContext),
+        lineStartSymbol: transformState(
+          this._spec.startSymbol?.state ?? {},
+          this._markerData,
+          this._markAttributeContext
+        ),
+        lineEndSymbol: transformState(this._spec.endSymbol?.state ?? {}, this._markerData, this._markAttributeContext),
+        label: transformState(this._spec?.label?.state ?? {}, this._markerData, this._markAttributeContext),
+        labelBackground: transformState(
+          this._spec?.label?.labelBackground?.state ?? {},
+          this._markerData,
+          this._markAttributeContext
+        )
       },
       animation: this._spec.animation ?? false,
       animationEnter: this._spec.animationEnter,
@@ -92,7 +104,7 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
       markLineAttrs.startSymbol = {
         ...startSymbol,
         visible: true,
-        style: transformToGraphic(startSymbol.style)
+        style: transformStyle(transformToGraphic(startSymbol.style), this._markerData, this._markAttributeContext)
       };
     } else {
       markLineAttrs.startSymbol = {
@@ -104,7 +116,7 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
       markLineAttrs.endSymbol = {
         ...endSymbol,
         visible: true,
-        style: transformToGraphic(endSymbol.style)
+        style: transformStyle(transformToGraphic(endSymbol.style), this._markerData, this._markAttributeContext)
       };
     } else {
       markLineAttrs.endSymbol = {

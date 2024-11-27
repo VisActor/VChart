@@ -2376,6 +2376,13 @@
           }
         },
         {
+          "path": "mark-line-color-with-series",
+          "title": {
+            "zh": "markLine支持跟随系列颜色",
+            "en": "markLine support color with series"
+          }
+        },
+        {
           "path": "mark-line-custom-label-back",
           "title": {
             "zh": "markLine 支持自定义标签背景path",
