@@ -211,8 +211,9 @@ const spec = {
       orient: 'bottom',
       data: (items, scale, context) => {
         return items.map((item, index) => {
-          if (context._chart.getComponentsByType('markLine')[index]?._markerData?.latestData?.[0]?.y) {
-            item.value = '均值:' + context._chart.getComponentsByType('markLine')[index]._markerData.latestData[0].y;
+          if (context._chart.getComponentsByType('markLine')[index]?.getMarkerData?.()?.latestData?.[0]?.y) {
+            item.value =
+              '均值:' + context._chart.getComponentsByType('markLine')[index].getMarkerData().latestData[0].y;
           }
           return item;
         });
