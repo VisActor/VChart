@@ -140,7 +140,6 @@ export class LinearAxisMixin {
   }
 
   valueToPosition(value: any): number {
-    // console.log('time-axis-values', value, this._scale.scale(value));
     return this._scale.scale(value);
   }
 
