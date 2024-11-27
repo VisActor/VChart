@@ -71,7 +71,7 @@ export class LinearProgressSeries<
           {
             x: (datum: Datum) => {
               return (
-                valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+                valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0), true) -
                 this._spec.bandWidth / 2 +
                 leftPadding
               );
@@ -96,7 +96,7 @@ export class LinearProgressSeries<
             x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)),
             y: (datum: Datum) => {
               return (
-                valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
+                valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0), true) -
                 this._spec.bandWidth / 2 +
                 topPadding
               );
@@ -231,7 +231,7 @@ export class LinearProgressSeries<
           {
             x: (datum: any) => {
               return (
-                valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0)) -
+                valueInScaleRange(this.dataToPositionX(datum), this._xAxisHelper?.getScale?.(0), true) -
                 this._spec.bandWidth / 2
               );
             },
@@ -250,7 +250,7 @@ export class LinearProgressSeries<
             x: 0,
             y: (datum: any) => {
               return (
-                valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)) -
+                valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0), true) -
                 this._spec.bandWidth / 2
               );
             },
