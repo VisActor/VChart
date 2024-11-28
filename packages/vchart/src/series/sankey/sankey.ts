@@ -550,38 +550,23 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
         const linkDatum = linkEl.getDatum();
-        const father = linkDatum?.parents ? 'parents' : 'source';
-        if (array(linkDatum[father]).includes(nodeDatum.key)) {
-          // 下游link
-          if (!highlightNodes.includes(linkDatum.source)) {
-            highlightNodes.push(linkDatum.source);
-          }
 
+        if (linkDatum.source === nodeDatum.key) {
+          // 下游link
           if (!highlightNodes.includes(linkDatum.target)) {
             highlightNodes.push(linkDatum.target);
           }
 
-          let ratio;
-          if (father === 'parents') {
-            const originalDatum = linkDatum.datum;
-            const val = originalDatum
-              ? originalDatum
-                  .filter((entry: any) => entry.parents.some((par: any) => par.key === nodeDatum.key))
-                  .reduce((sum: number, d: any) => {
-                    return (sum += d.value);
-                  }, 0)
-              : 0;
-            ratio = val / linkDatum.value;
-          }
-
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
           linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
         } else if (linkDatum.target === nodeDatum.key) {
           // 上游link
           if (!highlightNodes.includes(linkDatum.source)) {
             highlightNodes.push(linkDatum.source);
           }
+
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
         } else {
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
           linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
@@ -780,7 +765,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
         const linkDatum = linkEl.getDatum();
-        const father = linkDatum?.parents ? 'parents' : 'source';
         const originalDatum = linkDatum.datum;
         const selectedDatum = originalDatum
           ? originalDatum.filter((entry: any) => entry[father].some((par: any) => par.key === nodeDatum.key))
@@ -806,7 +790,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           const ratio = val / linkDatum.value;
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
           linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
 
           return;
@@ -823,7 +806,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
           linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
 
           return;
@@ -942,7 +924,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           const ratio = val / linkDatum.value;
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
           linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
 
           return;
@@ -961,7 +942,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             highlightNodes.push(linkDatum.target);
           }
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
           linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
 
           return;
@@ -987,7 +967,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       el.removeState([STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]);
 
       if (highlightNodes.includes(el.getDatum().key)) {
-        //
+        el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
       } else {
         el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
       }
