@@ -176,53 +176,6 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     this._domStyle = getDomStyle(tooltipSpec);
   }
 
-  // protected _updateDomString(actualTooltip?: ITooltipActual) {
-  //   let domString = '';
-  //   const { title = {}, content } = actualTooltip;
-  //   const hasContent = content && content.length;
-  //   const rowStyle = this._domStyle.row;
-
-  //   if (title.visible !== false) {
-  //     domString += `<h2 style="${cssToStyleString({
-  //       ...this._domStyle.title,
-  //       ...(hasContent ? rowStyle : { marginBottom: '0px' }),
-  //       marginTop: '0px'
-  //     })}"><span>${title.value ?? ''}</span></h2>`;
-  //   }
-  //   if (hasContent) {
-  //     const rowItems = content
-  //       .map((entry, index) => {
-  //         const rowStyleString = cssToStyleString({
-  //           ...(index === content.length - 1 ? null : rowStyle)
-  //         });
-
-  //         return `<div class="${TOOLTIP_PREFIX}-row" style="${rowStyleString}">
-  //       <div class="${TOOLTIP_PREFIX}-shape" style="${cssToStyleString({
-  //           display: 'inline-block',
-  //           ...this._domStyle.shape
-  //         })}">${getSvgHtml(entry)}</div>
-  //       <div class="${TOOLTIP_PREFIX}-key" style="${cssToStyleString({
-  //           display: 'inline-block',
-  //           ...this._domStyle.key,
-  //           ...(entry.keyStyle ? getTextStyle(entry.keyStyle) : null)
-  //         })}">${escapeHTML(entry.key)}</div>
-  //       <div class="${TOOLTIP_PREFIX}-value" style="${cssToStyleString({
-  //           display: 'inline-block',
-  //           ...this._domStyle.value,
-  //           ...(entry.valueStyle ? getTextStyle(entry.valueStyle) : null)
-  //         })}">${escapeHTML(entry.value)}</div>
-  //       </div>`;
-  //       })
-  //       .join('');
-
-  //     domString += `<div class="${TOOLTIP_CONTENT_BOX_CLASS_NAME}" style="${cssToStyleString(
-  //       this._domStyle.content
-  //     )}">${rowItems}</div>`;
-  //   }
-
-  //   this._domString = domString;
-  // }
-
   protected _updateDomStringByCol(actualTooltip?: ITooltipActual) {
     let domString = '';
     const { title = {}, content } = actualTooltip;
