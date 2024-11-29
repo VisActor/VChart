@@ -32,6 +32,7 @@ export interface IRenderOption {
         tooltipCanvasId?: StringOrNumber;
         [key: string]: any;
     } | unknown;
+    autoRefreshDpr?: boolean;
     dpr?: number;
     interactive?: boolean;
     viewBox?: IBoundsLike;
