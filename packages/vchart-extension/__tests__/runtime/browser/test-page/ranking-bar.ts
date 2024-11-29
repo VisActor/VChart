@@ -1,4 +1,4 @@
-import { registerRankingBarChart } from './../../../../src/ranking-bar/ranking-bar';
+import { registerRankingBarChart } from './../../../../src/';
 import { yearsData, countryImage } from './../data/ranking-bar';
 import { VChart } from '@visactor/vchart';
 
