@@ -112,6 +112,7 @@ export class Compiler {
       renderCanvas: this._container.canvas ?? null,
       hooks: (this._option as any).performanceHook, // vgrammar 事件改造后，性能回调函数放在了hooks中实现
       ...this._option,
+      autoRefresh: isValid(this._option.autoRefreshDpr) ? this._option.autoRefreshDpr : !isValid(this._option.dpr),
       mode: toRenderMode(this._option.mode),
       autoFit: false,
       eventConfig: {
