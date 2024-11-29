@@ -1,11 +1,7 @@
 import { VChart, FunnelChart, PREFIX, FunnelSeries } from '@visactor/vchart';
 import { DataView } from '@visactor/vdataset';
 
-import type {
-  IConversionFunnelChartSpecBase,
-  IConversionFunnelSpec,
-  IConversionFunnelSeriesSpecBase
-} from './interface';
+import type { IConversionFunnelChartSpecBase, IConversionFunnelSeriesSpecBase } from './interface';
 import { ConversionFunnelChartSpecTransformer } from './conversion-funnel-transformer';
 import { conversionArrowTransform } from './arrow-data-transform';
 import { GroupMark } from '@visactor/vchart/src/mark';
@@ -17,14 +13,14 @@ export class ConversionFunnelChart extends FunnelChart<IConversionFunnelChartSpe
   static readonly seriesType = 'conversionFunnelSeries';
   readonly seriesType = 'conversionFunnelSeries';
 
-  declare _spec: IConversionFunnelSpec;
+  declare _spec: IConversionFunnelChartSpecBase;
 
   static readonly transformerConstructor = ConversionFunnelChartSpecTransformer;
   readonly transformerConstructor = ConversionFunnelChartSpecTransformer;
 }
 
 export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeriesSpecBase> {
-  type = 'conversionFunnelSeries';
+  type = 'conversionFunnelSeries' as any;
   static type = 'conversionFunnelSeries';
   protected _arrowData?: DataView;
 
@@ -46,12 +42,17 @@ export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeries
   }
 
   afterCompile() {
-    super.afterCompile?.();
     const rightGroup = this.getMarkInName('arrowRight') as unknown as GroupMark;
     if (rightGroup) {
       rightGroup.getMarks().forEach(mark => {
         mark.setDataView(this._arrowData);
         mark.compileData();
+        mark.getProduct().transform([
+          {
+            type: 'filter',
+            callback: datum => datum.position === 'right'
+          }
+        ]);
       });
     }
     const leftGroup = this.getMarkInName('arrowLeft') as unknown as GroupMark;
@@ -59,6 +60,12 @@ export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeries
       leftGroup.getMarks().forEach(mark => {
         mark.setDataView(this._arrowData);
         mark.compileData();
+        mark.getProduct().transform([
+          {
+            type: 'filter',
+            callback: datum => datum.position === 'left'
+          }
+        ]);
       });
     }
   }
