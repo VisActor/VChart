@@ -76,7 +76,9 @@ export function valueInScaleRange(v: number, s?: IBaseScale, useWholeRange?: boo
   if (!s) {
     return v;
   }
-  const range = useWholeRange && (s as any)._calculateWholeRange ? (s as any)._calculateWholeRange() : s.range();
+  const scaleRange = s.range();
+  const range =
+    useWholeRange && (s as any)._calculateWholeRange ? (s as any)._calculateWholeRange(scaleRange) : s.range();
   const min = Math.min(range[0], range[range.length - 1]);
   const max = Math.max(range[0], range[range.length - 1]);
   return Math.min(Math.max(min, v), max);
