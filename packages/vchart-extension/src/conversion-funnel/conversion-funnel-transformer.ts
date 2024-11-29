@@ -5,7 +5,8 @@ import type { IConversionFunnelSpec, IConversionFunnelChartSpecBase, Arrow } fro
 import {
   DEFAULT_ARROW_MARK_STYLE,
   DEFAULT_ARROW_SYMBOL_MARK_STYLE,
-  DEFAULT_ARROW_TEXT_MARK_STYLE
+  DEFAULT_ARROW_TEXT_MARK_STYLE,
+  DEFAULT_FUNNEL_BACKGROUND_MARK_STYLE
 } from './conversion-funnel';
 import { ParsedArrow } from './arrow-data-transform';
 
@@ -13,11 +14,17 @@ export class ConversionFunnelChartSpecTransformer extends FunnelChart[
   'transformerConstructor'
 ]<IConversionFunnelChartSpecBase> {
   transformSpec(spec: IConversionFunnelChartSpecBase): void {
-    const { conversionArrow, extensionMark = [] } = spec;
+    const { conversionArrow, extensionMark = [], funnelBackground } = spec;
     if (conversionArrow && conversionArrow.arrows && conversionArrow.arrows.length) {
       const marks = addArrowMark(conversionArrow);
       if (marks && marks.length) {
         extensionMark.push(...marks);
+      }
+    }
+    if (funnelBackground && funnelBackground.visible) {
+      const mark = addFunnelBackgroundMark(funnelBackground);
+      if (mark) {
+        extensionMark.push(mark);
       }
     }
     spec.extensionMark = extensionMark;
@@ -27,10 +34,12 @@ export class ConversionFunnelChartSpecTransformer extends FunnelChart[
   _getDefaultSeriesSpec(spec: IConversionFunnelChartSpecBase) {
     const seriesSpec = super._getDefaultSeriesSpec(spec);
     (seriesSpec as IConversionFunnelChartSpecBase).conversionArrow = spec.conversionArrow;
+    (seriesSpec as IConversionFunnelChartSpecBase).funnelBackground = spec.funnelBackground;
     return seriesSpec;
   }
 }
 
+/**  Arrow Related */
 function addArrowMark(arrowSpec: IConversionFunnelSpec['conversionArrow']) {
   const { arrows, ...style } = arrowSpec;
   const leftArrows = arrows.filter(arrow => arrow.position === 'left');
@@ -258,4 +267,36 @@ function computeArrowPoints(
     }
   ];
   return points;
+}
+
+/**  Funnel Background Related */
+function addFunnelBackgroundMark(funnelBackground: IConversionFunnelSpec['funnelBackground']) {
+  const { style = {}, ...rest } = funnelBackground;
+  return {
+    type: 'rect',
+    ...rest,
+    dataIndex: 0,
+    zIndex: 0,
+    style: {
+      ...DEFAULT_FUNNEL_BACKGROUND_MARK_STYLE,
+      ...style,
+      x: 0,
+      y: (datum, ctx: any) => {
+        const points = ctx.getPoints(datum);
+        const tl = points[0];
+        return tl.y;
+      },
+      width: (datum, ctx: any) => {
+        const region = ctx.getRegion();
+        const { width } = region.getLayoutRect();
+        return width;
+      },
+      height: (datum, ctx: any) => {
+        const points = ctx.getPoints(datum);
+        const tl = points[0];
+        const bl = points[3];
+        return bl.y - tl.y;
+      }
+    }
+  } as IExtensionMarkSpec<'rect'>;
 }

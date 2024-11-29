@@ -9,12 +9,53 @@ const spec: IConversionFunnelChartSpec = {
   type: 'conversionFunnel',
   // animationAppear: false,
   animation: false,
-  padding: { left: 250, right: 250 },
+  // padding: { left: 250, right: 250 },
   height: 400,
   maxSize: '55%',
   isTransform: true,
   shape: 'rect',
-  // funnelAlign: align,
+  // funnelAlign: align[alignIndex],
+  funnelBackground: {
+    visible: true,
+    style: {
+      cornerRadius: 5,
+      fillOpacity: 0.1,
+      fill: datum => {
+        return datum.name === 'Resume Screening' ? 'red' : 'blue';
+      }
+    }
+  },
+  label: {
+    visible: true,
+    style: {
+      lineHeight: 16,
+      limit: Infinity,
+      fill: 'white',
+      text: datum => [`${datum.name}`, `${datum.value}`]
+    }
+  },
+  outerLabel: {
+    visible: true,
+    position: 'right',
+    alignLabel: true,
+    style: {
+      text: datum => {
+        return `${datum.percent * 100}%`;
+      },
+      dx: -10
+    },
+    line: {
+      style: {
+        lineDash: [2, 2]
+      }
+    }
+  },
+  transformLabel: {
+    visible: true,
+    style: {
+      fill: 'black'
+    }
+  },
   conversionArrow: {
     // margin: 30,
     text: {
@@ -40,12 +81,18 @@ const spec: IConversionFunnelChartSpec = {
       style: {
         stroke: (...args) => {
           // TODO: DATUM
-          console.log(args[0]);
+          // console.log(args[0]);
           return args[0].from === 0 ? 'red' : 'black';
         }
       }
     },
     arrows: [
+      {
+        from: 1,
+        to: 4,
+        text: '1-4',
+        position: align[alignIndex]
+      },
       {
         from: 0,
         to: 1,
@@ -166,23 +213,21 @@ const spec: IConversionFunnelChartSpec = {
     }
   },
   transform: {
-    style: {
-      stroke: 'white',
-      lineWidth: 2
-    },
-    state: {
-      hover: {
-        stroke: '#4e83fd',
-        lineWidth: 1
-      }
-    }
+    // style: {
+    //   stroke: 'white',
+    //   lineWidth: 2
+    // },
+    // state: {
+    //   hover: {
+    //     stroke: '#4e83fd',
+    //     lineWidth: 1
+    //   }
+    // }
   },
   region: [
     {
-      style: {
-        fill: 'pink',
-        fillOpacity: 0.2
-      }
+      // padding: { left: 250 },
+      style: {}
     }
   ],
   data: [

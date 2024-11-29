@@ -74,10 +74,14 @@ export interface IConversionFunnelSpec {
   funnelBackground?: IMarkSpec<IPathMarkSpec>;
 }
 
-export interface IConversionFunnelSeriesSpec extends IFunnelSeriesSpec, Omit<IConversionFunnelSpec, 'type' | 'series'> {
-  type: 'conversionFunnelSeries';
+export interface IConversionFunnelSeriesSpecBase extends IFunnelSeriesSpec, IConversionFunnelSpec {}
+
+export interface IConversionFunnelChartSpecBase extends IFunnelChartSpec, IConversionFunnelSpec {}
+
+export interface IConversionFunnelSeriesSpec extends Omit<IConversionFunnelSeriesSpecBase, 'type' | 'series'> {
+  type: 'conversionFunnel';
 }
 
-export interface IConversionFunnelChartSpec extends IFunnelChartSpec, Omit<IConversionFunnelSpec, 'type' | 'series'> {
-  type: 'conversionFunnelSeries';
+export interface IConversionFunnelChartSpec extends Omit<IConversionFunnelChartSpecBase, 'type' | 'series'> {
+  type: 'conversionFunnel';
 }

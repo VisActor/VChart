@@ -99,3 +99,7 @@ export const DEFAULT_ARROW_TEXT_MARK_STYLE = {
   fill: '#606773',
   fontSize: 12
 };
+
+export const DEFAULT_FUNNEL_BACKGROUND_MARK_STYLE = {
+  fill: '#eff1f9'
+};
