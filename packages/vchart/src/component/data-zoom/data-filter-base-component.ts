@@ -102,6 +102,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _spanCache!: number;
   protected _shouldChange: boolean = true;
 
+  protected _domainCache!: any;
+
   protected _field!: string | undefined;
   protected _stateField: string = 'x';
   protected _valueField?: string;
@@ -404,7 +406,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._stateScale.domain(domain, false);
     this._handleChange(this._start, this._end, true);
     // auto 模式下需要重新布局
-    if (this._spec.auto) {
+    if (this._spec.auto && !isEqual(this._domainCache, domain)) {
+      this._domainCache = domain;
       this._dataUpdating = true;
       this.getChart()?.setLayoutTag(true, null, false);
     }
