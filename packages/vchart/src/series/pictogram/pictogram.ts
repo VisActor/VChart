@@ -248,6 +248,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       const mark = this._pictogramMark.getMarkInUserId(_uniqueId);
       const valid = this._validElement(element);
       if (mark) {
+        // 描边粗细跟随缩放倍数
+        this.setMarkStyle(mark, { keepStrokeScale: true }, 'normal', AttributeLevel.Built_In);
         if (valid) {
           this.initMarkStyleWithSpec(mark, merge({}, this._spec.pictogram, this._spec[mark.name]));
           this.setMarkStyle(mark, attributes, 'normal', AttributeLevel.Series);
@@ -264,6 +266,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
     this.initLabelMarkStyle();
   }
+  /** 在 svg 中使用 name attribute 标注了的图元*/
   protected _validElement(element: SVGParsedElement) {
     return element.name || element._nameFromParent;
   }
