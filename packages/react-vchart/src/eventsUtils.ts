@@ -50,13 +50,6 @@ export interface ChartLifeCycleEventProps {
   onLayoutEnd?: (e: any) => void;
 }
 
-export type EventConfigByType<type> =
-  | EventCallback<EventParamsDefinition['pointerdown']>
-  | {
-      filter: EventFilter;
-      callback: EventCallback<EventParamsDefinition['pointerdown']>;
-    };
-
 export interface EventsProps {
   onPointerDown?: EventCallback<EventParamsDefinition['pointerdown']>;
   onPointerUp?: EventCallback<EventParamsDefinition['pointerup']>;
@@ -103,6 +96,53 @@ export interface EventsProps {
   onWeel?: EventCallback<EventParamsDefinition['weel']>;
   onClick?: EventCallback<EventParamsDefinition['click']>;
   onDblClick?: EventCallback<EventParamsDefinition['dblclick']>;
+
+  // @since 1.13.0
+  onPointerDownFilter?: EventFilter;
+  onPointerUpFilter?: EventFilter;
+  onPointerUpOutsideFilter?: EventFilter;
+  onPointerTapFilter?: EventCallback<EventParamsDefinition['pointertap']>;
+  onPointerOverFilter?: EventCallback<EventParamsDefinition['pointerover']>;
+  onPointerMoveFilter?: EventFilter;
+  onPointerEnterFilter?: EventFilter;
+  onPointerLeaveFilter?: EventFilter;
+  onPointerOutFilter?: EventFilter;
+  onMouseDownFilter?: EventFilter;
+  onMouseUpFilter?: EventFilter;
+  onMouseUpOutsideFilter?: EventFilter;
+  onMouseMoveFilter?: EventFilter;
+  onMouseOverFilter?: EventFilter;
+  onMouseOutFilter?: EventFilter;
+  onMouseEnterFilter?: EventFilter;
+  onMouseLeaveFilter?: EventFilter;
+  onPinchFilter?: EventFilter;
+  onPinchStartFilter?: EventFilter;
+  onPinchEndFilter?: EventFilter;
+  onPanFilter?: EventFilter;
+  onPanStartFilter?: EventFilter;
+  onPanEndFilter?: EventFilter;
+  onDragFilter?: EventFilter;
+  onDragStartFilter?: EventFilter;
+  onDragEnterFilter?: EventFilter;
+  onDragLeaveFilter?: EventFilter;
+  onDragOverFilter?: EventFilter;
+  onDragEndFilter?: EventFilter;
+  onRightDownFilter?: EventFilter;
+  onRightUpFilter?: EventFilter;
+  onRightUpOutsideFilter?: EventFilter;
+  onTouchStartFilter?: EventFilter;
+  onTouchEndFilter?: EventFilter;
+  onTouchEndOutsideFilter?: EventFilter;
+  onTouchMoveFilter?: EventFilter;
+  onTouchCancelFilter?: EventFilter;
+  onPressFilter?: EventFilter;
+  onPressUpFilter?: EventFilter;
+  onPressEndFilter?: EventFilter;
+  onSwipeFilter?: EventFilter;
+  onDropFilter?: EventFilter;
+  onWeelFilter?: EventFilter;
+  onClickFilter?: EventFilter;
+  onDblClickFilter?: EventFilter;
 }
 
 export const REACT_TO_VCHART_EVENTS = {
@@ -214,7 +254,9 @@ export const CHART_EVENTS = {
   ...REACT_TO_VCHART_EVENTS
 };
 
-export const CHART_EVENTS_KEYS = Object.keys(CHART_EVENTS);
+export const CHART_EVENTS_KEYS = Object.keys(CHART_EVENTS).concat(
+  Object.keys(REACT_TO_VCHART_EVENTS).map(evt => `${evt}Filter`)
+);
 
 export const COMMON_EVENTK_KEYS = Object.keys(REACT_TO_VCHART_EVENTS);
 
@@ -257,16 +299,9 @@ export const bindEventsToChart = <T>(
       if (
         !newEventProps ||
         !(newEventProps as any)[eventKey] ||
-        isShallowEqual((newEventProps as any)[eventKey], (prevEventProps as any)[eventKey])
+        (newEventProps as any)[eventKey] !== (prevEventProps as any)[eventKey]
       ) {
-        const res = chart.off(
-          supportedEvents[eventKey],
-          isFunction((prevProps as any)[eventKey] as EventCallback<EventParamsDefinition['pointerdown']>)
-            ? ((prevProps as any)[eventKey] as EventCallback<EventParamsDefinition['pointerdown']>)
-            : isObject((prevProps as any)[eventKey]) && (prevProps as any)[eventKey].callback
-            ? (prevProps as any)[eventKey].callback
-            : null
-        );
+        const res = chart.off(supportedEvents[eventKey], (prevEventProps as any)[eventKey]);
       }
     });
   }
@@ -276,15 +311,13 @@ export const bindEventsToChart = <T>(
       if (
         !prevEventProps ||
         !(prevEventProps as any)[eventKey] ||
-        isShallowEqual((prevEventProps as any)[eventKey], (newEventProps as any)[eventKey])
+        (prevEventProps as any)[eventKey] !== (newEventProps as any)[eventKey]
       ) {
-        if (isObject((newEventProps as any)[eventKey]) && (newEventProps as any)[eventKey].callback) {
-          chart.on(
-            supportedEvents[eventKey],
-            (newEventProps as any)[eventKey].filter,
-            (newEventProps as any)[eventKey].callback
-          );
-        } else if (isFunction((newEventProps as any)[eventKey])) {
+        const filter = (newProps as any)[`${eventKey}Filter`];
+
+        if (filter) {
+          chart.on(supportedEvents[eventKey], filter, (newEventProps as any)[eventKey]);
+        } else {
           chart.on(supportedEvents[eventKey], (newEventProps as any)[eventKey]);
         }
       }
