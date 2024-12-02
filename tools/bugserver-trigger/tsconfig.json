@@ -1,10 +1,10 @@
 {
   "extends": "@internal/ts-config/tsconfig.base.json",
   "compilerOptions": {
-    "paths": {
-      "@visactor/vchart": ["../../packages/vchart/src"],
-      "@visactor/vchart-extension": ["../../packages/vchart-extension/src"]
-    },
+    // "paths": {
+    //   "@visactor/vchart": ["../../packages/vchart/src"],
+    //   "@visactor/vchart-extension": ["../../packages/vchart-extension/src"]
+    // },
     "target": "ES2016",
     "useDefineForClassFields": true,
     "module": "ES2015",
