@@ -240,6 +240,7 @@ new VChart(spec: ISpec, options: IInitOption);
 | `supportsPointerEvents` | `boolean`                   | 否   | 是否支持 pointer 事件，不支持就监听 mouse 事件; 从`1.8.9`版本开始支持                                                                                                                                                                                                |
 | `ReactDOM`              | `object`                    | 否   | `react-dom`包导出产物，用于开启 vrender 渲染 react 元素; 从`1.11.0`版本开始支持                                                                                                                                                                                      |
 | `resizeDelay`           | `number`                    | 否   | 当自动响应容器 resize 事件时，触发 resize 的间隔时长，单位毫秒；从`1.12.5`开始支持                                                                                                                                                                                   |
+| `gestureConfig`         | `GestureConfig`             | 否   | 手势事件配置；当配置非空，开启手势相关事件                                                                                                                                                                                                                           |
 | `autoRefreshDpr`        | `boolean`                   | 是   | 当切换屏幕的时候，dpr 发发生变更，是否自动刷新 dpr；当没有显示设置 dpr 的时候，默认开启该功能；自`1.12.14`版本开始支持                                                                                                                                               |
 
 - `srIOption3DType` 类型定义如下
@@ -274,6 +275,44 @@ export type LayoutCallBack = (
   chartLayoutRect: IRect,
   chartViewBox: IBoundsLike
 ) => void;
+```
+
+- `GestureConfig` 类型定义如下:
+
+```ts
+export interface GestureConfig {
+  press?: {
+    /**
+     * @default 251
+     * 最小按压时间，单位为毫秒。
+     */
+    time?: number;
+    /**
+     * @default 10
+     * 按压时允许的最大移动距离。
+     */
+    threshold?: number;
+  };
+  swipe?: {
+    /**
+     * 识别滑动所需的最小距离。
+     * @default 10
+     */
+    threshold?: number;
+    /**
+     * 识别滑动所需的最小速度，单位为每毫秒像素。
+     * @default 0.3
+     */
+    velocity?: number;
+  };
+  tap?: {
+    /**
+     * 多次点击之间的最大时间间隔。
+     * @default 300
+     */
+    interval?: number;
+  };
+}
 ```
 
 ### 示例

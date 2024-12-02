@@ -140,7 +140,7 @@ vchart.on('pointerdown', { filter: ({model} => model.id === 45) }, () => {});
 | throttle | `Number`  | `null`  | 事件节流的时长，单位为 ms，默认不节流 |
 | debounce | `Number`  | `null`  | 事件防抖的时长，单位为 ms，默认不防抖 |
 
-#### 通过事件过滤监听 **组件** 事件
+#### 通过事件过滤监听 组件 事件
 
 通过如下事件过滤规则，我们可以监听到 VChart 示例上各个组件的事件
 
@@ -174,7 +174,7 @@ vchart.on('pointerdown', { level: 'model', type: 'axis' }, e => {
 | label      | 否                   |
 | totalLabel | 否                   |
 
-#### 通过事件过滤监听 **mark 图元** 事件
+#### 通过事件过滤监听 mark 图元 事件
 
 如果想要监听 mark 图元的事件，可以通过两种方式实现：
 
@@ -249,6 +249,7 @@ VChart 支持如下基础事件：
   - `'dragover'`
   - `'drop'`
 - 手势事件
+
   - `'pan'`: 平移
   - `'panstart'`: 平移开始
   - `'panend'`: 平移结束
@@ -259,6 +260,11 @@ VChart 支持如下基础事件：
   - `'pinchstart'`: 缩放开始
   - `'pinchend'`: 缩放结束
   - `'swipe'`: 快扫
+
+  注意手势事件没有默认开启，有两种开启方式：
+
+  - 渲染配置中的`mode`设置为: `'mobile-browser'`、`'miniApp'`、`'lynx'`、`'wx'`、`'harmony'`中的一种
+  - 渲染配置中的`gestureConfig` 设置为非空对象，具体支持的配置参考[vchart API 配置](/vchart/api/API/vchart)
 
 ### 组合事件
 

@@ -559,54 +559,62 @@ VChart 按需引用参考[相关文档](/vchart/guide/tutorial_docs/Load_on_Dema
 `EventsProps`的定义如下：
 
 ```typescript
-interface EventsProps {
-  onPointerDown?: (e: any) => void | boolean;
-  onPointerUp?: (e: any) => void | boolean;
-  onPointerUpOutside?: (e: any) => void | boolean;
-  onPointerTap?: (e: any) => void | boolean;
-  onPointerOver?: (e: any) => void | boolean;
-  onPointerMove?: (e: any) => void | boolean;
-  onPointerEnter?: (e: any) => void | boolean;
-  onPointerLeave?: (e: any) => void | boolean;
-  onPointerOut?: (e: any) => void | boolean;
-  onMouseDown?: (e: any) => void | boolean;
-  onMouseUp?: (e: any) => void | boolean;
-  onMouseUpOutside?: (e: any) => void | boolean;
-  onMouseMove?: (e: any) => void | boolean;
-  onMouseOver?: (e: any) => void | boolean;
-  onMouseOut?: (e: any) => void | boolean;
-  onMouseEnter?: (e: any) => void | boolean;
-  onMouseLeave?: (e: any) => void | boolean;
-  onPinch?: (e: any) => void | boolean;
-  onPinchStart?: (e: any) => void | boolean;
-  onPinchEnd?: (e: any) => void | boolean;
-  onPan?: (e: any) => void | boolean;
-  onPanStart?: (e: any) => void | boolean;
-  onPanEnd?: (e: any) => void | boolean;
-  onDrag?: (e: any) => void | boolean;
-  onDragStart?: (e: any) => void | boolean;
-  onDragEnter?: (e: any) => void | boolean;
-  onDragLeave?: (e: any) => void | boolean;
-  onDragOver?: (e: any) => void | boolean;
-  onDragEnd?: (e: any) => void | boolean;
-  onRightDown?: (e: any) => void | boolean;
-  onRightUp?: (e: any) => void | boolean;
-  onRightUpOutside?: (e: any) => void | boolean;
-  onTouchStart?: (e: any) => void | boolean;
-  onTouchEnd?: (e: any) => void | boolean;
-  onTouchEndOutside?: (e: any) => void | boolean;
-  onTouchMove?: (e: any) => void | boolean;
-  onTouchCancel?: (e: any) => void | boolean;
-  onPress?: (e: any) => void | boolean;
-  onPressUp?: (e: any) => void | boolean;
-  onPressEnd?: (e: any) => void | boolean;
-  onSwipe?: (e: any) => void | boolean;
-  onDrop?: (e: any) => void | boolean;
-  onWeel?: (e: any) => void | boolean;
-  onClick?: (e: any) => void | boolean;
-  onDblClick?: (e: any) => void | boolean;
+export interface EventsProps {
+  onPointerDown?: EventCallback<EventParamsDefinition['pointerdown']>;
+  onPointerUp?: EventCallback<EventParamsDefinition['pointerup']>;
+  onPointerUpOutside?: EventCallback<EventParamsDefinition['pointerupoutside']>;
+  onPointerTap?: EventCallback<EventParamsDefinition['pointertap']>;
+  onPointerOver?: EventCallback<EventParamsDefinition['pointerover']>;
+  onPointerMove?: EventCallback<EventParamsDefinition['pointermove']>;
+  onPointerEnter?: EventCallback<EventParamsDefinition['pointerenter']>;
+  onPointerLeave?: EventCallback<EventParamsDefinition['pointerleave']>;
+  onPointerOut?: EventCallback<EventParamsDefinition['pointerout']>;
+  onMouseDown?: EventCallback<EventParamsDefinition['mousedown']>;
+  onMouseUp?: EventCallback<EventParamsDefinition['mouseup']>;
+  onMouseUpOutside?: EventCallback<EventParamsDefinition['mouseupoutside']>;
+  onMouseMove?: EventCallback<EventParamsDefinition['mousemove']>;
+  onMouseOver?: EventCallback<EventParamsDefinition['mouseover']>;
+  onMouseOut?: EventCallback<EventParamsDefinition['mouseout']>;
+  onMouseEnter?: EventCallback<EventParamsDefinition['mouseenter']>;
+  onMouseLeave?: EventCallback<EventParamsDefinition['mouseleave']>;
+  onPinch?: EventCallback<EventParamsDefinition['pinch']>;
+  onPinchStart?: EventCallback<EventParamsDefinition['pinchstart']>;
+  onPinchEnd?: EventCallback<EventParamsDefinition['pinchend']>;
+  onPan?: EventCallback<EventParamsDefinition['pan']>;
+  onPanStart?: EventCallback<EventParamsDefinition['panstart']>;
+  onPanEnd?: EventCallback<EventParamsDefinition['panend']>;
+  onDrag?: EventCallback<EventParamsDefinition['drag']>;
+  onDragStart?: EventCallback<EventParamsDefinition['dragstart']>;
+  onDragEnter?: EventCallback<EventParamsDefinition['dragenter']>;
+  onDragLeave?: EventCallback<EventParamsDefinition['dragleave']>;
+  onDragOver?: EventCallback<EventParamsDefinition['dragover']>;
+  onDragEnd?: EventCallback<EventParamsDefinition['dragend']>;
+  onRightDown?: EventCallback<EventParamsDefinition['rightdown']>;
+  onRightUp?: EventCallback<EventParamsDefinition['rightup']>;
+  onRightUpOutside?: EventCallback<EventParamsDefinition['rightupoutside']>;
+  onTouchStart?: EventCallback<EventParamsDefinition['touchstart']>;
+  onTouchEnd?: EventCallback<EventParamsDefinition['touchend']>;
+  onTouchEndOutside?: EventCallback<EventParamsDefinition['touchendoutside']>;
+  onTouchMove?: EventCallback<EventParamsDefinition['touchmove']>;
+  onTouchCancel?: EventCallback<EventParamsDefinition['touchcancel']>;
+  onPress?: EventCallback<EventParamsDefinition['press']>;
+  onPressUp?: EventCallback<EventParamsDefinition['pressup']>;
+  onPressEnd?: EventCallback<EventParamsDefinition['pressend']>;
+  onSwipe?: EventCallback<EventParamsDefinition['swipe']>;
+  onDrop?: EventCallback<EventParamsDefinition['drop']>;
+  onWeel?: EventCallback<EventParamsDefinition['weel']>;
+  onClick?: EventCallback<EventParamsDefinition['click']>;
+  onDblClick?: EventCallback<EventParamsDefinition['dblclick']>;
 }
 ```
+
+所有的基础事件都支持事件过滤器，如想要给`onClick`添加事件过滤器，可以如下传入`props`:
+
+```typescript
+<BarChart onClick={handleChartClick} onClickFilter={{ type: 'axis', level: 'model' }} />
+```
+
+其他事件的过滤器都类似配置，更多关于事件过滤器的内容可以参考[事件相关文档](/vchart/api/API/event)
 
 ### 组件标签的事件
 
@@ -710,53 +718,114 @@ interface ScrollBarEventsProps {
 }
 ```
 
-### 事件使用示例
+### 事件使用示例 - 图表事件&组件事件
 
-```tsx
-import React from 'react';
-import { BarChart, Bar, Axis, Legend } from '@visactor/react-vchart';
+```javascript livedemo template=react-vchart
+const root = document.getElementById(CONTAINER_ID);
+const { BarChart, Bar, Axis, Legend } = ReactVChart;
+const { useState, useRef, useEffect, useCallback } = React;
+const barData = [
+  {
+    id: 'barData',
+    values: [
+      { month: 'Monday', sales: 22 },
+      { month: 'Tuesday', sales: 13 },
+      { month: 'Wednesday', sales: 25 },
+      { month: 'Thursday', sales: 29 },
+      { month: 'Friday', sales: 38 }
+    ]
+  }
+];
 
-function MyChart(props) {
-  const barData = [
-    {
-      id: 'barData',
-      values: [
-        { month: 'Monday', sales: 22 },
-        { month: 'Tuesday', sales: 13 },
-        { month: 'Wednesday', sales: 25 },
-        { month: 'Thursday', sales: 29 },
-        { month: 'Friday', sales: 38 }
-      ]
-    }
-  ];
+const Card = () => {
+  const handleChartClick = useCallback(ev => {
+    console.log('图表被点击', ev);
+  }, []);
 
   return (
-    <BarChart
-      data={barData}
-      onClick={ev => {
-        console.log('图表被点击', ev);
-      }}
-    >
-      <Bar
-        xField="month"
-        yField="sales"
-        onClick={ev => {
-          console.log('柱形被点击', ev);
-        }}
-      />
-      <Axis orient="bottom" type="band" />
-      <Axis orient="left" type="linear" />
-      <Legend
-        visible={true}
-        onLegendItemClick={ev => {
-          console.log('图例项被点击', ev);
-        }}
-      />
-    </BarChart>
+    <div className="chart-containers">
+      <BarChart data={barData} onClick={handleChartClick}>
+        <Bar
+          xField="month"
+          yField="sales"
+          onClick={ev => {
+            console.log('柱形被点击', ev);
+          }}
+        />
+        <Axis orient="bottom" type="band" />
+        <Axis orient="left" type="linear" />
+        <Legend
+          visible={true}
+          onLegendItemClick={ev => {
+            console.log('图例项被点击', ev);
+          }}
+        />
+      </BarChart>
+    </div>
   );
-}
+};
 
-export default MyChart;
+ReactDom.createRoot(root).render(<Card />);
+
+// release react instance, do not copy
+window.customRelease = () => {
+  ReactDom.unmountComponentAtNode(root);
+};
+```
+
+### 事件使用示例 - 图表事件过滤
+
+```javascript livedemo template=react-vchart
+const root = document.getElementById(CONTAINER_ID);
+const { BarChart, Bar, Axis, Legend } = ReactVChart;
+const { useState, useRef, useEffect, useCallback } = React;
+const barData = [
+  {
+    id: 'barData',
+    values: [
+      { month: 'Monday', sales: 22 },
+      { month: 'Tuesday', sales: 13 },
+      { month: 'Wednesday', sales: 25 },
+      { month: 'Thursday', sales: 29 },
+      { month: 'Friday', sales: 38 }
+    ]
+  }
+];
+
+const Card = () => {
+  const handleAxisClick = useCallback(ev => {
+    console.log('坐标轴被点击', ev);
+  }, []);
+
+  return (
+    <div className="chart-containers">
+      <BarChart data={barData} onClick={handleAxisClick} onClickFilter={{ type: 'axis', level: 'model' }}>
+        <Bar
+          xField="month"
+          yField="sales"
+          onClick={ev => {
+            console.log('柱形被点击', ev);
+          }}
+        />
+        <Axis orient="bottom" type="band" />
+        <Axis orient="left" type="linear" />
+        <Legend
+          visible={true}
+          onLegendItemClick={ev => {
+            console.log('图例项被点击', ev);
+          }}
+        />
+      </BarChart>
+    </div>
+  );
+};
+
+ReactDom.createRoot(root).render(<Card />);
+
+// release react instance, do not copy
+window.customRelease = () => {
+  ReactDom.unmountComponentAtNode(root);
+};
 ```
 
 ## 主题样式
@@ -895,6 +964,136 @@ export function PieChart() {
 ```
 
 关键点在于通过`ref`获取到 vchart 实例，调用[`updateState`API](../../../api/API/vchart) 更新自定义状态对应的的 filter；
+
+## API
+
+| 参数                       | 说明                                                                        | 类型                                             | 默认值 | 版本   |
+| -------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------ | ------ | ------ |
+| type                       | 图表类型，仅适用于`<VChart />`和`<VChartSimple />`                          | `string`                                         | 无     |        |
+| spec                       | 图表的 spec 配置，同[vchart 配置项](/vchart/option/)                        | `ISpec`                                          | 无     |        |
+| data                       | 图表的数据                                                                  | `IData` \| `IHierarchyData`                      | 无     |        |
+| width                      | 画布宽度                                                                    | `number`                                         | 无     |        |
+| height                     | 画布高度                                                                    | `number`                                         | 无     |        |
+| options                    | 图表配置 ，具体参考[vchart API 文档](/vchart/api/API/vchart)                | `Omit<IInitOption, 'dom'>`                       | 无     |        |
+| skipFunctionDiff           | props 更新时，跳过所有函数的检查，即所有的函数都认为没有更新                | `boolean`                                        | false  | 1.6.5  |
+| morphConfig                | morph 配置                                                                  | `IMorphConfig`                                   | 无     | 1.12.7 |
+| onReady                    | 图表渲染完成事件                                                            | `(instance: VChart, isInitial: boolean) => void` | 无     |        |
+| onError                    | 图表运行出错时的错误回调                                                    | `(err: Error) => void`                           | 无     |        |
+| onLegendItemHover          | 图例项 hover 事件                                                           | `(e: any) => void`                               | 无     |        |
+| onLegendItemUnHover        | 图例项 unhover 事件                                                         | `(e: any) => void`                               | 无     |        |
+| onLegendItemClick          | 图例项点击事件                                                              | `(e: any) => void`                               | 无     |        |
+| onLegendFilter             | 图例项过滤事件                                                              | `(e: any) => void`                               | 无     |        |
+| onLegendSelectedDataChange | 图例选中数据变化事件                                                        | `(e: any) => void`                               | 无     |        |
+| onBrushStart               | Brush 开始事件                                                              | `(e: any) => void`                               | 无     |        |
+| onBrushChange              | Brush 更新事件                                                              | `(e: any) => void`                               | 无     |        |
+| onBrushEnd                 | Brush 结束事件                                                              | `(e: any) => void`                               | 无     |        |
+| onDataZoomChange           | DataZoom 更新事件                                                           | `(e: any) => void`                               | 无     |        |
+| onPlayerPlay               | Player 播放事件                                                             | `(e: any) => void`                               | 无     |        |
+| onPlayerPause              | Player 暂停事件                                                             | `(e: any) => void`                               | 无     |        |
+| onPlayerEnd                | Player 结束事件                                                             | `(e: any) => void`                               | 无     |        |
+| onPlayerChange             | Player 变化事件                                                             | `(e: any) => void`                               | 无     |        |
+| onPlayerForward            | Player 前进事件                                                             | `(e: any) => void`                               | 无     |        |
+| onPlayerBackward           | Player 后退事件                                                             | `(e: any) => void`                               | 无     |        |
+| onScrollBarChange          | ScrollBar 更新事件                                                          | `(e: any) => void`                               | 无     |        |
+| onDimensionHover           | 维度 hover 事件                                                             | `(e: any) => void`                               | 无     |        |
+| onDimensionClick           | 维度点击事件                                                                | `(e: any) => void`                               | 无     |        |
+| onDrill                    | 层次数据图表事件                                                            | `(e: any) => void`                               | 无     | 1.12.7 |
+| onInitialized              | 初始化完成事件                                                              | `(e: any) => void`                               | 无     |        |
+| onRendered                 | 渲染完成事件                                                                | `(e: any) => void`                               | 无     |        |
+| onRenderFinished           | 渲染结束事件                                                                | `(e: any) => void`                               | 无     |        |
+| onAnimationFinished        | 动画结束事件                                                                | `(e: any) => void`                               | 无     |        |
+| onLayoutStart              | 布局开始事件                                                                | `(e: any) => void`                               | 无     |        |
+| onLayoutEnd                | 布局结束事件                                                                | `(e: any) => void`                               | 无     |        |
+| onPointerDown              | PointerDown 事件                                                            | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPointerUp                | PointerUp 事件                                                              | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPointerUpOutside         | PointerUpOutside 事件                                                       | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPointerTap               | PointerTap 事件                                                             | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPointerOver              | PointerOver 事件                                                            | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPointerMove              | PointerMove 事件                                                            | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPointerEnter             | PointerEnter 事件                                                           | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPointerLeave             | PointerLeave 事件                                                           | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPointerOut               | PointerOut 事件                                                             | `(e: any) => boolean \| void;`                   | 无     |        |
+| onMouseDown                | MouseDown 事件                                                              | `(e: any) => boolean \| void;`                   | 无     |        |
+| onMouseUp                  | MouseUp 事件                                                                | `(e: any) => boolean \| void;`                   | 无     |        |
+| onMouseUpOutside           | MouseUpOutside 事件                                                         | `(e: any) => boolean \| void;`                   | 无     |        |
+| onMouseMove                | MouseMove 事件                                                              | `(e: any) => boolean \| void;`                   | 无     |        |
+| onMouseOver                | MouseOver 事件                                                              | `(e: any) => boolean \| void;`                   | 无     |        |
+| onMouseOut                 | MouseOut 事件                                                               | `(e: any) => boolean \| void;`                   | 无     |        |
+| onMouseEnter               | MouseEnter 事件                                                             | `(e: any) => boolean \| void;`                   | 无     |        |
+| onMouseLeave               | MouseLeave 事件                                                             | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPinch                    | Pinch 事件                                                                  | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPinchStart               | PinchStart 事件                                                             | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPinchEnd                 | PinchEnd 事件                                                               | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPan                      | Pan 事件                                                                    | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPanStart                 | PanStart 事件                                                               | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPanEnd                   | PanEnd 事件                                                                 | `(e: any) => boolean \| void;`                   | 无     |        |
+| onDrag                     | Drag 事件                                                                   | `(e: any) => boolean \| void;`                   | 无     |        |
+| onDragStart                | DragStart 事件                                                              | `(e: any) => boolean \| void;`                   | 无     |        |
+| onDragEnter                | DragEnter 事件                                                              | `(e: any) => boolean \| void;`                   | 无     |        |
+| onDragLeave                | DragLeave 事件                                                              | `(e: any) => boolean \| void;`                   | 无     |        |
+| onDragOver                 | DragOver 事件                                                               | `(e: any) => boolean \| void;`                   | 无     |        |
+| onDragEnd                  | DragEnd 事件                                                                | `(e: any) => boolean \| void;`                   | 无     |        |
+| onRightDown                | RightDown 事件                                                              | `(e: any) => boolean \| void;`                   | 无     |        |
+| onRightUp                  | RightUp 事件                                                                | `(e: any) => boolean \| void;`                   | 无     |        |
+| onRightUpOutside           | RightUpOutside 事件                                                         | `(e: any) => boolean \| void;`                   | 无     |        |
+| onTouchStart               | TouchStart 事件                                                             | `(e: any) => boolean \| void;`                   | 无     |        |
+| onTouchEnd                 | TouchEnd 事件                                                               | `(e: any) => boolean \| void;`                   | 无     |        |
+| onTouchEndOutside          | TouchEndOutside 事件                                                        | `(e: any) => boolean \| void;`                   | 无     |        |
+| onTouchMove                | TouchMove 事件                                                              | `(e: any) => boolean \| void;`                   | 无     |        |
+| onTouchCancel              | TouchCancel 事件                                                            | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPress                    | Press 事件                                                                  | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPressUp                  | PressUp 事件                                                                | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPressEnd                 | PressEnd 事件                                                               | `(e: any) => boolean \| void;`                   | 无     |        |
+| onSwipe                    | Swipe 事件                                                                  | `(e: any) => boolean \| void;`                   | 无     |        |
+| onDrop                     | Drop 事件                                                                   | `(e: any) => boolean \| void;`                   | 无     |        |
+| onWeel                     | Weel 事件                                                                   | `(e: any) => boolean \| void;`                   | 无     |        |
+| onClick                    | Click 事件                                                                  | `(e: any) => boolean \| void;`                   | 无     |        |
+| onDblClick                 | DblClick 事件                                                               | `(e: any) => boolean \| void;`                   | 无     |        |
+| onPoninterDownFilter       | PointerDown 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)      | `EventFilter`                                    | 无     |        |
+| onPointerUpFilter          | PointerUp 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)        | `EventFilter`                                    | 无     |        |
+| onPointerUpOutsideFilter   | PointerUpOutside 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event) | `EventFilter`                                    | 无     |        |
+| onPointerTapFilter         | PointerTap 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)       | `EventFilter`                                    | 无     |        |
+| onPointerOverFilter        | PointerOver 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)      | `EventFilter`                                    | 无     |        |
+| onPointerMoveFilter        | PointerMove 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)      | `EventFilter`                                    | 无     |        |
+| onPointerEnterFilter       | PointerEnter 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)     | `EventFilter`                                    | 无     |        |
+| onPointerLeaveFilter       | PointerLeave 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)     | `EventFilter`                                    | 无     |        |
+| onPointerOutFilter         | PointerOut 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)       | `EventFilter`                                    | 无     |        |
+| onMouseDownFilter          | MouseDown 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)        | `EventFilter`                                    | 无     |        |
+| onMouseUpFilter            | MouseUp 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)          | `EventFilter`                                    | 无     |        |
+| onMouseUpOutsideFilter     | MouseUpOutside 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)   | `EventFilter`                                    | 无     |        |
+| onMouseMoveFilter          | MouseMove 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)        | `EventFilter`                                    | 无     |        |
+| onMouseOverFilter          | MouseOver 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)        | `EventFilter`                                    | 无     |        |
+| onMouseOutFilter           | MouseOut 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)         | `EventFilter`                                    | 无     |        |
+| onMouseEnterFilter         | MouseEnter 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)       | `EventFilter`                                    | 无     |        |
+| onMouseLeaveFilter         | MouseLeave 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)       | `EventFilter`                                    | 无     |        |
+| onPinchFilter              | Pinch 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)            | `EventFilter`                                    | 无     |        |
+| onPinchStartFilter         | PinchStart 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)       | `EventFilter`                                    | 无     |        |
+| onPinchEndFilter           | PinchEnd 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)         | `EventFilter`                                    | 无     |        |
+| onPanFilter                | Pan 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)              | `EventFilter`                                    | 无     |        |
+| onPanStartFilter           | PanStart 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)         | `EventFilter`                                    | 无     |        |
+| onPanEndFilter             | PanEnd 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)           | `EventFilter`                                    | 无     |        |
+| onDragFilter               | Drag 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)             | `EventFilter`                                    | 无     |        |
+| onDragStartFilter          | DragStart 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)        | `EventFilter`                                    | 无     |        |
+| onDragEnterFilter          | DragEnter 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)        | `EventFilter`                                    | 无     |        |
+| onDragLeaveFilter          | DragLeave 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)        | `EventFilter`                                    | 无     |        |
+| onDragOverFilter           | DragOver 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)         | `EventFilter`                                    | 无     |        |
+| onDragEndFilter            | DragEnd 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)          | `EventFilter`                                    | 无     |        |
+| onRightDownFilter          | RightDown 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)        | `EventFilter`                                    | 无     |        |
+| onRightUpFilter            | RightUp 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)          | `EventFilter`                                    | 无     |        |
+| onRightUpOutsideFilter     | RightUpOutside 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)   | `EventFilter`                                    | 无     |        |
+| onTouchStartFilter         | TouchStart 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)       | `EventFilter`                                    | 无     |        |
+| onTouchEndFilter           | TouchEnd 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)         | `EventFilter`                                    | 无     |        |
+| onTouchEndOutsideFilter    | TouchEndOutside 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)  | `EventFilter`                                    | 无     |        |
+| onTouchMoveFilter          | TouchMove 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)        | `EventFilter`                                    | 无     |        |
+| onTouchCancelFilter        | TouchCancel 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)      | `EventFilter`                                    | 无     |        |
+| onPressFilter              | Press 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)            | `EventFilter`                                    | 无     |        |
+| onPressUpFilter            | PressUp 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)          | `EventFilter`                                    | 无     |        |
+| onPressEndFilter           | PressEnd 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)         | `EventFilter`                                    | 无     |        |
+| onSwipeFilter              | Swipe 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)            | `EventFilter`                                    | 无     |        |
+| onDropFilter               | Drop 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)             | `EventFilter`                                    | 无     |        |
+| onWeelFilter               | Weel 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)             | `EventFilter`                                    | 无     |        |
+| onClickFilter              | Click 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)            | `EventFilter`                                    | 无     |        |
+| onDblClickFilter           | DblClick 事件过滤器，具体参考[事件 API 文档](/vchart/api/API/event)         | `EventFilter`                                    | 无     |        |
 
 ## 总结
 
