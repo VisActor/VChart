@@ -40,8 +40,8 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     protected _dataToPosX1(datum: Datum): number;
     protected _dataToPosY(datum: Datum): number;
     protected _dataToPosY1(datum: Datum): number;
-    protected _getBarXStart: (datum: Datum, scale: IBaseScale) => any;
-    protected _getBarXEnd: (datum: Datum, scale: IBaseScale) => any;
+    protected _getBarXStart: (datum: Datum, scale: IBaseScale, useWholeRange?: boolean) => any;
+    protected _getBarXEnd: (datum: Datum, scale: IBaseScale, useWholeRange?: boolean) => any;
     protected _getBarYStart: (datum: Datum, scale: IBaseScale) => any;
     protected _getBarYEnd: (datum: Datum, scale: IBaseScale) => any;
     initBandRectMarkStyle(): void;

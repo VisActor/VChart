@@ -36,6 +36,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _maxSpan: number;
     protected _spanCache: number;
     protected _shouldChange: boolean;
+    protected _domainCache: any;
     protected _field: string | undefined;
     protected _stateField: string;
     protected _valueField?: string;
@@ -113,7 +114,9 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _handleChartMove: (value: number, rate: number) => boolean;
     protected _initCommonEvent(): void;
     updateLayoutAttribute(): void;
+    protected _autoVisible(isShown: boolean): void;
     onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
+    onLayoutEnd(ctx: any): void;
     getBoundsInRect(rect: ILayoutRect): IBoundsLike;
     hide(): void;
     show(): void;

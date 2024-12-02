@@ -7,6 +7,7 @@ import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries, IGeoSeries, IPolarSeries } from '../../series/interface';
 import type { IOptionAggr, IOptionAggrField, IOptionSeries, IOptionWithCoordinates } from '../../data/transforms/aggregation';
 import type { IOptionRegr } from '../../data/transforms/regression';
+import type { VChart } from '../../vchart-all';
 export type IMarkerSupportSeries = ICartesianSeries | IPolarSeries | IGeoSeries;
 export type IPolarPoint = {
     angle: number;
@@ -98,8 +99,8 @@ export type IMarkerSymbol = IMarkerRef & {
     symbolType?: SymbolType;
     size?: number;
 } & Partial<IMarkerState<Omit<ISymbolMarkSpec, 'visible'>>>;
-export type MarkerStyleCallback<T> = (markerData: DataView) => T;
-export type MarkerStateCallback<T> = (markerData: DataView) => T;
+export type MarkerStyleCallback<T> = (markerData: DataView, context: IMarkerAttributeContext) => T;
+export type MarkerStateCallback<T> = (markerData: DataView, context: IMarkerAttributeContext) => T;
 export type MarkerStateValue = 'hover' | 'hover_reverse' | 'selected' | 'selected_reverse';
 export type IMarkerState<T> = {
     style?: T | MarkerStyleCallback<T>;
@@ -111,4 +112,10 @@ export type IMarkProcessOptions = {
     needAggr?: boolean;
     needRegr?: boolean;
     processData?: DataView;
+};
+export type IMarkerAttributeContext = {
+    vchart: VChart;
+    relativeSeries: IMarkerSupportSeries;
+    startRelativeSeries: IMarkerSupportSeries;
+    endRelativeSeries: IMarkerSupportSeries;
 };
