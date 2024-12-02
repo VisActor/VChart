@@ -12,7 +12,7 @@ OpenHarmony 是由开放原子开源基金会（OpenAtom Foundation）孵化及�
 
 为了方便 Harmony 技术栈的同学更好的使用，我们提供了 VChart 的 HarmonyOS 封装包`@visactor/harmony-vchart`（此包不是 NPM 包，是 OHPM 包），该组件的 spec 配置项与 VChart 一致，该包在 HarmonyOS 和 OpenHarmony 应用开发环境中的使用是一致的
 
-具体文档参见官网： [Homepage](https://www.visactor.io/vchart)
+具体文档参见官网： [Homepage](https://www.visactor.com/vchart)
 使用 demo 应用程序：https://gitee.com/VisActor/harmony-vchart-example
 
 ## 效果展示
@@ -397,12 +397,12 @@ $ rush build
 
 ## 🔗 相关链接
 
-- [Homepage](https://www.visactor.io/vchart)
-- [VCharts Gallery](https://www.visactor.io/vchart/example)
-- [VChart Tutorials](https://www.visactor.io/vchart/guide/tutorial_docs/VChart_Website_Guide)
-- [VChart Options](https://www.visactor.io/vchart/option/)
-- [VChart API](https://www.visactor.io/vchart/api/API/vchart)
-- [VGrammar](https://www.visactor.io/vgrammar)
-- [VRender](https://www.visactor.io/vrender)
-- [FAQ](https://www.visactor.io/vchart/guide/tutorial_docs/FAQ)
+- [Homepage](https://www.visactor.com/vchart)
+- [VCharts Gallery](https://www.visactor.com/vchart/example)
+- [VChart Tutorials](https://www.visactor.com/vchart/guide/tutorial_docs/VChart_Website_Guide)
+- [VChart Options](https://www.visactor.com/vchart/option/)
+- [VChart API](https://www.visactor.com/vchart/api/API/vchart)
+- [VGrammar](https://www.visactor.com/vgrammar)
+- [VRender](https://www.visactor.com/vrender)
+- [FAQ](https://www.visactor.com/vchart/guide/tutorial_docs/FAQ)
 - [CodeSandbox Template](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) for bug reports
