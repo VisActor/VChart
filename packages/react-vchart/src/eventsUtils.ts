@@ -1,4 +1,5 @@
-import type { IVChart, EventCallback, EventParamsDefinition } from '@visactor/vchart';
+import type { IVChart, EventCallback, EventParamsDefinition, EventFilter } from '@visactor/vchart';
+import { isFunction, isObject, isShallowEqual } from '@visactor/vutils';
 
 export interface LegendEventProps {
   onLegendItemHover?: (e: any) => void;
@@ -48,6 +49,13 @@ export interface ChartLifeCycleEventProps {
   onLayoutStart?: (e: any) => void;
   onLayoutEnd?: (e: any) => void;
 }
+
+export type EventConfigByType<type> =
+  | EventCallback<EventParamsDefinition['pointerdown']>
+  | {
+      filter: EventFilter;
+      callback: EventCallback<EventParamsDefinition['pointerdown']>;
+    };
 
 export interface EventsProps {
   onPointerDown?: EventCallback<EventParamsDefinition['pointerdown']>;
@@ -210,8 +218,8 @@ export const CHART_EVENTS_KEYS = Object.keys(CHART_EVENTS);
 
 export const COMMON_EVENTK_KEYS = Object.keys(REACT_TO_VCHART_EVENTS);
 
-export const VCHART_TO_REACT_EVENTS = Object.keys(REACT_TO_VCHART_EVENTS).reduce((res, key) => {
-  res[REACT_TO_VCHART_EVENTS[key]] = key;
+export const VCHART_TO_REACT_EVENTS = Object.keys(REACT_TO_VCHART_EVENTS).reduce((res: Record<string, string>, key) => {
+  res[(REACT_TO_VCHART_EVENTS as Record<string, string>)[key]] = key;
 
   return res;
 }, {});
@@ -223,8 +231,8 @@ export const findEventProps = <T extends EventsProps>(
   const result: EventsProps = {};
 
   Object.keys(props).forEach(key => {
-    if (supportedEvents[key] && props[key]) {
-      result[key] = props[key];
+    if (supportedEvents[key] && (props as any)[key]) {
+      (result as any)[key] = (props as any)[key];
     }
   });
 
@@ -246,16 +254,39 @@ export const bindEventsToChart = <T>(
 
   if (prevEventProps) {
     Object.keys(prevEventProps).forEach(eventKey => {
-      if (!newEventProps || !newEventProps[eventKey] || newEventProps[eventKey] !== prevEventProps[eventKey]) {
-        const res = chart.off(supportedEvents[eventKey], prevProps[eventKey]);
+      if (
+        !newEventProps ||
+        !(newEventProps as any)[eventKey] ||
+        isShallowEqual((newEventProps as any)[eventKey], (prevEventProps as any)[eventKey])
+      ) {
+        const res = chart.off(
+          supportedEvents[eventKey],
+          isFunction((prevProps as any)[eventKey] as EventCallback<EventParamsDefinition['pointerdown']>)
+            ? ((prevProps as any)[eventKey] as EventCallback<EventParamsDefinition['pointerdown']>)
+            : isObject((prevProps as any)[eventKey]) && (prevProps as any)[eventKey].callback
+            ? (prevProps as any)[eventKey].callback
+            : null
+        );
       }
     });
   }
 
   if (newEventProps) {
     Object.keys(newEventProps).forEach(eventKey => {
-      if (!prevEventProps || !prevEventProps[eventKey] || prevEventProps[eventKey] !== newEventProps[eventKey]) {
-        chart.on(supportedEvents[eventKey], newEventProps[eventKey]);
+      if (
+        !prevEventProps ||
+        !(prevEventProps as any)[eventKey] ||
+        isShallowEqual((prevEventProps as any)[eventKey], (newEventProps as any)[eventKey])
+      ) {
+        if (isObject((newEventProps as any)[eventKey]) && (newEventProps as any)[eventKey].callback) {
+          chart.on(
+            supportedEvents[eventKey],
+            (newEventProps as any)[eventKey].filter,
+            (newEventProps as any)[eventKey].callback
+          );
+        } else if (isFunction((newEventProps as any)[eventKey])) {
+          chart.on(supportedEvents[eventKey], (newEventProps as any)[eventKey]);
+        }
       }
     });
   }
