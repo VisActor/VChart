@@ -1,4 +1,5 @@
-import * as VChart from '@visactor/vchart';
+import VChart from '@visactor/vchart';
 import * as VChartExtensions from '@visactor/vchart-extension';
 
-export { VChart, VChartExtensions };
+export default VChart;
+export { VChartExtensions };
