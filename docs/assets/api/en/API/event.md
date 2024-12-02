@@ -134,13 +134,13 @@ vchart.on('pointerdown', { filter: ({model} => model.id === 45) }, () => {});
 
 In addition to the above configurations, `query` also supports the following configurations:
 
-| Configuration | Type      | Default | Description                           |
-| ------------- | --------- | ------- | ------------------------------------- |
-| consume       | `Boolean` | `false` | Whether to stop event propagation      |
+| Configuration | Type      | Default | Description                                                   |
+| ------------- | --------- | ------- | ------------------------------------------------------------- |
+| consume       | `Boolean` | `false` | Whether to stop event propagation                             |
 | throttle      | `Number`  | `null`  | Duration of event throttling in ms, defaults to no throttling |
 | debounce      | `Number`  | `null`  | Duration of event debouncing in ms, defaults to no debouncing |
 
-#### Listen to **component** events through event filtering
+#### Listen to component events through event filtering
 
 Through the following event filtering rules, we can monitor the events of each component on the VChart example
 
@@ -174,7 +174,7 @@ However, it should be noted that not all components enable event interaction by 
 | label          | No                                         |
 | totalLabel     | No                                         |
 
-#### Monitor **mark primitive** events through event filtering
+#### Monitor mark primitive events through event filtering
 
 If you want to listen to the events of mark primitives, you can do it in two ways:
 
@@ -249,16 +249,22 @@ VChart supports the following basic events:
   - `'dragover'`
   - `'drop'`
 - Gesture event
+
   - `'pan'`: translation
   - `'panstart'`: translation start
   - `'panend'`: end of translation
-  - `'press'`: Long press
-  - `'pressup'`: Long press to lift
-  - `'pressend'`: Long press to end
+  - `'press'`: long press
+  - `'pressup'`: long press release
+  - `'pressend'`: long press end
   - `'pinch'`: zoom
   - `'pinchstart'`: zoom start
   - `'pinchend'`: zoom end
   - `'swipe'`: quick sweep
+
+  Note that gesture events are not enabled by default. There are two ways to enable them:
+
+  - Set `mode` in the rendering configuration to one of the following: `'mobile-browser'`, `'miniApp'`, `'lynx'`, `'wx'`, `'harmony'`
+  - Set `gestureConfig` in the rendering configuration to a non-empty object. For specific supported configurations, refer to [vchart API configuration](/vchart/api/API/vchart)
 
 ### combined event
 

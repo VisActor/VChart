@@ -233,9 +233,10 @@ Chart configuration, including rendering containers, etc., see the following tab
 | `enableView3dTransform` | `boolean`                   | No       | Whether to enable the transformation mode of view3d                                                                                                                                                                                                                                                                                                                          |
 | `poptip`                | `boolean`                   | No       | Whether to enable poptip for omitting text, used to view the complete text content, enabled by default                                                                                                                                                                                                                                                                       |
 | `resizeDelay`           | `number`                    | No       | The interval duration in milliseconds for triggering a resize when automatically responding to container resize events; supported from `1.12.5`.                                                                                                                                                                                                                             |
-| `autoRefreshDpr`        | `boolean`                   | Yes      | Whether to automatically refresh the dpr when switching screens and the dpr changes; if the dpr is not explicitly set, this feature is enabled by default; supported since version `1.12.14`.                                                                                                                                                                                |
+| `gestureConfig`         | `GestureConfig`             | No       | Gesture event configuration; when configured as non-empty, gesture-related events are enabled.                                                                                                                                                                                                                                                                               |
+| `autoRefreshDpr`        | `boolean`                   | Yes      | Whether to automatically refresh the dpr when switching screens and the dpr changes; if the dpr is not explicitly set, this feature is enabled by default; supported from version `1.12.14`.                                                                                                                                                                                 |
 
-- `srIOption3DType` Types are defined as follows
+- The `srIOption3DType` type is defined as follows:
 
 ```ts
 export interface srIOption3DType extends IOption3D {
@@ -258,7 +259,7 @@ export interface IOption3D {
 }
 ```
 
-- `LayoutCallBack` Types are defined as follows:
+The `LayoutCallBack` type is defined as follows:
 
 ```ts
 export type LayoutCallBack = (
@@ -267,6 +268,44 @@ export type LayoutCallBack = (
   chartLayoutRect: IRect,
   chartViewBox: IBoundsLike
 ) => void;
+```
+
+- The `GestureConfig` type is defined as follows:
+
+```ts
+export interface GestureConfig {
+  press?: {
+    /**
+     * @default 251
+     * Minimal press time in ms.
+     */
+    time?: number;
+    /**
+     * @default 10
+     * Maximal movement that is allowed while pressing.
+     */
+    threshold?: number;
+  };
+  swipe?: {
+    /**
+     * Minimal distance required before recognizing.
+     * @default 10
+     */
+    threshold?: number;
+    /**
+     * Minimal velocity required before recognizing, unit is in px per ms.
+     * @default 0.3
+     */
+    velocity?: number;
+  };
+  tap?: {
+    /**
+     * max time between the multi-tap taps
+     * @default 300
+     */
+    interval?: number;
+  };
+}
 ```
 
 ### example
