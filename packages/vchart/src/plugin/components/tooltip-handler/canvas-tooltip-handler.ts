@@ -71,8 +71,8 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
     // html模式不提供confine, 所以不考虑精准计算size
 
     return {
-      width: panel?.width + panel.lineWidth,
-      height: (panelDomHeight ?? panel?.height) + panel.lineWidth
+      width: panel.width + panel.lineWidth,
+      height: (panelDomHeight ?? panel.height) + panel.lineWidth
     };
   }
 
