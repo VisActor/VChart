@@ -24,10 +24,10 @@ importers:
       '@visactor/vmind': 1.2.4-alpha.5
       '@visactor/vrender': 0.20.16
       '@visactor/vrender-kits': 0.20.16
-      '@visactor/vtable': 1.11.5
-      '@visactor/vtable-calendar': 1.11.5
-      '@visactor/vtable-editors': 1.11.5
-      '@visactor/vtable-gantt': 1.11.5
+      '@visactor/vtable': 1.12.0
+      '@visactor/vtable-calendar': 1.12.0
+      '@visactor/vtable-editors': 1.12.0
+      '@visactor/vtable-gantt': 1.12.0
       '@visactor/vutils': ~0.18.18
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
@@ -61,10 +61,10 @@ importers:
       '@visactor/vmind': 1.2.4-alpha.5
       '@visactor/vrender': 0.20.16
       '@visactor/vrender-kits': 0.20.16
-      '@visactor/vtable': 1.11.5
-      '@visactor/vtable-calendar': 1.11.5
-      '@visactor/vtable-editors': 1.11.5
-      '@visactor/vtable-gantt': 1.11.5
+      '@visactor/vtable': 1.12.0
+      '@visactor/vtable-calendar': 1.12.0
+      '@visactor/vtable-editors': 1.12.0
+      '@visactor/vtable-gantt': 1.12.0
       '@visactor/vutils': 0.18.18
       axios: 1.7.8
       buble: 0.20.0
@@ -4986,38 +4986,38 @@ packages:
       '@visactor/vutils': 0.18.18
     dev: false
 
-  /@visactor/vtable-calendar/1.11.5:
-    resolution: {integrity: sha512-+dISI8BIGNmRTeIwfUDATSUTbJA9Jmk4XiSniyTdtal3HMxSPfmKG4Yh4ck0oHpuZgcVrpzNTivplw1Vd9ROQw==}
+  /@visactor/vtable-calendar/1.12.0:
+    resolution: {integrity: sha512-pp+eTnSzXsN0Hj09syGhdtiohBTchc0pBxZoOUx5Fudts3aDErNQkW6FEUZDMoEDFiORzKq2iaLYU/IzrgSvVA==}
     dependencies:
-      '@visactor/vtable': 1.11.5
+      '@visactor/vtable': 1.12.0
       '@visactor/vutils': 0.18.18
       date-fns: 3.6.0
     dev: false
 
-  /@visactor/vtable-editors/1.11.5:
-    resolution: {integrity: sha512-9qa1uIiBiSe/SFN1FrfhdiVqJzYnT3VeSu5O8qn4S7+LUxH37vOi5FWuXMyZQ7yb7UHyvWxLblYI9XuQRl7NWA==}
+  /@visactor/vtable-editors/1.12.0:
+    resolution: {integrity: sha512-h3Ud1fdtFcAJ64AqIJgKVjYoZLX86GBB4DGr/WGR7fTVIgDqYM9IQJIAh4v4fEJ41pqpUZcqAiDNo79ZkSUiAQ==}
     dev: false
 
-  /@visactor/vtable-gantt/1.11.5:
-    resolution: {integrity: sha512-kQKknB/pgfuHdnQ2xJMoK+tZcBBT/t7rnpv1uhBg9gx2QAB+sHrziCya31RLJbRT70PilZSyjsSUP8EFwXi3BA==}
+  /@visactor/vtable-gantt/1.12.0:
+    resolution: {integrity: sha512-xpKS8KsDx8eeftVtWI/9tUXxVBn54wtTnSKB26kckw00vzdeSo+VBQGkwGqr23cwO6s6ql0kaV2aYHr0EW4Q7Q==}
     dependencies:
       '@visactor/vdataset': 0.18.18
       '@visactor/vscale': 0.18.18
-      '@visactor/vtable': 1.11.5
-      '@visactor/vtable-editors': 1.11.5
+      '@visactor/vtable': 1.12.0
+      '@visactor/vtable-editors': 1.12.0
       '@visactor/vutils': 0.18.18
       cssfontparser: 1.2.1
     dev: false
 
-  /@visactor/vtable/1.11.5:
-    resolution: {integrity: sha512-0WdpHHdBtywyQ0YbKaeM2VdtjJNz/4HGo10qCvDXh5PeP3nOL2Oo49jAZjISVb8BZx1plOzZtHqqztXBCRPjXA==}
+  /@visactor/vtable/1.12.0:
+    resolution: {integrity: sha512-yK33y0RP/K3SNPJMJ3nb6dPyWtBXXJy39RvkJYOa7yqb6c46o+/lP9d1fxdBXDgxNkNuIOPC2pVqyEhOiq3XGw==}
     dependencies:
       '@visactor/vdataset': 0.18.18
       '@visactor/vrender-components': 0.21.0-alpha.4
       '@visactor/vrender-core': 0.21.0-alpha.4
       '@visactor/vrender-kits': 0.21.0-alpha.4
       '@visactor/vscale': 0.18.18
-      '@visactor/vtable-editors': 1.11.5
+      '@visactor/vtable-editors': 1.12.0
       '@visactor/vutils': 0.18.18
       '@visactor/vutils-extension': 1.11.14
       cssfontparser: 1.2.1
