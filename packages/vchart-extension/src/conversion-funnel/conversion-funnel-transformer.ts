@@ -1,14 +1,15 @@
-import { FunnelChart } from '@visactor/vchart';
-import { IPointLike, isFunction } from '@visactor/vutils';
+import type { IPointLike } from '@visactor/vutils';
 import type { IExtensionGroupMarkSpec, IExtensionMarkSpec } from '@visactor/vchart';
 import type { IConversionFunnelSpec, IConversionFunnelChartSpecBase, Arrow } from './interface';
+import type { ParsedArrow } from './arrow-data-transform';
+import { FunnelChart } from '@visactor/vchart';
+import { isFunction } from '@visactor/vutils';
 import {
   DEFAULT_ARROW_MARK_STYLE,
   DEFAULT_ARROW_SYMBOL_MARK_STYLE,
   DEFAULT_ARROW_TEXT_MARK_STYLE,
   DEFAULT_FUNNEL_BACKGROUND_MARK_STYLE
 } from './conversion-funnel';
-import { ParsedArrow } from './arrow-data-transform';
 
 export class ConversionFunnelChartSpecTransformer extends FunnelChart[
   'transformerConstructor'

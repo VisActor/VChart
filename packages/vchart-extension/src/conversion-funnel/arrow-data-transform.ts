@@ -47,10 +47,10 @@ function parseArrow(arrows: Arrow[], categoryField: string): ParsedArrow[] {
   return arrows
     .filter(arrow => isValidNumber(arrow.from * arrow.to))
     .map((arrow, index) => {
-      const { from, to } = arrow;
+      const { from, to, position = 'right' } = arrow;
       return {
         ...arrow,
-        position: arrow.position || 'right',
+        position,
         distance: arrow.distance || 40,
         from: Math.min(from, to),
         to: Math.max(from, to),
@@ -62,7 +62,7 @@ function parseArrow(arrows: Arrow[], categoryField: string): ParsedArrow[] {
         layout: {
           level: 0
         },
-        id: `${from}-${to}-${index}`
+        id: `${from}-${to}-${position}-${index}`
       } as unknown as ParsedArrow;
     });
 }
@@ -75,9 +75,9 @@ function computeArrows(arrows: ParsedArrow[]) {
   const nodeDegreeMap = new Map<
     number,
     {
-      fromNodes: ParsedArrow[];
-      toNodes: ParsedArrow[];
-      nodes: ParsedArrow[];
+      fromArrows: ParsedArrow[];
+      toArrows: ParsedArrow[];
+      totalArrows: ParsedArrow[];
       degree: number;
     }
   >();
@@ -85,77 +85,95 @@ function computeArrows(arrows: ParsedArrow[]) {
   arrows.forEach(arrow => {
     const fromNodeDegree = nodeDegreeMap.get(arrow.from);
     if (isValid(fromNodeDegree)) {
-      const firstNodeWidthSameFromTo = fromNodeDegree.fromNodes.find(node => isSameArrow(node, arrow));
+      const firstNodeWidthSameFromTo = fromNodeDegree.fromArrows.find(node => isSameArrow(node, arrow));
       if (!firstNodeWidthSameFromTo) {
         fromNodeDegree.degree += 1;
       } else {
         arrow.layout.duplicateNode = firstNodeWidthSameFromTo;
       }
-      fromNodeDegree.fromNodes.push(arrow);
+      fromNodeDegree.fromArrows.push(arrow);
     } else {
       nodeDegreeMap.set(arrow.from, {
-        fromNodes: [arrow],
-        toNodes: [],
-        nodes: [],
+        fromArrows: [arrow],
+        toArrows: [],
+        totalArrows: [],
         degree: 1
       });
     }
 
     const toNodeDegree = nodeDegreeMap.get(arrow.to);
     if (isValid(toNodeDegree)) {
-      const firstNodeWidthSameFromTo = toNodeDegree.toNodes.find(node => isSameArrow(node, arrow));
+      const firstNodeWidthSameFromTo = toNodeDegree.toArrows.find(node => isSameArrow(node, arrow));
       if (!firstNodeWidthSameFromTo) {
         toNodeDegree.degree += 1;
       } else {
         arrow.layout.duplicateNode = firstNodeWidthSameFromTo;
       }
-      toNodeDegree.toNodes.push(arrow);
+      toNodeDegree.toArrows.push(arrow);
     } else {
       nodeDegreeMap.set(arrow.to, {
-        toNodes: [arrow],
-        fromNodes: [],
-        nodes: [],
+        toArrows: [arrow],
+        fromArrows: [],
+        totalArrows: [],
         degree: 1
       });
     }
   });
   nodeDegreeMap.forEach(node => {
     // 入边，层级跨度越大的越靠下
-    node.fromNodes.sort((a, b) => b.span - a.span);
+    node.fromArrows.sort((a, b) => b.span - a.span);
     // 出边，层级跨度越大的越靠上
-    node.toNodes.sort((a, b) => a.span - b.span);
+    node.toArrows.sort((a, b) => a.span - b.span);
     // 入边在上，出边在下
-    node.nodes = [...node.toNodes, ...node.fromNodes];
+    node.totalArrows = [...node.toArrows, ...node.fromArrows];
   });
 
   arrows
     .sort((a, b) => a.span - b.span)
     .forEach(arrow => {
-      let level = 0;
       const arrowsIsLayout = arrows.filter(arrow => arrow.layout.isLayout);
-      // 1. 获取当前箭头所在层级
+      // 1. 计算当前箭头所在层级
       const maxLevelArrow = maxInArray(arrowsIsLayout, (cur, curMax) => cur.layout.level - curMax.layout.level);
 
-      if (maxLevelArrow && isArrowCross(arrow, maxLevelArrow)) {
-        level = maxLevelArrow.layout.level + 1;
+      let level = maxLevelArrow?.layout.level ?? 0;
+      while (level >= 0) {
+        if (arrowsIsLayout.some(arr => arr.layout.level === level && isArrowCross(arr, arrow))) {
+          level += 1;
+          break;
+        }
+        --level;
       }
-      arrow.layout.level = level;
-
-      // 2. 计算 from 和 to 的顺序
+      arrow.layout.level = Math.max(0, level);
+      // 2. 获取当前箭头所在层级的出入度信息
+      arrow.layout.fromTotal = nodeDegreeMap.get(arrow.from).degree;
+      arrow.layout.toTotal = nodeDegreeMap.get(arrow.to).degree;
+      // 3. 计算 from 和 to 的顺序
       const duplicateNode = arrow.layout.duplicateNode;
       if (duplicateNode) {
         arrow.layout.fromIndex = duplicateNode.layout.fromIndex;
         arrow.layout.toIndex = duplicateNode.layout.toIndex;
       } else {
-        arrow.layout.fromIndex = nodeDegreeMap.get(arrow.from).nodes.findIndex(node => node === arrow);
-        arrow.layout.toIndex = nodeDegreeMap.get(arrow.to).nodes.findIndex(node => node === arrow);
+        arrow.layout.fromIndex = computeIndex(arrow, nodeDegreeMap.get(arrow.from).totalArrows);
+        arrow.layout.toIndex = computeIndex(arrow, nodeDegreeMap.get(arrow.to).totalArrows);
       }
-
-      arrow.layout.fromTotal = nodeDegreeMap.get(arrow.from).degree;
-      arrow.layout.toTotal = nodeDegreeMap.get(arrow.to).degree;
-
       arrow.layout.isLayout = true;
     });
 
   return arrows;
+}
+
+function computeIndex(arrow: ParsedArrow, totalArrows: ParsedArrow[]) {
+  let index = 0;
+  let duplicateCount = 0;
+  for (let i = 0; i < totalArrows.length; i++) {
+    const curArrow = totalArrows[i];
+    if (curArrow === arrow) {
+      index = i - duplicateCount;
+      break;
+    }
+    if (curArrow.layout.duplicateNode) {
+      duplicateCount++;
+    }
+  }
+  return index;
 }
