@@ -8,6 +8,33 @@ export interface IDataFilterWithNewDomainOption {
   field: () => string;
 }
 
+export const lockStatisticsFilter = (
+  statisticsData: any,
+  op: IDataFilterWithNewDomainOption & {
+    originalFields: () => Record<string, any>;
+  }
+) => {
+  const { getNewDomain, isContinuous, field, originalFields } = op;
+
+  const datumField = field();
+  const newDomain = getNewDomain();
+  if (isNil(newDomain) || isNil(datumField)) {
+    return statisticsData;
+  }
+  const fields = originalFields();
+
+  if (statisticsData[datumField] && fields && fields[datumField] && fields[datumField].lockStatisticsByDomain) {
+    if (isContinuous()) {
+      statisticsData[datumField].min = newDomain[0];
+      statisticsData[datumField].max = last(newDomain);
+    } else {
+      statisticsData[datumField].values = newDomain;
+    }
+  }
+
+  return statisticsData;
+};
+
 /**
  * 保证数据筛选的结果全都在坐标轴的新domain范围中，防止出现point数据因为超出domain范围而绘制在原点的情况
  */
