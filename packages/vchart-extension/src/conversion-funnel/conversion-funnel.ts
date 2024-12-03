@@ -10,9 +10,6 @@ export class ConversionFunnelChart extends FunnelChart<IConversionFunnelChartSpe
   type = 'conversionFunnel';
   static type = 'conversionFunnel';
 
-  static readonly seriesType = 'conversionFunnelSeries';
-  readonly seriesType = 'conversionFunnelSeries';
-
   declare _spec: IConversionFunnelChartSpecBase;
 
   static readonly transformerConstructor = ConversionFunnelChartSpecTransformer;
@@ -20,8 +17,6 @@ export class ConversionFunnelChart extends FunnelChart<IConversionFunnelChartSpe
 }
 
 export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeriesSpecBase> {
-  type = 'conversionFunnelSeries' as any;
-  static type = 'conversionFunnelSeries';
   protected _arrowData?: DataView;
 
   initData() {
@@ -42,6 +37,8 @@ export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeries
   }
 
   afterCompile() {
+    // @ts-ignore
+    super.afterCompile?.();
     const rightGroup = this.getMarkInName('arrowRight') as unknown as GroupMark;
     if (rightGroup) {
       rightGroup.getMarks().forEach(mark => {

@@ -89,8 +89,26 @@ const spec: IConversionFunnelChartSpec = {
     arrows: [
       {
         from: 1,
+        to: 0,
+        text: '3-4',
+        position: align[alignIndex]
+      },
+      {
+        from: 3,
         to: 4,
-        text: '1-4',
+        text: '3-4',
+        position: align[alignIndex]
+      },
+      {
+        from: 3,
+        to: 4,
+        text: '3-4',
+        position: align[alignIndex]
+      },
+      {
+        from: 3,
+        to: 4,
+        text: '3-4',
         position: align[alignIndex]
       },
       {
