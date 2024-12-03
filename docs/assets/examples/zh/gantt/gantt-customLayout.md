@@ -1,8 +1,8 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: 甘特图自定义渲染用法
-keywords: ganttChart,comparison,trend
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-customLayout-preview.png
 link: '../guide/gantt/gantt_customLayout'
 option: Gantt#taskBar

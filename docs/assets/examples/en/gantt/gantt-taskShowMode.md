@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: Gantt Chart Sub-task Layout Mode
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-taskShowMode.gif
 link: '../guide/gantt/subtask_layout'
 option: Gantt#tasksShowMode
 ---
 
 # Gantt Chart Sub-task Layout Mode
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 In Gantt, the task bar layout mode determines the display effect of the task bars. Gantt provides the following several task bar layout modes:
 

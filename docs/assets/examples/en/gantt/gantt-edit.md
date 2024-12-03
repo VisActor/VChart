@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: Gantt Chart Data Editing
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-edit-preview.gif
 link: '../guide/gantt/gantt_edit'
 option: Gantt#taskListTable.columns
 ---
 
 # Gantt Chart Data Editing
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 This example demonstrates the usage of data editing in the Gantt chart. Currently, editing is only supported for the left task information table, and the right Gantt chart does not support editing yet. For specific usage, please refer to the tutorial: [Gantt Chart Data Editing](../../guide/gantt/gantt_edit)
 

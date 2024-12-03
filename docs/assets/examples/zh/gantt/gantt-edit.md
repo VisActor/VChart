@@ -1,8 +1,8 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: 甘特图编辑数据
-keywords: ganttChart,comparison,trend
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-edit-preview.gif
 link: '../guide/gantt/gantt_edit'
 option: Gantt#taskListTable.columns

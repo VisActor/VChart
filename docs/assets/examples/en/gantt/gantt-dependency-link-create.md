@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: Create Gantt Dependency Link Line
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-dependency-link-line-create.gif
 link: '../guide/gantt/introduction'
 option: Gantt#taskBar
 ---
 
 # Create dependency lines between tasks
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 In the Gantt chart, arrows are usually used to represent the dependencies between tasks. During initialization, existing dependencies are displayed through `dependency.links`, and dependencies can be dynamically created through interaction. Note that you should set `dependency.linkCreatable` to true to enable the creation of dependency lines. The styles of the operation points and operation lines that are dynamically created during creation can be configured through `dependency.linkCreatePointStyle` `dependency.linkCreatingPointStyle` `dependency.linkCreatingLineStyle`.
 

@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: Gantt Dependency Link Line
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-dependency-link-line.gif
 link: '../guide/gantt/introduction'
 option: Gantt#taskBar
 ---
 
 # Gantt Dependency Link Line
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 Gantt chart dependency lines are lines used in the Gantt chart to represent the dependency relationships between tasks. They can help users better understand the relationships between tasks and help users sort and schedule tasks.
 

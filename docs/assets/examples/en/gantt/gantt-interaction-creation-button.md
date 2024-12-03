@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: Gantt chart interaction - create schedule
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-task-creation-button.gif
 link: '../guide/gantt/introduction'
 option: Gantt#taskBar
 ---
 
 # Gantt chart interaction - create schedule
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 This example shows how to schedule the data in the Gantt chart by creating a task bar.
 

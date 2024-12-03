@@ -1,8 +1,8 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: 甘特图交互-拖拽任务条
-keywords: ganttChart,comparison,trend
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-interaction-drag-taskBar-preview.gif
 link: '../guide/gantt/introduction'
 option: Gantt#taskBar.moveable

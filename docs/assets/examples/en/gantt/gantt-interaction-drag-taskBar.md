@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: Gantt Chart Interaction - Drag Task Bar
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-interaction-drag-taskBar-preview.gif
 link: '../guide/gantt/introduction'
 option: Gantt#taskBar.moveable
 ---
 
 # Gantt Chart Interaction - Drag Task Bar
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 This example demonstrates how to implement the drag-and-drop functionality for Gantt chart task bars. The ability to move and resize task bars is enabled by default and can be disabled through configuration options.
 The configuration options are `taskBar.moveable` and `taskBar.resizable`.
@@ -656,8 +659,8 @@ const option = {
   grid: {
     backgroundColor: '#e1e7ff',
     horizontalLine: {
-      lineWidth: 1, 
-      lineColor: '#9fb9c3',
+      lineWidth: 1,
+      lineColor: '#9fb9c3'
     }
   },
   headerRowHeight: 40,
@@ -743,7 +746,7 @@ const option = {
     style: {
       borderColor: '#e1e4e8',
       borderColor: '#9fb9c3',
-      borderLineWidth: [1, 0, 1, 0],
+      borderLineWidth: [1, 0, 1, 0]
     }
   },
   scrollStyle: {

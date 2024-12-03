@@ -1,8 +1,8 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: 创建任务之间依赖线
-keywords: ganttChart,comparison,trend
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-dependency-link-line-create.gif
 link: '../guide/gantt/introduction'
 option: Gantt#taskBar

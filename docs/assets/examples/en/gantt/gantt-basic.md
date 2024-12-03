@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: Basic Usage of Gantt Chart
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-basic-preview.png
 link: '../guide/gantt/introduction'
 option: Gantt#taskBar
 ---
 
 # Basic Usage of Gantt Chart
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 This example demonstrates the basic usage of the Gantt chart.
 

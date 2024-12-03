@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: Gantt Chart Interaction - Drag Table Width
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-interaction-drag-table-width-preview.gif
 link: '../guide/gantt/introduction'
 option: Gantt#frame.verticalSplitLineMoveable
 ---
 
 # Gantt Chart Interaction - Drag Table Width
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 This example demonstrates how to make the width of the left task information table in the Gantt chart draggable. When the configuration item `frame.verticalSplitLineMoveable` is set to `true`, the vertical split line of the left task information table can be dragged. If you want to highlight the color of the vertical split line when hovering, you can configure `frame.verticalSplitLineHighlight`. To limit the range of the drag width, you can configure `listTable.minWidth` and `listTable.maxWidth`.
 
@@ -632,10 +635,10 @@ const option = {
     moveable: true,
     hoverBarStyle: {
       barOverlayColor: 'rgba(99, 144, 0, 0.4)'
-    },
+    }
   },
   frame: {
-  verticalSplitLineMoveable:true
+    verticalSplitLineMoveable: true
   },
   timelineHeader: {
     colWidth: 100,

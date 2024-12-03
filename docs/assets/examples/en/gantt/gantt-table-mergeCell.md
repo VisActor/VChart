@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: cellMerge In Gantt
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-table-mergeCell.png
 link: '../guide/basic_function/merge_cell'
 option: ListTable-columns-text#mergeCell
 ---
 
 # cellMerge In Gantt
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 In Gantt, if the task names are the same, the visual effect of parent tasks containing subtasks can be achieved through cell merging. This can be done by setting the `mergeCell` property in `ListTable#columns`.
 

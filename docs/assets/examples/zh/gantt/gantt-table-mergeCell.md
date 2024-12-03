@@ -1,8 +1,8 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: 任务名称单元格合并
-keywords: ganttChart,comparison,trend
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-table-mergeCell.png
 link: '../guide/basic_function/merge_cell'
 option: ListTable-columns-text#mergeCell

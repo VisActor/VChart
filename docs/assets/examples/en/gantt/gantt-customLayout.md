@@ -1,13 +1,16 @@
 ---
 category: examples
-group: gantt
+group: gantt chart
 title: Custom Rendering Usage of Gantt Chart
+keywords: ganttChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/gantt/gantt-customLayout-preview.png
 link: '../guide/gantt/gantt_customLayout'
 option: Gantt#taskBar
 ---
 
 # Custom Rendering Usage of Gantt Chart
+
+Guid: https://visactor.io/vtable/guide/gantt/Getting_Started.
 
 This example demonstrates how to customize the rendering of Gantt chart task bars and date headers. The custom rendering of the left task information table is implemented in the customLayout defined in columns. Refer to [tutorial](../../option/ListTable-columns-text#customLayout).
 

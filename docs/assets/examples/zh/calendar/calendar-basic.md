@@ -1,13 +1,16 @@
 ---
 category: examples
-group: Calendar
+group: calendar chart
 title: 日历图
+keywords: calendarChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/preview/calendar-basic.png
 link: '../guide/calendar/introduction'
 option: Calendar#startDate
 ---
 
 # 日历图
+
+教程：https://visactor.io/vtable/guide/calendar/Getting_Started。
 
 日历图基本用法
 

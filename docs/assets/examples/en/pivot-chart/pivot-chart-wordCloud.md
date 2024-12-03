@@ -1,14 +1,16 @@
 ---
 category: examples
-group: table-type
+group: pivot chart
 title: Pivot Chart
-keywords: commonChart
+keywords: pivotChart
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/VTable/preview/pivot-chart-wordCloud.png
 link: '../guide/table_type/pivot_chart'
 option: PivotChart-indicators-chart#cellType
 ---
 
 # Pivot Chart
+
+Guide: https://visactor.io/vtable/guide/table_type/pivot_chart.
 
 The perspective combination diagram combines the vchart chart library to render into the table, enriching the visual display form and improving the rendering performance.
 
