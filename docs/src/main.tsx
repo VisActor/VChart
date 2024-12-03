@@ -11,6 +11,7 @@ import * as VTableGantt from '@visactor/vtable-gantt';
 import * as VTableCalendar from '@visactor/vtable-calendar';
 import * as VTableEditors from '@visactor/vtable-editors';
 
+import * as VChartExtension from '@visactor/vchart-extension';
 import { App } from './app';
 
 import '@arco-design/web-react/dist/css/arco.css';
@@ -32,6 +33,7 @@ import '@arco-design/web-react/dist/css/arco.css';
 (window as any).VTable = VTable;
 (window as any).VTable_editors = VTableEditors;
 (window as any).VTableCalendar = VTableCalendar;
+(window as any).VChartExtension = VChartExtension;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
