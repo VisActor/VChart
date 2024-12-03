@@ -1,5 +1,6 @@
-import { IPointLike, isValid, isValidNumber, maxInArray } from '@visactor/vutils';
+import type { IPointLike } from '@visactor/vutils';
 import type { IConversionFunnelSpec, Arrow } from './interface';
+import { isValid, isValidNumber, maxInArray } from '@visactor/vutils';
 import { isArrowCross, isSameArrow } from './util';
 
 export interface ParsedArrow extends Arrow {
