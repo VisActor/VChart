@@ -1,3 +1,6 @@
+import { isString, isNumber } from '@visactor/vutils';
+import { TOOLTIP_EMPTY_STRING } from '../constants';
+
 /**
  * Escape special HTML characters.
  *
@@ -24,4 +27,12 @@ export const getScale = (element: HTMLElement, boundingClientRect?: DOMRect) => 
     return boundingClientRect.width / element.offsetWidth;
   }
   return boundingClientRect.height / element.offsetHeight;
+};
+
+export const formatContent = (content: any) => {
+  if ((isString(content) && content?.trim() !== '') || isNumber(content)) {
+    return escapeHTML(content);
+  }
+
+  return TOOLTIP_EMPTY_STRING;
 };

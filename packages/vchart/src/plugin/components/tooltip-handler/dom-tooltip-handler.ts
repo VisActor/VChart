@@ -16,7 +16,7 @@ import { registerComponentPlugin } from '../register';
 import type { ILayoutPoint } from '../../../typings';
 import { TooltipHandlerType } from '../../../component/tooltip/constant';
 import { getSvgHtml } from './utils/svg';
-import { escapeHTML } from './utils/common';
+import { escapeHTML, formatContent } from './utils/common';
 import { token } from '../../../theme/token';
 /**
  * The tooltip handler class.
@@ -203,12 +203,12 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         keyItems += `<div class="${TOOLTIP_PREFIX}-key" style="${cssToStyleString({
           ...styleByRow,
           ...(entry.keyStyle ? getTextStyle(entry.keyStyle) : null)
-        })}">${escapeHTML(entry.key)}</div>`;
+        })}">${formatContent(entry.key)}</div>`;
 
         valueItems += `<div class="${TOOLTIP_PREFIX}-value" style="${cssToStyleString({
           ...styleByRow,
           ...(entry.valueStyle ? getTextStyle(entry.valueStyle) : null)
-        })}">${escapeHTML(entry.value)}</div>`;
+        })}">${formatContent(entry.value)}</div>`;
       });
 
       domString += `<div class="${TOOLTIP_CONTENT_BOX_CLASS_NAME}" style="${cssToStyleString(this._domStyle.content)}">
