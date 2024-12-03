@@ -23,13 +23,14 @@ export const lockStatisticsFilter = (
   }
   const fields = originalFields();
 
-  if (statisticsData[datumField] && fields && fields[datumField] && fields[datumField].lockStatisticsByDomain) {
-    if (isContinuous()) {
-      statisticsData[datumField].min = newDomain[0];
-      statisticsData[datumField].max = last(newDomain);
-    } else {
-      statisticsData[datumField].values = newDomain;
-    }
+  if (
+    statisticsData[datumField] &&
+    fields &&
+    fields[datumField] &&
+    fields[datumField].lockStatisticsByDomain &&
+    !isContinuous()
+  ) {
+    statisticsData[datumField].values = newDomain;
   }
 
   return statisticsData;
