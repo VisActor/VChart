@@ -54,7 +54,8 @@ async function inlineFetch<D>(
   const response = await nodeFetch(url, {
     method: inlineMethod,
     headers: formData.getHeaders(),
-    body: formData
+    body: formData,
+    timeout: 1000 * 300
   });
 
   console.info('[inlineFetch] response.status:', response.status);
