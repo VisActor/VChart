@@ -1719,6 +1719,152 @@
       ]
     },
     {
+      "path": "pivot-chart",
+      "title": {
+        "zh": "透视图",
+        "en": "pivot chart"
+      },
+      "children": [
+        {
+          "path": "pivot-chart",
+          "title": {
+            "zh": "透视组合图",
+            "en": "Pivot Chart"
+          }
+        },
+        {
+          "path": "pivot-chart-pie",
+          "title": {
+            "zh": "透视组合图（饼图）",
+            "en": "Pivot Chart Pie"
+          }
+        },
+        {
+          "path": "pivot-chart-radar",
+          "title": {
+            "zh": "透视组合图（雷达图）",
+            "en": "Pivot Chart Radar"
+          }
+        },
+        {
+          "path": "pivot-chart-scatter",
+          "title": {
+            "zh": "透视组合图（散点图）",
+            "en": "Pivot Chart Scatter"
+          }
+        },
+        {
+          "path": "pivot-chart-wordCloud",
+          "title": {
+            "zh": "透视组合图（词云图）",
+            "en": "Pivot Chart Word Cloud"
+          }
+        }
+      ]
+    },
+    {
+      "path": "gantt",
+      "title": {
+        "zh": "甘特图",
+        "en": "gantt-chart"
+      },
+      "children": [
+        {
+          "path": "gantt-basic",
+          "title": {
+            "zh": "甘特图基础用法",
+            "en": "Gantt Basic"
+          }
+        },
+        {
+          "path": "gantt-customLayout",
+          "title": {
+            "zh": "甘特图自定义渲染",
+            "en": "Gantt Custom Layout"
+          }
+        },
+        {
+          "path": "gantt-edit",
+          "title": {
+            "zh": "甘特图编辑数据",
+            "en": "Gantt Edit"
+          }
+        },
+        {
+          "path": "gantt-dependency-link-line",
+          "title": {
+            "zh": "甘特图依赖线（关联线）",
+            "en": "Gantt Dependency Link Line"
+          }
+        },
+        {
+          "path": "gantt-dependency-link-create",
+          "title": {
+            "zh": "创建依赖线（关联线）",
+            "en": "Create Dependency Link Line"
+          }
+        },
+        {
+          "path": "gantt-interaction-drag-table-width",
+          "title": {
+            "zh": "甘特图交互——拖拽表格宽度",
+            "en": "Gantt Interaction —— Drag Table Width"
+          }
+        },
+        {
+          "path": "gantt-interaction-drag-taskBar",
+          "title": {
+            "zh": "甘特图交互——拖拽任务条",
+            "en": "Gantt Interaction —— Drag TaskBar"
+          }
+        },
+        {
+          "path": "gantt-interaction-creation-button",
+          "title": {
+            "zh": "甘特图交互——创建排期",
+            "en": "Gantt Interaction —— Create Schedule"
+          }
+        },
+        {
+          "path": "gantt-taskShowMode",
+          "title": {
+            "zh": "甘特图子任务布局模式",
+            "en": "Gantt Subtask Show Mode"
+          }
+        },
+        {
+          "path": "gantt-table-mergeCell",
+          "title": {
+            "zh": "任务名称单元格合并",
+            "en": "Gantt Task Merge Cell"
+          }
+        }
+      ]
+    },
+    {
+      "path": "calendar",
+      "title": {
+        "zh": "日历图",
+        "en": "calendar"
+      },
+      "children": [
+        {
+          "path": "calendar-basic",
+          "title": {
+            "zh": "日历图基础用法",
+            "en": "Calendar Basic"
+          }
+        },
+        {
+          "path": "calendar-custom-event",
+          "title": {
+            "zh": "日历图自定义日程",
+            "en": "Calendar Custom Event"
+          }
+        }
+      ]
+    },
+    {
       "path": "chart-3d",
       "title": {
         "zh": "chart-3d",
