@@ -56,10 +56,11 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
    * 'start' - '左对齐'
    * 'end' - '右对齐'
    * 'middle' - '居中对齐'
+   * 'parent' - '父节点'，从1.12.14版本开始支持
    *
    * @since 1.12.4
    */
-  crossNodeAlign?: 'start' | 'end' | 'middle';
+  crossNodeAlign?: 'start' | 'end' | 'middle' | 'parent';
   /**
    * 是否反向
    * @since 1.12.2
@@ -97,6 +98,17 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
    *  - 当同时指定 `minNodeHeight` 和 `minLinkHeight` 两个选项时，此选项应小于 `minNodeHeight`
    */
   minLinkHeight?: number;
+  /**
+   * 数据不为零或空时节点的最大大小
+   * @since 1.12.14
+   */
+  maxNodeHeight?: number;
+  /**
+   * 数据不为零或空时边的最大大小
+   * - 当同时指定 `maxNodeHeight` 和 `maxLinkHeight` 两个选项时，此选项应小于 `maxNodeHeight`
+   * @since 1.12.14
+   */
+  maxLinkHeight?: number;
   /** 布局的迭代次数 */
   iterations?: number;
   /** 解析node的key，defaultValue */

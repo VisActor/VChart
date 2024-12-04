@@ -112,12 +112,14 @@ For horizontally laid out Sankey diagrams, sets the Y-coordinate alignment of no
 - 'start' - 'Top alignment'
 - 'end' - 'Bottom alignment'
 - 'middle' - 'Center alignment'
+- 'parent' - 'Parent node alignment', supported since version **1.12.14**
 
 For vertically laid out Sankey diagrams, sets the X-coordinate alignment of nodes:
 
 - 'start' - 'Left alignment'
 - 'end' - 'Right alignment'
 - 'middle' - 'Center alignment'
+- 'parent' - 'Parent node alignment', supported since version **1.12.14**
 
 #${prefix} inverse(boolean)
 
@@ -154,12 +156,25 @@ Minimal size of nodes when data is not zero or empty.
 - This configuration can be used to avoid too thin nodes when data is too small.
 - Suggested to be less than 5px.
 
+#${prefix} maxNodeHeight(number)
+
+Supported since version **1.12.14**
+
+Maximum size of nodes when data is not zero or empty.
+
 #${prefix} minLinkHeight(number)
 
 Minimal size of edges when data is not zero or empty.
 
 - This configuration can be used to avoid too thin links when data is too small.
 - Suggested to be less than 5px.
+- When both `minNodeHeight` and `minLinkHeight` options are specified, this option should be less than `minNodeHeight`.
+  #${prefix} maxLinkHeight(number)
+
+Supported since version **1.12.14**
+
+Maximum size of edges when data is not zero or empty.
+
 - When both `minNodeHeight` and `minLinkHeight` options are specified, this option should be less than `minNodeHeight`.
 
 #${prefix} iterations(number)
