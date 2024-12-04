@@ -913,8 +913,8 @@
         {
           "path": "funnel-template",
           "title": {
-            "zh": "漏斗图模板",
-            "en": "Funnel Template"
+            "zh": "漏斗图自定义转换率箭头",
+            "en": "Funnel Conversion Arrows via CustomMarks"
           }
         },
         {
@@ -922,6 +922,13 @@
           "title": {
             "zh": "对比漏斗图模板",
             "en": "Comparative Funnel Template"
+          }
+        },
+        {
+          "path": "conversion-funnel",
+          "title": {
+            "zh": "扩展图表 - 转化率漏斗图",
+            "en": "Extension Chart - Conversion Funnel"
           }
         }
       ]
