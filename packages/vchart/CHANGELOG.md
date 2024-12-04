@@ -1,6 +1,28 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 22 Nov 2024 06:14:56 GMT and should not be manually modified.
+This log was last generated on Wed, 04 Dec 2024 11:27:00 GMT and should not be manually modified.
+
+## 1.12.14
+Wed, 04 Dec 2024 11:27:00 GMT
+
+### Updates
+
+- feat: support `autoRefreshDpr` in chart options
+
+
+- feat: dataZoom can do filter when has `lockStatisticsByDomain`, close #3469
+
+
+- feat: add marker context to support the same color as series. close#3437
+- fix: upgrade scrollbar visible after layout. fix#3452
+- fix: fix `adjacency` in sankey, fix #3460
+
+
+- feat: update options `maxNodeHeight`, `maxLinkHeight` in sankey, close 3439
+
+
+- fix: not update layout when scrollbar domain is the same as before. fix#3452
+- fix: value in scale range should consider about whole range. fix#3446
 
 ## 1.12.13
 Fri, 22 Nov 2024 06:14:56 GMT

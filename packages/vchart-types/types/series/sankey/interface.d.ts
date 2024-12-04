@@ -18,7 +18,7 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
     targetField?: string;
     direction?: DirectionType;
     nodeAlign?: 'left' | 'right' | 'center' | 'justify' | 'start' | 'end';
-    crossNodeAlign?: 'start' | 'end' | 'middle';
+    crossNodeAlign?: 'start' | 'end' | 'middle' | 'parent';
     inverse?: boolean;
     nodeGap?: number;
     nodeWidth?: string | number | ((node: SankeyNodeElement) => number);
@@ -26,6 +26,8 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
     minStepWidth?: number;
     minNodeHeight?: number;
     minLinkHeight?: number;
+    maxNodeHeight?: number;
+    maxLinkHeight?: number;
     iterations?: number;
     nodeKey?: string | number | ((datum: SankeyNodeDatum) => string | number);
     linkSortBy?: (a: SankeyLinkElement, b: SankeyLinkElement) => number;

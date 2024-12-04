@@ -2,6 +2,39 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.14",
+      "tag": "@visactor/vchart_v1.12.14",
+      "date": "Wed, 04 Dec 2024 11:27:00 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support `autoRefreshDpr` in chart options\n\n"
+          },
+          {
+            "comment": "feat: dataZoom can do filter when has `lockStatisticsByDomain`, close #3469\n\n"
+          },
+          {
+            "comment": "feat: add marker context to support the same color as series. close#3437"
+          },
+          {
+            "comment": "fix: upgrade scrollbar visible after layout. fix#3452"
+          },
+          {
+            "comment": "fix: fix `adjacency` in sankey, fix #3460\n\n"
+          },
+          {
+            "comment": "feat: update options `maxNodeHeight`, `maxLinkHeight` in sankey, close 3439\n\n"
+          },
+          {
+            "comment": "fix: not update layout when scrollbar domain is the same as before. fix#3452"
+          },
+          {
+            "comment": "fix: value in scale range should consider about whole range. fix#3446"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.13",
       "tag": "@visactor/vchart_v1.12.13",
       "date": "Fri, 22 Nov 2024 06:14:56 GMT",
