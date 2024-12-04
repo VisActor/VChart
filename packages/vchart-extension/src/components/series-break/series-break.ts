@@ -7,7 +7,7 @@ import { AbstractComponent, Point } from '@visactor/vrender-components';
 import { Factory } from '@visactor/vgrammar-core';
 import { SeriesBreakAttrs, SeriesBreakData } from './type';
 import { createGroup, createPath, IGraphic } from '@visactor/vrender-core';
-import { isEmpty, isNumberClose } from '@visactor/vutils';
+import { isEmpty, isNumberClose, isValid } from '@visactor/vutils';
 import { SERIES_BREAK } from './constant';
 
 /**
@@ -53,6 +53,8 @@ const checkOverlap = (prevData: SeriesBreakData[], newEntry: SeriesBreakData) =>
   const isVertical = start.x === end.x;
   const equalDim = isVertical ? 'x' : 'y';
   const diffDim = isVertical ? 'y' : 'x';
+  let needAppend = true;
+  const EPS = 1e-6;
 
   if (prevData.length) {
     prevData.forEach(prevEntry => {
@@ -62,17 +64,19 @@ const checkOverlap = (prevData: SeriesBreakData[], newEntry: SeriesBreakData) =>
         const maxDim = Math.max(start[diffDim], end[diffDim]);
         const prevMinDim = Math.min(prevEntry.start[diffDim], prevEntry.end[diffDim]);
         const prevMaxDim = Math.max(prevEntry.start[diffDim], prevEntry.end[diffDim]);
-        const hasOverlap = !(maxDim < prevMinDim || minDim > prevMaxDim);
+        const hasOverlap = !(maxDim < prevMinDim - EPS || minDim > prevMaxDim + EPS);
 
         if (hasOverlap) {
           prevEntry.start[diffDim] = Math.min(prevMinDim, minDim);
           prevEntry.end[diffDim] = Math.max(prevMaxDim, maxDim);
+          needAppend = false;
           return;
         }
       }
-      prevData.push(newEntry);
     });
-  } else {
+  }
+
+  if (needAppend) {
     prevData.push(newEntry);
   }
 };
@@ -173,9 +177,14 @@ export class SeriesBreakComponent extends AbstractComponent<Required<SeriesBreak
           zIndex: 0
         })
       );
+
       breakGroup.name = 'series-break';
       breakGroup.data = rest;
-      breakGroup.id = rest.axisId + id;
+
+      if (isValid(rest.axisId)) {
+        breakGroup.id = `${rest.axisId ?? ''}_${id}`;
+      }
+
       this.add(breakGroup);
     });
   }

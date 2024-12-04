@@ -4,7 +4,7 @@
 import type { ILinearAxisBreakSpec, ILinearAxisSpec } from '@visactor/vchart/esm/component/axis';
 import { ICartesianSeries, ISpec } from '@visactor/vchart';
 import { SeriesBreakData } from './type';
-import { array, getIntersectPoint, IPointLike, PointService } from '@visactor/vutils';
+import { array, getIntersectPoint, IPointLike, isValid, PointService } from '@visactor/vutils';
 import { Point } from '@visactor/vrender-components';
 import { IArea, ILine } from '@visactor/vrender-core';
 import { getAllRegionBounds } from '../../utils/element';
@@ -21,7 +21,7 @@ const areaOffset = 0;
  * @param config 系列标签的样式配置
  * @returns
  */
-export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[]) {
+export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[], axesIndex?: number[]) {
   return {
     type: 'component',
     componentType: SERIES_BREAK,
@@ -35,9 +35,23 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[]) {
         const chart = vchart.getChart();
         const series = chart.getAllSeries()[0] as ICartesianSeries;
         const isHorizontal = series.direction === 'horizontal';
-        axesSpec.forEach((spec: any) => {
+        axesSpec.forEach((spec: any, index: number) => {
           const axisId = spec.id;
-          const axisModel = chart.getComponentByUserId(axisId);
+          const axisModel = isValid(axisId)
+            ? chart.getComponentByUserId(axisId)
+            : axesIndex && isValid(axesIndex[index])
+            ? chart.getComponentByIndex('axes', axesIndex[index])
+            : chart.getComponentsByKey('axes').filter((axis: { getSpec: () => any }) => {
+                const axisInnerSpec = axis.getSpec();
+
+                return axisInnerSpec.breaks === spec.breaks;
+              })?.[0];
+
+          if (!axisModel) {
+            return;
+          }
+          const parsedAxisId = axisId ?? `${axisModel.type}-${axisModel.id}`;
+
           const regionBounds = getAllRegionBounds(axisModel.getRegions());
           array(spec.breaks).forEach((breakConfig: ILinearAxisBreakSpec) => {
             const { range, breakSymbol, gap = 5 } = breakConfig;
@@ -89,7 +103,7 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[]) {
                       },
                       gap: gap as number,
                       style: breakSymbol?.style,
-                      axisId,
+                      axisId: parsedAxisId,
                       data: range
                     });
                   }
@@ -143,7 +157,7 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[]) {
                         end,
                         gap: gap as number,
                         style: breakSymbol?.style,
-                        axisId,
+                        axisId: parsedAxisId,
                         data: range
                       });
                     });
@@ -221,7 +235,7 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[]) {
                           end,
                           gap: gap as number,
                           style: breakSymbol?.style,
-                          axisId,
+                          axisId: parsedAxisId,
                           data: range
                         });
                       }
@@ -348,7 +362,14 @@ export const appendSeriesBreakConfig = (rawSpec: ISpec) => {
       (rawSpec as any).customMark = array((rawSpec as any).customMark).filter(
         (obj: any) => obj.componentType !== SERIES_BREAK
       );
-      (rawSpec as any).customMark.push(getSeriesBreakConfig(breakedAxes as ILinearAxisSpec[]));
+      (rawSpec as any).customMark.push(
+        getSeriesBreakConfig(
+          breakedAxes as ILinearAxisSpec[],
+          breakedAxes.map(axisSpec => {
+            return rawSpec.axes.indexOf(axisSpec);
+          })
+        )
+      );
       return true;
     }
   }
