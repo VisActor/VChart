@@ -1,5 +1,11 @@
-import VChart from '@visactor/vchart';
-import * as VChartExtensions from '@visactor/vchart-extension';
+import * as VChart from '@visactor/vchart';
+import * as VChartExtension '@visactor/vchart-extension';
 
-(VChart as any).VChartExtensions = VChartExtensions;
-export default VChart;
+
+(window as any).VChart = VChart;
+(window as any).VChartExtension = VChartExtension;
+
+export default {
+  VChart, VChartExtension
+};
+

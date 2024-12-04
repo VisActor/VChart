@@ -2,11 +2,13 @@
  * @type {Partial<import('@internal/bundler').Config>}
  */
 module.exports = {
+  name: 'Test',
   formats: ['umd'],
 
   umdOutputFilename: 'index',
   minify: false,
-  output: {
-    footer: '/* follow me on Twitter! @rich_harris */'
-  }
+
+  external: [],
+
+  globals: {}
 };

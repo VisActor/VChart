@@ -31,10 +31,29 @@ jobs:
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
 
-      - name: Build
+      - name: Build vutils-extension
+        working-directory: ./packages/vutils-extension
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build -t @internal/bugserver-trigger
+        run: node ../../common/scripts/install-run-rushx.js build:es
+
+      - name: Build vchart
+        working-directory: ./packages/vchart
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build:es
+
+      - name: Build vchart-extension
+        working-directory: ./packages/vchart-extension
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build:es
+
+      - name: Build bugserver-trigger
+        working-directory: ./tools/bugserver-trigger
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build
 
       - name: Run CI
         working-directory: ./tools/bugserver-trigger

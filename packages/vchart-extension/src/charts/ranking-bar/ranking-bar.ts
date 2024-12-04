@@ -1,5 +1,5 @@
 import { IRankingBarSpec } from './interface';
-import VChart, { BaseChart } from '@visactor/vchart';
+import { VChart, BaseChart } from '@visactor/vchart';
 import { RankingBarChartSpecTransformer } from './ranking-bar-transformer';
 
 export class RankingBar extends BaseChart<Omit<IRankingBarSpec, 'color'>> {
