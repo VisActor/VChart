@@ -490,6 +490,7 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.12.13
+      '@visactor/vdataset': ~0.18.18
       '@visactor/vgrammar-core': 0.14.16
       '@visactor/vrender-components': 0.20.16
       '@visactor/vrender-core': 0.20.16
@@ -513,6 +514,7 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
+      '@visactor/vdataset': 0.18.18
       '@visactor/vgrammar-core': 0.14.16
       '@visactor/vrender-components': 0.20.16
       '@visactor/vrender-core': 0.20.16
@@ -527,7 +529,6 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@types/react': 18.3.12
       '@types/react-dom': 18.3.1
-      '@visactor/vchart': link:../vchart
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
       canvas: 2.11.2
       eslint: 8.18.0
@@ -720,13 +721,13 @@ importers:
       '@internal/eslint-config': link:../../share/eslint-config
       '@internal/ts-config': link:../../share/ts-config
       '@rushstack/eslint-patch': 1.1.4
-      '@types/node': 22.5.4
+      '@types/node': 22.10.1
       '@types/node-fetch': 2.6.4
       cross-env: 7.0.3
       eslint: 8.18.0
-      form-data: 4.0.0
+      form-data: 4.0.1
       node-fetch: 2.6.7
-      ts-node: 10.9.0_563qorxssjuw4neqnbuq2pqn5q
+      ts-node: 10.9.0_c27w6cdkixrdosqhzsswatltde
       typescript: 4.9.5
 
   ../../tools/bundler:
@@ -4416,8 +4417,8 @@ packages:
   /@types/node-fetch/2.6.4:
     resolution: {integrity: sha512-1ZX9fcN4Rvkvgv4E6PAY5WXUFWFcRWxZa3EW83UjycOB9ljJCedb2CupIP4RZMEwF/M3eTcCihbBRgwtGbg5Rg==}
     dependencies:
-      '@types/node': 22.5.4
-      form-data: 3.0.1
+      '@types/node': 22.10.1
+      form-data: 3.0.2
     dev: true
 
   /@types/node/12.20.55:
