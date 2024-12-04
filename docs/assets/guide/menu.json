@@ -863,6 +863,29 @@
               }
             }
           ]
+        },
+        {
+          "path": "Chart_Extensions",
+          "title": {
+            "zh": "VChart拓展包",
+            "en": "VChart Extensions"
+          },
+          "children": [
+            {
+              "path": "about_extensions",
+              "title": {
+                "zh": "关于扩展包",
+                "en": "About vchart-extension"
+              }
+            },
+            {
+              "path": "series_break",
+              "title": {
+                "zh": "系列截断组件",
+                "en": "Series Break"
+              }
+            }
+          ]
         }
       ]
     }

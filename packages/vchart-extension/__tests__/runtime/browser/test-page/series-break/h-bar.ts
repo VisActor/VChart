@@ -4,7 +4,7 @@ import { registerSeriesBreak, appendSeriesBreakConfig } from '../../../../../src
 const spec = {
   direction: 'horizontal',
   type: 'common',
-  color: ['#00295C', '#2568BD', '#9F9F9F', '#C5C5C5', '#00B0F0', '#4BCFFF', '#C2C2C2', '#D7D7D7'],
+  // color: ['#00295C', '#2568BD', '#9F9F9F', '#C5C5C5', '#00B0F0', '#4BCFFF', '#C2C2C2', '#D7D7D7'],
   series: [
     {
       type: 'bar',
@@ -187,7 +187,8 @@ const spec = {
       maxHeight: null,
       breaks: [
         {
-          range: [2000, 13486.16],
+          scopeType: 'length',
+          range: [2000, 23000],
           gap: 5,
           breakSymbol: {
             visible: true,
