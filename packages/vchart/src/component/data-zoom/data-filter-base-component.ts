@@ -6,7 +6,7 @@ import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
 import { ComponentTypeEnum, type IComponent, type IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
-import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
+import { dataFilterComputeDomain, dataFilterWithNewDomain, lockStatisticsFilter } from './util';
 import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
@@ -710,10 +710,29 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _addTransformToSeries() {
     if (!this._relatedAxisComponent || this._filterMode !== 'axis') {
       registerDataSetInstanceTransform(this._option.dataSet, 'dataFilterWithNewDomain', dataFilterWithNewDomain);
+      registerDataSetInstanceTransform(this._option.dataSet, 'lockStatisticsFilter', lockStatisticsFilter);
 
       eachSeries(
         this._regions,
         s => {
+          s.getViewDataStatistics().transform(
+            {
+              type: 'lockStatisticsFilter',
+              options: {
+                originalFields: () => {
+                  return s.getViewDataStatistics().getFields();
+                },
+                getNewDomain: () => this._newDomain,
+                field: () => {
+                  return this._field ?? this._parseFieldOfSeries(s);
+                },
+                isContinuous: () => isContinuous(this._stateScale.type)
+              },
+              level: 1
+            },
+            false
+          );
+
           s.addViewDataFilter({
             type: 'dataFilterWithNewDomain',
             options: {
