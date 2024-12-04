@@ -2313,6 +2313,7 @@ const run = () => {
     nodeGap: 8,
     nodeWidth: 10,
     linkWidth: 1000,
+    overflow: 'scroll',
     minNodeHeight: 4,
     nodeKey: datum => datum.name,
 
@@ -14248,7 +14249,8 @@ const run = () => {
   const vChart = new VChart(spec_downstream, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    disableDirtyBounds: true
+    disableDirtyBounds: false,
+    enableAutoScrollBarPlugin: true
   });
   vChart.renderAsync();
   // vChart.renderAsync().then(() => {
