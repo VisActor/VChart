@@ -1,5 +1,5 @@
-import { IConversionFunnelChartSpec } from '../../../../src/conversion-funnel/interface';
-import { registerConversionFunnelChart } from './../../../../src/conversion-funnel/conversion-funnel';
+import { IConversionFunnelChartSpec } from '../../../../src/charts/conversion-funnel/interface';
+import { registerConversionFunnelChart } from '../../../../src/charts/conversion-funnel/conversion-funnel';
 import { VChart } from '@visactor/vchart';
 
 const align = ['right' as const, 'left' as const];
@@ -244,8 +244,7 @@ const spec: IConversionFunnelChartSpec = {
   },
   region: [
     {
-      // padding: { left: 250 },
-      style: {}
+      padding: { right: 200 }
     }
   ],
   data: [

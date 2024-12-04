@@ -5,7 +5,8 @@ import type {
   IFunnelChartSpec,
   ISymbolMarkSpec,
   ITextMarkSpec,
-  IFunnelSeriesSpec
+  IFunnelSeriesSpec,
+  IRectMarkSpec
 } from '@visactor/vchart';
 
 export interface Arrow {
@@ -71,7 +72,7 @@ export interface IConversionFunnelSpec {
   /**
    * 漏斗层背景配置
    */
-  funnelBackground?: IMarkSpec<IPathMarkSpec>;
+  funnelBackground?: IMarkSpec<IRectMarkSpec>;
 }
 
 export interface IConversionFunnelSeriesSpecBase extends IFunnelSeriesSpec, IConversionFunnelSpec {}

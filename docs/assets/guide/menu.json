@@ -884,6 +884,13 @@
                 "zh": "系列截断组件",
                 "en": "Series Break"
               }
+            },
+            {
+              "path": "conversion_funnel",
+              "title": {
+                "zh": "转化率漏斗图",
+                "en": "Conversion Funnel"
+              }
             }
           ]
         }
