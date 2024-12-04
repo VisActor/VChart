@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: upgrade scrollbar visible after layout. fix#3452",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

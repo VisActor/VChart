@@ -900,9 +900,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     super.updateLayoutAttribute();
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
-    super.onLayoutStart(layoutRect, viewRect, ctx);
-    const isShown = this._autoUpdate(layoutRect);
+  protected _autoVisible(isShown: boolean) {
+    if (!this._auto) {
+      return;
+    }
+    if (isShown) {
+      this.show();
+    } else {
+      this.hide();
+    }
     const sizeKey = this._isHorizontal ? 'height' : 'width';
     this.layout.setLayoutRect(
       {
@@ -912,7 +918,20 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         [sizeKey]: AttributeLevel.Built_In
       }
     );
+  }
+
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
+    super.onLayoutStart(layoutRect, viewRect, ctx);
+    const isShown = this._autoUpdate(layoutRect);
+    this._autoVisible(isShown);
     this._dataUpdating = false;
+  }
+
+  onLayoutEnd(ctx: any): void {
+    // 布局结束后, start和end会发生变化, 因此需要再次更新visible
+    const isShown = !(this._start === 0 && this._end === 1);
+    this._autoVisible(isShown);
+    super.onLayoutEnd(ctx);
   }
 
   /**
@@ -1004,11 +1023,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       isShown = !(start === 0 && end === 1);
     }
     this.setStartAndEnd(this._start, this._end);
-    if (isShown) {
-      this.show();
-    } else {
-      this.hide();
-    }
     this._cacheVisibility = isShown;
     return isShown;
   }
