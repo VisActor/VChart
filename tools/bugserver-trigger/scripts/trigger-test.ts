@@ -54,7 +54,8 @@ async function inlineFetch<D>(
   const response = await nodeFetch(url, {
     method: inlineMethod,
     headers: formData.getHeaders(),
-    body: formData
+    body: formData,
+    timeout: 1000 * 300
   });
 
   console.info('[inlineFetch] response.status:', response.status);
@@ -124,7 +125,7 @@ const getFormData = (data: Record<string, string | ReadStream>) => {
 };
 
 async function uploadFile() {
-  const localFilePath = path.resolve(process.cwd(), 'build/index.js');
+  const localFilePath = path.resolve(process.cwd(), 'dist/index.js');
   console.info(`[uploadFile] local path: ${localFilePath}`);
 
   let stream = fs.createReadStream(localFilePath);

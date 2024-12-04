@@ -645,6 +645,13 @@
             "zh": "自定义标签的条形图",
             "en": "Bar Chart with Customized Label"
           }
+        },
+        {
+          "path": "bar-break-by-axis",
+          "title": {
+            "zh": "轴截断柱图",
+            "en": "Axis Break Column Chart"
+          }
         }
       ]
     },

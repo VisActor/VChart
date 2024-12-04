@@ -1,7 +1,7 @@
 {
   "name": "@visactor/vchart-extension",
-  "version": "0.0.2",
-  "description": "",
+  "version": "1.12.13",
+  "description": "vchart extension package, including extension plugins and components",
   "sideEffects": false,
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -16,15 +16,17 @@
     "eslint": "eslint --debug --fix src/",
     "build": "bundle",
     "build:umd": "bundle --clean -f  umd",
+    "build:es": "bundle --clean -f  es",
+    "build:cjs": "bundle --clean -f  cjs",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser"
-  },
-  "pearDependencies": {
-    "@visactor/vchart": "^1.11.11"
   },
   "dependencies": {
     "@visactor/vrender-core": "0.20.16",
     "@visactor/vrender-kits": "0.20.16",
-    "@visactor/vutils": "~0.18.18"
+    "@visactor/vrender-components": "0.20.16",
+    "@visactor/vgrammar-core": "0.14.16",
+    "@visactor/vutils": "~0.18.18",
+    "@visactor/vchart": "workspace:1.12.13"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
@@ -50,8 +52,7 @@
     "rollup-plugin-gzip": "3.1.0",
     "rollup-plugin-bundle-size": "1.0.3",
     "rollup-plugin-sizes": "1.0.5",
-    "rollup": "3.20.5",
-    "@visactor/vchart": "workspace:1.12.13"
+    "rollup": "3.20.5"
   },
   "publishConfig": {
     "access": "public",

@@ -19,7 +19,6 @@
     "build:es5": "rimraf lib && rollup -c --bundleConfigAsCjs",
     "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir ../vchart-types/types",
-    "build:ci": "cross-env DEBUG='Bundler*' bundle --clean -f umd --ignorePostTasks --ignoreUmdEntries",
     "build:umd": "cross-env DEBUG='Bundler*' bundle -f umd",
     "build:cjs": "cross-env DEBUG='Bundler*' bundle --clean -f cjs --ignorePostTasks --ignoreUmdEntries",
     "build:es": "cross-env DEBUG='Bundler*' bundle --clean -f es --ignorePostTasks",

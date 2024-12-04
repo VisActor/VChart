@@ -19,6 +19,7 @@ importers:
       '@visactor/openinula-vchart': workspace:1.12.13
       '@visactor/react-vchart': workspace:1.12.13
       '@visactor/vchart': workspace:1.12.13
+      '@visactor/vchart-extension': workspace:1.12.13
       '@visactor/vchart-theme': ~1.6.6
       '@visactor/vgrammar': 0.14.16
       '@visactor/vmind': 1.2.4-alpha.5
@@ -56,6 +57,7 @@ importers:
       '@visactor/openinula-vchart': link:../packages/openinula-vchart
       '@visactor/react-vchart': link:../packages/react-vchart
       '@visactor/vchart': link:../packages/vchart
+      '@visactor/vchart-extension': link:../packages/vchart-extension
       '@visactor/vchart-theme': 1.6.9
       '@visactor/vgrammar': 0.14.16
       '@visactor/vmind': 1.2.4-alpha.5
@@ -488,6 +490,8 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.12.13
+      '@visactor/vgrammar-core': 0.14.16
+      '@visactor/vrender-components': 0.20.16
       '@visactor/vrender-core': 0.20.16
       '@visactor/vrender-kits': 0.20.16
       '@visactor/vutils': ~0.18.18
@@ -508,6 +512,9 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
+      '@visactor/vchart': link:../vchart
+      '@visactor/vgrammar-core': 0.14.16
+      '@visactor/vrender-components': 0.20.16
       '@visactor/vrender-core': 0.20.16
       '@visactor/vrender-kits': 0.20.16
       '@visactor/vutils': 0.18.18
@@ -688,6 +695,39 @@ importers:
 
   ../../share/ts-config:
     specifiers: {}
+
+  ../../tools/bugserver-trigger:
+    specifiers:
+      '@internal/bundler': workspace:*
+      '@internal/eslint-config': workspace:*
+      '@internal/ts-config': workspace:*
+      '@rushstack/eslint-patch': ~1.1.4
+      '@types/node': '*'
+      '@types/node-fetch': 2.6.4
+      '@visactor/vchart': workspace:1.12.13
+      '@visactor/vchart-extension': workspace:1.12.13
+      cross-env: ^7.0.3
+      eslint: ~8.18.0
+      form-data: ~4.0.0
+      node-fetch: 2.6.7
+      ts-node: 10.9.0
+      typescript: 4.9.5
+    dependencies:
+      '@visactor/vchart': link:../../packages/vchart
+      '@visactor/vchart-extension': link:../../packages/vchart-extension
+    devDependencies:
+      '@internal/bundler': link:../bundler
+      '@internal/eslint-config': link:../../share/eslint-config
+      '@internal/ts-config': link:../../share/ts-config
+      '@rushstack/eslint-patch': 1.1.4
+      '@types/node': 22.5.4
+      '@types/node-fetch': 2.6.4
+      cross-env: 7.0.3
+      eslint: 8.18.0
+      form-data: 4.0.0
+      node-fetch: 2.6.7
+      ts-node: 10.9.0_563qorxssjuw4neqnbuq2pqn5q
+      typescript: 4.9.5
 
   ../../tools/bundler:
     specifiers:
@@ -4371,6 +4411,13 @@ packages:
 
   /@types/ms/0.7.31:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
+    dev: true
+
+  /@types/node-fetch/2.6.4:
+    resolution: {integrity: sha512-1ZX9fcN4Rvkvgv4E6PAY5WXUFWFcRWxZa3EW83UjycOB9ljJCedb2CupIP4RZMEwF/M3eTcCihbBRgwtGbg5Rg==}
+    dependencies:
+      '@types/node': 22.5.4
+      form-data: 3.0.1
     dev: true
 
   /@types/node/12.20.55:
