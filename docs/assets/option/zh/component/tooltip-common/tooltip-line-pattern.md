@@ -21,6 +21,15 @@ tooltip 当前行 key 列的内容。如果配置为字符串，则显示为对�
 
 其中 `datum` 为 tooltip 当前行所默认对应的数据项。
 
+如果想要读取数据项中特定字段的内容，可以通过设置`field`实现，类型如下：
+
+```ts
+// （自 1.13.0 支持）
+{
+  field: string;
+}
+```
+
 {{ /if }}
 
 #${prefix} keyTimeFormat(string) = '%Y%m%d'
@@ -87,6 +96,15 @@ tooltip 当前行 value 列的内容。
 
 ```ts
 (datum: Datum) => string;
+```
+
+如果想要读取数据项中特定字段的内容，可以通过设置`field`实现，类型如下：
+
+```ts
+// （自 1.13.0 支持）
+{
+  field: string;
+}
 ```
 
 {{ /if }}
