@@ -1,3 +1,29 @@
+# v1.12.14
+
+2024-12-05
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support `autoRefreshDpr` in chart options
+- **@visactor/vchart**: dataZoom can do filter when has `lockStatisticsByDomain`, close [#3469](https://github.com/VisActor/VChart/issues/3469)
+- **@visactor/vchart**: add marker context to support the same color as series. close[#3437](https://github.com/VisActor/VChart/issues/3437)
+- **@visactor/vchart**: update options `maxNodeHeight`, `maxLinkHeight` in sankey, close 3439
+- **@visactor/vchart-extension**: add component `series-break`, close [#3450](https://github.com/VisActor/VChart/issues/3450)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: upgrade scrollbar visible after layout. fix[#3452](https://github.com/VisActor/VChart/issues/3452)
+- **@visactor/vchart**: fix `adjacency` in sankey, fix [#3460](https://github.com/VisActor/VChart/issues/3460)
+- **@visactor/vchart**: not update layout when scrollbar domain is the same as before. fix[#3452](https://github.com/VisActor/VChart/issues/3452)
+- **@visactor/vchart**: value in scale range should consider about whole range. fix[#3446](https://github.com/VisActor/VChart/issues/3446)
+- **@visactor/vchart**:  when the `invalidType` of line is  `"link"`, line should be connected rightly. fix [#3436](https://github.com/VisActor/VChart/issues/3436), fix [#3238](https://github.com/VisActor/VChart/issues/3238) 
+- **@visactor/vchart**:  richtext should work when set state, fix [#3465](https://github.com/VisActor/VChart/issues/3465) 
+
+
+
+[更多详情请查看 v1.12.14](https://github.com/VisActor/VChart/releases/tag/v1.12.14)
+
 # v1.12.13
 
 2024-11-22
