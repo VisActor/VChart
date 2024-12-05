@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.12.14",
+  "version": "1.12.15",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -131,7 +131,7 @@
     "@visactor/vgrammar-sankey": "0.14.18",
     "@visactor/vgrammar-venn": "0.14.18",
     "@visactor/vgrammar-util": "0.14.18",
-    "@visactor/vutils-extension": "workspace:1.12.14"
+    "@visactor/vutils-extension": "workspace:1.12.15"
   },
   "publishConfig": {
     "access": "public",

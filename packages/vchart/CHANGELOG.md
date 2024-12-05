@@ -1,6 +1,14 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 04 Dec 2024 11:27:00 GMT and should not be manually modified.
+This log was last generated on Thu, 05 Dec 2024 09:50:08 GMT and should not be manually modified.
+
+## 1.12.15
+Thu, 05 Dec 2024 09:50:08 GMT
+
+### Updates
+
+- feat: support `restorePosition` in position/bound label overlap strategy
+- fix: optimize `shiftY` of label
 
 ## 1.12.14
 Wed, 04 Dec 2024 11:27:00 GMT
