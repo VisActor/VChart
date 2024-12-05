@@ -1,1 +1,1 @@
-export * from '../ranking-bar/interface';
+export * from '../charts/ranking-bar/interface';

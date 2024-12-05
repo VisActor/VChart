@@ -62,13 +62,21 @@ export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements 
       outerRadius: 0,
       startAngle: 0,
       endAngle: 0,
-      areaStyle: transformStyle(transformToGraphic(this._spec.area?.style), this._markerData),
+      areaStyle: transformStyle(
+        transformToGraphic(this._spec.area?.style),
+        this._markerData,
+        this._markAttributeContext
+      ),
       clipInRange: this._spec.clip ?? false,
-      label: transformLabelAttributes(label, this._markerData),
+      label: transformLabelAttributes(label, this._markerData, this._markAttributeContext),
       state: {
-        area: transformState(this._spec.area?.state, this._markerData),
-        label: transformState(this._spec.label?.state, this._markerData),
-        labelBackground: transformState(this._spec?.label?.labelBackground?.state, this._markerData)
+        area: transformState(this._spec.area?.state, this._markerData, this._markAttributeContext),
+        label: transformState(this._spec.label?.state, this._markerData, this._markAttributeContext),
+        labelBackground: transformState(
+          this._spec?.label?.labelBackground?.state,
+          this._markerData,
+          this._markAttributeContext
+        )
       },
       animation: this._spec.animation ?? false,
       animationEnter: this._spec.animationEnter,

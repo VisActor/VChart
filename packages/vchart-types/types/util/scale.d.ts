@@ -16,6 +16,6 @@ export declare function createScaleWithSpec(spec: IVisual<any>, context: {
     globalScale: IGlobalScale;
     seriesId: number;
 }): IBaseScale | null;
-export declare function valueInScaleRange(v: number, s?: IBaseScale): number;
+export declare function valueInScaleRange(v: number, s?: IBaseScale, useWholeRange?: boolean): number;
 export declare function isSpecValueWithScale(specValue: any): boolean;
 export {};

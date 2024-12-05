@@ -83,6 +83,12 @@ export interface IRenderOption {
         [key: string]: any;
       }
     | unknown;
+
+  /**
+   * 是否自动刷线dpr
+   * @since 1.12.14
+   */
+  autoRefreshDpr?: boolean;
   /**
    * 设置屏幕分辨率
    */

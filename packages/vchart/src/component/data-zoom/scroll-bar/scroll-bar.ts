@@ -158,7 +158,10 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   }
 
   protected _handleDataCollectionChange() {
-    // do nothing
+    if (this._spec.auto) {
+      const data = this._data.getDataView();
+      data.reRunAllTransform();
+    }
   }
 
   protected _initCommonEvent() {

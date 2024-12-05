@@ -17,38 +17,55 @@
     "defaultBranch": "main",
     "defaultRemote": "origin"
   },
-  "allowedProjectTags": ["tool", "share", "package", "doc"],
+  "allowedProjectTags": [
+    "tool",
+    "share",
+    "package",
+    "doc"
+  ],
   "projects": [
     {
       "packageName": "@visactor/vchart-extension",
       "projectFolder": "packages/vchart-extension",
-      "shouldPublish": false
+      "tags": [
+        "package"
+      ],
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
     },
     {
       "packageName": "@visactor/vchart",
       "projectFolder": "packages/vchart",
-      "tags": ["package"],
+      "tags": [
+        "package"
+      ],
       "shouldPublish": true,
       "versionPolicyName": "vchartMain"
     },
     {
       "packageName": "@visactor/react-vchart",
       "projectFolder": "packages/react-vchart",
-      "tags": ["package"],
+      "tags": [
+        "package"
+      ],
       "shouldPublish": true,
       "versionPolicyName": "vchartMain"
     },
     {
       "packageName": "@visactor/openinula-vchart",
       "projectFolder": "packages/openinula-vchart",
-      "tags": ["package"],
+      "tags": [
+        "package"
+      ],
       "shouldPublish": true,
       "versionPolicyName": "vchartMain"
     },
     {
       "packageName": "@visactor/taro-vchart",
       "projectFolder": "packages/taro-vchart",
-      "tags": ["package"],
+      "tags": [
+        "package"
+      ],
       "shouldPublish": true,
       "versionPolicyName": "vchartMain"
     },
@@ -79,7 +96,9 @@
     {
       "packageName": "@visactor/vutils-extension",
       "projectFolder": "packages/vutils-extension",
-      "tags": ["package"],
+      "tags": [
+        "package"
+      ],
       "shouldPublish": true,
       "versionPolicyName": "vchartMain"
     },
@@ -91,37 +110,57 @@
     {
       "packageName": "@internal/bundler",
       "projectFolder": "tools/bundler",
-      "tags": ["tool"],
+      "tags": [
+        "tool"
+      ],
       "shouldPublish": false
     },
     {
       "packageName": "@internal/typescript-json-schema",
       "projectFolder": "tools/typescript-json-schema",
-      "tags": ["tool"],
+      "tags": [
+        "tool"
+      ],
       "shouldPublish": false
     },
     {
       "packageName": "@internal/story-player",
       "projectFolder": "tools/story-player",
-      "tags": ["tool"],
+      "tags": [
+        "tool"
+      ],
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@internal/bugserver-trigger",
+      "projectFolder": "tools/bugserver-trigger",
+      "tags": [
+        "tool"
+      ],
       "shouldPublish": false
     },
     {
       "packageName": "@internal/eslint-config",
       "projectFolder": "share/eslint-config",
-      "tags": ["share"],
+      "tags": [
+        "share"
+      ],
       "shouldPublish": false
     },
     {
       "packageName": "@internal/ts-config",
       "projectFolder": "share/ts-config",
-      "tags": ["share"],
+      "tags": [
+        "share"
+      ],
       "shouldPublish": false
     },
     {
       "packageName": "@internal/docs",
       "projectFolder": "docs",
-      "tags": ["doc"],
+      "tags": [
+        "doc"
+      ],
       "shouldPublish": false
     }
   ]

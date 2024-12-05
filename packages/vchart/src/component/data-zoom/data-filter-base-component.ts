@@ -6,7 +6,7 @@ import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
 import { ComponentTypeEnum, type IComponent, type IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
-import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
+import { dataFilterComputeDomain, dataFilterWithNewDomain, lockStatisticsFilter } from './util';
 import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
@@ -101,6 +101,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   // 窗口范围缓存
   protected _spanCache!: number;
   protected _shouldChange: boolean = true;
+
+  protected _domainCache!: any;
 
   protected _field!: string | undefined;
   protected _stateField: string = 'x';
@@ -404,7 +406,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._stateScale.domain(domain, false);
     this._handleChange(this._start, this._end, true);
     // auto 模式下需要重新布局
-    if (this._spec.auto) {
+    if (this._spec.auto && !isEqual(this._domainCache, domain)) {
+      this._domainCache = domain;
       this._dataUpdating = true;
       this.getChart()?.setLayoutTag(true, null, false);
     }
@@ -707,10 +710,29 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _addTransformToSeries() {
     if (!this._relatedAxisComponent || this._filterMode !== 'axis') {
       registerDataSetInstanceTransform(this._option.dataSet, 'dataFilterWithNewDomain', dataFilterWithNewDomain);
+      registerDataSetInstanceTransform(this._option.dataSet, 'lockStatisticsFilter', lockStatisticsFilter);
 
       eachSeries(
         this._regions,
         s => {
+          s.getViewDataStatistics().transform(
+            {
+              type: 'lockStatisticsFilter',
+              options: {
+                originalFields: () => {
+                  return s.getViewDataStatistics().getFields();
+                },
+                getNewDomain: () => this._newDomain,
+                field: () => {
+                  return this._field ?? this._parseFieldOfSeries(s);
+                },
+                isContinuous: () => isContinuous(this._stateScale.type)
+              },
+              level: 1
+            },
+            false
+          );
+
           s.addViewDataFilter({
             type: 'dataFilterWithNewDomain',
             options: {
@@ -897,9 +919,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     super.updateLayoutAttribute();
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
-    super.onLayoutStart(layoutRect, viewRect, ctx);
-    const isShown = this._autoUpdate(layoutRect);
+  protected _autoVisible(isShown: boolean) {
+    if (!this._auto) {
+      return;
+    }
+    if (isShown) {
+      this.show();
+    } else {
+      this.hide();
+    }
     const sizeKey = this._isHorizontal ? 'height' : 'width';
     this.layout.setLayoutRect(
       {
@@ -909,7 +937,20 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         [sizeKey]: AttributeLevel.Built_In
       }
     );
+  }
+
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
+    super.onLayoutStart(layoutRect, viewRect, ctx);
+    const isShown = this._autoUpdate(layoutRect);
+    this._autoVisible(isShown);
     this._dataUpdating = false;
+  }
+
+  onLayoutEnd(ctx: any): void {
+    // 布局结束后, start和end会发生变化, 因此需要再次更新visible
+    const isShown = !(this._start === 0 && this._end === 1);
+    this._autoVisible(isShown);
+    super.onLayoutEnd(ctx);
   }
 
   /**
@@ -1001,11 +1042,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       isShown = !(start === 0 && end === 1);
     }
     this.setStartAndEnd(this._start, this._end);
-    if (isShown) {
-      this.show();
-    } else {
-      this.hide();
-    }
     this._cacheVisibility = isShown;
     return isShown;
   }

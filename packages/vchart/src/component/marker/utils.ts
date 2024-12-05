@@ -15,6 +15,7 @@ import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import { isPercent, transformToGraphic } from '../../util';
 import type {
   IDataPos,
+  IMarkerAttributeContext,
   IMarkerLabelSpec,
   IMarkerState,
   IMarkerSupportSeries,
@@ -467,7 +468,11 @@ export function computeClipRange(regions: IRegion[]) {
   return { minX, maxX, minY, maxY };
 }
 
-export function transformLabelAttributes(label: IMarkerLabelSpec, markerData: any) {
+export function transformLabelAttributes(
+  label: IMarkerLabelSpec,
+  markerData: any,
+  markAttributeContext: IMarkerAttributeContext
+) {
   const { labelBackground = {}, style, shape, ...restLabel } = label;
 
   if (label.visible !== false) {
@@ -488,7 +493,7 @@ export function transformLabelAttributes(label: IMarkerLabelSpec, markerData: an
       labelAttrs.panel = {
         visible: true,
         customShape: labelBackground.customShape,
-        ...transformStyle(transformToGraphic(labelBackground.style), markerData)
+        ...transformStyle(transformToGraphic(labelBackground.style), markerData, markAttributeContext)
       };
       if (isValid(labelBackground.padding)) {
         labelAttrs.padding = normalizePadding(labelBackground.padding);
@@ -501,7 +506,7 @@ export function transformLabelAttributes(label: IMarkerLabelSpec, markerData: an
     }
 
     if (style) {
-      labelAttrs.textStyle = transformStyle(transformToGraphic(style), markerData);
+      labelAttrs.textStyle = transformStyle(transformToGraphic(style), markerData, markAttributeContext);
     }
     return labelAttrs;
   }
@@ -510,18 +515,22 @@ export function transformLabelAttributes(label: IMarkerLabelSpec, markerData: an
   };
 }
 
-export function transformState(state: {} | Record<MarkerStateValue, any | IMarkerState<any>>, markerData: DataView) {
+export function transformState(
+  state: {} | Record<MarkerStateValue, any | IMarkerState<any>>,
+  markerData: DataView,
+  markerAttributeContext: IMarkerAttributeContext
+) {
   for (const stateKey in state) {
     if (isFunction(state[stateKey])) {
-      state[stateKey] = state[stateKey](markerData);
+      state[stateKey] = state[stateKey](markerData, markerAttributeContext);
     }
   }
   return state;
 }
 
-export function transformStyle(style: any, markerData: DataView) {
+export function transformStyle(style: any, markerData: DataView, markerAttributeContext: IMarkerAttributeContext) {
   if (isFunction(style)) {
-    return style(markerData);
+    return style(markerData, markerAttributeContext);
   }
   return style;
 }

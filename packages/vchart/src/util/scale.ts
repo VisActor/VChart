@@ -66,11 +66,19 @@ function initScaleWithSpec(scale: IBaseScale, spec: IVisualSpecBase<any, any>) {
   }
 }
 
-export function valueInScaleRange(v: number, s?: IBaseScale) {
+/**
+ * value限制在scale range内
+ * 对于指标轴: 限制在scale可视范围(scale.range)内, 通常发生在自定义domain的场景中, 防止图元绘制超出画布
+ * 对于维度轴: 限制在scale数据范围(scale.wholeRange)内, 通常发生在缩略轴等组件扩大scale区域的场景中, 允许图元超出画布
+ * 已知图表范围: 柱状图、条形进度图
+ */
+export function valueInScaleRange(v: number, s?: IBaseScale, useWholeRange?: boolean) {
   if (!s) {
     return v;
   }
-  const range = s.range();
+  const scaleRange = s.range();
+  const range =
+    useWholeRange && (s as any)._calculateWholeRange ? (s as any)._calculateWholeRange(scaleRange) : s.range();
   const min = Math.min(range[0], range[range.length - 1]);
   const max = Math.max(range[0], range[range.length - 1]);
   return Math.min(Math.max(min, v), max);

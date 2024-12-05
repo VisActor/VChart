@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vutils-extension",
-  "version": "1.12.13",
+  "version": "1.12.14",
   "description": "The extension module for VUtil from VisActor",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -15,6 +15,9 @@
     "compile": "tsc --noEmit",
     "eslint": "eslint --debug --fix src/",
     "build": "bundle",
+    "build:umd": "bundle --clean -f  umd",
+    "build:es": "bundle --clean -f  es",
+    "build:cjs": "bundle --clean -f  cjs",
     "dev": "bundle --clean -f es -w",
     "test": "jest",
     "test-cov": "jest -w 16 --coverage",
@@ -22,8 +25,8 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.18.18",
-    "@visactor/vdataset": "~0.18.18"
+    "@visactor/vutils": "~0.19.2",
+    "@visactor/vdataset": "~0.19.2"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

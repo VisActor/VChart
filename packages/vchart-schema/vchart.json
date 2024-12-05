@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "anyOf": [
     {
-      "$ref": "#/definitions/IChartSpec"
+      "$ref": "#/definitions/ILineChartSpec"
     },
     {
-      "$ref": "#/definitions/ILineChartSpec"
+      "$ref": "#/definitions/IChartSpec"
     },
     {
       "$ref": "#/definitions/IBarChartSpec"
@@ -6925,17 +6925,17 @@
       "type": "string"
     },
     "DirectionType": {
-      "description": "播放方向\ndefault 默认的\nreverse 反方向",
       "enum": [
-        "default",
-        "reverse"
+        "horizontal",
+        "vertical"
       ],
       "type": "string"
     },
     "DirectionType_1": {
+      "description": "播放方向\ndefault 默认的\nreverse 反方向",
       "enum": [
-        "horizontal",
-        "vertical"
+        "default",
+        "reverse"
       ],
       "type": "string"
     },
@@ -18698,7 +18698,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -20068,7 +20068,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -20836,7 +20836,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -22025,7 +22025,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -23097,7 +23097,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -23769,7 +23769,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -24990,7 +24990,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1"
+          "$ref": "#/definitions/DirectionType"
         },
         "extensionMark": {
           "description": "扩展mark",
@@ -26226,7 +26226,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -27471,10 +27471,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -27485,10 +27485,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -27499,10 +27499,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -27534,10 +27534,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -28030,10 +28030,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -28044,10 +28044,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -28058,10 +28058,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -28093,10 +28093,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -29570,34 +29570,19 @@
                 "$ref": "#/definitions/IWaterfallSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IPieSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IPie3dSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ITreemapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ISunburstSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ICirclePackingSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IBoxPlotSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/ILineSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IAreaSeriesSpec"
+                "$ref": "#/definitions/IScatterSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IMapSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IScatterSeriesSpec"
+                "$ref": "#/definitions/IPieSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IPie3dSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IRoseSeriesSpec"
@@ -29606,16 +29591,19 @@
                 "$ref": "#/definitions/IRadarSeriesSpec"
               },
               {
+                "$ref": "#/definitions/IRangeColumnChartSpec"
+              },
+              {
+                "$ref": "#/definitions/IAreaSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IRangeAreaChartSpec"
+              },
+              {
                 "$ref": "#/definitions/IDotSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ILinkSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ICircularProgressSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILinearProgressSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IWordCloudSeriesSpec"
@@ -29624,31 +29612,43 @@
                 "$ref": "#/definitions/IWordCloud3dSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IFunnelSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IFunnel3dSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ISankeySeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IGaugePointerSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IGaugeSeriesSpec"
               },
               {
+                "$ref": "#/definitions/IBoxPlotSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICirclePackingSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnelSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnel3dSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/IHeatmapSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ICircularProgressSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ILinearProgressSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISankeySeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISunburstSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICorrelationSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IRangeColumnChartSpec"
-              },
-              {
-                "$ref": "#/definitions/IRangeAreaChartSpec"
+                "$ref": "#/definitions/ITreemapSeriesSpec"
               }
             ]
           },
@@ -34257,7 +34257,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "dot": {
@@ -37154,10 +37154,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -37168,10 +37168,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -37182,10 +37182,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -37217,10 +37217,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -37787,10 +37787,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -37801,10 +37801,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -37815,10 +37815,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -37850,10 +37850,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -41649,7 +41649,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -42640,7 +42640,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -43185,7 +43185,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -44325,7 +44325,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -47532,7 +47532,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -48859,7 +48859,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -49446,7 +49446,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "default": "Direction.horizontal",
           "description": "方向"
         },
@@ -49848,7 +49848,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "default": "Direction.horizontal",
           "description": "方向"
         },
@@ -50073,7 +50073,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "dotSeriesIndex": {
@@ -50465,7 +50465,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "height": {
@@ -57427,7 +57427,7 @@
           "description": "控制器"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "default": "'default'",
           "description": "离散轴支持三种播放方向, 连续型仅支持'default'."
         },
@@ -60676,7 +60676,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -61724,7 +61724,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -62234,7 +62234,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -63322,7 +63322,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -63821,7 +63821,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -64909,7 +64909,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -67368,10 +67368,11 @@
           "description": "图表色系配置"
         },
         "crossNodeAlign": {
-          "description": "横向布局的桑基图，设置节点Y坐标的对齐方式：\n'start' - '顶部对齐'\n'end' - '底部对齐'\n'middle' - '居中对齐'\n\n纵向布局的桑基图，设置节点X坐标的对齐方式：\n'start' - '左对齐'\n'end' - '右对齐'\n'middle' - '居中对齐'",
+          "description": "横向布局的桑基图，设置节点Y坐标的对齐方式：\n'start' - '顶部对齐'\n'end' - '底部对齐'\n'middle' - '居中对齐'\n\n纵向布局的桑基图，设置节点X坐标的对齐方式：\n'start' - '左对齐'\n'end' - '右对齐'\n'middle' - '居中对齐'\n'parent' - '父节点'，从1.12.14版本开始支持",
           "enum": [
             "end",
             "middle",
+            "parent",
             "start"
           ],
           "since": "1.12.4",
@@ -67433,7 +67434,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表布局方向"
         },
         "dropIsolatedNode": {
@@ -67580,6 +67581,16 @@
             }
           ],
           "description": "link宽度，单位px"
+        },
+        "maxLinkHeight": {
+          "description": "数据不为零或空时边的最大大小\n- 当同时指定 `maxNodeHeight` 和 `maxLinkHeight` 两个选项时，此选项应小于 `maxNodeHeight`",
+          "since": "1.12.14",
+          "type": "number"
+        },
+        "maxNodeHeight": {
+          "description": "数据不为零或空时节点的最大大小",
+          "since": "1.12.14",
+          "type": "number"
         },
         "media": {
           "description": "媒体查询配置",
@@ -67940,10 +67951,11 @@
           "type": "string"
         },
         "crossNodeAlign": {
-          "description": "横向布局的桑基图，设置节点Y坐标的对齐方式：\n'start' - '顶部对齐'\n'end' - '底部对齐'\n'middle' - '居中对齐'\n\n纵向布局的桑基图，设置节点X坐标的对齐方式：\n'start' - '左对齐'\n'end' - '右对齐'\n'middle' - '居中对齐'",
+          "description": "横向布局的桑基图，设置节点Y坐标的对齐方式：\n'start' - '顶部对齐'\n'end' - '底部对齐'\n'middle' - '居中对齐'\n\n纵向布局的桑基图，设置节点X坐标的对齐方式：\n'start' - '左对齐'\n'end' - '右对齐'\n'middle' - '居中对齐'\n'parent' - '父节点'，从1.12.14版本开始支持",
           "enum": [
             "end",
             "middle",
+            "parent",
             "start"
           ],
           "since": "1.12.4",
@@ -67963,7 +67975,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表布局方向"
         },
         "dropIsolatedNode": {
@@ -68080,6 +68092,16 @@
             }
           ],
           "description": "link宽度，单位px"
+        },
+        "maxLinkHeight": {
+          "description": "数据不为零或空时边的最大大小\n- 当同时指定 `maxNodeHeight` 和 `maxLinkHeight` 两个选项时，此选项应小于 `maxNodeHeight`",
+          "since": "1.12.14",
+          "type": "number"
+        },
+        "maxNodeHeight": {
+          "description": "数据不为零或空时节点的最大大小",
+          "since": "1.12.14",
+          "type": "number"
         },
         "minLinkHeight": {
           "description": "数据不为零或空时边的最小大小\n - 这个配置可以用来避免数据太小的时候看不到太细的链接\n - 建议小于5px\n - 当同时指定 `minNodeHeight` 和 `minLinkHeight` 两个选项时，此选项应小于 `minNodeHeight`",
@@ -68452,7 +68474,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -69474,7 +69496,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -78622,7 +78644,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -79736,7 +79758,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -82453,7 +82475,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13715": {
+        "__@toStringTag@15566": {
           "type": "string"
         },
         "size": {
@@ -82461,14 +82483,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13715",
+        "__@toStringTag@15566",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13715": {
+        "__@toStringTag@15566": {
           "type": "string"
         },
         "size": {
@@ -82476,14 +82498,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13715",
+        "__@toStringTag@15566",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13715": {
+        "__@toStringTag@15566": {
           "type": "string"
         },
         "size": {
@@ -82491,14 +82513,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13715",
+        "__@toStringTag@15566",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13715": {
+        "__@toStringTag@15566": {
           "type": "string"
         },
         "size": {
@@ -82506,14 +82528,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13715",
+        "__@toStringTag@15566",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13715": {
+        "__@toStringTag@15566": {
           "type": "string"
         },
         "size": {
@@ -82521,14 +82543,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13715",
+        "__@toStringTag@15566",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13715": {
+        "__@toStringTag@15566": {
           "type": "string"
         },
         "size": {
@@ -82536,7 +82558,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13715",
+        "__@toStringTag@15566",
         "size"
       ],
       "type": "object"
@@ -83806,7 +83828,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -84404,10 +84426,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -84418,10 +84440,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -84432,10 +84454,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -84467,10 +84489,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -103805,34 +103827,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13715": {
+        "__@toStringTag@15566": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13715"
+        "__@toStringTag@15566"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13715": {
+        "__@toStringTag@15566": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13715"
+        "__@toStringTag@15566"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13715": {
+        "__@toStringTag@15566": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13715"
+        "__@toStringTag@15566"
       ],
       "type": "object"
     },

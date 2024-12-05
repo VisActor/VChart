@@ -113,11 +113,13 @@ node 节点样式配置。
 - 'start' - '顶部对齐'
 - 'end' - '底部对齐'
 - 'middle' - '居中对齐'
+- 'parent' - '父节点对齐'，自 **1.12.14**版本开始支持
 -
 - 纵向布局的桑基图，设置节点 X 坐标的对齐方式：
 - 'start' - '左对齐'
 - 'end' - '右对齐'
 - 'middle' - '居中对齐'
+- 'parent' - '父节点对齐'，自 **1.12.14**版本开始支持
 
 #${prefix} inverse(boolean)
 
@@ -154,12 +156,26 @@ node 节点样式配置。
 - 这个配置可以用来避免数据太小时看不到太细的节点
 - 建议小于 5px
 
+#${prefix} maxNodeHeight(number)
+
+自`1.12.14`版本开始支持
+
+数据不为零或空时节点的最大大小。
+
 #${prefix} minLinkHeight(number)
 
 数据不为零或空时边的最小大小。
 
 - 这个配置可以用来避免数据太小的时候看不到太细的链接
 - 建议小于 5px
+- 当同时指定 `minNodeHeight` 和 `minLinkHeight` 两个选项时，此选项应小于 `minNodeHeight`
+
+#${prefix} maxLinkHeight(number)
+
+自`1.12.14`版本开始支持
+
+数据不为零或空时边的最小大小。
+
 - 当同时指定 `minNodeHeight` 和 `minLinkHeight` 两个选项时，此选项应小于 `minNodeHeight`
 
 #${prefix} iterations(number)

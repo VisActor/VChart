@@ -4,7 +4,7 @@ import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { CoordinateType, ILayoutRect, ILayoutType, IRect } from '../../typings';
 import { BaseComponent } from '../base/base-component';
-import type { IDataPos, IDataPosCallback, IMarkerSpec, IMarkerSupportSeries } from './interface';
+import type { IDataPos, IDataPosCallback, IMarkerAttributeContext, IMarkerSpec, IMarkerSupportSeries } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import type { IOptionWithCoordinates } from '../../data/transforms/aggregation';
 export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
@@ -29,6 +29,9 @@ export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComp
     protected abstract _markerLayout(): void;
     static _getMarkerCoordinateType(markerSpec: any): string;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
+    protected _markAttributeContext: IMarkerAttributeContext;
+    getMarkAttributeContext(): IMarkerAttributeContext;
+    protected _buildMarkerAttributeContext(): void;
     created(): void;
     protected _getAllRelativeSeries(): {
         getRelativeSeries: () => IMarkerSupportSeries;

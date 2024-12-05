@@ -329,7 +329,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
   }
 
-  private _calculateRectPosition(datum: Datum, isVertical: boolean) {
+  private _calculateRectPosition(datum: Datum, isVertical: boolean, useWholeRange?: boolean) {
     let startMethod: string;
     let endMethod: string;
     let axisHelper: string;
@@ -346,8 +346,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const seriesScale = this[axisHelper].getScale?.(0);
     const inverse = this[axisHelper].isInverse();
     const barMinHeight = this._spec.barMinHeight;
-    const y1 = valueInScaleRange(this[startMethod](datum), seriesScale);
-    const y = valueInScaleRange(this[endMethod](datum), seriesScale);
+    const y1 = valueInScaleRange(this[startMethod](datum), seriesScale, useWholeRange);
+    const y = valueInScaleRange(this[endMethod](datum), seriesScale, useWholeRange);
 
     let height = Math.abs(y1 - y);
     if (height < barMinHeight) {
@@ -383,26 +383,26 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     return this.dataToPositionY1(datum);
   }
 
-  protected _getBarXStart = (datum: Datum, scale: IBaseScale) => {
+  protected _getBarXStart = (datum: Datum, scale: IBaseScale, useWholeRange?: boolean) => {
     if (this._shouldDoPreCalculate()) {
       this._calculateStackRectPosition(false);
       return datum[RECT_X];
     }
 
     if (this._spec.barMinHeight) {
-      return this._calculateRectPosition(datum, false);
+      return this._calculateRectPosition(datum, false, useWholeRange);
     }
 
-    return valueInScaleRange(this._dataToPosX(datum), scale);
+    return valueInScaleRange(this._dataToPosX(datum), scale, useWholeRange);
   };
 
-  protected _getBarXEnd = (datum: Datum, scale: IBaseScale) => {
+  protected _getBarXEnd = (datum: Datum, scale: IBaseScale, useWholeRange?: boolean) => {
     if (this._shouldDoPreCalculate()) {
       this._calculateStackRectPosition(false);
       return datum[RECT_X1];
     }
 
-    return valueInScaleRange(this._dataToPosX1(datum), scale);
+    return valueInScaleRange(this._dataToPosX1(datum), scale, useWholeRange);
   };
 
   protected _getBarYStart = (datum: Datum, scale: IBaseScale) => {
@@ -545,20 +545,20 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     if (this.direction === Direction.horizontal) {
       const yChannels = isValid(this._fieldY2)
         ? {
-            y: (datum: Datum) => valueInScaleRange(this._dataToPosY(datum), yScale),
-            y1: (datum: Datum) => valueInScaleRange(this._dataToPosY1(datum), yScale)
+            y: (datum: Datum) => valueInScaleRange(this._dataToPosY(datum), yScale, true),
+            y1: (datum: Datum) => valueInScaleRange(this._dataToPosY1(datum), yScale, true)
           }
         : {
             y: (datum: Datum) =>
-              valueInScaleRange(this._dataToPosY(datum) - this._getBarWidth(this._yAxisHelper) / 2, yScale),
+              valueInScaleRange(this._dataToPosY(datum) - this._getBarWidth(this._yAxisHelper) / 2, yScale, true),
             height: (datum: Datum) => this._getBarWidth(this._yAxisHelper)
           };
 
       this.setMarkStyle(
         this._barMark,
         {
-          x: (datum: Datum) => this._getBarXStart(datum, xScale),
-          x1: (datum: Datum) => this._getBarXEnd(datum, xScale),
+          x: (datum: Datum) => this._getBarXStart(datum, xScale, true),
+          x1: (datum: Datum) => this._getBarXEnd(datum, xScale, true),
           ...yChannels
         },
         'normal',
@@ -577,12 +577,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     } else {
       const xChannels = isValid(this._fieldX2)
         ? {
-            x: (datum: Datum) => valueInScaleRange(this._dataToPosX(datum), xScale),
-            x1: (datum: Datum) => valueInScaleRange(this._dataToPosX1(datum), xScale)
+            x: (datum: Datum) => valueInScaleRange(this._dataToPosX(datum), xScale, true),
+            x1: (datum: Datum) => valueInScaleRange(this._dataToPosX1(datum), xScale, true)
           }
         : {
             x: (datum: Datum) =>
-              valueInScaleRange(this._dataToPosX(datum) - this._getBarWidth(this._xAxisHelper) / 2, xScale),
+              valueInScaleRange(this._dataToPosX(datum) - this._getBarWidth(this._xAxisHelper) / 2, xScale, true),
             width: (datum: Datum) => this._getBarWidth(this._xAxisHelper)
           };
       this.setMarkStyle(

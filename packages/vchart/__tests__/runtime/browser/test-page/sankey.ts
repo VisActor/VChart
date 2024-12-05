@@ -2204,6 +2204,8 @@ const run = () => {
       }
     },
 
+    select: false,
+
     emphasis: {
       enable: true,
       effect: 'adjacency'
@@ -3096,6 +3098,7 @@ const run = () => {
     nodeGap: 8,
     nodeWidth: 10,
     minNodeHeight: 4,
+    crossNodeAlign: 'parent',
 
     title: {
       text: 'How energy is converted or transmitted before being consumed or lost',
@@ -3140,6 +3143,10 @@ const run = () => {
           fillOpacity: 1
         }
       }
+    },
+    emphasis: {
+      enable: true,
+      effect: 'adjacency'
     }
   };
 
@@ -14085,7 +14092,153 @@ const run = () => {
     hash: '6da81209cec89438789d6eb767c14e48'
   };
 
-  const vChart = new VChart(spec1, {
+  const spec5 = {
+    type: 'sankey',
+    crossNodeAlign: 'parent',
+    data: [
+      {
+        name: 'data',
+        values: [
+          {
+            nodes: [
+              {
+                value: 100,
+                name: 'A',
+                children: [
+                  // {
+                  //   name: 'top',
+                  //   value: 40,
+                  //   children: [
+                  //     { name: '00', value: 15 },
+                  //     { name: '01', value: 10 },
+                  //     { name: '02', value: 10 }
+                  //   ]
+                  // },
+                  {
+                    name: 'middle',
+                    value: 30,
+                    children: [
+                      { name: '00', value: 10 },
+                      { name: '01', value: 10 },
+                      { name: '02', value: 10 }
+                    ]
+                  },
+                  {
+                    name: 'bottom',
+                    value: 30
+                  }
+                ]
+              },
+              {
+                value: 80,
+                name: 'B',
+                children: [
+                  // {
+                  //   name: 'top',
+                  //   value: 40,
+                  //   children: [
+                  //     { name: '00', value: 100 },
+                  //     { name: '01', value: 40 }
+                  //   ]
+                  // },
+                  {
+                    name: 'middle',
+                    value: 10
+                  },
+                  {
+                    name: 'bottom',
+                    value: 30
+                  }
+                ]
+              },
+              {
+                value: 50,
+                name: 'C',
+                children: [
+                  {
+                    name: 'top',
+                    value: 20
+                  },
+                  {
+                    name: 'middle',
+                    value: 20
+                  },
+                  {
+                    name: 'bottom',
+                    value: 10
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    categoryField: 'name',
+    valueField: 'value',
+    nodeSortBy: (nodeA, nodeB) => {
+      const nodeOrder = {
+        A: 0,
+        B: 1,
+        C: 2,
+        top: 3,
+        middle: 4,
+        bottom: 5,
+        '00': 6,
+        '01': 7,
+        '02': 8
+      };
+      return nodeOrder[nodeA.key] - nodeOrder[nodeB.key];
+    },
+
+    nodeAlign: 'left',
+    nodeGap: 8,
+    nodeWidth: 10,
+    minNodeHeight: 4,
+    nodeKey: datum => datum.name,
+
+    label: {
+      visible: true,
+      state: {
+        blur: {
+          fill: '#e8e8e8',
+          fillOpacity: 0.15
+        }
+      }
+    },
+
+    node: {
+      state: {
+        hover: {
+          fill: 'red'
+        },
+        blur: {
+          fill: '#e8e8e8',
+          fillOpacity: 0.15
+        }
+      }
+    },
+
+    link: {
+      backgroundStyle: { fill: '#ccc', fillOpacity: 0.2 },
+      fillOpacity: 0.8,
+      state: {
+        hover: {
+          stroke: '#000000'
+        },
+        blur: {
+          fill: '#e8e8e8'
+        }
+      }
+    },
+
+    emphasis: {
+      enable: true,
+      effect: 'related'
+    }
+  };
+
+  const vChart = new VChart(spec_downstream, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });

@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-12
+    runs-on: macos-13
 
     strategy:
       matrix:
@@ -32,15 +32,31 @@ jobs:
         run: node common/scripts/install-run-rush.js install --bypass-policy
 
       - name: Build vutils-extension
-        run: node common/scripts/install-run-rush.js build --only @visactor/vutils-extension
-
-      - name: Build VChart
+        working-directory: ./packages/vutils-extension
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js run -p @visactor/vchart -s build:ci
+        run: node ../../common/scripts/install-run-rushx.js build:es
+
+      - name: Build vchart
+        working-directory: ./packages/vchart
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build:es
+
+      - name: Build vchart-extension
+        working-directory: ./packages/vchart-extension
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build:es
+
+      - name: Build bugserver-trigger
+        working-directory: ./tools/bugserver-trigger
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build
 
       - name: Run CI
-        working-directory: ./packages/vchart
+        working-directory: ./tools/bugserver-trigger
         env:
           BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
         run: node ../../common/scripts/install-run-rushx.js ci
