@@ -5,9 +5,10 @@ import {
   TOOLTIP_CONTAINER_EL_CLASS_NAME,
   DEFAULT_TOOLTIP_Z_INDEX,
   TOOLTIP_PREFIX,
-  TOOLTIP_CONTENT_BOX_CLASS_NAME
+  TOOLTIP_CONTENT_BOX_CLASS_NAME,
+  TOOLTIP_TITLE_CLASS_NAME
 } from './constants';
-import { type Maybe, isNil } from '@visactor/vutils';
+import { type Maybe, isNil, isValid } from '@visactor/vutils';
 import type { IContainerSize } from '@visactor/vrender-components';
 import { domDocument } from '../../../util/env';
 import type { ITooltipSpec, TooltipHandlerParams } from '../../../component/tooltip';
@@ -16,8 +17,9 @@ import { registerComponentPlugin } from '../register';
 import type { ILayoutPoint } from '../../../typings';
 import { TooltipHandlerType } from '../../../component/tooltip/constant';
 import { getSvgHtml } from './utils/svg';
-import { escapeHTML, formatContent } from './utils/common';
+import { formatContent } from './utils/common';
 import { token } from '../../../theme/token';
+import { calcLayoutNumber } from '../../../util/space';
 /**
  * The tooltip handler class.
  */
@@ -27,7 +29,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _tooltipContainer = domDocument?.body;
   protected _domStyle: {
-    content: Partial<CSSStyleDeclaration>;
+    panelPadding?: number[];
     panel: Partial<CSSStyleDeclaration>;
     row: Partial<CSSStyleDeclaration>;
     title: Partial<CSSStyleDeclaration>;
@@ -183,7 +185,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     const rowStyle = this._domStyle.row;
 
     if (title.visible !== false) {
-      domString += `<h2 style="${cssToStyleString({
+      domString += `<h2 class="${TOOLTIP_TITLE_CLASS_NAME}" style="${cssToStyleString({
         ...this._domStyle.title,
         ...(hasContent ? rowStyle : { marginBottom: '0px' }),
         marginTop: '0px'
@@ -211,7 +213,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         })}">${formatContent(entry.value)}</div>`;
       });
 
-      domString += `<div class="${TOOLTIP_CONTENT_BOX_CLASS_NAME}" style="${cssToStyleString(this._domStyle.content)}">
+      domString += `<div class="${TOOLTIP_CONTENT_BOX_CLASS_NAME}">
         <div class="${TOOLTIP_PREFIX}-shape-column" style="${cssToStyleString({
         ...this._domStyle.shape,
         display: 'inline-block',
@@ -245,6 +247,35 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       const contentDom = rootDom.children[rootDom.children.length - 1];
 
       if (contentDom.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)) {
+        const tooltipSpec = this._component.getSpec() as ITooltipSpec;
+        const contentStyle: Partial<CSSStyleDeclaration> = {};
+
+        if (isValid(tooltipSpec?.style?.maxContentHeight)) {
+          const titleDom = rootDom.children[0];
+          const titleHeight =
+            titleDom && titleDom.className.includes(TOOLTIP_TITLE_CLASS_NAME)
+              ? titleDom.getBoundingClientRect().height + (tooltipSpec.style.spaceRow ?? 0)
+              : 0;
+          const viewRect = (this._chartOption as any).getChartViewRect();
+          const maxHeight = calcLayoutNumber(
+            tooltipSpec.style.maxContentHeight,
+            Math.min(viewRect.height, document.body.clientHeight) -
+              titleHeight -
+              (this._domStyle.panelPadding ? this._domStyle.panelPadding[0] + this._domStyle.panelPadding[1] : 0)
+          );
+
+          if (maxHeight > 0) {
+            contentStyle.maxHeight = `${maxHeight}px`;
+            contentStyle.overflowY = 'auto';
+            // todo 让内容宽度往外阔一点，给滚动条留出位置
+            contentStyle.width = `calc(100% + ${
+              this._domStyle.panelPadding ? this._domStyle.panelPadding[1] + 'px' : '10px'
+            })`;
+
+            setStyleToDom(contentDom as HTMLElement, contentStyle);
+          }
+        }
+
         const rows = contentDom.children;
         const widthByCol: number[] = [];
         if (rows) {

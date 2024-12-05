@@ -1,6 +1,5 @@
 import { isArray, isValid, isValidNumber, lowerCamelCaseToMiddle, normalizePadding } from '@visactor/vutils';
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
-
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;
 const DEFAULT_VALUE_SPACING = 0;
@@ -32,22 +31,12 @@ export const getTextStyle = (style: ITooltipTextTheme = {}) => {
 
 export const getDomStyle = (spec: ITooltipSpec = {}) => {
   const { style = {}, enterable, transitionDuration } = spec;
-  const {
-    panel = {},
-    titleLabel,
-    shape,
-    keyLabel,
-    valueLabel,
-    spaceRow: commonSpaceRow,
-    maxContentHeight,
-    align
-  } = style;
-  const panelStyle = getPanelStyle(panel);
+  const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow, align } = style;
+  const { panelStyle, panelPadding } = getPanelStyle(panel);
   const rowStyle: Partial<CSSStyleDeclaration> = {
     marginTop: '0px',
     marginBottom: '0px'
   };
-  const contentStyle: Partial<CSSStyleDeclaration> = {};
 
   panelStyle.pointerEvents = enterable ? 'auto' : 'none';
   if (transitionDuration) {
@@ -58,12 +47,6 @@ export const getDomStyle = (spec: ITooltipSpec = {}) => {
 
   if (isValidNumber(commonSpaceRow)) {
     rowStyle.marginBottom = `${commonSpaceRow}px`;
-  }
-  if (isValid(maxContentHeight)) {
-    contentStyle.maxHeight = `${maxContentHeight}px`;
-    contentStyle.overflowY = 'auto';
-    // todo 让内容宽度往外阔一点，给滚动条留出位置
-    contentStyle.width = `calc(100% + ${panelStyle.padding ? panelStyle.padding.split(' ')[1] : '10px'})`;
   }
 
   const shapeStyle: Partial<CSSStyleDeclaration> = {
@@ -97,8 +80,8 @@ export const getDomStyle = (spec: ITooltipSpec = {}) => {
   }
 
   return {
+    panelPadding,
     row: rowStyle,
-    content: contentStyle,
     panel: panelStyle,
     title: titleStyle,
     shape: shapeStyle,
@@ -107,11 +90,14 @@ export const getDomStyle = (spec: ITooltipSpec = {}) => {
   };
 };
 
-export const getPanelStyle = (style: ITooltipTheme['panel']): Partial<CSSStyleDeclaration> => {
+export const getPanelStyle = (
+  style: ITooltipTheme['panel']
+): { panelStyle: Partial<CSSStyleDeclaration>; panelPadding?: number[] } => {
   const { backgroundColor, border, shadow, padding } = style;
   const panelStyle: Partial<CSSStyleDeclaration> = {
     borderWidth: `${border?.width ?? 0}px`
   };
+  let panelPadding: number[] = null;
 
   if (border?.color) {
     panelStyle.borderColor = border.color as string;
@@ -129,10 +115,11 @@ export const getPanelStyle = (style: ITooltipTheme['panel']): Partial<CSSStyleDe
   }
 
   if (padding) {
-    panelStyle.padding = getPixelPropertyStr(normalizePadding(padding));
+    panelPadding = normalizePadding(padding);
+    panelStyle.padding = getPixelPropertyStr(panelPadding);
   }
 
-  return panelStyle;
+  return { panelStyle, panelPadding };
 };
 
 export function setStyleToDom(dom: HTMLElement, style: Partial<CSSStyleDeclaration>) {

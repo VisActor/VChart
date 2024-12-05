@@ -1,5 +1,5 @@
 import type { ITextAttribute } from '@visactor/vrender-core';
-import type { ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
+import type { ILayoutNumber, ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components';
 import type { ITokenKey } from '../../../theme/token';
 
@@ -78,8 +78,9 @@ export interface ITooltipTheme<ColorType = string> {
   /**
    * 最大内容区高度，内容区若超过该高度将显示局部滚动条（适用于 dom tooltip）
    * @since 1.9.0
+   * @since 1.13.0 支持百分比的高度，当配置为百分比的时候，会根据图表的高度，body的最大高度，计算出来一个相对高度
    */
-  maxContentHeight?: number;
+  maxContentHeight?: ILayoutNumber;
   /** 偏移量 */
   offset?: {
     x?: number;

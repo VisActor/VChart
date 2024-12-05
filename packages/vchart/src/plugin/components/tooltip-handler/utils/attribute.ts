@@ -124,16 +124,7 @@ export const getTooltipAttributes = (
   globalTheme: ITheme
 ): ITooltipAttributes => {
   const { style = {}, enterable, transitionDuration } = spec;
-  const {
-    panel = {},
-    titleLabel,
-    shape,
-    keyLabel,
-    valueLabel,
-    spaceRow: commonSpaceRow,
-    maxContentHeight,
-    align
-  } = style;
+  const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow, align } = style;
   const padding = normalizePadding(panel.padding);
   const paddingSpec = normalizeLayoutPaddingSpec(panel.padding) as IPadding;
 
@@ -179,8 +170,6 @@ export const getTooltipAttributes = (
     keyWidth: 0,
     valueWidth: 0,
 
-    maxContentHeight,
-
     enterable,
     transitionDuration,
     align
@@ -190,8 +179,6 @@ export const getTooltipAttributes = (
 
   let panelWidth = paddingSpec.left + paddingSpec.right;
   let panelHeight = paddingSpec.top + paddingSpec.bottom;
-  /** dom tooltip 的高度。由于 canvas tooltip 不支持滚动条，dom tooltip 单独计算高度 */
-  let panelDomHeight = paddingSpec.top + paddingSpec.bottom;
 
   // calculate content
   let contentMaxWidth = 0;
@@ -293,7 +280,6 @@ export const getTooltipAttributes = (
       return itemAttrs;
     });
     panelHeight += contentHeight;
-    panelDomHeight += Math.min(contentHeight, maxContentHeight ?? Infinity);
 
     maxKeyWidth = keyWidths.length ? maxInArray(keyWidths) : 0; // name 需要对齐
     maxAdaptiveKeyWidth = adaptiveKeyWidths.length ? maxInArray(adaptiveKeyWidths) : 0;
@@ -346,7 +332,6 @@ export const getTooltipAttributes = (
     titleHeightWithSpace = titleMaxHeight + (hasContent ? attributes.title.spaceRow : 0);
   }
   panelHeight += titleHeightWithSpace;
-  panelDomHeight += titleHeightWithSpace;
   attributes.title.width = titleMaxWidth;
   attributes.title.height = titleMaxHeight;
 
@@ -381,6 +366,5 @@ export const getTooltipAttributes = (
 
   attributes.panel.width = panelWidth;
   attributes.panel.height = panelHeight;
-  attributes.panelDomHeight = panelDomHeight;
   return attributes;
 };
