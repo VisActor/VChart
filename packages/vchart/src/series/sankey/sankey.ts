@@ -226,8 +226,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   initMark(): void {
+    // 为了让sankey 正常的滚动，interactive 需要设置为true，不然在空白处会滚动不了
     this._rootMark.setMarkConfig({
-      overflow: this._spec.overflow
+      overflow: this._spec.overflow,
+      interactive: !!this._spec.overflow
     });
     const nodeMark = this._createMark(
       SankeySeries.mark.node,
