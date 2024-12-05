@@ -17,7 +17,7 @@ import { registerComponentPlugin } from '../register';
 import type { ILayoutPoint } from '../../../typings';
 import { TooltipHandlerType } from '../../../component/tooltip/constant';
 import { getSvgHtml } from './utils/svg';
-import { escapeHTML, formatContent } from './utils/common';
+import { formatContent } from './utils/common';
 import { token } from '../../../theme/token';
 import { calcLayoutNumber } from '../../../util/space';
 /**
@@ -256,10 +256,10 @@ export class DomTooltipHandler extends BaseTooltipHandler {
             titleDom && titleDom.className.includes(TOOLTIP_TITLE_CLASS_NAME)
               ? titleDom.getBoundingClientRect().height + (tooltipSpec.style.spaceRow ?? 0)
               : 0;
-          const viewBox = this._chartOption.viewBox;
+          const viewRect = (this._chartOption as any).getChartViewRect();
           const maxHeight = calcLayoutNumber(
             tooltipSpec.style.maxContentHeight,
-            Math.min(viewBox.y2 - viewBox.y1, document.body.clientHeight) -
+            Math.min(viewRect.height, document.body.clientHeight) -
               titleHeight -
               (this._domStyle.panelPadding ? this._domStyle.panelPadding[0] + this._domStyle.panelPadding[1] : 0)
           );
