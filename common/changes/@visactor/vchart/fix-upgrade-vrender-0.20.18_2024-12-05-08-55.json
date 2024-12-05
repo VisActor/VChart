@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support `restorePosition` in position/bound label overlap strategy",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

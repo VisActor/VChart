@@ -21,10 +21,10 @@
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser"
   },
   "dependencies": {
-    "@visactor/vrender-core": "0.20.17",
-    "@visactor/vrender-kits": "0.20.17",
-    "@visactor/vrender-components": "0.20.17",
-    "@visactor/vgrammar-core": "0.14.17",
+    "@visactor/vrender-core": "0.20.18",
+    "@visactor/vrender-kits": "0.20.18",
+    "@visactor/vrender-components": "0.20.18",
+    "@visactor/vgrammar-core": "0.14.18",
     "@visactor/vutils": "~0.19.2",
     "@visactor/vdataset": "~0.19.2",
     "@visactor/vchart": "workspace:1.12.14"
