@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: optimize `shiftY` of label",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
