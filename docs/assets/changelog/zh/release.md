@@ -1,3 +1,26 @@
+# v1.12.14
+
+2024-12-05
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 图表配置支持 `autoRefreshDpr`，自动根据设备像素比调整图表的 dpr。
+- **@visactor/vchart**: 当设置了 `lockStatisticsByDomain`的时候，dataZoom 的`filter` 模式可以正常更新图表范围, close [#3469](https://github.com/VisActor/VChart/issues/3469)
+- **@visactor/vchart**: 添加标记上下文以支持与系列相同的颜色，关闭 [#3437](https://github.com/VisActor/VChart/issues/3437)
+- **@visactor/vchart**: 更新桑基图中的选项 `maxNodeHeight` 和 `maxLinkHeight`，关闭 3439
+- **@visactor/vchart-extension**: 添加组件 `series-break`，关闭 [#3450](https://github.com/VisActor/VChart/issues/3450)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 升级布局后滚动条可见性，修复 [#3452](https://github.com/VisActor/VChart/issues/3452)
+- **@visactor/vchart**: 修复桑基图中的 `adjacency`，修复 [#3460](https://github.com/VisActor/VChart/issues/3460)
+- **@visactor/vchart**: 当滚动条域与之前相同时，不更新布局，修复 [#3452](https://github.com/VisActor/VChart/issues/3452)
+- **@visactor/vchart**: 比例尺范围内的值应考虑整个范围，修复 [#3446](https://github.com/VisActor/VChart/issues/3446)
+- **@visactor/vchart**: 当线的 `invalidType` 为 `"link"` 时，线应正确连接，修复 [#3436](https://github.com/VisActor/VChart/issues/3436)，修复 [#3238](https://github.com/VisActor/VChart/issues/3238)
+- **@visactor/vchart**: 设置状态时富文本应正常工作，修复 [#3465](https://github.com/VisActor/VChart/issues/3465)
+
+[更多详情请查看 v1.12.14](https://github.com/VisActor/VChart/releases/tag/v1.12.14)
+
 # v1.12.13
 
 2024-11-22
