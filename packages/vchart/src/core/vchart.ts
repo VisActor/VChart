@@ -5,13 +5,14 @@ import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/c
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
-import type {
-  DimensionIndexOption,
-  IChart,
-  IChartConstructor,
-  IChartOption,
-  IChartSpecInfo,
-  IChartSpecTransformer
+import {
+  ChartTypeEnum,
+  type DimensionIndexOption,
+  type IChart,
+  type IChartConstructor,
+  type IChartOption,
+  type IChartSpecInfo,
+  type IChartSpecTransformer
 } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -373,7 +374,7 @@ export class VChart implements IVChart {
     this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
     this._onError = this._option?.onError;
 
-    const { dom, renderCanvas, mode, stage, poptip, enableAutoScrollBarPlugin, ...restOptions } = this._option;
+    const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
     const isTrueBrowseEnv = isTrueBrowser(mode);
 
     // 根据 mode 配置动态加载浏览器或 node 环境代码
@@ -409,7 +410,8 @@ export class VChart implements IVChart {
       pluginList.push('poptipForText');
     }
 
-    if (enableAutoScrollBarPlugin) {
+    if (spec.type === ChartTypeEnum.sankey) {
+      // 桑基图默认记载滚动条组件
       pluginList.push('scrollbar');
     }
     this._compiler = new Compiler(
