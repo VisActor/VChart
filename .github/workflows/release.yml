@@ -66,6 +66,11 @@ jobs:
       #     BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
       #   run: node ../../common/scripts/install-run-rushx.js ci
 
+      - name: Build vchart-extension
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node common/scripts/install-run-rush.js build --only @visactor/vchart-extension
+
       - name: Build react-vchart
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'

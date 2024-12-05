@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.15",
+      "tag": "@visactor/vchart_v1.12.15",
+      "date": "Thu, 05 Dec 2024 09:50:08 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support `restorePosition` in position/bound label overlap strategy"
+          },
+          {
+            "comment": "fix: optimize `shiftY` of label"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.14",
       "tag": "@visactor/vchart_v1.12.14",
       "date": "Wed, 04 Dec 2024 11:27:00 GMT",
