@@ -234,7 +234,6 @@ export function uniformAnimationConfig<Preset extends string>(
   if (!config) {
     return config;
   }
-  console.log(config);
   const excludeKeys = ['custom', 'customParameters'];
   config = cloneDeep(config, null, excludeKeys);
   traverseSpec(
