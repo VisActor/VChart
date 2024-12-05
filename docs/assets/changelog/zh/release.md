@@ -1,3 +1,20 @@
+# v1.12.15
+
+2024-12-05
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support `restorePosition` in position/bound label overlap strategy
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: optimize `shiftY` of label
+
+
+
+[更多详情请查看 v1.12.15](https://github.com/VisActor/VChart/releases/tag/v1.12.15)
+
 # v1.12.14
 
 2024-12-05
