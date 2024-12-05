@@ -3,6 +3,9 @@ export interface IDataFilterWithNewDomainOption {
     isContinuous: () => boolean;
     field: () => string;
 }
+export declare const lockStatisticsFilter: (statisticsData: any, op: IDataFilterWithNewDomainOption & {
+    originalFields: () => Record<string, any>;
+}) => any;
 export declare const dataFilterWithNewDomain: (data: Array<any>, op: IDataFilterWithNewDomainOption) => any[];
 export interface IDataFilterComputeDomainOption {
     input: {
