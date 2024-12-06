@@ -1127,6 +1127,13 @@
             "zh": "桑基图自定义html渲染节点",
             "en": "set customized node of html in sankey chart"
           }
+        },
+        {
+          "path": "sankey-with-scrollbar",
+          "title": {
+            "zh": "带滚动条的桑基图",
+            "en": "Sankey Diagram with Scrollbar"
+          }
         }
       ]
     },
