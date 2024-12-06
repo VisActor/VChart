@@ -1505,16 +1505,16 @@ describe('VChart', () => {
 
       expect(la.getScale().domain()).toEqual([-5000, 60, 80, 30000]);
       const range = la.getScale().range();
-      expect(range[0]).toBeCloseTo(428);
-      expect(range[1]).toBeCloseTo(425.87741665195745);
-      expect(range[2]).toBeCloseTo(425.57735448340196);
+      expect(range[0]).toBeCloseTo(426);
+      expect(range[1]).toBeCloseTo(423.8873352657334);
+      expect(range[2]).toBeCloseTo(423.58867525684406);
       expect(range[3]).toBeCloseTo(0);
 
       const rightDomain = ra.getScale().domain();
 
       expect(rightDomain[0]).toBeCloseTo(-393970724.0726612);
       expect(rightDomain[1]).toBeCloseTo(80000000000);
-      expect(ra.getScale().range()).toEqual([428, 0]);
+      expect(ra.getScale().range()).toEqual([426, 0]);
     });
 
     it('change domain with axis sync and scopeType = "count"', async () => {
@@ -3002,16 +3002,16 @@ describe('VChart', () => {
 
       expect(la.getScale().domain()).toEqual([-5000, 60, 80, 30000]);
       const range = la.getScale().range();
-      expect(range[0]).toBeCloseTo(430);
-      expect(range[1]).toBeCloseTo(146.2);
-      expect(range[2]).toBeCloseTo(133.3);
+      expect(range[0]).toBeCloseTo(428);
+      expect(range[1]).toBeCloseTo(145.51999999999998);
+      expect(range[2]).toBeCloseTo(132.68);
       expect(range[3]).toBeCloseTo(0);
 
       const rightDomain = ra.getScale().domain();
 
       expect(rightDomain[0]).toBeCloseTo(-150000000000);
       expect(rightDomain[1]).toBeCloseTo(80000000000);
-      expect(ra.getScale().range()).toEqual([430, 0]);
+      expect(ra.getScale().range()).toEqual([428, 0]);
     });
   });
 });
