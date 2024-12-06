@@ -169,12 +169,19 @@ Overlap avoidance strategy for labels, providing 4 avoidance strategies, respect
   ```ts
   export type PositionStrategy = {
     /**
-     * 可选位置策略。
-     * 若默认位置没有足够的空间放置标签，则考虑 position 内的备选位置。
+     * Optional position strategy.
+     * If the default position does not have enough space to place the label, consider the alternative positions within the position.
      */
     type: 'position';
-    /** position 根据图表类型支持不同支持不同的位置配置 **/
+    /**  position supports different configurations depending on the chart type **/
     position?: Functional<LabelPosition[]>;
+    /**
+     * When the alternative positions in position still cannot accommodate the label, whether the label is returned to its original position.
+     * The default is true, if false, the label will be placed in the last position of the position array.
+     * @since 1.12.15
+     * @default true
+     */
+    restorePosition?: boolean;
   };
   ```
 
@@ -183,12 +190,19 @@ Overlap avoidance strategy for labels, providing 4 avoidance strategies, respect
   ```ts
   export type BoundStrategy = {
     /**
-     * 标签配置在图形内部时使用。
-     * 当图形大小不足以放下标签，则考虑 position 内的备选位置。
+     * Used when configuring labels inside a graphic.
+     * If the graphic size is insufficient to accommodate the label, consider alternative positions within the position.
      */
     type: 'bound';
-    /** position 根据图表类型支持不同支持不同的位置配置 **/
+    /**  position supports different configurations depending on the chart type **/
     position?: Functional<LabelPosition[]>;
+    /**
+     * When the alternative positions in position still cannot accommodate the label, whether the label is returned to its original position.
+     * The default is true, if false, the label will be placed in the last position of the position array.
+     * @since 1.12.15
+     * @default true
+     */
+    restorePosition?: boolean;
   };
   ```
 
@@ -197,12 +211,12 @@ Overlap avoidance strategy for labels, providing 4 avoidance strategies, respect
   ```ts
   export type MoveYStrategy = {
     /**
-     * y 方向散开策略。
-     * 若默认位置没有足够的空间放置标签，则根据 offset 在 y 方向上寻找位置。
+     * Y-direction dispersion strategy.
+     * If the default position does not have enough space to place the label, find a position in the y-direction based on the offset.
      */
     type: 'moveY';
     /**
-     * y 方向上的尝试的位置偏移量，可配置为函数。
+     * The position offset in the y-direction can be configured as a function.
      */
     offset: Functional<number[]>; // number | (data: any) => number[];
   };
@@ -213,12 +227,12 @@ Overlap avoidance strategy for labels, providing 4 avoidance strategies, respect
   ```ts
   export type MoveYStrategy = {
     /**
-     * x 方向散开策略。
-     * 若默认位置没有足够的空间放置标签，则根据 offset 在 x 方向上寻找位置。
+     * X-direction dispersion strategy.
+     * If the default position does not have enough space to place the label, find a position in the x-direction based on the offset.
      */
     type: 'moveX';
     /**
-     * x 方向上的尝试的位置偏移量，可配置为函数。
+     * The position offset in the x-direction can be configured as a function.
      */
     offset: Functional<number[]>; // number | (data: any) => number[];
   };
