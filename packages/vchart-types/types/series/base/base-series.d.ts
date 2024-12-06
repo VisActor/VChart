@@ -7,7 +7,7 @@ import { BaseModel } from '../../model/base-model';
 import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo, ISeriesStackDataLeaf, ISeriesStackDataMeta, ISeriesSeriesInfo } from '../interface';
 import type { IModelEvaluateOption, IModelRenderOption, IUpdateSpecResult } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
-import type { IBaseInteractionSpec } from '../../interaction/interface';
+import type { IBaseInteractionSpec, IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import { SeriesData } from './series-data';
 import type { IGroupMark } from '../../mark/group';
@@ -141,9 +141,6 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
         triggerOff: EventType;
         blurState: STATE_VALUE_ENUM;
         highlightState: STATE_VALUE_ENUM;
-        reverseState?: undefined;
-        state?: undefined;
-        isMultiple?: undefined;
     } | {
         type: string;
         seriesId: number;
@@ -154,9 +151,28 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
         reverseState: STATE_VALUE_ENUM;
         state: STATE_VALUE_ENUM;
         isMultiple: boolean;
-        blurState?: undefined;
-        highlightState?: undefined;
     })[];
+    protected _defaultHoverConfig(selector: string[], finalHoverSpec: IHoverSpec): {
+        seriesId: number;
+        regionId: number;
+        selector: string[];
+        type: string;
+        trigger: EventType;
+        triggerOff: EventType;
+        blurState: STATE_VALUE_ENUM;
+        highlightState: STATE_VALUE_ENUM;
+    };
+    protected _defaultSelectConfig(selector: string[], finalSelectSpec: ISelectSpec): {
+        type: string;
+        seriesId: number;
+        regionId: number;
+        selector: string[];
+        trigger: EventType;
+        triggerOff: EventType;
+        reverseState: STATE_VALUE_ENUM;
+        state: STATE_VALUE_ENUM;
+        isMultiple: boolean;
+    };
     protected _parseInteractionConfig(mainMarks?: IMark[]): void;
     initInteraction(): void;
     initAnimation(): void;
