@@ -251,3 +251,16 @@ Sankey Diagram provides 3 interaction linkage effects on nodes:
 - `self`: Only highlight the current node.
 - `adjacency`: Highlight the upstream and downstream nodes and associated edges of the current node, and dim other graphic elements.
 - `related`: Highlight the nodes and edges on the entire path related to the current node, and dim other graphic elements.
+
+#${prefix} overflow(string)
+
+Supported since version **1.13.0**
+
+When the width of nodes or edges is specified, this property can be configured to automatically generate scroll bars if the width exceeds the chart region width or the height exceeds the chart region height.
+
+Supported configurations are as follows:
+
+- 'scroll': Automatically generate scroll bars based on the x and y directions.
+- 'hidden': Do not generate scroll bars by default.
+- 'scroll-x': Automatically generate scroll bars in the x direction.
+- 'scroll-y': Automatically generate scroll bars in the y direction.

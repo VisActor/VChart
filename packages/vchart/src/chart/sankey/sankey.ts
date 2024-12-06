@@ -10,6 +10,7 @@ import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface/common';
 import type { IRegionQuerier } from '../../typings/params';
 import { isArray, isFunction } from '@visactor/vutils';
+import { loadScrollbar } from '@visactor/vrender-components';
 
 export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sankey;
@@ -85,6 +86,8 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
 }
 
 export const registerSankeyChart = () => {
+  loadScrollbar();
   registerSankeySeries();
+
   Factory.registerChart(SankeyChart.type, SankeyChart);
 };
