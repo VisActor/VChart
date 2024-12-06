@@ -14249,8 +14249,7 @@ const run = () => {
   const vChart = new VChart(spec_downstream, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    disableDirtyBounds: false,
-    enableAutoScrollBarPlugin: true
+    disableDirtyBounds: false
   });
   vChart.renderAsync();
   // vChart.renderAsync().then(() => {
