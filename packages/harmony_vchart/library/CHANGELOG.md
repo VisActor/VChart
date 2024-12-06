@@ -22,7 +22,7 @@
 **⚡ Performance optimization**
 
 
-- **@visactor/vchart**: vrender optimize the bounds of text, which will change the display of all text 
+- **@visactor/vchart**: [Break Change] vrender optimize the bounds of text, which will change the display of all text 
 
 
 

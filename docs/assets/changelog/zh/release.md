@@ -2,36 +2,28 @@
 
 2024-12-06
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: add pictogram chart 
-- **@visactor/vchart**: support auto generated scrollbar in sankey, close [#2838](https://github.com/VisActor/VChart/issues/2838) 
-- **@visactor/vchart**: react vchart support event filter, close [#3461](https://github.com/VisActor/VChart/issues/3461)
-- **@visactor/vchart**: tooltip key/content support config by field, close [#2576](https://github.com/VisActor/VChart/issues/2576)
-- **@visactor/vchart**: support max height of tooltip, by percent value , close [#2675](https://github.com/VisActor/VChart/issues/2675)
-
+- **@visactor/vchart**: 添加象形图表
+- **@visactor/vchart**: 支持在桑基图中自动生成滚动条，关闭 [#2838](https://github.com/VisActor/VChart/issues/2838)
+- **@visactor/vchart**: react vchart 支持事件过滤器，关闭 [#3461](https://github.com/VisActor/VChart/issues/3461)
+- **@visactor/vchart**: tooltip 支持按字段配置，关闭 [#2576](https://github.com/VisActor/VChart/issues/2576)
+- **@visactor/vchart**: 支持 tooltip 通过百分比值设置内容的最大高度 ，关闭 [#2675](https://github.com/VisActor/VChart/issues/2675)
 
 **🐛 功能重构**
 
-
-- **@visactor/vchart**: [Break Change] refactor the implement of html tooltip, fix [#3137](https://github.com/VisActor/VChart/issues/3137), close [#2924](https://github.com/VisActor/VChart/issues/2924), close [#2591](https://github.com/VisActor/VChart/issues/2591) 
-- **@visactor/vchart**: [Break Change] support label overlap for inside arc labels by default
-
+- **@visactor/vchart**: [重大变更] 重构 HTML 提示框的实现，修复 [#3137](https://github.com/VisActor/VChart/issues/3137)，关闭 [#2924](https://github.com/VisActor/VChart/issues/2924)，关闭 [#2591](https://github.com/VisActor/VChart/issues/2591)
+- **@visactor/vchart**: [重大变更] 饼图内部标签默认支持防重叠处理
 
 **⚡ 性能优化**
 
-
-- **@visactor/vchart**: vrender optimize the bounds of text, which will change the display of all text 
-
-
+- **@visactor/vchart**: [重大变更] vrender 优化了文本的 Bounds 计算，让文本在各种字体下展示效果对齐 dom
 
 [更多详情请查看 v1.13.0](https://github.com/VisActor/VChart/releases/tag/v1.13.0)
 
 # v1.12.15
 
 2024-12-05
-
 
 **🆕 新增功能**
 
@@ -40,8 +32,6 @@
 **🐛 功能修复**
 
 - **@visactor/vchart**: optimize `shiftY` of label
-
-
 
 [更多详情请查看 v1.12.15](https://github.com/VisActor/VChart/releases/tag/v1.12.15)
 
