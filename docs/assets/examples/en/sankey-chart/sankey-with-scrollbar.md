@@ -4,7 +4,7 @@ group: sankey chart
 title: 带滚动条的桑基图
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-2
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sankey-chart/align-nodes-left-sankey.png
+cover: /vchart/preview/sankey-scrollbar-1.13.0.jpeg
 option: sankeyChart
 ---
 
