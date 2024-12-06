@@ -552,54 +552,62 @@ Both the unified chart tag (VChart) and the syntactic chart tags (BarChart, etc.
 The definition of `EventsProps` is as follows:
 
 ```typescript
-interface EventsProps {
-  onPointerDown?: (e: any) => void | boolean;
-  onPointerUp?: (e: any) => void | boolean;
-  onPointerUpOutside?: (e: any) => void | boolean;
-  onPointerTap?: (e: any) => void | boolean;
-  onPointerOver?: (e: any) => void | boolean;
-  onPointerMove?: (e: any) => void | boolean;
-  onPointerEnter?: (e: any) => void | boolean;
-  onPointerLeave?: (e: any) => void | boolean;
-  onPointerOut?: (e: any) => void | boolean;
-  onMouseDown?: (e: any) => void | boolean;
-  onMouseUp?: (e: any) => void | boolean;
-  onMouseUpOutside?: (e: any) => void | boolean;
-  onMouseMove?: (e: any) => void | boolean;
-  onMouseOver?: (e: any) => void | boolean;
-  onMouseOut?: (e: any) => void | boolean;
-  onMouseEnter?: (e: any) => void | boolean;
-  onMouseLeave?: (e: any) => void | boolean;
-  onPinch?: (e: any) => void | boolean;
-  onPinchStart?: (e: any) => void | boolean;
-  onPinchEnd?: (e: any) => void | boolean;
-  onPan?: (e: any) => void | boolean;
-  onPanStart?: (e: any) => void | boolean;
-  onPanEnd?: (e: any) => void | boolean;
-  onDrag?: (e: any) => void | boolean;
-  onDragStart?: (e: any) => void | boolean;
-  onDragEnter?: (e: any) => void | boolean;
-  onDragLeave?: (e: any) => void | boolean;
-  onDragOver?: (e: any) => void | boolean;
-  onDragEnd?: (e: any) => void | boolean;
-  onRightDown?: (e: any) => void | boolean;
-  onRightUp?: (e: any) => void | boolean;
-  onRightUpOutside?: (e: any) => void | boolean;
-  onTouchStart?: (e: any) => void | boolean;
-  onTouchEnd?: (e: any) => void | boolean;
-  onTouchEndOutside?: (e: any) => void | boolean;
-  onTouchMove?: (e: any) => void | boolean;
-  onTouchCancel?: (e: any) => void | boolean;
-  onPress?: (e: any) => void | boolean;
-  onPressUp?: (e: any) => void | boolean;
-  onPressEnd?: (e: any) => void | boolean;
-  onSwipe?: (e: any) => void | boolean;
-  onDrop?: (e: any) => void | boolean;
-  onWeel?: (e: any) => void | boolean;
-  onClick?: (e: any) => void | boolean;
-  onDblClick?: (e: any) => void | boolean;
+export interface EventsProps {
+  onPointerDown?: EventCallback<EventParamsDefinition['pointerdown']>;
+  onPointerUp?: EventCallback<EventParamsDefinition['pointerup']>;
+  onPointerUpOutside?: EventCallback<EventParamsDefinition['pointerupoutside']>;
+  onPointerTap?: EventCallback<EventParamsDefinition['pointertap']>;
+  onPointerOver?: EventCallback<EventParamsDefinition['pointerover']>;
+  onPointerMove?: EventCallback<EventParamsDefinition['pointermove']>;
+  onPointerEnter?: EventCallback<EventParamsDefinition['pointerenter']>;
+  onPointerLeave?: EventCallback<EventParamsDefinition['pointerleave']>;
+  onPointerOut?: EventCallback<EventParamsDefinition['pointerout']>;
+  onMouseDown?: EventCallback<EventParamsDefinition['mousedown']>;
+  onMouseUp?: EventCallback<EventParamsDefinition['mouseup']>;
+  onMouseUpOutside?: EventCallback<EventParamsDefinition['mouseupoutside']>;
+  onMouseMove?: EventCallback<EventParamsDefinition['mousemove']>;
+  onMouseOver?: EventCallback<EventParamsDefinition['mouseover']>;
+  onMouseOut?: EventCallback<EventParamsDefinition['mouseout']>;
+  onMouseEnter?: EventCallback<EventParamsDefinition['mouseenter']>;
+  onMouseLeave?: EventCallback<EventParamsDefinition['mouseleave']>;
+  onPinch?: EventCallback<EventParamsDefinition['pinch']>;
+  onPinchStart?: EventCallback<EventParamsDefinition['pinchstart']>;
+  onPinchEnd?: EventCallback<EventParamsDefinition['pinchend']>;
+  onPan?: EventCallback<EventParamsDefinition['pan']>;
+  onPanStart?: EventCallback<EventParamsDefinition['panstart']>;
+  onPanEnd?: EventCallback<EventParamsDefinition['panend']>;
+  onDrag?: EventCallback<EventParamsDefinition['drag']>;
+  onDragStart?: EventCallback<EventParamsDefinition['dragstart']>;
+  onDragEnter?: EventCallback<EventParamsDefinition['dragenter']>;
+  onDragLeave?: EventCallback<EventParamsDefinition['dragleave']>;
+  onDragOver?: EventCallback<EventParamsDefinition['dragover']>;
+  onDragEnd?: EventCallback<EventParamsDefinition['dragend']>;
+  onRightDown?: EventCallback<EventParamsDefinition['rightdown']>;
+  onRightUp?: EventCallback<EventParamsDefinition['rightup']>;
+  onRightUpOutside?: EventCallback<EventParamsDefinition['rightupoutside']>;
+  onTouchStart?: EventCallback<EventParamsDefinition['touchstart']>;
+  onTouchEnd?: EventCallback<EventParamsDefinition['touchend']>;
+  onTouchEndOutside?: EventCallback<EventParamsDefinition['touchendoutside']>;
+  onTouchMove?: EventCallback<EventParamsDefinition['touchmove']>;
+  onTouchCancel?: EventCallback<EventParamsDefinition['touchcancel']>;
+  onPress?: EventCallback<EventParamsDefinition['press']>;
+  onPressUp?: EventCallback<EventParamsDefinition['pressup']>;
+  onPressEnd?: EventCallback<EventParamsDefinition['pressend']>;
+  onSwipe?: EventCallback<EventParamsDefinition['swipe']>;
+  onDrop?: EventCallback<EventParamsDefinition['drop']>;
+  onWeel?: EventCallback<EventParamsDefinition['weel']>;
+  onClick?: EventCallback<EventParamsDefinition['click']>;
+  onDblClick?: EventCallback<EventParamsDefinition['dblclick']>;
 }
 ```
+
+All basic events support event filters. For example, to add an event filter to `onClick`, you can pass the `props` as follows:
+
+```typescript
+<BarChart onClick={handleChartClick} onClickFilter={{ type: 'axis', level: 'model' }} />
+```
+
+The filters for other events are configured similarly. For more information about event filters, please refer to the [event documentation](/vchart/api/API/event).
 
 ### Component Tag Events
 
@@ -703,53 +711,114 @@ interface LifeCycleEventsProps {
 }
 ```
 
-### Event Usage Example
+### Event Usage Example - Chart Events & Component Events
 
-```tsx
-import React from 'react';
-import { BarChart, Bar, Axis, Legend } from '@visactor/react-vchart';
+```javascript livedemo template=react-vchart
+const root = document.getElementById(CONTAINER_ID);
+const { BarChart, Bar, Axis, Legend } = ReactVChart;
+const { useState, useRef, useEffect, useCallback } = React;
+const barData = [
+  {
+    id: 'barData',
+    values: [
+      { month: 'Monday', sales: 22 },
+      { month: 'Tuesday', sales: 13 },
+      { month: 'Wednesday', sales: 25 },
+      { month: 'Thursday', sales: 29 },
+      { month: 'Friday', sales: 38 }
+    ]
+  }
+];
 
-function MyChart(props) {
-  const barData = [
-    {
-      id: 'barData',
-      values: [
-        { month: 'Monday', sales: 22 },
-        { month: 'Tuesday', sales: 13 },
-        { month: 'Wednesday', sales: 25 },
-        { month: 'Thursday', sales: 29 },
-        { month: 'Friday', sales: 38 }
-      ]
-    }
-  ];
+const Card = () => {
+  const handleChartClick = useCallback(ev => {
+    console.log('图表被点击', ev);
+  }, []);
 
   return (
-    <BarChart
-      data={barData}
-      onClick={ev => {
-        console.log('图表被点击', ev);
-      }}
-    >
-      <Bar
-        xField="month"
-        yField="sales"
-        onClick={ev => {
-          console.log('柱形被点击', ev);
-        }}
-      />
-      <Axis orient="bottom" type="band" />
-      <Axis orient="left" type="linear" />
-      <Legend
-        visible={true}
-        onLegendItemClick={ev => {
-          console.log('图例项被点击', ev);
-        }}
-      />
-    </BarChart>
+    <div className="chart-containers">
+      <BarChart data={barData} onClick={handleChartClick}>
+        <Bar
+          xField="month"
+          yField="sales"
+          onClick={ev => {
+            console.log('柱形被点击', ev);
+          }}
+        />
+        <Axis orient="bottom" type="band" />
+        <Axis orient="left" type="linear" />
+        <Legend
+          visible={true}
+          onLegendItemClick={ev => {
+            console.log('图例项被点击', ev);
+          }}
+        />
+      </BarChart>
+    </div>
   );
-}
+};
 
-export default MyChart;
+ReactDom.createRoot(root).render(<Card />);
+
+// release react instance, do not copy
+window.customRelease = () => {
+  ReactDom.unmountComponentAtNode(root);
+};
+```
+
+### Event Usage Example - Chart Event Filtering
+
+```javascript livedemo template=react-vchart
+const root = document.getElementById(CONTAINER_ID);
+const { BarChart, Bar, Axis, Legend } = ReactVChart;
+const { useState, useRef, useEffect, useCallback } = React;
+const barData = [
+  {
+    id: 'barData',
+    values: [
+      { month: 'Monday', sales: 22 },
+      { month: 'Tuesday', sales: 13 },
+      { month: 'Wednesday', sales: 25 },
+      { month: 'Thursday', sales: 29 },
+      { month: 'Friday', sales: 38 }
+    ]
+  }
+];
+
+const Card = () => {
+  const handleAxisClick = useCallback(ev => {
+    console.log('坐标轴被点击', ev);
+  }, []);
+
+  return (
+    <div className="chart-containers">
+      <BarChart data={barData} onClick={handleAxisClick} onClickFilter={{ type: 'axis', level: 'model' }}>
+        <Bar
+          xField="month"
+          yField="sales"
+          onClick={ev => {
+            console.log('柱形被点击', ev);
+          }}
+        />
+        <Axis orient="bottom" type="band" />
+        <Axis orient="left" type="linear" />
+        <Legend
+          visible={true}
+          onLegendItemClick={ev => {
+            console.log('图例项被点击', ev);
+          }}
+        />
+      </BarChart>
+    </div>
+  );
+};
+
+ReactDom.createRoot(root).render(<Card />);
+
+// release react instance, do not copy
+window.customRelease = () => {
+  ReactDom.unmountComponentAtNode(root);
+};
 ```
 
 ## Theme Styles
@@ -888,6 +957,136 @@ export function PieChart() {
 ```
 
 The key point is to obtain the VChart instance through the `ref` and use the [`updateState` API](../../../api/API/vchart) to update the filter corresponding to the custom state.
+
+## API
+
+| Parameter                  | Description                                                                              | Type                                             | Default | Version |
+| -------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------ | ------- | ------- |
+| type                       | Chart type, only applicable to `<VChart />` and `<VChartSimple />`                       | `string`                                         | None    |         |
+| spec                       | Chart spec configuration, same as [vchart options](/vchart/option/)                      | `ISpec`                                          | None    |         |
+| data                       | Chart data                                                                               | `IData` \| `IHierarchyData`                      | None    |         |
+| width                      | Canvas width                                                                             | `number`                                         | None    |         |
+| height                     | Canvas height                                                                            | `number`                                         | None    |         |
+| options                    | Chart options, refer to [vchart API documentation](/vchart/api/API/vchart)               | `Omit<IInitOption, 'dom'>`                       | None    |         |
+| skipFunctionDiff           | Skip all function checks when props update, i.e., all functions are considered unchanged | `boolean`                                        | false   | 1.6.5   |
+| morphConfig                | Morph configuration                                                                      | `IMorphConfig`                                   | None    | 1.12.7  |
+| onReady                    | Chart rendering completion event                                                         | `(instance: VChart, isInitial: boolean) => void` | None    |         |
+| onError                    | Error callback when the chart encounters an error                                        | `(err: Error) => void`                           | None    |         |
+| onLegendItemHover          | Legend item hover event                                                                  | `(e: any) => void`                               | None    |         |
+| onLegendItemUnHover        | Legend item unhover event                                                                | `(e: any) => void`                               | None    |         |
+| onLegendItemClick          | Legend item click event                                                                  | `(e: any) => void`                               | None    |         |
+| onLegendFilter             | Legend item filter event                                                                 | `(e: any) => void`                               | None    |         |
+| onLegendSelectedDataChange | Legend selected data change event                                                        | `(e: any) => void`                               | None    |         |
+| onBrushStart               | Brush start event                                                                        | `(e: any) => void`                               | None    |         |
+| onBrushChange              | Brush update event                                                                       | `(e: any) => void`                               | None    |         |
+| onBrushEnd                 | Brush end event                                                                          | `(e: any) => void`                               | None    |         |
+| onDataZoomChange           | DataZoom update event                                                                    | `(e: any) => void`                               | None    |         |
+| onPlayerPlay               | Player play event                                                                        | `(e: any) => void`                               | None    |         |
+| onPlayerPause              | Player pause event                                                                       | `(e: any) => void`                               | None    |         |
+| onPlayerEnd                | Player end event                                                                         | `(e: any) => void`                               | None    |         |
+| onPlayerChange             | Player change event                                                                      | `(e: any) => void`                               | None    |         |
+| onPlayerForward            | Player forward event                                                                     | `(e: any) => void`                               | None    |         |
+| onPlayerBackward           | Player backward event                                                                    | `(e: any) => void`                               | None    |         |
+| onScrollBarChange          | ScrollBar update event                                                                   | `(e: any) => void`                               | None    |         |
+| onDimensionHover           | Dimension hover event                                                                    | `(e: any) => void`                               | None    |         |
+| onDimensionClick           | Dimension click event                                                                    | `(e: any) => void`                               | None    |         |
+| onDrill                    | Hierarchical chart event                                                                 | `(e: any) => void`                               | None    | 1.12.7  |
+| onInitialized              | Initialization completion event                                                          | `(e: any) => void`                               | None    |         |
+| onRendered                 | Rendering completion event                                                               | `(e: any) => void`                               | None    |         |
+| onRenderFinished           | Render finished event                                                                    | `(e: any) => void`                               | None    |         |
+| onAnimationFinished        | Animation finished event                                                                 | `(e: any) => void`                               | None    |         |
+| onLayoutStart              | Layout start event                                                                       | `(e: any) => void`                               | None    |         |
+| onLayoutEnd                | Layout end event                                                                         | `(e: any) => void`                               | None    |         |
+| onPointerDown              | PointerDown event                                                                        | `(e: any) => boolean \| void;`                   | None    |         |
+| onPointerUp                | PointerUp event                                                                          | `(e: any) => boolean \| void;`                   | None    |         |
+| onPointerUpOutside         | PointerUpOutside event                                                                   | `(e: any) => boolean \| void;`                   | None    |         |
+| onPointerTap               | PointerTap event                                                                         | `(e: any) => boolean \| void;`                   | None    |         |
+| onPointerOver              | PointerOver event                                                                        | `(e: any) => boolean \| void;`                   | None    |         |
+| onPointerMove              | PointerMove event                                                                        | `(e: any) => boolean \| void;`                   | None    |         |
+| onPointerEnter             | PointerEnter event                                                                       | `(e: any) => boolean \| void;`                   | None    |         |
+| onPointerLeave             | PointerLeave event                                                                       | `(e: any) => boolean \| void;`                   | None    |         |
+| onPointerOut               | PointerOut event                                                                         | `(e: any) => boolean \| void;`                   | None    |         |
+| onMouseDown                | MouseDown event                                                                          | `(e: any) => boolean \| void;`                   | None    |         |
+| onMouseUp                  | MouseUp event                                                                            | `(e: any) => boolean \| void;`                   | None    |         |
+| onMouseUpOutside           | MouseUpOutside event                                                                     | `(e: any) => boolean \| void;`                   | None    |         |
+| onMouseMove                | MouseMove event                                                                          | `(e: any) => boolean \| void;`                   | None    |         |
+| onMouseOver                | MouseOver event                                                                          | `(e: any) => boolean \| void;`                   | None    |         |
+| onMouseOut                 | MouseOut event                                                                           | `(e: any) => boolean \| void;`                   | None    |         |
+| onMouseEnter               | MouseEnter event                                                                         | `(e: any) => boolean \| void;`                   | None    |         |
+| onMouseLeave               | MouseLeave event                                                                         | `(e: any) => boolean \| void;`                   | None    |         |
+| onPinch                    | Pinch event                                                                              | `(e: any) => boolean \| void;`                   | None    |         |
+| onPinchStart               | PinchStart event                                                                         | `(e: any) => boolean \| void;`                   | None    |         |
+| onPinchEnd                 | PinchEnd event                                                                           | `(e: any) => boolean \| void;`                   | None    |         |
+| onPan                      | Pan event                                                                                | `(e: any) => boolean \| void;`                   | None    |         |
+| onPanStart                 | PanStart event                                                                           | `(e: any) => boolean \| void;`                   | None    |         |
+| onPanEnd                   | PanEnd event                                                                             | `(e: any) => boolean \| void;`                   | None    |         |
+| onDrag                     | Drag event                                                                               | `(e: any) => boolean \| void;`                   | None    |         |
+| onDragStart                | DragStart event                                                                          | `(e: any) => boolean \| void;`                   | None    |         |
+| onDragEnter                | DragEnter event                                                                          | `(e: any) => boolean \| void;`                   | None    |         |
+| onDragLeave                | DragLeave event                                                                          | `(e: any) => boolean \| void;`                   | None    |         |
+| onDragOver                 | DragOver event                                                                           | `(e: any) => boolean \| void;`                   | None    |         |
+| onDragEnd                  | DragEnd event                                                                            | `(e: any) => boolean \| void;`                   | None    |         |
+| onRightDown                | RightDown event                                                                          | `(e: any) => boolean \| void;`                   | None    |         |
+| onRightUp                  | RightUp event                                                                            | `(e: any) => boolean \| void;`                   | None    |         |
+| onRightUpOutside           | RightUpOutside event                                                                     | `(e: any) => boolean \| void;`                   | None    |         |
+| onTouchStart               | TouchStart event                                                                         | `(e: any) => boolean \| void;`                   | None    |         |
+| onTouchEnd                 | TouchEnd event                                                                           | `(e: any) => boolean \| void;`                   | None    |         |
+| onTouchEndOutside          | TouchEndOutside event                                                                    | `(e: any) => boolean \| void;`                   | None    |         |
+| onTouchMove                | TouchMove event                                                                          | `(e: any) => boolean \| void;`                   | None    |         |
+| onTouchCancel              | TouchCancel event                                                                        | `(e: any) => boolean \| void;`                   | None    |         |
+| onPress                    | Press event                                                                              | `(e: any) => boolean \| void;`                   | None    |         |
+| onPressUp                  | PressUp event                                                                            | `(e: any) => boolean \| void;`                   | None    |         |
+| onPressEnd                 | PressEnd event                                                                           | `(e: any) => boolean \| void;`                   | None    |         |
+| onSwipe                    | Swipe event                                                                              | `(e: any) => boolean \| void;`                   | None    |         |
+| onDrop                     | Drop event                                                                               | `(e: any) => boolean \| void;`                   | None    |         |
+| onWeel                     | Weel event                                                                               | `(e: any) => boolean \| void;`                   | None    |         |
+| onClick                    | Click event                                                                              | `(e: any) => boolean \| void;`                   | None    |         |
+| onDblClick                 | DblClick event                                                                           | `(e: any) => boolean \| void;`                   | None    |         |
+| onPointerDownFilter        | PointerDown event filter, refer to [Event API documentation](/vchart/api/API/event)      | `EventFilter`                                    | None    |         |
+| onPointerUpFilter          | PointerUp event filter, refer to [Event API documentation](/vchart/api/API/event)        | `EventFilter`                                    | None    |         |
+| onPointerUpOutsideFilter   | PointerUpOutside event filter, refer to [Event API documentation](/vchart/api/API/event) | `EventFilter`                                    | None    |         |
+| onPointerTapFilter         | PointerTap event filter, refer to [Event API documentation](/vchart/api/API/event)       | `EventFilter`                                    | None    |         |
+| onPointerOverFilter        | PointerOver event filter, refer to [Event API documentation](/vchart/api/API/event)      | `EventFilter`                                    | None    |         |
+| onPointerMoveFilter        | PointerMove event filter, refer to [Event API documentation](/vchart/api/API/event)      | `EventFilter`                                    | None    |         |
+| onPointerEnterFilter       | PointerEnter event filter, refer to [Event API documentation](/vchart/api/API/event)     | `EventFilter`                                    | None    |         |
+| onPointerLeaveFilter       | PointerLeave event filter, refer to [Event API documentation](/vchart/api/API/event)     | `EventFilter`                                    | None    |         |
+| onPointerOutFilter         | PointerOut event filter, refer to [Event API documentation](/vchart/api/API/event)       | `EventFilter`                                    | None    |         |
+| onMouseDownFilter          | MouseDown event filter, refer to [Event API documentation](/vchart/api/API/event)        | `EventFilter`                                    | None    |         |
+| onMouseUpFilter            | MouseUp event filter, refer to [Event API documentation](/vchart/api/API/event)          | `EventFilter`                                    | None    |         |
+| onMouseUpOutsideFilter     | MouseUpOutside event filter, refer to [Event API documentation](/vchart/api/API/event)   | `EventFilter`                                    | None    |         |
+| onMouseMoveFilter          | MouseMove event filter, refer to [Event API documentation](/vchart/api/API/event)        | `EventFilter`                                    | None    |         |
+| onMouseOverFilter          | MouseOver event filter, refer to [Event API documentation](/vchart/api/API/event)        | `EventFilter`                                    | None    |         |
+| onMouseOutFilter           | MouseOut event filter, refer to [Event API documentation](/vchart/api/API/event)         | `EventFilter`                                    | None    |         |
+| onMouseEnterFilter         | MouseEnter event filter, refer to [Event API documentation](/vchart/api/API/event)       | `EventFilter`                                    | None    |         |
+| onMouseLeaveFilter         | MouseLeave event filter, refer to [Event API documentation](/vchart/api/API/event)       | `EventFilter`                                    | None    |         |
+| onPinchFilter              | Pinch event filter, refer to [Event API documentation](/vchart/api/API/event)            | `EventFilter`                                    | None    |         |
+| onPinchStartFilter         | PinchStart event filter, refer to [Event API documentation](/vchart/api/API/event)       | `EventFilter`                                    | None    |         |
+| onPinchEndFilter           | PinchEnd event filter, refer to [Event API documentation](/vchart/api/API/event)         | `EventFilter`                                    | None    |         |
+| onPanFilter                | Pan event filter, refer to [Event API documentation](/vchart/api/API/event)              | `EventFilter`                                    | None    |         |
+| onPanStartFilter           | PanStart event filter, refer to [Event API documentation](/vchart/api/API/event)         | `EventFilter`                                    | None    |         |
+| onPanEndFilter             | PanEnd event filter, refer to [Event API documentation](/vchart/api/API/event)           | `EventFilter`                                    | None    |         |
+| onDragFilter               | Drag event filter, refer to [Event API documentation](/vchart/api/API/event)             | `EventFilter`                                    | None    |         |
+| onDragStartFilter          | DragStart event filter, refer to [Event API documentation](/vchart/api/API/event)        | `EventFilter`                                    | None    |         |
+| onDragEnterFilter          | DragEnter event filter, refer to [Event API documentation](/vchart/api/API/event)        | `EventFilter`                                    | None    |         |
+| onDragLeaveFilter          | DragLeave event filter, refer to [Event API documentation](/vchart/api/API/event)        | `EventFilter`                                    | None    |         |
+| onDragOverFilter           | DragOver event filter, refer to [Event API documentation](/vchart/api/API/event)         | `EventFilter`                                    | None    |         |
+| onDragEndFilter            | DragEnd event filter, refer to [Event API documentation](/vchart/api/API/event)          | `EventFilter`                                    | None    |         |
+| onRightDownFilter          | RightDown event filter, refer to [Event API documentation](/vchart/api/API/event)        | `EventFilter`                                    | None    |         |
+| onRightUpFilter            | RightUp event filter, refer to [Event API documentation](/vchart/api/API/event)          | `EventFilter`                                    | None    |         |
+| onRightUpOutsideFilter     | RightUpOutside event filter, refer to [Event API documentation](/vchart/api/API/event)   | `EventFilter`                                    | None    |         |
+| onTouchStartFilter         | TouchStart event filter, refer to [Event API documentation](/vchart/api/API/event)       | `EventFilter`                                    | None    |         |
+| onTouchEndFilter           | TouchEnd event filter, refer to [Event API documentation](/vchart/api/API/event)         | `EventFilter`                                    | None    |         |
+| onTouchEndOutsideFilter    | TouchEndOutside event filter, refer to [Event API documentation](/vchart/api/API/event)  | `EventFilter`                                    | None    |         |
+| onTouchMoveFilter          | TouchMove event filter, refer to [Event API documentation](/vchart/api/API/event)        | `EventFilter`                                    | None    |         |
+| onTouchCancelFilter        | TouchCancel event filter, refer to [Event API documentation](/vchart/api/API/event)      | `EventFilter`                                    | None    |         |
+| onPressFilter              | Press event filter, refer to [Event API documentation](/vchart/api/API/event)            | `EventFilter`                                    | None    |         |
+| onPressUpFilter            | PressUp event filter, refer to [Event API documentation](/vchart/api/API/event)          | `EventFilter`                                    | None    |         |
+| onPressEndFilter           | PressEnd event filter, refer to [Event API documentation](/vchart/api/API/event)         | `EventFilter`                                    | None    |         |
+| onSwipeFilter              | Swipe event filter, refer to [Event API documentation](/vchart/api/API/event)            | `EventFilter`                                    | None    |         |
+| onDropFilter               | Drop event filter, refer to [Event API documentation](/vchart/api/API/event)             | `EventFilter`                                    | None    |         |
+| onWeelFilter               | Weel event filter, refer to [Event API documentation](/vchart/api/API/event)             | `EventFilter`                                    | None    |         |
+| onClickFilter              | Click event filter, refer to [Event API documentation](/vchart/api/API/event)            | `EventFilter`                                    | None    |         |
+| onDblClickFilter           | DblClick event filter, refer to [Event API documentation](/vchart/api/API/event)         | `EventFilter`                                    | None    |         |
 
 ## Conclusion
 

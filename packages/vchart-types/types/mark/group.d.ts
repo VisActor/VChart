@@ -11,7 +11,7 @@ export interface IGroupMark extends IMarkRaw<IGroupMarkSpec> {
     getMarks: () => IMark[];
     getMarkInType: (type: MarkType) => IMark[];
     getMarkInId: (id: number) => IMark | undefined;
-    getMarkInName: (name: string) => IMark | undefined;
+    getMarkInName: (name: string) => IMark[];
 }
 export declare class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     static readonly type = MarkTypeEnum.group;
@@ -26,7 +26,8 @@ export declare class GroupMark extends BaseMark<IGroupMarkSpec> implements IGrou
     removeMark(mark: IMark): boolean;
     getMarkInType(type: MarkType): IMark[];
     getMarkInId(id: number): IMark;
-    getMarkInName(name: string): IMark;
+    getMarkInUserId(id: string | number): IMark;
+    getMarkInName(name: string): IMark[];
     protected _compileProduct(option?: IMarkCompileOption): void;
 }
 export declare const registerGroupMark: () => void;

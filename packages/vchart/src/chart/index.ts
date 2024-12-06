@@ -74,6 +74,8 @@ import type { IVennChartSpec } from './venn';
 import { VennChart, registerVennChart } from './venn';
 import type { IMosaicChartSpec } from './mosaic';
 import { MosaicChart, registerMosaicChart } from './mosaic';
+import { IPictogramChartSpec } from './pictogram/interface';
+import { PictogramChart, registerPictogramChart } from './pictogram/pictogram';
 export {
   AreaChart,
   BarChart,
@@ -110,7 +112,8 @@ export {
   TreemapChart,
   VennChart,
   BaseChart,
-  MosaicChart
+  MosaicChart,
+  PictogramChart
 };
 
 export {
@@ -149,7 +152,8 @@ export {
   registerLiquidChart,
   registerWordCloudShapeChart,
   registerVennChart,
-  registerMosaicChart
+  registerMosaicChart,
+  registerPictogramChart
 };
 
 export type {
@@ -189,5 +193,6 @@ export type {
   IPolarChartSpec,
   ICartesianChartSpec,
   IVennChartSpec,
-  IMosaicChartSpec
+  IMosaicChartSpec,
+  IPictogramChartSpec
 };

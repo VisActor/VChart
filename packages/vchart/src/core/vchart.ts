@@ -5,13 +5,14 @@ import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/c
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
-import type {
-  DimensionIndexOption,
-  IChart,
-  IChartConstructor,
-  IChartOption,
-  IChartSpecInfo,
-  IChartSpecTransformer
+import {
+  ChartTypeEnum,
+  type DimensionIndexOption,
+  type IChart,
+  type IChartConstructor,
+  type IChartOption,
+  type IChartSpecInfo,
+  type IChartSpecTransformer
 } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -116,6 +117,7 @@ import {
 } from '../interaction';
 import type { IIndicator } from '../component/indicator';
 import type { IGeoCoordinate } from '../component/geo';
+import { getSVGSource } from '../series/pictogram/svg-source';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -256,6 +258,35 @@ export class VChart implements IVChart {
   }
 
   /**
+   * 注册地图数据
+   * @param key 地图名称
+   * @param source 地图数据
+   * @param option 地图数据配置
+   */
+  static registerSVG(key: string, source: GeoSourceType, option?: GeoSourceOption) {
+    const impl = Factory.getImplementInKey('registerSVG');
+    impl && impl(key, source, option);
+  }
+
+  /**
+   * 注销地图数据
+   * @param key 地图名称
+   */
+  static unregisterSVG(key: string) {
+    const impl = Factory.getImplementInKey('unregisterSVG');
+    impl && impl(key);
+  }
+
+  /**
+   * 根据地图名称获取地图数据
+   * @param key 地图名称
+   * @returns 地图数据
+   */
+  static getSVG(key: string): any {
+    return getSVGSource(key);
+  }
+
+  /**
    * 全局关闭 tooltip
    * @param excludeId 可选，指定不需要关闭 tooltip 的实例 id
    */
@@ -373,6 +404,16 @@ export class VChart implements IVChart {
     this._setNewSpec(spec);
     this._updateCurrentTheme();
     this._currentSize = this.getCurrentSize();
+    const pluginList: string[] = [];
+
+    if (!poptip !== false) {
+      pluginList.push('poptipForText');
+    }
+
+    if (spec.type === ChartTypeEnum.sankey) {
+      // 桑基图默认记载滚动条组件
+      pluginList.push('scrollbar');
+    }
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -381,7 +422,7 @@ export class VChart implements IVChart {
       {
         mode: this._option.mode,
         stage,
-        pluginList: poptip !== false ? ['poptipForText'] : [],
+        pluginList,
         ...restOptions,
         background: this._getBackground(),
         onError: this._onError

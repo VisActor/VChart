@@ -1,6 +1,24 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 05 Dec 2024 09:50:08 GMT and should not be manually modified.
+This log was last generated on Fri, 06 Dec 2024 07:17:54 GMT and should not be manually modified.
+
+## 1.13.0
+Fri, 06 Dec 2024 07:17:54 GMT
+
+### Updates
+
+- feat: react vchart support event filter, close #3461
+
+
+- feat: tooltip key/content support config by field, close #2576
+
+
+- feat: support max height of tooltip, by percent value , close #2675
+
+
+- fix: upgrade vrender to 0.21.1, vgrammar to 0.15.0
+
+
 
 ## 1.12.15
 Thu, 05 Dec 2024 09:50:08 GMT

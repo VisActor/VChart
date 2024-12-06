@@ -20,7 +20,6 @@ The layout radius of the polar coordinate, which is the base value for calculati
 
 {{ /if }}
 
-
 <!-- region -->
 
 {{ use: common-region(
@@ -110,7 +109,9 @@ The layout radius of the polar coordinate, which is the base value for calculati
 
 <!-- brush -->
 
+{{ if: !${noBrush} }}
 {{ use: component-brush() }}
+{{ /if }}
 
 <!-- scales -->
 
