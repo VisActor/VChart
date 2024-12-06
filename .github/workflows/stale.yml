@@ -20,7 +20,7 @@ jobs:
       - uses: actions/stale@v5
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          days-before-stale: 90
+          days-before-stale: 730
           days-before-close: 7
           stale-issue-message: 'This issue has been automatically marked as stale because it did not have recent activity. It will be closed in 7 days if no further activity occurs. If you wish not to mark it as stale, please leave a comment in this issue.'
           close-issue-message: 'This issue has been automatically closed because it did not have recent activity. If this remains to be a problem with the latest version of @VisActor/VChart, please open a new issue and link this to it. Thanks!'
