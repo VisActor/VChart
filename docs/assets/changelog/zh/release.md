@@ -1,3 +1,33 @@
+# v1.13.0
+
+2024-12-06
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: add pictogram chart 
+- **@visactor/vchart**: support auto generated scrollbar in sankey, close [#2838](https://github.com/VisActor/VChart/issues/2838) 
+- **@visactor/vchart**: react vchart support event filter, close [#3461](https://github.com/VisActor/VChart/issues/3461)
+- **@visactor/vchart**: tooltip key/content support config by field, close [#2576](https://github.com/VisActor/VChart/issues/2576)
+- **@visactor/vchart**: support max height of tooltip, by percent value , close [#2675](https://github.com/VisActor/VChart/issues/2675)
+
+
+**🐛 功能重构**
+
+
+- **@visactor/vchart**: [Break Change] refactor the implement of html tooltip, fix [#3137](https://github.com/VisActor/VChart/issues/3137), close [#2924](https://github.com/VisActor/VChart/issues/2924), close [#2591](https://github.com/VisActor/VChart/issues/2591) 
+- **@visactor/vchart**: [Break Change] support label overlap for inside arc labels by default
+
+
+**⚡ 性能优化**
+
+
+- **@visactor/vchart**: vrender optimize the bounds of text, which will change the display of all text 
+
+
+
+[更多详情请查看 v1.13.0](https://github.com/VisActor/VChart/releases/tag/v1.13.0)
+
 # v1.12.15
 
 2024-12-05
