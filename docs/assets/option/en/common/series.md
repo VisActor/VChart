@@ -146,6 +146,8 @@ Data matching field, configurable for multiple data primitives.
   prefix = ${prefix}
 ) }}
 
+{{ if: !${noAnimation} }}
+
 {{ use: animate-animation(
   prefix = ${prefix},
   noPreset = ${noPreset},
@@ -154,6 +156,8 @@ Data matching field, configurable for multiple data primitives.
   seriesType = ${seriesType},
   seriesMarks = ${seriesMarks},
 ) }}
+
+{{ /if }}
 
 {{ use: common-interaction(
   prefix = ${prefix}

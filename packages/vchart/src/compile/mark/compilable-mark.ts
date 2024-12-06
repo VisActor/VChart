@@ -242,6 +242,9 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     // 声明语法元素
     const id = this.getProductId();
     this._product = view.mark(this.type as GrammarMarkType, group ?? view.rootMark).id(id);
+    if (this.name && this._product) {
+      this._product.name(this.name);
+    }
     this._compiledProductId = id;
   }
 

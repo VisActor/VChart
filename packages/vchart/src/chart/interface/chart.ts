@@ -135,6 +135,7 @@ export interface IChart extends ICompilable {
   // mark
   getMarkById: (id: number) => IMark | undefined;
   getAllMarks: () => IMark[];
+  getMarkByUserName: (name: string) => IMark[];
 
   // spec
   updateSpec: (spec: any) => IUpdateSpecResult;

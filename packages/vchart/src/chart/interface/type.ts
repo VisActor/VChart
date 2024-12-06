@@ -35,5 +35,6 @@ export const enum ChartTypeEnum {
   correlation = 'correlation',
   liquid = 'liquid',
   venn = 'venn',
-  mosaic = 'mosaic'
+  mosaic = 'mosaic',
+  pictogram = 'pictogram'
 }

@@ -116,6 +116,7 @@ import {
 } from '../interaction';
 import type { IIndicator } from '../component/indicator';
 import type { IGeoCoordinate } from '../component/geo';
+import { getSVGSource } from '../series/pictogram/svg-source';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -253,6 +254,35 @@ export class VChart implements IVChart {
    */
   static getMap(key: string): GeoSourceType {
     return getMapSource(key);
+  }
+
+  /**
+   * 注册地图数据
+   * @param key 地图名称
+   * @param source 地图数据
+   * @param option 地图数据配置
+   */
+  static registerSVG(key: string, source: GeoSourceType, option?: GeoSourceOption) {
+    const impl = Factory.getImplementInKey('registerSVG');
+    impl && impl(key, source, option);
+  }
+
+  /**
+   * 注销地图数据
+   * @param key 地图名称
+   */
+  static unregisterSVG(key: string) {
+    const impl = Factory.getImplementInKey('unregisterSVG');
+    impl && impl(key);
+  }
+
+  /**
+   * 根据地图名称获取地图数据
+   * @param key 地图名称
+   * @returns 地图数据
+   */
+  static getSVG(key: string): any {
+    return getSVGSource(key);
   }
 
   /**
