@@ -70,8 +70,16 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
         }
       });
     }
-
-    this._createExtensionMark(this._spec, null, `${PREFIX}_series_${this.id}_extensionMark`, 0, {
+    let parentMark: IGroupMark | null = null;
+    if (this._spec.parent) {
+      const mark = this.getChart()
+        .getAllMarks()
+        .find(m => m.getUserId() === this._spec.parent) as IGroupMark;
+      if (mark.type === 'group') {
+        parentMark = mark;
+      }
+    }
+    this._createExtensionMark(this._spec, parentMark, `${PREFIX}_series_${this.id}_extensionMark`, 0, {
       depend,
       hasAnimation
     });

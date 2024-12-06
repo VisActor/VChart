@@ -170,6 +170,13 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
   /** 标签配置 */
   [SeriesMarkNameEnum.label]?: ISankeyLabelSpec | ISankeyLabelSpec[];
 
+  /**
+   * 当制定了节点、边的宽度的时候，可以配置这个属性
+   * 当宽度大于图表region的宽度、高度大于图表resion高度的时候是否自动产生滚动条
+   * @since 1.13.0
+   */
+  overflow?: 'scroll' | 'hidden' | 'scroll-x' | 'scroll-y';
+
   /** 进度条配置 */
   // scroll?: IScrollSpec & {
   //   /** 是否开启进度条 */

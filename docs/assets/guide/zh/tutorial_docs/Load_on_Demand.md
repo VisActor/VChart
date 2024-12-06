@@ -772,3 +772,71 @@ export default defineNuxtConfig({
     </tr>
      
 </table>
+
+## 附录五：交互注册列表
+
+<table>
+    <tr>
+        <td>交互类型</td>
+        <td>交互名称</td>
+        <td>交互注册方法</td>
+        <td>react-vchart是否默认注册</td>
+        <td>taro-vchart是否默认注册</td>
+    </tr>
+    <tr>
+        <td>`element-select`</td>
+        <td>图元选中交互</td>
+        <td><code>registerElementSelect</code></td>
+        <td>是</td>
+        <td>是</td>
+    </tr>
+    <tr>
+        <td>`element-highlight`</td>
+        <td>图元Hover交互</td>
+        <td><code>registerElementHighlight</code></td>
+        <td>是</td>
+        <td>是</td>
+    </tr>
+    <tr>
+        <td>`element-active`</td>
+        <td>图元激活交互</td>
+        <td><code>registerElementActive</code></td>
+        <td>否</td>
+        <td>否</td>
+    </tr>
+    <tr>
+        <td>`element-highlight-by-legend`</td>
+        <td>图例触发图元高亮、失焦状态</td>
+        <td><code>registerElementHighlightByLegend</code></td>
+        <td>否</td>
+        <td>否</td>
+    </tr>
+    <tr>
+        <td>`element-active-by-legend`</td>
+        <td>图例触发图元激活状态</td>
+        <td><code>registerElementActiveByLegend</code></td>
+        <td>否</td>
+        <td>否</td>
+    </tr>
+    <tr>
+        <td>`element-highlight-by-group`</td>
+        <td>图元分组高亮</td>
+        <td><code>registerElementHighlightByGroup</code></td>
+        <td>否</td>
+        <td>否</td>
+    </tr>
+    <tr>
+        <td>`element-highlight-by-key`</td>
+        <td>图元按key值高亮</td>
+        <td><code>registerElementHighlightByKey</code></td>
+        <td>否</td>
+        <td>否</td>
+    </tr>
+    <tr>
+        <td>`element-highlight-by-name`</td>
+        <td>图元按名称高亮</td>
+        <td><code>registerElementHighlightByName</code></td>
+        <td>否</td>
+        <td>否</td>
+    </tr>
+</table>

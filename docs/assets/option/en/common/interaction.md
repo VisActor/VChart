@@ -16,7 +16,6 @@ From version @1.9.0, the configuration format is as follows:
 
 Specific supported interaction types will be introduced later:
 
-
 ##${prefix} markIds(Array)
 
 Specify the element IDs that trigger the interaction. If not provided, the default elements of each series will trigger the interaction.
@@ -236,3 +235,47 @@ Configuration of trigger events for interaction
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 Configuration of termination events for interaction
+
+##${prefix} type.element-highlight-by-graphic-name
+
+Read the graphic name, set the state of all graphics with the same name to highlight, and set the state of other elements to blur; note that this interaction is not recommended to be used with the default `hover` interaction (except for pictorial charts).
+
+###${prefix} highlightState(string) = 'highlight'
+
+The state name corresponding to the highlight state.
+
+###${prefix} blurState(string) = 'blur'
+
+The state name corresponding to the blur state.
+
+###${prefix} trigger(string | string[]) = 'pointerover'
+
+Configuration of the triggering event for the interaction.
+
+###${prefix} triggerOff(string | string[]) = 'pointerout'
+
+Configuration of the termination event for the interaction.
+
+##${prefix} type.element-select-by-graphic-name
+
+Element selection interaction, sets the state of all elements with the same name to selected; note that this interaction is not recommended to be used with the default `select` interaction (except for pictorial charts).
+
+###${prefix} state(string) = 'selected'
+
+The state name corresponding to the selected state.
+
+###${prefix} isMultiple(boolean) = true
+
+Whether multiple selection is supported.
+
+###${prefix} trigger(string | string[]) = 'click'
+
+Configuration of the triggering event for the interaction.
+
+###${prefix} triggerOff(string | number | string[]) = 'pointerout'
+
+Configuration of the termination event for the interaction; supported configurations include:
+
+- 'empty': Clicking on an empty space
+- number: Timed clearing of the selected state
+- Other event names

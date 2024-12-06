@@ -1,9 +1,12 @@
-import { escapeHTML } from './utils/common';
+import type { ITooltipHandlerOptions } from './interface';
 
-export const TOOLTIP_CONTAINER_EL_CLASS_NAME = 'vchart-tooltip-container';
+export const TOOLTIP_PREFIX = 'vchart-tooltip';
+export const TOOLTIP_CONTAINER_EL_CLASS_NAME = `${TOOLTIP_PREFIX}-container`;
+export const TOOLTIP_TITLE_CLASS_NAME = `${TOOLTIP_PREFIX}-title`;
+export const TOOLTIP_CONTENT_BOX_CLASS_NAME = `${TOOLTIP_PREFIX}-content-box`;
 export const TOOLTIP_EMPTY_STRING = '';
 
-export const DEFAULT_OPTIONS = {
+export const DEFAULT_OPTIONS: ITooltipHandlerOptions = {
   /**
    * X offset.
    */
@@ -12,15 +15,6 @@ export const DEFAULT_OPTIONS = {
   /**
    * Y offset.
    */
-  offsetY: 10,
-
-  /**
-   * HTML sanitizer function that removes dangerous HTML to prevent XSS.
-   *
-   * This should be a function from string to string. You may replace it with a formatter such as a markdown formatter.
-   */
-  sanitize: escapeHTML
+  offsetY: 10
 };
-
-// FIXME: 命名规范
-export type Options = typeof DEFAULT_OPTIONS;
+export const DEFAULT_TOOLTIP_Z_INDEX = '99999999999999';

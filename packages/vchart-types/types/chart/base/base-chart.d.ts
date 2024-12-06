@@ -99,6 +99,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     getModelByUserId(userId: StringOrNumber): IModel | undefined;
     getAllMarks(): IMark[];
     getMarkById(id: number): IMark | undefined;
+    getMarkByUserName(name: string): IMark[];
     updateData(id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions): void;
     updateFullData(data: IDataValues | IDataValues[], updateGlobalScale?: boolean): void;
     onRender(option: IChartRenderOption): void;

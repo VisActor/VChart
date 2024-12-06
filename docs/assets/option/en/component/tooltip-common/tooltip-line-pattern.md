@@ -21,6 +21,15 @@ It can also be configured as a function callback, with the type:
 
 Where `datum` is the default data item corresponding to the current line of the tooltip.
 
+To read the content of a specific field in the data item, you can set `field` as follows:
+
+```ts
+// (supported since 1.13.0)
+{
+  field: string;
+}
+```
+
 {{ /if }}
 
 #${prefix} keyTimeFormat(string) = '%Y%m%d'
@@ -90,6 +99,15 @@ It can also be configured as a function callback, the type is:
 ```
 
 Where `datum` is the default data item corresponding to the current line of the tooltip.
+
+To read the content of a specific field in the data item, you can set `field` as follows:
+
+```ts
+// (supported since 1.13.0)
+{
+  field: string;
+}
+```
 
 {{ /if }}
 

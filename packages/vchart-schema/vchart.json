@@ -32279,6 +32279,11 @@
           "$ref": "#/definitions/ILayoutPaddingSpec",
           "description": "模块的布局间距"
         },
+        "parent": {
+          "description": "指定 parent Id",
+          "since": "1.13.0",
+          "type": "string"
+        },
         "progressiveStep": {
           "description": "分片长度",
           "type": "number"
@@ -34811,6 +34816,11 @@
           "$ref": "#/definitions/ILayoutPaddingSpec",
           "description": "模块的布局间距"
         },
+        "parent": {
+          "description": "指定 parent Id",
+          "since": "1.13.0",
+          "type": "string"
+        },
         "progressiveStep": {
           "description": "分片长度",
           "type": "number"
@@ -35075,6 +35085,11 @@
         "padding": {
           "$ref": "#/definitions/ILayoutPaddingSpec",
           "description": "模块的布局间距"
+        },
+        "parent": {
+          "description": "指定 parent Id",
+          "since": "1.13.0",
+          "type": "string"
         },
         "progressiveStep": {
           "description": "分片长度",
@@ -67680,6 +67695,17 @@
           ],
           "description": "每个节点的宽度，支持三种取值\n1. 百分比字符串，例如：{ nodeWidth: '12%' }\n2. 以'px'为单位的简单数字，eg: { nodeWidth: 20 }\n3. function，通过自定义计算指定nodeWidth"
         },
+        "overflow": {
+          "description": "当制定了节点、边的宽度的时候，可以配置这个属性\n当宽度大于图表region的宽度、高度大于图表resion高度的时候是否自动产生滚动条",
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "since": "1.13.0",
+          "type": "string"
+        },
         "percent": {
           "description": "是否对数据进行百分比处理",
           "type": "boolean"
@@ -68186,6 +68212,17 @@
             }
           ],
           "description": "每个节点的宽度，支持三种取值\n1. 百分比字符串，例如：{ nodeWidth: '12%' }\n2. 以'px'为单位的简单数字，eg: { nodeWidth: 20 }\n3. function，通过自定义计算指定nodeWidth"
+        },
+        "overflow": {
+          "description": "当制定了节点、边的宽度的时候，可以配置这个属性\n当宽度大于图表region的宽度、高度大于图表resion高度的时候是否自动产生滚动条",
+          "enum": [
+            "hidden",
+            "scroll",
+            "scroll-x",
+            "scroll-y"
+          ],
+          "since": "1.13.0",
+          "type": "string"
         },
         "percent": {
           "description": "是否对数据进行百分比处理",
@@ -74094,6 +74131,9 @@
         },
         "tickAt": {
           "typeof": "function"
+        },
+        "trySyncTickStatus": {
+          "typeof": "function"
         }
       },
       "required": [
@@ -74103,7 +74143,8 @@
         "resume",
         "start",
         "stop",
-        "tick"
+        "tick",
+        "trySyncTickStatus"
       ],
       "type": "object"
     },
@@ -75338,9 +75379,9 @@
           "description": "tooltip内容，key字段"
         },
         "maxContentHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
           "description": "最大内容区高度，内容区若超过该高度将显示局部滚动条（适用于 dom tooltip）",
-          "since": "1.9.0",
-          "type": "number"
+          "since": "1.13.0 支持百分比的高度，当配置为百分比的时候，会根据图表的高度，body的最大高度，计算出来一个相对高度"
         },
         "offset": {
           "typeof": "function"
@@ -82475,7 +82516,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@15566": {
+        "__@toStringTag@15543": {
           "type": "string"
         },
         "size": {
@@ -82483,14 +82524,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15566",
+        "__@toStringTag@15543",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@15566": {
+        "__@toStringTag@15543": {
           "type": "string"
         },
         "size": {
@@ -82498,14 +82539,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15566",
+        "__@toStringTag@15543",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@15566": {
+        "__@toStringTag@15543": {
           "type": "string"
         },
         "size": {
@@ -82513,14 +82554,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15566",
+        "__@toStringTag@15543",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@15566": {
+        "__@toStringTag@15543": {
           "type": "string"
         },
         "size": {
@@ -82528,14 +82569,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15566",
+        "__@toStringTag@15543",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@15566": {
+        "__@toStringTag@15543": {
           "type": "string"
         },
         "size": {
@@ -82543,14 +82584,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15566",
+        "__@toStringTag@15543",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@15566": {
+        "__@toStringTag@15543": {
           "type": "string"
         },
         "size": {
@@ -82558,7 +82599,7 @@
         }
       },
       "required": [
-        "__@toStringTag@15566",
+        "__@toStringTag@15543",
         "size"
       ],
       "type": "object"
@@ -82626,6 +82667,14 @@
           "type": "array"
         }
       ]
+    },
+    "MeasureModeEnum": {
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "type": "number"
     },
     "MediaCapabilities": {
       "type": "object"
@@ -82753,6 +82802,7 @@
         "media",
         "mosaic",
         "padding",
+        "pictogram",
         "pie",
         "pie3d",
         "player",
@@ -88259,9 +88309,9 @@
           "description": "tooltip内容，key字段"
         },
         "maxContentHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
           "description": "最大内容区高度，内容区若超过该高度将显示局部滚动条（适用于 dom tooltip）",
-          "since": "1.9.0",
-          "type": "number"
+          "since": "1.13.0 支持百分比的高度，当配置为百分比的时候，会根据图表的高度，body的最大高度，计算出来一个相对高度"
         },
         "panel": {
           "typeof": "function"
@@ -91867,6 +91917,9 @@
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
+        "keepCenterInLine": {
+          "type": "boolean"
+        },
         "keepDirIn3d": {
           "type": "boolean"
         },
@@ -91906,6 +91959,12 @@
         },
         "maxLineWidth": {
           "type": "number"
+        },
+        "maxWidth": {
+          "type": "number"
+        },
+        "measureMode": {
+          "$ref": "#/definitions/MeasureModeEnum"
         },
         "miterLimit": {
           "type": "number"
@@ -99120,6 +99179,9 @@
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
+        "keepCenterInLine": {
+          "type": "boolean"
+        },
         "keepDirIn3d": {
           "type": "boolean"
         },
@@ -99159,6 +99221,12 @@
         },
         "maxLineWidth": {
           "type": "number"
+        },
+        "maxWidth": {
+          "type": "number"
+        },
+        "measureMode": {
+          "$ref": "#/definitions/MeasureModeEnum"
         },
         "miterLimit": {
           "type": "number"
@@ -100356,6 +100424,9 @@
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
+        "keepCenterInLine": {
+          "type": "boolean"
+        },
         "keepDirIn3d": {
           "type": "boolean"
         },
@@ -100395,6 +100466,12 @@
         },
         "maxLineWidth": {
           "type": "number"
+        },
+        "maxWidth": {
+          "type": "number"
+        },
+        "measureMode": {
+          "$ref": "#/definitions/MeasureModeEnum"
         },
         "miterLimit": {
           "type": "number"
@@ -102452,6 +102529,9 @@
         "mosaic": {
           "$ref": "#/definitions/ColorScheme"
         },
+        "pictogram": {
+          "$ref": "#/definitions/ColorScheme"
+        },
         "pie": {
           "$ref": "#/definitions/ColorScheme"
         },
@@ -103827,34 +103907,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@15566": {
+        "__@toStringTag@15543": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@15566"
+        "__@toStringTag@15543"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@15566": {
+        "__@toStringTag@15543": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@15566"
+        "__@toStringTag@15543"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@15566": {
+        "__@toStringTag@15543": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@15566"
+        "__@toStringTag@15543"
       ],
       "type": "object"
     },
@@ -110641,6 +110721,9 @@
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
+        "keepCenterInLine": {
+          "type": "boolean"
+        },
         "keepDirIn3d": {
           "type": "boolean"
         },
@@ -110689,6 +110772,9 @@
         },
         "maxWidth": {
           "type": "number"
+        },
+        "measureMode": {
+          "$ref": "#/definitions/MeasureModeEnum"
         },
         "miterLimit": {
           "type": "number"
@@ -110997,6 +111083,7 @@
         "html",
         "ignoreBuf",
         "innerBorder",
+        "keepCenterInLine",
         "keepDirIn3d",
         "keepStrokeScale",
         "layout",
@@ -111012,6 +111099,7 @@
         "maxHeight",
         "maxLineWidth",
         "maxWidth",
+        "measureMode",
         "miterLimit",
         "opacity",
         "outerBorder",
@@ -112636,6 +112724,9 @@
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
+        "keepCenterInLine": {
+          "type": "boolean"
+        },
         "keepDirIn3d": {
           "type": "boolean"
         },
@@ -112675,6 +112766,12 @@
         },
         "maxLineWidth": {
           "type": "number"
+        },
+        "maxWidth": {
+          "type": "number"
+        },
+        "measureMode": {
+          "$ref": "#/definitions/MeasureModeEnum"
         },
         "miterLimit": {
           "type": "number"
@@ -112966,6 +113063,7 @@
         "html",
         "ignoreBuf",
         "innerBorder",
+        "keepCenterInLine",
         "keepDirIn3d",
         "keepStrokeScale",
         "layout",
@@ -112978,6 +113076,8 @@
         "lineThrough",
         "lineWidth",
         "maxLineWidth",
+        "maxWidth",
+        "measureMode",
         "miterLimit",
         "opacity",
         "outerBorder",
@@ -116686,6 +116786,9 @@
     "TooltipContentProperty<ITooltipTextTheme<string>>": {
       "anyOf": [
         {
+          "typeof": "function"
+        },
+        {
           "$ref": "#/definitions/ITooltipTextTheme<string>"
         },
         {
@@ -116695,6 +116798,9 @@
     },
     "TooltipContentProperty<boolean>": {
       "anyOf": [
+        {
+          "typeof": "function"
+        },
         {
           "typeof": "function"
         },
@@ -116709,6 +116815,9 @@
           "typeof": "function"
         },
         {
+          "typeof": "function"
+        },
+        {
           "type": "number"
         }
       ]
@@ -116719,12 +116828,18 @@
           "typeof": "function"
         },
         {
+          "typeof": "function"
+        },
+        {
           "type": "string"
         }
       ]
     },
     "TooltipContentProperty<string|TooltipRichTextAttrs>": {
       "anyOf": [
+        {
+          "typeof": "function"
+        },
         {
           "typeof": "function"
         },

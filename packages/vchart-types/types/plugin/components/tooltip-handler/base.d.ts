@@ -1,4 +1,3 @@
-import type { Options } from './constants';
 import type { Maybe, RenderMode } from '../../../typings';
 import type { TooltipData, ITooltipActual, TooltipActiveType, ITooltipHandler, ITooltipPositionActual } from '../../../typings/tooltip';
 import type { IGroup } from '@visactor/vrender-core';
@@ -9,7 +8,7 @@ import type { ITooltipSpec, Tooltip, TooltipHandlerParams } from '../../../compo
 import { TooltipResult } from '../../../component/tooltip';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
-import type { ITooltipAttributes } from './interface';
+import type { ITooltipHandlerOptions } from './interface';
 type ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, data?: TooltipData) => TooltipResult;
 type ChangeTooltipPositionFunc = (params: TooltipHandlerParams, data: TooltipData) => TooltipResult;
 export declare abstract class BaseTooltipHandler extends BasePlugin implements ITooltipHandler, IComponentPlugin {
@@ -17,12 +16,11 @@ export declare abstract class BaseTooltipHandler extends BasePlugin implements I
     static readonly specKey = "tooltip";
     readonly type: string;
     protected _visible: boolean;
-    protected _option: Options;
+    protected _option: ITooltipHandlerOptions;
     protected _chartOption: IChartOption;
     protected _env: RenderMode;
     get env(): "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
     protected _component: Tooltip;
-    protected _attributes?: ITooltipAttributes | null;
     protected _chartContainer: Maybe<HTMLElement>;
     protected _compiler: Compiler;
     protected _container: Maybe<IGroup | HTMLElement>;
@@ -35,9 +33,9 @@ export declare abstract class BaseTooltipHandler extends BasePlugin implements I
     release(): void;
     protected abstract _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;
     protected abstract _removeTooltip(): void;
-    protected _getDefaultOption(): Options;
+    protected abstract _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined;
+    protected _getDefaultOption(): ITooltipHandlerOptions;
     protected _getActualTooltipPosition: (actualTooltip: ITooltipActual, params: TooltipHandlerParams, tooltipBoxSize: IContainerSize | undefined) => ITooltipPositionActual;
-    protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined;
     protected _getParentElement(spec: ITooltipSpec): HTMLElement;
     getTooltipContainer(): HTMLElement | IGroup;
     protected _initFromSpec(): void;

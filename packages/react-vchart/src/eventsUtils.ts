@@ -1,4 +1,5 @@
-import type { IVChart, EventCallback, EventParamsDefinition } from '@visactor/vchart';
+import type { IVChart, EventCallback, EventParamsDefinition, EventFilter } from '@visactor/vchart';
+import { isFunction, isObject, isShallowEqual } from '@visactor/vutils';
 
 export interface LegendEventProps {
   onLegendItemHover?: (e: any) => void;
@@ -95,6 +96,53 @@ export interface EventsProps {
   onWeel?: EventCallback<EventParamsDefinition['weel']>;
   onClick?: EventCallback<EventParamsDefinition['click']>;
   onDblClick?: EventCallback<EventParamsDefinition['dblclick']>;
+
+  // @since 1.13.0
+  onPointerDownFilter?: EventFilter;
+  onPointerUpFilter?: EventFilter;
+  onPointerUpOutsideFilter?: EventFilter;
+  onPointerTapFilter?: EventCallback<EventParamsDefinition['pointertap']>;
+  onPointerOverFilter?: EventCallback<EventParamsDefinition['pointerover']>;
+  onPointerMoveFilter?: EventFilter;
+  onPointerEnterFilter?: EventFilter;
+  onPointerLeaveFilter?: EventFilter;
+  onPointerOutFilter?: EventFilter;
+  onMouseDownFilter?: EventFilter;
+  onMouseUpFilter?: EventFilter;
+  onMouseUpOutsideFilter?: EventFilter;
+  onMouseMoveFilter?: EventFilter;
+  onMouseOverFilter?: EventFilter;
+  onMouseOutFilter?: EventFilter;
+  onMouseEnterFilter?: EventFilter;
+  onMouseLeaveFilter?: EventFilter;
+  onPinchFilter?: EventFilter;
+  onPinchStartFilter?: EventFilter;
+  onPinchEndFilter?: EventFilter;
+  onPanFilter?: EventFilter;
+  onPanStartFilter?: EventFilter;
+  onPanEndFilter?: EventFilter;
+  onDragFilter?: EventFilter;
+  onDragStartFilter?: EventFilter;
+  onDragEnterFilter?: EventFilter;
+  onDragLeaveFilter?: EventFilter;
+  onDragOverFilter?: EventFilter;
+  onDragEndFilter?: EventFilter;
+  onRightDownFilter?: EventFilter;
+  onRightUpFilter?: EventFilter;
+  onRightUpOutsideFilter?: EventFilter;
+  onTouchStartFilter?: EventFilter;
+  onTouchEndFilter?: EventFilter;
+  onTouchEndOutsideFilter?: EventFilter;
+  onTouchMoveFilter?: EventFilter;
+  onTouchCancelFilter?: EventFilter;
+  onPressFilter?: EventFilter;
+  onPressUpFilter?: EventFilter;
+  onPressEndFilter?: EventFilter;
+  onSwipeFilter?: EventFilter;
+  onDropFilter?: EventFilter;
+  onWeelFilter?: EventFilter;
+  onClickFilter?: EventFilter;
+  onDblClickFilter?: EventFilter;
 }
 
 export const REACT_TO_VCHART_EVENTS = {
@@ -206,12 +254,14 @@ export const CHART_EVENTS = {
   ...REACT_TO_VCHART_EVENTS
 };
 
-export const CHART_EVENTS_KEYS = Object.keys(CHART_EVENTS);
+export const CHART_EVENTS_KEYS = Object.keys(CHART_EVENTS).concat(
+  Object.keys(REACT_TO_VCHART_EVENTS).map(evt => `${evt}Filter`)
+);
 
 export const COMMON_EVENTK_KEYS = Object.keys(REACT_TO_VCHART_EVENTS);
 
-export const VCHART_TO_REACT_EVENTS = Object.keys(REACT_TO_VCHART_EVENTS).reduce((res, key) => {
-  res[REACT_TO_VCHART_EVENTS[key]] = key;
+export const VCHART_TO_REACT_EVENTS = Object.keys(REACT_TO_VCHART_EVENTS).reduce((res: Record<string, string>, key) => {
+  res[(REACT_TO_VCHART_EVENTS as Record<string, string>)[key]] = key;
 
   return res;
 }, {});
@@ -223,8 +273,8 @@ export const findEventProps = <T extends EventsProps>(
   const result: EventsProps = {};
 
   Object.keys(props).forEach(key => {
-    if (supportedEvents[key] && props[key]) {
-      result[key] = props[key];
+    if (supportedEvents[key] && (props as any)[key]) {
+      (result as any)[key] = (props as any)[key];
     }
   });
 
@@ -246,16 +296,30 @@ export const bindEventsToChart = <T>(
 
   if (prevEventProps) {
     Object.keys(prevEventProps).forEach(eventKey => {
-      if (!newEventProps || !newEventProps[eventKey] || newEventProps[eventKey] !== prevEventProps[eventKey]) {
-        const res = chart.off(supportedEvents[eventKey], prevProps[eventKey]);
+      if (
+        !newEventProps ||
+        !(newEventProps as any)[eventKey] ||
+        (newEventProps as any)[eventKey] !== (prevEventProps as any)[eventKey]
+      ) {
+        const res = chart.off(supportedEvents[eventKey], (prevEventProps as any)[eventKey]);
       }
     });
   }
 
   if (newEventProps) {
     Object.keys(newEventProps).forEach(eventKey => {
-      if (!prevEventProps || !prevEventProps[eventKey] || prevEventProps[eventKey] !== newEventProps[eventKey]) {
-        chart.on(supportedEvents[eventKey], newEventProps[eventKey]);
+      if (
+        !prevEventProps ||
+        !(prevEventProps as any)[eventKey] ||
+        (prevEventProps as any)[eventKey] !== (newEventProps as any)[eventKey]
+      ) {
+        const filter = (newProps as any)[`${eventKey}Filter`];
+
+        if (filter) {
+          chart.on(supportedEvents[eventKey], filter, (newEventProps as any)[eventKey]);
+        } else {
+          chart.on(supportedEvents[eventKey], (newEventProps as any)[eventKey]);
+        }
       }
     });
   }

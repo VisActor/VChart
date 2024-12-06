@@ -3,7 +3,7 @@ import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
 import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/common';
 import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
-import type { DimensionIndexOption, IChart, IChartConstructor, IChartOption, IChartSpecInfo } from '../chart/interface';
+import { type DimensionIndexOption, type IChart, type IChartConstructor, type IChartOption, type IChartSpecInfo } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
 import type { IParserOptions, Transform } from '@visactor/vdataset';
@@ -38,6 +38,9 @@ export declare class VChart implements IVChart {
     static registerMap(key: string, source: GeoSourceType, option?: GeoSourceOption): void;
     static unregisterMap(key: string): void;
     static getMap(key: string): GeoSourceType;
+    static registerSVG(key: string, source: GeoSourceType, option?: GeoSourceOption): void;
+    static unregisterSVG(key: string): void;
+    static getSVG(key: string): any;
     static hideTooltip(excludeId?: MaybeArray<number>): void;
     static getLogger(): ILogger;
     static readonly InstanceManager: typeof InstanceManager;

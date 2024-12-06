@@ -2,6 +2,27 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.0",
+      "tag": "@visactor/vchart_v1.13.0",
+      "date": "Fri, 06 Dec 2024 07:17:54 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: react vchart support event filter, close #3461\n\n"
+          },
+          {
+            "comment": "feat: tooltip key/content support config by field, close #2576\n\n"
+          },
+          {
+            "comment": "feat: support max height of tooltip, by percent value , close #2675\n\n"
+          },
+          {
+            "comment": "fix: upgrade vrender to 0.21.1, vgrammar to 0.15.0\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.15",
       "tag": "@visactor/vchart_v1.12.15",
       "date": "Thu, 05 Dec 2024 09:50:08 GMT",

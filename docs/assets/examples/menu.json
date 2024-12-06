@@ -1127,6 +1127,13 @@
             "zh": "桑基图自定义html渲染节点",
             "en": "set customized node of html in sankey chart"
           }
+        },
+        {
+          "path": "sankey-with-scrollbar",
+          "title": {
+            "zh": "带滚动条的桑基图",
+            "en": "Sankey Diagram with Scrollbar"
+          }
         }
       ]
     },
@@ -1642,6 +1649,43 @@
           "title": {
             "zh": "分组马赛克图",
             "en": "group mosaic chart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "pictogram-chart",
+      "title": {
+        "zh": "象形图",
+        "en": "pictogram-chart"
+      },
+      "children": [
+        {
+          "path": "pictogram-seat-map",
+          "title": {
+            "zh": "选座售票图",
+            "en": "SVG Tickets Seat Map"
+          }
+        },
+        {
+          "path": "pictogram-cow",
+          "title": {
+            "zh": "牛肉部位示意图",
+            "en": "SVG Beef Cuts"
+          }
+        },
+        {
+          "path": "pictogram-keyboard",
+          "title": {
+            "zh": "键盘打字机",
+            "en": "SVG Keyboard"
+          }
+        },
+        {
+          "path": "pictogram-route",
+          "title": {
+            "zh": "SVG 路径动画",
+            "en": "SVG Motion Path Animation"
           }
         }
       ]

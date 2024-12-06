@@ -628,6 +628,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     return undefined;
   }
 
+  getMarkByUserName(name: string): IMark[] {
+    return this.getAllMarks().filter(m => m.name && m.name === name);
+  }
+
   updateData(id: StringOrNumber, data: unknown, updateGlobalScale: boolean = true, options?: IParserOptions) {
     const dv = this._dataSet.getDataView(id as string);
     if (dv) {

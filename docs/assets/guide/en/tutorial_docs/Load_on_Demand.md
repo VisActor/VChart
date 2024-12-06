@@ -774,3 +774,72 @@ export default defineNuxtConfig({
     </tr>
 </table>
 ````
+
+## Appendix V: Interaction Registration List
+
+<table>
+  <tr>
+    <td>Interaction Type</td>
+    <td>Interaction Name</td>
+    <td>Interaction Registration Method</td>
+    <td>Default Registration in react-vchart</td>
+    <td>Default Registration in taro-vchart</td>
+  </tr>
+  <tr>
+    <td>`element-select`</td>
+    <td>Element Selection Interaction</td>
+    <td><code>registerElementSelect</code></td>
+    <td>Yes</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>`element-highlight`</td>
+    <td>Element Hover Interaction</td>
+    <td><code>registerElementHighlight</code></td>
+    <td>Yes</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>`element-active`</td>
+    <td>Element Activation Interaction</td>
+    <td><code>registerElementActive</code></td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>`element-highlight-by-legend`</td>
+    <td>Legend Triggered Element Highlight/Blur</td>
+    <td><code>registerElementHighlightByLegend</code></td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>`element-active-by-legend`</td>
+    <td>Legend Triggered Element Activation</td>
+    <td><code>registerElementActiveByLegend</code></td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>`element-highlight-by-group`</td>
+    <td>Grouped Element Highlight</td>
+    <td><code>registerElementHighlightByGroup</code></td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>`element-highlight-by-key`</td>
+    <td>Element Highlight by Key</td>
+    <td><code>registerElementHighlightByKey</code></td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>`element-highlight-by-name`</td>
+    <td>Element Highlight by Name</td>
+    <td><code>registerElementHighlightByName</code></td>
+    <td>No</td>
+    <td>No</td>
+  </tr>
+</table>
+````

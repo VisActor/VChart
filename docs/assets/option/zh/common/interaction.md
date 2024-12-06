@@ -16,7 +16,6 @@
 
 具体支持的交互类型，后面会具体介绍:
 
-
 ##${prefix} markIds(Array)
 
 指定触发交互的图元 id，如果不传，各个系列内置的图元默认都会触发
@@ -236,3 +235,47 @@ markNames: ['line', 'area']
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 交互的终止事件配置
+
+##${prefix} type.element-highlight-by-graphic-name
+
+读取图元名称，将名称相同的所有图元的状态设置为高亮状态，其他元素的状态设置为失焦状态；注意该交互不建议和默认的`hover`交互同时使用（象形图除外）
+
+###${prefix} highlightState(string) = 'highlight'
+
+高亮状态对应的状态名称
+
+###${prefix} blurState(string) = 'blur'
+
+失焦状态对应的状态名称
+
+###${prefix} trigger(string | string[]) = 'pointerover'
+
+交互的触发事件配置
+
+###${prefix} triggerOff(string | string[]) = 'pointerout'
+
+交互的终止事件配置
+
+##${prefix} type.element-select-by-graphic-name
+
+元素选中交互，将所有相同名称的元素的状态设置为选中状态；注意该交互不建议和默认的`select`交互同时使用（象形图除外）
+
+###${prefix} state(string) = 'selected'
+
+选中状态对应的状态名称
+
+###${prefix} isMultiple(boolean) = true
+
+是否支持多选
+
+###${prefix} trigger(string | string[]) = 'click'
+
+交互的触发事件配置
+
+###${prefix} triggerOff(string | number | string[]) = 'pointerout'
+
+交互的终止事件配置；支持的配置有：
+
+- 'empty': 点击空白处
+- number: 定时清除选中状态
+- 其他事件名称

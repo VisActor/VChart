@@ -9,6 +9,7 @@ const run = () => {
     type: 'sankey',
     nodeGap: 5,
     nodeWidth: 12,
+    linkWidth: 1000,
     nodeAlign: 'justify',
     iterations: 10,
     categoryField: 'key',
@@ -2244,7 +2245,12 @@ const run = () => {
                   },
                   {
                     name: 'bottom',
-                    value: 30
+                    value: 30,
+                    children: [
+                      { name: '00', value: 10 },
+                      { name: '01', value: 10 },
+                      { name: '02', value: 10 }
+                    ]
                   }
                 ]
               }
@@ -2306,6 +2312,8 @@ const run = () => {
     nodeAlign: 'left',
     nodeGap: 8,
     nodeWidth: 10,
+    linkWidth: 1000,
+    overflow: 'scroll',
     minNodeHeight: 4,
     nodeKey: datum => datum.name,
 
@@ -2317,10 +2325,10 @@ const run = () => {
         return datum.name + '-' + datum.value;
       },
       state: {
-        blur: {
-          fill: '#e8e8e8',
-          fillOpacity: 0.15
-        }
+        // blur: {
+        //   fill: '#e8e8e8',
+        //   fillOpacity: 0.15
+        // }
       }
     },
 
@@ -2329,35 +2337,35 @@ const run = () => {
     },
 
     node: {
-      state: {
-        hover: {
-          fill: 'red'
-        },
-        blur: {
-          fill: '#e8e8e8',
-          fillOpacity: 0.15
-        }
-      }
+      // state: {
+      //   hover: {
+      //     fill: 'red'
+      //   },
+      //   blur: {
+      //     fill: '#e8e8e8',
+      //     fillOpacity: 0.15
+      //   }
+      // }
     },
 
     link: {
-      state: {
-        selected: {
-          backgroundStyle: { fill: '#e8e8e8' }
-        },
-        hover: {
-          stroke: '#000000'
-        },
-        blur: {
-          fill: '#e8e8e8'
-        }
-      }
-    },
-
-    emphasis: {
-      enable: true,
-      effect: 'related'
+      // state: {
+      //   selected: {
+      //     backgroundStyle: { fill: '#e8e8e8' }
+      //   },
+      //   hover: {
+      //     stroke: '#000000'
+      //   },
+      //   blur: {
+      //     fill: '#e8e8e8'
+      //   }
+      // }
     }
+
+    // emphasis: {
+    //   enable: true,
+    //   effect: 'related'
+    // }
   };
 
   const data = [
@@ -14240,7 +14248,8 @@ const run = () => {
 
   const vChart = new VChart(spec_downstream, {
     dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser'
+    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
+    disableDirtyBounds: false
   });
   vChart.renderAsync();
   // vChart.renderAsync().then(() => {
