@@ -98,13 +98,15 @@ export const getDimensionData = (
             });
           } else {
             // 散点图情况，依据轴上的配置判断
-            const range = (axis.getSpec() as ICartesianLinearAxisSpec).tooltipFilterRange;
+            const spec = axis.getSpec() as ICartesianLinearAxisSpec;
+            const range = spec.tooltipFilterRange;
+            const tooltipFilterMode = spec.tooltipFilterMode ?? 'multiple';
             const rangeArr = (isValidNumber(range) ? [-range, range] : range) as Maybe<[number, number]>;
             let datums: Datum[] = [];
             let datumIdList: number[] = [];
-            if (rangeArr) {
+            if (rangeArr && tooltipFilterMode === 'multiple') {
               // 根据范围取 datum
-              viewData.forEach((datum: any, i: number) => {
+              viewData.forEach((datum: Datum, i: number) => {
                 if (isValid(datum[dimensionField[0]])) {
                   const delta = datum[dimensionField[0]] - value;
                   if (delta >= rangeArr[0] && delta <= rangeArr[1]) {
@@ -117,9 +119,13 @@ export const getDimensionData = (
               // 根据最近距离取 datum
               let minDelta = Infinity;
               let deltaSign = 0;
-              viewData.forEach((datum: any, i: number) => {
+              viewData.forEach((datum: Datum, i: number) => {
                 if (isValid(datum[dimensionField[0]])) {
                   const delta = Math.abs(datum[dimensionField[0]] - value);
+                  if (rangeArr && (delta < rangeArr[0] || delta > rangeArr[1])) {
+                    return;
+                  }
+
                   const sign = Math.sign(datum[dimensionField[0]] - value);
                   if (delta < minDelta) {
                     minDelta = delta;
