@@ -151,6 +151,14 @@ export interface ILinearAxisSpec {
    * @since 1.4.0
    */
   tooltipFilterRange?: number | [number, number];
+
+  /**
+   * 配置 tooltipFilterRange 后的数据筛选规则
+   * 当 `tooltipFilterMode` 为 'multiple' 时，`tooltipFilterRange` 范围内的所有数据都将被选中。
+   * 当 `tooltipFilterMode` 为 'single' 时，将会选中 `tooltipFilterRange` 范围内最近的数据。
+   * @default 'multiple'
+   */
+  tooltipFilterMode?: 'single' | 'multiple';
   /**
    * 轴截断配置，只对笛卡尔坐标系的 linear 轴生效
    * @since 1.12.4
