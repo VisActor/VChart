@@ -6,6 +6,7 @@ import { isNil, array, isValid, isValidNumber } from '@visactor/vutils';
 import type { Maybe } from '@visactor/vutils';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
 import type { CoordinateType, Datum, ILayoutPoint } from '../../../../typings';
+import type { IBaseScale } from '@visactor/vscale';
 import { isDiscrete } from '@visactor/vscale';
 import type { ICartesianLinearAxisSpec } from '../../../../component';
 import type { ISeries } from '../../../../series';
@@ -40,6 +41,13 @@ export const isSameDimensionInfo = (a?: IDimensionInfo, b?: IDimensionInfo): boo
     return false;
   }
   return true;
+};
+
+const resolveTooltipFilterRange = (spec: ICartesianLinearAxisSpec, scale: IBaseScale) => {
+  const range = spec.tooltipFilterRange;
+  const rangeValue = typeof range === 'function' ? range({ scale }) : range;
+  const rangeArr = (isValidNumber(rangeValue) ? [-rangeValue, rangeValue] : rangeValue) as Maybe<[number, number]>;
+  return rangeArr;
 };
 
 /** 给定维度项的值，获取对应维度数据 */
@@ -98,13 +106,13 @@ export const getDimensionData = (
             });
           } else {
             // 散点图情况，依据轴上的配置判断
-            const range = (axis.getSpec() as ICartesianLinearAxisSpec).tooltipFilterRange;
-            const rangeArr = (isValidNumber(range) ? [-range, range] : range) as Maybe<[number, number]>;
+            const spec = axis.getSpec() as ICartesianLinearAxisSpec;
+            const rangeArr = resolveTooltipFilterRange(spec, scale);
             let datums: Datum[] = [];
             let datumIdList: number[] = [];
             if (rangeArr) {
               // 根据范围取 datum
-              viewData.forEach((datum: any, i: number) => {
+              viewData.forEach((datum: Datum, i: number) => {
                 if (isValid(datum[dimensionField[0]])) {
                   const delta = datum[dimensionField[0]] - value;
                   if (delta >= rangeArr[0] && delta <= rangeArr[1]) {
