@@ -44,7 +44,7 @@ export const isSameDimensionInfo = (a?: IDimensionInfo, b?: IDimensionInfo): boo
 };
 
 const resolveTooltipFilterRange = (spec: ICartesianLinearAxisSpec, scale: IBaseScale) => {
-  const range = spec.tooltipFilterRange ?? 'multiple';
+  const range = spec.tooltipFilterRange;
   const rangeValue = typeof range === 'function' ? range({ scale }) : range;
   const rangeArr = (isValidNumber(rangeValue) ? [-rangeValue, rangeValue] : rangeValue) as Maybe<[number, number]>;
   return rangeArr;
@@ -107,9 +107,7 @@ export const getDimensionData = (
           } else {
             // 散点图情况，依据轴上的配置判断
             const spec = axis.getSpec() as ICartesianLinearAxisSpec;
-            const range = spec.tooltipFilterRange;
             const tooltipFilterMode = spec.tooltipFilterMode ?? 'multiple';
-            const rangeArr = (isValidNumber(range) ? [-range, range] : range) as Maybe<[number, number]>;
             const rangeArr = resolveTooltipFilterRange(spec, scale);
             let datums: Datum[] = [];
             let datumIdList: number[] = [];
