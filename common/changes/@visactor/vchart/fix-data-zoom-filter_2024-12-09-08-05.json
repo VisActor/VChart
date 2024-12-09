@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: fix size of datazoom when update\n\n",
+      "comment": "fix: fix size of datazoom when update, fix #3521\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
