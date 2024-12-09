@@ -27,7 +27,7 @@ export const discreteLegendDataMake = (data: Array<ISeries>, op: IDiscreteLegend
 };
 
 export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilterOption) => {
-  const { series, selected, field, data: legendData } = op;
+  const { series, selected, field, data: legendData, customFilter } = op;
   const selectedData = selected();
   const legendKeys = legendData(); // 全量的图例项
   if (selectedData.length === 0 && legendKeys.length) {
@@ -45,7 +45,9 @@ export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilter
 
   const datumField = field() ?? DEFAULT_DATA_SERIES_FIELD;
 
-  if (isArray(data) && data[0]?.nodes) {
+  if (customFilter) {
+    return customFilter(data, selectedData, datumField);
+  } else if (isArray(data) && data[0]?.nodes) {
     // data silter for sankey chart
     data[0].nodes = data[0].nodes.filter((d: any) => selectedFilter[d.key] === true);
     if (data[0]?.links) {
@@ -58,5 +60,6 @@ export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilter
       data = data.filter(d => selectedFilter[series.getSeriesFieldValue(d, datumField)] === true);
     }
   }
+
   return data;
 };
