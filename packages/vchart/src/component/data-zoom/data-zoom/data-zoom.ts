@@ -148,30 +148,33 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       defaultSize + this._startHandlerSize / 2
     ];
 
+    const compWidth = this._computeWidth();
+    const compHeight = this._computeHeight();
+
     if (this._isHorizontal) {
       stateScaleRange = this._visible
-        ? [this._startHandlerSize / 2, this._computeWidth() - handlerSize + this._startHandlerSize / 2]
+        ? [this._startHandlerSize / 2, compWidth - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
       this._stateScale.range(stateScaleRange);
-      this._valueScale.range([this._computeHeight() - this._middleHandlerSize, 0]);
-    } else if (this.layoutOrient === 'left') {
-      stateScaleRange = this._visible
-        ? [this._startHandlerSize / 2, this._computeHeight() - handlerSize + this._startHandlerSize / 2]
-        : defaultRange;
-      this._stateScale.range(stateScaleRange);
-      this._valueScale.range([this._computeWidth() - this._middleHandlerSize, 0]);
+      this._valueScale.range([compHeight - this._middleHandlerSize, 0]);
     } else {
       stateScaleRange = this._visible
-        ? [this._startHandlerSize / 2, this._computeHeight() - handlerSize + this._startHandlerSize / 2]
+        ? [this._startHandlerSize / 2, compHeight - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
+
       this._stateScale.range(stateScaleRange);
-      this._valueScale.range([0, this._computeWidth() - this._middleHandlerSize]);
+
+      if (this.layoutOrient === 'left') {
+        this._valueScale.range([compWidth - this._middleHandlerSize, 0]);
+      } else {
+        this._valueScale.range([0, compWidth - this._middleHandlerSize]);
+      }
     }
     if (this._component && this._cacheVisibility !== false) {
       this._component.setAttributes({
         size: {
-          width: this._computeWidth(),
-          height: this._computeHeight()
+          width: compWidth,
+          height: compHeight
         },
         position: {
           x: this.getLayoutStartPoint().x,
@@ -226,7 +229,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     if (this._isHorizontal) {
       return this._backgroundSize + this._middleHandlerSize;
     }
-    return this.getLayoutRect().height - (this._startHandlerSize + this._endHandlerSize) / 2;
+    return this.getLayoutRect().height;
   }
 
   protected _isScaleValid(scale: IBaseScale | ILinearScale) {
@@ -287,8 +290,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       },
       orient: this._orient,
       size: {
-        width: this.getLayoutRect().width,
-        height: this.getLayoutRect().height
+        width: this._computeWidth(),
+        height: this._computeHeight()
       },
       showDetail: spec.showDetail,
       brushSelect: spec.brushSelect ?? false,
@@ -313,6 +316,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       const isNeedPreview =
         this._isScaleValid(xScale) && this._isScaleValid(yScale) && this._spec.showBackgroundChart !== false;
       const attrs = this._getAttrs(isNeedPreview);
+
       if (this._component) {
         this._component.setAttributes(attrs);
       } else {
