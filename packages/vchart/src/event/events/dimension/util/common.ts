@@ -6,6 +6,7 @@ import { isNil, array, isValid, isValidNumber } from '@visactor/vutils';
 import type { Maybe } from '@visactor/vutils';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
 import type { CoordinateType, Datum, ILayoutPoint } from '../../../../typings';
+import type { IBaseScale } from '@visactor/vscale';
 import { isDiscrete } from '@visactor/vscale';
 import type { ICartesianLinearAxisSpec } from '../../../../component';
 import type { ISeries } from '../../../../series';
@@ -40,6 +41,13 @@ export const isSameDimensionInfo = (a?: IDimensionInfo, b?: IDimensionInfo): boo
     return false;
   }
   return true;
+};
+
+const resolveTooltipFilterRange = (spec: ICartesianLinearAxisSpec, scale: IBaseScale) => {
+  const range = spec.tooltipFilterRange ?? 'multiple';
+  const rangeValue = typeof range === 'function' ? range({ scale }) : range;
+  const rangeArr = (isValidNumber(rangeValue) ? [-rangeValue, rangeValue] : rangeValue) as Maybe<[number, number]>;
+  return rangeArr;
 };
 
 /** 给定维度项的值，获取对应维度数据 */
@@ -102,6 +110,7 @@ export const getDimensionData = (
             const range = spec.tooltipFilterRange;
             const tooltipFilterMode = spec.tooltipFilterMode ?? 'multiple';
             const rangeArr = (isValidNumber(range) ? [-range, range] : range) as Maybe<[number, number]>;
+            const rangeArr = resolveTooltipFilterRange(spec, scale);
             let datums: Datum[] = [];
             let datumIdList: number[] = [];
             if (rangeArr && tooltipFilterMode === 'multiple') {
