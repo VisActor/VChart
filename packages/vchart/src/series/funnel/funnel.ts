@@ -308,6 +308,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         this.setMarkStyle(
           outerLabelMark,
           {
+            // 当使用html、react进行展示的时候，如果不设置_originText，bounds计算会有问题
             _originText: (datum: Datum) => `${datum[this.getCategoryField()]}`,
             text: (datum: Datum) => {
               return this._spec.outerLabel.formatMethod(`${datum[this.getCategoryField()]}`, datum) as any;
@@ -811,10 +812,20 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   private _computeOuterLabelLinePosition(datum: Datum) {
     const categoryField = this.getCategoryField();
-    const outerLabelMarkBounds = this._funnelOuterLabelMark?.label
+    const outerLabelText = this._funnelOuterLabelMark?.label
       ?.getProduct()
       ?.elements?.find((el: any) => el.data[0]?.[categoryField] === datum[categoryField])
-      ?.getBounds();
+      ?.getGraphicItem();
+    const outerLabelMarkBounds = outerLabelText
+      ? outerLabelText.AABBBounds.empty()
+        ? {
+            x1: outerLabelText.attribute.x,
+            x2: outerLabelText.attribute.x,
+            y1: outerLabelText.attribute.y,
+            y2: outerLabelText.attribute.y
+          }
+        : outerLabelText.AABBBounds
+      : { x1: 0, x2: 0, y1: 0, y2: 0 };
 
     const labelMarkBounds = this._labelMark
       ?.getComponent()
