@@ -35,7 +35,7 @@ export interface ILinearAxisSpec {
         min?: number;
         max?: number;
     };
-    tooltipFilterRange?: number | [number, number];
+    tooltipFilterRange?: number | [number, number] | ((params: { scale: IBaseScale }) => number | [number, number]);
     breaks?: ILinearAxisBreakSpec[];
 }
 export interface IBandAxisSpec {
