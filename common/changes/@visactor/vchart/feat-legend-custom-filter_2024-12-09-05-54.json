@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: add config `customFilter` to legend, support cutomized filter function, close #3492\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
