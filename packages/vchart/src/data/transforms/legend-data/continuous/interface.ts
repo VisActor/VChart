@@ -13,4 +13,5 @@ export interface IContinuousLegendFilterOption {
   field: () => string | undefined;
   data: () => StringOrNumber[];
   isHierarchyData?: () => boolean;
+  customFilter?: (data: any, selectedRange: StringOrNumber[], datumField: string) => any;
 }
