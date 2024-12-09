@@ -7961,6 +7961,9 @@
             "cubicIn",
             "cubicInOut",
             "cubicOut",
+            "easeInOutElastic",
+            "easeInOutQuad",
+            "easeOutElastic",
             "elasticIn",
             "elasticInOut",
             "elasticOut",
@@ -8803,29 +8806,6 @@
         }
       ],
       "description": "gradient"
-    },
-    "GraphicType": {
-      "enum": [
-        "arc",
-        "arc3d",
-        "area",
-        "circle",
-        "ellipse",
-        "glyph",
-        "group",
-        "image",
-        "line",
-        "path",
-        "polygon",
-        "pyramid3d",
-        "rect",
-        "rect3d",
-        "richtext",
-        "shadowroot",
-        "symbol",
-        "text"
-      ],
-      "type": "string"
     },
     "GroupTooltipTriggerMark": {
       "enum": [
@@ -31958,6 +31938,9 @@
         "defined": {
           "type": "boolean"
         },
+        "draw": {
+          "typeof": "function"
+        },
         "getAngleAt": {
           "typeof": "function"
         },
@@ -31965,6 +31948,12 @@
           "typeof": "function"
         },
         "getPointAt": {
+          "typeof": "function"
+        },
+        "getYAt": {
+          "typeof": "function"
+        },
+        "includeX": {
           "typeof": "function"
         },
         "originP1": {
@@ -31991,9 +31980,12 @@
       },
       "required": [
         "defined",
+        "draw",
         "getAngleAt",
         "getLength",
         "getPointAt",
+        "getYAt",
+        "includeX",
         "p0",
         "type"
       ],
@@ -32425,6 +32417,9 @@
           },
           "type": "array"
         },
+        "drawWithClipRange": {
+          "typeof": "function"
+        },
         "ellipse": {
           "typeof": "function"
         },
@@ -32444,6 +32439,9 @@
           "typeof": "function"
         },
         "getPointAt": {
+          "typeof": "function"
+        },
+        "getYAt": {
           "typeof": "function"
         },
         "lineTo": {
@@ -32477,12 +32475,14 @@
         "closePath",
         "commandList",
         "curves",
+        "drawWithClipRange",
         "ellipse",
         "fromCustomPath2D",
         "fromString",
         "getCurveLengths",
         "getLength",
         "getPointAt",
+        "getYAt",
         "lineTo",
         "moveTo",
         "quadraticCurveTo",
@@ -33234,6 +33234,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "autoPage": {
           "type": "boolean"
@@ -34118,7 +34121,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -39467,7 +39474,7 @@
           "typeof": "function"
         },
         "type": {
-          "$ref": "#/definitions/GraphicType"
+          "type": "string"
         },
         "update": {
           "typeof": "function"
@@ -40025,7 +40032,7 @@
           "typeof": "function"
         },
         "type": {
-          "$ref": "#/definitions/GraphicType"
+          "type": "string"
         },
         "update": {
           "typeof": "function"
@@ -40583,7 +40590,7 @@
           "typeof": "function"
         },
         "type": {
-          "$ref": "#/definitions/GraphicType"
+          "type": "string"
         },
         "update": {
           "typeof": "function"
@@ -41251,7 +41258,7 @@
           "typeof": "function"
         },
         "type": {
-          "$ref": "#/definitions/GraphicType"
+          "type": "string"
         },
         "update": {
           "typeof": "function"
@@ -46971,7 +46978,7 @@
           "typeof": "function"
         },
         "type": {
-          "$ref": "#/definitions/GraphicType"
+          "type": "string"
         },
         "update": {
           "typeof": "function"
@@ -58572,6 +58579,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "backgroundCornerRadius": {
           "anyOf": [
             {
@@ -59049,7 +59059,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -65969,7 +65983,7 @@
     "IRichTextGraphicAttribute": {
       "allOf": [
         {
-          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
+          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
         },
         {
           "$ref": "#/definitions/Partial<IRichTextAttribute>"
@@ -71578,7 +71592,7 @@
           "typeof": "function"
         },
         "type": {
-          "$ref": "#/definitions/GraphicType"
+          "type": "string"
         },
         "update": {
           "typeof": "function"
@@ -74099,13 +74113,22 @@
         "addTimeline": {
           "typeof": "function"
         },
+        "autoStop": {
+          "type": "boolean"
+        },
         "getFPS": {
           "typeof": "function"
         },
         "getInterval": {
           "typeof": "function"
         },
+        "getTimelines": {
+          "typeof": "function"
+        },
         "pause": {
+          "typeof": "function"
+        },
+        "release": {
           "typeof": "function"
         },
         "remTimeline": {
@@ -74138,7 +74161,10 @@
       },
       "required": [
         "addTimeline",
+        "autoStop",
+        "getTimelines",
         "pause",
+        "release",
         "remTimeline",
         "resume",
         "start",
@@ -82516,7 +82542,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15618": {
           "type": "string"
         },
         "size": {
@@ -82524,14 +82550,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15618",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15618": {
           "type": "string"
         },
         "size": {
@@ -82539,14 +82565,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15618",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15618": {
           "type": "string"
         },
         "size": {
@@ -82554,14 +82580,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15618",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15618": {
           "type": "string"
         },
         "size": {
@@ -82569,14 +82595,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15618",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15618": {
           "type": "string"
         },
         "size": {
@@ -82584,14 +82610,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15618",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15618": {
           "type": "string"
         },
         "size": {
@@ -82599,7 +82625,7 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15618",
         "size"
       ],
       "type": "object"
@@ -83180,6 +83206,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "autoPage": {
           "type": "boolean"
         },
@@ -83661,7 +83690,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -86096,6 +86129,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "backgroundCornerRadius": {
           "anyOf": [
             {
@@ -86492,7 +86528,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -88531,6 +88571,9 @@
         "animationEasing": {
           "$ref": "#/definitions/EasingType"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -88976,7 +89019,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -89122,6 +89169,9 @@
         },
         "animationEasing": {
           "$ref": "#/definitions/EasingType"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -89580,7 +89630,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -90056,6 +90110,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -90475,7 +90532,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -90589,6 +90650,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -90984,7 +91048,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -91164,6 +91232,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -91527,7 +91598,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -91612,7 +91687,7 @@
       },
       "type": "object"
     },
-    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
+    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -91702,6 +91777,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -92159,7 +92237,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -92306,6 +92388,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -92689,7 +92774,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -92806,6 +92895,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -93160,7 +93252,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -93382,6 +93478,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -93797,7 +93896,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -93960,6 +94063,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -94349,7 +94455,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -94782,6 +94892,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -95179,7 +95292,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -96313,6 +96430,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -96388,6 +96508,9 @@
         },
         "childrenPickable": {
           "type": "boolean"
+        },
+        "clipRange": {
+          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -96679,7 +96802,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -96793,6 +96920,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -97169,7 +97299,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -97546,6 +97680,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -97915,7 +98052,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -98474,6 +98615,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -98549,6 +98693,9 @@
         },
         "childrenPickable": {
           "type": "boolean"
+        },
+        "clipRange": {
+          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -98850,7 +98997,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -98964,6 +99115,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -99421,7 +99575,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -100216,6 +100374,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -100666,7 +100827,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -100814,6 +100979,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -100889,6 +101057,9 @@
         },
         "childrenPickable": {
           "type": "boolean"
+        },
+        "clipRange": {
+          "type": "number"
         },
         "cornerRadius": {
           "anyOf": [
@@ -101181,7 +101352,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -101304,6 +101479,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -101658,7 +101836,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -103907,34 +104089,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15618": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@15543"
+        "__@toStringTag@15618"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15618": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@15543"
+        "__@toStringTag@15618"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15618": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@15543"
+        "__@toStringTag@15618"
       ],
       "type": "object"
     },
@@ -104584,6 +104766,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -105003,7 +105188,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -105032,6 +105221,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -105107,7 +105297,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -105207,6 +105399,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -105602,7 +105797,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -105631,6 +105830,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -105705,7 +105905,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -105805,6 +106007,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -106168,7 +106373,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -106197,6 +106406,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -106264,7 +106474,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -106364,6 +106576,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -106747,7 +106962,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -106779,6 +106998,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -106847,7 +107067,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "width",
@@ -106965,6 +107187,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -107381,7 +107606,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -107418,6 +107647,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -107491,7 +107721,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "visibleAll",
@@ -107593,6 +107825,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -107982,7 +108217,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -108014,6 +108253,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -108083,7 +108323,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "width",
@@ -108184,6 +108426,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -108582,7 +108827,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -108611,6 +108860,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -108686,7 +108936,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -108787,6 +109039,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -108862,6 +109117,9 @@
         },
         "childrenPickable": {
           "type": "boolean"
+        },
+        "clipRange": {
+          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -109153,7 +109411,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -109182,6 +109444,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -109192,6 +109455,7 @@
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
+        "clipRange",
         "cursor",
         "customPath",
         "customPickShape",
@@ -109248,7 +109512,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -109348,6 +109614,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -109724,7 +109993,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -109753,6 +110026,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -109820,7 +110094,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -109920,6 +110196,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -110290,7 +110569,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -110328,6 +110611,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -110394,7 +110678,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "width",
@@ -110497,6 +110783,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -110978,7 +111267,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -111045,6 +111338,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -111138,7 +111432,9 @@
         "textConfig",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "underline",
         "underlineDash",
@@ -111247,6 +111543,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -111722,7 +112021,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -111754,6 +112057,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFill",
@@ -111836,7 +112140,9 @@
         "textBaseline",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "width",
@@ -111938,6 +112244,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -112013,6 +112322,9 @@
         },
         "childrenPickable": {
           "type": "boolean"
+        },
+        "clipRange": {
+          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -112314,7 +112626,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -112343,6 +112659,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -112353,6 +112670,7 @@
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
+        "clipRange",
         "cursor",
         "customPickShape",
         "dx",
@@ -112409,7 +112727,9 @@
         "symbolType",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -112509,6 +112829,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
         },
         "background": {
           "anyOf": [
@@ -112966,7 +113289,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -113028,6 +113355,7 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
         "backgroundCornerRadius",
         "backgroundFit",
@@ -113114,7 +113442,9 @@
         "textBaseline",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "underline",
         "underlineDash",
