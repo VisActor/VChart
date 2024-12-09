@@ -49205,6 +49205,15 @@
           "description": "最小值，当且仅当该值小于数据最小值时，才能生效\n注意：不建议和配置`min`一起使用",
           "since": "1.11.0"
         },
+        "tooltipFilterMode": {
+          "default": "'multiple'",
+          "description": "配置 tooltipFilterRange 后的数据筛选规则\n当 `tooltipFilterMode` 为 'multiple' 时，`tooltipFilterRange` 范围内的所有数据都将被选中。\n当 `tooltipFilterMode` 为 'single' 时，将会选中 `tooltipFilterRange` 范围内最近的数据。",
+          "enum": [
+            "multiple",
+            "single"
+          ],
+          "type": "string"
+        },
         "tooltipFilterRange": {
           "anyOf": [
             {
@@ -49221,10 +49230,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "连续轴上的 dimension tooltip 数据筛选范围\n如果配置为单个数字 d，则筛选区间为 [x0 - d, x0 + d]；如果配置为二元组 [d1, d2]，则筛选区间为 [x0 + d1, x0 + d2]",
+          "description": "连续轴上的 dimension tooltip 数据筛选范围\n如果配置为单个数字 d，则筛选区间为 [x0 - d, x0 + d]；如果配置为二元组 [d1, d2]，则筛选区间为 [x0 + d1, x0 + d2]\n如果配置为函数 f, 函数的返回值将会作为数据筛选范围的值",
           "since": "1.4.0"
         },
         "zero": {
