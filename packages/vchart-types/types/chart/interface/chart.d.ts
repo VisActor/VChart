@@ -79,6 +79,7 @@ export interface IChart extends ICompilable {
     getAllModels: () => IModel[];
     getMarkById: (id: number) => IMark | undefined;
     getAllMarks: () => IMark[];
+    getMarkByUserName: (name: string) => IMark[];
     updateSpec: (spec: any) => IUpdateSpecResult;
     updateState: (state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean) => void;
     setSelected: (datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;

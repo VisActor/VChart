@@ -38,11 +38,11 @@ export declare class Layout implements IBaseLayout {
         relativeOverlapItems: ILayoutItem[];
         allRelatives: ILayoutItem[];
         overlapItems: {
-            left: overlapInfo;
-            top: overlapInfo;
-            right: overlapInfo;
-            bottom: overlapInfo;
             z: overlapInfo;
+            left: overlapInfo;
+            right: overlapInfo;
+            top: overlapInfo;
+            bottom: overlapInfo;
         };
     };
     layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void;

@@ -46,6 +46,7 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
         effect: 'self' | 'adjacency' | 'related';
     };
     [SeriesMarkNameEnum.label]?: ISankeyLabelSpec | ISankeyLabelSpec[];
+    overflow?: 'scroll' | 'hidden' | 'scroll-x' | 'scroll-y';
 }
 export interface SankeyLinkDatum {
     source: string | number;

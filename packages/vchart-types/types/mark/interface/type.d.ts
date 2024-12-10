@@ -20,5 +20,6 @@ export declare const enum MarkTypeEnum {
     ripple = "ripple",
     liquid = "liquid",
     component = "component",
-    label = "label"
+    label = "label",
+    pictogram = "pictogram"
 }

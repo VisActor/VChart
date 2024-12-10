@@ -13,11 +13,12 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
     };
     background?: {
         visible?: boolean;
-        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "width" | "height" | "visible">;
+        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "visible" | "width" | "height">;
     };
-    text?: string | number | number[] | string[] | {
+    visible?: boolean;
+    text?: string | number | string[] | number[] | {
         type?: "text";
-        text: string | number | number[] | string[];
+        text: string | number | string[] | number[];
     } | {
         type: "rich";
         text: import("@visactor/vrender-core").IRichTextCharacter[];
@@ -32,10 +33,9 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
             element: any;
         } & import("@visactor/vrender-core").SimpleDomStyleOptions & import("@visactor/vrender-core").CommonDomOptions;
     };
-    padding?: import("@visactor/vrender-components").Padding;
     maxWidth?: number;
     minWidth?: number;
-    visible?: boolean;
+    padding?: import("@visactor/vrender-components").Padding;
+    align?: "center" | "start" | "end";
     space?: number;
-    align?: "start" | "end" | "center";
 };

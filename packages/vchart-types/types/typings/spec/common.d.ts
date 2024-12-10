@@ -271,6 +271,7 @@ export interface ICustomMarkSpec<T extends EnableMarkType> extends IModelSpec, I
     dataId?: StringOrNumber;
     componentType?: string;
     animation?: boolean;
+    parent?: string;
 }
 export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
     children?: ICustomMarkSpec<EnableMarkType>[];

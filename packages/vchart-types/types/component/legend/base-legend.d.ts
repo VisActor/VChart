@@ -17,7 +17,7 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
     protected _visible: boolean;
     get visible(): boolean;
     protected _position: 'start' | 'middle' | 'end';
-    get position(): "start" | "end" | "middle";
+    get position(): "start" | "middle" | "end";
     protected _legendData: CompilableData;
     getLegendData(): any;
     private _preSelectedData;

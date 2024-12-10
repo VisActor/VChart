@@ -1,5 +1,5 @@
 import type { ITextAttribute } from '@visactor/vrender-core';
-import type { ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
+import type { ILayoutNumber, ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components';
 import type { ITokenKey } from '../../../theme/token';
 export interface ITooltipTextTheme<ColorType = string> {
@@ -42,7 +42,7 @@ export interface ITooltipTheme<ColorType = string> {
     keyLabel?: Omit<ITooltipTextTheme<ColorType>, 'autoWidth'>;
     valueLabel?: ITooltipTextTheme<ColorType>;
     spaceRow?: number;
-    maxContentHeight?: number;
+    maxContentHeight?: ILayoutNumber;
     offset?: {
         x?: number;
         y?: number;
