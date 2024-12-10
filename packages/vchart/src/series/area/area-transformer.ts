@@ -14,7 +14,13 @@ export class AreaSeriesSpecTransformer<
   protected _supportStack: boolean = true;
 
   protected _transformLabelSpec(spec: T): void {
-    super._transformLabelSpec(spec);
+    const isPointVisible = spec.point?.visible !== false && spec.point?.style?.visible !== false;
+
+    this._addMarkLabelSpec(spec, (spec: any) => {
+      const isAreaMiddle = spec.position === 'inside-middle';
+      return !isPointVisible || isAreaMiddle ? SeriesMarkNameEnum.area : SeriesMarkNameEnum.point;
+    });
+
     this._addMarkLabelSpec<AreaSeries>(
       spec,
       SeriesMarkNameEnum.area,
@@ -23,10 +29,6 @@ export class AreaSeriesSpecTransformer<
       undefined,
       true
     );
-    const isPointVisible = spec.point?.visible !== false && spec.point?.style?.visible !== false;
-    if (!isPointVisible) {
-      this._addMarkLabelSpec(spec, SeriesMarkNameEnum.area);
-    }
   }
 
   protected _transformSpecAfterMergingTheme(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo) {

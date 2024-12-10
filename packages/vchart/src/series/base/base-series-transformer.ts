@@ -1,4 +1,4 @@
-import { isBoolean, isNil, isObject } from '@visactor/vutils';
+import { isBoolean, isFunction, isNil, isObject } from '@visactor/vutils';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
 import { BaseModelSpecTransformer } from '../../model/base-model-transformer';
@@ -87,7 +87,7 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
 
   protected _addMarkLabelSpec<V extends ISeries = ISeries>(
     spec: T,
-    markName: SeriesMarkNameEnum,
+    markName: SeriesMarkNameEnum | ((spec: ILabelSpec) => SeriesMarkNameEnum),
     labelSpecKey: keyof T = 'label' as any,
     styleHandlerName: keyof V = 'initLabelMarkStyle',
     hasAnimation: boolean = true,
@@ -111,7 +111,7 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
         const labelAnimationEnabled = !!animationEnabled && !!hasAnimation;
 
         this.addLabelSpec(
-          markName,
+          isFunction(markName) ? markName(labelSpec) : markName,
           {
             ...labelSpec,
             animation: labelAnimationEnabled ? animation : false,

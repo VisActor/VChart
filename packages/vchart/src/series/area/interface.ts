@@ -40,8 +40,23 @@ export interface IAreaSeriesSpec
   [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
   /**
    * 标签配置
+   * @since 1.13.1 新增支持 inside-middle 标签位置
    */
-  [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
+  [SeriesMarkNameEnum.label]?: IMultiLabelSpec<
+    Omit<ILineLikeLabelSpec, 'position'> & {
+      position:
+        | 'top'
+        | 'bottom'
+        | 'left'
+        | 'right'
+        | 'top-right'
+        | 'top-left'
+        | 'bottom-right'
+        | 'bottom-left'
+        | 'center'
+        | 'inside-middle';
+    }
+  >;
   /**
    * 面积图元标签配置
    * @since 1.7.0
