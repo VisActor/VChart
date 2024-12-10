@@ -30,19 +30,6 @@ export class RadarChartSpecTransformer<
 
   transformSpec(spec: T) {
     super.transformSpec(spec);
-    //默认不显示轴的domainLine和Tick
-    (spec.axes ?? []).forEach((axis: any) => {
-      if (axis.orient === 'radius') {
-        ['domainLine', 'label', 'tick'].forEach(configName => {
-          if (!axis[configName]) {
-            axis[configName] = { visible: false };
-          }
-        });
-        if (!axis.grid) {
-          axis.grid = { visible: true };
-        }
-      }
-    });
 
     // set default config for crosshair
     spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
