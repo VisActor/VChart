@@ -758,7 +758,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _updateExtensionMarkSpec() {
     this._spec.extensionMark?.forEach((spec, i) => {
-      const mark = this._marks.getMarkWithInfo({ name: `${this._getExtensionMarkNamePrefix()}_${i}` });
+      const mark = this._marks.getMarkWithInfo({
+        name: isValid(spec.name) ? `${spec.name}` : `${this._getExtensionMarkNamePrefix()}_${i}`
+      });
       if (!mark) {
         return;
       }
@@ -1030,7 +1032,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (
       newMarks.length !== prevMarks.length ||
       prevMarks.some((prev, index) => {
-        return prev.type !== newMarks[index].type || prev.id !== newMarks[index].id;
+        return (
+          prev.type !== newMarks[index].type || prev.id !== newMarks[index].id || prev.name !== newMarks[index].name
+        );
       })
     ) {
       compareResult.reMake = true;
