@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: html tooltip can reuse the dom content and fix the unneed animation\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
