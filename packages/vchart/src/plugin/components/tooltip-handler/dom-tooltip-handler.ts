@@ -1,6 +1,6 @@
 import type { ITooltipActual, ITooltipPositionActual } from '../../../typings/tooltip';
 import { BaseTooltipHandler } from './base';
-import { cssToStyleString, getDomStyle, getTextStyle, setStyleToDom } from './utils/style';
+import { getDomStyle, getTextStyle, setStyleToDom } from './utils/style';
 import {
   TOOLTIP_CONTAINER_EL_CLASS_NAME,
   DEFAULT_TOOLTIP_Z_INDEX,
@@ -8,7 +8,7 @@ import {
   TOOLTIP_CONTENT_BOX_CLASS_NAME,
   TOOLTIP_TITLE_CLASS_NAME
 } from './constants';
-import { type Maybe, isNil, isValid } from '@visactor/vutils';
+import { type Maybe, isValid } from '@visactor/vutils';
 import type { IContainerSize } from '@visactor/vrender-components';
 import { domDocument } from '../../../util/env';
 import type { ITooltipSpec, TooltipHandlerParams } from '../../../component/tooltip';
@@ -40,7 +40,6 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   protected _rootDom?: HTMLElement;
   protected _tooltipActual?: ITooltipActual;
   protected declare _container: Maybe<HTMLDivElement>;
-  protected _domString?: string;
 
   /** 自定义 tooltip 的位置缓存 */
   protected _cacheCustomTooltipPosition: ILayoutPoint;
@@ -83,39 +82,47 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         this._container.classList.add(TOOLTIP_CONTAINER_EL_CLASS_NAME);
         parentElement.appendChild(this._container);
       }
-      const tooltipElement = document.createElement('div');
-      const globalTheme = this._chartOption?.getTheme() ?? {};
-
-      setStyleToDom(tooltipElement, {
-        left: '0',
-        top: '0',
-        pointerEvents: 'none',
-        padding: '12px',
-        position: 'absolute',
-        zIndex: DEFAULT_TOOLTIP_Z_INDEX,
-        fontFamily: (globalTheme?.fontFamily ?? token.fontFamily) as string,
-        fontSize: '11px',
-        borderRadius: '3px',
-        borderStyle: 'solid',
-        lineHeight: 'initial',
-        background: '#fff',
-        boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.1)',
-        maxWidth: '100wh',
-        maxHeight: '100vh',
-        ...this._domStyle?.panel
-      } as CSSStyleDeclaration);
-
-      this._container.appendChild(tooltipElement);
-      this._rootDom = tooltipElement;
     }
+  }
+
+  initRootDom() {
+    const tooltipSpec = this._component.getSpec() as ITooltipSpec;
+    const tooltipElement = document.createElement('div');
+    const globalTheme = this._chartOption?.getTheme() ?? {};
+
+    setStyleToDom(tooltipElement, {
+      left: '0',
+      top: '0',
+      pointerEvents: 'none',
+      padding: '12px',
+      position: 'absolute',
+      zIndex: DEFAULT_TOOLTIP_Z_INDEX,
+      fontFamily: (globalTheme?.fontFamily ?? token.fontFamily) as string,
+      fontSize: '11px',
+      borderRadius: '3px',
+      borderStyle: 'solid',
+      lineHeight: 'initial',
+      background: '#fff',
+      boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.1)',
+      maxWidth: '100wh',
+      maxHeight: '100vh',
+      visibility: 'hidden',
+      ...this._domStyle.panel
+    } as CSSStyleDeclaration);
+    tooltipElement.classList.add(tooltipSpec.className);
+    tooltipElement.setAttribute('vchart-tooltip-id', `${this.id}`);
+    this._container.appendChild(tooltipElement);
+    this._rootDom = tooltipElement;
   }
 
   // 计算 tooltip 内容区域的宽高，并缓存结果
   protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined {
-    if (!changePositionOnly || isNil(this._domString)) {
+    if (!this._rootDom) {
+      this.initRootDom();
+    }
+    if (!changePositionOnly) {
       this._updateDomStringByCol(actualTooltip);
     }
-    this._rootDom.innerHTML = this._domString ?? '';
 
     this._updateDomStyle('height');
 
@@ -145,7 +152,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       if (!params.changePositionOnly) {
         this._tooltipActual = activeTooltipSpec;
       }
-      this.setVisibility(visible);
+      const currentVisible = this.getVisibility();
 
       // 位置
       const el = this._rootDom;
@@ -166,9 +173,16 @@ export class DomTooltipHandler extends BaseTooltipHandler {
           // 更新缓存
           this._cacheCustomTooltipPosition = position;
         } else {
+          if (!currentVisible) {
+            // 当从隐藏切换到
+            this._rootDom.style.transitionDuration = `0ms`;
+          } else {
+            this._rootDom.style.transitionDuration = this._domStyle.panel.transitionDuration ?? 'initial';
+          }
           this._updatePosition({ x, y });
         }
       }
+      this.setVisibility(visible);
     }
   }
 
@@ -179,125 +193,158 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   }
 
   protected _updateDomStringByCol(actualTooltip?: ITooltipActual) {
-    let domString = '';
     const { title = {}, content } = actualTooltip;
     const hasContent = content && content.length;
     const rowStyle = this._domStyle.row;
+    const chilren = [...(this._rootDom.children as any)] as HTMLElement[];
+    let titleDom = chilren.find(child => child.className.includes(TOOLTIP_TITLE_CLASS_NAME));
 
-    if (title.visible !== false) {
-      domString += `<h2 class="${TOOLTIP_TITLE_CLASS_NAME}" style="${cssToStyleString({
+    if (!titleDom && title.visible !== false) {
+      titleDom = document.createElement('h2');
+      const span = document.createElement('span');
+      titleDom.appendChild(span);
+
+      titleDom.classList.add(TOOLTIP_TITLE_CLASS_NAME);
+      this._rootDom.appendChild(titleDom);
+    }
+
+    if (titleDom && title.visible !== false) {
+      setStyleToDom(titleDom, {
         ...this._domStyle.title,
         ...(hasContent ? rowStyle : { marginBottom: '0px' }),
         marginTop: '0px'
-      })}"><span>${title.value ?? ''}</span></h2>`;
+      });
+      (titleDom.firstChild as HTMLElement).innerText = title.value ?? '';
+    } else if (titleDom && title.visible === false) {
+      titleDom.parentNode.removeChild(titleDom);
     }
-    if (hasContent) {
-      let shapeItems = '';
-      let keyItems = '';
-      let valueItems = '';
-      content.forEach((entry, index) => {
-        const styleByRow = index === content.length - 1 ? null : rowStyle;
 
-        shapeItems += `<div class="${TOOLTIP_PREFIX}-shape" style="${cssToStyleString(styleByRow)}">${getSvgHtml(
-          entry
-        )}</div>`;
+    let contentDom = chilren.find(child => child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME));
+    const columns = ['shape', 'key', 'value'];
 
-        keyItems += `<div class="${TOOLTIP_PREFIX}-key" style="${cssToStyleString({
-          ...styleByRow,
-          ...(entry.keyStyle ? getTextStyle(entry.keyStyle) : null)
-        })}">${formatContent(entry.key)}</div>`;
+    if (!contentDom && hasContent) {
+      contentDom = document.createElement('div');
 
-        valueItems += `<div class="${TOOLTIP_PREFIX}-value" style="${cssToStyleString({
-          ...styleByRow,
-          ...(entry.valueStyle ? getTextStyle(entry.valueStyle) : null)
-        })}">${formatContent(entry.value)}</div>`;
+      columns.forEach(col => {
+        const colDiv = document.createElement('div');
+
+        colDiv.classList.add(`${TOOLTIP_PREFIX}-column`);
+        colDiv.classList.add(`${TOOLTIP_PREFIX}-${col}-column`);
+        colDiv.setAttribute('data-col', col);
+        contentDom.appendChild(colDiv);
       });
 
-      domString += `<div class="${TOOLTIP_CONTENT_BOX_CLASS_NAME}">
-        <div class="${TOOLTIP_PREFIX}-shape-column" style="${cssToStyleString({
-        ...this._domStyle.shape,
-        display: 'inline-block',
-        verticalAlign: 'top'
-      })}">
-        ${shapeItems}
-        </div>
-        <div class="${TOOLTIP_PREFIX}-key-column" style="${cssToStyleString({
-        ...this._domStyle.key,
-        display: 'inline-block',
-        verticalAlign: 'top'
-      })}">
-        ${keyItems}
-        </div>
-        <div class="${TOOLTIP_PREFIX}-value-column" style="${cssToStyleString({
-        ...this._domStyle.value,
-        display: 'inline-block',
-        verticalAlign: 'top'
-      })}">
-        ${valueItems}
-        </div>
-      </div>`;
+      contentDom.classList.add(TOOLTIP_CONTENT_BOX_CLASS_NAME);
+      this._rootDom.appendChild(contentDom);
     }
 
-    this._domString = domString;
+    if (contentDom && hasContent) {
+      const columnDivs = [...(contentDom.children as any)] as HTMLElement[];
+
+      columnDivs.forEach((colDiv, index) => {
+        const colName = colDiv.getAttribute('data-col');
+
+        if (colName && columns.includes(colName)) {
+          setStyleToDom(colDiv, {
+            ...(this._domStyle as any)[colName],
+            display: 'inline-block',
+            verticalAlign: 'top'
+          });
+          const rows = [...(colDiv.children as any)] as HTMLElement[];
+
+          // 删除多余的行
+          rows.slice(content.length).forEach(extraRow => {
+            extraRow.parentNode.removeChild(extraRow);
+          });
+
+          content.forEach((entry, index) => {
+            let row = rows[index];
+
+            if (!row) {
+              row = document.createElement('div');
+              row.classList.add(`${TOOLTIP_PREFIX}-${colName}`);
+              colDiv.appendChild(row);
+            }
+            let styleByRow = index === content.length - 1 ? null : rowStyle;
+
+            if (colName === 'key') {
+              row.innerText = formatContent(entry.key);
+              if (entry.keyStyle) {
+                styleByRow = { ...styleByRow, ...getTextStyle(entry.keyStyle) };
+              }
+            } else if (colName === 'value') {
+              row.innerText = formatContent(entry.value);
+              if (entry.valueStyle) {
+                styleByRow = { ...styleByRow, ...getTextStyle(entry.valueStyle) };
+              }
+            } else if (colName === 'shape') {
+              row.innerHTML = getSvgHtml(entry);
+            }
+
+            setStyleToDom(row, styleByRow);
+          });
+        }
+      });
+    } else if (contentDom && !hasContent) {
+      contentDom.parentNode.removeChild(contentDom);
+    }
   }
   protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width') {
     const rootDom = this._rootDom;
 
-    if (rootDom) {
-      const contentDom = rootDom.children[rootDom.children.length - 1];
+    const contentDom = rootDom.children[rootDom.children.length - 1];
 
-      if (contentDom.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)) {
-        const tooltipSpec = this._component.getSpec() as ITooltipSpec;
-        const contentStyle: Partial<CSSStyleDeclaration> = {};
+    if (contentDom.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)) {
+      const tooltipSpec = this._component.getSpec() as ITooltipSpec;
+      const contentStyle: Partial<CSSStyleDeclaration> = {};
 
-        if (isValid(tooltipSpec?.style?.maxContentHeight)) {
-          const titleDom = rootDom.children[0];
-          const titleHeight =
-            titleDom && titleDom.className.includes(TOOLTIP_TITLE_CLASS_NAME)
-              ? titleDom.getBoundingClientRect().height + (tooltipSpec.style.spaceRow ?? 0)
-              : 0;
-          const viewRect = (this._chartOption as any).getChartViewRect();
-          const maxHeight = calcLayoutNumber(
-            tooltipSpec.style.maxContentHeight,
-            Math.min(viewRect.height, document.body.clientHeight) -
-              titleHeight -
-              (this._domStyle.panelPadding ? this._domStyle.panelPadding[0] + this._domStyle.panelPadding[1] : 0)
-          );
+      if (isValid(tooltipSpec?.style?.maxContentHeight)) {
+        const titleDom = rootDom.children[0];
+        const titleHeight =
+          titleDom && titleDom.className.includes(TOOLTIP_TITLE_CLASS_NAME)
+            ? titleDom.getBoundingClientRect().height + (tooltipSpec.style.spaceRow ?? 0)
+            : 0;
+        const viewRect = (this._chartOption as any).getChartViewRect();
+        const maxHeight = calcLayoutNumber(
+          tooltipSpec.style.maxContentHeight,
+          Math.min(viewRect.height, document.body.clientHeight) -
+            titleHeight -
+            (this._domStyle.panelPadding ? this._domStyle.panelPadding[0] + this._domStyle.panelPadding[1] : 0)
+        );
 
-          if (maxHeight > 0) {
-            contentStyle.maxHeight = `${maxHeight}px`;
-            contentStyle.overflowY = 'auto';
-            // todo 让内容宽度往外阔一点，给滚动条留出位置
-            contentStyle.width = `calc(100% + ${
-              this._domStyle.panelPadding ? this._domStyle.panelPadding[1] + 'px' : '10px'
-            })`;
+        if (maxHeight > 0) {
+          contentStyle.maxHeight = `${maxHeight}px`;
+          contentStyle.overflowY = 'auto';
+          // todo 让内容宽度往外阔一点，给滚动条留出位置
+          contentStyle.width = `calc(100% + ${
+            this._domStyle.panelPadding ? this._domStyle.panelPadding[1] + 'px' : '10px'
+          })`;
 
-            setStyleToDom(contentDom as HTMLElement, contentStyle);
+          setStyleToDom(contentDom as HTMLElement, contentStyle);
+        }
+      }
+
+      const rows = contentDom.children;
+      const widthByCol: number[] = [];
+      if (rows) {
+        for (let i = 0; i < rows.length; i++) {
+          const row = rows[i];
+          const cols = row.children ?? ([] as HTMLElement[]);
+
+          for (let j = 0; j < cols.length; j++) {
+            const width = cols[j].getBoundingClientRect()[sizeKey];
+            if (widthByCol[j] === undefined || widthByCol[j] < width) {
+              widthByCol[j] = width;
+            }
           }
         }
 
-        const rows = contentDom.children;
-        const widthByCol: number[] = [];
-        if (rows) {
-          for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            const cols = row.children ?? ([] as HTMLElement[]);
+        for (let i = 0; i < rows.length; i++) {
+          const row = rows[i];
+          const cols = row.children ?? ([] as HTMLElement[]);
 
-            for (let j = 0; j < cols.length; j++) {
-              const width = cols[j].getBoundingClientRect()[sizeKey];
-              if (widthByCol[j] === undefined || widthByCol[j] < width) {
-                widthByCol[j] = width;
-              }
-            }
-          }
-
-          for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            const cols = row.children ?? ([] as HTMLElement[]);
-
-            for (let j = 0; j < cols.length; j++) {
-              (cols[j] as HTMLElement).style[sizeKey] = `${widthByCol[j]}px`;
-            }
+          for (let j = 0; j < cols.length; j++) {
+            (cols[j] as HTMLElement).style[sizeKey] = `${widthByCol[j]}px`;
           }
         }
       }

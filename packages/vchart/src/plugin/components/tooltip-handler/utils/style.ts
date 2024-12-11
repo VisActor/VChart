@@ -1,4 +1,4 @@
-import { isArray, isValid, isValidNumber, lowerCamelCaseToMiddle, normalizePadding } from '@visactor/vutils';
+import { isArray, isValid, isValidNumber, normalizePadding } from '@visactor/vutils';
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;
@@ -130,17 +130,4 @@ export function setStyleToDom(dom: HTMLElement, style: Partial<CSSStyleDeclarati
   Object.keys(style).forEach(key => {
     (dom.style as any)[key] = (style as any)[key];
   });
-}
-
-export function cssToStyleString(style: Partial<CSSStyleDeclaration>) {
-  let str = '';
-
-  style &&
-    Object.keys(style).forEach(k => {
-      if (isValid((style as any)[k])) {
-        str += `${lowerCamelCaseToMiddle(k)}:${(style as any)[k]};`;
-      }
-    });
-
-  return str;
 }
