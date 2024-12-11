@@ -214,7 +214,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         ...(hasContent ? rowStyle : { marginBottom: '0px' }),
         marginTop: '0px'
       });
-      (titleDom.firstChild as HTMLElement).innerText = title.value ?? '';
+      (titleDom.firstChild as HTMLElement).innerText = `${title.value ?? ''}`;
     } else if (titleDom && title.visible === false) {
       titleDom.parentNode.removeChild(titleDom);
     }
