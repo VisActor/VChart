@@ -15,16 +15,35 @@ export const getPixelPropertyStr = (num?: number | number[], defaultStr?: string
 };
 
 export const getTextStyle = (style: ITooltipTextTheme = {}) => {
-  const textStyle: Partial<CSSStyleDeclaration> = {
-    color: style.fill ?? style.fontColor,
-    fontFamily: style.fontFamily,
-    fontSize: getPixelPropertyStr(style.fontSize as number),
-    fontWeight: style.fontWeight as string,
-    textAlign: style.textAlign,
-    maxWidth: getPixelPropertyStr(style.maxWidth),
-    whiteSpace: style.multiLine ? 'initial' : 'nowrap',
-    wordBreak: style.multiLine ? style.wordBreak ?? 'break-word' : 'normal'
-  };
+  const textStyle: Partial<CSSStyleDeclaration> = {};
+
+  if (isValid(style.fontFamily)) {
+    textStyle.fontFamily = style.fontFamily;
+  }
+  const color = style.fill ?? style.fontColor;
+
+  if (isValid(color)) {
+    textStyle.color = color;
+  }
+  if (isValid(style.fontWeight)) {
+    textStyle.fontWeight = style.fontWeight as string;
+  }
+  if (isValid(style.textAlign)) {
+    textStyle.textAlign = style.textAlign as string;
+  }
+  if (isValid(style.fontSize)) {
+    textStyle.fontSize = getPixelPropertyStr(style.fontSize as number);
+  }
+  if (isValid(style.maxWidth)) {
+    textStyle.maxWidth = getPixelPropertyStr(style.maxWidth as number);
+  }
+  if (style.multiLine) {
+    textStyle.whiteSpace = 'initial';
+    textStyle.wordBreak = style.wordBreak ?? 'break-word';
+  } else {
+    textStyle.wordBreak = 'normal';
+    textStyle.whiteSpace = 'nowrap';
+  }
 
   return textStyle;
 };
