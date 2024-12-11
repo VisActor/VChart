@@ -214,7 +214,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         ...(hasContent ? rowStyle : { marginBottom: '0px' }),
         marginTop: '0px'
       });
-      (titleDom.firstChild as HTMLElement).innerText = `${title.value ?? ''}`;
+      (titleDom.firstChild as HTMLElement).innerHTML = `${title.value ?? ''}`;
     } else if (titleDom && title.visible === false) {
       titleDom.parentNode.removeChild(titleDom);
     }
@@ -265,15 +265,16 @@ export class DomTooltipHandler extends BaseTooltipHandler {
               row.classList.add(`${TOOLTIP_PREFIX}-${colName}`);
               colDiv.appendChild(row);
             }
-            let styleByRow = index === content.length - 1 ? null : rowStyle;
+            // 每次更新，需要更新单元格的高度，防止同步高度的时候没有更新
+            let styleByRow = index === content.length - 1 ? { height: 'initial' } : { ...rowStyle, height: 'initial' };
 
             if (colName === 'key') {
-              row.innerText = formatContent(entry.key);
+              row.innerHTML = formatContent(entry.key);
               if (entry.keyStyle) {
                 styleByRow = { ...styleByRow, ...getTextStyle(entry.keyStyle) };
               }
             } else if (colName === 'value') {
-              row.innerText = formatContent(entry.value);
+              row.innerHTML = formatContent(entry.value);
               if (entry.valueStyle) {
                 styleByRow = { ...styleByRow, ...getTextStyle(entry.valueStyle) };
               }
