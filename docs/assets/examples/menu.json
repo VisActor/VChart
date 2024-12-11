@@ -1661,6 +1661,13 @@
       },
       "children": [
         {
+          "path": "pictogram-cat",
+          "title": {
+            "zh": "新手撸猫指南",
+            "en": "Cat Stroking For Beginners"
+          }
+        },
+        {
           "path": "pictogram-seat-map",
           "title": {
             "zh": "选座售票图",
