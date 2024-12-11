@@ -174,8 +174,8 @@ export class DomTooltipHandler extends BaseTooltipHandler {
           this._cacheCustomTooltipPosition = position;
         } else {
           if (!currentVisible) {
-            // 当从隐藏切换到
-            this._rootDom.style.transitionDuration = `0ms`;
+            // 当从隐藏切换到显示的时候，需要先设置一次 transition 为 0ms，防止出现从一个非常远的初始位置进行动画
+            this._rootDom.style.transitionDuration = '0ms';
           } else {
             this._rootDom.style.transitionDuration = this._domStyle.panel.transitionDuration ?? 'initial';
           }
