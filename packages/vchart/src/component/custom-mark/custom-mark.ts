@@ -8,12 +8,10 @@ import { PREFIX } from '../../constant/base';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
 import type { IMark } from '../../mark/interface';
-import type { LooseFunction } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { Bounds, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
-import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IModelMarkAttributeContext } from '../../compile/mark/interface';
 
