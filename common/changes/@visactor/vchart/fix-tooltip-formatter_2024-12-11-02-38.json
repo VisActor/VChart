@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix tooltip content when only has `valueFormatter` or `keyFormatter`\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
