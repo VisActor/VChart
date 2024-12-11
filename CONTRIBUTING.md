@@ -192,6 +192,7 @@ You can understand the VChart code architecture faster through requirement devel
 7.  Submit all code and create a Pull Request on Github, inviting others to review
 
 ### Promotion Task Contribution Guide
+
 A promotion task refers to the action of publicly releasing materials related to VisActor, such as articles, demos, videos, etc., across various media channels.
 
 You can create a new issue, select the type others and tag it with promotion. Then, post it along with relevant links, screenshots, summaries, etc.
@@ -213,3 +214,21 @@ VisActor is also working hard to help colleagues who participate in community bu
 1.  Data lake visualization development training based on VisActor helps participating colleagues grow rapidly in programming skills, visualization theory, architecture design and other aspects.
 2.  Regularly select "Code Contribution Award" and "Community Promotion Award".
 3.  Organize community members to participate in open source activities
+
+## FAQ
+
+### node-canvas installation failure
+
+VChart is a monorepo project, and when running VChart on the node side, we rely on the [node-canvas](https://github.com/Automattic/node-canvas) library. Therefore, when executing `rush update`, the `node-canvas` package needs to be installed. However, this package may fail to install on different operating systems. You can refer to the [node-canvas](https://github.com/Automattic/node-canvas) readme for installation dependencies. The installation methods for various operating systems are as follows:
+
+| OS      | Command                                                                                                                       |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| macOS   | Using [Homebrew](https://brew.sh/): `brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman python-setuptools` |
+| Ubuntu  | `sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev`                      |
+| Fedora  | `sudo yum install gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib-devel`                                           |
+| Solaris | `pkgin install cairo pango pkg-config xproto renderproto kbproto xextproto`                                                   |
+| OpenBSD | `doas pkg_add cairo pango png jpeg giflib`                                                                                    |
+| Windows | See the [wiki](https://github.com/Automattic/node-canvas/wiki/Installation:-Windows)                                          |
+| Others  | See the [wiki](https://github.com/Automattic/node-canvas/wiki)                                                                |
+
+If you encounter other node-canvas related issues, you can also search in the [node-canvas issue list](https://github.com/Automattic/node-canvas/issues).

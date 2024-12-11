@@ -188,14 +188,13 @@ VChart 的入门问题，你可以通过 [issue 列表](https://github.com/VisAc
 6.  开发完成后，运行 `rush change` 命令，编写 changelog 并提交
 7.  提交所有代码，并在 Github 创建 Pull Request，邀请其他人进行 review
 
-
 ### 推广任务贡献指南
 
-推广任务是指你将和VisActor相关的文章、demo、视频 等素材，公开发布到各种媒体渠道的行为。
+推广任务是指你将和 VisActor 相关的文章、demo、视频 等素材，公开发布到各种媒体渠道的行为。
 你可以新建一个 issue，类型选择 `others` 打上 `promotion` 的标签，然后将相关链接，截图，简介等一起发布即可。
 例如：[https://github.com/VisActor/VChart/issues/2858](https://github.com/VisActor/VChart/issues/2858)
 
-每个季度我们会评选一些推广VisActor的作品，给予作者一定的物质奖励。
+每个季度我们会评选一些推广 VisActor 的作品，给予作者一定的物质奖励。
 
 ## 拥抱 VisActor 社区
 
@@ -210,3 +209,21 @@ VisActor 也在努力帮助参与社区建设的同学一同成长，我们计�
 1. 以 VisActor 为基础的数据可视化研发培训，帮助参与的同学在编程技能、可视化理论、架构设计等多个方面快速成长。
 2. 定期评选“代码贡献奖”和“社区推广奖”。
 3. 组织社区成员参与开源活动。
+
+## 常见问题
+
+### node-canvas 安装失败
+
+vchart 的一个 monorepo 项目，当在 node 端运行 vchart 的时候，我们会依赖 [node-canvas](https://github.com/Automattic/node-canvas) 这个库，所以在执行`rush update`的时候，会需要安装`node-canvas` 这个包，但是这个包可能会在不同的操作系统下出现安装失败问题，可以参考[node-canvas](https://github.com/Automattic/node-canvas) readme 中的安装一下依赖，各个操作系统的安装方式如下：
+
+| OS      | Command                                                                                                                       |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| macOS   | Using [Homebrew](https://brew.sh/): `brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman python-setuptools` |
+| Ubuntu  | `sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev`                      |
+| Fedora  | `sudo yum install gcc-c++ cairo-devel pango-devel libjpeg-turbo-devel giflib-devel`                                           |
+| Solaris | `pkgin install cairo pango pkg-config xproto renderproto kbproto xextproto`                                                   |
+| OpenBSD | `doas pkg_add cairo pango png jpeg giflib`                                                                                    |
+| Windows | See the [wiki](https://github.com/Automattic/node-canvas/wiki/Installation:-Windows)                                          |
+| Others  | See the [wiki](https://github.com/Automattic/node-canvas/wiki)                                                                |
+
+如果遇到其他 node-canvas 相关问题，也可以在[node-canvas issue 列表](https://github.com/Automattic/node-canvas/issues) 中进行搜索
