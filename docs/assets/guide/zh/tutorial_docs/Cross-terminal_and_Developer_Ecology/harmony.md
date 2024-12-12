@@ -175,6 +175,137 @@ export interface IInitOption {
 
 举例来说，开发者可以在初次渲染时，将需要触发的回调事件注册在图表实例上以实现图表交互功能。
 
+## 按需加载 `<VChartSimple />`
+
+> 注意，目前鸿蒙的IDE并不支持代码tree-shaking，所以此种引入形式目前仅可作为一种实验性的方案。
+
+一般情况下，作为移动端应用，包体积并不会非常影响业务，但在某些场景中（比如元服务）会对包体积有严格的要求，因此我们提供了按需加载的方式，使用`VChartSimple`标签。其使用上和`VChart`的使用方式基本一致，只是需要调用额外的注册函数注册所需要的组件。
+
+### 注册组件
+在使用`VChartSimple`标签时，需要先注册所需要的组件和图表（我们内置了柱图、线图、饼图的基本功能，其他功能需要按需注册），可以调用的函数如下：
+```ts
+import {
+  // 图表
+  registerScatterChart,
+  registerRoseChart,
+  registerRadarChart,
+  registerHistogramChart,
+  registerMapChart,
+  registerGaugeChart,
+  registerWordCloudChart,
+  registerFunnelChart,
+  registerWaterfallChart,
+  registerBoxplotChart,
+  registerCircularProgressChart,
+  registerLinearProgressChart,
+  registerRangeColumnChart,
+  registerRangeAreaChart,
+  registerSunburstChart,
+  registerCirclePackingChart,
+  registerTreemapChart,
+  registerSankeyChart,
+  registerHeatmapChart,
+  registerCorrelationChart,
+  // 注册组件
+  registerCartesianTimeAxis,
+  registerCartesianLogAxis,
+  registerCartesianSymlogAxis,
+  registerPolarBandAxis,
+  registerPolarLinearAxis,
+
+  registerContinuousLegend,
+
+  registerPolarCrossHair,
+
+  registerDataZoom,
+  registerScrollBar,
+  registerIndicator,
+  registerGeoCoordinate,
+
+  registerMarkLine,
+  registerMarkArea,
+  registerMarkPoint,
+  registerPolarMarkLine,
+  registerPolarMarkArea,
+  registerPolarMarkPoint,
+  registerGeoMarkPoint,
+
+  registerTitle,
+  registerPlayer,
+  registerTotalLabel,
+  registerBrush,
+  registerCustomMark,
+  registerMapLabel,
+  registerPoptip,
+
+// 注册布局
+  registerGridLayout,
+
+// vgrammar interactions,
+  registerElementHighlight,
+  registerElementSelect,
+  // 注册动画
+  registerAnimate
+} from '@visactor/harmony-vchart';
+```
+### demo
+
+```ts
+import { VChartSimple, registerScatterChart, registerAnimate } from '@visactor/harmony-vchart';
+import { router } from '@kit.ArkUI';
+import promptAction from '@ohos.promptAction';
+
+interface IRouterParams {
+  label: string,
+  spec: Object
+}
+
+const params: IRouterParams = router.getParams() as IRouterParams;
+
+@Entry
+@Component
+struct Chart {
+  @State spec: Object | null = null;
+  private t: number = 0;
+  @State delta: number = 0;
+
+  onPageShow(): void {
+    registerScatterChart();
+    registerAnimate();
+    this.spec = params.spec;
+  }
+
+  build() {
+    Row() {
+      Column() {
+        Text($r(`app.string.name_${params.label}`))
+          .fontSize(50)
+          .fontWeight(FontWeight.Bold)
+        // Stage({ bg: 'red', h: 500 })
+        VChartSimple({
+          spec: this.spec, w: 300, h: 300,
+          onChartInitCb: () => {},
+          onChartReadyCb: () => {},
+          initOption: {
+            beforeRender: () => {
+              this.t = Date.now();
+            },
+            afterRender: () => {
+              this.delta = Date.now() - this.t;
+            }
+          }
+        });
+        Text(`每一帧耗时：${this.delta}`)
+        // VisActor()
+      }
+      .width('100%')
+    }
+    .height('100%')
+  }
+}
+
+```
+
 ## 事件交互
 
 ### 基础事件

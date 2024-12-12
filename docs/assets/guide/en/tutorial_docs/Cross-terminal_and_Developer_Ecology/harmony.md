@@ -1,44 +1,44 @@
 # Harmony VChart
 
-- Repository: https://github.com/VisActor/VChart/tree/main/packages/harmony-vchart
+- Repository: [https://github.com/VisActor/VChart/tree/main/packages/harmony-vchart](https://github.com/VisActor/VChart/tree/main/packages/harmony-vchart)
 
-HarmonyOS is an intelligent terminal operating system developed by Huawei, with ArkTS as the main development language. Starting from version 1.11.1, VChart supports chart development compatible with HarmonyOS (supporting HarmonyOS API 9 or above).
+HarmonyOS is an intelligent terminal operating system developed by Huawei, using ArkTS as the main development language. Starting from version 1.11.1, VChart supports HarmonyOS-compatible chart development (supporting HarmonyOS API 9 and above).
 
-OpenHarmony is an open-source project incubated and operated by the OpenAtom Foundation. Its goal is to build a framework and platform for an intelligent terminal device operating system in the era of full scenario, full connectivity, and full intelligence, based on open-source methods, to promote the prosperous development of the Internet of Things industry. VChart is also compatible with chart development for OpenHarmony applications (supports API 10 Release or above)
+OpenHarmony is an open-source project incubated and operated by the OpenAtom Foundation, aiming to build a framework and platform for intelligent terminal device operating systems based on open source methods, to promote the prosperity of the Internet of Everything industry. VChart also supports chart development for OpenHarmony application development (supporting API 10 Release and above).
 
-In order to facilitate the better use of Harmony technology stack by students, we provide VChart's HarmonyOS encapsulation package '@ visitor/armony vchart' (this package is not an NPM package, but an OHPM package). The spec configuration item of this component is consistent with VChart, and its use in HarmonyOS and OpenHarmony application development environments is consistent
+To facilitate Harmony technology stack students to better use it, we provide the HarmonyOS package `@visactor/harmony-vchart` for VChart (this package is not an NPM package, but an OHPM package). The spec configuration options of this component are consistent with VChart, and its usage in HarmonyOS and OpenHarmony application development environments is consistent.
 
-In this tutorial, we will explain in detail how to use VChart in Harmony projects and create a simple bar chart.
+In this tutorial, we will explain in detail how to use VChart in a Harmony project and create a simple bar chart.
 
-## Effect display
+## Demo
 
 <div style="text-align: center;">
-  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-dualaxis.png" alt="Harmony VChart示例">
-  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-funnel.png" alt="Harmony VChart示例">
-  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-scatter.png" alt="Harmony VChart示例">
-  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-area.png" alt="Harmony VChart示例">
-  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-ring.png" alt="Harmony VChart示例">
-  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-rose.png" alt="Harmony VChart示例">
-  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-sankey.png" alt="Harmony VChart示例">
-  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-wordcloud.png" alt="Harmony VChart示例">
-  <img crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-demo-low-quality.gif" alt="Harmony VChart示例">
+  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-dualaxis.png" alt="Harmony VChart Example">
+  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-funnel.png" alt="Harmony VChart Example">
+  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-scatter.png" alt="Harmony VChart Example">
+  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-area.png" alt="Harmony VChart Example">
+  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-ring.png" alt="Harmony VChart Example">
+  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-rose.png" alt="Harmony VChart Example">
+  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-sankey.png" alt="Harmony VChart Example">
+  <img style="width: 160px; height: 360px;" crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-example-wordcloud.png" alt="Harmony VChart Example">
+  <img crossorigin="anonymous" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/harmony-vchart-demo-low-quality.gif" alt="Harmony VChart Example">
 </div>
 
-## Quick start
+## Quick Start
 
-This article assumes that the user is familiar with and can use HarmonyOS. For specific HarmonyOS-related knowledge, please refer to [HarmonyOS Developer Platform](https://developer.huawei.com/consumer/cn/).
+This article assumes that the user is already familiar with and knows how to use HarmonyOS. For specific knowledge about HarmonyOS, please refer to the [HarmonyOS Developer Platform](https://developer.huawei.com/consumer/cn/).
 
-### How to install
+### Installation
 
-To start using Harmony VChart, you first need to install the `@visactor/harmony-vchart` package in your Harmony project. In the root directory of the project, use the following command to install the package:
+To start using Harmony VChart, you first need to install the `@visactor/harmony-vchart` package in your Harmony project. In the project root directory, use the following command to install the package:
 
 ```
 ohpm install @visactor/harmony-vchart
 ```
 
-### Create a chart
+### Create a Chart
 
-Take creating a simple bar chart as an example. In your Harmony component, import the `<BarChart>` component of `visactor/harmony-vchart` and use them in the component. Here is an example code for creating a bar chart:
+Taking creating a simple bar chart as an example. In your Harmony component, import the `<BarChart>` component from `visactor/harmony-vchart` and use it in the component. Here is an example code for creating a bar chart:
 
 ```typescript
 import { VChart } from '@visactor/harmony-vchart';
@@ -76,46 +76,50 @@ struct Index {
 
 In this example, we created a simple bar chart using some basic components and configurations.
 
-<div style="text-align: center;"> <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523213.png" alt="Bar chart example"> </div>
+<div style="text-align: center;">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/350c0511133d336e622523213.png" alt="Bar Chart Example">
+</div>
 
-## Unified chart label `<VChart />`
+## Unified Chart Tag `<VChart />`
 
-`<VChart />` receives a complete **spec** as the chart definition, and its **spec** data structure is exactly the same as the definition in VChart, so developers can send any spec that is legal for VChart to Harmony-VChart for chart rendering.
+The `<VChart />` tag accepts a complete **spec** as the chart definition, and its **spec** data structure is exactly the same as the definition in VChart. Therefore, developers can input any legal spec for VChart into Harmony-VChart for chart rendering.
 
 ### Props
 
-If you already have a spec chart description, using the unified chart label is a faster way, just import the `VChart` component:
+If you already have a spec chart description, using the unified chart tag is a faster way. Simply import the `VChart` component:
 
-`1import { VChart } from '@visactor/harmony-vchart'; 2`
+```typescript
+import { VChart } from '@visactor/harmony-vchart';
+```
 
-The `VChart` component is the encapsulated Harmony component, and its props definition is as follows:
+The `VChart` component is a Harmony component wrapper, and its props are defined as follows:
 
 ```typescript
 interface VChartProps extends EventsProps {
-  /** 图表定义 */
+  /** Chart definition */
   spec: any;
-  /** 图表配置 */
+  /** Chart configuration */
   options?: IInitOption;
   /**
-   * 图表初始化的回调
+   * Chart initialization callback
    * @param vchart
    */
   onChartInitCb?: (vchart: VChartConstructor) => void;
   /**
-   * 图表准备好的回调(第一次渲染完成)
+   * Chart ready callback (first rendering completed)
    * @param vchart
    */
   onChartReadyCb?: (vchart: VChartConstructor) => void;
   /** throw error when chart run into an error */
   onError?: (err: Error) => void;
   /**
-   * 切换到同步渲染
+   * Switch to synchronous rendering
    *
    * @since 1.8.3
    **/
   useSyncRender?: boolean;
   /**
-   * props更新的时候，跳过所有函数的检查，即所有的函数都认为没有更新
+   * When props are updated, skip all function checks, i.e., all functions are considered not updated
    *
    * @since 1.6.5
    **/
@@ -126,56 +130,187 @@ interface VChartProps extends EventsProps {
 ```typescript
 export interface IInitOption {
   /**
-   * 图表开始渲染的回调
+   * Callback when the chart starts rendering
    * @param vchart
    */
   beforeRender?: (stage: Object) => void;
   /**
-   * 渲染完成的回调
+   * Callback after rendering is completed
    * @param vchart
    */
   afterRender?: (stage: Object) => void;
   /**
-   * 启用的插件列表
+   * Enabled plugin list
    */
   pluginList?: string[];
-  /** 数据集 */
+  /** Data set */
   dataSet?: Object;
   /**
-   * 是否开启动画
+   * Whether to enable animation
    */
   animation?: boolean;
   /**
-   * 当文本省略时，鼠标 hover 到文本上时是否显示 poptip
+   * When text is omitted, whether to show poptip when hovering over the text
    * @default true
    */
   poptip?: boolean;
 
   /**
-   * 报错的回调函数
+   * Error callback function
    * @since 1.2.0
    */
   onError?: () => void;
 
   /**
-   * 默认主题（支持完整主题对象或者主题名称，主题名称需要提前在 `ThemeManager` 中注册）
+   * Default theme (supports complete theme objects or theme names, theme names need to be registered in `ThemeManager` in advance)
    * @since 1.3.0
    */
   theme?: string;
 }
 ```
 
-The definition of `EventsProps` can be found in the Event Interaction section.
+The definition of `EventsProps` refers to the event interaction section.
 
-`onReady` is a built-in callback event that is triggered when the chart is rendered or updated. Its parameters represent the chart instance object and whether it is the first rendering.
+`onReady` is a built-in callback event that triggers when the chart is rendered or updated, with parameters representing the chart instance object and whether it is the first rendering.
 
-For example, developers can register the required callback events on the chart instance during the first rendering to achieve chart interaction.
+For example, developers can register the callback events that need to be triggered on the chart instance during the first rendering to implement chart interaction features.
+
+## Load on Demand `<VChartSimple />`
+
+> Note that the current Harmony IDE does not support code tree-shaking, so this import form can currently only be used as an experimental solution.
+
+In general, as a mobile application, package size does not greatly affect the business, but in some scenarios (such as meta-services), there are strict requirements on package size. Therefore, we provide a way to load on demand using the `VChartSimple` tag. Its usage is similar to `VChart`, but requires calling additional registration functions to register the required components.
+
+### Register Components
+When using the `VChartSimple` tag, you need to register the required components and charts first (we have built-in basic functions for scatter charts, line charts, and pie charts, other functions need to be registered on demand). The functions that can be called are as follows:
+```ts
+import {
+  // Charts
+  registerScatterChart,
+  registerRoseChart,
+  registerRadarChart,
+  registerHistogramChart,
+  registerMapChart,
+  registerGaugeChart,
+  registerWordCloudChart,
+  registerFunnelChart,
+  registerWaterfallChart,
+  registerBoxplotChart,
+  registerCircularProgressChart,
+  registerLinearProgressChart,
+  registerRangeColumnChart,
+  registerRangeAreaChart,
+  registerSunburstChart,
+  registerCirclePackingChart,
+  registerTreemapChart,
+  registerSankeyChart,
+  registerHeatmapChart,
+  registerCorrelationChart,
+  // Register Components
+  registerCartesianTimeAxis,
+  registerCartesianLogAxis,
+  registerCartesianSymlogAxis,
+  registerPolarBandAxis,
+  registerPolarLinearAxis,
+
+  registerContinuousLegend,
+
+  registerPolarCrossHair,
+
+  registerDataZoom,
+  registerScrollBar,
+  registerIndicator,
+  registerGeoCoordinate,
+
+  registerMarkLine,
+  registerMarkArea,
+  registerMarkPoint,
+  registerPolarMarkLine,
+  registerPolarMarkArea,
+  registerPolarMarkPoint,
+  registerGeoMarkPoint,
+
+  registerTitle,
+  registerPlayer,
+  registerTotalLabel,
+  registerBrush,
+  registerCustomMark,
+  registerMapLabel,
+  registerPoptip,
+
+// Register Layout
+  registerGridLayout,
+
+// vgrammar interactions,
+  registerElementHighlight,
+  registerElementSelect,
+  // Register Animation
+  registerAnimate
+} from '@visactor/harmony-vchart';
+```
+### Demo
+
+```ts
+import { VChartSimple, registerScatterChart, registerAnimate } from '@visactor/harmony-vchart';
+import { router } from '@kit.ArkUI';
+import promptAction from '@ohos.promptAction';
+
+interface IRouterParams {
+  label: string,
+  spec: Object
+}
+
+const params: IRouterParams = router.getParams() as IRouterParams;
+
+@Entry
+@Component
+struct Chart {
+  @State spec: Object | null = null;
+  private t: number = 0;
+  @State delta: number = 0;
+
+  onPageShow(): void {
+    registerScatterChart();
+    registerAnimate();
+    this.spec = params.spec;
+  }
+
+  build() {
+    Row() {
+      Column() {
+        Text($r(`app.string.name_${params.label}`))
+          .fontSize(50)
+          .fontWeight(FontWeight.Bold)
+        // Stage({ bg: 'red', h: 500 })
+        VChartSimple({
+          spec: this.spec, w: 300, h: 300,
+          onChartInitCb: () => {},
+          onChartReadyCb: () => {},
+          initOption: {
+            beforeRender: () => {
+              this.t = Date.now();
+            },
+            afterRender: () => {
+              this.delta = Date.now() - this.t;
+            }
+          }
+        });
+        Text(`Frame Time: ${this.delta}`)
+        // VisActor()
+      }
+      .width('100%')
+    }
+    .height('100%')
+  }
+}
+
+```
 
 ## Event Interaction
 
 ### Basic Events
 
-The `EventsProps` is supported on the Props of the unified chart tag (VChart) or the semantic chart tag (BarChart, etc.) for the scene tree events thrown by the underlying rendering layer.
+The unified chart tag (`VChart`) or syntax-based chart tag (`BarChart`, etc.) outermost chart component supports the scene tree events thrown by the underlying rendering layer through the `EventsProps`.
 
 The definition of `EventsProps` is as follows:
 
@@ -231,7 +366,7 @@ interface EventsProps {
 
 ## Summary
 
-Through this tutorial, you should have learned how to use VChart charts to create a simple bar chart in a Harmony project. At the same time, you also learned how to configure the chart according to requirements to meet different scenarios in the project. VChart provides rich configuration options and components, and I believe you will better master their use in actual projects and play a greater role. I hope you enjoy using the VChart library in your project!
+Through this tutorial, you should have learned how to use VChart in a Harmony project to create a simple bar chart. Additionally, you have learned how to configure the chart according to requirements to meet different scenarios in the project. VChart provides rich configuration options and components, and I believe you will better grasp their usage in actual projects and unleash their full potential. I hope you enjoy using the VChart library in your projects!
 
 ## 🔗 Related Links
 
@@ -243,4 +378,4 @@ Through this tutorial, you should have learned how to use VChart charts to creat
 - [VGrammar](https://www.visactor.io/vgrammar)
 - [VRender](https://www.visactor.io/vrender)
 - [FAQ](https://www.visactor.io/vchart/guide/tutorial_docs/FAQ)
-- [CodeSandbox Template](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) for bug reports
+- [CodeSandbox Template](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) for bug reports

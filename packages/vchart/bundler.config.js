@@ -60,8 +60,10 @@ const crossEnvs = bundle_analyze_mode ? {} : {
   'index-wx-simple':{
     input:'index-wx-simple',
     output:'./dist/index-wx-simple.min.js'
-  }
+  },
 };
+
+const esEntries = ['index-harmony', 'index-harmony-simple'];
 const umdEntries = Object.keys(crossEnvs)
   .map(env => crossEnvs[env].input)
   .filter((input, index, arr) => arr.indexOf(input, 0) === index);
@@ -95,6 +97,7 @@ module.exports = {
     // '@visactor/vrender'
   ],
   umdEntries,
+  esEntries,
   postTasks: {
     // generateEntries: (config, projectRoot, rawPackageJson) => {
     //   ['core', 'chart', 'series', 'mark', 'component', 'layout'].forEach(entryName => {
@@ -114,22 +117,23 @@ module.exports = {
 
         debug('[copy file] ', `copy ${envSource} to ${path.join(__dirname, dest)}`)
       });
+      esEntries.forEach(env => {
+        try {
+          // harmonyOS
+          const source = `${env}.es.min.js`;
+          const dest = `../harmony_vchart/library/src/main/ets/${source}`;
+          const envSource = path.join(__dirname, config.outputDir.umd, source);
+          copyFile(envSource, path.join(__dirname, dest));
+          fs.unlinkSync(path.join(__dirname, config.outputDir.umd, source));
+
+          debug('[copy file]', `copy ${envSource} to ${path.join(__dirname, dest)}`)
+        } catch(e) {
+          debug('[copyCrossEnv Error]', `can't copy es5/index.es.js to harmony`)
+        }
+      });
       umdEntries.forEach(entry => {
         fs.unlinkSync(path.join(__dirname, config.outputDir.umd, `${entry}.min.js`));
       });
-
-      try {
-        // harmonyOS
-        const source = 'index.es.js';
-        const dest = '../harmony_vchart/library/src/main/ets/vchart_dist.js';
-        const envSource = path.join(__dirname, config.outputDir.umd, source);
-        copyFile(envSource, path.join(__dirname, dest));
-        fs.unlinkSync(path.join(__dirname, config.outputDir.umd, source));
-
-        debug('[copy file]', `copy ${envSource} to ${path.join(__dirname, dest)}`)
-      } catch(e) {
-        debug('[copyCrossEnv Error]', `can't copy es5/index.es.js to harmony`)
-      }
     }
   }
 };

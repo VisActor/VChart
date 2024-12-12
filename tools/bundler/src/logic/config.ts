@@ -118,6 +118,7 @@ export interface Config {
   globals: Record<string, string>;
   // 额外的 umd 打包入口
   umdEntries: string[];
+  esEntries: string[];
 }
 
 export const DEFAULT_CONFIG_FILE = 'bundler.config.js';
@@ -156,7 +157,8 @@ export function getDefaultConfig(): Config {
     preTasks: {},
     postTasks: {},
     globals: {},
-    umdEntries: []
+    umdEntries: [],
+    esEntries: []
   };
 }
 
