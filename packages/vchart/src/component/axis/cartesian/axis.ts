@@ -478,8 +478,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         field = series.getSpec().x2Field ? [...series.fieldX, series.fieldX2] : series.fieldX;
       } else if (isZAxis(this.getOrient())) {
         field = series.fieldZ;
-      } else if (series.type === SeriesTypeEnum.waterfall) {
-        field = [STACK_FIELD_START, STACK_FIELD_END];
       } else {
         field = series.getSpec().y2Field ? [...series.fieldY, series.fieldY2] : series.fieldY;
       }
