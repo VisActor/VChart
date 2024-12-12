@@ -26,7 +26,7 @@ export const getScale = (element: HTMLElement, boundingClientRect?: DOMRect) => 
   if (element.offsetWidth > 0) {
     return boundingClientRect.width / element.offsetWidth;
   }
-  return boundingClientRect.height / element.offsetHeight;
+  return element.offsetHeight > 0 ? boundingClientRect.height / element.offsetHeight : 1;
 };
 
 export const formatContent = (content: any) => {
