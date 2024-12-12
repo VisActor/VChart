@@ -1,6 +1,24 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 05 Dec 2024 09:50:08 GMT and should not be manually modified.
+This log was last generated on Thu, 12 Dec 2024 19:01:01 GMT and should not be manually modified.
+
+## 1.12.16
+Thu, 12 Dec 2024 19:01:01 GMT
+
+### Updates
+
+- fix: fix filter of lock domain when field is array, related #3469
+
+
+- fix: fix size of datazoom when update, fix #3521
+
+
+- fix: fix update of extensionMark when mark has `name`, fix #3547
+
+
+- fix: fix indicator when change visible to be false, fix #3506
+
+
 
 ## 1.12.15
 Thu, 05 Dec 2024 09:50:08 GMT
