@@ -58,7 +58,7 @@
   "dependencies": {
     "@visactor/vrender-core": "0.21.2-vstory.3",
     "@visactor/vrender-kits": "0.21.2-vstory.3",
-    "@visactor/vchart": "workspace:1.13.0",
+    "@visactor/vchart": "workspace:1.13.1-vstory.3",
     "@visactor/vrender": "0.21.2-vstory.3",
     "@visactor/vutils": "~0.19.2"
   }
