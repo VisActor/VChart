@@ -2,7 +2,7 @@ import type { ICartesianHorizontal } from './interface/spec';
 import { Bounds, last, type IBounds, type IBoundsLike, type Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
-import type { ICartesianSeries } from '../../../series/interface';
+import { SeriesTypeEnum, type ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianVertical } from './interface';
 import { mergeSpec } from '@visactor/vutils-extension';
@@ -50,6 +50,7 @@ import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
 import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
+import { STACK_FIELD_END, STACK_FIELD_START } from '../../../constant/data';
 
 const CartesianAxisPlugin = [AxisSyncPlugin];
 
@@ -477,6 +478,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         field = series.getSpec().x2Field ? [...series.fieldX, series.fieldX2] : series.fieldX;
       } else if (isZAxis(this.getOrient())) {
         field = series.fieldZ;
+      } else if (series.type === SeriesTypeEnum.waterfall) {
+        field = [STACK_FIELD_START, STACK_FIELD_END];
       } else {
         field = series.getSpec().y2Field ? [...series.fieldY, series.fieldY2] : series.fieldY;
       }

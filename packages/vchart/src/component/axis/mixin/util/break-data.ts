@@ -1,3 +1,5 @@
+import { isEqual } from '@visactor/vutils';
+
 const setDomain = (min: number, max: number, breaks: number[]): [number, number][] =>
   breaks.reduce(
     (r, b, i) => {
@@ -15,6 +17,7 @@ function breakDomain(data: number[], points: number[]): [number, number][] {
   if (breaks.length === 0) {
     return [[min, max]];
   }
+
   return setDomain(min, max, breaks);
 }
 
@@ -44,10 +47,20 @@ const fillBins = (data: number[], points: number[]) => {
 
   const remain = data.slice(j);
   bins[i] = { count: remain.length, sub: remain, min: points[points.length - 1], max: Math.max.apply(null, remain) };
-  return bins;
+  return bins.reduce((res, bin, index) => {
+    if (res.length) {
+      if (res.every(prev => !isEqual(prev, bin))) {
+        // 去重
+        res.push(bin);
+      }
+    } else {
+      res.push(bin);
+    }
+    return res;
+  }, []);
 };
 
-function breakScope(data: number[], points: number[], scopeType: 'count' | 'length' = 'count'): [number, number][] {
+function breakScope(data: number[], points: number[], scopeType: 'count' | 'length' = 'length'): [number, number][] {
   // 默认 data 和 points 已经排序
   const bins = fillBins(data, points);
 
