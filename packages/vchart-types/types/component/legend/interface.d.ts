@@ -29,6 +29,7 @@ export type ILegendCommonSpec = {
     position?: 'start' | 'middle' | 'end';
     layout?: 'horizontal' | 'vertical';
     filter?: boolean;
+    customFilter?: (data: any, selectedRange: StringOrNumber[], datumField: string) => any;
     title?: ITitle;
     background?: {
         visible?: boolean;
