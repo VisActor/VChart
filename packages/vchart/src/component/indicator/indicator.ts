@@ -209,7 +209,16 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     } as IndicatorAttributes;
   }
 
-  private _createOrUpdateIndicatorComponent(attrs: IndicatorAttributes): IndicatorComponents {
+  private _createOrUpdateIndicatorComponent(attrs: IndicatorAttributes) {
+    if (attrs.visible === false) {
+      // 按照vrender-component 的设置，只切换visible: false，并不会更新组件，所以强制删掉节点
+      if (this._indicatorComponent && this._indicatorComponent.parent) {
+        this._indicatorComponent.parent.removeChild(this._indicatorComponent);
+      }
+      this._indicatorComponent = null;
+      return;
+    }
+
     if (this._indicatorComponent) {
       if (!isEqual(attrs, this._cacheAttrs)) {
         this._indicatorComponent.setAttributes(attrs);
@@ -226,7 +235,6 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       );
     }
     this._cacheAttrs = attrs;
-    return this._indicatorComponent;
   }
 
   private _createText(
