@@ -240,6 +240,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
     if (contentDom && hasContent) {
       const columnDivs = [...(contentDom.children as any)] as HTMLElement[];
+      setStyleToDom(contentDom, { whiteSpace: 'nowrap' });
 
       columnDivs.forEach((colDiv, index) => {
         const colName = colDiv.getAttribute('data-col');
