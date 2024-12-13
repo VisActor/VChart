@@ -47,17 +47,7 @@ const fillBins = (data: number[], points: number[]) => {
 
   const remain = data.slice(j);
   bins[i] = { count: remain.length, sub: remain, min: points[points.length - 1], max: Math.max.apply(null, remain) };
-  return bins.reduce((res, bin, index) => {
-    if (res.length) {
-      if (res.every(prev => !isEqual(prev, bin))) {
-        // 去重
-        res.push(bin);
-      }
-    } else {
-      res.push(bin);
-    }
-    return res;
-  }, []);
+  return bins;
 };
 
 function breakScope(data: number[], points: number[], scopeType: 'count' | 'length' = 'length'): [number, number][] {
@@ -81,7 +71,8 @@ function breakScope(data: number[], points: number[], scopeType: 'count' | 'leng
       const b0 = res[i - 1] ? res[i - 1][1] : 0;
       const b1 = i === bins.length - 1 ? 1 : Math.min((acc + length) / totalLength, 1);
 
-      if (b0 !== b1) {
+      if (b0 === b1 && (b0 === 0 || b0 === 1)) {
+      } else {
         res.push([b0, b1]);
         acc += length;
       }
