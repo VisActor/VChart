@@ -124,6 +124,7 @@ label: {
 - `'bottom-right'`
 - `'bottom-left'`
 - `'center'`
+- `'inside-middle'` （ `1.13.1` 版本开始支持）
 
 {{ use: component-label(
   prefix = '#' + ${prefix},

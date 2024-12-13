@@ -124,6 +124,7 @@ Optional string values:
 - `'bottom-right'`
 - `'bottom-left'`
 - `'center'`
+- `'inside-middle'` （ Supported since `1.13.1` ）
 
 {{ use: component-label(
   prefix = '#' + ${prefix},
