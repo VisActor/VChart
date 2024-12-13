@@ -14,4 +14,5 @@ export interface IDiscreteLegendFilterOption {
     selected: () => StringOrNumber[];
     field: () => string;
     data: () => StringOrNumber[];
+    customFilter?: (data: any, selectedRange: StringOrNumber[], datumField: string) => any;
 }
