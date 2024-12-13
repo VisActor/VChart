@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix the bug of updateModelSpecSync can not set axis.tick.forceTickCount\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
