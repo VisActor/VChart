@@ -17,7 +17,7 @@
             "comment": "feat: support max height of tooltip, by percent value , close #2675\n\n"
           },
           {
-            "comment": "fix: upgrade vrender to 0.21.1, vgrammar to 0.15.0\n\n"
+            "comment": "fix: upgrade vrender to 0.21.2, vgrammar to 0.15.1\n\n"
           }
         ]
       }
