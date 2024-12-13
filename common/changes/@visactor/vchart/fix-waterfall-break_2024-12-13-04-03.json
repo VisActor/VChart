@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: breaks should consider the `min` and `max` of axis, related to #3560",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
