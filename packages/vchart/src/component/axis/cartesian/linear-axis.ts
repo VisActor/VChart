@@ -10,7 +10,8 @@ import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { continuousTicks, ICartesianTickDataOpt } from '@visactor/vrender-components';
+import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
+import { continuousTicks } from '@visactor/vrender-components';
 import { isXAxis, isZAxis } from './util';
 import { combineDomains, isPercent } from '../../../util';
 
@@ -46,6 +47,10 @@ export class CartesianLinearAxis<
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     this.setExtraAttrFromSpec();
+    const tickTransform = this._tickData?.[0]
+      ?.getDataView()
+      .transformsArr.find(t => t.type === this.registerTicksTransform());
+    tickTransform && (tickTransform.options = this._tickTransformOption());
   }
 
   /**
