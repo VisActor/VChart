@@ -1,4 +1,4 @@
-import { isEqual } from '@visactor/vutils';
+import { last } from '@visactor/vutils';
 
 const setDomain = (min: number, max: number, breaks: number[]): [number, number][] =>
   breaks.reduce(
@@ -82,6 +82,45 @@ function breakScope(data: number[], points: number[], scopeType: 'count' | 'leng
   return res;
 }
 
+export function breakScopeByLength(
+  domain: [number, number][],
+  breakDomains: [number, number][],
+  finalDomain: number[]
+): [number, number][] {
+  const d0 = finalDomain[0];
+  const d1 = last(finalDomain);
+  const newDomain: { isBreak?: boolean; domain: [number, number] }[] = [];
+  let sum = 0;
+
+  domain.forEach((d, index) => {
+    if (breakDomains.some(b => b[0] === d[0] && b[1] === d[1])) {
+      newDomain.push({
+        isBreak: true,
+        domain: d
+      });
+    } else {
+      const newD0 = index === 0 ? d0 : d[0];
+      const newD1 = index === domain.length - 1 ? d1 : d[1];
+      newDomain.push({ domain: [newD0, newD1] });
+      sum += newD1 - newD0;
+    }
+  });
+
+  return sum > 0
+    ? newDomain.reduce((res, d, index) => {
+        const r = d.isBreak ? 0 : (d.domain[1] - d.domain[0]) / sum;
+
+        if (index === 0) {
+          res.push([0, r]);
+        } else {
+          res.push([res[index - 1][1], res[index - 1][1] + r]);
+        }
+
+        return res;
+      }, [])
+    : [[0, 1]];
+}
+
 export function breakData(data: number[], points: number[], scopeType?: 'count' | 'length') {
   // 现将数据和断点排序
   data.sort(sorter);
@@ -89,6 +128,6 @@ export function breakData(data: number[], points: number[], scopeType?: 'count' 
 
   return {
     domain: breakDomain(data, points),
-    scope: breakScope(data, points, scopeType)
+    scope: scopeType === 'count' ? breakScope(data, points, scopeType) : []
   };
 }
