@@ -15,7 +15,9 @@ export interface IAreaSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<st
     [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
     [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
     [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
-    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
+    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<Omit<ILineLikeLabelSpec, 'position'> & {
+        position: 'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center' | 'inside-middle';
+    }>;
     [SeriesMarkNameEnum.areaLabel]?: Omit<ILabelSpec, 'position'> & {
         position?: 'start' | 'end';
     };
