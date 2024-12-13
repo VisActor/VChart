@@ -33,6 +33,23 @@ Whether to enable legend interaction, enabled by default.
 
 Whether to perform data filtering, the default is true. When this property is turned off, the legend click event will not trigger data filtering.
 
+#${prefix} customFilter(Function)
+
+Supported since version `1.13.1`
+
+Custom legend filter callback function, defined as follows:
+
+```
+/**
+  * Custom filter function
+  * @param data Current data
+  * @param selectedRange Selected data range
+  * @param datumField Field corresponding to the filtered data
+  * @returns The final displayed data
+  */
+ (data: any, selectedRange: StringOrNumber[], datumField: string) => any;
+```
+
 #${prefix} title(Object)
 
 Legend title configuration, not displayed by default.

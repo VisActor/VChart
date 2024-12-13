@@ -33,6 +33,23 @@
 
 是否进行数据筛选，默认为 true。该属性关闭之后，图例的点击事件将不会触发数据筛选。
 
+#${prefix} customFilter(Function)
+
+自 `1.13.1`版本开始支持
+
+自定义图例筛选的回调函数，类型定义如下：
+
+```
+/**
+   * 自定义筛选函数
+   * @param data 当前数据
+   * @param selectedRange 选中的数据范围
+   * @param datumField 筛选数据对应的字段
+   * @returns 最终展示的数据
+   */
+ (data: any, selectedRange: StringOrNumber[], datumField: string) => any;
+```
+
 #${prefix} title(Object)
 
 图例标题配置，默认不显示。

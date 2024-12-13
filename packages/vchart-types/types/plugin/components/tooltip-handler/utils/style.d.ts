@@ -15,4 +15,3 @@ export declare const getPanelStyle: (style: ITooltipTheme['panel']) => {
     panelPadding?: number[];
 };
 export declare function setStyleToDom(dom: HTMLElement, style: Partial<CSSStyleDeclaration>): void;
-export declare function cssToStyleString(style: Partial<CSSStyleDeclaration>): string;

@@ -1,3 +1,5 @@
+import { isEqual } from '@visactor/vutils';
+
 const setDomain = (min: number, max: number, breaks: number[]): [number, number][] =>
   breaks.reduce(
     (r, b, i) => {
@@ -15,6 +17,7 @@ function breakDomain(data: number[], points: number[]): [number, number][] {
   if (breaks.length === 0) {
     return [[min, max]];
   }
+
   return setDomain(min, max, breaks);
 }
 
@@ -65,8 +68,14 @@ function breakScope(data: number[], points: number[], scopeType: 'count' | 'leng
       res.push([0, i / bins.length - 1]);
     } else {
       const length = scopeType === 'count' ? bin.count : bin.max - bin.min;
-      res.push([res[i - 1] ? res[i - 1][1] : 0, i === bins.length - 1 ? 1 : Math.min((acc + length) / totalLength, 1)]);
-      acc += length;
+      const b0 = res[i - 1] ? res[i - 1][1] : 0;
+      const b1 = i === bins.length - 1 ? 1 : Math.min((acc + length) / totalLength, 1);
+
+      if (b0 === b1 && (b0 === 0 || b0 === 1)) {
+      } else {
+        res.push([b0, b1]);
+        acc += length;
+      }
     }
   });
 

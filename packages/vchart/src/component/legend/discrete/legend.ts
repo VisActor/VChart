@@ -56,7 +56,8 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
             series: s,
             selected: () => this._selectedData,
             field: () => this._getSeriesLegendField(s),
-            data: () => this.getLegendDefaultData()
+            data: () => this.getLegendDefaultData(),
+            customFilter: this._spec.customFilter
           },
           level: TransformLevel.legendFilter
         });

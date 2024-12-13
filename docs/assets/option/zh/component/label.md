@@ -173,6 +173,13 @@ hover 状态样式配置。
     type: 'position';
     /** position 根据图表类型支持不同支持不同的位置配置 **/
     position?: Functional<LabelPosition[]>;
+    /**
+     * 当 position 内的备选位置依然无法放下标签时，标签是否放回原位。
+     * 默认为 true，若为 false，则标签会被放在 position 数组的最后一个位置。
+     * @since 1.12.15
+     * @default true
+     */
+    restorePosition?: boolean;
   };
   ```
 
@@ -187,6 +194,13 @@ hover 状态样式配置。
     type: 'bound';
     /** position 根据图表类型支持不同支持不同的位置配置 **/
     position?: Functional<LabelPosition[]>;
+    /**
+     * 当 position 内的备选位置依然无法放下标签时，标签是否放回原位。
+     * 默认为 true，若为 false，则标签会被放在 position 数组的最后一个位置。
+     * @since 1.12.15
+     * @default true
+     */
+    restorePosition?: boolean;
   };
   ```
 

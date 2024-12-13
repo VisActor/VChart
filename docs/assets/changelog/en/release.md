@@ -1,7 +1,29 @@
+# v1.13.0
+
+2024-12-06
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add pictogram chart
+- **@visactor/vchart**: support auto generated scrollbar in sankey, close [#2838](https://github.com/VisActor/VChart/issues/2838)
+- **@visactor/vchart**: react vchart support event filter, close [#3461](https://github.com/VisActor/VChart/issues/3461)
+- **@visactor/vchart**: tooltip key/content support config by field, close [#2576](https://github.com/VisActor/VChart/issues/2576)
+- **@visactor/vchart**: support max height of tooltip, by percent value , close [#2675](https://github.com/VisActor/VChart/issues/2675)
+
+**🐛 Refactor**
+
+- **@visactor/vchart**: [Break Change] refactor the implement of html tooltip, fix [#3137](https://github.com/VisActor/VChart/issues/3137), close [#2924](https://github.com/VisActor/VChart/issues/2924), close [#2591](https://github.com/VisActor/VChart/issues/2591)
+- **@visactor/vchart**: [Break Change] support label overlap for inside arc labels by default
+
+**⚡ Performance optimization**
+
+- **@visactor/vchart**: [Break Change] vrender optimize the bounds of text, which will change the display of all text
+
+[more detail about v1.13.0](https://github.com/VisActor/VChart/releases/tag/v1.13.0)
+
 # v1.12.15
 
 2024-12-05
-
 
 **🆕 New feature**
 
@@ -11,14 +33,11 @@
 
 - **@visactor/vchart**: optimize `shiftY` of label
 
-
-
 [more detail about v1.12.15](https://github.com/VisActor/VChart/releases/tag/v1.12.15)
 
 # v1.12.14
 
 2024-12-05
-
 
 **🆕 New feature**
 
@@ -34,10 +53,8 @@
 - **@visactor/vchart**: fix `adjacency` in sankey, fix [#3460](https://github.com/VisActor/VChart/issues/3460)
 - **@visactor/vchart**: not update layout when scrollbar domain is the same as before. fix[#3452](https://github.com/VisActor/VChart/issues/3452)
 - **@visactor/vchart**: value in scale range should consider about whole range. fix[#3446](https://github.com/VisActor/VChart/issues/3446)
-- **@visactor/vchart**:  when the `invalidType` of line is  `"link"`, line should be connected rightly. fix [#3436](https://github.com/VisActor/VChart/issues/3436), fix [#3238](https://github.com/VisActor/VChart/issues/3238) 
-- **@visactor/vchart**:  richtext should work when set state, fix [#3465](https://github.com/VisActor/VChart/issues/3465) 
-
-
+- **@visactor/vchart**: when the `invalidType` of line is `"link"`, line should be connected rightly. fix [#3436](https://github.com/VisActor/VChart/issues/3436), fix [#3238](https://github.com/VisActor/VChart/issues/3238)
+- **@visactor/vchart**: richtext should work when set state, fix [#3465](https://github.com/VisActor/VChart/issues/3465)
 
 [more detail about v1.12.14](https://github.com/VisActor/VChart/releases/tag/v1.12.14)
 
@@ -45,20 +62,16 @@
 
 2024-11-22
 
-
 **🐛 Bug fix**
 
 - **@visactor/vchart**: fix `groupKey` of boxplot series, fix [#3409](https://github.com/VisActor/VChart/issues/3409), related to [#2855](https://github.com/VisActor/VChart/issues/2855)
 - **@visactor/vchart**: fix the issue where the length of the outerlabel line is incorrect when richtext, fix [#3441](https://github.com/VisActor/VChart/issues/3441)
-
-
 
 [more detail about v1.12.13](https://github.com/VisActor/VChart/releases/tag/v1.12.13)
 
 # v1.12.12
 
 2024-11-18
-
 
 **🐛 Bug fix**
 
@@ -71,14 +84,11 @@
 
 - **@visactor/vchart**: optimize the effect of break data
 
-
-
 [more detail about v1.12.12](https://github.com/VisActor/VChart/releases/tag/v1.12.12)
 
 # v1.12.11
 
 2024-11-13
-
 
 **🆕 New feature**
 
@@ -95,8 +105,6 @@
 - **@visactor/vchart**: fix tooltip position by `mode: pointer`, close [#3367](https://github.com/VisActor/VChart/issues/3367)
 - **@visactor/vchart**: wordcloud should not throw error when `word.visible` is `false`, fix [#3378](https://github.com/VisActor/VChart/issues/3378)
 - **@visactor/vchart**: fix the issue where the scrolling legend triggers map zooming under certain conditions, related [#3391](https://github.com/VisActor/VChart/issues/3391)
-
-
 
 [more detail about v1.12.11](https://github.com/VisActor/VChart/releases/tag/v1.12.11)
 

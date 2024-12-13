@@ -1,4 +1,3 @@
-import { ITextFormatMethod } from './../../../typings/spec/common';
 import type { AxisBreakProps, AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
 import type { IAnimationSpec } from '../../../animation/spec';
 import type {
@@ -14,6 +13,7 @@ import type {
 } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, IBandAxisLayer, ITickCalculationCfg, StyleCallback } from './common';
+import type { IBaseScale } from '@visactor/vscale';
 
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
@@ -148,9 +148,10 @@ export interface ILinearAxisSpec {
   /**
    * 连续轴上的 dimension tooltip 数据筛选范围
    * 如果配置为单个数字 d，则筛选区间为 [x0 - d, x0 + d]；如果配置为二元组 [d1, d2]，则筛选区间为 [x0 + d1, x0 + d2]
+   * 如果配置为函数 f, 函数的返回值将会作为数据筛选范围的值
    * @since 1.4.0
    */
-  tooltipFilterRange?: number | [number, number];
+  tooltipFilterRange?: number | [number, number] | ((params: { scale: IBaseScale }) => number | [number, number]);
   /**
    * 轴截断配置，只对笛卡尔坐标系的 linear 轴生效
    * @since 1.12.4

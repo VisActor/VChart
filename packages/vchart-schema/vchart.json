@@ -18746,8 +18746,9 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/IMultiLabelSpec<ILineLikeLabelSpec>",
-          "description": "标签配置"
+          "$ref": "#/definitions/IMultiLabelSpec<Omit<ILineLikeLabelSpec,\"position\">&{position:\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\"|\"inside-middle\";}>",
+          "description": "标签配置",
+          "since": "1.13.1 新增支持 inside-middle 标签位置"
         },
         "large": {
           "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
@@ -20111,8 +20112,9 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/IMultiLabelSpec<ILineLikeLabelSpec>",
-          "description": "标签配置"
+          "$ref": "#/definitions/IMultiLabelSpec<Omit<ILineLikeLabelSpec,\"position\">&{position:\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\"|\"inside-middle\";}>",
+          "description": "标签配置",
+          "since": "1.13.1 新增支持 inside-middle 标签位置"
         },
         "large": {
           "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
@@ -30445,6 +30447,9 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "customFilter": {
+          "typeof": "function"
+        },
         "endText": {
           "typeof": "function"
         },
@@ -33380,6 +33385,9 @@
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
+        },
+        "customFilter": {
+          "typeof": "function"
         },
         "customPickShape": {
           "typeof": "function"
@@ -49221,10 +49229,13 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "number"
             }
           ],
-          "description": "连续轴上的 dimension tooltip 数据筛选范围\n如果配置为单个数字 d，则筛选区间为 [x0 - d, x0 + d]；如果配置为二元组 [d1, d2]，则筛选区间为 [x0 + d1, x0 + d2]",
+          "description": "连续轴上的 dimension tooltip 数据筛选范围\n如果配置为单个数字 d，则筛选区间为 [x0 - d, x0 + d]；如果配置为二元组 [d1, d2]，则筛选区间为 [x0 + d1, x0 + d2]\n如果配置为函数 f, 函数的返回值将会作为数据筛选范围的值",
           "since": "1.4.0"
         },
         "zero": {
@@ -55066,6 +55077,33 @@
         }
       ]
     },
+    "IMultiLabelSpec<Omit<ILineLikeLabelSpec,\"position\">&{position:\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\"|\"inside-middle\";}>": {
+      "anyOf": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<ILineLikeLabelSpec,\"position\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/Omit<ILineLikeLabelSpec,\"position\">"
+              },
+              {
+                "typeof": "function"
+              }
+            ]
+          },
+          "type": "array"
+        }
+      ]
+    },
     "INode": {
       "properties": {
         "_next": {
@@ -60739,8 +60777,9 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/IMultiLabelSpec<ILineLikeLabelSpec>",
-          "description": "标签配置"
+          "$ref": "#/definitions/IMultiLabelSpec<Omit<ILineLikeLabelSpec,\"position\">&{position:\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\"|\"inside-middle\";}>",
+          "description": "标签配置",
+          "since": "1.13.1 新增支持 inside-middle 标签位置"
         },
         "large": {
           "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
@@ -61782,8 +61821,9 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/IMultiLabelSpec<ILineLikeLabelSpec>",
-          "description": "标签配置"
+          "$ref": "#/definitions/IMultiLabelSpec<Omit<ILineLikeLabelSpec,\"position\">&{position:\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\"|\"inside-middle\";}>",
+          "description": "标签配置",
+          "since": "1.13.1 新增支持 inside-middle 标签位置"
         },
         "large": {
           "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
@@ -82516,7 +82556,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15544": {
           "type": "string"
         },
         "size": {
@@ -82524,14 +82564,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15544",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15544": {
           "type": "string"
         },
         "size": {
@@ -82539,14 +82579,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15544",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15544": {
           "type": "string"
         },
         "size": {
@@ -82554,14 +82594,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15544",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15544": {
           "type": "string"
         },
         "size": {
@@ -82569,14 +82609,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15544",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15544": {
           "type": "string"
         },
         "size": {
@@ -82584,14 +82624,14 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15544",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15544": {
           "type": "string"
         },
         "size": {
@@ -82599,7 +82639,7 @@
         }
       },
       "required": [
-        "__@toStringTag@15543",
+        "__@toStringTag@15544",
         "size"
       ],
       "type": "object"
@@ -86996,6 +87036,317 @@
         "orient": {
           "$ref": "#/definitions/IOrientType",
           "description": "模块布局位置"
+        },
+        "padding": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局间距"
+        },
+        "regionId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的region id"
+        },
+        "regionIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 0,
+          "description": "组件关联的region索引"
+        },
+        "right": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "seriesId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的系列id"
+        },
+        "seriesIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "组件关联的系列索引"
+        },
+        "smartInvert": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SmartInvertAttrs"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "标签智能反色配置"
+        },
+        "stackDataFilterType": {
+          "description": "堆积数据过滤类型",
+          "enum": [
+            "max",
+            "min"
+          ],
+          "since": "1.12.0",
+          "type": "string"
+        },
+        "state": {
+          "typeof": "function"
+        },
+        "style": {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
+          "description": "标签样式配置"
+        },
+        "support3d": {
+          "description": "是否支持3D",
+          "type": "boolean"
+        },
+        "syncState": {
+          "default": false,
+          "description": "是否同步数据图元的状态变化",
+          "since": "1.9.0",
+          "type": "boolean"
+        },
+        "textType": {
+          "description": "文本类型：text, rich,",
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "since": "1.7.0",
+          "type": "string"
+        },
+        "top": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "visible": {
+          "description": "默认不显示标签",
+          "type": "boolean"
+        },
+        "width": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：宽度"
+        },
+        "zIndex": {
+          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<ILineLikeLabelSpec,\"position\">": {
+      "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
+        "animation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelExitAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelUpdateAnimation"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILabelUpdateChannelAnimation"
+              },
+              "type": "array"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "bottom": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "center": {
+          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
+          "type": "boolean"
+        },
+        "clip": {
+          "description": "模块是否裁剪超出布局区域外的绘图内容",
+          "type": "boolean"
+        },
+        "customLayoutFunc": {
+          "typeof": "function"
+        },
+        "customOverlapFunc": {
+          "typeof": "function"
+        },
+        "dataFilter": {
+          "typeof": "function"
+        },
+        "formatMethod": {
+          "typeof": "function"
+        },
+        "formatter": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\neg: 'type={type},value={value}'",
+          "since": "1.7.0"
+        },
+        "height": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：高度"
+        },
+        "id": {
+          "$ref": "#/definitions/StringOrNumber"
+        },
+        "interactive": {
+          "default": false,
+          "description": "是否支持交互。",
+          "type": "boolean"
+        },
+        "labelLayout": {
+          "description": "标签布局",
+          "enum": [
+            "region",
+            "series"
+          ],
+          "type": "string"
+        },
+        "layoutLevel": {
+          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
+          "type": "number"
+        },
+        "layoutType": {
+          "$ref": "#/definitions/ILayoutType",
+          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
+        },
+        "left": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "maxHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大高度"
+        },
+        "maxWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大宽度"
+        },
+        "minHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小高度"
+        },
+        "minWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小宽度"
+        },
+        "noOuterPadding": {
+          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
+          "type": "boolean"
+        },
+        "offset": {
+          "description": "标签与其对应数据图元的间距",
+          "type": "number"
+        },
+        "offsetX": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：X"
+        },
+        "offsetY": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：Y"
+        },
+        "orient": {
+          "$ref": "#/definitions/IOrientType",
+          "description": "模块布局位置"
+        },
+        "overlap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OverlapAttrs"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "标签防重叠配置"
         },
         "padding": {
           "$ref": "#/definitions/ILayoutPaddingSpec",
@@ -103907,34 +104258,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15544": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@15543"
+        "__@toStringTag@15544"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15544": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@15543"
+        "__@toStringTag@15544"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@15543": {
+        "__@toStringTag@15544": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@15543"
+        "__@toStringTag@15544"
       ],
       "type": "object"
     },

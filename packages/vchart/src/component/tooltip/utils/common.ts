@@ -78,23 +78,30 @@ function addContentLine(
               ...spec
             }
           : { ...shapeAttrs, ...spec };
+      const {
+        key,
+        keyFormatter,
+        keyTimeFormat,
+        keyTimeFormatMode,
+        value,
+        valueFormatter,
+        valueTimeFormat,
+        valueTimeFormatMode,
+        ...others
+      } = finalSpec;
 
-      Object.keys(finalSpec).forEach(k => {
-        if (k === 'key') {
-          res.key = getTimeString(
-            getTooltipContentValue(finalSpec.key, datum, params, finalSpec.keyFormatter),
-            finalSpec.keyTimeFormat,
-            finalSpec.keyTimeFormatMode
-          );
-        } else if (k === 'value') {
-          res.value = getTimeString(
-            getTooltipContentValue(finalSpec.value, datum, params, finalSpec.valueFormatter),
-            finalSpec.valueTimeFormat,
-            finalSpec.valueTimeFormatMode
-          );
-        } else {
-          (res as any)[k] = getTooltipContentValue((finalSpec as any)[k], datum, params);
-        }
+      res.key = getTimeString(
+        getTooltipContentValue(key, datum, params, keyFormatter),
+        keyTimeFormat,
+        keyTimeFormatMode
+      );
+      res.value = getTimeString(
+        getTooltipContentValue(value, datum, params, valueFormatter),
+        valueTimeFormat,
+        valueTimeFormatMode
+      );
+      Object.keys(others).forEach(k => {
+        (res as any)[k] = getTooltipContentValue((finalSpec as any)[k], datum, params);
       });
       if (res.visible !== false && (isValid(res.key) || isValid(res.value))) {
         result.push(res);

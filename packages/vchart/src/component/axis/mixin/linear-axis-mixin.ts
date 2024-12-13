@@ -38,6 +38,9 @@ export interface LinearAxisMixin {
   isSeriesDataEnable: any;
   computeDomain: any;
   collectData: (depth?: number) => { min: number; max: number; values: any[] }[];
+  /**
+   * 这个变量在其他break相关组件和扩展中都有使用
+   */
   _break: {
     domain: [number, number][];
     scope: [number, number][];
@@ -163,9 +166,11 @@ export class LinearAxisMixin {
       if (userSetBreaks) {
         const breakRanges = [];
         const breaks = [];
+        // 如果用户手动的手指了max，可以将break的最大值限制在用户设置的最大值范围内
+        const breakMaxLimit = isNil(this._domain.max) ? maxDomain : this._domain.max;
         for (let index = 0; index < this._spec.breaks.length; index++) {
           const { range } = this._spec.breaks[index];
-          if (range[0] <= range[1] && range[1] <= maxDomain) {
+          if (range[0] <= range[1] && range[1] <= breakMaxLimit) {
             breakRanges.push(range);
             breaks.push(this._spec.breaks[index]);
           }

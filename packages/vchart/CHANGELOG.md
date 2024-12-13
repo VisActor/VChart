@@ -1,6 +1,46 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 06 Dec 2024 07:17:54 GMT and should not be manually modified.
+This log was last generated on Fri, 13 Dec 2024 08:29:40 GMT and should not be manually modified.
+
+## 1.13.1
+Fri, 13 Dec 2024 08:29:40 GMT
+
+### Updates
+
+- fix: fix break of waterfall, fix #3544
+
+
+- feat: add config `customFilter` to legend, support cutomized filter function, close #3492
+
+
+- fix: fix the bug of updateModelSpecSync can not set axis.tick.forceTickCount
+
+
+- fix: fix filter of lock domain when field is array, related #3469
+
+
+- fix: fix size of datazoom when update, fix #3521
+
+
+- fix: html tooltip can reuse the dom content and fix the unneed animation
+
+
+- fix: fix update of extensionMark when mark has `name`, fix #3547
+
+
+- fix: fix indicator when change visible to be false, fix #3506
+
+
+- fix: fix tooltip content when only has `valueFormatter` or `keyFormatter`
+
+
+- fix: fix style of dom tooltip
+
+
+- fix(vchart-extension): series-break should keep align width axis break, related to #3560
+
+
+- fix: breaks should consider the `min` and `max` of axis, related to #3560
 
 ## 1.13.0
 Fri, 06 Dec 2024 07:17:54 GMT
@@ -16,7 +56,7 @@ Fri, 06 Dec 2024 07:17:54 GMT
 - feat: support max height of tooltip, by percent value , close #2675
 
 
-- fix: upgrade vrender to 0.21.1, vgrammar to 0.15.0
+- fix: upgrade vrender to 0.21.2, vgrammar to 0.15.1
 
 
 

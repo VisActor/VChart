@@ -1,4 +1,4 @@
-import { last } from '@visactor/vutils';
+import { isArray, last } from '@visactor/vutils';
 import { array, isNil } from '../../util';
 import type { DataView } from '@visactor/vdataset';
 
@@ -22,15 +22,16 @@ export const lockStatisticsFilter = (
     return statisticsData;
   }
   const fields = originalFields();
+  const realField = isArray(datumField) ? datumField[0] : datumField;
 
   if (
-    statisticsData[datumField] &&
+    statisticsData[realField] &&
     fields &&
-    fields[datumField] &&
-    fields[datumField].lockStatisticsByDomain &&
+    fields[realField] &&
+    fields[realField].lockStatisticsByDomain &&
     !isContinuous()
   ) {
-    statisticsData[datumField].values = newDomain;
+    statisticsData[realField].values = newDomain;
   }
 
   return statisticsData;

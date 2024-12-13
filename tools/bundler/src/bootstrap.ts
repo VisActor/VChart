@@ -140,6 +140,23 @@ async function bootstrap() {
     });
     taskList.push(taker.parallel(subBuildTasks));
   }
+  if (!args.ignoreESEntries && Array.isArray(config.esEntries) && config.esEntries.length > 0) {
+    const subBuildTasks: string[] = [];
+    config.esEntries.forEach(entry => {
+      const taskName = `Build ${entry}`;
+      subBuildTasks.push(`${taskName}_min`);
+
+      _task(`${taskName}_min`, () =>
+        buildES(
+          { ...config, input: { umd: `${entry}.ts` }, minify: true, umdOutputFilename: entry },
+          PROJECT_ROOT,
+          rawPackageJson,
+          true
+        )
+      );
+    });
+    taskList.push(taker.parallel(subBuildTasks));
+  }
 
   if (config.less) {
     _task(Tasks.BUILD_STYLE, () =>

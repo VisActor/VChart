@@ -21,13 +21,13 @@ export declare class DomTooltipHandler extends BaseTooltipHandler {
     protected _rootDom?: HTMLElement;
     protected _tooltipActual?: ITooltipActual;
     protected _container: Maybe<HTMLDivElement>;
-    protected _domString?: string;
     protected _cacheCustomTooltipPosition: ILayoutPoint;
     getVisibility(): boolean;
     setVisibility(_value: boolean): void;
     constructor();
     onAdd(service: IComponentPluginService<any>): void;
     initEl(): void;
+    initRootDom(): void;
     protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined;
     protected _removeTooltip(): void;
     protected _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;

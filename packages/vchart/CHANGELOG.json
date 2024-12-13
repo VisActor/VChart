@@ -2,6 +2,51 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.1",
+      "tag": "@visactor/vchart_v1.13.1",
+      "date": "Fri, 13 Dec 2024 08:29:40 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix break of waterfall, fix #3544\n\n"
+          },
+          {
+            "comment": "feat: add config `customFilter` to legend, support cutomized filter function, close #3492\n\n"
+          },
+          {
+            "comment": "fix: fix the bug of updateModelSpecSync can not set axis.tick.forceTickCount\n\n"
+          },
+          {
+            "comment": "fix: fix filter of lock domain when field is array, related #3469\n\n"
+          },
+          {
+            "comment": "fix: fix size of datazoom when update, fix #3521\n\n"
+          },
+          {
+            "comment": "fix: html tooltip can reuse the dom content and fix the unneed animation\n\n"
+          },
+          {
+            "comment": "fix: fix update of extensionMark when mark has `name`, fix #3547\n\n"
+          },
+          {
+            "comment": "fix: fix indicator when change visible to be false, fix #3506\n\n"
+          },
+          {
+            "comment": "fix: fix tooltip content when only has `valueFormatter` or `keyFormatter`\n\n"
+          },
+          {
+            "comment": "fix: fix style of dom tooltip\n\n"
+          },
+          {
+            "comment": "fix(vchart-extension): series-break should keep align width axis break, related to #3560\n\n"
+          },
+          {
+            "comment": "fix: breaks should consider the `min` and `max` of axis, related to #3560"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.0",
       "tag": "@visactor/vchart_v1.13.0",
       "date": "Fri, 06 Dec 2024 07:17:54 GMT",
@@ -17,7 +62,7 @@
             "comment": "feat: support max height of tooltip, by percent value , close #2675\n\n"
           },
           {
-            "comment": "fix: upgrade vrender to 0.21.1, vgrammar to 0.15.0\n\n"
+            "comment": "fix: upgrade vrender to 0.21.2, vgrammar to 0.15.1\n\n"
           }
         ]
       }
