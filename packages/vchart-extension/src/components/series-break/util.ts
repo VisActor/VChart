@@ -53,7 +53,9 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[], axesIndex?: nu
           const parsedAxisId = axisId ?? `${axisModel.type}-${axisModel.id}`;
 
           const regionBounds = getAllRegionBounds(axisModel.getRegions());
-          array(spec.breaks).forEach((breakConfig: ILinearAxisBreakSpec) => {
+
+          // todo 这里用到了内部变量，不太安全
+          array(axisModel._break?.breaks).forEach((breakConfig: ILinearAxisBreakSpec) => {
             const { range, breakSymbol, gap = 5 } = breakConfig;
             const pos1 = axisModel.valueToPosition(range[0]);
             const pos2 = axisModel.valueToPosition(range[1]);
@@ -356,7 +358,7 @@ function isPointInPolygon(point: Point, polygon: Point[]) {
 
 export const appendSeriesBreakConfig = (rawSpec: ISpec) => {
   if (rawSpec.axes?.length) {
-    const breakedAxes = rawSpec.axes.filter((axis: any) => axis.breaks && axis.breaks.length);
+    const breakedAxes = rawSpec.axes.filter((axis: any) => axis.breaks && axis.breaks.length && axis.visible !== false);
 
     if (breakedAxes.length) {
       (rawSpec as any).customMark = array((rawSpec as any).customMark).filter(
@@ -366,7 +368,7 @@ export const appendSeriesBreakConfig = (rawSpec: ISpec) => {
         getSeriesBreakConfig(
           breakedAxes as ILinearAxisSpec[],
           breakedAxes.map(axisSpec => {
-            return rawSpec.axes.indexOf(axisSpec);
+            return rawSpec.axes.indexOf(axisSpec as any);
           })
         )
       );
