@@ -1,6 +1,6 @@
 import { type IBoundsLike, type Maybe } from '@visactor/vutils';
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
-import type { ICartesianSeries } from '../../../series/interface';
+import { type ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper } from './interface';
 import type { IOrientType, IRect } from '../../../typings/space';
