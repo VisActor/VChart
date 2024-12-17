@@ -2,26 +2,24 @@
 
 2024-12-17
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: add config `customFilter` to legend, support cutomized filter function, close [#3492](https://github.com/VisActor/VChart/issues/3492)
+- **@visactor/vchart**: 添加配置 `customFilter` 到图例，支持自定义过滤函数，关闭 [#3492](https://github.com/VisActor/VChart/issues/3492)
+- **@visactor/vchart**: 面积图支持标签设置在中间`'inside-middle'`，关闭 [#3353](https://github.com/VisActor/VChart/issues/3353)
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: fix break of waterfall, fix [#3544](https://github.com/VisActor/VChart/issues/3544)
-- **@visactor/vchart**: fix the bug of updateModelSpecSync can not set axis.tick.forceTickCount
-- **@visactor/vchart**: fix filter of lock domain when field is array, related [#3469](https://github.com/VisActor/VChart/issues/3469)
-- **@visactor/vchart**: fix size of datazoom when update, fix [#3521](https://github.com/VisActor/VChart/issues/3521)
-- **@visactor/vchart**: html tooltip can reuse the dom content and fix the unneed animation
-- **@visactor/vchart**: fix update of extensionMark when mark has `name`, fix [#3547](https://github.com/VisActor/VChart/issues/3547)
-- **@visactor/vchart**: fix indicator when change visible to be false, fix [#3506](https://github.com/VisActor/VChart/issues/3506)
-- **@visactor/vchart**: fix tooltip content when only has `valueFormatter` or `keyFormatter`
-- **@visactor/vchart**: fix style of dom tooltip
-- **vchart-extension**: series-break should keep align width axis break, related to [#3560](https://github.com/VisActor/VChart/issues/3560)
-- **@visactor/vchart**: breaks should consider the `min` and `max` of axis, related to [#3560](https://github.com/VisActor/VChart/issues/3560)
-
-
+- **@visactor/vchart**: 修复瀑布图的设置了轴截断后的展示问题，修复 [#3544](https://github.com/VisActor/VChart/issues/3544)
+- **@visactor/vchart**: 修复 `updateModelSpecSync` 无法更新 `axis.tick.forceTickCount` 的问题
+- **@visactor/vchart**: 修复当字段配置了`lockStatisticsByDomain`后，Datazoom 设置`filterMode` 为 `filter`时，过滤效果不符合预期的问题，相关 [#3469](https://github.com/VisActor/VChart/issues/3469)
+- **@visactor/vchart**: 修复更新时 Y 轴方向 datazoom 的高度问题，修复 [#3521](https://github.com/VisActor/VChart/issues/3521)
+- **@visactor/vchart**: html tooltip 可以重用 DOM 内容并修复不必要的动画
+- **@visactor/vchart**: 修复当标记有 `name` 时 extensionMark 的更新问题，修复 [#3547](https://github.com/VisActor/VChart/issues/3547)
+- **@visactor/vchart**: 修复当 `visible` 变为 false 时的 Indicator 组件不能正常隐藏的问题，修复 [#3506](https://github.com/VisActor/VChart/issues/3506)
+- **@visactor/vchart**: 修复仅有 `valueFormatter` 或 `keyFormatter` 时的 Tooltip 内容问题
+- **@visactor/vchart**: 修复 html 类型的 tooltip 的样式
+- **@visactor/vchart-extension**: series-break 应保持与轴断点对齐，相关 [#3560](https://github.com/VisActor/VChart/issues/3560)
+- **@visactor/vchart**: 断点应考虑轴的 `min` 和 `max`，相关 [#3560](https://github.com/VisActor/VChart/issues/3560)
 
 [更多详情请查看 v1.13.1](https://github.com/VisActor/VChart/releases/tag/v1.13.1)
 

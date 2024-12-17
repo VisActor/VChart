@@ -6,6 +6,7 @@
 **🆕 New feature**
 
 - **@visactor/vchart**: add config `customFilter` to legend, support cutomized filter function, close [#3492](https://github.com/VisActor/VChart/issues/3492)
+- **@visactor/vchart**: Area chart supports setting labels in the middle `'inside-middle'`, close [#3353](https://github.com/VisActor/VChart/issues/3353)
 
 **🐛 Bug fix**
 
