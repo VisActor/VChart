@@ -246,9 +246,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         const colName = colDiv.getAttribute('data-col');
 
         if (colName && columns.includes(colName)) {
+          const hideColumn = colName === 'shape' && content.every(c => !c.hasShape || !c.shapeType);
+
           setStyleToDom(colDiv, {
             ...(this._domStyle as any)[colName],
-            display: 'inline-block',
+            display: hideColumn ? 'none' : 'inline-block',
             verticalAlign: 'top'
           });
           const rows = [...(colDiv.children as any)] as HTMLElement[];
@@ -280,6 +282,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
                 styleByRow = { ...styleByRow, ...getTextStyle(entry.valueStyle) };
               }
             } else if (colName === 'shape') {
+              styleByRow.display = entry.hasShape ? 'inline-block' : 'none';
               row.innerHTML = getSvgHtml(entry);
             }
 
