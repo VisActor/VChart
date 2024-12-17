@@ -268,8 +268,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
               row.classList.add(`${TOOLTIP_PREFIX}-${colName}`);
               colDiv.appendChild(row);
             }
+            let styleByRow = index === content.length - 1 ? {} : { ...rowStyle };
+
+            styleByRow.display = entry.visible === false ? 'none' : 'block';
             // 每次更新，需要更新单元格的高度，防止同步高度的时候没有更新
-            let styleByRow = index === content.length - 1 ? { height: 'initial' } : { ...rowStyle, height: 'initial' };
+            styleByRow.height = 'initial';
 
             if (colName === 'key') {
               row.innerHTML = formatContent(entry.key);
@@ -282,7 +285,6 @@ export class DomTooltipHandler extends BaseTooltipHandler {
                 styleByRow = { ...styleByRow, ...getTextStyle(entry.valueStyle) };
               }
             } else if (colName === 'shape') {
-              styleByRow.display = entry.hasShape ? 'inline-block' : 'none';
               row.innerHTML = getSvgHtml(entry);
             }
 
