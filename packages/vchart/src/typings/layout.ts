@@ -1,3 +1,10 @@
+/**
+ * 布局特定方向的大小配置，支持四种格式：
+ * * 数值类型
+ * * 以%结束的百分比字符串
+ * * 返回类型为数值的函数
+ * * 格式为{percent: number, offset: number}的对象
+ */
 export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number) | IPercentOffset;
 
 export interface ILayoutPoint {
@@ -30,10 +37,25 @@ export type ILayoutType =
   | 'absolute'
   | 'normal-inline';
 
+/**
+ * 布局各个方向的padding配置
+ */
 export type ILayoutOrientPadding = {
+  /**
+   * 左侧边距配置
+   */
   left?: ILayoutNumber;
+  /**
+   * 右侧边距配置
+   */
   right?: ILayoutNumber;
+  /**
+   * 顶部边距配置
+   */
   top?: ILayoutNumber;
+  /**
+   * 底部边距配置
+   */
   bottom?: ILayoutNumber;
 };
 
