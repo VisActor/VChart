@@ -16,6 +16,7 @@ import type { IMark } from '../../mark/interface';
 import { GaugeSeriesSpecTransformer } from './gauge-transformer';
 import { registerArcMark, type IArcMark } from '../../mark/arc';
 import { registerPolarLinearAxis } from '../../component/axis/polar';
+import { AttributeLevel } from '../../constant/attribute';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -103,6 +104,29 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         // forceShowCap 是内部属性，不在接口中暴露
         forceShowCap: true
       });
+    }
+  }
+
+  protected generateRadiusStyle(spec: any) {
+    if (!spec) {
+      return;
+    }
+    const style: any = {};
+    spec.outerRadius && (style.outerRadius = () => this._computeLayoutRadius() * spec.outerRadius);
+    spec.innerRadius && (style.innerRadius = () => this._computeLayoutRadius() * spec.innerRadius);
+    return style;
+  }
+
+  initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void {
+    super.initMarkStyleWithSpec(mark, spec, key);
+    if (mark && mark.name === SeriesMarkNameEnum.segment) {
+      // radius 配置需要额外处理比例值
+      const segmentSpec = this.getSpec()[SeriesMarkNameEnum.segment];
+      if (segmentSpec) {
+        for (const state in segmentSpec.state || {}) {
+          this.setMarkStyle(mark, this.generateRadiusStyle(segmentSpec.state[state]), state, AttributeLevel.User_Mark);
+        }
+      }
     }
   }
 
