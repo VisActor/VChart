@@ -20,6 +20,9 @@ import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor
 
 export type IMarkLine = IComponent;
 
+/**
+ * 辅助线配置，一般用于展示图表的趋势线、平均线等
+ */
 export type IMarkLineSpec =
   | (IMarkerSpec &
       /**

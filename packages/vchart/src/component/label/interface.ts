@@ -8,6 +8,9 @@ export interface ILabelFormatMethodContext {
   series?: ISeries;
 }
 
+/**
+ * 系列图元标签配置，一般用于展示数据项
+ */
 export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
   /** 默认不显示标签 */
   visible?: boolean;
