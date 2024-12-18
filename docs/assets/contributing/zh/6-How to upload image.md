@@ -11,6 +11,8 @@ https://github.com/xuanhun/articles/blob/main/visactor/img/A3gybJqQLo7vH8xV8I3cA
 
 https://cdn.jsdelivr.net/gh/[username]/[repo name]/[imgae path]
 
+https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/A3gybJqQLo7vH8xV8I3cA7NknRc.gif
+
 ![示例图片](https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/A3gybJqQLo7vH8xV8I3cA7NknRc.gif)
 
 # 下一步
