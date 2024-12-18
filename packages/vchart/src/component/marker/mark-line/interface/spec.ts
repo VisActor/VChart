@@ -253,8 +253,13 @@ export type IStepMarkLineSpec = IMarkerSpec & {
    * string 类型为百分比，相对于 region 区域宽度/高度的百分比，如 '30%'
    */
   expandDistance?: number | string;
-
+  /**
+   * 标注线的标签样式
+   */
   label?: IMarkerLabelSpec;
+  /**
+   * 标注线的线配置
+   */
   line?: {
     /**
      * 是否对 points 进行多段处理，默认为 false，即直接将所有的点连接成线。

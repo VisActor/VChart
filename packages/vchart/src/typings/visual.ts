@@ -641,16 +641,31 @@ export interface IArcMarkSpec extends IFillMarkSpec {
 
 // 3d arc，有高度配置
 export interface IArc3dMarkSpec extends IArcMarkSpec {
+  /**
+   * 3d圆弧的高度
+   */
   height?: number;
 }
 
 export interface ICellMarkSpec extends ISymbolMarkSpec {
+  /**
+   * 内边距
+   */
   padding?: number | number[] | IPadding;
 }
 
 export interface IGroupMarkSpec extends IFillMarkSpec {
+  /**
+   * 是否开启裁剪
+   */
   clip?: boolean;
+  /**
+   * 宽度
+   */
   width?: number;
+  /**
+   * 高度
+   */
   height?: number;
   /**
    * 圆角配置。
@@ -661,6 +676,9 @@ export interface IGroupMarkSpec extends IFillMarkSpec {
 }
 
 export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
+  /**
+   * 顶点坐标
+   */
   points?: IPoint[];
   /**
    * 圆角配置，支持数组配置，数组的顺序同组成 polygon 的顺序对应
