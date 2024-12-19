@@ -23,10 +23,9 @@ import { registerVennTransforms } from '@visactor/vgrammar-venn';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds, array } from '@visactor/vutils';
 import { getVennSeriesDataKey } from './util';
-import type { DiscreteLegend } from '../../component';
 import { ComponentTypeEnum } from '../../component/interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import type { ILegend } from '../../component/legend';
+import type { ILegend, IDiscreteLegend } from '../../component/legend/interface';
 
 export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends BaseSeries<T> {
   static readonly type: string = SeriesTypeEnum.venn;
@@ -315,9 +314,9 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
 
   legendSelectedFilter(component: ILegend, selectedKeys: StringOrNumber[]) {
     if (component.type === ComponentTypeEnum.discreteLegend) {
-      const legend = component as DiscreteLegend;
+      const legend = component;
 
-      const originalLegendKeys: any[] = legend.getLegendDefaultData(true);
+      const originalLegendKeys: any[] = (legend as IDiscreteLegend).getLegendDefaultData(true);
       if (selectedKeys.length === 0 && originalLegendKeys.length) {
         return [];
       }

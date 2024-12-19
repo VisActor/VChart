@@ -19,6 +19,10 @@ export type ILegend = IComponent & {
   setSelectedData: (d: StringOrNumber[]) => void;
 };
 
+export interface IDiscreteLegend extends ILegend {
+  getLegendDefaultData: (originalData?: boolean) => StringOrNumber[];
+}
+
 export type NoVisibleMarkStyle<T> = Omit<T, 'visible'>;
 
 export type ITitle = {
