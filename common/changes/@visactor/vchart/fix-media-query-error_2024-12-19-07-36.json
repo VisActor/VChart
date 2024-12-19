@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: media query should not throw error when has empty axis, related to #3575\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
