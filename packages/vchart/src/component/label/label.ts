@@ -7,7 +7,8 @@ import { STACK_FIELD_TOTAL_BOTTOM, STACK_FIELD_TOTAL_TOP } from '../../constant/
 import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import { AttributeLevel } from '../../constant/attribute';
 import { LayoutZIndex } from '../../constant/layout';
-import { MarkTypeEnum } from '../../mark/interface';
+import type { IComponentMark, ILabelMark } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { eachSeries } from '../../util/model';
 import type { ISeries } from '../../series/interface';
@@ -15,35 +16,19 @@ import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgram
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { defaultLabelConfig, textAttribute } from './util';
-import type { IComponentMark } from '../../mark/component';
 // eslint-disable-next-line no-duplicate-imports
 import { registerComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isArray, isFunction, isValid, pickWithout } from '@visactor/vutils';
-import type { ILabelSpec, TransformedLabelSpec } from './interface';
+import type { ILabelInfo, ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
-import type { ILabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabelMark } from '../../mark/label';
-import type { ICompilableMark } from '../../compile/mark';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';
 import { LabelSpecTransformer } from './label-transformer';
-import { HOOK_EVENT } from '@visactor/vgrammar-core';
-
-export interface ILabelInfo {
-  baseMark: ICompilableMark;
-  labelMark: ILabelMark;
-  series: ISeries;
-  labelSpec: TransformedLabelSpec;
-}
-
-export interface ILabelComponentContext {
-  region: IRegion;
-  labelInfo: ILabelInfo[];
-}
 
 export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
   static type = ComponentTypeEnum.label;

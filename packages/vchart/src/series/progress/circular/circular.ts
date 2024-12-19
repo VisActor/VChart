@@ -1,6 +1,5 @@
 /* eslint-disable no-duplicate-imports */
 import type { BandScale } from '@visactor/vscale';
-import type { IArcMark } from '../../../mark/arc';
 import type { Datum } from '../../../typings';
 import { isValidNumber } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../../interface';
@@ -16,7 +15,7 @@ import { AttributeLevel } from '../../../constant/attribute';
 import { Factory } from '../../../core/factory';
 import { registerProgressLikeAnimation } from '../../polar/progress-like';
 import { registerFadeInOutAnimation } from '../../../animation/config';
-import type { IMark } from '../../../mark/interface';
+import type { IArcMark, IMark } from '../../../mark/interface';
 import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
 import { registerPolarLinearAxis, registerPolarBandAxis } from '../../../component/axis/polar';
 

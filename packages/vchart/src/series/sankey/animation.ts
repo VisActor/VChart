@@ -1,18 +1,9 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
-import type { DirectionType } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import { Factory } from '../../core/factory';
 import { FadeInOutAnimation } from '../../animation/config';
-
-export type SankeyMark = 'node' | 'link' | 'label';
-
-export type SankeyAppearPreset = 'growIn' | 'fadeIn';
-
-export interface ISankeyAnimationParams {
-  direction: DirectionType;
-  growFrom: () => number;
-}
+import type { ISankeyAnimationParams, SankeyAppearPreset } from './interface';
 
 export const sankeyGrowIn = (params: ISankeyAnimationParams, isOverall: boolean = true): IAnimationTypeConfig => {
   return {

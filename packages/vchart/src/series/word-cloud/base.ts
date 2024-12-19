@@ -4,7 +4,6 @@ import { isNil, isObject, isValidNumber } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { DEFAULT_DATA_INDEX, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
-import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
 import { isTrueBrowser } from '../../util/env';
@@ -35,8 +34,7 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { Factory } from '../../core/factory';
-import type { IMark } from '../../mark/interface';
-import type { IRectMark } from '../../mark/rect';
+import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { LinearScale } from '@visactor/vscale';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
 

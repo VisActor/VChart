@@ -1,11 +1,6 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { Factory } from '../../../core/factory';
-
-export type ProgressLikeAppearPreset = 'grow' | 'fadeIn';
-
-export interface IProgressLikeAnimationParams {
-  startAngle?: number;
-}
+import type { IProgressLikeAnimationParams, ProgressLikeAppearPreset } from './interface';
 
 const Appear_Grow = (params: IProgressLikeAnimationParams): IAnimationTypeConfig => ({
   type: 'growAngleIn',

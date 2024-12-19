@@ -4,11 +4,9 @@ import type { IGroupMark } from '@visactor/vgrammar-core';
 import { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { ICommonSpec } from '../typings';
 import { BaseMark } from './base/base-mark';
-import type { IMarkOption, IMarkRaw } from './interface';
+import type { IComponentMark, IMarkOption } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-
-export type IComponentMark = IMarkRaw<ICommonSpec>;
 
 export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMark {
   static readonly type = MarkTypeEnum.component;

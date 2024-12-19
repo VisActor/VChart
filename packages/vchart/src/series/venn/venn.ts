@@ -2,7 +2,7 @@
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
-import type { IMark } from '../../mark/interface';
+import type { IArcMark, ILabelMark, IMark, IPathMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { Datum, IArcMarkSpec, IPathMarkSpec, IPoint, StringOrNumber } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
@@ -14,20 +14,18 @@ import type { TransformSpec } from '@visactor/vgrammar-core';
 import { vennSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerVennAnimation } from './animation';
-import type { ILabelMark } from '../../mark/label';
 import { VennSeriesSpecTransformer } from './venn-transform';
 import { BaseSeries } from '../base';
-import { registerArcMark, type IArcMark } from '../../mark/arc';
-import { registerPathMark, type IPathMark } from '../../mark/path';
+import { registerArcMark } from '../../mark/arc';
+import { registerPathMark } from '../../mark/path';
 import type { IVennCircleDatum, IVennOverlapDatum } from '@visactor/vgrammar-venn';
 import { registerVennTransforms } from '@visactor/vgrammar-venn';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds, array } from '@visactor/vutils';
 import { getVennSeriesDataKey } from './util';
-import type { DiscreteLegend } from '../../component';
-import type { BaseLegend } from '../../component/legend/base-legend';
 import { ComponentTypeEnum } from '../../component/interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import type { ILegend, IDiscreteLegend } from '../../component/legend/interface';
 
 export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends BaseSeries<T> {
   static readonly type: string = SeriesTypeEnum.venn;
@@ -314,11 +312,11 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     return getVennSeriesDataKey(value);
   }
 
-  legendSelectedFilter(component: BaseLegend<any>, selectedKeys: StringOrNumber[]) {
+  legendSelectedFilter(component: ILegend, selectedKeys: StringOrNumber[]) {
     if (component.type === ComponentTypeEnum.discreteLegend) {
-      const legend = component as DiscreteLegend;
+      const legend = component;
 
-      const originalLegendKeys: any[] = legend.getLegendDefaultData(true);
+      const originalLegendKeys: any[] = (legend as IDiscreteLegend).getLegendDefaultData(true);
       if (selectedKeys.length === 0 && originalLegendKeys.length) {
         return [];
       }

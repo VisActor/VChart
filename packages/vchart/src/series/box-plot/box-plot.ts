@@ -1,9 +1,7 @@
 /* eslint-disable no-duplicate-imports */
-import type { ISymbolMark } from '../../mark/symbol';
 import { AttributeLevel } from '../../constant/attribute';
 import { DEFAULT_DATA_INDEX } from '../../constant/data';
 import { PREFIX } from '../../constant/base';
-import type { IBoxPlotMark } from '../../mark/box-plot';
 import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
 import type { BoxPlotShaftShape, IOutlierMarkSpec, Datum } from '../../typings';
 import { Direction } from '../../typings/space';
@@ -28,7 +26,7 @@ import { registerBoxPlotMark } from '../../mark/box-plot';
 import { registerSymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import type { IMark } from '../../mark/interface';
+import type { IBoxPlotMark, IMark, ISymbolMark } from '../../mark/interface';
 import { merge, isNumber } from '@visactor/vutils';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';

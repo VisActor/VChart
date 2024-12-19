@@ -1,9 +1,6 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { Factory } from '../../core/factory';
-
-export type CirclePackingMark = 'leaf' | 'nonLeaf' | 'label' | 'nonLeafLabel';
-
-export type CirclePackingAppearPreset = 'growIn' | 'fadeIn';
+import type { CirclePackingAppearPreset } from './interface';
 
 export const circlePackingPresetAnimation = (preset: CirclePackingAppearPreset): IAnimationTypeConfig => {
   switch (preset) {

@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import type { StatisticOperations } from '../data/transforms/dimension-statistics';
+import type { StatisticOperations } from '../data/transforms/interface';
 import {
   STACK_FIELD_END,
   STACK_FIELD_START_PERCENT,

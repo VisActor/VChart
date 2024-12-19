@@ -5,11 +5,11 @@ import type { InterpolateType } from './interpolate';
 import type { ScaleType } from './scale';
 import type { ShapeType } from './shape';
 import type { IPoint } from './coordinate';
-import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark';
+import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark/interface';
 import type { Datum } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { ITokenKey } from '../theme/token';
+import type { ITokenKey } from '../theme/token/interface';
 import type {
   IRepeatType,
   TextAlignType,

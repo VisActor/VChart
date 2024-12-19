@@ -1,8 +1,7 @@
-import type { ILabelInfo } from './../../component/label/label';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
 import type { DataSet, DataView, ITransformOptions } from '@visactor/vdataset';
-import type { IMark } from '../../mark/interface';
+import type { IGroupMark, ILabelMark, IMark } from '../../mark/interface';
 import type { CoordinateType, IPoint, IPolarPoint } from '../../typings/coordinate';
 import type { IRegion } from '../../region/interface';
 import type { IBaseScale } from '@visactor/vscale';
@@ -11,13 +10,11 @@ import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 import type { ISeriesSeriesInfo, ISeriesSpecInfo, ISeriesStackData } from './common';
 import type { ISeriesTooltipHelper } from './tooltip-helper';
 import type { IInvalidType, Datum, DirectionType, IGroup, StringOrNumber } from '../../typings';
-import type { ISeriesMarkAttributeContext, StateValueType } from '../../compile/mark';
-import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
-import type { IGroupMark } from '../../mark/group';
+import type { ISeriesMarkAttributeContext, StateValueType } from '../../compile/mark/interface';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
-import type { ILabelMark } from '../../mark/label';
-import type { BaseLegend } from '../../component/legend/base-legend';
-import type { ILabelSpec } from '../../component/label/interface';
+import type { ILabelSpec, ILabelInfo } from '../../component/label/interface';
+import type { StatisticOperations } from '../../data/transforms/interface';
+import type { ILegend } from '../../component/legend/interface';
 
 // 使用类型约束系列支持的样式，但是感觉这样不合理 不使用这样的方式去做
 // export interface ISeries<A extends string> extends IModel
@@ -200,7 +197,7 @@ export interface ISeries extends IModel {
 
   getSeriesFieldValue: (datum: Datum, seriesField?: string) => any;
 
-  legendSelectedFilter?: (component: BaseLegend<any>, selectedKeys: StringOrNumber[]) => StringOrNumber[];
+  legendSelectedFilter?: (component: ILegend, selectedKeys: StringOrNumber[]) => StringOrNumber[];
   parseLabelStyle?: (labelStyle: any, labelSpec: any, labelMark?: ILabelMark) => any;
 }
 

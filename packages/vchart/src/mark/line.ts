@@ -2,13 +2,11 @@ import { Factory } from './../core/factory';
 import { SeriesTypeEnum } from '../series/interface/type';
 import type { ILineMarkSpec } from '../typings/visual';
 import { BaseLineMark } from './base/base-line';
-import type { IMarkRaw, IMarkStyle } from './interface';
+import type { ILineMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerLineGraphic } from '@visactor/vgrammar-core';
 import { registerVGrammarLineOrAreaAnimation } from '../animation/config';
-
-export type ILineMark = IMarkRaw<ILineMarkSpec>;
 
 export class LineMark extends BaseLineMark<ILineMarkSpec> implements ILineMark {
   static readonly type = MarkTypeEnum.line;

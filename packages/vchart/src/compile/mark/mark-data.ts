@@ -1,9 +1,9 @@
 import { CompilableData } from '../data/compilable-data';
 import { PREFIX } from '../../constant/base';
 import { isNil, isValid } from '@visactor/vutils';
-import type { ICompilableMark, IMarkDataInitOption } from './interface';
+import type { ICompilableMark, IMarkData, IMarkDataInitOption } from './interface';
 
-export class MarkData extends CompilableData {
+export class MarkData extends CompilableData implements IMarkData {
   protected _mark: ICompilableMark;
 
   constructor(option: IMarkDataInitOption) {

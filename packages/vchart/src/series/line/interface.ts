@@ -2,12 +2,17 @@ import type { IMarkSpec } from '../../typings/spec/common';
 import type { ICartesianSeriesSpec } from '../cartesian/interface';
 import type { ISymbolMarkSpec, ILineMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { LineAppearPreset } from './animation';
-import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ILabelSpec } from '../../component';
-import { IMultiLabelSpec } from '../../component/label';
+import type { IMultiLabelSpec, ILabelSpec } from '../../component/label/interface';
+import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/interface';
+import type { DirectionType } from '../../typings/space';
+
+export interface ILineAnimationParams {
+  direction: DirectionType;
+}
+
+export type LineAppearPreset = 'clipIn' | 'fadeIn' | 'grow';
 
 type LineMarks = 'point' | 'line';
 

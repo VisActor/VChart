@@ -1,6 +1,4 @@
-import type { DataSet } from '@visactor/vdataset';
-
-import type { IParserOptions } from '@visactor/vdataset';
+import type { DataSet, IParserOptions } from '@visactor/vdataset';
 import type {
   Datum,
   IDataValues,
@@ -20,15 +18,15 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
 import type { IMark } from '../mark/interface';
 import type { ISeries } from '../series/interface/series';
-import type { ITheme } from '../theme';
+import type { ITheme } from '../theme/interface';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
-import type { Compiler } from '../compile/compiler';
 import type { DimensionIndexOption, IChart, IChartSpecInfo } from '../chart/interface';
 import type { Stage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IUpdateSpecResult } from '../model/interface';
+import type { ICompiler } from '../compile/interface';
 
 export type DataLinkSeries = {
   /**
@@ -397,7 +395,7 @@ export interface IVChart {
    * 获取编译器实例
    * @returns
    */
-  getCompiler: () => Compiler;
+  getCompiler: () => ICompiler;
 
   /**
    * Get the chart instance

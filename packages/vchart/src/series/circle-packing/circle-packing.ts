@@ -2,7 +2,7 @@
 import { isNil, mixin } from '@visactor/vutils';
 
 import type { ICirclePackingOpt } from '../../data/transforms/circle-packing';
-import type { ICirclePackingSeriesSpec } from './interface';
+import type { CirclePackingAppearPreset, ICirclePackingSeriesSpec } from './interface';
 
 import type { IMarkSpec } from '../../typings/spec/common';
 import { Factory } from '../../core/factory';
@@ -14,9 +14,8 @@ import { SeriesTypeEnum } from '../interface/type';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { circlePackingLayout } from '../../data/transforms/circle-packing';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IArcMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
-import type { IArcMark } from '../../mark/arc';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
@@ -24,13 +23,11 @@ import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/
 import type { CirclePackingNodeElement } from '@visactor/vgrammar-hierarchy';
 import { flatten } from '../../data/transforms/flatten';
 import { CirclePackingTooltipHelper } from './tooltip-helper';
-import type { ITextMark } from '../../mark/text';
 import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerScaleInOutAnimation } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { CirclePackingAppearPreset } from './animation';
 import { registerCirclePackingAnimation } from './animation';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';

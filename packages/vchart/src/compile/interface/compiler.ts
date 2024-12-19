@@ -1,8 +1,6 @@
 import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
-import type { EventSourceType, EventType } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { GrammarType, IGrammarItem } from './compilable-item';
 import type { StringOrNumber } from '../../typings';
 
 export interface IRenderContainer {
@@ -172,29 +170,4 @@ export interface IRenderOption {
    * 用于vrender渲染react元素，`react-dom`包导出元素
    */
   ReactDOM?: any;
-}
-
-export type CompilerListenerParameters = {
-  type: EventType;
-  event: Event;
-  source: EventSourceType;
-  // FIXME: 这里 item 应当为场景树的 Item 类型
-  item: any | null;
-  datum: any | null;
-  markId: number | null;
-  modelId: number | null;
-  markUserId: StringOrNumber | null;
-  modelUserId: StringOrNumber | null;
-};
-
-export type CompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
-
-export interface IProductMap<T extends IGrammarItem> {
-  /** 编译产物 id 和对应的在 vchart 中的 GrammarItem */
-  [productId: string]: IGrammarItemMap<T>;
-}
-
-export interface IGrammarItemMap<T extends IGrammarItem> {
-  /** GrammarItem id 和 对应的引用 */
-  [id: number]: T;
 }

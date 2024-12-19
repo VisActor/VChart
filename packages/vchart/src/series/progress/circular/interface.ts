@@ -1,8 +1,11 @@
 import type { IAnimationSpec } from '../../../animation/spec';
 import type { IMarkSpec, IMarkTheme } from '../../../typings/spec/common';
-import type { ProgressLikeAppearPreset } from '../../polar/progress-like/animation';
 import type { IProgressSeriesSpec } from '../interface';
-import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../../polar/progress-like/interface';
+import type {
+  IProgressLikeSeriesSpec,
+  IProgressLikeSeriesTheme,
+  ProgressLikeAppearPreset
+} from '../../polar/progress-like/interface';
 import type { SeriesMarkNameEnum } from '../../interface/type';
 import type { IArcMarkSpec } from '../../../typings';
 

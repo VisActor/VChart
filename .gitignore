@@ -118,6 +118,7 @@ packages/vchart/mark.d.ts
 packages/vchart/mark.js
 packages/vchart/series.d.ts
 packages/vchart/series.js
+packages/vchart/spec-types/
 
 packages/taro-vchart/lib/
 packages/lark-vchart/index.js
@@ -130,3 +131,5 @@ docs/public/vchart/preview/failedPreviewLists.json
 packages/vchart/__tests__/runtime/node/**.png
 # env files
 .env.local
+
+*.tsbuildinfo

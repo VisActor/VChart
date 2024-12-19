@@ -1,9 +1,6 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { Factory } from '../../core/factory';
-
-export type TreemapMark = 'leaf' | 'nonLeaf';
-
-export type TreemapAppearPreset = 'growIn' | 'fadeIn';
+import type { TreemapAppearPreset } from './interface';
 
 export const treemapPresetAnimation = (preset: TreemapAppearPreset): IAnimationTypeConfig => {
   switch (preset) {

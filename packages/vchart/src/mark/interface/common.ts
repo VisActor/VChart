@@ -8,7 +8,7 @@ import type {
   ICompilableMarkOption,
   IModelMarkAttributeContext,
   StateValueType
-} from '../../compile/mark';
+} from '../../compile/mark/interface';
 import type { StringOrNumber } from '../../typings';
 import type { IMarkConfig } from '@visactor/vgrammar-core';
 import type { ICustomPath2D } from '@visactor/vrender-core';

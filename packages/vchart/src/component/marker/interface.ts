@@ -21,11 +21,11 @@ import type { ICartesianSeries, IGeoSeries, IPolarSeries } from '../../series/in
 import type {
   IOptionAggr,
   IOptionAggrField,
+  IOptionRegr,
   IOptionSeries,
   IOptionWithCoordinates
-} from '../../data/transforms/aggregation';
-import type { IOptionRegr } from '../../data/transforms/regression';
-import type { VChart } from '../../vchart-all';
+} from '../../data/transforms/interface';
+import type { IVChart } from '../../core/interface';
 
 export type IMarkerSupportSeries = ICartesianSeries | IPolarSeries | IGeoSeries;
 
@@ -361,7 +361,7 @@ export type IMarkProcessOptions = {
 };
 
 export type IMarkerAttributeContext = {
-  vchart: VChart;
+  vchart: IVChart;
   relativeSeries: IMarkerSupportSeries;
   startRelativeSeries: IMarkerSupportSeries;
   endRelativeSeries: IMarkerSupportSeries;

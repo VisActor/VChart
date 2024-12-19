@@ -2,7 +2,7 @@ import type { IImageGraphicAttribute, IRichTextGraphicAttribute, IGroupGraphicAt
 import type { IMarkPointItemPosition } from '@visactor/vrender-components';
 import type { ILineMarkSpec, ISymbolMarkSpec } from '../../../../typings';
 import type { IMarkerLabelSpec, IMarkerRef, IMarkerState, IMarkerSymbol } from '../../interface';
-import type { IRegion } from 'src/region';
+import type { IRegion } from '../../../../region/interface';
 
 export type IOffsetCallback = (region: IRegion) => number;
 

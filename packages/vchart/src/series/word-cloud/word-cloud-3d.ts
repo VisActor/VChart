@@ -1,5 +1,4 @@
 import { AttributeLevel } from '../../constant/attribute';
-import type { ITextMark } from '../../mark/text';
 // eslint-disable-next-line no-duplicate-imports
 import { registerTextMark } from '../../mark/text';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -11,6 +10,7 @@ import { Factory } from '../../core/factory';
 import { registerWordCloud3dAnimation } from './animation';
 import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
 import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-shape';
+import type { ITextMark } from '../../mark/interface';
 
 export class WordCloud3dSeries<
   T extends IWordCloud3dSeriesSpec = IWordCloud3dSeriesSpec

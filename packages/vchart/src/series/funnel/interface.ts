@@ -15,7 +15,7 @@ import type {
 } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import { ILabelSpec } from '../../component';
+import type { ILabelSpec } from '../../component/label/interface';
 
 type FunnelMarks = 'funnel';
 
