@@ -24,9 +24,9 @@ import type { IBounds } from '@visactor/vutils';
 import { Bounds, array } from '@visactor/vutils';
 import { getVennSeriesDataKey } from './util';
 import type { DiscreteLegend } from '../../component';
-import type { BaseLegend } from '../../component/legend/base-legend';
 import { ComponentTypeEnum } from '../../component/interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import type { ILegend } from '../../component/legend';
 
 export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends BaseSeries<T> {
   static readonly type: string = SeriesTypeEnum.venn;
@@ -313,7 +313,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     return getVennSeriesDataKey(value);
   }
 
-  legendSelectedFilter(component: BaseLegend<any>, selectedKeys: StringOrNumber[]) {
+  legendSelectedFilter(component: ILegend, selectedKeys: StringOrNumber[]) {
     if (component.type === ComponentTypeEnum.discreteLegend) {
       const legend = component as DiscreteLegend;
 

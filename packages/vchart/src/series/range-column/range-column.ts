@@ -17,7 +17,7 @@ import type { IRangeColumnSeriesSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PositionEnum } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { RangeColumnAppearPreset } from './animation';
+import type { RangeColumnAppearPreset } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { registerRangeColumnAnimation } from './animation';
 import { rangeColumnSeriesMark } from './constant';
