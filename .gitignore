@@ -131,3 +131,5 @@ docs/public/vchart/preview/failedPreviewLists.json
 packages/vchart/__tests__/runtime/node/**.png
 # env files
 .env.local
+
+*.tsbuildinfo
