@@ -86,5 +86,5 @@ export interface IGroupMark extends IMarkRaw<IGroupMarkSpec> {
   getMarks: () => IMark[];
   getMarkInType: (type: MarkType) => IMark[];
   getMarkInId: (id: number) => IMark | undefined;
-  getMarkInName: (name: string) => IMark | undefined;
+  getMarkInName: (name: string) => IMark[] | undefined;
 }
