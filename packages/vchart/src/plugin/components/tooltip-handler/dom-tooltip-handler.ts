@@ -246,9 +246,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         const colName = colDiv.getAttribute('data-col');
 
         if (colName && columns.includes(colName)) {
+          const hideColumn = colName === 'shape' && content.every(c => !c.hasShape || !c.shapeType);
+
           setStyleToDom(colDiv, {
             ...(this._domStyle as any)[colName],
-            display: 'inline-block',
+            display: hideColumn ? 'none' : 'inline-block',
             verticalAlign: 'top'
           });
           const rows = [...(colDiv.children as any)] as HTMLElement[];
@@ -266,8 +268,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
               row.classList.add(`${TOOLTIP_PREFIX}-${colName}`);
               colDiv.appendChild(row);
             }
+            let styleByRow = index === content.length - 1 ? {} : { ...rowStyle };
+
+            styleByRow.display = entry.visible === false ? 'none' : 'block';
             // 每次更新，需要更新单元格的高度，防止同步高度的时候没有更新
-            let styleByRow = index === content.length - 1 ? { height: 'initial' } : { ...rowStyle, height: 'initial' };
+            styleByRow.height = 'initial';
 
             if (colName === 'key') {
               row.innerHTML = formatContent(entry.key);
