@@ -1,3 +1,4 @@
+import type { Hooks } from '@visactor/vgrammar-core';
 import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
 import type { RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -170,4 +171,22 @@ export interface IRenderOption {
    * 用于vrender渲染react元素，`react-dom`包导出元素
    */
   ReactDOM?: any;
+  /**
+   * @since 1.13.2
+   * @default 200
+   * 单位 ms
+   * 多次点击之间的最大时间，默认为 200 ms，用于判断点击次数
+   */
+  clickInterval?: number;
+  /**
+   * @since 1.13.2
+   * @default false
+   * VRender 参数 是否自动阻止事件
+   */
+  autoPreventDefault?: boolean;
+  /**
+   * @deprecated
+   * 请使用 hooks 代替
+   */
+  performanceHook?: Hooks;
 }

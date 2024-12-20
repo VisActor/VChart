@@ -106,21 +106,32 @@ export class Compiler implements ICompiler {
         this._option?.onError?.(...args);
       });
     }
+    const {
+      performanceHook,
+      autoRefreshDpr,
+      dpr,
+      mode,
+      gestureConfig,
+      interactive,
+      clickInterval,
+      autoPreventDefault,
+      ...restOption
+    } = this._option;
     this._view = new View({
       width: this._width,
       height: this._height,
       container: this._container.dom ?? null,
       renderCanvas: this._container.canvas ?? null,
-      hooks: (this._option as any).performanceHook, // vgrammar 事件改造后，性能回调函数放在了hooks中实现
-      ...this._option,
-      autoRefresh: isValid(this._option.autoRefreshDpr) ? this._option.autoRefreshDpr : !isValid(this._option.dpr),
-      mode: toRenderMode(this._option.mode),
+      hooks: performanceHook, // vgrammar 事件改造后，性能回调函数放在了hooks中实现
+      ...restOption,
+      autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
+      mode: toRenderMode(mode),
       autoFit: false,
       eventConfig: {
-        gesture: isValid(this._option.gestureConfig)
-          ? (this._option.gestureConfig as any)
-          : isMobileLikeMode(this._option.mode),
-        disable: this._option.interactive === false
+        gesture: isValid(gestureConfig) ? (gestureConfig as any) : isMobileLikeMode(mode),
+        disable: interactive === false,
+        clickInterval,
+        autoPreventDefault
       },
       doLayout: () => {
         this._compileChart?.onLayout(this._view);
@@ -133,7 +144,6 @@ export class Compiler implements ICompiler {
     // emit afterRender event
     this.getStage().hooks.afterRender.tap('chart-event', this.handleStageRender);
 
-    const interactive = this._option.interactive;
     if (interactive !== false) {
       // 将 view 实例化之前监听的事件挂载到 view 上
       this._viewListeners.forEach(listener => {
