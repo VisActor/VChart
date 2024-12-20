@@ -33,6 +33,7 @@ export interface IGrammarItemMap<T extends IGrammarItem> {
 export type ICompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
 
 export interface ICompiler {
+  isInited?: boolean;
   getVGrammarView: () => IView;
   getModel: () => ICompilerModel;
   getRenderer: () => IRenderer;

@@ -29,7 +29,7 @@ import type {
 import type { IParserOptions, IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
-import type { Stage } from '@visactor/vrender-core';
+import type { IStage, Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender-core';
 import { isString, isValid, isNil, array, specTransform, functionTransform } from '../util';
@@ -1595,7 +1595,7 @@ export class VChart implements IVChart {
     }
     // 全局字体的特殊设置逻辑
     // 设置全局字体
-    this.getStage()?.setTheme({ text: { fontFamily } });
+    (this.getStage() as any)?.setTheme({ text: { fontFamily } });
   }
 
   // Tooltip 相关方法
@@ -1848,7 +1848,7 @@ export class VChart implements IVChart {
    * 获取渲染引擎实例。
    * @returns the instance of VRender Stage
    */
-  getStage(): Stage {
+  getStage(): IStage {
     return this._compiler.getStage();
   }
 

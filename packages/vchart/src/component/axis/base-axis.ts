@@ -3,7 +3,7 @@ import type { ITickDataOpt } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import type { IGroup, IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type {
   IOrientType,
@@ -24,7 +24,6 @@ import type { ISeries } from '../../series/interface';
 import { ChartEvent } from '../../constant/event';
 import { LayoutZIndex } from '../../constant/layout';
 import { animationConfig } from '../../animation/utils';
-import type { LooseFunction } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import {
   degreeToRadian,
@@ -33,7 +32,6 @@ import {
   array,
   get,
   isArray,
-  isBoolean,
   isFunction,
   isNil,
   isValid,
@@ -45,7 +43,6 @@ import type { ITransformOptions } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataView } from '@visactor/vdataset';
 import { GridEnum } from '@visactor/vgrammar-core';
-import type { IComponentMark } from '../../mark/component';
 // eslint-disable-next-line no-duplicate-imports
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
@@ -56,6 +53,7 @@ import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-core';
 import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';
+import type { IComponentMark } from '../../mark/interface/mark';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>

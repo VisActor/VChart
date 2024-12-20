@@ -27,12 +27,12 @@ import { getGroupAnimationParams } from '../util/utils';
 import { WaterfallSeriesSpecTransformer } from './waterfall-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { stackLabel } from '../../component/label/util';
-import type { ILabelInfo } from '../../component/label/label';
 import { WaterfallDefaultSeriesField } from '../../constant/waterfall';
 import { PREFIX } from '../../constant/base';
 import { AttributeLevel } from '../../constant/attribute';
 import type { ILabelMark, IRuleMark, ITextMark } from '../../mark/interface';
 import type { IBarAnimationParams } from '../bar/interface';
+import type { ILabelInfo } from '../../component/label/interface';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

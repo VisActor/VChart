@@ -30,7 +30,6 @@ import type { AABBBounds } from '@visactor/vutils';
 import { isNumber, isObject, isValidNumber, isValid, isFunction } from '@visactor/vutils';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { ILayoutModel } from '../../../model/interface';
-import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IChartOption } from '../../../chart/interface';
 import type { ITooltipSpec, Tooltip, TooltipHandlerParams } from '../../../component/tooltip';
@@ -41,6 +40,7 @@ import { BasePlugin } from '../../base/base-plugin';
 import { getTooltipPatternValue } from '../../../component/tooltip/utils';
 import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
 import type { ITooltipHandlerOptions } from './interface';
+import type { ICompiler } from '../../../compile/interface/compilable-item';
 
 type ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, data?: TooltipData) => TooltipResult;
 
@@ -72,7 +72,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   protected _component: Tooltip;
 
   protected _chartContainer: Maybe<HTMLElement>;
-  protected _compiler: Compiler;
+  protected _compiler: ICompiler;
 
   // tooltip 容器
   protected _container!: Maybe<IGroup | HTMLElement>;

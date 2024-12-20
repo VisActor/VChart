@@ -30,6 +30,7 @@ export interface IMarkStateManager {
     isMultiMark?: boolean
   ) => 'in' | 'out' | 'skip';
   checkState: (renderNode: IElement, datum: Datum | Datum[]) => StateValue[];
+  updateLayoutState: (noRender?: boolean) => void;
 }
 
 export interface IMarkData extends ICompilableData {
