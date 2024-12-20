@@ -561,7 +561,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         // 处理纵轴的标题样式
         if (autoRotate && isNil(titleAngle)) {
           titleAngle = spec.orient === 'left' ? -90 : 90;
-          titleTextStyle = DEFAULT_TITLE_STYLE[spec.orient];
+          titleTextStyle = (DEFAULT_TITLE_STYLE as any)[spec.orient];
         }
       }
 
