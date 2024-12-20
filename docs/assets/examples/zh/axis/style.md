@@ -4,7 +4,7 @@ group: axis
 title: 通用样式配置
 keywords: lineChart,comparison,trend,line,axis
 order: 25-1
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/style.png
+cover: /vchart/preview/axis-style_1.13.1.png
 option: lineChart#axes
 ---
 
@@ -23,6 +23,7 @@ option: lineChart#axes
 - `tick` 坐标轴刻度线配置
 - `grid` 坐标轴网格线配置
 - `title` 坐标轴标题配置
+- `unit` 坐标轴单位配置
 
 ## 代码演示
 
@@ -62,6 +63,15 @@ const spec = {
           fill: '#000'
         }
       },
+      unit: {
+        visible: true,
+        text: 'Unit of right axis',
+        style: {
+          // dx: -18,
+          dy: -8
+          // textAlign: 'right'
+        }
+      },
       tick: {
         visible: true,
         tickStep: 2,
@@ -86,6 +96,15 @@ const spec = {
         visible: true,
         space: 12,
         text: 'Left axis title'
+      },
+      unit: {
+        visible: true,
+        text: 'Unit of left axis',
+        style: {
+          // dx: -18,
+          dy: -8
+          // textAlign: 'right'
+        }
       },
       label: {
         formatMethod: val => `${val}°C`,
@@ -121,6 +140,7 @@ const spec = {
           fill: '#000'
         }
       },
+
       tick: {
         inside: true,
         tickSize: 8,
