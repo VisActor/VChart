@@ -1,8 +1,7 @@
-import { DataSet, csvParser, dataViewParser } from '@visactor/vdataset';
+import { DataSet, csvParser } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../../src/series/interface';
 import { initChartDataSet, seriesOption } from '../../util/context';
 import { LinearProgressSeries } from '../../../src';
-import type { IGroupMark } from '../../../src/mark/group';
 
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
