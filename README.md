@@ -161,8 +161,21 @@ $ rush docs
 | Project                                                                               | Description                          |
 | ------------------------------------------------------------------------------------- | ------------------------------------ |
 | [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React interface for @VisActor/VChart |
-| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula) | OpenInula VChart Components |
-| [OMI](https://omi.cdn-go.cn/home/latest) | Web Components Framework |
+| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                  | OpenInula VChart Components          |
+| [OMI](https://omi.cdn-go.cn/home/latest)                                              | Web Components Framework             |
+
+## 💖 Thanks
+
+<div>
+  <a href="https://semi.design/#gh-dark-mode-only" target="_blank">
+    <img alt="VisActor Logo" height="60" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/visactor/semi-dark.svg"/>
+  </a>
+  <a href="https://semi.design/#gh-light-mode-only" target="_blank">
+    <img alt="VisActor Logo" height="60" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/visactor/semi.svg"/>
+  </a>
+</div>
+
+Thanks to [Semi](https://semi.design/) for providing the theme visualization customization solution.
 
 ## 🤝 Contribution [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 

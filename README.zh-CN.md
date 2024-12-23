@@ -162,6 +162,19 @@ $ rush docs
 | ------------------------------------------------------------------------------------- | -------------------------- |
 | [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React for @VisActor/VChart |
 
+## 💖 Thanks
+
+<div>
+  <a href="https://semi.design/#gh-dark-mode-only" target="_blank">
+    <img alt="VisActor Logo" height="60" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/visactor/semi-dark.svg"/>
+  </a>
+  <a href="https://semi.design/#gh-light-mode-only" target="_blank">
+    <img alt="VisActor Logo" height="60" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/visactor/semi.svg"/>
+  </a>
+</div>
+
+感谢 [semi](https://semi.design/) 提供主题可视化定制解决方案
+
 ## 🤝 参与贡献 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 
 如想参与贡献，请先阅读[行为准则](./CODE_OF_CONDUCT.md) 和[贡献指南](./CONTRIBUTING.zh-CN.md)。
