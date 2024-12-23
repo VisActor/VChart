@@ -1,4 +1,3 @@
-import type { ILabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
@@ -6,7 +5,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant/data';
 import { LayoutZIndex } from '../../constant/layout';
 import { AttributeLevel } from '../../constant/attribute';
-import type { IMark, MarkType } from '../../mark/interface';
+import type { ILabelMark, IMark, MarkType } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '@visactor/vutils-extension';
@@ -21,7 +20,6 @@ import type { Datum, Maybe } from '../../typings';
 import { Factory } from '../../core/factory';
 import { registerComponentMark } from '../../mark/component';
 import type { IChartSpecInfo } from '../../chart/interface';
-import { HOOK_EVENT } from '@visactor/vgrammar-core';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;

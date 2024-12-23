@@ -1,9 +1,9 @@
 import { isFunction } from '@visactor/vutils';
 import { dimensionStatistics } from './dimension-statistics';
-import type { IStatisticsOption } from './dimension-statistics';
 import type { DataView } from '@visactor/vdataset';
 import { flatten } from './flatten';
 import type { Datum } from '../../typings';
+import type { IStatisticsOption } from './interface';
 
 /**
  * 层次聚合统计主要用于处理层次数据(诸如统计平均值,求和等),并返回计算后的数据结果

@@ -1,4 +1,5 @@
 import type {
+  IData,
   IElement,
   IGroupMark,
   IMark,
@@ -265,7 +266,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     // 绑定数据
     const dataProduct = this._data.getProduct();
     if (isValid(this._product) && isValid(dataProduct)) {
-      this._product.join(dataProduct, this.key, undefined, this.getGroupKey());
+      this._product.join(dataProduct as IData, this.key, undefined, this.getGroupKey());
     }
   }
 

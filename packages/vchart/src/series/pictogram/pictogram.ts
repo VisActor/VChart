@@ -1,36 +1,34 @@
 import { DataView } from '@visactor/vdataset';
 import type { SVGParsedElement, SVGParserResult } from '@visactor/vdataset';
-import { Factory, PanEventParam, ZoomEventParam } from '../../core';
+import type { PanEventParam, ZoomEventParam } from '../../core';
+import { Factory } from '../../core';
 import { GeoSeries } from '../geo/geo';
-import { ISeriesSeriesInfo, SeriesMarkMap, SeriesTypeEnum } from '../interface';
+import type { ISeriesSeriesInfo, SeriesMarkMap } from '../interface';
+import { SeriesTypeEnum } from '../interface';
 import type { IPictogramSeriesSpec } from './interface';
 import { PictogramSeriesMark } from './constant';
 import { getSVGSource, registerSVGSource, svgSourceMap, unregisterSVGSource } from './svg-source';
 import { SeriesData } from '../base/series-data';
 import { lookup } from '../../data/transforms/lookup';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { GroupMark } from '../../mark';
-import { IGroupMark } from '../../mark/group';
+import type { GroupMark } from '../../mark';
 import { shouldMarkDoMorph } from '../../animation/utils';
 import { AttributeLevel } from '../../constant/attribute';
 import { PictogramSeriesSpecTransformer } from './pictogram-transformer';
-import { Bounds, IMatrix, Matrix, isValid, merge } from '@visactor/vutils';
+import type { IMatrix } from '@visactor/vutils';
+import { Bounds, Matrix, isValid, merge } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
 import type { Group, IGraphic } from '@visactor/vrender-core';
 import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
-import { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
-import {
-  EventType,
-  registerElementHighlightByGraphicName,
-  registerElementSelectByGraphicName
-} from '@visactor/vgrammar-core';
-import { IMark } from '../../mark/interface';
+import type { EventType } from '@visactor/vgrammar-core';
+import { registerElementHighlightByGraphicName, registerElementSelectByGraphicName } from '@visactor/vgrammar-core';
+import type { IGroupMark, IMark, ITextMark } from '../../mark/interface';
 import { PictogramSeriesTooltipHelper } from './tooltip-helper';
 import { graphicAttributeTransform, pictogram } from '../../data/transforms/pictogram';
 import type { IPoint } from '../../typings/coordinate';
-import { ITextMark } from '../../mark/text';
 
 export interface SVGParsedElementExtend extends SVGParsedElement {
   _finalAttributes: Record<string, any>;

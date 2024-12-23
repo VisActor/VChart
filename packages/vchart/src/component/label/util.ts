@@ -1,13 +1,12 @@
 import type { WaterfallSeries } from './../../series/waterfall/waterfall';
 import type { Datum } from '../../typings/common';
 import { Direction } from '../../typings/space';
-import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, OverlapAttrs, Strategy } from '@visactor/vrender-components';
 import { SeriesTypeEnum, type ICartesianSeries } from '../../series/interface';
 import { isBoolean, isFunction, isObject, isString } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
-import type { ILabelSpec } from './interface';
+import type { ILabelInfo, ILabelSpec } from './interface';
 import { getFormatFunction } from '../util';
 
 export const labelRuleMap = {

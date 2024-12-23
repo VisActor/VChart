@@ -87,7 +87,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
 
   protected getContainer() {
     if (!this._container) {
-      this._container = this._option?.globalInstance.getStage().find(node => node.name === 'root', true);
+      this._container = this._option?.globalInstance.getStage().find(node => node.name === 'root', true) as IGroup;
     }
 
     return this._container;

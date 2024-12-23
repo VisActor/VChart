@@ -1,5 +1,5 @@
 import { ComponentTypeEnum } from '../../interface/type';
-import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/aggregation';
+import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/interface';
 import { cartesianCoordinateLayout, getMarkAreaProcessInfo, positionLayout, xyLayout } from '../utils';
 import type { MarkAreaAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports

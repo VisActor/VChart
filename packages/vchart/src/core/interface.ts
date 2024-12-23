@@ -22,7 +22,7 @@ import type { ITheme } from '../theme/interface';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { DimensionIndexOption, IChart, IChartSpecInfo } from '../chart/interface';
-import type { Stage } from '@visactor/vrender-core';
+import type { IStage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IUpdateSpecResult } from '../model/interface';
@@ -409,7 +409,7 @@ export interface IVChart {
    * 获取渲染引擎实例。
    * @returns the instance of VRender Stage
    */
-  getStage: () => Stage;
+  getStage: () => IStage;
 
   /**
    * 获取 canvas dom
