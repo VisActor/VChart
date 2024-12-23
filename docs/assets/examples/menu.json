@@ -3024,6 +3024,13 @@
             "zh": "业务漏斗图（柱状图模拟）",
             "en": "Business Funnel(Simulated with Bar)"
           }
+        },
+        {
+          "path": "pie-extension-icon",
+          "title": {
+            "zh": "饼图自定义Icon标记",
+            "en": "Pie Extension Icon"
+          }
         }
       ]
     },
