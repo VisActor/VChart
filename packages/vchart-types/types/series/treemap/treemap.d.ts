@@ -1,4 +1,4 @@
-import type { IMark } from '../../mark/interface';
+import type { IMark, ILabelMark } from '../../mark/interface';
 import type { Datum } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
@@ -6,7 +6,6 @@ import { SeriesTypeEnum } from '../interface/type';
 import type { ITreemapSeriesSpec } from './interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { DataView } from '@visactor/vdataset';
-import type { ILabelMark } from '../../mark/label';
 import { TreemapSeriesSpecTransformer } from './treemap-transform';
 export declare class TreemapSeries extends CartesianSeries<any> {
     static readonly type: string;
@@ -42,7 +41,7 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     protected _createHierarchyDataStatistics(dataName: string, rawData: DataView[]): DataView;
     getStatisticFields(): {
         key: string;
-        operations: import("../../data/transforms/dimension-statistics").StatisticOperations;
+        operations: import("../../data/transforms/interface").StatisticOperations;
     }[];
     initMark(): void;
     initMarkStyle(): void;

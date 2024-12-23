@@ -2,27 +2,14 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
-import type { ISeries } from '../../series/interface';
+import type { IComponentMark } from '../../mark/interface';
 import type { ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
-import type { IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { Maybe } from '@visactor/vutils';
-import type { TransformedLabelSpec } from './interface';
-import type { ILabelMark } from '../../mark/label';
-import type { ICompilableMark } from '../../compile/mark';
+import type { ILabelInfo } from './interface';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';
 import { LabelSpecTransformer } from './label-transformer';
-export interface ILabelInfo {
-    baseMark: ICompilableMark;
-    labelMark: ILabelMark;
-    series: ISeries;
-    labelSpec: TransformedLabelSpec;
-}
-export interface ILabelComponentContext {
-    region: IRegion;
-    labelInfo: ILabelInfo[];
-}
 export declare class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;

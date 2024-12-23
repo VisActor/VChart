@@ -1,11 +1,9 @@
 import type { IPadding } from '@visactor/vutils';
-import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import type { IWordCloudSeriesSpec, WordCloudConfigType, WordCloudShapeConfigType, WordCloudShapeType } from './interface';
 import type { Datum, IMarkSpec, IPoint, ITextMarkSpec } from '../../typings';
 import { BaseSeries } from '../base/base-series';
-import type { IMark } from '../../mark/interface';
-import type { IRectMark } from '../../mark/rect';
+import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & {
     type: string;

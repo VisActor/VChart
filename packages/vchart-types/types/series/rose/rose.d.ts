@@ -2,9 +2,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IRoseSeriesSpec } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
-import type { ITextMark } from '../../mark/text';
-import type { IMark } from '../../mark/interface';
-import type { ILabelMark } from '../../mark/label';
+import type { ILabelMark, IMark, ITextMark } from '../../mark/interface';
 import { RoseSeriesSpecTransformer } from './rose-transformer';
 export declare const DefaultBandWidth = 0.5;
 export declare class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends RoseLikeSeries<T> {

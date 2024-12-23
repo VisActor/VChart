@@ -1,5 +1,5 @@
 import type { StringOrNumber } from '../../../typings';
-import type { IAxis } from '../../axis';
+import type { IAxis } from '../../axis/interface';
 export interface ICrosshairLabelInfo {
     visible: boolean;
     text: StringOrNumber;

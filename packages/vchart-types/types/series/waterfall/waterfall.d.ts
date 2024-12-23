@@ -1,15 +1,13 @@
-import type { IRuleMark } from '../../mark/rule';
 import { BarSeries } from '../bar/bar';
 import type { IWaterfallSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { ITransformOptions, DataView } from '@visactor/vdataset';
 import { SeriesData } from '../base/series-data';
-import type { ITextMark } from '../../mark/text';
 import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum } from '../../typings';
-import type { ILabelMark } from '../../mark/label';
-import type { ILabelInfo } from '../../component/label/label';
+import type { ILabelMark, IRuleMark, ITextMark } from '../../mark/interface';
+import type { ILabelInfo } from '../../component/label/interface';
 export declare const DefaultBandWidth = 6;
 export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSpec> extends BarSeries<any> {
     static readonly type: string;

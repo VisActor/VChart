@@ -1,11 +1,7 @@
 import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { AnimationStateEnum } from '../../../animation/interface';
 import type { Datum } from '../../../typings';
-export interface IPieAnimationParams {
-    growField?: 'angle' | 'radius';
-    growFrom: (datum: Datum, element: IElement, state: AnimationStateEnum) => number;
-}
-export type PieAppearPreset = 'growAngle' | 'growRadius' | 'fadeIn';
+import type { IPieAnimationParams, PieAppearPreset } from '../interface';
 export declare function pieGrowOption(pieParams: IPieAnimationParams, isOverall: boolean, state: AnimationStateEnum): (datum: Datum, element: IElement, params: AnimationStateEnum) => {
     overall: number;
 } | {

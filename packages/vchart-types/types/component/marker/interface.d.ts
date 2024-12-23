@@ -5,9 +5,8 @@ import type { IComposedTextMarkSpec, IFormatMethod, IRectMarkSpec, IRichTextForm
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries, IGeoSeries, IPolarSeries } from '../../series/interface';
-import type { IOptionAggr, IOptionAggrField, IOptionSeries, IOptionWithCoordinates } from '../../data/transforms/aggregation';
-import type { IOptionRegr } from '../../data/transforms/regression';
-import type { VChart } from '../../vchart-all';
+import type { IOptionAggr, IOptionAggrField, IOptionRegr, IOptionSeries, IOptionWithCoordinates } from '../../data/transforms/interface';
+import type { IVChart } from '../../core/interface';
 export type IMarkerSupportSeries = ICartesianSeries | IPolarSeries | IGeoSeries;
 export type IPolarPoint = {
     angle: number;
@@ -114,7 +113,7 @@ export type IMarkProcessOptions = {
     processData?: DataView;
 };
 export type IMarkerAttributeContext = {
-    vchart: VChart;
+    vchart: IVChart;
     relativeSeries: IMarkerSupportSeries;
     startRelativeSeries: IMarkerSupportSeries;
     endRelativeSeries: IMarkerSupportSeries;
