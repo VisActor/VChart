@@ -243,29 +243,30 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     };
     let relativePosOffset = { x: 0, y: 0 };
     let tooltipParentElementRect: IPoint | DOMRect = { x: 0, y: 0 };
+    let chartElementRect: DOMRect;
     let chartElementScale = 1;
     let tooltipParentElementScale = 1;
+    const isBrowser = isTrueBrowser(this._env);
 
-    if (isTrueBrowser(this._env) && !tooltipSpec.confine) {
+    if (isBrowser && !tooltipSpec.confine) {
       // 只有在 browser 模式下才可以获取到 window 对象
       containerSize.width = window.innerWidth;
       containerSize.height = window.innerHeight;
-
-      if (!isCanvas) {
-        const tooltipParentElement = this._getParentElement(tooltipSpec);
-        tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect?.() ?? invalidPosition;
-        const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
-        const chartElementRect = chartElement?.getBoundingClientRect();
-        relativePosOffset = {
-          x: chartElementRect.x - tooltipParentElementRect.x,
-          y: chartElementRect.y - tooltipParentElementRect.y
-        };
-        chartElementScale = getScale(chartElement, chartElementRect);
-        tooltipParentElementScale = getScale(tooltipParentElement, tooltipParentElementRect as DOMRect);
-      }
     } else {
       containerSize.width = canvasWidth;
       containerSize.height = canvasHeight;
+    }
+    if (isBrowser && !isCanvas) {
+      const tooltipParentElement = this._getParentElement(tooltipSpec);
+      tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect?.() ?? invalidPosition;
+      const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
+      chartElementRect = chartElement?.getBoundingClientRect();
+      relativePosOffset = {
+        x: chartElementRect.x - tooltipParentElementRect.x,
+        y: chartElementRect.y - tooltipParentElementRect.y
+      };
+      chartElementScale = getScale(chartElement, chartElementRect);
+      tooltipParentElementScale = getScale(tooltipParentElement, tooltipParentElementRect as DOMRect);
     }
     const tooltipSizeScale = tooltipParentElementScale / chartElementScale;
 
@@ -363,7 +364,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     }
 
     const result: ITooltipPositionActual = { x: null, y: null };
-    const isBrowser = isTrueBrowser(this._env);
 
     dims.forEach(dim => {
       /* 二、换算成 x 和 y */
@@ -395,8 +395,12 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
       /* 三、确保tooltip在视区内 */
       const containerDimSize = dim === 'x' ? containerSize.width : containerSize.height;
-      const leftOrTop = -tooltipParentElementRect[dim] / tooltipParentElementScale;
-      const rightOrBottom = (containerDimSize - tooltipParentElementRect[dim]) / tooltipParentElementScale - boxSize;
+      const leftOrTop =
+        -(tooltipParentElementRect[dim] - chartElementRect[dim] / chartElementScale) / tooltipParentElementScale;
+      const rightOrBottom =
+        (containerDimSize + chartElementRect[dim] / chartElementScale - tooltipParentElementRect[dim]) /
+          tooltipParentElementScale -
+        boxSize;
 
       // 处理左右
       if (posType !== 2 && result[dim] < leftOrTop) {
