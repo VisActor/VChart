@@ -22,6 +22,9 @@ export interface ILabelFormatMethodContext {
   series?: ISeries;
 }
 
+/**
+ * 系列图元标签配置，一般用于展示数据项
+ */
 export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
   /** 默认不显示标签 */
   visible?: boolean;
@@ -98,9 +101,21 @@ export type ILabelAnimationSpec = Pick<
 export type IMultiLabelSpec<T extends Omit<ILabelSpec, 'position'>> = T | T[];
 
 type LabelStateStyle<T> = {
+  /**
+   * 标签hover状态样式配置
+   */
   hover?: T;
+  /**
+   * 标签hover_reverse状态样式配置
+   */
   hover_reverse?: T;
+  /**
+   * 标签选中状态样式配置
+   */
   selected?: T;
+  /**
+   * 标签未选中状态样式配置
+   */
   selected_reverse?: T;
 };
 

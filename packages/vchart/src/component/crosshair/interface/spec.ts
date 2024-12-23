@@ -103,7 +103,13 @@ export type ICrosshairLineStyle = Pick<
 export type ICrosshairRectStyle = ICrosshairLineStyle & Pick<IRectMarkSpec, 'fill' | 'fillOpacity' | 'cornerRadius'>;
 
 export interface ICrosshairLineSpec {
+  /**
+   * 是否显示
+   */
   visible?: boolean;
+  /**
+   * 辅助图形的类型
+   */
   type?: 'line';
   /**
    * 线宽
@@ -112,6 +118,9 @@ export interface ICrosshairLineSpec {
   width?: number;
   /** 极坐标系下是否平滑 */
   smooth?: boolean;
+  /**
+   * 辅助图形的样式配置
+   */
   style?: ICrosshairLineStyle;
 }
 

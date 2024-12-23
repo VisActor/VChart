@@ -17,6 +17,9 @@ export type IMarkArea = IComponent;
 
 export type IRegressType = 'regression';
 
+/**
+ * 面积标注、区块标注、辅助区块相关配置
+ */
 export type IMarkAreaSpec = IMarkerSpec &
   /**
    * 标注目标：笛卡尔坐标系坐标空间

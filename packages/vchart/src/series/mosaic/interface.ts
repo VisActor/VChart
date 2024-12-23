@@ -8,6 +8,9 @@ export interface IMosaicSeriesSpec extends Omit<IBarSeriesSpec, 'type' | 'label'
   type: 'mosaic';
   [SeriesMarkNameEnum.label]?: IMultiLabelSpec<
     Omit<ILabelSpec, 'position'> & {
+      /**
+       * 是否根据分组字段过滤标签
+       */
       filterByGroup?: {
         field: string;
         type?: 'min' | 'max';

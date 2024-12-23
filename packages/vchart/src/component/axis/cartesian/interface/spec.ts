@@ -24,7 +24,13 @@ export type ICartesianVertical = {
    * @since 1.8.10
    */
   innerOffset?: {
+    /**
+     * 顶部留白
+     */
     top?: ILayoutNumber;
+    /**
+     * 底部留白
+     */
     bottom?: ILayoutNumber;
   };
 };
@@ -35,7 +41,13 @@ export type ICartesianHorizontal = {
    * @since 1.8.10
    */
   innerOffset?: {
+    /**
+     * 左侧留白
+     */
     left?: ILayoutNumber;
+    /**
+     * 右侧留白
+     */
     right?: ILayoutNumber;
   };
 };

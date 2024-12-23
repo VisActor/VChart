@@ -65,9 +65,12 @@ export type IDataPointSpec = {
    */
   [key: string]: IDataPos | IDataPosCallback;
   /**
-   * 具体某个数据元素关联的series（仅在标注目标：数据元素下有效）
+   * 具体某个数据元素关联的series序号（仅在标注目标：数据元素下有效）
    */
   refRelativeSeriesIndex?: number;
+  /**
+   * 具体某个数据元素关联的series 的id（仅在标注目标：数据元素下有效）
+   */
   refRelativeSeriesId?: StringOrNumber;
   /**
    * 指定使用 xField 上的那个维度索引，因为 xField 字段有可能会包含多个维度，比如分组场景
@@ -268,9 +271,12 @@ export interface IMarkerCrossSeriesSpec {
 
 export type IMarkerSpec = IComponentSpec & {
   /**
-   * 标注数据关联的series
+   * 标注数据关联的series序号
    */
   relativeSeriesIndex?: number;
+  /**
+   * 标注数据关联系列对应的id
+   */
   relativeSeriesId?: number | string;
   /**
    * marker组件是否可见
