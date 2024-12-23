@@ -1,12 +1,11 @@
 import type { DataView } from '@visactor/vdataset';
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
-import type { IAreaMark } from '../../mark/area';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Datum } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IAreaSeriesSpec } from './interface';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IAreaMark } from '../../mark/interface';
 import { AreaSeriesSpecTransformer } from './area-transformer';
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Pick<LineLikeSeriesMixin, 'initLineMark' | 'initSymbolMark' | 'initLabelMarkStyle' | 'initLineMarkStyle' | 'initSymbolMarkStyle' | 'encodeDefined' | '_lineMark' | '_symbolMark' | 'addSamplingCompile' | 'addOverlapCompile' | 'reCompileSampling' | 'initLineLabelMarkStyle'>, CartesianSeries<T> {
 }

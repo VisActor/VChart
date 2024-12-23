@@ -1,8 +1,7 @@
+import type { Hooks } from '@visactor/vgrammar-core';
 import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
-import type { EventSourceType, EventType } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { GrammarType, IGrammarItem } from './compilable-item';
 import type { StringOrNumber } from '../../typings';
 export interface IRenderContainer {
     dom?: HTMLElement | 'none';
@@ -52,22 +51,7 @@ export interface IRenderOption {
     supportsTouchEvents?: boolean;
     supportsPointerEvents?: boolean;
     ReactDOM?: any;
-}
-export type CompilerListenerParameters = {
-    type: EventType;
-    event: Event;
-    source: EventSourceType;
-    item: any | null;
-    datum: any | null;
-    markId: number | null;
-    modelId: number | null;
-    markUserId: StringOrNumber | null;
-    modelUserId: StringOrNumber | null;
-};
-export type CompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
-export interface IProductMap<T extends IGrammarItem> {
-    [productId: string]: IGrammarItemMap<T>;
-}
-export interface IGrammarItemMap<T extends IGrammarItem> {
-    [id: number]: T;
+    clickInterval?: number;
+    autoPreventDefault?: boolean;
+    performanceHook?: Hooks;
 }

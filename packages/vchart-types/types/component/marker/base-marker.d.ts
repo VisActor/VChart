@@ -6,7 +6,7 @@ import type { CoordinateType, ILayoutRect, ILayoutType, IRect } from '../../typi
 import { BaseComponent } from '../base/base-component';
 import type { IDataPos, IDataPosCallback, IMarkerAttributeContext, IMarkerSpec, IMarkerSupportSeries } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
-import type { IOptionWithCoordinates } from '../../data/transforms/aggregation';
+import type { IOptionWithCoordinates } from '../../data/transforms/interface';
 export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
     layoutType: ILayoutType | 'none';
     static specKey: string;

@@ -1,7 +1,7 @@
-import type { IComponentMark } from './component';
 import type { IMark } from './interface/common';
 import { MarkTypeEnum } from './interface/type';
-import { ITextMark, TextMark } from './text';
+import { TextMark } from './text';
+import type { ILabelMark } from './interface/mark';
 export declare class LabelMark extends TextMark implements ILabelMark {
     static readonly type = MarkTypeEnum.text;
     static readonly constructorType = MarkTypeEnum.label;
@@ -15,14 +15,5 @@ export declare class LabelMark extends TextMark implements ILabelMark {
     private _component;
     getComponent(): IMark;
     setComponent(component: IMark): void;
-}
-export interface ILabelMark extends ITextMark {
-    skipEncode: boolean;
-    getRule: () => string;
-    setRule: (rule: string) => void;
-    getTarget: () => IMark;
-    setTarget: (target: IMark) => void;
-    getComponent: () => IComponentMark;
-    setComponent: (component: IComponentMark) => void;
 }
 export declare const registerLabelMark: () => void;

@@ -5,8 +5,7 @@ import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import { MarkStateManager } from './mark-state-manager';
-import type { ICompilableMark, IMarkDataInitOption, ICompilableMarkOption, StateValueType, IMarkCompileOption, IAttributeOpt } from './interface';
-import { MarkData } from './mark-data';
+import type { ICompilableMark, IMarkDataInitOption, ICompilableMarkOption, StateValueType, IMarkCompileOption, IAttributeOpt, IMarkData } from './interface';
 import { GrammarType } from '../interface/compilable-item';
 import type { IEvent } from '../../event/interface';
 export declare abstract class CompilableMark extends GrammarItem implements ICompilableMark {
@@ -24,11 +23,11 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     getUserId(): StringOrNumber;
     setUserId(userId: StringOrNumber): void;
     readonly model: IModel;
-    protected _data: Maybe<MarkData>;
+    protected _data: IMarkData;
     getDataView(): DataView | undefined;
     setDataView(d?: DataView, productId?: string): void;
-    getData(): MarkData;
-    setData(d?: MarkData): void;
+    getData(): IMarkData;
+    setData(d?: IMarkData): void;
     stateStyle: IMarkStateStyle<any>;
     state: MarkStateManager;
     protected _unCompileChannel: {

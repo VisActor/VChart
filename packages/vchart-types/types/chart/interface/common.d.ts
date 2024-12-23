@@ -3,8 +3,8 @@ import type { IRenderOption } from '../../compile/interface';
 import type { IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IView } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { ISeriesSpecInfo } from '../../series';
-import type { IRegionSpecInfo } from '../../region';
+import type { ISeriesSpecInfo } from '../../series/interface';
+import type { IRegionSpecInfo } from '../../region/interface';
 export interface ILayoutParams {
     srView?: IView;
     group?: any;

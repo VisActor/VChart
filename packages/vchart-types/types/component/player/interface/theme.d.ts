@@ -1,6 +1,5 @@
-import type { ControllerLayout, OrientType } from '@visactor/vrender-components';
+import type { ControllerLayout, OrientType, BaseGraphicAttributes } from '@visactor/vrender-components';
 import type { ISymbolMarkSpec, IRectMarkSpec } from '../../../typings';
-import type { BaseGraphicAttributes } from '@visactor/vrender-components';
 import type { ILayoutItemSpec } from '../../../layout/interface';
 export interface IPlayerTheme extends ILayoutItemSpec {
     visible?: boolean;

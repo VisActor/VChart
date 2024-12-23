@@ -2,7 +2,8 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { IArcMarkSpec, ITextMarkSpec, IMarkSpec, IMarkTheme, ISeriesSpec } from '../../typings';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesTheme } from '../polar/interface';
-import type { CirclePackingAppearPreset, CirclePackingMark } from './animation';
+export type CirclePackingMark = 'leaf' | 'nonLeaf' | 'label' | 'nonLeafLabel';
+export type CirclePackingAppearPreset = 'growIn' | 'fadeIn';
 export interface ICirclePackingSeriesSpec extends ISeriesSpec, IAnimationSpec<CirclePackingMark, CirclePackingAppearPreset> {
     type: 'circlePacking';
     categoryField: string;

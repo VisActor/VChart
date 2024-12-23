@@ -19,6 +19,8 @@ export declare class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> 
     initMark(): void;
     initMarkStyle(): void;
     private initSegmentMarkStyle;
+    protected generateRadiusStyle(spec: any): any;
+    initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void;
     protected initTooltip(): void;
     private initTrackMarkStyle;
     protected _getAngleValueStartWithoutMask(datum: Datum): number;

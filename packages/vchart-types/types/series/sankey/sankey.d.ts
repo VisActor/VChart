@@ -1,13 +1,12 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { ITextMark } from '../../mark/text';
 import type { Datum, StringOrNumber } from '../../typings';
 import { SeriesData } from '../base/series-data';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement, IMark as IVgrammarMark } from '@visactor/vgrammar-core';
-import type { IMark } from '../../mark/interface';
+import type { IMark, ITextMark } from '../../mark/interface';
 import { SankeySeriesSpecTransformer } from './sankey-transformer';
 import type { ILabelSpec } from '../../component';
 export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
@@ -27,7 +26,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     private _colorScale;
     private _nodeList;
     private _needClear;
-    get direction(): "horizontal" | "vertical";
+    get direction(): "vertical" | "horizontal";
     getCategoryField(): string;
     setCategoryField(f: string): string;
     protected _valueField: string;
