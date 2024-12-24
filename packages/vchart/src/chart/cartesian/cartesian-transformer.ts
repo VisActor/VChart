@@ -15,26 +15,22 @@ export class CartesianChartSpecTransformer<T extends ICartesianChartSpec> extend
     return this.seriesType ? type === this.seriesType : true;
   }
 
-  protected _getDefaultSeriesSpec(spec: any): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
-      xField: spec.xField,
-      yField: spec.yField,
-      zField: spec.zField,
-      seriesField: spec.seriesField,
-      seriesStyle: spec.seriesStyle,
-      direction: spec.direction,
-      stack: spec.stack, // 是否堆叠
-      percent: spec.percent, // 是否百分比堆叠
-      stackOffsetSilhouette: spec.stackOffsetSilhouette, // 是否围绕中心轴偏移轮廓,
-      totalLabel: spec.totalLabel,
-      sortDataByAxis: spec.sortDataByAxis
-    };
-    const seriesType = this.seriesType;
-    if (seriesType) {
-      series.type = seriesType;
-      series[seriesType] = spec[seriesType];
-    }
+  protected _getDefaultSeriesSpec(spec: any, pickKeys?: string[]): any {
+    const series: any = super._getDefaultSeriesSpec(
+      spec,
+      [
+        'xField',
+        'yField',
+        'zField',
+        'direction',
+        'stack', // 是否堆叠
+        'percent', // 是否百分比堆叠
+        'stackOffsetSilhouette', // 是否围绕中心轴偏移轮廓,
+        'totalLabel',
+        'sortDataByAxis'
+      ],
+      pickKeys
+    );
 
     return series;
   }

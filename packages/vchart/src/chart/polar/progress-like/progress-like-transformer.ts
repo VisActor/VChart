@@ -11,22 +11,11 @@ export class ProgressLikeChartSpecTransformer<T extends IPolarChartSpec> extends
   }
 
   protected _getDefaultSeriesSpec(spec: any): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
+    const series: any = super._getDefaultSeriesSpec(spec, ['startAngle', 'endAngle', 'centerX', 'centerY']);
 
-      seriesField: spec.seriesField,
-      categoryField: spec.categoryField || spec.radiusField,
-      valueField: spec.valueField || spec.angleField,
+    series.categoryField = spec.categoryField || spec.radiusField;
+    series.valueField = spec.valueField || spec.angleField;
 
-      startAngle: spec.startAngle,
-      endAngle: spec.endAngle,
-
-      radius: spec.radius,
-      innerRadius: spec.innerRadius,
-
-      centerX: spec.centerX,
-      centerY: spec.centerY
-    };
     return series;
   }
 

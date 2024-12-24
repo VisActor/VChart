@@ -160,7 +160,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     return true;
   }
 
-  protected _getDefaultSeriesSpec(chartSpec: any) {
+  protected _getDefaultSeriesSpec(chartSpec: any, pickKeys?: string[], pickKeys2?: string[]) {
     const series: any = {
       dataKey: chartSpec.dataKey,
 
@@ -197,6 +197,23 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
       interactions: chartSpec.interactions
     };
+
+    const seriesType = this.seriesType;
+    if (seriesType) {
+      series.type = seriesType;
+      series[seriesType] = (chartSpec as any)[seriesType];
+    }
+
+    if (pickKeys && pickKeys.length) {
+      pickKeys.forEach(k => {
+        series[k] = chartSpec[k];
+      });
+    }
+    if (pickKeys2 && pickKeys2.length) {
+      pickKeys2.forEach(k => {
+        series[k] = chartSpec[k];
+      });
+    }
     return series;
   }
 

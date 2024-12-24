@@ -5,34 +5,27 @@ export class WordCloudChartSpecTransformer<
   T extends IWordCloudChartSpec = IWordCloudChartSpec
 > extends BaseWordCloudChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: IWordCloudChartSpec): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
-      nameField: spec.nameField,
-      valueField: spec.valueField,
-      seriesField: spec.seriesField,
-      fontFamilyField: spec.fontFamilyField,
-      fontWeightField: spec.fontWeightField,
-      fontStyleField: spec.fontStyleField,
-      colorHexField: spec.colorHexField,
-      colorMode: spec.colorMode,
-      colorList: spec.colorList,
-      rotateAngles: spec.rotateAngles,
-      fontWeightRange: spec.fontWeightRange,
-      fontSizeRange: spec.fontSizeRange,
-      maskShape: spec.maskShape,
-      keepAspect: spec.keepAspect,
-      random: spec.random,
-      wordCloudConfig: spec.wordCloudConfig,
-      wordCloudShapeConfig: spec.wordCloudShapeConfig,
-      word: spec.word,
-      fillingWord: spec.fillingWord,
-      wordMask: spec.wordMask
-    };
-    const seriesType = this.seriesType;
-    if (seriesType) {
-      series.type = seriesType;
-      series[seriesType] = spec[seriesType];
-    }
+    const series: any = super._getDefaultSeriesSpec(spec, [
+      'nameField',
+      'valueField',
+      'fontFamilyField',
+      'fontWeightField',
+      'fontStyleField',
+      'colorHexField',
+      'colorMode',
+      'colorList',
+      'rotateAngles',
+      'fontWeightRange',
+      'fontSizeRange',
+      'maskShape',
+      'keepAspect',
+      'random',
+      'wordCloudConfig',
+      'wordCloudShapeConfig',
+      'word',
+      'fillingWord',
+      'wordMask'
+    ]);
 
     return series;
   }

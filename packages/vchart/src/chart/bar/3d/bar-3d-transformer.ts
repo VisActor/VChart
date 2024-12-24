@@ -6,12 +6,12 @@ export class Bar3dChartSpecTransformer<T extends IBar3dChartSpec = IBar3dChartSp
   AdaptiveSpec<T, 'type' | 'series'>
 > {
   protected _getDefaultSeriesSpec(spec: AdaptiveSpec<T, 'type' | 'series'>): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-      barWidth: spec.barWidth,
-      barMaxWidth: spec.barMaxWidth,
-      barMinWidth: spec.barMinWidth,
-      barGapInGroup: spec.barGapInGroup
-    };
+    const seriesSpec = super._getDefaultSeriesSpec(spec);
+    seriesSpec.barWidth = spec.barWidth;
+    seriesSpec.barMaxWidth = spec.barMaxWidth;
+    seriesSpec.barMinWidth = spec.barMinWidth;
+    seriesSpec.barGapInGroup = spec.barGapInGroup;
+
+    return seriesSpec;
   }
 }

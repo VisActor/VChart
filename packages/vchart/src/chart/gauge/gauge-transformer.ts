@@ -12,21 +12,17 @@ export class GaugeChartSpecTransformer<
 > extends ProgressLikeChartSpecTransformer<AdaptiveSpec<T, 'axes'>> {
   protected _getDefaultSeriesSpec(spec: T): any {
     const series = super._getDefaultSeriesSpec(spec);
-    return {
-      ...series,
-      radiusField: spec.radiusField,
 
-      pin: spec.pin,
-      pinBackground: spec.pinBackground,
-      pointer: spec.pointer
-    };
+    series.radiusField = spec.radiusField;
+    series.pin = spec.pin;
+    series.pinBackground = spec.pinBackground;
+    series.pointer = spec.pointer;
+    return series;
   }
 
   protected _getDefaultCircularProgressSeriesSpec(spec: T): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
-      type: SeriesTypeEnum.circularProgress
-    };
+    const series: any = super._getDefaultSeriesSpec(spec);
+    series.type = SeriesTypeEnum.circularProgress;
     return series;
   }
 

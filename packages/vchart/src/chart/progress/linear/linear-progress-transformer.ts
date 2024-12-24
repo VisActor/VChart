@@ -12,17 +12,11 @@ export class LinearProgressChartSpecTransformer<
   }
 
   protected _getDefaultSeriesSpec(spec: T): ILinearProgressChartSpec {
-    const series = super._getDefaultSeriesSpec(spec);
-    return {
-      ...series,
-      direction: spec.direction ?? 'horizontal',
+    const series = super._getDefaultSeriesSpec(spec, ['bandWidth', 'progress', 'track']);
+    series.direction = spec.direction ?? 'horizontal';
 
-      cornerRadius: spec.cornerRadius ?? 0,
-      bandWidth: spec.bandWidth,
-
-      progress: spec.progress,
-      track: spec.track
-    };
+    series.cornerRadius = spec.cornerRadius ?? 0;
+    return series;
   }
 
   transformSpec(spec: T): void {
