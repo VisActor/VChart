@@ -524,7 +524,7 @@ export class VChart implements IVChart {
     }
     this._chart = chart;
     this._chart.setCanvasRect(this._currentSize.width, this._currentSize.height);
-    this._chart.created();
+    this._chart.created(this._chartSpecTransformer);
     this._chart.init();
     this._event.emit(ChartEvent.initialized, {
       chart,
@@ -547,13 +547,15 @@ export class VChart implements IVChart {
     if (!this._compiler) {
       return;
     }
-    this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
+    const view = this._compiler.getVGrammarView();
+
+    view.addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
       this._event.emit(ChartEvent.animationFinished, {
         chart: this._chart,
         vchart: this
       });
     });
-    this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
+    view.addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
       this._event.emit(ChartEvent.renderFinished, {
         chart: this._chart,
         vchart: this
@@ -668,17 +670,24 @@ export class VChart implements IVChart {
     if (updateResult.reMake) {
       this._releaseData();
       this._initDataSet();
-      // 释放图表等等
-      this._chartSpecTransformer = null;
       this._chart?.release();
       this._chart = null as unknown as IChart;
-      // 卸载了chart之后再设置主题 避免多余的reInit
-      if (updateResult.changeTheme) {
-        this._setCurrentTheme();
-        this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
-      } else if (updateResult.changeBackground) {
-        this._compiler?.setBackground(this._getBackground());
-      }
+    }
+
+    if (updateResult.reTransformSpec) {
+      // 释放图表等等
+      this._chartSpecTransformer = null;
+    }
+
+    // 卸载了chart之后再设置主题 避免多余的reInit
+    if (updateResult.changeTheme) {
+      this._setCurrentTheme();
+      this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
+    } else if (updateResult.changeBackground) {
+      this._compiler?.setBackground(this._getBackground());
+    }
+
+    if (updateResult.reMake) {
       // 如果不需要动画，那么释放item，避免元素残留
       this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
       // chart 内部事件 模块自己必须删除
@@ -690,13 +699,6 @@ export class VChart implements IVChart {
         this._doResize();
       }
     } else {
-      // 不remake的情况下，可以在这里更新主题
-      if (updateResult.changeTheme) {
-        this._setCurrentTheme();
-        this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
-      } else if (updateResult.changeBackground) {
-        this._compiler?.setBackground(this._getBackground());
-      }
       if (updateResult.reCompile) {
         // recompile
         // 清除之前的所有 compile 内容
@@ -1324,7 +1326,7 @@ export class VChart implements IVChart {
     });
     this._event?.on(eType as any, query as any, handler as any);
   }
-  off(eType: string, handler?: EventCallback<EventParams>): void {
+  off(eType: EventType, handler?: EventCallback<EventParams>): void {
     if (!this._userEvents || this._userEvents.length === 0) {
       return;
     }

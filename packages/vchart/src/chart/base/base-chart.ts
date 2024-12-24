@@ -52,7 +52,7 @@ import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
 // eslint-disable-next-line no-duplicate-imports
 import type { IParserOptions } from '@visactor/vdataset';
-import type { IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
@@ -76,8 +76,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
 
   readonly id: number = createID();
-
-  protected _transformer: IChartSpecTransformer;
 
   //FIXME: 转换后的 spec 需要声明 ITransformedChartSpec
   protected _spec: T;
@@ -203,12 +201,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._spec = spec;
   }
 
-  created() {
-    this._transformer = new this.transformerConstructor({
-      ...this._option,
-      type: this.type,
-      seriesType: this.seriesType
-    });
+  created(transformer: Maybe<IChartSpecTransformer>) {
     // data
     this._chartData.parseData(this._spec.data);
     // scale
@@ -219,11 +212,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._createLayout();
     // 基于spec 创建元素。
     // region
-    this._transformer.forEachRegionInSpec(this._spec, this._createRegion.bind(this));
+    debugger;
+    transformer.forEachRegionInSpec(this._spec, this._createRegion.bind(this));
     // series
-    this._transformer.forEachSeriesInSpec(this._spec, this._createSeries.bind(this));
+    transformer.forEachSeriesInSpec(this._spec, this._createSeries.bind(this));
     // components
-    this._transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
+    transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
   }
 
   init() {

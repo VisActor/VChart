@@ -77,7 +77,7 @@ describe('rangeColumn chart test', () => {
         getSpecInfo: () => info
       } as any
     );
-    chart.created();
+    chart.created(transformer);
     chart.init();
 
     // spec
