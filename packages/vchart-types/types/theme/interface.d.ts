@@ -5,7 +5,7 @@ import type { MarkTypeEnum } from '../mark/interface';
 import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
 import type { IColor } from '@visactor/vrender-core';
 import type { IComponentTheme } from '../component/interface';
-import type { ITokenKey, TokenMap } from './token';
+import type { ITokenKey, TokenMap } from './token/interface';
 import type { ChartType } from '../chart/interface';
 export interface ITheme {
     name?: string;

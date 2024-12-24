@@ -4,7 +4,10 @@ import type { IMarkSpec, IMarkTheme } from '../../../typings/spec/common';
 import type { IRectMarkSpec } from '../../../typings/visual';
 import type { SeriesMarkNameEnum } from '../../interface/type';
 import type { IProgressSeriesSpec } from '../interface';
-import type { LinearProgressAppearPreset } from './animation';
+export interface ILinearProgressAnimationParams {
+    direction: DirectionType;
+}
+export type LinearProgressAppearPreset = 'grow' | 'fadeIn';
 export interface ILinearProgressSeriesSpec extends IProgressSeriesSpec, IAnimationSpec<string, LinearProgressAppearPreset> {
     type: 'linearProgress';
     xField: string | string[];

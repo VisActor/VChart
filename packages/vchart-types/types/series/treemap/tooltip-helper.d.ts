@@ -1,4 +1,4 @@
-import { Datum } from '../../typings';
+import type { Datum } from '../../typings';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { TreemapSeries } from './treemap';
 export declare class TreemapTooltipHelper extends BaseSeriesTooltipHelper {

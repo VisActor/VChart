@@ -1,14 +1,8 @@
 import type { IComposedTextMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
+import type { IMarkOption, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface';
-import { IMarkSpec } from '../typings/spec/common';
-export type ITextMark = IMarkRaw<IComposedTextMarkSpec> & {
-    getTextType: () => 'text' | 'rich';
-};
-export type ITextSpec<T> = IMarkSpec<T> & {
-    textType?: 'rich' | 'text';
-};
+import type { ITextMark, ITextSpec } from './interface/mark';
 export declare class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMark {
     static readonly type = MarkTypeEnum.text;
     readonly type = MarkTypeEnum.text;

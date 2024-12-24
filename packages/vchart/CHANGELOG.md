@@ -1,6 +1,27 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 13 Dec 2024 08:29:40 GMT and should not be manually modified.
+This log was last generated on Mon, 23 Dec 2024 12:30:04 GMT and should not be manually modified.
+
+## 1.13.2
+Mon, 23 Dec 2024 12:30:04 GMT
+
+### Updates
+
+- feat: add miss Series and Chart in react vchart, close #3578
+- feat: vchart support clickInterval params
+- fix: support percentage state radius config in gauge segment mark, #3459
+- fix: media query should not throw error when has empty axis, related to #3575
+
+
+- fix: tooltip should not render empty column when `hasShape` of tooltip is `false`, related to #3572
+
+
+- fix: `othersLine` of tooltip can be hidden by `visible: false`, related to #3572
+
+
+- fix: fix position of tooltip, related to #3590
+
+
 
 ## 1.13.1
 Fri, 13 Dec 2024 08:29:40 GMT

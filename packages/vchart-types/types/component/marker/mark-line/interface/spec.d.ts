@@ -3,7 +3,7 @@ import type { IAggrType, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IDat
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
 import type { Datum, ILineMarkSpec, IPoint } from '../../../../typings';
-import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components/es/marker/type';
+import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components';
 export type IMarkLine = IComponent;
 export type IMarkLineSpec = (IMarkerSpec & (IMarkLineXSpec | IMarkLineYSpec | IMarkLineXYSpec | IMarkLineXYY1Spec | IMarkLineYXX1Spec | IMarkLineAngleSpec | IMarkLineRadiusSpec | IMarkLineAngRadRad1Spec | IMarkLineRadAngAng1Spec | IMarkLineAngRadSpec | IMarkLineCoordinateSpec | IMarkerPositionsSpec) & IMarkLineTheme & BaseMarkerAnimation<MarkCommonLineAnimationType>) | (IStepMarkLineSpec & BaseMarkerAnimation<MarkCommonLineAnimationType>);
 export interface IMarkLineXSpec extends IMarkerCrossSeriesSpec {

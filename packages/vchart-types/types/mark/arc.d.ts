@@ -1,8 +1,7 @@
 import type { IArcMarkSpec, Datum, StateValueType } from '../typings';
 import { BaseMark } from './base/base-mark';
-import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
+import type { IArcMark, IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
-export type IArcMark = IMarkRaw<IArcMarkSpec>;
 export declare class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements IMarkRaw<T> {
     readonly type: MarkTypeEnum;
     _unCompileChannel: {

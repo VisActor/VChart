@@ -3,7 +3,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IChart } from '../chart/interface';
 import type { IChartSpec } from '../typings/spec';
 import type { IVisualScale, IVisualSpecScale } from '../typings';
-import type { StatisticOperations } from '../data/transforms/dimension-statistics';
+import type { StatisticOperations } from '../data/transforms/interface';
 export declare class GlobalScale implements IGlobalScale {
     private _scaleSpecMap;
     private _scaleMap;

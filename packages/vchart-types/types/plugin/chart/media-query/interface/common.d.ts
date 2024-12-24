@@ -1,7 +1,7 @@
 import type { ComponentTypeEnum } from '../../../../component/interface';
-import type { IVChart } from '../../../../core';
+import type { IVChart } from '../../../../core/interface';
 import type { IModelSpecInfo } from '../../../../model/interface';
-import type { SeriesTypeEnum } from '../../../../series';
+import type { SeriesTypeEnum } from '../../../../series/interface';
 import type { IChartSpec } from '../../../../typings';
 export interface IMediaQueryActionFilterResult<T extends Record<string, unknown> = any> {
     isChart?: boolean;

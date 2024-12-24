@@ -3,7 +3,7 @@ import type { ICommonSpec, VisualType, ValueType, FunctionType } from '../../typ
 import type { IModel } from '../../model/interface';
 import type { IBaseScale } from '@visactor/vscale';
 import type { MarkType } from './type';
-import type { ICompilableMark, ICompilableMarkOption, IModelMarkAttributeContext, StateValueType } from '../../compile/mark';
+import type { ICompilableMark, ICompilableMarkOption, IModelMarkAttributeContext, StateValueType } from '../../compile/mark/interface';
 import type { StringOrNumber } from '../../typings';
 import type { IMarkConfig } from '@visactor/vgrammar-core';
 import type { ICustomPath2D } from '@visactor/vrender-core';

@@ -1,27 +1,12 @@
 import type { ISeriesOption } from '../interface/common';
 import type { ISeries } from '../interface/series';
-import type { ICompileMarkConfig, IMark, IMarkProgressiveConfig } from '../../mark/interface';
-import type { ILineMark } from '../../mark/line';
-import type { ISymbolMark } from '../../mark/symbol';
-import type { ITextMark } from '../../mark/text';
-import type { DirectionType, IInvalidType, InterpolateType, ILineMarkSpec, ISymbolMarkSpec, Maybe, Datum, IMarkTheme, ILayoutRect } from '../../typings';
+import type { ICompileMarkConfig, IMark, IMarkProgressiveConfig, ILabelMark, ILineMark, ISymbolMark, ITextMark } from '../../mark/interface';
+import type { DirectionType, IInvalidType, InterpolateType, Maybe, Datum, ILayoutRect } from '../../typings';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
-import type { ILabelSpec } from '../../component/label';
 import type { DimensionEventParams } from '../../event/events/dimension';
-import type { ILabelMark } from '../../mark/label';
-import type { Functional } from '@visactor/vrender-components';
 import type { IRegion } from '../../region/interface';
 import type { SeriesData } from '../base/series-data';
-export interface ILineLikeSeriesTheme {
-    line?: Partial<IMarkTheme<ILineMarkSpec>>;
-    point?: Partial<IMarkTheme<ISymbolMarkSpec>> & {
-        visibleInActive?: boolean;
-    };
-    label?: Partial<ILineLikeLabelSpec>;
-}
-export type ILineLikeLabelSpec = Omit<ILabelSpec, 'position'> & {
-    position?: Functional<'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center'>;
-};
+import type { ILineLikeSeriesTheme } from './interface';
 export interface LineLikeSeriesMixin extends ISeries {
     _spec: any;
     _option: ISeriesOption;

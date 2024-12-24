@@ -36,7 +36,7 @@ export declare class SunburstSeries extends PolarSeries<any> {
     protected initData(): void;
     getStatisticFields(): {
         key: string;
-        operations: ("values" | "max" | "min")[];
+        operations: ("min" | "max" | "values")[];
     }[];
     protected _addDataIndexAndKey(): void;
     initMark(): void;

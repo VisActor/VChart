@@ -5,11 +5,11 @@ import type { InterpolateType } from './interpolate';
 import type { ScaleType } from './scale';
 import type { ShapeType } from './shape';
 import type { IPoint } from './coordinate';
-import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark';
+import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark/interface';
 import type { Datum } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { ITokenKey } from '../theme/token';
+import type { ITokenKey } from '../theme/token/interface';
 import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextAttribute, IGraphicStyle, IColor } from '@visactor/vrender-core';
 export interface IVisualSpecBase<D, T> {
     type: ScaleType;
@@ -69,8 +69,8 @@ export interface ICommonSpec {
     scaleX?: number;
     scaleY?: number;
     scaleCenter?: [number | string, number | string];
-    beta?: number;
     alpha?: number;
+    beta?: number;
     anchor3d?: [number, number];
     pickMode?: 'accurate' | 'imprecise' | 'custom';
     boundsMode?: 'accurate' | 'imprecise';
