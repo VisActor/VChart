@@ -128,9 +128,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
   setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, renderNextTick: boolean = true): boolean {
     this._layoutTag = tag;
-    if (this.getCompiler()?.getVGrammarView()) {
-      this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && renderNextTick && this.getCompiler().renderNextTick(morphConfig);
+    const compiler = this.getCompiler();
+
+    if (compiler?.getVGrammarView()) {
+      compiler.getVGrammarView().updateLayoutTag();
+      tag && renderNextTick && compiler.renderNextTick(morphConfig);
     }
     return this._layoutTag;
   }
@@ -212,7 +214,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._createLayout();
     // 基于spec 创建元素。
     // region
-    debugger;
     transformer.forEachRegionInSpec(this._spec, this._createRegion.bind(this));
     // series
     transformer.forEachSeriesInSpec(this._spec, this._createSeries.bind(this));

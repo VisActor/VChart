@@ -1110,9 +1110,9 @@ export class VChart implements IVChart {
 
     const reSize = this._shouldChartResize(lastSpec);
     result.reSize = reSize;
-    this._compiler?.getVGrammarView()?.updateLayoutTag();
 
     if (this._spec.type !== lastSpec.type) {
+      this._compiler?.getVGrammarView()?.updateLayoutTag();
       result.reMake = true;
       result.reTransformSpec = true;
       result.change = true;
@@ -1146,25 +1146,7 @@ export class VChart implements IVChart {
     forceMerge: boolean = false,
     morphConfig?: IMorphConfig
   ) {
-    if (!spec || !this._spec) {
-      return this as unknown as IVChart;
-    }
-    if (isString(spec)) {
-      spec = JSON.parse(spec);
-    }
-
-    if (!isFunction(filter)) {
-      // find spec and update
-      mergeSpecWithFilter(this._spec, filter, spec, forceMerge);
-    }
-
-    if (this._chart) {
-      const model = this._chart.getModelInFilter(filter);
-      if (model) {
-        return this._updateModelSpec(model, spec, false, forceMerge, morphConfig);
-      }
-    }
-    return this as unknown as IVChart;
+    return this.updateModelSpecSync(filter, spec, forceMerge, morphConfig);
   }
 
   /**
@@ -1553,16 +1535,7 @@ export class VChart implements IVChart {
    * @returns
    */
   async setCurrentTheme(name: string) {
-    if (!ThemeManager.themeExist(name)) {
-      return this as unknown as IVChart;
-    }
-    const result = this._setCurrentTheme(name);
-    this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
-    await this.updateCustomConfigAndRerender(result, false, {
-      transformSpec: false,
-      actionSource: 'setCurrentTheme'
-    });
-    return this as unknown as IVChart;
+    return this.setCurrentThemeSync(name);
   }
 
   /**
@@ -2126,14 +2099,7 @@ export class VChart implements IVChart {
    * @since 1.11.10
    */
   geoZoomByIndex(regionIndex: number = 0, zoom: number, center?: { x: number; y: number }) {
-    const region = this._chart?.getRegionsInQuerier({ regionIndex })[0];
-    const geoCoordinates = this._chart?.getComponentsByType(
-      ComponentTypeEnum.geoCoordinate
-    ) as unknown as IGeoCoordinate[];
-    const coord = geoCoordinates?.find(coord => coord.getRegions()?.includes(region));
-    if (coord) {
-      coord.dispatchZoom(zoom, center);
-    }
+    this._geoZoomByQuery({ regionIndex }, zoom, center);
   }
 
   /**
@@ -2144,7 +2110,11 @@ export class VChart implements IVChart {
    * @since 1.11.10
    */
   geoZoomById(regionId: string | number, zoom: number, center?: { x: number; y: number }) {
-    const region = this._chart?.getRegionsInQuerier({ regionId })[0];
+    this._geoZoomByQuery({ regionId }, zoom, center);
+  }
+
+  _geoZoomByQuery(query: MaybeArray<IRegionQuerier>, zoom: number, center?: { x: number; y: number }) {
+    const region = this._chart?.getRegionsInQuerier(query)[0];
     const geoCoordinates = this._chart?.getComponentsByType(
       ComponentTypeEnum.geoCoordinate
     ) as unknown as IGeoCoordinate[];
