@@ -70,6 +70,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
             area: any;
         };
         disableTriggerEvent: boolean;
+        disableDispatchOutSide: any;
     };
     protected _getHandlerTextFormatMethod(spec: IDataZoomSpec['startText']): (text: any) => any;
     protected _getNeedClearVRenderComponents(): IGraphic[];
