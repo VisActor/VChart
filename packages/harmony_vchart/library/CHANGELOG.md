@@ -1,3 +1,28 @@
+# v1.13.2
+
+2024-12-24
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add miss Series and Chart in react vchart, close [#3578](https://github.com/VisActor/VChart/issues/3578)
+- **@visactor/vchart**: vchart support clickInterval params
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: support percentage state radius config in gauge segment mark, [#3459](https://github.com/VisActor/VChart/issues/3459)
+- **@visactor/vchart**: media query should not throw error when has empty axis, related to [#3575](https://github.com/VisActor/VChart/issues/3575)
+- **@visactor/vchart**: tooltip should not render empty column when `hasShape` of tooltip is `false`, related to [#3572](https://github.com/VisActor/VChart/issues/3572)
+- **@visactor/vchart**: `othersLine` of tooltip can be hidden by `visible: false`, related to [#3572](https://github.com/VisActor/VChart/issues/3572)
+- **@visactor/vchart**: fix position of tooltip, related to [#3590](https://github.com/VisActor/VChart/issues/3590)
+- **@visactor/vchart**: page should not crash when `tickStep` is too small, fix  [#3591](https://github.com/VisActor/VChart/issues/3591)
+- **@visactor/vchart**: fix updating of customized DOM when has interactive layer, fix  [#3587](https://github.com/VisActor/VChart/issues/3587) 
+- **@visactor/vchart**: fix axis breaks when set `tickStep`, fix  [#3560](https://github.com/VisActor/VChart/issues/3560) 
+ 
+
+
+[more detail about v1.13.2](https://github.com/VisActor/VChart/releases/tag/v1.13.2)
+
 # v1.13.1
 
 2024-12-17

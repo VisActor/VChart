@@ -1,11 +1,11 @@
 {
   "changes": [
     {
-      "comment": "fix: fix position of tooltip, related to #3590\n\n",
+      "comment": "fix: fix the typographical error of dataset tutorial\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
   ],
   "packageName": "@visactor/vchart",
-  "email": "dingling112@gmail.com"
+  "email": "lixuef1313@163.com"
 }

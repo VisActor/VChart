@@ -1,15 +1,5 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
-export interface ILiquidAnimationParams {
-    height: {
-        from: () => number | number;
-        to: () => number | number;
-    };
-    dy: {
-        from: () => number | number;
-        to: () => number | number;
-    };
-}
-export type LiquidAppearPreset = 'wave' | 'grow' | 'waveGrow';
+import type { ILiquidAnimationParams, LiquidAppearPreset } from './interface';
 export declare function liquidPresetAnimation(params: ILiquidAnimationParams, preset: LiquidAppearPreset): IAnimationTypeConfig;
 export declare function liquidGroupPresetAnimation(params: ILiquidAnimationParams, preset: LiquidAppearPreset): IAnimationTypeConfig;
 export declare const registerLiquidAnimation: () => void;

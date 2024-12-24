@@ -4,7 +4,7 @@ import { SeriesTypeEnum, SeriesMarkNameEnum } from '../../interface/type';
 import { FunnelSeries } from '../funnel';
 import type { IFunnel3dSeriesSpec } from '../interface';
 import type { AdaptiveSpec } from '../../../typings';
-import type { ILabelMark } from '../../../mark/label';
+import type { ILabelMark } from '../../../mark/interface';
 export declare class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec> extends FunnelSeries<AdaptiveSpec<T, 'type'>> {
     static readonly type: string;
     type: SeriesTypeEnum;

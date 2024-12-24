@@ -2,6 +2,36 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.2",
+      "tag": "@visactor/vchart_v1.13.2",
+      "date": "Mon, 23 Dec 2024 12:30:04 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add miss Series and Chart in react vchart, close #3578"
+          },
+          {
+            "comment": "feat: vchart support clickInterval params"
+          },
+          {
+            "comment": "fix: support percentage state radius config in gauge segment mark, #3459"
+          },
+          {
+            "comment": "fix: media query should not throw error when has empty axis, related to #3575\n\n"
+          },
+          {
+            "comment": "fix: tooltip should not render empty column when `hasShape` of tooltip is `false`, related to #3572\n\n"
+          },
+          {
+            "comment": "fix: `othersLine` of tooltip can be hidden by `visible: false`, related to #3572\n\n"
+          },
+          {
+            "comment": "fix: fix position of tooltip, related to #3590\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.1",
       "tag": "@visactor/vchart_v1.13.1",
       "date": "Fri, 13 Dec 2024 08:29:40 GMT",

@@ -2,11 +2,15 @@ import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/i
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, IVisualSpecBase, ShapeType, FunctionType } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { ScatterAppearPreset, ScatterMarks } from './animation';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ILineLikeLabelSpec } from '../mixin/line-mixin';
-import { IMultiLabelSpec } from '../../component/label';
+import type { ILineLikeLabelSpec } from '../mixin/interface';
+import type { IMultiLabelSpec } from '../../component/label/interface';
+export type ScatterMarks = 'point' | 'label';
+export type ScatterAppearPreset = 'scaleIn' | 'fadeIn';
+export interface IScatterAnimationParams {
+    [key: string]: object;
+}
 export interface IScatterSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<ScatterMarks, ScatterAppearPreset>, IMarkProgressiveConfig {
     type: 'scatter';
     xField?: string | string[];

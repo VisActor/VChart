@@ -8,7 +8,7 @@ import type { IComponentConstructor } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
 import type { IParserOptions, Transform } from '@visactor/vdataset';
 import { DataSet, DataView } from '@visactor/vdataset';
-import type { Stage } from '@visactor/vrender-core';
+import type { IStage } from '@visactor/vrender-core';
 import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
 import type { IMark, MarkConstructor } from '../mark/interface';
@@ -172,7 +172,7 @@ export declare class VChart implements IVChart {
     reLayout(): void;
     getCompiler(): Compiler;
     getChart(): IChart;
-    getStage(): Stage;
+    getStage(): IStage;
     getCanvas(): HTMLCanvasElement | undefined;
     getContainer(): Maybe<HTMLElement>;
     getComponents(): import("../component/interface").IComponent[];
@@ -201,7 +201,7 @@ export declare class VChart implements IVChart {
     }): void;
     private _initChartPlugin;
     private _chartPluginApply;
-    protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
+    protected _getMode(): "node" | (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
     protected _getChartOption(type: string): IChartOption;
 }
 export declare const registerVChartCore: () => void;
