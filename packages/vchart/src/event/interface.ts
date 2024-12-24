@@ -3,7 +3,6 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { IChart } from '../chart/interface';
 import type { IModel } from '../model/interface';
 import type { IMark, MarkType } from '../mark/interface';
-import type { VChart } from '../core/vchart';
 import type { DimensionEventParams } from './events/dimension/interface';
 import type { Datum, IPoint, StringOrNumber } from '../typings';
 import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
@@ -312,7 +311,7 @@ export type EventParamsDefinition = {
 };
 
 export interface IEventDispatcher {
-  globalInstance: VChart;
+  globalInstance: IVChart;
   register: <Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) => this;
   unregister: <Evt extends EventType>(eType: Evt, handler?: EventHandler<EventParamsDefinition[Evt]>) => this;
   dispatch: <Evt extends EventType>(eType: Evt, params?: EventParamsDefinition[Evt], level?: EventBubbleLevel) => this;

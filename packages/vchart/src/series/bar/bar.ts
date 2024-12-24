@@ -3,7 +3,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
+import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import {
   DEFAULT_DATA_KEY,
@@ -17,14 +17,11 @@ import type { Datum, DirectionType } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
 import { getRegionStackGroup } from '../../util/data';
 import { getActualNumValue } from '../../util/space';
-import type { BarAppearPreset, IBarAnimationParams } from './animation';
 import { registerBarAnimation } from './animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
-import type { IBarSeriesSpec } from './interface';
+import type { BarAppearPreset, IBarAnimationParams, IBarSeriesSpec } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
-import type { IRectMark } from '../../mark/rect';
 import type { IModelInitOption } from '../../model/interface';
-import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';

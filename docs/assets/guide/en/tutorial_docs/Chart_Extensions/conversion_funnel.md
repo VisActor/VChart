@@ -14,7 +14,7 @@ The conversion rate funnel chart requires manual registration, and the registrat
 
 ```js
 import VChart from '@visactor/vchart';
-import { registerSeriesBreak, appendSeriesBreakConfig } from '@visactor/vchart-extension';
+import { registerConversionFunnelChart } from '@visactor/vchart-extension';
 
 const spec = {
   type: 'conversionFunnel'

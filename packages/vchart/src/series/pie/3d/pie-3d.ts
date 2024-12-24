@@ -13,7 +13,7 @@ import { radianToDegree } from '@visactor/vutils';
 import { Factory } from '../../../core/factory';
 import { registerPie3dAnimation } from '../animation/animation';
 import { Pie3dSeriesSpecTransformer } from './pie-3d-transformer';
-import type { ITextMark } from '../../../mark/text';
+import type { ITextMark } from '../../../mark/interface';
 
 export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie3d;

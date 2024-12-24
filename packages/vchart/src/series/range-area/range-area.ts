@@ -1,7 +1,6 @@
 import { AreaSeries } from '../area/area';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { IAreaMark } from '../../mark/area';
 import { registerAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
 import type { Datum } from '../../typings';
@@ -11,6 +10,7 @@ import type { IAreaSeriesSpec } from '../area/interface';
 import { rangeAreaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import type { IAreaMark } from '../../mark/interface';
 
 export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends AreaSeries<T> {
   static readonly type: string = SeriesTypeEnum.rangeArea;

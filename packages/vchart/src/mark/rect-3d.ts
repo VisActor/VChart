@@ -1,13 +1,11 @@
 import { Factory } from './../core/factory';
 import type { IRect3dMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IMarkRaw, IMarkStyle } from './interface';
+import type { IMarkStyle, IRect3dMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerRect3dGraphic } from '@visactor/vgrammar-core';
 import { registerVGrammarRectAnimation } from '../animation/config';
-
-export type IRect3dMark = IMarkRaw<IRect3dMarkSpec>;
 
 export class Rect3dMark extends BaseMark<IRect3dMarkSpec> implements IRect3dMark {
   static readonly type = MarkTypeEnum.rect3d;

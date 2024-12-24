@@ -1,13 +1,11 @@
 import { Factory } from './../core/factory';
 import type { IAreaMarkSpec } from '../typings/visual';
 import { BaseLineMark } from './base/base-line';
-import type { IMarkRaw, IMarkStyle } from './interface';
+import type { IAreaMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerAreaGraphic } from '@visactor/vgrammar-core';
 import { registerVGrammarLineOrAreaAnimation } from '../animation/config';
-
-export type IAreaMark = IMarkRaw<IAreaMarkSpec>;
 
 export class AreaMark extends BaseLineMark<IAreaMarkSpec> implements IAreaMark {
   static readonly type = MarkTypeEnum.area;

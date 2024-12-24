@@ -1,6 +1,5 @@
 import type { IChartSpecInfo } from '../../chart/interface';
-import type { IVChart } from '../../core';
-import type { VChartRenderActionSource } from '../../core/interface';
+import type { VChartRenderActionSource, IVChart } from '../../core/interface';
 import type { IBasePlugin, IBasePluginService, MaybePromise } from '../base/interface';
 
 export interface IChartPlugin<T extends IChartPluginService = any> extends IBasePlugin<T> {

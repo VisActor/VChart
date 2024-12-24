@@ -1,19 +1,9 @@
 import { Factory } from '../../core/factory';
 import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
-import type { Datum, DirectionType } from '../../typings';
+import type { Datum } from '../../typings';
 import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar-core';
-
-export interface IBarAnimationParams {
-  xField: string;
-  yField: string;
-  direction: DirectionType;
-  // growHeightOverall，需要知道一起生长的起始点
-  // 即 x轴 在canvas上的y（ 或 y轴 在canvas上的x ）。
-  growFrom: () => number;
-}
-
-export type BarAppearPreset = 'grow' | 'fadeIn' | 'scaleIn';
+import type { BarAppearPreset, IBarAnimationParams } from './interface';
 
 /**
  * grow生长option

@@ -14,7 +14,9 @@ import type { IMarkPointTheme } from './theme';
 import type { BaseMarkerAnimation, MarkPointAnimationType } from '@visactor/vrender-components';
 
 export type IMarkPoint = IComponent;
-
+/**
+ * 辅助点、点标注相关配置
+ */
 export type IMarkPointSpec = IMarkerSpec &
   // 标注目标: 笛卡尔坐标系
   (| IMarkPointXYSpec

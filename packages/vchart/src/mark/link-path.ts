@@ -1,14 +1,12 @@
 import { Factory } from './../core/factory';
 import { BaseMark } from './base/base-mark';
 import type { ILinkPathMarkSpec } from '../typings/visual';
-import type { IMarkRaw, IMarkStyle } from './interface';
+import type { ILinkPathMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerLinkPathGlyph } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { IGroupMark } from '@visactor/vgrammar-core';
-
-export type ILinkPathMark = IMarkRaw<ILinkPathMarkSpec>;
 
 export class LinkPathMark extends BaseMark<ILinkPathMarkSpec> implements ILinkPathMark {
   static readonly type = MarkTypeEnum.linkPath;

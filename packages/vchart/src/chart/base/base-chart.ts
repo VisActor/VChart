@@ -37,7 +37,7 @@ import type { IRegion } from '../../region/interface';
 import { ComponentTypeEnum } from '../../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent, IComponentConstructor } from '../../component/interface';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IRectMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
@@ -65,7 +65,6 @@ import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension';
 import type { ITooltip } from '../../component/tooltip/interface';
-import type { IRectMark } from '../../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from '../util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';

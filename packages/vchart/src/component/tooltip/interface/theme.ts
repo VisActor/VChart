@@ -1,7 +1,7 @@
 import type { ITextAttribute } from '@visactor/vrender-core';
 import type { ILayoutNumber, ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components';
-import type { ITokenKey } from '../../../theme/token';
+import type { ITokenKey } from '../../../theme/token/interface';
 
 export interface ITooltipTextTheme<ColorType = string> {
   /** 字体 */

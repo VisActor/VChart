@@ -1,8 +1,7 @@
 import type { WaterfallSeries } from './../../series/waterfall/waterfall';
 import type { Datum } from '../../typings/common';
-import type { ILabelInfo } from './label';
 import type { LabelItem, Strategy } from '@visactor/vrender-components';
-import type { ILabelSpec } from './interface';
+import type { ILabelInfo, ILabelSpec } from './interface';
 export declare const labelRuleMap: {
     rect: typeof barLabel;
     symbol: typeof symbolLabel;

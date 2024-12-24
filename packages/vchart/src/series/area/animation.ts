@@ -1,14 +1,7 @@
 import { registerLineAnimation, registerAreaAnimation, registerScaleInOutAnimation } from '../../animation/config';
 import { Direction } from '../../typings/space';
-// eslint-disable-next-line no-duplicate-imports
-import type { DirectionType } from '../../typings';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
-
-export interface IAreaAnimationParams {
-  direction: DirectionType;
-}
-
-export type AreaAppearPreset = 'clipIn' | 'fadeIn' | 'grow';
+import type { AreaAppearPreset, IAreaAnimationParams } from './interface';
 
 const Appear_ClipIn: IAnimationTypeConfig = {
   type: 'clipIn'

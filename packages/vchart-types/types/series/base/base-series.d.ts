@@ -1,21 +1,20 @@
 import { DataView } from '@visactor/vdataset';
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
-import type { ICompileMarkConfig, IMark } from '../../mark/interface';
+import type { ICompileMarkConfig, IGroupMark, IMark } from '../../mark/interface';
 import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IExtensionMarkSpec, IExtensionGroupMarkSpec, EnableMarkType, IGroup, ILayoutType, ILayoutPoint, ILayoutRect } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo, ISeriesStackDataLeaf, ISeriesStackDataMeta, ISeriesSeriesInfo } from '../interface';
 import type { IModelEvaluateOption, IModelRenderOption, IUpdateSpecResult } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 import type { IBaseInteractionSpec, IHoverSpec, ISelectSpec } from '../../interaction/interface';
-import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import { SeriesData } from './series-data';
-import type { IGroupMark } from '../../mark/group';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
 import type { EventType } from '@visactor/vgrammar-core';
 import type { ILabelSpec } from '../../component/label/interface';
+import type { StatisticOperations } from '../../data/transforms/interface';
 export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
     readonly specKey: string;
     readonly type: string;

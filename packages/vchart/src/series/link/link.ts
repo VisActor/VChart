@@ -1,15 +1,12 @@
 /* eslint-disable no-duplicate-imports */
 import { DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { Maybe, Datum } from '../../typings';
+import type { Datum } from '../../typings';
 import { isValid } from '@visactor/vutils';
-import type { IRuleMark } from '../../mark/rule';
-import type { IMark } from '../../mark/interface';
+import type { IGroupMark, IMark, IRuleMark, ISymbolMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import type { ISymbolMark } from '../../mark/symbol';
 import type { IDotSeriesSpec } from '../dot/interface';
-import type { IGroupMark } from '../../mark/group';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
 import type { ILinkSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';

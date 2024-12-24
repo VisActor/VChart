@@ -1,4 +1,4 @@
-import type { ILayer, INode, Stage } from '@visactor/vrender-core';
+import type { ILayer, INode, IStage } from '@visactor/vrender-core';
 import { BaseTooltipHandler } from './base';
 import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
 import { isValid, isNil } from '@visactor/vutils';
@@ -33,7 +33,7 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
     this._tooltipCanvasId = (this._chartOption.modeParams as any)?.tooltipCanvasId;
   }
 
-  private _initTooltipComponent(stage: Stage) {
+  private _initTooltipComponent(stage: IStage) {
     const layer = this._getLayer(stage);
     this._tooltipComponent = new TooltipComponent({
       autoCalculatePosition: false,
@@ -42,7 +42,7 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
     layer.add(this._tooltipComponent as unknown as INode);
   }
 
-  private _getLayer(stage: Stage) {
+  private _getLayer(stage: IStage) {
     if (this._layer) {
       return this._layer;
     }

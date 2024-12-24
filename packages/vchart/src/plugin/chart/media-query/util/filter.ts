@@ -130,7 +130,7 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
       const infoList = array(chartSpecInfo.component?.[specKey] ?? []);
       array(chartSpec[specKey] ?? []).forEach((componentSpec, i) => {
         const specInfo = infoList[i];
-        if (componentTypes.includes(specInfo.type as ComponentTypeEnum)) {
+        if (specInfo && componentTypes.includes(specInfo.type as ComponentTypeEnum)) {
           result.modelInfo.push({
             ...specInfo,
             spec: componentSpec

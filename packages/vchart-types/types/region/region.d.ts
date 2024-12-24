@@ -3,13 +3,12 @@ import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
-import type { IGroupMark } from '../mark/group';
 import type { IInteraction, ITrigger } from '../interaction/interface';
-import type { IRectMark } from '../mark/rect';
 import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
+import type { IGroupMark, IRectMark } from '../mark/interface/mark';
 export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
     static type: string;
     static readonly transformerConstructor: typeof RegionSpecTransformer;

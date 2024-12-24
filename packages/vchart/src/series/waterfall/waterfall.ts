@@ -1,14 +1,12 @@
 /* eslint-disable no-duplicate-imports */
-import type { IRuleMark } from '../../mark/rule';
 import { isNil, precisionSub } from '@visactor/vutils';
 import { STACK_FIELD_END, STACK_FIELD_START } from '../../constant/data';
 import { waterfall, waterfallFillTotal } from '../../data/transforms/waterfall';
 import { BarSeries } from '../bar/bar';
 import { valueInScaleRange } from '../../util/scale';
-import type { WaterfallAppearPreset } from './animation';
 import { registerWaterfallAnimation } from './animation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import type { IWaterfallSeriesSpec } from './interface';
+import type { IWaterfallSeriesSpec, WaterfallAppearPreset } from './interface';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { registerFadeInOutAnimation } from '../../animation/config';
@@ -17,25 +15,24 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { SeriesData } from '../base/series-data';
 import { dataViewFromDataView } from '../../data/initialize';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { ITextMark } from '../../mark/text';
 import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum } from '../../typings';
 import { Direction } from '../../typings/space';
-import type { IBarAnimationParams } from '../bar/animation';
 import { registerRuleMark } from '../../mark/rule';
 import { waterfallSeriesMark } from './constant';
 import { Group } from '../base/group';
-import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import { registerRectMark } from '../../mark/rect';
 import { getGroupAnimationParams } from '../util/utils';
 import { WaterfallSeriesSpecTransformer } from './waterfall-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { stackLabel } from '../../component/label/util';
-import type { ILabelInfo } from '../../component/label/label';
 import { WaterfallDefaultSeriesField } from '../../constant/waterfall';
 import { PREFIX } from '../../constant/base';
 import { AttributeLevel } from '../../constant/attribute';
+import type { ILabelMark, IRuleMark, ITextMark } from '../../mark/interface';
+import type { IBarAnimationParams } from '../bar/interface';
+import type { ILabelInfo } from '../../component/label/interface';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

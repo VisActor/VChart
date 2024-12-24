@@ -14,7 +14,7 @@ import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
-import type { ICompileMarkConfig, IMark } from '../../mark/interface';
+import type { ICompileMarkConfig, IGroupMark, IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type {
@@ -60,14 +60,12 @@ import { addVChartProperty } from '../../data/transforms/add-property';
 import type { IBaseInteractionSpec, IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
-import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 // eslint-disable-next-line no-duplicate-imports
 import { dimensionStatistics, dimensionStatisticsOfSimpleData } from '../../data/transforms/dimension-statistics';
 import { invalidTravel } from '../../data/transforms/invalid-travel';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
-import type { IGroupMark } from '../../mark/group';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark';
@@ -94,6 +92,7 @@ import type { EventType, IMarkConfig } from '@visactor/vgrammar-core';
 import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from '../../component/label/interface';
+import type { StatisticOperations } from '../../data/transforms/interface';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';

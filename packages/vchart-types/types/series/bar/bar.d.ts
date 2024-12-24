@@ -1,13 +1,11 @@
 import type { IBaseScale } from '@visactor/vscale';
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { Datum, DirectionType } from '../../typings';
 import type { IBarSeriesSpec } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
-import type { IRectMark } from '../../mark/rect';
 import type { IModelInitOption } from '../../model/interface';
-import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { SeriesData } from '../base/series-data';

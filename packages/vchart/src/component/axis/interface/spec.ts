@@ -364,10 +364,9 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
    * */
   type?: 'text' | 'rich';
   /**
-   * 轴标题内容格式化函数
-   * @param text 原始标签文本值
-   * @param datum 图形数据
-   * @returns 格式化后的文本
+   * 轴标题内容，支持多种格式
+   * - 字符串或者数值
+   * - 字符串或者数值数组
    */
   text?: ITextMarkSpec['text'] | ReturnType<IRichTextFormatMethod<[]>>;
   /**

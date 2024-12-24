@@ -1,7 +1,6 @@
-import type { IPathMarkSpec, ITextMarkSpec } from '../../typings/visual';
+import type { IPathMarkSpec } from '../../typings/visual';
 import type { IMarkSpec, IMarkTheme, ISeriesSpec } from '../../typings/spec/common';
 import type { IAnimationSpec } from '../../animation/spec';
-import { ILabelSpec } from '../../component';
 
 export interface IPictogramSeriesSpec extends ISeriesSpec, IAnimationSpec<'pictogram', 'fadeIn'> {
   /**

@@ -9,18 +9,17 @@ import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
-import type { IGroupMark } from '../mark/group';
 import type { IInteraction, ITrigger } from '../interaction/interface';
 import { Interaction } from '../interaction/interaction';
 import { ChartEvent } from '../constant/event';
 import { LayoutZIndex } from '../constant/layout';
 import { AttributeLevel } from '../constant/attribute';
-import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
+import type { IGroupMark, IRectMark } from '../mark/interface/mark';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';

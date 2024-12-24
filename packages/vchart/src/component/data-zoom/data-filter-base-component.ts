@@ -5,7 +5,6 @@ import { eachSeries } from '../../util/model';
 import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
 import { ComponentTypeEnum, type IComponent, type IComponentOption } from '../interface';
-import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain, lockStatisticsFilter } from './util';
 import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
@@ -52,6 +51,7 @@ import { TransformLevel } from '../../data/initialize';
 import type { IDataZoomSpec } from './data-zoom/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { AttributeLevel } from '../../constant/attribute';
+import type { IGroupMark } from '../../mark/interface/mark';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>

@@ -3,9 +3,8 @@ import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import { AttributeLevel } from '../../constant/attribute';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IRectMark, ILabelMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
-import type { IRectMark } from '../../mark/rect';
 import type { Datum, IComposedTextMarkSpec, IRectMarkSpec } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
@@ -36,7 +35,6 @@ import { registerTextMark } from '../../mark/text';
 import { treemapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerTreemapAnimation } from './animation';
-import type { ILabelMark } from '../../mark/label';
 import { TreemapSeriesSpecTransformer } from './treemap-transform';
 import { registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 

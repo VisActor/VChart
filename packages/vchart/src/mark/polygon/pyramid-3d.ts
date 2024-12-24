@@ -1,13 +1,11 @@
 import { Factory } from './../../core/factory';
 /* eslint-disable no-duplicate-imports */
 import type { IPyramid3dMarkSpec } from '../../typings/visual';
-import type { IMarkRaw } from '../interface';
 import { MarkTypeEnum } from '../interface/type';
 import { BasePolygonMark } from './base-polygon';
 import { registerPyramid3dGraphic } from '@visactor/vgrammar-core';
 import { registerVGrammarPolygonAnimation } from '../../animation/config';
-
-export type IPyramid3dMark = IMarkRaw<IPyramid3dMarkSpec>;
+import type { IPyramid3dMark } from '../interface/mark';
 
 export class Pyramid3dMark extends BasePolygonMark<IPyramid3dMarkSpec> implements IPyramid3dMark {
   static readonly type = MarkTypeEnum.pyramid3d;

@@ -1,9 +1,10 @@
 import type { IAxisHelper as CartesianHelper } from '../../component/axis/cartesian/interface/common';
 import { SeriesTypeEnum } from '../interface/type';
 import type { Datum } from '../../typings';
-import { IOrdinalScale, isContinuous } from '@visactor/vscale';
+import type { IOrdinalScale } from '@visactor/vscale';
+import { isContinuous } from '@visactor/vscale';
 import type { IPolarAxisHelper } from '../../component/axis';
-import type { ICartesianSeries, ISeries } from '..';
+import type { ICartesianSeries } from '../interface';
 
 export function isPolarAxisSeries(type: string) {
   return ([SeriesTypeEnum.rose, SeriesTypeEnum.radar, SeriesTypeEnum.circularProgress] as string[]).includes(type);

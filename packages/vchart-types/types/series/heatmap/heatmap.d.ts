@@ -1,11 +1,9 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { IHeatmapSeriesSpec } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
-import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { ICellMark } from '../../mark/cell';
-import type { IMark } from '../../mark/interface';
+import type { ICellMark, IMark, ITextMark } from '../../mark/interface';
 import { HeatmapSeriesSpecTransformer } from './heatmap-transformer';
 export declare const DefaultBandWidth = 6;
 export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> extends CartesianSeries<T> {

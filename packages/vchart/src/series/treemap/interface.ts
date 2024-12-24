@@ -3,9 +3,12 @@ import type { IHierarchyData, IMarkSpec, IMarkTheme, ISeriesSpec } from '../../t
 import type { TreemapOptions } from '@visactor/vgrammar-hierarchy';
 import type { ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { TreemapAppearPreset, TreemapMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import { ILabelSpec } from '../../component';
+import type { ILabelSpec } from '../../component/label/interface';
+
+export type TreemapMark = 'leaf' | 'nonLeaf';
+
+export type TreemapAppearPreset = 'growIn' | 'fadeIn';
 
 export interface ITreemapSeriesSpec
   extends Omit<ISeriesSpec, 'data'>,

@@ -20,8 +20,8 @@ import { calcLayoutNumber } from '../../util/space';
 import { isAggrSpec } from './utils';
 import { getFirstSeries } from '../../util';
 import { arrayParser } from '../../data/parser/array';
-import type { IOptionWithCoordinates } from '../../data/transforms/aggregation';
 import { getSpecInfo } from '../util';
+import type { IOptionWithCoordinates } from '../../data/transforms/interface';
 
 export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';

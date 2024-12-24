@@ -14,7 +14,7 @@ import type { IDotSeriesTheme } from '../dot/interface';
 import type { IWordCloud3dSeriesTheme, IWordCloudSeriesTheme } from '../word-cloud/interface';
 import type { IFunnel3dSeriesTheme, IFunnelSeriesTheme } from '../funnel/interface';
 import type { ILinearProgressSeriesTheme } from '../progress/linear/interface';
-import type { IGaugePointerSeriesTheme, IGaugeSeriesTheme } from '../gauge';
+import type { IGaugePointerSeriesTheme, IGaugeSeriesTheme } from '../gauge/interface';
 import type { ISankeySeriesTheme } from '../sankey/interface';
 import type { ITreemapSeriesTheme } from '../treemap/interface';
 import type { ISunburstSeriesTheme } from '../sunburst/interface';

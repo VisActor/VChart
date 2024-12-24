@@ -2,7 +2,6 @@ import type { DataView } from '@visactor/vdataset';
 import { isArray } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
-import type { IAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant/attribute';
@@ -22,7 +21,7 @@ import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 import { areaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerAreaSeriesAnimation } from './animation';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IAreaMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { AreaSeriesSpecTransformer } from './area-transformer';
 import { getGroupAnimationParams } from '../util/utils';

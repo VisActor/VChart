@@ -1,9 +1,5 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
-export interface IRoseAnimationParams {
-    innerRadius: () => number;
-    growField?: 'angle' | 'radius';
-}
-export type RoseAppearPreset = 'growAngle' | 'growRadius' | 'fadeIn';
+import type { IRoseAnimationParams, RoseAppearPreset } from './interface';
 export declare const Appear_Grow: (params: IRoseAnimationParams) => IAnimationTypeConfig;
 export declare const Appear_FadeIn: IAnimationTypeConfig;
 export declare const roseEnter: (params: IRoseAnimationParams) => IAnimationTypeConfig;

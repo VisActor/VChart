@@ -1,7 +1,7 @@
 import { DataView } from '@visactor/vdataset';
 import type { IStepMarkLineSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
-import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/aggregation';
+import type { IOptionAggr, IOptionWithCoordinates, IOptionRegr } from '../../../data/transforms/interface';
 import { cartesianCoordinateLayout, positionLayout, xyLayout, getMarkLineProcessInfo } from '../utils';
 import {
   type MarkLineAttrs,
@@ -10,7 +10,6 @@ import {
 } from '@visactor/vrender-components';
 import { isValid, isValidNumber } from '@visactor/vutils';
 import type { IDataPos, IMarkProcessOptions } from '../interface';
-import type { IOptionRegr } from '../../../data/transforms/regression';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
 import { isPercent } from '../../../util';

@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IPoint, IPolarOrientType, IPolarPoint } from '../../../../typings';
 import type { IAxis, IGrid } from '../../interface';
-import type { ICompilableData } from '../../../../compile/data';
+import type { ICompilableData } from '../../../../compile/data/interface';
 export type IPolarGrid = IGrid & {
     smooth?: boolean;
 };

@@ -3,14 +3,13 @@ import type { IFunnelSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
 import type { IOrientType, IPoint, TextAlign, TextBaseLine, Datum, StringOrNumber } from '../../typings';
 import { SeriesTypeEnum } from '../interface/type';
-import type { IPolygonMark } from '../../mark/polygon/polygon';
 import { BaseSeries } from '../base/base-series';
 import { AttributeLevel } from '../../constant/attribute';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
 import { PREFIX } from '../../constant/base';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
-import type { IMark } from '../../mark/interface';
+import type { ILabelMark, IMark, IPolygonMark, IRuleMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IFunnelOpt } from '../../data/transforms/funnel';
 import { funnel, funnelTransform } from '../../data/transforms/funnel';
@@ -30,13 +29,11 @@ import {
   FUNNEL_TRANSFORM_RATIO,
   FUNNEL_VALUE_RATIO
 } from '../../constant/funnel';
-import type { ITextMark } from '../../mark/text';
 import { calcLayoutNumber } from '../../util/space';
 import { field } from '../../util/object';
 import type { FunnelAppearPreset, IFunnelSeriesSpec } from './interface';
-import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
-import { isFunction, isValid, isNumber, isBoolean } from '@visactor/vutils';
+import { isFunction, isValid, isNumber } from '@visactor/vutils';
 import {
   FadeInOutAnimation,
   registerCartesianGroupClipAnimation,
@@ -49,7 +46,6 @@ import { registerPolygonMark } from '../../mark/polygon/polygon';
 import { registerTextMark } from '../../mark/text';
 import { registerRuleMark } from '../../mark/rule';
 import { funnelSeriesMark } from './constant';
-import type { ILabelMark } from '../../mark/label';
 import type { LabelItem } from '@visactor/vrender-components';
 import { Factory } from '../../core/factory';
 import { FunnelSeriesSpecTransformer } from './funnel-transformer';

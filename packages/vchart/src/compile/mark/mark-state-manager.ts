@@ -8,11 +8,11 @@ import type { Datum, StringOrNumber } from '../../typings';
 import type { IStateManagerOption } from '../signal/interface';
 import { StateManager } from '../signal/state-manager';
 import type { CompilableMark } from './compilable-mark';
-import type { IStateInfo, StateValue } from './interface';
+import type { IMarkStateManager, IStateInfo, StateValue } from './interface';
 import { stateInDefaultEnum } from './util';
 
 /** mark state 管理器 */
-export class MarkStateManager extends StateManager {
+export class MarkStateManager extends StateManager implements IMarkStateManager {
   /** 相关 mark */
   protected _mark: CompilableMark;
 

@@ -4,10 +4,8 @@ import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
-import type { IRectMark } from '../../mark/rect';
 // eslint-disable-next-line no-duplicate-imports
 import { registerRectMark } from '../../mark/rect';
-import type { ITextMark } from '../../mark/text';
 // eslint-disable-next-line no-duplicate-imports
 import { registerTextMark } from '../../mark/text';
 import { setRectLabelPos } from '../util/label-mark';
@@ -19,7 +17,7 @@ import type { IRangeColumnSeriesSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PositionEnum } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { RangeColumnAppearPreset } from './animation';
+import type { RangeColumnAppearPreset } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { registerRangeColumnAnimation } from './animation';
 import { rangeColumnSeriesMark } from './constant';
@@ -27,6 +25,7 @@ import { Factory } from '../../core/factory';
 import { getGroupAnimationParams } from '../util/utils';
 import { RangeColumnSeriesSpecTransformer } from './range-column-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import type { IRectMark, ITextMark } from '../../mark/interface';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

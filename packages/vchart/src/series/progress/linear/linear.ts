@@ -2,17 +2,16 @@
 import { CartesianSeries } from '../../cartesian/cartesian';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
-import type { IRectMark } from '../../../mark/rect';
 import { valueInScaleRange } from '../../../util/scale';
 import { AttributeLevel } from '../../../constant/attribute';
 import type { Datum } from '../../../typings';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
-import {
-  registerLinearProgressAnimation,
-  type ILinearProgressAnimationParams,
-  type LinearProgressAppearPreset
-} from './animation';
-import type { ILinearProgressSeriesSpec } from './interface';
+import { registerLinearProgressAnimation } from './animation';
+import type {
+  ILinearProgressAnimationParams,
+  ILinearProgressSeriesSpec,
+  LinearProgressAppearPreset
+} from './interface';
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import { registerRectMark } from '../../../mark/rect';
@@ -20,7 +19,7 @@ import type { ICustomPath2D } from '@visactor/vrender-core';
 import { linearProgressSeriesMark } from './constant';
 import { Factory } from '../../../core/factory';
 import { registerFadeInOutAnimation } from '../../../animation/config';
-import type { IMark } from '../../../mark/interface';
+import type { IMark, IRectMark } from '../../../mark/interface';
 import { isValid } from '@visactor/vutils';
 
 export class LinearProgressSeries<

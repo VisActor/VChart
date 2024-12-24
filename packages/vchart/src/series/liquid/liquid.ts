@@ -4,20 +4,18 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { isValid, max } from '@visactor/vutils';
 import type { Datum, ILiquidMarkSpec, IPoint } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import type { ILiquidPadding, ILiquidSeriesSpec, LiquidShapeType } from './interface';
+import type { ILiquidPadding, ILiquidSeriesSpec, LiquidAppearPreset, LiquidShapeType } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { LiquidAppearPreset } from './animation';
 // eslint-disable-next-line no-duplicate-imports
 import { registerLiquidAnimation } from './animation';
 import { LiquidSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import type { IMark, IMarkRaw } from '../../mark/interface';
+import type { IGroupMark, IMark, IMarkRaw } from '../../mark/interface';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { registerLiquidMark } from '../../mark/liquid';
 import { AttributeLevel } from '../../constant/attribute';
 import { ChartEvent } from '../../constant/event';
 import { BaseSeries } from '../base';
-import type { IGroupMark } from '../../mark/group';
 // eslint-disable-next-line no-duplicate-imports
 import { registerGroupMark } from '../../mark/group';
 import { getShapes } from './util';
