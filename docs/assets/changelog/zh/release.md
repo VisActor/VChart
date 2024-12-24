@@ -2,24 +2,21 @@
 
 2024-12-24
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: add miss Series and Chart in react vchart, close [#3578](https://github.com/VisActor/VChart/issues/3578)
-- **@visactor/vchart**: vchart support clickInterval params
+- **@visactor/vchart**: 在 react vchart 中添加缺失的 Series 和 Chart，关闭 [#3578](https://github.com/VisActor/VChart/issues/3578)
+- **@visactor/vchart**: vchart 支持 clickInterval 参数
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: support percentage state radius config in gauge segment mark, [#3459](https://github.com/VisActor/VChart/issues/3459)
-- **@visactor/vchart**: media query should not throw error when has empty axis, related to [#3575](https://github.com/VisActor/VChart/issues/3575)
-- **@visactor/vchart**: tooltip should not render empty column when `hasShape` of tooltip is `false`, related to [#3572](https://github.com/VisActor/VChart/issues/3572)
-- **@visactor/vchart**: `othersLine` of tooltip can be hidden by `visible: false`, related to [#3572](https://github.com/VisActor/VChart/issues/3572)
-- **@visactor/vchart**: fix position of tooltip, related to [#3590](https://github.com/VisActor/VChart/issues/3590)
-- **@visactor/vchart**: page should not crash when `tickStep` is too small, fix  [#3591](https://github.com/VisActor/VChart/issues/3591)
-- **@visactor/vchart**: fix updating of customized DOM when has interactive layer, fix  [#3587](https://github.com/VisActor/VChart/issues/3587) 
-- **@visactor/vchart**: fix axis breaks when set `tickStep`, fix  [#3560](https://github.com/VisActor/VChart/issues/3560) 
- 
-
+- **@visactor/vchart**: 支持在仪表盘图元中配置百分比状态半径，关闭 [#3459](https://github.com/VisActor/VChart/issues/3459)
+- **@visactor/vchart**: 当轴为空时，媒体查询不应抛出错误，相关 [#3575](https://github.com/VisActor/VChart/issues/3575)
+- **@visactor/vchart**: 当 tooltip 的 `hasShape` 为 `false` 时，不应渲染空列，相关 [#3572](https://github.com/VisActor/VChart/issues/3572)
+- **@visactor/vchart**: tooltip 的 `othersLine` 可以通过 `visible: false` 隐藏，相关 [#3572](https://github.com/VisActor/VChart/issues/3572)
+- **@visactor/vchart**: 修复 tooltip 的位置，相关 [#3590](https://github.com/VisActor/VChart/issues/3590)
+- **@visactor/vchart**: 当 `tickStep` 太小时，页面不应崩溃，修复 [#3591](https://github.com/VisActor/VChart/issues/3591)
+- **@visactor/vchart**: 修复在有交互层时自定义 DOM 的更新问题，修复 [#3587](https://github.com/VisActor/VChart/issues/3587)
+- **@visactor/vchart**: 修复设置 `tickStep` 时的轴截断刻度问题，修复 [#3560](https://github.com/VisActor/VChart/issues/3560)
 
 [更多详情请查看 v1.13.2](https://github.com/VisActor/VChart/releases/tag/v1.13.2)
 
