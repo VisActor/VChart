@@ -1,4 +1,5 @@
 import type { IMarkAreaTheme } from '../../../../component/marker/mark-area/interface';
+import { getCommonLabelTheme } from './mark';
 
 export const markArea: IMarkAreaTheme = {
   area: {
@@ -6,24 +7,5 @@ export const markArea: IMarkAreaTheme = {
       fill: { type: 'palette', key: 'axisDomainColor', a: 0.25 }
     }
   },
-  label: {
-    style: {
-      fontSize: { type: 'token', key: 'l4FontSize' },
-      fontWeight: 'normal',
-      fontStyle: 'normal',
-      fill: { type: 'palette', key: 'primaryFontColor' }
-    },
-    labelBackground: {
-      padding: {
-        top: 2,
-        bottom: 2,
-        right: 4,
-        left: 4
-      },
-      style: {
-        cornerRadius: 3,
-        fill: { type: 'palette', key: 'markLabelBackgroundColor' }
-      }
-    }
-  }
+  label: getCommonLabelTheme()
 };
