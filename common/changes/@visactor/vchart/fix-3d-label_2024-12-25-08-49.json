@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of incorrect label display in 3D charts, #3584",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
