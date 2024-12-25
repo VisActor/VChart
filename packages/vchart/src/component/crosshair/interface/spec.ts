@@ -130,6 +130,7 @@ export interface ICrosshairLineSpec {
   width?: number;
   /**
    * 极坐标系下是否平滑
+   * @since 1.13.5
    */
   smooth?: boolean;
   /**
@@ -155,6 +156,10 @@ export interface ICrosshairRectSpec {
    * @default '100%''
    */
   width?: number | string | ICrosshairRectWidthCallback;
+  /**
+   * 极坐标系下是否平滑
+   */
+  smooth?: boolean;
   /**
    * 辅助图形的样式配置
    */

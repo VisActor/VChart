@@ -16,7 +16,8 @@ Only effective for `type: 'line'`, `width` represents the width of the auxiliary
 
 #${prefix} smooth(boolean)
 
-Only effective for `type: 'line'`, whether to draw smoothly under the polar coordinate system or not.
+Whether to draw smoothly under the polar coordinate system or not.
+Effective for `type: 'line'`, and effective for `type: 'polygon'` since version `1.13.5`.
 
 {{ else }}
 #${prefix} width(number|string)

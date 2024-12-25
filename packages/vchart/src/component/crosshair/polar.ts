@@ -4,7 +4,13 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IPolarCrosshairSpec } from './interface';
 import type { PolygonCrosshairAttrs, CircleCrosshairAttrs } from '@visactor/vrender-components';
-import { LineCrosshair, SectorCrosshair, CircleCrosshair, PolygonCrosshair } from '@visactor/vrender-components';
+import {
+  LineCrosshair,
+  SectorCrosshair,
+  CircleCrosshair,
+  PolygonCrosshair,
+  PolygonSectorCrosshair
+} from '@visactor/vrender-components';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IPoint, IPolarOrientType, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import { BaseCrossHair } from './base';
@@ -190,7 +196,8 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
         let crosshair;
 
         if (coordKey === 'angle') {
-          const crosshairType = attributes.type === 'rect' ? 'sector' : 'line';
+          const isSmooth = attributes.smooth === true;
+          const crosshairType = attributes.type === 'rect' ? (isSmooth ? 'sector' : 'polygon-sector') : 'line';
           // 创建
           if (crosshairType === 'line') {
             crosshair = new LineCrosshair({
@@ -209,6 +216,19 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
                 endAngle: number;
               }),
               sectorStyle: attributes.style,
+              zIndex: this.gridZIndex,
+              pickable: false
+            });
+          } else if (crosshairType === 'polygon-sector') {
+            crosshair = new PolygonSectorCrosshair({
+              ...(positionAttrs as {
+                center: IPoint;
+                innerRadius: number;
+                radius: number;
+                startAngle: number;
+                endAngle: number;
+              }),
+              polygonSectorStyle: attributes.style,
               zIndex: this.gridZIndex,
               pickable: false
             });
