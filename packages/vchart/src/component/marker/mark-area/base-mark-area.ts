@@ -1,6 +1,4 @@
-import { DataView } from '@visactor/vdataset';
 import type { IMarkArea, IMarkAreaSpec } from './interface';
-import { markerAggregation } from '../../../data/transforms/aggregation';
 import {
   computeClipRange,
   transformLabelAttributes,
@@ -8,7 +6,6 @@ import {
   transformStyle,
   getMarkAreaProcessInfo
 } from '../utils';
-import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { MarkArcAreaAttrs, MarkAreaAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { MarkArea as MarkAreaComponent, MarkArcArea as MarkArcAreaComponent } from '@visactor/vrender-components';
@@ -16,9 +13,6 @@ import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant/layout';
 import type { IGroup } from '@visactor/vrender-core';
-import { markerFilter } from '../../../data/transforms/marker-filter';
-import type { IMarkProcessOptions } from '../interface';
-
 export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   static specKey = 'markArea';
   specKey = 'markArea';
@@ -30,7 +24,6 @@ export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements 
     attr: MarkAreaAttrs | MarkArcAreaAttrs
   ): MarkAreaComponent | MarkArcAreaComponent;
   protected abstract _computePointsAttr(): any;
-  protected abstract _computeOptions(): IMarkProcessOptions;
 
   static _getMarkerCoordinateType(markerSpec: any): string {
     const { doAngleProcess, doRadiusProcess, doRadAngProcess } = getMarkAreaProcessInfo(markerSpec);
@@ -159,28 +152,6 @@ export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements 
       return null;
     }
 
-    const { options } = this._computeOptions();
-
-    const seriesData = this._getRelativeDataView();
-    registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
-    registerDataSetInstanceTransform(this._option.dataSet, 'markerFilter', markerFilter);
-    const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
-    data.parse([seriesData], {
-      type: 'dataview'
-    });
-    data.transform({
-      type: 'markerAggregation',
-      options
-    });
-
-    data.transform({
-      type: 'markerFilter',
-      options: this._getAllRelativeSeries()
-    });
-
-    data.target.on('change', () => {
-      this._markerLayout();
-    });
-    this._markerData = data;
+    this._initCommonDataView();
   }
 }
