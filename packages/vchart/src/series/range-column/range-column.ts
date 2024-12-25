@@ -79,65 +79,35 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
   initMarkStyle(): void {
     super.initMarkStyle();
+    this._initLabelMarkPos(this._minLabelMark, this._spec.label?.minLabel, 0, 'end');
+    this._initLabelMarkPos(this._maxLabelMark, this._spec.label?.maxLabel, 1, 'start');
+  }
 
-    const minLabelMark = this._minLabelMark;
-    const minLabelSpec = this._spec.label?.minLabel;
-    if (minLabelMark) {
-      this.setMarkStyle(minLabelMark, {
-        fill: minLabelSpec?.style?.fill ?? this.getColorAttribute(),
+  _initLabelMarkPos(
+    labelMark: ITextMark,
+    labelSpec: IRangeColumnSeriesSpec['label']['minLabel'],
+    fieldIndex: number,
+    defaultPosition: string
+  ): void {
+    if (labelMark) {
+      this.setMarkStyle(labelMark, {
+        fill: labelSpec?.style?.fill ?? this.getColorAttribute(),
         text: (datum: Datum) => {
-          const min =
-            this._spec.direction === Direction.horizontal ? datum[this._spec.xField[0]] : datum[this._spec.yField[0]];
-          if (minLabelSpec?.formatMethod) {
-            return minLabelSpec.formatMethod(min, datum);
+          const val =
+            this._spec.direction === Direction.horizontal
+              ? datum[this._spec.xField[fieldIndex]]
+              : datum[this._spec.yField[fieldIndex]];
+          if (labelSpec?.formatMethod) {
+            return labelSpec.formatMethod(val, datum);
           }
-          return min;
+          return val;
         }
       });
-      const position = minLabelSpec?.position ?? 'end';
-      const offset = minLabelSpec?.offset ?? (this._direction === 'vertical' ? -20 : -25);
+      const position = labelSpec?.position ?? defaultPosition;
+      const offset = labelSpec?.offset ?? (this._direction === 'vertical' ? -20 : -25);
       setRectLabelPos(
         this,
-        minLabelMark,
-        position,
-        offset,
-        (datum: Datum) => this._barMark.getAttribute('x', datum) as number,
-        (datum: Datum) => {
-          return this._direction === 'vertical'
-            ? (this._barMark.getAttribute('x', datum) as number) +
-                (this._barMark.getAttribute('width', datum) as number)
-            : (this._barMark.getAttribute('x1', datum) as number);
-        },
-        (datum: Datum) => this._barMark.getAttribute('y', datum) as number,
-        (datum: Datum) => {
-          return this._direction === 'vertical'
-            ? (this._barMark.getAttribute('y1', datum) as number)
-            : (this._barMark.getAttribute('y', datum) as number) +
-                (this._barMark.getAttribute('height', datum) as number);
-        },
-        () => this._direction
-      );
-    }
-
-    const maxLabelMark = this._maxLabelMark;
-    const maxLabelSpec = this._spec.label?.maxLabel;
-    if (maxLabelMark) {
-      this.setMarkStyle(maxLabelMark, {
-        fill: maxLabelSpec?.style?.fill ?? this.getColorAttribute(),
-        text: (datum: Datum) => {
-          const max =
-            this._spec.direction === Direction.horizontal ? datum[this._spec.xField[1]] : datum[this._spec.yField[1]];
-          if (maxLabelSpec?.formatMethod) {
-            return maxLabelSpec.formatMethod(max, datum);
-          }
-          return max;
-        }
-      });
-      const position = maxLabelSpec?.position ?? 'start';
-      const offset = maxLabelSpec?.offset ?? (this._direction === 'vertical' ? -20 : -25);
-      setRectLabelPos(
-        this,
-        maxLabelMark,
+        labelMark,
         position,
         offset,
         (datum: Datum) => this._barMark.getAttribute('x', datum) as number,
