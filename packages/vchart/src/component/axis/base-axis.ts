@@ -1,3 +1,4 @@
+import type { IGroup } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { ITickDataOpt } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
@@ -25,6 +26,7 @@ import { ChartEvent } from '../../constant/event';
 import { LayoutZIndex } from '../../constant/layout';
 import { animationConfig } from '../../animation/utils';
 // eslint-disable-next-line no-duplicate-imports
+import type { LooseFunction } from '@visactor/vutils';
 import {
   degreeToRadian,
   pickWithout,
@@ -703,6 +705,13 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   dataToPosition(values: any[]): number {
     return this._scale.scale(values);
+  }
+
+  protected _delegateAxisContainerEvent(component: IGroup) {
+    if (component.listenerCount('*') === 0) {
+      component.addEventListener('*', ((event: any, type: string) =>
+        this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
+    }
   }
 }
 
