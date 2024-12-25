@@ -2,7 +2,7 @@ import type { ICartesianHorizontal } from './interface/spec';
 import { Bounds, last, type IBounds, type IBoundsLike, type Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
-import { SeriesTypeEnum, type ICartesianSeries } from '../../../series/interface';
+import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianVertical } from './interface';
 import { mergeSpec } from '@visactor/vutils-extension';
@@ -36,7 +36,7 @@ import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
-import { AXIS_ELEMENT_NAME, type AxisItem, type LineAxisAttributes } from '@visactor/vrender-components';
+import type { AxisItem, LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { getAxisItem, isValidCartesianAxis, shouldUpdateAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
@@ -46,7 +46,7 @@ import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { AxisComponent } from '../base-axis';
-import type { FederatedEvent, IGraphic, IText } from '@visactor/vrender-core';
+import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
 import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
@@ -972,16 +972,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   onDataUpdate(): void {
     // clear layout cache
     this._clearLayoutCache();
-  }
-
-  getDatum(childGraphic?: IGraphic) {
-    if (childGraphic && childGraphic.name === AXIS_ELEMENT_NAME.label) {
-      return childGraphic.data;
-    }
-
-    if (this._axisMark) {
-      return this._axisMark.getProduct()?.getGroupGraphicItem()?.attribute.items;
-    }
   }
 
   private _appendAxisUnit(bounds: IBounds, isX: boolean) {

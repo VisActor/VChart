@@ -47,7 +47,7 @@ import { GridEnum } from '@visactor/vgrammar-core';
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupTransition } from '@visactor/vrender-components';
+import { AXIS_ELEMENT_NAME, GroupTransition } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-core';
 import { scaleParser } from '../../data/parser/scale';
@@ -703,6 +703,16 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   dataToPosition(values: any[]): number {
     return this._scale.scale(values);
+  }
+
+  getDatum(childGraphic?: IGraphic) {
+    if (childGraphic && childGraphic.name === AXIS_ELEMENT_NAME.label) {
+      return childGraphic.data;
+    }
+
+    if (this._axisMark) {
+      return this._axisMark.getProduct()?.getGroupGraphicItem()?.attribute.items;
+    }
   }
 }
 
