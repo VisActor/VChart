@@ -426,6 +426,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
             this._unitText.setAttributes(pos);
           }
+
+          this._delegateAxisContainerEvent(product.getGroupGraphicItem());
         }
       });
     }
