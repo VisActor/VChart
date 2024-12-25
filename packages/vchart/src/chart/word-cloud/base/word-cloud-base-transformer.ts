@@ -6,4 +6,30 @@ export class BaseWordCloudChartSpecTransformer<T extends IWordCloudChartSpec> ex
     super.transformSpec(spec);
     this.transformSeriesSpec(spec);
   }
+
+  protected _getDefaultSeriesSpec(spec: T): any {
+    const series: any = super._getDefaultSeriesSpec(spec, [
+      'nameField',
+      'valueField',
+      'fontFamilyField',
+      'fontWeightField',
+      'fontStyleField',
+      'colorHexField',
+      'colorMode',
+      'colorList',
+      'rotateAngles',
+      'fontWeightRange',
+      'fontSizeRange',
+      'maskShape',
+      'keepAspect',
+      'random',
+      'wordCloudConfig',
+      'wordCloudShapeConfig',
+      'word',
+      'fillingWord',
+      'wordMask'
+    ]);
+
+    return series;
+  }
 }
