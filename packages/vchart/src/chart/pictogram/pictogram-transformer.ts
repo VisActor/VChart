@@ -30,20 +30,6 @@ export class PictogramChartSpecTransformer<
       r.coordinate = 'geo';
     });
 
-    const defaultSeriesSpec = this._getDefaultSeriesSpec(spec);
-    if (!spec.series || spec.series.length === 0) {
-      spec.series = [defaultSeriesSpec];
-    } else {
-      spec.series.forEach((s: ISeriesSpec) => {
-        if (!this._isValidSeries(s.type)) {
-          return;
-        }
-        Object.keys(defaultSeriesSpec).forEach(k => {
-          if (!(k in s)) {
-            s[k] = defaultSeriesSpec[k];
-          }
-        });
-      });
-    }
+    super.transformSeriesSpec(spec);
   }
 }
