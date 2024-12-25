@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add datum to params on axis-label event ",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

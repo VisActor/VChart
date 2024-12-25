@@ -1,4 +1,4 @@
-import { CustomEvent, type IGraphic, type IGroup, type INode } from '@visactor/vrender-core';
+import { CustomEvent, type IGraphicAttribute, type IGraphic, type IGroup, type INode } from '@visactor/vrender-core';
 import type { IRegion } from '../../region/interface';
 import type { IComponent, IComponentOption } from '../interface';
 import { ComponentPluginService } from '../../plugin/components/plugin-service';
@@ -177,5 +177,10 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
 
   getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike {
     return { x1: 0, x2: 0, y1: 0, y2: 0 };
+  }
+
+  getDatum(graphic?: IGraphic<Partial<IGraphicAttribute>>) {
+    // override
+    return;
   }
 }
