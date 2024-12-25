@@ -13,3 +13,7 @@ export function curveTypeTransform(type: string, direction: string) {
   }
   return type;
 }
+
+export function is3DMark(type: MarkTypeEnum) {
+  return [MarkTypeEnum.arc3d, MarkTypeEnum.rect3d, MarkTypeEnum.pyramid3d].includes(type);
+}

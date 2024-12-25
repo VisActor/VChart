@@ -10,6 +10,7 @@ import { bar3dSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerBar3dAnimation } from './animation';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { Bar3dSeriesSpecTransformer } from './bar-3d-transformer';
 
 export class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> extends BarSeries<AdaptiveSpec<T, 'type'>> {
   static readonly type: string = SeriesTypeEnum.bar3d;
@@ -19,6 +20,9 @@ export class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> extends 
 
   protected _barMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.bar3d;
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect3d;
+
+  static readonly transformerConstructor = Bar3dSeriesSpecTransformer as any;
+  readonly transformerConstructor = Bar3dSeriesSpecTransformer as any;
 }
 
 export const registerBar3dSeries = () => {

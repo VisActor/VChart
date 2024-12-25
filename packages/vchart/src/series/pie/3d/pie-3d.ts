@@ -1,6 +1,4 @@
 import { AttributeLevel } from '../../../constant/attribute';
-import { ARC_MIDDLE_ANGLE } from '../../../constant/polar';
-import type { Datum } from '../../../typings';
 import { MarkTypeEnum } from '../../../mark/interface/type';
 import type { IArcSeries, SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
@@ -9,7 +7,6 @@ import type { IPie3dSeriesSpec } from '../interface';
 import { registerArc3dMark } from '../../../mark/arc-3d';
 import { BasePieSeries } from '../pie';
 import { pie3dSeriesMark } from '../constant';
-import { radianToDegree } from '@visactor/vutils';
 import { Factory } from '../../../core/factory';
 import { registerPie3dAnimation } from '../animation/animation';
 import { Pie3dSeriesSpecTransformer } from './pie-3d-transformer';
@@ -52,28 +49,7 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
       return;
     }
     super.initLabelMarkStyle(textMark);
-
-    const params3d: {
-      beta?: number;
-      anchor3d?: (datum: Datum) => any;
-      angle?: (datum: Datum) => any;
-    } = {};
-    textMark.setMarkConfig({ support3d: true });
-    params3d.beta = this._angle3d;
-    params3d.anchor3d = (datum: Datum) => {
-      const { x, y } = this.getCenter();
-      const anchor = [
-        // TODO: label 布局依赖自身图元属性，这里无法获取到
-        x,
-        y
-      ];
-      return anchor;
-    };
-    params3d.angle = (datum: Datum) => {
-      const angle = datum[ARC_MIDDLE_ANGLE];
-      return spec.position === 'inside' ? radianToDegree(angle) : 0;
-    };
-    this.setMarkStyle(textMark, { ...params3d, z: 100 }, undefined, AttributeLevel.Mark);
+    this.setMarkStyle(textMark, { support3d: true }, undefined, AttributeLevel.Mark);
   }
 }
 

@@ -93,6 +93,7 @@ import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
+import { is3DMark } from '../../mark/utils';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -1361,7 +1362,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       const markConfig: IMarkConfig = {
         ...config,
         morph: config.morph ?? false,
-        support3d: config.support3d ?? (spec.support3d || !!(spec as any).zField),
+        support3d:
+          is3DMark(markInfo.type as MarkTypeEnum) || (config.support3d ?? (spec.support3d || !!(spec as any).zField)),
         morphKey: spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`,
         morphElementKey: spec.morph?.morphElementKey ?? config.morphElementKey
       };
