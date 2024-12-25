@@ -1,11 +1,8 @@
 import type { IPoint, Datum, StateValueType } from '../../typings';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
-import type { IMark } from '../../mark/interface';
+import type { IArcMark, IMark, IPathMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
-import type { IArcMark } from '../../mark/arc';
-import type { ITextMark } from '../../mark/text';
-import type { IPathMark } from '../../mark/path';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IBasePieSeriesSpec, IPieSeriesSpec } from './interface';

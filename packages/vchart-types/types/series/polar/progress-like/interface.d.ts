@@ -1,5 +1,9 @@
 import type { IArcMarkSpec, IMarkSpec, IMarkTheme } from '../../../typings';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../interface';
+export type ProgressLikeAppearPreset = 'grow' | 'fadeIn';
+export interface IProgressLikeAnimationParams {
+    startAngle?: number;
+}
 export interface IContinuousTickData {
     index?: number;
     value: number;

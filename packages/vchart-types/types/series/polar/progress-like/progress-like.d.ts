@@ -1,10 +1,9 @@
 import type { Datum } from '@visactor/vgrammar-core';
-import type { IMarkStyle } from '../../../mark/interface';
+import type { IGroupMark, IMarkStyle } from '../../../mark/interface';
 import type { ConvertToMarkStyleSpec, ICommonSpec } from '../../../typings';
 import { PolarSeries } from '../polar';
 import type { IContinuousTickData, IProgressLikeSeriesSpec } from './interface';
 import type { IPolarAxis } from '../../../component/axis';
-import type { IGroupMark } from '../../../mark/group';
 import type { SeriesMarkMap } from '../../interface';
 export declare abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> extends PolarSeries<T> {
     static readonly mark: SeriesMarkMap;

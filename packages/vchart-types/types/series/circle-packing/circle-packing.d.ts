@@ -33,7 +33,7 @@ export declare class CirclePackingSeries<T extends ICirclePackingSeriesSpec = IC
     private _initLabelMarkStyle;
     getStatisticFields(): {
         key: string;
-        operations: import("../../data/transforms/dimension-statistics").StatisticOperations;
+        operations: import("../../data/transforms/interface").StatisticOperations;
     }[];
     protected initTooltip(): void;
     initAnimation(): void;

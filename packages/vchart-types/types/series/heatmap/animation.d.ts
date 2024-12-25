@@ -1,4 +1,4 @@
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
-export type HeatmapAppearPreset = 'fadeIn';
+import type { HeatmapAppearPreset } from './interface';
 export declare function heatmapPresetAnimation(preset: HeatmapAppearPreset | boolean): IAnimationTypeConfig;
 export declare const registerHeatmapAnimation: () => void;

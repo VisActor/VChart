@@ -1,4 +1,4 @@
-import type { IChart } from '../chart/interface';
+import type { IChart } from '../chart/interface/chart';
 import type { StringOrNumber } from './common';
 import type { TooltipActiveType } from './tooltip';
 export interface IRegionQuerier {

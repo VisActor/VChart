@@ -4,8 +4,7 @@ import { SeriesTypeEnum } from '../interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesData } from '../base/series-data';
 import type { AdaptiveSpec } from '../../typings';
-import type { ILabelMark } from '../../mark/label';
-import type { IMark } from '../../mark/interface';
+import type { ILabelMark, IMark } from '../../mark/interface';
 import { CorrelationSeriesSpecTransformer } from './correlation-transformer';
 export declare class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<AdaptiveSpec<T, 'outerRadius' | 'innerRadius'>> {
     static readonly type: string;
