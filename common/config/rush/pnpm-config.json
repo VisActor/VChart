@@ -94,6 +94,10 @@
     // "@visactor/vgrammar-sankey": "0.14.0-alpha.2",
     // "@visactor/vgrammar-venn": "0.14.0-alpha.2",
     // "@visactor/vgrammar-util": "0.14.0-alpha.2"
+    "@visactor/vrender": "0.21.6",
+    "@visactor/vrender-core": "0.21.6",
+    "@visactor/vrender-kits": "0.21.6",
+    "@visactor/vrender-components": "0.21.6"
   },
   /**
    * The `globalPeerDependencyRules` setting provides various settings for suppressing validation errors
