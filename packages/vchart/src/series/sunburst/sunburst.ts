@@ -23,7 +23,7 @@ import { MarkTypeEnum } from '../../mark/interface/type';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
+import { DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
@@ -38,6 +38,7 @@ import { registerArcMark } from '../../mark/arc';
 import { registerTextMark } from '../../mark/text';
 import { sunburstSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { appendHierarchyFields } from '../util/hierarchy';
 
 export class SunburstSeries extends PolarSeries<any> {
   protected declare _spec: ISunburstSeriesSpec;
@@ -202,25 +203,7 @@ export class SunburstSeries extends PolarSeries<any> {
   }
 
   getStatisticFields() {
-    const fields = super.getStatisticFields();
-    return fields.concat([
-      {
-        key: this._categoryField,
-        operations: ['values']
-      },
-      {
-        key: this._valueField,
-        operations: ['max', 'min']
-      },
-      {
-        key: DEFAULT_HIERARCHY_DEPTH,
-        operations: ['max', 'min', 'values']
-      },
-      {
-        key: DEFAULT_HIERARCHY_ROOT,
-        operations: ['values']
-      }
-    ]);
+    return appendHierarchyFields(super.getStatisticFields(), this._categoryField, this._valueField);
   }
 
   protected _addDataIndexAndKey() {
