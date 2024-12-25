@@ -20,6 +20,7 @@ import type { CompilerListenerParameters } from '../compile/interface';
 import type { Compiler } from '../compile/compiler';
 import type { StringOrNumber } from '../typings';
 import type { IElement } from '@visactor/vgrammar-core';
+import type { IComponent } from '../component/interface';
 import { Factory as VGrammarFactory } from '@visactor/vgrammar-core';
 
 const componentTypeMap: Record<string, string> = {
@@ -301,11 +302,18 @@ export class EventDispatcher implements IEventDispatcher {
       targetMark = targetMark.group;
     }
 
+    const node = get(listenerParams.event, 'target');
+
+    let datum = listenerParams.datum;
+    if (model && model.modelType === 'component') {
+      datum = (model as IComponent).getDatum(node) ?? datum;
+    }
+
     const params: BaseEventParams = {
       event: listenerParams.event,
       item: listenerParams.item,
-      datum: listenerParams.datum,
       source: listenerParams.source,
+      datum,
       itemMap,
       chart,
       model,
@@ -326,7 +334,6 @@ export class EventDispatcher implements IEventDispatcher {
     if ((event as any).elements) {
       items = (event as any).elements;
     }
-
     const params: InteractionEventParam = {
       event: listenerParams.event,
       chart,
