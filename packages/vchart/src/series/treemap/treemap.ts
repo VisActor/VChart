@@ -338,6 +338,21 @@ export class TreemapSeries extends CartesianSeries<any> {
     );
   }
 
+  _initRichStyleOfLabelMark(labelMark: ILabelMark) {
+    if (labelMark.getTextType() === 'rich') {
+      this.setMarkStyle<IComposedTextMarkSpec>(
+        labelMark,
+        {
+          maxWidth: datum => Math.abs(datum.x0 - datum.x1),
+          maxHeight: datum => Math.abs(datum.y0 - datum.y1),
+          ellipsis: true
+        },
+        STATE_VALUE_ENUM.STATE_NORMAL,
+        AttributeLevel.Series
+      );
+    }
+  }
+
   initLabelMarkStyle(labelMark: ILabelMark) {
     if (!labelMark) {
       return;
@@ -359,18 +374,8 @@ export class TreemapSeries extends CartesianSeries<any> {
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
-    if (labelMark.getTextType() === 'rich') {
-      this.setMarkStyle<IComposedTextMarkSpec>(
-        labelMark,
-        {
-          maxWidth: datum => Math.abs(datum.x0 - datum.x1),
-          maxHeight: datum => Math.abs(datum.y0 - datum.y1),
-          ellipsis: true
-        },
-        STATE_VALUE_ENUM.STATE_NORMAL,
-        AttributeLevel.Series
-      );
-    }
+
+    this._initRichStyleOfLabelMark(labelMark);
   }
 
   protected initNonLeafLabelMarkStyle(labelMark: ILabelMark) {
@@ -404,18 +409,7 @@ export class TreemapSeries extends CartesianSeries<any> {
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
-    if (labelMark.getTextType() === 'rich') {
-      this.setMarkStyle<IComposedTextMarkSpec>(
-        labelMark,
-        {
-          maxWidth: datum => Math.abs(datum.x0 - datum.x1),
-          maxHeight: datum => Math.abs(datum.y0 - datum.y1),
-          ellipsis: true
-        },
-        STATE_VALUE_ENUM.STATE_NORMAL,
-        AttributeLevel.Series
-      );
-    }
+    this._initRichStyleOfLabelMark(labelMark);
   }
 
   initAnimation(): void {
