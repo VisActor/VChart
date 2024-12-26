@@ -382,28 +382,8 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   }
 
   handlePan(e: any) {
-    this.getMarksWithoutRoot().forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const elements = vGrammarMark.elements;
-
-      elements.forEach((el: IElement, i: number) => {
-        const graphicItem = el.getGraphicItem();
-        const datum = el.getDatum();
-        const newPosition = this.dataToPosition(datum);
-        if (newPosition && graphicItem) {
-          graphicItem.translateTo(newPosition.x, newPosition.y);
-        }
-      });
-    });
-    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
-
-    if (vgrammarLabel) {
-      (vgrammarLabel as any).evaluate(null, null);
-    }
+    // TODO 现在处理好像一模一样
+    this.handleZoom(e);
   }
 
   getDefaultShapeType() {

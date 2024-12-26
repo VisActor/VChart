@@ -19,7 +19,6 @@ import { registerLineMark } from '../../mark/line';
 import { registerSymbolMark } from '../../mark/symbol';
 import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import { registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { registerPolarBandAxis, registerPolarLinearAxis } from '../../component/axis/polar';
 
@@ -246,7 +245,6 @@ mixin(RadarSeries, LineLikeSeriesMixin);
 
 export const registerRadarSeries = () => {
   Factory.registerSeries(RadarSeries.type, RadarSeries);
-  registerMarkOverlapTransform();
   registerAreaMark();
   registerLineMark();
   registerSymbolMark();

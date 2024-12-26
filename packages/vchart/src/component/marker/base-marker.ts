@@ -13,7 +13,8 @@ import type {
   IDataPosCallback,
   IMarkerAttributeContext,
   IMarkerSpec,
-  IMarkerSupportSeries
+  IMarkerSupportSeries,
+  IMarkProcessOptions
 } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
@@ -22,6 +23,9 @@ import { getFirstSeries } from '../../util';
 import { arrayParser } from '../../data/parser/array';
 import { getSpecInfo } from '../util';
 import type { IOptionWithCoordinates } from '../../data/transforms/interface';
+import { registerDataSetInstanceTransform } from '../../data/register';
+import { markerAggregation } from '../../data/transforms/aggregation';
+import { markerFilter } from '../../data/transforms/marker-filter';
 
 export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
@@ -56,6 +60,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
   protected abstract _initDataView(): void;
   protected abstract _createMarkerComponent(): IGroup;
   protected abstract _markerLayout(): void;
+  protected abstract _computeOptions(): IMarkProcessOptions;
   // 该方法需要子组件复写
   static _getMarkerCoordinateType(markerSpec: any): string {
     return 'cartesian';
@@ -268,5 +273,31 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
       result.change = true;
     }
     return result;
+  }
+
+  _initCommonDataView() {
+    const { options } = this._computeOptions();
+
+    const seriesData = this._getRelativeDataView();
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerFilter', markerFilter);
+    const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
+    data.parse([seriesData], {
+      type: 'dataview'
+    });
+    data.transform({
+      type: 'markerAggregation',
+      options
+    });
+
+    data.transform({
+      type: 'markerFilter',
+      options: this._getAllRelativeSeries()
+    });
+
+    data.target.on('change', () => {
+      this._markerLayout();
+    });
+    this._markerData = data;
   }
 }
