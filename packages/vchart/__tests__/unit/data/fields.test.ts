@@ -78,7 +78,7 @@ describe('data fields test', () => {
       getTheme: () => ThemeManager.getCurrentTheme(true),
       getSpecInfo: () => info
     } as any);
-    chart.created();
+    chart.created(transformer);
     chart.init();
 
     const lastData = chart.getAllSeries()[0].getRawData()?.latestData;
@@ -159,7 +159,7 @@ describe('data fields test', () => {
       getTheme: () => ThemeManager.getCurrentTheme(true),
       getSpecInfo: () => info
     } as any);
-    chart.created();
+    chart.created(transformer);
     chart.init();
 
     const lastData = chart.getAllSeries()[0].getRawData()?.latestData;

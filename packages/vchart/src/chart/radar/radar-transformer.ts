@@ -7,25 +7,23 @@ export class RadarChartSpecTransformer<
   T extends IRoseChartSpec = IRoseChartSpec
 > extends RoseLikeChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: any): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-      seriesField: spec.seriesField,
-      line: spec.line,
-      point: spec.point,
-      stack: spec.stack,
-      percent: spec.percent,
-      area: mergeSpec(
-        {
-          visible: false
-        },
-        spec.area
-      ),
-      seriesMark: spec.seriesMark ?? 'area',
-      activePoint: spec.activePoint,
-      pointDis: spec.pointDis,
-      pointDisMul: spec.pointDisMul,
-      markOverlap: spec.markOverlap
-    };
+    const series = super._getDefaultSeriesSpec(spec);
+    series.line = spec.line;
+    series.point = spec.point;
+    series.stack = spec.stack;
+    series.percent = spec.percent;
+    series.area = mergeSpec(
+      {
+        visible: false
+      },
+      spec.area
+    );
+    series.seriesMark = spec.seriesMark ?? 'area';
+    series.activePoint = spec.activePoint;
+    series.pointDis = spec.pointDis;
+    series.pointDisMul = spec.pointDisMul;
+    series.markOverlap = spec.markOverlap;
+    return series;
   }
 
   transformSpec(spec: T) {

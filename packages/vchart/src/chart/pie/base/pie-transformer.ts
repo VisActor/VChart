@@ -10,27 +10,21 @@ export class BasePieChartSpecTransformer<T extends IPieChartSpec> extends PolarC
   }
 
   protected _getDefaultSeriesSpec(spec: any): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-
-      // 兼容旧版写法
-      categoryField: spec.categoryField || spec.seriesField,
-      valueField: spec.valueField || spec.angleField,
-
-      center: spec.center,
-      centerOffset: spec.centerOffset,
-
-      cornerRadius: spec.cornerRadius,
-
-      padAngle: spec.padAngle,
-      minAngle: spec.minAngle,
-
-      emptyPlaceholder: spec.emptyPlaceholder,
-      emptyCircle: spec.emptyPlaceholder?.emptyCircle,
-
-      showAllZero: spec.showAllZero,
-      supportNegative: spec.supportNegative,
-      layoutRadius: spec.layoutRadius
-    };
+    const seriesSpec = super._getDefaultSeriesSpec(spec, [
+      'center',
+      'centerOffset',
+      'cornerRadius',
+      'padAngle',
+      'minAngle',
+      'emptyPlaceholder',
+      'showAllZero',
+      'supportNegative',
+      'layoutRadius'
+    ]);
+    // 兼容旧版写法
+    seriesSpec.categoryField = spec.categoryField || spec.seriesField;
+    seriesSpec.valueField = spec.valueField || spec.angleField;
+    seriesSpec.emptyCircle = spec.emptyPlaceholder?.emptyCircle;
+    return seriesSpec;
   }
 }

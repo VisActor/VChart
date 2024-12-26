@@ -21,27 +21,16 @@ export class PolarChartSpecTransformer<T extends IPolarChartSpec> extends BaseCh
     return indicatorSpec;
   }
 
-  protected _getDefaultSeriesSpec(spec: any): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
-
-      /**
-       * 旧的radius写法, 仅做兼容
-       * @deprecated use outerRadius instead
-       */
-      radius: spec.radius,
-      outerRadius: spec.outerRadius,
-      innerRadius: spec.innerRadius,
-
-      startAngle: spec.startAngle,
-      endAngle: spec.endAngle,
-      sortDataByAxis: spec.sortDataByAxis
-    };
-    const seriesType = this.seriesType;
-    if (seriesType) {
-      series.type = seriesType;
-      series[seriesType] = spec[seriesType];
-    }
+  protected _getDefaultSeriesSpec(spec: any, pickKeys?: string[]): any {
+    /**
+     * 旧的radius写法, 仅做兼容
+     * @deprecated use outerRadius instead
+     */
+    const series: any = super._getDefaultSeriesSpec(
+      spec,
+      ['radius', 'outerRadius', 'innerRadius', 'startAngle', 'endAngle', 'sortDataByAxis'],
+      pickKeys
+    );
 
     return series;
   }

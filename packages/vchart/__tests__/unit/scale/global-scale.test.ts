@@ -314,7 +314,7 @@ describe('global-scale test', () => {
         getTheme: () => ThemeManager.getCurrentTheme(true)
       } as any
     );
-    chart.created();
+    chart.created(transformer);
     chart.init();
 
     // spec
@@ -464,7 +464,7 @@ describe('global-scale test', () => {
         getTheme: () => ThemeManager.getCurrentTheme(true)
       } as any
     );
-    chart.created();
+    chart.created(transformer);
     chart.init();
 
     // spec
