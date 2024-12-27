@@ -22,3 +22,7 @@ export * from './vrender-tools';
 // util
 export * from './util/data';
 export * from './util/spec/transform';
+
+// base component model for extension
+export * from './component/base';
+export * from './compile/data/compilable-data';
