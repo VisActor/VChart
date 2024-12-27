@@ -386,7 +386,8 @@ function _resolvePackageVersion(logger, rushCommonFolder, { name, version }) {
             //  <blank line>
             const npmVersionSpawnResult = child_process__WEBPACK_IMPORTED_MODULE_0__.spawnSync(npmPath, ['view', `${name}@${version}`, 'version', '--no-update-notifier'], {
                 cwd: rushTempFolder,
-                stdio: []
+                stdio: [],
+                shell: os__WEBPACK_IMPORTED_MODULE_2__.platform() === 'win32' 
             });
             if (npmVersionSpawnResult.status !== 0) {
                 throw new Error(`"npm view" returned error code ${npmVersionSpawnResult.status}`);
@@ -518,7 +519,8 @@ function _installPackage(logger, packageInstallFolder, name, version, command) {
         const result = child_process__WEBPACK_IMPORTED_MODULE_0__.spawnSync(npmPath, [command], {
             stdio: 'inherit',
             cwd: packageInstallFolder,
-            env: process.env
+            env: process.env,
+            shell: os__WEBPACK_IMPORTED_MODULE_2__.platform() === 'win32' 
         });
         if (result.status !== 0) {
             throw new Error(`"npm ${command}" encountered an error`);
