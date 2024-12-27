@@ -18,3 +18,7 @@ export * from './plugin/chart';
 export * from './plugin/components/tooltip-handler';
 export * from './plugin/components/axis-sync';
 export * from './plugin/other';
+
+// base component model for extension
+export * from './component/base';
+export * from './compile/data/compilable-data';

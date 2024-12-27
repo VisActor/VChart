@@ -15,14 +15,18 @@ export type { IVChart } from './interface';
 export type { IStateSpec, StateValueType } from '../compile/mark';
 export type { IRegion } from '../region/interface';
 
-export * from '../typings/spec/common';
 export * from '../event/interface';
 export * from '../theme/interface';
+export * from '../model/interface';
+
 export * from './interface';
+export * from '../typings';
 
 // some constants
 export * from '../constant/base';
 export * from '../constant/data';
+export * from '../constant/layout';
+export { TransformLevel } from '../data/initialize';
 
 /**
  * spec
@@ -37,3 +41,8 @@ export * from '../theme/index';
 
 // vrender
 export { vglobal } from '@visactor/vrender-core';
+
+// utils
+export * from '../util/space';
+export { transformToGraphic } from '../util/style';
+export { getSpecInfo } from '../component/util';
