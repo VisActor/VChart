@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: package some hook in vgrammar\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
