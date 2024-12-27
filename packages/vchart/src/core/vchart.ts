@@ -414,15 +414,14 @@ export class VChart implements IVChart {
       // 桑基图默认记载滚动条组件
       pluginList.push('scrollbar');
     }
-    // 额外补充部分钩子
+    // hook增加图表实例参数
     const performanceHook = { ...(restOptions.performanceHook || {}) };
-    (['beforeDoRender'] as (keyof IPerformanceHook)[]).forEach(hookKey => {
-      performanceHook[hookKey] &&
+    (Object.keys(performanceHook) as (keyof IPerformanceHook)[]).forEach(hookKey => {
+      // @ts-ignore
+      restOptions.performanceHook[hookKey] = (...args) => {
         // @ts-ignore
-        (restOptions.performanceHook[hookKey] = (...args) => {
-          // @ts-ignore
-          performanceHook[hookKey](...args, this as any);
-        });
+        performanceHook[hookKey](...args, this as any);
+      };
     });
 
     this._compiler = new Compiler(
