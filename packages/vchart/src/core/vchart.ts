@@ -1,7 +1,7 @@
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
-import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/common';
+import type { IDataValues, IMarkStateSpec, IInitOption, IPerformanceHook } from '../typings/spec/common';
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
@@ -414,6 +414,16 @@ export class VChart implements IVChart {
       // 桑基图默认记载滚动条组件
       pluginList.push('scrollbar');
     }
+    // hook增加图表实例参数
+    const performanceHook = { ...(restOptions.performanceHook || {}) };
+    (Object.keys(performanceHook) as (keyof IPerformanceHook)[]).forEach(hookKey => {
+      // @ts-ignore
+      restOptions.performanceHook[hookKey] = (...args) => {
+        // @ts-ignore
+        performanceHook[hookKey](...args, this as any);
+      };
+    });
+
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
