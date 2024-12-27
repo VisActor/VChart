@@ -634,6 +634,9 @@ export interface IPerformanceHook {
   beforeCreateVRenderMark?: () => void;
   afterCreateVRenderMark?: () => void;
 
+  // VGrammar 创建元素完成，vrender 绘图之前
+  beforeDoRender?: (vchart?: IVChart) => void;
+
   // VRender Draw 时间
   beforeVRenderDraw?: () => void;
   afterVRenderDraw?: () => void;
