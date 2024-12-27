@@ -371,6 +371,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   reInit() {
     super.reInit();
     this._initStyle();
+    if (this._rootDom) {
+      setStyleToDom(this._rootDom, this._domStyle.panel);
+    }
+
+    if (this.getVisibility()) {
+      this._updateDomStringByCol(this._tooltipActual);
+      this._updateDomStyle('height');
+    }
   }
 
   protected _updatePosition({ x, y }: ITooltipPositionActual) {
