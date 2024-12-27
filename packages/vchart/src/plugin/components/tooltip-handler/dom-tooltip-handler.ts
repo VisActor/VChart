@@ -299,9 +299,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width') {
     const rootDom = this._rootDom;
 
-    const contentDom = rootDom.children[rootDom.children.length - 1];
+    const contentDom = [...(rootDom.children as any)].find(child =>
+      child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)
+    );
 
-    if (contentDom.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)) {
+    if (contentDom) {
       const tooltipSpec = this._component.getSpec() as ITooltipSpec;
       const contentStyle: Partial<CSSStyleDeclaration> = {};
 
