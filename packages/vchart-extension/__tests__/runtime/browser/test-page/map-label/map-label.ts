@@ -7,7 +7,7 @@ const run = async () => {
   // 图表配置
   const spec = {
     type: 'common',
-    padding: 0,
+    padding: 50,
     region: [
       {
         roam: true,
@@ -152,15 +152,13 @@ const run = async () => {
     ]
   };
 
-  const chinaMapUrl_topojson = 'https://tosv.byted.org/obj/gis/topojson/china.json';
+  const chinaMapUrl_topojson = 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json';
 
   const chinaRes_topojson = await fetch(chinaMapUrl_topojson);
   const china_topojson = await chinaRes_topojson.json();
 
   VChart.registerMap('china', china_topojson, {
-    type: 'topojson',
-    object: 'china',
-    simplify: true
+    rewind: true
   });
 
   const cs = new VChart(spec, {
