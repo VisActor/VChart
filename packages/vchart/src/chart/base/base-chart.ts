@@ -874,8 +874,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     } = {};
     const checkVisibleComponents: Record<string, boolean> = {
       [ComponentTypeEnum.title]: true,
-      [ComponentTypeEnum.brush]: true,
-      [ComponentTypeEnum.mapLabel]: true
+      [ComponentTypeEnum.brush]: true
     };
 
     this._components.forEach(c => {
