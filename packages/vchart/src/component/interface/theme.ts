@@ -6,7 +6,6 @@ import type { IScrollBarTheme } from '../data-zoom/scroll-bar/interface';
 import type { IIndicatorTheme } from '../indicator/interface';
 import type { IDiscreteLegendTheme } from '../legend/discrete/interface';
 import type { IColorLegendTheme, ISizeLegendTheme } from '../legend/continuous/interface';
-import type { IMapLabelTheme } from '../map-label/interface';
 import type { IMarkAreaTheme } from '../marker/mark-area/interface';
 import type { IMarkLineTheme } from '../marker/mark-line/interface';
 import type { IMarkPointTheme } from '../marker/mark-point/interface';
@@ -114,10 +113,6 @@ export interface IComponentTheme {
    * 图表标题配置
    */
   [ComponentTypeEnum.title]?: ITitleTheme;
-  /**
-   * 地图标签配置
-   */
-  [ComponentTypeEnum.mapLabel]?: IMapLabelTheme;
   /**
    * 省略文本配置
    */
