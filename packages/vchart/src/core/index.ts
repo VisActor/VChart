@@ -32,6 +32,7 @@ export { TransformLevel } from '../data/initialize';
  * spec
  */
 export * from '../typings/spec/index';
+export * from '../typings/visual';
 
 // tooltip
 export * from '../typings/tooltip';

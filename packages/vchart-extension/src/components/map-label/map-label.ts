@@ -29,6 +29,7 @@ import type {
 import type { IPairInfo } from './layout';
 import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './type';
+import { MapLabelSpecTransformer } from './map-label-transformer';
 
 export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type = 'mapLabel';
@@ -37,6 +38,9 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
 
   static specKey = 'mapLabel';
   specKey = 'mapLabel';
+
+  static readonly transformerConstructor = MapLabelSpecTransformer as any;
+  readonly transformerConstructor = MapLabelSpecTransformer;
 
   layoutType: 'none' = 'none';
 
@@ -251,7 +255,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     if (this._spec.icon?.visible) {
       const icon = graphicCreator.symbol(transformToGraphic({ ...this._spec.icon.style }));
       icon.setAttributes(positionAttr);
-      icon.setAttribute('symbolType', this._spec.icon.style?.shape);
+      icon.setAttribute('symbolType', this._spec.icon.style?.symbolType ?? this._spec.icon.style?.shape);
       const iconBound = icon.AABBBounds;
       const iconHeight = iconBound?.y2 - iconBound?.y1 ?? 0;
       const iconWidth = iconBound?.x2 - iconBound?.x1 ?? 0;

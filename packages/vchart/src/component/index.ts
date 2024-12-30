@@ -10,8 +10,6 @@ import { DataZoom, registerDataZoom } from './data-zoom/data-zoom/data-zoom';
 import { CustomMark, registerCustomMark } from './custom-mark/custom-mark';
 import type { IBrushSpec, IBrushTheme } from './brush';
 import { Brush, registerBrush } from './brush/brush';
-import type { IMapLabelSpec, IMapLabelTheme } from './map-label';
-import { MapLabelComponent, registerMapLabel } from './map-label/component';
 import type {
   ICartesianLinearAxisSpec,
   ICartesianBandAxisSpec,
@@ -88,7 +86,6 @@ export {
   DataZoom,
   CustomMark,
   Brush,
-  MapLabelComponent,
   CartesianAxis,
   CartesianBandAxis,
   CartesianLinearAxis,
@@ -137,7 +134,6 @@ export {
   registerIndicator,
   registerLabel,
   registerTotalLabel,
-  registerMapLabel,
   registerMarkLine,
   registerMarkArea,
   registerMarkPoint,
@@ -169,7 +165,6 @@ export type {
   IIndicatorSpec,
   ILabelSpec,
   ITotalLabelSpec,
-  IMapLabelSpec,
   IMarkAreaSpec,
   IMarkLineSpec,
   IStepMarkLineSpec,
@@ -195,7 +190,6 @@ export type {
   IDataZoomTheme,
   IScrollBarTheme,
   IIndicatorTheme,
-  IMapLabelTheme,
   ITotalLabelTheme,
   ISizeLegendTheme,
   IColorLegendTheme,

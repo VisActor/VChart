@@ -4,7 +4,7 @@ import type { IPathMarkSpec, IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec } fro
 
 export type LabelPosition = IOrientType | 'outer';
 
-export interface IMapLabelSpec extends IMapLabelTheme {
+export interface IMapLabelSpec extends IMapLabelStyleSpec {
   /** 关联的系列 id */
   seriesId: StringOrNumber;
   /** 名称文本的数据字段 */
@@ -22,7 +22,7 @@ export type IMapLabelNodes = 'nameLabel' | 'valueLabel' | 'icon' | 'labelBackgro
 
 export type MapLabelSceneNodeMap = Partial<Record<IMapLabelNodes, IGraphic>>;
 
-export interface IMapLabelTheme {
+export interface IMapLabelStyleSpec {
   /** 是否显示，默认 false */
   visible?: boolean;
   /** 标签非 outer 位置下与标记点的间距 */

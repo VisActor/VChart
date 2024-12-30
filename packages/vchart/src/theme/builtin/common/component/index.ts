@@ -11,7 +11,6 @@ import { indicator } from './indicator';
 import { colorLegend } from './legend/color-legend';
 import { discreteLegend } from './legend/discrete-legend';
 import { sizeLegend } from './legend/size-legend';
-import { mapLabel } from './map-label';
 import { markArea } from './mark-area';
 import { markLine } from './mark-line';
 import { markPoint } from './mark-point';
@@ -48,7 +47,6 @@ export const component: IComponentTheme = {
   brush,
   indicator,
   title,
-  mapLabel,
   poptip,
   totalLabel,
   scrollBar
