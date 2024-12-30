@@ -22,27 +22,32 @@ const run = async () => {
       seriesId: 'scatter',
       nameField: 'name',
       valueField: 'value',
-      leader: {
-        visible: true,
-        style: {
-          stroke: 'blue'
-        }
-      },
+
+      space: 6,
       icon: {
         visible: true,
         style: {
-          size: 14,
-          lineWidth: 1,
+          size: 20,
+          dx: -8,
+          dy: -10,
           fill: 'red',
-          shape:
-            // eslint-disable-next-line max-len
-            'M-.4431-.4293h.2844l.1138.1138h.512v.6258H-.4431V-.4293zm.0569.6827h.7964V-.2587H-.0676l-.1138-.1138H-.3862v.6258z'
+          symbolType: `<svg t="1735530419948" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="18309" width="200" height="200"><path d="M512 14.04046698C285.51594444 14.04046698 101.91573591 198.69592179 101.91573591 426.58535144c0 113.88587391 45.92898631 216.99267454 120.09577941 291.68660449L512 1009.95953302l289.98751211-291.68757709a412.48652979 412.48652979 0 0 0 120.09675198-291.68660449C922.08426409 198.69592179 738.48308299 14.04046698 512 14.04046698z m0 595.7939926a182.78032593 182.78032593 0 0 1-182.31251628-183.36678999A182.72197129 182.72197129 0 0 1 512 243.21856145a182.78032593 182.78032593 0 0 1 182.31154372 183.36678999A182.72197129 182.72197129 0 0 1 512 609.89281421z" fill="#F96C65" p-id="18310"></path></svg>`
         }
+      },
+      nameLabel: {
+        style: { fill: '#1677ff' }
+      },
+      valueLabel: {
+        style: { fill: '#1677ff' }
+      },
+      leader: {
+        visible: true,
+        style: { stroke: '#1677ff' }
       },
       background: {
         style: {
-          shadowColor: 'red',
-          shadowBlur: 5
+          fill: '#e6f4ff',
+          stroke: '#1677ff'
         }
       }
     },
@@ -133,16 +138,18 @@ const run = async () => {
         yField: 'value',
         point: {
           style: {
-            fill: 'blue',
+            fill: '#1677ff',
+            outerBorder: {
+              distance: 2,
+              lineWidth: 3,
+              strokeOpacity: 0.2
+            },
             fillOpacity: 1,
             size: 10
           }
         }
       }
-    ],
-    tooltip: {
-      transitionDuration: 0
-    }
+    ]
   };
 
   const chinaMapUrl_topojson = 'https://tosv.byted.org/obj/gis/topojson/china.json';
