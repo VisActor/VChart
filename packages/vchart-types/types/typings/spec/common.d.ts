@@ -241,6 +241,7 @@ export interface IPerformanceHook {
     afterCreateVRenderStage?: () => void;
     beforeCreateVRenderMark?: () => void;
     afterCreateVRenderMark?: () => void;
+    beforeDoRender?: (vchart?: IVChart) => void;
     beforeVRenderDraw?: () => void;
     afterVRenderDraw?: () => void;
 }

@@ -20,6 +20,7 @@ export declare class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRange
     private _labelMark?;
     initMark(): void;
     initMarkStyle(): void;
+    _initLabelMarkPos(labelMark: ITextMark, labelSpec: IRangeColumnSeriesSpec['label']['minLabel'], fieldIndex: number, defaultPosition: string): void;
     initLabelMarkStyle(labelMark: ITextMark): void;
     protected _dataToPosX(datum: Datum): number;
     protected _dataToPosX1(datum: Datum): number;

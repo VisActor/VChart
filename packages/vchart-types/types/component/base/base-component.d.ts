@@ -1,4 +1,4 @@
-import { type IGraphic, type IGroup } from '@visactor/vrender-core';
+import { type IGraphicAttribute, type IGraphic, type IGroup } from '@visactor/vrender-core';
 import type { IRegion } from '../../region/interface';
 import type { IComponent, IComponentOption } from '../interface';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
@@ -28,7 +28,7 @@ export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> ex
     changeRegions(regions: IRegion[]): void;
     protected _getNeedClearVRenderComponents(): IGraphic[];
     onRender(ctx: IModelRenderOption): void;
-    getVRenderComponents(): IGraphic<Partial<import("@visactor/vrender-core").IGraphicAttribute>>[];
+    getVRenderComponents(): IGraphic<Partial<IGraphicAttribute>>[];
     protected callPlugin(cb: (plugin: IComponentPlugin) => void): void;
     protected getContainer(): IGroup;
     _compareSpec(spec: T, prevSpec: T): {
@@ -45,4 +45,5 @@ export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> ex
     reAppendComponents(): void;
     protected _delegateEvent: (component: IGraphic, event: any, type: string, item?: any, datum?: Datum) => void;
     getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike;
+    getDatum(graphic?: IGraphic<Partial<IGraphicAttribute>>): void;
 }
