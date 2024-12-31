@@ -124,6 +124,7 @@ export class Compiler implements ICompiler {
       renderCanvas: this._container.canvas ?? null,
       hooks: performanceHook, // vgrammar 事件改造后，性能回调函数放在了hooks中实现
       ...restOption,
+      dpr,
       autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
       mode: toRenderMode(mode),
       autoFit: false,
