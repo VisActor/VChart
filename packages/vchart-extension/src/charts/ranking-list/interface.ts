@@ -70,7 +70,7 @@ export interface IRankingListSpec {
   orderLabel?: {
     visible?: boolean;
     style?: ITextGraphicAttribute;
-    formatMethod?: (text: string, ctx: any) => string;
+    formatMethod?: (text: string, datum: Datum) => string;
   };
   /**
    * 名称标签(yField对应的标签)
@@ -78,7 +78,7 @@ export interface IRankingListSpec {
   nameLabel?: {
     visible?: boolean;
     style?: ITextGraphicAttribute;
-    formatMethod?: (text: string, ctx: any) => string;
+    formatMethod?: (text: string, datum: Datum) => string;
   };
   /**
    * 值标签(xField对应的标签)
@@ -86,7 +86,7 @@ export interface IRankingListSpec {
   valueLabel?: {
     visible?: boolean;
     style?: ITextGraphicAttribute;
-    formatMethod?: (text: string, ctx: any) => string;
+    formatMethod?: (text: string, datum: Datum) => string;
   };
   /**
    * 每页行数
