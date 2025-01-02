@@ -1,4 +1,5 @@
 export * from './charts/ranking-bar/ranking-bar';
+export * from './charts/ranking-list/ranking-list';
 export * from './charts/conversion-funnel';
 
 export * from './components/series-break';
