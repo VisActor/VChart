@@ -107,18 +107,30 @@ const spec = {
     visible: guiObject.orderLabelVisible,
     style: {
       fontSize: 20
+    },
+    formatMethod: (text, ctx) => {
+      console.log('ctx-order', ctx);
+      return `order${text}`;
     }
   },
   nameLabel: {
     visible: true,
     style: {
       fontSize: 20
+    },
+    formatMethod: (text, ctx) => {
+      console.log('ctx-name', ctx);
+      return `name${text}`;
     }
   },
   valueLabel: {
     visible: true,
     style: {
       fontSize: 20
+    },
+    formatMethod: (text, ctx) => {
+      console.log('ctx-value', ctx);
+      return `value${text}`;
     }
   },
   decorateHaloIcons: [
