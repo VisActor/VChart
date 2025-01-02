@@ -24,11 +24,13 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   protected orderLabelTextMeasure: TextMeasure<any>;
   protected originalData: Datum[];
   protected dataSpecs: any[];
+  protected formatMap: { [key: string]: (text: string, ctx: any) => string } = {};
 
   transformSpec(spec: any): void {
     super.transformSpec(spec);
     this.normalizeSpec(spec);
     this.upgradeTextMeasure(spec);
+    this.upgradeFormatMap(spec);
     this.processData(spec);
 
     // rankingList spec -> vchart spec
@@ -50,6 +52,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       // 右侧label
       this.generateValueLabel(spec)
     ];
+
+    this.transformPaddingSpec(spec);
 
     super.transformSpec(spec);
   }
@@ -84,6 +88,12 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     });
   }
 
+  upgradeFormatMap(spec: any) {
+    this.formatMap[spec.yField] = spec.nameLabel.formatMethod;
+    this.formatMap[spec.xField] = spec.valueLabel.formatMethod;
+    this.formatMap[ORDER_KEY] = spec.orderLabel.formatMethod;
+  }
+
   processData(spec: any) {
     // ps: 如果updateSpec后, 同时执行2次processData会有问题, 在这里用比较hack的方式绕过第2次
     if (!spec.data[0]?.values) {
@@ -109,7 +119,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           style: {
             ...spec.bar?.style,
             x1: 0,
-            visible: datum => {
+            visible: (datum: Datum) => {
               if (datum[SUPPLY_DATA_KEY]) {
                 return false;
               }
@@ -239,9 +249,10 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           if (spec.labelLayout === 'bothEnd') {
             return -(
               NAME_LABEL_PADDING_RIGHT +
-              this.nameLabelTextMeasure.fullMeasure(datum[spec.yField]).width +
+              this.nameLabelTextMeasure.fullMeasure(this.formatDatum(spec.yField, datum)).width +
               (spec.orderLabel.style.visible
-                ? NAME_ORDER_PADDING_RIGHT + this.orderLabelTextMeasure.fullMeasure(datum[ORDER_KEY]).width
+                ? NAME_ORDER_PADDING_RIGHT +
+                  this.orderLabelTextMeasure.fullMeasure(this.formatDatum(ORDER_KEY, datum)).width
                 : 0) +
               NAME_SYMBOL_PADDING_RIGHT
             );
@@ -258,8 +269,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
             spec.bar.height / 2 -
             LABEL_PADDING_BOTTOM -
             Math.max(
-              this.nameLabelTextMeasure.fullMeasure(datum[spec.yField]).height,
-              this.orderLabelTextMeasure.fullMeasure(datum[ORDER_KEY]).height
+              this.nameLabelTextMeasure.fullMeasure(this.formatDatum(spec.yField, datum)).height,
+              this.orderLabelTextMeasure.fullMeasure(this.formatDatum(ORDER_KEY, datum)).height
             ) /
               2
           );
@@ -288,9 +299,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       dataId: 'data',
       dataKey: DATA_KEY,
       style: {
-        text: (datum: Datum) => {
-          return datum[spec.yField];
-        },
+        text: (datum: Datum) => this.formatDatum(spec.yField, datum),
         x: () => {
           if (spec.labelLayout === 'bothEnd') {
             return -NAME_LABEL_PADDING_RIGHT;
@@ -332,12 +341,12 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       dataId: 'data',
       dataKey: DATA_KEY,
       style: {
-        text: (datum: Datum) => datum[ORDER_KEY],
+        text: (datum: Datum) => this.formatDatum(ORDER_KEY, datum),
         x: (datum: Datum) => {
           if (spec.labelLayout === 'bothEnd') {
             return -(
               NAME_LABEL_PADDING_RIGHT +
-              this.nameLabelTextMeasure.fullMeasure(datum[spec.yField]).width +
+              this.nameLabelTextMeasure.fullMeasure(this.formatDatum(spec.yField, datum)).width +
               NAME_ORDER_PADDING_RIGHT
             );
           } else {
@@ -375,7 +384,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       visible: true,
       dataKey: DATA_KEY,
       style: {
-        text: (datum: Datum) => datum[spec.xField],
+        text: (datum: Datum) => this.formatDatum(spec.xField, datum),
         x: (datum: Datum, ctx: any) => {
           if (spec.labelLayout === 'bothEnd') {
             return (
@@ -501,9 +510,18 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
 
   getMaxDataLabelLens(spec: IRankingListSpec, field: string, textMeasure: TextMeasure<any>) {
     const textWidths = this.originalData.map(datum =>
-      datum[SUPPLY_DATA_KEY] ? 0 : textMeasure.fullMeasure(datum[field]).width
+      datum[SUPPLY_DATA_KEY] ? 0 : textMeasure.fullMeasure(this.formatDatum(field, datum)).width
     );
     return Math.max(...textWidths);
+  }
+
+  formatDatum(field: string, datum: Datum) {
+    // console.log('field', field, datum);
+    if (this.formatMap?.[field]) {
+      return this.formatMap[field](datum[field], datum);
+    } else {
+      return datum[field];
+    }
   }
 
   getLabelWidth(padding: number, width: number) {
