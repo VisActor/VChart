@@ -19,8 +19,17 @@ export type TooltipHandlerParams = DimensionEventParams & {
 };
 
 export interface ITooltipActiveTypeAsKeys<T, K, U> {
+  /**
+   * mark tooltip对应的配置
+   */
   mark?: T;
+  /**
+   * dimension tooltip 对应的配置
+   */
   dimension?: K;
+  /**
+   * group tooltip 对应的配置
+   */
   group?: U;
 }
 
