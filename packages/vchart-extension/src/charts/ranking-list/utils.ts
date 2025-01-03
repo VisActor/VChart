@@ -1,6 +1,6 @@
 import { Datum } from '@visactor/vchart/src/typings';
 
-export const applyVisible = (spec, keyList: string[]) => {
+export const applyVisible = (spec: any, keyList: string[]) => {
   keyList.forEach(key => {
     spec[key] = {
       ...spec[key],
@@ -12,15 +12,15 @@ export const applyVisible = (spec, keyList: string[]) => {
   });
 };
 
-export const mergeObjects = (objA, objB) => {
-  function recursiveMerge(target, source) {
+export const mergeObjects = (objA: any, objB: any) => {
+  function recursiveMerge(target: any, source: any) {
     for (const key in source) {
       if (typeof source[key] === 'object' && source[key] !== null) {
-        if (!target[key]) {
+        if (!target.hasOwnProperty(key)) {
           target[key] = Array.isArray(source[key]) ? [] : {};
         }
         recursiveMerge(target[key], source[key]);
-      } else if (!target.hasOwnProperty(key)) {
+      } else if (!target.hasOwnProperty(key) && typeof target === 'object') {
         target[key] = source[key];
       }
     }
