@@ -928,6 +928,35 @@ Supported since version `1.10.0`
 This configuration only applies to the scrollbar page turner
 Whether the scrollbar position supports displaying in the middle of the pagination
 
+#### scrollMask(Object)
+
+Supported starting from version `1.12.11`.
+
+A mask for the legend area when scrolling, before reaching the end.
+
+##### visible(boolean) = false
+
+Whether to display the mask.
+
+##### gradientLength(number) = 16
+
+Length of the gradient area of the mask.
+
+##### gradientStops(Object)
+
+Configuration for the gradient fill colors of the mask, for example:
+
+```ts
+scrollMask: {
+  visible: true,
+  gradientStops: [
+    { offset: 0, color: 'rgba(255,255,255,1)' },
+    { offset: 0.5, color: 'rgba(255,255,255,0.8)' },
+    { offset: 1, color: 'rgba(255,255,255,0)' }
+  ]
+}
+```
+
 ### data(Function)
 
 Custom Configuration for Discrete Legend Data is a function that can be customized based on the original legend plotting data, for example, the value value can be customized.

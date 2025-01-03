@@ -909,6 +909,35 @@ value: {
 该配置仅对滚动条翻页器生效
 滚动条的位置是否支持展示在分页的中间
 
+#### scrollMask(Object)
+
+自`1.12.11`版本开始支持。
+
+滚动时，图例区域未到尽头时的前后遮罩。
+
+##### visible(boolean) = false
+
+是否展示遮罩。
+
+##### gradientLength(number) = 16
+
+遮罩渐变区域长度。
+
+##### gradientStops(Object)
+
+遮罩的渐变填充色配置，例如：
+
+```ts
+scrollMask: {
+  visible: true,
+  gradientStops: [
+    { offset: 0, color: 'rgba(255,255,255,1)' },
+    { offset: 0.5, color: 'rgba(255,255,255,0.8)' },
+    { offset: 1, color: 'rgba(255,255,255,0)' }
+  ]
+}
+```
+
 ### data(Function)
 
 用于离散图例数据的自定义配置，是一个函数，可以在原始图例绘制数据的基础上，进行自定义，比如可以自定义 value 值。
