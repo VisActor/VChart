@@ -118,7 +118,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     for (const brushName in elementsMap) {
       for (const elementKey in elementsMap[brushName]) {
         data.push({
-          ...elementsMap[brushName][elementKey].data[0]
+          ...elementsMap[brushName][elementKey]?.data?.[0]
         });
       }
     }
