@@ -1,7 +1,5 @@
 import { registerRankingList } from '../../../../src';
 import { VChart } from '@visactor/vchart';
-import { defaultSpec } from '../../../../src/charts/ranking-list/constant';
-import { merge } from '@visactor/vutils';
 import { GUI } from 'lil-gui';
 
 const guiObject = {
@@ -176,7 +174,7 @@ const spec = {
 
 const run = () => {
   registerRankingList();
-  const cs = new VChart(merge(defaultSpec, spec), {
+  const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     //theme: 'dark',
     onError: err => {
