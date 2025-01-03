@@ -505,6 +505,29 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
         ]
       });
     });
+
+    // 只有1页时, player循环播放时, prePage和curPage data一致, 导致没有动画效果
+    // 在此手动复制1页, 且prePage和curPage dataKey不一致, 保证动画效果
+    if (result.length === 1) {
+      result.push({
+        data: [
+          {
+            id: 'datas',
+            values: pagerData['page1'].map((d, i) => {
+              return { ...d, [DATA_KEY]: 'page2' + '_' + i + '_' + new Date().getTime() };
+            })
+          },
+          {
+            id: 'order',
+            values: [
+              {
+                order: 'page2'
+              }
+            ]
+          }
+        ]
+      });
+    }
     return result;
   };
 
