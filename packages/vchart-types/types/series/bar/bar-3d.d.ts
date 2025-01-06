@@ -10,5 +10,7 @@ export declare class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> 
     static readonly mark: SeriesMarkMap;
     protected _barMarkName: SeriesMarkNameEnum;
     protected _barMarkType: MarkTypeEnum;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: any;
 }
 export declare const registerBar3dSeries: () => void;
