@@ -178,6 +178,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       visible: true,
       dataKey: DATA_KEY,
       zIndex: -99,
+      state: spec.barBackground?.state,
       style: {
         x: (datum: Datum, ctx: any) =>
           spec.barBackground.type === 'symbol' ? ctx.getRegion().getLayoutRect().width / 2 : 0,
@@ -214,8 +215,12 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
         dataId: 'data',
         visible: true,
         dataKey: DATA_KEY,
+        state: decorateHaloIcon?.state,
         style: {
           x: (datum: Datum, ctx: any) => {
+            if (datum[spec.xField] === undefined || datum[spec.xField] === null) {
+              return undefined;
+            }
             return ctx.valueToX([datum[spec.xField]]);
           },
           y: (datum: Datum, ctx: any) => {
@@ -244,6 +249,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       dataId: 'data',
       visible: true,
       dataKey: DATA_KEY,
+      state: spec.rankingIcon.state,
       style: {
         x: (datum: Datum) => {
           if (spec.labelLayout === 'bothEnd') {
@@ -298,6 +304,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       type: 'text',
       dataId: 'data',
       dataKey: DATA_KEY,
+      state: spec.nameLabel?.state,
       style: {
         text: (datum: Datum) => this.formatDatum(spec.yField, datum),
         x: () => {
@@ -340,6 +347,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       type: 'text',
       dataId: 'data',
       dataKey: DATA_KEY,
+      state: spec.orderLabel?.state,
       style: {
         text: (datum: Datum) => this.formatDatum(ORDER_KEY, datum),
         x: (datum: Datum) => {
@@ -383,6 +391,11 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       dataId: 'data',
       visible: true,
       dataKey: DATA_KEY,
+      state: {
+        blur: {
+          opacity: 0.2
+        }
+      },
       style: {
         text: (datum: Datum) => this.formatDatum(spec.xField, datum),
         x: (datum: Datum, ctx: any) => {
@@ -420,6 +433,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   }
 
   transformPaddingSpec(spec: any) {
+    const maxHaloIconSize = Math.max(...spec.decorateHaloIcons.map((icon: any) => icon.style.size ?? 18));
     spec.padding = {
       left:
         spec.labelLayout === 'bothEnd'
@@ -430,7 +444,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
               : 0) +
             (spec.rankingIcon.style.visible ? NAME_SYMBOL_PADDING_RIGHT + (spec.rankingIcon.style.size ?? 10) : 0) +
             CHART_PADDING_LEFT
-          : CHART_PADDING_LEFT,
+          : CHART_PADDING_LEFT + maxHaloIconSize / 2,
       right:
         spec.labelLayout === 'bothEnd'
           ? VALUE_LABEL_PADDING_LEFT +

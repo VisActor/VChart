@@ -1,3 +1,5 @@
+import { IMarkStateSpec, IMarkStateStyleSpec } from '@visactor/vchart';
+import { StateValue } from '@visactor/vchart/src/compile/mark';
 import { Datum } from '@visactor/vchart/src/typings/common';
 import {
   ITextGraphicAttribute,
@@ -38,6 +40,7 @@ export interface IRankingListSpec {
   bar?: {
     height?: number;
     style?: IRectGraphicAttribute;
+    state?: Record<StateValue, IMarkStateSpec<IRectGraphicAttribute> | IMarkStateStyleSpec<IRectGraphicAttribute>>;
   };
   /**
    * 柱图背景
@@ -46,6 +49,11 @@ export interface IRankingListSpec {
     visible?: boolean;
     type?: string;
     style?: ISymbolGraphicAttribute | IRectGraphicAttribute;
+    state?: Record<
+      StateValue,
+      | IMarkStateSpec<ISymbolGraphicAttribute | IRectGraphicAttribute>
+      | IMarkStateStyleSpec<ISymbolGraphicAttribute | IRectGraphicAttribute>
+    >;
   };
   /**
    * 排名图标
@@ -53,6 +61,7 @@ export interface IRankingListSpec {
   rankingIcon?: {
     visible?: boolean;
     style?: ISymbolGraphicAttribute;
+    state?: Record<StateValue, IMarkStateSpec<ISymbolGraphicAttribute> | IMarkStateStyleSpec<ISymbolGraphicAttribute>>;
   };
   /**
    * 装饰图元
@@ -62,6 +71,10 @@ export interface IRankingListSpec {
       visible?: boolean;
       // type?: 'circle' | 'square' | 'emptyCircle' | 'diamond' | 'halo' | 'concentric' | 'custom';
       style?: ISymbolGraphicAttribute;
+      state?: Record<
+        StateValue,
+        IMarkStateSpec<ISymbolGraphicAttribute> | IMarkStateStyleSpec<ISymbolGraphicAttribute>
+      >;
     }
   ];
   /**
@@ -71,6 +84,7 @@ export interface IRankingListSpec {
     visible?: boolean;
     style?: ITextGraphicAttribute;
     formatMethod?: (text: string, datum: Datum) => string;
+    state?: Record<StateValue, IMarkStateSpec<ITextGraphicAttribute> | IMarkStateStyleSpec<ITextGraphicAttribute>>;
   };
   /**
    * 名称标签(yField对应的标签)
@@ -79,6 +93,7 @@ export interface IRankingListSpec {
     visible?: boolean;
     style?: ITextGraphicAttribute;
     formatMethod?: (text: string, datum: Datum) => string;
+    state?: Record<StateValue, IMarkStateSpec<ITextGraphicAttribute> | IMarkStateStyleSpec<ITextGraphicAttribute>>;
   };
   /**
    * 值标签(xField对应的标签)
@@ -87,6 +102,7 @@ export interface IRankingListSpec {
     visible?: boolean;
     style?: ITextGraphicAttribute;
     formatMethod?: (text: string, datum: Datum) => string;
+    state?: Record<StateValue, IMarkStateSpec<ITextGraphicAttribute> | IMarkStateStyleSpec<ITextGraphicAttribute>>;
   };
   /**
    * 每页行数
