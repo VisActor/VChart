@@ -45,6 +45,9 @@ export interface ICommonCrosshairSpec extends IComponentSpec {
   gridZIndex?: number;
 }
 
+/**
+ * 笛卡尔坐标系下的 crosshair 配置
+ */
 export interface ICartesianCrosshairSpec extends ICommonCrosshairSpec {
   /**
    * 笛卡尔坐标系下 x 轴上 crosshair 配置
@@ -56,6 +59,9 @@ export interface ICartesianCrosshairSpec extends ICommonCrosshairSpec {
   yField?: ICrosshairCategoryFieldSpec;
 }
 
+/**
+ * 极坐标系下的 crosshair 配置
+ */
 export interface IPolarCrosshairSpec extends ICommonCrosshairSpec {
   /**
    * 极坐标系下 categoryField 字段对应轴上的 crosshair 配置
