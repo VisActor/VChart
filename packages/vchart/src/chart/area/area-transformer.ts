@@ -6,20 +6,19 @@ export class AreaChartSpecTransformer<
   T extends IAreaChartSpec = IAreaChartSpec
 > extends CartesianChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-      point: spec.point,
-      line: spec.line,
-      area: spec.area,
-      seriesMark: spec.seriesMark,
-      activePoint: spec.activePoint,
-      sampling: spec.sampling,
-      samplingFactor: spec.samplingFactor,
-      pointDis: spec.pointDis,
-      pointDisMul: spec.pointDisMul,
-      markOverlap: spec.markOverlap,
-      areaLabel: spec.areaLabel
-    };
+    return super._getDefaultSeriesSpec(spec, [
+      'point',
+      'line',
+      'area',
+      'seriesMark',
+      'activePoint',
+      'sampling',
+      'samplingFactor',
+      'pointDis',
+      'pointDisMul',
+      'markOverlap',
+      'areaLabel'
+    ]);
   }
 
   transformSpec(spec: T): void {

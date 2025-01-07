@@ -19,7 +19,7 @@ import { MarkTypeEnum } from '../../mark/interface/type';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
-import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
+import { DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import type { CirclePackingNodeElement } from '@visactor/vgrammar-hierarchy';
 import { flatten } from '../../data/transforms/flatten';
 import { CirclePackingTooltipHelper } from './tooltip-helper';
@@ -34,6 +34,7 @@ import { Drillable } from '../../interaction/drill/drillable';
 import { registerArcMark } from '../../mark/arc';
 import { registerTextMark } from '../../mark/text';
 import { circlePackingSeriesMark } from './constant';
+import { appendHierarchyFields } from '../util/hierarchy';
 
 export class CirclePackingSeries<
   T extends ICirclePackingSeriesSpec = ICirclePackingSeriesSpec
@@ -251,25 +252,7 @@ export class CirclePackingSeries<
   }
 
   getStatisticFields() {
-    const fields = super.getStatisticFields();
-    return fields.concat([
-      {
-        key: this._categoryField,
-        operations: ['values']
-      },
-      {
-        key: this._valueField,
-        operations: ['max', 'min']
-      },
-      {
-        key: DEFAULT_HIERARCHY_DEPTH,
-        operations: ['max', 'min', 'values']
-      },
-      {
-        key: DEFAULT_HIERARCHY_ROOT,
-        operations: ['values']
-      }
-    ]);
+    return appendHierarchyFields(super.getStatisticFields(), this._categoryField, this._valueField);
   }
 
   protected initTooltip() {

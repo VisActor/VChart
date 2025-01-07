@@ -5,6 +5,7 @@ import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 import { BaseSeries } from '../base/base-series';
 import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
+import type { StatisticOperations } from '../../data/transforms/interface';
 export declare abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec> extends BaseSeries<T> implements IPolarSeries {
     readonly coordinate: 'polar';
     protected _outerRadius: number;
@@ -47,7 +48,7 @@ export declare abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSer
     angleToData(a: number): any;
     getStatisticFields(): {
         key: string;
-        operations: Array<'max' | 'min' | 'values'>;
+        operations: StatisticOperations;
     }[];
     setAttrFromSpec(): void;
     onRadiusAxisHelperUpdate(): void;

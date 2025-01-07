@@ -46,7 +46,7 @@ Usage example:
 
 ```js
 export interface ICsvParserOptions {
-    delimiter?: string;
+  delimiter?: string;
 }
 const csvParser = (data: string, option: ICsvParserOptions, dataView: DataView) => {
   /** ...*/
@@ -54,7 +54,8 @@ const csvParser = (data: string, option: ICsvParserOptions, dataView: DataView) 
 // Register parser first
 dataSet.registerParser('csv', csvParser);
 // use
-dataView.parse(`year,group,value
+dataView.parse(
+  `year,group,value
 1990,18-34,16.9
 1990,35-49,12.2
 1990,50-64,10.2
@@ -67,12 +68,14 @@ dataView.parse(`year,group,value
 1993,35-49,23.8
 1993,50-64,16.8
 1993,65+,6.6
-`, {
+`,
+  {
     type: 'csv',
     option: {
       delimiter: ','
     }
-  });
+  }
+);
 ```
 
 ### transform
@@ -95,10 +98,23 @@ Usage example:
 
 ```js
 export interface IStatisticsOptions {
-    fields: string[];
-    operations: Array<'count' | 'max' | 'min' | 'mean' | 'average' | 'median' | 'mode' | 'product' | 'standardDeviation' | 'sum' | 'sumSimple' | 'variance'>;
-    as?: string[];
-    groupBy?: string;
+  fields: string[];
+  operations: Array<
+    | 'count'
+    | 'max'
+    | 'min'
+    | 'mean'
+    | 'average'
+    | 'median'
+    | 'mode'
+    | 'product'
+    | 'standardDeviation'
+    | 'sum'
+    | 'sumSimple'
+    | 'variance'
+  >;
+  as?: string[];
+  groupBy?: string;
 }
 const statisticsTransform = (data: string, option: IStatisticsOptions) => {
   /** ...*/
@@ -177,7 +193,7 @@ const mergeDataViewTransform = (data: DataView[], opt) => {
   return result;
 };
 // Register merge transform
-dataSet.registerTransform('mergeDataView', mergeTransform);
+dataSet.registerTransform('mergeDataView', mergeDataViewTransform);
 // Use merge transform to merge data
 dataViewMerge.transform({ type: 'mergeDataView' });
 
@@ -203,4 +219,63 @@ dataViewMerge.transform({ type: 'mergeDataView' });
 // Create average value data, make it refer to dataViewMerge
 const dataViewAvg = new DataView(dataSet, { name: 'dataViewAvg' });
 dataViewAvg.parse([dataViewMerge], { type: 'dataview' });
-// Built-in copy
+// At this point, the data content in dataViewAvg is the same as that in dataViewMerge
+// The built-in statistics transform can generate statistical data
+dataViewAvg.transform({
+  type: 'statistics'
+  options: {
+    fields: ['value'],
+    operations: ['average'],
+    as: ['avg'],
+    groupBy: 'year'
+  }
+});
+/**
+ * So far, dataViewAvg data processing has been completed
+ * The final data content is as follows
+  [
+    { year: '1990', group: '18-34', value: 11.125 },
+    { year: '1991', group: '18-34', value: 12.4 },
+    { year: '1993', group: '18-34', value: 18.425 },
+  ]
+*/
+
+
+const spec = {
+  type: 'common',
+  stackField: 'stack',
+  seriesField: 'type',
+  data: [
+    dataViewMerge,
+    dataViewAvg
+  ],
+  series: [
+    {
+      type: 'bar',
+      dataId: 'dataViewMerge', // use id to correspond to data
+      xField: 'year',
+      yField: 'value',
+      seriesField: 'group'
+    },
+    {
+      type: 'line',
+      dataId: 'dataViewAvg', // use id to correspond to data
+      xField: 'year',
+      yField: 'avg',
+    },
+  ],
+  axes: [{ orient: 'left' }, { orient: 'bottom', type: 'band' }]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+
+```
+
+### Dependency Update
+
+Regarding dependency update, in the example above, if data needs to be updated, for example, the data increases from `[1990, 1991, 1993]` to `[1990, 1991, 1993, 1995, 1997]`, you only need to update the corresponding `dataView1` and `dataView2`. `dataViewMerge` and `dataViewAvg` used by the chart will be automatically updated. The chart content will also change accordingly.
+
+This is because when the dependency relationship of dataView is established, an update link will be created by default. When the upper data is updated, the lower data will be automatically notified to update.
+
+We can use the same DataSet in multiple charts and use dependency updates to easily achieve data-based linkage effects.

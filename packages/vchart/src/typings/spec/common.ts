@@ -435,7 +435,7 @@ export interface ISeriesSpec extends IInteractionSpec {
    */
   invalidType?: IInvalidType;
 
-  /** 提示信息 */
+  /** 系列对应的提示信息设置，优先级高于图表的tooltip配置 */
   tooltip?: ISeriesTooltipSpec;
 
   /**
@@ -458,7 +458,7 @@ export interface ISeriesSpec extends IInteractionSpec {
   morph?: IMorphSeriesSpec;
 
   /**
-   * 扩展mark
+   * 系列的扩展mark，能够获取系列上的数据
    */
   extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[];
 
@@ -633,6 +633,9 @@ export interface IPerformanceHook {
   // Create VRender Mark 时间
   beforeCreateVRenderMark?: () => void;
   afterCreateVRenderMark?: () => void;
+
+  // VGrammar 创建元素完成，vrender 绘图之前
+  beforeDoRender?: (vchart?: IVChart) => void;
 
   // VRender Draw 时间
   beforeVRenderDraw?: () => void;

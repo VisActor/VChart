@@ -84,7 +84,7 @@ describe('wordCloud chart test', () => {
       getTheme: () => ThemeManager.getCurrentTheme(true),
       getSpecInfo: () => info
     } as any);
-    chart.created();
+    chart.created(transformer);
     chart.init();
 
     // spec

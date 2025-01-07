@@ -7,9 +7,7 @@ export class RangeAreaChartSpecTransformer<
   T extends IRangeAreaChartSpec = IRangeAreaChartSpec
 > extends CartesianChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec)
-    };
+    const series: any = super._getDefaultSeriesSpec(spec);
     series.area = spec.area;
     if (spec.direction === Direction.horizontal) {
       series.xField = spec.xField ?? [spec.minField, spec.maxField];

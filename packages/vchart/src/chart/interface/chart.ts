@@ -16,7 +16,7 @@ import type {
   IChartSpecTransformerOption,
   ILayoutParams
 } from './common';
-import type { IBoundsLike, IPadding } from '@visactor/vutils';
+import type { IBoundsLike, IPadding, Maybe } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
 import type {
   IRegionQuerier,
@@ -87,7 +87,7 @@ export interface IChart extends ICompilable {
   // update scale domain which in GlobalScale
   updateGlobalScaleDomain: () => void;
   //生命周期
-  created: () => void;
+  created: (transformer: Maybe<IChartSpecTransformer>) => void;
   init: () => void;
   onLayoutStart: (ctx: IChartLayoutOption) => void;
   onLayoutEnd: (ctx: IChartLayoutOption) => void;

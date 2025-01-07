@@ -2,6 +2,51 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.3",
+      "tag": "@visactor/vchart_v1.13.3",
+      "date": "Tue, 07 Jan 2025 10:21:06 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add datum to params on axis-label event "
+          },
+          {
+            "comment": "feat: package some hook in vgrammar\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of incorrect label display in 3D charts, #3584"
+          },
+          {
+            "comment": "fix: fix the issue of animation in 3d wordcloud not work"
+          },
+          {
+            "comment": "fix: brush data will be undefined when mark is hovered. fix#3623"
+          },
+          {
+            "comment": "fix: fix style of dom tooltip when tooltip has customized child, fix #3615\n\n"
+          },
+          {
+            "comment": "fix: fix error update of dom tooltip when update theme, fix #3619\n\n"
+          },
+          {
+            "comment": "fix: fix position of html tooltip when confine is false, fix #3632\n\n"
+          },
+          {
+            "comment": "fix: fix the typographical error of dataset tutorial\n\n"
+          },
+          {
+            "comment": "fix: compilier should add dpr to vrender\n\n"
+          },
+          {
+            "comment": "fix: fix invisible region blocking mark events, #3638"
+          },
+          {
+            "comment": "fix: undefined points shoulde not show when dimension hover, fix #3610\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.2",
       "tag": "@visactor/vchart_v1.13.2",
       "date": "Mon, 23 Dec 2024 12:30:04 GMT",

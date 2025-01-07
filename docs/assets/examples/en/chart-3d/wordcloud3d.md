@@ -4,7 +4,7 @@ group: chart-3d
 title: 3D Shape Word Cloud
 keywords: space
 order: 23-6
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/wordcloud3d.gif
+cover: /vchart/preview/wordcloud3d_1.13.3.gif
 option: wordCloud3dChart
 ---
 

@@ -19724,7 +19724,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -21122,7 +21122,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -21298,7 +21298,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -21894,7 +21894,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -23084,7 +23084,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -24157,7 +24157,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -24313,7 +24313,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -24838,7 +24838,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -26078,7 +26078,7 @@
           "$ref": "#/definitions/DirectionType_1"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -26230,7 +26230,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -27034,6 +27034,7 @@
       "description": "spec"
     },
     "ICartesianCrosshairSpec": {
+      "description": "笛卡尔坐标系下的 crosshair 配置",
       "properties": {
         "alignSelf": {
           "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
@@ -27318,7 +27319,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -27426,7 +27427,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -27958,7 +27959,7 @@
           "type": "string"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -28342,7 +28343,7 @@
           "type": "string"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -28463,7 +28464,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -28778,7 +28779,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -29257,7 +29258,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -29427,7 +29428,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -31913,7 +31914,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -32365,7 +32366,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -32532,7 +32533,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -35403,7 +35404,7 @@
           "type": "string"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -35547,7 +35548,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -36606,7 +36607,7 @@
           "description": "缩略轴配置"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -37163,7 +37164,7 @@
           "description": "缩略轴配置"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -38023,7 +38024,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -38215,7 +38216,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -38522,7 +38523,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -39078,7 +39079,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -39283,7 +39284,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -39556,7 +39557,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -39740,7 +39741,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -42549,7 +42550,8 @@
           "description": "方便内部逻辑辨别 tooltip 类型，不暴露给用户"
         },
         "content": {
-          "$ref": "#/definitions/MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>"
+          "$ref": "#/definitions/MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>",
+          "description": "特定类型的tooltip显示内容"
         },
         "hasShape": {
           "type": "boolean"
@@ -42563,7 +42565,8 @@
           "description": "tooltip content 保留最大数据行数后，代表“其他”的数据行内容"
         },
         "position": {
-          "$ref": "#/definitions/TooltipPatternProperty<TooltipPosition>"
+          "$ref": "#/definitions/TooltipPatternProperty<TooltipPosition>",
+          "description": "设置该类型的tooltip位置"
         },
         "positionMode": {
           "$ref": "#/definitions/TooltipPatternProperty<TooltipPositionMode>",
@@ -42603,7 +42606,8 @@
           "$ref": "#/definitions/TooltipContentProperty<string>"
         },
         "title": {
-          "$ref": "#/definitions/TooltipPatternProperty<ITooltipLinePattern>"
+          "$ref": "#/definitions/TooltipPatternProperty<ITooltipLinePattern>",
+          "description": "特定类型的tooltip标题配置"
         },
         "triggerMark": {
           "$ref": "#/definitions/MaybeArray<GroupTooltipTriggerMark>",
@@ -42620,7 +42624,8 @@
           "typeof": "function"
         },
         "visible": {
-          "$ref": "#/definitions/TooltipPatternProperty<boolean>"
+          "$ref": "#/definitions/TooltipPatternProperty<boolean>",
+          "description": "是否显示该类型的tooltip"
         }
       },
       "type": "object"
@@ -42820,7 +42825,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -43812,7 +43817,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -43947,7 +43952,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -44360,7 +44365,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -45501,7 +45506,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -48724,7 +48729,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -50079,7 +50084,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -50265,7 +50270,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -50673,7 +50678,7 @@
           "description": "方向"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -51076,7 +51081,7 @@
           "description": "方向"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -51192,7 +51197,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -51315,7 +51320,7 @@
           "type": "string"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -51439,7 +51444,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -53080,7 +53085,7 @@
           "type": "string"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -53502,7 +53507,7 @@
           "type": "string"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -53630,7 +53635,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -57329,7 +57334,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -57952,7 +57957,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -58457,7 +58462,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -58641,7 +58646,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -59258,6 +59263,7 @@
       ]
     },
     "IPolarCrosshairSpec": {
+      "description": "极坐标系下的 crosshair 配置",
       "properties": {
         "alignSelf": {
           "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
@@ -61004,7 +61010,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -61538,7 +61544,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -61733,7 +61739,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -62054,7 +62060,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -63104,7 +63110,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -63287,7 +63293,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -63618,7 +63624,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -64707,7 +64713,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -64877,7 +64883,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -65209,7 +65215,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -66298,7 +66304,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -66468,7 +66474,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -67714,7 +67720,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -68192,7 +68198,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -68339,7 +68345,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -68927,7 +68933,7 @@
           "type": "boolean"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -69480,7 +69486,7 @@
           "type": "boolean"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -69753,7 +69759,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -69980,7 +69986,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -71003,7 +71009,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -71181,7 +71187,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -72165,7 +72171,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -72267,7 +72273,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -72489,7 +72495,8 @@
     "ISeriesToolipPattern": {
       "properties": {
         "content": {
-          "$ref": "#/definitions/MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>"
+          "$ref": "#/definitions/MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>",
+          "description": "特定类型的tooltip显示内容"
         },
         "hasShape": {
           "type": "boolean"
@@ -72523,7 +72530,8 @@
           "$ref": "#/definitions/TooltipContentProperty<string>"
         },
         "title": {
-          "$ref": "#/definitions/TooltipPatternProperty<ITooltipLinePattern>"
+          "$ref": "#/definitions/TooltipPatternProperty<ITooltipLinePattern>",
+          "description": "特定类型的tooltip标题配置"
         },
         "updateContent": {
           "typeof": "function"
@@ -72535,7 +72543,8 @@
           "typeof": "function"
         },
         "visible": {
-          "$ref": "#/definitions/TooltipPatternProperty<boolean>"
+          "$ref": "#/definitions/TooltipPatternProperty<boolean>",
+          "description": "是否显示该类型的tooltip"
         }
       },
       "type": "object"
@@ -72563,7 +72572,8 @@
           "description": "受支持的激活类型\n（*支持在series上设置）\n（*会影响自定义handler）"
         },
         "dimension": {
-          "$ref": "#/definitions/ISeriesToolipPattern"
+          "$ref": "#/definitions/ISeriesToolipPattern",
+          "description": "该系列数据在dimension tooltip中特有的配置"
         },
         "group": {
           "allOf": [
@@ -72573,14 +72583,16 @@
             {
               "$ref": "#/definitions/ISeriesToolipPattern"
             }
-          ]
+          ],
+          "description": "该系列数据在group tooltip中特有的配置"
         },
         "handler": {
           "$ref": "#/definitions/Partial<ITooltipHandlerSpec>",
           "description": "自定义handler方法"
         },
         "mark": {
-          "$ref": "#/definitions/ISeriesToolipPattern"
+          "$ref": "#/definitions/ISeriesToolipPattern",
+          "description": "该系列数据在mark tooltip中特有的配置"
         },
         "visible": {
           "description": "是否显示\n（*支持在series上设置）\n（*会影响自定义handler）",
@@ -74015,7 +74027,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -74472,7 +74484,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -74659,7 +74671,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -76441,13 +76453,15 @@
       "type": "object"
     },
     "ITooltipPattern": {
+      "description": "特定类型的的tooltip内容配置",
       "properties": {
         "activeType": {
           "$ref": "#/definitions/TooltipActiveType",
           "description": "方便内部逻辑辨别 tooltip 类型，不暴露给用户"
         },
         "content": {
-          "$ref": "#/definitions/MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>"
+          "$ref": "#/definitions/MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>",
+          "description": "特定类型的tooltip显示内容"
         },
         "hasShape": {
           "type": "boolean"
@@ -76461,7 +76475,8 @@
           "description": "tooltip content 保留最大数据行数后，代表“其他”的数据行内容"
         },
         "position": {
-          "$ref": "#/definitions/TooltipPatternProperty<TooltipPosition>"
+          "$ref": "#/definitions/TooltipPatternProperty<TooltipPosition>",
+          "description": "设置该类型的tooltip位置"
         },
         "positionMode": {
           "$ref": "#/definitions/TooltipPatternProperty<TooltipPositionMode>",
@@ -76501,7 +76516,8 @@
           "$ref": "#/definitions/TooltipContentProperty<string>"
         },
         "title": {
-          "$ref": "#/definitions/TooltipPatternProperty<ITooltipLinePattern>"
+          "$ref": "#/definitions/TooltipPatternProperty<ITooltipLinePattern>",
+          "description": "特定类型的tooltip标题配置"
         },
         "updateContent": {
           "typeof": "function"
@@ -76513,7 +76529,8 @@
           "typeof": "function"
         },
         "visible": {
-          "$ref": "#/definitions/TooltipPatternProperty<boolean>"
+          "$ref": "#/definitions/TooltipPatternProperty<boolean>",
+          "description": "是否显示该类型的tooltip"
         }
       },
       "type": "object"
@@ -76569,14 +76586,16 @@
           "type": "boolean"
         },
         "dimension": {
-          "$ref": "#/definitions/ITooltipPattern"
+          "$ref": "#/definitions/ITooltipPattern",
+          "description": "dimension tooltip 对应的配置，其中dimension tooltip 用于展示维度对应的数据信息，比如x轴对应的数据信息"
         },
         "enterable": {
           "description": "鼠标是否可进入提示框浮层中，默认为false，如需详情内交互，如添加链接，按钮，可设置为 true。\n该属性目前只对 renderMode 为 html 时生效\nTODO: 支持 renderMode: canvas",
           "type": "boolean"
         },
         "group": {
-          "$ref": "#/definitions/IGroupTooltipPattern"
+          "$ref": "#/definitions/IGroupTooltipPattern",
+          "description": "group tooltip 对应的配置，其中group tooltip 用于展示整个分组数据对应的数据信息，比如说线图中一条线代表一个相同的分组，可以使用 group tooltip展示整条线所有点对应的数据"
         },
         "handler": {
           "$ref": "#/definitions/Partial<ITooltipHandlerSpec>",
@@ -76600,7 +76619,8 @@
             {
               "typeof": "function"
             }
-          ]
+          ],
+          "description": "mark tooltip对应的配置，其中mark tooltip 用于展示图元对应的数据信息，比如柱图中的柱子，散点图中的点，面积图中的点灯"
         },
         "offset": {
           "typeof": "function"
@@ -76634,7 +76654,7 @@
         },
         "style": {
           "$ref": "#/definitions/Omit<ITooltipTheme<string>,\"offset\"|\"transitionDuration\">",
-          "description": "tooltip样式"
+          "description": "tooltip样式，是现在支持的三种类型的tooltip组件（包括dimension、mark、group）的公共样式"
         },
         "throttleInterval": {
           "description": "更新 tooltip 的防抖动时间间隔，单位是 ms",
@@ -77270,7 +77290,7 @@
           "type": "string"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -77764,7 +77784,7 @@
           "type": "string"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -77985,7 +78005,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -80223,7 +80243,7 @@
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -81338,7 +81358,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -81516,7 +81536,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "total": {
           "anyOf": [
@@ -82127,7 +82147,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -82629,7 +82649,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -82836,7 +82856,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -83128,7 +83148,7 @@
           "description": "缩略轴配置"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -83623,7 +83643,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -83826,7 +83846,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -84062,7 +84082,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12099": {
+        "__@toStringTag@12118": {
           "type": "string"
         },
         "size": {
@@ -84070,14 +84090,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12099",
+        "__@toStringTag@12118",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12099": {
+        "__@toStringTag@12118": {
           "type": "string"
         },
         "size": {
@@ -84085,14 +84105,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12099",
+        "__@toStringTag@12118",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12099": {
+        "__@toStringTag@12118": {
           "type": "string"
         },
         "size": {
@@ -84100,14 +84120,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12099",
+        "__@toStringTag@12118",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12099": {
+        "__@toStringTag@12118": {
           "type": "string"
         },
         "size": {
@@ -84115,14 +84135,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12099",
+        "__@toStringTag@12118",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12099": {
+        "__@toStringTag@12118": {
           "type": "string"
         },
         "size": {
@@ -84130,14 +84150,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12099",
+        "__@toStringTag@12118",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12099": {
+        "__@toStringTag@12118": {
           "type": "string"
         },
         "size": {
@@ -84145,7 +84165,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12099",
+        "__@toStringTag@12118",
         "size"
       ],
       "type": "object"
@@ -85428,7 +85448,7 @@
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -85584,7 +85604,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -86152,7 +86172,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -86322,7 +86342,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -86938,7 +86958,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -87130,7 +87150,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -87322,7 +87342,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -87506,7 +87526,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -89259,7 +89279,7 @@
           "type": "number"
         },
         "extensionMark": {
-          "description": "扩展mark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
           "items": {
             "anyOf": [
               {
@@ -89443,7 +89463,7 @@
         },
         "tooltip": {
           "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "提示信息"
+          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
         },
         "totalLabel": {
           "$ref": "#/definitions/ITotalLabelSpec",
@@ -101796,12 +101816,15 @@
     "Partial<ITooltipActiveTypeAsKeys<boolean,boolean,boolean>>": {
       "properties": {
         "dimension": {
+          "description": "dimension tooltip 对应的配置，其中dimension tooltip 用于展示维度对应的数据信息，比如x轴对应的数据信息",
           "type": "boolean"
         },
         "group": {
+          "description": "group tooltip 对应的配置，其中group tooltip 用于展示整个分组数据对应的数据信息，比如说线图中一条线代表一个相同的分组，可以使用 group tooltip展示整条线所有点对应的数据",
           "type": "boolean"
         },
         "mark": {
+          "description": "mark tooltip对应的配置，其中mark tooltip 用于展示图元对应的数据信息，比如柱图中的柱子，散点图中的点，面积图中的点灯",
           "type": "boolean"
         }
       },
@@ -105871,34 +105894,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12099": {
+        "__@toStringTag@12118": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12099"
+        "__@toStringTag@12118"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12099": {
+        "__@toStringTag@12118": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12099"
+        "__@toStringTag@12118"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12099": {
+        "__@toStringTag@12118": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12099"
+        "__@toStringTag@12118"
       ],
       "type": "object"
     },

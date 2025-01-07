@@ -6,22 +6,13 @@ export class VennChartSpecTransformer<T extends IVennChartSpec = IVennChartSpec>
   AdaptiveSpec<T, 'data' | 'series'>
 > {
   protected _getDefaultSeriesSpec(spec: T): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
-      categoryField: spec.categoryField,
-      valueField: spec.valueField,
-
-      seriesField: spec.seriesField,
-
-      circle: spec.circle,
-      overlap: spec.overlap,
-      overlapLabel: spec.overlapLabel
-    };
-    const seriesType = this.seriesType;
-    if (seriesType) {
-      series.type = seriesType;
-      series[seriesType] = spec[seriesType];
-    }
+    const series: any = super._getDefaultSeriesSpec(spec, [
+      'categoryField',
+      'valueField',
+      'circle',
+      'overlap',
+      'overlapLabel'
+    ]);
 
     return series;
   }

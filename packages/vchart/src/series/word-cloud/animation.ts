@@ -7,10 +7,7 @@ import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams, WordcloudA
 export const WordCloud3dAnimation = (params: IWordcloud3dAnimationParams | (() => any)): IAnimationTypeConfig => {
   return {
     custom: RotateBySphereAnimate,
-    customParameters: (datum: any, element: IElement) => {
-      return params;
-      // return { center: { x: params.radius, y: params.radius, z: params.depth_3d }, r: params.radius };
-    },
+    customParameters: (datum: any, element: IElement) => params,
     easing: 'linear',
     loop: Infinity,
     duration: 6000
@@ -70,6 +67,6 @@ export const registerWordCloudAnimation = () => {
 
 export const registerWordCloud3dAnimation = () => {
   Factory.registerAnimation('wordCloud3d', (params: IWordcloud3dAnimationParams) => ({
-    appear: WordCloud3dAnimation(params)
+    enter: WordCloud3dAnimation(params)
   }));
 };

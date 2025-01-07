@@ -6,22 +6,16 @@ export class LiquidChartSpecTransformer<
   T extends ILiquidChartSpec = ILiquidChartSpec
 > extends BaseChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
-      valueField: spec.valueField,
-      maskShape: spec.maskShape,
-      reverse: spec.reverse,
-      outlineMargin: spec.outlineMargin,
-      outlinePadding: spec.outlinePadding,
-      indicatorSmartInvert: spec.indicatorSmartInvert,
-      liquidBackground: spec.liquidBackground,
-      liquidOutline: spec.liquidOutline
-    };
-    const seriesType = SeriesTypeEnum.liquid;
-    if (seriesType) {
-      series.type = seriesType;
-      series[seriesType] = spec[seriesType];
-    }
+    const series: any = super._getDefaultSeriesSpec(spec, [
+      'valueField',
+      'maskShape',
+      'reverse',
+      'outlineMargin',
+      'outlinePadding',
+      'indicatorSmartInvert',
+      'liquidBackground',
+      'liquidOutline'
+    ]);
 
     return series;
   }

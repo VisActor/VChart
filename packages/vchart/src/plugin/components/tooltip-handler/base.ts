@@ -395,9 +395,10 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
       /* 三、确保tooltip在视区内 */
       const containerDimSize = dim === 'x' ? containerSize.width : containerSize.height;
-      const leftOrTop =
-        -(tooltipParentElementRect[dim] - (chartElementRect?.[dim] ?? 0) / chartElementScale) /
-        tooltipParentElementScale;
+      const leftOrTop = tooltipSpec.confine
+        ? -(tooltipParentElementRect[dim] - (chartElementRect?.[dim] ?? 0) / chartElementScale) /
+          tooltipParentElementScale
+        : -tooltipParentElementRect[dim] / tooltipParentElementScale;
       const rightOrBottom = containerDimSize / tooltipParentElementScale + leftOrTop - boxSize;
 
       // 处理左右

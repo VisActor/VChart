@@ -139,7 +139,7 @@ describe('Bar chart test', () => {
         getSpecInfo: () => info
       } as any
     );
-    scatterChart.created();
+    scatterChart.created(transformer);
     scatterChart.init();
 
     const barTransformer = new BarChart.transformerConstructor({
@@ -171,7 +171,7 @@ describe('Bar chart test', () => {
         getSpecInfo: () => barInfo
       } as any
     );
-    barChart.created();
+    barChart.created(barTransformer);
     barChart.init();
 
     const barSeries = barChart.getAllSeries()[0];
@@ -216,7 +216,7 @@ describe('Bar chart test', () => {
         getSpecInfo: () => info
       } as any
     );
-    scatterChart.created();
+    scatterChart.created(transformer);
     scatterChart.init();
 
     const ASeries = scatterChart.getAllSeries()[0];

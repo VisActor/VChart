@@ -177,7 +177,7 @@ const mergeDataViewTransform = (data: DataView[], opt) => {
   return result;
 };
 // 注册 merge transform
-dataSet.registerTransform('mergeDataView', mergeTransform);
+dataSet.registerTransform('mergeDataView', mergeDataViewTransform);
 // 使用 merge transform 合并数据
 dataViewMerge.transform({ type: 'mergeDataView' });
 
@@ -209,7 +209,7 @@ dataViewAvg.transform({ type: 'copyDataView' });
 // 内置的 statistics transform 可以生成统计数据
 dataViewAvg.transform({
   type: 'statistics'
-  option: {
+  options: {
     fields: ['value'],
     operations: ['average'],
     as: ['avg'],
