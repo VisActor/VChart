@@ -21,7 +21,7 @@ importers:
       '@visactor/vchart': workspace:1.12.18
       '@visactor/vchart-extension': workspace:1.12.18
       '@visactor/vchart-theme': ~1.6.6
-      '@visactor/vgrammar': 0.14.21
+      '@visactor/vgrammar': 0.14.21-alpha.0
       '@visactor/vmind': 1.2.4-alpha.5
       '@visactor/vrender': 0.20.21
       '@visactor/vrender-kits': 0.20.21
@@ -59,7 +59,7 @@ importers:
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vchart-extension': link:../packages/vchart-extension
       '@visactor/vchart-theme': 1.6.9
-      '@visactor/vgrammar': 0.14.21
+      '@visactor/vgrammar': 0.14.21-alpha.0
       '@visactor/vmind': 1.2.4-alpha.5
       '@visactor/vrender': 0.20.21
       '@visactor/vrender-kits': 0.20.21
@@ -146,7 +146,7 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.12.18
-      '@visactor/vgrammar-core': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
       '@visactor/vutils': ~0.19.2
@@ -167,7 +167,7 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vgrammar-core': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
       '@visactor/vutils': 0.19.2
@@ -211,7 +211,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.12.18
-      '@visactor/vgrammar-core': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
       '@visactor/vutils': ~0.19.2
@@ -233,7 +233,7 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vgrammar-core': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
       '@visactor/vutils': 0.19.2
@@ -372,14 +372,14 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vdataset': ~0.19.2
-      '@visactor/vgrammar-core': 0.14.21
-      '@visactor/vgrammar-hierarchy': 0.14.21
-      '@visactor/vgrammar-projection': 0.14.21
-      '@visactor/vgrammar-sankey': 0.14.21
-      '@visactor/vgrammar-util': 0.14.21
-      '@visactor/vgrammar-venn': 0.14.21
-      '@visactor/vgrammar-wordcloud': 0.14.21
-      '@visactor/vgrammar-wordcloud-shape': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
+      '@visactor/vgrammar-hierarchy': 0.14.21-alpha.0
+      '@visactor/vgrammar-projection': 0.14.21-alpha.0
+      '@visactor/vgrammar-sankey': 0.14.21-alpha.0
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
+      '@visactor/vgrammar-venn': 0.14.21-alpha.0
+      '@visactor/vgrammar-wordcloud': 0.14.21-alpha.0
+      '@visactor/vgrammar-wordcloud-shape': 0.14.21-alpha.0
       '@visactor/vrender-components': 0.20.21
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
@@ -420,14 +420,14 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vdataset': 0.19.2
-      '@visactor/vgrammar-core': 0.14.21
-      '@visactor/vgrammar-hierarchy': 0.14.21
-      '@visactor/vgrammar-projection': 0.14.21
-      '@visactor/vgrammar-sankey': 0.14.21
-      '@visactor/vgrammar-util': 0.14.21
-      '@visactor/vgrammar-venn': 0.14.21
-      '@visactor/vgrammar-wordcloud': 0.14.21
-      '@visactor/vgrammar-wordcloud-shape': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
+      '@visactor/vgrammar-hierarchy': 0.14.21-alpha.0
+      '@visactor/vgrammar-projection': 0.14.21-alpha.0
+      '@visactor/vgrammar-sankey': 0.14.21-alpha.0
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
+      '@visactor/vgrammar-venn': 0.14.21-alpha.0
+      '@visactor/vgrammar-wordcloud': 0.14.21-alpha.0
+      '@visactor/vgrammar-wordcloud-shape': 0.14.21-alpha.0
       '@visactor/vrender-components': 0.20.21
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
@@ -491,7 +491,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.12.18
       '@visactor/vdataset': ~0.19.2
-      '@visactor/vgrammar-core': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
       '@visactor/vrender-components': 0.20.21
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
@@ -515,7 +515,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vdataset': 0.19.2
-      '@visactor/vgrammar-core': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
       '@visactor/vrender-components': 0.20.21
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
@@ -4881,19 +4881,19 @@ packages:
       topojson-client: 3.1.0
     dev: false
 
-  /@visactor/vgrammar-coordinate/0.14.21:
-    resolution: {integrity: sha512-KUq07UJPzu215TuaNvE6XCquvVnLl2D0TKHKBoTsqpKJQ4NkwDpnTlC45sk0l2AeoKtvXL6I1p63GKAzB/Szqg==}
+  /@visactor/vgrammar-coordinate/0.14.21-alpha.0:
+    resolution: {integrity: sha512-HjWqN7nf5RMHOqtWEBBRpIvjNp3SY9lJIiYClqNH/hch9JT3M7bW09sD5vj0Px7aesFAyL6rVLQx3mWwCKI/Lg==}
     dependencies:
-      '@visactor/vgrammar-util': 0.14.21
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
       '@visactor/vutils': 0.19.2
     dev: false
 
-  /@visactor/vgrammar-core/0.14.21:
-    resolution: {integrity: sha512-jXFVHaEu7FWCDfxUSiVGb1Yqa35KhFVPj5Fd5tMrw4YogbdIfewDoZLVHNEeRDsnTJJnYDBn72LyeqyNNTHLhA==}
+  /@visactor/vgrammar-core/0.14.21-alpha.0:
+    resolution: {integrity: sha512-/ptiQZfcbOuU6SR43TcSeLeyUjK1dLEmT9dD/G/zagdNX1hi6VPuuEYbmoy+jA2MHs9oUkpXBprP8qmMReOoHA==}
     dependencies:
       '@visactor/vdataset': 0.19.2
-      '@visactor/vgrammar-coordinate': 0.14.21
-      '@visactor/vgrammar-util': 0.14.21
+      '@visactor/vgrammar-coordinate': 0.14.21-alpha.0
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
       '@visactor/vrender-components': 0.20.21
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
@@ -4901,77 +4901,77 @@ packages:
       '@visactor/vutils': 0.19.2
     dev: false
 
-  /@visactor/vgrammar-hierarchy/0.14.21:
-    resolution: {integrity: sha512-cq4CavSo9N0BDZfSfLcA4FE/m4XzwplWXIfrTXiZIGsIJLHgEJEbpbTkRfpmx2tnLsR5fCNeywjR9j3LGVLf4Q==}
+  /@visactor/vgrammar-hierarchy/0.14.21-alpha.0:
+    resolution: {integrity: sha512-zH/suLwpt8DzEkz/8IUAAz6EW93sb1QFsQGkYgdZFn+gMUZnNbbVWyAg6Srp1r9rrn2M157Al97XIGsLJ0Vtsg==}
     dependencies:
-      '@visactor/vgrammar-core': 0.14.21
-      '@visactor/vgrammar-util': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
       '@visactor/vutils': 0.19.2
     dev: false
 
-  /@visactor/vgrammar-projection/0.14.21:
-    resolution: {integrity: sha512-OHisUTLLEWYZBcBwPp6lma6hXgQIKlDJy9+p1IAem3rnmlaMzxuhJm5mLX47/k/uTTykIcD2gKqERJmaNrbVEw==}
+  /@visactor/vgrammar-projection/0.14.21-alpha.0:
+    resolution: {integrity: sha512-gmq/xs9etAk5k4mnjWGVIWY3KcX6auZl7qW+dAC1HbaMYI7HZ7yqWKXsi2ZezwAeOtT0TxF9bsbdTUkiMKU+hA==}
     dependencies:
-      '@visactor/vgrammar-core': 0.14.21
-      '@visactor/vgrammar-util': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
       '@visactor/vutils': 0.19.2
       d3-geo: 1.12.1
     dev: false
 
-  /@visactor/vgrammar-sankey/0.14.21:
-    resolution: {integrity: sha512-h3vE8y+Q2TGAHs2tHXjvj20z5KK5DLpbON+Yfu2c/vkccQLLE9vBbJwUl0gpv+mD4IBYL2dkmO/zd6Ge6jR6FA==}
+  /@visactor/vgrammar-sankey/0.14.21-alpha.0:
+    resolution: {integrity: sha512-Fz+uD4gSyJOogBc6Fy4JwwFkOHy8R/MIZdK8eXWkj4um/vn9evbTgH7K/jkP2sbFVm3oqQs9iEwa4HUFYEiMQw==}
     dependencies:
-      '@visactor/vgrammar-core': 0.14.21
-      '@visactor/vgrammar-util': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
       '@visactor/vutils': 0.19.2
     dev: false
 
-  /@visactor/vgrammar-util/0.14.21:
-    resolution: {integrity: sha512-QGv8Gy1M97HnQtooeW08Q6y885C1VWKSkidPJMX+a0YxCxTFfc4KV1hCQqiVlPKK0ZsB3D0HBMzphXQuU6RxwQ==}
+  /@visactor/vgrammar-util/0.14.21-alpha.0:
+    resolution: {integrity: sha512-6XNRsvMGfj2PDVj+JMTKHPTyqB83tmJgkwGmKiJ7Vp4+iIdKwxEzGgOOdrppX8ryLfTSAaQe+wT5L4zpD239Uw==}
     dependencies:
       '@visactor/vrender-core': 0.20.21
       '@visactor/vutils': 0.19.2
     dev: false
 
-  /@visactor/vgrammar-venn/0.14.21:
-    resolution: {integrity: sha512-UhWAhEltcrVUpvlx3yzMabRZFA8IsC8UdRorZX4FssDTGtoHlS/4W27G4/cpsiGNsziTaj7ZYZUGWrt41S5mGQ==}
+  /@visactor/vgrammar-venn/0.14.21-alpha.0:
+    resolution: {integrity: sha512-x3UeLDC6CbOaiKmjfQja9zJSb2pjNdA5+UkcKoMguGm0vbElgVzB+I3RowJgcC066nW3iVxBrYmQs5UwYcpY1w==}
     dependencies:
-      '@visactor/vgrammar-core': 0.14.21
-      '@visactor/vgrammar-util': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
       '@visactor/vutils': 0.19.2
     dev: false
 
-  /@visactor/vgrammar-wordcloud-shape/0.14.21:
-    resolution: {integrity: sha512-TCKzdmPKRQnts8QUTeCtq1802vWKzeL9ft5ZH0DWVhadv+BYno/QLK7F2k+oqK0qNqu0lMnjZEKokZ5fnnS4sQ==}
+  /@visactor/vgrammar-wordcloud-shape/0.14.21-alpha.0:
+    resolution: {integrity: sha512-ImirZfTAx/ovZTNH21Ly4Odudc867raEnrw8Cdp03U5hGsH41+vN+BhQkt981IHLEsisz4JHneeDrkCu47pEYA==}
     dependencies:
-      '@visactor/vgrammar-core': 0.14.21
-      '@visactor/vgrammar-util': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
       '@visactor/vscale': 0.19.2
       '@visactor/vutils': 0.19.2
     dev: false
 
-  /@visactor/vgrammar-wordcloud/0.14.21:
-    resolution: {integrity: sha512-vj5XbiwA5Bpo9CMKtJfvMaMvbf58RFC3zBViuQsGjs+a9mLG6drOYHBRYan2GElto5GS3EEn3Z/JsretZZ4QdQ==}
+  /@visactor/vgrammar-wordcloud/0.14.21-alpha.0:
+    resolution: {integrity: sha512-HG5K9vbUdVxpw8Dy3US/trJ+YQQbR+EQ36PUUA72E4RxbMCioRlrrfzjjxkCFnBsTUaonUEWCHoG552ObMHeTQ==}
     dependencies:
-      '@visactor/vgrammar-core': 0.14.21
-      '@visactor/vgrammar-util': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
+      '@visactor/vgrammar-util': 0.14.21-alpha.0
       '@visactor/vrender-core': 0.20.21
       '@visactor/vrender-kits': 0.20.21
       '@visactor/vutils': 0.19.2
     dev: false
 
-  /@visactor/vgrammar/0.14.21:
-    resolution: {integrity: sha512-t9etDpYcVXz8o7AvZX7Q+AzLNiLb3NIalkvENSWvdk9h8S32FGpYQ9sOcKjInUqSeJf2qgx76bEYRP57dkH87w==}
+  /@visactor/vgrammar/0.14.21-alpha.0:
+    resolution: {integrity: sha512-oI4O0JNtCsauttH3Z8yUqqlQ6HKeAmGzpru978/fFJfnF/jnFdFWggFNXyuiB6GNXJXCF7zn250rhDKV892h0A==}
     dependencies:
-      '@visactor/vgrammar-core': 0.14.21
+      '@visactor/vgrammar-core': 0.14.21-alpha.0
     dev: false
 
   /@visactor/vmind/1.2.4-alpha.5:
