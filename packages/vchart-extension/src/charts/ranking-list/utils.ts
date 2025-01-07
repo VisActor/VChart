@@ -1,14 +1,27 @@
 import { Datum } from '@visactor/vchart/src/typings';
+import { isArray } from '@visactor/vutils';
 
 export const applyVisible = (spec: any, keyList: string[]) => {
   keyList.forEach(key => {
-    spec[key] = {
-      ...spec[key],
-      style: {
-        ...spec[key]?.style,
-        visible: spec[key]?.style?.visible ?? spec[key]?.visible ?? true
-      }
-    };
+    if (isArray(spec[key])) {
+      spec[key].forEach((s, i) => {
+        spec[key][i] = {
+          ...s,
+          style: {
+            ...s?.style,
+            visible: s?.style?.visible ?? s?.visible ?? true
+          }
+        };
+      });
+    } else {
+      spec[key] = {
+        ...spec[key],
+        style: {
+          ...spec[key]?.style,
+          visible: spec[key]?.style?.visible ?? spec[key]?.visible ?? true
+        }
+      };
+    }
   });
 };
 

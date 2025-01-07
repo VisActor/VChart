@@ -54,6 +54,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     ];
 
     this.transformPaddingSpec(spec);
+    // console.log('original-spec', spec);
 
     super.transformSpec(spec);
   }
@@ -64,7 +65,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     applyVisible(spec, [
       'barBackground',
       'rankingIcon',
-      'decorateHaloIcon',
+      'decorateHaloIcons',
       'orderLabel',
       'nameLabel',
       'valueLabel'
@@ -209,7 +210,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
 
   generateDecorateHaloIcons(spec: any) {
     const totalDuration = spec.animation.duration;
-    return spec.decorateHaloIcons.map((decorateHaloIcon: any) => {
+    return spec.decorateHaloIcons?.map((decorateHaloIcon: any) => {
       return {
         type: 'symbol',
         dataId: 'data',
@@ -416,7 +417,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           return ctx.valueToY([datum[spec.yField]]) + ctx.yBandwidth() / 2 - spec.bar.height / 2 - LABEL_PADDING_BOTTOM;
         },
         ...spec.valueLabel.style,
-        textAlign: 'right',
+        textAlign: spec.labelLayout === 'bothEnd' ? 'left' : 'right',
         textBaseline: spec.labelLayout === 'bothEnd' ? 'middle' : 'bottom',
         visible: (datum: Datum) => {
           if (datum[SUPPLY_DATA_KEY]) {
@@ -433,7 +434,10 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   }
 
   transformPaddingSpec(spec: any) {
-    const maxHaloIconSize = Math.max(...spec.decorateHaloIcons.map((icon: any) => icon.style.size ?? 18));
+    const maxHaloIconSize =
+      spec.decorateHaloIcons.length > 0
+        ? Math.max(...spec.decorateHaloIcons.map((icon: any) => icon.style?.size ?? 18))
+        : 0;
     spec.padding = {
       left:
         spec.labelLayout === 'bothEnd'
