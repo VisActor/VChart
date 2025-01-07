@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix invisible region blocking mark events, #3638",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

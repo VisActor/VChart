@@ -213,7 +213,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
         this._foregroundMark,
         {
           ...this._spec.style,
-          fillOpacity: 0
+          fillOpacity: 0,
+          pickable: false
         },
         'normal',
         AttributeLevel.User_Mark
