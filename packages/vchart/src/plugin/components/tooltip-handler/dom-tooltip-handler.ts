@@ -285,7 +285,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
                 styleByRow = { ...styleByRow, ...getTextStyle(entry.valueStyle) };
               }
             } else if (colName === 'shape') {
-              row.innerHTML = getSvgHtml(entry);
+              row.innerHTML = getSvgHtml(entry, `${this.id}_${index}`);
             }
 
             setStyleToDom(row, styleByRow);
