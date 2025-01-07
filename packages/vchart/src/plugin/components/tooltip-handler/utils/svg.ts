@@ -5,7 +5,7 @@ import { Symbol } from '@visactor/vrender-core';
 import { Bounds, isObject, isString } from '@visactor/vutils';
 import type { ITooltipShapeActual } from '../../../../typings';
 
-export function getSvgHtml(option: ITooltipShapeActual | undefined, index?: number) {
+export function getSvgHtml(option: ITooltipShapeActual | undefined, gradientId?: string) {
   if (!option || !option.hasShape || !option.shapeType) {
     return '';
   }
@@ -61,7 +61,7 @@ export function getSvgHtml(option: ITooltipShapeActual | undefined, index?: numb
     </svg>`;
   }
   if (isObject(shapeFill)) {
-    fillString = 'gradientColor' + (index ?? '');
+    fillString = 'gradientColor' + (gradientId ?? '');
     let gradient = '';
     const stops = ((shapeFill as IGradientColor).stops ?? [])
       .map(s => `<stop offset="${escapeHTML(s.offset.toString())}" stop-color="${escapeHTML(s.color)}"/>`)
