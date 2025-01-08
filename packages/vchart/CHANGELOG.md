@@ -1,6 +1,38 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 23 Dec 2024 12:30:04 GMT and should not be manually modified.
+This log was last generated on Tue, 07 Jan 2025 10:21:06 GMT and should not be manually modified.
+
+## 1.13.3
+Tue, 07 Jan 2025 10:21:06 GMT
+
+### Updates
+
+- feat: add datum to params on axis-label event 
+- feat: package some hook in vgrammar
+
+
+- fix: fix the issue of incorrect label display in 3D charts, #3584
+- fix: fix the issue of animation in 3d wordcloud not work
+- fix: brush data will be undefined when mark is hovered. fix#3623
+- fix: fix style of dom tooltip when tooltip has customized child, fix #3615
+
+
+- fix: fix error update of dom tooltip when update theme, fix #3619
+
+
+- fix: fix position of html tooltip when confine is false, fix #3632
+
+
+- fix: fix the typographical error of dataset tutorial
+
+
+- fix: compilier should add dpr to vrender
+
+
+- fix: fix invisible region blocking mark events, #3638
+- fix: undefined points shoulde not show when dimension hover, fix #3610
+
+
 
 ## 1.13.2
 Mon, 23 Dec 2024 12:30:04 GMT

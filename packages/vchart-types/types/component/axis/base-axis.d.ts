@@ -101,5 +101,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _tickTransformOption(): ITickDataOpt;
     addTransformToTickData(options: ITransformOptions, execute?: boolean): void;
     dataToPosition(values: any[]): number;
+    getDatum(childGraphic?: IGraphic): any;
 }
 export declare const registerAxis: () => void;
