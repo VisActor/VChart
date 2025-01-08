@@ -1,3 +1,28 @@
+# v1.13.3
+
+2025-01-08
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 在 axis-label 事件中添加 datum 到参数
+- **@visactor/vchart**: 将 vgrammar 提供的狗子，包装一层 vchart 实例上下文
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复 3D 图表中标签显示不正确的问题，[#3584](https://github.com/VisActor/VChart/issues/3584)
+- **@visactor/vchart**: 修复 3D 词云动画不工作的问题
+- **@visactor/vchart**: 修复 mark 悬停时 brush 数据未定义的问题，修复 [#3623](https://github.com/VisActor/VChart/issues/3623)
+- **@visactor/vchart**: 修复 tooltip 有自定义子元素时的 DOM 样式问题，修复 [#3615](https://github.com/VisActor/VChart/issues/3615)
+- **@visactor/vchart**: 修复更新主题时 DOM tooltip 更新错误的问题，修复 [#3619](https://github.com/VisActor/VChart/issues/3619)
+- **@visactor/vchart**: 修复 confine 为 false 时 html tooltip 位置错误的问题，修复 [#3632](https://github.com/VisActor/VChart/issues/3632)
+- **@visactor/vchart**: 修复数据集教程中的排版错误
+- **@visactor/vchart**: 修复 vchart 实例没有将 dpr 传递给 stage 的问题
+- **@visactor/vchart**: 修复不可见区域阻挡 mark 事件的问题，[#3638](https://github.com/VisActor/VChart/issues/3638)
+- **@visactor/vchart**: 修复维度悬停时不应显示未定义的点，修复 [#3610](https://github.com/VisActor/VChart/issues/3610)
+- **@visactor/vchart**: 修复标题组件的布局错误，修复 [#3614](https://github.com/VisActor/VChart/issues/3614)
+
+[更多详情请查看 v1.13.3](https://github.com/VisActor/VChart/releases/tag/v1.13.3)
+
 # v1.13.2
 
 2024-12-24
