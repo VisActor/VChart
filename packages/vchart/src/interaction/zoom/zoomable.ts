@@ -473,7 +473,10 @@ export class Zoomable implements IZoomable {
       } as unknown as BaseEventParams);
       this._zoomableTrigger.pointerId = null;
       this._eventObj.off(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove as any);
-      this._eventObj.off(end, { level: Event_Bubble_Level.chart, source: Event_Source_Type.window }, mouseup as any);
+      [end, `${end}outside`].forEach(type => {
+        this._eventObj.off(type, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mouseup as any);
+      });
+
       this._eventObj.allow(end);
     }, delayTime);
 
@@ -502,6 +505,8 @@ export class Zoomable implements IZoomable {
     }, delayTime);
 
     this._eventObj.on(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove as any);
-    this._eventObj.on(end, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mouseup as any);
+    [end, `${end}outside`].forEach(type => {
+      this._eventObj.on(type, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mouseup as any);
+    });
   }
 }
