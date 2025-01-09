@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: axis break's scope calculate error, fix#3656",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
