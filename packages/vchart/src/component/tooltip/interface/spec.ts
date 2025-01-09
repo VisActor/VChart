@@ -20,6 +20,9 @@ export interface ITooltipSpec
      */
     ITooltipActiveTypeAsKeys<
       ITooltipPattern & {
+        /**
+         * mark tooltip是否展示触发点所在的所有图形的数据
+         */
         checkOverlap?: boolean;
       },
       ITooltipPattern,
@@ -129,7 +132,13 @@ export interface ITooltipSpec
    * 计算tooltip位置时候的偏移量
    */
   offset?: {
+    /**
+     * x 方向的偏移量
+     */
     x?: number;
+    /**
+     * y 方向的偏移量
+     */
     y?: number;
   };
 }

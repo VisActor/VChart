@@ -63,7 +63,13 @@ interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
    * 主标题样式
    */
   textStyle?: {
+    /**
+     * 给主标题设置给定的宽度
+     */
     width?: number;
+    /**
+     * 给主标题设置给定的高度
+     */
     height?: number;
     /**
      * 文字水平对齐方式

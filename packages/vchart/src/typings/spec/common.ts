@@ -299,7 +299,16 @@ export interface IFieldsMeta {
 }
 
 export interface SheetParseOptions extends CommonParseOptions {
+  /**
+   * 特定类型的数据，支持以下类型：
+   * - csv: 逗号分隔值（Comma-Separated Values，CSV，有时也称为字符分隔值，因为分隔字符也可以不是逗号），其文件以纯文本形式存储表格数据（数字和文本）。
+   * - dsv: 分隔值（Delimiter-Separated Values，DSV，有时也称为字符分隔值，因为分隔字符也可以不是逗号），其文件以纯文本形式存储表格数据（数字和文本）。
+   * - tsv: 制表符分隔值（Tab-Separated Values，TSV，有时也称为字符分隔值，因为分隔字符也可以不是逗号），其文件以纯文本形式存储表格数据（数字和文本）。
+   */
   type: 'csv' | 'dsv' | 'tsv';
+  /**
+   * 具体的解析配置
+   */
   options?: IDsvParserOptions;
 }
 
@@ -342,7 +351,9 @@ export interface IDataValues {
     string,
     IFieldsMeta
   >;
-
+  /**
+   * 数据解析器配置
+   */
   parser?: SheetParseOptions | CommonParseOptions;
 }
 
@@ -514,7 +525,9 @@ export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
    */
   stateSort?: (stateA: string, stateB: string) => number;
 
-  /* 是否是3d视角的mark */
+  /*
+   * 是否是3d视角的mark
+   */
   support3d?: boolean;
   /* customized shape of mark  */
   customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
@@ -747,7 +760,13 @@ export type ITextFormatMethod<T extends any[]> = (
 
 export type IRichTextFormatMethod<T extends any[]> = (...args: T) =>
   | {
+      /**
+       * 设置文本类型为富文本
+       */
       type: 'rich';
+      /**
+       * 当文本类型为富文本的时候，设置文本的内容
+       */
       text: IRichTextCharacter[];
     }
   | IRichTextCharacter[];

@@ -55,7 +55,13 @@ export interface ITriggerOption {
 }
 
 export interface IBaseInteractionSpec {
+  /**
+   * 触发交互的图元id
+   */
   markIds?: StringOrNumber[];
+  /**
+   * 触发交互的图元名称
+   */
   markNames?: StringOrNumber[];
 }
 

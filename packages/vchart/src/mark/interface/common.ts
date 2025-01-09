@@ -87,7 +87,9 @@ export interface ICompileMarkConfig extends IMarkConfig {
 
   /** morph元素的唯一key */
   morphElementKey?: string;
-  /** 是否支持 3d */
+  /**
+   * 是否支持 3d
+   */
   support3d?: boolean;
   /* customized shape of mark  */
   setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;

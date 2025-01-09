@@ -61,11 +61,27 @@ export interface ISeriesStackDataLeaf {
 export type ISeriesStackDataMeta = ISeriesStackDataNode | ISeriesStackDataLeaf;
 export type ISeriesStackData = ISeriesStackDataNode;
 
+/**
+ * 设置图表中系列分组的样式，这里的分组对应了相同的分组字段值
+ */
 export type ISeriesStyle = ISeriesStyleItem[];
+
+/**
+ * 特定系列分组的样式配置
+ */
 export type ISeriesStyleItem = {
+  /**
+   * 系列的分组名称
+   */
   name: string;
 } & {
+  /**
+   * 设置该系列分组下各种图元对应的样式
+   */
   [markName: string]: {
+    /**
+     * 图元的样式
+     */
     style?: any;
   };
 };

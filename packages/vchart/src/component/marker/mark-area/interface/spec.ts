@@ -53,6 +53,9 @@ export interface IMarkAreaXSpec extends IMarkerCrossSeriesSpec {
    * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处
    */
   x: IDataPos | IDataPosCallback;
+  /**
+   * 设置x轴上的第二个值，如果同时设置了x 和 x1，会形成一个范围
+   */
   x1: IDataPos | IDataPosCallback;
 }
 
@@ -62,6 +65,9 @@ export interface IMarkAreaYSpec extends IMarkerCrossSeriesSpec {
    * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 y 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
    */
   y: IDataPos | IDataPosCallback;
+  /**
+   * 设置y轴上的第二个值，如果同时设置了y 和 y1，会形成一个范围
+   */
   y1: IDataPos | IDataPosCallback;
 }
 
@@ -71,12 +77,18 @@ export interface IMarkAreaXYSpec extends IMarkerCrossSeriesSpec {
    * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处
    */
   x: IDataPos | IDataPosCallback;
+  /**
+   * 设置x轴上的第二个值，如果同时设置了x 和 x1，会形成一个范围
+   */
   x1: IDataPos | IDataPosCallback;
   /**
    * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型
    * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 y 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
    */
   y: IDataPos | IDataPosCallback;
+  /**
+   * 设置y轴上的第二个值，如果同时设置了y 和 y1，会形成一个范围
+   */
   y1: IDataPos | IDataPosCallback;
 }
 
