@@ -8,7 +8,7 @@ import { MarkTypeEnum } from '../mark/interface/type';
 import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
+import type { IGeoRegionSpec, IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
 import type { IInteraction, ITrigger } from '../interaction/interface';
 import { Interaction } from '../interaction/interaction';
 import { ChartEvent } from '../constant/event';
@@ -167,6 +167,11 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
       'normal',
       AttributeLevel.User_Mark
     );
+
+    if ((this._spec as IGeoRegionSpec).roam) {
+      groupMark.setMarkConfig({ interactive: true });
+    }
+
     this._marks.addMark(groupMark);
     return groupMark;
   }
