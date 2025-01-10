@@ -108,6 +108,10 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     super.created();
     const clip = this._spec.clip ?? this._getClipDefaultValue();
     this._groupMark = this._createGroupMark('regionGroup', this.userId, this.layoutZIndex);
+    if ((this._spec as IGeoRegionSpec).roam) {
+      this._groupMark.setMarkConfig({ interactive: true });
+    }
+
     // 交互层
     this._interactionMark = this._createGroupMark(
       'regionInteractionGroup',
@@ -167,10 +171,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
       'normal',
       AttributeLevel.User_Mark
     );
-
-    if ((this._spec as IGeoRegionSpec).roam) {
-      groupMark.setMarkConfig({ interactive: true });
-    }
 
     this._marks.addMark(groupMark);
     return groupMark;
