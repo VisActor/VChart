@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: upgrade vrender to 0.20.23, vgrammar to 0.14.23\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
