@@ -19890,8 +19890,7 @@
         "connectedType": {
           "enum": [
             "connect",
-            "none",
-            "zero"
+            "none"
           ],
           "type": "string"
         },
@@ -70215,8 +70214,7 @@
         "connectedType": {
           "enum": [
             "connect",
-            "none",
-            "zero"
+            "none"
           ],
           "type": "string"
         },
@@ -90628,8 +90626,7 @@
         "connectedType": {
           "enum": [
             "connect",
-            "none",
-            "zero"
+            "none"
           ],
           "type": "string"
         },
@@ -94814,8 +94811,7 @@
         "connectedType": {
           "enum": [
             "connect",
-            "none",
-            "zero"
+            "none"
           ],
           "type": "string"
         },
@@ -105216,8 +105212,7 @@
         "connectedType": {
           "enum": [
             "connect",
-            "none",
-            "zero"
+            "none"
           ],
           "type": "string"
         },
@@ -108196,8 +108191,7 @@
         "connectedType": {
           "enum": [
             "connect",
-            "none",
-            "zero"
+            "none"
           ],
           "type": "string"
         },
