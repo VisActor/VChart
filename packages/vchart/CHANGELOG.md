@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 12 Dec 2024 19:01:01 GMT and should not be manually modified.
+This log was last generated on Mon, 13 Jan 2025 07:53:15 GMT and should not be manually modified.
+
+## 1.12.18
+Mon, 13 Jan 2025 07:53:15 GMT
+
+### Updates
+
+- fix: upgrade vrender to 0.20.23, vgrammar to 0.14.23
+
+
+- fix: undefined points shoulde not show when dimension hover, fix #3610
+
+
 
 ## 1.12.16
 Thu, 12 Dec 2024 19:01:01 GMT

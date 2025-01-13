@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.12.18",
+      "tag": "@visactor/vchart_v1.12.18",
+      "date": "Mon, 13 Jan 2025 07:53:15 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: upgrade vrender to 0.20.23, vgrammar to 0.14.23\n\n"
+          },
+          {
+            "comment": "fix: undefined points shoulde not show when dimension hover, fix #3610\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.12.16",
       "tag": "@visactor/vchart_v1.12.16",
       "date": "Thu, 12 Dec 2024 19:01:01 GMT",
