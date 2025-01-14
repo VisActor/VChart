@@ -244,33 +244,6 @@ const run = () => {
 
   cs.renderSync();
 
-  // high light & store when animaton
-  // let key = '河北';
-  // cs.getChart()
-  //   ?.getVGrammarView()
-  //   .on('animationStart', () => {
-  //     cs.clearAllStates();
-  //     cs.setSelected({
-  //       y: key
-  //     });
-  //   });
-
-  // cs.on('pointerdown', (...p) => {
-  //   console.log('pointerdown', p);
-
-  //   const currentKey = p[0].datum?.y;
-  //   if (currentKey === key || !currentKey) {
-  //     key = '';
-  //   } else {
-  //     key = currentKey;
-  //   }
-  //   cs.clearAllStates();
-  //   cs.setSelected({
-  //     y: key
-  //   });
-  //   console.log('key---', key);
-  // });
-
   // gui
   const gui = new GUI();
   gui.add(guiObject, 'name');
