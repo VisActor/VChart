@@ -248,12 +248,7 @@ export interface IChartSpec {
   media?: IMediaQuerySpec;
 }
 
-export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
-  image?: IRectMarkSpec['background'];
-  cornerRadius?: IRectMarkSpec['cornerRadius'];
-};
-
-export type IBackgroundSpec = IColor | IBackgroundStyleSpec;
+export type IBackgroundSpec = IColor | ConvertToMarkStyleSpec<IGroupMarkSpec>;
 
 /** data */
 export type IDataType = IDataValues | DataView;
@@ -492,6 +487,29 @@ export type AdaptiveSpec<T, K extends keyof any> = {
   [key in Exclude<keyof T, K>]: T[key];
 } & { [key in K]: any };
 
+export interface IMarkStateFullSpec<T> extends Record<string, IMarkStateSpec<T> | IMarkStateStyleSpec<T>> {
+  /**
+   * 正常状态下图元的样式设置
+   */
+  normal?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+  /**
+   * hover状态下图元的样式设置
+   */
+  hover?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+  /**
+   * 没有被hover的状态下图元的样式设置
+   */
+  hover_reverse?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+  /**
+   * 选中状态下图元的样式设置
+   */
+  selected?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+  /**
+   * 没有被选中的状态下图元的样式设置
+   */
+  selected_reverse?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+}
+
 /** markSpec */
 export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
   /**
@@ -518,7 +536,7 @@ export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
   /** 默认样式设置 */
   style?: ConvertToMarkStyleSpec<T>;
   /** 不同状态下的样式配置 */
-  state?: Record<StateValue, IMarkStateSpec<T> | IMarkStateStyleSpec<T>>;
+  state?: IMarkStateFullSpec<T>;
   /**
    * 状态排序方法，默认状态都是按照添加的顺序处理的，如果有特殊的需求，需要指定状态顺序，可以通过这个方法实现
    * @since 1.9.0
@@ -561,6 +579,29 @@ export interface IMarkStateSpec<T> {
 
 export type IMarkStateStyleSpec<T> = ConvertToMarkStyleSpec<T>;
 
+export interface IMarkStateTheme<T> extends Record<string, T> {
+  /**
+   * 图元在正常状态下的主题样式设置
+   */
+  normal?: T;
+  /**
+   * 图元在 hover 状态下的主题样式设置
+   */
+  hover?: T;
+  /**
+   * 图元在 未被hover 状态下的主题样式设置
+   */
+  hover_reverse?: T;
+  /**
+   * 图元在 选中状态下的主题样式设置
+   */
+  selected?: T;
+  /**
+   * 图元在 未被选中 状态下的主题样式设置
+   */
+  selected_reverse?: T;
+}
+
 export type IMarkTheme<T> = {
   /**
    * mark 层 是否显示配置
@@ -569,7 +610,7 @@ export type IMarkTheme<T> = {
   /** 默认样式设置 */
   style?: T;
   /** 不同状态下的样式配置 */
-  state?: Record<StateValue, T>;
+  state?: IMarkStateTheme<T>;
   /**
    * 可交互的开关
    */

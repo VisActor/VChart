@@ -8,6 +8,7 @@ import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../m
 import type { IMultiLabelSpec, ILabelSpec } from '../../component/label/interface';
 import type { DirectionType } from '../../typings/space';
 
+type AreaMarks = 'point' | 'line' | 'area';
 export interface IAreaAnimationParams {
   direction: DirectionType;
 }
@@ -16,7 +17,7 @@ export type AreaAppearPreset = 'clipIn' | 'fadeIn' | 'grow';
 
 export interface IAreaSeriesSpec
   extends ICartesianSeriesSpec,
-    IAnimationSpec<string, AreaAppearPreset>,
+    IAnimationSpec<AreaMarks, AreaAppearPreset>,
     IMarkProgressiveConfig,
     IDataSamping,
     IMarkOverlap {

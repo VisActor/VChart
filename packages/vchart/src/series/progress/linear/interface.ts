@@ -14,7 +14,7 @@ export type LinearProgressAppearPreset = 'grow' | 'fadeIn';
 export interface ILinearProgressSeriesSpec
   extends IProgressSeriesSpec,
     // TODO: 补充MarkName类型 @liupei
-    IAnimationSpec<string, LinearProgressAppearPreset> {
+    IAnimationSpec<SeriesMarkNameEnum.progress | SeriesMarkNameEnum.track, LinearProgressAppearPreset> {
   type: 'linearProgress';
   /**
    * coordinate: 'cartesian'
