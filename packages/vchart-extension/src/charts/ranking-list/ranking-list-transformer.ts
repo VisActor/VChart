@@ -392,11 +392,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       dataId: 'data',
       visible: true,
       dataKey: DATA_KEY,
-      state: {
-        blur: {
-          opacity: 0.2
-        }
-      },
+      state: spec.valueLabel?.state,
       style: {
         text: (datum: Datum) => this.formatDatum(spec.xField, datum),
         x: (datum: Datum, ctx: any) => {
