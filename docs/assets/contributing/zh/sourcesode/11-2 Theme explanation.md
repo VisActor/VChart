@@ -7,7 +7,7 @@ VChart 提供了两种方式配置图表主题：
 
 ## 主题配置的获取与优先级比较 (core/vchart.ts)
 
-这两种配置都可以通过配置一套 `ITheme` 类型的主题对象，但是这两种配置的优先级是什么呢？
+这两种配置都可以通过配置一套 `ITheme` 类型的主题对象，但是这两种配置的优先级是什么呢？这在\_updateCurrentTheme 方法里处理了优先级问题：
 
 > **注意**：严谨地说是三种主题来源：
 >
@@ -95,9 +95,9 @@ const chart = new VChart({
 当主题配置，合并后，会进入预处理阶段。主题预处理是 VChart 主题系统的关键步骤，主要完成以下工作：
 
 1. 语义化颜色转换
-   - 将 `{ color: 'brand.primary' }` 转换为具体颜色值
+   - 将形如 `{ color: 'brand.primary' }` 的颜色语义转换为具体颜色值
 2. Token 替换
-   - 将 `{ fontSize: 'size.m' }` 转换为具体字号
+   - 将形如 `{ fontSize: 'size.m' }` 的 token 语义转换为具体字号
 3. 递归处理嵌套对象
 
 将抽象的主题描述转换为具体的样式配置,为开发者提供直观的配置能力
@@ -273,13 +273,16 @@ export function getColorSchemeBySeries(
        }
        ```
 
+todo: rgbToHsl hslToRgb 的分析
+
 2. **直接设置颜色的透明度**
-   - **透明度调整核心代码**
-     ```javascript
-     if (isValid(colorKey.a)) {
-       c.setOpacity(colorKey.a);
-     }
-     ```
+
+- **透明度调整核心代码**
+  ```javascript
+  if (isValid(colorKey.a)) {
+    c.setOpacity(colorKey.a);
+  }
+  ```
 
 #### queryToken Token 语义化
 
