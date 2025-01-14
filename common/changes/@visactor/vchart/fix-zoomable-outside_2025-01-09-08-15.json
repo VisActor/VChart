@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue where map drag interaction cannot be terminated outside the canvas.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

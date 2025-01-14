@@ -10,7 +10,7 @@ export function getDefaultTriggerEventByMode(mode: RenderMode) {
     return {
       start: 'pointerdown',
       move: 'pointermove',
-      end: 'pointerup',
+      end: ['pointerup', 'pointerupoutside'],
       zoom: 'wheel',
       zoomEnd: 'pointerup',
       scroll: 'wheel',
@@ -23,7 +23,7 @@ export function getDefaultTriggerEventByMode(mode: RenderMode) {
     return {
       start: 'pointerdown',
       move: 'pointermove',
-      end: 'pointerup',
+      end: ['pointerup', 'pointerupoutside'],
       zoom: 'pinch',
       zoomEnd: 'pinchend',
       scroll: 'pan',
