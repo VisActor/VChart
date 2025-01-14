@@ -199,7 +199,12 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   protected _getDefaultOption(): ITooltipHandlerOptions {
     const { offset } = this._component.getSpec();
 
-    return offset ? { ...DEFAULT_OPTIONS, ...offset } : DEFAULT_OPTIONS;
+    return offset
+      ? {
+          offsetX: offset.x ?? DEFAULT_OPTIONS.offsetX,
+          offsetY: offset.y ?? DEFAULT_OPTIONS.offsetY
+        }
+      : DEFAULT_OPTIONS;
   }
 
   /**
