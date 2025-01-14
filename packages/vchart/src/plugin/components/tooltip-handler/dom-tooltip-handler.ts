@@ -285,7 +285,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
                 styleByRow = { ...styleByRow, ...getTextStyle(entry.valueStyle) };
               }
             } else if (colName === 'shape') {
-              row.innerHTML = getSvgHtml(entry);
+              row.innerHTML = getSvgHtml(entry, `${this.id}_${index}`);
             }
 
             setStyleToDom(row, styleByRow);
@@ -299,9 +299,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width') {
     const rootDom = this._rootDom;
 
-    const contentDom = rootDom.children[rootDom.children.length - 1];
+    const contentDom = [...(rootDom.children as any)].find(child =>
+      child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)
+    );
 
-    if (contentDom.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)) {
+    if (contentDom) {
       const tooltipSpec = this._component.getSpec() as ITooltipSpec;
       const contentStyle: Partial<CSSStyleDeclaration> = {};
 
@@ -369,6 +371,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   reInit() {
     super.reInit();
     this._initStyle();
+    if (this._rootDom) {
+      setStyleToDom(this._rootDom, this._domStyle.panel);
+    }
+
+    if (this.getVisibility()) {
+      this._updateDomStringByCol(this._tooltipActual);
+      this._updateDomStyle('height');
+    }
   }
 
   protected _updatePosition({ x, y }: ITooltipPositionActual) {

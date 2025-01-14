@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the issue of incorrect label display in 3D charts, #3584",
+      "comment": "fix: fix the issue where map drag interaction cannot be terminated outside the canvas.",
       "type": "none"
     }
   ],

@@ -29,6 +29,7 @@ export interface IComponent extends ILayoutModel {
     changeRegions: (regions: IRegion[]) => void;
     getVRenderComponents: () => IGraphic[];
     clear: () => void;
+    getDatum: (childGraphic?: IGraphic) => any | undefined;
 }
 export interface IComponentConstructor extends IModelConstructor {
     type: string;

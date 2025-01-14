@@ -47,6 +47,7 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     initMarkStyle(): void;
     protected _initLeafMarkStyle(): void;
     protected _initNonLeafMarkStyle(): void;
+    _initRichStyleOfLabelMark(labelMark: ILabelMark): void;
     initLabelMarkStyle(labelMark: ILabelMark): void;
     protected initNonLeafLabelMarkStyle(labelMark: ILabelMark): void;
     initAnimation(): void;

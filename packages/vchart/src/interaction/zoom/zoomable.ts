@@ -96,7 +96,7 @@ export class Zoomable implements IZoomable {
   }
 
   // event
-  private _getZoomTriggerEvent(type: string): EventType {
+  private _getZoomTriggerEvent(type: string): EventType | EventType[] {
     return getDefaultTriggerEventByMode(this._renderMode)[type];
   }
 
@@ -168,8 +168,8 @@ export class Zoomable implements IZoomable {
       ? [this._getZoomTriggerEvent('zoom')]
       : [this._getZoomTriggerEvent('zoom'), { level: Event_Bubble_Level.chart, consume: true }];
     const zoomEndParams: [string] | [string, EventQuery] = this._isGestureListener
-      ? [this._getZoomTriggerEvent('zoomEnd')]
-      : [this._getZoomTriggerEvent('zoomEnd'), { level: Event_Bubble_Level.chart, consume: false }];
+      ? [this._getZoomTriggerEvent('zoomEnd') as string]
+      : [this._getZoomTriggerEvent('zoomEnd') as string, { level: Event_Bubble_Level.chart, consume: false }];
     // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
     (event as any).on(
       ...zoomEndParams,
@@ -337,7 +337,7 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    eventObj.on(this._getZoomTriggerEvent('start'), { level: Event_Bubble_Level.chart }, (params: any) => {
+    eventObj.on(this._getZoomTriggerEvent('start') as string, { level: Event_Bubble_Level.chart }, (params: any) => {
       if (!params.event) {
         return;
       }
@@ -376,7 +376,7 @@ export class Zoomable implements IZoomable {
     }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       s.event.on(
-        this._getZoomTriggerEvent('start'),
+        this._getZoomTriggerEvent('start') as string,
         { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
         params => {
           this._handleDrag(params, callback, option);
@@ -400,7 +400,7 @@ export class Zoomable implements IZoomable {
           r.getSeries().forEach(s => {
             if (filter(s)) {
               s.event.on(
-                this._getZoomTriggerEvent('start'),
+                this._getZoomTriggerEvent('start') as string,
                 { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
                 params => {
                   this._handleDrag(params, callback);
@@ -445,8 +445,8 @@ export class Zoomable implements IZoomable {
     const delayType = option?.delayType ?? 'throttle';
     const delayTime = option?.delayTime ?? 0;
     const realTime = option?.realTime ?? true;
-    const move = this._getZoomTriggerEvent('move');
-    const end = this._getZoomTriggerEvent('end');
+    const move = this._getZoomTriggerEvent('move') as string;
+    const end = this._getZoomTriggerEvent('end') as string[];
     const event = params.event;
     let moveX = event.canvasX;
     let moveY = event.canvasY;
@@ -473,8 +473,14 @@ export class Zoomable implements IZoomable {
       } as unknown as BaseEventParams);
       this._zoomableTrigger.pointerId = null;
       this._eventObj.off(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove as any);
-      this._eventObj.off(end, { level: Event_Bubble_Level.chart, source: Event_Source_Type.window }, mouseup as any);
-      this._eventObj.allow(end);
+      end.forEach(endEventType => {
+        this._eventObj.off(
+          endEventType,
+          { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart },
+          mouseup as any
+        );
+        this._eventObj.allow(endEventType);
+      });
     }, delayTime);
 
     const mousemove = delayMap[delayType]((params: BaseEventParams) => {
@@ -482,7 +488,7 @@ export class Zoomable implements IZoomable {
         return;
       }
       this._clickEnable = false;
-      this._eventObj.prevent(end, mouseup as any);
+      end.forEach(endEventType => this._eventObj.prevent(endEventType, mouseup as any));
 
       const event = params.event;
       const dx = event.canvasX - moveX;
@@ -502,6 +508,12 @@ export class Zoomable implements IZoomable {
     }, delayTime);
 
     this._eventObj.on(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove as any);
-    this._eventObj.on(end, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mouseup as any);
+    end.forEach(endEventType => {
+      this._eventObj.on(
+        endEventType,
+        { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart },
+        mouseup as any
+      );
+    });
   }
 }

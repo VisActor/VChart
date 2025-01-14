@@ -1,3 +1,31 @@
+# v1.13.3
+
+2025-01-08
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add datum to params on axis-label event
+- **@visactor/vchart**: wrap some hook in vgrammar
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix the issue of incorrect label display in 3D charts, [#3584](https://github.com/VisActor/VChart/issues/3584)
+- **@visactor/vchart**: fix the issue of animation in 3d wordcloud not work
+- **@visactor/vchart**: brush data will be undefined when mark is hovered. fix[#3623](https://github.com/VisActor/VChart/issues/3623)
+- **@visactor/vchart**: fix style of dom tooltip when tooltip has customized child, fix [#3615](https://github.com/VisActor/VChart/issues/3615)
+- **@visactor/vchart**: fix error update of dom tooltip when update theme, fix [#3619](https://github.com/VisActor/VChart/issues/3619)
+- **@visactor/vchart**: fix position of html tooltip when confine is false, fix [#3632](https://github.com/VisActor/VChart/issues/3632)
+- **@visactor/vchart**: fix the typographical error of dataset tutorial
+- **@visactor/vchart**: compilier should add dpr to vrender
+- **@visactor/vchart**: fix invisible region blocking mark events, [#3638](https://github.com/VisActor/VChart/issues/3638)
+- **@visactor/vchart**: undefined points shoulde not show when dimension hover, fix [#3610](https://github.com/VisActor/VChart/issues/3610)
+- **@visactor/vchart**: fix layout error of title component, fix [#3614](https://github.com/VisActor/VChart/issues/3614) 
+
+
+
+[more detail about v1.13.3](https://github.com/VisActor/VChart/releases/tag/v1.13.3)
+
 # v1.13.2
 
 2024-12-24

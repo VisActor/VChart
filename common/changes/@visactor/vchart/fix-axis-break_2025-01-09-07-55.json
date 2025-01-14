@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: add datum to params on axis-label event ",
+      "comment": "fix: axis break's scope calculate error, fix#3656",
       "type": "none"
     }
   ],

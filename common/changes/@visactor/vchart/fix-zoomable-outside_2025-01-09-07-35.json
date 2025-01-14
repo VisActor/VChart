@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the issue of animation in 3d wordcloud not work",
+      "comment": "fix: fix the issue where map drag interaction cannot be terminated outside the canvas, #3650",
       "type": "none"
     }
   ],
