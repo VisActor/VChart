@@ -129,7 +129,9 @@ The tooltip rendering method, defaults to `html` for desktop and `canvas` for ap
 
 ##${prefix} confine(boolean) = true
 
-Whether or not to restrict the tooltip box to the canvas area, enabled by default when `renderMode` is `'canvas'`. **_(only works with default canvas handler)_**
+Whether or not to restrict the tooltip box to the canvas area, enabled by default when `renderMode` is `'canvas'`.
+
+Before version 1.13.3, it only worked when `renderMode` was set to `canvas`.
 
 ##${prefix} className(string)
 

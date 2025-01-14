@@ -136,7 +136,9 @@ tooltip 渲染方式，桌面端默认为`html`，小程序端默认为`canvas`�
 
 ##${prefix} confine(boolean) = true
 
-是否将 tooltip 框限制在画布区域内，`renderMode` 为 `'canvas'` 时，默认开启。**_（只作用于默认 canvas handler）_**
+是否将 tooltip 框限制在画布区域内，`renderMode` 为 `'canvas'` 时，默认开启。
+
+1.13.3 之前，只能生效在`renderMode`为`canvas`的时候；
 
 ##${prefix} className(string)
 
