@@ -37,9 +37,16 @@
       }
     },
     {
+      "path": "sourcesode/11-1 Theme update",
+      "title": {
+        "zh": "11-1.主题的更新逻辑",
+        "en": "11-1.Theme update"
+      }
+    },
+    {
       "path": "sourcesode/11-2 Theme explanation",
       "title": {
-        "zh": "11-2.主题说明",
+        "zh": "11-2.主题的解析",
         "en": "11-2.Theme explanation"
       }
     }
