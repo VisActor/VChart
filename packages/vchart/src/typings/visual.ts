@@ -950,7 +950,7 @@ export interface IImageMarkSpec extends IFillMarkSpec {
   repeatY?: IRepeatType;
   /**
    * 设置图片的内容，支持三种类型：
-   * 1. 图片资源的路径
+   * 1. string类型，可以是图片资源的路径或者是svg 标签字符串
    * 2. image 元素
    * 3. canvas 元素
    */
