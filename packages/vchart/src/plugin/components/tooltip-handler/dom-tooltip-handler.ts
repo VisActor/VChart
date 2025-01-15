@@ -268,7 +268,13 @@ export class DomTooltipHandler extends BaseTooltipHandler {
               row.classList.add(`${TOOLTIP_PREFIX}-${colName}`);
               colDiv.appendChild(row);
             }
-            let styleByRow = index === content.length - 1 ? {} : { ...rowStyle };
+            const styleByRow = {
+              ...rowStyle
+            };
+
+            if (index === content.length - 1) {
+              styleByRow.marginBottom = '0px';
+            }
 
             styleByRow.display = entry.visible === false ? 'none' : 'block';
             // 每次更新，需要更新单元格的高度，防止同步高度的时候没有更新
@@ -277,12 +283,12 @@ export class DomTooltipHandler extends BaseTooltipHandler {
             if (colName === 'key') {
               row.innerHTML = formatContent(entry.key);
               if (entry.keyStyle) {
-                styleByRow = { ...styleByRow, ...getTextStyle(entry.keyStyle) };
+                getTextStyle(entry.keyStyle, styleByRow);
               }
             } else if (colName === 'value') {
               row.innerHTML = formatContent(entry.value);
               if (entry.valueStyle) {
-                styleByRow = { ...styleByRow, ...getTextStyle(entry.valueStyle) };
+                getTextStyle(entry.valueStyle, styleByRow);
               }
             } else if (colName === 'shape') {
               row.innerHTML = getSvgHtml(entry, `${this.id}_${index}`);

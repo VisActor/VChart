@@ -1,5 +1,7 @@
 import { isArray, isValid, isValidNumber, normalizePadding } from '@visactor/vutils';
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
+import { calcLayoutNumber } from '../../../../util/space';
+import type { ILayoutNumber } from '../../../../typings/layout';
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;
 const DEFAULT_VALUE_SPACING = 0;
@@ -14,9 +16,7 @@ export const getPixelPropertyStr = (num?: number | number[], defaultStr?: string
   return defaultStr ?? 'initial';
 };
 
-export const getTextStyle = (style: ITooltipTextTheme = {}) => {
-  const textStyle: Partial<CSSStyleDeclaration> = {};
-
+export const getTextStyle = (style: ITooltipTextTheme = {}, textStyle: Partial<CSSStyleDeclaration> = {}) => {
   if (isValid(style.fontFamily)) {
     textStyle.fontFamily = style.fontFamily;
   }
@@ -46,6 +46,16 @@ export const getTextStyle = (style: ITooltipTextTheme = {}) => {
   }
 
   return textStyle;
+};
+
+export const getLineHeight = (style: ITooltipTextTheme = {}) => {
+  const { lineHeight } = style;
+
+  if (style.fontSize) {
+    return calcLayoutNumber(lineHeight as ILayoutNumber, style.fontSize as number);
+  }
+
+  return 0;
 };
 
 export const getDomStyle = (spec: ITooltipSpec = {}) => {
@@ -91,12 +101,10 @@ export const getDomStyle = (spec: ITooltipSpec = {}) => {
   shapeStyle[marginKey] = getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING);
   keyStyle[marginKey] = getPixelPropertyStr(keyLabel.spacing ?? DEFAULT_KEY_SPACING);
   valueStyle[marginKey] = getPixelPropertyStr(valueLabel.spacing ?? DEFAULT_VALUE_SPACING);
+  const lineHeight = Math.max(getLineHeight(valueLabel), getLineHeight(keyLabel));
 
-  const lineHeight = keyStyle.lineHeight ?? valueStyle.lineHeight;
-
-  if (isValid(lineHeight)) {
-    rowStyle.lineHeight = /^[0-9]*$/.test(`${lineHeight}`) ? `${lineHeight}px` : `${lineHeight}`;
-  }
+  // 如果不设置lineHeight，会导致横向不对齐的问题
+  rowStyle.lineHeight = lineHeight > 0 ? `${lineHeight}px` : '20px';
 
   return {
     panelPadding,
