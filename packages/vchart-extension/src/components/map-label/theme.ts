@@ -1,7 +1,7 @@
-import type { IMapLabelTheme } from '../../../../component/map-label';
-import type { ITextMarkSpec } from '../../../../typings/visual';
+import type { IMapLabelStyleSpec } from './type';
+import type { ITextMarkSpec } from '@visactor/vchart';
 
-const getLabelTheme = (): {
+const getLabelSpec = (): {
   visible?: boolean;
   style?: ITextMarkSpec;
 } => {
@@ -11,18 +11,18 @@ const getLabelTheme = (): {
       textBaseline: 'middle',
       textAlign: 'left',
       fill: 'black',
-      fontSize: { type: 'token', key: 'l6FontSize' }
+      fontSize: 10
     }
   };
 };
 
-export const mapLabel: IMapLabelTheme = {
+export const mapLabel: IMapLabelStyleSpec = {
   visible: true,
   offset: 12,
   position: 'top',
   space: 10,
-  nameLabel: getLabelTheme(),
-  valueLabel: getLabelTheme(),
+  nameLabel: getLabelSpec(),
+  valueLabel: getLabelSpec(),
   background: {
     visible: true,
     padding: { top: 4, bottom: 4, left: 6, right: 6 },
@@ -37,7 +37,7 @@ export const mapLabel: IMapLabelTheme = {
     visible: false,
     style: {
       lineWidth: 1,
-      stroke: 'red'
+      stroke: 'black'
     }
   }
 };

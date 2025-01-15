@@ -1,5 +1,5 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IPoint, Quadrant, TextAlign, TextBaseLine } from '../typings';
+import type { IPoint, TextAlign, TextBaseLine } from '../typings';
 import type { Datum } from '@visactor/vgrammar-core';
 import { isValidNumber } from './type';
 import { regressionLinear } from '@visactor/vgrammar-util';

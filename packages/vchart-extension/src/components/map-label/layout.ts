@@ -1,6 +1,6 @@
 import type { Feature } from '@visactor/vutils';
 import { isPointInPolygon, destination, getAABBFromPoints } from '@visactor/vutils';
-import type { IRect, IOrientType, IPoint } from '../../typings';
+import type { IRect, IOrientType, IPoint } from '@visactor/vchart';
 
 type IBound = {
   x1: number;
@@ -23,7 +23,7 @@ export interface IPairInfo {
   index: number;
 }
 
-function overlap<T extends IBound>(a: T, b: T, sep: number = 0) {
+function overlap<T extends IBound>(a: T, b: T, sep = 0) {
   return sep > Math.max(b.x1 - a.x2, a.x1 - b.x2, b.y1 - a.y2, a.y1 - b.y2);
 }
 
@@ -270,7 +270,7 @@ function isPointWithinFeatures(features: Feature[], p: IPoint) {
  * @param offset rect与锚点间的距离
  * @returns
  */
-export function placeRectByOrient(rect: IRect, position: IOrientType, offset: number = 0) {
+export function placeRectByOrient(rect: IRect, position: IOrientType, offset = 0) {
   const result: IRect = { ...rect };
   if (position === 'top') {
     result.x -= rect.width / 2;

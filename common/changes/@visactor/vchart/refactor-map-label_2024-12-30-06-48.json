@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: migrate mapLabel component into vchart-extension package",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

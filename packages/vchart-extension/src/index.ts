@@ -4,3 +4,4 @@ export * from './charts/conversion-funnel';
 export * from './components/series-break';
 export * from './components/bar-link';
 export * from './components/series-label';
+export * from './components/map-label';

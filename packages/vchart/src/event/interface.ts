@@ -69,7 +69,6 @@ export type ComponentType =
   | 'dataZoom'
   | 'indicator'
   | 'legend'
-  | 'mapLabel'
   | 'markLine'
   | 'markArea'
   | 'markPoint'

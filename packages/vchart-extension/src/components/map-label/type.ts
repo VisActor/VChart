@@ -1,11 +1,10 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IPadding, IOrientType, StringOrNumber } from '../../typings';
-import type { IPathMarkSpec, IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec } from '../../typings/visual';
-import type { IModelSpec } from '../../model/interface';
+import type { IPadding, IOrientType, StringOrNumber } from '@visactor/vchart';
+import type { IPathMarkSpec, IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec } from '@visactor/vchart';
 
 export type LabelPosition = IOrientType | 'outer';
 
-export interface IMapLabelSpec extends IMapLabelTheme, Pick<IModelSpec, 'id'> {
+export interface IMapLabelSpec extends IMapLabelStyleSpec {
   /** 关联的系列 id */
   seriesId: StringOrNumber;
   /** 名称文本的数据字段 */
@@ -23,16 +22,26 @@ export type IMapLabelNodes = 'nameLabel' | 'valueLabel' | 'icon' | 'labelBackgro
 
 export type MapLabelSceneNodeMap = Partial<Record<IMapLabelNodes, IGraphic>>;
 
-export interface IMapLabelTheme {
-  /** 是否显示，默认 false */
+export interface IMapLabelStyleSpec {
+  /**
+   * 是否显示
+   * @default false
+   */
   visible?: boolean;
-  /** 标签非 outer 位置下与标记点的间距 */
+  /**
+   * 标签非 outer 位置下与标记点的间距
+   * @default 12
+   */
   offset?: number;
   /**
-   * icon/label之间的距离
+   * icon 和 label之间的距离
+   * @default 10
    */
   space?: number;
-  /** 标签位置 */
+  /**
+   * 标签位置。支持 'left' | 'top' | 'right' | 'bottom' | 'outer'
+   * @default 'top'
+   */
   position?: LabelPosition;
   /** 名称文本样式设置 */
   nameLabel?: {
@@ -51,7 +60,9 @@ export interface IMapLabelTheme {
   };
   /** 背景样式设置 */
   background?: {
+    /** @default true */
     visible?: boolean;
+    /** 背景框边距 */
     padding?: IPadding;
     style?: IRectMarkSpec;
   };

@@ -54,7 +54,6 @@ import { registerTotalLabel } from './component/label/total-label';
 import { registerMarkPoint, registerPolarMarkPoint, registerGeoMarkPoint } from './component/marker/mark-point';
 import { registerBrush } from './component/brush';
 import { registerCustomMark } from './component/custom-mark';
-import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
@@ -154,7 +153,6 @@ VChart.useRegisters([
   registerTotalLabel,
   registerBrush,
   registerCustomMark,
-  registerMapLabel,
   registerPoptip,
 
   // layout

@@ -1,38 +1,46 @@
-import type { IPadding, IRect, IOrientType } from '../../typings/space';
 import { DataView } from '@visactor/vdataset';
-import { BaseComponent } from '../base/base-component';
-// eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface/type';
-import { LayoutZIndex } from '../../constant/layout';
-import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
-import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
-import type { IPoint, Datum } from '../../typings';
-import type { IPairInfo } from './layout';
-// eslint-disable-next-line no-duplicate-imports
-import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
-
-import { CompilableData } from '../../compile/data/compilable-data';
-import { normalizeLayoutPaddingSpec } from '../../util/space';
-import { MarkPoint } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender-core';
-import { createGroup, createRect, createSymbol, createText } from '@visactor/vrender-core';
-import { transformToGraphic } from '../../util/style';
+import { graphicCreator } from '@visactor/vrender-core';
 import type { Maybe } from '@visactor/vutils';
-// eslint-disable-next-line no-duplicate-imports
 import { isValid } from '@visactor/vutils';
-import type { PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { IModel, IModelSpecInfo } from '../../model/interface';
-import { Factory } from '../../core/factory';
-import { TransformLevel } from '../../data/initialize';
-import { getSpecInfo } from '../util';
+import { MarkPoint } from '@visactor/vrender-components';
+import {
+  LayoutZIndex,
+  normalizeLayoutPaddingSpec,
+  transformToGraphic,
+  TransformLevel,
+  getSpecInfo,
+  CompilableData,
+  VChart,
+  BaseComponent
+} from '@visactor/vchart';
+import type {
+  IPadding,
+  IRect,
+  IOrientType,
+  IPoint,
+  Datum,
+  IModel,
+  IModelSpecInfo,
+  PanEventParam,
+  ICartesianSeries,
+  IGeoSeries
+} from '@visactor/vchart';
+import type { IPairInfo } from './layout';
+import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
+import type { IMapLabelSpec, MapLabelSceneNodeMap } from './type';
+import { MapLabelSpecTransformer } from './map-label-transformer';
 
 export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
-  static type = ComponentTypeEnum.mapLabel;
-  type = ComponentTypeEnum.mapLabel;
-  name: string = ComponentTypeEnum.mapLabel;
+  static type = 'mapLabel';
+  type = 'mapLabel';
+  name = ' mapLabel';
 
   static specKey = 'mapLabel';
   specKey = 'mapLabel';
+
+  static readonly transformerConstructor = MapLabelSpecTransformer as any;
+  readonly transformerConstructor = MapLabelSpecTransformer;
 
   layoutType: 'none' = 'none';
 
@@ -76,7 +84,6 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     if (this._spec.position === 'outer') {
       // 需要获取region上的地理坐标系
       this._map = (this._regions[0].getSeriesInType('map')[0] as IGeoSeries)?.getMapViewData()?.latestData;
-
       this._longitudeField = this._regions[0].getSpec?.()?.longitudeField;
       this._latitudeField = this._regions[0].getSpec?.()?.latitudeField;
     }
@@ -105,8 +112,8 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   }
 
   initEvent() {
-    this.event.on('zoom', { filter: params => this._isRelativeModel(params.model) }, e => {
-      this.handleZoom(e as unknown as ZoomEventParam);
+    this.event.on('zoom', { filter: params => this._isRelativeModel(params.model) }, () => {
+      this.handleZoom();
       return true;
     });
 
@@ -158,7 +165,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     });
   }
 
-  handleZoom(e: ZoomEventParam) {
+  handleZoom() {
     this._updateMarkerLayoutAttribute();
   }
 
@@ -198,16 +205,14 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
         });
         if (cmp) {
           cmp.name = `${this.name}_marker_${index}`;
-          cmp.id = this._spec.id ?? `${this.name}_marker_${this.id}`;
+          cmp.id = (this._spec as any).id ?? `${this.name}_marker_${this.id}`;
           cmp.setAttribute('zIndex', this.layoutZIndex);
         }
         return cmp;
       });
     }
-
     const markerComponents = this._markerComponents;
     markerComponents.forEach((marker, index) => {
-      marker.removeAllChild();
       const { pairInfo, contentMarks } = this._evaluateMarker(this._data.getLatestData()[index], index);
       pairInfo && layoutPairInfo.push(pairInfo);
       contentMarks && markerMarks.push(contentMarks);
@@ -236,21 +241,21 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     const contentMarks: MapLabelSceneNodeMap = {};
     const positionAttr = this.dataToPosition(data);
 
-    const container = createGroup({});
+    const container = graphicCreator.group({});
     container.name = `${this.name}_marker_itemContainer_${index}`;
     contentMarks.container = container;
 
     if (this._spec.background?.visible) {
-      const labelBackground = createRect(transformToGraphic({ ...this._spec.background.style }));
+      const labelBackground = graphicCreator.rect(transformToGraphic({ ...this._spec.background.style }));
       labelBackground.setAttributes(positionAttr);
       contentMarks.labelBackground = labelBackground;
       container.appendChild(labelBackground);
     }
 
     if (this._spec.icon?.visible) {
-      const icon = createSymbol(transformToGraphic({ ...this._spec.icon.style }));
+      const icon = graphicCreator.symbol(transformToGraphic({ ...this._spec.icon.style }));
       icon.setAttributes(positionAttr);
-      icon.setAttribute('symbolType', this._spec.icon.style?.shape);
+      icon.setAttribute('symbolType', this._spec.icon.style?.symbolType ?? this._spec.icon.style?.shape);
       const iconBound = icon.AABBBounds;
       const iconHeight = iconBound?.y2 - iconBound?.y1 ?? 0;
       const iconWidth = iconBound?.x2 - iconBound?.x1 ?? 0;
@@ -263,7 +268,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     }
 
     if (this._spec.nameLabel?.visible) {
-      const nameLabel = createText(transformToGraphic({ ...this._spec.nameLabel.style }));
+      const nameLabel = graphicCreator.text(transformToGraphic({ ...this._spec.nameLabel.style }));
       nameLabel.setAttributes(positionAttr);
       nameLabel.setAttribute('text', data[this.nameField]);
       const nameLabelBound = nameLabel.AABBBounds;
@@ -278,7 +283,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     }
 
     if (this._spec.valueLabel?.visible && isValid(data[this.valueField])) {
-      const valueLabel = createText(transformToGraphic({ ...this._spec.valueLabel.style }));
+      const valueLabel = graphicCreator.text(transformToGraphic({ ...this._spec.valueLabel.style }));
       valueLabel.setAttributes(positionAttr);
       valueLabel.setAttribute('text', data[this.valueField]);
       const valueLabelBound = valueLabel.AABBBounds;
@@ -433,19 +438,18 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     return model?.id === this._series.id;
   }
 
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
-  changeRegions(/** regions: IRegion[] */): void {
-    // do nothing
-  }
-
   protected _getNeedClearVRenderComponents(): IGraphic[] {
+    return this._markerComponents as unknown as IGroup[];
+  }
+
+  getVRenderComponents() {
     return this._markerComponents as unknown as IGroup[];
   }
 }
 
-export const registerMapLabel = () => {
-  Factory.registerComponent(MapLabelComponent.type, MapLabelComponent);
+export const registerMapLabel = (option?: { VChart?: typeof VChart }) => {
+  const vchartConstructor = option?.VChart || VChart;
+  if (vchartConstructor) {
+    vchartConstructor.useComponent([MapLabelComponent as any]);
+  }
 };
