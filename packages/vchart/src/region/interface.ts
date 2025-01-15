@@ -97,7 +97,13 @@ export interface IGeoRegionSpec extends IRegionSpec {
    * 缩放最大最小倍数限制
    */
   zoomLimit?: {
+    /**
+     * 最小缩放倍数
+     */
     min?: number;
+    /**
+     * 最大缩放倍数
+     */
     max?: number;
   };
 }

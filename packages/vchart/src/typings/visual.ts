@@ -41,17 +41,32 @@ export interface IVisualSpecBase<D, T> {
 }
 // 用来给用户进行mark.style上的映射配置。所以要配置数据维度
 export interface IVisualSpecStyle<D, T> extends IVisualSpecBase<D, T> {
+  /**
+   * 指定映射对应的数据字段
+   */
   field?: string;
 }
 
 export type IDataDomainSpec = {
+  /**
+   * 数据的id
+   */
   dataId: string;
+  /**
+   * 数据字段
+   */
   fields: string[];
 };
 
 // 用来提供给用户进行 scale 配置 所以名字是必选的 对用户配置
 export interface IVisualSpecScale<D, T> extends Omit<IVisualSpecBase<D, T>, 'domain'> {
+  /**
+   * scale 的id
+   */
   id: string;
+  /**
+   * 定义域范围
+   */
   domain:
     | IVisualSpecBase<D, T>['domain']
     // 使用数据的字段值，如果 scale 是连续的，就取区间，如果是离散的就使用 values 。
@@ -266,9 +281,9 @@ export interface ICommonSpec {
    */
   innerBorder?: IBorder;
   /**
+   * html 浮层，会将配置的html相关内容，绝对定位到图元的位置
    * @experimental
    * @since 1.10.0
-   * html 浮层
    */
   html?: IMarkHtmlSpec;
 
@@ -327,7 +342,13 @@ export interface ISymbolMarkSpec extends IFillMarkSpec {
 
 // lineMark 和 areaMark 共同配置
 export interface ILineLikeMarkSpec extends IFillMarkSpec {
+  /**
+   * 取消的差值类型，默认为线性插值，也就是普通的折线
+   */
   curveType?: InterpolateType;
+  /**
+   * 设置点是否有效，也就是是否合法
+   */
   defined?: boolean;
 }
 
@@ -526,11 +547,25 @@ export interface IBoxPlotMarkSpec extends ICommonSpec {
    * 中轴线透明度，仅当shaftType=bar时生效
    */
   shaftFillOpacity?: number;
-
+  /**
+   * 最小值
+   */
   min?: (datum: Datum) => number;
+  /**
+   * 25%分位数
+   */
   q1?: (datum: Datum) => number;
+  /**
+   * 中位数
+   */
   median?: (datum: Datum) => number;
+  /**
+   * 75%分位数
+   */
   q3?: (datum: Datum) => number;
+  /**
+   * 最大值
+   */
   max?: (datum: Datum) => number;
 }
 
@@ -554,6 +589,9 @@ export interface ILiquidMarkSpec extends ICommonSpec {
 }
 
 export interface ILiquidOutlineSpec extends ISymbolMarkSpec {
+  /**
+   * 描边的宽度
+   */
   lineWidth: number;
 }
 
@@ -571,26 +609,68 @@ export interface IOutlierMarkSpec {
 export interface IPathMarkSpec extends IFillMarkSpec {
   path?: string;
   // TODO: 该属性后续可能会删除，未定
-  // 平滑缩放，不然会发生跳变，在地图交互场景需要配置为true；常规path缩放不需要
+  /**
+   * 平滑缩放，不然会发生跳变，在地图交互场景需要配置为true；常规path缩放不需要
+   */
   smoothScale?: boolean;
 }
 
 export interface ILinkPathMarkSpec extends IFillMarkSpec {
+  /**
+   * 连边起点的x坐标
+   */
   x0?: number;
+  /**
+   * 连边起点的y坐标
+   */
   y0?: number;
+  /**
+   * 连边终点的x坐标
+   */
   x1?: number;
+  /**
+   * 连边终点的y坐标
+   */
   y1?: number;
+  /**
+   * 连边的厚度，也可以理解为宽度
+   */
   thickness?: number;
+  /**
+   * 连边的曲度，决定了连边的弯曲程度，取值范围为0-1，
+   * 0表示不弯曲，也就是直线
+   * 1表示最大的弯曲度，
+   * 默认值为0.5
+   */
   curvature?: number;
   /** round all the coordinates */
   round?: boolean;
   /** the ratio of normal style path */
   ratio?: number;
+  /**
+   * 对齐方式
+   */
   align?: 'start' | 'end' | 'center';
+  /**
+   * 连边的类型
+   *
+   */
   pathType?: 'line' | 'smooth' | 'polyline';
+  /**
+   * 是否展示终点的箭头
+   */
   endArrow?: boolean;
+  /**
+   * 是否展示起点的箭头
+   */
   startArrow?: boolean;
+  /**
+   * 背景线的样式，主要用于部分高亮的场景
+   */
   backgroundStyle?: any;
+  /**
+   * 连边的方向
+   */
   direction?: 'horizontal' | 'vertical' | 'LR' | 'RL' | 'TB' | 'BL' | 'radial';
 }
 
@@ -625,17 +705,25 @@ export interface IArcMarkSpec extends IFillMarkSpec {
    * 圆角
    */
   cornerRadius?: number;
-  /* 内边距 */
+  /**
+   * 内边距
+   */
   innerPadding?: number;
-  /* 外边距 */
+  /**
+   * 外边距
+   */
   outerPadding?: number;
-
-  /** arc的中心点偏移距离 */
+  /**
+   * arc的中心点偏移距离，一般是通过在交互状态下设置这个属性来实现将扇区移出中心的一个效果
+   */
   centerOffset?: number;
-
-  /** arc 的 roundCap 属性，即圆角是否伸出 startAngle 和 endAngle 之外 */
+  /**
+   * arc 的 roundCap 属性，即圆角是否伸出 startAngle 和 endAngle 之外
+   */
   cap?: boolean | [boolean, boolean];
-  /** arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效 */
+  /**
+   * arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效
+   */
   autoCapConical?: boolean;
 }
 
@@ -695,7 +783,9 @@ export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
 }
 
 export interface IPyramid3dMarkSpec extends IPolygonMarkSpec {
-  // 只能有4个顶点
+  /**
+   * 3d金字塔顶点坐标，注意只能有4个顶点
+   */
   points?: IPoint[];
 }
 
@@ -711,36 +801,105 @@ export type ImageOriginType = 'top' | 'bottom';
  */
 export type GradientPropValue<T> = ValueType<T> | FunctionType<T>;
 export type GradientStop = {
+  /**
+   * 渐变色的偏移量，0-1的值
+   */
   offset: GradientPropValue<number>;
+  /**
+   * 渐变色的颜色
+   */
   color?: GradientPropValue<string>;
+  /**
+   * 渐变色的透明度
+   */
   opacity?: number;
 };
 export interface IGradientLinear {
+  /**
+   * 渐变色的起点x坐标，0-1的值，相对于图形包围盒x方向取值的比例值
+   */
   x0?: GradientPropValue<number>;
+  /**
+   * 渐变色的起点y坐标，0-1的值，相对于图形包围盒y方向取值的比例值
+   */
   y0?: GradientPropValue<number>;
+  /**
+   * 渐变色的终点x坐标，0-1的值，相对于图形包围盒x方向取值的比例值
+   */
   x1?: GradientPropValue<number>;
+  /**
+   * 渐变色的终点y坐标，0-1的值，相对于图形包围盒y方向取值的比例值
+   */
   y1?: GradientPropValue<number>;
+  /**
+   * 渐变色的颜色
+   */
   stops: GradientStop[];
+  /**
+   * 渐变色的类型设置为 'linear'，即线形渐变
+   */
   gradient: 'linear';
 }
 
 export interface IGradientRadial {
+  /**
+   * 径向渐变的起点的半径
+   */
   r0?: GradientPropValue<number>;
+  /**
+   * 径向渐变的起点的x坐标
+   */
   x0?: GradientPropValue<number>;
+  /**
+   * 径向渐变的起点的y坐标
+   */
   y0?: GradientPropValue<number>;
+  /**
+   * 径向渐变的终点的x坐标
+   */
   x1?: GradientPropValue<number>;
+  /**
+   * 径向渐变的终点的y坐标
+   */
   y1?: GradientPropValue<number>;
+  /**
+   * 径向渐变的终点的半径
+   */
   r1?: GradientPropValue<number>;
+  /**
+   * 渐变色的颜色
+   */
   stops: GradientStop[];
+  /**
+   * 渐变色的类型设置为 'radial'，即径向渐变
+   */
   gradient: 'radial';
 }
 
 export interface IGradientConical {
+  /**
+   * 锥形渐变的中心点x坐标
+   */
   x?: GradientPropValue<number>;
+  /**
+   * 锥形渐变的中心点y坐标
+   */
   y?: GradientPropValue<number>;
+  /**
+   * 锥形渐变的开始角度
+   */
   startAngle?: GradientPropValue<number>;
+  /**
+   * 锥形渐变的结束角度
+   */
   endAngle?: GradientPropValue<number>;
+  /**
+   * 锥形渐变的颜色
+   */
   stops: GradientStop[];
+  /**
+   * 渐变色的类型设置为 'conical'，即锥形渐变
+   */
   gradient: 'conical';
 }
 
@@ -773,10 +932,28 @@ export interface IImageMarkSpec extends IFillMarkSpec {
    * 2. 如果传入数组，则分别为 [上左, 上右, 下右, 下左]
    */
   cornerRadius?: number | number[];
+  /**
+   * 图片的宽度
+   */
   width?: number;
+  /**
+   * 图片的高度
+   */
   height?: number;
+  /**
+   * 当图片的宽度小于 width 时，图片的重复方式
+   */
   repeatX?: IRepeatType;
+  /**
+   * 当图片的高度小于 height 时，图片的重复方式
+   */
   repeatY?: IRepeatType;
+  /**
+   * 设置图片的内容，支持三种类型：
+   * 1. string类型，可以是图片资源的路径或者是svg 标签字符串
+   * 2. image 元素
+   * 3. canvas 元素
+   */
   image: string | HTMLImageElement | HTMLCanvasElement;
 }
 
