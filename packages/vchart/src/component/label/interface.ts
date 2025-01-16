@@ -82,9 +82,13 @@ export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
    * @since 1.3.0
    */
   customOverlapFunc?: BaseLabelAttrs['customOverlapFunc'];
-  /** 标签布局 */
+  /**
+   * 标签布局
+   */
   labelLayout?: 'series' | 'region';
-  /** 是否支持3D */
+  /**
+   * 是否支持3D
+   */
   support3d?: boolean;
   /**
    * 是否同步数据图元的状态变化

@@ -8,6 +8,7 @@ import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../m
 import type { IMultiLabelSpec, ILabelSpec } from '../../component/label/interface';
 import type { DirectionType } from '../../typings/space';
 
+type AreaMarks = 'point' | 'line' | 'area';
 export interface IAreaAnimationParams {
   direction: DirectionType;
 }
@@ -16,7 +17,7 @@ export type AreaAppearPreset = 'clipIn' | 'fadeIn' | 'grow';
 
 export interface IAreaSeriesSpec
   extends ICartesianSeriesSpec,
-    IAnimationSpec<string, AreaAppearPreset>,
+    IAnimationSpec<AreaMarks, AreaAppearPreset>,
     IMarkProgressiveConfig,
     IDataSamping,
     IMarkOverlap {
@@ -50,6 +51,9 @@ export interface IAreaSeriesSpec
    */
   [SeriesMarkNameEnum.label]?: IMultiLabelSpec<
     Omit<ILineLikeLabelSpec, 'position'> & {
+      /**
+       * 标签位置，面积图元支持的标签位置
+       * */
       position:
         | 'top'
         | 'bottom'
@@ -68,6 +72,11 @@ export interface IAreaSeriesSpec
    * @since 1.7.0
    */
   [SeriesMarkNameEnum.areaLabel]?: Omit<ILabelSpec, 'position'> & {
+    /**
+     * 面积图元标签的位置配置，支持两种位置：
+     * - start：面积图元的起点
+     * - end：面积图元的终点
+     */
     position?: 'start' | 'end';
   };
   /**

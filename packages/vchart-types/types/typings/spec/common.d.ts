@@ -1,5 +1,5 @@
 import type { IVChart } from './../../core/interface';
-import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
+import type { IImageMarkSpec } from '../visual';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type { DataSet, DataView, ISimplifyOptions, IFieldsOptions, IFilterOptions, IFoldOptions, IDsvParserOptions } from '@visactor/vdataset';
@@ -9,7 +9,6 @@ import type { IRenderOption } from '../../compile/interface';
 import type { ISeriesTooltipSpec, ITooltipSpec } from '../../component/tooltip/interface';
 import type { ILayoutSpec } from '../../layout/interface';
 import type { ConvertToMarkStyleSpec, IArc3dMarkSpec, IArcMarkSpec, IAreaMarkSpec, IBoxPlotMarkSpec, ICommonSpec, IGroupMarkSpec, ILineMarkSpec, ILinkPathMarkSpec, IPathMarkSpec, IPolygonMarkSpec, IPyramid3dMarkSpec, IRect3dMarkSpec, IRectMarkSpec, IRuleMarkSpec, ISymbolMarkSpec, IRippleMarkSpec, ITextMarkSpec, IVisualSpecScale } from '../visual';
-import type { StateValue } from '../../compile/mark/interface';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
 import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
@@ -90,11 +89,7 @@ export interface IChartSpec {
     stackSort?: boolean;
     media?: IMediaQuerySpec;
 }
-export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
-    image?: IRectMarkSpec['background'];
-    cornerRadius?: IRectMarkSpec['cornerRadius'];
-};
-export type IBackgroundSpec = IColor | IBackgroundStyleSpec;
+export type IBackgroundSpec = IColor | ConvertToMarkStyleSpec<IGroupMarkSpec>;
 export type IDataType = IDataValues | DataView;
 export type IData = IDataType | IDataType[];
 export type DataKeyType = string | string[] | ((data: Datum, index: number) => string);
@@ -175,13 +170,20 @@ export type AdaptiveSpec<T, K extends keyof any> = {
 } & {
     [key in K]: any;
 };
+export interface IMarkStateFullSpec<T> extends Record<string, IMarkStateSpec<T> | IMarkStateStyleSpec<T>> {
+    normal?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+    hover?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+    hover_reverse?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+    selected?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+    selected_reverse?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+}
 export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
     id?: StringOrNumber;
     interactive?: boolean;
     zIndex?: number;
     visible?: boolean;
     style?: ConvertToMarkStyleSpec<T>;
-    state?: Record<StateValue, IMarkStateSpec<T> | IMarkStateStyleSpec<T>>;
+    state?: IMarkStateFullSpec<T>;
     stateSort?: (stateA: string, stateB: string) => number;
     support3d?: boolean;
     customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
@@ -205,10 +207,17 @@ export interface IMarkStateSpec<T> {
     style: ConvertToMarkStyleSpec<T>;
 }
 export type IMarkStateStyleSpec<T> = ConvertToMarkStyleSpec<T>;
+export interface IMarkStateTheme<T> extends Record<string, T> {
+    normal?: T;
+    hover?: T;
+    hover_reverse?: T;
+    selected?: T;
+    selected_reverse?: T;
+}
 export type IMarkTheme<T> = {
     visible?: boolean;
     style?: T;
-    state?: Record<StateValue, T>;
+    state?: IMarkStateTheme<T>;
     interactive?: boolean;
 };
 export interface IPerformanceHook {

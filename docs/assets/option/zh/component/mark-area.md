@@ -158,6 +158,15 @@ y 轴上的标注区域边界，与 markArea.y 共同构造标注区域。可以
 - `'insideRight'`: 区域内部右侧
 - `'insideTop'`: 区域内部上侧
 - `'insideBottom'`: 区域内部下侧
+  自 1.13.4 版本支持:
+- `'topLeft'`: 区域外侧左上侧,
+- `'topRight'`: 区域外侧右上侧,
+- `'bottomLeft'`: 区域外侧左下侧,
+- `'bottomRight'`: 区域外侧右下侧,
+- `'insideTopLeft'`: 区域内侧左上侧,
+- `'insideTopRight'`: 区域内侧右上侧,
+- `'insideBottomLeft'`: 区域内侧右上侧,
+- `'insideBottomRight'`: 区域内侧右下侧
 
 极坐标系下:
 

@@ -8,7 +8,7 @@ export interface ILinearProgressAnimationParams {
     direction: DirectionType;
 }
 export type LinearProgressAppearPreset = 'grow' | 'fadeIn';
-export interface ILinearProgressSeriesSpec extends IProgressSeriesSpec, IAnimationSpec<string, LinearProgressAppearPreset> {
+export interface ILinearProgressSeriesSpec extends IProgressSeriesSpec, IAnimationSpec<SeriesMarkNameEnum.progress | SeriesMarkNameEnum.track, LinearProgressAppearPreset> {
     type: 'linearProgress';
     xField: string | string[];
     yField: string | string[];

@@ -4,7 +4,7 @@ import { MobileTrigger } from './mobile';
 export declare function getDefaultTriggerEventByMode(mode: RenderMode): {
     start: string;
     move: string;
-    end: string;
+    end: string[];
     zoom: string;
     zoomEnd: string;
     scroll: string;
@@ -13,7 +13,7 @@ export declare function getDefaultTriggerEventByMode(mode: RenderMode): {
 } | {
     start: string;
     move: string;
-    end: string;
+    end: string[];
     zoom: string;
     zoomEnd: string;
     scroll: string;
