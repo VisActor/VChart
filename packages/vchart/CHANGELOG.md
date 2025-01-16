@@ -1,6 +1,25 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 07 Jan 2025 10:21:06 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Jan 2025 07:01:11 GMT and should not be manually modified.
+
+## 1.13.4
+Thu, 16 Jan 2025 07:01:11 GMT
+
+### Updates
+
+- fix: fix error of tooltip about `showDelay`, fix #3663
+
+
+- fix: fix offset of tooltip, fix #3666
+
+
+- fix: fix bug of parse lineHeight of tooltip row, fix #3643
+
+
+- feat: add wordCloudConfig in _wordCloudTransformOption()
+- fix: axis break's scope calculate error, fix#3656
+- fix: fix the issue where map drag interaction cannot be terminated outside the canvas, #3650
+- fix: fix the issue where map drag interaction cannot be terminated outside the canvas.
 
 ## 1.13.3
 Tue, 07 Jan 2025 10:21:06 GMT
