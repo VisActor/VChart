@@ -2,22 +2,24 @@
 category: examples
 group: pictogram chart
 title: 商场业态示意图
-keywords: pictogramChart, space
-order: 26-0
-cover: /vchart/preview/pictogram-mall_1.13.0.png
+keywords: pictogramChart
+order: 26-5
+cover: https://github.com/EchoChenGithub/images/blob/main/mall_map.png
 option: pictogramChart
 ---
 
-# 象形图-商场业态示意图
+# 象形图-商场业态结构图
 
-象形图是一种数据可视化形式，它通过使用图形符号（通常是 SVG 格式）来表示数据中的具体值或类别。这种图表结合了图形艺术和数据分析，使得信息更具视觉吸引力和直观性。
+商场业态结构图展示了商场中不同业态的分布情况。每个业态都被表示为一个特定的形状，形状的颜色表示业态的类型。 通过使用象形图，我们可以快速了解商场的布局和业态分布情况，为商场运营和管理提供参考。 鼠标悬停在图例上，可以显示具体某个业态的分布；鼠标悬停在图的形状上，可以显示该形状对应的店铺名称。
+
 
 ## 关键配置
 
 - 在 SVG 文件中，为图元配置 `name` 属性，则在图表配置中可以通过 `name` 配置指定图元样式；
 - 通过 `VChart.registerSVG` 接口来注册 svg 资源；
 - `svg` 属性声明为注册的 svg 名称；
-- 使用 `tooltip` 配置来实现鼠标悬停时显示名称。
+- 交互：关闭 `legend` 的 `select` 配置，通过事件监听鼠标悬停图例事件，再通过状态更新 API `updateState` 来实现hover图例项高亮。需要在属性 `pictogram`中设定更新用的`state`。
+- 数据：声明数据，数据格式为 `[{name: 'xxx', category: 'xxx'}]`；
 
 ## Code Demo
 
@@ -30,184 +32,214 @@ option: pictogramChart
 VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
 
-const response = await fetch('https://raw.githubusercontent.com/EchoChenGithub/pictures/refs/heads/main/mallmap-color2.svg');
+// 使用 fetch API 获取 SVG 图形数据
+const response = await fetch('https://raw.githubusercontent.com/EchoChenGithub/images/refs/heads/main/mallmap_withoutcolor.svg');
+// 将响应的文本内容解析为 SVG 图形
 const shape = await response.text();
 
+// 定义商场数据，包含每个店铺的名称和类别
+const mall_data = [
+  { name: 'Starbucks', category: 'food_and_dining' },
+  { name: 'Foot Locker', category: 'apparel_and_shoes' },
+  { name: 'Dave and Busters', category: 'entertainment' },
+  { name: 'Best Buy', category: 'electronics' },
+  { name: 'Kay Jewelers', category: 'jewelry' },
+  { name: 'Target', category: 'shopping' },
+  { name: 'McDonalds', category: 'food_and_dining' },
+  { name: 'Nike Store', category: 'apparel_and_shoes' },
+  { name: 'AMC Theatres', category: 'entertainment' },
+  { name: 'Apple Store', category: 'electronics' },
+  { name: 'Tiffany Co', category: 'jewelry' },
+  { name: "Macy's", category: 'shopping' },
+  { name: 'Chipotle', category: 'food_and_dining' },
+  { name: 'Old Navy', category: 'apparel_and_shoes' },
+  { name: 'Samsung Store', category: 'electronics' },
+  { name: 'Pandora', category: 'jewelry' },
+  { name: 'Walmart', category: 'shopping' },
+  { name: 'Subway', category: 'food_and_dining' },
+  { name: 'Maintenance', category: 'infrastructure' },
+  { name: 'Restroom', category: 'infrastructure' },
+  { name: 'Management', category: 'infrastructure' },
+  { name: 'Adidas Store', category: 'apparel_and_shoes' },
+  { name: 'Round 1', category: 'entertainment' },
+  { name: 'HP Store', category: 'electronics' },
+  { name: 'Zales Jewelers', category: 'jewelry' },
+  { name: 'TJ Maxx', category: 'shopping' },
+  { name: 'Pizza Hut', category: 'food_and_dining' },
+  { name: 'HM', category: 'apparel_and_shoes' },
+  { name: 'Regal Cinemas', category: 'entertainment' },
+  { name: 'Microsoft Store', category: 'electronics' },
+  { name: 'Jared', category: 'jewelry' },
+  { name: "Kohl's", category: 'shopping' },
+  { name: 'Panera Bread', category: 'food_and_dining' },
+  { name: 'Gap', category: 'apparel_and_shoes' },
+  { name: 'Barnes and Noble', category: 'entertainment' },
+  { name: 'Radio Shack', category: 'electronics' },
+  { name: "Claire's", category: 'jewelry' },
+  { name: 'JCPenney Outlet', category: 'shopping' },
+  { name: 'Taco Bell', category: 'food_and_dining' },
+  { name: 'Express', category: 'apparel_and_shoes' },
+  { name: 'Chuck E Cheese', category: 'entertainment' },
+  { name: 'Swarovski', category: 'jewelry' },
+  { name: 'HomeGoods', category: 'shopping' },
+  { name: 'Burger King', category: 'food_and_dining' },
+  { name: 'American Eagle', category: 'apparel_and_shoes' },
+  { name: 'Sky Zone', category: 'entertainment' },
+  { name: 'Verizon', category: 'electronics' },
+  { name: 'Sephora', category: 'jewelry' },
+  { name: 'Best Buy Mobile', category: 'shopping' },
+  { name: 'Five Guys', category: 'food_and_dining' },
+  { name: "Levi's", category: 'apparel_and_shoes' },
+  { name: 'Arcade', category: 'entertainment' },
+  { name: 'GameStop', category: 'electronics' },
+  { name: 'Helzberg Diamonds', category: 'jewelry' },
+  { name: 'Marshalls', category: 'shopping' },
+  { name: 'Chick-fil-A', category: 'food_and_dining' },
+  { name: 'Banana Republic', category: 'apparel_and_shoes' },
+  { name: 'Main Event', category: 'entertainment' },
+  { name: 'Frys Electronics', category: 'electronics' },
+  { name: 'JCPenney Jewelers', category: 'jewelry' },
+  { name: 'Burlington', category: 'shopping' },
+  { name: 'Dunkin Donuts', category: 'food_and_dining' },
+  { name: 'Forever 21', category: 'shopping' },
+  { name: 'Mall Kiosk 1', category: 'shopping' },
+  { name: 'Mall Kiosk 2', category: 'food_and_dining' },
+  { name: 'Mall Kiosk 3', category: 'apparel_and_shoes' },
+  { name: 'Mall Kiosk 4', category: 'entertainment' },
+  { name: 'Mall Kiosk 5', category: 'electronics' },
+  { name: 'Mall Kiosk 6', category: 'jewelry' },
+  { name: 'Mall Kiosk 7', category: 'shopping' },
+  { name: 'JCPenney', category: 'apparel_and_shoes' },
+  { name: 'Belk', category: 'apparel_and_shoes' },
+  { name: 'Bealls', category: 'apparel_and_shoes' },
+  { name: 'Kmart', category: 'shopping' },
+  { name: 'AMC Theatres', category: 'entertainment' },
+  { name: 'Sears', category: 'shopping' }
+]
+
+// 定义图表配置对象
 const spec = {
-    type: 'pictogram',
-    data: {
-        id: 'data',
-        values: [
-          { name: 'Starbucks', value: 'food_and_dining' },
-          { name: 'Foot Locker', value: 'apparel_and_shoes' },
-          { name: 'Dave and Busters', value: 'entertainment' },
-          { name: 'Best Buy', value: 'electronics' },
-          { name: 'Kay Jewelers', value: 'jewelry' },
-          { name: 'Target', value: 'shopping' },
-          { name: 'McDonalds', value: 'food_and_dining' },
-          { name: 'Nike Store', value: 'apparel_and_shoes' },
-          { name: 'AMC Theatres', value: 'entertainment' },
-          { name: 'Apple Store', value: 'electronics' },
-          { name: 'Tiffany Co', value: 'jewelry' },
-          { name: "Macy's", value: 'shopping' },
-          { name: 'Chipotle', value: 'food_and_dining' },
-          { name: 'Old Navy', value: 'apparel_and_shoes' },
-          { name: 'GameStop', value: 'entertainment' },
-          { name: 'Samsung Store', value: 'electronics' },
-          { name: 'Pandora', value: 'jewelry' },
-          { name: 'Walmart', value: 'shopping' },
-          { name: 'Subway', value: 'food_and_dining' },
-          { name: 'Maintenance', value: 'infrastructure' },
-          { name: 'Restroom', value: 'infrastructure' },
-          { name: 'Management', value: 'infrastructure' },
-          { name: 'Adidas Store', value: 'apparel_and_shoes' },
-          { name: 'Round 1', value: 'entertainment' },
-          { name: 'HP Store', value: 'electronics' },
-          { name: 'Zales Jewelers', value: 'jewelry' },
-          { name: 'TJ Maxx', value: 'shopping' },
-          { name: 'Pizza Hut', value: 'food_and_dining' },
-          { name: 'HM', value: 'apparel_and_shoes' },
-          { name: 'Regal Cinemas', value: 'entertainment' },
-          { name: 'Microsoft Store', value: 'electronics' },
-          { name: 'Jared', value: 'jewelry' },
-          { name: "Kohl's", value: 'shopping' },
-          { name: 'Panera Bread', value: 'food_and_dining' },
-          { name: 'Gap', value: 'apparel_and_shoes' },
-          { name: 'Barnes and Noble', value: 'entertainment' },
-          { name: 'Radio Shack', value: 'electronics' },
-          { name: "Claire's", value: 'jewelry' },
-          { name: 'JCPenney Outlet', value: 'shopping' },
-          { name: 'Taco Bell', value: 'food_and_dining' },
-          { name: 'Express', value: 'apparel_and_shoes' },
-          { name: 'Chuck E Cheese', value: 'entertainment' },
-          { name: 'GameStop', value: 'electronics' },
-          { name: 'Swarovski', value: 'jewelry' },
-          { name: 'HomeGoods', value: 'shopping' },
-          { name: 'Burger King', value: 'food_and_dining' },
-          { name: 'American Eagle', value: 'apparel_and_shoes' },
-          { name: 'Sky Zone', value: 'entertainment' },
-          { name: 'Verizon', value: 'electronics' },
-          { name: 'Sephora', value: 'jewelry' },
-          { name: 'Best Buy Mobile', value: 'shopping' },
-          { name: 'Five Guys', value: 'food_and_dining' },
-          { name: "Levi's", value: 'apparel_and_shoes' },
-          { name: 'Arcade', value: 'entertainment' },
-          { name: 'GameStop', value: 'electronics' },
-          { name: 'Helzberg Diamonds', value: 'jewelry' },
-          { name: 'Marshalls', value: 'shopping' },
-          { name: 'Chick-fil-A', value: 'food_and_dining' },
-          { name: 'Banana Republic', value: 'apparel_and_shoes' },
-          { name: 'Main Event', value: 'entertainment' },
-          { name: 'Frys Electronics', value: 'electronics' },
-          { name: 'JCPenney Jewelers', value: 'jewelry' },
-          { name: 'Burlington', value: 'shopping' },
-          { name: 'Dunkin Donuts', value: 'food_and_dining' },
-          { name: 'Forever 21', value: 'shopping' },
-          { name: 'Mall Kiosk 1', value: 'shopping' },
-          { name: 'Mall Kiosk 2', value: 'food_and_dining' },
-          { name: 'Mall Kiosk 3', value: 'apparel_and_shoes' },
-          { name: 'Mall Kiosk 4', value: 'entertainment' },
-          { name: 'Mall Kiosk 5', value: 'electronics' },
-          { name: 'Mall Kiosk 6', value: 'jewelry' },
-          { name: 'Mall Kiosk 7', value: 'shopping' },
-          { name: 'JCPenney', value: 'apparel_and_shoes' },
-          { name: 'Belk', value: 'apparel_and_shoes' },
-          { name: 'Bealls', value: 'apparel_and_shoes' },
-          { name: 'Kmart', value: 'shopping' },
-          { name: 'AMC Theatres', value: 'entertainment' },
-          { name: 'Sears', value: 'shopping' }
-        ]
-      },
-    color: {
-        specified: {
-          food_and_dining: '#A52A2A',   //  棕红色 (Brown Red)
-          apparel_and_shoes: '#228B22',  //  森林绿 (Forest Green)
-          entertainment: '#4682B4',   // 钢青色 (Steel Blue)
-          jewelry: '#9400D3',        // 深紫罗兰 (Dark Violet)
-          electronics: '#DAA520', // 金麒麟色 (Goldenrod)
-          shopping: '#008B8B',    // 深青色 (Dark Cyan)
-          infrastructure: '#556B2F',  // 暗橄榄绿 (Dark Olive Green)
-          undefined: 'white',
-        },
-        field: 'value'
-      },
-    seriesField: 'value',
-    nameField: 'name',
-    svg: 'mall',
-    pictogram: {
-        style: {
-          fill: {
-            scale: 'color',
-            field: 'value'
-          }
-        },
-        state: {
-            legend_hover_reverse: {
-                fill: '#ccc',
-            }
-        }
-      },
-
-    title: {
-        text: 'Shopping Mall Tenant Layout'
+  // 图表类型为象形图
+  type: 'pictogram',
+  data: {
+    // 数据的唯一标识符
+    id: 'data',
+    // 数据的值
+    values: mall_data,
+  },
+  color: {
+    specified: {
+      // 餐饮类别的颜色为棕红色
+      food_and_dining: '#A52A2A',
+      // 服装鞋类别的颜色为森林绿
+      apparel_and_shoes: '#228B22',
+      // 娱乐类别的颜色为钢青色
+      entertainment: '#4682B4',
+      // 珠宝类别的颜色为深紫罗兰
+      jewelry: '#9400D3',
+      // 电子类别的颜色为金麒麟色
+      electronics: '#DAA520',
+      // 购物类别的颜色为深青色
+      shopping: '#008B8B',
+      // 基础设施类别的颜色为暗橄榄绿
+      infrastructure: '#556B2F',
+      // 未定义类别的颜色为白色
+      undefined: 'white',
     },
-    legends: [
-        {
-          orient: 'top',
-          position: 'middle',
-          padding: {
-            bottom: 12
-          },
-          visible: true,
-          field: 'value',
-          filter: false,
-            select: false,
+    // 颜色映射的字段为类别
+    field: 'category'
+  },
+  // 系列字段为类别
+  seriesField: 'category',
+  // 名称字段为名称
+  nameField: 'name',
+  // 使用的 SVG 图形名称为 mall
+  svg: 'mall',
+  pictogram: {
+    style: {
+      fill: {
+        // 填充颜色使用 color 颜色映射，字段为类别
+        scale: 'color',
+        field: 'category'
+      }
+    },
+    state: {
+      // 图例悬停时的填充颜色为灰色
+      legend_hover_reverse: {
+        fill: '#ccc',
+      }
+    }
+  },
+  // 图表标题
+  title: {
+    text: 'Shopping Mall Tenant Layout'
+  },
+  legends: [
+    {
+      orient: 'top',
+      position: 'middle',
+      padding: {
+        bottom: 12
+      },
+      visible: true,
+      field: 'category',
+      filter: false,
+      select: false,
 
-          data: items => {
-            return items.map(item => {
-              item.shape.outerBorder = {
-                stroke: item.shape.fill,
-                distance: 2,
-                lineWidth: 1
-              };
-
-              return item;
-            });
-          },
-        }
-      ],
-
+      data: items => {
+        return items.map(item => {
+          item.shape.outerBorder = {
+            stroke: item.shape.fill,
+            distance: 2,
+            lineWidth: 1
+          };
+          return item;
+        });
+      },
+    }
+  ],
 };
 
+// 注册 SVG 图形资源，名称为 mall，图形数据为 shape
 VChart.registerSVG('mall', shape);
 
+// 创建 VChart 实例，传入图表配置对象和容器 ID
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 
+// 监听图例项悬停事件
 vchart.on('legendItemHover', e => {
-    const hoveredName = e?.value?.data?.label;
-    if (hoveredName) {
-        vchart.updateState({
-            legend_hover_reverse: {
-                filter: d => {
-                    // True - Grey
-                    return d.data?.value && d.data.value !== hoveredName;
-                }
-            }
-        });
-    }
-});
-vchart.on('legendItemUnHover', e => {
+  // 获取悬停的图例项名称
+  const hoveredName = e?.value?.data?.label;
+  if (hoveredName) {
+    // 更新图表状态，将未悬停的图例项颜色设置为灰色
     vchart.updateState({
-        legend_hover_reverse: {
-            filter: d => false
+      legend_hover_reverse: {
+        filter: d => {
+          // 查找当前数据项的类别
+          const category = mall_data.find(mall_data => mall_data.name === d.data?.name)?.category;
+          // 如果类别存在且不等于悬停的图例项名称，则返回 true，否则返回 false
+          return category && category !== hoveredName;
         }
+      }
     });
+  }
 });
 
+// 监听图例项取消悬停事件
+vchart.on('legendItemUnHover', e => {
+  // 更新图表状态，将所有图例项颜色恢复为原始颜色
+  vchart.updateState({
+    legend_hover_reverse: {
+      filter: d => false
+    }
+  });
+});
+
+// 渲染图表
 vchart.renderSync();
 
 ```
 
-## Related Tutorials
+## 相关教程
 
-[PictogramChart](link)
+[象形图](link)
