@@ -1,12 +1,7 @@
 import type { IAxis } from '../../../../component/axis';
-import type { AxisCurrentValueMap } from '../../../../component/crosshair';
-import type { IHair } from '../../../../component/crosshair/base';
-import { LayoutType } from '../../../../component/crosshair/config';
-import {
-  layoutByValue,
-  layoutHorizontalCrosshair,
-  layoutVerticalCrosshair
-} from '../../../../component/crosshair/utils/cartesian';
+import type { AxisCurrentValueMap, CrossHairStateByField } from '../../../../component/crosshair';
+
+import { layoutByValue, layoutCrosshair } from '../../../../component/crosshair/utils/cartesian';
 import type { IDimensionData } from '../../../../event';
 import type { ICartesianSeries } from '../../../../series';
 import { Direction, type ILayoutPoint } from '../../../../typings';
@@ -87,33 +82,38 @@ export const getCartesianCrosshairRect = (dimensionData: IDimensionData, layoutS
     return undefined;
   }
   (isHorizontal ? currValueY : currValueX).set(axis.getSpecIndex(), {
-    value: series.getDatumPositionValues(datum[0], series.getDimensionField())?.[0],
+    datum: series.getDatumPositionValues(datum[0], series.getDimensionField())?.[0],
     axis
   });
 
-  const xHair: IHair = {
-    visible: !!currValueX.size,
-    type: 'rect'
-  };
-  const yHair: IHair = {
-    visible: !!currValueY.size,
-    type: 'rect'
+  const state: CrossHairStateByField = {
+    xField: {
+      coordKey: 'x',
+      anotherAxisKey: 'y',
+      currentValue: currValueX,
+      attributes: {
+        visible: !!currValueX.size,
+        type: 'rect'
+      }
+    },
+    yField: {
+      coordKey: 'y',
+      anotherAxisKey: 'x',
+      currentValue: currValueY,
+      attributes: {
+        visible: !!currValueY.size,
+        type: 'rect'
+      }
+    }
   };
 
-  const {
-    x: crosshairInfoX,
-    y: crosshairInfoY,
-    offsetWidth,
-    offsetHeight,
-    bandWidth,
-    bandHeight
-  } = layoutByValue(LayoutType.ALL, series as ICartesianSeries, layoutStartPoint, currValueX, currValueY, xHair, yHair);
+  layoutByValue(state, series as ICartesianSeries, layoutStartPoint);
 
-  if (crosshairInfoX) {
-    return layoutVerticalCrosshair(xHair, crosshairInfoX, bandWidth, offsetWidth);
+  if (state.xField.cacheInfo) {
+    return layoutCrosshair(state.xField);
   }
-  if (crosshairInfoY) {
-    return layoutHorizontalCrosshair(yHair, crosshairInfoY, bandHeight, offsetHeight);
+  if (state.yField.cacheInfo) {
+    return layoutCrosshair(state.yField);
   }
   return undefined;
 };
