@@ -2,6 +2,36 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.4",
+      "tag": "@visactor/vchart_v1.13.4",
+      "date": "Thu, 16 Jan 2025 07:01:11 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix error of tooltip about `showDelay`, fix #3663\n\n"
+          },
+          {
+            "comment": "fix: fix offset of tooltip, fix #3666\n\n"
+          },
+          {
+            "comment": "fix: fix bug of parse lineHeight of tooltip row, fix #3643\n\n"
+          },
+          {
+            "comment": "feat: add wordCloudConfig in _wordCloudTransformOption()"
+          },
+          {
+            "comment": "fix: axis break's scope calculate error, fix#3656"
+          },
+          {
+            "comment": "fix: fix the issue where map drag interaction cannot be terminated outside the canvas, #3650"
+          },
+          {
+            "comment": "fix: fix the issue where map drag interaction cannot be terminated outside the canvas."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.3",
       "tag": "@visactor/vchart_v1.13.3",
       "date": "Tue, 07 Jan 2025 10:21:06 GMT",

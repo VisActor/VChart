@@ -1,6 +1,7 @@
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
 export declare const getPixelPropertyStr: (num?: number | number[], defaultStr?: string) => string;
-export declare const getTextStyle: (style?: ITooltipTextTheme) => Partial<CSSStyleDeclaration>;
+export declare const getTextStyle: (style?: ITooltipTextTheme, textStyle?: Partial<CSSStyleDeclaration>) => Partial<CSSStyleDeclaration>;
+export declare const getLineHeight: (style?: ITooltipTextTheme) => number;
 export declare const getDomStyle: (spec?: ITooltipSpec) => {
     panelPadding: number[];
     row: Partial<CSSStyleDeclaration>;
