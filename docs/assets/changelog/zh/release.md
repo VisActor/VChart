@@ -1,3 +1,25 @@
+# v1.13.4
+
+2025-01-17
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: add wordCloudConfig in _wordCloudTransformOption()
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: fix error of tooltip about `showDelay`, fix [#3663](https://github.com/VisActor/VChart/issues/3663)
+- **@visactor/vchart**: fix offset of tooltip, fix [#3666](https://github.com/VisActor/VChart/issues/3666)
+- **@visactor/vchart**: fix bug of parse lineHeight of tooltip row, fix [#3643](https://github.com/VisActor/VChart/issues/3643)
+- **@visactor/vchart**: axis break's scope calculate error, fix[#3656](https://github.com/VisActor/VChart/issues/3656)
+- **@visactor/vchart**: fix the issue where map drag interaction cannot be terminated outside the canvas, [#3650](https://github.com/VisActor/VChart/issues/3650)
+- **@visactor/vchart**: fix the issue where map drag interaction cannot be terminated outside the canvas.
+
+
+
+[更多详情请查看 v1.13.4](https://github.com/VisActor/VChart/releases/tag/v1.13.4)
+
 # v1.13.3
 
 2025-01-08
