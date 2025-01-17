@@ -173,7 +173,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
 
   private _layoutByField(fieldName: string) {
     const { cacheInfo, attributes, crosshairComp, labelsComp, coordKey } = this._stateByField[fieldName];
-    if (cacheInfo._isCache && this.enableRemain) {
+    if (!cacheInfo || (cacheInfo._isCache && this.enableRemain)) {
       return;
     }
 

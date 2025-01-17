@@ -178,7 +178,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
 
   private _layoutByField(field: string) {
     const { cacheInfo, attributes, labelsComp, bandSize, coordKey } = this._stateByField[field];
-    if ((cacheInfo._isCache && this.enableRemain) || !attributes) {
+    if (!attributes || !cacheInfo || (cacheInfo._isCache && this.enableRemain)) {
       return;
     }
 
