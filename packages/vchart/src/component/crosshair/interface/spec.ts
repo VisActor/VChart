@@ -15,8 +15,13 @@ export type CrossHairTrigger = 'click' | 'hover' | ['click', 'hover'];
 
 export interface ICommonCrosshairSpec extends IComponentSpec {
   /**
-   * 是否和tooltip保持同步
+   * 是否和tooltip保持同步，默认为false
    * tooltip出现的时候crosshair出现；tooltip隐藏的时候crsshair隐藏；
+   * 默认只要有tooltip显示，都会显示crosshair
+   * 也可以通过设置 followTooltip.dimension 为 `false` 来实现显示dimension tooltip的时候不显示crosshair
+   * 设置 followTooltip.mark 为 `false` 来实现显示mark tooltip的时候不显示crosshair
+   * 设置 followTooltip.group 为 `false` 来实现显示group tooltip的时候不显示crosshair
+   *
    * @since 1.11.1
    */
   followTooltip?: boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>;
@@ -110,11 +115,11 @@ export type ICrosshairRectStyle = ICrosshairLineStyle & Pick<IRectMarkSpec, 'fil
 
 export interface ICrosshairLineSpec {
   /**
-   * 是否显示
+   * 是否显示辅助图形
    */
   visible?: boolean;
   /**
-   * 辅助图形的类型
+   * 辅助图形的类型设置为'line'
    */
   type?: 'line';
   /**
@@ -122,7 +127,9 @@ export interface ICrosshairLineSpec {
    * @default 2
    */
   width?: number;
-  /** 极坐标系下是否平滑 */
+  /**
+   * 极坐标系下是否平滑
+   */
   smooth?: boolean;
   /**
    * 辅助图形的样式配置
@@ -133,7 +140,13 @@ export interface ICrosshairLineSpec {
 export type ICrosshairRectWidthCallback = (axisSize: { width: number; height: number }, axis: IAxis) => number;
 
 export interface ICrosshairRectSpec {
+  /**
+   * 是否显示辅助图形
+   */
   visible?: boolean;
+  /**
+   * 辅助图形的类型设置为'rect'
+   */
   type?: 'rect';
   /**
    * 字符串xx%表示此处是内容区间的百分比，数字表示宽度像素，
@@ -141,10 +154,16 @@ export interface ICrosshairRectSpec {
    * @default '100%''
    */
   width?: number | string | ICrosshairRectWidthCallback;
+  /**
+   * 辅助图形的样式配置
+   */
   style?: ICrosshairRectStyle;
 }
 
 export interface ICrosshairLabelSpec {
+  /**
+   * 十字准星辅助标签是否展示
+   */
   visible?: boolean;
   /**
    * label 文本格式化方法
@@ -186,6 +205,9 @@ export interface ICrosshairLabelBackgroundSpec {
    * 内部边距
    */
   padding?: IPadding | number | number[];
+  /**
+   * 标签背景的样式配置
+   */
   style?: Partial<IRectMarkSpec>;
 }
 

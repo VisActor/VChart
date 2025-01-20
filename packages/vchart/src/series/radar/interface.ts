@@ -58,5 +58,8 @@ export interface IRadarSeriesSpec
 }
 
 export interface IRadarSeriesTheme extends IRoseLikeSeriesTheme, ILineLikeSeriesTheme {
+  /**
+   * 面积图元的主题样式配置
+   */
   [SeriesMarkNameEnum.area]?: Partial<IMarkTheme<IAreaMarkSpec>>;
 }

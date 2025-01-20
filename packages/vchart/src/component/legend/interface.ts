@@ -67,12 +67,24 @@ export type ILegendCommonSpec = {
    */
   visible?: boolean;
   /**
-   * 图例位置
+   * 图例的位置，相对于region区域的四个方位，
+   * left - 图例在左侧
+   * right - 图例在右侧
+   * top - 图例在上方
+   * bottom - 图例在下方
    * @default 'left'
    */
   orient?: IOrientType;
   /**
-   * 图例在当前行列的对齐方式，起始 | 居中 | 末尾
+   * 图例在当前行或者列的对齐方式，起始 | 居中 | 末尾，
+   * 对于orient为'left'或者'right'的图例，
+   * start - 图例在左侧
+   * middle - 图例居中
+   * end - 图例在右侧
+   * 对于orient为'top'或者'bottom'的图例，
+   * start - 图例在上方
+   * middle - 图例居中
+   * end - 图例在下方
    * @default 'middle'
    */
   position?: 'start' | 'middle' | 'end';

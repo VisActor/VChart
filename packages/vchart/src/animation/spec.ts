@@ -2,11 +2,7 @@ import type { IAnimationConfig, IStateAnimationConfig } from '@visactor/vgrammar
 import type { EasingType } from '@visactor/vrender-core';
 export type { IRunningConfig as IMorphConfig, IMorphAnimationConfig } from '@visactor/vgrammar-core';
 
-export type IStateAnimateSpec<Preset extends string> = {
-  /**
-   * 预设动画效果
-   */
-  preset?: Preset | false;
+export interface ICommonStateAnimateSpec {
   /**
    * 图表动画时长
    */
@@ -23,7 +19,14 @@ export type IStateAnimateSpec<Preset extends string> = {
    * 是否轮流执行
    */
   oneByOne?: boolean;
-};
+}
+
+export interface IStateAnimateSpec<Preset extends string> extends ICommonStateAnimateSpec {
+  /**
+   * 预设动画效果
+   */
+  preset?: Preset | false;
+}
 
 export type IMarkAnimateSpec<MarkName extends string> = Partial<
   Record<MarkName, false | IAnimationConfig | IAnimationConfig[]>
@@ -38,19 +41,19 @@ export interface IAnimationSpec<MarkName extends string, Preset extends string> 
   /**
    * 数据更新 - 新增数据动画
    */
-  animationEnter?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
+  animationEnter?: boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>;
   /**
    * 数据更新 - 数据更新动画
    */
-  animationUpdate?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
+  animationUpdate?: boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>;
   /**
    * 数据更新 - 数据删除动画
    */
-  animationExit?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
+  animationExit?: boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>;
   /**
    * 图表退场动画
    */
-  animationDisappear?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
+  animationDisappear?: boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>;
   /**
    * 状态切换动画
    * @since 1.12.0

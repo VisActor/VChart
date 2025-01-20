@@ -7,11 +7,12 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { IMultiLabelSpec, ILabelSpec } from '../../component/label/interface';
 import type { DirectionType } from '../../typings/space';
+type AreaMarks = 'point' | 'line' | 'area';
 export interface IAreaAnimationParams {
     direction: DirectionType;
 }
 export type AreaAppearPreset = 'clipIn' | 'fadeIn' | 'grow';
-export interface IAreaSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<string, AreaAppearPreset>, IMarkProgressiveConfig, IDataSamping, IMarkOverlap {
+export interface IAreaSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<AreaMarks, AreaAppearPreset>, IMarkProgressiveConfig, IDataSamping, IMarkOverlap {
     type: 'area';
     xField?: string | string[];
     yField?: string | string[];
@@ -35,3 +36,4 @@ export interface IAreaSeriesTheme extends ILineLikeSeriesTheme {
     seriesMark?: 'point' | 'line' | 'area';
     activePoint?: boolean;
 }
+export {};

@@ -141,7 +141,13 @@ export interface ILinearAxisSpec {
    * @description 当配置了 min和 max，该配置项失效
    */
   expand?: {
+    /**
+     * 轴范围扩展的最小比例
+     */
     min?: number;
+    /**
+     * 轴范围扩展的最大比例
+     */
     max?: number;
   };
 
