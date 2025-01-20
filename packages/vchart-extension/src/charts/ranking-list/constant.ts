@@ -56,10 +56,22 @@ export const defaultSpec: Omit<IRankingListSpec, 'type' | 'data' | 'xField' | 'y
   },
   pageSize: 5,
   scrollSize: 1,
-  animation: {
-    type: 'both',
-    interval: 4000,
-    duration: 2000,
+  animationAppear: {
+    enable: true,
+    type: 'grow',
+    duration: 1000,
     easing: 'linear'
+  },
+  animationUpdate: {
+    enable: true,
+    type: 'grow',
+    duration: 1000,
+    easing: 'linear'
+  },
+  animationNormal: {
+    // enable: true,
+    // type: 'scroll',
+    interval: 1000
+    // easing: 'linear'
   }
 };

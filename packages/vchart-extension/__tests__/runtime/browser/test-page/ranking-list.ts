@@ -1,18 +1,27 @@
 import { registerRankingList } from '../../../../src';
-import { VChart } from '@visactor/vchart';
 import { GUI } from 'lil-gui';
+import { VChart } from '@visactor/vchart';
 
 const guiObject = {
   name: 'rankingList',
   labelLayout: 'top',
   pageSize: 5,
   scrollSize: 1,
-  animationType: 'both',
-  animationInterval: 4000,
-  animationDuration: 2000,
-  animationEasing: 'linear',
+  // animationType: 'scroll',
+  // animationInterval: 2000,
+  // animationDuration: 1000,
+  // animationEasing: 'linear',
   rankingIconVisible: true,
-  orderLabelVisible: true
+  orderLabelVisible: true,
+  animationAppearEnable: true,
+  animationAppearDuration: 2000,
+  animationAppearEasing: 'linear',
+  animationUpdateEnable: true,
+  animationUpdateDuration: 1000,
+  animationUpdateEasing: 'linear',
+  // animationNormalEnable: true,
+  animationNormalInterval: 1000
+  // animationNormalEasing: 'linear'
 };
 
 const chartData = [
@@ -204,12 +213,6 @@ const spec = {
   scrollSize: guiObject.scrollSize,
   width: 800,
   height: 400,
-  animation: {
-    type: guiObject.animationType,
-    interval: guiObject.animationInterval,
-    duration: guiObject.animationDuration,
-    easing: guiObject.animationEasing
-  },
   // animation: false,
   selected: false,
   barBackground: {
@@ -227,8 +230,36 @@ const spec = {
       trigger: null,
       triggerOff: null
     }
-  ]
-  // animation: false
+  ],
+  animationAppear: {
+    enable: guiObject.animationAppearEnable,
+    type: 'grow',
+    duration: guiObject.animationAppearDuration,
+    easing: guiObject.animationAppearEasing
+  },
+  animationUpdate: {
+    enable: guiObject.animationUpdateEnable,
+    type: 'grow',
+    duration: guiObject.animationUpdateDuration,
+    easing: guiObject.animationUpdateEasing
+  },
+  animationNormal: {
+    enable: guiObject.animationUpdateEnable,
+    interval: guiObject.animationNormalInterval,
+    easing: guiObject.animationUpdateEasing
+  }
+};
+
+const getPageCount = (arr, scrollSize, pageSize) => {
+  let pageOrder = 0;
+  for (let i = 0; i < arr.length; i += scrollSize) {
+    pageOrder++;
+
+    if (i + pageSize - 1 >= arr.length - 1) {
+      break;
+    }
+  }
+  return pageOrder;
 };
 
 const run = () => {
@@ -243,6 +274,77 @@ const run = () => {
   console.time('renderTime');
 
   cs.renderSync();
+
+  const b = document.createElement('button');
+  b.innerHTML = 'updateData';
+  b.style.marginRight = '5px';
+  b.style.marginTop = '5px';
+  b.onclick = () => {
+    cs.updateSpec({
+      ...spec,
+      data: [
+        {
+          y: '吉林xx',
+          x: 60
+        },
+        {
+          y: '内蒙古',
+          x: 30
+        },
+        {
+          y: '河北',
+          x: 20 //
+        },
+        {
+          y: '湖南', //
+          x: 10
+        },
+        {
+          y: '江西',
+          x: 40
+        },
+        {
+          y: '山西',
+          x: 10
+        },
+        {
+          y: '河南',
+          x: 100
+        },
+        {
+          y: '辽宁',
+          x: 10
+        },
+        {
+          y: '山东',
+          x: 10
+        },
+        {
+          y: '湖北',
+          x: 10
+        }
+      ]
+    });
+  };
+  document.getElementById('chart')?.appendChild(b);
+
+  const pageCount = getPageCount(spec.data, guiObject.scrollSize, guiObject.pageSize);
+  const totalDuration = (spec.animationNormal?.interval ?? 1000) + (spec.animationUpdate?.duaration ?? 1000) / 2;
+  setInterval(() => {
+    console.log('cs', pageCount);
+    // cs.updateSpecSync(spec, false, { animation: false });
+    cs.updateSpec(
+      {
+        ...spec,
+        animationAppear: {
+          enable: false
+        }
+      },
+      false,
+      { reuse: false, enableExitAnimation: false },
+      { reMake: true, change: true }
+    );
+  }, pageCount * totalDuration);
 
   // gui
   const gui = new GUI();
@@ -283,28 +385,14 @@ const run = () => {
       }
     );
   });
-  gui.add(guiObject, 'animationType', ['both', 'scroll', 'grow']).onChange(value => {
+
+  gui.add(guiObject, 'animationAppearEnable').onChange(value => {
     cs.updateSpec(
       {
         ...spec,
-        animation: {
-          ...spec.animation,
-          type: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-  gui.add(guiObject, 'animationInterval').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        animation: {
-          ...spec.animation,
-          interval: value
+        animationAppear: {
+          ...spec.animationAppear,
+          enable: value
         }
       },
       false,
@@ -314,12 +402,12 @@ const run = () => {
     );
   });
 
-  gui.add(guiObject, 'animationDuration').onChange(value => {
+  gui.add(guiObject, 'animationAppearDuration').onChange(value => {
     cs.updateSpec(
       {
         ...spec,
-        animation: {
-          ...spec.animation,
+        animationAppear: {
+          ...spec.animationAppear,
           duration: value
         }
       },
@@ -330,12 +418,12 @@ const run = () => {
     );
   });
 
-  gui.add(guiObject, 'animationEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
+  gui.add(guiObject, 'animationAppearEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
     cs.updateSpec(
       {
         ...spec,
-        animation: {
-          ...spec.animation,
+        animationAppear: {
+          ...spec.animationAppear,
           easing: value
         }
       },
@@ -345,6 +433,102 @@ const run = () => {
       }
     );
   });
+
+  gui.add(guiObject, 'animationUpdateEnable').onChange(value => {
+    cs.updateSpec(
+      {
+        ...spec,
+        animationUpdate: {
+          ...spec.animationUpdate,
+          enable: value
+        }
+      },
+      false,
+      {
+        enableExitAnimation: false
+      }
+    );
+  });
+
+  gui.add(guiObject, 'animationUpdateDuration').onChange(value => {
+    cs.updateSpec(
+      {
+        ...spec,
+        animationUpdate: {
+          ...spec.animationUpdate,
+          duration: value
+        }
+      },
+      false,
+      {
+        enableExitAnimation: false
+      }
+    );
+  });
+
+  gui.add(guiObject, 'animationUpdateEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
+    cs.updateSpec(
+      {
+        ...spec,
+        animationUpdate: {
+          ...spec.animationUpdate,
+          easing: value
+        }
+      },
+      false,
+      {
+        enableExitAnimation: false
+      }
+    );
+  });
+
+  // gui.add(guiObject, 'animationNormalEnable').onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       animationNormal: {
+  //         ...spec.animationNormal,
+  //         enable: value
+  //       }
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+
+  gui.add(guiObject, 'animationNormalInterval').onChange(value => {
+    cs.updateSpec(
+      {
+        ...spec,
+        animationNormal: {
+          ...spec.animationNormal,
+          interval: value
+        }
+      },
+      false,
+      {
+        enableExitAnimation: false
+      }
+    );
+  });
+
+  // gui.add(guiObject, 'animationNormalEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       animationNormal: {
+  //         ...spec.animationNormal,
+  //         easing: value
+  //       }
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
   gui.add(guiObject, 'rankingIconVisible').onChange(value => {
     cs.updateSpec(
       {
