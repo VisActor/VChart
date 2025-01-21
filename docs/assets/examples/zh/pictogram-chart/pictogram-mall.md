@@ -2,9 +2,9 @@
 category: examples
 group: pictogram chart
 title: 商场业态示意图
-keywords: pictogramChart
+keywords: pictogramChart, interaction
 order: 26-5
-cover: https://github.com/EchoChenGithub/images/blob/main/mall_map.png
+cover: https://cdn.jsdelivr.net/gh/EchoChenGithub/images/mall_map.gif
 option: pictogramChart
 ---
 
@@ -21,19 +21,21 @@ option: pictogramChart
 - 交互：关闭 `legend` 的 `select` 配置，通过事件监听鼠标悬停图例事件，再通过状态更新 API `updateState` 来实现hover图例项高亮。需要在属性 `pictogram`中设定更新用的`state`。
 - 数据：声明数据，数据格式为 `[{name: 'xxx', category: 'xxx'}]`；
 
-## Code Demo
+## 代码演示
 
 ```javascript livedemo
-/** --Add the following code when using in business context-- */
-// When using in business context, please additionally import
+/** --在业务中使用时请添加以下代码-- */
+// 在业务中使用时, 请额外引入 registerPictogramChart 并执行
 // import { registerPictogramChart } from '@visactor/vchart';
 // registerPictogramChart();
-/** --Add the above code when using in business context-- */
+/** --在业务中使用时请添加以上代码-- */
+
+/** --在业务中使用时请删除以下代码-- */
 VCHART_MODULE.registerPictogramChart();
-/** --Delete the above code when using in business context-- */
+/** --在业务中使用时请删除以上代码-- */
 
 // 使用 fetch API 获取 SVG 图形数据
-const response = await fetch('https://raw.githubusercontent.com/EchoChenGithub/images/refs/heads/main/mallmap_withoutcolor.svg');
+const response = await fetch('https://cdn.jsdelivr.net/gh/EchoChenGithub/images/mallmap_withoutcolor.svg');
 // 将响应的文本内容解析为 SVG 图形
 const shape = await response.text();
 
@@ -237,6 +239,9 @@ vchart.on('legendItemUnHover', e => {
 
 // 渲染图表
 vchart.renderSync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
 
 ```
 

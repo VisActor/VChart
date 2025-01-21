@@ -4,7 +4,7 @@ group: pictogram chart
 title: SVG Shopping Mall Tenant Layout
 keywords: pictogramChart
 order: 26-5
-cover: https://github.com/EchoChenGithub/images/blob/main/mall_map.png
+cover: https://cdn.jsdelivr.net/gh/EchoChenGithub/images/mall_map.gif
 option: pictogramChart
 ---
 
@@ -23,7 +23,7 @@ Shopping Mall Tenant Layout pictogram displays the distribution of different bus
 
 ```javascript livedemo
 // Use the fetch API to get SVG graphic data
-const response = await fetch('https://raw.githubusercontent.com/EchoChenGithub/images/refs/heads/main/mallmap_withoutcolor.svg');
+const response = await fetch('https://cdn.jsdelivr.net/gh/EchoChenGithub/images/mallmap_withoutcolor.svg');
 // Parse the response text content into an SVG graphic
 const shape = await response.text();
 
