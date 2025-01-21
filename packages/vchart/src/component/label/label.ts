@@ -11,7 +11,7 @@ import type { IComponentMark, ILabelMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { eachSeries } from '../../util/model';
-import type { ISeries } from '../../series/interface';
+import type { ISeries, SeriesMarkNameEnum } from '../../series/interface';
 import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
@@ -29,6 +29,7 @@ import { registerLabelMark } from '../../mark/label';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';
 import { LabelSpecTransformer } from './label-transformer';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
   static type = ComponentTypeEnum.label;
@@ -141,7 +142,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         if (!mark) {
           continue;
         }
-        markLabelSpec[markName].forEach((spec: TransformedLabelSpec, index: number) => {
+        markLabelSpec[markName as SeriesMarkNameEnum].forEach((spec: TransformedLabelSpec, index: number) => {
           if (spec.visible) {
             const info = this._labelInfoMap.get(region);
             const labelMark = this._createMark(
@@ -151,6 +152,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
               },
               { noSeparateStyle: true, attributeContext: series.getMarkAttributeContext() }
             ) as ILabelMark;
+            if (spec.showRelatedMarkTooltip) {
+              series.tooltipHelper?.activeTriggerSet.mark?.add(labelMark);
+            }
             labelMark.setTarget(mark);
             info.push({
               labelMark,
@@ -353,13 +357,29 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
 
   getVRenderComponents() {
     const labels: any[] = [];
-    this._labelComponentMap.forEach((info, component) => {
+    this._labelComponentMap.forEach((infoFunc, component) => {
       const graphicItem = component.getProduct().getGroupGraphicItem();
       if (graphicItem) {
         labels.push(graphicItem);
       }
     });
     return labels;
+  }
+
+  getLabelInfoByTextGraphic(text: IGraphic): ILabelInfo {
+    let labelInfo: ILabelInfo;
+    const vrenderLabel = text?.parent;
+    const vrenderDataLabel = vrenderLabel?.parent;
+    if (vrenderDataLabel) {
+      const labelIndex = vrenderDataLabel.getChildren().indexOf(vrenderLabel as any);
+      this._labelComponentMap.forEach((infoFunc, component) => {
+        const graphicItem = component.getProduct().getGroupGraphicItem();
+        if (graphicItem === vrenderDataLabel) {
+          labelInfo = array(infoFunc())[labelIndex];
+        }
+      });
+    }
+    return labelInfo;
   }
 }
 

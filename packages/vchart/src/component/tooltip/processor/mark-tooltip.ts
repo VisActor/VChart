@@ -6,6 +6,7 @@ import { BaseTooltipProcessor } from './base';
 import type { ISeries } from '../../../series/interface';
 import { IContainPointMode } from '@visactor/vrender-core';
 import type { IDimensionData } from '../../../event/events/dimension/interface';
+import type { Label } from '../../label';
 
 export class MarkTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'mark';
@@ -49,6 +50,7 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
 
     const newParams: TooltipHandlerParams = {
       ...(params as any),
+      model: series, // 在 label 支持 mark tooltip 后，eventParam.model 可能是 label 组件，而 tooltip 中需要的是 series
       changePositionOnly,
       tooltip: this.component
     };
@@ -72,8 +74,9 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
     let info: MarkTooltipInfo | undefined;
     let ignore: boolean | undefined;
 
+    const modelType = params.model?.modelType;
     // 处理mark info
-    if (params.model?.modelType === 'series') {
+    if (modelType === 'series') {
       const series = params.model as ISeries;
       const helper = series.tooltipHelper;
       const activeTriggers = helper?.activeTriggerSet.mark;
@@ -87,8 +90,26 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
       } else if (ignoreTriggers?.has(params.mark)) {
         ignore = true;
       }
+    } else if (modelType === 'component') {
+      const model = params.model as Label;
+      const node = params.node;
+      if (model.name === 'label' && node) {
+        const labelInfo = model.getLabelInfoByTextGraphic(params.node);
+        const { baseMark, series, labelMark } = labelInfo ?? {};
+        const helper = series.tooltipHelper;
+        const activeTriggers = helper?.activeTriggerSet.mark;
+        const ignoreTriggers = helper?.ignoreTriggerSet.mark;
+        if (activeTriggers?.has(labelMark)) {
+          info = {
+            mark: baseMark as any, // 标签的 tooltip 与其关联图元保持一致
+            datum: (node.attribute as any).data,
+            series
+          };
+        } else if (ignoreTriggers?.has(labelMark)) {
+          ignore = true;
+        }
+      }
     }
-
     return {
       tooltipInfo: info,
       ignore

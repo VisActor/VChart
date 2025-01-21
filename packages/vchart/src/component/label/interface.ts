@@ -96,6 +96,12 @@ export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
    * @since 1.9.0
    */
   syncState?: boolean;
+  /**
+   * 是否显示标签关联图元的 mark tooltip
+   * @default false
+   * @since 1.13.5
+   */
+  showRelatedMarkTooltip?: boolean;
 }
 
 export type ILabelAnimationSpec = Pick<
