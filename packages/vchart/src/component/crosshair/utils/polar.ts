@@ -21,14 +21,6 @@ export const layoutByValue = (
       const newInfo = useCache
         ? cacheInfo
         : ({
-            // x: 0,
-            // y: 0,
-            // center: { x: 0, y: 0 },
-            // radius: 0,
-            // distance: 0,
-            // startAngle: 0,
-            // endAngle: 0,
-            // innerRadius: 0,
             coord: 0,
             axis: null,
             visible: isVisible,
@@ -47,8 +39,6 @@ export const layoutByValue = (
         (newInfo as any).sides = (series.angleAxisHelper.getScale(0) as BandScale).domain().length;
       }
 
-      const bandSize = series.angleAxisHelper.getBandwidth(0);
-
       currentValue.forEach(({ axis, datum: value = '' }) => {
         const niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
 
@@ -60,7 +50,8 @@ export const layoutByValue = (
         }
 
         if (field === 'categoryField') {
-          const angle = axis.valueToPosition(value);
+          const angle = series.angleAxisHelper.dataToPosition([value]);
+          const bandSize = series.angleAxisHelper.getBandwidth(0);
           const radius = (axis as IPolarAxis).getOuterRadius();
 
           newInfo.coord = angle;
@@ -68,7 +59,7 @@ export const layoutByValue = (
           newInfo.sizeRange = [radius, radius];
         } else {
           const angle = (axis as IPolarAxis).startAngle;
-          const radius = axis.valueToPosition(value);
+          const radius = series.radiusAxisHelper.dataToPosition([value]);
 
           newInfo.coord = radius;
           newInfo.coordRange = [radius, radius];
@@ -103,79 +94,75 @@ export const layoutByValue = (
 
 export const layoutCrosshair = (stateItem: CrossHairStateItem, layoutStartPoint: ILayoutPoint, smooth?: boolean) => {
   const { cacheInfo, coordKey, attributes } = stateItem;
-  const { axis, coord, sizeRange } = cacheInfo;
+  const { axis, coord, sizeRange, coordRange } = cacheInfo;
   const axisCenter = (axis as IPolarAxis).getCenter();
   const center = {
     x: axisCenter.x + layoutStartPoint.x,
     y: axisCenter.y + layoutStartPoint.y
   };
 
-  let positionAttrs;
   if (coordKey === 'angle') {
     const crosshairType = attributes.type === 'rect' ? 'sector' : 'line';
 
     if (crosshairType === 'sector') {
       // angle 轴对应的crosshair
-      positionAttrs = {
+      return {
         center,
         innerRadius: (axis as IPolarAxis).getInnerRadius(),
         radius: (axis as IPolarAxis).getOuterRadius(),
-        startAngle: (axis as IPolarAxis).startAngle,
-        endAngle: (axis as IPolarAxis).endAngle
-      };
-    } else {
-      // angle 轴对应的crosshair
-      positionAttrs = {
-        start: polarToCartesian(center, (axis as IPolarAxis).getInnerRadius(), coord),
-        end: polarToCartesian(center, (axis as IPolarAxis).getOuterRadius(), coord)
+        startAngle: coordRange[0],
+        endAngle: coordRange[1]
       };
     }
-  } else {
-    const startAngle = (axis as IPolarAxis).startAngle;
-    const endAngle = (axis as IPolarAxis).endAngle;
-    const sides = cacheInfo.sides;
-
-    let polygonRadius = coord;
-    if (!smooth) {
-      const axisCenter = (axis as IPolarAxis).getCenter();
-      // 需要计算半径
-      // 获取当前点的角度
-      const point = (axis as IPolarAxis).coordToPoint({
-        angle: sizeRange[0],
-        radius: coord
-      });
-      const curAngle = getAngleByPoint(axisCenter, point);
-      const stepAngle = (endAngle - startAngle) / sides;
-      const index = Math.floor((curAngle - startAngle) / stepAngle);
-      const preAngle = index * stepAngle + startAngle;
-      const nextAngle = Math.min((index + 1) * stepAngle + startAngle, endAngle);
-
-      const prePoint = polarToCartesian(axisCenter, coord, preAngle);
-      const nextPoint = polarToCartesian(axisCenter, coord, nextAngle);
-      // 求交点
-      const insertPoint = getIntersectPoint(
-        [nextPoint.x, nextPoint.y],
-        [prePoint.x, prePoint.y],
-        [axisCenter.x, axisCenter.y],
-        [point.x, point.y]
-      );
-      if (insertPoint) {
-        polygonRadius = clamp(
-          PointService.distancePN(point, (insertPoint as [number, number])[0], (insertPoint as [number, number])[1]) +
-            coord,
-          (axis as IPolarAxis).getInnerRadius(),
-          (axis as IPolarAxis).getOuterRadius()
-        );
-      }
-    }
-    positionAttrs = {
-      center,
-      startAngle: startAngle,
-      endAngle: endAngle,
-      radius: polygonRadius,
-      sides
+    // angle 轴对应的crosshair
+    return {
+      start: polarToCartesian(center, (axis as IPolarAxis).getInnerRadius(), coord),
+      end: polarToCartesian(center, (axis as IPolarAxis).getOuterRadius(), coord)
     };
   }
 
-  return positionAttrs;
+  const startAngle = (axis as IPolarAxis).startAngle;
+  const endAngle = (axis as IPolarAxis).endAngle;
+  const sides = cacheInfo.sides;
+
+  let polygonRadius = coord;
+  if (!smooth) {
+    const axisCenter = (axis as IPolarAxis).getCenter();
+    // 需要计算半径
+    // 获取当前点的角度
+    const point = (axis as IPolarAxis).coordToPoint({
+      angle: sizeRange[0],
+      radius: coord
+    });
+    const curAngle = getAngleByPoint(axisCenter, point);
+    const stepAngle = (endAngle - startAngle) / sides;
+    const index = Math.floor((curAngle - startAngle) / stepAngle);
+    const preAngle = index * stepAngle + startAngle;
+    const nextAngle = Math.min((index + 1) * stepAngle + startAngle, endAngle);
+
+    const prePoint = polarToCartesian(axisCenter, coord, preAngle);
+    const nextPoint = polarToCartesian(axisCenter, coord, nextAngle);
+    // 求交点
+    const insertPoint = getIntersectPoint(
+      [nextPoint.x, nextPoint.y],
+      [prePoint.x, prePoint.y],
+      [axisCenter.x, axisCenter.y],
+      [point.x, point.y]
+    );
+    if (insertPoint) {
+      polygonRadius = clamp(
+        PointService.distancePN(point, (insertPoint as [number, number])[0], (insertPoint as [number, number])[1]) +
+          coord,
+        (axis as IPolarAxis).getInnerRadius(),
+        (axis as IPolarAxis).getOuterRadius()
+      );
+    }
+  }
+  return {
+    center,
+    startAngle: startAngle,
+    endAngle: endAngle,
+    radius: polygonRadius,
+    sides
+  };
 };
