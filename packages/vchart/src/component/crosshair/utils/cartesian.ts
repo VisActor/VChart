@@ -29,13 +29,16 @@ export const layoutByValue = (
   }
 
   Object.keys(stateByField).forEach(field => {
-    const { currentValue, cacheInfo, labelsComp, attributes } = stateByField[field];
+    const { currentValue, cacheInfo, labelsComp, attributes, coordKey } = stateByField[field];
     let axis = null;
     let coord = 0;
 
     if (currentValue.size) {
       const item = Array.from(currentValue.values())[0];
-      coord = item.axis.getScale().scale(item.datum) + item.axis.getLayoutStartPoint().x - layoutStartPoint.x;
+      coord =
+        item.axis.getScale().scale(item.datum) +
+        item.axis.getLayoutStartPoint()[coordKey as 'x' | 'y'] -
+        layoutStartPoint[coordKey as 'x' | 'y'];
       axis = item.axis;
     }
     const isVisible = !!currentValue.size && Number.isFinite(coord);
