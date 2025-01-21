@@ -30,8 +30,9 @@ export const layoutByValue = (
               all: { visible: false, text: '', offset: 0 }
             }
           } as ICrosshairInfo);
-
-      cacheInfo._isCache = useCache;
+      if (cacheInfo) {
+        cacheInfo._isCache = useCache;
+      }
 
       if (field === 'valueField') {
         (newInfo as any).sides = (series.angleAxisHelper.getScale(0) as BandScale).domain().length;

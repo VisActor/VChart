@@ -57,7 +57,9 @@ export const layoutByValue = (
           visible: isVisible,
           axis
         };
-    newCacheInfo._isCache = useCache;
+    if (newCacheInfo) {
+      newCacheInfo._isCache = useCache;
+    }
     let bandSize;
     let offsetSize: number = 0;
 
