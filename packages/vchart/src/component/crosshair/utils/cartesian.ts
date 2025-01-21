@@ -47,17 +47,17 @@ export const layoutByValue = (
           sizeRange: [0, 0],
           coord,
           labelsTextStyle: {},
-          labels: Object.keys(labelsComp).reduce((res: Record<string, ICrosshairLabelInfo>, labelKey: string) => {
-            res[labelKey] = { visible: false, text: '', dx: 0, dy: 0 };
+          labels: labelsComp
+            ? Object.keys(labelsComp).reduce((res: Record<string, ICrosshairLabelInfo>, labelKey: string) => {
+                res[labelKey] = { visible: false, text: '', dx: 0, dy: 0 };
 
-            return res;
-          }, {}),
+                return res;
+              }, {})
+            : null,
           visible: isVisible,
           axis
         };
-    if (enableRemain) {
-      newCacheInfo._isCache = true;
-    }
+    newCacheInfo._isCache = useCache;
     let bandSize;
     let offsetSize: number = 0;
 
@@ -136,14 +136,19 @@ export const layoutByValue = (
         newCacheInfo.coordRange = [region.x1, region.x2];
         newCacheInfo.sizeRange = [region.y1, region.y2];
         newCacheInfo.coord = coord + layoutStartPoint.x;
-        newCacheInfo.labels.top.y = region.y1;
-        newCacheInfo.labels.bottom.y = region.y2;
+        if (newCacheInfo.labels) {
+          newCacheInfo.labels.top.y = region.y1;
+          newCacheInfo.labels.bottom.y = region.y2;
+        }
       } else {
         newCacheInfo.coordRange = [region.y1, region.y2]; // todo
         newCacheInfo.sizeRange = [region.x1, region.x2];
         newCacheInfo.coord = coord + layoutStartPoint.y;
-        newCacheInfo.labels.left.x = region.x1;
-        newCacheInfo.labels.right.x = region.x2;
+
+        if (newCacheInfo.labels) {
+          newCacheInfo.labels.left.x = region.x1;
+          newCacheInfo.labels.right.x = region.x2;
+        }
       }
 
       if (newCacheInfo.coord < newCacheInfo.coordRange[0] || newCacheInfo.coord > newCacheInfo.coordRange[1]) {

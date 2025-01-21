@@ -31,9 +31,7 @@ export const layoutByValue = (
             }
           } as ICrosshairInfo);
 
-      if (enableRemain) {
-        cacheInfo._isCache = isVisible;
-      }
+      cacheInfo._isCache = useCache;
 
       if (field === 'valueField') {
         (newInfo as any).sides = (series.angleAxisHelper.getScale(0) as BandScale).domain().length;
