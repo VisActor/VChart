@@ -94,7 +94,7 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
       const model = params.model as Label;
       const node = params.node;
       if (model.name === 'label' && node) {
-        const labelInfo = model.getLabelInfoByTextGraphic(params.node);
+        const labelInfo = model.getLabelInfoByTextGraphic(node);
         const { baseMark, series, labelMark } = labelInfo ?? {};
         const helper = series.tooltipHelper;
         const activeTriggers = helper?.activeTriggerSet.mark;
