@@ -79,7 +79,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _initEvent(): void;
     protected _initData(): void;
     setAttrFromSpec(): void;
-    protected _statePointToData(state: number): any;
+    statePointToData(state: number): any;
     dataToStatePoint(data: number | string): number;
     protected _modeCheck(statePoint: 'start' | 'end', mode: string): any;
     protected _setStateFromSpec(): void;
