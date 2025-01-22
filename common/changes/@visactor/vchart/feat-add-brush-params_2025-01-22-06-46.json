@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add params of startvalue and endvalue in brushend event",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
