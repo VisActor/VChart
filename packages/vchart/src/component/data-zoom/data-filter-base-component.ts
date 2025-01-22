@@ -581,7 +581,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._visible = this._spec.visible ?? true;
   }
 
-  protected _statePointToData(state: number) {
+  statePointToData(state: number) {
     const scale = this._stateScale;
     const domain = scale.domain();
 
@@ -644,8 +644,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         : 0;
       end = this._spec.end ? this._spec.end : this._spec.endValue ? this.dataToStatePoint(this._spec.endValue) : 1;
     }
-    this._startValue = this._statePointToData(start);
-    this._endValue = this._statePointToData(end);
+    this._startValue = this.statePointToData(start);
+    this._endValue = this.statePointToData(end);
     this._start = start;
     this._end = end;
     this._minSpan = this._spec.minSpan ?? 0;
