@@ -136,11 +136,11 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
       this._start = start;
       this._end = end;
-      const startValue = this._statePointToData(start);
-      const endValue = this._statePointToData(end);
+      const startValue = this.statePointToData(start);
+      const endValue = this.statePointToData(end);
       const hasChange = isFunction(this._spec.updateDataAfterChange)
         ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
-        : this._handleStateChange(this._statePointToData(start), this._statePointToData(end));
+        : this._handleStateChange(this.statePointToData(start), this.statePointToData(end));
       if (hasChange) {
         this.event.emit(ChartEvent.scrollBarChange, {
           model: this,
