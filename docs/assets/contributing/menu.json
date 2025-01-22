@@ -35,6 +35,13 @@
         "zh": "5.如何贡献代码",
         "en": "5-How to Contribute Code"
       }
+    },
+    {
+      "path": "./sourcesode/12-1 VChart plugins explanation",
+      "title": {
+        "zh": "12.1 VChart 插件说明",
+        "en": "12-1 VChart plugins explanation"
+      }
     }
   ]
 }
