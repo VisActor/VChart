@@ -4,12 +4,12 @@
   "private": true,
   "dependencies": {
     "@microsoft/rush-lib": "5.94.1",
-    "minimist": "1.2.6",
+    "minimist": "1.2.8",
     "ts-node": "10.9.0"
   },
   "devDependencies": {
     "@types/node": "*",
     "@types/minimist": "1.2.2",
-    "typescript": "5.0.2"
+    "typescript": "4.9.5"
   }
 }
