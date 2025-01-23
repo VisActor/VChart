@@ -128,6 +128,9 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
   resizeDelay?: number;
 }
 
+/**
+ * 可选渲染环境
+ */
 export enum RenderModeEnum {
   'desktop-browser' = 'desktop-browser',
   'mobile-browser' = 'mobile-browser',
