@@ -2,26 +2,24 @@
 import type { IPolarSeries } from '../../series/interface/series';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import type { AxisCurrentValueMap, IPolarCrosshairInfo, IPolarCrosshairSpec } from './interface';
-import { isDiscrete } from '@visactor/vscale';
-import { Tag } from '@visactor/vrender-components';
+import type { IPolarCrosshairSpec } from './interface';
+import type { PolygonCrosshairAttrs, CircleCrosshairAttrs } from '@visactor/vrender-components';
 import { LineCrosshair, SectorCrosshair, CircleCrosshair, PolygonCrosshair } from '@visactor/vrender-components';
 import type { IPolarAxis } from '../axis/polar/interface';
-import type { IPoint, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
-import type { IAxisInfo, IHair, IHairRadius } from './base';
+import type { IPoint, IPolarOrientType, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import { BaseCrossHair } from './base';
 import type { Maybe } from '@visactor/vutils';
-import { polarToCartesian, PointService, isArray, isNil } from '@visactor/vutils';
-import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
+import { polarToCartesian } from '@visactor/vutils';
+import type { IGroup, INode } from '@visactor/vrender-core';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
-import { limitTagInBounds } from './utils';
 import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
-import { layoutByValue, layoutAngleCrosshair, layoutRadiusCrosshair } from './utils/polar';
+import { layoutByValue, layoutCrosshair } from './utils/polar';
 import { getFirstSeries } from '../../util';
 import type { IDimensionData, IDimensionInfo } from '../../event/events/dimension/interface';
 import { getSpecInfo } from '../util';
+import type { IAxis } from '../axis';
 
 export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
   static specKey = 'crosshair';
@@ -29,19 +27,6 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
   static type = ComponentTypeEnum.polarCrosshair;
   type = ComponentTypeEnum.polarCrosshair;
   name: string = ComponentTypeEnum.polarCrosshair;
-  private _currValueAngle: AxisCurrentValueMap;
-  private _currValueRadius: AxisCurrentValueMap;
-
-  private _angleHair: IHair | undefined;
-  private _radiusHair: IHairRadius | undefined;
-
-  private _cacheAngleCrossHairInfo: IPolarCrosshairInfo | undefined;
-  private _cacheRadiusCrossHairInfo: IPolarCrosshairInfo | undefined;
-
-  private _radiusCrosshair: IGroup;
-  private _radiusLabelCrosshair: Tag;
-  private _angleCrosshair: IGroup;
-  private _angleLabelCrosshair: Tag;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     return getSpecInfo<IPolarCrosshairSpec>(chartSpec, this.specKey, this.type, (s: IPolarCrosshairSpec) => {
@@ -51,57 +36,43 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
-    this._currValueAngle = new Map();
-    this._currValueRadius = new Map();
+
+    this._stateByField = {
+      categoryField: {
+        coordKey: 'angle',
+        anotherAxisKey: 'radius',
+        currentValue: new Map(),
+        labelsComp: {
+          all: null
+        }
+      },
+      valueField: {
+        coordKey: 'radius',
+        anotherAxisKey: 'angle',
+        currentValue: new Map(),
+        labelsComp: {
+          all: null
+        }
+      }
+    };
   }
 
-  protected _showDefaultCrosshairBySpec() {
-    const { categoryField, valueField } = this._spec as IPolarCrosshairSpec;
-    if (categoryField?.visible && categoryField.defaultSelect) {
-      const { axisIndex, datum } = categoryField.defaultSelect;
-      this._defaultCrosshair(axisIndex, datum, LayoutType.VERTICAL);
-    }
-    if (valueField?.visible && valueField.defaultSelect) {
-      const { axisIndex, datum } = valueField.defaultSelect;
-      this._defaultCrosshair(axisIndex, datum, LayoutType.HORIZONTAL);
-    }
-  }
-
-  private _defaultCrosshair(axisIndex: number, datum: StringOrNumber, tag: number) {
-    const axis = this._option.getComponentsByKey('axes').find(c => c.getSpecIndex() === axisIndex) as IPolarAxis;
-    if (!axis) {
-      return;
-    }
-    // 横轴
-    if (tag === LayoutType.VERTICAL) {
-      this._currValueAngle.clear();
-      // 根据数值拿到对应的坐标点
-      const polarCoord = {
-        angle: axis.valueToPosition(datum),
-        radius: axis.getOuterRadius()
-      };
-      const canvasPosition = axis.coordToPoint(polarCoord);
-      this._currValueAngle.set(axisIndex, this._getValueByAxis(axis, canvasPosition));
+  /**
+   * set axis value of crosshair
+   */
+  setAxisValue(datum: StringOrNumber, axis: IAxis) {
+    if ((axis.getOrient() as unknown as IPolarOrientType) === 'radius') {
+      this._stateByField.valueField.currentValue.set(axis.getSpecIndex(), {
+        datum,
+        axis
+      });
     } else {
-      this._currValueRadius.clear();
-      // 根据数值拿到对应的坐标点
-      const polarCoord = {
-        angle: axis.startAngle,
-        radius: axis.valueToPosition(datum)
-      };
-      const canvasPosition = axis.coordToPoint(polarCoord);
-      this._currValueRadius.set(axisIndex, this._getValueByAxis(axis, canvasPosition));
+      this._stateByField.categoryField.currentValue.set(axis.getSpecIndex(), {
+        datum,
+        axis
+      });
     }
-    this.layoutByValue(LayoutType.ALL);
   }
-
-  hide() {
-    this._radiusCrosshair && this._radiusCrosshair.hideAll();
-    this._radiusLabelCrosshair && this._radiusLabelCrosshair.hideAll();
-    this._angleCrosshair && this._angleCrosshair.hideAll();
-    this._angleLabelCrosshair && this._angleLabelCrosshair.hideAll();
-  }
-
   /**
    * 查找所有落在x和y区域的轴
    * @param relativeX
@@ -116,60 +87,15 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     };
   }
 
-  /**
-   * 根据位置获取所有轴上的value
-   * @param axisMap
-   * @param p
-   * @returns
-   */
-  private _getAllAxisValues(axisMap: IAxisInfo<IPolarAxis>, point: IPoint, currValue: AxisCurrentValueMap): boolean {
-    // 首先不能存在两个离散轴
-    let discrete = false;
-    axisMap.forEach(item => {
-      if (isDiscrete(item.axis.getScale().type)) {
-        if (!discrete) {
-          discrete = true;
-        } else {
-          this.enable = false;
-        }
-      }
-    });
-    if (!this.enable) {
-      return false;
-    }
-    // 获取所有的value
-    axisMap.forEach((item, id) => {
-      const axis = item.axis;
-      currValue.set(id, this._getValueByAxis(axis, point));
-    });
-    return true;
-  }
-
-  private _getValueByAxis(axis: IPolarAxis, point: IPoint) {
+  protected _getDatumAtPoint(axis: IPolarAxis, point: IPoint) {
     const { x: axisStartX, y: axisStartY } = axis.getLayoutStartPoint();
     const { x, y } = this.getLayoutStartPoint();
-    const value = axis.positionToData({
+    const datum = axis.positionToData({
       x: point.x - (axisStartX - x),
       y: point.y - (axisStartY - y)
     });
 
-    const center = {
-      x: axis.getCenter().x + this.getLayoutStartPoint().x,
-      y: axis.getCenter().y + this.getLayoutStartPoint().y
-    };
-
-    return {
-      value,
-      axis,
-      center,
-      innerRadius: axis.getInnerRadius(),
-      radius: axis.getOuterRadius(),
-      startAngle: axis.startAngle,
-      endAngle: axis.endAngle,
-      distance: PointService.distancePP(point, axis.getCenter()),
-      coord: axis.pointToCoord(point),
-      point
-    };
+    return datum;
   }
 
   protected _layoutCrosshair(
@@ -221,11 +147,10 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
       return;
     }
     // 删除之前的currValue
-    this._currValueAngle.clear();
-    this._currValueRadius.clear();
+    this.clearAxisValue();
     // 将数据保存到这个对象中，如果不存在，就直接不执行后续逻辑
-    angleAxisMap && this._getAllAxisValues(angleAxisMap, { x, y }, this._currValueAngle);
-    radiusAxisMap && this._getAllAxisValues(radiusAxisMap, { x, y }, this._currValueRadius);
+    angleAxisMap && this._setAllAxisValues(angleAxisMap, { x, y }, 'categoryField');
+    radiusAxisMap && this._setAllAxisValues(radiusAxisMap, { x, y }, 'valueField');
 
     this.layoutByValue(LayoutType.ALL);
   }
@@ -239,183 +164,113 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
       return;
     }
 
-    const { angle, radius } = layoutByValue(
-      series,
-      this._currValueAngle,
-      this._currValueRadius,
-      this._angleHair,
-      this._radiusHair,
-      this.enableRemain,
-      this._cacheAngleCrossHairInfo,
-      this._cacheRadiusCrossHairInfo
-    );
+    layoutByValue(this._stateByField, series, this.enableRemain);
 
-    if (this.enableRemain) {
-      this._cacheAngleCrossHairInfo = { ...angle, _isCache: true };
-      this._cacheRadiusCrossHairInfo = { ...radius, _isCache: true };
-    }
-
-    if (tag) {
-      LayoutType.HORIZONTAL && this._layoutRadius(radius);
-      LayoutType.VERTICAL && this._layoutAngle(angle);
-    }
+    Object.keys(this._stateByField).forEach(field => {
+      this._layoutByField(field);
+    });
   }
 
-  private _layoutAngle(crosshairInfo: IPolarCrosshairInfo) {
-    if (crosshairInfo._isCache && this.enableRemain) {
+  private _layoutByField(fieldName: string) {
+    const { cacheInfo, attributes, crosshairComp, labelsComp, coordKey } = this._stateByField[fieldName];
+    if (!cacheInfo || (cacheInfo._isCache && this.enableRemain)) {
       return;
     }
 
     const container = this.getContainer();
-    const { angle, radius, label, center, visible } = crosshairInfo;
+    const { visible, labels, coord, sizeRange, axis } = cacheInfo;
     if (visible) {
-      const crosshairType = this._angleHair.type === 'rect' ? 'sector' : 'line';
-      const positionAttrs = layoutAngleCrosshair(this._angleHair, crosshairInfo);
+      const layoutStartPoint = this.getLayoutStartPoint();
+      const smooth = this._spec.valueField?.line?.smooth;
+      const positionAttrs = layoutCrosshair(this._stateByField[fieldName], layoutStartPoint, smooth);
 
-      if (this._angleCrosshair) {
-        this._angleCrosshair.setAttributes(positionAttrs as unknown as any);
+      if (crosshairComp) {
+        crosshairComp.setAttributes(positionAttrs as unknown as any);
       } else {
         let crosshair;
-        // 创建
-        if (crosshairType === 'line') {
-          crosshair = new LineCrosshair({
-            ...(positionAttrs as { start: IPoint; end: IPoint }),
-            lineStyle: this._angleHair.style,
-            zIndex: this.gridZIndex,
-            pickable: false
-          });
-        } else if (crosshairType === 'sector') {
-          crosshair = new SectorCrosshair({
-            ...(positionAttrs as {
-              center: IPoint;
-              innerRadius: number;
-              radius: number;
-              startAngle: number;
-              endAngle: number;
-            }),
-            sectorStyle: this._angleHair.style,
-            zIndex: this.gridZIndex,
-            pickable: false
-          });
-        }
-        this._angleCrosshair = crosshair as unknown as IGroup;
-        // 添加至场景树
-        container.add(crosshair as unknown as INode);
-      }
 
-      // 文本
-      if (label.visible) {
-        const orient = angleLabelOrientAttribute(angle);
-        const labelAttrs = {
-          ...polarToCartesian(center, radius + label.offset, angle),
-          ...this._angleHair.label,
-          ...label,
-          textStyle: {
-            ...this._angleHair.label?.textStyle,
-            textAlign: orient.align,
-            textBaseline: orient.baseline
-          },
-          zIndex: this.labelZIndex
-        };
-        this._updateCrosshairLabel(this._angleLabelCrosshair, labelAttrs, label => {
-          label.name = 'crosshair-angle-label';
-          this._angleLabelCrosshair = label;
-        });
-      } else {
-        this._angleLabelCrosshair && this._angleLabelCrosshair.hideAll();
-      }
-    }
-  }
-
-  private _layoutRadius(crosshairInfo: IPolarCrosshairInfo) {
-    if (crosshairInfo._isCache && this.enableRemain) {
-      return;
-    }
-
-    const { center, startAngle, label, visible } = crosshairInfo;
-    const container = this.getContainer();
-    if (visible) {
-      const crosshairType = this._radiusHair.smooth ? 'circle' : 'polygon';
-      const positionAttrs = layoutRadiusCrosshair(this._radiusHair, crosshairInfo);
-      const polygonRadius = positionAttrs.radius;
-
-      if (this._radiusCrosshair) {
-        this._radiusCrosshair.setAttributes(positionAttrs as unknown as any);
-      } else {
-        let crosshair;
-        if (crosshairType === 'polygon') {
-          crosshair = new PolygonCrosshair({
-            ...positionAttrs,
-            lineStyle: this._radiusHair.style,
-            zIndex: this.gridZIndex + 1 // 样式优化：线盖在面上
-          });
+        if (coordKey === 'angle') {
+          const crosshairType = attributes.type === 'rect' ? 'sector' : 'line';
+          // 创建
+          if (crosshairType === 'line') {
+            crosshair = new LineCrosshair({
+              ...(positionAttrs as { start: IPoint; end: IPoint }),
+              lineStyle: attributes.style,
+              zIndex: this.gridZIndex,
+              pickable: false
+            });
+          } else if (crosshairType === 'sector') {
+            crosshair = new SectorCrosshair({
+              ...(positionAttrs as {
+                center: IPoint;
+                innerRadius: number;
+                radius: number;
+                startAngle: number;
+                endAngle: number;
+              }),
+              sectorStyle: attributes.style,
+              zIndex: this.gridZIndex,
+              pickable: false
+            });
+          }
         } else {
-          crosshair = new CircleCrosshair({
-            ...positionAttrs,
-            lineStyle: this._radiusHair.style,
-            zIndex: this.gridZIndex
-          });
+          const crosshairType = smooth ? 'circle' : 'polygon';
+
+          if (crosshairType === 'polygon') {
+            crosshair = new PolygonCrosshair({
+              ...(positionAttrs as PolygonCrosshairAttrs),
+              lineStyle: attributes.style,
+              zIndex: this.gridZIndex + 1 // 样式优化：线盖在面上
+            });
+          } else {
+            crosshair = new CircleCrosshair({
+              ...(positionAttrs as CircleCrosshairAttrs),
+              lineStyle: attributes.style,
+              zIndex: this.gridZIndex
+            });
+          }
         }
-        this._radiusCrosshair = crosshair as unknown as IGroup;
+        this._stateByField[fieldName].crosshairComp = crosshair as unknown as IGroup;
         // 添加至场景树
         container.add(crosshair as unknown as INode);
       }
 
+      const label = labels.all;
       // 文本
       if (label.visible) {
-        const orient = radiusLabelOrientAttribute(startAngle);
+        const axisCenter = (axis as IPolarAxis).getCenter();
+        const center = {
+          x: axisCenter.x + layoutStartPoint.x,
+          y: axisCenter.y + layoutStartPoint.y
+        };
+        const orient =
+          coordKey === 'angle'
+            ? angleLabelOrientAttribute(coord)
+            : radiusLabelOrientAttribute((axis as IPolarAxis).startAngle);
+        const point =
+          coordKey === 'angle'
+            ? polarToCartesian(center, sizeRange[1] + label.offset, coord)
+            : polarToCartesian(center, positionAttrs.radius, (axis as IPolarAxis).startAngle);
+
         const labelAttrs = {
-          ...polarToCartesian(center, polygonRadius, startAngle),
-          ...this._radiusHair.label,
+          ...point,
+          ...attributes.label,
           ...label,
           textStyle: {
-            ...this._radiusHair.label?.textStyle,
+            ...attributes.label?.textStyle,
             textAlign: orient.align,
             textBaseline: orient.baseline
           },
           zIndex: this.labelZIndex
         };
-        this._updateCrosshairLabel(this._radiusLabelCrosshair, labelAttrs, label => {
-          label.name = 'crosshair-radius-label';
-          this._radiusLabelCrosshair = label;
+        this._updateCrosshairLabel(labelsComp.all, labelAttrs, label => {
+          label.name = `crosshair-${coordKey}-label`;
+          labelsComp.all = label;
         });
       } else {
-        this._radiusLabelCrosshair && this._radiusLabelCrosshair.hideAll();
+        labelsComp.all && labelsComp.all.hideAll();
       }
     }
-  }
-
-  protected _parseFieldInfo() {
-    const { categoryField, valueField } = this._spec as IPolarCrosshairSpec;
-    if (categoryField && categoryField.visible) {
-      this._angleHair = this._parseField(categoryField, 'categoryField');
-    }
-    if (valueField && valueField.visible) {
-      this._radiusHair = this._parseField(valueField, 'valueField');
-      this._radiusHair.smooth = valueField?.line?.smooth;
-    }
-  }
-
-  private _updateCrosshairLabel(label: Tag, labelAttrs: any, callback: (label: Tag) => void) {
-    // 文本
-    const container = this.getContainer();
-    if (label) {
-      label.setAttributes(labelAttrs);
-    } else {
-      label = new Tag(labelAttrs);
-      container?.add(label as unknown as INode);
-      callback(label);
-    }
-    limitTagInBounds(label, this._getLimitBounds());
-  }
-
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [
-      this._radiusCrosshair,
-      this._radiusLabelCrosshair,
-      this._angleCrosshair,
-      this._angleLabelCrosshair
-    ] as unknown as IGroup[];
   }
 }
 

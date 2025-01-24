@@ -69,6 +69,7 @@ import { calculateChartSize, mergeUpdateResult } from '../util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
 import { LayoutZIndex } from '../../constant/layout';
+import type { IAxis } from '../../component/axis/interface/common';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -1332,15 +1333,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
       if (crosshair && crosshair.clearAxisValue && crosshair.setAxisValue) {
         if (isUnableValue) {
-          crosshair.clearAxisValue?.();
-          crosshair.hide?.();
+          crosshair.hideCrosshair();
         } else {
-          dimensionInfo.forEach((d: IDimensionInfo) => {
-            const { axis, value } = d;
-            crosshair.clearAxisValue();
-            crosshair.setAxisValue(value, axis);
-            crosshair.layoutByValue();
-          });
+          crosshair.showCrosshair(dimensionInfo as { axis: IAxis; value: string | number }[]);
         }
       }
     }
