@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: indicator should show when switch `visible`, fix #3675\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
