@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: incorrect update animation of funnel transform mark, #3685",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
