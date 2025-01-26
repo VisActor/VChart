@@ -2862,6 +2862,13 @@
             "zh": "富文本标签",
             "en": "RichText Label"
           }
+        },
+        {
+          "path": "label-mark-tooltip",
+          "title": {
+            "zh": "标签触发图元 Tooltip",
+            "en": "Enable mark tooltip triggered by label"
+          }
         }
       ]
     },
