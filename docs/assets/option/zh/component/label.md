@@ -401,3 +401,10 @@ const layout = (attribute, text, getRelatedGraphic) => {
 
 - 'min' 对堆积分组中的最大值展示标签
 - 'max' 对堆积分组中的最小值展示标签
+
+#${prefix} showRelatedMarkTooltip(boolean)=false
+
+自 1.13.5 开始生效
+
+默认值为 `false`，即鼠标悬浮在标签上不会触发 tooltip。
+当设置为 `true` 时，鼠标悬浮在标签上会触发其关联图形的 tooltip。

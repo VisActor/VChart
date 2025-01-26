@@ -403,3 +403,10 @@ Used for filtering stacked group data
 
 - 'min' displays labels for the maximum value in the stacked group
 - 'max' displays labels for the minimum value in the stacked group
+
+#${prefix} showRelatedMarkTooltip(boolean)=false
+
+Available since version 1.13.5.
+
+The default value is `false`, which means hovering over the label will not trigger the tooltip.
+When set to `true`, hovering over the label will trigger the mark tooltip of its associated graphic.
