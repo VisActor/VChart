@@ -135,6 +135,8 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
         y = pos.y;
       }
     }
+    // 删除之前的currValue
+    this.clearAxisValue();
 
     // 找到所有的包含这个点的轴
     const { angleAxisMap, radiusAxisMap } = this._findAllAxisContains(x, y);
@@ -146,8 +148,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
       this.hide();
       return;
     }
-    // 删除之前的currValue
-    this.clearAxisValue();
+
     // 将数据保存到这个对象中，如果不存在，就直接不执行后续逻辑
     angleAxisMap && this._setAllAxisValues(angleAxisMap, { x, y }, 'categoryField');
     radiusAxisMap && this._setAllAxisValues(radiusAxisMap, { x, y }, 'valueField');
