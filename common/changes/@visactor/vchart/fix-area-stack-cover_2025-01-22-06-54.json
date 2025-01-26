@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue where the upper mark in stacked area overlaps the border of lower mark, #3684",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
