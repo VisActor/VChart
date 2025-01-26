@@ -140,7 +140,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
         y = pos?.y;
       }
     }
-
+    // 删除之前的currValue
+    this.clearAxisValue();
     // 找到所有的包含这个点的轴
     const { xAxisMap, yAxisMap } = this._findAllAxisContains(x, y);
     if ((xAxisMap && xAxisMap.size === 0) || (yAxisMap && yAxisMap.size === 0)) {
@@ -151,8 +152,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       this.hide();
       return;
     }
-    // 删除之前的currValue
-    this.clearAxisValue();
+
     // 将数据保存到这个对象中，如果不存在，就直接不执行后续逻辑
     xAxisMap && xAxisMap.size && this._setAllAxisValues(xAxisMap, { x, y }, 'xField');
     yAxisMap && yAxisMap.size && this._setAllAxisValues(yAxisMap, { x, y }, 'yField');
