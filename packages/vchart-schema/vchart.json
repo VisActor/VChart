@@ -5547,6 +5547,9 @@
           "$ref": "#/definitions/VisualType<number>",
           "description": "图形的旋转角度"
         },
+        "ascentDescentMode": {
+          "$ref": "#/definitions/VisualType<\"font\"|\"actual\">"
+        },
         "background": {
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
@@ -5565,6 +5568,9 @@
         },
         "disableAutoWrapLine": {
           "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "editOptions": {
+          "$ref": "#/definitions/VisualType<IRichTextEditOptionsType>"
         },
         "editable": {
           "$ref": "#/definitions/VisualType<boolean>"
@@ -5718,6 +5724,7 @@
       },
       "required": [
         "disableAutoWrapLine",
+        "editOptions",
         "editable",
         "ellipsis",
         "height",
@@ -9031,6 +9038,9 @@
             "cubicIn",
             "cubicInOut",
             "cubicOut",
+            "easeInOutElastic",
+            "easeInOutQuad",
+            "easeOutElastic",
             "elasticIn",
             "elasticInOut",
             "elasticOut",
@@ -33197,6 +33207,9 @@
         "defined": {
           "type": "boolean"
         },
+        "draw": {
+          "typeof": "function"
+        },
         "getAngleAt": {
           "typeof": "function"
         },
@@ -33204,6 +33217,12 @@
           "typeof": "function"
         },
         "getPointAt": {
+          "typeof": "function"
+        },
+        "getYAt": {
+          "typeof": "function"
+        },
+        "includeX": {
           "typeof": "function"
         },
         "originP1": {
@@ -33230,9 +33249,12 @@
       },
       "required": [
         "defined",
+        "draw",
         "getAngleAt",
         "getLength",
         "getPointAt",
+        "getYAt",
+        "includeX",
         "p0",
         "type"
       ],
@@ -33664,6 +33686,9 @@
           },
           "type": "array"
         },
+        "drawWithClipRange": {
+          "typeof": "function"
+        },
         "ellipse": {
           "typeof": "function"
         },
@@ -33683,6 +33708,9 @@
           "typeof": "function"
         },
         "getPointAt": {
+          "typeof": "function"
+        },
+        "getYAt": {
           "typeof": "function"
         },
         "lineTo": {
@@ -33716,12 +33744,14 @@
         "closePath",
         "commandList",
         "curves",
+        "drawWithClipRange",
         "ellipse",
         "fromCustomPath2D",
         "fromString",
         "getCurveLengths",
         "getLength",
         "getPointAt",
+        "getYAt",
         "lineTo",
         "moveTo",
         "quadraticCurveTo",
@@ -34488,6 +34518,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "autoPage": {
           "type": "boolean"
         },
@@ -34546,6 +34579,9 @@
           ],
           "description": "图例背景配置"
         },
+        "backgroundClip": {
+          "type": "boolean"
+        },
         "backgroundCornerRadius": {
           "anyOf": [
             {
@@ -34571,7 +34607,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "baseOpacity": {
@@ -34590,6 +34635,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -34630,6 +34676,13 @@
               "type": "number"
             }
           ]
+        },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -34675,10 +34728,6 @@
         },
         "fillStrokeOrder": {
           "type": "number"
-        },
-        "filter": {
-          "description": "是否进行数据筛选，默认为 true",
-          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -35374,7 +35423,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -61661,6 +61714,12 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
+        "backgroundClip": {
+          "type": "boolean"
+        },
         "backgroundCornerRadius": {
           "anyOf": [
             {
@@ -61686,7 +61745,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "baseOpacity": {
@@ -61701,6 +61769,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -61772,6 +61841,13 @@
             }
           ]
         },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -61806,6 +61882,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "flexDirection": {
           "enum": [
@@ -61932,6 +62011,34 @@
         "lineWidth": {
           "type": "number"
         },
+        "logoSymbol": {
+          "$ref": "#/definitions/ISymbolGraphicAttribute"
+        },
+        "logoText": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ]
+        },
+        "logoTextStyle": {
+          "$ref": "#/definitions/Partial<ITextGraphicAttribute>"
+        },
         "maxWidth": {
           "type": "number"
         },
@@ -61965,7 +62072,7 @@
         "panel": {
           "allOf": [
             {
-              "$ref": "#/definitions/Partial<Omit<{visible:boolean;customShape?:(container:IGroup,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>"
+              "$ref": "#/definitions/Partial<Omit<{visible:boolean;customShape?:(container:IGroup,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;square?:boolean;panelSymbolType?:string;},\"shadowColor\"|\"fill\"|\"stroke\">>"
             },
             {
               "typeof": "function"
@@ -62138,7 +62245,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -62178,6 +62289,13 @@
               "typeof": "function"
             }
           ]
+        },
+        "triangleMode": {
+          "enum": [
+            "concise",
+            "default"
+          ],
+          "type": "string"
         },
         "visible": {
           "type": "boolean"
@@ -69167,7 +69285,7 @@
     "IRichTextGraphicAttribute": {
       "allOf": [
         {
-          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
+          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
         },
         {
           "$ref": "#/definitions/Partial<IRichTextAttribute>"
@@ -77152,6 +77270,16 @@
       },
       "type": "object"
     },
+    "ISymbolGraphicAttribute": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Partial<IGraphicAttribute>"
+        },
+        {
+          "$ref": "#/definitions/Partial<ISymbolAttribute>"
+        }
+      ]
+    },
     "ISymbolMarkSpec": {
       "properties": {
         "alpha": {
@@ -78025,13 +78153,22 @@
         "addTimeline": {
           "typeof": "function"
         },
+        "autoStop": {
+          "type": "boolean"
+        },
         "getFPS": {
           "typeof": "function"
         },
         "getInterval": {
           "typeof": "function"
         },
+        "getTimelines": {
+          "typeof": "function"
+        },
         "pause": {
+          "typeof": "function"
+        },
+        "release": {
           "typeof": "function"
         },
         "remTimeline": {
@@ -78064,7 +78201,10 @@
       },
       "required": [
         "addTimeline",
+        "autoStop",
+        "getTimelines",
         "pause",
+        "release",
         "remTimeline",
         "resume",
         "start",
@@ -80780,6 +80920,43 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,\"font\"|\"actual\">": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "description": "指定映射对应的数据字段",
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "enum": [
+              "actual",
+              "font"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,\"horizontal\"|\"vertical\">": {
       "properties": {
         "domain": {
@@ -81367,6 +81544,39 @@
               "$ref": "#/definitions/IRichTextCharacter"
             },
             "type": "array"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,IRichTextEditOptionsType>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "description": "指定映射对应的数据字段",
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "typeof": "function"
           },
           "type": "array"
         },
@@ -86537,7 +86747,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12258": {
           "type": "string"
         },
         "size": {
@@ -86545,14 +86755,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12258",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12258": {
           "type": "string"
         },
         "size": {
@@ -86560,14 +86770,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12258",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12258": {
           "type": "string"
         },
         "size": {
@@ -86575,14 +86785,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12258",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12258": {
           "type": "string"
         },
         "size": {
@@ -86590,14 +86800,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12258",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12258": {
           "type": "string"
         },
         "size": {
@@ -86605,14 +86815,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12258",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12258": {
           "type": "string"
         },
         "size": {
@@ -86620,7 +86830,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12258",
         "size"
       ],
       "type": "object"
@@ -87201,6 +87411,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "autoPage": {
           "type": "boolean"
         },
@@ -87222,6 +87435,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -87248,7 +87464,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "baseOpacity": {
@@ -87263,6 +87488,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -87298,6 +87524,13 @@
               "type": "number"
             }
           ]
+        },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -87345,6 +87578,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "flexDirection": {
           "enum": [
@@ -87682,7 +87918,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -90133,6 +90373,12 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
+        "backgroundClip": {
+          "type": "boolean"
+        },
         "backgroundCornerRadius": {
           "anyOf": [
             {
@@ -90158,7 +90404,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "baseOpacity": {
@@ -90173,6 +90428,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -90209,6 +90465,13 @@
             }
           ]
         },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -90243,6 +90506,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "flexDirection": {
           "enum": [
@@ -90529,7 +90795,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -92481,6 +92751,9 @@
         "animationEasing": {
           "$ref": "#/definitions/EasingType"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -92499,6 +92772,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -92525,7 +92801,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "baseOpacity": {
@@ -92540,6 +92825,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -92575,6 +92861,13 @@
               "type": "number"
             }
           ]
+        },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -92616,6 +92909,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "flexDirection": {
           "enum": [
@@ -92926,7 +93222,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -93073,6 +93373,9 @@
         "animationEasing": {
           "$ref": "#/definitions/EasingType"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -93091,6 +93394,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -93117,7 +93423,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "baseOpacity": {
@@ -93132,6 +93447,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -93167,6 +93483,13 @@
               "type": "number"
             }
           ]
+        },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -93217,6 +93540,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "flexDirection": {
           "enum": [
@@ -93530,7 +93856,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -94006,6 +94336,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -94024,6 +94357,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -94050,7 +94386,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -94062,6 +94407,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -94150,6 +94496,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -94425,7 +94774,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -94540,6 +94893,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -94558,6 +94914,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -94584,7 +94943,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -94596,6 +94964,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -94670,6 +95039,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -94933,7 +95305,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -95114,6 +95490,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -95132,6 +95511,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -95158,7 +95540,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -95170,6 +95561,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -95219,6 +95611,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -95476,7 +95871,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -95561,7 +95960,7 @@
       },
       "type": "object"
     },
-    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
+    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -95652,6 +96051,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -95670,6 +96072,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -95696,7 +96101,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -95708,6 +96122,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -95770,6 +96185,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "fontFamily": {
           "type": "string"
@@ -96108,7 +96526,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -96256,6 +96678,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -96274,6 +96699,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -96300,7 +96728,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -96312,6 +96749,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -96374,6 +96812,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -96638,7 +97079,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -96756,6 +97201,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -96774,6 +97222,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -96800,7 +97251,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -96812,6 +97272,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -96858,6 +97319,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -97109,7 +97573,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -97170,6 +97638,13 @@
               "type": "number"
             }
           ]
+        },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
         },
         "display": {
           "enum": [
@@ -97331,6 +97806,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -97349,6 +97827,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -97375,7 +97856,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "baseOpacity": {
@@ -97390,6 +97880,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -97426,6 +97917,13 @@
             }
           ]
         },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -97460,6 +97958,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "flexDirection": {
           "enum": [
@@ -97746,7 +98247,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -97790,6 +98295,13 @@
               "type": "number"
             }
           ]
+        },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
         },
         "height": {
           "type": "number"
@@ -97910,6 +98422,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -97928,6 +98443,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -97954,7 +98472,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -97966,6 +98493,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -97999,6 +98527,13 @@
             }
           ]
         },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -98025,6 +98560,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -98298,7 +98836,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -98731,6 +99273,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -98749,6 +99294,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -98775,7 +99323,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -98787,6 +99344,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -98864,6 +99422,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -99127,7 +99688,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -100263,6 +100828,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -100281,6 +100849,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -100307,7 +100878,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -100319,6 +100899,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -100338,6 +100919,9 @@
         },
         "childrenPickable": {
           "type": "boolean"
+        },
+        "clipRange": {
+          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -100368,6 +100952,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -100629,7 +101216,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -100744,6 +101335,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -100762,6 +101356,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -100788,7 +101385,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -100800,6 +101406,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -100862,6 +101469,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -101119,7 +101729,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -101521,6 +102135,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -101539,6 +102156,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -101565,7 +102185,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -101577,6 +102206,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -101610,6 +102240,13 @@
             }
           ]
         },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -101636,6 +102273,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -101890,7 +102530,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -102221,8 +102865,18 @@
     },
     "Partial<IRichTextAttribute>": {
       "properties": {
+        "ascentDescentMode": {
+          "enum": [
+            "actual",
+            "font"
+          ],
+          "type": "string"
+        },
         "disableAutoWrapLine": {
           "type": "boolean"
+        },
+        "editOptions": {
+          "typeof": "function"
         },
         "editable": {
           "type": "boolean"
@@ -102386,6 +103040,37 @@
       },
       "type": "object"
     },
+    "Partial<ISymbolAttribute>": {
+      "properties": {
+        "clipRange": {
+          "type": "number"
+        },
+        "size": {
+          "anyOf": [
+            {
+              "items": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "symbolType": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "Partial<ISymbolGraphicAttribute>": {
       "properties": {
         "_debug_bounds": {
@@ -102477,6 +103162,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -102495,6 +103183,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -102521,7 +103212,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -102533,6 +103233,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -102552,6 +103253,9 @@
         },
         "childrenPickable": {
           "type": "boolean"
+        },
+        "clipRange": {
+          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -102579,6 +103283,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -102853,7 +103560,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -102968,6 +103679,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -102986,6 +103700,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -103012,7 +103729,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -103024,6 +103750,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -103086,6 +103813,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "fontFamily": {
           "type": "string"
@@ -103424,7 +104154,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -104246,6 +104980,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -104264,6 +105001,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -104290,7 +105030,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -104302,6 +105051,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -104361,6 +105111,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "fontFamily": {
           "type": "string"
@@ -104696,7 +105449,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -104753,7 +105510,7 @@
       },
       "type": "object"
     },
-    "Partial<Omit<{visible:boolean;customShape?:(container:IGroup,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;},\"shadowColor\"|\"fill\"|\"stroke\">>": {
+    "Partial<Omit<{visible:boolean;customShape?:(container:IGroup,attrs:Partial<IGraphicAttribute>,path:ICustomPath2D)=>ICustomPath2D;}&Partial<IRectGraphicAttribute>&Partial<IGraphicAttribute>&Partial<ISymbolAttribute>&{space?:number;square?:boolean;panelSymbolType?:string;},\"shadowColor\"|\"fill\"|\"stroke\">>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -104844,6 +105601,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -104862,6 +105622,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -104888,7 +105651,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -104900,6 +105672,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -104920,6 +105693,9 @@
         "childrenPickable": {
           "type": "boolean"
         },
+        "clipRange": {
+          "type": "number"
+        },
         "cornerRadius": {
           "anyOf": [
             {
@@ -104932,6 +105708,13 @@
               "type": "number"
             }
           ]
+        },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -104959,6 +105742,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -105077,6 +105863,9 @@
           ],
           "type": "string"
         },
+        "panelSymbolType": {
+          "type": "string"
+        },
         "pickMode": {
           "enum": [
             "accurate",
@@ -105190,6 +105979,9 @@
         "space": {
           "type": "number"
         },
+        "square": {
+          "type": "boolean"
+        },
         "strokeBoundsBuffer": {
           "type": "number"
         },
@@ -105211,7 +106003,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -105335,6 +106131,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -105353,6 +106152,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -105379,7 +106181,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -105391,6 +106202,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -105437,6 +106249,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -105688,7 +106503,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -108105,34 +108924,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12258": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12141"
+        "__@toStringTag@12258"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12258": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12141"
+        "__@toStringTag@12258"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12258": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12141"
+        "__@toStringTag@12258"
       ],
       "type": "object"
     },
@@ -108722,6 +109541,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -108740,6 +109562,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -108766,7 +109591,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -108778,6 +109612,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -108866,6 +109701,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -109141,7 +109979,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -109170,11 +110012,16 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
@@ -109192,6 +110039,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "forceShowCap",
@@ -109245,7 +110093,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -109346,6 +110196,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -109364,6 +110217,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -109390,7 +110246,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -109402,6 +110267,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -109476,6 +110342,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -109739,7 +110608,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -109768,11 +110641,16 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
@@ -109795,6 +110673,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -109842,7 +110721,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -109943,6 +110824,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -109961,6 +110845,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -109987,7 +110874,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -109999,6 +110895,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -110048,6 +110945,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -110305,7 +111205,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -110334,11 +111238,16 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
@@ -110354,6 +111263,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -110401,7 +111311,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -110502,6 +111414,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -110520,6 +111435,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -110546,7 +111464,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -110558,6 +111485,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -110620,6 +111548,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -110884,7 +111815,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -110916,11 +111851,16 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
@@ -110937,6 +111877,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -110984,7 +111925,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "width",
@@ -111103,6 +112046,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -111121,6 +112067,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -111147,7 +112096,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "baseOpacity": {
@@ -111162,6 +112120,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -111198,6 +112157,13 @@
             }
           ]
         },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -111232,6 +112198,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "flexDirection": {
           "enum": [
@@ -111518,7 +112487,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -111555,11 +112528,16 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "baseOpacity",
         "beta",
         "blur",
@@ -111568,6 +112546,7 @@
         "childrenPickable",
         "clip",
         "cornerRadius",
+        "cornerType",
         "cursor",
         "customPickShape",
         "display",
@@ -111578,6 +112557,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "flexDirection",
         "flexWrap",
         "forceBoundsHeight",
@@ -111628,7 +112608,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "visibleAll",
@@ -111731,6 +112713,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -111749,6 +112734,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -111775,7 +112763,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -111787,6 +112784,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -111820,6 +112818,13 @@
             }
           ]
         },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -111846,6 +112851,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -112119,7 +113127,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -112151,17 +113163,23 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
         "cornerRadius",
+        "cornerType",
         "cursor",
         "customPickShape",
         "dx",
@@ -112171,6 +113189,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -112220,7 +113239,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "width",
@@ -112322,6 +113343,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -112340,6 +113364,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -112366,7 +113393,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -112378,6 +113414,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -112455,6 +113492,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -112718,7 +113758,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -112747,11 +113791,16 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
@@ -112775,6 +113824,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -112822,7 +113872,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -112923,6 +113975,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -112941,6 +113996,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -112967,7 +114025,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -112979,6 +114046,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -112998,6 +114066,9 @@
         },
         "childrenPickable": {
           "type": "boolean"
+        },
+        "clipRange": {
+          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -113028,6 +114099,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -113289,7 +114363,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -113318,16 +114396,22 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
+        "clipRange",
         "cursor",
         "customPath",
         "customPickShape",
@@ -113338,6 +114422,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -113384,7 +114469,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -113485,6 +114572,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -113503,6 +114593,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -113529,7 +114622,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -113541,6 +114643,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -113603,6 +114706,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -113860,7 +114966,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -113889,11 +114999,16 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
@@ -113910,6 +115025,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -113956,7 +115072,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -114057,6 +115175,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -114075,6 +115196,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -114101,7 +115225,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -114113,6 +115246,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -114146,6 +115280,13 @@
             }
           ]
         },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -114172,6 +115313,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -114426,7 +115570,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -114464,17 +115612,23 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
         "cornerRadius",
+        "cornerType",
         "cursor",
         "customPickShape",
         "dx",
@@ -114484,6 +115638,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -114530,7 +115685,9 @@
         "strokeSeg",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "width",
@@ -114634,6 +115791,16 @@
         "angle": {
           "type": "number"
         },
+        "ascentDescentMode": {
+          "enum": [
+            "actual",
+            "font"
+          ],
+          "type": "string"
+        },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -114652,6 +115819,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -114678,7 +115848,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -114690,6 +115869,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -114738,6 +115918,9 @@
         "dz": {
           "type": "number"
         },
+        "editOptions": {
+          "typeof": "function"
+        },
         "editable": {
           "type": "boolean"
         },
@@ -114758,6 +115941,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "fontFamily": {
           "type": "string"
@@ -115114,7 +116300,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -115181,11 +116371,17 @@
         "anchor",
         "anchor3d",
         "angle",
+        "ascentDescentMode",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
@@ -115199,12 +116395,14 @@
         "dx",
         "dy",
         "dz",
+        "editOptions",
         "editable",
         "ellipsis",
         "fill",
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "fontFamily",
         "fontSize",
         "fontStyle",
@@ -115274,7 +116472,9 @@
         "textConfig",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "underline",
         "underlineDash",
@@ -115384,6 +116584,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -115402,6 +116605,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -115453,10 +116659,19 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
           "type": "number"
         },
         "backgroundRadius": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "backgroundShowMode": {
@@ -115501,6 +116716,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -115534,6 +116750,13 @@
             }
           ]
         },
+        "cornerType": {
+          "enum": [
+            "bevel",
+            "round"
+          ],
+          "type": "string"
+        },
         "cursor": {
           "$ref": "#/definitions/Cursor"
         },
@@ -115563,6 +116786,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -115858,7 +117084,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -115890,15 +117120,20 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFill",
         "backgroundFillOpacity",
         "backgroundFit",
         "backgroundHeight",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
         "backgroundRadius",
+        "backgroundScale",
         "backgroundShowMode",
         "backgroundStroke",
         "backgroundStrokeOpacity",
@@ -115909,6 +117144,7 @@
         "boundsPadding",
         "childrenPickable",
         "cornerRadius",
+        "cornerType",
         "cursor",
         "customPickShape",
         "direction",
@@ -115919,6 +117155,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -115972,7 +117209,9 @@
         "textBaseline",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "width",
@@ -116074,6 +117313,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -116092,6 +117334,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -116118,7 +117363,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -116130,6 +117384,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -116149,6 +117404,9 @@
         },
         "childrenPickable": {
           "type": "boolean"
+        },
+        "clipRange": {
+          "type": "number"
         },
         "cursor": {
           "$ref": "#/definitions/Cursor"
@@ -116176,6 +117434,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "forceBoundsHeight": {
           "anyOf": [
@@ -116450,7 +117711,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -116479,16 +117744,22 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
         "boundsPadding",
         "childrenPickable",
+        "clipRange",
         "cursor",
         "customPickShape",
         "dx",
@@ -116498,6 +117769,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "forceBoundsHeight",
         "forceBoundsWidth",
         "globalCompositeOperation",
@@ -116545,7 +117817,9 @@
         "symbolType",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "visible",
         "x",
@@ -116646,6 +117920,9 @@
         "angle": {
           "type": "number"
         },
+        "autoAnimateTexture": {
+          "type": "boolean"
+        },
         "background": {
           "anyOf": [
             {
@@ -116664,6 +117941,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundClip": {
+          "type": "boolean"
         },
         "backgroundCornerRadius": {
           "anyOf": [
@@ -116690,7 +117970,16 @@
           ],
           "type": "string"
         },
+        "backgroundOffsetX": {
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "type": "number"
+        },
         "backgroundOpacity": {
+          "type": "number"
+        },
+        "backgroundScale": {
           "type": "number"
         },
         "beta": {
@@ -116702,6 +117991,7 @@
         "boundsMode": {
           "enum": [
             "accurate",
+            "empty",
             "imprecise"
           ],
           "type": "string"
@@ -116764,6 +118054,9 @@
         },
         "fillStrokeOrder": {
           "type": "number"
+        },
+        "filter": {
+          "type": "string"
         },
         "fontFamily": {
           "type": "string"
@@ -117102,7 +118395,11 @@
         "textureColor": {
           "type": "string"
         },
+        "textureOptions": {},
         "texturePadding": {
+          "type": "number"
+        },
+        "textureRatio": {
           "type": "number"
         },
         "textureSize": {
@@ -117164,11 +118461,16 @@
         "anchor",
         "anchor3d",
         "angle",
+        "autoAnimateTexture",
         "background",
+        "backgroundClip",
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOffsetX",
+        "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundScale",
         "beta",
         "blur",
         "boundsMode",
@@ -117186,6 +118488,7 @@
         "fillOpacity",
         "fillPickable",
         "fillStrokeOrder",
+        "filter",
         "fontFamily",
         "fontSize",
         "fontStyle",
@@ -117250,7 +118553,9 @@
         "textBaseline",
         "texture",
         "textureColor",
+        "textureOptions",
         "texturePadding",
+        "textureRatio",
         "textureSize",
         "underline",
         "underlineDash",
@@ -121227,6 +122532,26 @@
         }
       ]
     },
+    "VisualType<\"font\"|\"actual\">": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"font\"|\"actual\">"
+        },
+        {
+          "enum": [
+            "actual",
+            "font"
+          ],
+          "type": "string"
+        }
+      ]
+    },
     "VisualType<\"horizontal\"|\"vertical\">": {
       "anyOf": [
         {
@@ -121597,6 +122922,22 @@
         },
         {
           "$ref": "#/definitions/IVisualSpecStyle<unknown,IRichTextCharacter[]>"
+        }
+      ]
+    },
+    "VisualType<IRichTextEditOptionsType>": {
+      "anyOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,IRichTextEditOptionsType>"
         }
       ]
     },
