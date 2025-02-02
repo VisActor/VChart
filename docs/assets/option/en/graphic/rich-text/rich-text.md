@@ -135,3 +135,11 @@ Fill Opacity. The configuration in all text paragraphs will be overridden by the
 #${prefix} strokeOpacity(number)
 
 Stroke opacity. The configuration in all text paragraphs will be overridden by the configuration in `textConfig`.
+
+#${prefix} forceBoundsWidth(number)
+
+Forcibly set the width of the bounding box corresponding to the text. By default, we automatically calculate the width based on the content and attributes of the text. When this property is set, the width of the bounding box will be forcibly set to this value. It is generally used when rendering text content with HTML or React to solve the problem of width not being automatically calculated.
+
+#${prefix} forceBoundsHeight(number)
+
+Forcibly set the height of the bounding box corresponding to the text. By default, we automatically calculate the height based on the content and attributes of the text. When this property is set, the height of the bounding box will be forcibly set to this value. It is generally used when rendering text content with HTML or React to solve the problem of height not being automatically calculated.
