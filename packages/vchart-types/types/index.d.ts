@@ -3,6 +3,7 @@ export default VChart;
 export * from './core';
 export * from './chart';
 export * from './chart/base';
+export * from './chart/common';
 export * from './series';
 export * from './mark';
 export * from './component';
