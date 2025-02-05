@@ -9,7 +9,7 @@ export class BaseComponentSpecTransformer<
   K = any
 > extends BaseModelSpecTransformer<T, K> {
   getTheme(spec: T, chartSpec: any): K {
-    return getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option.getTheme(), spec, chartSpec);
+    return getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option.getTheme, spec, chartSpec);
   }
 
   protected _mergeThemeToSpec(spec: T, chartSpec: any): { spec: T; theme: K } {
