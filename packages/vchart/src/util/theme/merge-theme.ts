@@ -44,8 +44,7 @@ export function transformColorSchemeToMerge(colorScheme?: Maybe<IThemeColorSchem
 export function transformSeriesThemeToMerge(
   seriesTheme: any,
   seriesType: string,
-  markByType: IGlobalMarkThemeByType,
-  markByName: IGlobalMarkThemeByName
+  getTheme: (...keys: string[]) => any
 ): any {
   const seriesMarkInfoMap = Factory.getSeriesMarkMap(seriesType);
 
@@ -54,7 +53,7 @@ export function transformSeriesThemeToMerge(
   }
   const newTheme: any = {};
   Object.values<ISeriesMarkInfo>(seriesMarkInfoMap).forEach(({ type, name }) => {
-    newTheme[name] = mergeSpec({}, markByType?.[array(type)[0]], markByName?.[name], seriesTheme?.[name]);
+    newTheme[name] = mergeSpec({}, getTheme('mark', array(type)[0]), getTheme('markByName', name), seriesTheme?.[name]);
   });
   return {
     ...seriesTheme,

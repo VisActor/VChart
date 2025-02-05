@@ -1,12 +1,11 @@
 import type { Maybe } from '@visactor/vutils';
-import { get, isArray, isNil } from '@visactor/vutils';
-import type { ITheme } from '../theme';
+import { isArray, isNil } from '@visactor/vutils';
 import type { Datum } from '../typings';
 import { Factory } from '../core/factory';
 import type { IModelSpecInfo } from '../model/interface';
 
-export function getComponentThemeFromOption(type: string, chartTheme: ITheme) {
-  return get(chartTheme, `component.${type}`);
+export function getComponentThemeFromOption(type: string, getTheme: (...keys: string[]) => any) {
+  return getTheme('component', type);
 }
 
 export function getFormatFunction(

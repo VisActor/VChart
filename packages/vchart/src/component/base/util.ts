@@ -10,40 +10,40 @@ import { mergeSpec } from '@visactor/vutils-extension';
 
 export function getComponentThemeFromGlobalTheme(
   type: ComponentTypeEnum,
-  chartTheme: ITheme,
+  getTheme: (...key: string[]) => any,
   componentSpec: any,
   chartSpec: any
 ) {
   switch (type) {
     case ComponentTypeEnum.cartesianBandAxis:
-      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'band', chartTheme);
+      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'band', getTheme);
     case ComponentTypeEnum.cartesianLinearAxis:
-      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'linear', chartTheme);
+      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'linear', getTheme);
     case ComponentTypeEnum.cartesianLogAxis:
-      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'log', chartTheme);
+      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'log', getTheme);
     case ComponentTypeEnum.cartesianSymlogAxis:
-      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'symlog', chartTheme);
+      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'symlog', getTheme);
     case ComponentTypeEnum.cartesianAxis:
     case ComponentTypeEnum.cartesianTimeAxis:
-      return getCartesianAxisTheme(getOrient(componentSpec), undefined, chartTheme);
+      return getCartesianAxisTheme(getOrient(componentSpec), undefined, getTheme);
     case ComponentTypeEnum.polarBandAxis:
-      return getPolarAxisTheme(componentSpec.orient, 'band', chartTheme);
+      return getPolarAxisTheme(componentSpec.orient, 'band', getTheme);
     case ComponentTypeEnum.polarLinearAxis:
-      return getPolarAxisTheme(componentSpec.orient, 'linear', chartTheme);
+      return getPolarAxisTheme(componentSpec.orient, 'linear', getTheme);
     case ComponentTypeEnum.polarAxis:
-      return getPolarAxisTheme(componentSpec.orient, undefined, chartTheme);
+      return getPolarAxisTheme(componentSpec.orient, undefined, getTheme);
     case ComponentTypeEnum.cartesianCrosshair:
-      return getCartesianCrosshairTheme(chartTheme, chartSpec);
+      return getCartesianCrosshairTheme(getTheme, chartSpec);
     case ComponentTypeEnum.polarCrosshair:
-      return getPolarCrosshairTheme(chartTheme, chartSpec);
+      return getPolarCrosshairTheme(getTheme, chartSpec);
     case ComponentTypeEnum.colorLegend:
     case ComponentTypeEnum.sizeLegend:
     case ComponentTypeEnum.discreteLegend:
     case ComponentTypeEnum.dataZoom:
     case ComponentTypeEnum.scrollBar:
-      return getComponentThemeWithDirection(componentSpec, getComponentThemeFromOption(type, chartTheme));
+      return getComponentThemeWithDirection(componentSpec, getComponentThemeFromOption(type, getTheme));
     default:
-      return getComponentThemeFromOption(type, chartTheme);
+      return getComponentThemeFromOption(type, getTheme);
   }
 }
 
