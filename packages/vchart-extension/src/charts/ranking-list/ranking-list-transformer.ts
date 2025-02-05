@@ -507,7 +507,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           {
             id: 'datas',
             values: pagerData[order].map(d => {
-              return { ...d, [DATA_KEY]: d['y'] };
+              return { ...d, [DATA_KEY]: d[spec.yField] };
             })
           },
           {
