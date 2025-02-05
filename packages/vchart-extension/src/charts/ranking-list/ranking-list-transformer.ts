@@ -146,11 +146,11 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       };
 
       spec.animationExit = this.getAnimationExit(this.originalSpec);
-      spec.animationAppear = this.getAnimationAppear(this.originalSpec, 'rect');
       spec.animationEnter = this.getAnimationEnter(this.originalSpec);
       spec.animationUpdate = this.getAnimationUpdate(this.originalSpec);
-      spec.animationNormal = this.originalSpec.animationNormal;
     }
+    spec.animationNormal = this.originalSpec.animationNormal;
+    spec.animationAppear = this.getAnimationAppear(this.originalSpec, 'rect');
   }
 
   transformAxesSpec(spec: any) {
