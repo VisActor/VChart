@@ -56,6 +56,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
 
     this.transformPaddingSpec(spec);
 
+    // console.log('spec', spec);
+
     super.transformSpec(spec);
   }
 
@@ -147,6 +149,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       spec.animationAppear = this.getAnimationAppear(this.originalSpec, 'rect');
       spec.animationEnter = this.getAnimationEnter(this.originalSpec);
       spec.animationUpdate = this.getAnimationUpdate(this.originalSpec);
+      spec.animationNormal = this.originalSpec.animationNormal;
     }
   }
 
@@ -544,6 +547,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     //     ]
     //   });
     // }
+
     return result;
   };
 
