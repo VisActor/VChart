@@ -4,13 +4,14 @@ import { CommonChart } from '../../../src/chart/common/common';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import { VChart, type IChartSpec, type ScatterSeries, ThemeManager } from '../../../src';
+import { VChart, type ScatterSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import type { IAttrs, VisualScaleType } from '../../../src/mark/interface';
 import { dimensionStatistics } from '../../../src/data/transforms/dimension-statistics';
 import { getTestCompiler } from '../../util/factory/compiler';
+import { getTheme } from '../../util/context';
 
 const VChartClass = VChart; // 确保引用 vchart 以确保注册所需的图表
 // 保证引入执行 Build-in
@@ -290,7 +291,7 @@ describe('global-scale test', () => {
     });
     const transformer = new CommonChart.transformerConstructor({
       type: 'common',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec);
@@ -311,7 +312,7 @@ describe('global-scale test', () => {
         mode: 'desktop-browser',
         getSpecInfo: () => info,
         getCompiler: getTestCompiler,
-        getTheme: () => ThemeManager.getCurrentTheme(true)
+        getTheme: getTheme
       } as any
     );
     chart.created(transformer);
@@ -440,7 +441,7 @@ describe('global-scale test', () => {
     });
     const transformer = new CommonChart.transformerConstructor({
       type: 'common',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec);
@@ -461,7 +462,7 @@ describe('global-scale test', () => {
         mode: 'desktop-browser',
         getSpecInfo: () => info,
         getCompiler: getTestCompiler,
-        getTheme: () => ThemeManager.getCurrentTheme(true)
+        getTheme: getTheme
       } as any
     );
     chart.created(transformer);
