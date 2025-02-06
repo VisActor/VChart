@@ -26,6 +26,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   protected originalSpec: IRankingListSpec;
   protected dataSpecs: any[];
   protected formatMap: { [key: string]: (text: string, ctx: any) => string } = {};
+  protected orderCount: number;
 
   transformSpec(spec: any): void {
     super.transformSpec(spec);
@@ -135,14 +136,14 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   }
 
   transformAnimationSpec(spec: any) {
-    if (spec.animationUpdate.enable) {
+    if (spec.animationUpdate.enable && this.orderCount > 1) {
       spec.player = {
-        ...spec.player,
         specs: this.dataSpecs,
         auto: true,
         visible: false,
         interval: (spec.animationNormal?.interval ?? 1000) + (spec.animationUpdate.duration ?? 1000) / 2,
-        loop: true
+        loop: true,
+        ...spec.player
       };
 
       spec.animationExit = this.getAnimationExit(this.originalSpec);
@@ -493,6 +494,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     spec.data.forEach((datum, index) => (datum[ORDER_KEY] = index + 1 < 10 ? `0${index + 1}` : index + 1));
     const pagerData = this.paginateDataArr(spec).result;
     const orderCount = this.paginateDataArr(spec).orderCount;
+    this.orderCount = orderCount;
     const supplyCount = spec.pageSize - pagerData[`page${orderCount}`].length;
     pagerData[`page${orderCount}`].push(
       ...Array.from({ length: supplyCount }, _ => {
