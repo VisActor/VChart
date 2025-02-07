@@ -403,7 +403,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           if (spec.labelLayout === 'bothEnd') {
             return (
               ctx.getRegion().getLayoutRect().width +
-              this.getMaxDataLabelLens(spec, spec.xField, this.nameLabelTextMeasure) +
+              // this.getMaxDataLabelLens(spec, spec.xField, this.valueLabelTextMeasure) +
               VALUE_LABEL_PADDING_LEFT
             );
           } else {
@@ -453,7 +453,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       right:
         spec.labelLayout === 'bothEnd'
           ? VALUE_LABEL_PADDING_LEFT +
-            this.getMaxDataLabelLens(spec, spec.yField, this.valueLabelTextMeasure) +
+            this.getMaxDataLabelLens(spec, spec.xField, this.valueLabelTextMeasure) +
             CHART_PADDING_RIGHT
           : CHART_PADDING_RIGHT + 10,
       top: 0,
