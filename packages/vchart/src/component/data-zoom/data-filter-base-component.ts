@@ -811,8 +811,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return true;
   };
 
-  protected _handleChartZoom = (params: { zoomDelta: number; zoomX?: number; zoomY?: number }) => {
-    if (!this._activeRoam) {
+  protected _handleChartZoom = (
+    params: { zoomDelta: number; zoomX?: number; zoomY?: number },
+    e?: BaseEventParams['event']
+  ) => {
+    if (!this._activeRoam || (this._zoomAttr.filter && !this._zoomAttr.filter(params, e))) {
       return;
     }
 
@@ -846,7 +849,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   };
 
   protected _handleChartScroll = (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => {
-    if (!this._activeRoam) {
+    if (!this._activeRoam || (this._scrollAttr.filter && !this._scrollAttr.filter(params, e))) {
       return false;
     }
     const { scrollX, scrollY } = params;
@@ -869,7 +872,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   };
 
   protected _handleChartDrag = (delta: [number, number], e: BaseEventParams['event']) => {
-    if (!this._activeRoam) {
+    if (!this._activeRoam || (this._dragAttr.filter && !this._dragAttr.filter(delta, e))) {
       return;
     }
     const [dx, dy] = delta;
