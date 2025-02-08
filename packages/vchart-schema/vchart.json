@@ -37876,6 +37876,12 @@
           ],
           "description": "组件关联的系列索引"
         },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
+        },
         "smartInvert": {
           "anyOf": [
             {
@@ -47673,6 +47679,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -69201,6 +69213,9 @@
           "description": "是否开启 缩放 / 拖拽 / 滚动",
           "type": "boolean"
         },
+        "filter": {
+          "typeof": "function"
+        },
         "rate": {
           "default": 1,
           "description": "缩放 / 拖拽 / 滚动速率, 范围: [0, 1]",
@@ -69221,6 +69236,9 @@
           "description": "是否开启 缩放 / 拖拽 / 滚动",
           "type": "boolean"
         },
+        "filter": {
+          "typeof": "function"
+        },
         "rate": {
           "default": 1,
           "description": "缩放 / 拖拽 / 滚动速率, 范围: [0, 1]",
@@ -69240,6 +69258,9 @@
           "default": true,
           "description": "是否开启 缩放 / 拖拽 / 滚动",
           "type": "boolean"
+        },
+        "filter": {
+          "typeof": "function"
         },
         "focus": {
           "default": "true\n开启时, 默认以鼠标位置开始\n关闭时, 以画布中心缩放",
@@ -86537,7 +86558,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12145": {
           "type": "string"
         },
         "size": {
@@ -86545,14 +86566,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12145",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12145": {
           "type": "string"
         },
         "size": {
@@ -86560,14 +86581,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12145",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12145": {
           "type": "string"
         },
         "size": {
@@ -86575,14 +86596,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12145",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12145": {
           "type": "string"
         },
         "size": {
@@ -86590,14 +86611,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12145",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12145": {
           "type": "string"
         },
         "size": {
@@ -86605,14 +86626,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12145",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12145": {
           "type": "string"
         },
         "size": {
@@ -86620,7 +86641,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12145",
         "size"
       ],
       "type": "object"
@@ -90805,6 +90826,12 @@
           ],
           "description": "组件关联的系列索引"
         },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
+        },
         "smartInvert": {
           "anyOf": [
             {
@@ -91104,6 +91131,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -91415,6 +91448,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -98575,6 +98614,12 @@
           ],
           "description": "组件关联的系列索引"
         },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
+        },
         "smartInvert": {
           "anyOf": [
             {
@@ -99401,6 +99446,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -108105,34 +108156,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12145": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12141"
+        "__@toStringTag@12145"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12145": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12141"
+        "__@toStringTag@12145"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12145": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12141"
+        "__@toStringTag@12145"
       ],
       "type": "object"
     },

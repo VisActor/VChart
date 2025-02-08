@@ -37,6 +37,7 @@ export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
     labelLayout?: 'series' | 'region';
     support3d?: boolean;
     syncState?: boolean;
+    showRelatedMarkTooltip?: boolean;
 }
 export type ILabelAnimationSpec = Pick<BaseLabelAttrs, 'animation' | 'animationEnter' | 'animationUpdate' | 'animationExit'>;
 export type IMultiLabelSpec<T extends Omit<ILabelSpec, 'position'>> = T | T[];
