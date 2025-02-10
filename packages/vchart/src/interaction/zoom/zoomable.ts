@@ -22,6 +22,11 @@ export interface ITriggerOption {
   delayType: IDelayType;
   delayTime: number;
   realTime: boolean;
+  // 在某些场景中, 组件不应该触发zoom事件, 例如滚动分页的离散图例
+  // 但在另一些场景中, 组件应该触发zoom事件, 例如缩略轴和滚动条
+  // 当前代码逻辑中, 默认不触发组件zoom事件
+  // 所以增设该配置, 用于允许组件触发zoom事件
+  allowComponentZoom?: boolean;
 }
 
 export type ZoomEventParams = { zoomDelta: number; zoomX: number; zoomY: number };
@@ -100,7 +105,12 @@ export class Zoomable implements IZoomable {
     return getDefaultTriggerEventByMode(this._renderMode)[type];
   }
 
-  private _zoomEventDispatch(params: BaseEventParams, regionOrSeries: IRegion | ISeries, callback?: ZoomCallback) {
+  private _zoomEventDispatch(
+    params: BaseEventParams,
+    regionOrSeries: IRegion | ISeries,
+    callback?: ZoomCallback,
+    allowComponentZoom?: boolean
+  ) {
     if (!this._isGestureListener && !params.event) {
       return;
     }
@@ -110,7 +120,7 @@ export class Zoomable implements IZoomable {
     const { zoomDelta, zoomX, zoomY, path } = event as any;
 
     // 不响应由组件触发的 zoom 事件（例如滚动分页的离散图例）
-    if (!path.some((node: any) => node.name && node.name.includes('region'))) {
+    if (!allowComponentZoom && !path.some((node: any) => node.name && node.name.includes('region'))) {
       return;
     }
 
@@ -182,7 +192,7 @@ export class Zoomable implements IZoomable {
       ...zoomParams,
       delayMap[delayType]((params: BaseEventParams) => {
         // if (realTime) {
-        this._zoomEventDispatch(params, regionOrSeries, callback);
+        this._zoomEventDispatch(params, regionOrSeries, callback, option.allowComponentZoom ?? false);
         // }
       }, delayTime) as any
     );
