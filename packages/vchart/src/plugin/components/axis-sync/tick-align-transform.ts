@@ -55,7 +55,7 @@ export const tickAlign = (data: Array<Datum>, op: ITickAlignOpt) => {
   // make the tickData of the current axis consistent with the tickData of the target axis
   const newTicks: number[] = targetData.map((d: { value: number }) => {
     const percent = (d.value - targetDomain[0]) / targetRange;
-    return Math.round(currentRange * percent + currentDomain[0]);
+    return currentRange * percent + currentDomain[0];
   });
   return convertDomainToTickData(newTicks);
 };
