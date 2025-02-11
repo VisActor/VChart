@@ -8,10 +8,10 @@ export interface ITickAlignOpt {
   currentAxis: () => CartesianAxis;
 }
 
-function saveTick(value: number, minInput: number, maxInput: number, minOutput: number, outputRange: number) {
+function saveTick(value: number, minInput: number, inputRange: number, minOutput: number, outputRange: number) {
   const sub = precisionSub(value, minInput);
-  const decimalPlaces = Math.max(getDecimalPlaces(maxInput), getDecimalPlaces(sub));
-  const percent = Math.round(sub * 10 ** decimalPlaces) / Math.round(maxInput * 10 ** decimalPlaces);
+  const decimalPlaces = Math.max(getDecimalPlaces(inputRange), getDecimalPlaces(sub));
+  const percent = Math.round(sub * 10 ** decimalPlaces) / Math.round(inputRange * 10 ** decimalPlaces);
   return outputRange * percent + minOutput;
 }
 
@@ -61,7 +61,7 @@ export const tickAlign = (data: Array<Datum>, op: ITickAlignOpt) => {
   }
   // make the tickData of the current axis consistent with the tickData of the target axis
   const newTicks: number[] = targetData.map((d: { value: number }) =>
-    saveTick(d.value, targetDomain[0], targetDomain[1], currentDomain[0], currentRange)
+    saveTick(d.value, targetDomain[0], targetRange, currentDomain[0], currentRange)
   );
   return convertDomainToTickData(newTicks);
 };
