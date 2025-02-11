@@ -1,11 +1,18 @@
 import type { Datum } from '../../../typings';
 import type { CartesianAxis } from '../../../component';
 import { convertDomainToTickData } from '@visactor/vrender-components';
-import { last } from '@visactor/vutils';
+import { last, precisionSub, getDecimalPlaces } from '@visactor/vutils';
 
 export interface ITickAlignOpt {
   targetAxis: () => CartesianAxis;
   currentAxis: () => CartesianAxis;
+}
+
+function saveTick(value: number, minInput: number, maxInput: number, minOutput: number, outputRange: number) {
+  const sub = precisionSub(value, minInput);
+  const decimalPlaces = Math.max(getDecimalPlaces(maxInput), getDecimalPlaces(sub));
+  const percent = Math.round(sub * 10 ** decimalPlaces) / Math.round(maxInput * 10 ** decimalPlaces);
+  return outputRange * percent + minOutput;
 }
 
 export const tickAlign = (data: Array<Datum>, op: ITickAlignOpt) => {
@@ -53,9 +60,8 @@ export const tickAlign = (data: Array<Datum>, op: ITickAlignOpt) => {
     return data;
   }
   // make the tickData of the current axis consistent with the tickData of the target axis
-  const newTicks: number[] = targetData.map((d: { value: number }) => {
-    const percent = (d.value - targetDomain[0]) / targetRange;
-    return currentRange * percent + currentDomain[0];
-  });
+  const newTicks: number[] = targetData.map((d: { value: number }) =>
+    saveTick(d.value, targetDomain[0], targetDomain[1], currentDomain[0], currentRange)
+  );
   return convertDomainToTickData(newTicks);
 };
