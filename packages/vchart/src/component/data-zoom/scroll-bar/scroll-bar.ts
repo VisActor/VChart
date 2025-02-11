@@ -16,6 +16,11 @@ import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { ILayoutType } from '../../../typings/layout';
 import { isClose } from '../../../util';
+// import { SCROLLBAR_EVENT, SCROLLBAR_END_EVENT } from '@visactor/vrender-components/es/constant';
+
+// 由vrender透出, 接入新版本后需修改
+const SCROLLBAR_EVENT = 'scrollDrag';
+const SCROLLBAR_END_EVENT = 'scrollUp';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -117,7 +122,11 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       const container = this.getContainer();
       this._component = new ScrollBarComponent(attrs);
       // 绑定事件，防抖，防止频繁触发
-      this._component.addEventListener('scrollDrag', (e: any) => {
+      this._component.addEventListener(SCROLLBAR_EVENT, (e: any) => {
+        const value = e.detail.value;
+        this._handleChange(value[0], value[1]);
+      });
+      this._component.addEventListener(SCROLLBAR_END_EVENT, (e: any) => {
         const value = e.detail.value;
         this._handleChange(value[0], value[1]);
       });
@@ -129,7 +138,8 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     super._handleChange(start, end, updateComponent);
     // filter out scroll event with same scroll value
     const isSameScrollValue = isClose(this._start, start) && isClose(this._end, end);
-    if (this._shouldChange && !isSameScrollValue) {
+    // realTime为false时，start和end始终没有变化过, 但是需要触发change事件
+    if (this._shouldChange && (!isSameScrollValue || this._spec.realTime === false)) {
       if (updateComponent && this._component) {
         this._component.setAttribute('range', [start, end]);
       }
@@ -161,16 +171,6 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     if (this._spec.auto) {
       const data = this._data.getDataView();
       data.reRunAllTransform();
-    }
-  }
-
-  protected _initCommonEvent() {
-    super._initCommonEvent();
-    if (this._component) {
-      this._component.on('scrollDrag', (e: any) => {
-        const value = e.detail.value;
-        this._handleChange(value[0], value[1]);
-      });
     }
   }
 
