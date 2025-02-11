@@ -166,3 +166,11 @@ Min length of guide line. Default is 20px. Supported since version `1.12.7`
 ###${prefix} state(Object)
 
 {{ use: mark-state-style() }}
+
+#${prefix} locales(Object)
+
+Multilingual configuration.
+
+##${prefix} transformRatio(String)
+
+Supported since version `1.13.5`, the built-in tooltip text for the funnel chart conversion layer is set to "Conversion Rate" by default in Chinese.
