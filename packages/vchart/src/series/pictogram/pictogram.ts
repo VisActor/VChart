@@ -19,7 +19,7 @@ import type { IMatrix } from '@visactor/vutils';
 import { Bounds, Matrix, isValid, merge } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
-import type { Group, IGraphic } from '@visactor/vrender-core';
+import type { Group } from '@visactor/vrender-core';
 import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
@@ -46,6 +46,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
   protected _pictogramMark: GroupMark;
   protected _parsedSvgResult: SVGParserResult;
   private _labelMark: ITextMark;
+
+  private _idToMark: Map<string, IMark> = new Map();
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -149,7 +151,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
           skipBeforeLayouted: true,
           dataView: this._mapViewData.getDataView(),
           dataProductId: this._mapViewData.getProductId(),
-          parent: (this._pictogramMark.getMarkInUserId(parent?._uniqueId) as IGroupMark) ?? this._pictogramMark
+          parent: (this._idToMark.get(parent?._uniqueId) as IGroupMark) ?? this._pictogramMark
         },
         {
           morph: shouldMarkDoMorph(this._spec, PictogramSeries.mark.pictogram.name)
@@ -158,6 +160,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
       if (mark) {
         mark.setUserId(_uniqueId); // id 必须唯一，但无法控制 svg 中元素有重复 id， 这里做一个保护
+        this._idToMark.set(_uniqueId, mark);
         if (mark.type !== 'group') {
           mark.setMarkConfig({ graphicName: mark.name });
         }
@@ -243,7 +246,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     }
     for (const element of elements) {
       const { _uniqueId, _finalAttributes: attributes } = element as SVGParsedElementExtend;
-      const mark = this._pictogramMark.getMarkInUserId(_uniqueId);
+      const mark = this._idToMark.get(_uniqueId);
       const valid = this._validElement(element);
       if (mark) {
         // 描边粗细跟随缩放倍数
@@ -475,6 +478,12 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
         shapeType: defaultShapeType
       } as ISeriesSeriesInfo;
     });
+  }
+
+  release(): void {
+    this._parsedSvgResult = null;
+    this._idToMark.clear();
+    this._idToMark = null;
   }
 }
 
