@@ -72,6 +72,12 @@ The maximum height of the legend as a whole, which determines whether vertically
 
 Effective only when `orient` is `'top'` | `'bottom'`, indicates the maximum number of rows for the legend item, the legend item beyond the maximum number of rows will be hidden.
 
+### lazyload(boolean)
+
+Supported since version 1.12.12
+
+Whether to enable lazy loading, the default is off. Note that it is recommended to use it in conjunction with the legend scrollbar. When lazy loading is enabled, the rendering of legend items will be delayed, and they will only be rendered when they enter the visible area. The initial and final states of the scrollbar will also differ.
+
 ### item(Object)
 
 Legend Item Configuration, which contains the configuration of graphics, text, etc. within the legend item.
