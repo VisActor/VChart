@@ -167,3 +167,10 @@
 ###${prefix} state(Object)
 
 {{ use: mark-state-style() }}
+
+#${prefix} locales(Object)
+多语言配置。
+
+##${prefix} transformRatio(String)
+
+自`1.13.5`版本支持，漏斗图转化层的 tooltip 内置文案，默认为“转化率”中文。
