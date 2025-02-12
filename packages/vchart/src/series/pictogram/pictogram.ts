@@ -201,10 +201,10 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     this.setMarkStyle(
       this._labelMark,
       {
-        visible: d => !!this._validElement(d as SVGParsedElementExtend),
-        x: d => this.dataToPosition(d, true)?.x,
-        y: d => this.dataToPosition(d, true)?.y,
-        text: d => d[this.nameField],
+        visible: (d: Datum) => !!this._validElement(d as SVGParsedElementExtend),
+        x: (d: Datum) => this.dataToPosition(d, true)?.x,
+        y: (d: Datum) => this.dataToPosition(d, true)?.y,
+        text: (d: Datum) => d[this.nameField],
         textAlign: 'center',
         textBaseline: 'middle'
       },

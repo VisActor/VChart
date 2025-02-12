@@ -417,11 +417,11 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    */
   fontSize?: number | ITokenKey;
   /**
-   * 文字对齐方式
+   * 文字水平方向的对齐方式
    */
   textAlign?: TextAlign;
   /**
-   * 文字居中方式
+   * 文字竖直方向的对齐方式
    */
   textBaseline?: TextBaseLine;
   /**
@@ -433,7 +433,7 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    */
   fontWeight?: FontWeight;
   /**
-   * 字体样式
+   * 字体样式，是否为斜体等
    */
   fontStyle?: FontStyle;
   /**
@@ -458,6 +458,14 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    */
   underline?: boolean;
   /**
+   * 下划线的虚线样式
+   */
+  underlineDash?: number[];
+  /**
+   * 下划线的虚线偏移量
+   */
+  underlineOffset?: number;
+  /**
    * 中划线
    */
   lineThrough?: boolean;
@@ -475,6 +483,22 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * @default 'horizontal'
    */
   direction?: 'horizontal' | 'vertical';
+  /*
+   * 单词断行
+   */
+  wordBreak?: 'break-word' | 'break-all' | 'keep-all';
+  /**
+   * 高度限制控制显示内容及省略号
+   */
+  heightLimit?: number;
+  /**
+   * 按照行数限制显示内容及省略号
+   */
+  lineClamp?: number;
+  /**
+   * 设置如何处理空白字符
+   */
+  whiteSpace?: 'normal' | 'no-wrap';
 }
 
 export type IRichTextMarkSpec = IRichTextAttribute &
