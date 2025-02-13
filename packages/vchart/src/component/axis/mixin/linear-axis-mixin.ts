@@ -9,7 +9,7 @@ import { isXAxis } from '../cartesian/util/common';
 import type { IOrientType } from '../../../typings/space';
 import type { IComponentOption } from '../../interface/common';
 import type { StringOrNumber } from '../../../typings';
-import { breakData } from './util/break-data';
+import { breakData, breakScopeByLength } from './util/break-data';
 
 export const e10 = Math.sqrt(50);
 export const e5 = Math.sqrt(10);
@@ -43,9 +43,9 @@ export interface LinearAxisMixin {
    */
   _break: {
     domain: [number, number][];
-    scope: [number, number][];
     breakDomains: [number, number][];
     breaks: ILinearAxisBreakSpec[];
+    scope: [number, number][];
   };
   event: IEvent;
   _orient: IOrientType;
@@ -205,6 +205,10 @@ export class LinearAxisMixin {
     this.expandDomain(domain);
     this.includeZero(domain);
     this.setDomainMinMax(domain);
+
+    if (this._break && this._spec.breaks[0].scopeType === 'length') {
+      this._break.scope = breakScopeByLength(this._break.domain, this._break.breakDomains, domain);
+    }
     return domain;
   }
 

@@ -1,7 +1,7 @@
 /**
  *  break-data 的测试用例
  */
-import { breakData } from '../../../../../../src/component/axis/mixin/util/break-data';
+import { breakData, breakScopeByLength } from '../../../../../../src/component/axis/mixin/util/break-data';
 
 describe('break data ', () => {
   it('break data by break points when scopeType is "length"', () => {
@@ -10,20 +10,21 @@ describe('break data ', () => {
       400, 80, 100
     ];
     const breakPoints = [500, 3000];
-    const { domain, scope } = breakData(data, breakPoints, 'length');
+    const { domain } = breakData(data, breakPoints, 'length');
 
     expect(domain).toStrictEqual([
       [44, 500],
       [500, 3000],
       [3000, 7715]
     ]);
+    const scope = breakScopeByLength(domain, [breakPoints as [number, number]], [44, 7715]);
 
     expect(scope.length).toEqual(3);
     expect(scope[0][0]).toBeCloseTo(0);
-    expect(scope[0][1]).toBeCloseTo(0.06136455389584174);
-    expect(scope[1][0]).toBeCloseTo(0.06136455389584174);
-    expect(scope[1][1]).toBeCloseTo(0.36549589557260126);
-    expect(scope[2][0]).toBeCloseTo(0.36549589557260126);
+    expect(scope[0][1]).toBeCloseTo(0.08818410365499903);
+    expect(scope[1][0]).toBeCloseTo(0.08818410365499903);
+    expect(scope[1][1]).toBeCloseTo(0.08818410365499903);
+    expect(scope[2][0]).toBeCloseTo(0.08818410365499903);
     expect(scope[2][1]).toBeCloseTo(1);
   });
 
