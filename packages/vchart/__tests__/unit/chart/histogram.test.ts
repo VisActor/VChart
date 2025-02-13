@@ -1,12 +1,12 @@
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { BarSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
-import { HistogramChart, ThemeManager } from '../../../src';
+import { HistogramChart } from '../../../src';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
-import { initChartDataSet } from '../../util/context';
+import { getTheme, initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
@@ -53,7 +53,7 @@ describe('histogram chart test', () => {
     const transformer = new HistogramChart.transformerConstructor({
       type: 'histogram',
       seriesType: 'bar',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
@@ -71,7 +71,7 @@ describe('histogram chart test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme(true),
+        getTheme: getTheme,
         getSpecInfo: () => info
       } as any
     );

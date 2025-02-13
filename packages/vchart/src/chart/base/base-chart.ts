@@ -183,7 +183,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   constructor(spec: T, option: IChartOption) {
     super(option);
-    this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme().padding);
+    this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme('padding'));
 
     this._event = new Event(option.eventDispatcher, option.mode);
     this._dataSet = option.dataSet;
@@ -838,7 +838,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec) {
     // padding;
-    this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.padding ?? this._option?.getTheme().padding);
+    this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.padding ?? this._option?.getTheme('padding'));
 
     // re compute padding & layout
     this._updateLayoutRect(this._viewBox);
@@ -1343,6 +1343,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   getColorScheme() {
-    return this._option.getTheme?.().colorScheme;
+    return this._option.getTheme?.('colorScheme');
   }
 }

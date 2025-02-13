@@ -98,6 +98,7 @@ import type {
 } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
+import type { PopTipAttributes } from '@visactor/vrender-components';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
@@ -361,6 +362,7 @@ export class VChart implements IVChart {
 
   private _currentThemeName: string;
   private _currentTheme: ITheme;
+  private _cachedProcessedTheme: ITheme;
 
   private _onError?: (...args: any[]) => void;
 
@@ -444,7 +446,7 @@ export class VChart implements IVChart {
     this._compiler.initView();
     // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
-    this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
+    this._setFontFamilyTheme(this.getTheme('fontFamily') as string);
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
@@ -692,7 +694,7 @@ export class VChart implements IVChart {
     // 卸载了chart之后再设置主题 避免多余的reInit
     if (updateResult.changeTheme) {
       this._setCurrentTheme();
-      this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
+      this._setFontFamilyTheme(this.getTheme('fontFamily') as string);
     } else if (updateResult.changeBackground) {
       this._compiler?.setBackground(this._getBackground());
     }
@@ -855,6 +857,7 @@ export class VChart implements IVChart {
     this._onResize = null;
     this._container = null;
     this._currentTheme = null;
+    this._cachedProcessedTheme = null;
     this._option = null;
     this._chart = null;
     this._compiler = null;
@@ -1466,9 +1469,9 @@ export class VChart implements IVChart {
       ) {
         const finalTheme = mergeTheme(
           {},
-          getThemeObject(this._currentThemeName, true),
-          getThemeObject(optionTheme, true),
-          getThemeObject(specTheme, true)
+          getThemeObject(this._currentThemeName),
+          getThemeObject(optionTheme),
+          getThemeObject(specTheme)
         );
 
         this._currentTheme = processThemeByChartType(chartType, finalTheme);
@@ -1479,15 +1482,16 @@ export class VChart implements IVChart {
           getThemeObject(optionTheme),
           getThemeObject(specTheme)
         );
-        this._currentTheme = preprocessTheme(processThemeByChartType(chartType, finalTheme));
+        this._currentTheme = processThemeByChartType(chartType, finalTheme);
       }
     } else {
-      currentTheme = getThemeObject(this._currentThemeName, true);
+      currentTheme = getThemeObject(this._currentThemeName);
       this._currentTheme = processThemeByChartType(chartType, currentTheme);
     }
+    this._cachedProcessedTheme = null;
 
     // 设置 poptip 的主题
-    setPoptipTheme(get(this._currentTheme, 'component.poptip'));
+    setPoptipTheme(this.getTheme('component', 'poptip') as PopTipAttributes);
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }
@@ -1521,7 +1525,7 @@ export class VChart implements IVChart {
         ? this._spec.background
         : null;
     // spec > spec.theme > initOptions.theme
-    return specBackground || (this._currentTheme.background as string) || this._option.background;
+    return specBackground || this.getTheme('background') || this._option.background;
   }
 
   /**
@@ -1559,7 +1563,7 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     const result = this._setCurrentTheme(name);
-    this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
+    this._setFontFamilyTheme(this.getTheme('fontFamily') as string);
     this.updateCustomConfigAndRerender(result, true, {
       transformSpec: false,
       actionSource: 'setCurrentTheme'
@@ -2155,6 +2159,41 @@ export class VChart implements IVChart {
     return this._option.mode || RenderModeEnum['desktop-browser'];
   }
 
+  protected getTheme = (...keys: string[]): any => {
+    if (!this._currentTheme || !keys || !keys.length) {
+      return undefined;
+    }
+    if (!this._cachedProcessedTheme) {
+      this._cachedProcessedTheme = {};
+    }
+
+    const cacheKey = keys.join('.');
+
+    if ((this._cachedProcessedTheme as any)[cacheKey]) {
+      return (this._cachedProcessedTheme as any)[cacheKey];
+    }
+    let theme: any = this._currentTheme;
+    keys.forEach((key: string, index: number) => {
+      if (theme && isValid(key)) {
+        theme = (theme as any)[key];
+
+        if (index === keys.length - 1 && isValid(theme)) {
+          theme = preprocessTheme(
+            {
+              [key]: theme
+            },
+            this._currentTheme.colorScheme,
+            this._currentTheme.token
+          )[key];
+        }
+      }
+    });
+
+    (this._cachedProcessedTheme as any)[cacheKey] = theme;
+
+    return theme;
+  };
+
   protected _getChartOption(type: string): IChartOption {
     return {
       type,
@@ -2170,7 +2209,7 @@ export class VChart implements IVChart {
       performanceHook: this._option.performanceHook,
       viewBox: this._viewBox,
       animation: this._option.animation,
-      getTheme: () => this._currentTheme ?? {},
+      getTheme: this.getTheme,
       getSpecInfo: () => this._specInfo ?? {},
 
       layout: this._option.layout,
