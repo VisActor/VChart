@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: datazoom and scrollbar realtime not work. fix#3716",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
