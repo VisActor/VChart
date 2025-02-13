@@ -55,6 +55,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   private _needInitEventOfTooltip?: boolean;
   private _enterable: boolean;
   private _isReleased: boolean = false;
+  /**
+   * 是否正在浏览tooltip内容
+   */
+  private _isEnterTooltip: boolean;
   protected declare _spec: ITooltipSpec;
 
   tooltipHandler?: ITooltipHandler;
@@ -178,6 +182,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         if (!this._enterable) {
           return;
         }
+        this._isEnterTooltip = true;
 
         const rect = element.getBoundingClientRect?.();
         if (rect) {
@@ -198,6 +203,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         if (!this._enterable) {
           return;
         }
+        this._isEnterTooltip = false;
 
         if (this._cacheEnterableRect) {
           const newRect = element.getBoundingClientRect?.();
@@ -348,7 +354,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   };
 
   protected _handleChartMouseOut = (params?: BaseEventParams) => {
-    if (this._alwaysShow || this._isReleased) {
+    if (this._alwaysShow || this._isReleased || this._isEnterTooltip) {
       return;
     }
 
@@ -370,7 +376,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   };
 
   protected _getMouseMoveHandler = (isClick: boolean) => (params: BaseEventParams) => {
-    if (this._isReleased) {
+    if (this._isReleased || this._isEnterTooltip) {
       return;
     }
     if (this._outTimer) {
