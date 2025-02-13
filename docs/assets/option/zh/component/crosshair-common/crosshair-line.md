@@ -16,7 +16,7 @@ crosshair 辅助线的类型，可选值为 `'line'` 和 `'rect'`。
 
 #${prefix} smooth(boolean)
 
-仅对 `type: 'line'` 生效，极坐标系下是否平滑绘制。
+极坐标系下是否平滑绘制。对 `type: 'line'` 生效，自版本 `1.13.5` 后支持 `type: 'polygon'`。
 
 {{ else }}
 #${prefix} width(number|string)
