@@ -31,7 +31,6 @@ import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
 import { Factory } from '../../core/factory';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { SeriesData } from '../base/series-data';
 import { DataView } from '@visactor/vdataset';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
@@ -42,6 +41,8 @@ import { ComponentTypeEnum } from '../../component/interface';
 import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
 import { createRect } from '@visactor/vrender-core';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import type { ICompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -59,7 +60,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barMark!: IRectMark;
   protected _barBackgroundMark!: IRectMark;
 
-  protected _barBackgroundViewData: SeriesData;
+  protected _barBackgroundViewData: ICompilableData;
 
   initMark(): void {
     this._initBarBackgroundMark();
@@ -264,7 +265,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
       viewData?.target.addListener('change', barBackgroundData.reRunAllTransform);
     }
-    this._barBackgroundViewData = new SeriesData(this._option, barBackgroundData);
+    this._barBackgroundViewData = new CompilableData(this._option, barBackgroundData);
   }
 
   init(option: IModelInitOption): void {
@@ -811,8 +812,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     );
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     const region = this.getRegion();
     // @ts-ignore
     region._bar_series_position_calculated = false;

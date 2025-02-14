@@ -49,12 +49,12 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
     }
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void {
     this._isLayout = true;
-    super.onLayoutStart(layoutRect, viewRect, ctx);
+    super.onLayoutStart(layoutRect, viewRect);
   }
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     // diff layoutRect
     this.updateLayoutAttribute();
     const layoutRect = this.getLayoutRect();

@@ -7,9 +7,11 @@ import { mixin } from '@visactor/vutils';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 import type { IPolarAxisHelper } from './interface';
-import { registerLineAxis, registerLineGrid, registerCircleAxis, registerCircleGrid } from '@visactor/vgrammar-core';
-import { continuousTicks } from '@visactor/vrender-components';
+import { CircleAxis, CircleAxisGrid, continuousTicks, LineAxis, LineAxisGrid } from '@visactor/vrender-components';
 import { registerDataSetInstanceTransform } from '../../../data/register';
+import type { IGroup } from '@visactor/vrender-core';
+import type { VRenderComponentOptions } from '../../../core/interface';
+import { GridEnum, AxisEnum } from '../interface';
 
 export interface PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSpec>
   extends Pick<
@@ -67,10 +69,19 @@ export class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSp
 mixin(PolarLinearAxis, LinearAxisMixin);
 
 export const registerPolarLinearAxis = () => {
-  registerLineAxis();
-  registerLineGrid();
-  registerCircleAxis();
-  registerCircleGrid();
+  Factory.registerGraphicComponent(AxisEnum.lineAxis, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxis(attrs, options) as unknown as IGroup;
+  });
+  Factory.registerGraphicComponent(GridEnum.lineAxisGrid, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxisGrid(attrs, options) as unknown as IGroup;
+  });
+
+  Factory.registerGraphicComponent(AxisEnum.circleAxis, (attrs: any, options: VRenderComponentOptions) => {
+    return new CircleAxis(attrs, options) as unknown as IGroup;
+  });
+  Factory.registerGraphicComponent(GridEnum.circleAxisGrid, (attrs: any, options: VRenderComponentOptions) => {
+    return new CircleAxisGrid(attrs, options) as unknown as IGroup;
+  });
   registerAxis();
   Factory.registerComponent(PolarLinearAxis.type, PolarLinearAxis);
 };

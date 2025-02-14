@@ -457,12 +457,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     // do nothing
   }
 
-  onLayoutEnd(ctx: IModelLayoutOption): void {
+  onLayoutEnd(): void {
     const region = this._regions[0];
     this.setLayoutRect(region.getLayoutRect());
     this.setLayoutStartPosition(region.getLayoutStartPoint());
 
-    super.onLayoutEnd(ctx);
+    super.onLayoutEnd();
   }
 
   onRender(ctx: IModelRenderOption): void {

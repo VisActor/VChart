@@ -4,9 +4,13 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkStyle, ISymbolMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerSymbolGraphic } from '@visactor/vgrammar-core';
+import { createSymbol } from '@visactor/vrender-core';
+import { registerShadowRoot, registerSymbol } from '@visactor/vrender-kits';
+import { registerSymbolDataLabel } from '@visactor/vrender-components';
 
-export class BaseSymbolMark<T extends ISymbolMarkSpec> extends BaseMark<T> {
+export class SymbolMark extends BaseMark<ISymbolMarkSpec> implements ISymbolMark {
+  static readonly type = MarkTypeEnum.symbol;
+  readonly type = SymbolMark.type;
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<ISymbolMarkSpec> = {
       ...super._getDefaultStyle(),
@@ -15,16 +19,15 @@ export class BaseSymbolMark<T extends ISymbolMarkSpec> extends BaseMark<T> {
       fill: undefined,
       lineWidth: 0
     };
-    return defaultStyle as IMarkStyle<T>;
+    return defaultStyle as IMarkStyle<ISymbolMarkSpec>;
   }
-}
-
-export class SymbolMark extends BaseSymbolMark<ISymbolMarkSpec> implements ISymbolMark {
-  static readonly type = MarkTypeEnum.symbol;
-  readonly type = SymbolMark.type;
 }
 
 export const registerSymbolMark = () => {
   Factory.registerMark(SymbolMark.type, SymbolMark);
-  registerSymbolGraphic();
+  registerShadowRoot();
+  registerSymbol();
+  registerSymbolDataLabel();
+
+  Factory.registerGraphicComponent(MarkTypeEnum.symbol, createSymbol);
 };

@@ -55,7 +55,7 @@ import { registerCustomMark } from './component/custom-mark';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
 import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
-import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
+// import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
 import { DefaultTicker } from '@visactor/vrender-core';
 import { registerAnimate } from './plugin/other';
 
@@ -133,10 +133,10 @@ export {
   registerCustomMark,
   registerPoptip,
   // layout
-  registerGridLayout,
+  registerGridLayout
   // vgrammar interactions,
-  registerElementHighlight,
-  registerElementSelect
+  // registerElementHighlight,
+  // registerElementSelect
 };
 
 export default VChart;

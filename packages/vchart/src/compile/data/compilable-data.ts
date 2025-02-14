@@ -1,17 +1,27 @@
 import type { DataView } from '@visactor/vdataset';
-import type { IData as IVGrammarData } from '@visactor/vgrammar-core';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe } from '../../typings';
-import { isNil } from '../../util/type';
 import type { ICompilableData } from './interface';
 import type { GrammarItemInitOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { GrammarType } from '../interface/compilable-item';
+import type { ICompilableMark } from '../mark';
 
 export class CompilableData extends GrammarItem implements ICompilableData {
   readonly grammarType = GrammarType.data;
-  protected declare _product: Maybe<IVGrammarData>;
-  declare getProduct: () => Maybe<IVGrammarData>;
+  protected declare _product: Maybe<any>;
+
+  protected _prevProduct: Maybe<any>;
+
+  getProduct() {
+    if (this._product) {
+      return this._product;
+    }
+
+    this._product = this.runTransforms<Maybe<any>>(this._transform, this.getLatestData());
+
+    return this._product;
+  }
 
   /** 原始DataView */
   protected _data: Maybe<DataView> = null;
@@ -21,6 +31,7 @@ export class CompilableData extends GrammarItem implements ICompilableData {
   setDataView(d?: DataView) {
     this._data = d;
   }
+
   getLatestData() {
     return this._data?.latestData;
   }
@@ -35,49 +46,45 @@ export class CompilableData extends GrammarItem implements ICompilableData {
     this._data = null;
   }
 
+  protected _relatedMarks?: Record<string, ICompilableMark>;
+
+  addRelatedMark(mark: ICompilableMark) {
+    if (!this._relatedMarks) {
+      this._relatedMarks = {};
+    }
+
+    this._relatedMarks[mark.id] = mark;
+  }
+
   /** 更新数据并默认重新渲染 */
   updateData(noRender?: boolean) {
-    const product = this.getProduct();
-    const data = this.getLatestData();
-    if (product && data) {
-      product.values(data);
-      if (!noRender) {
+    this._compileProduct();
+
+    if (this._relatedMarks) {
+      let hasCommited = false;
+      Object.keys(this._relatedMarks).forEach(id => {
+        if (this._relatedMarks[id]) {
+          hasCommited = true;
+          this._relatedMarks[id].commit();
+        }
+      });
+
+      if (!noRender && hasCommited) {
         // 将实际的 dataflow 推迟到下一次异步操作，以避免同步的数据更新内容被忽略
         return this.getCompiler().renderNextTick();
       }
     }
+
     return;
   }
 
   protected _compileProduct() {
-    const data = this.getLatestData();
-    if (isNil(data)) {
-      return;
-    }
-    if (isNil(this.getProduct())) {
-      this._initProduct(data);
-    } else {
-      this._product.values(data);
-    }
-  }
-
-  /** 创建语法元素对象 */
-  protected _initProduct(data: any[]) {
-    const view = this.getVGrammarView();
-    if (!view || !data) {
-      return;
-    }
-
-    const id = this.getProductId();
-    this._product = view?.data?.(data)?.id(id);
-    this._compiledProductId = id;
+    this._prevProduct = this._product;
+    // do nothing
+    this._product = null;
   }
 
   generateProductId(): string {
     return `${this.getDataView()?.name}`;
-  }
-
-  protected _lookupGrammar(id: string) {
-    return this.getCompiler().getVGrammarView()?.getDataById?.(id);
   }
 }

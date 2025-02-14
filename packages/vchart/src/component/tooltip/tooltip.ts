@@ -96,10 +96,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   protected _releaseEvent() {
     /* do nothing */
   }
-  onLayout(ctx: IModelLayoutOption) {
-    /* do nothing */
-  }
-  onLayoutEnd(ctx: IModelLayoutOption) {
+  onLayoutEnd() {
     /* do nothing */
   }
   onRender(ctx: IModelRenderOption) {

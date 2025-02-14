@@ -7,7 +7,7 @@ import type {
 } from '../chart/interface';
 import type { ISeriesConstructor, ISeriesMarkInfo, ISeriesOption, SeriesMarkNameEnum } from '../series/interface';
 import type { IComponentConstructor } from '../component/interface';
-import type { IMarkConstructor, IMarkOption, MarkConstructor } from '../mark/interface';
+import type { IMarkConstructor, IMarkDataTransform, IMarkOption, MarkConstructor } from '../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../mark/interface/type';
 import type { IRegion, IRegionConstructor } from '../region/interface';
@@ -16,14 +16,22 @@ import type { Transform, Parser } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { fields, filter, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
-import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
+import type { IStageEventPlugin, MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
 import type { IComponentPluginConstructor } from '../plugin/components/interface';
+import type { IGraphic } from '@visactor/vrender-core';
+import type { VRenderComponentOptions } from './interface';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
   private static _series: { [key: string]: ISeriesConstructor } = {};
-  private static _components: { [key: string]: { cmp: IComponentConstructor; alwaysCheck?: boolean } } = {};
+  private static _components: {
+    [key: string]: {
+      cmp: IComponentConstructor;
+      alwaysCheck?: boolean;
+    };
+  } = {};
+  private static _graphicComponents: Record<string, (attrs: any, options?: VRenderComponentOptions) => IGraphic> = {};
   private static _marks: { [key: string]: MarkConstructor } = {};
   private static _regions: { [key: string]: IRegionConstructor } = {};
   private static _animations: { [key: string]: (params?: any, preset?: any) => MarkAnimationSpec } = {};
@@ -59,6 +67,20 @@ export class Factory {
   static registerComponent(key: string, cmp: IComponentConstructor, alwaysCheck?: boolean) {
     Factory._components[key] = { cmp, alwaysCheck };
   }
+
+  static registerGraphicComponent(key: string, creator: (attrs: any, options?: VRenderComponentOptions) => IGraphic) {
+    Factory._graphicComponents[key] = creator;
+  }
+
+  static createGraphicComponent(componentType: string, attrs: any, options?: VRenderComponentOptions) {
+    const compCreator = Factory._graphicComponents[componentType];
+
+    if (!compCreator) {
+      return null;
+    }
+
+    return compCreator(attrs, options);
+  }
   static registerMark(key: string, mark: MarkConstructor) {
     Factory._marks[key] = mark;
   }
@@ -67,6 +89,27 @@ export class Factory {
   }
   static registerTransform(key: string, transform: Transform) {
     Factory.transforms[key] = transform;
+  }
+
+  private static _grammarTransforms: Record<
+    string,
+    {
+      /** 是否支持渐进流程 */
+      canProgressive?: boolean;
+      transform: IMarkDataTransform;
+      isGraphic?: boolean;
+    }
+  > = {};
+
+  static registerGrammarTransform(
+    type: string,
+    transform: { canProgressive?: boolean; transform: IMarkDataTransform; isGraphic?: boolean }
+  ) {
+    Factory._grammarTransforms[type] = transform;
+  }
+
+  static getGrammarTransform(type: string) {
+    return Factory._grammarTransforms[type];
   }
   static registerLayout(key: string, layout: ILayoutConstructor) {
     Factory._layout[key] = layout;
@@ -222,4 +265,14 @@ export class Factory {
   static getFormatter() {
     return this._formatter;
   }
+
+  private static _stageEventPlugins: Record<string, IStageEventPlugin<any>> = {};
+
+  static registerStageEventPlugin = (type: string, Plugin: IStageEventPlugin<any>) => {
+    Factory._stageEventPlugins[type] = Plugin;
+  };
+
+  static getStageEventPlugin = (type: string) => {
+    return Factory._stageEventPlugins[type];
+  };
 }

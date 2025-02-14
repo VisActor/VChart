@@ -4,8 +4,11 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkOption, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
-import { registerRichTextGraphic, registerTextGraphic } from '@visactor/vgrammar-core';
 import type { ITextMark, ITextSpec } from './interface/mark';
+import { registerRichtext, registerShadowRoot, registerText } from '@visactor/vrender-kits';
+import type { IGraphic, IRichTextGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
+import { createRichText, createText } from '@visactor/vrender-core';
+import { isObject, isValid } from '@visactor/vutils';
 
 export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMark {
   static readonly type = MarkTypeEnum.text;
@@ -39,16 +42,31 @@ export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMa
     }
   }
 
-  compileEncode() {
-    super.compileEncode();
-    if (this._textType === 'rich') {
-      this._product.encodeState('group', { textType: this._textType });
+  protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
+    const textAttrs = super._transformGraphicAttributes(g, attrs, groupAttrs);
+
+    const { text } = textAttrs;
+
+    if ((isObject(text) && this._textType === 'rich', isValid((text as any).text))) {
+      textAttrs.textConfig = (text as any).text;
     }
+
+    return textAttrs;
+  }
+
+  createGraphic(attrs: ITextGraphicAttribute | IRichTextGraphicAttribute = {}): IGraphic {
+    return this._textType === 'rich'
+      ? createRichText(attrs as IRichTextGraphicAttribute)
+      : createText(attrs as ITextGraphicAttribute);
   }
 }
 
 export const registerTextMark = () => {
   Factory.registerMark(TextMark.type, TextMark);
-  registerTextGraphic();
-  registerRichTextGraphic();
+  registerShadowRoot();
+  registerText();
+  registerRichtext();
+
+  Factory.registerGraphicComponent(MarkTypeEnum.text, createText);
+  Factory.registerGraphicComponent('richtext', createRichText);
 };

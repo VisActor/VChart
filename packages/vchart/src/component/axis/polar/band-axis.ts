@@ -7,9 +7,17 @@ import type { StringOrNumber } from '../../../typings';
 import type { IPolarBandAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
-import { registerLineAxis, registerLineGrid, registerCircleAxis, registerCircleGrid } from '@visactor/vgrammar-core';
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { polarAngleAxisDiscreteTicks } from '@visactor/vrender-components';
+import {
+  CircleAxis,
+  CircleAxisGrid,
+  LineAxis,
+  LineAxisGrid,
+  polarAngleAxisDiscreteTicks
+} from '@visactor/vrender-components';
+import type { IGroup } from '@visactor/vrender-core';
+import type { VRenderComponentOptions } from '../../../core/interface';
+import { GridEnum, AxisEnum } from '../interface';
 
 export interface PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec>
   extends Pick<
@@ -66,10 +74,19 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
 mixin(PolarBandAxis, BandAxisMixin);
 
 export const registerPolarBandAxis = () => {
-  registerLineAxis();
-  registerLineGrid();
-  registerCircleAxis();
-  registerCircleGrid();
+  Factory.registerGraphicComponent(AxisEnum.lineAxis, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxis(attrs, options) as unknown as IGroup;
+  });
+  Factory.registerGraphicComponent(GridEnum.lineAxisGrid, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxisGrid(attrs, options) as unknown as IGroup;
+  });
+
+  Factory.registerGraphicComponent(AxisEnum.circleAxis, (attrs: any, options: VRenderComponentOptions) => {
+    return new CircleAxis(attrs, options) as unknown as IGroup;
+  });
+  Factory.registerGraphicComponent(GridEnum.circleAxisGrid, (attrs: any, options: VRenderComponentOptions) => {
+    return new CircleAxisGrid(attrs, options) as unknown as IGroup;
+  });
   registerAxis();
   Factory.registerComponent(PolarBandAxis.type, PolarBandAxis);
 };

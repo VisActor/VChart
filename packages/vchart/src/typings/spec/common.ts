@@ -1,7 +1,7 @@
 import type { IVChart } from './../../core/interface';
-import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
+import type { IImageMarkSpec } from '../visual';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
+import type { IElement } from '@visactor/vgrammar-core';
 import type {
   DataSet,
   DataView,
@@ -55,7 +55,7 @@ import type { IBrushSpec } from '../../component/brush/interface';
 import type { ITotalLabelSpec } from '../../component/label/interface';
 import type { ILegendSpec } from '../../component/legend/interface';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { IColor, ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
+import type { IColor, ICustomPath2D, IOption3D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis/interface';
 import type { IMediaQuerySpec } from './media-query';
 import type { IModelSpec } from '../../model/interface';
@@ -86,10 +86,6 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * 是否开启动画
    */
   animation?: boolean;
-  /**
-   * 3d配置
-   */
-  options3d?: srIOption3DType;
 
   /**
    * 自定义布局函数

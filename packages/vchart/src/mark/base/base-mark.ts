@@ -1,4 +1,9 @@
-import type { IStateInfo, IAttributeOpt, IModelMarkAttributeContext } from '../../compile/mark/interface';
+import {
+  type IStateInfo,
+  type IAttributeOpt,
+  type IModelMarkAttributeContext,
+  STATE_VALUE_ENUM
+} from '../../compile/mark/interface';
 import type { BaseSeries } from '../../series/base/base-series';
 import type {
   Datum,
@@ -23,8 +28,10 @@ import type {
   IMarkOption,
   StyleConvert,
   VisualScaleType,
-  MarkInputStyle
+  MarkInputStyle,
+  GroupedData
 } from '../interface';
+import { DiffState } from '../interface/enum';
 import { GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant/gradient';
 import { AttributeLevel } from '../../constant/attribute';
 import { isValidScaleType } from '@visactor/vscale';
@@ -32,8 +39,14 @@ import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme
 import type { ISeries } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
-import { degreeToRadian, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
-import { curveTypeTransform } from '../utils';
+import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
+import { curveTypeTransform, groupData, runEncoder } from '../utils';
+import { LayoutState } from '../../compile/interface';
+import type { IGroupGraphicAttribute, IGraphic } from '@visactor/vrender-core';
+import { createGroup } from '@visactor/vrender-core';
+import { isStateAttrChangeable } from '../../compile/mark/util';
+import { Factory } from '../../core/factory';
+import { DEFAULT_DATA_KEY } from '../../constant/data';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -382,8 +395,8 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     if (isValidScaleType(stateStyle.style.scale?.type)) {
       return (datum: Datum, opt: IAttributeOpt) => {
         let data = datum;
-        if (this.model.modelType === 'series' && (this.model as ISeries).getMarkData) {
-          data = (this.model as ISeries).getMarkData(datum);
+        if (this.model.modelType === 'series' && (this.model as unknown as ISeries).getMarkData) {
+          data = (this.model as unknown as ISeries).getMarkData(datum);
         }
 
         return stateStyle.style.scale.scale(data[stateStyle.style.field]);
@@ -455,11 +468,11 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
         this.model.getColorScheme(),
         this.model.modelType === 'series' ? this.model.getSpec?.() : undefined
       ),
-      (this.model as ISeries).getDefaultColorDomain()
+      (this.model as unknown as ISeries).getDefaultColorDomain()
     );
     // 默认配置处理
     const mergedStyle = {
-      ...DEFAULT_GRADIENT_CONFIG[gradient],
+      ...(DEFAULT_GRADIENT_CONFIG as any)[gradient],
       ...rest
     };
     return (data: Datum, opt: IAttributeOpt) => {
@@ -517,7 +530,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
             this.model.getColorScheme(),
             this.model.modelType === 'series' ? this.model.getSpec?.() : undefined
           ),
-          (this.model as ISeries).getDefaultColorDomain()
+          (this.model as unknown as ISeries).getDefaultColorDomain()
         );
         let colorScale = scale;
         let colorField = field;
@@ -538,5 +551,278 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       }
       return computeStyle;
     };
+  }
+
+  protected _dataByGroup: GroupedData<Datum>;
+  protected _dataByKey: GroupedData<Datum>;
+  protected _graphicMap: Map<string, IGraphic> = new Map();
+  protected _graphics: IGraphic[] = [];
+
+  protected _keyGetter: (datum: Datum) => string;
+  protected _groupKeyGetter: (datum: Datum) => string;
+
+  protected _getDataByKey(data: Datum[]) {
+    return groupData(data, (datum: Datum) => {
+      return `${this._groupKeyGetter(datum)}_${this._keyGetter(datum)}`;
+    });
+  }
+
+  getGraphics() {
+    return this._graphics;
+  }
+
+  createGraphic(attrs: any = {}): IGraphic {
+    return Factory.createGraphicComponent(this.type, attrs);
+  }
+
+  runGroupData(data: Datum[]) {
+    this._keyGetter = isFunction(this.key)
+      ? (this.key as (datum: Datum) => string)
+      : isValid(this.key)
+      ? (datum: Datum) => datum?.[this.key as string]
+      : (datum: Datum) => datum?.[DEFAULT_DATA_KEY];
+    this._groupKeyGetter = isValid(this._groupKey)
+      ? (datum: Datum) => {
+          return `${datum?.[this._groupKey]}`;
+        }
+      : () => 'key';
+
+    this._dataByGroup = groupData(data, this._groupKeyGetter);
+  }
+
+  runJoin(data: Datum[]) {
+    const newGroupedData = this._getDataByKey(data);
+    const prevGroupedData = this._dataByKey;
+    const newGraphics: IGraphic[] = [];
+
+    const enterGraphics = new Set<IGraphic>(this._graphics.filter(g => g.context.diffState === DiffState.enter));
+
+    const callback = (key: string, newData: Datum[], prevData: Datum[]) => {
+      let g: IGraphic;
+      let diffState: DiffState;
+
+      if (isNil(newData)) {
+        g = this._graphicMap.get(key);
+
+        if (g) {
+          diffState = DiffState.exit;
+        }
+      } else if (isNil(prevData)) {
+        // enter
+        if (this._graphicMap.has(key)) {
+          g = this._graphicMap.get(key);
+        } else {
+          g = this.createGraphic();
+          //
+          this._product.appendChild(g);
+        }
+        diffState = DiffState.enter;
+
+        if (g.diffState === DiffState.exit) {
+          // force element to stop exit animation if it is reentered
+          // todo animaiton
+        }
+
+        this._graphicMap.set(key, g);
+        newGraphics.push(g);
+      } else {
+        // update
+        g = this._graphicMap.get(key);
+
+        if (g) {
+          diffState = DiffState.update;
+          newGraphics.push(g);
+        }
+      }
+
+      if (g) {
+        if (!g.context) {
+          g.context = {};
+        }
+
+        g.context.diffState = diffState;
+        g.context.data = newData;
+        g.context.key = key;
+        if (newData) {
+          g.context.groupKey = this._groupKeyGetter(newData[0]);
+        }
+        enterGraphics.delete(g);
+      }
+    };
+
+    if (prevGroupedData && newGroupedData) {
+      const prevMap = new Map(prevGroupedData.data);
+      const newKeys = newGroupedData.keys;
+
+      newKeys.forEach(key => {
+        callback(key, newGroupedData.data.get(key), prevMap.get(key));
+        prevMap.delete(key);
+      });
+
+      prevGroupedData.keys.forEach(key => {
+        if (prevMap.has(key)) {
+          callback(key, null, prevMap.get(key));
+        }
+      });
+    } else if (newGroupedData) {
+      newGroupedData.keys.forEach(key => {
+        // enter
+        callback(key, newGroupedData.data.get(key), null);
+      });
+    } else if (prevGroupedData) {
+      prevGroupedData.keys.forEach(key => {
+        // exit
+        callback(key, null, prevGroupedData.data.get(key));
+      });
+    }
+
+    // Enter elements between dataflow start data and end data should be removed directly.
+    enterGraphics.forEach(g => {
+      this._graphicMap.delete(g.context.key);
+
+      if (g.parent) {
+        g.parent.removeChild(g);
+      }
+      g.release();
+    });
+
+    this._dataByKey = newGroupedData;
+    this._graphics = newGraphics;
+  }
+
+  _runEncoderOfGraphic(styles: Record<string, (datum: Datum) => any>, g: IGraphic, attrs: any = {}) {
+    return runEncoder(styles, g.context.data[0], attrs);
+  }
+
+  _runGroupEncoder(groupStyles: Record<string, (datum: Datum) => any>) {
+    if (!this._dataByGroup) {
+      return null;
+    }
+
+    const attrsByGroup: any = {};
+
+    this._dataByGroup.keys.forEach(key => {
+      attrsByGroup[key] = runEncoder(groupStyles, this._dataByGroup.data.get(key)[0]);
+    });
+
+    return attrsByGroup;
+  }
+
+  protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
+    return {
+      ...groupAttrs,
+      ...attrs
+    };
+  }
+
+  runEncoder(splitGroupEncoder?: boolean) {
+    const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle } = this.stateStyle;
+    const updateStyles: Record<string, (datum: Datum) => any> = {};
+    const groupStyles: Record<string, (datum: Datum) => any> = {};
+
+    Object.keys(normalStyle).forEach(key => {
+      if (this._unCompileChannel[key]) {
+        return;
+      }
+
+      if (
+        this._option.noSeparateStyle ||
+        splitGroupEncoder ||
+        isStateAttrChangeable(key, normalStyle, this.getGroupKey())
+      ) {
+        updateStyles[key] = this._computeAttribute(key, 'normal');
+      } else {
+        groupStyles[key] = this._computeAttribute(key, 'normal');
+      }
+    });
+    const attrsByGroup = this._runGroupEncoder(groupStyles);
+
+    this._graphics.forEach(g => {
+      const attrs = this._runEncoderOfGraphic(updateStyles, g);
+
+      // 配置的优先级高于encoder
+      if (!isNil(this._markConfig.interactive)) {
+        attrs.pickable = this._markConfig.interactive;
+      }
+
+      g.context.attrs = attrs;
+
+      g.setAttributes(this._transformGraphicAttributes(g, attrs, attrsByGroup?.[g.context.groupKey]));
+    });
+  }
+
+  runState() {
+    //
+  }
+
+  getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}): IGroupGraphicAttribute {
+    const { zIndex, clip, clipPath, overflow } = this._markConfig;
+
+    if (!isNil(zIndex)) {
+      attrs.zIndex = zIndex;
+    }
+
+    if (!isNil(clip)) {
+      attrs.clip = clip;
+    }
+
+    if (!isNil(clipPath)) {
+      const paths = isArray(clipPath) ? clipPath : clipPath(this._graphics);
+
+      if (paths && paths.length) {
+        attrs.path = paths;
+      } else {
+        attrs.clip = false;
+        attrs.path = paths;
+      }
+    }
+
+    if (!isNil(overflow)) {
+      attrs.overflow = overflow;
+    }
+
+    return attrs;
+  }
+
+  runMainTasks() {
+    if (
+      !this.getVisible() ||
+      (this.getSkipBeforeLayouted() && this.getCompiler().getLayoutState() === LayoutState.before)
+    ) {
+      return;
+    }
+
+    const data = this._data?.getProduct();
+
+    const transformData = array(
+      this.runTransforms(
+        this._transform?.filter(transformSpec => {
+          if (transformSpec.type) {
+            const transform = Factory.getGrammarTransform(transformSpec.type);
+            return !transform?.isGraphic;
+          }
+
+          return false;
+        }),
+        data
+      )
+    );
+
+    this.runGroupData(transformData);
+    this.runJoin(transformData);
+    this.runEncoder();
+    this.runState();
+
+    const attrs = this.getAttrsFromConfig();
+
+    this._product?.setAttributes(attrs);
+  }
+
+  render() {
+    if (this._isCommited) {
+      this.runMainTasks();
+    }
+
+    this.uncommit();
   }
 }

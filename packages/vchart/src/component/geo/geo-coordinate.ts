@@ -2,7 +2,7 @@ import { LayoutZIndex } from './../../constant/layout';
 /* eslint-disable no-duplicate-imports */
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IEffect, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IGeoRegionSpec, IRegion, RegionSpec } from '../../region/interface';
@@ -270,7 +270,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     });
   }
 
-  onLayoutEnd(ctx: IModelLayoutOption) {
+  onLayoutEnd() {
     this.setLayoutRect(this._regions[0].getLayoutRect());
     this.setLayoutStartPosition(this._regions[0].getLayoutStartPoint());
     const { width, height } = this.getLayoutRect();
@@ -281,7 +281,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     eachSeries(this._regions, s => {
       if (s.type === SeriesTypeEnum.map || s.type === SeriesTypeEnum.pictogram) {
         (s as MapSeries).areaPath?.clear();
-        const pathGroup = s.getRootMark().getProduct()?.getGroupGraphicItem();
+        const pathGroup = s.getRootMark().getProduct();
         if (pathGroup) {
           if (pathGroup.attribute.postMatrix) {
             pathGroup.setAttributes({
@@ -293,7 +293,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     });
     this._actualScale = this._initialScale;
 
-    super.onLayoutEnd(ctx);
+    super.onLayoutEnd();
   }
 
   onRender(ctx: IModelRenderOption) {
