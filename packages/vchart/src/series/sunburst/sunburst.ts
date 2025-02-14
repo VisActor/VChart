@@ -288,7 +288,7 @@ export class SunburstSeries extends PolarSeries<any> {
     this.setMarkStyle(
       this._labelMark,
       {
-        visible: d => {
+        visible: (d: Datum) => {
           // 自动隐藏密集标签逻辑.
           const labelAutoVisible = this._labelAutoVisible;
 
@@ -300,11 +300,11 @@ export class SunburstSeries extends PolarSeries<any> {
           }
           return this._spec.label.visible;
         },
-        x: d => d.label?.x + (isValid(this._offsetX) ? this._offsetX : 0),
-        y: d => d.label?.y + (isValid(this._offsetY) ? this._offsetY : 0),
-        textBaseline: d => d.label?.textBaseline,
-        textAlign: d => d.label?.textAlign,
-        angle: d => d.label?.angle ?? 0,
+        x: (d: Datum) => d.label?.x + (isValid(this._offsetX) ? this._offsetX : 0),
+        y: (d: Datum) => d.label?.y + (isValid(this._offsetY) ? this._offsetY : 0),
+        textBaseline: (d: Datum) => d.label?.textBaseline,
+        textAlign: (d: Datum) => d.label?.textAlign,
+        angle: (d: Datum) => d.label?.angle ?? 0,
         fontSize: 10,
         text: (d: Datum) => d.name
       },

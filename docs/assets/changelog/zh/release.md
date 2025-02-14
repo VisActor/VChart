@@ -1,3 +1,23 @@
+# v1.13.4
+
+2025-01-17
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 词云图系列`wordCloudConfig`增加`insertZerosToArray`配置，解决特定浏览器性能问题
+- **@visactor/vchart**: `markArea`标记区域标签支持更多的位置，包括: `'insideBottom'`, `'topLeft'`, `'topRight'`, `'bottomLeft'`,`'bottomRight'`,`'insideTopLeft'`,`'insideTopRight'`,`'insideBottomLeft'`,`'insideBottomRight'`
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复 tooltip 关于 `showDelay` 的错误，修复 [#3663](https://github.com/VisActor/VChart/issues/3663)
+- **@visactor/vchart**: 修复 tooltip 的偏移问题，修复 [#3666](https://github.com/VisActor/VChart/issues/3666)
+- **@visactor/vchart**: 修复 tooltip 行高解析的错误，修复 [#3643](https://github.com/VisActor/VChart/issues/3643)
+- **@visactor/vchart**: 修复轴断点范围计算错误的问题，修复 [#3656](https://github.com/VisActor/VChart/issues/3656)
+- **@visactor/vchart**: 修复地图拖拽交互无法在画布外终止的问题，修复 [#3650](https://github.com/VisActor/VChart/issues/3650)
+- **@visactor/vchart**: 修复当线条、面积中有非法点，`invalidType` 为`link`的时候，线形展示不对的问题，修复[#3146](https://github.com/VisActor/VChart/issues/3146)
+
+[更多详情请查看 v1.13.4](https://github.com/VisActor/VChart/releases/tag/v1.13.4)
+
 # v1.13.3
 
 2025-01-08

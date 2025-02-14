@@ -1,7 +1,27 @@
+# v1.13.4
+
+2025-01-17
+
+**🆕 New feature**
+
+- **@visactor/vchart**: Added `insertZerosToArray` configuration to `wordCloudConfig` in the word cloud series to address performance issues in specific browsers.
+- **@visactor/vchart**: `markArea` labels now support more positions, including: `'insideBottom'`, `'topLeft'`, `'topRight'`, `'bottomLeft'`, `'bottomRight'`, `'insideTopLeft'`, `'insideTopRight'`, `'insideBottomLeft'`, `'insideBottomRight'`.
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix error of tooltip about `showDelay`, fix [#3663](https://github.com/VisActor/VChart/issues/3663)
+- **@visactor/vchart**: fix offset of tooltip, fix [#3666](https://github.com/VisActor/VChart/issues/3666)
+- **@visactor/vchart**: fix bug of parse lineHeight of tooltip row, fix [#3643](https://github.com/VisActor/VChart/issues/3643)
+- **@visactor/vchart**: axis break's scope calculate error, fix[#3656](https://github.com/VisActor/VChart/issues/3656)
+- **@visactor/vchart**: fix the issue where map drag interaction cannot be terminated outside the canvas, [#3650](https://github.com/VisActor/VChart/issues/3650)
+- **@visactor/vchart**: fix the issue where map drag interaction cannot be terminated outside the canvas.
+- **@visactor/vchart**: fix the issue where the line shape is incorrect when there are invalid points in the line or area and `invalidType` is set to `link`, fix [#3146](https://github.com/VisActor/VChart/issues/3146)
+
+[more detail about v1.13.4](https://github.com/VisActor/VChart/releases/tag/v1.13.4)
+
 # v1.13.3
 
 2025-01-08
-
 
 **🆕 New feature**
 
@@ -20,16 +40,13 @@
 - **@visactor/vchart**: compilier should add dpr to vrender
 - **@visactor/vchart**: fix invisible region blocking mark events, [#3638](https://github.com/VisActor/VChart/issues/3638)
 - **@visactor/vchart**: undefined points shoulde not show when dimension hover, fix [#3610](https://github.com/VisActor/VChart/issues/3610)
-- **@visactor/vchart**: fix layout error of title component, fix [#3614](https://github.com/VisActor/VChart/issues/3614) 
-
-
+- **@visactor/vchart**: fix layout error of title component, fix [#3614](https://github.com/VisActor/VChart/issues/3614)
 
 [more detail about v1.13.3](https://github.com/VisActor/VChart/releases/tag/v1.13.3)
 
 # v1.13.2
 
 2024-12-24
-
 
 **🆕 New feature**
 
@@ -43,11 +60,9 @@
 - **@visactor/vchart**: tooltip should not render empty column when `hasShape` of tooltip is `false`, related to [#3572](https://github.com/VisActor/VChart/issues/3572)
 - **@visactor/vchart**: `othersLine` of tooltip can be hidden by `visible: false`, related to [#3572](https://github.com/VisActor/VChart/issues/3572)
 - **@visactor/vchart**: fix position of tooltip, related to [#3590](https://github.com/VisActor/VChart/issues/3590)
-- **@visactor/vchart**: page should not crash when `tickStep` is too small, fix  [#3591](https://github.com/VisActor/VChart/issues/3591)
-- **@visactor/vchart**: fix updating of customized DOM when has interactive layer, fix  [#3587](https://github.com/VisActor/VChart/issues/3587) 
-- **@visactor/vchart**: fix axis breaks when set `tickStep`, fix  [#3560](https://github.com/VisActor/VChart/issues/3560) 
- 
-
+- **@visactor/vchart**: page should not crash when `tickStep` is too small, fix [#3591](https://github.com/VisActor/VChart/issues/3591)
+- **@visactor/vchart**: fix updating of customized DOM when has interactive layer, fix [#3587](https://github.com/VisActor/VChart/issues/3587)
+- **@visactor/vchart**: fix axis breaks when set `tickStep`, fix [#3560](https://github.com/VisActor/VChart/issues/3560)
 
 [more detail about v1.13.2](https://github.com/VisActor/VChart/releases/tag/v1.13.2)
 

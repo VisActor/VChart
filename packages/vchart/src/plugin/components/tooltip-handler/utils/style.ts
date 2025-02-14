@@ -34,10 +34,12 @@ export const getTextStyle = (style: ITooltipTextTheme = {}, textStyle: Partial<C
   if (isValid(style.fontSize)) {
     textStyle.fontSize = getPixelPropertyStr(style.fontSize as number);
   }
+
   if (isValid(style.maxWidth)) {
     textStyle.maxWidth = getPixelPropertyStr(style.maxWidth as number);
   }
-  if (style.multiLine) {
+
+  if (style.multiLine || (isValid(style.maxWidth) && style.multiLine !== false)) {
     textStyle.whiteSpace = 'initial';
     textStyle.wordBreak = style.wordBreak ?? 'break-word';
   } else {

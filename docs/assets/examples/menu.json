@@ -1694,6 +1694,13 @@
             "zh": "SVG 路径动画",
             "en": "SVG Motion Path Animation"
           }
+        },
+        {
+          "path": "pictogram-mall",
+          "title": {
+            "zh": "商场业态结构图",
+            "en": "Shopping Mall Tenant Layout"
+          }
         }
       ]
     },
@@ -2854,6 +2861,13 @@
           "title": {
             "zh": "富文本标签",
             "en": "RichText Label"
+          }
+        },
+        {
+          "path": "label-mark-tooltip",
+          "title": {
+            "zh": "标签触发图元 Tooltip",
+            "en": "Enable mark tooltip triggered by label"
           }
         }
       ]

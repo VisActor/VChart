@@ -581,7 +581,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._visible = this._spec.visible ?? true;
   }
 
-  protected _statePointToData(state: number) {
+  statePointToData(state: number) {
     const scale = this._stateScale;
     const domain = scale.domain();
 
@@ -644,8 +644,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         : 0;
       end = this._spec.end ? this._spec.end : this._spec.endValue ? this.dataToStatePoint(this._spec.endValue) : 1;
     }
-    this._startValue = this._statePointToData(start);
-    this._endValue = this._statePointToData(end);
+    this._startValue = this.statePointToData(start);
+    this._endValue = this.statePointToData(end);
     this._start = start;
     this._end = end;
     this._minSpan = this._spec.minSpan ?? 0;
@@ -811,8 +811,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return true;
   };
 
-  protected _handleChartZoom = (params: { zoomDelta: number; zoomX?: number; zoomY?: number }) => {
-    if (!this._activeRoam) {
+  protected _handleChartZoom = (
+    params: { zoomDelta: number; zoomX?: number; zoomY?: number },
+    e?: BaseEventParams['event']
+  ) => {
+    if (!this._activeRoam || (this._zoomAttr.filter && !this._zoomAttr.filter(params, e))) {
       return;
     }
 
@@ -846,7 +849,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   };
 
   protected _handleChartScroll = (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => {
-    if (!this._activeRoam) {
+    if (!this._activeRoam || (this._scrollAttr.filter && !this._scrollAttr.filter(params, e))) {
       return false;
     }
     const { scrollX, scrollY } = params;
@@ -869,7 +872,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   };
 
   protected _handleChartDrag = (delta: [number, number], e: BaseEventParams['event']) => {
-    if (!this._activeRoam) {
+    if (!this._activeRoam || (this._dragAttr.filter && !this._dragAttr.filter(delta, e))) {
       return;
     }
     const [dx, dy] = delta;
@@ -899,7 +902,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const delayType: IDelayType = this._spec?.delayType ?? 'throttle';
     const delayTime = isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0;
     const realTime = this._spec?.realTime ?? true;
-    const option = { delayType, delayTime, realTime };
+    const option = { delayType, delayTime, realTime, allowComponentZoom: true };
     if (this._zoomAttr.enable) {
       (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom, option);
     }

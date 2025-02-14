@@ -1,4 +1,6 @@
-import type { Dict, IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike } from '@visactor/vutils';
+import { Tag } from '@visactor/vrender-components';
+import type { IGraphic, INode } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean, isObject, array } from '@visactor/vutils';
 import { RenderModeEnum } from '../../typings/spec/common';
@@ -6,7 +8,7 @@ import type { BaseEventParams, EventType } from '../../event/interface';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
-import type { IPadding, Maybe, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
+import type { IPoint, Maybe, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import { outOfBounds } from '../../util/math';
 import type { IComponentOption } from '../interface';
 import type {
@@ -14,7 +16,9 @@ import type {
   CrossHairTrigger,
   ICartesianCrosshairSpec,
   IPolarCrosshairSpec,
-  ICrosshairCategoryFieldSpec
+  ICrosshairCategoryFieldSpec,
+  IAxisInfo,
+  CrossHairStateByField
 } from './interface';
 import { ChartEvent, Event_Bubble_Level, Event_Source_Type } from '../../constant/event';
 import { LayoutZIndex } from '../../constant/layout';
@@ -22,41 +26,8 @@ import { getDefaultCrosshairTriggerEventByMode } from './config';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IAxis } from '../axis/interface';
 import type { TooltipEventParams } from '../tooltip/interface/event';
-
-export type IBound = { x1: number; y1: number; x2: number; y2: number };
-export type IAxisInfo<T> = Map<number, IBound & { axis: T }>;
-
-export interface IHair {
-  /** 是否展示 crosshair 辅助图形 */
-  visible: boolean;
-  /** 类型 */
-  type: 'rect' | 'line';
-  /** 样式 */
-  style?: Dict<any>;
-  label?: {
-    /** 文本是否可见 */
-    visible: boolean;
-    /** 格式化函数 */
-    formatMethod?: (text: StringOrNumber | string[], position: string) => string | string[];
-    /**
-     * 格式化模板
-     * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
-     * @since 1.10.0
-     */
-    formatter?: string | string[];
-    /** 文本样式 */
-    textStyle?: Dict<any>;
-    minWidth?: number;
-    maxWidth?: number;
-    padding?: IPadding | number | number[];
-    panel?: Dict<any>;
-    zIndex?: number;
-  };
-}
-
-export interface IHairRadius extends IHair {
-  smooth?: boolean;
-}
+import { limitTagInBounds } from './utils/common';
+import { isDiscrete } from '@visactor/vscale';
 
 const ORIENT_MAP = {
   x: ['top', 'bottom'],
@@ -80,6 +51,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   showDefault: boolean;
   triggerOff: 'none' | number; // 为none则不消失
 
+  protected _stateByField!: CrossHairStateByField;
+
   private _timer?: number;
   private _clickLock?: boolean;
   private _hasActive?: boolean;
@@ -97,15 +70,76 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     this.showDefault = true;
   }
 
-  protected abstract _showDefaultCrosshairBySpec(): void;
   protected abstract _layoutCrosshair(
     x: number,
     y: number,
     tooltipData?: TooltipData,
     activeType?: TooltipActiveType
   ): void;
-  protected abstract _parseFieldInfo(): void;
-  abstract hide(): void;
+
+  abstract setAxisValue(v: StringOrNumber, axis: IAxis): void;
+  abstract layoutByValue(v?: number): void;
+  protected abstract _getDatumAtPoint(axis: IAxis, point: IPoint): number | string;
+
+  /**
+   * 根据位置获取所有轴上的value
+   * @param axisMap
+   * @param p
+   * @returns
+   */
+  protected _setAllAxisValues(axisMap: IAxisInfo<IAxis>, point: IPoint, field: string): boolean {
+    // 首先不能存在两个离散轴
+    let discrete = false;
+    axisMap.forEach(item => {
+      if (isDiscrete(item.axis.getScale().type)) {
+        if (!discrete) {
+          discrete = true;
+        } else {
+          this.enable = false;
+        }
+      }
+    });
+    if (!this.enable) {
+      return false;
+    }
+    const { currentValue } = this._stateByField[field];
+    // 获取所有的value
+    axisMap.forEach((item, id) => {
+      const axis = item.axis;
+      currentValue.set(id, {
+        datum: this._getDatumAtPoint(axis, point),
+        axis
+      });
+    });
+    return true;
+  }
+  /**
+   * clear axis value of crosshair
+   */
+  clearAxisValue() {
+    Object.keys(this._stateByField).forEach(field => {
+      this._stateByField[field].currentValue.clear();
+    });
+  }
+
+  hideCrosshair() {
+    this.clearAxisValue();
+    this.hide();
+  }
+
+  showCrosshair(dimInfo: { axis: IAxis; value: string | number }[]) {
+    if (!dimInfo || !dimInfo.length) {
+      return;
+    }
+
+    this.showDefault = false;
+    this.clearAxisValue();
+    dimInfo.forEach((d: { axis: IAxis; value: string | number }) => {
+      const { axis, value } = d;
+      this.setAxisValue(value, axis);
+    });
+    this.layoutByValue();
+  }
 
   protected _getLimitBounds() {
     if (!this._limitBounds) {
@@ -123,12 +157,47 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     return this._limitBounds;
   }
 
-  protected _showDefaultCrosshair() {
-    if (!this.showDefault) {
-      return;
-    }
+  protected _showDefaultCrosshairBySpec() {
+    Object.keys(this._stateByField).forEach(field => {
+      const fieldSpec = (this._spec as any)[field];
 
-    this._showDefaultCrosshairBySpec();
+      if (fieldSpec && fieldSpec.visible && fieldSpec.defaultSelect) {
+        const { axisIndex, datum } = fieldSpec.defaultSelect;
+        const axis = this._option.getComponentsByKey('axes').find(c => c.getSpecIndex() === axisIndex) as IAxis;
+
+        if (axis) {
+          this._stateByField[field].currentValue.clear();
+          this._stateByField[field].currentValue.set(axisIndex, { axis, datum });
+        }
+      }
+    });
+  }
+
+  protected _updateVisibleCrosshair() {
+    let hasVisible = false;
+
+    Object.keys(this._stateByField).forEach(field => {
+      const fieldSpec = (this._spec as any)[field];
+
+      if (fieldSpec && fieldSpec.visible && this._stateByField[field].currentValue.size) {
+        hasVisible = true;
+      } else {
+        this._hideByField(field);
+      }
+    });
+
+    if (hasVisible) {
+      this.layoutByValue();
+    }
+  }
+
+  protected _showDefaultCrosshair() {
+    if (this.showDefault) {
+      this._showDefaultCrosshairBySpec();
+      this.layoutByValue();
+    } else {
+      this._updateVisibleCrosshair();
+    }
   }
 
   setAttrFromSpec() {
@@ -412,6 +481,28 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     }
   }
 
+  protected _parseFieldInfo() {
+    Object.keys(this._stateByField).forEach(field => {
+      const fieldSpec = (this._spec as any)[field];
+      const { crosshairComp } = this._stateByField[field];
+
+      if (fieldSpec && fieldSpec.visible) {
+        this._stateByField[field].attributes = this._parseField(fieldSpec, field);
+
+        if (crosshairComp) {
+          const { style, type } = this._stateByField[field].attributes;
+          const styleKey = type === 'rect' ? 'rectStyle' : 'lineStyle';
+
+          crosshairComp.setAttributes({
+            [styleKey]: style
+          });
+        }
+      } else if (crosshairComp && crosshairComp.parent) {
+        crosshairComp.parent.removeChild(crosshairComp);
+      }
+    });
+  }
+
   protected _parseCrosshairSpec() {
     this._parseFieldInfo();
 
@@ -461,8 +552,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         hair.style.lineWidth = get(line, 'width', lineWidth || 2);
       } else {
         hair.style.fill = fill || stroke;
-        if (this._spec[fieldName]?.line?.style?.stroke) {
-          hair.style.stroke = this._spec[fieldName].line.style.stroke;
+        if (field?.line?.style?.stroke) {
+          hair.style.stroke = field.line.style.stroke;
         }
         const rectSize = get(line, 'width');
         if (typeof rectSize === 'string') {
@@ -545,6 +636,19 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     return axisMap;
   }
 
+  protected _updateCrosshairLabel(label: Tag, labelAttrs: any, callback: (label: Tag) => void) {
+    // 文本
+    const container = this.getContainer();
+    if (label) {
+      label.setAttributes(labelAttrs);
+    } else {
+      label = new Tag(labelAttrs);
+      container?.add(label as unknown as INode);
+      callback(label);
+    }
+    limitTagInBounds(label, this._getLimitBounds());
+  }
+
   protected clearOutEvent() {
     if (this._timer) {
       clearTimeout(this._timer);
@@ -557,5 +661,41 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     if (this._hasActive) {
       this._hasActive = null;
     }
+  }
+
+  protected _hideByField(field: string) {
+    const { crosshairComp, labelsComp } = this._stateByField[field];
+
+    crosshairComp && crosshairComp.hideAll();
+
+    if (labelsComp) {
+      Object.keys(labelsComp).forEach(key => {
+        labelsComp[key] && labelsComp[key].hideAll();
+      });
+    }
+  }
+
+  hide() {
+    // 隐藏
+    Object.keys(this._stateByField).forEach(field => {
+      this._hideByField(field);
+    });
+  }
+
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
+    return Object.keys(this._stateByField).reduce((res, field) => {
+      const { crosshairComp, labelsComp } = this._stateByField[field];
+
+      if (crosshairComp) {
+        res.push(crosshairComp);
+      }
+
+      if (labelsComp) {
+        Object.keys(labelsComp).forEach(key => {
+          labelsComp[key] && res.push(labelsComp[key]);
+        });
+      }
+      return res;
+    }, []);
   }
 }
