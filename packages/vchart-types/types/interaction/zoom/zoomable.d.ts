@@ -7,6 +7,7 @@ export interface ITriggerOption {
     delayType: IDelayType;
     delayTime: number;
     realTime: boolean;
+    allowComponentZoom?: boolean;
 }
 export type ZoomEventParams = {
     zoomDelta: number;

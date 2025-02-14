@@ -8,12 +8,10 @@ export declare const getPositionType: (position: TooltipFixedPosition, dim: 'x' 
 export declare const getCartesianCrosshairRect: (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => {
     visible: boolean;
     start: {
-        x: number;
-        y: number;
+        [x: string]: number;
     };
     end: {
-        x: number;
-        y: number;
+        [x: string]: number;
     };
 };
 export declare const isGlobalTooltipPositionPattern: (obj: any) => obj is IGlobalTooltipPositionPattern;

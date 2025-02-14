@@ -1,39 +1,13 @@
-import type { Dict, IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike } from '@visactor/vutils';
+import { Tag } from '@visactor/vrender-components';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
-import type { IPadding, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
+import type { IPoint, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import type { IComponentOption } from '../interface';
-import type { ICrossHair, CrossHairTrigger, ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairCategoryFieldSpec } from './interface';
+import type { ICrossHair, CrossHairTrigger, ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairCategoryFieldSpec, IAxisInfo, CrossHairStateByField } from './interface';
 import type { IAxis } from '../axis/interface';
-export type IBound = {
-    x1: number;
-    y1: number;
-    x2: number;
-    y2: number;
-};
-export type IAxisInfo<T> = Map<number, IBound & {
-    axis: T;
-}>;
-export interface IHair {
-    visible: boolean;
-    type: 'rect' | 'line';
-    style?: Dict<any>;
-    label?: {
-        visible: boolean;
-        formatMethod?: (text: StringOrNumber | string[], position: string) => string | string[];
-        formatter?: string | string[];
-        textStyle?: Dict<any>;
-        minWidth?: number;
-        maxWidth?: number;
-        padding?: IPadding | number | number[];
-        panel?: Dict<any>;
-        zIndex?: number;
-    };
-}
-export interface IHairRadius extends IHair {
-    smooth?: boolean;
-}
 export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCrosshairSpec> extends BaseComponent<T> implements ICrossHair {
     static specKey: string;
     specKey: string;
@@ -44,6 +18,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     enable: boolean;
     showDefault: boolean;
     triggerOff: 'none' | number;
+    protected _stateByField: CrossHairStateByField;
     private _timer?;
     private _clickLock?;
     private _hasActive?;
@@ -51,11 +26,20 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     get enableRemain(): boolean;
     private _limitBounds;
     constructor(spec: T, options: IComponentOption);
-    protected abstract _showDefaultCrosshairBySpec(): void;
     protected abstract _layoutCrosshair(x: number, y: number, tooltipData?: TooltipData, activeType?: TooltipActiveType): void;
-    protected abstract _parseFieldInfo(): void;
-    abstract hide(): void;
+    abstract setAxisValue(v: StringOrNumber, axis: IAxis): void;
+    abstract layoutByValue(v?: number): void;
+    protected abstract _getDatumAtPoint(axis: IAxis, point: IPoint): number | string;
+    protected _setAllAxisValues(axisMap: IAxisInfo<IAxis>, point: IPoint, field: string): boolean;
+    clearAxisValue(): void;
+    hideCrosshair(): void;
+    showCrosshair(dimInfo: {
+        axis: IAxis;
+        value: string | number;
+    }[]): void;
     protected _getLimitBounds(): IBoundsLike;
+    protected _showDefaultCrosshairBySpec(): void;
+    protected _updateVisibleCrosshair(): void;
     protected _showDefaultCrosshair(): void;
     setAttrFromSpec(): void;
     created(): void;
@@ -87,8 +71,13 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     onLayoutEnd(ctx: IModelLayoutOption): void;
     onRender(ctx: IModelRenderOption): void;
     protected _releaseEvent(): void;
+    protected _parseFieldInfo(): void;
     protected _parseCrosshairSpec(): void;
     protected _parseField(field: ICrosshairCategoryFieldSpec, fieldName: string): any;
     protected _filterAxisByPoint<T>(axisMap: IAxisInfo<T>, relativeX: number, relativeY: number): IAxisInfo<T>;
+    protected _updateCrosshairLabel(label: Tag, labelAttrs: any, callback: (label: Tag) => void): void;
     protected clearOutEvent(): void;
+    protected _hideByField(field: string): void;
+    hide(): void;
+    protected _getNeedClearVRenderComponents(): IGraphic[];
 }

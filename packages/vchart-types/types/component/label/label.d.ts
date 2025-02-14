@@ -10,6 +10,7 @@ import type { ILabelInfo } from './interface';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';
 import { LabelSpecTransformer } from './label-transformer';
+import type { IGraphic } from '@visactor/vrender-core';
 export declare class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
@@ -36,5 +37,6 @@ export declare class Label<T extends IChartSpec = any> extends BaseLabelComponen
     protected _updateLabelComponentAttribute(component: ILabel, target: IVGrammarMark | IVGrammarMark[], labelInfos: ILabelInfo[]): void;
     compileMarks(): void;
     getVRenderComponents(): any[];
+    getLabelInfoByTextGraphic(text: IGraphic): ILabelInfo;
 }
 export declare const registerLabel: () => void;

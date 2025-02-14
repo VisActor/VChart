@@ -26,7 +26,6 @@ export declare class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extend
     protected _createOrUpdateComponent(): void;
     protected _handleChange(start: number, end: number, updateComponent?: boolean): void;
     protected _handleDataCollectionChange(): void;
-    protected _initCommonEvent(): void;
     protected _getComponentAttrs(): Partial<ScrollBarAttributes>;
     protected _getNeedClearVRenderComponents(): IGraphic[];
 }

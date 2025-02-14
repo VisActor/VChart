@@ -13,6 +13,7 @@ export interface IWaterfallOpt {
         increase: string;
         decrease: string;
     };
+    stackInverse: boolean;
     groupData: () => DataView;
 }
 export declare const waterfall: (lastData: Array<Datum>, op: IWaterfallOpt) => Datum[];
