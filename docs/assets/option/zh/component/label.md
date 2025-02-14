@@ -367,7 +367,42 @@ const layout = (attribute, text, getRelatedGraphic) => {
 
 当配置了 customOverlapFunc 后，若未配置`customLayoutFunc`，会根据 position 和 offset 进行初始布局后，进入自定义躲避逻辑。同时配置的防重叠逻辑(overlap)不生效。
 
-函数回调参数为：`(label: Text[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[];`
+函数的类型定义如下，其中最后一个参数`labelComponent` 是从`1.13.5`版本开始支持，返回的是标签组件实例
+
+```ts
+(
+    /**
+     * 标签对应的图形节点，可能是文本图形，也可能是富文本图形，根据配置生成
+     */
+    label: (IText | IRichText)[],
+    /**
+     * 获取标签对应的数据获取关联的图形，适用于展示柱子标签、散点标签等场景
+     */
+    getRelatedGraphic: (data: LabelItem) => IGraphic,
+    /**
+     * 获取标签对应的数据获取关联的点坐标，适用于展示线图元、面积图元对应标签的场景
+     */
+    getRelatedPoint: ((data: LabelItem) => IPointLike) | null | undefined,
+    /**
+     * 标签组件实例
+     */
+    labelComponent: IGroup
+  ) => (IText | IRichText)[];
+```
+
+#${prefix} onAfterOverlapping(function)
+防重叠计算完成后的回调函数。自`1.3.5`版本开始支持。
+
+函数的类型定义如下，参数定义同`customOverlapFunc`:
+
+```ts
+(
+    label: (IText | IRichText)[],
+    getRelatedGraphic: (data: LabelItem) => IGraphic,
+    getRelatedPoint: ((data: LabelItem) => IPointLike) | null | undefined,
+    labelComponent: IGroup
+  ) => (IText | IRichText)[];
+```
 
 {{ /if }}
 
