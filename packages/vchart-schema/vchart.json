@@ -6896,11 +6896,15 @@
         },
         "fontStyle": {
           "$ref": "#/definitions/VisualType<string>",
-          "description": "字体样式"
+          "description": "字体样式，是否为斜体等"
         },
         "fontWeight": {
           "$ref": "#/definitions/VisualType<FontWeight>",
           "description": "字重"
+        },
+        "heightLimit": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "高度限制控制显示内容及省略号"
         },
         "html": {
           "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
@@ -6910,6 +6914,10 @@
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineClamp": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "按照行数限制显示内容及省略号"
         },
         "lineDash": {
           "$ref": "#/definitions/VisualType<number[]>",
@@ -6991,11 +6999,11 @@
         },
         "textAlign": {
           "$ref": "#/definitions/VisualType<TextAlignType>",
-          "description": "文字对齐方式"
+          "description": "文字水平方向的对齐方式"
         },
         "textBaseline": {
           "$ref": "#/definitions/VisualType<TextBaselineType>",
-          "description": "文字居中方式"
+          "description": "文字竖直方向的对齐方式"
         },
         "texture": {
           "$ref": "#/definitions/VisualType<string>",
@@ -7017,9 +7025,24 @@
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "下划线"
         },
+        "underlineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "下划线的虚线样式"
+        },
+        "underlineOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "下划线的虚线偏移量"
+        },
         "visible": {
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "图形是否可见"
+        },
+        "whiteSpace": {
+          "$ref": "#/definitions/VisualType<\"normal\"|\"no-wrap\">",
+          "description": "设置如何处理空白字符"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/VisualType<\"break-word\"|\"break-all\"|\"keep-all\">"
         },
         "x": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7110,11 +7133,15 @@
         },
         "fontStyle": {
           "$ref": "#/definitions/VisualType<string>",
-          "description": "字体样式"
+          "description": "字体样式，是否为斜体等"
         },
         "fontWeight": {
           "$ref": "#/definitions/VisualType<FontWeight>",
           "description": "字重"
+        },
+        "heightLimit": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "高度限制控制显示内容及省略号"
         },
         "html": {
           "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
@@ -7124,6 +7151,10 @@
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineClamp": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "按照行数限制显示内容及省略号"
         },
         "lineDash": {
           "$ref": "#/definitions/VisualType<number[]>",
@@ -7205,11 +7236,11 @@
         },
         "textAlign": {
           "$ref": "#/definitions/VisualType<TextAlignType>",
-          "description": "文字对齐方式"
+          "description": "文字水平方向的对齐方式"
         },
         "textBaseline": {
           "$ref": "#/definitions/VisualType<TextBaselineType>",
-          "description": "文字居中方式"
+          "description": "文字竖直方向的对齐方式"
         },
         "texture": {
           "$ref": "#/definitions/VisualType<string>",
@@ -7231,9 +7262,24 @@
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "下划线"
         },
+        "underlineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "下划线的虚线样式"
+        },
+        "underlineOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "下划线的虚线偏移量"
+        },
         "visible": {
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "图形是否可见"
+        },
+        "whiteSpace": {
+          "$ref": "#/definitions/VisualType<\"normal\"|\"no-wrap\">",
+          "description": "设置如何处理空白字符"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/VisualType<\"break-word\"|\"break-all\"|\"keep-all\">"
         },
         "x": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7324,11 +7370,15 @@
         },
         "fontStyle": {
           "$ref": "#/definitions/VisualType<string>",
-          "description": "字体样式"
+          "description": "字体样式，是否为斜体等"
         },
         "fontWeight": {
           "$ref": "#/definitions/VisualType<FontWeight>",
           "description": "字重"
+        },
+        "heightLimit": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "高度限制控制显示内容及省略号"
         },
         "html": {
           "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
@@ -7338,6 +7388,10 @@
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineClamp": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "按照行数限制显示内容及省略号"
         },
         "lineDash": {
           "$ref": "#/definitions/VisualType<number[]>",
@@ -7419,11 +7473,11 @@
         },
         "textAlign": {
           "$ref": "#/definitions/VisualType<TextAlignType>",
-          "description": "文字对齐方式"
+          "description": "文字水平方向的对齐方式"
         },
         "textBaseline": {
           "$ref": "#/definitions/VisualType<TextBaselineType>",
-          "description": "文字居中方式"
+          "description": "文字竖直方向的对齐方式"
         },
         "texture": {
           "$ref": "#/definitions/VisualType<string>",
@@ -7445,9 +7499,24 @@
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "下划线"
         },
+        "underlineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "下划线的虚线样式"
+        },
+        "underlineOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "下划线的虚线偏移量"
+        },
         "visible": {
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "图形是否可见"
+        },
+        "whiteSpace": {
+          "$ref": "#/definitions/VisualType<\"normal\"|\"no-wrap\">",
+          "description": "设置如何处理空白字符"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/VisualType<\"break-word\"|\"break-all\"|\"keep-all\">"
         },
         "x": {
           "$ref": "#/definitions/VisualType<number>",
@@ -37790,6 +37859,9 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局位置偏移：Y"
         },
+        "onAfterOverlapping": {
+          "typeof": "function"
+        },
         "orient": {
           "$ref": "#/definitions/IOrientType",
           "description": "模块布局位置"
@@ -37875,6 +37947,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -47584,6 +47662,9 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局位置偏移：Y"
         },
+        "onAfterOverlapping": {
+          "typeof": "function"
+        },
         "orient": {
           "$ref": "#/definitions/IOrientType",
           "description": "模块布局位置"
@@ -47673,6 +47754,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -69201,6 +69288,9 @@
           "description": "是否开启 缩放 / 拖拽 / 滚动",
           "type": "boolean"
         },
+        "filter": {
+          "typeof": "function"
+        },
         "rate": {
           "default": 1,
           "description": "缩放 / 拖拽 / 滚动速率, 范围: [0, 1]",
@@ -69221,6 +69311,9 @@
           "description": "是否开启 缩放 / 拖拽 / 滚动",
           "type": "boolean"
         },
+        "filter": {
+          "typeof": "function"
+        },
         "rate": {
           "default": 1,
           "description": "缩放 / 拖拽 / 滚动速率, 范围: [0, 1]",
@@ -69240,6 +69333,9 @@
           "default": true,
           "description": "是否开启 缩放 / 拖拽 / 滚动",
           "type": "boolean"
+        },
+        "filter": {
+          "typeof": "function"
         },
         "focus": {
           "default": "true\n开启时, 默认以鼠标位置开始\n关闭时, 以画布中心缩放",
@@ -77599,12 +77695,16 @@
           "description": "字号"
         },
         "fontStyle": {
-          "description": "字体样式",
+          "description": "字体样式，是否为斜体等",
           "type": "string"
         },
         "fontWeight": {
           "$ref": "#/definitions/FontWeight",
           "description": "字重"
+        },
+        "heightLimit": {
+          "description": "高度限制控制显示内容及省略号",
+          "type": "number"
         },
         "html": {
           "$ref": "#/definitions/Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>",
@@ -77614,6 +77714,10 @@
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineClamp": {
+          "description": "按照行数限制显示内容及省略号",
+          "type": "number"
         },
         "lineDash": {
           "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度",
@@ -77782,11 +77886,11 @@
         },
         "textAlign": {
           "$ref": "#/definitions/TextAlign",
-          "description": "文字对齐方式"
+          "description": "文字水平方向的对齐方式"
         },
         "textBaseline": {
           "$ref": "#/definitions/TextBaseLine",
-          "description": "文字居中方式"
+          "description": "文字竖直方向的对齐方式"
         },
         "texture": {
           "description": "纹理的类型",
@@ -77808,9 +77912,36 @@
           "description": "下划线",
           "type": "boolean"
         },
+        "underlineDash": {
+          "description": "下划线的虚线样式",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "underlineOffset": {
+          "description": "下划线的虚线偏移量",
+          "type": "number"
+        },
         "visible": {
           "description": "图形是否可见",
           "type": "boolean"
+        },
+        "whiteSpace": {
+          "description": "设置如何处理空白字符",
+          "enum": [
+            "no-wrap",
+            "normal"
+          ],
+          "type": "string"
+        },
+        "wordBreak": {
+          "enum": [
+            "break-all",
+            "break-word",
+            "keep-all"
+          ],
+          "type": "string"
         },
         "x": {
           "description": "图形的x坐标",
@@ -80666,6 +80797,44 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,\"break-word\"|\"break-all\"|\"keep-all\">": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "description": "指定映射对应的数据字段",
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "enum": [
+              "break-all",
+              "break-word",
+              "keep-all"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,\"center\"|\"end\"|\"start\">": {
       "properties": {
         "domain": {
@@ -80835,6 +81004,43 @@
               "line",
               "polyline",
               "smooth"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,\"normal\"|\"no-wrap\">": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "description": "指定映射对应的数据字段",
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "enum": [
+              "no-wrap",
+              "normal"
             ],
             "type": "string"
           },
@@ -86537,7 +86743,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12170": {
           "type": "string"
         },
         "size": {
@@ -86545,14 +86751,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12170",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12170": {
           "type": "string"
         },
         "size": {
@@ -86560,14 +86766,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12170",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12170": {
           "type": "string"
         },
         "size": {
@@ -86575,14 +86781,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12170",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12170": {
           "type": "string"
         },
         "size": {
@@ -86590,14 +86796,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12170",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12170": {
           "type": "string"
         },
         "size": {
@@ -86605,14 +86811,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12170",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12170": {
           "type": "string"
         },
         "size": {
@@ -86620,7 +86826,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12141",
+        "__@toStringTag@12170",
         "size"
       ],
       "type": "object"
@@ -90719,6 +90925,9 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局位置偏移：Y"
         },
+        "onAfterOverlapping": {
+          "typeof": "function"
+        },
         "orient": {
           "$ref": "#/definitions/IOrientType",
           "description": "模块布局位置"
@@ -90804,6 +91013,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -91030,6 +91245,9 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局位置偏移：Y"
         },
+        "onAfterOverlapping": {
+          "typeof": "function"
+        },
         "orient": {
           "$ref": "#/definitions/IOrientType",
           "description": "模块布局位置"
@@ -91104,6 +91322,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -91330,6 +91554,9 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局位置偏移：Y"
         },
+        "onAfterOverlapping": {
+          "typeof": "function"
+        },
         "orient": {
           "$ref": "#/definitions/IOrientType",
           "description": "模块布局位置"
@@ -91415,6 +91642,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -98485,6 +98718,9 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局位置偏移：Y"
         },
+        "onAfterOverlapping": {
+          "typeof": "function"
+        },
         "orient": {
           "$ref": "#/definitions/IOrientType",
           "description": "模块布局位置"
@@ -98574,6 +98810,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -99311,6 +99553,9 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局位置偏移：Y"
         },
+        "onAfterOverlapping": {
+          "typeof": "function"
+        },
         "orient": {
           "$ref": "#/definitions/IOrientType",
           "description": "模块布局位置"
@@ -99401,6 +99646,12 @@
             }
           ],
           "description": "组件关联的系列索引"
+        },
+        "showRelatedMarkTooltip": {
+          "default": false,
+          "description": "是否显示标签关联图元的 mark tooltip",
+          "since": "1.13.5",
+          "type": "boolean"
         },
         "smartInvert": {
           "anyOf": [
@@ -103632,12 +103883,16 @@
           "description": "字号"
         },
         "fontStyle": {
-          "description": "字体样式",
+          "description": "字体样式，是否为斜体等",
           "type": "string"
         },
         "fontWeight": {
           "$ref": "#/definitions/FontWeight",
           "description": "字重"
+        },
+        "heightLimit": {
+          "description": "高度限制控制显示内容及省略号",
+          "type": "number"
         },
         "html": {
           "$ref": "#/definitions/Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>",
@@ -103647,6 +103902,10 @@
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineClamp": {
+          "description": "按照行数限制显示内容及省略号",
+          "type": "number"
         },
         "lineDash": {
           "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度",
@@ -103815,11 +104074,11 @@
         },
         "textAlign": {
           "$ref": "#/definitions/TextAlign",
-          "description": "文字对齐方式"
+          "description": "文字水平方向的对齐方式"
         },
         "textBaseline": {
           "$ref": "#/definitions/TextBaseLine",
-          "description": "文字居中方式"
+          "description": "文字竖直方向的对齐方式"
         },
         "texture": {
           "description": "纹理的类型",
@@ -103841,9 +104100,36 @@
           "description": "下划线",
           "type": "boolean"
         },
+        "underlineDash": {
+          "description": "下划线的虚线样式",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "underlineOffset": {
+          "description": "下划线的虚线偏移量",
+          "type": "number"
+        },
         "visible": {
           "description": "图形是否可见",
           "type": "boolean"
+        },
+        "whiteSpace": {
+          "description": "设置如何处理空白字符",
+          "enum": [
+            "no-wrap",
+            "normal"
+          ],
+          "type": "string"
+        },
+        "wordBreak": {
+          "enum": [
+            "break-all",
+            "break-word",
+            "keep-all"
+          ],
+          "type": "string"
         },
         "x": {
           "description": "图形的x坐标",
@@ -108105,34 +108391,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12170": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12141"
+        "__@toStringTag@12170"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12170": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12141"
+        "__@toStringTag@12170"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12141": {
+        "__@toStringTag@12170": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12141"
+        "__@toStringTag@12170"
       ],
       "type": "object"
     },
@@ -121164,6 +121450,27 @@
         }
       ]
     },
+    "VisualType<\"break-word\"|\"break-all\"|\"keep-all\">": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"break-word\"|\"break-all\"|\"keep-all\">"
+        },
+        {
+          "enum": [
+            "break-all",
+            "break-word",
+            "keep-all"
+          ],
+          "type": "string"
+        }
+      ]
+    },
     "VisualType<\"center\"|\"end\"|\"start\">": {
       "anyOf": [
         {
@@ -121263,6 +121570,26 @@
             "line",
             "polyline",
             "smooth"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "VisualType<\"normal\"|\"no-wrap\">": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"normal\"|\"no-wrap\">"
+        },
+        {
+          "enum": [
+            "no-wrap",
+            "normal"
           ],
           "type": "string"
         }
