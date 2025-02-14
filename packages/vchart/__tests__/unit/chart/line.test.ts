@@ -2,12 +2,12 @@ import type { ILineChartSpec } from '../../../src/chart/line/interface';
 import { GlobalScale } from '../../../src/scale/global-scale';
 import type { LineSeries } from '../../../src/series/line/line';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
-import { LineChart } from '../../../src/chart/line/line';
+import { LineChart, registerLineChart } from '../../../src/chart/line/line';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../util/factory/compiler';
-import { initChartDataSet } from '../../util/context';
-import VChart, { ThemeManager } from '../../../src';
+import { getTheme, initChartDataSet } from '../../util/context';
 
+registerLineChart();
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
@@ -34,7 +34,7 @@ describe('line chart test', () => {
     const transformer = new LineChart.transformerConstructor({
       type: 'line',
       seriesType: 'line',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
@@ -55,7 +55,7 @@ describe('line chart test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme(true),
+        getTheme: getTheme,
         onError: () => {},
         getSpecInfo: () => info
       } as any
@@ -103,7 +103,7 @@ describe('line chart test', () => {
     const transformer = new LineChart.transformerConstructor({
       type: 'line',
       seriesType: 'line',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
@@ -122,7 +122,7 @@ describe('line chart test', () => {
       mode: 'mobile-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       getSpecInfo: () => info
     } as any);
     chart.created(transformer);

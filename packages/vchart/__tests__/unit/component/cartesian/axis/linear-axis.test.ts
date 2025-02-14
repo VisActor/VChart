@@ -6,11 +6,11 @@ import { DataSet, csvParser } from '@visactor/vdataset';
 import { dimensionStatistics } from '../../../../../src/data/transforms/dimension-statistics';
 import type { CartesianLinearAxis } from '../../../../../src/index';
 // eslint-disable-next-line no-duplicate-imports
-import { CartesianAxis, ThemeManager } from '../../../../../src/index';
+import { CartesianAxis } from '../../../../../src/index';
 import { ComponentTypeEnum, type IComponent, type IComponentOption } from '../../../../../src/component/interface';
 import { EventDispatcher } from '../../../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../../../util/factory/compiler';
-import { initChartDataSet } from '../../../../util/context';
+import { getTheme, initChartDataSet } from '../../../../util/context';
 import type { StringOrNumber } from '../../../../../src/typings/common';
 import { getCartesianAxisInfo } from '../../../../../src/component/axis/cartesian/util';
 import { wilkinsonExtended } from '@visactor/vscale';
@@ -97,7 +97,7 @@ const ctx: IComponentOption = {
     return { width: 500, height: 500 } as any;
   },
   globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-  getTheme: () => ThemeManager.getCurrentTheme(true),
+  getTheme: getTheme,
   getComponentByUserId: function (user_id: string | number): IComponent | undefined {
     throw new Error('Function not implemented.');
   },
@@ -131,7 +131,7 @@ test('config linearAxis.nice default [true] ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   spec = transformer.transformSpec(spec, {}).spec;
@@ -158,7 +158,7 @@ test('config linearAxis.nice default [true] ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   spec = transformer.transformSpec(spec, {}).spec;
@@ -185,7 +185,7 @@ test('nice === false  ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   spec = transformer.transformSpec(spec, {}).spec;
@@ -213,7 +213,7 @@ test('zero === false && nice === false  ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   spec = transformer.transformSpec(spec, {}).spec;
@@ -243,7 +243,7 @@ test('zero === true && range is specific  ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   config = transformer.transformSpec(config, {}).spec;
@@ -343,7 +343,7 @@ test('expand', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   config = transformer.transformSpec(config, {}).spec;
@@ -420,7 +420,7 @@ test('extend', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   config = transformer.transformSpec(config, {}).spec;
@@ -475,7 +475,7 @@ test('niceDomain should work when domain is 0, and user does not set min or max'
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   spec = transformer.transformSpec(spec, {}).spec;
@@ -507,7 +507,7 @@ test('niceDomain should not work when user set min or max', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   spec = transformer.transformSpec(spec, {}).spec;
@@ -542,7 +542,7 @@ test('dynamic tickCount', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   spec = transformer.transformSpec(spec, {}).spec;
@@ -600,7 +600,7 @@ test('dynamic tickCount', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   spec = transformer.transformSpec(spec, {}).spec;
@@ -641,7 +641,7 @@ test('dynamic tickCount with wilkson', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme(true),
+    getTheme: getTheme,
     mode: 'desktop-browser'
   });
   spec = transformer.transformSpec(spec, {}).spec;
