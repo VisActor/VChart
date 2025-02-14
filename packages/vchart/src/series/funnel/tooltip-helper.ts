@@ -4,7 +4,7 @@ import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import { FUNNEL_REACH_RATIO } from '../../constant/funnel';
 import { isValid } from '@visactor/vutils';
 import type { TooltipHandlerParams } from '../../component/tooltip/interface';
-import type { Datum } from '@visactor/vgrammar-core';
+import type { Datum } from '../../typings/common';
 
 export class FunnelSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   private _transformRatioText;

@@ -3,7 +3,6 @@ import type { DataSet, DataView } from '@visactor/vdataset';
 import type { IEvent, IEventDispatcher } from '../event/interface';
 import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
-import type { IData } from '@visactor/vgrammar-core';
 import type { StringOrNumber } from '../typings/common';
 import type { IGroupMarkSpec, ConvertToMarkStyleSpec, ICommonSpec } from '../typings/visual';
 import type { IRect } from '../typings/space';
@@ -66,10 +65,6 @@ export interface IUpdateSpecResult {
 
 export interface IUpdateDataResult {
   reAnimate?: boolean;
-}
-
-export interface IModelProduct {
-  srData: IData;
 }
 
 export interface IModel extends ICompilable {

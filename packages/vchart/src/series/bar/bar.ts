@@ -34,7 +34,6 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
-import { registerSampleTransform } from '@visactor/vgrammar-core';
 import { getGroupAnimationParams } from '../util/utils';
 import { BarSeriesSpecTransformer } from './bar-transformer';
 import { ComponentTypeEnum } from '../../component/interface';
@@ -43,6 +42,7 @@ import { createRect } from '@visactor/vrender-core';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
+import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -827,19 +827,19 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
     if (this._spec.sampling) {
       const { width, height } = this._region.getLayoutRect();
-      const samplingTrans = [];
       const fieldsY = this._fieldY;
       const fieldsX = this._fieldX;
 
-      samplingTrans.push({
-        type: 'sampling',
-        size: this._direction === Direction.horizontal ? height : width,
-        factor: this._spec.samplingFactor,
-        yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
-        groupBy: this._seriesField,
-        mode: this._spec.sampling
-      });
-      this._data.getProduct().transform(samplingTrans);
+      this._data.setTransform([
+        {
+          type: 'sampling',
+          size: this._direction === Direction.horizontal ? height : width,
+          factor: this._spec.samplingFactor,
+          yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
+          groupBy: this._seriesField,
+          mode: this._spec.sampling
+        }
+      ]);
     }
   }
 
@@ -875,7 +875,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 }
 
 export const registerBarSeries = () => {
-  registerSampleTransform();
+  registerDataSamplingTransform();
   registerRectMark();
   registerBarAnimation();
   registerCartesianBandAxis();
