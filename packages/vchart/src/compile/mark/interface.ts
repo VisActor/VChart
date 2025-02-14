@@ -2,20 +2,52 @@ import type { IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem } from '../interface';
 import type { DataView } from '@visactor/vdataset';
-import type {
-  IAnimate,
-  IAnimateArranger,
-  IElement,
-  IGroupMark,
-  IMark,
-  IMarkConfig,
-  MarkAnimationSpec,
-  Nil,
-  TransformSpec
-} from '@visactor/vgrammar-core';
+import type { IElement, IMark, MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { IRegion } from '../../region/interface';
 import type { ICompilableData } from '../data/interface';
+import type { ICustomPath2D, IGraphic, IGroup } from '@visactor/vrender-core';
+
+export interface IMarkConfig {
+  clipPath?: IGraphic[] | ((graphics: IGraphic[]) => IGraphic[]);
+  clip?: boolean;
+  zIndex?: number;
+  interactive?: boolean;
+  /**
+   * set customized shape
+   */
+  setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+  /** 是否开启大数据渲染模式 */
+  large?: boolean;
+  /** 开启大数据渲染优化的阀值，对应的是data的长度 */
+  largeThreshold?: number;
+  /** 分片长度 */
+  progressiveStep?: number;
+  /** 开启分片渲染的阀值，对应的是单系列data的长度 */
+  progressiveThreshold?: number;
+  /**
+   * use 'sequential' for symbol chart
+   * use 'mod' for bar/line chart
+   */
+  // largeChunkMode?: 'sequential' | 'mod';
+  support3d?: boolean;
+  /**
+   * enable global morphing animation of the mark
+   */
+  morph?: boolean;
+  /**
+   * this key will be used to match the mark to morph
+   */
+  morphKey?: string;
+  /**
+   * this key will be used to match the element of two marks to morph
+   * If not specified, we'll use the "key" of the mark by default
+   */
+  morphElementKey?: string;
+
+  overflow?: 'scroll' | 'hidden' | 'scroll-x' | 'scroll-y';
+  skipTheme?: boolean;
+}
 
 export interface IMarkStateManager {
   getStateInfoList: () => IStateInfo[];
@@ -63,11 +95,18 @@ export interface ICompilableMark extends IGrammarItem {
   // parent model
   readonly model: IModel;
 
+  /**
+   * 上报发生了变更，需要更新
+   */
+  commit: (render?: boolean, recursion?: boolean) => void;
+  uncommit: () => void;
+  isCommited: () => boolean;
+
   // 数据 可以没有
-  getData: () => IMarkData | undefined;
-  setData: (d: IMarkData) => void;
+  getData: () => ICompilableData | undefined;
+  setData: (d: ICompilableData) => void;
   getDataView: () => DataView | undefined;
-  setDataView: (d?: DataView, productId?: string) => void;
+  setDataView: (d: DataView) => void;
 
   // 状态
   state: IMarkStateManager;
@@ -75,17 +114,10 @@ export interface ICompilableMark extends IGrammarItem {
   hasState: (state: string) => boolean;
   getState: (state: string) => any;
   updateState: (newState: Record<string, unknown>) => void;
-  /** 更新group | enter中的静态样式 */
-  updateStaticEncode: () => void;
   /** 更新 mark 样式 */
   compileEncode: () => void;
-  /** 更新encode中的样式 */
-  updateLayoutState: (noRender?: boolean, recursion?: boolean) => void;
   /** 更新某一个状态 */
   updateMarkState: (key: string) => void;
-
-  // transform
-  setTransform: (transform: TransformSpec[] | Nil) => void;
 
   // 动画配置
   setAnimationConfig: (config: Partial<MarkAnimationSpec>) => void;
@@ -105,7 +137,7 @@ export interface ICompilableMark extends IGrammarItem {
 
   compile: (option?: IMarkCompileOption) => void;
 
-  getProduct: () => Maybe<IMark>;
+  getProduct: () => Maybe<IGroup>;
   getProductElements: () => Maybe<IMark['elements']>;
 
   /** 获取子mark */
@@ -120,23 +152,22 @@ export interface ICompilableMark extends IGrammarItem {
   getMarkConfig: () => IMarkConfig;
   setMarkConfig: (config: IMarkConfig) => void;
 
-  /** 开始状态动画 */
-  runAnimationByState: (animationState?: string) => IAnimateArranger;
-  /** 停止状态动画*/
-  stopAnimationByState: (animationState?: string) => IAnimate;
-  /** 暂停状态动画*/
-  pauseAnimationByState: (animationState: string) => IAnimate;
-  /** 恢复状态动画*/
-  resumeAnimationByState: (animationState: string) => IAnimate;
-}
+  getContext: () => any;
 
-export interface IMarkDataInitOption extends ICompilableMarkOption {
-  mark: ICompilableMark;
+  /** 开始状态动画 */
+  // runAnimationByState: (animationState?: string) => IAnimateArranger;
+  // /** 停止状态动画*/
+  // stopAnimationByState: (animationState?: string) => IAnimate;
+  // /** 暂停状态动画*/
+  // pauseAnimationByState: (animationState: string) => IAnimate;
+  // /** 恢复状态动画*/
+  // resumeAnimationByState: (animationState: string) => IAnimate;
+
+  layout: (layoutCallback: () => void) => void;
 }
 
 export interface IMarkCompileOption extends GrammarItemCompileOption {
-  group?: string | IGroupMark;
-  ignoreChildren?: boolean;
+  group?: IGroup;
   context?: any;
 }
 

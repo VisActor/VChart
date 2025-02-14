@@ -114,3 +114,13 @@ export interface IBandAxisLayer extends Omit<ITickCalculationCfg, 'noDecimals' |
    */
   visible?: boolean;
 }
+
+export enum AxisEnum {
+  lineAxis = 'lineAxis',
+  circleAxis = 'circleAxis'
+}
+
+export enum GridEnum {
+  lineAxisGrid = 'lineAxisGrid',
+  circleAxisGrid = 'circleAxisGrid'
+}

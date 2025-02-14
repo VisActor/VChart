@@ -20,6 +20,7 @@ import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
 import type { IGroupMark, IRectMark } from '../mark/interface/mark';
+import type { IGroup } from '@visactor/vrender-core';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
@@ -362,14 +363,14 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     });
   }
 
-  compileMarks(group?: string | IVGrammarGroupMark) {
+  compileMarks(group?: IGroup) {
     this.getMarks().forEach(m => {
       m.compile({ group, context: { model: this } });
-      m.getProduct()?.layout(
-        (group: IVGrammarGroupMark, children: IMark[], parentLayoutBounds: IBoundsLike, options?: ILayoutOptions) => {
-          // console.log('region mark layout');
-        }
-      );
+      // m.layout(
+      //   (group: IVGrammarGroupMark, children: IMark[], parentLayoutBounds: IBoundsLike, options?: ILayoutOptions) => {
+      //     // console.log('region mark layout');
+      //   }
+      // );
     });
   }
 
@@ -387,8 +388,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     };
   };
 
-  onLayoutEnd(ctx: any): void {
-    this._series.forEach(s => s.onLayoutEnd(ctx));
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    this._series.forEach(s => s.onLayoutEnd());
+    super.onLayoutEnd();
   }
 }

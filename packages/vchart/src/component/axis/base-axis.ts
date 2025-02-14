@@ -15,7 +15,7 @@ import type {
 } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
-import type { IAxis, ICommonAxisSpec, ITick } from './interface';
+import { AxisEnum, GridEnum, type IAxis, type ICommonAxisSpec, type ITick } from './interface';
 import { ComponentTypeEnum, type IComponentOption } from '../interface';
 import { eachSeries, getSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
@@ -42,7 +42,6 @@ import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic }
 import type { ITransformOptions } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataView } from '@visactor/vdataset';
-import { GridEnum } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
@@ -54,6 +53,7 @@ import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';
 import type { IComponentMark } from '../../mark/interface/mark';
+import type { ICompilableMark } from '../../compile/mark';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -158,7 +158,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       const axisMark = this._createMark(
         { type: 'component', name: `axis-${this.getOrient()}` },
         {
-          componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
+          componentType: this.getOrient() === 'angle' ? AxisEnum.circleAxis : AxisEnum.lineAxis,
           mode: this._spec.mode,
           noSeparateStyle: true
         },
@@ -166,6 +166,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           skipTheme: true // skip theme of vgrammar to avoid merge
         }
       );
+      this._updateTickDataMarks(axisMark);
       this._axisMark = axisMark;
       axisMark.setMarkConfig({ zIndex: this.layoutZIndex });
       if (isValid(this._spec.id)) {
@@ -186,6 +187,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
             skipTheme: true
           }
         );
+
+        this._updateTickDataMarks(gridMark);
         gridMark.setMarkConfig({
           zIndex: this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid,
           interactive: false // 轴网格线关闭交互
@@ -371,12 +374,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // 留给各个类型的 axis 来 override
   }
 
-  onLayoutEnd(ctx: any): void {
+  onLayoutEnd(): void {
     const changed = this.updateScaleRange();
 
     this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
 
-    super.onLayoutEnd(ctx);
+    super.onLayoutEnd();
   }
 
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
@@ -404,6 +407,14 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       this._tickData.forEach(tickData => {
         tickData.getDataView().reRunAllTransform();
         tickData.updateData();
+      });
+    }
+  }
+
+  protected _updateTickDataMarks(m: ICompilableMark) {
+    if (this._tickData) {
+      this._tickData.forEach(d => {
+        d.addRelatedMark(m);
       });
     }
   }

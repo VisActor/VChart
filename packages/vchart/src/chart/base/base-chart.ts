@@ -56,7 +56,7 @@ import type { IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import type { IElement, IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
+import type { IElement, IRunningConfig as IMorphConfig } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -131,8 +131,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._layoutTag = tag;
     const compiler = this.getCompiler();
 
-    if (compiler?.getVGrammarView()) {
-      compiler.getVGrammarView().updateLayoutTag();
+    if (compiler) {
+      compiler.updateLayoutTag();
       tag && renderNextTick && compiler.renderNextTick(morphConfig);
     }
     return this._layoutTag;
@@ -427,17 +427,17 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
-  layout(params: ILayoutParams): void {
+  layout(): void {
     this._option.performanceHook?.beforeLayoutWithSceneGraph?.();
     if (this.getLayoutTag()) {
       this._event.emit(ChartEvent.layoutStart, { chart: this, vchart: this._option.globalInstance });
 
-      this.onLayoutStart(params);
+      this.onLayoutStart();
       const elements = this.getLayoutElements();
       this._layoutFunc(this, elements, this._layoutRect, this._viewBox);
       this._event.emit(ChartEvent.afterLayout, { elements, chart: this });
       this.setLayoutTag(false);
-      this.onLayoutEnd(params);
+      this.onLayoutEnd();
 
       this._event.emit(ChartEvent.layoutEnd, { chart: this, vchart: this._option.globalInstance });
     }
@@ -445,18 +445,18 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   // 通知所有需要通知的元素 onLayout 钩子
-  onLayoutStart(option: IChartLayoutOption) {
+  onLayoutStart() {
     const elements = this.getAllModels();
-    elements.forEach(element => element.onLayoutStart(this._layoutRect, this._viewRect, option));
+    elements.forEach(element => element.onLayoutStart(this._layoutRect, this._viewRect));
   }
 
   // 通知所有需要通知的元素 onLayoutEnd 钩子
-  onLayoutEnd(option: IChartLayoutOption) {
+  onLayoutEnd() {
     const elements = this.getAllModels();
     elements.forEach(element => {
       // series.onLayoutEnd will be called by region model
       if (element.modelType !== 'series') {
-        element.onLayoutEnd(option);
+        element.onLayoutEnd();
       }
     });
   }
@@ -1027,9 +1027,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       return;
     }
     this._backgroundMark.compile({ context: { model: this } });
-    this._backgroundMark.getProduct()?.layout(() => {
-      // console.log('region mark layout');
-    });
+    // this._backgroundMark.getProduct()?.layout(() => {
+    //   // console.log('region mark layout');
+    // });
   }
 
   compileRegions() {
@@ -1078,9 +1078,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._idMap.clear();
   }
 
-  onLayout(srView: IView) {
-    const root = srView.rootMark;
-    this.layout({ group: root, srView });
+  onLayout() {
+    this.layout();
   }
 
   /**

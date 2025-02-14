@@ -8,8 +8,13 @@ import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import type { LooseFunction } from '@visactor/vutils';
-import { isEqual } from '@visactor/vutils';
+import { array, isEqual } from '@visactor/vutils';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import type { IComponentMark } from '../../mark/interface/mark';
+import type { ICompilableMark } from '../../compile/mark/interface';
+import { DiffState } from '../../mark/interface/enum';
+import type { Datum } from '../../typings/common';
+import { MarkTypeEnum } from '../../mark/interface/type';
 
 export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
@@ -50,6 +55,65 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
     }
 
     return result;
+  }
+
+  _getDataLabelType(baseMark: ICompilableMark, type?: string) {
+    const markType = baseMark.type;
+
+    if (markType === 'line' || markType === 'area') {
+      return type ?? 'line-data';
+    }
+    if (markType === MarkTypeEnum.rect || markType === MarkTypeEnum.rect3d) {
+      return 'rect';
+    }
+
+    if (markType === MarkTypeEnum.arc || markType === MarkTypeEnum.arc3d) {
+      return 'arc';
+    }
+
+    if (markType === MarkTypeEnum.symbol || markType === MarkTypeEnum.cell) {
+      return 'symbol';
+    }
+  }
+
+  _setTransformOfComponent(labelComponent: IComponentMark, baseMark: ICompilableMark | ICompilableMark[]) {
+    labelComponent.setAttributeTransform(({ labelStyle, size, itemEncoder }) => {
+      const labelStyleRes = labelStyle();
+      const dataLabels = array(baseMark).map(mark => {
+        const labelData: any[] = [];
+        const graphics = (mark as any).getGraphics();
+
+        if (!graphics) {
+          return;
+        }
+
+        graphics.forEach((g: IGraphic) => {
+          const { data, diffState } = g.context;
+
+          if (diffState !== DiffState.exit) {
+            data.forEach((datum: Datum) => {
+              labelData.push({
+                data: datum,
+                ...itemEncoder(datum)
+              });
+            });
+          }
+        });
+
+        return {
+          baseMarkGroupName: mark.getProductId(),
+          getBaseMarks: () => graphics,
+          ...labelStyleRes,
+          type: this._getDataLabelType(mark, labelStyleRes.type),
+          data: labelData
+        };
+      });
+
+      return {
+        dataLabels,
+        size: size()
+      };
+    });
   }
 
   onRender(ctx: IModelRenderOption): void {

@@ -1,4 +1,4 @@
-import type { IElement, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+import type { IElement } from '@visactor/vgrammar-core';
 import { isContinuous } from '@visactor/vscale';
 import { isArray, isObject, isValid, isBoolean } from '@visactor/vutils';
 import { PREFIX } from '../../constant/base';
@@ -8,7 +8,7 @@ import type { Datum, StringOrNumber } from '../../typings';
 import type { IStateManagerOption } from '../signal/interface';
 import { StateManager } from '../signal/state-manager';
 import type { CompilableMark } from './compilable-mark';
-import type { IMarkStateManager, IStateInfo, StateValue } from './interface';
+import type { ICompilableMark, IMarkStateManager, IStateInfo, StateValue } from './interface';
 import { stateInDefaultEnum } from './util';
 
 /** mark state 管理器 */
@@ -269,14 +269,14 @@ export class MarkStateManager extends StateManager implements IMarkStateManager 
     return this.updateState({ markUpdateRank: this._stateMap.markUpdateRank }, noRender);
   }
 
-  compileState(product: IVGrammarMark, stateSort?: (stateA: string, stateB: string) => number) {
-    (product as any).state(
-      {
-        callback: (datum: any, element: any) => {
-          return this.checkState(element, datum);
-        }
-      },
-      stateSort
-    );
+  compileState(mark: ICompilableMark, stateSort?: (stateA: string, stateB: string) => number) {
+    // (mark as any).state(
+    //   {
+    //     callback: (datum: any, element: any) => {
+    //       return this.checkState(element, datum);
+    //     }
+    //   },
+    //   stateSort
+    // );
   }
 }

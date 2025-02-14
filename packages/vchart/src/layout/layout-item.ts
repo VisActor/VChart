@@ -199,12 +199,12 @@ export class LayoutItem implements ILayoutItem {
     this.layoutClip = spec.clip ?? this.layoutClip;
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any) {
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect) {
     // 在 layoutStart 时重新计算 spec 中的布局属性值，确保 resize 后，这些值保持正确的px值。
     this._setLayoutAttributeFromSpec(this._spec, viewRect);
   }
 
-  onLayoutEnd(option: IChartLayoutOption) {
+  onLayoutEnd() {
     // do nothing
   }
 

@@ -1,3 +1,4 @@
+import type { IGroup } from '@visactor/vrender-core';
 import type { IMarkSpec } from '../../typings';
 import type {
   IArc3dMarkSpec,
@@ -23,7 +24,25 @@ import type {
 import type { IMark, IMarkRaw } from './common';
 import type { MarkType } from './type';
 
-export type IComponentMark = IMarkRaw<ICommonSpec>;
+export interface IComponentMark extends IMarkRaw<ICommonSpec> {
+  getComponent: () => IGroup;
+  setAttributeTransform: (t: (attrs: any) => any) => any;
+}
+
+export interface IGlyphMark<T extends ICommonSpec = ICommonSpec, C = any> extends IMarkRaw<T> {
+  setGlyphConfig: (cfg: C) => void;
+  getGlyphConfig: () => C;
+
+  getSubMarks: () => Record<
+    string,
+    {
+      type: MarkType;
+      defaultAttributes?: any;
+    }
+  >;
+
+  getProgressiveChannels: () => string[];
+}
 
 export interface ILabelMark extends ITextMark {
   skipEncode: boolean;
@@ -87,4 +106,8 @@ export interface IGroupMark extends IMarkRaw<IGroupMarkSpec> {
   getMarkInType: (type: MarkType) => IMark[];
   getMarkInId: (id: number) => IMark | undefined;
   getMarkInName: (name: string) => IMark[] | undefined;
+}
+
+export interface ILinkPathConfig {
+  direction?: 'horizontal' | 'vertical' | 'LR' | 'RL' | 'TB' | 'BL' | 'radial';
 }

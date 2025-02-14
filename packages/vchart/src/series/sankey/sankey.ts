@@ -2,7 +2,6 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
 import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, IComposedTextMarkSpec, StringOrNumber } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
@@ -16,7 +15,6 @@ import { DataView } from '@visactor/vdataset';
 import { LayoutZIndex } from '../../constant/layout';
 import { AttributeLevel } from '../../constant/attribute';
 import { Event_Bubble_Level } from '../../constant/event';
-import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds, array, isNil, isValid, isNumber, isArray } from '@visactor/vutils';
@@ -33,7 +31,7 @@ import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 import { Factory } from '../../core/factory';
-import type { ILinkPathMark, IMark, IRectMark, ITextMark } from '../../mark/interface';
+import type { IGlyphMark, ILinkPathMark, IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
 import type { IBaseScale } from '@visactor/vscale';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
@@ -56,8 +54,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   private _nodeLayoutZIndex = LayoutZIndex.Node;
   private _labelLayoutZIndex = LayoutZIndex.Label;
 
-  protected _nodesSeriesData?: SeriesData;
-  protected _linksSeriesData?: SeriesData;
+  protected _nodesSeriesData?: DataView;
+  protected _linksSeriesData?: DataView;
 
   private _viewBox: IBounds = new Bounds();
 
@@ -189,7 +187,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         false
       );
 
-      this._nodesSeriesData = new SeriesData(this._option, nodesDataView);
+      this._nodesSeriesData = nodesDataView;
 
       registerDataSetInstanceTransform(dataSet, 'sankeyLinks', sankeyLinks);
       const linksDataView = new DataView(dataSet, { name: `sankey-link-${this.id}-data` });
@@ -210,14 +208,15 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         },
         false
       );
-      this._linksSeriesData = new SeriesData(this._option, linksDataView);
+      this._linksSeriesData = linksDataView;
     }
   }
 
   compileData() {
     super.compileData();
-    this._linksSeriesData?.compile();
-    this._nodesSeriesData?.compile();
+
+    this._linkMark?.compileData();
+    this._nodeMark?.compileData();
   }
 
   initMark(): void {
@@ -230,8 +229,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       SankeySeries.mark.node,
       {
         isSeriesMark: true,
-        dataView: this._nodesSeriesData.getDataView(),
-        dataProductId: this._nodesSeriesData.getProductId(),
+        dataView: this._nodesSeriesData,
         stateSort: this._spec.node?.stateSort
       },
       {
@@ -246,8 +244,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const linkMark = this._createMark(
       SankeySeries.mark.link,
       {
-        dataView: this._linksSeriesData.getDataView(),
-        dataProductId: this._linksSeriesData.getProductId(),
+        dataView: this._linksSeriesData,
         stateSort: this._spec.link?.stateSort
       },
       {
@@ -267,13 +264,13 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   valueToNode(value: StringOrNumber | StringOrNumber[]) {
-    const nodes = this._nodesSeriesData.getLatestData();
+    const nodes = this._nodesSeriesData.latestData;
     const specifyValue = array(value)[0];
     return nodes && nodes.find((node: SankeyNodeElement) => node.key === specifyValue);
   }
 
   valueToLink(value: StringOrNumber | StringOrNumber[]) {
-    const links = this._linksSeriesData.getLatestData();
+    const links = this._linksSeriesData.latestData;
     const specifyValue = array(value);
 
     return (
@@ -355,7 +352,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (fill) {
       return fill;
     } else if (isValid(this._spec.seriesField)) {
-      const sourceNode = this._nodesSeriesData?.getLatestData()?.find((entry: any) => datum.source === entry.key);
+      const sourceNode = this._nodesSeriesData.latestData?.find((entry: any) => datum.source === entry.key);
       const nodeDatum = sourceNode?.datum;
       const colorScale = this._option?.globalScale?.getScale('color');
 
@@ -372,6 +369,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return;
     }
 
+    (linkMark as IGlyphMark).setGlyphConfig({
+      direction: this.direction
+    });
+
     this.setMarkStyle<ILinkPathMarkSpec>(
       linkMark,
       {
@@ -379,8 +380,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         x1: (datum: Datum) => datum.x1,
         y0: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
-        thickness: (datum: Datum) => datum.thickness,
-        direction: this.direction
+        thickness: (datum: Datum) => datum.thickness
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
@@ -463,8 +463,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected initEvent(): void {
     super.initEvent();
 
-    this._nodesSeriesData.getDataView()?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
-    this._linksSeriesData.getDataView()?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
+    this._nodesSeriesData?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
+    this._linksSeriesData?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
     const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
     // 没有关闭交互时，才增加这些交互事件
     if (this._option.disableTriggerEvent !== true) {
@@ -477,14 +477,14 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   private nodesSeriesDataUpdate() {
-    this._nodesSeriesData.updateData();
+    this._nodeMark.getData().updateData();
 
     this._nodeList = null;
     this._setNodeOrdinalColorScale();
   }
 
   private linksSeriesDataUpdate() {
-    this._linksSeriesData.updateData();
+    this._linkMark.getData().updateData();
   }
 
   protected _handleEmphasisElement = (params: ExtendEventParam) => {
@@ -1138,8 +1138,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     return keyArray;
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._viewBox.set(0, 0, this._region.getLayoutRect().width, this._region.getLayoutRect().height);
 
     // calculate the sankeyLayout
@@ -1171,7 +1171,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 }
 
 export const registerSankeySeries = () => {
-  registerSankeyTransforms();
   registerRectMark();
   registerLinkPathMark();
   registerTextMark();

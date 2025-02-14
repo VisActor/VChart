@@ -12,7 +12,6 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import type { ITransformOptions, DataView } from '@visactor/vdataset';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { SeriesData } from '../base/series-data';
 import { dataViewFromDataView } from '../../data/initialize';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IModelEvaluateOption } from '../../model/interface';
@@ -33,6 +32,7 @@ import { AttributeLevel } from '../../constant/attribute';
 import type { ILabelMark, IRuleMark, ITextMark } from '../../mark/interface';
 import type { IBarAnimationParams } from '../bar/interface';
 import type { ILabelInfo } from '../../component/label/interface';
+import { CompilableData, type ICompilableData } from '../../compile/data';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -44,7 +44,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   static readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
   readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
 
-  protected _totalData?: SeriesData;
+  protected _totalData?: ICompilableData;
   getTotalData() {
     return this._totalData?.getLatestData();
   }
@@ -112,7 +112,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       name: `${PREFIX}_series_${this.id}_totalData`
     });
     this.getViewData().target.removeListener('change', totalData.reRunAllTransform);
-    this._totalData = new SeriesData(this._option, totalData);
+    this._totalData = new CompilableData(this._option, totalData);
     totalData.transform(
       {
         type: 'waterfall',
@@ -205,7 +205,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     ) as IRuleMark;
     if (leaderLine) {
       this._leaderLineMark = leaderLine;
-      leaderLine.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
+      leaderLine.setData(this._totalData);
     }
   }
 
@@ -229,7 +229,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     // 瀑布图标签 encode 在自定义布局中计算
     labelMark.skipEncode = true;
     labelMark.setRule('stackLabel');
-    labelMark.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
+    labelMark.setData(this._totalData);
 
     this.setMarkStyle(labelMark, {
       text: (datum: Datum) => {

@@ -33,7 +33,6 @@ import { registerEmptyCircleAnimation, registerPieAnimation } from './animation/
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
 import type { IBasePieSeriesSpec, IPieAnimationParams, IPieSeriesSpec, PieAppearPreset } from './interface';
-import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
@@ -46,6 +45,8 @@ import { DEFAULT_LABEL_VISIBLE } from '../../constant/label';
 import { ChartEvent } from '../../constant/event';
 import { computeLayoutRadius } from '../../component/axis/polar/util/common';
 import { calcLayoutNumber } from '../../util/space';
+import type { ICompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;
@@ -56,7 +57,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   static readonly mark: SeriesMarkMap = pieSeriesMark;
 
-  protected _viewDataLabel!: SeriesData;
+  protected _viewDataLabel!: ICompilableData;
 
   // 饼图渲染不依赖于极坐标系轴，因此由 series 自己存储相关配置信息
   getCenter = (): IPoint => {
@@ -165,7 +166,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       type: 'dataview'
     });
 
-    this._viewDataLabel = new SeriesData(this._option, viewDataLabel);
+    this._viewDataLabel = new CompilableData(this._option, viewDataLabel);
   }
 
   compileData() {
@@ -327,10 +328,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
    * @override
    * @param ctx
    */
-  onLayoutEnd(ctx: IModelLayoutOption): void {
+  onLayoutEnd(): void {
     this._viewDataLabel.getDataView().reRunAllTransform();
     this.onMarkPositionUpdate();
-    super.onLayoutEnd(ctx);
+    super.onLayoutEnd();
   }
 
   getDimensionField(): string[] {
