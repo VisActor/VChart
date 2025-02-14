@@ -65,19 +65,21 @@ export class LineLikeSeriesMixin {
   addSamplingCompile(): void {
     if (this._spec.sampling) {
       const { width, height } = this._region.getLayoutRect();
-      const samplingTrans = [];
       const fieldsY = this._fieldY;
       const fieldsX = this._fieldX;
 
-      samplingTrans.push({
-        type: 'sampling',
-        size: this._direction === Direction.horizontal ? height : width,
-        factor: this._spec.samplingFactor,
-        yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
-        groupBy: this._seriesField,
-        mode: this._spec.sampling
-      });
-      this._data.getProduct().transform(samplingTrans);
+      if (this._data) {
+        this._data.setTransform([
+          {
+            type: 'dataSampling',
+            size: this._direction === Direction.horizontal ? height : width,
+            factor: this._spec.samplingFactor,
+            yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
+            groupBy: this._seriesField,
+            mode: this._spec.sampling
+          }
+        ]);
+      }
     }
   }
 
@@ -85,13 +87,13 @@ export class LineLikeSeriesMixin {
     if (this._spec.markOverlap) {
       const overlapTrans = [];
       overlapTrans.push({
-        type: 'markoverlap',
+        type: 'symbolOverlap',
         direction: this._direction === Direction.horizontal && this.coordinate === 'cartesian' ? 2 : 1,
         delta: this._spec.pointDis,
         deltaMul: this._spec.pointDisMul,
         groupBy: this._seriesField
       });
-      this._symbolMark?.getProduct().transform(overlapTrans);
+      this._symbolMark?.setTransform(overlapTrans);
     }
   }
 

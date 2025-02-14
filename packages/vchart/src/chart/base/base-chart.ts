@@ -22,11 +22,9 @@ import { GlobalScale } from '../../scale/global-scale';
 import type { ILayoutModelState, IModel, IModelOption, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
 import type {
   IChart,
-  IChartLayoutOption,
   IChartRenderOption,
   IChartOption,
   IChartEvaluateOption,
-  ILayoutParams,
   DimensionIndexOption,
   IChartSpecTransformerOption,
   IChartSpecTransformer

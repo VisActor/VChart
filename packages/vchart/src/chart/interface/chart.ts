@@ -12,8 +12,7 @@ import type {
   IChartOption,
   IChartRenderOption,
   IChartSpecInfo,
-  IChartSpecTransformerOption,
-  ILayoutParams
+  IChartSpecTransformerOption
 } from './common';
 import type { IBoundsLike, IPadding, Maybe } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
@@ -75,7 +74,7 @@ export interface IChart extends ICompilable {
 
   /** layout */
   setLayout: (layout: LayoutCallBack) => void;
-  layout: (context: ILayoutParams) => void;
+  layout: () => void;
   getLayoutTag: () => boolean;
   setLayoutTag: (tag: boolean, morphConfig?: IMorphConfig, renderNextTick?: boolean) => boolean;
 

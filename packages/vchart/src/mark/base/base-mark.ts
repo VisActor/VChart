@@ -813,6 +813,18 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     this.runEncoder();
     this.runState();
 
+    this.runTransforms(
+      this._transform?.filter(transformSpec => {
+        if (transformSpec.type) {
+          const transform = Factory.getGrammarTransform(transformSpec.type);
+          return transform?.isGraphic;
+        }
+
+        return false;
+      }),
+      this._graphics
+    );
+
     const attrs = this.getAttrsFromConfig();
 
     this._product?.setAttributes(attrs);
