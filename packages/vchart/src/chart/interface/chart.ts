@@ -1,6 +1,5 @@
 import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
@@ -94,7 +93,7 @@ export interface IChart extends ICompilable {
   onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
   onRender: (ctx: IChartRenderOption) => void;
   onResize: (width: number, height: number, reRender: boolean) => void;
-  onLayout: (view: IView) => void;
+  onLayout: () => void;
   /**
    * 图表更新的时候按需调用
    * @since 1.11.0

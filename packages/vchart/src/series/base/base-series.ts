@@ -64,9 +64,8 @@ import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import { dimensionStatistics, dimensionStatisticsOfSimpleData } from '../../data/transforms/dimension-statistics';
 import { invalidTravel } from '../../data/transforms/invalid-travel';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
-import type { ISeriesMarkAttributeContext } from '../../compile/mark';
+import type { IMarkConfig, ISeriesMarkAttributeContext } from '../../compile/mark';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import {
@@ -88,12 +87,14 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark, defaultSeriesIgnoreCheckKeys, defaultSeriesCompileCheckKeys } from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
-import type { EventType, IMarkConfig } from '@visactor/vgrammar-core';
 import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
 import { is3DMark } from '../../mark/utils';
+import type { GraphicEventType } from '@visactor/vrender-core';
+import type { ICompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -190,7 +191,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   // view data
-  protected _data: SeriesData = null;
+  protected _data: ICompilableData = null;
   getViewData() {
     return this._data?.getDataView();
   }
@@ -373,7 +374,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       const viewData = dataViewFromDataView(this.getStack() ? this._viewDataFilter : this._rawData, this._dataSet, {
         name: `${this.type}_${this.id}_viewData`
       });
-      this._data = new SeriesData(this._option, viewData);
+      this._data = new CompilableData(this._option, viewData);
 
       if (this.getStack()) {
         this._viewDataFilter.target.removeListener('change', viewData.reRunAllTransform);
@@ -744,8 +745,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       });
     } else if (!parentMark && (!isNil(spec.dataId) || !isNil(spec.dataIndex))) {
       const dataView = this._option.getSeriesData(spec.dataId, spec.dataIndex);
+
       if (dataView === this._rawData) {
-        mark.setDataView(this.getViewData(), this.getViewDataProductId());
+        mark.setData(this._data);
       } else {
         mark.setDataView(dataView);
 
@@ -765,8 +767,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         return;
       }
       this.initMarkStyleWithSpec(mark, spec);
-      mark.updateStaticEncode();
-      mark.updateLayoutState();
+      mark.commit(false, true);
     });
   }
 
@@ -849,8 +850,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       regionId: this._region.id,
       selector,
       type: 'element-highlight',
-      trigger: finalHoverSpec.trigger as EventType,
-      triggerOff: finalHoverSpec.triggerOff as EventType,
+      trigger: finalHoverSpec.trigger as GraphicEventType,
+      triggerOff: finalHoverSpec.triggerOff as GraphicEventType,
       blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
       highlightState: STATE_VALUE_ENUM.STATE_HOVER
     };
@@ -868,8 +869,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       seriesId: this.id,
       regionId: this._region.id,
       selector,
-      trigger: finalSelectSpec.trigger as EventType,
-      triggerOff: triggerOff as EventType,
+      trigger: finalSelectSpec.trigger as GraphicEventType,
+      triggerOff: triggerOff as GraphicEventType,
       reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
       state: STATE_VALUE_ENUM.STATE_SELECTED,
       isMultiple
@@ -1145,8 +1146,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     });
     this.initMarkStyle();
     marks.forEach(mark => {
-      mark.updateStaticEncode();
-      mark.updateLayoutState(true);
+      mark.commit(false);
     });
     this._updateExtensionMarkSpec();
     this._updateSpecData();
@@ -1179,7 +1179,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (transformIndex >= 0) {
       this._rawData.transformsArr.splice(transformIndex, 1);
     }
-    this._data?.release();
     this._dataSet =
       this._data =
       this._rawData =
@@ -1307,7 +1306,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       themeSpec = {},
       markSpec,
       dataView,
-      dataProductId,
       parent,
       isSeriesMark,
       depend,
@@ -1319,7 +1317,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       seriesId: this.id,
       attributeContext: this._markAttributeContext,
       componentType: option.componentType,
-      noSeparateStyle
+      noSeparateStyle,
+      parent: parent ?? this._rootMark
     });
 
     if (isValid(m)) {
@@ -1330,17 +1329,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         this._seriesMark = m;
       }
 
-      if (isNil(parent)) {
-        this._rootMark?.addMark(m);
-      } else if (parent !== false) {
-        parent.addMark(m);
-      }
-
       if (isNil(dataView)) {
-        m.setDataView(this.getViewData(), this.getViewDataProductId());
+        m.setData(this._data);
         m.setSkipBeforeLayouted(true);
       } else if (dataView !== false) {
-        m.setDataView(dataView, dataProductId);
+        m.setDataView(dataView);
       }
 
       if (isBoolean(skipBeforeLayouted)) {

@@ -16,9 +16,11 @@ import { registerAxis } from '../base-axis';
 import { getAxisItem, shouldUpdateAxis } from '../util';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '@visactor/vutils-extension';
-import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
-import { continuousTicks } from '@visactor/vrender-components';
+import { continuousTicks, LineAxis, LineAxisGrid } from '@visactor/vrender-components';
 import { registerDataSetInstanceTransform } from '../../../data/register';
+import type { IGroup } from '@visactor/vrender-core';
+import type { VRenderComponentOptions } from '../../../core/interface';
+import { AxisEnum, GridEnum } from '../interface/common';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition'>,
@@ -113,6 +115,19 @@ export class CartesianTimeAxis<
     }
   }
 
+  created() {
+    super.created();
+    if (this._layerTickData) {
+      if (this._axisMark) {
+        this._layerTickData.addRelatedMark(this._axisMark);
+      }
+
+      if (this._gridMark) {
+        this._layerTickData.addRelatedMark(this._gridMark);
+      }
+    }
+  }
+
   protected _getLabelFormatMethod(): any {
     const timeUtil = TimeUtil.getInstance();
     const timeFormat1 = this._spec.layers?.[1]?.timeFormat || '%Y%m%d';
@@ -171,8 +186,12 @@ export class CartesianTimeAxis<
 }
 
 export const registerCartesianTimeAxis = () => {
-  registerLineAxis();
-  registerLineGrid();
+  Factory.registerGraphicComponent(AxisEnum.lineAxis, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxis(attrs, options) as unknown as IGroup;
+  });
+  Factory.registerGraphicComponent(GridEnum.lineAxisGrid, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxisGrid(attrs, options) as unknown as IGroup;
+  });
   registerAxis();
   Factory.registerComponent(CartesianTimeAxis.type, CartesianTimeAxis);
 };

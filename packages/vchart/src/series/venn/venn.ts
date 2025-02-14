@@ -19,13 +19,15 @@ import { BaseSeries } from '../base';
 import { registerArcMark } from '../../mark/arc';
 import { registerPathMark } from '../../mark/path';
 import type { IVennCircleDatum, IVennOverlapDatum } from '@visactor/vgrammar-venn';
-import { registerVennTransforms } from '@visactor/vgrammar-venn';
+import { vennMarkTransform } from '@visactor/vgrammar-venn';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds, array } from '@visactor/vutils';
 import { getVennSeriesDataKey } from './util';
 import { ComponentTypeEnum } from '../../component/interface';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { ILegend, IDiscreteLegend } from '../../component/legend/interface';
+import { registerDataSetInstanceTransform } from '../../data/register';
+import { vennLayout } from '../../data/transforms/venn';
 
 export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends BaseSeries<T> {
   static readonly type: string = SeriesTypeEnum.venn;
@@ -70,26 +72,37 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     this.setSeriesField(this._spec.seriesField ?? DEFAULT_DATA_KEY);
   }
 
+  initData() {
+    super.initData();
+
+    registerDataSetInstanceTransform(this._dataSet, 'venn', vennLayout);
+
+    this._data.getDataView()?.transform({
+      type: 'venn',
+      options: {
+        getViewBox: () => {
+          return this._viewBox.empty()
+            ? null
+            : {
+                x0: this._viewBox.x1,
+                x1: this._viewBox.x2,
+                y0: this._viewBox.y1,
+                y1: this._viewBox.y2
+              };
+        },
+        setField: this._categoryField,
+        valueField: this._valueField
+      }
+    });
+  }
+
   compile(): void {
     super.compile();
     this._runVennTransform();
   }
 
   protected _runVennTransform(render = false) {
-    const viewDataProduct = this._data.getProduct();
-    if (viewDataProduct) {
-      viewDataProduct.transform([
-        {
-          type: 'venn',
-          x0: this._viewBox.x1,
-          x1: this._viewBox.x2,
-          y0: this._viewBox.y1,
-          y1: this._viewBox.y2,
-          setField: this._categoryField,
-          valueField: this._valueField
-        }
-      ]);
-    }
+    this._data.getDataView().reRunAllTransform();
     if (render) {
       this.getCompiler().renderNextTick();
     }
@@ -240,8 +253,8 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     return [this._valueField];
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._viewBox.set(0, 0, this.getLayoutRect().width, this.getLayoutRect().height);
     this._runVennTransform();
   }
@@ -374,6 +387,8 @@ export const registerVennSeries = () => {
   registerPathMark();
   registerVennAnimation();
   registerFadeInOutAnimation();
-  registerVennTransforms();
+  Factory.registerGrammarTransform('vennMark', {
+    transform: vennMarkTransform
+  });
   Factory.registerSeries(VennSeries.type, VennSeries);
 };

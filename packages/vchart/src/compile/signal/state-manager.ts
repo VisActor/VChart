@@ -34,6 +34,7 @@ export class StateManager extends SignalManager {
 
   compile(stateMap?: StateValueMap) {
     const state = stateMap ?? this._stateMap;
+
     Object.keys(state).forEach(key => {
       const name = this.stateKeyToSignalName(key);
       const value = state[key];

@@ -1,11 +1,14 @@
-import type { IGroupMark, IGrammarBase, IView, IRenderer, InteractionSpec } from '@visactor/vgrammar-core';
-import type { Maybe, IPerformanceHook, StringOrNumber } from '../../typings';
-import type { IColor, IStage } from '@visactor/vrender-core';
+import type { InteractionSpec } from '@visactor/vgrammar-core';
+import type { IPerformanceHook, StringOrNumber } from '../../typings';
+import type { IColor, IGroup, IStage } from '@visactor/vrender-core';
 import type { IChart } from '../../chart/interface/chart';
 import type { IVChart } from '../../core/interface';
 import type { IMorphConfig } from '../../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType, EventType } from '../../event/interface';
+import type { IMark } from '../../mark/interface';
+import type { LayoutState } from '../interface/compiler';
+import type { ICompilableMark } from '../mark';
 
 export type CompilerListenerParameters = {
   type: EventType;
@@ -34,9 +37,7 @@ export type ICompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
 
 export interface ICompiler {
   isInited?: boolean;
-  getVGrammarView: () => IView;
   getModel: () => ICompilerModel;
-  getRenderer: () => IRenderer;
   getCanvas: () => HTMLCanvasElement | undefined;
   getStage: () => IStage | undefined;
   compile: (ctx: { chart: IChart; vChart: IVChart }, option: any) => void;
@@ -65,22 +66,27 @@ export interface ICompiler {
   addInteraction: (interaction: InteractionSpec & { seriesId?: number; regionId?: number }) => void;
   removeInteraction: (seriesId: number) => void;
   updateDepend: (items?: IGrammarItem[]) => boolean;
+
+  addRootMark: (mark: IMark) => any;
+  getRootMarks: () => IMark[];
+
+  updateLayoutTag: () => void;
+  getLayoutState: () => LayoutState;
+  getRootGroup: () => IGroup;
 }
 
 export interface ICompilable {
   /** 获取 compile 对象 */
   getCompiler: () => ICompiler;
   /** 获取 vgrammar view */
-  getVGrammarView: () => IView;
+  getStage: () => IStage;
 
   /** 编译总入口 */
   compile: () => void;
   /** 编译所有 mark */
-  compileMarks?: (group?: string | IGroupMark) => void;
+  compileMarks?: (group?: IGroup) => void;
   /** 编译所有 data */
   compileData?: () => void;
-  /** 编译所有 signal */
-  compileSignal?: () => void;
 
   /** 清除compile 内容入口 */
   clear?: () => void;
@@ -105,12 +111,15 @@ export enum GrammarType {
   mark = 'mark'
 }
 
+export interface ITransformSpec {
+  type: string;
+  [key: string]: any;
+}
+
 export interface IGrammarItem extends ICompilable {
   id: number;
   /** 语法元素类型 */
   grammarType: GrammarType;
-  /** 获取语法元素 */
-  getProduct: () => Maybe<IGrammarBase>;
   /** 生成语法元素名称 */
   generateProductId: () => string;
   /** 获取语法元素名称 */
@@ -123,6 +132,8 @@ export interface IGrammarItem extends ICompilable {
   setDepend: (...depend: IGrammarItem[]) => void;
   /** 更新语法元素的依赖，返回是否全部成功更新 */
   updateDepend: () => boolean;
+  // transform
+  setTransform: (transform: ITransformSpec[]) => void;
 }
 
 export type GrammarItemInitOption = ICompilableInitOption;

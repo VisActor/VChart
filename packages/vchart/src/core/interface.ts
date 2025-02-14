@@ -22,7 +22,7 @@ import type { ITheme } from '../theme/interface';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { DimensionIndexOption, IChart, IChartSpecInfo } from '../chart/interface';
-import type { IStage } from '@visactor/vrender-core';
+import type { IEventTarget, IStage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IUpdateSpecResult } from '../model/interface';
@@ -575,3 +575,14 @@ export type VChartRenderActionSource =
   | 'updateModelSpec'
   | 'setCurrentTheme'
   | 'updateSpecAndRecompile';
+
+export interface VRenderComponentOptions {
+  skipDefault?: boolean;
+  mode?: '2d' | '3d';
+}
+
+export interface IStageEventPlugin<T> {
+  new (taget: IEventTarget, cfg?: T): {
+    release: () => void;
+  };
+}

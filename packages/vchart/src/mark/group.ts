@@ -7,10 +7,10 @@ import { BaseMark } from './base/base-mark';
 import type { IGroupMark, IMark, IMarkStyle, MarkType } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import type { IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
-// eslint-disable-next-line no-duplicate-imports
-import { registerGroupGraphic } from '@visactor/vgrammar-core';
-import type { IMarkCompileOption } from '../compile/mark';
+import { STATE_VALUE_ENUM, type IMarkCompileOption } from '../compile/mark';
+import type { IGroup, IGroupGraphicAttribute } from '@visactor/vrender-core';
+import { registerGroup, registerShadowRoot } from '@visactor/vrender-kits';
+import { isNil } from '@visactor/vutils';
 
 export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
   static readonly type = MarkTypeEnum.group;
@@ -20,16 +20,8 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     return this._marks;
   }
 
-  protected declare _product: Maybe<IVGrammarGroupMark>;
-  declare getProduct: () => Maybe<IVGrammarGroupMark>;
-
-  protected _getDefaultStyle() {
-    const defaultStyle: IMarkStyle<IGroupMarkSpec> = {
-      ...super._getDefaultStyle()
-      // clip: false
-    };
-    return defaultStyle;
-  }
+  protected declare _product: Maybe<IGroup>;
+  declare getProduct: () => Maybe<IGroup>;
 
   protected isMarkExist(mark: IMark): boolean {
     return this._marks.find(m => m.id === mark.id) !== undefined;
@@ -95,24 +87,58 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     super._compileProduct(option);
 
     // 设置zIndex
-    this._product.configure({
-      zIndex: this._markConfig.zIndex
-    });
+    // this._product.configure({
+    //   zIndex: this._markConfig.zIndex
+    // });
 
     // 编译子元素
-    if (!option?.ignoreChildren) {
-      this.getMarks().forEach(mark => {
-        // TODO: 如果语法元素已创建，先删除再重新指定父结点生成。vgrammar 是否可以动态指定 mark 父结点？
-        if (mark.getProduct()) {
-          mark.removeProduct();
-        }
-        mark.compile({ group: this._product });
-      });
+    this.getMarks().forEach(mark => {
+      // TODO: 如果语法元素已创建，先删除再重新指定父结点生成。vgrammar 是否可以动态指定 mark 父结点？
+      if (mark.getProduct()) {
+        mark.removeProduct();
+      }
+      mark.compile({ group: this._product });
+    });
+  }
+
+  getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}) {
+    const configAttrs = super.getAttrsFromConfig(attrs);
+
+    if (!isNil(this._markConfig.interactive)) {
+      configAttrs.pickable = this._markConfig.interactive;
     }
+    return attrs;
+  }
+
+  protected _renderSelf() {
+    const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle } = this.stateStyle;
+    const attrs: any = {};
+
+    Object.keys(normalStyle).forEach(key => {
+      if (this._unCompileChannel[key]) {
+        return;
+      }
+
+      attrs[key] = this._computeAttribute(key, 'normal')({});
+    });
+
+    this._product?.setAttributes(this.getAttrsFromConfig(attrs));
+  }
+
+  render(): void {
+    if (this._isCommited) {
+      this._renderSelf();
+    }
+    this.uncommit();
+
+    this.getMarks().forEach(mark => {
+      mark.render();
+    });
   }
 }
 
 export const registerGroupMark = () => {
-  registerGroupGraphic();
+  registerShadowRoot();
+  registerGroup();
   Factory.registerMark(GroupMark.type, GroupMark);
 };

@@ -325,8 +325,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._inverse = transformInverse(this._spec, chartSpec?.direction === Direction.horizontal);
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
-    super.onLayoutStart(layoutRect, viewRect, ctx);
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void {
+    super.onLayoutStart(layoutRect, viewRect);
     // 计算innerOffset
     if (!isZAxis(this.getOrient()) && (this._spec as ICartesianVertical | ICartesianHorizontal).innerOffset) {
       const spec = this._spec as ICartesianVertical | ICartesianHorizontal;
@@ -629,7 +629,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
     if (!context.skipLayout) {
       const attrs = this._getUpdateAttribute(true);
-      const axisComponent = product.getGroupGraphicItem();
+      const axisComponent = this._axisMark.getComponent();
 
       const spec = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs, { line: { visible: false } });
       let updateBounds = axisComponent.getBoundsWithoutRender(spec);
@@ -841,13 +841,24 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   protected _updateAxisLayout = () => {
     const startPoint = this.getLayoutStartPoint();
     const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
-    const axisProduct = this._axisMark.getProduct(); // 获取语法元素
+    //const axisComponent = this._axisMark.getComponent(); // 获取语法元素
     const axisAttrs = mergeSpec({ x: startPoint.x, y: startPoint.y }, this._axisStyle, updateAxisAttrs);
-    axisProduct.encode(axisAttrs);
+    //axisComponent.setAttributes(axisAttrs);
+
+    this._axisMark.stateStyle.normal = axisAttrs;
 
     if (this._gridMark) {
-      const gridProduct = this._gridMark.getProduct(); // 获取语法元素
-      gridProduct.encode(mergeSpec({ x: startPoint.x, y: startPoint.y }, this._getGridAttributes(), updateGridAttrs));
+      // const gridComponent = this._gridMark.getComponent(); // 获取语法元素
+
+      // gridComponent.setAttributes(
+      //   mergeSpec({ x: startPoint.x, y: startPoint.y }, this._getGridAttributes(), updateGridAttrs)
+      // );
+
+      this._gridMark.stateStyle.normal = mergeSpec(
+        { x: startPoint.x, y: startPoint.y },
+        this._getGridAttributes(),
+        updateGridAttrs
+      );
     }
   };
 

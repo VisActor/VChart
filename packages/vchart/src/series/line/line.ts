@@ -102,8 +102,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     }
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this.reCompileSampling();
   }
 

@@ -1,7 +1,6 @@
 import type { IElement } from '@visactor/vgrammar-core';
-// eslint-disable-next-line no-duplicate-imports
-import { DiffState } from '@visactor/vgrammar-core';
 import { minInArray } from '@visactor/vutils';
+import { DiffState } from '../../../mark/interface/enum';
 
 /**
  * 计算角度对于起点的比例

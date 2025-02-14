@@ -31,9 +31,9 @@ import type { EventCallback, EventParams } from '../../event/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
 import type { IRegion } from '../../region/interface';
-import type { SeriesData } from '../base/series-data';
 import { mergeSpec } from '@visactor/vutils-extension';
 import type { ILineLikeSeriesTheme } from './interface';
+import type { ICompilableData } from '../../compile/data';
 
 export interface LineLikeSeriesMixin extends ISeries {
   _spec: any;
@@ -44,7 +44,7 @@ export interface LineLikeSeriesMixin extends ISeries {
   _invalidType: IInvalidType;
   _region: IRegion;
   _direction: DirectionType;
-  _data: SeriesData;
+  _data: ICompilableData;
 
   _lineMark: ILineMark;
   _symbolMark: ISymbolMark;
@@ -430,9 +430,7 @@ export class LineLikeSeriesMixin {
       this.setMarkStyle(mark, { [attr]: this._getInvalidDefined.bind(this) }, 'normal', AttributeLevel.Series);
     }
     // if has produce, reCompile encode to set attribute to product
-    if (mark.getProduct()) {
-      mark.compileEncode();
-    }
+    mark.compileEncode();
   }
 
   protected _isFieldAllValid() {

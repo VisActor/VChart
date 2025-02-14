@@ -88,35 +88,35 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       return;
     }
 
-    const view = this.getCompiler()?.getVGrammarView();
+    // const view = this.getCompiler()?.getVGrammarView();
 
-    if (!view) {
-      return;
-    }
+    // if (!view) {
+    //   return;
+    // }
 
-    if (this._spec.trigger === 'hover') {
-      view.addEventListener('element-highlight:start', (params: any) => {
-        if (this.isRelativeModel(params.options.regionId)) {
-          this.updateDatum(params.elements[0].getDatum());
-        }
-      });
-      view.addEventListener('element-highlight:reset', (params: any) => {
-        if (this.isRelativeModel(params.options.regionId)) {
-          this.updateDatum(null);
-        }
-      });
-    } else {
-      view.addEventListener('element-select:start', (params: any) => {
-        if (this.isRelativeModel(params.options.regionId)) {
-          this.updateDatum(params.elements[0].getDatum());
-        }
-      });
-      view.addEventListener('element-select:reset', (params: any) => {
-        if (this.isRelativeModel(params.options.regionId)) {
-          this.updateDatum(null);
-        }
-      });
-    }
+    // if (this._spec.trigger === 'hover') {
+    //   view.addEventListener('element-highlight:start', (params: any) => {
+    //     if (this.isRelativeModel(params.options.regionId)) {
+    //       this.updateDatum(params.elements[0].getDatum());
+    //     }
+    //   });
+    //   view.addEventListener('element-highlight:reset', (params: any) => {
+    //     if (this.isRelativeModel(params.options.regionId)) {
+    //       this.updateDatum(null);
+    //     }
+    //   });
+    // } else {
+    //   view.addEventListener('element-select:start', (params: any) => {
+    //     if (this.isRelativeModel(params.options.regionId)) {
+    //       this.updateDatum(params.elements[0].getDatum());
+    //     }
+    //   });
+    //   view.addEventListener('element-select:reset', (params: any) => {
+    //     if (this.isRelativeModel(params.options.regionId)) {
+    //       this.updateDatum(null);
+    //     }
+    //   });
+    // }
   }
 
   updateDatum(datum: any) {

@@ -365,8 +365,8 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     return 0;
   }
 
-  onLayoutEnd(ctx: any) {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd() {
+    super.onLayoutEnd();
     const layoutOffsetX = this._spec?.leftAppendPadding ?? 0;
     this.setMarkStyle(
       this._clipMark,
@@ -442,11 +442,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
 
   protected onMarkTreePositionUpdate(marks: IMark[]): void {
     marks.forEach(m => {
-      if (m.type === 'group') {
-        this.onMarkTreePositionUpdate((m as IGroupMark).getMarks());
-      } else {
-        m.updateLayoutState();
-      }
+      m.commit(false, true);
     });
   }
 
