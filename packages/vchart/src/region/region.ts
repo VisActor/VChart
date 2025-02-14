@@ -1,7 +1,5 @@
-import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isEqual, array, isValid } from '@visactor/vutils';
-import type { IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@visactor/vgrammar-core';
 import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
 import { DimensionTrigger } from '../interaction/dimension-trigger';
 import { MarkTypeEnum } from '../mark/interface/type';

@@ -22,11 +22,12 @@ import { areaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerAreaSeriesAnimation } from './animation';
 import type { IMark, IAreaMark } from '../../mark/interface';
-import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { AreaSeriesSpecTransformer } from './area-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { STACK_FIELD_END } from '../../constant/data';
+import { registerSymbolOverlapTransform } from '../../mark/transform/symbol-overlap';
+import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -307,8 +308,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 mixin(AreaSeries, LineLikeSeriesMixin);
 
 export const registerAreaSeries = () => {
-  registerSampleTransform();
-  registerMarkOverlapTransform();
+  registerDataSamplingTransform();
+  registerSymbolOverlapTransform();
   registerLineMark();
   registerAreaMark();
   registerSymbolMark();
