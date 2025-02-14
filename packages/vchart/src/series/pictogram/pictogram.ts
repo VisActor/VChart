@@ -8,7 +8,6 @@ import { SeriesTypeEnum } from '../interface';
 import type { IPictogramSeriesSpec } from './interface';
 import { PictogramSeriesMark } from './constant';
 import { getSVGSource, registerSVGSource, svgSourceMap, unregisterSVGSource } from './svg-source';
-import { SeriesData } from '../base/series-data';
 import { lookup } from '../../data/transforms/lookup';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { GroupMark } from '../../mark';
@@ -19,16 +18,16 @@ import type { IMatrix } from '@visactor/vutils';
 import { Bounds, Matrix, isValid, merge } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
-import type { Group } from '@visactor/vrender-core';
+import type { GraphicEventType, Group } from '@visactor/vrender-core';
 import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
-import type { EventType } from '@visactor/vgrammar-core';
 import { registerElementHighlightByGraphicName, registerElementSelectByGraphicName } from '@visactor/vgrammar-core';
 import type { IGroupMark, IMark, ITextMark } from '../../mark/interface';
 import { PictogramSeriesTooltipHelper } from './tooltip-helper';
 import { graphicAttributeTransform, pictogram } from '../../data/transforms/pictogram';
 import type { IPoint } from '../../typings/coordinate';
+import { CompilableData } from '../../compile/data';
 
 export interface SVGParsedElementExtend extends SVGParsedElement {
   _finalAttributes: Record<string, any>;
@@ -93,8 +92,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       selector,
       type: 'element-highlight-by-graphic-name',
       // trigger: finalHoverSpec.trigger as EventType,
-      trigger: finalHoverSpec.trigger as EventType,
-      triggerOff: 'pointerout' as EventType,
+      trigger: finalHoverSpec.trigger as GraphicEventType,
+      triggerOff: 'pointerout' as GraphicEventType,
       blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
       highlightState: STATE_VALUE_ENUM.STATE_HOVER
     };
@@ -112,8 +111,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       seriesId: this.id,
       regionId: this._region.id,
       selector,
-      trigger: finalSelectSpec.trigger as EventType,
-      triggerOff: triggerOff as EventType,
+      trigger: finalSelectSpec.trigger as GraphicEventType,
+      triggerOff: triggerOff as GraphicEventType,
       reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
       state: STATE_VALUE_ENUM.STATE_SELECTED,
       isMultiple
@@ -193,7 +192,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
     if (labelMark) {
       this._labelMark = labelMark;
-      this._labelMark.setDataView(this._mapViewData.getDataView());
+      this._labelMark.setData(this._mapViewData);
     }
   }
 
@@ -378,15 +377,15 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
         }
       });
     this._data?.getDataView().target.addListener('change', svgData.reRunAllTransform);
-    this._mapViewData = new SeriesData(this._option, svgData);
+    this._mapViewData = new CompilableData(this._option, svgData);
   }
 
   mapViewDataUpdate() {
     this._mapViewData.updateData();
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._mapViewData?.getDataView().reRunAllTransform();
   }
 

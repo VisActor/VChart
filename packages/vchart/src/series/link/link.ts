@@ -347,11 +347,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 
   protected onMarkTreePositionUpdate(marks: IMark[]): void {
     marks.forEach(m => {
-      if (m.type === 'group') {
-        this.onMarkTreePositionUpdate((m as IGroupMark).getMarks());
-      } else {
-        m.updateLayoutState();
-      }
+      m.commit(false, true);
     });
   }
 

@@ -6,12 +6,13 @@ import type { MarkType } from './type';
 import type {
   ICompilableMark,
   ICompilableMarkOption,
+  IMarkConfig,
   IModelMarkAttributeContext,
   StateValueType
 } from '../../compile/mark/interface';
 import type { StringOrNumber } from '../../typings';
-import type { IMarkConfig } from '@visactor/vgrammar-core';
 import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { IGroupMark } from './mark';
 
 export interface VisualScaleType {
   scale: IBaseScale;
@@ -77,6 +78,8 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     postProcessFunc: IAttrConfig<A, T>['postProcess'],
     state?: StateValueType
   ) => void;
+
+  render: () => void;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;
@@ -112,6 +115,9 @@ export interface IMarkOption extends ICompilableMarkOption {
   /** 组件 mark 的具体类型 */
   componentType?: string;
   attributeContext?: IModelMarkAttributeContext;
+
+  /** 父级 mark */
+  parent?: IGroupMark;
 }
 export interface IMarkConstructor {
   type: MarkType;
@@ -172,3 +178,32 @@ export interface IMarkOverlap {
    */
   markOverlap?: boolean;
 }
+
+export type GroupedData<T> = {
+  // iterating over array is faster than set
+  keys: string[];
+  // operation on map is faster than object
+  data: Map<string, T[]>;
+};
+
+export interface IProgressiveTransformResult<Output = any> {
+  /** is progressive finished */
+  unfinished: () => boolean;
+  /** return all the result */
+  output: () => Output;
+  /** the output result of current progressive run */
+  progressiveOutput: () => Output;
+  /** run in progressive mode */
+  progressiveRun: () => void;
+  /** release the progressive context */
+  release: () => void;
+  /**
+   * can animate after progressive
+   */
+  canAnimate?: () => boolean;
+}
+
+export type IMarkDataTransform<Options = any, Input = any, Output = any> = (
+  options: Options,
+  data: Input
+) => Output | IProgressiveTransformResult<Output>;

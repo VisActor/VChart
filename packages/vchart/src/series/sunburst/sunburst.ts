@@ -360,8 +360,8 @@ export class SunburstSeries extends PolarSeries<any> {
     }
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._rawData.reRunAllTransform();
   }
 

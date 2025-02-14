@@ -1,7 +1,7 @@
-import type { Datum } from '@visactor/vgrammar-core';
 import type { IMark } from '../../../mark/interface';
 import type { ISeries } from '../../../series/interface';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';
+import type { Datum } from '../../../typings/common';
 
 export type DimensionTooltipInfo = IDimensionInfo[];
 

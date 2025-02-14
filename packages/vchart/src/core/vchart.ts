@@ -72,7 +72,7 @@ import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../constant/event';
+import { ChartEvent } from '../constant/event';
 import { DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant/base';
 // eslint-disable-next-line no-duplicate-imports
 import {
@@ -102,7 +102,6 @@ import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
 import { registerGroupMark } from '../mark/group';
-import { View, registerGesturePlugin } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
@@ -117,6 +116,7 @@ import {
 import type { IIndicator } from '../component/indicator';
 import type { IGeoCoordinate } from '../component/geo';
 import { getSVGSource } from '../series/pictogram/svg-source';
+import { registerGesturePlugin } from '../plugin/other';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -451,13 +451,14 @@ export class VChart implements IVChart {
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initView();
+    this._compiler.updateLayoutTag();
     // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
     this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
-    this._bindVGrammarViewEvent();
+    this._bindViewEvent();
     this._initChartPlugin();
 
     InstanceManager.registerInstance(this);
@@ -562,24 +563,23 @@ export class VChart implements IVChart {
     }
   }
 
-  private _bindVGrammarViewEvent() {
+  private _bindViewEvent() {
     if (!this._compiler) {
       return;
     }
-    const view = this._compiler.getVGrammarView();
-
-    view.addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
-      this._event.emit(ChartEvent.animationFinished, {
-        chart: this._chart,
-        vchart: this
-      });
-    });
-    view.addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
-      this._event.emit(ChartEvent.renderFinished, {
-        chart: this._chart,
-        vchart: this
-      });
-    });
+    // todo
+    // view.addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
+    //   this._event.emit(ChartEvent.animationFinished, {
+    //     chart: this._chart,
+    //     vchart: this
+    //   });
+    // });
+    // view.addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
+    //   this._event.emit(ChartEvent.renderFinished, {
+    //     chart: this._chart,
+    //     vchart: this
+    //   });
+    // });
   }
 
   private _bindResizeEvent() {
@@ -1131,7 +1131,7 @@ export class VChart implements IVChart {
     result.reSize = reSize;
 
     if (this._spec.type !== lastSpec.type) {
-      this._compiler?.getVGrammarView()?.updateLayoutTag();
+      this._compiler?.updateLayoutTag();
       result.reMake = true;
       result.reTransformSpec = true;
       result.change = true;
@@ -2200,7 +2200,7 @@ export const registerVChartCore = () => {
   // install essential marks
   registerGroupMark();
   // install essential vgrammar transform
-  View.useRegisters([registerGesturePlugin]);
+  registerGesturePlugin();
   // install default interaction
   registerHoverInteraction();
   registerSelectInteraction();

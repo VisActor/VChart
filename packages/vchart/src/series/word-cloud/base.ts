@@ -37,6 +37,7 @@ import { Factory } from '../../core/factory';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { LinearScale } from '@visactor/vscale';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
+import type { ITransformSpec } from '../../compile/interface';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -336,30 +337,26 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       return;
     }
 
-    const product = (this._wordMark as ICompilableMark).getProduct();
+    const wordCloudTransforms: ITransformSpec[] = [];
 
-    if (product) {
-      const wordCloudTransforms: any[] = [];
-
-      // 词云 transform
-      if (!this._isWordCloudShape) {
-        wordCloudTransforms.push({
-          type: 'wordcloud',
-          ...this._wordCloudTransformOption()
-        });
-      }
-      // 形状词云 transform
-      else {
-        wordCloudTransforms.push({
-          type: 'wordcloudShape',
-          // 形状词云中必须要传入dataIndexKey, 否则填充词无法绘制
-          ...this._wordCloudShapeTransformOption()
-        });
-      }
-
-      // 挂到mark的transform上
-      product.transform(wordCloudTransforms);
+    // 词云 transform
+    if (!this._isWordCloudShape) {
+      wordCloudTransforms.push({
+        type: 'wordcloud',
+        ...this._wordCloudTransformOption()
+      });
     }
+    // 形状词云 transform
+    else {
+      wordCloudTransforms.push({
+        type: 'wordcloudShape',
+        // 形状词云中必须要传入dataIndexKey, 否则填充词无法绘制
+        ...this._wordCloudShapeTransformOption()
+      });
+    }
+
+    // 挂到mark的transform上
+    this._wordMark.setTransform(wordCloudTransforms);
   }
 
   protected _getCommonTransformOptions(): any {
@@ -490,8 +487,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     return '';
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this.compile();
     this._dataChange = false;
   }

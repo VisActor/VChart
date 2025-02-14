@@ -11,7 +11,6 @@ import type { IPoint, CoordinateType } from '../typings/coordinate';
 import type { ITheme } from '../theme/interface';
 import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
-import type { ICompilableData } from '../compile/data/interface';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart, IChartSpecInfo, IChartSpecTransformerOption } from '../chart/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
@@ -22,6 +21,7 @@ import type { SeriesTypeEnum } from '../series/interface';
 import type { ITooltipSpec } from '../component/tooltip/interface';
 import type { TooltipActiveType } from '../typings';
 import type { IVChart } from '../core/interface';
+import type { ICompilableData } from '../compile/data/interface';
 
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -125,8 +125,8 @@ export interface IModel extends ICompilable {
   getSpecPath: () => Array<string | number>;
 
   //布局周期
-  onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
-  onLayoutEnd: (ctx: IModelLayoutOption) => void;
+  onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect) => void;
+  onLayoutEnd: () => void;
 
   getColorScheme: () => IThemeColorScheme | undefined;
 

@@ -4,17 +4,17 @@ import type { IGeoSeries } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { BaseSeries } from '../base/base-series';
 import { isNil } from '@visactor/vutils';
-import type { SeriesData } from '../base/series-data';
 import type { DataView } from '@visactor/vdataset';
 import { PREFIX } from '../../constant/base';
 import type { IGeoSeriesSpec } from './interface';
 import type { IMark } from '../../mark/interface';
+import type { ICompilableData } from '../../compile/data';
 
 export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> extends BaseSeries<T> implements IGeoSeries {
   type = SeriesTypeEnum.geo;
   readonly coordinate = 'geo';
 
-  protected _mapViewData: SeriesData;
+  protected _mapViewData: ICompilableData;
   getMapViewData() {
     return this._mapViewData?.getDataView();
   }

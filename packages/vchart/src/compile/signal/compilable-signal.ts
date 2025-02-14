@@ -1,7 +1,6 @@
 import type { ISignal, SignalFunctionType } from '@visactor/vgrammar-core';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe } from '../../typings';
-import { isValid } from '../../util/type';
 import type { GrammarItemInitOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { GrammarType } from '../interface/compilable-item';
@@ -40,23 +39,7 @@ export class CompilableSignal<T> extends GrammarItem implements ICompilableSigna
   }
 
   protected _compileProduct() {
-    const view = this.getVGrammarView();
-    if (!view) {
-      return;
-    }
-
-    const product = this.getProduct();
-    if (!product) {
-      const id = this.getProductId();
-      this._product = view.signal<T>().id(id);
-      this._compiledProductId = id;
-    }
-    if (isValid(this._value)) {
-      this._product.value(this._value);
-    }
-    if (isValid(this._updateFunc)) {
-      this._product.update(this._updateFunc);
-    }
+    // 不需要编译了
   }
 
   generateProductId(): string {

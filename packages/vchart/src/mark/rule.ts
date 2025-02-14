@@ -4,7 +4,9 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkStyle, IRuleMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerRuleGraphic } from '@visactor/vgrammar-core';
+import { registerLine, registerShadowRoot } from '@visactor/vrender-kits';
+import type { IGraphic, ILineGraphicAttribute } from '@visactor/vrender-core';
+import { createLine } from '@visactor/vrender-core';
 
 export class RuleMark extends BaseMark<IRuleMarkSpec> implements IRuleMark {
   static readonly type = MarkTypeEnum.rule;
@@ -17,9 +19,29 @@ export class RuleMark extends BaseMark<IRuleMarkSpec> implements IRuleMark {
     };
     return defaultStyle;
   }
+
+  protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
+    const finalAttrs = super._transformGraphicAttributes(g, attrs, groupAttrs);
+    const { x, x1, y, y1, ...rest } = finalAttrs;
+
+    return {
+      ...rest,
+      points: [
+        { x, y },
+        { x: x1, y: y1 }
+      ]
+    };
+  }
+
+  createGraphic(attrs: ILineGraphicAttribute = {}): IGraphic {
+    return createLine(attrs);
+  }
 }
 
 export const registerRuleMark = () => {
   Factory.registerMark(RuleMark.type, RuleMark);
-  registerRuleGraphic();
+  registerShadowRoot();
+  registerLine();
+
+  Factory.registerGraphicComponent(MarkTypeEnum.line, createLine);
 };
