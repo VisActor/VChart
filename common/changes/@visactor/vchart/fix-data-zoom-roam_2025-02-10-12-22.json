@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: allow dispatch roam zoom in datazoom component. fix#3714",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
