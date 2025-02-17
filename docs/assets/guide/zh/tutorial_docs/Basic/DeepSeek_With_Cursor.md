@@ -25,7 +25,7 @@
 
 ### 配置 cursor
 
-以`deepSeek-V3`为例，其模型名称为`deepseek-chat`，API地址为 https://api.deepseek.com/v1 ，详见[api使用官网](https://api-docs.deepseek.com/zh-cn/)
+以`deepSeek-V3`为例，其模型名称为`deepseek-chat`，API 地址为 https://api.deepseek.com/v1 ，详见[api 使用官网](https://api-docs.deepseek.com/zh-cn/)
 我们在 `model` 页面进行新建，设置对应的 `api` 地址和 `model` 名称.
 
 _值得注意的是，目前`cursor`官方并不支持直接接入`deepSeek`，我们可以通过覆盖`openAPI`的接口地址达到接入`deepSeek`的目的。在设置过程中，需要先关闭其他模型，只接入`deepSeek`模型_
@@ -41,8 +41,8 @@ _值得注意的是，目前`cursor`官方并不支持直接接入`deepSeek`，�
 通过`cmd+i`命令唤起 ai 交互，直接让 ai 帮我们先生成一个简单的柱图代码，直接应用这个 spec，我们查看结果，一个简单的柱图就渲染完成了；可以发现`deepSeek`对`vchart`有着一定的认知，简单的图表可以直接添加，我们尝试下更复杂的场景。
 
 <p style="text-align: center;">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deep_seek_3.PNG" alt="cursor结果" height="280">
-  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_4.PNG" alt="渲染结果" height="280">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deep_seek_3.PNG" alt="cursor结果" height="380">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_4.PNG" alt="渲染结果" height="380">
 </p>
 
 ### 复杂场景，注入 docs
@@ -50,8 +50,8 @@ _值得注意的是，目前`cursor`官方并不支持直接接入`deepSeek`，�
 我们希望添加一条 y 轴的均值辅助线，查看结果，然而结果并不正确，仔细查看可以发现，`markLine`虽然写的像是这么回事，但是`spec`并不符合规范，而且均值线经过了计算，我们通过注入 docs 来解决这个问题。
 
 <p style="text-align: center;">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_5.png" alt="markline_cursor" height="280">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_6.png" alt="markline_result" height="280">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_5.png" alt="markline_cursor" height="380">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_6.png" alt="markline_result" height="380">
 </p>
 
 ### 设置 docs
@@ -70,8 +70,8 @@ _值得注意的是，目前`cursor`官方并不支持直接接入`deepSeek`，�
 通过将新加入的 docs，再次编辑，可以得到正确的结果！
 
 <p style="text-align: center;">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_7.png" alt="markline_cursor" height="280">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_8.png" alt="markline_result" height="280">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_7.png" alt="markline_cursor" height="380">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_8.png" alt="markline_result" height="380">
 </p>
 
 通过本教程，您已经了如何通过`cursor+deepseek`来提升你的 VChart 编码效率，同时探索 VChart 的强大功能和灵活性，编绘出绚丽多彩的图表。祝您编码愉快！

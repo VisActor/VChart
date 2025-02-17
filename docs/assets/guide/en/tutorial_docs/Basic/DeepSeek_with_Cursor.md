@@ -40,8 +40,8 @@ _Note: Currently, `cursor` official website does not support direct access to `d
 Use `cmd+i` command to call up AI interaction, directly let AI generate a simple column chart code, apply this spec, we check the result, a simple column chart is rendered; we can find that `deepSeek` has a certain understanding of `vchart`, simple charts can be directly added, we try a more complex scenario.
 
 <p style="text-align: center;">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deep_seek_3.PNG" alt="cursor结果" height="280">
-  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_4.PNG" alt="渲染结果" height="280">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deep_seek_3.PNG" alt="cursor结果" height="380">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_4.PNG" alt="渲染结果" height="380">
 </p>
 
 ### Complex Scenario, Inject Docs
@@ -49,8 +49,8 @@ Use `cmd+i` command to call up AI interaction, directly let AI generate a simple
 We hope to add an average auxiliary line to the y-axis, check the result, but the result is not correct, carefully check to find that `markLine` seems to be written correctly, but the `spec` does not conform to the specification, and the average line has been calculated, we solve this problem by injecting docs.
 
 <p style="text-align: center;">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_5.png" alt="markline_cursor" height="280">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_6.png" alt="markline_result" height="280">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_5.png" alt="markline_cursor" height="380">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_6.png" alt="markline_result" height="380">
 </p>
 
 ### Set Docs
@@ -69,8 +69,8 @@ You can also directly add a new doc through `@Docs` in the editing page
 After editing the new added docs again, you can get the correct result!
 
 <p style="text-align: center;">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_7.png" alt="markline_cursor" height="280">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_8.png" alt="markline_result" height="280">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_7.png" alt="markline_cursor" height="380">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_8.png" alt="markline_result" height="380">
 </p>
 
 Through this tutorial, you have learned how to use `cursor+deepseek` to improve your VChart coding efficiency and explore the powerful features and flexibility of VChart. I wish you a pleasant coding experience!
