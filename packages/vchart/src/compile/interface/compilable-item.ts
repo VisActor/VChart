@@ -8,7 +8,6 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType, EventType } from '../../event/interface';
 import type { IMark } from '../../mark/interface';
 import type { LayoutState } from '../interface/compiler';
-import type { ICompilableMark } from '../mark';
 
 export type CompilerListenerParameters = {
   type: EventType;
@@ -139,3 +138,5 @@ export interface IGrammarItem extends ICompilable {
 export type GrammarItemInitOption = ICompilableInitOption;
 
 export type GrammarItemCompileOption = Record<string, any>;
+
+export type StateValueMap = Record<string, unknown>;

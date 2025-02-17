@@ -1,24 +1,15 @@
 import type { IElement } from '@visactor/vgrammar-core';
-import { StateManager } from '../compile/signal/state-manager';
-import type { StateValueMap } from '../compile/signal/interface';
-import { PREFIX } from '../constant/base';
+import { StateManager } from '../compile/state-manager';
 import { createID } from '../util/id';
 import type { IAnimate, IAnimateState } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from './interface';
+import type { StateValueMap } from '../compile/interface/compilable-item';
 
 export class AnimateManager extends StateManager implements IAnimate {
   protected declare _stateMap: IAnimateState & StateValueMap;
 
   readonly id: number = createID();
-
-  protected stateKeyToSignalName = (key: string) => {
-    return `${PREFIX}_animate_${this.id}_${key}`;
-  };
-
-  getAnimationStateSignalName() {
-    return this.stateKeyToSignalName('animationState');
-  }
 
   updateAnimateState(state: AnimationStateEnum, noRender?: boolean) {
     // when animation state is 'update', do animations by element diffState(enter & update & exit)

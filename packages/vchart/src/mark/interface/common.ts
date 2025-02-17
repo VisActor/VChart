@@ -79,6 +79,9 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     state?: StateValueType
   ) => void;
 
+  /** 更新某一个状态 */
+  updateMarkState: (key: string) => void;
+
   render: () => void;
 }
 

@@ -55,14 +55,8 @@ export interface IMarkStateManager {
   addStateInfo: (stateInfo: IStateInfo) => void;
   changeStateInfo: (stateInfo: Partial<IStateInfo>) => void;
   clearStateInfo: (stateValues: StateValue[]) => void;
-  checkOneState: (
-    renderNode: IElement,
-    datum: Datum | Datum[],
-    state: IStateInfo,
-    isMultiMark?: boolean
-  ) => 'in' | 'out' | 'skip';
-  checkState: (renderNode: IElement, datum: Datum | Datum[]) => StateValue[];
-  updateLayoutState: (noRender?: boolean) => void;
+  checkOneState: (renderNode: IGraphic, datum: Datum[], state: IStateInfo) => 'in' | 'out' | 'skip';
+  checkState: (renderNode: IGraphic, datum: Datum[]) => StateValue[];
 }
 
 export interface IMarkData extends ICompilableData {
@@ -116,8 +110,6 @@ export interface ICompilableMark extends IGrammarItem {
   updateState: (newState: Record<string, unknown>) => void;
   /** 更新 mark 样式 */
   compileEncode: () => void;
-  /** 更新某一个状态 */
-  updateMarkState: (key: string) => void;
 
   // 动画配置
   setAnimationConfig: (config: Partial<MarkAnimationSpec>) => void;

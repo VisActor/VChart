@@ -1,7 +1,7 @@
 import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
-import type { Maybe, Datum, StringOrNumber } from '../../typings';
+import type { Maybe, StringOrNumber } from '../../typings';
 import { isNil, isValid } from '@visactor/vutils';
 import { PREFIX } from '../../constant/base';
 import { LayoutZIndex } from '../../constant/layout';
@@ -174,13 +174,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this.name = name;
     this.model = model;
     this.key = option.key;
-    this.state = new MarkStateManager(
-      {
-        ...option,
-        stateKeyToSignalName: this.stateKeyToSignalName.bind(this)
-      },
-      this
-    );
+    this.state = new MarkStateManager(option, this);
     this._event = new Event(model.getOption().eventDispatcher, model.getOption().mode);
   }
 
@@ -192,10 +186,6 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._data = new CompilableData(option);
 
     this._data.addRelatedMark(this);
-  }
-
-  protected stateKeyToSignalName(key: string) {
-    return `${PREFIX}_${this.type}_${this.id}_${key}`;
   }
 
   getAttribute(key: any, datum: any, state: StateValueType, opt?: IAttributeOpt) {
@@ -327,7 +317,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
 
   compileState() {
-    this.state.compileState(this, this._stateSort);
+    // this.state.compileState(this, this._stateSort);
   }
 
   compileAnimation() {
@@ -392,21 +382,9 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
 
   updateState(newState: Record<string, unknown>, noRender?: boolean) {
-    return this.state.updateState(newState, noRender);
-  }
+    this.commit();
 
-  updateMarkState(key: string): void {
-    if (!this._product) {
-      return;
-    }
-    const stateInfo = this.state.getStateInfo(key);
-    this._product.elements.forEach(e => {
-      if (this.state.checkOneState(e, e.getDatum(), stateInfo) === 'in') {
-        e.addState(key);
-      } else {
-        e.removeState(key);
-      }
-    });
+    return this.state.updateState(newState, noRender);
   }
 
   getMarks(): ICompilableMark[] {
