@@ -82,9 +82,18 @@ export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
    * @since 1.3.0
    */
   customOverlapFunc?: BaseLabelAttrs['customOverlapFunc'];
-  /** 标签布局 */
+  /**
+   * 防重叠计算完成后的回调函数
+   * @since 1.13.5
+   */
+  onAfterOverlapping?: BaseLabelAttrs['onAfterOverlapping'];
+  /**
+   * 标签布局
+   */
   labelLayout?: 'series' | 'region';
-  /** 是否支持3D */
+  /**
+   * 是否支持3D
+   */
   support3d?: boolean;
   /**
    * 是否同步数据图元的状态变化
@@ -92,6 +101,12 @@ export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
    * @since 1.9.0
    */
   syncState?: boolean;
+  /**
+   * 是否显示标签关联图元的 mark tooltip
+   * @default false
+   * @since 1.13.5
+   */
+  showRelatedMarkTooltip?: boolean;
 }
 
 export type ILabelAnimationSpec = Pick<

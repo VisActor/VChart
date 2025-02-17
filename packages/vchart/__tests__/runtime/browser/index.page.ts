@@ -3,5 +3,5 @@
  */
 
 // import VChart from '../../../src';
-import './index.page.local';
+import './index.page.local.ts';
 // window['VChart'] = VChart;

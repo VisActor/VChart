@@ -1,3 +1,83 @@
+# v1.13.5
+
+2025-02-14
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 在 `brushend` 事件中添加 `startvalue` 和 `endvalue` 参数
+- **@visactor/vchart**: `label` 支持触发 `mark`类型的`tooltip`，[#3634](https://github.com/VisActor/VChart/issues/3634)
+- **@visactor/vchart**: 导出 `getCartesianDimensionInfo` 和 `getPolarDimensionInfo`，修复 [#3668](https://github.com/VisActor/VChart/issues/3668)
+- **@visactor/vchart**: 支持瀑布图的 `stackInverse`
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复漏斗图转换标记的更新动画错误，[#3685](https://github.com/VisActor/VChart/issues/3685)
+- **@visactor/vchart**: 修复堆叠区域上标记重叠下标记边框的问题，[#3684](https://github.com/VisActor/VChart/issues/3684)
+- **@visactor/vchart**: 修复隐藏 `crosshair` 时状态缓存问题，修复 [#3686](https://github.com/VisActor/VChart/issues/3686)
+- **@visactor/vchart**: 允许在 `datazoom` 组件中分发 `roam`和 `zoom`，修复 [#3714](https://github.com/VisActor/VChart/issues/3714)
+- **@visactor/vchart**: 修复 `datazoom` 和 `scrollbar` 实时更新不生效的问题，修复 [#3716](https://github.com/VisActor/VChart/issues/3716)
+- **@visactor/vchart**: 修复 `tickAlign` 精度问题
+- **@visactor/vchart**: 切换 `visible` 时应显示 indicator，修复 [#3675](https://github.com/VisActor/VChart/issues/3675)
+- **@visactor/vchart**: 圆形进度条应支持全局形变动画
+- **@visactor/vchart**: `tooltip` 在进入浮层后时不应处理`mousemove` 或 `mouseout`事件，解决`enterable`很难触发的问题，修复 [#3708](https://github.com/VisActor/VChart/issues/3708)
+- **@visactor/vchart**: 当 `maxWidth` 有效且 `multiLine` 不为 `false` 时，`tooltip` 应自动换行，修复 [#3718](https://github.com/VisActor/VChart/issues/3718)
+- **@visactor/vchart**: 修复 `text` 图元的类型定义
+
+**🔨 功能重构**
+
+- **@visactor/vchart**: 优化象形图的性能
+
+**📖 文档更新**
+
+- **@visactor/vchart**: 更新 `poptip` 的配置文档，关闭 [#3139](https://github.com/VisActor/VChart/issues/3139)
+
+[更多详情请查看 v1.13.5](https://github.com/VisActor/VChart/releases/tag/v1.13.5)
+
+# v1.13.4
+
+2025-01-17
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 词云图系列`wordCloudConfig`增加`insertZerosToArray`配置，解决特定浏览器性能问题
+- **@visactor/vchart**: `markArea`标记区域标签支持更多的位置，包括: `'insideBottom'`, `'topLeft'`, `'topRight'`, `'bottomLeft'`,`'bottomRight'`,`'insideTopLeft'`,`'insideTopRight'`,`'insideBottomLeft'`,`'insideBottomRight'`
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复 tooltip 关于 `showDelay` 的错误，修复 [#3663](https://github.com/VisActor/VChart/issues/3663)
+- **@visactor/vchart**: 修复 tooltip 的偏移问题，修复 [#3666](https://github.com/VisActor/VChart/issues/3666)
+- **@visactor/vchart**: 修复 tooltip 行高解析的错误，修复 [#3643](https://github.com/VisActor/VChart/issues/3643)
+- **@visactor/vchart**: 修复轴断点范围计算错误的问题，修复 [#3656](https://github.com/VisActor/VChart/issues/3656)
+- **@visactor/vchart**: 修复地图拖拽交互无法在画布外终止的问题，修复 [#3650](https://github.com/VisActor/VChart/issues/3650)
+- **@visactor/vchart**: 修复当线条、面积中有非法点，`invalidType` 为`link`的时候，线形展示不对的问题，修复[#3146](https://github.com/VisActor/VChart/issues/3146)
+
+[更多详情请查看 v1.13.4](https://github.com/VisActor/VChart/releases/tag/v1.13.4)
+
+# v1.13.3
+
+2025-01-08
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 在 axis-label 事件中添加 datum 到参数
+- **@visactor/vchart**: 将 vgrammar 提供的狗子，包装一层 vchart 实例上下文
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复 3D 图表中标签显示不正确的问题，[#3584](https://github.com/VisActor/VChart/issues/3584)
+- **@visactor/vchart**: 修复 3D 词云动画不工作的问题
+- **@visactor/vchart**: 修复 mark 悬停时 brush 数据未定义的问题，修复 [#3623](https://github.com/VisActor/VChart/issues/3623)
+- **@visactor/vchart**: 修复 tooltip 有自定义子元素时的 DOM 样式问题，修复 [#3615](https://github.com/VisActor/VChart/issues/3615)
+- **@visactor/vchart**: 修复更新主题时 DOM tooltip 更新错误的问题，修复 [#3619](https://github.com/VisActor/VChart/issues/3619)
+- **@visactor/vchart**: 修复 confine 为 false 时 html tooltip 位置错误的问题，修复 [#3632](https://github.com/VisActor/VChart/issues/3632)
+- **@visactor/vchart**: 修复数据集教程中的排版错误
+- **@visactor/vchart**: 修复 vchart 实例没有将 dpr 传递给 stage 的问题
+- **@visactor/vchart**: 修复不可见区域阻挡 mark 事件的问题，[#3638](https://github.com/VisActor/VChart/issues/3638)
+- **@visactor/vchart**: 修复维度悬停时不应显示未定义的点，修复 [#3610](https://github.com/VisActor/VChart/issues/3610)
+- **@visactor/vchart**: 修复标题组件的布局错误，修复 [#3614](https://github.com/VisActor/VChart/issues/3614)
+
+[更多详情请查看 v1.13.3](https://github.com/VisActor/VChart/releases/tag/v1.13.3)
+
 # v1.13.2
 
 2024-12-24

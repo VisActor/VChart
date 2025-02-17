@@ -41,7 +41,7 @@ export type HandlerTextAttribute = {
 // 连续图例通用配置
 export type IContinuousLegendSpec = ILegendCommonSpec & {
   /**
-   * 是否开启反向展示
+   * 连续图例是否开启反向展示，最小值和最大值会发生反向
    * @default false
    * @since 1.11.0
    */

@@ -34,6 +34,7 @@ export interface IWaterfallOpt {
     increase: string;
     decrease: string;
   };
+  stackInverse: boolean;
   groupData: () => DataView;
 }
 
@@ -77,7 +78,7 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
       negative: temp.end
     };
 
-    const indexData = dimensionData[key];
+    const indexData = op.stackInverse === true ? dimensionData[key].reverse() : dimensionData[key];
     indexData?.forEach((d, i) => {
       if (i === indexData.length - 1) {
         d[STACK_FIELD_TOTAL_TOP] = true;

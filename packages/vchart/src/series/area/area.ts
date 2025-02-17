@@ -26,6 +26,7 @@ import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor
 import { AreaSeriesSpecTransformer } from './area-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { STACK_FIELD_END } from '../../constant/data';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -167,6 +168,19 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
           AttributeLevel.Series
         );
       }
+
+      if (this.getStack()) {
+        // 在堆叠情况下面积系列需要控制图元层级，https://github.com/VisActor/VChart/issues/3684
+        this.setMarkStyle(
+          areaMark,
+          {
+            zIndex: (datum: Datum) => -datum[STACK_FIELD_END] // 越在堆叠下层，datum[STACK_FIELD_END] 越小,  zIndex越大
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
+
       this.setMarkStyle(
         areaMark,
         {

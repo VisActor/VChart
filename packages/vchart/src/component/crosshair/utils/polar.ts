@@ -1,175 +1,146 @@
 import type { BandScale } from '@visactor/vscale';
 import type { IPolarSeries } from '../../../series';
-import type { IHair, IHairRadius } from '../base';
-import type { AxisCurrentValueMap, IPolarCrosshairInfo } from '../interface';
+import type { CrossHairStateByField, CrossHairStateItem, ICrosshairInfo } from '../interface';
 import { getAxisLabelOffset } from '../../axis/util';
 import { PointService, clamp, getAngleByPoint, getIntersectPoint, isValid, polarToCartesian } from '@visactor/vutils';
 import type { ILinearAxis, IPolarAxis } from '../../axis';
-import { mergeSpec } from '@visactor/vutils-extension';
 import { getFormatFunction } from '../../util';
+import type { ILayoutPoint } from '../../../typings/layout';
 
 export const layoutByValue = (
+  stateByField: CrossHairStateByField,
   series: IPolarSeries,
-  currValueAngle: AxisCurrentValueMap,
-  currValueRadius: AxisCurrentValueMap,
-  angleHair: IHair,
-  radiusHair: IHair,
-  enableRemain: boolean = false,
-  cacheAngleCrossHairInfo?: IPolarCrosshairInfo,
-  cacheRadiusCrossHairInfo?: IPolarCrosshairInfo
+  enableRemain: boolean = false
 ) => {
-  let angleCrossHairInfo = {
-    x: 0,
-    y: 0,
-    center: { x: 0, y: 0 },
-    radius: 0,
-    distance: 0,
-    startAngle: 0,
-    endAngle: 0,
-    innerRadius: 0,
-    visible: false,
-    label: { visible: false, text: '', offset: 0 }
-  } as IPolarCrosshairInfo;
-  let radiusCrossHairInfo = {
-    x: 0,
-    y: 0,
-    center: { x: 0, y: 0 },
-    radius: 0,
-    distance: 0,
-    startAngle: 0,
-    endAngle: 0,
-    innerRadius: 0,
-    visible: false,
-    sides: (series.angleAxisHelper.getScale(0) as BandScale).domain().length,
-    label: { visible: false, text: '', offset: 0 }
-  } as IPolarCrosshairInfo;
+  Object.keys(stateByField).forEach(field => {
+    const { attributes, currentValue, cacheInfo, coordKey } = stateByField[field];
 
-  // 计算x轴和y轴的数据，只允许最多一对x和一对y
-  if (angleHair) {
-    angleCrossHairInfo.visible = !!currValueAngle.size;
-    const bandWidth = series.angleAxisHelper.getBandwidth(0);
-    currValueAngle.forEach(({ axis, value, coord, ...rest }) => {
-      value = value ?? '';
-      mergeSpec(angleCrossHairInfo, rest);
-      const angle = series.angleAxisHelper.dataToPosition([value]);
-      angleCrossHairInfo.angle = angle;
-      const niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
-      if (angleHair.label?.visible) {
-        angleCrossHairInfo.label.visible = true;
-        angleCrossHairInfo.label.defaultFormatter = niceLabelFormatter;
-        angleCrossHairInfo.label.text = value;
-        angleCrossHairInfo.label.offset = getAxisLabelOffset(axis.getSpec());
+    if (attributes) {
+      const isVisible = !!currentValue.size;
+      const useCache = enableRemain && !isVisible && isValid(cacheInfo);
+      const newInfo = useCache
+        ? cacheInfo
+        : ({
+            coord: 0,
+            axis: null,
+            visible: isVisible,
+            coordRange: [0, 0],
+            sizeRange: [0, 0],
+            labels: {
+              all: { visible: false, text: '', offset: 0 }
+            }
+          } as ICrosshairInfo);
+      if (cacheInfo) {
+        cacheInfo._isCache = useCache;
       }
 
-      angleCrossHairInfo.startAngle = angle - bandWidth / 2;
-      angleCrossHairInfo.endAngle = angle + bandWidth / 2;
-    });
-  }
-
-  if (radiusHair) {
-    radiusCrossHairInfo.visible = !!currValueRadius.size;
-    currValueRadius.forEach(({ axis, value, coord, ...rest }) => {
-      value = value ?? '';
-      const niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
-      if (radiusHair.label?.visible) {
-        radiusCrossHairInfo.label.visible = true;
-        radiusCrossHairInfo.label.defaultFormatter = niceLabelFormatter;
-        radiusCrossHairInfo.label.text = value;
-        radiusCrossHairInfo.label.offset = getAxisLabelOffset(axis.getSpec());
+      if (field === 'valueField') {
+        (newInfo as any).sides = (series.angleAxisHelper.getScale(0) as BandScale).domain().length;
       }
-      radiusCrossHairInfo.angle = coord.angle;
-      radiusCrossHairInfo.axis = axis as IPolarAxis;
-      mergeSpec(radiusCrossHairInfo, rest);
-    });
-  }
 
-  if (enableRemain && !angleCrossHairInfo.visible && isValid(cacheAngleCrossHairInfo)) {
-    angleCrossHairInfo = cacheAngleCrossHairInfo;
-  } else {
-    if (angleCrossHairInfo.label.visible) {
-      if (angleHair && angleHair.label) {
-        const { label } = angleCrossHairInfo;
-        const { formatMethod, formatter } = angleHair.label;
-        const { formatFunc, args } = getFormatFunction(formatMethod, formatter, label.text, {
-          label: label.text,
-          orient: 'angle'
-        });
-        if (formatFunc) {
-          label.text = formatFunc(...args);
-        } else if (label.defaultFormatter) {
-          label.text = label.defaultFormatter(label.text);
+      currentValue.forEach(({ axis, datum: value = '' }) => {
+        const niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
+
+        if (attributes.label?.visible) {
+          newInfo.labels.all.visible = true;
+          newInfo.labels.all.defaultFormatter = niceLabelFormatter;
+          newInfo.labels.all.text = value;
+          newInfo.labels.all.offset = getAxisLabelOffset(axis.getSpec());
+        }
+
+        if (field === 'categoryField') {
+          const angle = series.angleAxisHelper.dataToPosition([value]);
+          const bandSize = series.angleAxisHelper.getBandwidth(0);
+          const radius = (axis as IPolarAxis).getOuterRadius();
+
+          newInfo.coord = angle;
+          newInfo.coordRange = [angle - bandSize / 2, angle + bandSize / 2];
+          newInfo.sizeRange = [radius, radius];
+        } else {
+          const angle = (axis as IPolarAxis).startAngle;
+          const radius = series.radiusAxisHelper.dataToPosition([value]);
+
+          newInfo.coord = radius;
+          newInfo.coordRange = [radius, radius];
+          newInfo.sizeRange = [angle, angle];
+        }
+
+        newInfo.axis = axis as IPolarAxis;
+      });
+
+      if (newInfo && !useCache) {
+        if (newInfo.labels.all.visible) {
+          if (attributes && attributes.label) {
+            const label = newInfo.labels.all;
+            const { formatMethod, formatter } = attributes.label;
+            const { formatFunc, args } = getFormatFunction(formatMethod, formatter, label.text, {
+              label: label.text,
+              orient: coordKey
+            });
+            if (formatFunc) {
+              label.text = formatFunc(...args);
+            } else if (label.defaultFormatter) {
+              label.text = label.defaultFormatter(label.text);
+            }
+          }
         }
       }
-    }
-  }
 
-  if (enableRemain && !radiusCrossHairInfo.visible && isValid(cacheRadiusCrossHairInfo)) {
-    radiusCrossHairInfo = cacheRadiusCrossHairInfo;
-  } else {
-    if (radiusCrossHairInfo.label.visible) {
-      if (radiusHair && radiusHair.label) {
-        const { label } = radiusCrossHairInfo;
-        const { formatMethod, formatter } = radiusHair.label;
-        const { formatFunc, args } = getFormatFunction(formatMethod, formatter, label.text, {
-          label: label.text,
-          orient: 'radius'
-        });
-        if (formatFunc) {
-          label.text = formatFunc(...args);
-        } else if (label.defaultFormatter) {
-          label.text = label.defaultFormatter(label.text);
-        }
-      }
+      stateByField[field].cacheInfo = newInfo;
     }
-  }
+  });
+};
 
-  return {
-    angle: angleCrossHairInfo,
-    radius: radiusCrossHairInfo
+export const layoutCrosshair = (stateItem: CrossHairStateItem, layoutStartPoint: ILayoutPoint, smooth?: boolean) => {
+  const { cacheInfo, coordKey, attributes } = stateItem;
+  const { axis, coord, sizeRange, coordRange } = cacheInfo;
+  const axisCenter = (axis as IPolarAxis).getCenter();
+  const center = {
+    x: axisCenter.x + layoutStartPoint.x,
+    y: axisCenter.y + layoutStartPoint.y
   };
-};
 
-export const layoutAngleCrosshair = (angleHair: IHair, crosshairInfo: IPolarCrosshairInfo) => {
-  const { angle, innerRadius, radius, startAngle, endAngle, center } = crosshairInfo;
+  if (coordKey === 'angle') {
+    const crosshairType = attributes.type === 'rect' ? 'sector' : 'line';
 
-  const crosshairType = angleHair.type === 'rect' ? 'sector' : 'line';
-  let positionAttrs;
-  if (crosshairType === 'sector') {
-    positionAttrs = {
-      center,
-      innerRadius,
-      radius,
-      startAngle: startAngle,
-      endAngle: endAngle
-    };
-  } else {
-    positionAttrs = {
-      start: polarToCartesian(center, innerRadius, angle),
-      end: polarToCartesian(center, radius, angle)
+    if (crosshairType === 'sector') {
+      // angle 轴对应的crosshair
+      return {
+        center,
+        innerRadius: (axis as IPolarAxis).getInnerRadius(),
+        radius: (axis as IPolarAxis).getOuterRadius(),
+        startAngle: coordRange[0],
+        endAngle: coordRange[1]
+      };
+    }
+    // angle 轴对应的crosshair
+    return {
+      start: polarToCartesian(center, (axis as IPolarAxis).getInnerRadius(), coord),
+      end: polarToCartesian(center, (axis as IPolarAxis).getOuterRadius(), coord)
     };
   }
 
-  return positionAttrs;
-};
+  const startAngle = (axis as IPolarAxis).startAngle;
+  const endAngle = (axis as IPolarAxis).endAngle;
+  const sides = cacheInfo.sides;
 
-export const layoutRadiusCrosshair = (radiusHair: IHairRadius, crosshairInfo: IPolarCrosshairInfo) => {
-  const { center, startAngle, endAngle, distance, sides, axis, point, radius, innerRadius } = crosshairInfo;
-
-  const crosshairType = radiusHair.smooth ? 'circle' : 'polygon';
-
-  let polygonRadius = distance;
-  if (crosshairType === 'polygon') {
-    const axisCenter = axis.getCenter();
+  let polygonRadius = coord;
+  if (!smooth) {
+    const axisCenter = (axis as IPolarAxis).getCenter();
     // 需要计算半径
     // 获取当前点的角度
+    const point = (axis as IPolarAxis).coordToPoint({
+      angle: sizeRange[0],
+      radius: coord
+    });
     const curAngle = getAngleByPoint(axisCenter, point);
     const stepAngle = (endAngle - startAngle) / sides;
     const index = Math.floor((curAngle - startAngle) / stepAngle);
     const preAngle = index * stepAngle + startAngle;
     const nextAngle = Math.min((index + 1) * stepAngle + startAngle, endAngle);
 
-    const prePoint = polarToCartesian(axisCenter, distance, preAngle);
-    const nextPoint = polarToCartesian(axisCenter, distance, nextAngle);
+    const prePoint = polarToCartesian(axisCenter, coord, preAngle);
+    const nextPoint = polarToCartesian(axisCenter, coord, nextAngle);
     // 求交点
     const insertPoint = getIntersectPoint(
       [nextPoint.x, nextPoint.y],
@@ -179,19 +150,18 @@ export const layoutRadiusCrosshair = (radiusHair: IHairRadius, crosshairInfo: IP
     );
     if (insertPoint) {
       polygonRadius = clamp(
-        PointService.distancePN(point, insertPoint[0], insertPoint[1]) + distance,
-        innerRadius,
-        radius
+        PointService.distancePN(point, (insertPoint as [number, number])[0], (insertPoint as [number, number])[1]) +
+          coord,
+        (axis as IPolarAxis).getInnerRadius(),
+        (axis as IPolarAxis).getOuterRadius()
       );
     }
   }
-  const positionAttrs = {
+  return {
     center,
     startAngle: startAngle,
     endAngle: endAngle,
     radius: polygonRadius,
     sides
   };
-
-  return positionAttrs;
 };

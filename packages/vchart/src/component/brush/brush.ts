@@ -65,7 +65,13 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   // 根据axis找dataZoom
   private _axisDataZoomMap: { [axisId: string]: DataZoom } = {};
   // 记录当前操作的axis或dataZoom的状态
-  private _zoomRecord: { operateComponent: AxisComponent | DataZoom; start: number; end: number }[] = [];
+  private _zoomRecord: {
+    operateComponent: AxisComponent | DataZoom;
+    start: number;
+    end: number;
+    startValue: number | string;
+    endValue: number | string;
+  }[] = [];
 
   init() {
     const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.inBrush);
@@ -516,7 +522,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           this._zoomRecord.push({
             operateComponent: dataZoom,
             start: newStartPercent,
-            end: newEndPercent
+            end: newEndPercent,
+            startValue: dataZoom.statePointToData(newStartPercent),
+            endValue: dataZoom.statePointToData(newEndPercent)
           });
         } else {
           const range = axis.getScale().range();
@@ -542,7 +550,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           this._zoomRecord.push({
             operateComponent: axis,
             start: newStart,
-            end: newEnd
+            end: newEnd,
+            startValue: axis.getScale().invert(startPos),
+            endValue: axis.getScale().invert(endPos)
           });
         }
       });

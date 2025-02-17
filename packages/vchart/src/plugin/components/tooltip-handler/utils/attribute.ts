@@ -84,7 +84,7 @@ export function getTextAttributes(
     fontWeight: style.fontWeight,
     lineHeight: style.lineHeight as number,
     spacing: style.spacing,
-    multiLine: style.multiLine,
+    multiLine: isValid(style.maxWidth) ? style.multiLine !== false : style.multiLine,
     maxWidth: style.maxWidth,
     wordBreak: style.wordBreak,
     autoWidth: style.autoWidth

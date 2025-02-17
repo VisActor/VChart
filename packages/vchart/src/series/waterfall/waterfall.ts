@@ -100,7 +100,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
             valueField: this.getStackValueField(),
             seriesField: this.getSeriesField(),
             seriesFieldName: this._theme.seriesFieldName,
-            total: this._spec.total
+            total: this._spec.total,
+            stackInverse: this.getRegion().getStackInverse()
           }
         },
         false
@@ -123,7 +124,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
           startAs: STACK_FIELD_START,
           endAs: STACK_FIELD_END,
           total: this._spec.total,
-          groupData: () => this.getGroups().groupData
+          groupData: () => this.getGroups().groupData,
+          stackInverse: this.getRegion().getStackInverse()
         }
       },
       false

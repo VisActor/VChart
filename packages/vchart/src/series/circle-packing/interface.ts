@@ -57,7 +57,16 @@ export interface ICirclePackingSeriesSpec
 }
 
 export interface ICirclePackingSeriesTheme extends Omit<IPolarSeriesTheme, 'label'> {
+  /**
+   * 层内边距
+   */
   layoutPadding?: number | number[];
+  /**
+   * 标签的主题样式配置
+   */
   [SeriesMarkNameEnum.label]?: IMarkTheme<ITextMarkSpec>;
+  /**
+   * 圆图元的主题样式配置
+   */
   [SeriesMarkNameEnum.circlePacking]?: IMarkTheme<IArcMarkSpec>;
 }

@@ -199,7 +199,9 @@ export type WordCloudShapeConfigType = {
   fillingRatio?: number;
 };
 
-export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<string, WordcloudAppearPreset> {
+export interface IWordCloudSeriesBaseSpec
+  extends ISeriesSpec,
+    IAnimationSpec<SeriesMarkNameEnum.word, WordcloudAppearPreset> {
   /**
    * 文本字段
    */

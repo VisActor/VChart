@@ -4,8 +4,17 @@ import type { IMarkTheme } from '../../typings/spec/common';
 import type { ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
 
 export interface ILineLikeSeriesTheme {
+  /**
+   * 线图元的主题样式配置
+   */
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
+  /**
+   * 点图元的主题样式配置
+   */
   point?: Partial<IMarkTheme<ISymbolMarkSpec>> & { visibleInActive?: boolean };
+  /**
+   * 标签的主题样式配置
+   */
   label?: Partial<ILineLikeLabelSpec>;
 }
 

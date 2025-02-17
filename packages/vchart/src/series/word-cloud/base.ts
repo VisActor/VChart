@@ -405,7 +405,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   protected _wordCloudTransformOption(): Object {
+    const wordCloudConfig = this._wordCloudConfig ?? {};
+
     return {
+      ...wordCloudConfig,
       ...this._getCommonTransformOptions(),
       // TIP: 非浏览器环境下，使用 fast 布局，否则会出现兼容问题
       layoutType: this._wordCloudConfig.layoutMode,

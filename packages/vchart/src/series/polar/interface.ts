@@ -60,11 +60,24 @@ export interface IPolarSeriesSpec extends ISeriesSpec {
 
 export interface IPolarSeriesTheme {
   /**
+   * 外径
    * @deprecated use outerRadius instead
    */
   radius?: number;
+  /**
+   * 外径，外半径
+   */
   outerRadius?: number;
+  /**
+   * 内径，内半径
+   */
   innerRadius?: number;
+  /**
+   * 起始角度
+   */
   startAngle?: number;
+  /**
+   * 结束角度
+   */
   endAngle?: number;
 }
