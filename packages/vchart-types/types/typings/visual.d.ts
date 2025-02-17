@@ -132,10 +132,16 @@ export interface ITextMarkSpec extends IFillMarkSpec {
     ellipsis?: string;
     suffixPosition?: 'start' | 'end' | 'middle';
     underline?: boolean;
+    underlineDash?: number[];
+    underlineOffset?: number;
     lineThrough?: boolean;
     lineHeight?: number | string | ITokenKey;
     poptip?: PopTipAttributes;
     direction?: 'horizontal' | 'vertical';
+    wordBreak?: 'break-word' | 'break-all' | 'keep-all';
+    heightLimit?: number;
+    lineClamp?: number;
+    whiteSpace?: 'normal' | 'no-wrap';
 }
 export type IRichTextMarkSpec = IRichTextAttribute & IFillMarkSpec & {
     type: 'rich';

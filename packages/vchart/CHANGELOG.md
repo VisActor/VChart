@@ -1,6 +1,49 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 16 Jan 2025 07:01:11 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Feb 2025 08:49:08 GMT and should not be manually modified.
+
+## 1.13.5
+Fri, 14 Feb 2025 08:49:08 GMT
+
+### Updates
+
+- fix: incorrect update animation of funnel transform mark, #3685
+- docs: update options of poptip, close #3139
+
+
+- feat: add params of startvalue and endvalue in brushend event
+- feat: label support triggering mark tooltip, #3634
+- feat: export getCartesianDimensionInfo and getPolarDimensionInfo, fix #3668
+
+
+- feat: support stackInverse for waterfall chart
+
+
+- fix: fix the issue where the upper mark in stacked area overlaps the border of lower mark, #3684
+- fix: fix cache of crosshair value when hide crosshair, fix #3686
+
+
+- fix: allow dispatch roam zoom in datazoom component. fix#3714
+- fix: datazoom and scrollbar realtime not work. fix#3716
+- fix: fix the issue of tickAlign accuracy
+
+
+- fix: indicator should show when switch `visible`, fix #3675
+
+
+- fix: circular progress should support morphing
+
+
+- fix: tooltip should not handle mousemove or mouseout when enter tooltip, fix #3708
+
+
+- fix: tooltip should auto wrap when `maxWidth` is valid and `multiLine` is not false, fix #3718
+
+
+- fix: fix the type definition of text mark
+
+
+- refactor: optimize performance of pictogram
 
 ## 1.13.4
 Thu, 16 Jan 2025 07:01:11 GMT

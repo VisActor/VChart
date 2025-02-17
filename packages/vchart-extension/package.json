@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-extension",
-  "version": "1.13.4",
+  "version": "1.13.5",
   "description": "vchart extension package, including extension plugins and components",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -27,7 +27,7 @@
     "@visactor/vgrammar-core": "0.15.6",
     "@visactor/vutils": "~0.19.4",
     "@visactor/vdataset": "~0.19.4",
-    "@visactor/vchart": "workspace:1.13.4"
+    "@visactor/vchart": "workspace:1.13.5"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
