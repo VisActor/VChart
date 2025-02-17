@@ -29,7 +29,8 @@ import type {
   StyleConvert,
   VisualScaleType,
   MarkInputStyle,
-  GroupedData
+  GroupedData,
+  IAttrs
 } from '../interface';
 import { DiffState } from '../interface/enum';
 import { GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant/gradient';
@@ -42,8 +43,8 @@ import type { StateValueType } from '../../compile/mark';
 import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
 import { curveTypeTransform, groupData, runEncoder } from '../utils';
 import { LayoutState } from '../../compile/interface';
-import type { IGroupGraphicAttribute, IGraphic } from '@visactor/vrender-core';
-import { createGroup } from '@visactor/vrender-core';
+import type { IGroupGraphicAttribute, IGraphic, IGraphicAttribute } from '@visactor/vrender-core';
+import { createGroup, CustomPath2D } from '@visactor/vrender-core';
 import { isStateAttrChangeable } from '../../compile/mark/util';
 import { Factory } from '../../core/factory';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
@@ -62,6 +63,8 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   protected declare _option: IMarkOption;
 
   protected _attributeContext: IModelMarkAttributeContext;
+
+  protected _encoderOfState: Record<string, Record<string, (datum: Datum) => any>>;
 
   /** by _unCompileChannel, some channel need add default channel to make sure update available */
   _extensionChannel: {
@@ -715,8 +718,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     };
   }
 
-  runEncoder(splitGroupEncoder?: boolean) {
-    const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle } = this.stateStyle;
+  protected _separateNormalStyle(normalStyle: Partial<IAttrs<T>>, splitGroupEncoder?: boolean) {
     const updateStyles: Record<string, (datum: Datum) => any> = {};
     const groupStyles: Record<string, (datum: Datum) => any> = {};
 
@@ -735,6 +737,52 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
         groupStyles[key] = this._computeAttribute(key, 'normal');
       }
     });
+
+    return { updateStyles, groupStyles };
+  }
+
+  protected _encoderByState = (stateName: string) => {
+    const style = this.stateStyle[stateName];
+
+    if (style) {
+      const validEncoder: Record<string, (datum: Datum) => any> = {};
+      Object.keys(style).forEach(key => {
+        if (this._unCompileChannel[key]) {
+          return;
+        }
+
+        validEncoder[key] = this._computeAttribute(key, stateName);
+      });
+
+      return validEncoder;
+    }
+  };
+
+  protected _setCustomShapeOfGraphic = (g: IGraphic) => {
+    if (this._markConfig.setCustomizedShape) {
+      g.pathProxy = (attrs: Partial<IGraphicAttribute>) => {
+        return this._markConfig.setCustomizedShape(g.context.data, attrs, new CustomPath2D());
+      };
+    }
+  };
+
+  protected _setStateOfGraphic = (g: IGraphic) => {
+    g.clearStates();
+    g.stateProxy = null;
+
+    if (g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update) {
+      g.stateProxy = (stateName: string, nexStates: string[]) => {
+        return this._runEncoderOfGraphic(this._encoderOfState?.[stateName], g);
+      };
+
+      g.useStates(g.context.states);
+    }
+  };
+
+  runEncoder(splitGroupEncoder?: boolean) {
+    const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...otherStateStyle } = this.stateStyle;
+    const { groupStyles, updateStyles } = this._separateNormalStyle(normalStyle, splitGroupEncoder);
+
     const attrsByGroup = this._runGroupEncoder(groupStyles);
 
     this._graphics.forEach(g => {
@@ -746,13 +794,37 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       }
 
       g.context.attrs = attrs;
-
       g.setAttributes(this._transformGraphicAttributes(g, attrs, attrsByGroup?.[g.context.groupKey]));
+
+      this._setStateOfGraphic(g);
+      this._setCustomShapeOfGraphic(g);
     });
   }
 
   runState() {
-    //
+    const encoderOfState: Record<string, Record<string, (datum: Datum) => any>> = {};
+
+    Object.keys(this.stateStyle).forEach(stateName => {
+      if (stateName !== STATE_VALUE_ENUM.STATE_NORMAL) {
+        encoderOfState[stateName] = this._encoderByState(stateName);
+      }
+    });
+
+    this._encoderOfState = encoderOfState;
+
+    this._graphics.forEach(g => {
+      const newStateValues = this.state.checkState(g, g.context.data);
+
+      if (this._stateSort && newStateValues.length) {
+        newStateValues.sort(this._stateSort);
+      }
+      // const prevStateValues = g.context.states;
+      // const isStateChanged =
+      //   newStateValues.length !== prevStateValues.length ||
+      //   newStateValues.some((newState: string, index: number) => newState !== prevStateValues[index]);
+
+      g.context.states = newStateValues;
+    });
   }
 
   getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}): IGroupGraphicAttribute {
@@ -810,8 +882,8 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
     this.runGroupData(transformData);
     this.runJoin(transformData);
-    this.runEncoder();
     this.runState();
+    this.runEncoder();
 
     this.runTransforms(
       this._transform?.filter(transformSpec => {
@@ -833,8 +905,37 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   render() {
     if (this._isCommited) {
       this.runMainTasks();
+      // 接入动画后，需要等动画结束在清除exit节点
+      this.cleanExitGraphics();
     }
 
     this.uncommit();
+  }
+
+  updateMarkState(key: string): void {
+    if (!this._product) {
+      return;
+    }
+    const stateInfo = this.state.getStateInfo(key);
+
+    this._graphics.forEach(g => {
+      if (this.state.checkOneState(g, g.context.data, stateInfo) === 'in') {
+        g.addState(key);
+      } else {
+        g.removeState(key);
+      }
+    });
+  }
+
+  cleanExitGraphics() {
+    this._graphicMap.forEach((g, key) => {
+      if (g.context.diffState === DiffState.exit && !g.context.isReserved) {
+        this._graphicMap.delete(key);
+        if (g.parent) {
+          g.parent.removeChild(g);
+        }
+        g.release();
+      }
+    });
   }
 }
