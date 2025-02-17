@@ -2,37 +2,34 @@
 
 2025-02-14
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: add params of startvalue and endvalue in brushend event
-- **@visactor/vchart**: label support triggering mark tooltip, [#3634](https://github.com/VisActor/VChart/issues/3634)
-- **@visactor/vchart**: export getCartesianDimensionInfo and getPolarDimensionInfo, fix [#3668](https://github.com/VisActor/VChart/issues/3668)
-- **@visactor/vchart**: support stackInverse for waterfall chart
+- **@visactor/vchart**: 在 `brushend` 事件中添加 `startvalue` 和 `endvalue` 参数
+- **@visactor/vchart**: `label` 支持触发 `mark`类型的`tooltip`，[#3634](https://github.com/VisActor/VChart/issues/3634)
+- **@visactor/vchart**: 导出 `getCartesianDimensionInfo` 和 `getPolarDimensionInfo`，修复 [#3668](https://github.com/VisActor/VChart/issues/3668)
+- **@visactor/vchart**: 支持瀑布图的 `stackInverse`
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: incorrect update animation of funnel transform mark, [#3685](https://github.com/VisActor/VChart/issues/3685)
-- **@visactor/vchart**: fix the issue where the upper mark in stacked area overlaps the border of lower mark, [#3684](https://github.com/VisActor/VChart/issues/3684)
-- **@visactor/vchart**: fix cache of crosshair value when hide crosshair, fix [#3686](https://github.com/VisActor/VChart/issues/3686)
-- **@visactor/vchart**: allow dispatch roam zoom in datazoom component. fix[#3714](https://github.com/VisActor/VChart/issues/3714)
-- **@visactor/vchart**: datazoom and scrollbar realtime not work. fix[#3716](https://github.com/VisActor/VChart/issues/3716)
-- **@visactor/vchart**: fix the issue of tickAlign accuracy
-- **@visactor/vchart**: indicator should show when switch `visible`, fix [#3675](https://github.com/VisActor/VChart/issues/3675)
-- **@visactor/vchart**: circular progress should support morphing
-- **@visactor/vchart**: tooltip should not handle mousemove or mouseout when enter tooltip, fix [#3708](https://github.com/VisActor/VChart/issues/3708)
-- **@visactor/vchart**: tooltip should auto wrap when `maxWidth` is valid and `multiLine` is not false, fix [#3718](https://github.com/VisActor/VChart/issues/3718)
-- **@visactor/vchart**: fix the type definition of text mark
+- **@visactor/vchart**: 修复漏斗图转换标记的更新动画错误，[#3685](https://github.com/VisActor/VChart/issues/3685)
+- **@visactor/vchart**: 修复堆叠区域上标记重叠下标记边框的问题，[#3684](https://github.com/VisActor/VChart/issues/3684)
+- **@visactor/vchart**: 修复隐藏 `crosshair` 时状态缓存问题，修复 [#3686](https://github.com/VisActor/VChart/issues/3686)
+- **@visactor/vchart**: 允许在 `datazoom` 组件中分发 `roam`和 `zoom`，修复 [#3714](https://github.com/VisActor/VChart/issues/3714)
+- **@visactor/vchart**: 修复 `datazoom` 和 `scrollbar` 实时更新不生效的问题，修复 [#3716](https://github.com/VisActor/VChart/issues/3716)
+- **@visactor/vchart**: 修复 `tickAlign` 精度问题
+- **@visactor/vchart**: 切换 `visible` 时应显示 indicator，修复 [#3675](https://github.com/VisActor/VChart/issues/3675)
+- **@visactor/vchart**: 圆形进度条应支持全局形变动画
+- **@visactor/vchart**: `tooltip` 在进入浮层后时不应处理`mousemove` 或 `mouseout`事件，解决`enterable`很难触发的问题，修复 [#3708](https://github.com/VisActor/VChart/issues/3708)
+- **@visactor/vchart**: 当 `maxWidth` 有效且 `multiLine` 不为 `false` 时，`tooltip` 应自动换行，修复 [#3718](https://github.com/VisActor/VChart/issues/3718)
+- **@visactor/vchart**: 修复 `text` 图元的类型定义
 
 **🔨 功能重构**
 
-- **@visactor/vchart**: optimize performance of pictogram
+- **@visactor/vchart**: 优化象形图的性能
 
 **📖 文档更新**
 
-- **@visactor/vchart**: update options of poptip, close [#3139](https://github.com/VisActor/VChart/issues/3139)
-
-
+- **@visactor/vchart**: 更新 `poptip` 的配置文档，关闭 [#3139](https://github.com/VisActor/VChart/issues/3139)
 
 [更多详情请查看 v1.13.5](https://github.com/VisActor/VChart/releases/tag/v1.13.5)
 
