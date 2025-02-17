@@ -3,7 +3,7 @@ import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { shapes } from '@visactor/vgrammar-wordcloud';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 export interface IWordcloud3dAnimationParams {
   radius: number;

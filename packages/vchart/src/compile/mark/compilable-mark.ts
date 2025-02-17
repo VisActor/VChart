@@ -1,9 +1,7 @@
-import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, StringOrNumber } from '../../typings';
 import { isNil, isValid } from '@visactor/vutils';
-import { PREFIX } from '../../constant/base';
 import { LayoutZIndex } from '../../constant/layout';
 import type { IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
@@ -13,7 +11,6 @@ import type {
   ICompilableMarkOption,
   StateValueType,
   IMarkCompileOption,
-  IAttributeOpt,
   IMarkConfig
 } from './interface';
 import type { ICompilableInitOption } from '../interface/compilable-item';
@@ -24,6 +21,7 @@ import { Event } from '../../event/event';
 import type { IGroup } from '@visactor/vrender-core';
 import { createGroup } from '@visactor/vrender-core';
 import { CompilableData, type ICompilableData } from '../data';
+import type { MarkAnimationSpec } from '../../animation/interface';
 
 /** 可编译的 mark 对象，这个基类只存放编译相关的逻辑 */
 export abstract class CompilableMark extends GrammarItem implements ICompilableMark {
@@ -188,7 +186,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._data.addRelatedMark(this);
   }
 
-  getAttribute(key: any, datum: any, state: StateValueType, opt?: IAttributeOpt) {
+  getAttribute(key: any, datum: any, state: StateValueType) {
     // do nothing
   }
 
@@ -406,15 +404,6 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   resumeAnimationByState(state?: string) {
     // return this.getProduct()?.animate?.resumeAnimationByState(state);
   }
-
-  getProductElements() {
-    const product = this.getProduct();
-    if (product) {
-      return product.elements;
-    }
-    return undefined;
-  }
-
   release() {
     super.release();
     this.state.release();

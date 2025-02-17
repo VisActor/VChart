@@ -10,7 +10,6 @@ import { SeriesTypeEnum } from '../interface/type';
 import type { IVennSeriesSpec } from './interface';
 import { VennTooltipHelper } from './tooltip-helper';
 import { registerFadeInOutAnimation } from '../../animation/config';
-import type { TransformSpec } from '@visactor/vgrammar-core';
 import { vennSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerVennAnimation } from './animation';
@@ -28,6 +27,7 @@ import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { ILegend, IDiscreteLegend } from '../../component/legend/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { vennLayout } from '../../data/transforms/venn';
+import type { ITransformSpec } from '../../compile/interface';
 
 export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends BaseSeries<T> {
   static readonly type: string = SeriesTypeEnum.venn;
@@ -117,7 +117,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
         {
           type: 'vennMark',
           datumType: 'circle'
-        } as TransformSpec
+        } as ITransformSpec
       ]);
       this._circleMark = circleMark;
     }
@@ -130,7 +130,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
         {
           type: 'vennMark',
           datumType: 'overlap'
-        } as TransformSpec
+        } as ITransformSpec
       ]);
       this._overlapMark = overlapMark;
     }

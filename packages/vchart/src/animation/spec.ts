@@ -1,6 +1,5 @@
-import type { IAnimationConfig, IStateAnimationConfig } from '@visactor/vgrammar-core';
-import type { EasingType } from '@visactor/vrender-core';
-export type { IRunningConfig as IMorphConfig, IMorphAnimationConfig } from '@visactor/vgrammar-core';
+import type { EasingType, IGraphic } from '@visactor/vrender-core';
+import type { IAnimationConfig, IStateAnimationConfig } from './interface';
 
 export interface ICommonStateAnimateSpec {
   /**
@@ -80,4 +79,34 @@ export interface IMorphSeriesSpec {
    * 多数据图元可配置
    */
   morphElementKey?: string;
+}
+
+export type MorphData = { prev: any[]; next: any[] };
+export type MorphElements = { prev: IGraphic[]; next: IGraphic[] };
+
+export type MorphFunctionCallback<T> = (datum: MorphData, element: MorphElements, parameters: any) => T;
+
+export type MorphFunctionType<T> = T | MorphFunctionCallback<T>;
+
+export type MorphFunctionValueType<T> = MorphFunctionType<T> | T;
+
+export interface IMorphAnimationConfig {
+  easing?: EasingType;
+  delay?: MorphFunctionValueType<number>;
+  duration?: MorphFunctionValueType<number>;
+  oneByOne?: MorphFunctionValueType<boolean | number>;
+  splitPath?: MorphFunctionValueType<'clone' | null | undefined>;
+}
+
+export interface IMorphConfig {
+  /** whether enable reusing of grammar */
+  reuse?: boolean;
+  /** whether enable morph */
+  morph?: boolean;
+  /** force all marks to participate in morphing */
+  morphAll?: boolean;
+  /** morphing animation config */
+  animation?: IMorphAnimationConfig;
+  /** whether apply exit animations for released marks */
+  enableExitAnimation?: boolean;
 }

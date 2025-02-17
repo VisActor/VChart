@@ -1,10 +1,12 @@
-import type { Datum, IAnimationTypeConfig, IElement, MarkAnimationSpec } from '@visactor/vgrammar-core';
+import type { IGraphic } from '@visactor/vrender-core';
 import { ClipAngleAnimate } from '@visactor/vrender-core';
 import { Factory } from '../../core/factory';
 import { PolarPointUpdate, PolarTagPointsUpdate } from '../polar/animation';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { registerArc } from '@visactor/vrender-kits';
 import type { IRadarAnimationParams, RadarAppearPreset } from './interface';
+import type { IAnimationTypeConfig, MarkAnimationSpec } from '../../animation/interface';
+import type { Datum } from '../../typings/common';
 
 export const radarFadeAnimation = (animationType: 'in' | 'out') => ({
   type: animationType === 'in' ? 'fadeIn' : 'fadeOut'
@@ -34,9 +36,9 @@ export function radarPresetAnimation(
 
 export const radarSymbolMoveAnimation = (params: IRadarAnimationParams, animationType: 'in' | 'out') => {
   const xFrom = () => params.center()?.x;
-  const xTo = (datum: Datum, element: IElement) => element.getGraphicAttribute('x');
+  const xTo = (datum: Datum, element: IGraphic) => element.getGraphicAttribute('x');
   const yFrom = () => params.center()?.y;
-  const yTo = (datum: Datum, element: IElement) => element.getGraphicAttribute('y');
+  const yTo = (datum: Datum, element: IGraphic) => element.getGraphicAttribute('y');
   if (animationType === 'in') {
     return {
       channel: {
@@ -74,7 +76,7 @@ export const radarGroupClipAnimation = (
 ): IAnimationTypeConfig => {
   return {
     custom: ClipAngleAnimate,
-    customParameters: (datum: any, element: IElement) => {
+    customParameters: (datum: any, element: IGraphic) => {
       return {
         group: element.getGraphicItem(),
         startAngle: params.startAngle ?? Math.PI / 2,

@@ -1,10 +1,10 @@
-import type { IElement } from '@visactor/vgrammar-core';
 import { StateManager } from '../compile/state-manager';
 import { createID } from '../util/id';
 import type { IAnimate, IAnimateState } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from './interface';
 import type { StateValueMap } from '../compile/interface/compilable-item';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export class AnimateManager extends StateManager implements IAnimate {
   protected declare _stateMap: IAnimateState & StateValueMap;
@@ -17,7 +17,7 @@ export class AnimateManager extends StateManager implements IAnimate {
       this.updateState(
         {
           animationState: {
-            callback: (datum: any, element: IElement) => element.diffState
+            callback: (datum: any, g: IGraphic) => g.context.diffState
           }
         },
         noRender
@@ -28,8 +28,8 @@ export class AnimateManager extends StateManager implements IAnimate {
       this.updateState(
         {
           animationState: {
-            callback: (datum: any, element: IElement) => {
-              return element.diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
+            callback: (datum: any, g: IGraphic) => {
+              return g.context.diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
             }
           }
         },
@@ -41,7 +41,7 @@ export class AnimateManager extends StateManager implements IAnimate {
       this.updateState(
         {
           animationState: {
-            callback: (datum: any, element: IElement) => state
+            callback: (datum: any, g: IGraphic) => state
           }
         },
         noRender
@@ -52,10 +52,10 @@ export class AnimateManager extends StateManager implements IAnimate {
   protected _getDefaultStateMap(): IAnimateState & StateValueMap {
     return {
       animationState: {
-        callback: (datum: any, element: IElement) => {
-          return element.diffState === 'exit'
+        callback: (datum: any, g: IGraphic) => {
+          return g.context.diffState === 'exit'
             ? AnimationStateEnum.exit
-            : element.diffState === 'update'
+            : g.context.diffState === 'update'
             ? AnimationStateEnum.update
             : AnimationStateEnum.appear;
         }
