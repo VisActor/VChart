@@ -54,7 +54,6 @@ import type { IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import type { IElement, IRunningConfig as IMorphConfig } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -68,6 +67,8 @@ import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
 import { LayoutZIndex } from '../../constant/layout';
 import type { IAxis } from '../../component/axis/interface/common';
+import type { IMorphConfig } from '../../animation/spec';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -1244,7 +1245,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           if (!filter || (isFunction(filter) && filter(s, m))) {
             const isCollect = m.getProduct().isCollectionMark();
             const elements = m.getProduct().elements;
-            let pickElements = [] as IElement[];
+            let pickElements = [] as IGraphic[];
             if (isCollect) {
               pickElements = elements.filter(e => {
                 const elDatum = e.getDatum();

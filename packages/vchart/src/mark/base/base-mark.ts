@@ -1,9 +1,4 @@
-import {
-  type IStateInfo,
-  type IAttributeOpt,
-  type IModelMarkAttributeContext,
-  STATE_VALUE_ENUM
-} from '../../compile/mark/interface';
+import { type IStateInfo, type IModelMarkAttributeContext, STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { BaseSeries } from '../../series/base/base-series';
 import type {
   Datum,
@@ -44,7 +39,7 @@ import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isValid }
 import { curveTypeTransform, groupData, runEncoder } from '../utils';
 import { LayoutState } from '../../compile/interface';
 import type { IGroupGraphicAttribute, IGraphic, IGraphicAttribute } from '@visactor/vrender-core';
-import { createGroup, CustomPath2D } from '@visactor/vrender-core';
+import { CustomPath2D } from '@visactor/vrender-core';
 import { isStateAttrChangeable } from '../../compile/mark/util';
 import { Factory } from '../../core/factory';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
@@ -53,7 +48,6 @@ export type ExChannelCall = (
   key: string | number | symbol,
   datum: Datum,
   states: StateValueType,
-  opt: unknown,
   baseValue: unknown
 ) => unknown;
 
@@ -246,8 +240,8 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
   }
 
-  getAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType = 'normal', opt?: IAttributeOpt) {
-    return this._computeAttribute(key, state)(datum, opt);
+  getAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType = 'normal') {
+    return this._computeAttribute(key, state)(datum);
   }
 
   setAttribute<U extends keyof T>(
@@ -343,27 +337,21 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
     if (hasPostProcess && hasExCompute) {
       const exCompute = this._computeExChannel[key];
-      return (datum: Datum, opt: IAttributeOpt) => {
-        let baseValue = baseValueFunctor(datum, opt);
+      return (datum: Datum) => {
+        let baseValue = baseValueFunctor(datum);
 
-        baseValue = stateStyle.postProcess(baseValue, datum, this._attributeContext, opt, this.getDataView());
+        baseValue = stateStyle.postProcess(baseValue, datum, this._attributeContext, this.getDataView());
 
-        return exCompute(key, datum, state, opt, baseValue);
+        return exCompute(key, datum, state, baseValue);
       };
     } else if (hasPostProcess) {
-      return (datum: Datum, opt: IAttributeOpt) => {
-        return stateStyle.postProcess(
-          baseValueFunctor(datum, opt),
-          datum,
-          this._attributeContext,
-          opt,
-          this.getDataView()
-        );
+      return (datum: Datum) => {
+        return stateStyle.postProcess(baseValueFunctor(datum), datum, this._attributeContext, this.getDataView());
       };
     } else if (hasExCompute) {
       const exCompute = this._computeExChannel[key];
-      return (datum: Datum, opt: IAttributeOpt) => {
-        return exCompute(key, datum, state, opt, baseValueFunctor(datum, opt));
+      return (datum: Datum) => {
+        return exCompute(key, datum, state, baseValueFunctor(datum));
       };
     }
     return baseValueFunctor;
@@ -371,18 +359,17 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
   protected _computeStateAttribute<U extends keyof T>(stateStyle: any, key: U, state: StateValueType) {
     if (!stateStyle) {
-      return (datum: Datum, opt: IAttributeOpt) => undefined as any;
+      return (datum: Datum) => undefined as any;
     }
     if (stateStyle.referer) {
       return stateStyle.referer._computeAttribute(key, state);
     }
     if (!stateStyle.style) {
-      return (datum: Datum, opt: IAttributeOpt) => stateStyle.style;
+      return (datum: Datum) => stateStyle.style;
     }
 
     if (typeof stateStyle.style === 'function') {
-      return (datum: Datum, opt: IAttributeOpt) =>
-        stateStyle.style(datum, this._attributeContext, opt, this.getDataView());
+      return (datum: Datum) => stateStyle.style(datum, this._attributeContext, this.getDataView());
     }
 
     if (GradientType.includes(stateStyle.style.gradient)) {
@@ -396,7 +383,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
 
     if (isValidScaleType(stateStyle.style.scale?.type)) {
-      return (datum: Datum, opt: IAttributeOpt) => {
+      return (datum: Datum) => {
         let data = datum;
         if (this.model.modelType === 'series' && (this.model as unknown as ISeries).getMarkData) {
           data = (this.model as unknown as ISeries).getMarkData(datum);
@@ -405,7 +392,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
         return stateStyle.style.scale.scale(data[stateStyle.style.field]);
       };
     }
-    return (datum: Datum, opt: IAttributeOpt) => {
+    return (datum: Datum) => {
       return stateStyle.style;
     };
   }
@@ -478,7 +465,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       ...(DEFAULT_GRADIENT_CONFIG as any)[gradient],
       ...rest
     };
-    return (data: Datum, opt: IAttributeOpt) => {
+    return (data: Datum) => {
       const computeStyle: any = {};
       const markData = this.getDataView();
       Object.keys(mergedStyle).forEach(key => {
@@ -488,7 +475,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
             const { opacity, color, offset } = stop;
             let computeColor = color ?? colorScale?.scale(data[colorField]);
             if (isFunction(color)) {
-              computeColor = color(data, this._attributeContext, opt, markData);
+              computeColor = color(data, this._attributeContext, markData);
             }
 
             if (isValid(opacity)) {
@@ -496,12 +483,12 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
             }
 
             return {
-              offset: isFunction(offset) ? offset(data, this._attributeContext, opt, markData) : offset,
+              offset: isFunction(offset) ? offset(data, this._attributeContext, markData) : offset,
               color: computeColor || themeColor[0]
             };
           });
         } else if (isFunction(value)) {
-          computeStyle[key] = value(data, this._attributeContext, opt, markData);
+          computeStyle[key] = value(data, this._attributeContext, markData);
         } else {
           computeStyle[key] = value;
         }
@@ -516,13 +503,13 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   private _computeBorderAttr(borderStyle: any) {
     const { scale, field, ...mergedStyle } = borderStyle;
 
-    return (data: Datum, opt: IAttributeOpt) => {
+    return (data: Datum) => {
       const computeStyle: any = {};
 
       Object.keys(mergedStyle).forEach(key => {
         const value = mergedStyle[key];
         if (isFunction(value)) {
-          computeStyle[key] = value(data, this._attributeContext, opt, this.getDataView());
+          computeStyle[key] = value(data, this._attributeContext, this.getDataView());
         } else {
           computeStyle[key] = value;
         }
@@ -550,7 +537,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
           computeStyle.stroke = colorScale?.scale(data[colorField]) || themeColor[0];
         }
       } else if (GradientType.includes(mergedStyle.stroke?.gradient)) {
-        computeStyle.stroke = this._computeGradientAttr(mergedStyle.stroke)(data, opt);
+        computeStyle.stroke = this._computeGradientAttr(mergedStyle.stroke)(data);
       }
       return computeStyle;
     };

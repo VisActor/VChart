@@ -1,6 +1,5 @@
 /* eslint-disable no-duplicate-imports */
 import { PREFIX } from '../../constant/base';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import type { Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
 import type { IScatterSeriesSpec, ScatterAppearPreset } from './interface';
@@ -28,6 +27,7 @@ import type { ILabelMark, IMark, ISymbolMark } from '../../mark/interface';
 import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -357,16 +357,17 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
    */
   handleZoom(e: any) {
     this.getMarksWithoutRoot().forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+      if (!mark) {
         return;
       }
-      const elements = vGrammarMark.elements;
+      const graphics = mark.getGraphics();
 
-      elements.forEach((el: IElement, i: number) => {
-        const graphicItem = el.getGraphicItem();
-        const datum = el.getDatum();
+      if (!graphics || !graphics.length) {
+        return;
+      }
+
+      graphics.forEach((graphicItem: IGraphic, i: number) => {
+        const datum = graphicItem?.context?.data?.[0];
         const newPosition = this.dataToPosition(datum);
         if (newPosition && graphicItem) {
           graphicItem.translateTo(newPosition.x, newPosition.y);

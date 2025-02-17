@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
+import type { IGraphic } from '@visactor/vrender-core';
 import { TagPointsUpdate, ClipDirectionAnimate } from '@visactor/vrender-core';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
@@ -92,10 +92,10 @@ export const registerCartesianGroupClipAnimation = () => {
     return {
       appear: {
         custom: ClipDirectionAnimate,
-        customParameters: (datum: any, element: IElement) => {
+        customParameters: (datum: any, g: IGraphic) => {
           return {
             animationType: 'in',
-            group: element.getGraphicItem(),
+            group: g,
             direction: params.direction(),
             width: params.width(),
             height: params.height(),
@@ -105,10 +105,10 @@ export const registerCartesianGroupClipAnimation = () => {
       },
       disappear: {
         custom: ClipDirectionAnimate,
-        customParameters: (datum: any, element: IElement) => {
+        customParameters: (datum: any, g: IGraphic) => {
           return {
             animationType: 'out',
-            group: element.getGraphicItem(),
+            group: g,
             direction: params.direction(),
             width: params.width(),
             height: params.height(),

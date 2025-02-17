@@ -1,6 +1,4 @@
 import { Matrix, isValid, isValidNumber } from '@visactor/vutils';
-/* eslint-disable no-duplicate-imports */
-import type { FeatureData } from '@visactor/vgrammar-core';
 import { registerProjection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-source';
@@ -15,7 +13,7 @@ import { DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX } from '../../constant/da
 import { AttributeLevel } from '../../constant/attribute';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IMapSeriesSpec } from './interface';
+import type { FeatureData, IMapSeriesSpec } from './interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
@@ -106,7 +104,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
             if (datum) {
               Object.keys(datum).forEach(key => {
                 if (!(key in feature)) {
-                  feature[key] = datum[key];
+                  (feature as any)[key] = datum[key];
                 }
               });
             }

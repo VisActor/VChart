@@ -2,11 +2,11 @@ import type { IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem } from '../interface';
 import type { DataView } from '@visactor/vdataset';
-import type { IElement, IMark, MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { IRegion } from '../../region/interface';
 import type { ICompilableData } from '../data/interface';
 import type { ICustomPath2D, IGraphic, IGroup } from '@visactor/vrender-core';
+import type { MarkAnimationSpec } from '../../animation/interface';
 
 export interface IMarkConfig {
   clipPath?: IGraphic[] | ((graphics: IGraphic[]) => IGraphic[]);
@@ -130,7 +130,6 @@ export interface ICompilableMark extends IGrammarItem {
   compile: (option?: IMarkCompileOption) => void;
 
   getProduct: () => Maybe<IGroup>;
-  getProductElements: () => Maybe<IMark['elements']>;
 
   /** 获取子mark */
   getMarks: () => ICompilableMark[];
@@ -252,12 +251,6 @@ export type STATE_CUSTOM = string;
 export type StateValueNot = STATE_HOVER_REVERSE | STATE_CUSTOM;
 export type StateValue = STATE_NORMAL | STATE_HOVER | STATE_CUSTOM;
 export type StateValueType = StateValue | StateValueNot;
-
-export interface IAttributeOpt {
-  element: IElement;
-  mark: IElement['mark'];
-  parent: IElement['mark']['group'];
-}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IModelMarkAttributeContext {

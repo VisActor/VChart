@@ -1,7 +1,6 @@
 import type { IVChart } from './../../core/interface';
 import type { IImageMarkSpec } from '../visual';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IElement } from '@visactor/vgrammar-core';
 import type {
   DataSet,
   DataView,
@@ -45,7 +44,7 @@ import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IAnimationSpec, IMorphSeriesSpec } from '../../animation/spec';
 import type { IPlayer } from '../../component/player/interface';
-import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
+import type { IMark, IMarkProgressiveConfig, IMarkRaw, MarkTypeEnum } from '../../mark/interface';
 import type { IDataZoomSpec } from '../../component/data-zoom/data-zoom/interface';
 import type { IScrollBarSpec } from '../../component/data-zoom/scroll-bar/interface';
 import type { ICrosshairSpec } from '../../component/crosshair/interface';
@@ -55,7 +54,7 @@ import type { IBrushSpec } from '../../component/brush/interface';
 import type { ITotalLabelSpec } from '../../component/label/interface';
 import type { ILegendSpec } from '../../component/legend/interface';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { IColor, ICustomPath2D, IOption3D, IRichTextCharacter } from '@visactor/vrender-core';
+import type { IColor, ICustomPath2D, IGraphic, IOption3D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis/interface';
 import type { IMediaQuerySpec } from './media-query';
 import type { IModelSpec } from '../../model/interface';
@@ -560,10 +559,17 @@ export type IMarkStateFilter =
     }
   | {
       /** 筛选 item */
-      items: IElement[];
+      items: IGraphic[];
     }
   /** 筛选函数 */
-  | ((datum: Datum, options: Record<string, any>) => boolean);
+  | ((
+      datum: Datum,
+      options: {
+        mark: IMark;
+        type: string;
+        renderNode: IGraphic;
+      }
+    ) => boolean);
 
 export interface IMarkStateSpec<T> {
   /** 筛选器 */

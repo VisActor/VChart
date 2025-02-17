@@ -165,7 +165,7 @@ export class Compiler implements ICompiler {
       this._gestureController = new GestureController(
         this._stage as unknown as IEventTarget,
         isObject(gestureConfig) ? gestureConfig : {}
-      );
+      ) as Gesture;
     }
     // 允许手势
 
@@ -440,7 +440,7 @@ export class Compiler implements ICompiler {
       // 如果 view 已经初始化则立刻挂载监听
       // FIXME: 目前 vgrammar 类型声明没有对齐，事件相关类型声明并没有使用 SceneItem
       //todo
-      // this._view?.addEventListener(type, wrappedCallback as any);
+      this._stage?.addEventListener(type, wrappedCallback as any);
     } else if (source === Event_Source_Type.window) {
       const wrappedCallback = function wrappedCallback(event: any) {
         // TODO: vgrammar 暂未提供基于事件直接筛选相应 mark 的能力，这里无法获取到相应的 item
@@ -492,7 +492,7 @@ export class Compiler implements ICompiler {
     }
     if (source === Event_Source_Type.chart) {
       const wrappedCallback = this._viewListeners.get(callback)?.callback;
-      // wrappedCallback && this._view?.removeEventListener(type, wrappedCallback);
+      wrappedCallback && this._stage?.removeEventListener(type, wrappedCallback);
       this._viewListeners.delete(callback);
     } else if (source === Event_Source_Type.window) {
       const windowObject = this._getGlobalThis();

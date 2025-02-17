@@ -49,24 +49,17 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
     key: string,
     datum: Datum,
     states: StateValueType = 'normal',
-    opt: any,
     superValue: number
   ): number => {
-    const offset = (this.getAttribute('radiusOffset', datum, states, opt) as number) ?? 0;
+    const offset = (this.getAttribute('radiusOffset', datum, states) as number) ?? 0;
     return superValue + offset;
   };
 
-  protected computeCenter = (
-    key: 'x' | 'y',
-    datum: Datum,
-    states: StateValueType = 'normal',
-    opt: any,
-    center: number
-  ) => {
+  protected computeCenter = (key: 'x' | 'y', datum: Datum, states: StateValueType = 'normal', center: number) => {
     return (
       polarToCartesian(
         { x: 0, y: 0 },
-        this.getAttribute('centerOffset', datum, states, opt) as number,
+        this.getAttribute('centerOffset', datum, states) as number,
         datum[ARC_MIDDLE_ANGLE]
       )[key] + center
     );

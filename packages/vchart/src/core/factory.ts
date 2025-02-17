@@ -16,11 +16,11 @@ import type { Transform, Parser } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { fields, filter, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
-import type { IStageEventPlugin, MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
 import type { IComponentPluginConstructor } from '../plugin/components/interface';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { VRenderComponentOptions } from './interface';
+import type { IStageEventPlugin, VRenderComponentOptions } from './interface';
+import type { MarkAnimationSpec } from '../animation/interface';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
