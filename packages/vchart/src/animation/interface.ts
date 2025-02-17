@@ -22,7 +22,6 @@ export interface IAnimateState {
 export interface IAnimate extends ICompilable {
   id: number;
   updateAnimateState: (state: AnimationStateEnum, noRender?: boolean) => void;
-  getAnimationStateSignalName: () => string;
   // TODO: animation control
   // pause: () => void;
   // resume: () => void;
