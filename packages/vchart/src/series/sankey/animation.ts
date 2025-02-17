@@ -1,9 +1,9 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import { Factory } from '../../core/factory';
 import { FadeInOutAnimation } from '../../animation/config';
 import type { ISankeyAnimationParams, SankeyAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 export const sankeyGrowIn = (params: ISankeyAnimationParams, isOverall: boolean = true): IAnimationTypeConfig => {
   return {

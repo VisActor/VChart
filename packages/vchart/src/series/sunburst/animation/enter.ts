@@ -1,10 +1,11 @@
-import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import type { ISunburstAnimationParams } from './interface';
 import type { Datum } from '../../../typings';
 import { computeRatio, getInnerMostElements } from './utils';
 import { isEmpty, maxInArray, minInArray } from '@visactor/vutils';
+import type { IAnimationTypeConfig } from '../../../animation/interface';
+import type { IGraphic } from '@visactor/vrender-core';
 
-const computeInnerAngleRange = (elements: IElement[], startAngle: number, endAngle: number): [number, number] => {
+const computeInnerAngleRange = (elements: IGraphic[], startAngle: number, endAngle: number): [number, number] => {
   // 处理enter时从无到有的case, 例如图例.
   if (isEmpty(elements)) {
     return [startAngle, endAngle];
@@ -19,7 +20,7 @@ export const sunburstEnter = (params: ISunburstAnimationParams): IAnimationTypeC
   return {
     channel: {
       startAngle: {
-        from: (d: Datum, element: IElement) => {
+        from: (d: Datum, element: IGraphic) => {
           const { startAngle, endAngle } = params.animationInfo();
           // 得到最内层的elements.
           const innerElements = getInnerMostElements(element);
@@ -32,7 +33,7 @@ export const sunburstEnter = (params: ISunburstAnimationParams): IAnimationTypeC
         to: (d: Datum) => d.startAngle
       },
       endAngle: {
-        from: (d: Datum, element: IElement) => {
+        from: (d: Datum, element: IGraphic) => {
           const { startAngle, endAngle } = params.animationInfo();
           // 得到最内层的elements.
           const innerElements = getInnerMostElements(element);

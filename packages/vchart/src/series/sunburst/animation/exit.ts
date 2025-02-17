@@ -1,10 +1,11 @@
-import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import type { ISunburstAnimationParams } from './interface';
 import type { Datum } from '../../../typings';
 import { computeRatio, getInnerMostElements } from './utils';
 import { maxInArray, minInArray } from '@visactor/vutils';
+import type { IAnimationTypeConfig } from '../../../animation/interface';
+import type { IGraphic } from '@visactor/vrender-core';
 
-const computeInnerAngleRange = (elements: IElement[]): [number, number] => {
+const computeInnerAngleRange = (elements: IGraphic[]): [number, number] => {
   const minStartAngle = minInArray(elements.map(m => m.getGraphicAttribute('startAngle', false) * 1));
   const maxEndAngle = maxInArray(elements.map(m => m.getGraphicAttribute('endAngle', false) * 1));
   return [minStartAngle, maxEndAngle];
@@ -14,8 +15,8 @@ export const sunburstExit = (params: ISunburstAnimationParams): IAnimationTypeCo
   return {
     channel: {
       startAngle: {
-        from: (_d: Datum, element: IElement) => element.getGraphicAttribute('startAngle', false),
-        to: (_d: Datum, element: IElement) => {
+        from: (_d: Datum, element: IGraphic) => element.getGraphicAttribute('startAngle', false),
+        to: (_d: Datum, element: IGraphic) => {
           const { startAngle, endAngle } = params.animationInfo();
           // 得到最内层的elements.
           const innerElements = getInnerMostElements(element);
@@ -27,8 +28,8 @@ export const sunburstExit = (params: ISunburstAnimationParams): IAnimationTypeCo
         }
       },
       endAngle: {
-        from: (_d: Datum, element: IElement) => element.getGraphicAttribute('endAngle', false),
-        to: (_d: Datum, element: IElement) => {
+        from: (_d: Datum, element: IGraphic) => element.getGraphicAttribute('endAngle', false),
+        to: (_d: Datum, element: IGraphic) => {
           const { startAngle, endAngle } = params.animationInfo();
           // 得到最内层的elements.
           const innerElements = getInnerMostElements(element);
@@ -40,11 +41,11 @@ export const sunburstExit = (params: ISunburstAnimationParams): IAnimationTypeCo
         }
       },
       outerRadius: {
-        from: (_d: Datum, element: IElement) => element.getGraphicAttribute('outerRadius', false),
+        from: (_d: Datum, element: IGraphic) => element.getGraphicAttribute('outerRadius', false),
         to: () => params.animationInfo().innerRadius
       },
       innerRadius: {
-        from: (_d: Datum, element: IElement) => element.getGraphicAttribute('innerRadius', false),
+        from: (_d: Datum, element: IGraphic) => element.getGraphicAttribute('innerRadius', false),
         to: () => params.animationInfo().innerRadius
       }
     }

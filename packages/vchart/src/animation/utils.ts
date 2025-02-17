@@ -1,7 +1,11 @@
-import type { IAnimationConfig } from '@visactor/vgrammar-core';
-// eslint-disable-next-line no-duplicate-imports
-import type { IElement, IAnimationTypeConfig, IAnimationTimeline } from '@visactor/vgrammar-core';
-import type { MarkAnimationSpec, IAnimationState } from './interface';
+import type {
+  MarkAnimationSpec,
+  IAnimationState,
+  IAnimationConfig,
+  ChannelAnimationConfig,
+  IAnimationTypeConfig,
+  IAnimationTimeline
+} from './interface';
 import type { IStateAnimateSpec, IAnimationSpec } from './spec';
 import { isFunction, isValidNumber } from '../util/type';
 import { DEFAULT_DATA_INDEX } from '../constant/data';
@@ -12,6 +16,7 @@ import { mergeSpec } from '@visactor/vutils-extension';
 import type { ISeries } from '../series';
 import type { ISeriesSpec } from '../typings';
 import type { IModelMarkAttributeContext } from '../compile/mark';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export const AnimationStates = [...Object.keys(DEFAULT_ANIMATION_CONFIG), 'normal'];
 
@@ -157,38 +162,30 @@ function produceOneByOne(
   dataCount?: () => number
 ) {
   const { oneByOne, duration, delay, delayAfter } = stateConfig;
-  stateConfig.delay = (datum: any, element: IElement, params: any) => {
+  stateConfig.delay = (datum: any, g: IGraphic, params: any) => {
     const index = dataIndex(datum, params);
-    const durationTime = isFunction(duration)
-      ? duration(datum, element, params)
-      : isValidNumber(duration)
-      ? duration
-      : 0;
-    const userDelay = isFunction(delay) ? delay(datum, element, params) : isValidNumber(delay) ? delay : 0;
-    let oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, element, params) : oneByOne;
+    const durationTime = isFunction(duration) ? duration(datum, g, params) : isValidNumber(duration) ? duration : 0;
+    const userDelay = isFunction(delay) ? delay(datum, g, params) : isValidNumber(delay) ? delay : 0;
+    let oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, g, params) : oneByOne;
     if (oneByOneTime === false) {
       return userDelay;
     }
     oneByOneTime = oneByOneTime === true ? 0 : oneByOneTime;
     return userDelay + index * (durationTime + oneByOneTime);
   };
-  stateConfig.delayAfter = (datum: any, element: IElement, params: any) => {
+  stateConfig.delayAfter = (datum: any, g: IGraphic, params: any) => {
     const index = dataIndex(datum, params);
-    const durationTime = isFunction(duration)
-      ? duration(datum, element, params)
-      : isValidNumber(duration)
-      ? duration
-      : 0;
+    const durationTime = isFunction(duration) ? duration(datum, g, params) : isValidNumber(duration) ? duration : 0;
     const userDelayAfter = isFunction(delayAfter)
-      ? delayAfter(datum, element, params)
+      ? delayAfter(datum, g, params)
       : isValidNumber(delayAfter)
       ? delayAfter
       : 0;
-    let oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, element, params) : oneByOne;
+    let oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, g, params) : oneByOne;
     if (oneByOneTime === false) {
       return userDelayAfter;
     }
-    const indexCount = dataCount ? dataCount() : element.mark.elements.length;
+    const indexCount = dataCount ? dataCount() : g.mark.graphics.length;
     oneByOneTime = oneByOneTime === true ? 0 : oneByOneTime;
     return userDelayAfter + (indexCount - index) * (durationTime + oneByOneTime);
   };
@@ -224,7 +221,7 @@ export function isTimeLineAnimation(animationConfig: IAnimationConfig) {
 }
 
 export function isChannelAnimation(animationConfig: IAnimationConfig) {
-  return !isTimeLineAnimation(animationConfig) && isValid((animationConfig as IAnimationTypeConfig).channel);
+  return !isTimeLineAnimation(animationConfig) && isValid((animationConfig as ChannelAnimationConfig).channel);
 }
 
 export function uniformAnimationConfig<Preset extends string>(
