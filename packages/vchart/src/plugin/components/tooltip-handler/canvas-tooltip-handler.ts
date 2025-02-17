@@ -63,8 +63,8 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
   // 计算 tooltip 内容区域的宽高，并缓存结果
   protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined {
     if (!changePositionOnly || isNil(this._attributes)) {
-      const chartTheme = this._chartOption?.getTheme() ?? {};
-      this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartTheme);
+      const globalFontFamily = this._chartOption?.getTheme('fontFamily');
+      this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), globalFontFamily);
     }
     const { panel } = this._attributes ?? {};
     // canvas模式下, size需要考虑border size, 目的是为了精准判断边界是否超出画布，达到confine效果

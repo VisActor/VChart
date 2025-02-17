@@ -25,7 +25,7 @@ export class ThemeManager {
    * @returns
    */
   static getTheme(name: string, transformed: boolean = false) {
-    return getTheme(name, transformed);
+    return getTheme(name);
   }
 
   /**
