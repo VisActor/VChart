@@ -1,13 +1,13 @@
-import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import { RotateBySphereAnimate } from '@visactor/vrender-core';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { Factory } from '../../core/factory';
 import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams, WordcloudAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 export const WordCloud3dAnimation = (params: IWordcloud3dAnimationParams | (() => any)): IAnimationTypeConfig => {
   return {
     custom: RotateBySphereAnimate,
-    customParameters: (datum: any, element: IElement) => params,
+    customParameters: () => params,
     easing: 'linear',
     loop: Infinity,
     duration: 6000

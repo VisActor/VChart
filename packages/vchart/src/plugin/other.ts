@@ -6,7 +6,7 @@ import {
   registerViewTransform3dPlugin
 } from '@visactor/vrender-core';
 
-import { registerViewMorphAPI, registerAnimate as registerAnimateAPI } from '@visactor/vgrammar-core';
+// import { registerViewMorphAPI, registerAnimate as registerAnimateAPI } from '@visactor/vgrammar-core';
 import { registerVGrammarCommonAnimation } from '../animation/config';
 import { Factory } from '../core';
 import { DragNDrop, Gesture } from '@visactor/vrender-kits';
@@ -18,7 +18,7 @@ export const register3DPlugin = () => {
 };
 
 export const registerAnimate = () => {
-  registerAnimateAPI();
+  // registerAnimateAPI();
   registerVGrammarCommonAnimation();
 };
 
@@ -30,4 +30,4 @@ export const registerGesturePlugin = () => {
 };
 
 export { registerReactAttributePlugin, registerHtmlAttributePlugin };
-export const registerMorph = registerViewMorphAPI;
+// export const registerMorph = registerViewMorphAPI;

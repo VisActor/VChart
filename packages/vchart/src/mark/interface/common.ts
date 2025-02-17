@@ -11,7 +11,7 @@ import type {
   StateValueType
 } from '../../compile/mark/interface';
 import type { StringOrNumber } from '../../typings';
-import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { ICustomPath2D, IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
 
 export interface VisualScaleType {
@@ -83,6 +83,8 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   updateMarkState: (key: string) => void;
 
   render: () => void;
+
+  getGraphics: () => IGraphic[];
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;

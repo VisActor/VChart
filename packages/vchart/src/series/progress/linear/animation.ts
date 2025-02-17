@@ -1,8 +1,8 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
 import { Factory } from '../../../core/factory';
 import type { ILinearProgressAnimationParams, LinearProgressAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../../animation/interface';
 
 function LinearProgressGrowOption(params: ILinearProgressAnimationParams) {
   return () => {

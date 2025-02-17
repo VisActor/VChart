@@ -516,13 +516,13 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return;
     }
 
-    const allNodeElements = this._nodeMark?.getProductElements();
+    const allNodeElements = this._nodeMark?.getGraphics();
 
     if (!allNodeElements || !allNodeElements.length) {
       return;
     }
 
-    const allLinkElements = this._linkMark?.getProductElements();
+    const allLinkElements = this._linkMark?.getGraphics();
 
     if (!allLinkElements || !allLinkElements.length) {
       return;

@@ -1,7 +1,7 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { Factory } from '../../core/factory';
 import { VennOverlapAnimation } from '@visactor/vgrammar-venn';
 import type { VennAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 export const vennCirclePresetAnimation = (preset: VennAppearPreset): IAnimationTypeConfig => {
   switch (preset) {
