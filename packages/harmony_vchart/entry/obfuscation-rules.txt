@@ -2,7 +2,7 @@
 # You can include the obfuscation configuration files in the current module's build-profile.json5.
 #
 # For more details, see
-#   https://gitee.com/openharmony/arkcompiler_ets_frontend/blob/master/arkguard/README.md
+#   https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/source-obfuscation-V5
 
 # Obfuscation options:
 # -disable-obfuscation: disable all obfuscations
@@ -16,3 +16,8 @@
 # Keep options:
 # -keep-property-name: specifies property names that you want to keep
 # -keep-global-name: specifies names that you want to keep in the global scope
+
+-enable-property-obfuscation
+-enable-toplevel-obfuscation
+-enable-filename-obfuscation
+-enable-export-obfuscation
