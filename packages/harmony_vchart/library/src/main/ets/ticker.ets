@@ -58,7 +58,7 @@ class HarmonyTickHandler {
     };
     this.animatorResult = animator.create(options);
     this.animatorResult.onframe = value => {
-      console.log('========== 动画', this.nextCb)
+      // console.log('========== 动画', this.nextCb)
       const stamp = this.stamp;
       if (this.nextCb) {
         this.nextCb(this);
