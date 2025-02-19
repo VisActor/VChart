@@ -110,14 +110,13 @@ import { mergeTheme, preprocessTheme } from '../util/theme';
 import { darkTheme, registerTheme } from '../theme/builtin';
 import type { IChartPluginService } from '../plugin/chart/interface';
 import { ChartPluginService } from '../plugin/chart/plugin-service';
-import {
-  registerElementHighlight as registerHoverInteraction,
-  registerElementSelect as registerSelectInteraction
-} from '../interaction';
 import type { IIndicator } from '../component/indicator';
 import type { IGeoCoordinate } from '../component/geo';
 import { getSVGSource } from '../series/pictogram/svg-source';
 import { registerGesturePlugin } from '../plugin/other';
+import { registerElementHighlight } from '../interaction/triggers/element-highlight';
+import { registerElementSelect } from '../interaction/triggers/element-select';
+import { registerDimensionHover } from '../interaction/triggers/dimension-hover';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -2190,8 +2189,9 @@ export const registerVChartCore = () => {
   // install essential vgrammar transform
   registerGesturePlugin();
   // install default interaction
-  registerHoverInteraction();
-  registerSelectInteraction();
+  registerElementHighlight();
+  registerElementSelect();
+  registerDimensionHover();
   // install default theme
   registerTheme(darkTheme.name, darkTheme);
   // set default logger level to Level.error

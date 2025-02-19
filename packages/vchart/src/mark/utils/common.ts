@@ -3,9 +3,6 @@ import type { Datum } from '../../typings';
 import { Direction } from '../../typings';
 import type { GroupedData } from '../interface/common';
 import { DEFAULT_KEY } from '../../constant/data';
-import { isNil, isString } from '@visactor/vutils';
-import type { IColor, IColorStop } from '@visactor/vrender-core';
-import { Factory } from '../../core/factory';
 
 export const MultiDatumMark = [MarkTypeEnum.line, MarkTypeEnum.area, 'trail'];
 
@@ -66,100 +63,10 @@ export function groupData<T>(
 }
 
 export const runEncoder = (styles: Record<string, (datum: Datum) => any>, datum: Datum, attrs: any = {}) => {
-  Object.keys(styles).forEach(attrName => {
-    attrs[attrName] = styles[attrName](datum);
-  });
+  styles &&
+    Object.keys(styles).forEach(attrName => {
+      attrs[attrName] = styles[attrName](datum);
+    });
 
   return attrs;
-};
-
-export const isStopsEqual = (prev: IColorStop[], next: IColorStop[]) => {
-  if (prev === next) {
-    return true;
-  }
-  const prevLength = (prev && prev.length) ?? 0;
-  const nextLength = (next && next.length) ?? 0;
-
-  if (prevLength !== nextLength || prevLength === 0) {
-    return false;
-  }
-
-  return prev.every((prevEntry, prevIndex) => {
-    return (
-      (!prevEntry && !next[prevIndex]) ||
-      (prevEntry &&
-        next[prevIndex] &&
-        prevEntry.color === next[prevIndex].color &&
-        prevEntry.offset === next[prevIndex].offset)
-    );
-  });
-};
-
-const isColorAttrEqual = (prev: IColor, next: IColor) => {
-  if (prev === next) {
-    return true;
-  }
-
-  if (typeof prev !== typeof next) {
-    return false;
-  }
-
-  if (isString(prev)) {
-    return false;
-  }
-
-  if (prev.gradient !== (next as any).gradient) {
-    return false;
-  }
-
-  const prevKeys = Object.keys(prev);
-  const nextKeys = Object.keys(next);
-
-  if (prevKeys.length !== nextKeys.length) {
-    return false;
-  }
-
-  return prevKeys.every(key => {
-    if (key === 'stops') {
-      return isStopsEqual(prev[key], (next as any)[key]);
-    }
-
-    return (prev as any)[key] === (next as any)[key];
-  });
-};
-
-const isLineDashEqual = (prev: number[], next: number[]) => {
-  if (prev.length !== next.length) {
-    return false;
-  }
-
-  if (prev.join('-') === next.join('-')) {
-    return true;
-  }
-
-  return false;
-};
-
-export const isSegmentAttrEqual = (prev: any, next: any, key: string) => {
-  if (isNil(prev) && isNil(next)) {
-    return true;
-  }
-
-  if (isNil(prev)) {
-    return false;
-  }
-
-  if (isNil(next)) {
-    return false;
-  }
-
-  if (key === 'lineDash') {
-    return isLineDashEqual(prev, next);
-  }
-
-  if (key === 'stroke' || key === 'fill') {
-    return isColorAttrEqual(prev, next);
-  }
-
-  return prev === next;
 };

@@ -52,13 +52,13 @@ import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
+import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout, isBoolean, isObject } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
+import { ChartEvent, HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension';
 import type { ITooltip } from '../../component/tooltip/interface';
@@ -69,6 +69,9 @@ import { LayoutZIndex } from '../../constant/layout';
 import type { IAxis } from '../../component/axis/interface/common';
 import type { IMorphConfig } from '../../animation/spec';
 import type { IGraphic } from '@visactor/vrender-core';
+import { Interaction } from '../../interaction/interaction';
+import type { IInteraction } from '../../interaction/interface';
+import type { IBaseTriggerOptions } from '../../interaction/triggers/interface';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -180,6 +183,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // background
   protected _backgroundMark: IRectMark;
 
+  protected _interaction: IInteraction;
+
   constructor(spec: T, option: IChartOption) {
     super(option);
     this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme().padding);
@@ -220,6 +225,52 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // components
     transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
   }
+  _initInteractions() {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
+
+    // 创建交互
+    this._interaction = new Interaction();
+
+    const series = this.getAllSeries();
+    const mergedTriggers: Partial<IBaseTriggerOptions>[] = [];
+    const mergedTriggersMarks: Record<string, Partial<IBaseTriggerOptions>> = {};
+
+    series.forEach(s => {
+      const triggers = s.getInteractionTriggers();
+
+      if (triggers && triggers.length) {
+        const regionId = s.getRegion().id;
+
+        triggers.forEach(({ trigger, marks }) => {
+          const interactionId = `${regionId}-${trigger.type}`;
+
+          if (mergedTriggersMarks[interactionId]) {
+            marks.forEach(m => {
+              mergedTriggersMarks[interactionId].marks.push(m);
+            });
+          } else {
+            mergedTriggersMarks[interactionId] = { ...trigger, marks };
+            mergedTriggers.push(mergedTriggersMarks[interactionId]);
+          }
+        });
+      }
+    });
+
+    mergedTriggers.forEach(trigger => {
+      const triggerInstance = Factory.createInteractionTrigger((trigger as any).type, {
+        ...trigger,
+        event: this._event,
+        interaction: this._interaction
+      });
+
+      if (triggerInstance) {
+        triggerInstance.init();
+        this._interaction.addTrigger(triggerInstance);
+      }
+    });
+  }
 
   init() {
     (this as any)._beforeInit?.();
@@ -235,6 +286,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     // data flow start
     this.reDataFlow();
+
+    this._initInteractions();
   }
 
   reDataFlow() {
@@ -1196,9 +1249,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         this._disableMarkAnimation(['exit', 'update']);
         const enableMarkAnimate = () => {
           this._enableMarkAnimation(['exit', 'update']);
-          this._event.off(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
+          this._event.off(HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
         };
-        this._event.on(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
+        this._event.on(HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
       });
     });
   }

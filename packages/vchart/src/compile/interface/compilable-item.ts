@@ -1,4 +1,3 @@
-import type { InteractionSpec } from '@visactor/vgrammar-core';
 import type { IPerformanceHook, StringOrNumber } from '../../typings';
 import type { IColor, IGroup, IStage } from '@visactor/vrender-core';
 import type { IChart } from '../../chart/interface/chart';
@@ -14,7 +13,7 @@ export type CompilerListenerParameters = {
   event: Event;
   source: EventSourceType;
   // FIXME: 这里 item 应当为场景树的 Item 类型
-  item: any | null;
+  markGraphic: any | null;
   datum: any | null;
   markId: number | null;
   modelId: number | null;
@@ -61,9 +60,6 @@ export interface ICompiler {
   release: () => void;
   releaseGrammar: (removeGraphicItems: boolean) => void;
   addGrammarItem: (grammarItem: IGrammarItem) => void;
-  removeGrammarItem: (grammarItem: IGrammarItem, reserveVGrammarModel?: boolean) => void;
-  addInteraction: (interaction: InteractionSpec & { seriesId?: number; regionId?: number }) => void;
-  removeInteraction: (seriesId: number) => void;
   updateDepend: (items?: IGrammarItem[]) => boolean;
 
   addRootMark: (mark: IMark) => any;

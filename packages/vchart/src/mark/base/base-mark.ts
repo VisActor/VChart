@@ -25,7 +25,11 @@ import type {
   VisualScaleType,
   MarkInputStyle,
   GroupedData,
-  IAttrs
+  IAttrs,
+  IGraphicContext,
+  MarkTypeEnum,
+  IMarkGraphic,
+  DiffStateValues
 } from '../interface';
 import { DiffState } from '../interface/enum';
 import { GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant/gradient';
@@ -36,9 +40,9 @@ import type { ISeries } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
 import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
-import { curveTypeTransform, groupData, runEncoder } from '../utils';
+import { curveTypeTransform, groupData, runEncoder } from '../utils/common';
 import { LayoutState } from '../../compile/interface';
-import type { IGroupGraphicAttribute, IGraphic, IGraphicAttribute } from '@visactor/vrender-core';
+import type { IGroupGraphicAttribute, IGraphicAttribute } from '@visactor/vrender-core';
 import { CustomPath2D } from '@visactor/vrender-core';
 import { isStateAttrChangeable } from '../../compile/mark/util';
 import { Factory } from '../../core/factory';
@@ -545,8 +549,8 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
   protected _dataByGroup: GroupedData<Datum>;
   protected _dataByKey: GroupedData<Datum>;
-  protected _graphicMap: Map<string, IGraphic> = new Map();
-  protected _graphics: IGraphic[] = [];
+  protected _graphicMap: Map<string, IMarkGraphic> = new Map();
+  protected _graphics: IMarkGraphic[] = [];
 
   protected _keyGetter: (datum: Datum) => string;
   protected _groupKeyGetter: (datum: Datum) => string;
@@ -561,7 +565,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     return this._graphics;
   }
 
-  createGraphic(attrs: any = {}): IGraphic {
+  createGraphic(attrs: any = {}): IMarkGraphic {
     return Factory.createGraphicComponent(this.type, attrs);
   }
 
@@ -583,13 +587,13 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   runJoin(data: Datum[]) {
     const newGroupedData = this._getDataByKey(data);
     const prevGroupedData = this._dataByKey;
-    const newGraphics: IGraphic[] = [];
+    const newGraphics: IMarkGraphic[] = [];
 
-    const enterGraphics = new Set<IGraphic>(this._graphics.filter(g => g.context.diffState === DiffState.enter));
+    const enterGraphics = new Set<IMarkGraphic>(this._graphics.filter(g => g.context.diffState === DiffState.enter));
 
     const callback = (key: string, newData: Datum[], prevData: Datum[]) => {
-      let g: IGraphic;
-      let diffState: DiffState;
+      let g: IMarkGraphic;
+      let diffState: DiffStateValues;
 
       if (isNil(newData)) {
         g = this._graphicMap.get(key);
@@ -627,12 +631,18 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
       if (g) {
         if (!g.context) {
-          g.context = {};
+          (g as any).context = {};
         }
 
+        g.context.markId = this.id;
+        g.context.modelId = this.model.id;
+        g.context.markUserId = this._userId;
+        g.context.modelUserId = this.model.userId;
         g.context.diffState = diffState;
         g.context.data = newData;
         g.context.key = key;
+
+        (g.context as IGraphicContext).markType = this.type as MarkTypeEnum;
         if (newData) {
           g.context.groupKey = this._groupKeyGetter(newData[0]);
         }
@@ -680,7 +690,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     this._graphics = newGraphics;
   }
 
-  _runEncoderOfGraphic(styles: Record<string, (datum: Datum) => any>, g: IGraphic, attrs: any = {}) {
+  _runEncoderOfGraphic(styles: Record<string, (datum: Datum) => any>, g: IMarkGraphic, attrs: any = {}) {
     return runEncoder(styles, g.context.data[0], attrs);
   }
 
@@ -698,7 +708,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     return attrsByGroup;
   }
 
-  protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
+  protected _transformGraphicAttributes(g: IMarkGraphic, attrs: any, groupAttrs?: any) {
     return {
       ...groupAttrs,
       ...attrs
@@ -745,7 +755,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
   };
 
-  protected _setCustomShapeOfGraphic = (g: IGraphic) => {
+  protected _setCustomShapeOfGraphic = (g: IMarkGraphic) => {
     if (this._markConfig.setCustomizedShape) {
       g.pathProxy = (attrs: Partial<IGraphicAttribute>) => {
         return this._markConfig.setCustomizedShape(g.context.data, attrs, new CustomPath2D());
@@ -753,7 +763,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
   };
 
-  protected _setStateOfGraphic = (g: IGraphic) => {
+  protected _setStateOfGraphic = (g: IMarkGraphic) => {
     g.clearStates();
     g.stateProxy = null;
 
@@ -780,7 +790,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
         attrs.pickable = this._markConfig.interactive;
       }
 
-      g.context.attrs = attrs;
+      // g.context.attrs = attrs;
       g.setAttributes(this._transformGraphicAttributes(g, attrs, attrsByGroup?.[g.context.groupKey]));
 
       this._setStateOfGraphic(g);

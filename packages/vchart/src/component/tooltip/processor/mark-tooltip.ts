@@ -7,6 +7,7 @@ import type { ISeries } from '../../../series/interface';
 import { IContainPointMode } from '@visactor/vrender-core';
 import type { IDimensionData } from '../../../event/events/dimension/interface';
 import type { Label } from '../../label';
+import { getDatumOfGraphic } from '../../../util/mark';
 
 export class MarkTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'mark';
@@ -39,7 +40,7 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
               g &&
               g.containsPoint(point.x, point.y, IContainPointMode.GLOBAL, g.stage.getPickerService())
             ) {
-              tooltipData[0].datum.push(g.context.data);
+              tooltipData[0].datum.push(getDatumOfGraphic(g));
             }
           });
         });

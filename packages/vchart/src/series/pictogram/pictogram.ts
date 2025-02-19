@@ -19,15 +19,16 @@ import { Bounds, Matrix, isValid, merge } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
 import type { GraphicEventType, Group } from '@visactor/vrender-core';
-import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
+import { HOOK_EVENT } from '../../constant/event';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
-import { registerElementHighlightByGraphicName, registerElementSelectByGraphicName } from '@visactor/vgrammar-core';
 import type { IGroupMark, IMark, ITextMark } from '../../mark/interface';
 import { PictogramSeriesTooltipHelper } from './tooltip-helper';
 import { graphicAttributeTransform, pictogram } from '../../data/transforms/pictogram';
 import type { IPoint } from '../../typings/coordinate';
 import { CompilableData } from '../../compile/data';
+import { registerElementHighlightByGraphicName } from '../../interaction/triggers/element-highlight-by-graphic-name';
+import { registerElementSelectByGraphicName } from '../../interaction/triggers/element-select-by-graphic-name';
 
 export interface SVGParsedElementExtend extends SVGParsedElement {
   _finalAttributes: Record<string, any>;
@@ -85,11 +86,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     this._markAttributeContext.dataToPosition = this.dataToPosition.bind(this);
   }
 
-  protected _defaultHoverConfig(selector: string[], finalHoverSpec: IHoverSpec) {
+  protected _defaultHoverConfig(finalHoverSpec: IHoverSpec) {
     return {
-      seriesId: this.id,
-      regionId: this._region.id,
-      selector,
       type: 'element-highlight-by-graphic-name',
       // trigger: finalHoverSpec.trigger as EventType,
       trigger: finalHoverSpec.trigger as GraphicEventType,
@@ -99,7 +97,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     };
   }
 
-  protected _defaultSelectConfig(selector: string[], finalSelectSpec: ISelectSpec) {
+  protected _defaultSelectConfig(finalSelectSpec: ISelectSpec) {
     const isMultiple = finalSelectSpec.mode === 'multiple';
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
@@ -107,10 +105,6 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       ? ['empty', 'self']
       : ['empty', finalSelectSpec.trigger];
     return {
-      type: 'element-select-by-graphic-name',
-      seriesId: this.id,
-      regionId: this._region.id,
-      selector,
       trigger: finalSelectSpec.trigger as GraphicEventType,
       triggerOff: triggerOff as GraphicEventType,
       reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
@@ -416,7 +410,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     super.initEvent();
     this._mapViewData.getDataView()?.target.addListener('change', this.mapViewDataUpdate.bind(this));
     // 必须在有 vrender mark 的时机后更新
-    this.event.on(VGRAMMAR_HOOK_EVENT.AFTER_MARK_LAYOUT_END, this.updateSVGSize.bind(this));
+    this.event.on(HOOK_EVENT.AFTER_MARK_LAYOUT_END, this.updateSVGSize.bind(this));
   }
 
   handleZoom(e: ZoomEventParam) {

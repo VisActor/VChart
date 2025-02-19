@@ -4,10 +4,10 @@ import type { ConvertToMarkStyleSpec, ILineLikeMarkSpec } from '../../typings/vi
 import type { IPointLike } from '@visactor/vutils';
 import { isFunction, isNil } from '@visactor/vutils';
 import { BaseMark } from './base-mark';
-import type { IMarkStyle } from '../interface';
+import type { IMarkGraphic, IMarkStyle } from '../interface';
 import type { Datum } from '../../typings/common';
-import type { IGraphic, ILine, ILineGraphicAttribute } from '@visactor/vrender-core';
-import { isSegmentAttrEqual } from '../utils/common';
+import type { ILine, ILineGraphicAttribute } from '@visactor/vrender-core';
+import { isSegmentAttrEqual } from '../utils/line';
 
 export const LINE_SEGMENT_ATTRIBUTES = [
   'stroke',
@@ -139,7 +139,7 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
     );
   }
 
-  _runEncoderOfGraphic(styles: Record<string, (datum: Datum) => any>, g: IGraphic, attrs: any = {}) {
+  _runEncoderOfGraphic(styles: Record<string, (datum: Datum) => any>, g: IMarkGraphic, attrs: any = {}) {
     const data = g.context.data;
     const lineAttrs: any[] = [];
     const points: IPointLike[] = [];

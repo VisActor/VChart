@@ -7,6 +7,8 @@ import type { MarkType } from './interface/type';
 import { Factory } from '../core/factory';
 import type { Datum } from '../typings/common';
 import { registerGlyph, registerShadowRoot } from '@visactor/vrender-kits';
+import type { IMarkGraphic } from './interface/common';
+import { DiffState } from './interface/enum';
 export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
   extends BaseMark<T>
   implements IGlyphMark<T, Cfg>
@@ -35,27 +37,59 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
     return this._glyphConfig;
   }
 
-  protected _progressiveChannels: string[];
+  protected _positionChannels: string[];
 
-  getProgressiveChannels() {
-    return this._progressiveChannels;
+  getPositionChannels() {
+    return this._positionChannels;
   }
 
   protected _functionEncoder: (glyphAttrs: any, datum: Datum, g: IGlyph) => Record<string, any>;
 
   private _onGlyphAttributeUpdate(glyph: IGlyph) {
     return (newAttributes: any) => {
-      const subAttrsMap = this._functionEncoder?.(newAttributes, glyph?.context?.data?.[0], glyph);
+      const positionChannels = this.getPositionChannels();
+      const subAttrsMap =
+        positionChannels && this._functionEncoder && Object.keys(newAttributes).some(k => positionChannels.includes(k))
+          ? this._functionEncoder(newAttributes, glyph?.context?.data?.[0], glyph)
+          : null;
 
-      glyph.getSubGraphic().forEach(subGraphic => {
-        if (subGraphic) {
-          subGraphic.setAttributes(subAttrsMap?.[subGraphic.name]);
-        }
-      });
+      if (subAttrsMap) {
+        glyph.getSubGraphic().forEach(subGraphic => {
+          if (subGraphic) {
+            subGraphic.setAttributes(subAttrsMap?.[subGraphic.name]);
+          }
+        });
+      }
 
       return newAttributes;
     };
   }
+
+  protected _setStateOfGraphic = (g: IMarkGraphic) => {
+    g.clearStates();
+    g.stateProxy = null;
+
+    if (g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update) {
+      g.glyphStateProxy = (stateName: string, nexStates: string[]) => {
+        const glyphAttrs = {
+          attributes:
+            (g.runtimeStateCache && g.runtimeStateCache[stateName]) ??
+            this._runEncoderOfGraphic(this._encoderOfState?.[stateName], g)
+        };
+
+        // 更新缓存
+        if (!g.glyphStates) {
+          g.glyphStates = { [stateName]: glyphAttrs };
+        } else if (!g.glyphStates[stateName]) {
+          g.glyphStates[stateName] = glyphAttrs;
+        }
+
+        return glyphAttrs;
+      };
+
+      g.useStates(g.context.states);
+    }
+  };
 
   createGraphic(attrs: IGlyphGraphicAttribute = {}): IGraphic {
     const glyph = createGlyph(attrs);
@@ -87,22 +121,6 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
 
     return glyph;
   }
-
-  /** 创建语法元素对象 */
-  // protected _initProduct(group?: string | IGroupMark) {
-  //   const shaftShape = this.getStyle('shaftShape');
-  //   const view = this.getVGrammarView();
-
-  //   // 声明语法元素
-  //   const id = this.getProductId();
-  //   const glyphType = shaftShape === 'bar' ? BAR_BOX_PLOT_GLYPH_TYPE : BOX_PLOT_GLYPH_TYPE;
-  //   const direction = this.getStyle('direction');
-  //   this._product = view
-  //     .glyph(glyphType, group ?? view.rootMark)
-  //     .id(id)
-  //     .configureGlyph({ direction });
-  //   this._compiledProductId = id;
-  // }
 }
 
 export const registerGlyphMark = () => {

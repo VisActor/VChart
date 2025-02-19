@@ -3,7 +3,7 @@ import { GrammarItem } from '../grammar-item';
 import type { Maybe, StringOrNumber } from '../../typings';
 import { isNil, isValid } from '@visactor/vutils';
 import { LayoutZIndex } from '../../constant/layout';
-import type { IMarkStateStyle, MarkType } from '../../mark/interface';
+import { MarkTypeEnum, type IMarkStateStyle, type MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import { MarkStateManager } from './mark-state-manager';
 import type {
@@ -215,7 +215,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this.compileState();
     this.compileEncode();
     // todo this.compileAnimation();
-    this.compileContext(option?.context);
+    // this.compileContext(option?.context);
+    this._context = option?.context;
     // this.compileTransform();
   }
 
@@ -230,7 +231,15 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     // 声明语法元素
     const id = this.getProductId();
 
-    this._product = createGroup({});
+    this._product = createGroup(
+      this.type !== MarkTypeEnum.group
+        ? {
+            pickable: false,
+            zIndex: this._markConfig.zIndex,
+            overflow: this._markConfig.overflow
+          }
+        : {}
+    );
 
     this._product.id = id;
 

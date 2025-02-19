@@ -264,7 +264,7 @@ export class LinearProgressSeries<
     }
   }
 
-  initInteraction(): void {
+  getInteractionTriggers() {
     const marks: IMark[] = [];
 
     if (this._trackMark) {
@@ -274,7 +274,7 @@ export class LinearProgressSeries<
     if (this._progressMark) {
       marks.push(this._progressMark);
     }
-    this._parseInteractionConfig(marks);
+    return this._parseInteractionConfig(marks);
   }
 
   initAnimation() {

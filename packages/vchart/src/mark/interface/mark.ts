@@ -41,7 +41,7 @@ export interface IGlyphMark<T extends ICommonSpec = ICommonSpec, C = any> extend
     }
   >;
 
-  getProgressiveChannels: () => string[];
+  getPositionChannels: () => string[];
 }
 
 export interface ILabelMark extends ITextMark {

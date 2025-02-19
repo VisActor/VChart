@@ -232,7 +232,12 @@ export enum STATE_VALUE_ENUM {
 
   // todo: 2.0考虑优化
   STATE_SANKEY_EMPHASIS = 'selected',
-  STATE_SANKEY_EMPHASIS_REVERSE = 'blur'
+  STATE_SANKEY_EMPHASIS_REVERSE = 'blur',
+
+  STATE_HIGHLIGHT = 'highlight',
+  STATE_BLUR = 'blur',
+
+  STATE_ACTIVE = 'active'
 }
 
 export enum STATE_VALUE_ENUM_REVERSE {

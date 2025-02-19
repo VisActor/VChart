@@ -4,10 +4,10 @@ import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
 import { STACK_FIELD_TOTAL_BOTTOM, STACK_FIELD_TOTAL_TOP } from '../../constant/data';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
+import { ChartEvent, HOOK_EVENT } from '../../constant/event';
 import { AttributeLevel } from '../../constant/attribute';
 import { LayoutZIndex } from '../../constant/layout';
-import { DiffState, type IComponentMark, type ILabelMark } from '../../mark/interface';
+import { type IComponentMark, type ILabelMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { eachSeries } from '../../util/model';
@@ -108,7 +108,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
           graphicItem.disableAnimation();
         }
       });
-      this.event.on(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableAnimation);
+      this.event.on(HOOK_EVENT.AFTER_MARK_RENDER_END, enableAnimation);
     });
     const enableAnimation = () => {
       this._labelComponentMap.forEach((info, component) => {
@@ -117,7 +117,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
           graphicItem.enableAnimation();
         }
       });
-      this.event.off(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableAnimation);
+      this.event.off(HOOK_EVENT.AFTER_MARK_RENDER_END, enableAnimation);
     };
   }
 

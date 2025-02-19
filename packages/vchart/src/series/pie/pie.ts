@@ -268,8 +268,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
   }
 
-  initInteraction(): void {
-    this._parseInteractionConfig(this._pieMark ? [this._pieMark] : []);
+  getInteractionTriggers() {
+    return this._parseInteractionConfig(this._pieMark ? [this._pieMark] : []);
   }
 
   protected initTooltip() {

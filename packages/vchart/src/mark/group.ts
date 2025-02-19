@@ -4,7 +4,7 @@ import type { Maybe } from '../typings';
 import { warn } from '../util/debug';
 import type { IGroupMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IGroupMark, IMark, IMarkStyle, MarkType } from './interface';
+import type { IGroupMark, IMark, IMarkGraphic, MarkType } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { STATE_VALUE_ENUM, type IMarkCompileOption } from '../compile/mark';
@@ -110,7 +110,15 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     return attrs;
   }
 
+  getGraphics(): IMarkGraphic[] {
+    return [this._product];
+  }
+
   protected _renderSelf() {
+    if (!this._product) {
+      return;
+    }
+
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle } = this.stateStyle;
     const attrs: any = {};
 
@@ -121,8 +129,13 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
       attrs[key] = this._computeAttribute(key, 'normal')({});
     });
-
-    this._product?.setAttributes(this.getAttrsFromConfig(attrs));
+    this._product.context = {
+      markId: this.id,
+      modelId: this.model.id,
+      markUserId: this._userId,
+      modelUserId: this.model.userId
+    };
+    this._product.setAttributes(this.getAttrsFromConfig(attrs));
   }
 
   render(): void {

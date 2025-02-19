@@ -155,8 +155,8 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     };
   }
 
-  initInteraction(): void {
-    this._parseInteractionConfig(this._cellMark ? [this._cellMark] : []);
+  getInteractionTriggers() {
+    return this._parseInteractionConfig(this._cellMark ? [this._cellMark] : []);
   }
 
   initAnimation() {

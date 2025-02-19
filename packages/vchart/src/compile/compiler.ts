@@ -1,5 +1,4 @@
 import { ChartEvent, Event_Source_Type } from './../constant/event';
-import type { IElement, InteractionSpec } from '@visactor/vgrammar-core';
 import type {
   CompilerListenerParameters,
   ICompiler,
@@ -23,10 +22,12 @@ import { createGroup, Stage, vglobal } from '@visactor/vrender-core';
 import type { IColor, IEventTarget, IGroup, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart } from '../core/interface';
-import type { IMark } from '../mark/interface';
+import type { IMark, IMarkGraphic } from '../mark/interface';
 import { Factory } from '../core/factory';
 import type { Gesture } from '@visactor/vrender-kits';
 import { hasCommited } from './util';
+import { getDatumOfGraphic } from '../util/mark';
+import type { Datum } from '../typings';
 
 type EventListener = {
   type: string;
@@ -69,7 +70,6 @@ export class Compiler implements ICompiler {
     [GrammarType.mark]: {}
   };
 
-  protected _interactions: (InteractionSpec & { seriesId?: number; regionId?: number })[];
   getModel() {
     return this._model;
   }
@@ -218,39 +218,6 @@ export class Compiler implements ICompiler {
     }
   }
 
-  protected compileInteractions() {
-    // this._view.removeAllInteractions();
-    // if (this._interactions?.length) {
-    //   const regionCombindInteractions = {};
-    //   this._interactions.forEach(interaction => {
-    //     if (interaction.regionId) {
-    //       const interactionId = `${interaction.regionId}-${interaction.type}-${interaction.id ?? ''}`;
-    //       const spec = regionCombindInteractions[interactionId];
-    //       if (spec) {
-    //         regionCombindInteractions[interactionId] = {
-    //           ...spec,
-    //           ...interaction,
-    //           selector: [...spec.selector, ...(interaction as any).selector]
-    //         };
-    //       } else {
-    //         regionCombindInteractions[interactionId] = interaction;
-    //       }
-    //     } else {
-    //       this._view.interaction(interaction.type, interaction);
-    //     }
-    //   });
-    //   Object.keys(regionCombindInteractions).forEach(key => {
-    //     const interaction = this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
-    //     if (this._compileChart) {
-    //       const region = this._compileChart.getRegionsInIds([regionCombindInteractions[key].regionId])[0];
-    //       if (region) {
-    //         region.interaction.addVgrammarInteraction(interaction.getStartState(), interaction);
-    //       }
-    //     }
-    //   });
-    // }
-  }
-
   compile(ctx: { chart: IChart; vChart: IVChart }, option: any) {
     if (this._released) {
       return;
@@ -265,8 +232,6 @@ export class Compiler implements ICompiler {
     chart.compile();
     chart.afterCompile();
     this.updateDepend();
-
-    this.compileInteractions();
   }
   protected clearNextRender() {
     if (this._nextRafId) {
@@ -416,10 +381,18 @@ export class Compiler implements ICompiler {
       return;
     }
     if (source === Event_Source_Type.chart) {
-      const wrappedCallback = function (event: any, element: IElement | null) {
-        const context = element?.mark?.getContext() ?? {};
-        const modelId = isValid(context.modelId) ? context.modelId : null;
+      const wrappedCallback = function (event: any) {
+        const graphic = event.target;
+        let markGraphic: IMarkGraphic = null;
+        let datum: Datum = null;
+
+        if (isValid(graphic.context)) {
+          markGraphic = graphic;
+          datum = getDatumOfGraphic(graphic);
+        }
+        const context = graphic.context ?? {};
         const markId = isValid(context.markId) ? context.markId : null;
+        const modelId = isValid(context.modelId) ? context.modelId : null;
         const modelUserId = isValid(context.modelUserId) ? context.modelUserId : null;
         const markUserId = isValid(context.markUserId) ? context.markUserId : null;
 
@@ -427,8 +400,8 @@ export class Compiler implements ICompiler {
           event,
           type,
           source,
-          item: element,
-          datum: element?.getDatum?.() || null,
+          markGraphic,
+          datum, // 是否要区分图元
           markId,
           modelId,
           markUserId,
@@ -448,7 +421,7 @@ export class Compiler implements ICompiler {
           event,
           type,
           source,
-          item: null,
+          markGraphic: null,
           datum: null,
           markId: null,
           modelId: null,
@@ -467,7 +440,7 @@ export class Compiler implements ICompiler {
           event,
           type,
           source,
-          item: null,
+          markGraphic: null,
           datum: null,
           markId: null,
           modelId: null,
@@ -602,22 +575,6 @@ export class Compiler implements ICompiler {
     if (!reserveVGrammarModel) {
       // todo this._view?.removeGrammar(product);
     }
-  }
-
-  addInteraction(interaction: InteractionSpec & { seriesId?: number; regionId?: number }) {
-    if (!this._interactions) {
-      this._interactions = [];
-    }
-
-    this._interactions.push(interaction);
-  }
-
-  removeInteraction(seriesId: number) {
-    if (!this._interactions) {
-      return;
-    }
-
-    this._interactions = this._interactions.filter(entry => entry.seriesId !== seriesId);
   }
 
   /** 更新语法元素间的依赖关系，返回是否全部成功更新 */

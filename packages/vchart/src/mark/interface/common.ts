@@ -2,7 +2,7 @@ import type { IGlobalScale } from '../../scale/interface';
 import type { ICommonSpec, VisualType, ValueType, FunctionType } from '../../typings/visual';
 import type { IModel } from '../../model/interface';
 import type { IBaseScale } from '@visactor/vscale';
-import type { MarkType } from './type';
+import type { MarkType, MarkTypeEnum } from './type';
 import type {
   ICompilableMark,
   ICompilableMarkOption,
@@ -10,8 +10,8 @@ import type {
   IModelMarkAttributeContext,
   StateValueType
 } from '../../compile/mark/interface';
-import type { StringOrNumber } from '../../typings';
-import type { ICustomPath2D, IGraphic } from '@visactor/vrender-core';
+import type { Datum, StringOrNumber } from '../../typings';
+import type { ICustomPath2D, IGlyph, IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
 
 export interface VisualScaleType {
@@ -55,6 +55,61 @@ export type IMarkStateStyle<T extends ICommonSpec> = Record<StateValueType, Part
 export type IMarkStyle<T extends ICommonSpec> = {
   [key in keyof T]: MarkInputStyle<T[key]>;
 };
+
+export type DiffStateValues = 'update' | 'enter' | 'exit';
+
+export interface IGraphicContext {
+  markType: MarkTypeEnum;
+  /**
+   * 图形所属mark对应的id，自增id
+   */
+  markId: number;
+  /**
+   * 图形所属model对应的id，自增id
+   */
+  modelId: number;
+  /**
+   * 图形所属mark对应的用户设置id
+   */
+  markUserId?: number | string;
+  /**
+   * 图形所属model对应的用户设置id
+   */
+  modelUserId?: number | string;
+  /**
+   * 数据对比状态
+   */
+  diffState?: DiffStateValues;
+  /**
+   * 数据
+   */
+  data?: Datum[];
+  /**
+   * 唯一key
+   */
+  key?: string;
+  /**
+   * 分组key
+   */
+  groupKey?: string;
+  /**
+   * 状态
+   */
+  states?: string[];
+}
+
+export interface IMarkGraphic extends IGraphic {
+  /**
+   * 缓存运行时的状态编码数据
+   */
+  runtimeStateCache?: Record<string, any>;
+
+  /**
+   * 上下文数据
+   */
+  context?: IGraphicContext;
+}
+
 /**********   mark  ***************/
 export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   readonly stateStyle: IMarkStateStyle<T>;

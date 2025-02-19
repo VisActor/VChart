@@ -21,6 +21,7 @@ import type { IComponentPluginConstructor } from '../plugin/components/interface
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IStageEventPlugin, VRenderComponentOptions } from './interface';
 import type { MarkAnimationSpec } from '../animation/interface';
+import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/triggers/interface';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
@@ -275,4 +276,23 @@ export class Factory {
   static getStageEventPlugin = (type: string) => {
     return Factory._stageEventPlugins[type];
   };
+
+  private static _interactionTriggers: Record<string, ITriggerConstructor> = {};
+
+  static registerInteractionTrigger = (interactionType: string, interaction: ITriggerConstructor) => {
+    Factory._interactionTriggers[interactionType] = interaction;
+  };
+
+  static createInteractionTrigger(interactionType: string, options?: IBaseTriggerOptions) {
+    const Ctor = Factory._interactionTriggers[interactionType];
+    if (!Ctor) {
+      return null;
+    }
+
+    return new Ctor(options);
+  }
+
+  static hasInteractionTrigger(interactionType: string) {
+    return !!Factory._interactionTriggers[interactionType];
+  }
 }
