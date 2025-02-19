@@ -11,7 +11,7 @@ import type {
   IDsvParserOptions
 } from '@visactor/vdataset';
 import type { RegionSpec } from '../../region/interface';
-import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface/spec';
 import type { IRenderOption } from '../../compile/interface';
 import type { ISeriesTooltipSpec, ITooltipSpec } from '../../component/tooltip/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -77,10 +77,6 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
   dataSet?: DataSet;
   /** 是否自适应容器大小 */
   autoFit?: boolean;
-  /**
-   * 性能测试钩子
-   */
-  performanceHook?: IPerformanceHook;
   /**
    * 是否开启动画
    */
@@ -565,9 +561,9 @@ export type IMarkStateFilter =
   | ((
       datum: Datum,
       options: {
-        mark: IMark;
-        type: string;
-        renderNode: IGraphic;
+        mark?: IMark;
+        type?: string;
+        renderNode?: IGraphic;
       }
     ) => boolean);
 
@@ -644,58 +640,58 @@ export interface IPerformanceHook {
   afterInitializeChart?: (vchart?: IVChart) => void;
 
   // 编译
-  beforeCompileToVGrammar?: () => void;
-  afterCompileToVGrammar?: () => void;
+  beforeCompileToVGrammar?: (vchart?: IVChart) => void;
+  afterCompileToVGrammar?: (vchart?: IVChart) => void;
   // 各个图表模块编译
-  beforeRegionCompile?: () => void;
-  afterRegionCompile?: () => void;
-  beforeSeriesCompile?: () => void;
-  afterSeriesCompile?: () => void;
-  beforeComponentCompile?: () => void;
-  afterComponentCompile?: () => void;
+  beforeRegionCompile?: (vchart?: IVChart) => void;
+  afterRegionCompile?: (vchart?: IVChart) => void;
+  beforeSeriesCompile?: (vchart?: IVChart) => void;
+  afterSeriesCompile?: (vchart?: IVChart) => void;
+  beforeComponentCompile?: (vchart?: IVChart) => void;
+  afterComponentCompile?: (vchart?: IVChart) => void;
 
   // resize的时候的钩子
-  beforeResizeWithUpdate?: () => void;
-  afterResizeWithUpdate?: () => void;
+  beforeResizeWithUpdate?: (vchart?: IVChart) => void;
+  afterResizeWithUpdate?: (vchart?: IVChart) => void;
 
   // LayoutWithSceneGraph 二次布局
-  beforeLayoutWithSceneGraph?: () => void;
-  afterLayoutWithSceneGraph?: () => void;
+  beforeLayoutWithSceneGraph?: (vchart?: IVChart) => void;
+  afterLayoutWithSceneGraph?: (vchart?: IVChart) => void;
 
   // VGrammar 解析spec
-  beforeParseView?: () => void;
-  afterParseView?: () => void;
+  beforeParseView?: (vchart?: IVChart) => void;
+  afterParseView?: (vchart?: IVChart) => void;
 
   // 初始化runtime
-  beforeCreateRuntime?: () => void;
-  afterCreateRuntime?: () => void;
+  beforeCreateRuntime?: (vchart?: IVChart) => void;
+  afterCreateRuntime?: (vchart?: IVChart) => void;
 
   // VGrammar EvaluateAsync 时间
-  beforeSrViewEvaluateAsync?: () => void;
-  afterSrViewEvaluateAsync?: () => void;
+  beforeSrViewEvaluateAsync?: (vchart?: IVChart) => void;
+  afterSrViewEvaluateAsync?: (vchart?: IVChart) => void;
 
   // VGrammar RunAsync 时间
-  beforeSrViewRunAsync?: () => void;
-  afterSrViewRunAsync?: () => void;
+  beforeSrViewRunAsync?: (vchart?: IVChart) => void;
+  afterSrViewRunAsync?: (vchart?: IVChart) => void;
 
   // transform测量
-  beforeTransform?: (name: string) => void;
-  afterTransform?: (name: string) => void;
+  beforeTransform?: (name: string, vchart?: IVChart) => void;
+  afterTransform?: (name: string, vchart?: IVChart) => void;
 
   // Create VRender Stage 时间
-  beforeCreateVRenderStage?: () => void;
-  afterCreateVRenderStage?: () => void;
+  beforeCreateVRenderStage?: (vchart?: IVChart) => void;
+  afterCreateVRenderStage?: (vchart?: IVChart) => void;
 
   // Create VRender Mark 时间
-  beforeCreateVRenderMark?: () => void;
-  afterCreateVRenderMark?: () => void;
+  beforeCreateVRenderMark?: (vchart?: IVChart) => void;
+  afterCreateVRenderMark?: (vchart?: IVChart) => void;
 
   // VGrammar 创建元素完成，vrender 绘图之前
   beforeDoRender?: (vchart?: IVChart) => void;
 
   // VRender Draw 时间
-  beforeVRenderDraw?: () => void;
-  afterVRenderDraw?: () => void;
+  beforeVRenderDraw?: (vchart?: IVChart) => void;
+  afterVRenderDraw?: (vchart?: IVChart) => void;
 }
 
 export type IBuildinMarkSpec = {

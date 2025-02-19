@@ -1,4 +1,4 @@
-import type { Group, Text } from '@visactor/vrender-core';
+import type { Group, IArc, Text } from '@visactor/vrender-core';
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { createDiv, createCanvas, removeDom } from '../../util/dom';
@@ -6,6 +6,7 @@ import type { ICommonChartSpec } from '../../../src/chart/common';
 import type { IAreaSeriesSpec } from '../../../src/series/area/interface';
 import type { IPoint } from '../../../src/typings';
 import { polarToCartesian } from '@visactor/vutils';
+import type { IMarkGraphic } from '../../../src/mark/interface';
 
 describe('VChart', () => {
   describe('render and update', () => {
@@ -433,7 +434,7 @@ describe('VChart', () => {
         }
       ) as VChart;
       vchart.renderSync();
-      const mark = vchart.getChart()!.getVGrammarView().getMarksByType('rect')[0].elements[0].getGraphicItem();
+      const mark = vchart.getChart()!.getStage().getElementsByType('rect')[0] as IMarkGraphic;
       const point = vchart.convertDatumToPosition({
         State: 'WY',
         年龄段: '小于5岁',
@@ -516,7 +517,8 @@ describe('VChart', () => {
         }
       ) as VChart;
       vchart.renderSync();
-      const mark = vchart.getChart()!.getVGrammarView().getMarksByType('polygon')[0].elements[1].getGraphicItem();
+
+      const mark = vchart.getChart()!.getStage().getElementsByType('polygon')[1];
       // @ts-ignore
       const centerX = (mark.attribute.points[0].x + mark.attribute.points[1].x) / 2;
       // @ts-ignore
@@ -576,10 +578,9 @@ describe('VChart', () => {
       const point1 = vchart.convertDatumToPosition({ type: 'sodium', value: '2.83' }) as IPoint;
       const mark = vchart
         .getChart()!
-        .getVGrammarView()
-        .getMarksByType('arc')[0]
-        .elements.filter(ele => ele.groupKey === 'sodium')[0]
-        .getGraphicItem() as unknown as any;
+        .getStage()
+        .getElementsByType('arc')
+        .filter(ele => (ele as IMarkGraphic).context.groupKey === 'sodium')[0] as IArc;
 
       const markCoord = polarToCartesian(
         { x: mark.attribute.x as number, y: mark.attribute.y as number },

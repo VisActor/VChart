@@ -1,6 +1,6 @@
 import { minInArray } from '@visactor/vutils';
 import { DiffState } from '../../../mark/interface/enum';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IMarkGraphic } from '../../../mark/interface/common';
 
 /**
  * 计算角度对于起点的比例
@@ -24,7 +24,7 @@ export const computeRatio = (angle: number, range: [number, number]) => {
 /**
  * 得到最内层的Elements
  */
-export const getInnerMostElements = (g: IGraphic) => {
+export const getInnerMostElements = (g: IMarkGraphic) => {
   // 所有待更新的marks
   const updateElements = g.mark.graphics.filter(g => g.context.diffState === DiffState.update);
   // 得到最内层级

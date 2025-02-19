@@ -28,7 +28,6 @@ import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNumber, isObject, isValidNumber, isValid, isFunction } from '@visactor/vutils';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { ILayoutModel } from '../../../model/interface';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IChartOption } from '../../../chart/interface';
@@ -293,8 +292,8 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
       if (mode === 'mark') {
         isFixedPosition = true;
-        const element = params.item as IElement;
-        const bounds = element?.getBounds() as AABBBounds;
+        const markGraphic = params.item;
+        const bounds = markGraphic?.AABBBounds as AABBBounds;
         if (bounds && startPoint) {
           dim1 = (dim === 'x' ? bounds.x1 : bounds.y1) + startPoint[dim];
           dim2 = (dim === 'x' ? bounds.x2 : bounds.y2) + startPoint[dim];

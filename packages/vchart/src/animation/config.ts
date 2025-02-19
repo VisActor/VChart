@@ -5,36 +5,36 @@ import type { ILineAnimationParams, LineAppearPreset } from '../series/line/inte
 import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
 import { Factory } from '../core/factory';
-import {
-  View,
-  registerScaleInAnimation,
-  registerScaleOutAnimation,
-  registerFadeInAnimation,
-  registerFadeOutAnimation,
-  registerClipInAnimation,
-  registerClipOutAnimation,
-  registerGrowAngleInAnimation,
-  registerGrowAngleOutAnimation,
-  registerGrowCenterInAnimation,
-  registerGrowCenterOutAnimation,
-  registerGrowHeightInAnimation,
-  registerGrowHeightOutAnimation,
-  registerGrowPointsInAnimation,
-  registerGrowPointsOutAnimation,
-  registerGrowPointsXInAnimation,
-  registerGrowPointsXOutAnimation,
-  registerGrowPointsYInAnimation,
-  registerGrowPointsYOutAnimation,
-  registerGrowRadiusInAnimation,
-  registerGrowRadiusOutAnimation,
-  registerGrowWidthInAnimation,
-  registerGrowWidthOutAnimation,
-  registerMoveInAnimation,
-  registerMoveOutAnimation,
-  registerRotateInAnimation,
-  registerRotateOutAnimation,
-  registerUpdateAnimation
-} from '@visactor/vgrammar-core';
+// import {
+//   View,
+//   registerScaleInAnimation,
+//   registerScaleOutAnimation,
+//   registerFadeInAnimation,
+//   registerFadeOutAnimation,
+//   registerClipInAnimation,
+//   registerClipOutAnimation,
+//   registerGrowAngleInAnimation,
+//   registerGrowAngleOutAnimation,
+//   registerGrowCenterInAnimation,
+//   registerGrowCenterOutAnimation,
+//   registerGrowHeightInAnimation,
+//   registerGrowHeightOutAnimation,
+//   registerGrowPointsInAnimation,
+//   registerGrowPointsOutAnimation,
+//   registerGrowPointsXInAnimation,
+//   registerGrowPointsXOutAnimation,
+//   registerGrowPointsYInAnimation,
+//   registerGrowPointsYOutAnimation,
+//   registerGrowRadiusInAnimation,
+//   registerGrowRadiusOutAnimation,
+//   registerGrowWidthInAnimation,
+//   registerGrowWidthOutAnimation,
+//   registerMoveInAnimation,
+//   registerMoveOutAnimation,
+//   registerRotateInAnimation,
+//   registerRotateOutAnimation,
+//   registerUpdateAnimation
+// } from '@visactor/vgrammar-core';
 import { Direction } from '../typings/space';
 
 export const DEFAULT_ANIMATION_CONFIG = {
@@ -153,52 +153,52 @@ export const registerAreaAnimation = () => {
 };
 
 export const registerVGrammarCommonAnimation = () => {
-  View.useRegisters([
-    registerScaleInAnimation,
-    registerScaleOutAnimation,
-    registerFadeInAnimation,
-    registerFadeOutAnimation,
-    registerMoveInAnimation,
-    registerMoveOutAnimation,
-    registerRotateInAnimation,
-    registerRotateOutAnimation,
-    registerUpdateAnimation
-  ]);
+  // View.useRegisters([
+  //   registerScaleInAnimation,
+  //   registerScaleOutAnimation,
+  //   registerFadeInAnimation,
+  //   registerFadeOutAnimation,
+  //   registerMoveInAnimation,
+  //   registerMoveOutAnimation,
+  //   registerRotateInAnimation,
+  //   registerRotateOutAnimation,
+  //   registerUpdateAnimation
+  // ]);
 };
 
 export const registerVGrammarRectAnimation = () => {
-  View.useRegisters([
-    registerGrowHeightInAnimation,
-    registerGrowHeightOutAnimation,
-    registerGrowWidthInAnimation,
-    registerGrowWidthOutAnimation,
-    registerGrowCenterInAnimation,
-    registerGrowCenterOutAnimation
-  ]);
+  // View.useRegisters([
+  //   registerGrowHeightInAnimation,
+  //   registerGrowHeightOutAnimation,
+  //   registerGrowWidthInAnimation,
+  //   registerGrowWidthOutAnimation,
+  //   registerGrowCenterInAnimation,
+  //   registerGrowCenterOutAnimation
+  // ]);
 };
 
 export const registerVGrammarArcAnimation = () => {
-  View.useRegisters([
-    registerGrowRadiusInAnimation,
-    registerGrowRadiusOutAnimation,
-    registerGrowAngleInAnimation,
-    registerGrowAngleOutAnimation
-  ]);
+  // View.useRegisters([
+  //   registerGrowRadiusInAnimation,
+  //   registerGrowRadiusOutAnimation,
+  //   registerGrowAngleInAnimation,
+  //   registerGrowAngleOutAnimation
+  // ]);
 };
 
 export const registerVGrammarLineOrAreaAnimation = () => {
-  View.useRegisters([
-    registerGrowPointsInAnimation,
-    registerGrowPointsOutAnimation,
-    registerGrowPointsXInAnimation,
-    registerGrowPointsXOutAnimation,
-    registerGrowPointsYInAnimation,
-    registerGrowPointsYOutAnimation,
-    registerClipInAnimation,
-    registerClipOutAnimation
-  ]);
+  // View.useRegisters([
+  //   registerGrowPointsInAnimation,
+  //   registerGrowPointsOutAnimation,
+  //   registerGrowPointsXInAnimation,
+  //   registerGrowPointsXOutAnimation,
+  //   registerGrowPointsYInAnimation,
+  //   registerGrowPointsYOutAnimation,
+  //   registerClipInAnimation,
+  //   registerClipOutAnimation
+  // ]);
 };
 
 export const registerVGrammarPolygonAnimation = () => {
-  View.useRegisters([registerGrowPointsInAnimation, registerGrowPointsOutAnimation]);
+  // View.useRegisters([registerGrowPointsInAnimation, registerGrowPointsOutAnimation]);
 };

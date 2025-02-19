@@ -4,11 +4,9 @@ import type { Maybe } from '../../typings';
 import type { ICompilableData } from './interface';
 import type { GrammarItemInitOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { GrammarType } from '../interface/compilable-item';
 import type { ICompilableMark } from '../mark';
 
 export class CompilableData extends GrammarItem implements ICompilableData {
-  readonly grammarType = GrammarType.data;
   protected declare _product: Maybe<any>;
 
   protected _prevProduct: Maybe<any>;
@@ -41,7 +39,14 @@ export class CompilableData extends GrammarItem implements ICompilableData {
     this._data = dataView;
   }
 
+  removeProduct() {
+    this._product = null;
+    this._prevProduct = null;
+    this._compiledProductId = null;
+  }
+
   release() {
+    this.removeProduct();
     super.release();
     this._data = null;
   }

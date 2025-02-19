@@ -96,7 +96,7 @@ export class CircularProgressSeries<
     }
   }
 
-  initInteraction(): void {
+  getInteractionTriggers() {
     const marks: IMark[] = [];
 
     if (this._trackMark) {
@@ -106,7 +106,7 @@ export class CircularProgressSeries<
     if (this._progressMark) {
       marks.push(this._progressMark);
     }
-    this._parseInteractionConfig(marks);
+    return this._parseInteractionConfig(marks);
   }
 
   protected initTooltip() {

@@ -15,6 +15,7 @@ import type { IGeoCoordinateHelper } from '../../component/geo/interface';
 import type { ILabelSpec, ILabelInfo } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
 import type { ILegend } from '../../component/legend/interface';
+import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 
 // 使用类型约束系列支持的样式，但是感觉这样不合理 不使用这样的方式去做
 // export interface ISeries<A extends string> extends IModel
@@ -33,7 +34,7 @@ export interface ISeries extends IModel {
   readonly coordinate: CoordinateType;
 
   // layout
-  onLayoutEnd: (ctx: any) => void;
+  onLayoutEnd: () => void;
 
   // 数据
   getRawData: () => DataView | undefined;
@@ -199,6 +200,8 @@ export interface ISeries extends IModel {
 
   legendSelectedFilter?: (component: ILegend, selectedKeys: StringOrNumber[]) => StringOrNumber[];
   parseLabelStyle?: (labelStyle: any, labelSpec: any, labelMark?: ILabelMark) => any;
+
+  getInteractionTriggers?: () => { trigger: Partial<IBaseTriggerOptions>; marks: IMark[] }[];
 }
 
 export interface ICartesianSeries extends ISeries {

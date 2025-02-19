@@ -6,15 +6,16 @@ import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
 import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from './interface';
-import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
-import type { LooseFunction } from '@visactor/vutils';
-import { array, isEqual } from '@visactor/vutils';
-import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import type { IHoverSpec, ISelectSpec } from '../../interaction/interface/spec';
+import { array, isEqual, isNil, isPlainObject } from '@visactor/vutils';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IComponentMark } from '../../mark/interface/mark';
 import type { ICompilableMark } from '../../compile/mark/interface';
 import { DiffState } from '../../mark/interface/enum';
 import type { Datum } from '../../typings/common';
 import { MarkTypeEnum } from '../../mark/interface/type';
+import type { IMark } from '../../mark/interface/common';
+import { getActualColor } from '../../core';
 
 export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
@@ -74,12 +75,16 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
     if (markType === MarkTypeEnum.symbol || markType === MarkTypeEnum.cell) {
       return 'symbol';
     }
+
+    return '';
   }
 
-  _setTransformOfComponent(labelComponent: IComponentMark, baseMark: ICompilableMark | ICompilableMark[]) {
+  _setTransformOfComponent(labelComponent: IComponentMark, baseMark: IMark | IMark[]) {
     labelComponent.setAttributeTransform(({ labelStyle, size, itemEncoder }) => {
-      const labelStyleRes = labelStyle();
-      const dataLabels = array(baseMark).map(mark => {
+      const regionSize = size();
+      const defaultFill = getActualColor({ type: 'palette', key: 'secondaryFontColor' }, this.getColorScheme());
+      const dataLabels = array(baseMark).map((mark: IMark, labelIndex: number) => {
+        const labelStyleRes = labelStyle(labelIndex);
         const labelData: any[] = [];
         const graphics = (mark as any).getGraphics();
 
@@ -87,20 +92,50 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
           return;
         }
 
-        graphics.forEach((g: IGraphic) => {
-          const { data, diffState } = g.context;
+        if (labelStyleRes.data && labelStyleRes.data.length) {
+          labelStyleRes.data.forEach((d: Datum, index: number) => {
+            if (graphics[index]) {
+              const formattedDatum = itemEncoder(d, { labelIndex });
 
-          if (diffState !== DiffState.exit) {
-            data.forEach((datum: Datum) => {
-              labelData.push({
-                data: datum,
-                ...itemEncoder(datum)
+              if (isNil(formattedDatum.fill)) {
+                formattedDatum.fill = defaultFill;
+              }
+              if (isNil(formattedDatum.data)) {
+                formattedDatum.data = d;
+              }
+
+              labelData.push(formattedDatum);
+            }
+          });
+        } else {
+          graphics.forEach((g: IGraphic) => {
+            const { data, diffState } = g.context;
+
+            if (diffState !== DiffState.exit) {
+              data.forEach((datum: Datum, {}) => {
+                const formattedDatum = itemEncoder(datum, { labelIndex });
+
+                if (isNil(formattedDatum.fill)) {
+                  formattedDatum.fill = defaultFill;
+                }
+                if (isNil(formattedDatum.data)) {
+                  formattedDatum.data = datum;
+                }
+
+                labelData.push(formattedDatum);
               });
-            });
-          }
-        });
+            }
+          });
+        }
+
+        if (isPlainObject(labelStyleRes.overlap) && isNil(labelStyleRes.overlap.size)) {
+          labelStyleRes.overlap.size = {
+            ...regionSize
+          };
+        }
 
         return {
+          smartInvert: false, // 之前在vgrammar 中设置的默认值
           baseMarkGroupName: mark.getProductId(),
           getBaseMarks: () => graphics,
           ...labelStyleRes,
@@ -111,7 +146,7 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
 
       return {
         dataLabels,
-        size: size()
+        size: regionSize
       };
     });
   }

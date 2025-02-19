@@ -191,8 +191,8 @@ export class GaugePointerSeries<
     }
   }
 
-  initInteraction(): void {
-    this._parseInteractionConfig(this._pointerMark ? [this._pointerMark] : []);
+  getInteractionTriggers() {
+    return this._parseInteractionConfig(this._pointerMark ? [this._pointerMark] : []);
   }
 
   initAnimation() {
