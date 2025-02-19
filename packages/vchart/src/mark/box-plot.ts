@@ -9,6 +9,36 @@ import type { Datum } from '../typings/common';
 import { isValidNumber } from '@visactor/vutils';
 import { registerLine, registerRect } from '@visactor/vrender-kits';
 
+const BAR_BOX_PLOT_CHANNELS = [
+  'x',
+  'y',
+  'minMaxWidth',
+  'minMaxHeight',
+  'q1q3Width',
+  'q1q3Height',
+  'q1',
+  'q3',
+  'min',
+  'max',
+  'median',
+  'angle'
+];
+
+const BOX_PLOT_CHANNELS = [
+  'x',
+  'y',
+  'boxWidth',
+  'boxHeight',
+  'ruleWidth',
+  'ruleHeight',
+  'q1',
+  'q3',
+  'min',
+  'max',
+  'median',
+  'angle'
+];
+
 export class BoxPlotMark
   extends GlyphMark<IBoxPlotMarkSpec, { direction?: 'horizontal' | 'vertical'; shaftShape?: BoxPlotShaftShape }>
   implements IBoxPlotMark
@@ -42,8 +72,14 @@ export class BoxPlotMark
           defaultAttributes: { x: 0, y: 0 }
         }
       };
+      this._positionChannels = BAR_BOX_PLOT_CHANNELS;
+      this._channelEncoder = {
+        minMaxFillOpacity: (val: number) => ({ minMaxBox: { fillOpacity: val } }),
+        lineWidth: (val: number) => ({ minMaxBox: { lineWidth: 0 }, q1q3Box: { lineWidth: 0 } }),
+        stroke: (val: number) => ({ minMaxBox: { stroke: false }, q1q3Box: { stroke: false } })
+      };
 
-      this._functionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
+      this._positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
         const {
           x = g.attribute.x,
           y = g.attribute.y,
@@ -134,8 +170,9 @@ export class BoxPlotMark
         min: { type: 'line', defaultAttributes: { x: 0, y: 0 } },
         median: { type: 'line', defaultAttributes: { x: 0, y: 0 } }
       };
-
-      this._functionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
+      this._positionChannels = BOX_PLOT_CHANNELS;
+      this._channelEncoder = null;
+      this._positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
         const {
           x = g.attribute.x,
           y = g.attribute.y,

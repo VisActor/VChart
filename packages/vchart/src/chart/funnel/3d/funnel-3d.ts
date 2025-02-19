@@ -7,6 +7,7 @@ import type { AdaptiveSpec } from '../../../typings';
 import { FunnelChartSpecTransformer } from '../funnel-transformer';
 import { BaseChart } from '../../base';
 import { register3DPlugin } from '../../../plugin/other';
+import { modifyOuterLabels } from '../util';
 
 export class Funnel3dChart<T extends IFunnel3dChartSpec = IFunnel3dChartSpec> extends BaseChart<
   AdaptiveSpec<T, 'type'>
@@ -17,6 +18,13 @@ export class Funnel3dChart<T extends IFunnel3dChartSpec = IFunnel3dChartSpec> ex
   readonly transformerConstructor = FunnelChartSpecTransformer;
   readonly type: string = ChartTypeEnum.funnel3d;
   readonly seriesType: string = SeriesTypeEnum.funnel3d;
+
+  init(): void {
+    super.init();
+
+    // 漏斗图的outerlabel实现非常特殊，需要等label组件更新完成后才能更新，这里手动的改变顺序
+    modifyOuterLabels(this.getCompiler().getRootMarks());
+  }
 }
 
 export const registerFunnel3dChart = () => {

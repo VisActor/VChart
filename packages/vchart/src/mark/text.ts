@@ -35,8 +35,8 @@ export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMa
     return defaultStyle;
   }
 
-  initStyleWithSpec(spec: ITextSpec<IComposedTextMarkSpec>, key?: string) {
-    super.initStyleWithSpec(spec, key);
+  initStyleWithSpec(spec: ITextSpec<IComposedTextMarkSpec>) {
+    super.initStyleWithSpec(spec);
     if (spec.textType) {
       this._textType = spec.textType;
     }
@@ -47,15 +47,17 @@ export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMa
 
     const { text } = textAttrs;
 
-    if ((isObject(text) && this._textType === 'rich', isValid((text as any).text))) {
+    if (isObject(text) && isValid((text as any).text) && (this._textType === 'rich' || (text as any).type === 'rich')) {
       textAttrs.textConfig = (text as any).text;
     }
 
     return textAttrs;
   }
 
-  createGraphic(attrs: ITextGraphicAttribute | IRichTextGraphicAttribute = {}): IGraphic {
-    return this._textType === 'rich'
+  protected _createGraphic(attrs: ITextGraphicAttribute | IRichTextGraphicAttribute = {}): IGraphic {
+    const { text } = attrs;
+
+    return this._textType === 'rich' || (text as any)?.type === 'rich'
       ? createRichText(attrs as IRichTextGraphicAttribute)
       : createText(attrs as ITextGraphicAttribute);
   }

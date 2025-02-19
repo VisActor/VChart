@@ -1,11 +1,10 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { IChart } from '../chart/interface';
 import type { IModel } from '../model/interface';
-import type { IMark, MarkType } from '../mark/interface';
+import type { IMark, IMarkGraphic, MarkType } from '../mark/interface';
 import type { DimensionEventParams } from './events/dimension/interface';
 import type { Datum, IPoint, StringOrNumber } from '../typings';
-import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
+import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, HOOK_EVENT } from '../constant/event';
 import type { SeriesType } from '../series/interface';
 import type { TooltipEventParams } from '../component/tooltip/interface/event';
 import type { ILayoutItem } from '../layout/interface';
@@ -59,7 +58,7 @@ export type EventType =
   | 'pinchend'
   | 'swipe'
   | keyof typeof ChartEvent
-  | keyof typeof VGRAMMAR_HOOK_EVENT
+  | keyof typeof HOOK_EVENT
   | string;
 
 export type EventBubbleLevel = keyof typeof Event_Bubble_Level;
@@ -179,10 +178,9 @@ export type BaseEventParams = EventParams & {
    * 事件对象
    */
   event: SuperEvent;
-  item: IElement;
+  item: IMarkGraphic;
   datum: Datum;
   source: EventSourceType;
-  itemMap: Map<string, any>;
 };
 
 export type EventCallback<Params extends EventParams> = (params: Params) => boolean | void;
@@ -213,10 +211,9 @@ export type EventHandler<Params extends EventParams> = {
 
 export type ExtendEventParam = EventParams & {
   event?: Event;
-  item?: any;
+  item?: IMarkGraphic;
   datum?: Datum;
   source?: EventSourceType;
-  itemMap?: Map<string, any>;
 };
 
 export type LayoutEventParam = {
@@ -236,7 +233,7 @@ export type ZoomEventParam = ExtendEventParam & {
 };
 
 export type InteractionEventParam = {
-  items?: IElement[];
+  graphics?: IMarkGraphic[];
   datums?: Datum[];
 } & Partial<BaseEventParams>;
 

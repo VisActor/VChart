@@ -2,7 +2,7 @@ import type { IGlobalScale } from '../../scale/interface';
 import type { ICommonSpec, VisualType, ValueType, FunctionType } from '../../typings/visual';
 import type { IModel } from '../../model/interface';
 import type { IBaseScale } from '@visactor/vscale';
-import type { MarkType } from './type';
+import type { MarkType, MarkTypeEnum } from './type';
 import type {
   ICompilableMark,
   ICompilableMarkOption,
@@ -10,7 +10,7 @@ import type {
   IModelMarkAttributeContext,
   StateValueType
 } from '../../compile/mark/interface';
-import type { StringOrNumber } from '../../typings';
+import type { Datum, StringOrNumber } from '../../typings';
 import type { ICustomPath2D, IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
 
@@ -55,21 +55,85 @@ export type IMarkStateStyle<T extends ICommonSpec> = Record<StateValueType, Part
 export type IMarkStyle<T extends ICommonSpec> = {
   [key in keyof T]: MarkInputStyle<T[key]>;
 };
+
+export type DiffStateValues = 'update' | 'enter' | 'exit';
+
+export interface IGraphicContext {
+  markType: MarkTypeEnum;
+  /**
+   * 图形所属mark对应的id，自增id
+   */
+  markId: number;
+  /**
+   * 图形所属model对应的id，自增id
+   */
+  modelId: number;
+  /**
+   * 图形所属mark对应的用户设置id
+   */
+  markUserId?: number | string;
+  /**
+   * 图形所属model对应的用户设置id
+   */
+  modelUserId?: number | string;
+  /**
+   * 数据对比状态
+   */
+  diffState?: DiffStateValues;
+  /**
+   * 数据
+   */
+  data?: Datum[];
+  /**
+   * 用于区分图形的唯一key，
+   * 对于line/mark而言，和`groupKey` 是一致的
+   * 对于其他图元，由 `groupKey` 和 `key` 拼装得到
+   */
+  uniqueKey?: string;
+  /**
+   * 唯一key
+   */
+  key?: string;
+  /**
+   * 分组key
+   */
+  groupKey?: string;
+  /**
+   * 状态
+   */
+  states?: string[];
+}
+
+export interface IMarkGraphic extends IGraphic {
+  /**
+   * 缓存运行时的状态编码数据
+   */
+  runtimeStateCache?: Record<string, any>;
+
+  /**
+   * 上下文数据
+   */
+  context?: IGraphicContext;
+}
+
 /**********   mark  ***************/
 export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   readonly stateStyle: IMarkStateStyle<T>;
 
-  getAttribute: <U extends keyof T>(key: U, datum: any, state?: StateValueType, opt?: any) => unknown;
+  getAttributesOfState: (datum: Datum, state?: StateValueType) => Partial<T>;
+  getAttribute: <U extends keyof T>(key: U, datum: any, state?: StateValueType) => unknown;
   setAttribute: <U extends keyof T>(attr: U, style: StyleConvert<T[U]>, state?: StateValueType, level?: number) => void;
 
   // 需要支持优先级并且可以使用优先级覆盖
   /** @deprecated VChart 层尽量使用 IModel.setMarkStyle() */
   setStyle: (style: Partial<IMarkStyle<T>>, state?: StateValueType, level?: number) => void;
+  setSimpleStyle: (s: T) => void;
+  getSimpleStyle: () => T;
 
-  setReferer: (mark: IMarkRaw<T>, styleKey?: string, state?: StateValueType, stateStyle?: IMarkStateStyle<T>) => void;
+  setReferer: (mark: IMarkRaw<T>, styleKey?: string, state?: StateValueType) => void;
 
   /** @deprecated VChart 层尽量使用 IModel.initMarkStyleWithSpec() */
-  initStyleWithSpec: (spec: any, key?: string) => void;
+  initStyleWithSpec: (spec: any) => void;
 
   created: () => void;
 
@@ -84,7 +148,22 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
 
   render: () => void;
 
-  getGraphics: () => IGraphic[];
+  getGraphics: () => IMarkGraphic[];
+
+  reuse: (mark: IMark) => void;
+
+  /** 是否启动了增量渲染模式 */
+  isProgressive: () => boolean;
+  /** 是否正在执行增量渲染 */
+  isDoingProgressive: () => boolean;
+  /** 清除增量渲染相关状态 */
+  clearProgressive: () => void;
+  /** 从第一帧开始增量计算 */
+  restartProgressive: () => void;
+  /** 分片执行 */
+  renderProgressive: () => void;
+  /** 增量流程后，是否执行动画 */
+  canAnimateAfterProgressive: () => boolean;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;
@@ -122,7 +201,7 @@ export interface IMarkOption extends ICompilableMarkOption {
   attributeContext?: IModelMarkAttributeContext;
 
   /** 父级 mark */
-  parent?: IGroupMark;
+  parent?: IGroupMark | false;
 }
 export interface IMarkConstructor {
   type: MarkType;
@@ -212,3 +291,12 @@ export type IMarkDataTransform<Options = any, Input = any, Output = any> = (
   options: Options,
   data: Input
 ) => Output | IProgressiveTransformResult<Output>;
+
+export interface ProgressiveContext {
+  currentIndex: number;
+  totalStep: number;
+  step: number;
+  data: any[];
+  groupKeys?: string[];
+  groupedData?: Map<string, any[]>;
+}

@@ -7,6 +7,7 @@ import { RoseChartSpecTransformer } from './rose-transformer';
 import { BaseChart } from '../base';
 import { StackChartMixin } from '../stack';
 import { mixin } from '@visactor/vutils';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.rose;
@@ -20,6 +21,7 @@ export class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseCh
 mixin(RoseChart, StackChartMixin);
 
 export const registerRoseChart = () => {
+  registerDimensionHover();
   registerRoseSeries();
   Factory.registerChart(RoseChart.type, RoseChart);
 };

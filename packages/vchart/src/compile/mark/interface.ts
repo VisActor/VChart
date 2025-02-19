@@ -1,4 +1,4 @@
-import type { IMarkStateStyle, MarkType } from '../../mark/interface';
+import type { IMark, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem } from '../interface';
 import type { DataView } from '@visactor/vdataset';
@@ -31,6 +31,10 @@ export interface IMarkConfig {
    */
   // largeChunkMode?: 'sequential' | 'mod';
   support3d?: boolean;
+  /**
+   * 象形图，给图形设置名称
+   */
+  graphicName?: string | ((g: IMarkConfig) => string);
   /**
    * enable global morphing animation of the mark
    */
@@ -175,7 +179,17 @@ export interface IStateInfo {
   /** 筛选 item */
   items?: any[] | null | undefined;
   /** 筛选函数 */
-  filter?: ((datum: any, options: Record<string, any>) => boolean) | null | undefined;
+  filter?:
+    | ((
+        datum: any,
+        options: {
+          mark?: IMark;
+          type?: string;
+          renderNode?: IGraphic;
+        }
+      ) => boolean)
+    | null
+    | undefined;
   cache?: {
     [key: string]: {
       [key: string]: boolean;
@@ -232,7 +246,12 @@ export enum STATE_VALUE_ENUM {
 
   // todo: 2.0考虑优化
   STATE_SANKEY_EMPHASIS = 'selected',
-  STATE_SANKEY_EMPHASIS_REVERSE = 'blur'
+  STATE_SANKEY_EMPHASIS_REVERSE = 'blur',
+
+  STATE_HIGHLIGHT = 'highlight',
+  STATE_BLUR = 'blur',
+
+  STATE_ACTIVE = 'active'
 }
 
 export enum STATE_VALUE_ENUM_REVERSE {

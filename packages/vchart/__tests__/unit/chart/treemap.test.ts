@@ -100,8 +100,7 @@ describe('treemap chart test', () => {
     await cs.renderAsync();
     const series: TreemapSeries = cs.getChart().getAllSeries()[0] as TreemapSeries;
     const leafMark = series.getMarkInName('leaf');
-    const leafMarkProduct = leafMark?.getProduct();
-    expect(leafMarkProduct?.elements.length).toBe(90); // 叶子图元
+    expect(leafMark?.getGraphics().length).toBe(90); // 叶子图元
     expect(series.getRawDataStatisticsByField(DEFAULT_HIERARCHY_DEPTH, true).max).toBe(2);
     cs.release();
   });
@@ -136,10 +135,7 @@ describe('treemap chart test', () => {
     const leafMark = series.getMarkInName('leaf');
     const nonLeafMark = series.getMarkInName('nonLeaf');
 
-    const leafProduct = leafMark?.getProduct();
-    const nonLeafProduct = nonLeafMark?.getProduct();
-
-    expect(leafProduct?.elements.length).toBe(86); // 叶子图元
-    expect(nonLeafProduct?.elements.length).toBe(17); // 非叶子图元
+    expect(leafMark?.getGraphics().length).toBe(86); // 叶子图元
+    expect(nonLeafMark?.getGraphics().length).toBe(17); // 非叶子图元
   });
 });

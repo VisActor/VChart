@@ -13,8 +13,7 @@ import type { IRegion } from '../../region/interface';
 import type { IGraphic, IGroup, INode, IPolygon, ISymbolGraphicAttribute } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
-import type { IMark } from '../../mark/interface';
-import type { IElement } from '@visactor/vgrammar-core';
+import type { IMark, IMarkGraphic } from '../../mark/interface';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
@@ -48,10 +47,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
   // 用brushName做分组管理的原因是: 如果有多个brush, 某个图元A brush内, 但在B brush外, 该图元state会被B误变成out of brush。 但其实该图元只有在A brush外才能被判断out of brush
   // 用dict做存储因为方便查找和删减对应图元
-  protected _inBrushElementsMap: { [brushName: string]: { [elementKey: string]: IElement } } = {};
-  protected _outOfBrushElementsMap: { [elementKey: string]: IElement } = {};
-  protected _linkedInBrushElementsMap: { [brushName: string]: { [elementKey: string]: IElement } } = {};
-  protected _linkedOutOfBrushElementsMap: { [elementKey: string]: IElement } = {};
+  protected _inBrushElementsMap: { [brushName: string]: { [elementKey: string]: IMarkGraphic } } = {};
+  protected _outOfBrushElementsMap: { [elementKey: string]: IMarkGraphic } = {};
+  protected _linkedInBrushElementsMap: { [brushName: string]: { [elementKey: string]: IMarkGraphic } } = {};
+  protected _linkedOutOfBrushElementsMap: { [elementKey: string]: IMarkGraphic } = {};
 
   private _needInitOutState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
@@ -119,24 +118,24 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     this._initNeedOperatedItem();
   }
 
-  protected _extendDataInBrush(elementsMap: { [brushName: string]: { [elementKey: string]: IElement } }) {
+  protected _extendDataInBrush(elementsMap: { [brushName: string]: { [elementKey: string]: IMarkGraphic } }) {
     const data = [];
     for (const brushName in elementsMap) {
       for (const elementKey in elementsMap[brushName]) {
         data.push({
-          ...elementsMap[brushName][elementKey]?.data?.[0]
+          ...elementsMap[brushName][elementKey].context?.data?.[0]
         });
       }
     }
     return data;
   }
 
-  protected _extendDatumOutOfBrush(elementsMap: { [elementKey: string]: IElement }) {
+  protected _extendDatumOutOfBrush(elementsMap: { [elementKey: string]: IMarkGraphic }) {
     const data = [];
     for (const elementKey in elementsMap) {
       // 图例筛选后, elementKey未更新, 导致data可能为null
       // FIXME: brush透出的map维护逻辑有待优化
-      data.push(elementsMap[elementKey].data?.[0]);
+      data.push(elementsMap[elementKey].context?.data?.[0]);
     }
     return data;
   }
@@ -310,14 +309,13 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   private _reconfigItem(operateMask: IPolygon, region: IRegion) {
     // 遍历图元, 更新状态
     this._itemMap[region.id].forEach((mark: IMark) => {
-      const grammarMark = mark.getProduct();
-      if (!grammarMark || !grammarMark.elements || !grammarMark.elements.length) {
+      const graphics = mark.getGraphics();
+
+      if (!graphics || !graphics.length) {
         return;
       }
-      const elements = grammarMark.elements;
-      elements.forEach((el: IElement) => {
-        const graphicItem = el.getGraphicItem();
-        const elementKey = mark.id + '_' + el.key;
+      graphics.forEach((graphicItem: IMarkGraphic) => {
+        const elementKey = mark.id + '_' + graphicItem.context.key;
         // 判断逻辑:
         // 应该被置为inBrush状态的图元:
         // before: 在out brush elment map, 即不在任何brush中
@@ -327,19 +325,19 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         // before: 在当前brush 的 in brush element map中, 即在当前brush中
         // now: 不在当前brush中
         if (this._outOfBrushElementsMap?.[elementKey] && this._isBrushContainItem(operateMask, graphicItem)) {
-          el.addState(IN_BRUSH_STATE);
+          graphicItem.addState(IN_BRUSH_STATE, true);
           if (!this._inBrushElementsMap[operateMask?.name]) {
             this._inBrushElementsMap[operateMask?.name] = {};
           }
-          this._inBrushElementsMap[operateMask?.name][elementKey] = el;
+          this._inBrushElementsMap[operateMask?.name][elementKey] = graphicItem;
           delete this._outOfBrushElementsMap[elementKey];
         } else if (
           this._inBrushElementsMap?.[operateMask?.name]?.[elementKey] &&
           !this._isBrushContainItem(operateMask, graphicItem)
         ) {
-          el.removeState(IN_BRUSH_STATE);
-          el.addState(OUT_BRUSH_STATE);
-          this._outOfBrushElementsMap[elementKey] = el;
+          graphicItem.removeState(IN_BRUSH_STATE);
+          graphicItem.addState(OUT_BRUSH_STATE, true);
+          this._outOfBrushElementsMap[elementKey] = graphicItem;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
         graphicItem.setAttribute('pickable', !this._needDisablePickable);
@@ -358,14 +356,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         const regionOffsetY = sRegionLayoutPos.y - regionLayoutPos.y;
 
         this._linkedItemMap[s.id].forEach((mark: IMark) => {
-          const grammarMark = mark.getProduct();
-          if (!grammarMark || !grammarMark.elements || !grammarMark.elements.length) {
+          const graphics = mark.getGraphics();
+          if (!graphics || !graphics.length) {
             return;
           }
-          const elements = grammarMark.elements;
-          elements.forEach((el: IElement) => {
-            const graphicItem = el.getGraphicItem();
-            const elementKey = mark.id + '_' + el.key;
+          graphics.forEach((graphicItem: IMarkGraphic) => {
+            const { key } = graphicItem.context;
+
+            const elementKey = mark.id + '_' + key;
             // 判断逻辑:
             // 应该被置为inBrush状态的图元:
             // before: 在out brush elment map, 即不在任何brush中
@@ -378,19 +376,19 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
               this._linkedOutOfBrushElementsMap?.[elementKey] &&
               this._isBrushContainItem(operateMask, graphicItem, { dx: regionOffsetX, dy: regionOffsetY })
             ) {
-              el.addState(IN_BRUSH_STATE);
+              graphicItem.addState(IN_BRUSH_STATE, true);
               if (!this._linkedInBrushElementsMap[operateMask?.name]) {
                 this._linkedInBrushElementsMap[operateMask?.name] = {};
               }
-              this._linkedInBrushElementsMap[operateMask?.name][elementKey] = el;
+              this._linkedInBrushElementsMap[operateMask?.name][elementKey] = graphicItem;
               delete this._linkedOutOfBrushElementsMap[elementKey];
             } else if (
               this._linkedInBrushElementsMap?.[operateMask?.name]?.[elementKey] &&
               !this._isBrushContainItem(operateMask, graphicItem, { dx: regionOffsetX, dy: regionOffsetY })
             ) {
-              el.removeState(IN_BRUSH_STATE);
-              el.addState(OUT_BRUSH_STATE);
-              this._linkedOutOfBrushElementsMap[elementKey] = el;
+              graphicItem.removeState(IN_BRUSH_STATE);
+              graphicItem.addState(OUT_BRUSH_STATE, true);
+              this._linkedOutOfBrushElementsMap[elementKey] = graphicItem;
             }
             graphicItem.setAttribute('pickable', !this._needDisablePickable);
           });
@@ -399,7 +397,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     });
   }
 
-  private _isBrushContainItem(brushMask: IPolygon, item: IGraphic, linkedOffset?: { dx: number; dy: number }) {
+  private _isBrushContainItem(brushMask: IPolygon, item: IMarkGraphic, linkedOffset?: { dx: number; dy: number }) {
     if (!brushMask?.globalTransMatrix || !brushMask?.attribute?.points) {
       return false;
     }
@@ -650,18 +648,17 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     this._option.getAllSeries().forEach((s: ISeries) => {
       s.getMarksWithoutRoot().forEach((mark: IMark) => {
-        const grammarMark = mark.getProduct();
-        if (!grammarMark || !grammarMark.elements || !grammarMark.elements.length) {
+        const graphics = mark.getGraphics();
+        if (!graphics || !graphics.length) {
           return;
         }
-        const elements = grammarMark.elements;
-        elements.forEach((el: IElement) => {
-          const elementKey = mark.id + '_' + el.key;
-          el.removeState(IN_BRUSH_STATE);
-          el.removeState(OUT_BRUSH_STATE);
-          el.addState(stateName);
-          this._outOfBrushElementsMap[elementKey] = el;
-          this._linkedOutOfBrushElementsMap[elementKey] = el;
+        graphics.forEach((g: IMarkGraphic) => {
+          const elementKey = mark.id + '_' + g.context.key;
+          g.removeState(IN_BRUSH_STATE);
+          g.removeState(OUT_BRUSH_STATE);
+          g.addState(stateName, true);
+          this._outOfBrushElementsMap[elementKey] = g;
+          this._linkedOutOfBrushElementsMap[elementKey] = g;
         });
       });
     });

@@ -255,6 +255,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
           x: this.dataToPositionX.bind(this),
           y: this.dataToPositionY.bind(this),
           fill: this.getDotColorAttribute(),
+          stroke: this.getDotColorAttribute(),
           fillOpacity: this.dataToOpacity.bind(this)
         },
         'normal',

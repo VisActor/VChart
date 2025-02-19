@@ -7,6 +7,7 @@ import { LineChartSpecTransformer } from './line-transformer';
 import { BaseChart } from '../base';
 import { StackChartMixin } from '../stack';
 import { mixin } from '@visactor/vutils';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class LineChart<T extends ILineChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.line;
@@ -20,6 +21,7 @@ export class LineChart<T extends ILineChartSpec> extends BaseChart<T> {
 mixin(LineChart, StackChartMixin);
 
 export const registerLineChart = () => {
+  registerDimensionHover();
   registerLineSeries();
   Factory.registerChart(LineChart.type, LineChart);
 };

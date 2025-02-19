@@ -4,9 +4,11 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkStyle, ISymbolMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
+import type { IGraphic, ISymbolGraphicAttribute } from '@visactor/vrender-core';
 import { createSymbol } from '@visactor/vrender-core';
 import { registerShadowRoot, registerSymbol } from '@visactor/vrender-kits';
 import { registerSymbolDataLabel } from '@visactor/vrender-components';
+import { isNil } from '@visactor/vutils';
 
 export class SymbolMark extends BaseMark<ISymbolMarkSpec> implements ISymbolMark {
   static readonly type = MarkTypeEnum.symbol;
@@ -20,6 +22,19 @@ export class SymbolMark extends BaseMark<ISymbolMarkSpec> implements ISymbolMark
       lineWidth: 0
     };
     return defaultStyle as IMarkStyle<ISymbolMarkSpec>;
+  }
+
+  protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
+    const symbolAttrs = super._transformGraphicAttributes(g, attrs, groupAttrs);
+    const symbolType =
+      symbolAttrs.shape ?? symbolAttrs.symbolType ?? (g.attribute as ISymbolGraphicAttribute)?.symbolType;
+
+    if (isNil(symbolType)) {
+      symbolAttrs.symbolType = 'circle';
+    } else {
+      symbolAttrs.symbolType = symbolType;
+    }
+    return symbolAttrs;
   }
 }
 

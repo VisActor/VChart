@@ -243,7 +243,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       return;
     }
 
-    const pathGroup = this.getRootMark().getProduct()?.getGroupGraphicItem();
+    const pathGroup = this.getRootMark().getProduct();
     if (pathGroup) {
       if (!pathGroup.attribute.postMatrix) {
         pathGroup.setAttributes({
@@ -252,10 +252,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       }
       pathGroup.scale(scale, scale, scaleCenter);
     }
-    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+    const vgrammarLabel = this._labelMark?.getComponent();
 
     if (vgrammarLabel) {
-      (vgrammarLabel as any).evaluate(null, null);
+      vgrammarLabel.renderInner();
     }
   }
 
@@ -264,7 +264,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     if (delta[0] === 0 && delta[1] === 0) {
       return;
     }
-    const pathGroup = this.getRootMark().getProduct()?.getGroupGraphicItem();
+    const pathGroup = this.getRootMark().getProduct();
     if (pathGroup) {
       if (!pathGroup.attribute.postMatrix) {
         pathGroup.setAttributes({
@@ -273,10 +273,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       }
       pathGroup.translate(delta[0], delta[1]);
     }
-    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+    const vgrammarLabel = this._labelMark?.getComponent();
 
     if (vgrammarLabel) {
-      (vgrammarLabel as any).evaluate(null, null);
+      vgrammarLabel.renderInner();
     }
   }
 

@@ -5,6 +5,7 @@ import { BaseHistogramChart } from './base/base';
 import { Factory } from '../../core/factory';
 import type { IHistogramChartSpec } from './interface';
 import { HistogramChartSpecTransformer } from './histogram-transformer';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class HistogramChart<T extends IHistogramChartSpec = IHistogramChartSpec> extends BaseHistogramChart<T> {
   static readonly type: string = ChartTypeEnum.histogram;
@@ -16,6 +17,7 @@ export class HistogramChart<T extends IHistogramChartSpec = IHistogramChartSpec>
 }
 
 export const registerHistogramChart = () => {
+  registerDimensionHover();
   registerBarSeries();
   Factory.registerChart(HistogramChart.type, HistogramChart);
 };

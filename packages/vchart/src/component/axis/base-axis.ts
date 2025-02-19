@@ -135,10 +135,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   getVRenderComponents() {
-    return [
-      this._axisMark?.getProduct()?.getGroupGraphicItem(),
-      this._gridMark?.getProduct()?.getGroupGraphicItem()
-    ].filter(isValid);
+    return [this._axisMark?.getProduct(), this._gridMark?.getProduct()].filter(isValid);
   }
 
   created() {
@@ -167,7 +164,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         }
       );
       this._updateTickDataMarks(axisMark);
-      this._axisMark = axisMark;
+      this._axisMark = axisMark as IComponentMark;
       axisMark.setMarkConfig({ zIndex: this.layoutZIndex });
       if (isValid(this._spec.id)) {
         axisMark.setUserId(this._spec.id);
@@ -194,7 +191,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           interactive: false // 轴网格线关闭交互
         });
         this._marks.addMark(gridMark);
-        this._gridMark = gridMark;
+        this._gridMark = gridMark as IComponentMark;
       }
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画
@@ -642,11 +639,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       alternateColor: spec.grid.alternateColor,
       alignWithLabel: spec.grid.alignWithLabel,
       style: isFunction(spec.grid.style)
-        ? () => {
-            return (datum: Datum, index: number) => {
-              const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
-              return transformToGraphic(mergeSpec({}, this._theme.grid?.style, style));
-            };
+        ? (datum: Datum, index: number) => {
+            const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
+            return transformToGraphic(mergeSpec({}, this._theme.grid?.style, style));
           }
         : transformToGraphic(spec.grid.style),
       subGrid:
@@ -722,7 +717,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     }
 
     if (this._axisMark) {
-      return this._axisMark.getProduct()?.getGroupGraphicItem()?.attribute.items;
+      return (this._axisMark.getComponent() as any)?.attribute.items;
     }
   }
 }

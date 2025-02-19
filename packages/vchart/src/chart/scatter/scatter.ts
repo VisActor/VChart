@@ -7,6 +7,7 @@ import { ScatterChartSpecTransformer } from './scatter-transformer';
 import { BaseChart } from '../base';
 import { StackChartMixin } from '../stack';
 import { mixin } from '@visactor/vutils';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.scatter;
@@ -21,6 +22,7 @@ export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> exten
 mixin(ScatterChart, StackChartMixin);
 
 export const registerScatterChart = () => {
+  registerDimensionHover();
   registerScatterSeries();
   Factory.registerChart(ScatterChart.type, ScatterChart);
 };

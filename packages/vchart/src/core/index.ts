@@ -21,6 +21,7 @@ export * from '../model/interface';
 
 export * from './interface';
 export * from '../typings';
+export type { IMarkGraphic, IGraphicContext } from '../mark/interface/';
 
 // some constants
 export * from '../constant/base';

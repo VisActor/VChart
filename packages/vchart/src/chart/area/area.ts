@@ -7,6 +7,7 @@ import { AreaChartSpecTransformer } from './area-transformer';
 import { BaseChart } from '../base';
 import { mixin } from '@visactor/vutils';
 import { StackChartMixin } from '../stack';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class AreaChart<T extends IAreaChartSpec = IAreaChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.area;
@@ -19,6 +20,7 @@ export class AreaChart<T extends IAreaChartSpec = IAreaChartSpec> extends BaseCh
 mixin(AreaChart, StackChartMixin);
 
 export const registerAreaChart = () => {
+  registerDimensionHover();
   registerAreaSeries();
   Factory.registerChart(AreaChart.type, AreaChart);
 };

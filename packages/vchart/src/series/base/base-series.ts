@@ -57,7 +57,7 @@ import type { IModelEvaluateOption, IModelRenderOption, IUpdateSpecResult } from
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';
-import type { IBaseInteractionSpec, IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import type { IBaseInteractionSpec, IHoverSpec, ISelectSpec } from '../../interaction/interface/spec';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 // eslint-disable-next-line no-duplicate-imports
@@ -91,10 +91,13 @@ import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
-import { is3DMark } from '../../mark/utils';
+import { is3DMark } from '../../mark/utils/common';
 import type { GraphicEventType } from '@visactor/vrender-core';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
+import { filterMarksOfInteraction } from '../../interaction/triggers/util';
+import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
+import { TRIGGER_TYPE_ENUM } from '../../interaction/triggers/enum';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -292,9 +295,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       this.initAnimation();
     }
 
-    if (!this._option.disableTriggerEvent) {
-      this.initInteraction();
-    }
     this.afterInitMark();
 
     // event
@@ -778,33 +778,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** mark */
 
-  protected _parseSelectorOfInteraction(interactionSpec: IBaseInteractionSpec, marks: IMark[]) {
-    if (!marks || !marks.length) {
-      return [];
-    }
-    const selector: string[] = [];
-
-    if (interactionSpec.markIds) {
-      marks.filter(mark => {
-        if (interactionSpec.markIds.includes(mark.getProductId())) {
-          selector.push(`#${mark.getProductId()}`);
-        }
-      });
-    } else if (interactionSpec.markNames) {
-      marks.forEach(mark => {
-        if (interactionSpec.markNames.includes(mark.name)) {
-          selector.push(`#${mark.getProductId()}`);
-        }
-      });
-    } else {
-      marks.forEach(mark => {
-        selector.push(`#${mark.getProductId()}`);
-      });
-    }
-
-    return selector;
-  }
-
   protected _parseDefaultInteractionConfig(mainMarks?: IMark[]) {
     if (!mainMarks?.length) {
       return [];
@@ -829,27 +802,40 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       finalSelectSpec.enable = true;
       finalSelectSpec = mergeSpec(finalSelectSpec, selectSpec);
     }
-    const res = [];
+    const res: { trigger: Partial<IBaseTriggerOptions>; marks: IMark[] }[] = [
+      {
+        trigger: {
+          type: TRIGGER_TYPE_ENUM.DIMENSION_HOVER as string
+        },
+        marks: mainMarks
+      }
+    ];
 
     if (finalHoverSpec.enable) {
-      const selector: string[] = this._parseSelectorOfInteraction(finalHoverSpec as IBaseInteractionSpec, mainMarks);
+      const marks: IMark[] = filterMarksOfInteraction(finalHoverSpec as IBaseInteractionSpec, mainMarks);
 
-      selector.length && res.push(this._defaultHoverConfig(selector, finalHoverSpec));
+      marks.length &&
+        res.push({
+          trigger: this._defaultHoverConfig(finalHoverSpec),
+          marks
+        });
     }
 
     if (finalSelectSpec.enable) {
-      const selector: string[] = this._parseSelectorOfInteraction(finalSelectSpec as IBaseInteractionSpec, mainMarks);
-      selector.length && res.push(this._defaultSelectConfig(selector, finalSelectSpec));
+      const marks: IMark[] = filterMarksOfInteraction(finalSelectSpec as IBaseInteractionSpec, mainMarks);
+
+      marks.length &&
+        res.push({
+          trigger: this._defaultSelectConfig(finalSelectSpec) as Partial<IBaseTriggerOptions>,
+          marks
+        });
     }
     return res;
   }
 
-  protected _defaultHoverConfig(selector: string[], finalHoverSpec: IHoverSpec) {
+  protected _defaultHoverConfig(finalHoverSpec: IHoverSpec) {
     return {
-      seriesId: this.id,
-      regionId: this._region.id,
-      selector,
-      type: 'element-highlight',
+      type: TRIGGER_TYPE_ENUM.ELEMENT_HIGHLIGHT,
       trigger: finalHoverSpec.trigger as GraphicEventType,
       triggerOff: finalHoverSpec.triggerOff as GraphicEventType,
       blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
@@ -857,7 +843,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     };
   }
 
-  protected _defaultSelectConfig(selector: string[], finalSelectSpec: ISelectSpec) {
+  protected _defaultSelectConfig(finalSelectSpec: ISelectSpec) {
     const isMultiple = finalSelectSpec.mode === 'multiple';
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
@@ -865,10 +851,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       ? ['empty']
       : ['empty', finalSelectSpec.trigger];
     return {
-      type: 'element-select',
-      seriesId: this.id,
-      regionId: this._region.id,
-      selector,
+      type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT,
       trigger: finalSelectSpec.trigger as GraphicEventType,
       triggerOff: triggerOff as GraphicEventType,
       reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
@@ -878,39 +861,29 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _parseInteractionConfig(mainMarks?: IMark[]) {
-    const compiler = this.getCompiler();
-    if (!compiler) {
-      return;
-    }
-
     const { interactions } = this._spec;
     const res = this._parseDefaultInteractionConfig(mainMarks);
 
-    if (res && res.length) {
-      res.forEach(interaction => {
-        compiler.addInteraction(interaction);
-      });
-    }
-
     if (interactions && interactions.length) {
       interactions.forEach(interaction => {
-        const selectors: string[] = this._parseSelectorOfInteraction(interaction, this.getMarks());
+        const marks: IMark[] = filterMarksOfInteraction(interaction, this.getMarks());
 
-        if (selectors.length) {
-          compiler.addInteraction({
-            ...interaction,
-            selector: selectors,
-            seriesId: this.id,
-            regionId: this._region.id
-          });
+        if (marks.length) {
+          res.push({ trigger: interaction, marks });
         }
       });
     }
+
+    return res;
   }
 
-  initInteraction() {
-    const marks = this.getMarksWithoutRoot();
-    this._parseInteractionConfig(marks);
+  getInteractionTriggers() {
+    if (this._option.disableTriggerEvent !== true) {
+      const marks = this.getMarksWithoutRoot();
+      return this._parseInteractionConfig(marks);
+    }
+
+    return [];
   }
 
   initAnimation() {
@@ -1015,7 +988,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _releaseEvent(): void {
     super._releaseEvent();
-    this.getCompiler().removeInteraction(this.id);
+    // todo release interactions
   }
 
   /** event end */
@@ -1308,7 +1281,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       dataView,
       parent,
       isSeriesMark,
-      depend,
       stateSort,
       noSeparateStyle = false
     } = option;
@@ -1318,7 +1290,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       attributeContext: this._markAttributeContext,
       componentType: option.componentType,
       noSeparateStyle,
-      parent: parent ?? this._rootMark
+      parent: parent !== false ? parent ?? this._rootMark : null
     });
 
     if (isValid(m)) {
@@ -1340,10 +1312,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         m.setSkipBeforeLayouted(skipBeforeLayouted);
       }
 
-      if (isValid(depend)) {
-        m.setDepend(...array(depend));
-      }
-
       if (!isNil(groupKey)) {
         m.setGroupKey(groupKey);
       }
@@ -1363,7 +1331,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       m.setMarkConfig(markConfig);
 
-      this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));
+      this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || (spec as any)[m.name]));
     }
     return m;
   }

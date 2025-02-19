@@ -287,7 +287,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         if (cmp.type === ComponentTypeEnum.tooltip) {
           tooltip = cmp;
         } else {
-          otherComponents.push(cmp);
+          otherComponents.push(components[index]);
         }
       }
     }
@@ -322,7 +322,11 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       });
     }
 
-    otherComponents.forEach(C => {
+    otherComponents.sort((a, b) => {
+      return a.createOrder - b.createOrder;
+    });
+
+    otherComponents.forEach(({ cmp: C }) => {
       (C.getSpecInfo ? C.getSpecInfo(chartSpec, chartSpecInfo) : getSpecInfo(chartSpec, C.specKey, C.type))?.forEach(
         info => {
           results.push(callbackfn(C, info, chartSpecInfo));

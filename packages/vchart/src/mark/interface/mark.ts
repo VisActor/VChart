@@ -1,4 +1,4 @@
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IMarkSpec } from '../../typings';
 import type {
   IArc3dMarkSpec,
@@ -25,7 +25,8 @@ import type { IMark, IMarkRaw } from './common';
 import type { MarkType } from './type';
 
 export interface IComponentMark extends IMarkRaw<ICommonSpec> {
-  getComponent: () => IGroup;
+  renderInner: () => void;
+  getComponent: () => IGraphic;
   setAttributeTransform: (t: (attrs: any) => any) => any;
 }
 
@@ -41,7 +42,7 @@ export interface IGlyphMark<T extends ICommonSpec = ICommonSpec, C = any> extend
     }
   >;
 
-  getProgressiveChannels: () => string[];
+  getPositionChannels: () => string[];
 }
 
 export interface ILabelMark extends ITextMark {
