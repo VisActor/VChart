@@ -11,7 +11,7 @@ import type {
   IDsvParserOptions
 } from '@visactor/vdataset';
 import type { RegionSpec } from '../../region/interface';
-import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface/spec';
 import type { IRenderOption } from '../../compile/interface';
 import type { ISeriesTooltipSpec, ITooltipSpec } from '../../component/tooltip/interface';
 // eslint-disable-next-line no-duplicate-imports

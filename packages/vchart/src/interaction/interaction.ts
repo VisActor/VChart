@@ -1,7 +1,7 @@
 import type { StateValue } from '../compile/mark';
 import type { IMarkGraphic } from '../mark/interface';
-import type { IInteraction } from './interface';
-import type { ITrigger } from './triggers/interface';
+import type { IInteraction } from './interface/common';
+import type { ITrigger } from './interface/trigger';
 
 export class Interaction implements IInteraction {
   private _stateGraphicsByTrigger: Map<ITrigger, IMarkGraphic[]> = new Map();

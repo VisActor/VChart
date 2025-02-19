@@ -1,9 +1,12 @@
 import { array, isNumber, isString } from '@visactor/vutils';
-import type { IMark } from '../../mark/interface/common';
+import type { IMark, IMarkGraphic } from '../../mark/interface/common';
 
-import type { IElementSelectTriggerOff } from './interface';
+import type { IElementFilterOptions, IElementHighlightOptions, IElementSelectTriggerOff } from '../interface/trigger';
 import type { GraphicEventType } from '@visactor/vrender-core';
-import type { IBaseInteractionSpec } from '../interface';
+import type { IBaseInteractionSpec } from '../interface/spec';
+import { getDatumOfGraphic } from '../../util';
+import type { Datum } from '../../typings';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 
 export const parseTriggerOffOfSelect = (triggerOff: IElementSelectTriggerOff | IElementSelectTriggerOff[]) => {
   const triggerOffArray = array(triggerOff);
@@ -87,4 +90,23 @@ export const filterMarksOfInteraction = (interactionSpec: IBaseInteractionSpec, 
   }
 
   return selector;
+};
+
+export const generateFilterValue = (options: IElementFilterOptions) => {
+  if (options.filterField) {
+    return (g: IMarkGraphic) => {
+      return (getDatumOfGraphic(g) as Datum)?.[options.filterField];
+    };
+  }
+
+  return (el: IMarkGraphic) => {
+    return el.context[options.filterType];
+  };
+};
+
+export const highlightDefaultOptions: Partial<IElementHighlightOptions> = {
+  highlightState: STATE_VALUE_ENUM.STATE_HIGHLIGHT,
+  blurState: STATE_VALUE_ENUM.STATE_BLUR,
+  trigger: 'pointerover',
+  triggerOff: 'pointerout'
 };

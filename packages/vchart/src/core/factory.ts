@@ -21,7 +21,7 @@ import type { IComponentPluginConstructor } from '../plugin/components/interface
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IStageEventPlugin, VRenderComponentOptions } from './interface';
 import type { MarkAnimationSpec } from '../animation/interface';
-import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/triggers/interface';
+import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/interface/trigger';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};

@@ -57,7 +57,7 @@ import type { IModelEvaluateOption, IModelRenderOption, IUpdateSpecResult } from
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';
-import type { IBaseInteractionSpec, IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import type { IBaseInteractionSpec, IHoverSpec, ISelectSpec } from '../../interaction/interface/spec';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 // eslint-disable-next-line no-duplicate-imports
@@ -96,7 +96,8 @@ import type { GraphicEventType } from '@visactor/vrender-core';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
 import { filterMarksOfInteraction } from '../../interaction/triggers/util';
-import type { IBaseTriggerOptions } from '../../interaction/triggers/interface';
+import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
+import { TRIGGER_TYPE_ENUM } from '../../interaction/triggers/enum';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -801,7 +802,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       finalSelectSpec.enable = true;
       finalSelectSpec = mergeSpec(finalSelectSpec, selectSpec);
     }
-    const res: { trigger: Partial<IBaseTriggerOptions>; marks: IMark[] }[] = [];
+    const res: { trigger: Partial<IBaseTriggerOptions>; marks: IMark[] }[] = [
+      {
+        trigger: {
+          type: TRIGGER_TYPE_ENUM.DIMENSION_HOVER as string
+        },
+        marks: mainMarks
+      }
+    ];
 
     if (finalHoverSpec.enable) {
       const marks: IMark[] = filterMarksOfInteraction(finalHoverSpec as IBaseInteractionSpec, mainMarks);
@@ -827,7 +835,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _defaultHoverConfig(finalHoverSpec: IHoverSpec) {
     return {
-      type: 'element-highlight',
+      type: TRIGGER_TYPE_ENUM.ELEMENT_HIGHLIGHT,
       trigger: finalHoverSpec.trigger as GraphicEventType,
       triggerOff: finalHoverSpec.triggerOff as GraphicEventType,
       blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
@@ -843,6 +851,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       ? ['empty']
       : ['empty', finalSelectSpec.trigger];
     return {
+      type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT,
       trigger: finalSelectSpec.trigger as GraphicEventType,
       triggerOff: triggerOff as GraphicEventType,
       reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,

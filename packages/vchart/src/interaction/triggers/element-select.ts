@@ -1,20 +1,21 @@
 import { isArray } from '@visactor/vutils';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import type { IElementSelectOptions, BaseEventParams, ITrigger } from './interface';
+import type { IElementSelectOptions, ITrigger } from '../interface/trigger';
 import type { IMarkGraphic } from '../../mark/interface/common';
 import { BaseTrigger } from './base';
 import { parseTriggerOffOfSelect } from './util';
 import { Factory } from '../../core/factory';
+import { TRIGGER_TYPE_ENUM } from './enum';
+import type { BaseEventParams } from '../../event/interface';
 
-const type = 'element-select';
 const defaultOptions: Partial<IElementSelectOptions> = {
   state: STATE_VALUE_ENUM.STATE_SELECTED,
   trigger: 'click'
 };
 
 export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements ITrigger<IElementSelectOptions> {
-  static type: string = type;
-  type: string = type;
+  static type: string = TRIGGER_TYPE_ENUM.ELEMENT_SELECT;
+  type: string = TRIGGER_TYPE_ENUM.ELEMENT_SELECT;
 
   static defaultOptions = defaultOptions;
   protected _resetType: ('view' | 'self' | 'timeout')[] = [];
@@ -138,7 +139,9 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
   reset(markGraphic: IMarkGraphic) {
     if (markGraphic) {
       if (this._markSet.getMarkInId(markGraphic.context.markId)) {
-        markGraphic.removeState([this.options.state, this.options.reverseState]);
+        // todo 升级 vrender版本，切换成数组
+        markGraphic.removeState(this.options.state);
+        markGraphic.removeState(this.options.reverseState);
       }
     } else {
       this.resetAll();

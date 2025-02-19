@@ -7,6 +7,7 @@ import { RadarChartSpecTransformer } from './radar-transformer';
 import { BaseChart } from '../base';
 import { StackChartMixin } from '../stack';
 import { mixin } from '@visactor/vutils';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.radar;
@@ -21,6 +22,7 @@ export class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseC
 mixin(RadarChart, StackChartMixin);
 
 export const registerRadarChart = () => {
+  registerDimensionHover();
   registerRadarSeries();
   Factory.registerChart(RadarChart.type, RadarChart);
 };

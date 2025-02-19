@@ -70,8 +70,8 @@ import type { IAxis } from '../../component/axis/interface/common';
 import type { IMorphConfig } from '../../animation/spec';
 import type { IGraphic } from '@visactor/vrender-core';
 import { Interaction } from '../../interaction/interaction';
-import type { IInteraction } from '../../interaction/interface';
-import type { IBaseTriggerOptions } from '../../interaction/triggers/interface';
+import type { IInteraction } from '../../interaction/interface/common';
+import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';

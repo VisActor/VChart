@@ -2,6 +2,7 @@ import { Factory } from '../../core/factory';
 import { ElementHighlight } from './element-highlight';
 import type { BaseEventParams } from '../../event/interface';
 import { isNil } from '@visactor/vutils';
+import type { IMarkGraphic } from '../../mark/interface/common';
 
 const type = 'element-highlight-by-graphic-name';
 
@@ -10,59 +11,54 @@ export class ElementHighlightByGraphicName extends ElementHighlight {
   type: string = type;
 
   protected _filterByName(e: BaseEventParams) {
-    const name = e?.target?.name;
+    const name = e?.node?.name;
     return !!name;
   }
 
   protected _parseTargetKey(e: BaseEventParams) {
-    return e.target.name;
+    return e.node.name;
   }
 
-  start(itemKey: string) {
+  start(itemKey: any) {
     if (isNil(itemKey)) {
       return;
     }
 
-    this._marks.forEach(mark => {
-      mark.elements.forEach(el => {
-        const isHighlight = el.getGraphicItem()?.name === itemKey;
-        if (isHighlight) {
-          el.updateStates({
-            [this.options.blurState]: false,
-            [this.options.highlightState]: true
-          });
-        } else {
-          el.updateStates({
-            [this.options.blurState]: true,
-            [this.options.highlightState]: false
-          });
+    const { interaction, highlightState, blurState } = this.options;
+    const statedGraphics = interaction.getStatedGraphics(this);
+    const newStatedGraphics: IMarkGraphic[] = [];
+
+    this.getMarks().forEach(m => {
+      m.getGraphics()?.forEach(g => {
+        if (g.name === itemKey) {
+          newStatedGraphics.push(g);
         }
       });
     });
+
+    interaction.updateStates(this, newStatedGraphics, statedGraphics, highlightState, blurState);
+    interaction.setStatedGraphics(this, newStatedGraphics);
   }
 
   reset() {
-    const states = [this.options.blurState, this.options.highlightState];
+    const { highlightState, blurState, interaction } = this.options;
 
-    this._marks.forEach(mark => {
-      mark.elements.forEach(el => {
-        el.removeState(states);
-      });
-    });
+    interaction.clearAllStates(this, highlightState, blurState);
+    interaction.setStatedGraphics(this, []);
   }
 
   handleStart = (e: BaseEventParams) => {
-    if (e && e.element && this._marks.includes(e.element.mark)) {
+    if (e && e.markGraphic && this.isGraphicInMark(e.markGraphic)) {
       const shouldStart = this.options.shouldStart ? this.options.shouldStart(e) : this._filterByName(e);
       if (shouldStart) {
-        const itemKey = this._parseTargetKey(e, e.element);
+        const itemKey = this._parseTargetKey(e);
         this.start(itemKey);
       }
     }
   };
 
   handleReset = (e: BaseEventParams) => {
-    if (e && e.element && this._marks.includes(e.element.mark)) {
+    if (e && e.markGraphic && this.isGraphicInMark(e.markGraphic)) {
       this.reset();
     }
   };

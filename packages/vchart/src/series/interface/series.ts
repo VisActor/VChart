@@ -15,7 +15,7 @@ import type { IGeoCoordinateHelper } from '../../component/geo/interface';
 import type { ILabelSpec, ILabelInfo } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
 import type { ILegend } from '../../component/legend/interface';
-import type { IBaseTriggerOptions } from '../../interaction/triggers/interface';
+import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 
 // 使用类型约束系列支持的样式，但是感觉这样不合理 不使用这样的方式去做
 // export interface ISeries<A extends string> extends IModel

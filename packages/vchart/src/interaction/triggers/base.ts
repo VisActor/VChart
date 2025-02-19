@@ -1,5 +1,5 @@
 import { isArray } from '@visactor/vutils';
-import type { IBaseTriggerOptions, ITrigger, ITriggerEventHandler } from './interface';
+import type { IBaseTriggerOptions, ITrigger, ITriggerEventHandler } from '../interface/trigger';
 import type { IMark, IMarkGraphic } from '../../mark/interface/common';
 import { MarkSet } from '../../mark/mark-set';
 import { groupMarksByState } from './util';
@@ -30,7 +30,7 @@ export abstract class BaseTrigger<T extends IBaseTriggerOptions> implements ITri
     if (this._markIdByState && this._markSet) {
       const markIds = this._markIdByState[state];
 
-      return this.getMarks().filter(mark => mark && markIds.includes(mark.id));
+      return markIds ? this.getMarks().filter(mark => mark && markIds.includes(mark.id)) : [];
     }
 
     return [];
@@ -52,6 +52,16 @@ export abstract class BaseTrigger<T extends IBaseTriggerOptions> implements ITri
 
   getMarkIdByState() {
     return this._markIdByState ?? {};
+  }
+
+  isGraphicInStateMark(g: IMarkGraphic, state: string) {
+    const markIdByState = this.getMarkIdByState();
+
+    return markIdByState && markIdByState[state] && markIdByState[state].includes(g.context?.markId);
+  }
+
+  isGraphicInMark(g: IMarkGraphic) {
+    return !!this._markSet.getMarkInId(g.context?.markId);
   }
 
   protected abstract getEvents(): Array<{ type: string | string[]; handler: ITriggerEventHandler }>;

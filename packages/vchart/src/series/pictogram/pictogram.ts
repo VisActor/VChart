@@ -20,7 +20,7 @@ import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
 import type { GraphicEventType, Group } from '@visactor/vrender-core';
 import { HOOK_EVENT } from '../../constant/event';
-import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec } from '../../interaction/interface/spec';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import type { IGroupMark, IMark, ITextMark } from '../../mark/interface';
 import { PictogramSeriesTooltipHelper } from './tooltip-helper';

@@ -1,23 +1,16 @@
 import { Factory } from '../../core/factory';
-import { BaseTrigger } from './base';
-import type { IElementHighlightOptions, ITrigger, ITriggerEventHandler } from './interface';
+import type { IElementHighlightOptions, ITrigger } from '../interface/trigger';
+import { ElementHighlightByGroup } from './element-highlight-by-group';
+import type { IMarkGraphic } from '../../mark/interface/common';
 
 const type = 'element-highlight-by-key';
-const defaultOptions: Partial<IElementHighlightOptions> = {
-  state: 'active',
-  trigger: 'click'
-};
 
-export class ElementHighlightByKey
-  extends BaseTrigger<IElementHighlightOptions>
-  implements ITrigger<IElementHighlightOptions>
-{
+export class ElementHighlightByKey extends ElementHighlightByGroup implements ITrigger<IElementHighlightOptions> {
   static type: string = type;
   type: string = type;
 
-  static defaultOptions = defaultOptions;
-  protected getEvents(): Array<{ type: string | string[]; handler: ITriggerEventHandler }> {
-    throw new Error('Method not implemented.');
+  protected _getHightlightKey(g: IMarkGraphic) {
+    return g.context?.key;
   }
 }
 

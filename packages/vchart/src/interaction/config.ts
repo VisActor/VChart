@@ -2,7 +2,7 @@ import { mergeSpec } from '@visactor/vutils-extension';
 import type { RenderMode } from '../typings/spec/common';
 import { RenderModeEnum } from '../typings/spec/common';
 import { isMiniAppLikeMode, isMobileLikeMode } from '../util';
-import type { IHoverSpec, ISelectSpec } from './interface';
+import type { IHoverSpec, ISelectSpec } from './interface/spec';
 import { isBoolean, isObject } from '@visactor/vutils';
 
 export function getDefaultInteractionConfigByMode(mode: RenderMode) {

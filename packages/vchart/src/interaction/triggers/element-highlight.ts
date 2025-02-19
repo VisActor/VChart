@@ -1,12 +1,13 @@
 import { isString } from '@visactor/vutils';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import type { IElementHighlightOptions, BaseEventParams, ITrigger } from './interface';
+import type { IElementHighlightOptions, ITrigger } from '../interface/trigger';
 import type { IMarkGraphic } from '../../mark/interface/common';
 import { BaseTrigger } from './base';
 import { Factory } from '../../core/factory';
 import type { GraphicEventType } from '@visactor/vrender-core';
+import { TRIGGER_TYPE_ENUM } from './enum';
+import type { BaseEventParams } from '../../event/interface';
 
-const type = 'element-highlight';
 const defaultOptions: Partial<IElementHighlightOptions> = {
   highlightState: STATE_VALUE_ENUM.STATE_HIGHLIGHT,
   blurState: STATE_VALUE_ENUM.STATE_BLUR,
@@ -18,8 +19,8 @@ export class ElementHighlight
   extends BaseTrigger<IElementHighlightOptions>
   implements ITrigger<IElementHighlightOptions>
 {
-  static type: string = type;
-  type: string = type;
+  static type: string = TRIGGER_TYPE_ENUM.ELEMENT_HIGHLIGHT;
+  type: string = TRIGGER_TYPE_ENUM.ELEMENT_HIGHLIGHT;
 
   static defaultOptions = defaultOptions;
 
@@ -127,7 +128,9 @@ export class ElementHighlight
   reset(markGraphic: IMarkGraphic) {
     if (markGraphic) {
       if (this._markSet.getMarkInId(markGraphic.context.markId)) {
-        markGraphic.removeState([this.options.highlightState, this.options.blurState]);
+        // todo 升级 vrender版本，切换成数组
+        markGraphic.removeState(this.options.highlightState);
+        markGraphic.removeState(this.options.blurState);
       }
     } else {
       this.resetAll();

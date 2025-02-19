@@ -1,7 +1,7 @@
 import type { GraphicEventType } from '@visactor/vrender-core';
 import type { IMark, IMarkGraphic } from '../../mark/interface/common';
 import type { RenderMode } from '../../typings/spec/common';
-import type { IInteraction } from '../interface';
+import type { IInteraction } from './common';
 import type { BaseEventParams } from '../../event/interface';
 
 export type ITriggerEventHandler = (e: any, markGraphic?: IMarkGraphic) => void;
@@ -161,20 +161,6 @@ export interface IElementHighlightByLegendOptions extends IBaseTriggerOptions, I
    * the blur state name
    */
   blurState?: string;
-}
-
-export interface IElementHighlightByNameOptions extends IElementHighlightByLegendOptions {
-  graphicName?: string | string[];
-  /**
-   * the trigger event name
-   */
-  trigger?: GraphicEventType;
-  /**
-   * the reset trigger event name
-   */
-  triggerOff?: GraphicEventType | 'none';
-
-  parseData?: (e: BaseEventParams) => any;
 }
 
 export interface IElementHighlightByNameOptions extends IElementHighlightByLegendOptions {

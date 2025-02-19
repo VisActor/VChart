@@ -6,11 +6,11 @@ import type { IMarkGraphic } from '../../mark/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { getDatumOfGraphic } from '../../util';
 import type { ISeries } from '../../series';
-import type { IDimensionHoverOptions, ITrigger } from './interface';
+import type { IDimensionHoverOptions, ITrigger } from '../interface/trigger';
 import { BaseTrigger } from './base';
 import { Factory } from '../../core/factory';
+import { TRIGGER_TYPE_ENUM } from './enum';
 
-const type = 'element-select';
 const defaultOptions: Partial<IDimensionHoverOptions> = {
   state: STATE_VALUE_ENUM.STATE_DIMENSION_HOVER,
   reverseState: STATE_VALUE_ENUM.STATE_DIMENSION_HOVER_REVERSE,
@@ -18,13 +18,12 @@ const defaultOptions: Partial<IDimensionHoverOptions> = {
 };
 
 export class DimensionHover extends BaseTrigger<IDimensionHoverOptions> implements ITrigger<IDimensionHoverOptions> {
-  static type: string = type;
-  type: string = type;
+  static type: string = TRIGGER_TYPE_ENUM.DIMENSION_HOVER;
+  type: string = TRIGGER_TYPE_ENUM.DIMENSION_HOVER;
 
   static defaultOptions = defaultOptions;
   protected _resetType: ('view' | 'self' | 'timeout')[] = [];
 
-  private _timer?: number;
   protected _statedGraphics?: IMarkGraphic[];
 
   constructor(options?: IDimensionHoverOptions) {
@@ -55,13 +54,14 @@ export class DimensionHover extends BaseTrigger<IDimensionHoverOptions> implemen
   }
 
   resetAll = () => {
-    const { state, reverseState } = this.options;
+    const { state, reverseState, interaction } = this.options;
+    const statedGraphics = interaction.getStatedGraphics(this);
 
-    if (this._statedGraphics && this._statedGraphics.length) {
-      this.options.interaction.clearAllStates(this, state, reverseState);
-      this.dispatchEvent('reset', { elements: this._statedGraphics, options: this.options });
+    if (statedGraphics && statedGraphics.length) {
+      interaction.clearAllStates(this, state, reverseState);
+      this.dispatchEvent('reset', { elements: statedGraphics, options: this.options });
 
-      this._statedGraphics = [];
+      interaction.setStatedGraphics(this, []);
     }
   };
 
