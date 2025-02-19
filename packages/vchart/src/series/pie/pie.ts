@@ -30,7 +30,7 @@ import { isDataEmpty, pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { registerEmptyCircleAnimation, registerPieAnimation } from './animation/animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
-import type { IAnimationTypeConfig } from '../../animation/interface';
+import type { IAnimationTypeConfig, TypeAnimationConfig } from '../../animation/interface';
 import { AnimationStateEnum } from '../../animation/interface';
 import type { IBasePieSeriesSpec, IPieAnimationParams, IPieSeriesSpec, PieAppearPreset } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
@@ -268,8 +268,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
   }
 
-  initInteraction(): void {
-    this._parseInteractionConfig(this._pieMark ? [this._pieMark] : []);
+  getInteractionTriggers() {
+    return this._parseInteractionConfig(this._pieMark ? [this._pieMark] : []);
   }
 
   protected initTooltip() {
@@ -278,8 +278,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     this._pieMark && this._tooltipHelper.activeTriggerSet.mark.add(this._pieMark);
   }
 
-  initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void {
-    super.initMarkStyleWithSpec(mark, spec, key);
+  initMarkStyleWithSpec(mark?: IMark, spec?: any): void {
+    super.initMarkStyleWithSpec(mark, spec);
     if (mark.name === this._pieMarkName) {
       // radius 配置需要额外处理比例值
       const pieSpec = this.getSpec()[mark.name as 'pie'];
@@ -366,16 +366,16 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   getRadius(state: StateValueType = 'normal'): number {
     const styleRadius =
       state === 'normal'
-        ? this.getSpec()[this._pieMark?.name || 'pie']?.style?.outerRadius
-        : this.getSpec()[this._pieMark?.name || 'pie']?.state?.[state]?.outerRadius;
+        ? (this.getSpec() as any)[this._pieMark?.name || 'pie']?.style?.outerRadius
+        : (this.getSpec() as any)[this._pieMark?.name || 'pie']?.state?.[state]?.outerRadius;
     return styleRadius ?? this._outerRadius;
   }
 
   getInnerRadius(state: StateValueType = 'normal'): number {
     const styleRadius =
       state === 'normal'
-        ? this.getSpec()[this._pieMark?.name || 'pie']?.style?.innerRadius
-        : this.getSpec()[this._pieMark?.name || 'pie']?.state?.[state]?.innerRadius;
+        ? (this.getSpec() as any)[this._pieMark?.name || 'pie']?.style?.innerRadius
+        : (this.getSpec() as any)[this._pieMark?.name || 'pie']?.state?.[state]?.innerRadius;
     return styleRadius ?? this._innerRadius;
   }
 
@@ -446,32 +446,29 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   initAnimation() {
     const animationParams: IPieAnimationParams = {
-      growFrom: (datum, element, state) => {
+      growFrom: (datum, graphic, state) => {
         if (state === AnimationStateEnum.appear) {
           return this._startAngle;
         }
         if (state === AnimationStateEnum.disappear) {
           return this._endAngle;
         }
-
         const outState = [AnimationStateEnum.disappear, AnimationStateEnum.exit];
-        const markElements = element.mark.elements;
-
+        const markElements = this._pieMark.getGraphics();
         const data = datum;
         const dataIndex = data?.[DEFAULT_DATA_INDEX];
-
         // 当前 mark 在上个状态是否处于第一个
-        if (markElements.find(e => e.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex) === undefined) {
+        if (markElements.find(e => e.context.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex) === undefined) {
           return this._startAngle;
         }
         // 当前 mark 在上个状态是否处于最后一个
-        if (markElements.find(e => e.data[0]?.[DEFAULT_DATA_INDEX] > dataIndex) === undefined) {
+        if (markElements.find(e => e.context.data[0]?.[DEFAULT_DATA_INDEX] > dataIndex) === undefined) {
           return this._endAngle;
         }
-
         // 扇形不在边缘时，获取扇形生长点：获取相邻状态下相邻扇形的边缘
-        const prevMarkElement = [...markElements].reverse().find(e => e.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex);
-
+        const prevMarkElement = [...markElements]
+          .reverse()
+          .find(e => e.context.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex);
         if (outState.includes(state)) {
           return prevMarkElement?.getNextGraphicAttributes()?.endAngle;
         }
@@ -479,23 +476,19 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       }
     };
     const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<PieAppearPreset>)?.preset;
-
     if (this._pieMark) {
       const pieAnimationConfig = animationConfig(
         Factory.getAnimationInKey('pie')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.pie, this._spec, this._markAttributeContext)
       );
-
-      if (pieAnimationConfig.normal && (pieAnimationConfig.normal as IAnimationTypeConfig).type) {
+      if (pieAnimationConfig.normal && (pieAnimationConfig.normal as TypeAnimationConfig).type) {
         pieAnimationConfig.normal = centerOffsetConfig(
           this._pieMark,
           pieAnimationConfig.normal as IAnimationTypeConfig
         );
       }
-
       this._pieMark.setAnimationConfig(pieAnimationConfig);
     }
-
     if (this._emptyArcMark) {
       const pieAnimationConfig = animationConfig(
         Factory.getAnimationInKey('emptyCircle')?.(animationParams, appearPreset ?? 'fadeIn')

@@ -187,7 +187,31 @@ export class LinkPathMark extends GlyphMark<ILinkPathMarkSpec, ILinkPathConfig> 
     }
   };
 
-  protected _functionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
+  protected _positionChannels: string[] = [
+    'x0',
+    'y0',
+    'x1',
+    'y1',
+    'thickness',
+    'round',
+    'curvature',
+    'ratio',
+    'pathType',
+    'align',
+    'endArrow',
+    'startArrow',
+    'ratio'
+  ];
+
+  protected _channelEncoder = {
+    backgroundStyle: (val: any) => {
+      return {
+        back: val
+      };
+    }
+  };
+
+  protected _positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
     const newAttrs = {
       ...g.attribute,
       ...glyphAttrs

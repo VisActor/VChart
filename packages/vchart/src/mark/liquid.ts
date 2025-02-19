@@ -46,7 +46,9 @@ export class LiquidMark extends GlyphMark<ILiquidMarkSpec> implements ILiquidMar
     }
   };
 
-  protected _functionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
+  protected _positionChannels: string[] = ['wave', 'y', 'height'];
+
+  protected _positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
     const {
       wave = (g.attribute as any).wave,
       y = (g.attribute as any).y,

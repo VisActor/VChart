@@ -132,7 +132,7 @@ export interface IModel extends ICompilable {
     level?: number
   ) => void;
 
-  initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
+  initMarkStyleWithSpec: (mark?: IMark, spec?: any) => void;
 
   getSpecInfo: () => IModelSpecInfo;
 }

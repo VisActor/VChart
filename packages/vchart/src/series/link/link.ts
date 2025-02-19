@@ -326,7 +326,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     };
   }
 
-  initInteraction(): void {
+  getInteractionTriggers() {
     const marks: IMark[] = [];
 
     if (this._linkMark) {
@@ -336,7 +336,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     if (this._arrowMark) {
       marks.push(this._arrowMark);
     }
-    this._parseInteractionConfig(marks);
+    return this._parseInteractionConfig(marks);
   }
 
   protected initTooltip() {

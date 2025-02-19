@@ -221,7 +221,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     mark.setStyle(this._convertMarkStyle(style), state, level);
   }
 
-  initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string) {
+  initMarkStyleWithSpec(mark?: IMark, spec?: any) {
     if (!isValid(mark) || !isValid(spec)) {
       return;
     }
@@ -237,7 +237,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
         newSpec.state[key] = this._convertMarkStyle(state[key]);
       });
     }
-    mark.initStyleWithSpec(newSpec, key);
+    mark.initStyleWithSpec(newSpec);
   }
 
   protected stateKeyToSignalName(key: string, opt?: string) {

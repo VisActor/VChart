@@ -7,6 +7,7 @@ import { LinearProgressChartSpecTransformer } from './linear-progress-transforme
 import { BaseChart } from '../../base';
 import { StackChartMixin } from '../../stack';
 import { mixin } from '@visactor/vutils';
+import { registerDimensionHover } from '../../../interaction/triggers/dimension-hover';
 
 export class LinearProgressChart<T extends ILinearProgressChartSpec = ILinearProgressChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.linearProgress;
@@ -20,6 +21,7 @@ export class LinearProgressChart<T extends ILinearProgressChartSpec = ILinearPro
 mixin(LinearProgressChart, StackChartMixin);
 
 export const registerLinearProgressChart = () => {
+  registerDimensionHover();
   registerLinearProgressSeries();
   Factory.registerChart(LinearProgressChart.type, LinearProgressChart);
 };

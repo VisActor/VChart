@@ -777,7 +777,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     this._marks.forEach(g => {
       (<IGroupMark>g).getMarks().forEach(m => {
-        this.initMarkStyleWithSpec(m, this._spec[m.name]);
+        this.initMarkStyleWithSpec(m, (this._spec as any)[m.name]);
       });
     });
   }

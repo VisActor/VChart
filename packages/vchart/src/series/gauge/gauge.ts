@@ -117,8 +117,8 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     return style;
   }
 
-  initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void {
-    super.initMarkStyleWithSpec(mark, spec, key);
+  initMarkStyleWithSpec(mark?: IMark, spec?: any): void {
+    super.initMarkStyleWithSpec(mark, spec);
     if (mark && mark.name === SeriesMarkNameEnum.segment) {
       // radius 配置需要额外处理比例值
       const segmentSpec = this.getSpec()[SeriesMarkNameEnum.segment];

@@ -19,6 +19,7 @@ export * from '../typings/spec/common';
 export * from '../event/interface';
 export * from '../theme/interface';
 export * from './interface';
+export type { IMarkGraphic, IGraphicContext } from '../mark/interface/';
 
 // some constants
 export * from '../constant/base';

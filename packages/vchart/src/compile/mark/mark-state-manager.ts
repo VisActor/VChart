@@ -1,20 +1,18 @@
 import { isContinuous } from '@visactor/vscale';
 import { isArray, isObject, isValid } from '@visactor/vutils';
 import { PREFIX } from '../../constant/base';
-import type { MarkTypeEnum } from '../../mark/interface';
+import type { IMark, IMarkGraphic, MarkTypeEnum } from '../../mark/interface';
 import { isMultiDatumMark } from '../../mark/utils/common';
 import type { Datum, StringOrNumber } from '../../typings';
-import type { CompilableMark } from './compilable-mark';
 import type { IMarkStateManager, IStateInfo, StateValue } from './interface';
 import { stateInDefaultEnum } from './util';
 import type { ICompilableInitOption } from '../interface/compilable-item';
-import type { IGraphic } from '@visactor/vrender-core';
 import { StateManager } from '../state-manager';
 
 /** mark state 管理器 */
 export class MarkStateManager extends StateManager implements IMarkStateManager {
   /** 相关 mark */
-  protected _mark: CompilableMark;
+  protected _mark: IMark;
 
   // state info：state 种类信息
   private _stateInfoList: IStateInfo[] = [];
@@ -22,7 +20,7 @@ export class MarkStateManager extends StateManager implements IMarkStateManager 
     return this._stateInfoList;
   }
 
-  constructor(options: ICompilableInitOption, mark: CompilableMark) {
+  constructor(options: ICompilableInitOption, mark: IMark) {
     super(options);
     this._mark = mark;
   }
@@ -129,7 +127,7 @@ export class MarkStateManager extends StateManager implements IMarkStateManager 
     return !this._mark || isMultiDatumMark(this._mark.type as MarkTypeEnum);
   }
 
-  checkOneState(renderNode: IGraphic, datum: Datum[], state: IStateInfo): 'in' | 'out' | 'skip' {
+  checkOneState(renderNode: IMarkGraphic, datum: Datum[], state: IStateInfo): 'in' | 'out' | 'skip' {
     let inState = false;
     let stateChecked = false;
     // 如果有 state.datum 那么判断是否与datum的所有值相等
@@ -168,7 +166,7 @@ export class MarkStateManager extends StateManager implements IMarkStateManager 
   }
 
   // TODO:renderNode
-  checkState(renderNode: IGraphic, datum: Datum[]): StateValue[] {
+  checkState(renderNode: IMarkGraphic, datum: Datum[]): StateValue[] {
     // 由于存在多个 stateManager，需要额外返回 state 的优先级
     // 交互状态不要删除，并且交互状态优先级统一为10
     const result: [StateValue, number][] = ((renderNode.context.states as string[]) ?? [])

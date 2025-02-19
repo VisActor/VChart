@@ -56,9 +56,10 @@ import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
 import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
-import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
 import { DefaultTicker } from '@visactor/vrender-core';
 import { registerAnimate } from './plugin/other';
+import { registerElementHighlight } from './interaction/triggers/element-highlight';
+import { registerElementSelect } from './interaction/triggers/element-select';
 
 VChart.useRegisters([
   registerAnimate,

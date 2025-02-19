@@ -1,12 +1,13 @@
-import type { IGraphic, ISymbolGraphicAttribute } from '@visactor/vrender-core';
+import type { ISymbolGraphicAttribute } from '@visactor/vrender-core';
 import { PREFIX } from '../../constant/base';
 import { isNil } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
+import type { IMarkGraphic } from '../interface';
 import { MarkTypeEnum } from '../interface';
 
 export const OVERLAP_HIDE_KEY = `${PREFIX}_hide_`;
 
-function reset(graphics: IGraphic[]) {
+function reset(graphics: IMarkGraphic[]) {
   graphics.forEach(g => {
     const hide = g[OVERLAP_HIDE_KEY];
 
@@ -19,7 +20,7 @@ function reset(graphics: IGraphic[]) {
   return graphics;
 }
 
-function overlapX(graphics: IGraphic[], delta: number, deltaMul: number, useRadius: boolean) {
+function overlapX(graphics: IMarkGraphic[], delta: number, deltaMul: number, useRadius: boolean) {
   if (useRadius) {
     let lastX = -Infinity;
     let lastR = 0;
@@ -51,7 +52,7 @@ function overlapX(graphics: IGraphic[], delta: number, deltaMul: number, useRadi
   }
 }
 
-function overlapY(graphics: IGraphic[], delta: number, deltaMul: number, useRadius: boolean) {
+function overlapY(graphics: IMarkGraphic[], delta: number, deltaMul: number, useRadius: boolean) {
   if (useRadius) {
     let lastY = -Infinity;
     let lastR = 0;
@@ -83,7 +84,7 @@ function overlapY(graphics: IGraphic[], delta: number, deltaMul: number, useRadi
   }
 }
 
-function overlapXY(graphics: IGraphic[], delta: number, deltaMul: number, useRadius: boolean) {
+function overlapXY(graphics: IMarkGraphic[], delta: number, deltaMul: number, useRadius: boolean) {
   if (useRadius) {
     const lastX = -Infinity;
     let lastY = -Infinity;
@@ -137,7 +138,7 @@ export const transform = (
     groupBy?: string;
     sort?: boolean;
   },
-  upstreamData: IGraphic[]
+  upstreamData: IMarkGraphic[]
 ) => {
   if (!upstreamData || upstreamData.length === 0) {
     return;
@@ -151,7 +152,7 @@ export const transform = (
 
   const { direction, delta, deltaMul = 1, groupBy } = options;
 
-  const handleOverlap = (graphics: IGraphic[]) => {
+  const handleOverlap = (graphics: IMarkGraphic[]) => {
     reset(graphics);
 
     const sortedgraphics = options.sort
@@ -173,7 +174,7 @@ export const transform = (
     handleOverlap(upstreamData);
   } else {
     // 分组
-    const map = upstreamData.reduce((res: { [key: string]: IGraphic[] }, g: IGraphic) => {
+    const map = upstreamData.reduce((res: { [key: string]: IMarkGraphic[] }, g: IMarkGraphic) => {
       const groupName = g.context.data?.[0]?.[groupBy];
 
       if (res[groupName]) {

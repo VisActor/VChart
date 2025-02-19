@@ -1,11 +1,8 @@
 import { ChartEvent, Event_Source_Type } from './../constant/event';
-import type { IElement, InteractionSpec } from '@visactor/vgrammar-core';
 import type {
   CompilerListenerParameters,
   ICompiler,
   ICompilerModel,
-  IGrammarItem,
-  IProductMap,
   IRenderContainer,
   IRenderOption
 } from './interface';
@@ -16,17 +13,18 @@ import { isMobileLikeMode, isTrueBrowser } from '../util/env';
 import { isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNil, isObject, isValid, Logger, LoggerLevel } from '@visactor/vutils';
+import { isObject, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import { createGroup, Stage, vglobal } from '@visactor/vrender-core';
+import { createGroup, Stage, vglobal, waitForAllSubLayers } from '@visactor/vrender-core';
 import type { IColor, IEventTarget, IGroup, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
-import type { IVChart } from '../core/interface';
-import type { IMark } from '../mark/interface';
+import type { IVChart, IVChartRenderOption } from '../core/interface';
+import { type IGraphicContext, type IMark, type IMarkGraphic } from '../mark/interface';
 import { Factory } from '../core/factory';
 import type { Gesture } from '@visactor/vrender-kits';
-import { hasCommited } from './util';
+import { findMarkGraphic, getDatumOfGraphic } from '../util/mark';
+import { diffMarks, findSimpleMarks, traverseGroupMark } from './util';
 
 type EventListener = {
   type: string;
@@ -34,6 +32,18 @@ type EventListener = {
 };
 
 export class Compiler implements ICompiler {
+  /**
+   *  更新后缓存的mark
+   */
+  private _cachedMarks: IMark[];
+
+  private _progressiveMarks?: IMark[];
+
+  /**
+   * 增量渲染相关的raf id
+   */
+  private _progressiveRafId?: number;
+
   protected _rootMarks: IMark[] = [];
 
   protected _stage: IStage;
@@ -62,17 +72,6 @@ export class Compiler implements ICompiler {
 
   /** 布局阶段 */
   private _layoutState?: LayoutState;
-
-  protected _model: ICompilerModel = {
-    [GrammarType.signal]: {},
-    [GrammarType.data]: {},
-    [GrammarType.mark]: {}
-  };
-
-  protected _interactions: (InteractionSpec & { seriesId?: number; regionId?: number })[];
-  getModel() {
-    return this._model;
-  }
 
   private _compileChart: IChart = null;
 
@@ -111,12 +110,21 @@ export class Compiler implements ICompiler {
         this._option?.onError?.(...args);
       });
     }
-    const { autoRefreshDpr, dpr, mode, gestureConfig, interactive, clickInterval, autoPreventDefault, options3d } =
-      this._option;
-
+    const {
+      autoRefreshDpr,
+      dpr,
+      mode,
+      gestureConfig,
+      interactive,
+      clickInterval,
+      autoPreventDefault,
+      options3d,
+      background
+    } = this._option;
     this._stage =
       this._option.stage ??
       (new Stage({
+        background,
         width: this._width,
         height: this._height,
         container: this._container.dom ?? null,
@@ -146,6 +154,17 @@ export class Compiler implements ICompiler {
     if (options3d?.enable) {
       this._stage.set3dOptions(options3d);
     }
+    // 之前vgrammar 设置了一些默认配置
+    (this._stage as any).setTheme({
+      symbol: {
+        shape: 'circle',
+        size: 8
+      },
+      text: {
+        fontSize: 14,
+        fill: '#000000'
+      }
+    });
 
     const group = createGroup({
       x: 0,
@@ -200,6 +219,10 @@ export class Compiler implements ICompiler {
     this._layoutState = LayoutState.before;
   }
 
+  protected handleLayoutEnd = () => {
+    this._compileChart?.getEvent()?.emit(ChartEvent.afterMarkLayoutEnd, { chart: this._compileChart });
+  };
+
   protected handleStageRender = () => {
     this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
   };
@@ -218,40 +241,7 @@ export class Compiler implements ICompiler {
     }
   }
 
-  protected compileInteractions() {
-    // this._view.removeAllInteractions();
-    // if (this._interactions?.length) {
-    //   const regionCombindInteractions = {};
-    //   this._interactions.forEach(interaction => {
-    //     if (interaction.regionId) {
-    //       const interactionId = `${interaction.regionId}-${interaction.type}-${interaction.id ?? ''}`;
-    //       const spec = regionCombindInteractions[interactionId];
-    //       if (spec) {
-    //         regionCombindInteractions[interactionId] = {
-    //           ...spec,
-    //           ...interaction,
-    //           selector: [...spec.selector, ...(interaction as any).selector]
-    //         };
-    //       } else {
-    //         regionCombindInteractions[interactionId] = interaction;
-    //       }
-    //     } else {
-    //       this._view.interaction(interaction.type, interaction);
-    //     }
-    //   });
-    //   Object.keys(regionCombindInteractions).forEach(key => {
-    //     const interaction = this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
-    //     if (this._compileChart) {
-    //       const region = this._compileChart.getRegionsInIds([regionCombindInteractions[key].regionId])[0];
-    //       if (region) {
-    //         region.interaction.addVgrammarInteraction(interaction.getStartState(), interaction);
-    //       }
-    //     }
-    //   });
-    // }
-  }
-
-  compile(ctx: { chart: IChart; vChart: IVChart }, option: any) {
+  compile(ctx: { chart: IChart; vChart: IVChart }, option?: IVChartRenderOption) {
     if (this._released) {
       return;
     }
@@ -262,11 +252,14 @@ export class Compiler implements ICompiler {
       return;
     }
 
+    if (option?.actionSource !== 'render' && this._cachedMarks) {
+      this.reuseOrMorphing(option.morphConfig);
+      // 清除缓存
+      this._cachedMarks = null;
+    }
+
     chart.compile();
     chart.afterCompile();
-    this.updateDepend();
-
-    this.compileInteractions();
   }
   protected clearNextRender() {
     if (this._nextRafId) {
@@ -279,12 +272,11 @@ export class Compiler implements ICompiler {
     return false;
   }
 
-  clear(ctx: { chart: IChart; vChart: IVChart }, removeGraphicItems: boolean = false) {
+  clear(ctx: { chart: IChart; vChart: IVChart }) {
     const { chart } = ctx;
 
     this.clearNextRender();
     chart.clear();
-    this.releaseGrammar(removeGraphicItems);
   }
 
   renderNextTick(morphConfig?: IMorphConfig): void {
@@ -301,30 +293,89 @@ export class Compiler implements ICompiler {
     }) as unknown as number;
   }
 
-  protected _hasCommitedMark() {
-    return this._rootMarks.some(hasCommited);
+  protected _commitedAll() {
+    return this._rootMarks.some(mark => {
+      return traverseGroupMark(mark, m => m.commit());
+    });
   }
 
-  renderMarks(morphConfig?: IMorphConfig) {
+  protected _hasCommitedMark() {
+    return this._rootMarks.some(mark => {
+      return traverseGroupMark(mark, m => m.isCommited(), null, null, true);
+    });
+  }
+
+  private _handleAfterNextRender = () => {
+    if (this._stage && !this._option.disableDirtyBounds) {
+      this._stage.enableDirtyBounds();
+    }
+  };
+
+  private _doRender() {
+    if (this._stage) {
+      // 全量渲染的时候先关闭dirty bounds 提升性能
+      this._stage.disableDirtyBounds();
+      this._stage.afterNextRender(this._handleAfterNextRender);
+
+      this._stage.render();
+    }
+  }
+
+  renderMarks() {
     if (!this._hasCommitedMark()) {
       return;
     }
+
+    this.clearProgressive();
 
     // 更新所有的mark
     this._rootMarks.forEach(mark => {
       mark.render();
     });
 
-    this._layoutState = LayoutState.layouting;
-    this._compileChart?.onLayout();
-    this._layoutState = LayoutState.reevaluate;
+    if (this._layoutState === LayoutState.before) {
+      // 需要更新布局
+      this._layoutState = LayoutState.layouting;
+      this._compileChart?.onLayout();
+      this._layoutState = LayoutState.reevaluate;
 
-    if (this._hasCommitedMark()) {
-      // 第二次更新所有的mark
-      this._rootMarks.forEach(mark => {
-        mark.render();
-      });
+      if (this._hasCommitedMark()) {
+        // 第二次更新所有的mark
+        this._rootMarks.forEach(mark => {
+          mark.render();
+        });
+      }
+      this.handleLayoutEnd();
     }
+
+    this.findProgressiveMarks();
+
+    this._doRender();
+    this.doPreProgressive();
+  }
+
+  reuseOrMorphing(morphConfig: IMorphConfig = {}) {
+    const { reuse = true, morph = true, morphAll = false, animation = {}, enableExitAnimation = false } = morphConfig;
+    const newMarks = findSimpleMarks(this._rootMarks);
+    const { update, exit } = diffMarks(this._cachedMarks, newMarks, { morph, morphAll, reuse });
+
+    update.forEach(({ prev, next }) => {
+      const enableMarkMorphConfig =
+        prev.every(mark => mark.getMarkConfig().morph) && next.every(mark => mark.getMarkConfig().morph);
+
+      if ((enableExitAnimation && morph) || morphAll) {
+        // todo morphing
+      } else if (reuse && prev.length === 1 && next.length === 1 && prev[0].type === next[0].type) {
+        next[0].reuse(prev[0]);
+      }
+    });
+
+    // todo 离场元素执行exit动画
+    exit.forEach(({ prev }) => {
+      prev.forEach(m => {
+        m.removeProduct();
+      });
+    });
   }
 
   render(morphConfig?: IMorphConfig) {
@@ -345,9 +396,9 @@ export class Compiler implements ICompiler {
       this._rootGroup.setAttributes({ width: this._width, height: this._height });
     }
 
-    this.renderMarks(morphConfig);
+    this.renderMarks();
     if (this.clearNextRender()) {
-      this.renderMarks(morphConfig);
+      this.renderMarks();
     }
   }
 
@@ -379,10 +430,12 @@ export class Compiler implements ICompiler {
 
     if (hasChange) {
       this._stage.resize(width, height);
-    }
-    // todo resize
-    if (reRender) {
-      this.render({ morph: false });
+      this._commitedAll();
+
+      // todo resize
+      if (reRender) {
+        this.render({ morph: false });
+      }
     }
   }
 
@@ -416,10 +469,19 @@ export class Compiler implements ICompiler {
       return;
     }
     if (source === Event_Source_Type.chart) {
-      const wrappedCallback = function (event: any, element: IElement | null) {
-        const context = element?.mark?.getContext() ?? {};
-        const modelId = isValid(context.modelId) ? context.modelId : null;
+      const rootGroup = this.getRootGroup();
+      const wrappedCallback = function (event: any) {
+        const graphic = event.target;
+        let markGraphic: IMarkGraphic = null;
+
+        if (isValid(graphic.context)) {
+          markGraphic = graphic;
+        } else {
+          markGraphic = findMarkGraphic(rootGroup, graphic);
+        }
+        const context = (markGraphic?.context ?? {}) as Partial<IGraphicContext>;
         const markId = isValid(context.markId) ? context.markId : null;
+        const modelId = isValid(context.modelId) ? context.modelId : null;
         const modelUserId = isValid(context.modelUserId) ? context.modelUserId : null;
         const markUserId = isValid(context.markUserId) ? context.markUserId : null;
 
@@ -427,8 +489,8 @@ export class Compiler implements ICompiler {
           event,
           type,
           source,
-          item: element,
-          datum: element?.getDatum?.() || null,
+          item: markGraphic,
+          datum: getDatumOfGraphic(markGraphic), // 是否要区分图元
           markId,
           modelId,
           markUserId,
@@ -525,7 +587,7 @@ export class Compiler implements ICompiler {
     this.releaseEvent();
     this._option = this._container = null as any;
     // vgrammar release
-    this._releaseModel();
+    this.releaseGrammar(true);
 
     if (this._stage !== this._option?.stage) {
       // don't release the stage created by outside
@@ -543,24 +605,36 @@ export class Compiler implements ICompiler {
    * @param removeGraphicItems 是否删除场景元素，在同步渲染，并且无动画时，必须设置为true，否则有绘图残留
    */
   releaseGrammar(removeGraphicItems: boolean = false) {
-    this._releaseModel();
+    // this._releaseModel();
     if (removeGraphicItems) {
-      // this._view?.removeAllGraphicItems();
+      // 彻底删除图形
+      this._rootMarks.forEach(g => {
+        traverseGroupMark(
+          g,
+          m => {
+            m.removeProduct();
+          },
+          null,
+          true
+        );
+      });
+    } else {
+      this._cachedMarks = findSimpleMarks(this._rootMarks);
     }
-    // this._view?.removeAllGrammars();
+    this._rootMarks = [];
   }
 
-  protected _releaseModel() {
-    // 释放model
-    Object.keys(this._model).forEach(type => {
-      Object.values((this._model as any)[type] as IProductMap<IGrammarItem>).forEach(grammarItemMap => {
-        Object.values(grammarItemMap).forEach((item: IGrammarItem) => {
-          item.removeProduct(true); // 保留 vgrammar 语法元素，下面一起清空
-        });
-      });
-      (this._model as any)[type] = {};
-    });
-  }
+  // protected _releaseModel() {
+  //   // 释放model
+  //   Object.keys(this._model).forEach(type => {
+  //     Object.values((this._model as any)[type] as IProductMap<IGrammarItem>).forEach(grammarItemMap => {
+  //       Object.values(grammarItemMap).forEach((item: IGrammarItem) => {
+  //         item.removeProduct(true); // 保留 vgrammar 语法元素，下面一起清空
+  //       });
+  //     });
+  //     (this._model as any)[type] = {};
+  //   });
+  // }
 
   addRootMark(mark: IMark) {
     if (!this._rootMarks.includes(mark)) {
@@ -572,80 +646,92 @@ export class Compiler implements ICompiler {
     return this._rootMarks;
   }
 
-  /** 添加语法元素 */
-  addGrammarItem(grammarItem: IGrammarItem) {
-    if (isNil(grammarItem)) {
-      return;
+  removeRootMark(mark: IMark) {
+    const index = this._rootMarks.findIndex(m => m === mark);
+
+    if (index >= 0) {
+      this._rootMarks.splice(index, 1);
+
+      return true;
     }
-    const id = grammarItem.getProductId();
-    const type = grammarItem.grammarType;
-    if (isNil(this._model[type][id])) {
-      this._model[type][id] = {};
-    }
-    this._model[type][id][grammarItem.id] = grammarItem;
-  }
-
-  /** 删除语法元素 */
-  removeGrammarItem(grammarItem: IGrammarItem, reserveVGrammarModel?: boolean) {
-    if (isNil(grammarItem)) {
-      return;
-    }
-    const id = grammarItem.getProductId();
-    const type = grammarItem.grammarType;
-    const map = this._model[type][id];
-    if (isValid(map)) {
-      delete map[grammarItem.id];
-      if (Object.keys(map).length === 0) {
-        delete this._model[type][id];
-      }
-    }
-    if (!reserveVGrammarModel) {
-      // todo this._view?.removeGrammar(product);
-    }
-  }
-
-  addInteraction(interaction: InteractionSpec & { seriesId?: number; regionId?: number }) {
-    if (!this._interactions) {
-      this._interactions = [];
-    }
-
-    this._interactions.push(interaction);
-  }
-
-  removeInteraction(seriesId: number) {
-    if (!this._interactions) {
-      return;
-    }
-
-    this._interactions = this._interactions.filter(entry => entry.seriesId !== seriesId);
-  }
-
-  /** 更新语法元素间的依赖关系，返回是否全部成功更新 */
-  updateDepend(): boolean {
-    // 全局更新依赖
-    // Object.values(this._model).forEach(productMap => {
-    //   Object.values(productMap).forEach(grammarItemMap => {
-    //     const grammarItems = Object.values(grammarItemMap) as IGrammarItem[];
-
-    //     // 获取编译产物的依赖项
-    //     const dependList = grammarItems
-    //       .reduce((depend, item) => {
-    //         if (item.getDepend().length > 0) {
-    //           return depend.concat(item.getDepend());
-    //         }
-    //         return depend;
-    //       }, [] as IGrammarItem[])
-    //       .filter(grammarItem => !!grammarItem)
-    //       .map(grammarItem => grammarItem.getProductId());
-
-    //     // 更新依赖
-    //     grammarItems[0].depend(dependList);
-    //   });
-    // });
-    return true;
+    return false;
   }
 
   private _getGlobalThis() {
     return isTrueBrowser(this._option.mode) ? globalThis : this.getStage()?.window;
+  }
+
+  private _combineIncrementalLayers() {
+    if (this._stage) {
+      waitForAllSubLayers(this._stage).then(() => {
+        // stage might be null in current tick
+        if (this._stage) {
+          this._stage.defaultLayer.combineSubLayer();
+        }
+      });
+    }
+  }
+
+  private findProgressiveMarks() {
+    const marks: IMark[] = [];
+
+    this._rootMarks.forEach(mark => {
+      traverseGroupMark(mark, m => {
+        if (m.isProgressive()) {
+          marks.push(m);
+        }
+      });
+    });
+
+    if (!marks.length) {
+      this._progressiveMarks = null;
+      return null;
+    }
+
+    this._progressiveMarks = marks;
+
+    this._combineIncrementalLayers();
+
+    return marks;
+  }
+
+  private doPreProgressive() {
+    if (this._progressiveMarks && this._progressiveMarks.some(mark => mark.isDoingProgressive())) {
+      const raf = vglobal.getRequestAnimationFrame();
+      this._progressiveRafId = raf(this.handleProgressiveFrame);
+    } else if (this._progressiveMarks && this._progressiveMarks.every(mark => mark.canAnimateAfterProgressive())) {
+      // todo this.animate.animate();
+    } else if (this._progressiveMarks) {
+      this._progressiveMarks = null;
+    }
+  }
+
+  /** 监听frame事件，更新增量元素的mark */
+  private handleProgressiveFrame = () => {
+    if (this._progressiveMarks.length) {
+      this._progressiveMarks.forEach(mark => {
+        if (mark.isDoingProgressive()) {
+          mark.renderProgressive();
+        }
+      });
+    }
+
+    this.doPreProgressive();
+  };
+
+  /** 清除 */
+  private clearProgressive() {
+    if (this._progressiveRafId) {
+      const cancelRaf = vglobal.getCancelAnimationFrame();
+      cancelRaf(this._progressiveRafId);
+    }
+
+    if (this._progressiveMarks && this._progressiveMarks.length) {
+      this._progressiveMarks.forEach(entry => {
+        entry.clearProgressive();
+      });
+
+      this._progressiveMarks = null;
+    }
   }
 }

@@ -197,6 +197,6 @@ describe('wordCloud chart test', () => {
 
     const marks = series.getMarks();
     const wordMark = marks[1];
-    expect(wordMark.getProduct()?.elements[0].getGraphicAttribute('fill')).toBe('#1664FF');
+    expect(wordMark.getGraphics()[0].attribute.fill).toBe('#1664FF');
   });
 });
