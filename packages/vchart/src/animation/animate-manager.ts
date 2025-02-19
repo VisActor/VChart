@@ -4,7 +4,7 @@ import type { IAnimate, IAnimateState } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from './interface';
 import type { StateValueMap } from '../compile/interface/compilable-item';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IMarkGraphic } from '../mark/interface/common';
 
 export class AnimateManager extends StateManager implements IAnimate {
   protected declare _stateMap: IAnimateState & StateValueMap;
@@ -17,7 +17,7 @@ export class AnimateManager extends StateManager implements IAnimate {
       this.updateState(
         {
           animationState: {
-            callback: (datum: any, g: IGraphic) => g.context.diffState
+            callback: (datum: any, g: IMarkGraphic) => g.context.diffState
           }
         },
         noRender
@@ -28,7 +28,7 @@ export class AnimateManager extends StateManager implements IAnimate {
       this.updateState(
         {
           animationState: {
-            callback: (datum: any, g: IGraphic) => {
+            callback: (datum: any, g: IMarkGraphic) => {
               return g.context.diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
             }
           }
@@ -41,7 +41,7 @@ export class AnimateManager extends StateManager implements IAnimate {
       this.updateState(
         {
           animationState: {
-            callback: (datum: any, g: IGraphic) => state
+            callback: (datum: any, g: IMarkGraphic) => state
           }
         },
         noRender
@@ -52,7 +52,7 @@ export class AnimateManager extends StateManager implements IAnimate {
   protected _getDefaultStateMap(): IAnimateState & StateValueMap {
     return {
       animationState: {
-        callback: (datum: any, g: IGraphic) => {
+        callback: (datum: any, g: IMarkGraphic) => {
           return g.context.diffState === 'exit'
             ? AnimationStateEnum.exit
             : g.context.diffState === 'update'

@@ -21,7 +21,6 @@ import { Bounds, array, isNil, isValid, isNumber, isArray } from '@visactor/vuti
 import { registerSankeyAnimation } from './animation';
 import type { ISankeySeriesSpec, SankeyLinkElement, ISankeyLabelSpec, ISankeyAnimationParams } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
-import type { IElement, IGlyphElement, IMark as IVgrammarMark } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { registerRectMark } from '../../mark/rect';
@@ -31,13 +30,15 @@ import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 import { Factory } from '../../core/factory';
-import type { IGlyphMark, ILinkPathMark, IMark, IRectMark, ITextMark } from '../../mark/interface';
+import type { IGlyphMark, ILinkPathMark, IMark, IMarkGraphic, IRectMark, ITextMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
 import type { IBaseScale } from '@visactor/vscale';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { SankeySeriesSpecTransformer } from './sankey-transformer';
 import { getFormatFunction } from '../../component/util';
 import type { ILabelSpec } from '../../component';
+import { getDatumOfGraphic } from '../../util';
+import { addRuntimeState } from '../../mark/utils/glyph';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -490,21 +491,21 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected _handleEmphasisElement = (params: ExtendEventParam) => {
     const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
 
-    const element = params.item;
+    const graphic = params.item;
 
     if (emphasisSpec.effect === 'adjacency') {
-      if (element && element.mark === this._nodeMark?.getProduct()) {
-        this._handleNodeAdjacencyClick(element);
-      } else if (element && element.mark === this._linkMark?.getProduct()) {
-        this._handleLinkAdjacencyClick(element);
+      if (graphic && params.mark === this._nodeMark) {
+        this._handleNodeAdjacencyClick(graphic);
+      } else if (graphic && params.mark === this._linkMark) {
+        this._handleLinkAdjacencyClick(graphic);
       } else {
         this._handleClearEmpty();
       }
     } else if (emphasisSpec.effect === 'related') {
-      if (element && element.mark === this._nodeMark?.getProduct()) {
-        this._handleNodeRelatedClick(element);
-      } else if (element && element.mark === this._linkMark?.getProduct()) {
-        this._handleLinkRelatedClick(element);
+      if (graphic && params.mark === this._nodeMark) {
+        this._handleNodeRelatedClick(graphic);
+      } else if (graphic && params.mark === this._linkMark) {
+        this._handleLinkRelatedClick(graphic);
       } else {
         this._handleClearEmpty();
       }
@@ -528,31 +529,33 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return;
     }
 
-    const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
+    // const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
 
     allNodeElements.forEach(el => {
-      el.removeState(states);
+      el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+      el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
     });
     allLinkElements.forEach(el => {
-      el.removeState(states);
+      el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+      el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
     });
 
     this._needClear = false;
   };
 
-  protected _handleNodeAdjacencyClick = (element: IElement) => {
-    const nodeDatum = element.getDatum();
+  protected _handleNodeAdjacencyClick = (graphic: IMarkGraphic) => {
+    const nodeDatum = getDatumOfGraphic(graphic) as Datum;
     const highlightNodes: string[] = [nodeDatum.key];
 
     if (this._linkMark) {
-      const allLinkElements = this._linkMark.getProductElements();
+      const allLinkElements = this._linkMark.getGraphics();
 
       if (!allLinkElements || !allLinkElements.length) {
         return;
       }
 
-      allLinkElements.forEach((linkEl: IElement, i: number) => {
-        const linkDatum = linkEl.getDatum();
+      allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
+        const linkDatum = getDatumOfGraphic(linkEl) as Datum;
 
         if (linkDatum.source === nodeDatum.key) {
           // 下游link
@@ -561,7 +564,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true); // 设置上用户配置选中状态
         } else if (linkDatum.target === nodeDatum.key) {
           // 上游link
           if (!highlightNodes.includes(linkDatum.source)) {
@@ -569,71 +572,72 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true); // 设置上用户配置选中状态
         } else {
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
         }
       });
     }
 
     if (this._nodeMark) {
-      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+      this._highLightElements(this._nodeMark.getGraphics(), highlightNodes);
     }
 
     this._needClear = true;
   };
 
-  protected _handleLinkAdjacencyClick = (element: IGlyphElement) => {
-    const curLinkDatum = element.getDatum();
+  protected _handleLinkAdjacencyClick = (graphic: IMarkGraphic) => {
+    const curLinkDatum = getDatumOfGraphic(graphic) as Datum;
     const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
 
     if (this._linkMark) {
-      const allLinkElements = this._linkMark.getProductElements();
+      const allLinkElements = this._linkMark.getGraphics();
       if (!allLinkElements || !allLinkElements.length) {
         return;
       }
       allLinkElements.forEach(linkEl => {
-        if (linkEl === element) {
+        if (linkEl === graphic) {
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
         } else {
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
         }
       });
     }
 
     if (this._nodeMark) {
-      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+      this._highLightElements(this._nodeMark.getGraphics(), highlightNodes);
     }
 
     this._needClear = true;
   };
 
-  protected _handleNodeRelatedClick = (element: IElement) => {
-    const nodeDatum = element.getDatum();
-    const allNodeElements = this._nodeMark.getProductElements();
+  protected _handleNodeRelatedClick = (graphic: IMarkGraphic) => {
+    const nodeDatum = getDatumOfGraphic(graphic) as Datum;
+    const allNodeElements = this._nodeMark.getGraphics();
 
     if (!allNodeElements || !allNodeElements.length) {
       return;
     }
 
-    const allLinkElements = this._linkMark.getProductElements();
+    const allLinkElements = this._linkMark.getGraphics();
 
     if (!allLinkElements || !allLinkElements.length) {
       return;
     }
 
-    const father = allLinkElements[0].getDatum()?.parents ? 'parents' : 'source';
+    const father = (getDatumOfGraphic(allLinkElements[0]) as Datum)?.parents ? 'parents' : 'source';
 
     if (father === 'source') {
       // node-link 型数据
       const highlightNodes: string[] = [nodeDatum.key];
       const highlightLinks: string[] = [];
 
-      allLinkElements.forEach((linkEl: IElement, i: number) => {
-        const linkDatum = linkEl.getDatum();
+      allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
+        const linkDatum = getDatumOfGraphic(linkEl) as Datum;
         const father = linkDatum?.parents ? 'parents' : 'source';
 
         if (array(linkDatum[father]).includes(nodeDatum.key)) {
@@ -715,25 +719,27 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       if (this._linkMark) {
-        const allLinkElements = this._linkMark.getProductElements();
+        const allLinkElements = this._linkMark.getGraphics();
 
         if (!allLinkElements || !allLinkElements.length) {
           return;
         }
 
-        allLinkElements.forEach((linkEl: IElement, i: number) => {
-          if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
+        allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
+          const linkDatum = getDatumOfGraphic(linkEl) as Datum;
+
+          if (highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
             linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true);
           } else {
             linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
           }
         });
       }
 
       if (this._nodeMark) {
-        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+        this._highLightElements(this._nodeMark.getGraphics(), highlightNodes);
       }
     } else {
       // 层级型数据
@@ -766,8 +772,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         return res;
       }, []);
 
-      allLinkElements.forEach((linkEl: IElement, i: number) => {
-        const linkDatum = linkEl.getDatum();
+      allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
+        const linkDatum = getDatumOfGraphic(linkEl) as Datum;
         const originalDatum = linkDatum.datum;
         const selectedDatum = originalDatum
           ? originalDatum.filter((entry: any) => entry[father].some((par: any) => par.key === nodeDatum.key))
@@ -793,7 +799,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           const ratio = val / linkDatum.value;
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio });
 
           return;
         }
@@ -809,53 +816,60 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, {
+            ratio: upSelectedLink.value / linkDatum.value
+          }); // 设置默认的部分高亮
 
           return;
         }
 
         linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
 
         return;
       });
 
       if (this._nodeMark) {
-        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+        this._highLightElements(this._nodeMark.getGraphics(), highlightNodes);
       }
     }
 
     this._needClear = true;
   };
 
-  protected _handleLinkRelatedClick = (element: IGlyphElement) => {
-    const allNodeElements = this._nodeMark.getProductElements();
+  protected _handleLinkRelatedClick = (graphic: IMarkGraphic) => {
+    const allNodeElements = this._nodeMark.getGraphics();
 
     if (!allNodeElements || !allNodeElements.length) {
       return;
     }
-    const allLinkElements = this._linkMark.getProductElements();
+    const allLinkElements = this._linkMark.getGraphics();
 
     if (!allLinkElements || !allLinkElements.length) {
       return;
     }
 
-    const father = element.getDatum()?.parents ? 'parents' : 'source';
+    const father = (getDatumOfGraphic(graphic) as Datum) ? 'parents' : 'source';
     if (father === 'source') {
-      const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
+      // const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
       if (this._linkMark) {
         allLinkElements.forEach(linkEl => {
-          linkEl.removeState(states);
+          // linkEl.removeState(states);
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
         });
       }
 
       if (this._nodeMark) {
         allNodeElements.forEach(el => {
-          el.removeState(states);
+          // el.removeState(states);
+          el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+          el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
         });
       }
     } else {
-      const curLinkDatum = element.getDatum();
+      const curLinkDatum = getDatumOfGraphic(graphic) as Datum;
       const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
       const upstreamLinks: Array<{ source: string; target: string; value: number }> = [];
 
@@ -888,13 +902,14 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       allLinkElements.forEach(linkEl => {
-        const linkDatum = linkEl.getDatum();
+        const linkDatum = getDatumOfGraphic(linkEl) as Datum;
         const originalDatum = linkDatum.datum;
 
         if (linkDatum.source === curLinkDatum.source && linkDatum.target === curLinkDatum.target) {
           // 自身
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
+
           return;
         }
 
@@ -927,7 +942,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           const ratio = val / linkDatum.value;
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
 
           return;
         }
@@ -945,12 +961,15 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             highlightNodes.push(linkDatum.target);
           }
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, {
+            ratio: upSelectedLink.value / (linkDatum as Datum).value
+          }); // 设置默认的部分高亮
 
           return;
         }
         linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
 
         return;
       });
@@ -961,18 +980,20 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._needClear = true;
   };
 
-  protected _highLightElements(vGrammarElements: IVgrammarMark['elements'], highlightNodes: string[]) {
-    if (!vGrammarElements || !vGrammarElements.length) {
+  protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: string[]) {
+    if (!graphics || !graphics.length) {
       return;
     }
 
-    vGrammarElements.forEach(el => {
-      el.removeState([STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]);
+    graphics.forEach(g => {
+      // todo 升级 vrender版本，切换成数组
+      g.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+      g.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
 
-      if (highlightNodes.includes(el.getDatum().key)) {
-        el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+      if (highlightNodes.includes((getDatumOfGraphic(g) as Datum).key)) {
+        g.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true);
       } else {
-        el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        g.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
       }
     });
   }

@@ -125,11 +125,11 @@ export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec>
     this._labelMark = labelMark;
 
     if (this._funnelOuterLabelMark?.label) {
-      this._funnelOuterLabelMark.label.setDepend(labelMark.getComponent());
+      // this._funnelOuterLabelMark.label.setDepend(labelMark.getComponent());
     }
 
     if (this._funnelOuterLabelMark?.line) {
-      this._funnelOuterLabelMark.line.setDepend(...this._funnelOuterLabelMark.line.getDepend());
+      // this._funnelOuterLabelMark.line.setDepend(...this._funnelOuterLabelMark.line.getDepend());
     }
   }
 }

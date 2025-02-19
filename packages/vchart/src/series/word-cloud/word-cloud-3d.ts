@@ -68,9 +68,10 @@ export class WordCloud3dSeries<
       this._wordMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('wordCloud3d')?.(() => {
-            const srView = this.getCompiler().getVGrammarView();
-            const width = srView.width() - padding.left || 0 - padding.right || 0;
-            const height = srView.height() - padding.top || 0 - padding.bottom || 0;
+            const stage = this.getCompiler().getStage();
+
+            const width = stage.width - padding.left || 0 - padding.right || 0;
+            const height = stage.height - padding.top || 0 - padding.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
               center: { x: r, y: r, z: this._spec.depth_3d ?? r },

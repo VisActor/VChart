@@ -5,6 +5,7 @@ import { Factory } from '../../core/factory';
 import { registerRangeColumnSeries } from '../../series/range-column/range-column';
 import { RangeColumnChartSpecTransformer } from './range-column-transformer';
 import { BaseChart } from '../base';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class RangeColumnChart<T extends IRangeColumnChartSpec = IRangeColumnChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.rangeColumn;
@@ -16,6 +17,7 @@ export class RangeColumnChart<T extends IRangeColumnChartSpec = IRangeColumnChar
 }
 
 export const registerRangeColumnChart = () => {
+  registerDimensionHover();
   registerRangeColumnSeries();
   Factory.registerChart(RangeColumnChart.type, RangeColumnChart);
 };

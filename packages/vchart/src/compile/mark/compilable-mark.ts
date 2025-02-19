@@ -3,7 +3,7 @@ import { GrammarItem } from '../grammar-item';
 import type { Maybe, StringOrNumber } from '../../typings';
 import { isNil, isValid } from '@visactor/vutils';
 import { LayoutZIndex } from '../../constant/layout';
-import type { IMarkStateStyle, MarkType } from '../../mark/interface';
+import { MarkTypeEnum, type IMarkStateStyle, type MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import { MarkStateManager } from './mark-state-manager';
 import type {
@@ -177,7 +177,9 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
 
   protected declare _product: Maybe<IGroup>;
-  declare getProduct: () => Maybe<IGroup>;
+  getProduct() {
+    return this._product;
+  }
 
   /** 初始化 mark data */
   protected initMarkData(option: ICompilableInitOption) {
@@ -191,6 +193,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
 
   protected _compileProduct(option?: IMarkCompileOption) {
+    this.commit();
+    this._context = option?.context;
     const product = this.getProduct();
     // 处理 visible 为 false 的情况
     if (!this.getVisible()) {
@@ -199,23 +203,25 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       }
       return;
     } else if (isValid(product)) {
-      return; // 每个mark只执行一次编译
+      if (option.group && product.parent !== option.group) {
+        option.group.appendChild(product);
+      }
+    } else {
+      const compiler = this.getCompiler();
+      if (!compiler.isInited) {
+        return;
+      }
+      this._initProduct(option?.group);
     }
 
-    const compiler = this.getCompiler();
-    if (!compiler.isInited) {
-      return;
-    }
-    this._initProduct(option?.group);
     if (isNil(this._product)) {
       return;
     }
-    this.commit();
     this.compileData();
     this.compileState();
     this.compileEncode();
     // todo this.compileAnimation();
-    this.compileContext(option?.context);
+    // this.compileContext(option?.context);
     // this.compileTransform();
   }
 
@@ -230,16 +236,24 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     // 声明语法元素
     const id = this.getProductId();
 
-    this._product = createGroup({});
-
-    this._product.id = id;
+    this._product = createGroup(
+      this.type !== MarkTypeEnum.group
+        ? {
+            pickable: false,
+            zIndex: this._markConfig.zIndex,
+            overflow: this._markConfig.overflow
+          }
+        : {}
+    );
+    // todo 为了和之前的版本兼容，这里暂时设置成name
+    this._product.name = id;
 
     // todo
     (group ?? this.getCompiler()?.getRootGroup()).appendChild(this._product);
 
-    if (this.name && this._product) {
-      this._product.name = this.name;
-    }
+    // if (this.name && this._product) {
+    //   this._product.name = this.name;
+    // }
     this._compiledProductId = id;
   }
 
@@ -404,8 +418,20 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   resumeAnimationByState(state?: string) {
     // return this.getProduct()?.animate?.resumeAnimationByState(state);
   }
+
+  removeProduct() {
+    if (this._product && this._product.parent) {
+      this._product.parent.removeChild(this._product);
+    }
+    this._product = null;
+    this._compiledProductId = null;
+  }
   release() {
-    super.release();
+    // if (this._product && this._product.parent) {
+    //   this._product.parent.removeChild(this._product);
+    // }
+
     this.state.release();
+    super.release();
   }
 }

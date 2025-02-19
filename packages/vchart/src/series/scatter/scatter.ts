@@ -23,11 +23,10 @@ import { registerScatterAnimation } from './animation';
 import { registerSymbolMark } from '../../mark/symbol';
 import { scatterSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import type { ILabelMark, IMark, ISymbolMark } from '../../mark/interface';
+import type { ILabelMark, IMark, IMarkGraphic, ISymbolMark } from '../../mark/interface';
 import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
-import type { IGraphic } from '@visactor/vrender-core';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -366,7 +365,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         return;
       }
 
-      graphics.forEach((graphicItem: IGraphic, i: number) => {
+      graphics.forEach((graphicItem: IMarkGraphic, i: number) => {
         const datum = graphicItem?.context?.data?.[0];
         const newPosition = this.dataToPosition(datum);
         if (newPosition && graphicItem) {

@@ -32,8 +32,8 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
     return this._component;
   }
 
-  getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}) {
-    const configAttrs = super.getAttrsFromConfig(attrs);
+  protected _getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}) {
+    const configAttrs = super._getAttrsFromConfig(attrs);
 
     if (!isNil(this._markConfig.interactive)) {
       configAttrs.pickable = this._markConfig.interactive;
@@ -46,13 +46,9 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
     this._attributesTransform = t;
   }
 
-  render(): void {
-    if (!this._isCommited) {
-      return;
-    }
-
+  renderInner() {
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle } = this.stateStyle;
-    let attrs = this.getAttrsFromConfig({ ...normalStyle } as unknown as IGroupGraphicAttribute);
+    let attrs = this._getAttrsFromConfig({ ...normalStyle } as unknown as IGroupGraphicAttribute);
 
     if (this._attributesTransform) {
       attrs = this._attributesTransform(attrs);
@@ -63,25 +59,33 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
         mode: this._mode,
         skipDefault: this._markConfig.skipTheme
       });
-      this._product.appendChild(this._component);
+      this._component && this._product.appendChild(this._component);
     } else {
       this._component.setAttributes(attrs as any);
     }
 
+    if (this._component) {
+      this._component.context = this._getCommonContext();
+    }
+
+    if (this._markConfig.support3d && this._product) {
+      this._product.setMode('3d');
+    }
+  }
+
+  render(): void {
+    if (!this._isCommited) {
+      return;
+    }
+    this.renderInner();
+
     this.uncommit();
   }
 
-  /** 创建语法元素对象 */
-  // protected _initProduct(group?: string | IGroupMark) {
-  //   const view = this.getVGrammarView();
-
-  //   // 声明语法元素
-  //   const id = this.getProductId();
-  //   this._product = view
-  //     .mark(GrammarMarkType.component, group ?? view.rootMark, { componentType: this._componentType, mode: this._mode })
-  //     .id(id);
-  //   this._compiledProductId = id;
-  // }
+  release() {
+    super.release();
+    this.removeProduct();
+  }
 }
 
 export const registerComponentMark = () => {

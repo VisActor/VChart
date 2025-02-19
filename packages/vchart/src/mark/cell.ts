@@ -24,14 +24,14 @@ export class CellMark extends BaseMark<ICellMarkSpec> implements ICellMark {
     return defaultStyle;
   }
 
-  createGraphic(attrs: any = {}): IGraphic {
+  protected _createGraphic(attrs: any = {}): IGraphic {
     return createSymbol(attrs);
   }
 
   protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
     const symbolAttrs = super._transformGraphicAttributes(g, attrs, groupAttrs);
     const symbolType =
-      symbolAttrs.shape ?? symbolAttrs.symbolType ?? (g.attribute as ISymbolGraphicAttribute).symbolType;
+      symbolAttrs.shape ?? symbolAttrs.symbolType ?? (g.attribute as ISymbolGraphicAttribute)?.symbolType;
 
     if (isNil(symbolType)) {
       symbolAttrs.symbolType = 'rect';

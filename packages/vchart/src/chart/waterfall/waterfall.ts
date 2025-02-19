@@ -6,6 +6,7 @@ import { registerWaterfallSeries } from '../../series/waterfall/waterfall';
 import { Factory } from '../../core/factory';
 import type { AdaptiveSpec } from '../../typings';
 import { WaterfallChartSpecTransformer } from './waterfall-transformer';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class WaterfallChart<T extends IWaterfallChartSpec = IWaterfallChartSpec> extends BarChart<
   AdaptiveSpec<T, 'type' | 'series' | 'label'>
@@ -20,6 +21,7 @@ export class WaterfallChart<T extends IWaterfallChartSpec = IWaterfallChartSpec>
 }
 
 export const registerWaterfallChart = () => {
+  registerDimensionHover();
   registerWaterfallSeries();
   Factory.registerChart(WaterfallChart.type, WaterfallChart);
 };

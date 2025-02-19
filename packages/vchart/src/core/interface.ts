@@ -15,7 +15,7 @@ import type {
 } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
+import type { EventCallback, EventQuery, EventType, ExtendEventParam } from '../event/interface';
 import type { IMark } from '../mark/interface';
 import type { ISeries } from '../series/interface/series';
 import type { ITheme } from '../theme/interface';
@@ -205,9 +205,9 @@ export interface IVChart {
   /**
    * 事件监听
    */
-  on: ((eType: EventType, handler: EventCallback<EventParams>) => void) &
-    ((eType: EventType, query: EventQuery, handler: EventCallback<EventParams>) => void);
-  off: (eType: EventType, handler?: EventCallback<EventParams>) => void;
+  on: ((eType: EventType, handler: EventCallback<ExtendEventParam>) => void) &
+    ((eType: EventType, query: EventQuery, handler: EventCallback<ExtendEventParam>) => void);
+  off: (eType: EventType, handler?: EventCallback<ExtendEventParam>) => void;
 
   /**
    * 更新或设置图元状态。

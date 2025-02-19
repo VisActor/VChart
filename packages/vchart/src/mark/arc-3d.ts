@@ -17,6 +17,6 @@ export const registerArc3dMark = () => {
   registerVGrammarArcAnimation();
   registerShadowRoot();
   registerArc3d();
-  Factory.createGraphicComponent(MarkTypeEnum.arc3d, createArc3d);
+  Factory.registerGraphicComponent(MarkTypeEnum.arc3d, createArc3d);
   Factory.registerMark(MarkTypeEnum.arc3d, Arc3dMark);
 };

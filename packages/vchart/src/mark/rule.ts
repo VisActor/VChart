@@ -33,7 +33,7 @@ export class RuleMark extends BaseMark<IRuleMarkSpec> implements IRuleMark {
     };
   }
 
-  createGraphic(attrs: ILineGraphicAttribute = {}): IGraphic {
+  protected _createGraphic(attrs: ILineGraphicAttribute = {}): IGraphic {
     return createLine(attrs);
   }
 }

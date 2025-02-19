@@ -4,15 +4,16 @@ import type { IArcMarkSpec, ITextMarkSpec, IArc3dMarkSpec, ILineMarkSpec } from 
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { ILabelSpec, IMultiLabelSpec } from '../../component/label/interface';
-import type { ICustomPath2D, IGraphic, ILineGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { ICustomPath2D, ILineGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
 import type { ILayoutRect, IPercent } from '../../typings/layout';
 import type { IPointLike } from '@visactor/vutils';
 import type { AnimationStateEnum } from '../../animation/interface';
 import type { Datum } from '../../typings/common';
+import type { IMarkGraphic } from '../../mark/interface';
 
 export interface IPieAnimationParams {
   growField?: 'angle' | 'radius';
-  growFrom: (datum: Datum, element: IGraphic, state: AnimationStateEnum) => number;
+  growFrom: (datum: Datum, g: IMarkGraphic, state: AnimationStateEnum) => number;
 }
 
 export type PieAppearPreset = 'growAngle' | 'growRadius' | 'fadeIn';

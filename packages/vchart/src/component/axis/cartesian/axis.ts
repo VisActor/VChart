@@ -26,7 +26,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
 import { isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo, transformInverse } from './util/common';
-import { ChartEvent } from '../../../constant/event';
+import { ChartEvent, HOOK_EVENT } from '../../../constant/event';
 import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant/layout';
 import { AxisSyncPlugin } from '../../../plugin/components/axis-sync/axis-sync';
 import type { Datum, StringOrNumber } from '../../../typings/common';
@@ -35,7 +35,6 @@ import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
-import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import type { AxisItem, LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { getAxisItem, isValidCartesianAxis, shouldUpdateAxis } from '../util';
@@ -632,9 +631,9 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       const axisComponent = this._axisMark.getComponent();
 
       const spec = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs, { line: { visible: false } });
-      let updateBounds = axisComponent.getBoundsWithoutRender(spec);
+      let updateBounds = axisComponent?.getBoundsWithoutRender(spec);
 
-      if (updateBounds.empty()) {
+      if (!updateBounds || updateBounds.empty()) {
         // 如果包围盒为空，设置为布局起点，宽高为0的包围盒
         updateBounds = new Bounds().set(spec.x, spec.y, spec.x, spec.y);
       }
@@ -647,7 +646,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     }
 
     if (!hasBounds) {
-      this._latestBounds = product.getBounds();
+      this._latestBounds = product.AABBBounds;
     }
     return result;
   }
@@ -902,12 +901,13 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           bindAxis = relativeAxes[0];
         }
         if (bindAxis) {
-          const axisMark = this._axisMark.getProduct();
+          const axisMark = this._axisMark;
           // 找到了绑定的 axis，获取基线的位置
           const position = bindAxis.valueToPosition(0);
           // 获取偏移量
           if (isX) {
-            axisMark.encode({
+            axisMark.stateStyle.normal = {
+              ...axisMark.stateStyle.normal,
               line: {
                 ...this._axisStyle.line,
                 dy:
@@ -918,9 +918,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                       )
                     : position
               }
-            });
+            };
           } else {
-            axisMark.encode({
+            axisMark.stateStyle.normal = {
+              ...axisMark.stateStyle.normal,
               line: {
                 ...this._axisStyle.line,
                 dx:
@@ -931,7 +932,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                         position
                       )
               }
-            });
+            };
           }
         }
       }

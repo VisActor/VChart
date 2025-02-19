@@ -100,7 +100,7 @@ export class TotalLabel extends BaseLabelComponent {
   protected _initLabelComponent() {
     const series = this._getSeries();
     const component = this._createMark(
-      { type: MarkTypeEnum.component, name: `${series.name}-total-label-component` },
+      { type: MarkTypeEnum.component, name: `${series.name ?? series.type}-total-label-component` },
       {
         componentType: 'label',
         noSeparateStyle: true
@@ -111,6 +111,7 @@ export class TotalLabel extends BaseLabelComponent {
     );
     if (component) {
       this._marks.addMark(component);
+      series.getData().addRelatedMark(component);
     }
   }
 
@@ -180,7 +181,7 @@ export class TotalLabel extends BaseLabelComponent {
   getVRenderComponents() {
     const labels: any[] = [];
     this.getMarks().forEach(m => {
-      const graphicItem = m.getProduct().getGroupGraphicItem();
+      const graphicItem = (m as IComponentMark).getComponent();
       if (graphicItem) {
         labels.push(graphicItem);
       }

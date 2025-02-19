@@ -25,6 +25,7 @@ import type { IModel, IModelSpecInfo } from '../../model/interface';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
 import { getSpecInfo } from '../util';
+import { getDatumOfGraphic } from '../../util';
 
 export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type = ComponentTypeEnum.mapLabel;
@@ -120,30 +121,24 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
       return;
     }
 
-    const view = this.getCompiler()?.getVGrammarView();
-
-    if (!view) {
-      return;
-    }
-
     if (trigger === 'hover') {
-      view.addEventListener('element-highlight:start', (params: any) => {
+      this.event.on('element-highlight:start', (params: any) => {
         if (this._isRelativeSeries(params.options.seriesId)) {
-          this._updateDatum(params.elements[0].getDatum());
+          this._updateDatum(getDatumOfGraphic(params.graphics[0]) as Datum[]);
         }
       });
-      view.addEventListener('element-highlight:reset', (params: any) => {
+      this.event.on('element-highlight:reset', (params: any) => {
         if (this._isRelativeSeries(params.options.seriesId)) {
           this._updateDatum(null);
         }
       });
     } else if (trigger === 'click') {
-      view.addEventListener('element-select:start', (params: any) => {
+      this.event.on('element-select:start', (params: any) => {
         if (this._isRelativeSeries(params.options.seriesId)) {
-          this._updateDatum(params.elements[0].getDatum());
+          this._updateDatum(getDatumOfGraphic(params.graphics[0]) as Datum[]);
         }
       });
-      view.addEventListener('elementSelectReset', (params: any) => {
+      this.event.on('elementSelectReset', (params: any) => {
         if (this._isRelativeSeries(params.options.seriesId)) {
           this._updateDatum([]);
         }

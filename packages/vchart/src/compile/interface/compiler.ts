@@ -1,6 +1,5 @@
-import type { Hooks } from '@visactor/vgrammar-core';
 import type { IColor, IStageParams, IStage, ILayer, IOption3D } from '@visactor/vrender-core';
-import type { RenderMode } from '../../typings/spec/common';
+import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
 
@@ -196,7 +195,7 @@ export interface IRenderOption {
    * @deprecated
    * 请使用 hooks 代替
    */
-  performanceHook?: Hooks;
+  performanceHook?: IPerformanceHook;
 
   /**
    * 3d配置

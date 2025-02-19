@@ -4,7 +4,7 @@ import type { Maybe } from '../typings';
 import { warn } from '../util/debug';
 import type { IGroupMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IGroupMark, IMark, IMarkStyle, MarkType } from './interface';
+import type { IGroupMark, IMark, IMarkGraphic, MarkType } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { STATE_VALUE_ENUM, type IMarkCompileOption } from '../compile/mark';
@@ -93,16 +93,12 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
     // 编译子元素
     this.getMarks().forEach(mark => {
-      // TODO: 如果语法元素已创建，先删除再重新指定父结点生成。vgrammar 是否可以动态指定 mark 父结点？
-      if (mark.getProduct()) {
-        mark.removeProduct();
-      }
       mark.compile({ group: this._product });
     });
   }
 
-  getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}) {
-    const configAttrs = super.getAttrsFromConfig(attrs);
+  protected _getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}) {
+    const configAttrs = super._getAttrsFromConfig(attrs);
 
     if (!isNil(this._markConfig.interactive)) {
       configAttrs.pickable = this._markConfig.interactive;
@@ -110,7 +106,15 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     return attrs;
   }
 
+  getGraphics(): IMarkGraphic[] {
+    return [this._product];
+  }
+
   protected _renderSelf() {
+    if (!this._product) {
+      return;
+    }
+
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle } = this.stateStyle;
     const attrs: any = {};
 
@@ -121,8 +125,8 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
       attrs[key] = this._computeAttribute(key, 'normal')({});
     });
-
-    this._product?.setAttributes(this.getAttrsFromConfig(attrs));
+    this._product.context = this._getCommonContext();
+    this._product.setAttributes(this._getAttrsFromConfig(attrs));
   }
 
   render(): void {
@@ -134,6 +138,11 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     this.getMarks().forEach(mark => {
       mark.render();
     });
+  }
+
+  release() {
+    super.release();
+    this.removeProduct();
   }
 }
 

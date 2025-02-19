@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
+import { HOOK_EVENT } from '../../constant/event';
 import { AttributeLevel } from '../../constant/attribute';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
 import type { IMark, IRectMark, ILabelMark } from '../../mark/interface';
@@ -466,7 +466,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     // 缩放过程中会有新增/减少的element，对应执行enter/exit动画，会使得缩放交互效果体验很差
     // 这里在缩放过程中先关闭所有动画
     this.disableMarkAnimation();
-    this.event.on(VGRAMMAR_HOOK_EVENT.AFTER_DO_RENDER, this._enableAnimationHook);
+    this.event.on(HOOK_EVENT.AFTER_DO_RENDER, this._enableAnimationHook);
     this._viewBox.transformWithMatrix(this._matrix);
     this._runTreemapTransform(true);
   }
@@ -487,7 +487,7 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   protected enableMarkAnimation() {
     this.getMarks().forEach(mark => {
-      mark.getProduct().animate?.enable();
+      // mark.getProduct().animate?.enable();
     });
     [this._labelMark, this._nonLeafLabelMark].forEach(m => {
       if (m && m.getComponent()) {
@@ -495,12 +495,12 @@ export class TreemapSeries extends CartesianSeries<any> {
       }
     });
     // 在所有动画执行之后关闭动画
-    this.event.off(VGRAMMAR_HOOK_EVENT.AFTER_DO_RENDER, this._enableAnimationHook);
+    this.event.off(HOOK_EVENT.AFTER_DO_RENDER, this._enableAnimationHook);
   }
 
   protected disableMarkAnimation() {
     this.getMarks().forEach(mark => {
-      mark.getProduct().animate?.disable();
+      // mark.getProduct().animate?.disable();
     });
     [this._labelMark, this._nonLeafLabelMark].forEach(m => {
       if (m && m.getComponent()) {

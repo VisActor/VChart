@@ -4,6 +4,7 @@ import type { IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ISeriesSpecInfo } from '../../series/interface';
 import type { IRegionSpecInfo } from '../../region/interface';
+import type { IPerformanceHook } from '../../typings';
 
 export interface IChartOption
   extends Omit<IModelOption, 'getChartViewRect' | 'getChartLayoutRect' | 'globalScale' | 'getChart' | 'getSeriesData'> {
@@ -25,6 +26,10 @@ export interface IChartOption
    * 是否关闭交互效果
    */
   disableTriggerEvent?: boolean;
+  /**
+   * 性能相关的钩子
+   */
+  performanceHook?: IPerformanceHook;
 }
 
 export interface IChartSpecTransformerOption extends Partial<IChartOption> {

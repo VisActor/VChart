@@ -41,7 +41,14 @@ export class CompilableData extends GrammarItem implements ICompilableData {
     this._data = dataView;
   }
 
+  removeProduct() {
+    this._product = null;
+    this._prevProduct = null;
+    this._compiledProductId = null;
+  }
+
   release() {
+    this.removeProduct();
     super.release();
     this._data = null;
   }

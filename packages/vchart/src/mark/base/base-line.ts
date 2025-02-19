@@ -4,10 +4,10 @@ import type { ConvertToMarkStyleSpec, ILineLikeMarkSpec } from '../../typings/vi
 import type { IPointLike } from '@visactor/vutils';
 import { isFunction, isNil } from '@visactor/vutils';
 import { BaseMark } from './base-mark';
-import type { IMarkStyle } from '../interface';
+import type { IMarkGraphic, IMarkStyle } from '../interface';
 import type { Datum } from '../../typings/common';
-import type { IGraphic, ILine, ILineGraphicAttribute } from '@visactor/vrender-core';
-import { isSegmentAttrEqual } from '../utils/common';
+import type { ILine, ILineGraphicAttribute } from '@visactor/vrender-core';
+import { isSegmentAttrEqual } from '../utils/line';
 
 export const LINE_SEGMENT_ATTRIBUTES = [
   'stroke',
@@ -54,7 +54,6 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
     const ignoreAttributes = this._getIgnoreAttributes();
     const segmentAttributes = this._getSegmentAttributes();
     const isUserLevel = this.isUserLevel(level);
-    const segmentStyleKeys: string[] = [];
 
     Object.keys(style).forEach(attr => {
       const attrStyle = (style as any)[attr];
@@ -66,15 +65,15 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
         segmentAttributes.includes(attr) &&
         (isValidScaleType(attrStyle?.type) || attrStyle?.scale || isFunction(attrStyle))
       ) {
-        segmentStyleKeys.push(attr);
+        this._segmentStyleKeys.push(attr);
+      } else if (this._segmentStyleKeys.includes(attr)) {
+        this._segmentStyleKeys = this._segmentStyleKeys.filter(k => k !== attr);
       }
 
       const styleConverter = this._filterAttribute(attr as any, attrStyle, state, level, isUserLevel, stateStyle);
 
       this.setAttribute(attr as any, styleConverter, state, level, stateStyle);
     });
-
-    this._segmentStyleKeys = segmentStyleKeys;
   }
 
   _isValidPointChannel = (channel: string) => {
@@ -139,7 +138,7 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
     );
   }
 
-  _runEncoderOfGraphic(styles: Record<string, (datum: Datum) => any>, g: IGraphic, attrs: any = {}) {
+  _runPointsEncoder(newStyles: Record<string, (datum: Datum) => any>, g: IMarkGraphic, attrs: any = {}) {
     const data = g.context.data;
     const lineAttrs: any[] = [];
     const points: IPointLike[] = [];
@@ -149,13 +148,13 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
       points[index] = {} as IPointLike;
       lineAttrs[index] = {};
 
-      Object.keys(styles).forEach(attrName => {
+      Object.keys(newStyles).forEach(attrName => {
         if (this._isValidPointChannel(attrName)) {
-          (points[index] as any)[attrName] = styles[attrName](datum);
+          (points[index] as any)[attrName] = newStyles[attrName](datum);
         } else if (this._segmentStyleKeys.includes(attrName)) {
-          lineAttrs[index][attrName] = styles[attrName](datum);
+          lineAttrs[index][attrName] = newStyles[attrName](datum);
         } else if (index === 0) {
-          commonAttrs[attrName] = styles[attrName](datum);
+          commonAttrs[attrName] = newStyles[attrName](datum);
         }
       });
 
@@ -182,6 +181,15 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
       points,
       segments: null as any[]
     };
+  }
+
+  _runEncoderOfGraphic(newStyles: Record<string, (datum: Datum) => any>, g: IMarkGraphic, attrs: any = {}) {
+    const data = g.context.data;
+    if (newStyles && Object.keys(newStyles).some(this._isValidPointChannel) && data && data.length) {
+      return this._runPointsEncoder(newStyles, g, attrs);
+    }
+
+    return super._runEncoderOfGraphic(newStyles, g, attrs);
   }
 
   protected _getDataByKey(data: Datum[]) {

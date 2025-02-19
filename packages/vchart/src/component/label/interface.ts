@@ -1,13 +1,12 @@
 import type { BaseLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, Datum, IComposedTextMarkSpec, IFormatMethod, ITextMarkSpec } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
-import type { ILabelMark } from '../../mark/interface';
+import type { ILabelMark, IMark } from '../../mark/interface';
 import type { ISeries } from '../../series/interface';
-import type { ICompilableMark } from '../../compile/mark/interface';
 import type { IRegion } from '../../region/interface';
 
 export interface ILabelInfo {
-  baseMark: ICompilableMark;
+  baseMark: IMark;
   labelMark: ILabelMark;
   series: ISeries;
   labelSpec: TransformedLabelSpec;

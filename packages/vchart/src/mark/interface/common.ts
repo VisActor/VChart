@@ -2,7 +2,7 @@ import type { IGlobalScale } from '../../scale/interface';
 import type { ICommonSpec, VisualType, ValueType, FunctionType } from '../../typings/visual';
 import type { IModel } from '../../model/interface';
 import type { IBaseScale } from '@visactor/vscale';
-import type { MarkType } from './type';
+import type { MarkType, MarkTypeEnum } from './type';
 import type {
   ICompilableMark,
   ICompilableMarkOption,
@@ -10,8 +10,8 @@ import type {
   IModelMarkAttributeContext,
   StateValueType
 } from '../../compile/mark/interface';
-import type { StringOrNumber } from '../../typings';
-import type { ICustomPath2D, IGraphic } from '@visactor/vrender-core';
+import type { Datum, StringOrNumber } from '../../typings';
+import type { ICustomPath2D, IGlyph, IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
 
 export interface VisualScaleType {
@@ -55,6 +55,61 @@ export type IMarkStateStyle<T extends ICommonSpec> = Record<StateValueType, Part
 export type IMarkStyle<T extends ICommonSpec> = {
   [key in keyof T]: MarkInputStyle<T[key]>;
 };
+
+export type DiffStateValues = 'update' | 'enter' | 'exit';
+
+export interface IGraphicContext {
+  markType: MarkTypeEnum;
+  /**
+   * 图形所属mark对应的id，自增id
+   */
+  markId: number;
+  /**
+   * 图形所属model对应的id，自增id
+   */
+  modelId: number;
+  /**
+   * 图形所属mark对应的用户设置id
+   */
+  markUserId?: number | string;
+  /**
+   * 图形所属model对应的用户设置id
+   */
+  modelUserId?: number | string;
+  /**
+   * 数据对比状态
+   */
+  diffState?: DiffStateValues;
+  /**
+   * 数据
+   */
+  data?: Datum[];
+  /**
+   * 唯一key
+   */
+  key?: string;
+  /**
+   * 分组key
+   */
+  groupKey?: string;
+  /**
+   * 状态
+   */
+  states?: string[];
+}
+
+export interface IMarkGraphic extends IGraphic {
+  /**
+   * 缓存运行时的状态编码数据
+   */
+  runtimeStateCache?: Record<string, any>;
+
+  /**
+   * 上下文数据
+   */
+  context?: IGraphicContext;
+}
+
 /**********   mark  ***************/
 export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   readonly stateStyle: IMarkStateStyle<T>;
@@ -84,7 +139,22 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
 
   render: () => void;
 
-  getGraphics: () => IGraphic[];
+  getGraphics: () => IMarkGraphic[];
+
+  reuse: (mark: IMark) => void;
+
+  /** 是否启动了增量渲染模式 */
+  isProgressive: () => boolean;
+  /** 是否正在执行增量渲染 */
+  isDoingProgressive: () => boolean;
+  /** 清除增量渲染相关状态 */
+  clearProgressive: () => void;
+  /** 从第一帧开始增量计算 */
+  restartProgressive: () => void;
+  /** 分片执行 */
+  renderProgressive: () => void;
+  /** 增量流程后，是否执行动画 */
+  canAnimateAfterProgressive: () => boolean;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;
@@ -212,3 +282,12 @@ export type IMarkDataTransform<Options = any, Input = any, Output = any> = (
   options: Options,
   data: Input
 ) => Output | IProgressiveTransformResult<Output>;
+
+export interface ProgressiveContext {
+  currentIndex: number;
+  totalStep: number;
+  step: number;
+  data: any[];
+  groupKeys?: string[];
+  groupedData?: Map<string, any[]>;
+}

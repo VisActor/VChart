@@ -1,3 +1,4 @@
+import { FederatedEvent } from '@visactor/vrender-core';
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { createDiv, removeDom } from '../../util/dom';
@@ -163,9 +164,13 @@ describe('vchart event test', () => {
 
   it('should fire pointerdown event once after updateSpecSync()', () => {
     const pointDowmSpy = jest.fn();
+    const stage = vchart.getStage();
+    const e = new FederatedEvent((stage as any).eventSystem.manager);
+
+    e.type = 'pointerdown';
     vchart.on('pointerdown', pointDowmSpy);
 
-    vchart.getCompiler().getVGrammarView().emit('pointerdown', {});
+    stage.dispatchEvent(e);
 
     expect(pointDowmSpy).toBeCalledTimes(1);
 
@@ -174,7 +179,7 @@ describe('vchart event test', () => {
       stack: 'percent'
     });
 
-    vchart.getCompiler().getVGrammarView().emit('pointerdown', {});
+    stage.dispatchEvent(e);
     expect(pointDowmSpy).toBeCalledTimes(2);
   });
 
