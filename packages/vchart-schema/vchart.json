@@ -80662,6 +80662,12 @@
     },
     "IVisualSpecBase<unknown,number>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80691,6 +80697,12 @@
     },
     "IVisualSpecBase<unknown,string>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80720,6 +80732,12 @@
     },
     "IVisualSpecScale<unknown,unknown>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "anyOf": [
             {
@@ -80762,6 +80780,12 @@
     },
     "IVisualSpecStyle<unknown,\"accurate\"|\"imprecise\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80799,6 +80823,12 @@
     },
     "IVisualSpecStyle<unknown,\"break-word\"|\"break-all\"|\"keep-all\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80837,6 +80867,12 @@
     },
     "IVisualSpecStyle<unknown,\"center\"|\"end\"|\"start\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80875,6 +80911,12 @@
     },
     "IVisualSpecStyle<unknown,\"custom\"|\"accurate\"|\"imprecise\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80913,6 +80955,12 @@
     },
     "IVisualSpecStyle<unknown,\"end\"|\"start\"|\"middle\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80951,6 +80999,12 @@
     },
     "IVisualSpecStyle<unknown,\"horizontal\"|\"vertical\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80988,6 +81042,12 @@
     },
     "IVisualSpecStyle<unknown,\"line\"|\"polyline\"|\"smooth\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81026,6 +81086,12 @@
     },
     "IVisualSpecStyle<unknown,\"normal\"|\"no-wrap\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81063,6 +81129,12 @@
     },
     "IVisualSpecStyle<unknown,\"radial\"|\"horizontal\"|\"vertical\"|\"LR\"|\"RL\"|\"TB\"|\"BL\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81105,6 +81177,12 @@
     },
     "IVisualSpecStyle<unknown,\"rich\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81139,6 +81217,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81172,6 +81256,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>_1": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81205,6 +81295,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>_2": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81238,6 +81334,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>_3": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81271,6 +81373,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>_4": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81304,6 +81412,12 @@
     },
     "IVisualSpecStyle<unknown,BoxPlotShaftShape>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81337,6 +81451,12 @@
     },
     "IVisualSpecStyle<unknown,Cursor>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81370,6 +81490,12 @@
     },
     "IVisualSpecStyle<unknown,FontWeight>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81403,6 +81529,12 @@
     },
     "IVisualSpecStyle<unknown,HTMLCanvasElement|HTMLImageElement|IColor>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81455,6 +81587,12 @@
     },
     "IVisualSpecStyle<unknown,IBorder>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81488,6 +81626,12 @@
     },
     "IVisualSpecStyle<unknown,IPoint[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81524,6 +81668,12 @@
     },
     "IVisualSpecStyle<unknown,IRepeatType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81557,6 +81707,12 @@
     },
     "IVisualSpecStyle<unknown,IRichTextCharacter[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81593,6 +81749,12 @@
     },
     "IVisualSpecStyle<unknown,InterpolateType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81626,6 +81788,12 @@
     },
     "IVisualSpecStyle<unknown,LineStrokeCap>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81659,6 +81827,12 @@
     },
     "IVisualSpecStyle<unknown,LineStrokeJoin>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81692,6 +81866,12 @@
     },
     "IVisualSpecStyle<unknown,Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81725,6 +81905,12 @@
     },
     "IVisualSpecStyle<unknown,PopTipAttributes>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81758,6 +81944,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextGlobalAlignType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81791,6 +81983,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextGlobalBaselineType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81824,6 +82022,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextLayoutDirectionType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81857,6 +82061,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextVerticalDirection>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81890,6 +82100,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextWordBreak>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81923,6 +82139,12 @@
     },
     "IVisualSpecStyle<unknown,TextAlignType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81956,6 +82178,12 @@
     },
     "IVisualSpecStyle<unknown,TextBaselineType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81989,6 +82217,12 @@
     },
     "IVisualSpecStyle<unknown,[number,number]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82032,6 +82266,12 @@
     },
     "IVisualSpecStyle<unknown,[string|number,string|number]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82081,6 +82321,12 @@
     },
     "IVisualSpecStyle<unknown,boolean>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82114,6 +82360,12 @@
     },
     "IVisualSpecStyle<unknown,boolean|[boolean,boolean]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82164,6 +82416,12 @@
     },
     "IVisualSpecStyle<unknown,false|IColorKey|IGradient|VisualType<string>>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82226,6 +82484,12 @@
     },
     "IVisualSpecStyle<unknown,number>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82259,6 +82523,12 @@
     },
     "IVisualSpecStyle<unknown,number[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82295,6 +82565,12 @@
     },
     "IVisualSpecStyle<unknown,number|ITokenKey<any>>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82335,6 +82611,12 @@
     },
     "IVisualSpecStyle<unknown,number|number[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82378,6 +82660,12 @@
     },
     "IVisualSpecStyle<unknown,string>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82411,6 +82699,12 @@
     },
     "IVisualSpecStyle<unknown,string|HTMLCanvasElement|HTMLImageElement>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82454,6 +82748,12 @@
     },
     "IVisualSpecStyle<unknown,string|boolean>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82490,6 +82790,12 @@
     },
     "IVisualSpecStyle<unknown,string|false|IColorKey|IGradient|(number|boolean)[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82552,6 +82858,12 @@
     },
     "IVisualSpecStyle<unknown,string|number|ITokenKey<any>>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82595,6 +82907,12 @@
     },
     "IVisualSpecStyle<unknown,string|number|string[]|number[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -86743,7 +87061,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@12171": {
           "type": "string"
         },
         "size": {
@@ -86751,14 +87069,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@12171",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@12171": {
           "type": "string"
         },
         "size": {
@@ -86766,14 +87084,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@12171",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@12171": {
           "type": "string"
         },
         "size": {
@@ -86781,14 +87099,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@12171",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@12171": {
           "type": "string"
         },
         "size": {
@@ -86796,14 +87114,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@12171",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@12171": {
           "type": "string"
         },
         "size": {
@@ -86811,14 +87129,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@12171",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@12171": {
           "type": "string"
         },
         "size": {
@@ -86826,7 +87144,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@12171",
         "size"
       ],
       "type": "object"
@@ -92517,6 +92835,12 @@
     },
     "Omit<IVisualSpecScale<unknown,string>,\"id\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "anyOf": [
             {
@@ -108391,34 +108715,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@12171": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12170"
+        "__@toStringTag@12171"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@12171": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12170"
+        "__@toStringTag@12171"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@12171": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12170"
+        "__@toStringTag@12171"
       ],
       "type": "object"
     },
