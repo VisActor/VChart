@@ -2,7 +2,6 @@ import type { IMark, IGroupMark } from '../mark/interface';
 import type { ILayoutModel, IModelConstructor, IModelOption, IModelSpecInfo } from '../model/interface';
 import type { ISeries, SeriesType } from '../series/interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IInteraction } from '../interaction/interface';
 import type { IProjectionSpec } from '../component/geo/interface';
 import type { ConvertToMarkStyleSpec, IRectMarkSpec } from '../typings/visual';
 import type { IAnimate } from '../animation/interface';
@@ -11,7 +10,6 @@ import type { ILayoutItemSpec } from '../layout/interface';
 
 export interface IRegion extends ILayoutModel {
   animate?: IAnimate;
-  interaction: IInteraction;
 
   //stack
   getStackInverse: () => boolean;

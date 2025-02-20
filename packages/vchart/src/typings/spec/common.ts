@@ -1,7 +1,6 @@
 import type { IVChart } from './../../core/interface';
-import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
+import type { IImageMarkSpec } from '../visual';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type {
   DataSet,
   DataView,
@@ -12,7 +11,7 @@ import type {
   IDsvParserOptions
 } from '@visactor/vdataset';
 import type { RegionSpec } from '../../region/interface';
-import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface/spec';
 import type { IRenderOption } from '../../compile/interface';
 import type { ISeriesTooltipSpec, ITooltipSpec } from '../../component/tooltip/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -45,7 +44,7 @@ import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IAnimationSpec, IMorphSeriesSpec } from '../../animation/spec';
 import type { IPlayer } from '../../component/player/interface';
-import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
+import type { IMark, IMarkProgressiveConfig, IMarkRaw, MarkTypeEnum } from '../../mark/interface';
 import type { IDataZoomSpec } from '../../component/data-zoom/data-zoom/interface';
 import type { IScrollBarSpec } from '../../component/data-zoom/scroll-bar/interface';
 import type { ICrosshairSpec } from '../../component/crosshair/interface';
@@ -55,7 +54,7 @@ import type { IBrushSpec } from '../../component/brush/interface';
 import type { ITotalLabelSpec } from '../../component/label/interface';
 import type { ILegendSpec } from '../../component/legend/interface';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { IColor, ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
+import type { IColor, ICustomPath2D, IGraphic, IOption3D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis/interface';
 import type { IMediaQuerySpec } from './media-query';
 import type { IModelSpec } from '../../model/interface';
@@ -86,10 +85,6 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * 是否开启动画
    */
   animation?: boolean;
-  /**
-   * 3d配置
-   */
-  options3d?: srIOption3DType;
 
   /**
    * 自定义布局函数
@@ -564,10 +559,17 @@ export type IMarkStateFilter =
     }
   | {
       /** 筛选 item */
-      items: IElement[];
+      items: IGraphic[];
     }
   /** 筛选函数 */
-  | ((datum: Datum, options: Record<string, any>) => boolean);
+  | ((
+      datum: Datum,
+      options: {
+        mark?: IMark;
+        type?: string;
+        renderNode?: IGraphic;
+      }
+    ) => boolean);
 
 export interface IMarkStateSpec<T> {
   /** 筛选器 */

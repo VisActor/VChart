@@ -5,14 +5,11 @@ import { ComponentTypeEnum } from '../interface/type';
 import { STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant/data';
 import { LayoutZIndex } from '../../constant/layout';
 import { AttributeLevel } from '../../constant/attribute';
-import type { ILabelMark, IMark, MarkType } from '../../mark/interface';
+import type { IComponentMark, ILabelMark, IMark, MarkType } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '@visactor/vutils-extension';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
-import type { IGroupMark, IView } from '@visactor/vgrammar-core';
-// eslint-disable-next-line no-duplicate-imports
-import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { textAttribute } from './util';
 import { BaseLabelComponent } from './base-label';
 import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
@@ -20,6 +17,9 @@ import type { Datum, Maybe } from '../../typings';
 import { Factory } from '../../core/factory';
 import { registerComponentMark } from '../../mark/component';
 import type { IChartSpecInfo } from '../../chart/interface';
+import type { DataLabelAttrs } from '@visactor/vrender-components';
+import { DataLabel } from '@visactor/vrender-components';
+import type { IGroup } from '@visactor/vrender-core';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
@@ -39,7 +39,7 @@ export class TotalLabel extends BaseLabelComponent {
     chartSpecInfo?.region?.forEach((regionInfo, regionIndex) => {
       regionInfo.seriesIndexes?.forEach(seriesIndex => {
         const { spec } = chartSpecInfo.series[seriesIndex];
-        const labelSpec = spec[this.specKey];
+        const labelSpec = (spec as any)[this.specKey];
         if (labelSpec?.visible) {
           specInfo.push({
             spec: labelSpec,
@@ -72,6 +72,7 @@ export class TotalLabel extends BaseLabelComponent {
       const mark = series.getSeriesMark();
       if (mark) {
         const textMark = this._createMark({ type: MarkTypeEnum.label, name: `${mark.name}-total-label` }) as ILabelMark;
+
         this._baseMark = mark;
         this._textMark = textMark;
         this._initTextMarkStyle();
@@ -117,11 +118,12 @@ export class TotalLabel extends BaseLabelComponent {
     super.updateLayoutAttribute();
     const series = this._getSeries();
     this._marks.forEach((componentMark, index) => {
-      const component = componentMark.getProduct() as ReturnType<IView['label']>;
-      component
-        .target(this._baseMark.getProduct())
-        .configure({ interactive: false })
-        .labelStyle(() => {
+      componentMark.setMarkConfig({
+        interactive: false
+      });
+
+      (componentMark.stateStyle as any).normal = {
+        labelStyle: () => {
           if (this._baseMark) {
             const { offset, animation, overlap } = this._spec;
             const interactive = this._interactiveConfig(this._spec);
@@ -147,8 +149,11 @@ export class TotalLabel extends BaseLabelComponent {
               }
             );
           }
-        })
-        .encode(datum => {
+        },
+        size: () => {
+          return this._regions[0].getLayoutRect();
+        },
+        itemEncoder: (datum: Datum) => {
           return textAttribute(
             {
               baseMark: this._baseMark,
@@ -159,14 +164,15 @@ export class TotalLabel extends BaseLabelComponent {
             datum,
             this._spec.formatMethod
           );
-        })
-        .size(() => this._regions[0].getLayoutRect());
+        }
+      };
+      this._setTransformOfComponent(componentMark as IComponentMark, this._baseMark);
     });
   }
 
   compileMarks() {
     this.getMarks().forEach(m => {
-      const group = this._regions[0].getGroupMark().getProduct() as IGroupMark;
+      const group = this._regions[0].getGroupMark().getProduct() as IGroup;
       m.compile({ group, context: { model: this } });
     });
   }
@@ -208,7 +214,9 @@ export function totalLabelPosition(series: ISeries, type: MarkType) {
 }
 
 export const registerTotalLabel = () => {
-  registerVGrammarLabel();
+  Factory.registerGraphicComponent(TotalLabel.type, (attrs: DataLabelAttrs) => {
+    return new DataLabel(attrs) as unknown as IGroup;
+  });
   registerLabelMark();
   registerComponentMark();
   Factory.registerComponent(TotalLabel.type, TotalLabel, true);

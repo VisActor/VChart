@@ -1,5 +1,5 @@
+import type { IAnimationTypeConfig } from '../../animation/interface';
 import { Direction } from '../../typings/space';
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { ILineAnimationParams, LineAppearPreset } from './interface';
 
 const Appear_ClipIn = (params: ILineAnimationParams): IAnimationTypeConfig => {

@@ -50,7 +50,7 @@ function isGradientAttribute(key: string, style: any) {
   return (key === 'fill' || key === 'stroke') && style?.gradient && style?.stops;
 }
 
-const DEFAULT_STATE_VALUE_ENUM = {};
+const DEFAULT_STATE_VALUE_ENUM: Record<string, boolean> = {};
 Object.values(STATE_VALUE_ENUM).forEach(v => {
   DEFAULT_STATE_VALUE_ENUM[v] = true;
 });
@@ -59,7 +59,7 @@ export function stateInDefaultEnum(state: string) {
   return !!DEFAULT_STATE_VALUE_ENUM[state];
 }
 
-const DEFAULT_STATE_VALUE_TO_REVERSE = {
+const DEFAULT_STATE_VALUE_TO_REVERSE: Record<string, string> = {
   [STATE_VALUE_ENUM.STATE_HOVER]: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
   [STATE_VALUE_ENUM.STATE_SELECTED]: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
   [STATE_VALUE_ENUM.STATE_DIMENSION_HOVER]: STATE_VALUE_ENUM.STATE_DIMENSION_HOVER_REVERSE

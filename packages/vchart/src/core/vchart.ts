@@ -72,7 +72,7 @@ import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../constant/event';
+import { ChartEvent } from '../constant/event';
 import { DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant/base';
 // eslint-disable-next-line no-duplicate-imports
 import {
@@ -103,7 +103,6 @@ import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
 import { registerGroupMark } from '../mark/group';
-import { View, registerGesturePlugin } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
@@ -111,13 +110,13 @@ import { mergeTheme, preprocessTheme } from '../util/theme';
 import { darkTheme, registerTheme } from '../theme/builtin';
 import type { IChartPluginService } from '../plugin/chart/interface';
 import { ChartPluginService } from '../plugin/chart/plugin-service';
-import {
-  registerElementHighlight as registerHoverInteraction,
-  registerElementSelect as registerSelectInteraction
-} from '../interaction';
 import type { IIndicator } from '../component/indicator';
 import type { IGeoCoordinate } from '../component/geo';
 import { getSVGSource } from '../series/pictogram/svg-source';
+import { registerGesturePlugin } from '../plugin/other';
+import { registerElementHighlight } from '../interaction/triggers/element-highlight';
+import { registerElementSelect } from '../interaction/triggers/element-select';
+import { registerDimensionHover } from '../interaction/triggers/dimension-hover';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -442,13 +441,14 @@ export class VChart implements IVChart {
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initView();
+    this._compiler.updateLayoutTag();
     // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
     this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
-    this._bindVGrammarViewEvent();
+    this._bindViewEvent();
     this._initChartPlugin();
 
     InstanceManager.registerInstance(this);
@@ -553,24 +553,23 @@ export class VChart implements IVChart {
     }
   }
 
-  private _bindVGrammarViewEvent() {
+  private _bindViewEvent() {
     if (!this._compiler) {
       return;
     }
-    const view = this._compiler.getVGrammarView();
-
-    view.addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
-      this._event.emit(ChartEvent.animationFinished, {
-        chart: this._chart,
-        vchart: this
-      });
-    });
-    view.addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
-      this._event.emit(ChartEvent.renderFinished, {
-        chart: this._chart,
-        vchart: this
-      });
-    });
+    // todo
+    // view.addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
+    //   this._event.emit(ChartEvent.animationFinished, {
+    //     chart: this._chart,
+    //     vchart: this
+    //   });
+    // });
+    // view.addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
+    //   this._event.emit(ChartEvent.renderFinished, {
+    //     chart: this._chart,
+    //     vchart: this
+    //   });
+    // });
   }
 
   private _bindResizeEvent() {
@@ -652,15 +651,15 @@ export class VChart implements IVChart {
       return undefined;
     }
     if (isFunction(updateSpecResult)) {
-      updateSpecResult = updateSpecResult();
+      updateSpecResult = (updateSpecResult as () => IUpdateSpecResult)();
     }
 
-    if (updateSpecResult.reAnimate) {
+    if ((updateSpecResult as IUpdateSpecResult).reAnimate) {
       this.stopAnimation();
       this._updateAnimateState(true);
     }
 
-    this._reCompile(updateSpecResult);
+    this._reCompile(updateSpecResult as IUpdateSpecResult);
     if (sync) {
       return this._renderSync(option);
     }
@@ -1122,7 +1121,7 @@ export class VChart implements IVChart {
     result.reSize = reSize;
 
     if (this._spec.type !== lastSpec.type) {
-      this._compiler?.getVGrammarView()?.updateLayoutTag();
+      this._compiler?.updateLayoutTag();
       result.reMake = true;
       result.reTransformSpec = true;
       result.change = true;
@@ -1900,17 +1899,17 @@ export class VChart implements IVChart {
 
   /** 停止正在进行的所有动画 */
   stopAnimation() {
-    this._compiler?.getVGrammarView()?.animate?.stop();
+    // this._compiler?.getVGrammarView()?.animate?.stop();
   }
 
   /** 暂停正在进行的所有动画 */
   pauseAnimation() {
-    this._compiler?.getVGrammarView()?.animate?.pause();
+    // this._compiler?.getVGrammarView()?.animate?.pause();
   }
 
   /** 恢复暂停时正在进行的所有动画 */
   resumeAnimation() {
-    this._compiler?.getVGrammarView()?.animate?.resume();
+    // this._compiler?.getVGrammarView()?.animate?.resume();
   }
 
   // TODO: 后续需要考虑滚动场景
@@ -2188,10 +2187,11 @@ export const registerVChartCore = () => {
   // install essential marks
   registerGroupMark();
   // install essential vgrammar transform
-  View.useRegisters([registerGesturePlugin]);
+  registerGesturePlugin();
   // install default interaction
-  registerHoverInteraction();
-  registerSelectInteraction();
+  registerElementHighlight();
+  registerElementSelect();
+  registerDimensionHover();
   // install default theme
   registerTheme(darkTheme.name, darkTheme);
   // set default logger level to Level.error

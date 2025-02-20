@@ -40,7 +40,6 @@ import {
   registerFadeInOutAnimation
 } from '../../animation/config';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
-import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerPolygonMark } from '../../mark/polygon/polygon';
 import { registerTextMark } from '../../mark/text';
@@ -49,6 +48,9 @@ import { funnelSeriesMark } from './constant';
 import type { LabelItem } from '@visactor/vrender-components';
 import { Factory } from '../../core/factory';
 import { FunnelSeriesSpecTransformer } from './funnel-transformer';
+import type { ICompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data';
+import type { INode } from '@visactor/vrender-core';
 
 export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   extends BaseSeries<T>
@@ -83,7 +85,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     return this._valueField;
   }
 
-  protected _viewDataTransform!: SeriesData;
+  protected _viewDataTransform!: ICompilableData;
 
   protected _funnelAlign: 'left' | 'center' | 'right' | 'top' | 'bottom';
   protected _funnelOrient: IOrientType;
@@ -132,7 +134,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       type: 'dataview'
     });
 
-    this._viewDataTransform = new SeriesData(this._option, viewDataTransform);
+    this._viewDataTransform = new CompilableData(this._option, viewDataTransform);
   }
 
   compileData() {
@@ -352,11 +354,11 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         AttributeLevel.Series
       );
       if (this._funnelOuterLabelMark?.label) {
-        this._funnelOuterLabelMark.label.setDepend(component);
+        // this._funnelOuterLabelMark.label.setDepend(component);
       }
 
       if (this._funnelOuterLabelMark?.line) {
-        this._funnelOuterLabelMark.line.setDepend(...this._funnelOuterLabelMark.line.getDepend());
+        // this._funnelOuterLabelMark.line.setDepend(...this._funnelOuterLabelMark.line.getDepend());
       }
     } else if (this._funnelTransformMark && target === this._funnelTransformMark) {
       this._transformLabelMark = labelMark;
@@ -786,13 +788,12 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     const shapeMiddleWidth = (Math.abs(points[0].x - points[1].x) + Math.abs(points[2].x - points[3].x)) / 2;
     const categoryField = this.getCategoryField();
 
-    const funnelLabelBounds = this._labelMark
-      ?.getComponent()
-      ?.getProduct()
-      ?.getGroupGraphicItem()
-      ?.find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
+    const funnelLabelBounds = (this._labelMark?.getComponent()?.getComponent() as any)?.find(
+      ({ attribute, type }: { attribute: LabelItem; type: string }) => {
         return type === 'text' && attribute.data?.[categoryField] === datum[categoryField];
-      }, true)?.AABBBounds;
+      },
+      true
+    )?.AABBBounds;
 
     const funnelLabelWidth = funnelLabelBounds ? funnelLabelBounds.x2 - funnelLabelBounds.x1 : 0;
     const outerLineSpace = this._funnelOuterLabelMark.line ? this._minLabelLineWidth : 0;

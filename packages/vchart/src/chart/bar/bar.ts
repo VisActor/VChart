@@ -7,6 +7,7 @@ import { BarChartSpecTransformer } from './bar-transformer';
 import { BaseChart } from '../base';
 import { mixin } from '@visactor/vutils';
 import { StackChartMixin } from '../stack';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class BarChart<T extends IBarChartSpec = IBarChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.bar;
@@ -20,6 +21,7 @@ export class BarChart<T extends IBarChartSpec = IBarChartSpec> extends BaseChart
 mixin(BarChart, StackChartMixin);
 
 export const registerBarChart = () => {
+  registerDimensionHover();
   registerBarSeries();
   Factory.registerChart(BarChart.type, BarChart);
 };

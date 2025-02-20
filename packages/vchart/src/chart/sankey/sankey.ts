@@ -22,19 +22,18 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
 
   protected _setStateInDatum(
     stateKey: string,
-    checkReverse: boolean,
     datum: MaybeArray<Datum> | null,
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ) {
+    const activeDatum = (isArray(datum) ? (datum as Datum[])[0] : datum) as Datum;
+    if (!activeDatum) {
+      this._interaction.clearByState(stateKey, true);
+      return;
+    }
     // 桑基图暂时只支持单选
-    const activeDatum = isArray(datum) ? datum[0] : datum;
     const keys = !activeDatum ? null : Object.keys(activeDatum);
     this.getRegionsInQuerier(region).forEach(r => {
-      if (!activeDatum) {
-        r.interaction.clearEventElement(stateKey, true);
-        return;
-      }
       let hasPick = false;
       r.getSeries().forEach(s => {
         let activeNodeOrLink = null;
@@ -45,12 +44,12 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
           }
 
           let pickElement = null;
-          const mark = m.getProduct();
-          if (!mark) {
+          const graphics = m.getGraphics();
+          if (!graphics || !graphics.length) {
             return;
           }
           if (!filter || (isFunction(filter) && filter(s, m))) {
-            pickElement = mark.elements.find((e: any) =>
+            pickElement = graphics.find((e: any) =>
               keys.every(k => {
                 let datum = e.getDatum()?.datum;
 
@@ -66,9 +65,9 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
           }
           if (pickElement) {
             hasPick = true;
-            r.interaction.startInteraction(stateKey, pickElement);
+            this._interaction.startTriggerByGraphic(stateKey, pickElement);
 
-            if (mark.id().includes('node') || mark.id().includes('link')) {
+            if (m.getProductId().includes('node') || m.getProductId().includes('link')) {
               activeNodeOrLink = pickElement;
             }
           }
@@ -78,9 +77,6 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
           (s as any)._handleEmphasisElement?.({ item: activeNodeOrLink });
         }
       });
-      if (checkReverse && hasPick) {
-        r.interaction.reverseEventElement(stateKey);
-      }
     });
   }
 }

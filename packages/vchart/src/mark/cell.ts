@@ -3,24 +3,51 @@ import type { ICellMarkSpec } from '../typings';
 import type { ICellMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { BaseSymbolMark } from './symbol';
-import { registerCellGraphic, registerCellMark as registerVgrammarCellMark } from '@visactor/vgrammar-core';
+import { registerShadowRoot, registerSymbol } from '@visactor/vrender-kits';
+import { registerSymbolDataLabel } from '@visactor/vrender-components';
+import type { IGraphic, ISymbolGraphicAttribute } from '@visactor/vrender-core';
+import { createSymbol } from '@visactor/vrender-core';
+import { isNil } from '@visactor/vutils';
+import { BaseMark } from './base';
 
-export class CellMark extends BaseSymbolMark<ICellMarkSpec> implements ICellMark {
+export class CellMark extends BaseMark<ICellMarkSpec> implements ICellMark {
   static readonly type = MarkTypeEnum.cell;
   readonly type = CellMark.type;
 
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<ICellMarkSpec> = {
       ...super._getDefaultStyle(),
+      fill: undefined,
+      lineWidth: 0,
       padding: 0
     };
     return defaultStyle;
+  }
+
+  createGraphic(attrs: any = {}): IGraphic {
+    return createSymbol(attrs);
+  }
+
+  protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
+    const symbolAttrs = super._transformGraphicAttributes(g, attrs, groupAttrs);
+    const symbolType =
+      symbolAttrs.shape ?? symbolAttrs.symbolType ?? (g.attribute as ISymbolGraphicAttribute).symbolType;
+
+    if (isNil(symbolType)) {
+      symbolAttrs.symbolType = 'rect';
+    } else {
+      symbolAttrs.symbolType = symbolType;
+    }
+    return symbolAttrs;
   }
 }
 
 export const registerCellMark = () => {
   Factory.registerMark(CellMark.type, CellMark);
-  registerCellGraphic();
-  registerVgrammarCellMark();
+
+  Factory.registerGraphicComponent(MarkTypeEnum.symbol, createSymbol);
+
+  registerShadowRoot();
+  registerSymbol();
+  registerSymbolDataLabel();
 };

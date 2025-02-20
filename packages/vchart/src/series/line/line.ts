@@ -14,10 +14,11 @@ import { registerLineMark } from '../../mark/line';
 import { registerSymbolMark } from '../../mark/symbol';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
-import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { registerSymbolOverlapTransform } from '../../mark/transform/symbol-overlap';
+import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -102,8 +103,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     }
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this.reCompileSampling();
   }
 
@@ -130,8 +131,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 mixin(LineSeries, LineLikeSeriesMixin);
 
 export const registerLineSeries = () => {
-  registerSampleTransform();
-  registerMarkOverlapTransform();
+  registerDataSamplingTransform();
+  registerSymbolOverlapTransform();
   registerLineMark();
   registerSymbolMark();
   registerLineAnimation();
