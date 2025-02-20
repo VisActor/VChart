@@ -189,3 +189,26 @@ const scale = {
 // scale('b') => 'blue'
 // scale('d') => 'red'
 ```
+
+#${prefix} clamp(boolean)
+
+If clamp is enabled, the return value of the scale is always within the scale’s range.
+
+`1.13.6` version supported, only supported in `type=linear`.
+
+Example:
+
+```ts
+const scale = {
+  type: 'linear',
+  domain: [100, 200],
+  range: [0, 50],
+  clamp: true
+};
+//
+// scale(100) => 0
+// scale(150) => 25
+// scale(200) => 50
+// scale(0) => 0
+// scale(300) => 50
+```

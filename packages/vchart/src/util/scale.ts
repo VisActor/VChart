@@ -64,6 +64,10 @@ function initScaleWithSpec(scale: IBaseScale, spec: IVisualSpecBase<any, any>) {
   if (spec.specified && (<OrdinalScale>scale).specified) {
     (<OrdinalScale>scale).specified(spec.specified);
   }
+
+  if (spec.clamp && (<LinearScale>scale).clamp) {
+    (<LinearScale>scale).clamp(spec.clamp);
+  }
 }
 
 /**

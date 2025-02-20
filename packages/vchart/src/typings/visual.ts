@@ -38,6 +38,13 @@ export interface IVisualSpecBase<D, T> {
    * @since 1.1.0
    */
   specified?: { [key: string]: unknown };
+  /**
+   * enable clamp in linear scale
+   * If clamp is enabled, the return value of the scale is always within the scale’s range.
+   * @since 1.13.6
+   * @default false
+   */
+  clamp?: boolean;
 }
 // 用来给用户进行mark.style上的映射配置。所以要配置数据维度
 export interface IVisualSpecStyle<D, T> extends IVisualSpecBase<D, T> {
