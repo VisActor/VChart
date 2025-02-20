@@ -1,4 +1,4 @@
-import type { IMarkStateStyle, MarkType } from '../../mark/interface';
+import type { IMark, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem } from '../interface';
 import type { DataView } from '@visactor/vdataset';
@@ -175,7 +175,17 @@ export interface IStateInfo {
   /** 筛选 item */
   items?: any[] | null | undefined;
   /** 筛选函数 */
-  filter?: ((datum: any, options: Record<string, any>) => boolean) | null | undefined;
+  filter?:
+    | ((
+        datum: any,
+        options: {
+          mark?: IMark;
+          type?: string;
+          renderNode?: IGraphic;
+        }
+      ) => boolean)
+    | null
+    | undefined;
   cache?: {
     [key: string]: {
       [key: string]: boolean;

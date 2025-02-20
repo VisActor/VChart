@@ -565,9 +565,9 @@ export type IMarkStateFilter =
   | ((
       datum: Datum,
       options: {
-        mark: IMark;
-        type: string;
-        renderNode: IGraphic;
+        mark?: IMark;
+        type?: string;
+        renderNode?: IGraphic;
       }
     ) => boolean);
 

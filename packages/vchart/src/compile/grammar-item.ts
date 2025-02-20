@@ -44,15 +44,6 @@ export abstract class GrammarItem extends CompilableBase implements IGrammarItem
     return this._compiledProductId ?? this.generateProductId();
   }
 
-  /** 该语法元素依赖于哪些语法元素 */
-  protected _depend: IGrammarItem[] = [];
-  getDepend() {
-    return this._depend;
-  }
-  setDepend(...depend: IGrammarItem[]) {
-    this._depend = depend;
-  }
-
   /** 编译入口（尽量不重写这个方法） */
   compile(option?: GrammarItemCompileOption): void {
     this._compileProduct(option);
@@ -69,23 +60,9 @@ export abstract class GrammarItem extends CompilableBase implements IGrammarItem
     }
   }
 
-  /** 更新语法元素的依赖，返回是否全部成功更新 */
-  updateDepend(): boolean {
-    if (isValid(this._product)) {
-      const depend = this.getDepend()
-        .map(item => item.getProduct())
-        .filter(isValid);
-      // 更新依赖
-      this._product.depend(depend);
-      return depend.length === this.getDepend().length;
-    }
-    return false;
-  }
-
   release() {
     this.removeProduct();
     super.release();
-    this._depend = [];
   }
 
   /**

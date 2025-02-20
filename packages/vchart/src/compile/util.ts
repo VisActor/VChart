@@ -1,3 +1,4 @@
+import type { IGroupMark, IMark, IMarkRaw } from '../mark/interface';
 import { MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec';
 // eslint-disable-next-line no-duplicate-imports
@@ -28,14 +29,32 @@ export function toRenderMode(mode: RenderMode): any {
   return 'browser';
 }
 
-export function hasCommited(group: ICompilableMark) {
+export function hasCommited(group: IMark) {
   if (group.type === MarkTypeEnum.group) {
     if (group.isCommited()) {
       return true;
     }
 
-    return group.getMarks().some(hasCommited);
+    return (group as IGroupMark).getMarks().some(hasCommited);
   }
 
   return group.isCommited();
+}
+
+export function traverseRemove(group: IMark, m: IMark) {
+  if (group.type === MarkTypeEnum.group) {
+    if ((group as IGroupMark).removeMark(m)) {
+      return true;
+    }
+
+    const subMarks = (group as IGroupMark).getMarks();
+
+    for (let i = 0; i < subMarks.length; i++) {
+      if (traverseRemove(subMarks[i], m)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }

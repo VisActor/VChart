@@ -63,7 +63,7 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
     const statedGraphics = interaction.getStatedGraphics(this);
 
     if (statedGraphics && statedGraphics.length) {
-      interaction.clearAllStates(this, state, reverseState);
+      interaction.clearAllStatesOfTrigger(this, state, reverseState);
       this.dispatchEvent('reset', { graphics: statedGraphics, options: this.options });
 
       interaction.setStatedGraphics(this, []);

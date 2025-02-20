@@ -116,9 +116,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
       mark.setAnimationConfig(config);
     }
 
-    if (options.depend && options.depend.length) {
-      mark.setDepend(...options.depend);
-    }
     if (isNil(parentMark)) {
       this._marks.addMark(mark);
     } else if (parentMark) {

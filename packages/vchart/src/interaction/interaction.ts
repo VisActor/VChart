@@ -20,8 +20,10 @@ export class Interaction implements IInteraction {
 
       [startState, resetState].forEach(state => {
         if (state) {
-          if (this._triggerMapByState.get(state)) {
-            this._triggerMapByState.get(state).push(trigger);
+          const stateTrigger = this._triggerMapByState.get(state);
+
+          if (stateTrigger) {
+            !stateTrigger.includes(trigger) && stateTrigger.push(trigger);
           } else {
             this._triggerMapByState.set(state, [trigger]);
           }
@@ -180,7 +182,7 @@ export class Interaction implements IInteraction {
     });
   }
 
-  clearAllStates(trigger: ITrigger, state?: string, reverseState?: string) {
+  clearAllStatesOfTrigger(trigger: ITrigger, state?: string, reverseState?: string) {
     if (this._disableTriggerEvent) {
       return;
     }
@@ -214,5 +216,47 @@ export class Interaction implements IInteraction {
         }
       }
     });
+  }
+
+  clearAllStates() {
+    if (this._disableTriggerEvent) {
+      return;
+    }
+
+    this._triggerMapByState.forEach((triggers, state) => {
+      triggers.forEach(trigger => {
+        this.clearAllStatesOfTrigger(trigger, state, trigger.getResetState());
+      });
+    });
+  }
+
+  clearByState(stateValue: string, clearReverse: boolean) {
+    if (this._disableTriggerEvent) {
+      return;
+    }
+
+    const triggers = this._triggerMapByState.get(stateValue);
+
+    if (triggers && triggers.length) {
+      triggers.forEach(t => {
+        this.clearAllStatesOfTrigger(t, stateValue, clearReverse ? t.getResetState() : null);
+
+        // 更新缓存
+        this.setStatedGraphics(t, []);
+      });
+    }
+  }
+
+  startTriggerByGraphic(stateValue: string, markGraphic: IMarkGraphic) {
+    if (this._disableTriggerEvent) {
+      return;
+    }
+    const triggers = this._triggerMapByState.get(stateValue);
+
+    if (triggers && triggers.length) {
+      triggers.forEach(t => {
+        t.start(markGraphic);
+      });
+    }
   }
 }

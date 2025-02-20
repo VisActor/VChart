@@ -169,5 +169,6 @@ export interface MarkAnimationSpec {
   enter?: IAnimationConfig | IAnimationConfig[];
   exit?: IAnimationConfig | IAnimationConfig[];
   update?: IAnimationConfig | IAnimationConfig[];
+  normal?: IAnimationConfig | IAnimationConfig[];
   state?: IStateAnimationConfig;
 }

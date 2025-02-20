@@ -29,6 +29,7 @@ import type { IPoint } from '../../typings/coordinate';
 import { CompilableData } from '../../compile/data';
 import { registerElementHighlightByGraphicName } from '../../interaction/triggers/element-highlight-by-graphic-name';
 import { registerElementSelectByGraphicName } from '../../interaction/triggers/element-select-by-graphic-name';
+import { TRIGGER_TYPE_ENUM } from '../../interaction/triggers/enum';
 
 export interface SVGParsedElementExtend extends SVGParsedElement {
   _finalAttributes: Record<string, any>;
@@ -88,7 +89,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
   protected _defaultHoverConfig(finalHoverSpec: IHoverSpec) {
     return {
-      type: 'element-highlight-by-graphic-name',
+      type: TRIGGER_TYPE_ENUM.ELEMENT_HIGHLIGHT_BY_GRPHIC_NAME,
       // trigger: finalHoverSpec.trigger as EventType,
       trigger: finalHoverSpec.trigger as GraphicEventType,
       triggerOff: 'pointerout' as GraphicEventType,
@@ -104,7 +105,9 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       : isMultiple
       ? ['empty', 'self']
       : ['empty', finalSelectSpec.trigger];
+
     return {
+      type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT_BY_GRPHIC_NAME,
       trigger: finalSelectSpec.trigger as GraphicEventType,
       triggerOff: triggerOff as GraphicEventType,
       reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
@@ -245,7 +248,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
         // 描边粗细跟随缩放倍数
         this.setMarkStyle(mark, { keepStrokeScale: true }, 'normal', AttributeLevel.Built_In);
         if (valid) {
-          this.initMarkStyleWithSpec(mark, merge({}, this._spec.pictogram, this._spec[mark.name]));
+          this.initMarkStyleWithSpec(mark, merge({}, this._spec.pictogram, (this._spec as any)[mark.name]));
           this.setMarkStyle(mark, attributes, 'normal', AttributeLevel.Series);
           mark.setPostProcess('fill', (result, datum) => {
             return isValid(result) ? result : this._spec.defaultFillColor;

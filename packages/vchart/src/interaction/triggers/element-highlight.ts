@@ -69,7 +69,7 @@ export class ElementHighlight
     const { highlightState, blurState, interaction } = this.options;
 
     if (this._lastGraphic) {
-      interaction.clearAllStates(this, highlightState, blurState);
+      interaction.clearAllStatesOfTrigger(this, highlightState, blurState);
 
       this.dispatchEvent('reset', { elements: [this._lastGraphic], options: this.options });
 

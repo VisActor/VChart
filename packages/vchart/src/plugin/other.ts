@@ -8,8 +8,8 @@ import {
 
 // import { registerViewMorphAPI, registerAnimate as registerAnimateAPI } from '@visactor/vgrammar-core';
 import { registerVGrammarCommonAnimation } from '../animation/config';
-import { Factory } from '../core';
 import { DragNDrop, Gesture } from '@visactor/vrender-kits';
+import { Factory } from '../core/factory';
 
 export const register3DPlugin = () => {
   registerDirectionalLight();

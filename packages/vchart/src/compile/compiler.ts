@@ -111,12 +111,22 @@ export class Compiler implements ICompiler {
         this._option?.onError?.(...args);
       });
     }
-    const { autoRefreshDpr, dpr, mode, gestureConfig, interactive, clickInterval, autoPreventDefault, options3d } =
-      this._option;
+    const {
+      autoRefreshDpr,
+      dpr,
+      mode,
+      gestureConfig,
+      interactive,
+      clickInterval,
+      autoPreventDefault,
+      options3d,
+      background
+    } = this._option;
 
     this._stage =
       this._option.stage ??
       (new Stage({
+        background,
         width: this._width,
         height: this._height,
         container: this._container.dom ?? null,
@@ -231,7 +241,6 @@ export class Compiler implements ICompiler {
 
     chart.compile();
     chart.afterCompile();
-    this.updateDepend();
   }
   protected clearNextRender() {
     if (this._nextRafId) {
@@ -573,33 +582,20 @@ export class Compiler implements ICompiler {
       }
     }
     if (!reserveVGrammarModel) {
+      this.removeRootMark(grammarItem as IMark);
       // todo this._view?.removeGrammar(product);
     }
   }
 
-  /** 更新语法元素间的依赖关系，返回是否全部成功更新 */
-  updateDepend(): boolean {
-    // 全局更新依赖
-    // Object.values(this._model).forEach(productMap => {
-    //   Object.values(productMap).forEach(grammarItemMap => {
-    //     const grammarItems = Object.values(grammarItemMap) as IGrammarItem[];
+  removeRootMark(mark: IMark) {
+    const index = this._rootMarks.findIndex(m => m === mark);
 
-    //     // 获取编译产物的依赖项
-    //     const dependList = grammarItems
-    //       .reduce((depend, item) => {
-    //         if (item.getDepend().length > 0) {
-    //           return depend.concat(item.getDepend());
-    //         }
-    //         return depend;
-    //       }, [] as IGrammarItem[])
-    //       .filter(grammarItem => !!grammarItem)
-    //       .map(grammarItem => grammarItem.getProductId());
+    if (index >= 0) {
+      this._rootMarks.splice(index, 1);
 
-    //     // 更新依赖
-    //     grammarItems[0].depend(dependList);
-    //   });
-    // });
-    return true;
+      return true;
+    }
+    return false;
   }
 
   private _getGlobalThis() {

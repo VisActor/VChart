@@ -5,7 +5,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec } from './interface';
-import type { Maybe } from '../../typings';
+import type { Datum, Maybe } from '../../typings';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { transformIndicatorStyle } from '../../util/style';
 import { getActualNumValue } from '../../util/space';
@@ -23,6 +23,7 @@ import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRichTextCharacter } from '@visactor/vrender-core';
 import { getSpecInfo } from '../util';
+import { getDatumOfGraphic } from '../../util/mark';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static type = ComponentTypeEnum.indicator;
@@ -88,35 +89,29 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       return;
     }
 
-    // const view = this.getCompiler()?.getVGrammarView();
-
-    // if (!view) {
-    //   return;
-    // }
-
-    // if (this._spec.trigger === 'hover') {
-    //   view.addEventListener('element-highlight:start', (params: any) => {
-    //     if (this.isRelativeModel(params.options.regionId)) {
-    //       this.updateDatum(params.elements[0].getDatum());
-    //     }
-    //   });
-    //   view.addEventListener('element-highlight:reset', (params: any) => {
-    //     if (this.isRelativeModel(params.options.regionId)) {
-    //       this.updateDatum(null);
-    //     }
-    //   });
-    // } else {
-    //   view.addEventListener('element-select:start', (params: any) => {
-    //     if (this.isRelativeModel(params.options.regionId)) {
-    //       this.updateDatum(params.elements[0].getDatum());
-    //     }
-    //   });
-    //   view.addEventListener('element-select:reset', (params: any) => {
-    //     if (this.isRelativeModel(params.options.regionId)) {
-    //       this.updateDatum(null);
-    //     }
-    //   });
-    // }
+    if (this._spec.trigger === 'hover') {
+      this.event.on('element-highlight:start', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
+          this.updateDatum(getDatumOfGraphic(params.graphics[0]) as Datum[]);
+        }
+      });
+      this.event.on('element-highlight:reset', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
+          this.updateDatum(null);
+        }
+      });
+    } else {
+      this.event.on('element-select:start', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
+          this.updateDatum(getDatumOfGraphic(params.graphics[0]) as Datum[]);
+        }
+      });
+      this.event.on('element-select:reset', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
+          this.updateDatum(null);
+        }
+      });
+    }
   }
 
   updateDatum(datum: any) {

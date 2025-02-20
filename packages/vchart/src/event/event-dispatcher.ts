@@ -272,7 +272,7 @@ export class EventDispatcher implements IEventDispatcher {
   ): EventParamsDefinition[Evt] {
     // 如果针对于 mark 做了筛选，则事件参数转为筛选器制定的父级 mark
     if (filter.markName && params.mark) {
-      const markGraphic = params.mark.getGraphics()?.[0];
+      const markGraphic = params.mark.getGraphics?.()?.[0];
 
       return {
         ...params,

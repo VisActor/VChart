@@ -69,7 +69,7 @@ export class ElementActiveByLegend
   resetAll() {
     const { interaction, state } = this.options;
 
-    interaction.clearAllStates(this, state);
+    interaction.clearAllStatesOfTrigger(this, state);
 
     interaction.setStatedGraphics(this, []);
   }

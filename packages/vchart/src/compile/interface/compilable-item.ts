@@ -60,9 +60,9 @@ export interface ICompiler {
   release: () => void;
   releaseGrammar: (removeGraphicItems: boolean) => void;
   addGrammarItem: (grammarItem: IGrammarItem) => void;
-  updateDepend: (items?: IGrammarItem[]) => boolean;
 
   addRootMark: (mark: IMark) => any;
+  removeRootMark: (mark: IMark) => any;
   getRootMarks: () => IMark[];
 
   updateLayoutTag: () => void;
@@ -121,12 +121,6 @@ export interface IGrammarItem extends ICompilable {
   getProductId: () => string;
   /** 删除已编译的语法元素 */
   removeProduct: (reserveVGrammarModel?: boolean) => void;
-  /** 获取该语法元素依赖的语法元素 */
-  getDepend: () => IGrammarItem[];
-  /** 设置该语法元素依赖的语法元素 */
-  setDepend: (...depend: IGrammarItem[]) => void;
-  /** 更新语法元素的依赖，返回是否全部成功更新 */
-  updateDepend: () => boolean;
   // transform
   setTransform: (transform: ITransformSpec[]) => void;
 }

@@ -631,9 +631,9 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       const axisComponent = this._axisMark.getComponent();
 
       const spec = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs, { line: { visible: false } });
-      let updateBounds = axisComponent.getBoundsWithoutRender(spec);
+      let updateBounds = axisComponent?.getBoundsWithoutRender(spec);
 
-      if (updateBounds.empty()) {
+      if (!updateBounds || updateBounds.empty()) {
         // 如果包围盒为空，设置为布局起点，宽高为0的包围盒
         updateBounds = new Bounds().set(spec.x, spec.y, spec.x, spec.y);
       }

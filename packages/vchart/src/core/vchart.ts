@@ -651,15 +651,15 @@ export class VChart implements IVChart {
       return undefined;
     }
     if (isFunction(updateSpecResult)) {
-      updateSpecResult = updateSpecResult();
+      updateSpecResult = (updateSpecResult as () => IUpdateSpecResult)();
     }
 
-    if (updateSpecResult.reAnimate) {
+    if ((updateSpecResult as IUpdateSpecResult).reAnimate) {
       this.stopAnimation();
       this._updateAnimateState(true);
     }
 
-    this._reCompile(updateSpecResult);
+    this._reCompile(updateSpecResult as IUpdateSpecResult);
     if (sync) {
       return this._renderSync(option);
     }
@@ -1899,17 +1899,17 @@ export class VChart implements IVChart {
 
   /** 停止正在进行的所有动画 */
   stopAnimation() {
-    this._compiler?.getVGrammarView()?.animate?.stop();
+    // this._compiler?.getVGrammarView()?.animate?.stop();
   }
 
   /** 暂停正在进行的所有动画 */
   pauseAnimation() {
-    this._compiler?.getVGrammarView()?.animate?.pause();
+    // this._compiler?.getVGrammarView()?.animate?.pause();
   }
 
   /** 恢复暂停时正在进行的所有动画 */
   resumeAnimation() {
-    this._compiler?.getVGrammarView()?.animate?.resume();
+    // this._compiler?.getVGrammarView()?.animate?.resume();
   }
 
   // TODO: 后续需要考虑滚动场景

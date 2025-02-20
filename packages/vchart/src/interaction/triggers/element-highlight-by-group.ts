@@ -44,7 +44,7 @@ export class ElementHighlightByGroup
   resetAll() {
     const { interaction, highlightState, blurState } = this.options;
 
-    interaction.clearAllStates(this, highlightState, blurState);
+    interaction.clearAllStatesOfTrigger(this, highlightState, blurState);
 
     interaction.setStatedGraphics(this, []);
   }

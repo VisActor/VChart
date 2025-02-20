@@ -487,7 +487,7 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   protected enableMarkAnimation() {
     this.getMarks().forEach(mark => {
-      mark.getProduct().animate?.enable();
+      // mark.getProduct().animate?.enable();
     });
     [this._labelMark, this._nonLeafLabelMark].forEach(m => {
       if (m && m.getComponent()) {
@@ -500,7 +500,7 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   protected disableMarkAnimation() {
     this.getMarks().forEach(mark => {
-      mark.getProduct().animate?.disable();
+      // mark.getProduct().animate?.disable();
     });
     [this._labelMark, this._nonLeafLabelMark].forEach(m => {
       if (m && m.getComponent()) {

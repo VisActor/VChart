@@ -14,6 +14,7 @@ import type { ICompilableMark } from '../../compile/mark/interface';
 import { DiffState } from '../../mark/interface/enum';
 import type { Datum } from '../../typings/common';
 import { MarkTypeEnum } from '../../mark/interface/type';
+import type { IMark } from '../../mark/interface/common';
 
 export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
@@ -73,12 +74,14 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
     if (markType === MarkTypeEnum.symbol || markType === MarkTypeEnum.cell) {
       return 'symbol';
     }
+
+    return '';
   }
 
-  _setTransformOfComponent(labelComponent: IComponentMark, baseMark: ICompilableMark | ICompilableMark[]) {
+  _setTransformOfComponent(labelComponent: IComponentMark, baseMark: IMark | IMark[]) {
     labelComponent.setAttributeTransform(({ labelStyle, size, itemEncoder }) => {
-      const labelStyleRes = labelStyle();
-      const dataLabels = array(baseMark).map(mark => {
+      const dataLabels = array(baseMark).map((mark: IMark, labelIndex: number) => {
+        const labelStyleRes = labelStyle(labelIndex);
         const labelData: any[] = [];
         const graphics = (mark as any).getGraphics();
 
@@ -90,10 +93,10 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
           const { data, diffState } = g.context;
 
           if (diffState !== DiffState.exit) {
-            data.forEach((datum: Datum) => {
+            data.forEach((datum: Datum, {}) => {
               labelData.push({
                 data: datum,
-                ...itemEncoder(datum)
+                ...itemEncoder(datum, { labelIndex })
               });
             });
           }

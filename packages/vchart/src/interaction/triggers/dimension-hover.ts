@@ -58,7 +58,7 @@ export class DimensionHover extends BaseTrigger<IDimensionHoverOptions> implemen
     const statedGraphics = interaction.getStatedGraphics(this);
 
     if (statedGraphics && statedGraphics.length) {
-      interaction.clearAllStates(this, state, reverseState);
+      interaction.clearAllStatesOfTrigger(this, state, reverseState);
       this.dispatchEvent('reset', { elements: statedGraphics, options: this.options });
 
       interaction.setStatedGraphics(this, []);
@@ -112,7 +112,7 @@ export class DimensionHover extends BaseTrigger<IDimensionHoverOptions> implemen
 
         break;
       case 'leave':
-        interaction.clearAllStates(this, this.options.state, this.options.reverseState);
+        interaction.clearAllStatesOfTrigger(this, this.options.state, this.options.reverseState);
         break;
       case 'click':
       case 'move':

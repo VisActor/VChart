@@ -354,11 +354,11 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         AttributeLevel.Series
       );
       if (this._funnelOuterLabelMark?.label) {
-        this._funnelOuterLabelMark.label.setDepend(component);
+        // this._funnelOuterLabelMark.label.setDepend(component);
       }
 
       if (this._funnelOuterLabelMark?.line) {
-        this._funnelOuterLabelMark.line.setDepend(...this._funnelOuterLabelMark.line.getDepend());
+        // this._funnelOuterLabelMark.line.setDepend(...this._funnelOuterLabelMark.line.getDepend());
       }
     } else if (this._funnelTransformMark && target === this._funnelTransformMark) {
       this._transformLabelMark = labelMark;

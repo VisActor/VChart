@@ -44,7 +44,16 @@ import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
-import { isArray, isValid, createID, calcPadding, normalizeLayoutPaddingSpec, array } from '../../util';
+import {
+  isArray,
+  isValid,
+  createID,
+  calcPadding,
+  normalizeLayoutPaddingSpec,
+  array,
+  isCollectionMark,
+  getDatumOfGraphic
+} from '../../util';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
@@ -1182,7 +1191,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ): void {
-    this._setStateInDatum(STATE_VALUE_ENUM.STATE_SELECTED, true, datum, filter, region);
+    this._setStateInDatum(STATE_VALUE_ENUM.STATE_SELECTED, datum, filter, region);
   }
 
   /**
@@ -1196,7 +1205,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ): void {
-    this._setStateInDatum(STATE_VALUE_ENUM.STATE_HOVER, true, datum, filter, region);
+    this._setStateInDatum(STATE_VALUE_ENUM.STATE_HOVER, datum, filter, region);
   }
 
   /**
@@ -1205,11 +1214,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
    * @since 1.11.0
    */
   clearState(state: string) {
-    this.getAllRegions().forEach(r => {
-      r.interaction.clearEventElement(state, true);
-      r.interaction.resetInteraction(state, null);
-      return;
-    });
+    this._interaction.clearByState(state, true);
   }
 
   /**
@@ -1218,11 +1223,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
    * @since 1.12.4
    */
   clearAllStates() {
-    this.getAllRegions().forEach(r => {
-      r.interaction.clearAllEventElement();
-      r.interaction.resetAllInteraction();
-      return;
-    });
+    this._interaction.clearAllStates();
   }
 
   /**
@@ -1261,7 +1262,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     marks.forEach(mark => {
       const product = mark.getProduct();
       if (product && product.animate) {
-        product.animate.enableAnimationState(states);
+        // product.animate.enableAnimationState(states);
       }
     });
   }
@@ -1271,48 +1272,50 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     marks.forEach(mark => {
       const product = mark.getProduct();
       if (product && product.animate) {
-        product.animate.disableAnimationState(states);
+        // product.animate.disableAnimationState(states);
       }
     });
   }
 
   protected _setStateInDatum(
     stateKey: string,
-    checkReverse: boolean,
-    datum: MaybeArray<Datum> | null,
+    d: MaybeArray<Datum> | null,
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ) {
-    datum = datum ? array(datum) : null;
-    const keys = !datum ? null : Object.keys(datum[0]);
+    if (!d) {
+      this._interaction.clearByState(stateKey, true);
+      return;
+    }
+    const datum = array(d);
+    const keys = Object.keys(datum[0]);
+    let pickGraphics = [] as IGraphic[];
+
     this.getRegionsInQuerier(region).forEach(r => {
-      if (!datum) {
-        r.interaction.clearEventElement(stateKey, true);
-        return;
-      }
       r.getSeries().forEach(s => {
         s.getMarks().forEach(m => {
-          if (!m.getProduct()) {
+          const graphics = m.getGraphics();
+          if (!graphics || !graphics.length) {
             return;
           }
           if (!filter || (isFunction(filter) && filter(s, m))) {
-            const isCollect = m.getProduct().isCollectionMark();
-            const elements = m.getProduct().elements;
-            let pickElements = [] as IGraphic[];
+            const isCollect = isCollectionMark(m.type);
+
             if (isCollect) {
-              pickElements = elements.filter(e => {
-                const elDatum = e.getDatum();
+              pickGraphics = graphics.filter(g => {
+                const elDatum = getDatumOfGraphic(g) as Datum[];
                 // eslint-disable-next-line max-nested-callbacks, eqeqeq
                 (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
               });
             } else {
               if (datum.length > 1) {
                 const datumTemp = (datum as Datum[]).slice();
-                pickElements = elements.filter(e => {
+
+                pickGraphics = graphics.filter(g => {
                   if (datumTemp.length === 0) {
                     return false;
                   }
-                  const elDatum = e.getDatum();
+                  const elDatum = getDatumOfGraphic(g) as Datum;
                   // eslint-disable-next-line max-nested-callbacks, eqeqeq
                   const index = datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
                   if (index >= 0) {
@@ -1323,19 +1326,16 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                 });
               } else {
                 // eslint-disable-next-line eqeqeq
-                const el = elements.find(e => keys.every(k => datum[0][k] == e.getDatum()[k]));
-                el && (pickElements = [el]);
+                const el = graphics.find(e => keys.every(k => datum[0][k] == e.getDatum()[k]));
+                el && (pickGraphics = [el]);
               }
             }
-            pickElements.forEach(element => {
-              r.interaction.startInteraction(stateKey, element);
-            });
           }
         });
       });
-      if (checkReverse) {
-        r.interaction.reverseEventElement(stateKey);
-      }
+    });
+    pickGraphics.forEach(g => {
+      this._interaction.startTriggerByGraphic(stateKey, g);
     });
   }
 

@@ -167,7 +167,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         }
       );
       this._updateTickDataMarks(axisMark);
-      this._axisMark = axisMark;
+      this._axisMark = axisMark as IComponentMark;
       axisMark.setMarkConfig({ zIndex: this.layoutZIndex });
       if (isValid(this._spec.id)) {
         axisMark.setUserId(this._spec.id);
@@ -194,7 +194,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           interactive: false // 轴网格线关闭交互
         });
         this._marks.addMark(gridMark);
-        this._gridMark = gridMark;
+        this._gridMark = gridMark as IComponentMark;
       }
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画

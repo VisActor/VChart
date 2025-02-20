@@ -1309,10 +1309,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         m.setSkipBeforeLayouted(skipBeforeLayouted);
       }
 
-      if (isValid(depend)) {
-        m.setDepend(...array(depend));
-      }
-
       if (!isNil(groupKey)) {
         m.setGroupKey(groupKey);
       }

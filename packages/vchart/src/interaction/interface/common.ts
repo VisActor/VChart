@@ -1,17 +1,8 @@
 import type { IMarkGraphic } from '../../mark/interface';
 import type { RenderMode } from '../../typings/spec/common';
-import type { IEventDispatcher, EventType } from '../../event/interface';
+import type { IEventDispatcher } from '../../event/interface';
 import type { IModel } from '../../model/interface';
-import type { StringOrNumber } from '../../typings/common';
-import type {
-  IElementActiveByLegendOptions,
-  IElementActiveOptions,
-  IElementHighlightByLegendOptions,
-  IElementHighlightByNameOptions,
-  IElementHighlightOptions,
-  IElementSelectOptions,
-  ITrigger
-} from './trigger';
+import type { ITrigger } from './trigger';
 
 export interface IInteraction {
   setDisableActiveEffect: (disable: boolean) => void;
@@ -25,7 +16,10 @@ export interface IInteraction {
     state?: string,
     reverseState?: string
   ) => IMarkGraphic[];
-  clearAllStates: (trigger: ITrigger, state?: string, reverseState?: string) => void;
+  clearAllStates: () => void;
+  clearAllStatesOfTrigger: (trigger: ITrigger, state?: string, reverseState?: string) => void;
+  clearByState: (stateValue: string, clearReverse: boolean) => any;
+  startTriggerByGraphic: (stateValue: string, markGraphic: IMarkGraphic) => any;
 }
 
 export interface ITriggerOption {
