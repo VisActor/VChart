@@ -8,6 +8,7 @@ import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelInfo, ILabelSpec } from './interface';
 import { getFormatFunction } from '../util';
+import { DEFAULT_DATA_SERIES_FIELD } from '../../core';
 
 export const labelRuleMap = {
   rect: barLabel,
@@ -354,7 +355,14 @@ export function LineLabel(labelInfo: ILabelInfo) {
   const { labelSpec, series } = labelInfo;
 
   const seriesData = series.getViewDataStatistics?.().latestData?.[series.getSeriesField()]?.values;
-  const data = seriesData ? seriesData.map((d: Datum, index: number) => ({ [series.getSeriesField()]: d, index })) : [];
+  const data = seriesData
+    ? seriesData.map((d: Datum, index: number) => ({ [series.getSeriesField()]: d, index }))
+    : [
+        {
+          index: 0,
+          [DEFAULT_DATA_SERIES_FIELD]: series.getSeriesKeys()[0]
+        }
+      ];
   return { position: labelSpec.position ?? 'end', data };
 }
 

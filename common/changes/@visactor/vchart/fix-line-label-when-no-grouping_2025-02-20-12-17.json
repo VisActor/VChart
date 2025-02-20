@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: display line label normally when seriesField is missing, #3709",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

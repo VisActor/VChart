@@ -405,7 +405,7 @@ export class LineLikeSeriesMixin {
     this.setMarkStyle(labelMark, {
       fill: this.getColorAttribute(),
       text: (datum: Datum) => {
-        return datum[this.getSeriesField()];
+        return datum[this.getSeriesField()] ?? this.getSeriesKeys()[0];
       },
       z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
