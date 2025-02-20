@@ -7,11 +7,17 @@ import type { TooltipHandlerParams } from '../../component/tooltip/interface';
 import type { Datum } from '@visactor/vgrammar-core';
 
 export class FunnelSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
+  private _transformRatioLocale;
+
+  constructor(series: IFunnelSeries) {
+    super(series);
+    this._transformRatioLocale = series.getSpec()?.transformRatioLocale ?? `转化率`;
+  }
+
   dimensionTooltipTitleCallback = (datum: Datum, params?: TooltipHandlerParams) => {
     const series = this.series as IFunnelSeries;
     if (params?.mark?.name === SeriesMarkNameEnum.transform) {
-      // TODO: i18n
-      return `转化率`;
+      return this._transformRatioLocale;
     }
     return this._getDimensionData(datum) ?? datum.properties?.[`${series.getCategoryField()}`];
   };
@@ -26,8 +32,7 @@ export class FunnelSeriesTooltipHelper extends BaseSeriesTooltipHelper implement
 
   markTooltipKeyCallback = (datum: Datum, params?: TooltipHandlerParams) => {
     if (params?.mark?.name === SeriesMarkNameEnum.transform) {
-      // TODO: i18n
-      return `转化率`;
+      return this._transformRatioLocale;
     }
     const { dimensionFields, seriesFields } = this._seriesCacheInfo;
     const subDimensionField = dimensionFields[dimensionFields.length - 1];
