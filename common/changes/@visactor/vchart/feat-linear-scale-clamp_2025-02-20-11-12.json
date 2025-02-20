@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "'feat: support `clamp` in linear scales, #3738'",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
