@@ -63,7 +63,7 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
         mode: this._mode,
         skipDefault: this._markConfig.skipTheme
       });
-      this._product.appendChild(this._component);
+      this._component && this._product.appendChild(this._component);
     } else {
       this._component.setAttributes(attrs as any);
     }

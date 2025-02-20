@@ -29,32 +29,50 @@ export function toRenderMode(mode: RenderMode): any {
   return 'browser';
 }
 
-export function hasCommited(group: IMark) {
-  if (group.type === MarkTypeEnum.group) {
-    if (group.isCommited()) {
-      return true;
-    }
+export function traverseGroupMark<T>(
+  group: IMark,
+  apply: (mark: IMark) => T,
+  filter?: (mark: IMark) => boolean,
+  leafFirst?: boolean,
+  stop?: boolean
+): T | undefined {
+  const traverse = (mark: IMark): T | undefined => {
+    if (!leafFirst) {
+      if (mark && (!filter || filter(mark))) {
+        const res = apply.call(null, mark);
 
-    return (group as IGroupMark).getMarks().some(hasCommited);
-  }
-
-  return group.isCommited();
-}
-
-export function traverseRemove(group: IMark, m: IMark) {
-  if (group.type === MarkTypeEnum.group) {
-    if ((group as IGroupMark).removeMark(m)) {
-      return true;
-    }
-
-    const subMarks = (group as IGroupMark).getMarks();
-
-    for (let i = 0; i < subMarks.length; i++) {
-      if (traverseRemove(subMarks[i], m)) {
-        return true;
+        if (stop && res) {
+          return res;
+        }
       }
     }
-  }
 
-  return false;
+    if (mark.type === MarkTypeEnum.group) {
+      const children: IMark[] = (mark as IGroupMark).getMarks();
+
+      if (children) {
+        for (let i = 0; i < children.length; i++) {
+          const res = traverse(children[i]);
+
+          if (res && stop) {
+            return res;
+          }
+        }
+      }
+    }
+
+    if (leafFirst) {
+      if (mark && (!filter || filter(mark))) {
+        const res = apply.call(null, mark);
+
+        if (res && stop) {
+          return res;
+        }
+      }
+    }
+
+    return undefined;
+  };
+
+  return traverse(group);
 }

@@ -861,7 +861,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       return;
     }
 
-    const data = this._data?.getProduct();
+    const data = this._data?.getProduct() ?? [{}];
 
     const transformData = array(
       this.runTransforms(

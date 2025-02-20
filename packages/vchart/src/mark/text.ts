@@ -47,7 +47,7 @@ export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMa
 
     const { text } = textAttrs;
 
-    if ((isObject(text) && this._textType === 'rich', isValid((text as any).text))) {
+    if (isObject(text) && this._textType === 'rich' && isValid((text as any).text)) {
       textAttrs.textConfig = (text as any).text;
     }
 

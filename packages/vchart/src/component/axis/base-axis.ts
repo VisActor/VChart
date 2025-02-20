@@ -135,10 +135,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   getVRenderComponents() {
-    return [
-      this._axisMark?.getProduct()?.getGroupGraphicItem(),
-      this._gridMark?.getProduct()?.getGroupGraphicItem()
-    ].filter(isValid);
+    return [this._axisMark?.getProduct(), this._gridMark?.getProduct()].filter(isValid);
   }
 
   created() {
@@ -722,7 +719,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     }
 
     if (this._axisMark) {
-      return this._axisMark.getProduct()?.getGroupGraphicItem()?.attribute.items;
+      return this._axisMark.getProduct()?.attribute.items;
     }
   }
 }

@@ -901,12 +901,13 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           bindAxis = relativeAxes[0];
         }
         if (bindAxis) {
-          const axisMark = this._axisMark.getProduct();
+          const axisMark = this._axisMark;
           // 找到了绑定的 axis，获取基线的位置
           const position = bindAxis.valueToPosition(0);
           // 获取偏移量
           if (isX) {
-            axisMark.encode({
+            axisMark.stateStyle.normal = {
+              ...axisMark.stateStyle.normal,
               line: {
                 ...this._axisStyle.line,
                 dy:
@@ -917,9 +918,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                       )
                     : position
               }
-            });
+            };
           } else {
-            axisMark.encode({
+            axisMark.stateStyle.normal = {
+              ...axisMark.stateStyle.normal,
               line: {
                 ...this._axisStyle.line,
                 dx:
@@ -930,7 +932,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                         position
                       )
               }
-            });
+            };
           }
         }
       }

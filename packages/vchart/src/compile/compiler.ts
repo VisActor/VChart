@@ -25,9 +25,9 @@ import type { IVChart } from '../core/interface';
 import type { IMark, IMarkGraphic } from '../mark/interface';
 import { Factory } from '../core/factory';
 import type { Gesture } from '@visactor/vrender-kits';
-import { hasCommited } from './util';
 import { getDatumOfGraphic } from '../util/mark';
 import type { Datum } from '../typings';
+import { traverseGroupMark } from './util';
 
 type EventListener = {
   type: string;
@@ -275,8 +275,16 @@ export class Compiler implements ICompiler {
     }) as unknown as number;
   }
 
+  protected _commitedAll() {
+    return this._rootMarks.some(mark => {
+      return traverseGroupMark(mark, m => m.commit());
+    });
+  }
+
   protected _hasCommitedMark() {
-    return this._rootMarks.some(hasCommited);
+    return this._rootMarks.some(mark => {
+      return traverseGroupMark(mark, m => m.isCommited(), null, null, true);
+    });
   }
 
   renderMarks(morphConfig?: IMorphConfig) {
@@ -353,10 +361,12 @@ export class Compiler implements ICompiler {
 
     if (hasChange) {
       this._stage.resize(width, height);
-    }
-    // todo resize
-    if (reRender) {
-      this.render({ morph: false });
+      this._commitedAll();
+
+      // todo resize
+      if (reRender) {
+        this.render({ morph: false });
+      }
     }
   }
 
