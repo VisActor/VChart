@@ -709,6 +709,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           Object.prototype.hasOwnProperty.call(tempSpec, 'range') && (colorScaleSpec.range = tempSpec.range);
           Object.prototype.hasOwnProperty.call(tempSpec, 'specified') &&
             (colorScaleSpec.specified = tempSpec.specified);
+          Object.prototype.hasOwnProperty.call(tempSpec, 'clamp') && (colorScaleSpec.clamp = tempSpec.clamp);
         }
       }
     }
