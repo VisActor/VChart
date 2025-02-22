@@ -4,7 +4,7 @@ group: pictogram chart
 title: Map of China eating spicy degree pictograph  
 keywords: pictogramChart,map,comparison,china
 order: 26-6
-cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamapv4.gif
+cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinav4.gif
 option: pictogramChart
 ---
 
@@ -34,47 +34,54 @@ This pictogram chart shows the classification information of different regions i
 // import { registerPictogramChart } from '@visactor/vchart';
 // registerPictogramChart();
 /** --Add the above code when using in business context-- */
-// VCHART_MODULE.registerPictogramChart();
+
+VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
-const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamap.svg');
+const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/china.svg');
 const shape = await response.text();
-      // Define map data
-      const chinamap_data = [
-        { id: 'CN-11', name: 'Beijing', category: 'gold' },
-        { id: 'CN-12', name: 'Tianjin', category: 'gold' },
-        { id: 'CN-13', name: 'Hebei', category: 'gold' },
-        { id: 'CN-14', name: 'Shanxi', category: 'diamond' },
-        { id: 'CN-15', name: 'Inner Mongolia', category: 'diamond' },
-        { id: 'CN-21', name: 'Liaoning', category: 'diamond' },
-        { id: 'CN-22', name: 'Jilin', category: 'diamond' },
-        { id: 'CN-23', name: 'Heilongjiang', category: 'diamond' },
-        { id: 'CN-31', name: 'Shanghai', category: 'silver' },
-        { id: 'CN-32', name: 'Jiangsu', category: 'silver' },
-        { id: 'CN-33', name: 'Zhejiang', category: 'silver' },
-        { id: 'CN-34', name: 'Anhui', category: 'silver' },
-        { id: 'CN-35', name: 'Fujian', category: 'silver' },
-        { id: 'CN-36', name: 'Jiangxi', category: 'diamond' },
-        { id: 'CN-37', name: 'Shandong', category: 'gold' },
-        { id: 'CN-41', name: 'Henan', category: 'gold' },
-        { id: 'CN-42', name: 'Hubei', category: 'diamond' },
-        { id: 'CN-43', name: 'Hunan', category: 'MVP' },
-        { id: 'CN-44', name: 'Guangdong', category: 'silver' },
-        { id: 'CN-46', name: 'Hainan', category: 'bronze' },
-        { id: 'CN-50', name: 'Chongqing', category: 'MVP' },
-        { id: 'CN-51', name: 'Sichuan', category: 'MVP' },
-        { id: 'CN-52', name: 'Guizhou', category: 'MVP' },
-        { id: 'CN-53', name: 'Yunnan', category: 'diamond' },
-        { id: 'CN-54', name: 'Tibet', category: 'bronze' },
-        { id: 'CN-61', name: 'Shaanxi', category: 'gold' },
-        { id: 'CN-62', name: 'Gansu', category: 'MVP' },
-        { id: 'CN-63', name: 'Qinghai', category: 'bronze' },
-        { id: 'CN-64', name: 'Ningxia', category: 'bronze' },
-        { id: 'CN-65', name: 'Xinjiang', category: 'MVP' },
-        { id: 'CN-91', name: 'Hong Kong', category: 'bronze' },
-        { id: 'CN-92', name: 'Macau', category: 'bronze' },
-        { id: 'CN-71', name: 'Taiwan', category: 'bronze' },
-        { id: 'CN-45', name: 'Guangxi', category: 'gold' }
-      ]
+// Define map data
+const chinamap_data = [
+  { name: 'Hunan', category: 'MVP' ,level:'🌶🌶🌶🌶'},
+  { name: 'Chongqing', category: 'MVP',level:'🌶🌶🌶🌶' },
+  { name: 'Sichuan', category: 'MVP',level:'🌶🌶🌶🌶' },
+  { name: 'Guizhou', category: 'MVP' ,level:'🌶🌶🌶🌶'},    
+  { name: 'Gansu', category: 'MVP' ,level:'🌶🌶🌶🌶'},
+  { name: 'Xinjiang', category: 'MVP' ,level:'🌶🌶🌶🌶'},
+  { name: 'Jiangxi', category: 'MVP' ,level:'🌶🌶🌶🌶'},
+
+  { name: 'Shanxi', category: 'diamond' ,level:'🌶🌶🌶'},
+  { name: 'Nei Mongol', category: 'diamond' ,level:'🌶🌶🌶'},
+  { name: 'Liaoning', category: 'diamond' ,level:'🌶🌶🌶'},
+  { name: 'Jilin', category: 'diamond' ,level:'🌶🌶🌶'},
+  { name: 'Heilongjiang', category: 'diamond',level:'🌶🌶🌶' },
+  { name: 'Hubei', category: 'diamond' ,level:'🌶🌶🌶'},  
+  { name: 'Yunnan', category: 'diamond' ,level:'🌶🌶🌶'},  
+
+  { name: 'Beijing', category: 'gold' ,level:'🌶🌶'},
+  { name: 'Tianjin', category: 'gold',level:'🌶🌶' },
+  { name: 'Hebei', category: 'gold' ,level:'🌶🌶'},  
+  { name: 'Shandong', category: 'gold' ,level:'🌶🌶'},
+  { name: 'Henan', category: 'gold' ,level:'🌶🌶'},  
+  { name: 'Shaanxi', category: 'gold' ,level:'🌶🌶'},  
+  { name: 'Guangxi Zhuang', category: 'gold',level:'🌶🌶' },
+
+  { name: 'Shanghai', category: 'silver' ,level:'🌶'},
+  { name: 'Jiangsu', category: 'silver' ,level:'🌶'},
+  { name: 'Zhejiang', category: 'silver' ,level:'🌶'},
+  { name: 'Anhui', category: 'silver' ,level:'🌶'},
+  { name: 'Fujian', category: 'silver' ,level:'🌶'},
+  { name: 'Guangdong', category: 'silver',level:'🌶' },
+  
+  { name: 'Hainan', category: 'bronze' ,level:'🌶'},
+  { name: 'Tibet', category: 'bronze' ,level:'🌶'},
+  { name: 'Quinghai', category: 'bronze' ,level:'🌶'},
+  { name: 'Ningxia Hui', category: 'bronze' ,level:'🌶'},
+  { name: 'Hong Kong', category: 'bronze' ,level:'🌶'},
+  { name: 'Macau', category: 'bronze',level:'🌶' },
+  { name: 'Taiwan', category: 'bronze',level:'🌶' }
+     
+  ]
+
       // Define chart configuration objects
       const spec = {
         // The chart type is pictograph
@@ -87,16 +94,16 @@ const shape = await response.text();
         },
         color: {
           specified: {
-            // Diamond -- pink
-            diamond: 'pink',
-            //  Gold -- orange
-            gold: 'orange',
-            //  Silver - yellow
-            silver: 'yellow',
-            // Bronze -- green
-            bronze: 'green',
-            // Master -- Red
-            MVP: 'red',
+             // 大师
+            MVP:'rgb(109, 5, 5)',
+            // 钻石
+            diamond:'rgb(228, 14, 14)',
+            //  黄金
+            gold:'rgb(223, 89, 71)',
+            // 白银
+            silver:'rgb(247, 166, 16)',
+            // 青铜
+            bronze:'#f8e3b0',
             // The color of undefined categories is white
             undefined: 'white',
           },
@@ -106,8 +113,8 @@ const shape = await response.text();
         // Series fields are categories
         seriesField: 'category',
         //  The name field is the name
-        nameField: 'id',
-        valueField: 'name',
+        nameField: 'name',
+        valueField: 'level',
         // SVG graphic name used
         svg: 'chinamap',
         pictogram: {
@@ -119,12 +126,24 @@ const shape = await response.text();
             }
           },
           state: {
-            //  The fill color of the legend hover is gray
+            //  The fill color of the legend hover is white
             legend_hover_reverse: {
-              fill: '#ccc',
+              fill: 'white',
+            },
+            // The effect of making the province map "spit out" when hovering
+            hover: {
+            transform: 'scale(2)', 
+            opacity: 0.3, 
+            shadowBlur: 30, 
+            shadowColor: 'rgba(0, 0, 0, 0.97)', 
+            transition: {
+              duration: 1200, 
+              easing: 'ease-out'
             }
           }
-        },
+        }
+      },
+        
         //  Chart title
         title: {
           text: 'Spicy food in China at a glance'
@@ -159,7 +178,7 @@ const shape = await response.text();
       
       VChart.registerSVG('chinamap', shape);
 
-      const vchart = new VChart.(spec, { dom: CONTAINER_ID  });
+      const vchart = new VChart(spec, { dom: CONTAINER_ID  });
       // Listen for legend item hover events
       vchart.on('legendItemHover', e => {
         // Gets the legend item name of the hover
@@ -170,10 +189,11 @@ const shape = await response.text();
             legend_hover_reverse: {
               filter: d => {
                 // Finds the category of the current data item
-                const category = chinamap_data.find(chinamap_data => chinamap_data.id === d.data?.id)?.category;
+                const category = chinamap_data.find(chinamap_data => chinamap_data.name === d.data?.name)?.category;
                 // Return true if the class exists and is not equal to the legend item name of the hover, fals
                 return category && category!== hoveredName;
               }
+
           }
         });
       }
@@ -199,4 +219,3 @@ window['vchart'] = vchart;
 
 [PictogramChart](link)
 
-       

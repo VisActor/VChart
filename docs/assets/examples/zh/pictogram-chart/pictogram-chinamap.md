@@ -4,7 +4,7 @@ group: pictogram chart
 title: 中国地图吃辣程度一览象形图       
 keywords: pictogramChart,map,comparison,china
 order: 26-6
-cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamapv4.gif
+cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinav4.gif
 option: pictogramChart
 ---
 
@@ -37,44 +37,49 @@ option: pictogramChart
 /** --Add the above code when using in business context-- */
 VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
-const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamap.svg');
+const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/china.svg');
 const shape = await response.text();
 // 定义地图数据
-const chinamap_data = [
-  { id: 'CN-11', name: 'Beijing', category: 'gold' },
-  { id: 'CN-12', name: 'Tianjin', category: 'gold' },
-  { id: 'CN-13', name: 'Hebei', category: 'gold' },
-  { id: 'CN-14', name: 'Shanxi', category: 'diamond' },
-  { id: 'CN-15', name: 'Inner Mongolia', category: 'diamond' },
-  { id: 'CN-21', name: 'Liaoning', category: 'diamond' },
-  { id: 'CN-22', name: 'Jilin', category: 'diamond' },
-  { id: 'CN-23', name: 'Heilongjiang', category: 'diamond' },
-  { id: 'CN-31', name: 'Shanghai', category: 'silver' },
-  { id: 'CN-32', name: 'Jiangsu', category: 'silver' },
-  { id: 'CN-33', name: 'Zhejiang', category: 'silver' },
-  { id: 'CN-34', name: 'Anhui', category: 'silver' },
-  { id: 'CN-35', name: 'Fujian', category: 'silver' },
-  { id: 'CN-36', name: 'Jiangxi', category: 'diamond' },
-  { id: 'CN-37', name: 'Shandong', category: 'gold' },
-  { id: 'CN-41', name: 'Henan', category: 'gold' },
-  { id: 'CN-42', name: 'Hubei', category: 'diamond' },
-  { id: 'CN-43', name: 'Hunan', category: 'MVP' },
-  { id: 'CN-44', name: 'Guangdong', category: 'silver' },
-  { id: 'CN-46', name: 'Hainan', category: 'bronze' },
-  { id: 'CN-50', name: 'Chongqing', category: 'MVP' },
-  { id: 'CN-51', name: 'Sichuan', category: 'MVP' },
-  { id: 'CN-52', name: 'Guizhou', category: 'MVP' },
-  { id: 'CN-53', name: 'Yunnan', category: 'diamond' },
-  { id: 'CN-54', name: 'Tibet', category: 'bronze' },
-  { id: 'CN-61', name: 'Shaanxi', category: 'gold' },
-  { id: 'CN-62', name: 'Gansu', category: 'MVP' },
-  { id: 'CN-63', name: 'Qinghai', category: 'bronze' },
-  { id: 'CN-64', name: 'Ningxia', category: 'bronze' },
-  { id: 'CN-65', name: 'Xinjiang', category: 'MVP' },
-  { id: 'CN-91', name: 'Hong Kong', category: 'bronze' },
-  { id: 'CN-92', name: 'Macau', category: 'bronze' },
-  { id: 'CN-71', name: 'Taiwan', category: 'bronze' },
-  { id: 'CN-45', name: 'Guangxi', category: 'gold' }
+const chinamap_data = [  
+  { name: 'Hunan', category: 'MVP' ,level:'🌶🌶🌶🌶'},
+  { name: 'Chongqing', category: 'MVP',level:'🌶🌶🌶🌶' },
+  { name: 'Sichuan', category: 'MVP',level:'🌶🌶🌶🌶' },
+  { name: 'Guizhou', category: 'MVP' ,level:'🌶🌶🌶🌶'},    
+  { name: 'Gansu', category: 'MVP' ,level:'🌶🌶🌶🌶'},
+  { name: 'Xinjiang', category: 'MVP' ,level:'🌶🌶🌶🌶'},
+  { name: 'Jiangxi', category: 'MVP' ,level:'🌶🌶🌶🌶'},
+
+  { name: 'Shanxi', category: 'diamond' ,level:'🌶🌶🌶'},
+  { name: 'Nei Mongol', category: 'diamond' ,level:'🌶🌶🌶'},
+  { name: 'Liaoning', category: 'diamond' ,level:'🌶🌶🌶'},
+  { name: 'Jilin', category: 'diamond' ,level:'🌶🌶🌶'},
+  { name: 'Heilongjiang', category: 'diamond',level:'🌶🌶🌶' },
+  { name: 'Hubei', category: 'diamond' ,level:'🌶🌶🌶'},  
+  { name: 'Yunnan', category: 'diamond' ,level:'🌶🌶🌶'},  
+
+  { name: 'Beijing', category: 'gold' ,level:'🌶🌶'},
+  { name: 'Tianjin', category: 'gold',level:'🌶🌶' },
+  { name: 'Hebei', category: 'gold' ,level:'🌶🌶'},  
+  { name: 'Shandong', category: 'gold' ,level:'🌶🌶'},
+  { name: 'Henan', category: 'gold' ,level:'🌶🌶'},  
+  { name: 'Shaanxi', category: 'gold' ,level:'🌶🌶'},  
+  { name: 'Guangxi Zhuang', category: 'gold',level:'🌶🌶' },
+
+  { name: 'Shanghai', category: 'silver' ,level:'🌶'},
+  { name: 'Jiangsu', category: 'silver' ,level:'🌶'},
+  { name: 'Zhejiang', category: 'silver' ,level:'🌶'},
+  { name: 'Anhui', category: 'silver' ,level:'🌶'},
+  { name: 'Fujian', category: 'silver' ,level:'🌶'},
+  { name: 'Guangdong', category: 'silver',level:'🌶' },
+  
+  { name: 'Hainan', category: 'bronze' ,level:'🌶'},
+  { name: 'Tibet', category: 'bronze' ,level:'🌶'},
+  { name: 'Quinghai', category: 'bronze' ,level:'🌶'},
+  { name: 'Ningxia Hui', category: 'bronze' ,level:'🌶'},
+  { name: 'Hong Kong', category: 'bronze' ,level:'🌶'},
+  { name: 'Macau', category: 'bronze',level:'🌶' },
+  { name: 'Taiwan', category: 'bronze',level:'🌶' }
+
 ]
 // 定义图表配置对象
 const spec = {
@@ -88,16 +93,17 @@ const spec = {
   },
   color: {
     specified: {
-      // 钻石--粉色
-      diamond: 'pink',
-      // 黄金--橙色
-      gold: 'orange',
-      // 白银--黄色
-      silver: 'yellow',
-      // 青铜--绿色
-      bronze: 'green',
-      // 大师--红色
-      MVP: 'red',
+           // 大师
+            MVP:'rgb(109, 5, 5)',
+            // 钻石
+            diamond:'rgb(228, 14, 14)',
+            //  黄金
+            gold:'rgb(223, 89, 71)',
+            // 白银
+            silver:'rgb(247, 166, 16)',
+            // 青铜
+            bronze:'#f8e3b0',
+      
       // 未定义类别的颜色为白色
       undefined: 'white',
     },
@@ -107,8 +113,9 @@ const spec = {
   // 系列字段为类别
   seriesField: 'category',
   // 名称字段为名称
-  nameField: 'id',
-  valueField: 'name',
+  nameField: 'name',
+  //显示辣椒图标
+  valueField: 'level',
   // 使用的 SVG 图形名称
   svg: 'chinamap',
   pictogram: {
@@ -120,9 +127,20 @@ const spec = {
       }
     },
     state: {
-      // 图例悬停时的填充颜色为灰色
+      // 图例悬停时的填充颜色为白色
       legend_hover_reverse: {
-        fill: '#ccc',
+        fill: 'white',
+      },
+        // 鼠标悬停时让省份地图“吐出来”的效果
+      hover: {
+      transform: 'scale(2)',
+      opacity: 0.3,
+      shadowBlur: 30,
+      shadowColor: 'rgba(0, 0, 0, 0.97)',
+      transition: {
+        duration: 1200,
+        easing: 'ease-out'
+        }
       }
     }
   },
@@ -155,6 +173,7 @@ const spec = {
   ],
 };
 
+
 // VChart.registerPictogramChart();
 // VChart.default.registerSVG('chinamap', shape);
 
@@ -174,7 +193,7 @@ vchart.on('legendItemHover', e => {
       legend_hover_reverse: {
         filter: d => {
           // 查找当前数据项的类别
-          const category = chinamap_data.find(chinamap_data => chinamap_data.id === d.data?.id)?.category;
+          const category = chinamap_data.find(chinamap_data => chinamap_data.name === d.data?.name)?.category;
           // 如果类别存在且不等于悬停的图例项名称，则返回 true，否则返回 false
           return category && category!== hoveredName;
         }
@@ -202,3 +221,4 @@ window['vchart'] = vchart;
 ## 相关教程
 
 [象形图](link)
+
