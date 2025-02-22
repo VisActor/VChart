@@ -83,6 +83,7 @@ const chinamap_data = [
 
 ]
 
+
 // 定义图表配置对象
 const spec = {
   // 图表类型为象形图
@@ -95,17 +96,16 @@ const spec = {
   },
   color: {
     specified: {
-           // 大师
-            MVP:'rgb(109, 5, 5)',
-            // 钻石
-            diamond:'rgb(228, 14, 14)',
-            //  黄金
-            gold:'rgb(223, 89, 71)',
-            // 白银
-            silver:'rgb(247, 166, 16)',
-            // 青铜
-            bronze:'#f8e3b0',
-      
+      // 大师
+      MVP:'rgb(109, 5, 5)',
+      // 钻石
+      diamond:'rgb(228, 14, 14)',
+      //  黄金
+      gold:'rgb(223, 89, 71)',
+      // 白银
+      silver:'rgb(247, 166, 16)',
+      / 青铜
+      bronze:'#f8e3b0',
       // 未定义类别的颜色为白色
       undefined: 'white',
     },
@@ -118,6 +118,7 @@ const spec = {
   nameField: 'name',
   //显示辣椒图标
   valueField: 'level',
+
   // 使用的 SVG 图形名称
   svg: 'chinamap',
   pictogram: {
@@ -129,6 +130,7 @@ const spec = {
       }
     },
     state: {
+
       // 图例悬停时的填充颜色为白色
       legend_hover_reverse: {
         fill: 'white',
@@ -143,6 +145,7 @@ const spec = {
         duration: 1200,
         easing: 'ease-out'
         }
+
       }
     }
   },
@@ -197,12 +200,14 @@ vchart.on('legendItemHover', e => {
 
           const category = chinamap_data.find(chinamap_data => chinamap_data.name === d.data?.name)?.category;
 
+
           // 如果类别存在且不等于悬停的图例项名称，则返回 true，否则返回 false
           return category && category!== hoveredName;
         }
       }
     });
   }
+
 });
 
 // 监听图例项取消悬停事件
@@ -224,5 +229,4 @@ window['vchart'] = vchart;
 ## 相关教程
 
 [象形图](link)
-
 
