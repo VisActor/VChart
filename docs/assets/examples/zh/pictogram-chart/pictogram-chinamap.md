@@ -37,6 +37,7 @@ option: pictogramChart
 /** --Add the above code when using in business context-- */
 VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
+<<<<<<< HEAD
 const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/china.svg');
 const shape = await response.text();
 // 定义地图数据
@@ -81,6 +82,7 @@ const chinamap_data = [
   { name: 'Taiwan', category: 'bronze',level:'🌶' }
 
 ]
+
 // 定义图表配置对象
 const spec = {
   // 图表类型为象形图
@@ -173,7 +175,6 @@ const spec = {
   ],
 };
 
-
 // VChart.registerPictogramChart();
 // VChart.default.registerSVG('chinamap', shape);
 
@@ -193,7 +194,9 @@ vchart.on('legendItemHover', e => {
       legend_hover_reverse: {
         filter: d => {
           // 查找当前数据项的类别
+
           const category = chinamap_data.find(chinamap_data => chinamap_data.name === d.data?.name)?.category;
+
           // 如果类别存在且不等于悬停的图例项名称，则返回 true，否则返回 false
           return category && category!== hoveredName;
         }
@@ -221,4 +224,5 @@ window['vchart'] = vchart;
 ## 相关教程
 
 [象形图](link)
+
 

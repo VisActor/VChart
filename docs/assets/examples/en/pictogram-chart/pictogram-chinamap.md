@@ -34,6 +34,7 @@ This pictogram chart shows the classification information of different regions i
 // import { registerPictogramChart } from '@visactor/vchart';
 // registerPictogramChart();
 /** --Add the above code when using in business context-- */
+<<<<<<< HEAD
 
 VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
@@ -94,15 +95,15 @@ const chinamap_data = [
         },
         color: {
           specified: {
-             // 大师
+             // master
             MVP:'rgb(109, 5, 5)',
-            // 钻石
+            // diamond
             diamond:'rgb(228, 14, 14)',
-            //  黄金
+            //  gold
             gold:'rgb(223, 89, 71)',
-            // 白银
+            // siliver
             silver:'rgb(247, 166, 16)',
-            // 青铜
+            // bronze
             bronze:'#f8e3b0',
             // The color of undefined categories is white
             undefined: 'white',
