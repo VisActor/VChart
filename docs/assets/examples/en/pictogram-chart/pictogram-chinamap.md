@@ -25,27 +25,17 @@ This pictogram chart shows the classification information of different regions i
 
 ## Code Demonstration
 
-javascript
-
 ```javascript livedemo
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VChart map test</title>
-</head>
-
-<script src="node_modules/@visactor/vchart/build/index.js"
-  onload="console.log(VChart.version)"></script>
-<script src="node_modules/@visactor/vrender/dist/index.js"
-  onload="console.log(VRender.version)"></script>
-<body>
-  <div id="vchart" style="width: 1400px;height:800px"></div>
-</body>
-<script>
-  fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamap.svg').then(response => {
-    response.text().then(shape => {
+/** --Add the following code when using in business context-- */
+// When using in business context, please additionally import
+// import { registerPictogramChart } from '@visactor/vchart';
+// registerPictogramChart();
+/** --Add the above code when using in business context-- */
+VCHART_MODULE.registerPictogramChart();
+/** --Delete the above code when using in business context-- */
+const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamap.svg');
+const shape = await response.text();
+>>>>>>> docs: add custom pictogram-chinamap demo and related docs
       // 定义地图数据
       const chinamap_data = [
         { id: 'CN-11', name: 'Beijing', category: 'gold' },
@@ -181,4 +171,5 @@ javascript
               }
             }
           });
+        }
        
