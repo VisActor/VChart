@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@visactor/vchart": "^1.13.5",
+    "geojson-flatten": "^1.1.1",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
