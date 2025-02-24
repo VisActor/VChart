@@ -25,7 +25,7 @@ export class RankingList extends BaseChart<Omit<IRankingListSpec, 'data'>> {
       this._option.onError?.('Missing Required Config: `xField`, `yField` ');
       return false;
     }
-    if (!data) {
+    if (!data || data.length === 0) {
       this._option.onError?.('Data is required');
       return false;
     }

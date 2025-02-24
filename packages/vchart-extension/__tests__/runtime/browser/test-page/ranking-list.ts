@@ -210,9 +210,17 @@ const spec = {
       trigger: ['pointerdown'],
       triggerOff: null
     }
-  ]
-  // animation: false
+  ],
+  // label: {
+  //   visible: true
+  // }
+  animation: false,
+  customTransformSpec: spec => {
+    console.log('spec----', spec);
+    spec.axes[0].paddingOuter = 0.7;
+  }
 };
+console.log('spec', spec);
 
 const run = () => {
   registerRankingList();

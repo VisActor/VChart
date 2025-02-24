@@ -26,8 +26,24 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   protected dataSpecs: any[];
   protected formatMap: { [key: string]: (text: string, ctx: any) => string } = {};
 
+  protected isSpecValid(spec: any) {
+    const { xField, yField, data } = spec;
+    if (!xField || !yField) {
+      this._option.onError?.('Missing Required Config: `xField`, `yField` ');
+      return false;
+    }
+    if (!data || data.length === 0) {
+      this._option.onError?.('Data is required');
+      return false;
+    }
+    return true;
+  }
   transformSpec(spec: any): void {
     super.transformSpec(spec);
+    if (!this.isSpecValid(spec)) {
+      return;
+    }
+
     this.normalizeSpec(spec);
     this.upgradeTextMeasure(spec);
     this.upgradeFormatMap(spec);
@@ -55,6 +71,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
 
     this.transformPaddingSpec(spec);
     // console.log('original-spec', spec);
+
+    spec.customTransformSpec?.(spec);
 
     super.transformSpec(spec);
   }
