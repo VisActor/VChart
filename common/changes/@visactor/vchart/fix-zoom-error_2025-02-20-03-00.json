@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: map zoom error bug. fix#3743",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

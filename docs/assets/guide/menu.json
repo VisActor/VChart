@@ -56,6 +56,13 @@
                 "zh": "一份基础的 spec",
                 "en": "A Basic Spec"
               }
+            },
+            {
+              "path": "DeepSeek_With_Cursor",
+              "title": {
+                "zh": "Cursor+DeepSeek，快速上手属于你的 VChart 代码",
+                "en": "Cursor+DeepSeek: Quick Start to Your VChart Code"
+              }
             }
           ]
         },
