@@ -1,7 +1,7 @@
 ---
 category: examples
 group: pictogram chart
-title: 中国地图象形图 --- 由[Qian_Shark]贡献
+title: 中国地图吃辣程度一览象形图        ---- 由[Qian_Shark]贡献
 keywords: pictogramChart,map,comparison,china
 order: 1-13
 cover: https://github.com/UC-web291/picture_storing/blob/main/chinamap.png
