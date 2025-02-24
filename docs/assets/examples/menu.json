@@ -1701,6 +1701,13 @@
             "zh": "商场业态结构图",
             "en": "Shopping Mall Tenant Layout"
           }
+        },
+        {
+          "path": "pictogram-chinamap",
+          "title": {
+            "zh": "中国地图象形图",
+            "en": "Chinese Map Pictogram"
+          }
         }
       ]
     },
