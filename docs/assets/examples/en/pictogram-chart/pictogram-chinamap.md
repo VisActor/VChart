@@ -1,7 +1,7 @@
 ---
 category: examples
 group: pictogram chart
-title: Chinese Map Pictogram Contributed by [Qian_Shark]
+title: Chinese Map Pictogram --- Contributed by [Qian_Shark]
 keywords: pictogramChart,map,comparison,china
 order: 1-13
 cover: https://github.com/UC-web291/picture_storing/blob/main/chinamap.png
