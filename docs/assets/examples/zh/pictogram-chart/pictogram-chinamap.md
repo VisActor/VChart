@@ -173,7 +173,6 @@ const spec = {
   
 };
 
-
 // VChart.registerPictogramChart();
 // VChart.default.registerSVG('chinamap', shape);
 
