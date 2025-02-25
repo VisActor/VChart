@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add `transformRatioText` config for transformRatio text content in funnel tooltip, #3704",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

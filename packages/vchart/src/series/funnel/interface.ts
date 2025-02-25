@@ -85,6 +85,12 @@ export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMar
    */
   heightRatio?: number;
   /**
+   * 漏斗图转化率文案，用于转化层 tooltip key 的显示内容
+   *  @since 1.13.6
+   * @default '转化率'
+   * */
+  transformRatioText?: string;
+  /**
    * 漏斗层样式
    */
   [SeriesMarkNameEnum.funnel]?: IMarkSpec<IPathMarkSpec>;
