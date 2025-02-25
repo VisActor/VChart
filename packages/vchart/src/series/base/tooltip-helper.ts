@@ -1,5 +1,6 @@
 import type { ISeriesTooltipSpec, ITooltipSpec, TooltipHandlerParams } from '../../component/tooltip/interface';
 import type {
+  Datum,
   ITooltipActual,
   ITooltipLineActual,
   ITooltipLinePattern,
@@ -14,7 +15,6 @@ import type {
 } from '../../typings';
 import { array, isFunction, isValid } from '@visactor/vutils';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
-import type { Datum } from '@visactor/vgrammar-core';
 import type { IMark } from '../../mark/interface/common';
 import { getTimeString, isActiveTypeVisible, parseContent } from '../../component/tooltip/utils/common';
 import { getFirstDatumFromTooltipData, getTooltipContentValue } from '../../component/tooltip/utils/get-value';

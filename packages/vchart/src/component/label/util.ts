@@ -91,6 +91,7 @@ export function symbolLabel(labelInfo: ILabelInfo) {
     overlap = false;
   } else {
     overlap = {
+      clampForce: false,
       strategy: (labelSpec.overlap as OverlapAttrs)?.strategy ?? symbolLabelOverlapStrategy(),
       avoidBaseMark: position !== 'center'
     };

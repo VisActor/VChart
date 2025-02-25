@@ -1,6 +1,6 @@
 import { registerLineAnimation, registerAreaAnimation, registerScaleInOutAnimation } from '../../animation/config';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 import { Direction } from '../../typings/space';
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { AreaAppearPreset, IAreaAnimationParams } from './interface';
 
 const Appear_ClipIn: IAnimationTypeConfig = {

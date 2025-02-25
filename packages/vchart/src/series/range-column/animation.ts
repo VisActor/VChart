@@ -1,5 +1,5 @@
+import type { IAnimationTypeConfig } from '../../animation/interface';
 import { Factory } from '../../core/factory';
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { IRangeColumnAnimationParams, RangeColumnAppearPreset } from './interface';
 
 export const rangeColumnGrowIn = (params: IRangeColumnAnimationParams): IAnimationTypeConfig => {

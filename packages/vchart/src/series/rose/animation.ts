@@ -1,7 +1,7 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { Datum } from '../../typings';
 import { Factory } from '../../core/factory';
 import type { IRoseAnimationParams, RoseAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 export const Appear_Grow = (params: IRoseAnimationParams): IAnimationTypeConfig => {
   const from = params.growField === 'angle' ? 0 : params.innerRadius;

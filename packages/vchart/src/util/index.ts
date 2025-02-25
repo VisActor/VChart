@@ -19,5 +19,6 @@ export * from './text';
 export * from './data';
 export * from './hierarchy';
 export * from './style';
+export * from './mark';
 
 export const Utils = { TimeUtil };

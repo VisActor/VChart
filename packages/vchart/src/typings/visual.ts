@@ -5,7 +5,7 @@ import type { InterpolateType } from './interpolate';
 import type { ScaleType } from './scale';
 import type { ShapeType } from './shape';
 import type { IPoint } from './coordinate';
-import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark/interface';
+import type { IModelMarkAttributeContext } from '../compile/mark/interface';
 import type { Datum } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
@@ -99,12 +99,7 @@ export interface IVisualScale {
   changeDomain?: 'none' | 'replace' | 'expand';
 }
 
-export type FunctionType<T> = (
-  datum: Datum,
-  context: IModelMarkAttributeContext,
-  opt?: IAttributeOpt,
-  source?: DataView
-) => T;
+export type FunctionType<T> = (datum: Datum, context: IModelMarkAttributeContext, source?: DataView) => T;
 export type ValueType<T> = T;
 export type VisualType<T> = ValueType<T> | FunctionType<T> | IVisual<unknown, T>;
 

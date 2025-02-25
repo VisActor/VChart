@@ -6,7 +6,6 @@ import type { IComponentPluginService, IComponentPlugin } from '../../plugin/com
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
-import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant/event';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
@@ -136,7 +135,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     this.reAppendComponents();
   }
 
-  compileMarks(group?: string | IGroupMark) {
+  compileMarks(group?: IGroup) {
     this.getMarks().forEach(m => {
       m.compile({ group, context: { model: this } });
     });

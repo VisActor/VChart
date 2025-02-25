@@ -1,5 +1,5 @@
 import type { IConversionFunnelChartSpecBase, IConversionFunnelSeriesSpecBase } from './interface';
-import { VChart, FunnelChart, PREFIX, FunnelSeries, GroupMark } from '@visactor/vchart';
+import { VChart, FunnelChart, PREFIX, FunnelSeries, GroupMark, registerMarkFilterTransform } from '@visactor/vchart';
 import { DataView } from '@visactor/vdataset';
 import { ConversionFunnelChartSpecTransformer } from './conversion-funnel-transformer';
 import { conversionArrowTransform } from './arrow-data-transform';
@@ -42,7 +42,7 @@ export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeries
       rightGroup.getMarks().forEach(mark => {
         mark.setDataView(this._arrowData);
         mark.compileData();
-        mark.getProduct().transform([
+        mark.setTransform([
           {
             type: 'filter',
             callback: datum => datum.position === 'right'
@@ -55,7 +55,7 @@ export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeries
       leftGroup.getMarks().forEach(mark => {
         mark.setDataView(this._arrowData);
         mark.compileData();
-        mark.getProduct().transform([
+        mark.setTransform([
           {
             type: 'filter',
             callback: datum => datum.position === 'left'
@@ -67,6 +67,8 @@ export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeries
 }
 
 export const registerConversionFunnelChart = (option?: { VChart?: typeof VChart }) => {
+  registerMarkFilterTransform();
+
   const vchartConstructor = option?.VChart || VChart;
   if (vchartConstructor) {
     vchartConstructor.useChart([ConversionFunnelChart]);

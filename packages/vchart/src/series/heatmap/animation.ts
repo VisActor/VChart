@@ -1,7 +1,7 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { Factory } from '../../core/factory';
 import { FadeInOutAnimation } from '../../animation/config';
 import type { HeatmapAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 export function heatmapPresetAnimation(preset: HeatmapAppearPreset | boolean): IAnimationTypeConfig {
   if (preset === false) {

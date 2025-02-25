@@ -1,16 +1,11 @@
-import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isEqual, array, isValid } from '@visactor/vutils';
-import type { IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@visactor/vgrammar-core';
-import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
-import { DimensionTrigger } from '../interaction/dimension-trigger';
 import { MarkTypeEnum } from '../mark/interface/type';
 import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IGeoRegionSpec, IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
-import type { IInteraction, ITrigger } from '../interaction/interface';
-import { Interaction } from '../interaction/interaction';
+import type { IInteraction } from '../interaction/interface/common';
 import { ChartEvent } from '../constant/event';
 import { LayoutZIndex } from '../constant/layout';
 import { AttributeLevel } from '../constant/attribute';
@@ -20,6 +15,7 @@ import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
 import type { IGroupMark, IRectMark } from '../mark/interface/mark';
+import type { IGroup } from '@visactor/vrender-core';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
@@ -35,8 +31,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   layoutZIndex: number = LayoutZIndex.Region;
 
   animate?: IAnimate;
-
-  interaction: IInteraction = new Interaction();
 
   declare getSpecInfo: () => IRegionSpecInfo;
 
@@ -75,8 +69,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   protected _backgroundMark?: IRectMark;
   protected _foregroundMark?: IRectMark;
 
-  protected _trigger: ITrigger;
-
   constructor(spec: T, ctx: IModelOption) {
     super(spec, ctx);
     this.userId = spec.id;
@@ -86,7 +78,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
         getCompiler: ctx.getCompiler
       });
     }
-    this.interaction.setDisableActiveEffect(this._option.disableTriggerEvent);
   }
 
   protected _getClipDefaultValue() {
@@ -121,9 +112,19 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
 
     // hack: region 的样式不能设置在groupMark上，因为groupMark目前没有计算dirtyBound，会导致拖影问题
     if (!isEmpty(this._spec.style)) {
-      this._backgroundMark = this._createMark({ type: MarkTypeEnum.rect, name: 'regionBackground' }) as IRectMark;
+      this._backgroundMark = this._createMark(
+        { type: MarkTypeEnum.rect, name: 'regionBackground' },
+        {
+          parent: this._groupMark
+        }
+      ) as IRectMark;
       if (clip) {
-        this._foregroundMark = this._createMark({ type: MarkTypeEnum.rect, name: 'regionForeground' }) as IRectMark;
+        this._foregroundMark = this._createMark(
+          { type: MarkTypeEnum.rect, name: 'regionForeground' },
+          {
+            parent: this._groupMark
+          }
+        ) as IRectMark;
       }
       [this._backgroundMark, this._foregroundMark].forEach(mark => {
         if (mark) {
@@ -143,7 +144,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
       this._backgroundMark && this._backgroundMark.setMarkConfig({ zIndex: LayoutZIndex.SeriesGroup - 1 });
       this._foregroundMark && this._foregroundMark.setMarkConfig({ zIndex: LayoutZIndex.Mark + 1 });
     }
-    this.createTrigger();
   }
 
   private _createGroupMark(name: string, userId: StringOrNumber, zIndex: number) {
@@ -180,8 +180,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     super.init(option);
     this.initMark();
     this.initSeriesDataflow();
-    this.initInteraction();
-    this.initTrigger();
   }
   initMark() {
     this._initBackgroundMarkStyle();
@@ -324,52 +322,15 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     super.release();
     this._series = [];
   }
-  /** dimension */
-  createTrigger() {
-    const triggerOptions = {
-      ...this._option,
-      model: this,
-      interaction: this.interaction
-    };
-    this._trigger = new DimensionTrigger(triggerOptions);
-  }
 
-  initTrigger() {
-    // register all mark
-    // trigger check mark enable
-    this._series.forEach(s => {
-      s.getMarksWithoutRoot().forEach(m => {
-        this._trigger.registerMark(m);
-      });
-    });
-    this._trigger.init();
-  }
-
-  initInteraction() {
-    if (this._option.disableTriggerEvent) {
-      return;
-    }
-
-    // 注册所有支持反选状态mark
-    this._series.forEach(s => {
-      s.getMarksWithoutRoot().forEach(m => {
-        for (const key in STATE_VALUE_ENUM_REVERSE) {
-          if (!isEmpty(m.stateStyle[STATE_VALUE_ENUM_REVERSE[key]])) {
-            this.interaction.registerMark(STATE_VALUE_ENUM_REVERSE[key], m);
-          }
-        }
-      });
-    });
-  }
-
-  compileMarks(group?: string | IVGrammarGroupMark) {
+  compileMarks(group?: IGroup) {
     this.getMarks().forEach(m => {
       m.compile({ group, context: { model: this } });
-      m.getProduct()?.layout(
-        (group: IVGrammarGroupMark, children: IMark[], parentLayoutBounds: IBoundsLike, options?: ILayoutOptions) => {
-          // console.log('region mark layout');
-        }
-      );
+      // m.layout(
+      //   (group: IVGrammarGroupMark, children: IMark[], parentLayoutBounds: IBoundsLike, options?: ILayoutOptions) => {
+      //     // console.log('region mark layout');
+      //   }
+      // );
     });
   }
 
@@ -387,8 +348,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     };
   };
 
-  onLayoutEnd(ctx: any): void {
-    this._series.forEach(s => s.onLayoutEnd(ctx));
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    this._series.forEach(s => s.onLayoutEnd());
+    super.onLayoutEnd();
   }
 }

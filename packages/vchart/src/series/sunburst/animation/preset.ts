@@ -1,4 +1,4 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
+import type { IAnimationTypeConfig } from '../../../animation/interface';
 import type { ISunburstAnimationParams, SunburstAppearPreset } from './interface';
 
 /**

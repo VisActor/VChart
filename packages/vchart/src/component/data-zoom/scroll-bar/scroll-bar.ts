@@ -56,10 +56,10 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   }
 
   /** LifeCycle API**/
-  onLayoutEnd(ctx: any): void {
+  onLayoutEnd(): void {
     this._updateScaleRange();
     this.effect.onZoomChange?.();
-    super.onLayoutEnd(ctx);
+    super.onLayoutEnd();
   }
 
   protected _updateScaleRange() {

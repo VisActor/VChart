@@ -11,6 +11,7 @@ import type { IStackCacheNode, IStackCacheRoot } from '../../util/data';
 import { stackMosaic, stackMosaicTotal } from '../../util/data';
 import { stackSplit } from '../../data/transforms/stack-split';
 import { registerDataSetInstanceTransform } from '../../data/register';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.mosaic;
@@ -49,6 +50,7 @@ export class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> extends 
 }
 
 export const registerMosaicChart = () => {
+  registerDimensionHover();
   registerMosaicSeries();
   Factory.registerChart(MosaicChart.type, MosaicChart);
 };

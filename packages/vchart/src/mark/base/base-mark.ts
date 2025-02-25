@@ -1,4 +1,4 @@
-import type { IStateInfo, IAttributeOpt, IModelMarkAttributeContext } from '../../compile/mark/interface';
+import { type IStateInfo, type IModelMarkAttributeContext, STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { BaseSeries } from '../../series/base/base-series';
 import type {
   Datum,
@@ -23,8 +23,16 @@ import type {
   IMarkOption,
   StyleConvert,
   VisualScaleType,
-  MarkInputStyle
+  MarkInputStyle,
+  GroupedData,
+  IAttrs,
+  MarkTypeEnum,
+  IMarkGraphic,
+  DiffStateValues,
+  ProgressiveContext,
+  IProgressiveTransformResult
 } from '../interface';
+import { DiffState } from '../interface/enum';
 import { GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant/gradient';
 import { AttributeLevel } from '../../constant/attribute';
 import { isValidScaleType } from '@visactor/vscale';
@@ -32,14 +40,19 @@ import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme
 import type { ISeries } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
-import { degreeToRadian, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
-import { curveTypeTransform } from '../utils';
+import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
+import { curveTypeTransform, groupData, runEncoder } from '../utils/common';
+import { LayoutState } from '../../compile/interface';
+import type { IGroupGraphicAttribute, IGraphicAttribute, IGroup } from '@visactor/vrender-core';
+import { CustomPath2D } from '@visactor/vrender-core';
+import { isStateAttrChangeable } from '../../compile/mark/util';
+import { Factory } from '../../core/factory';
+import { DEFAULT_DATA_KEY } from '../../constant/data';
 
 export type ExChannelCall = (
   key: string | number | symbol,
   datum: Datum,
   states: StateValueType,
-  opt: unknown,
   baseValue: unknown
 ) => unknown;
 
@@ -49,6 +62,8 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   protected declare _option: IMarkOption;
 
   protected _attributeContext: IModelMarkAttributeContext;
+
+  protected _encoderOfState: Record<string, Record<string, (datum: Datum) => any>>;
 
   /** by _unCompileChannel, some channel need add default channel to make sure update available */
   _extensionChannel: {
@@ -230,8 +245,8 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
   }
 
-  getAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType = 'normal', opt?: IAttributeOpt) {
-    return this._computeAttribute(key, state)(datum, opt);
+  getAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType = 'normal') {
+    return this._computeAttribute(key, state)(datum);
   }
 
   setAttribute<U extends keyof T>(
@@ -327,27 +342,21 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
     if (hasPostProcess && hasExCompute) {
       const exCompute = this._computeExChannel[key];
-      return (datum: Datum, opt: IAttributeOpt) => {
-        let baseValue = baseValueFunctor(datum, opt);
+      return (datum: Datum) => {
+        let baseValue = baseValueFunctor(datum);
 
-        baseValue = stateStyle.postProcess(baseValue, datum, this._attributeContext, opt, this.getDataView());
+        baseValue = stateStyle.postProcess(baseValue, datum, this._attributeContext, this.getDataView());
 
-        return exCompute(key, datum, state, opt, baseValue);
+        return exCompute(key, datum, state, baseValue);
       };
     } else if (hasPostProcess) {
-      return (datum: Datum, opt: IAttributeOpt) => {
-        return stateStyle.postProcess(
-          baseValueFunctor(datum, opt),
-          datum,
-          this._attributeContext,
-          opt,
-          this.getDataView()
-        );
+      return (datum: Datum) => {
+        return stateStyle.postProcess(baseValueFunctor(datum), datum, this._attributeContext, this.getDataView());
       };
     } else if (hasExCompute) {
       const exCompute = this._computeExChannel[key];
-      return (datum: Datum, opt: IAttributeOpt) => {
-        return exCompute(key, datum, state, opt, baseValueFunctor(datum, opt));
+      return (datum: Datum) => {
+        return exCompute(key, datum, state, baseValueFunctor(datum));
       };
     }
     return baseValueFunctor;
@@ -355,18 +364,17 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
 
   protected _computeStateAttribute<U extends keyof T>(stateStyle: any, key: U, state: StateValueType) {
     if (!stateStyle) {
-      return (datum: Datum, opt: IAttributeOpt) => undefined as any;
+      return (datum: Datum) => undefined as any;
     }
     if (stateStyle.referer) {
       return stateStyle.referer._computeAttribute(key, state);
     }
     if (!stateStyle.style) {
-      return (datum: Datum, opt: IAttributeOpt) => stateStyle.style;
+      return (datum: Datum) => stateStyle.style;
     }
 
     if (typeof stateStyle.style === 'function') {
-      return (datum: Datum, opt: IAttributeOpt) =>
-        stateStyle.style(datum, this._attributeContext, opt, this.getDataView());
+      return (datum: Datum) => stateStyle.style(datum, this._attributeContext, { mark: this }, this.getDataView());
     }
 
     if (GradientType.includes(stateStyle.style.gradient)) {
@@ -380,16 +388,16 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
 
     if (isValidScaleType(stateStyle.style.scale?.type)) {
-      return (datum: Datum, opt: IAttributeOpt) => {
+      return (datum: Datum) => {
         let data = datum;
-        if (this.model.modelType === 'series' && (this.model as ISeries).getMarkData) {
-          data = (this.model as ISeries).getMarkData(datum);
+        if (this.model.modelType === 'series' && (this.model as unknown as ISeries).getMarkData) {
+          data = (this.model as unknown as ISeries).getMarkData(datum);
         }
 
         return stateStyle.style.scale.scale(data[stateStyle.style.field]);
       };
     }
-    return (datum: Datum, opt: IAttributeOpt) => {
+    return (datum: Datum) => {
       return stateStyle.style;
     };
   }
@@ -455,14 +463,14 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
         this.model.getColorScheme(),
         this.model.modelType === 'series' ? this.model.getSpec?.() : undefined
       ),
-      (this.model as ISeries).getDefaultColorDomain()
+      (this.model as unknown as ISeries).getDefaultColorDomain()
     );
     // 默认配置处理
     const mergedStyle = {
-      ...DEFAULT_GRADIENT_CONFIG[gradient],
+      ...(DEFAULT_GRADIENT_CONFIG as any)[gradient],
       ...rest
     };
-    return (data: Datum, opt: IAttributeOpt) => {
+    return (data: Datum) => {
       const computeStyle: any = {};
       const markData = this.getDataView();
       Object.keys(mergedStyle).forEach(key => {
@@ -472,7 +480,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
             const { opacity, color, offset } = stop;
             let computeColor = color ?? colorScale?.scale(data[colorField]);
             if (isFunction(color)) {
-              computeColor = color(data, this._attributeContext, opt, markData);
+              computeColor = color(data, this._attributeContext, markData);
             }
 
             if (isValid(opacity)) {
@@ -480,12 +488,12 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
             }
 
             return {
-              offset: isFunction(offset) ? offset(data, this._attributeContext, opt, markData) : offset,
+              offset: isFunction(offset) ? offset(data, this._attributeContext, markData) : offset,
               color: computeColor || themeColor[0]
             };
           });
         } else if (isFunction(value)) {
-          computeStyle[key] = value(data, this._attributeContext, opt, markData);
+          computeStyle[key] = value(data, this._attributeContext, markData);
         } else {
           computeStyle[key] = value;
         }
@@ -500,13 +508,13 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   private _computeBorderAttr(borderStyle: any) {
     const { scale, field, ...mergedStyle } = borderStyle;
 
-    return (data: Datum, opt: IAttributeOpt) => {
+    return (data: Datum) => {
       const computeStyle: any = {};
 
       Object.keys(mergedStyle).forEach(key => {
         const value = mergedStyle[key];
         if (isFunction(value)) {
-          computeStyle[key] = value(data, this._attributeContext, opt, this.getDataView());
+          computeStyle[key] = value(data, this._attributeContext, this.getDataView());
         } else {
           computeStyle[key] = value;
         }
@@ -517,7 +525,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
             this.model.getColorScheme(),
             this.model.modelType === 'series' ? this.model.getSpec?.() : undefined
           ),
-          (this.model as ISeries).getDefaultColorDomain()
+          (this.model as unknown as ISeries).getDefaultColorDomain()
         );
         let colorScale = scale;
         let colorField = field;
@@ -534,9 +542,540 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
           computeStyle.stroke = colorScale?.scale(data[colorField]) || themeColor[0];
         }
       } else if (GradientType.includes(mergedStyle.stroke?.gradient)) {
-        computeStyle.stroke = this._computeGradientAttr(mergedStyle.stroke)(data, opt);
+        computeStyle.stroke = this._computeGradientAttr(mergedStyle.stroke)(data);
       }
       return computeStyle;
     };
+  }
+
+  protected _dataByGroup: GroupedData<Datum>;
+  protected _dataByKey: GroupedData<Datum>;
+  protected _graphicMap: Map<string, IMarkGraphic> = new Map();
+  protected _graphics: IMarkGraphic[] = [];
+
+  protected _keyGetter: (datum: Datum) => string;
+  protected _groupKeyGetter: (datum: Datum) => string;
+
+  private renderContext?: {
+    parameters?: any;
+    progressive?: ProgressiveContext;
+    beforeTransformProgressive?: IProgressiveTransformResult;
+  };
+
+  protected _getDataByKey(data: Datum[]) {
+    return groupData(data, (datum: Datum) => {
+      return `${this._groupKeyGetter(datum)}_${this._keyGetter(datum)}`;
+    });
+  }
+
+  protected _getCommonContext() {
+    return {
+      markType: this.type as MarkTypeEnum,
+      markId: this.id,
+      modelId: this.model.id,
+      markUserId: this._userId,
+      modelUserId: this.model.userId
+    };
+  }
+
+  reuse(mark: IMark) {
+    if (this.type !== mark.type) {
+      return;
+    }
+    this._product = mark.getProduct();
+    this._graphics = mark.getGraphics();
+    this._graphicMap = (mark as any)._graphicMap;
+
+    this._graphicMap.forEach(g => {
+      if (this._product) {
+        this._product.appendChild(g);
+      }
+
+      g.context = { ...g.context, ...this._getCommonContext() };
+    });
+    this._dataByKey = (mark as any)._dataByKey;
+  }
+
+  getGraphics() {
+    return this._graphics;
+  }
+
+  protected _createGraphic(attrs: any = {}): IMarkGraphic {
+    return Factory.createGraphicComponent(this.type, attrs);
+  }
+
+  protected _runGroupData(data: Datum[]) {
+    this._keyGetter = isFunction(this.key)
+      ? (this.key as (datum: Datum) => string)
+      : isValid(this.key)
+      ? (datum: Datum) => datum?.[this.key as string]
+      : (datum: Datum) => datum?.[DEFAULT_DATA_KEY];
+    this._groupKeyGetter = isValid(this._groupKey)
+      ? (datum: Datum) => {
+          return `${datum?.[this._groupKey]}`;
+        }
+      : () => 'key';
+
+    this._dataByGroup = groupData(data, this._groupKeyGetter);
+  }
+
+  protected _runJoin(data: Datum[]) {
+    const newGroupedData = this._getDataByKey(data);
+    const prevGroupedData = this._dataByKey;
+    const newGraphics: IMarkGraphic[] = [];
+
+    const enterGraphics = new Set<IMarkGraphic>(this._graphics.filter(g => g.context.diffState === DiffState.enter));
+
+    const callback = (key: string, newData: Datum[], prevData: Datum[]) => {
+      let g: IMarkGraphic;
+      let diffState: DiffStateValues;
+
+      if (isNil(newData)) {
+        g = this._graphicMap.get(key);
+
+        if (g) {
+          diffState = DiffState.exit;
+        }
+      } else if (isNil(prevData)) {
+        // enter
+        if (this._graphicMap.has(key)) {
+          g = this._graphicMap.get(key);
+        } else {
+          g = {} as IMarkGraphic; //
+        }
+        diffState = DiffState.enter;
+
+        if (g.context?.diffState === DiffState.exit) {
+          // force element to stop exit animation if it is reentered
+          // todo animaiton
+        }
+
+        this._graphicMap.set(key, g as IMarkGraphic);
+        newGraphics.push(g as IMarkGraphic);
+      } else {
+        // update
+        g = this._graphicMap.get(key);
+
+        if (g) {
+          diffState = DiffState.update;
+          newGraphics.push(g as IMarkGraphic);
+        }
+      }
+
+      if (g) {
+        g.context = {
+          ...this._getCommonContext(),
+          diffState,
+          data: newData,
+          key,
+          groupKey: newData ? this._groupKeyGetter(newData[0]) : g.context?.groupKey
+        };
+        enterGraphics.delete(g);
+      }
+    };
+
+    if (prevGroupedData && newGroupedData) {
+      const prevMap = new Map(prevGroupedData.data);
+      const newKeys = newGroupedData.keys;
+
+      newKeys.forEach(key => {
+        callback(key, newGroupedData.data.get(key), prevMap.get(key));
+        prevMap.delete(key);
+      });
+
+      prevGroupedData.keys.forEach(key => {
+        if (prevMap.has(key)) {
+          callback(key, null, prevMap.get(key));
+        }
+      });
+    } else if (newGroupedData) {
+      newGroupedData.keys.forEach(key => {
+        // enter
+        callback(key, newGroupedData.data.get(key), null);
+      });
+    } else if (prevGroupedData) {
+      prevGroupedData.keys.forEach(key => {
+        // exit
+        callback(key, null, prevGroupedData.data.get(key));
+      });
+    }
+
+    // Enter elements between dataflow start data and end data should be removed directly.
+    enterGraphics.forEach(g => {
+      this._graphicMap.delete(g.context.key);
+
+      if ((g as IMarkGraphic).parent) {
+        (g as IMarkGraphic).parent.removeChild(g as IMarkGraphic);
+      }
+      if ((g as IMarkGraphic).release) {
+        (g as IMarkGraphic).release();
+      }
+    });
+
+    this._dataByKey = newGroupedData;
+    this._graphics = newGraphics;
+  }
+
+  _runEncoderOfGraphic(styles: Record<string, (datum: Datum) => any>, g: IMarkGraphic, attrs: any = {}) {
+    return runEncoder(styles, g.context.data[0], attrs);
+  }
+
+  _runGroupEncoder(groupStyles: Record<string, (datum: Datum) => any>) {
+    if (!this._dataByGroup) {
+      return null;
+    }
+
+    const attrsByGroup: any = {};
+
+    this._dataByGroup.keys.forEach(key => {
+      attrsByGroup[key] = runEncoder(groupStyles, this._dataByGroup.data.get(key)[0]);
+    });
+
+    return attrsByGroup;
+  }
+
+  protected _transformGraphicAttributes(g: IMarkGraphic, attrs: any, groupAttrs?: any) {
+    return {
+      ...groupAttrs,
+      ...attrs
+    };
+  }
+
+  protected _separateNormalStyle(normalStyle: Partial<IAttrs<T>>, splitGroupEncoder?: boolean) {
+    const updateStyles: Record<string, (datum: Datum) => any> = {};
+    const groupStyles: Record<string, (datum: Datum) => any> = {};
+
+    Object.keys(normalStyle).forEach(key => {
+      if (this._unCompileChannel[key]) {
+        return;
+      }
+
+      if (
+        this._option.noSeparateStyle ||
+        splitGroupEncoder ||
+        isStateAttrChangeable(key, normalStyle, this.getGroupKey())
+      ) {
+        updateStyles[key] = this._computeAttribute(key, 'normal');
+      } else {
+        groupStyles[key] = this._computeAttribute(key, 'normal');
+      }
+    });
+
+    return { updateStyles, groupStyles };
+  }
+
+  protected _getEncoderByState = (stateName: string) => {
+    const style = this.stateStyle[stateName];
+
+    if (style) {
+      const validEncoder: Record<string, (datum: Datum) => any> = {};
+      Object.keys(style).forEach(key => {
+        if (this._unCompileChannel[key]) {
+          return;
+        }
+
+        validEncoder[key] = this._computeAttribute(key, stateName);
+      });
+
+      return validEncoder;
+    }
+
+    return null;
+  };
+
+  protected _setGraphicFromMarkConfig = (g: IMarkGraphic) => {
+    const { setCustomizedShape, support3d, graphicName } = this._markConfig;
+
+    if (setCustomizedShape) {
+      g.pathProxy = (attrs: Partial<IGraphicAttribute>) => {
+        return setCustomizedShape(g.context.data, attrs, new CustomPath2D());
+      };
+    }
+
+    if (graphicName) {
+      if (isFunction(graphicName)) {
+        g.name = (graphicName as (e: IMarkGraphic) => string)(g);
+      } else {
+        g.name = graphicName as string;
+      }
+    }
+  };
+
+  protected _setStateOfGraphic = (g: IMarkGraphic) => {
+    g.clearStates();
+    g.stateProxy = null;
+
+    if (g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update) {
+      g.stateProxy = (stateName: string, nexStates: string[]) => {
+        return this._runEncoderOfGraphic(this._encoderOfState?.[stateName], g);
+      };
+
+      g.useStates(g.context.states);
+    }
+  };
+
+  protected _runEncoder(splitGroupEncoder?: boolean) {
+    const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...otherStateStyle } = this.stateStyle;
+    const { groupStyles, updateStyles } = this._separateNormalStyle(normalStyle, splitGroupEncoder);
+
+    const attrsByGroup = this._runGroupEncoder(groupStyles);
+
+    this._graphics.forEach((g, index) => {
+      const attrs = this._runEncoderOfGraphic(updateStyles, g);
+
+      // 配置的优先级高于encoder
+      if (!isNil(this._markConfig.interactive)) {
+        attrs.pickable = this._markConfig.interactive;
+      }
+
+      const finalAttrs = this._transformGraphicAttributes(g, attrs, attrsByGroup?.[g.context.groupKey]);
+
+      if (!g.setAttributes) {
+        const mockGraphic = g;
+        g = this._createGraphic(finalAttrs);
+        this._product.appendChild(g);
+        g.context = mockGraphic.context;
+        this._graphics[index] = g;
+        this._graphicMap.set(g.context.key, g);
+      } else {
+        g.setAttributes(finalAttrs);
+      }
+
+      this._setStateOfGraphic(g);
+      this._setGraphicFromMarkConfig(g);
+    });
+  }
+
+  protected _runState() {
+    const encoderOfState: Record<string, Record<string, (datum: Datum) => any>> = {};
+
+    Object.keys(this.stateStyle).forEach(stateName => {
+      if (stateName !== STATE_VALUE_ENUM.STATE_NORMAL) {
+        encoderOfState[stateName] = this._getEncoderByState(stateName);
+      }
+    });
+
+    this._encoderOfState = encoderOfState;
+
+    this._graphics.forEach(g => {
+      const prevInteractionStateValues = (g.currentStates ?? []).filter((sv: string) => {
+        return !this.state.getStateInfo(sv);
+      });
+      const newStateValues = [...prevInteractionStateValues, ...this.state.checkState(g, g.context.data)];
+
+      if (this._stateSort && newStateValues.length) {
+        newStateValues.sort(this._stateSort);
+      }
+      // const prevStateValues = g.context.states;
+      // const isStateChanged =
+      //   newStateValues.length !== prevStateValues.length ||
+      //   newStateValues.some((newState: string, index: number) => newState !== prevStateValues[index]);
+
+      g.context.states = newStateValues;
+    });
+  }
+
+  protected _getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}): IGroupGraphicAttribute {
+    const { zIndex, clip, clipPath, overflow } = this._markConfig;
+
+    if (!isNil(zIndex)) {
+      attrs.zIndex = zIndex;
+    }
+
+    if (!isNil(clip)) {
+      attrs.clip = clip;
+    }
+
+    if (!isNil(clipPath)) {
+      const paths = isArray(clipPath) ? clipPath : clipPath(this._graphics);
+
+      if (paths && paths.length) {
+        attrs.path = paths;
+      } else {
+        attrs.clip = false;
+        attrs.path = paths;
+      }
+    }
+
+    if (!isNil(overflow)) {
+      attrs.overflow = overflow;
+    }
+
+    return attrs;
+  }
+
+  protected _updateAttrsOfGroup() {
+    const attrs = this._getAttrsFromConfig();
+
+    this._product?.setAttributes(attrs);
+
+    if (this._markConfig.support3d && this._product) {
+      this._product.setMode('3d');
+    }
+  }
+
+  protected runBeforeTransform(data: Datum[]) {
+    const transforms = this._transform?.filter(transformSpec => {
+      if (transformSpec.type) {
+        const transform = Factory.getGrammarTransform(transformSpec.type);
+        return !transform?.isGraphic;
+      }
+
+      return false;
+    });
+
+    return this.runTransforms(transforms, data);
+  }
+
+  protected _runMainTasks() {
+    if (
+      !this.getVisible() ||
+      (this.getSkipBeforeLayouted() && this.getCompiler().getLayoutState() === LayoutState.before)
+    ) {
+      return;
+    }
+
+    const data = this._data?.getProduct() ?? [{}];
+
+    const transformData = this.runBeforeTransform(data);
+    let markData: Datum[];
+
+    if ((transformData as any)?.progressive) {
+      this.renderContext = {
+        beforeTransformProgressive: (transformData as any).progressive as IProgressiveTransformResult
+      };
+      const p = (transformData as any).progressive;
+      if (p.canAnimate && p.canAnimate() && p.unfinished()) {
+        this._updateAttrsOfGroup();
+        return;
+      }
+    } else {
+      markData = array(transformData);
+      this._runGroupData(markData);
+    }
+
+    this._runJoin(markData);
+    this._runState();
+    this._runEncoder();
+
+    if (!this.renderContext?.progressive) {
+      this.runTransforms(
+        this._transform?.filter(transformSpec => {
+          if (transformSpec.type) {
+            const transform = Factory.getGrammarTransform(transformSpec.type);
+            return transform?.isGraphic;
+          }
+
+          return false;
+        }),
+        this._graphics
+      );
+    }
+    this._updateAttrsOfGroup();
+  }
+
+  render() {
+    if (this._isCommited) {
+      this._runMainTasks();
+      // 接入动画后，需要等动画结束在清除exit节点
+      this._cleanExitGraphics();
+    }
+
+    this.uncommit();
+  }
+
+  updateMarkState(key: string): void {
+    if (!this._product) {
+      return;
+    }
+    const stateInfo = this.state.getStateInfo(key);
+
+    this._graphics.forEach(g => {
+      if (this.state.checkOneState(g, g.context.data, stateInfo) === 'in') {
+        g.addState(key, true);
+      } else {
+        g.removeState(key);
+      }
+    });
+  }
+
+  protected _cleanExitGraphics() {
+    this._graphicMap.forEach((g, key) => {
+      if (g.context.diffState === DiffState.exit) {
+        this._graphicMap.delete(key);
+        if (g.parent) {
+          g.parent.removeChild(g);
+        }
+        g.release();
+      }
+    });
+  }
+
+  isProgressive() {
+    return this.renderContext && (!!this.renderContext.progressive || !!this.renderContext.beforeTransformProgressive);
+  }
+
+  canAnimateAfterProgressive() {
+    return (
+      this.renderContext &&
+      this.renderContext.beforeTransformProgressive &&
+      this.renderContext.beforeTransformProgressive.canAnimate?.()
+    );
+  }
+
+  isDoingProgressive() {
+    return (
+      this.renderContext &&
+      ((this.renderContext.progressive &&
+        this.renderContext.progressive.currentIndex < this.renderContext.progressive.totalStep) ||
+        (this.renderContext.beforeTransformProgressive && this.renderContext.beforeTransformProgressive.unfinished()))
+    );
+  }
+
+  clearProgressive() {
+    if (this.renderContext && this.renderContext.progressive) {
+      this._graphics = [];
+
+      (this._product as any).children.forEach((group: IGroup) => {
+        group.incrementalClearChild();
+      });
+      (this._product as any).removeAllChild();
+    }
+
+    if (this.renderContext && this.renderContext.beforeTransformProgressive) {
+      this.renderContext.beforeTransformProgressive.release();
+    }
+
+    this.renderContext = null;
+  }
+
+  restartProgressive() {
+    if (this.renderContext && this.renderContext.progressive) {
+      this.renderContext.progressive.currentIndex = 0;
+    }
+  }
+  protected renderBeforeProgressive() {
+    const transform = this.renderContext.beforeTransformProgressive;
+
+    transform.progressiveRun();
+    const output = transform.output();
+
+    if (transform.canAnimate?.()) {
+      if (transform.unfinished()) {
+        return;
+      }
+
+      this._runGroupData(output);
+      this._runJoin(output);
+      this._runState();
+      this._runEncoder();
+    }
+  }
+
+  renderProgressive() {
+    if (this.renderContext?.beforeTransformProgressive) {
+      this.renderBeforeProgressive();
+      return;
+    }
   }
 }

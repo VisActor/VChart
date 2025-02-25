@@ -1,16 +1,16 @@
 import { Factory } from './../core/factory';
-import { registerWaveGlyph } from '@visactor/vgrammar-core';
-import type { ILiquidMarkSpec } from '../typings';
 import type { IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { BaseMark } from './base';
 import type { ILiquidMark } from '../series/liquid/liquid';
-// eslint-disable-next-line no-duplicate-imports
-import type { IGroupMark } from '@visactor/vgrammar-core';
+import { GlyphMark, registerGlyphMark } from './glyph';
+import { createArea, type IAreaGraphicAttribute, type IGlyph } from '@visactor/vrender-core';
+import type { IPointLike } from '@visactor/vutils';
+import { registerArea } from '@visactor/vrender-kits';
+import type { ILiquidMarkSpec } from '../typings/visual';
+import type { Datum } from '../typings/common';
 
-const WAVE_GLYPH_TYPE = 'wave';
-export class LiquidMark extends BaseMark<ILiquidMarkSpec> implements ILiquidMark {
+export class LiquidMark extends GlyphMark<ILiquidMarkSpec> implements ILiquidMark {
   static readonly type = MarkTypeEnum.liquid;
   readonly type = LiquidMark.type;
 
@@ -22,18 +22,76 @@ export class LiquidMark extends BaseMark<ILiquidMarkSpec> implements ILiquidMark
     return defaultStyle;
   }
 
-  /** 创建语法元素对象 */
-  protected _initProduct(group?: string | IGroupMark) {
-    const view = this.getVGrammarView();
+  protected _subMarks = {
+    wave0: {
+      type: 'area',
+      defaultAttributes: {
+        curveType: 'monotoneX',
+        fillOpacity: 1
+      }
+    },
+    wave1: {
+      type: 'area',
+      defaultAttributes: {
+        curveType: 'monotoneX',
+        fillOpacity: 0.66
+      }
+    },
+    wave2: {
+      type: 'area',
+      defaultAttributes: {
+        curveType: 'monotoneX',
+        fillOpacity: 0.33
+      }
+    }
+  };
 
-    // 声明语法元素
-    const id = this.getProductId();
-    this._product = view.glyph(WAVE_GLYPH_TYPE, group ?? view.rootMark).id(id);
-    this._compiledProductId = id;
-  }
+  protected _positionChannels: string[] = ['wave', 'y', 'height'];
+
+  protected _positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
+    const {
+      wave = (g.attribute as any).wave,
+      y = (g.attribute as any).y,
+      height = (g.attribute as any).height
+    } = glyphAttrs;
+    const points0: IPointLike[] = [];
+    const points1: IPointLike[] = [];
+    const points2: IPointLike[] = [];
+
+    for (let i = 0; i < 21; i++) {
+      const waveHeight = i % 2 === 0 ? 20 : 0;
+      const x = -500 + 50 * i;
+      const wy = y + waveHeight;
+      const wy1 = y + height;
+
+      points0.push({ x: x + wave * 100, y: wy, y1: wy1 });
+      points1.push({ x: x + wave * 200 - 40, y: wy, y1: wy1 });
+      points2.push({ x: x + wave * 300 - 20, y: wy, y1: wy1 });
+    }
+
+    return {
+      wave0: {
+        x: 0,
+        y: 0,
+        points: points0
+      },
+      wave1: {
+        x: 0,
+        y: 0,
+        points: points1
+      },
+      wave2: {
+        x: 0,
+        y: 0,
+        points: points2
+      }
+    };
+  };
 }
 
 export const registerLiquidMark = () => {
+  registerGlyphMark();
+  registerArea();
   Factory.registerMark(LiquidMark.type, LiquidMark);
-  registerWaveGlyph();
+  Factory.registerGraphicComponent('area', (attrs: IAreaGraphicAttribute) => createArea(attrs));
 };
