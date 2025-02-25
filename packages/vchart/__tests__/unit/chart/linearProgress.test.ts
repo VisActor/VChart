@@ -2,10 +2,10 @@ import { DataSet, csvParser } from '@visactor/vdataset';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { LinearProgressSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
-import { LinearProgressChart, ThemeManager } from '../../../src';
+import { LinearProgressChart } from '../../../src';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
-import { initChartDataSet } from '../../util/context';
+import { getTheme, initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
@@ -41,7 +41,7 @@ describe('linearProgress chart test', () => {
     const transformer = new LinearProgressChart.transformerConstructor({
       type: 'linearProgress',
       seriesType: 'linearProgress',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
@@ -59,7 +59,7 @@ describe('linearProgress chart test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme(true),
+        getTheme: getTheme,
         animation: false,
         getSpecInfo: () => info
       } as any

@@ -2,12 +2,12 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import type { BarSeries, IChartSpec } from '../../../src';
+import type { BarSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
-import { BarChart, ThemeManager } from '../../../src';
+import { BarChart } from '../../../src';
 import { DataSet } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
-import { initChartDataSet } from '../../util/context';
+import { getTheme, initChartDataSet } from '../../util/context';
 import { getTestCompiler } from '../../util/factory/compiler';
 
 // 保证引入执行 Build-in
@@ -92,7 +92,7 @@ describe('Bar chart test', () => {
     const transformer = new BarChart.transformerConstructor({
       type: 'bar',
       seriesType: 'bar',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
@@ -113,7 +113,7 @@ describe('Bar chart test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme(true),
+        getTheme: getTheme,
         getSpecInfo: () => info
       } as any
     );
