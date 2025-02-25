@@ -4,7 +4,11 @@ group: pictogram chart
 title: Map of China eating spicy degree pictograph  
 keywords: pictogramChart,map,comparison,china
 order: 26-6
+<<<<<<< HEAD
 cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/5.gif
+=======
+cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamapv4.gif
+>>>>>>> docs: add custom funnel demo and related docs
 option: pictogramChart
 ---
 
@@ -34,7 +38,7 @@ The classification information of different regions in China can be displayed th
 // import { registerPictogramChart } from '@visactor/vchart';
 // registerPictogramChart();
 /** --Add the above code when using in business context-- */
-VCHART_MODULE.registerPictogramChart();
+// VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
 const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamap.svg');
 const shape = await response.text();
@@ -202,7 +206,6 @@ vchart.on('legendItemUnHover', e => {
     }
   });
 });
-
 
 vchart.renderSync();
 
