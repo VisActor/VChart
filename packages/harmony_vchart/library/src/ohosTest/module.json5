@@ -1,9 +1,9 @@
 {
   "module": {
-    "name": "entry_test",
+    "name": "library_test",
     "type": "feature",
     "deviceTypes": [
-      "phone",
+      "default",
       "tablet",
       "2in1"
     ],
