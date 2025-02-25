@@ -1,14 +1,17 @@
 ---
 category: examples
 group: pictogram chart
-title: Map of China eating spicy degree pictograph    ---- contributed by [Qian_Shark]
+title: Map of China eating spicy degree pictograph  
 keywords: pictogramChart,map,comparison,china
-order: 1-13
-cover: https://github.com/UC-web291/picture_storing/blob/main/chinamap.png
+order: 26-6
+cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamapv4.gif
 option: pictogramChart
 ---
 
 # Chinese Map Pictogram - A Glance at the Spiciness Level in Chinese Provinces
+
+contributed by Qian_Shark
+
 This pictogram chart shows the classification information of different regions in China. The colors are mapped according to different spiciness categories, with warmer colors indicating a higher tolerance for spicy food and cooler colors indicating a lower tolerance. It also supports legend hover interaction to display provincial information.
 
 ## Key Configurations
@@ -23,7 +26,7 @@ This pictogram chart shows the classification information of different regions i
 - Declare the styles of the pictogram elements using the pictogram.style attribute.
 - Listen for the legendItemHover and legendItemUnHover events to implement legend hover interaction.
 
-## Code Demonstration
+## Code Demo
 
 ```javascript livedemo
 /** --Add the following code when using in business context-- */
@@ -31,12 +34,11 @@ This pictogram chart shows the classification information of different regions i
 // import { registerPictogramChart } from '@visactor/vchart';
 // registerPictogramChart();
 /** --Add the above code when using in business context-- */
-VCHART_MODULE.registerPictogramChart();
+// VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
 const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamap.svg');
 const shape = await response.text();
->>>>>>> docs: add custom pictogram-chinamap demo and related docs
-      // 定义地图数据
+      // Define map data
       const chinamap_data = [
         { id: 'CN-11', name: 'Beijing', category: 'gold' },
         { id: 'CN-12', name: 'Tianjin', category: 'gold' },
@@ -72,58 +74,58 @@ const shape = await response.text();
         { id: 'CN-92', name: 'Macau', category: 'bronze' },
         { id: 'CN-71', name: 'Taiwan', category: 'bronze' },
         { id: 'CN-45', name: 'Guangxi', category: 'gold' }
-      ];
-      // 定义图表配置对象
+      ]
+      // Define chart configuration objects
       const spec = {
-        // 图表类型为象形图
+        // The chart type is pictograph
         type: 'pictogram',
         data: {
-          // 数据的唯一标识符
+          // Unique identifier of the data
           id: 'data',
-          // 数据的值
+          // Data value
           values: chinamap_data,
         },
         color: {
           specified: {
-            // 钻石--粉色
+            // Diamond -- pink
             diamond: 'pink',
-            // 黄金--橙色
+            //  Gold -- orange
             gold: 'orange',
-            // 白银--黄色
+            //  Silver - yellow
             silver: 'yellow',
-            // 青铜--绿色
+            // Bronze -- green
             bronze: 'green',
-            // 大师--红色
+            // Master -- Red
             MVP: 'red',
-            // 未定义类别的颜色为白色
+            // The color of undefined categories is white
             undefined: 'white',
           },
-          // 颜色映射的字段为类别
+          // Series fields are categories
           field: 'category'
         },
-        // 系列字段为类别
+        // Series fields are categories
         seriesField: 'category',
-        // 名称字段为名称
+        //  The name field is the name
         nameField: 'id',
         valueField: 'name',
-        // 使用的 SVG 图形名称
+        // SVG graphic name used
         svg: 'chinamap',
         pictogram: {
           style: {
             fill: {
-              // 填充颜色使用 color 颜色映射，字段为类别
+              // Fill color Use color to map the color. The fields are categories
               scale: 'color',
               field: 'category'
             }
           },
           state: {
-            // 图例悬停时的填充颜色为灰色
+            //  The fill color of the legend hover is gray
             legend_hover_reverse: {
               fill: '#ccc',
             }
           }
         },
-        // 图表标题
+        //  Chart title
         title: {
           text: 'Spicy food in China at a glance'
         },
@@ -152,24 +154,49 @@ const shape = await response.text();
         ],
       };
 
-      VChart.registerPictogramChart();
-      VChart.default.registerSVG('chinamap', shape);
-      const vchart = new VChart.default(spec, { dom: 'vchart' });
-      // 监听图例项悬停事件
+      // VChart.registerPictogramChart();
+      // VChart.default.registerSVG('chinamap', shape);
+      
+      VChart.registerSVG('chinamap', shape);
+
+      const vchart = new VChart.(spec, { dom: CONTAINER_ID  });
+      // Listen for legend item hover events
       vchart.on('legendItemHover', e => {
-        // 获取悬停的图例项名称
+        // Gets the legend item name of the hover
         const hoveredName = e?.value?.data?.label;
         if (hoveredName) {
-          // 更新图表状态，将未悬停的图例项颜色设置为灰色
+          // Update the chart status by setting the color of the legend item that is not hovering
           vchart.updateState({
             legend_hover_reverse: {
               filter: d => {
-                // 查找当前数据项的类别
+                // Finds the category of the current data item
                 const category = chinamap_data.find(chinamap_data => chinamap_data.id === d.data?.id)?.category;
-                // 如果类别存在且不等于悬停的图例项名称，则返回 true，否则返回 false
+                // Return true if the class exists and is not equal to the legend item name of the hover, fals
                 return category && category!== hoveredName;
               }
-            }
-          });
-        }
+          }
+        });
+      }
+    });
+
+  // Listen for the legend item unhover event
+vchart.on('legendItemUnHover', e => {
+  // Update the chart state to restore the color of all legend items to the original color
+  vchart.updateState({
+    legend_hover_reverse: {
+      filter: d => false
+    }
+  });
+});
+
+vchart.renderSync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+## Related Tutorials
+
+[PictogramChart](link)
+
        

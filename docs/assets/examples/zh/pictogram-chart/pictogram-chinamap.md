@@ -1,14 +1,16 @@
 ---
 category: examples
 group: pictogram chart
-title: 中国地图吃辣程度一览象形图        ---- 由[Qian_Shark]贡献
+title: 中国地图吃辣程度一览象形图       
 keywords: pictogramChart,map,comparison,china
-order: 1-13
-cover: https://github.com/UC-web291/picture_storing/blob/main/chinamap.png
+order: 26-6
+cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamapv4.gif
 option: pictogramChart
 ---
 
 # 中国地图象形图--中国省份吃辣程度一览
+
+由 Qian_Shark 贡献
 
 通过象形图展示中国各地区的分类信息，可根据吃辣的不同类别进行颜色映射，从强到弱颜色越来越骗冷调，同时支持图例悬停交互显示省份信息。
 
@@ -73,7 +75,7 @@ const chinamap_data = [
   { id: 'CN-92', name: 'Macau', category: 'bronze' },
   { id: 'CN-71', name: 'Taiwan', category: 'bronze' },
   { id: 'CN-45', name: 'Guangxi', category: 'gold' }
-];
+]
 // 定义图表配置对象
 const spec = {
   // 图表类型为象形图
@@ -153,9 +155,15 @@ const spec = {
   ],
 };
 
-VChart.registerPictogramChart();
-VChart.default.registerSVG('chinamap', shape);
-const vchart = new VChart.default(spec, { dom: 'vchart' });
+// VChart.registerPictogramChart();
+// VChart.default.registerSVG('chinamap', shape);
+
+// 注册 SVG 图形资源，名称为 chinamap，图形数据为 shape
+VChart.registerSVG('chinamap', shape);
+
+// 创建 VChart 实例，传入图表配置对象和容器 ID
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+
 // 监听图例项悬停事件
 vchart.on('legendItemHover', e => {
   // 获取悬停的图例项名称
@@ -174,3 +182,23 @@ vchart.on('legendItemHover', e => {
     });
   }
 });
+
+// 监听图例项取消悬停事件
+vchart.on('legendItemUnHover', e => {
+  // 更新图表状态，将所有图例项颜色恢复为原始颜色
+  vchart.updateState({
+    legend_hover_reverse: {
+      filter: d => false
+    }
+  });
+});
+
+// 渲染图表
+vchart.renderSync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+## 相关教程
+
+[象形图](link)
