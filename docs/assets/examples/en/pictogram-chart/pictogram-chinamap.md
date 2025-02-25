@@ -26,6 +26,7 @@ This pictogram chart shows the classification information of different regions i
 - Declare the styles of the pictogram elements using the pictogram.style attribute.
 - Listen for the legendItemHover and legendItemUnHover events to implement legend hover interaction.
 
+
 ## Code Demo
 
 ```javascript livedemo
@@ -34,6 +35,7 @@ This pictogram chart shows the classification information of different regions i
 // import { registerPictogramChart } from '@visactor/vchart';
 // registerPictogramChart();
 /** --Add the above code when using in business context-- */
+
 // VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
 const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamap.svg');
@@ -174,6 +176,7 @@ const shape = await response.text();
                 // Return true if the class exists and is not equal to the legend item name of the hover, fals
                 return category && category!== hoveredName;
               }
+
           }
         });
       }
@@ -198,5 +201,6 @@ window['vchart'] = vchart;
 ## Related Tutorials
 
 [PictogramChart](link)
+
 
        
