@@ -6,7 +6,7 @@ import type { IModelRenderOption } from '../../model/interface';
 import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { PREFIX } from '../../constant/base';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
-import type { IGroupMark, IMark } from '../../mark/interface';
+import { MarkTypeEnum, type IGroupMark, type IMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { Bounds, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
@@ -224,6 +224,29 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
       x2: x + result.width,
       y2: y + result.height
     };
+  }
+
+  getVRenderComponents() {
+    const comps: any[] = [];
+    const checkFunc = (m: IMark) => {
+      if (m && m.type === MarkTypeEnum.group) {
+        m.getMarks().forEach(child => {
+          checkFunc(child as IMark);
+        });
+      } else if (m.type === MarkTypeEnum.component) {
+        const comp = m?.getProduct()?.getGroupGraphicItem();
+
+        if (comp) {
+          comps.push(comp);
+        }
+      }
+    };
+
+    this.getMarks().forEach(m => {
+      checkFunc(m);
+    });
+
+    return comps;
   }
 }
 

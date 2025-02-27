@@ -88,6 +88,22 @@ export function valueInScaleRange(v: number, s?: IBaseScale, useWholeRange?: boo
   return Math.min(Math.max(min, v), max);
 }
 
+export function isValueInScaleDomain(v: number | number[], s?: IBaseScale, useWholeRange?: boolean) {
+  if (!s) {
+    return true;
+  }
+  const scaleRange = s.range();
+  const range =
+    useWholeRange && (s as any)._calculateWholeRange ? (s as any)._calculateWholeRange(scaleRange) : s.range();
+  const domain = range.map((v: number) => s.invert(v));
+  const min = Math.min(domain[0], domain[domain.length - 1]);
+  const max = Math.max(domain[0], domain[domain.length - 1]);
+  if (Array.isArray(v)) {
+    return v.every(v => v >= min && v <= max);
+  }
+  return v >= min && v <= max;
+}
+
 export function isSpecValueWithScale(specValue: any) {
   return isValid(specValue?.field) && isValid(specValue?.scale);
 }
