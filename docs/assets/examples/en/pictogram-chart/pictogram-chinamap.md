@@ -28,7 +28,6 @@ This pictogram chart shows the classification information of different regions i
 
 ## Code Demo
 
-
 ```javascript livedemo
 /** --Add the following code when using in business context-- */
 // When using in business context, please additionally import

@@ -195,14 +195,12 @@ vchart.on('legendItemHover', e => {
         filter: d => {
           // 查找当前数据项的类别
           const category = chinamap_data.find(chinamap_data => chinamap_data.name === d.data?.name)?.category;
-
           // 如果类别存在且不等于悬停的图例项名称，则返回 true，否则返回 false
           return category && category!== hoveredName;
         }
       }
     });
   }
-
 });
 
 // 监听图例项取消悬停事件
