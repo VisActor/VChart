@@ -4,7 +4,7 @@ group: storytelling
 title: dynamic texture for bar
 keywords: animation,morphing,bar,barChart,dynamic-texture,comparison
 order: 42-0
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-pie.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/dynamic-texture-bar.gif
 option: barChart#dynamicTexture
 ---
 

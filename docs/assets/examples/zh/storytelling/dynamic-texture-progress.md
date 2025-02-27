@@ -4,7 +4,8 @@ group: storytelling
 title: 进度图的动态纹理
 keywords: animation,morphing,linearProgress,dynamic-texture,comparison
 order: 42-0
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-pie.gif
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/dynamic-texture-lineprogress.gif
+
 option: linearProgress#dynamicTexture
 ---
 
@@ -28,6 +29,7 @@ option: linearProgress#dynamicTexture
 const path =
       'M 8.25 -11 L 11 -11 V -8.25 L -8.25 11 H -11 V 8.25 L 8.25 -11 Z M -11 -11 H -8.3789 L -11 -8.2539 V -11 Z M 11 11 H 8.3789 L 11 8.2539 V 11 Z';
 const spec = {
+  background: 'black',
   type: 'linearProgress',
   data: [
     {
@@ -55,7 +57,14 @@ const spec = {
   xField: 'value',
   yField: 'type',
   seriesField: 'type',
+  track: {
+    style: {
+      opacity: 0.3
+    }
+  },
   progress: {
+    topPadding: 2,
+    bottomPadding: 2,
     style: {
       texture: path,
       textureSize: 30,
@@ -64,6 +73,7 @@ const spec = {
       textureColor: 'orange',
       textureOptions: datum => {
         return {
+          // useNewCanvas: true,
           beforeDynamicTexture: (ctx, row, column, rowCount, columnCount, ratio, graphic) => {
             const dx = ratio - 0.5;
             const size = 30;
@@ -95,11 +105,11 @@ const spec = {
     }
   },
   cornerRadius: 20,
-  bandWidth: 30,
+  bandWidth: 20,
   axes: [
     {
       orient: 'left',
-      label: { visible: true },
+      label: { visible: false },
       type: 'band',
       domainLine: { visible: false },
       tick: { visible: false }
