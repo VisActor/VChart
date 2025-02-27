@@ -72,7 +72,7 @@ const spec = {
 
 VChart.registerSVG('cat', shape);
 
-const vchart = new VChart(spec, { dom: 'pictogram' });
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
