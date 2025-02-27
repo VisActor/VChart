@@ -26,7 +26,6 @@ This pictogram chart shows the classification information of different regions i
 - Declare the styles of the pictogram elements using the pictogram.style attribute.
 - Listen for the legendItemHover and legendItemUnHover events to implement legend hover interaction.
 
-
 ## Code Demo
 
 
@@ -82,6 +81,8 @@ const chinamap_data = [
   { name: 'Taiwan', category: 'bronze',level:'🌶' }
      
   ]
+
+      // Define chart configuration objects
       const spec = {
         // The chart type is pictograph
         type: 'pictogram',
@@ -192,8 +193,6 @@ const chinamap_data = [
                 // Return true if the class exists and is not equal to the legend item name of the hover, fals
                 return category && category!== hoveredName;
               }
-
-
           }
         });
       }
