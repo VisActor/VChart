@@ -37,7 +37,7 @@ option: pictogramChart
 /** --Add the above code when using in business context-- */
 VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
-<<<<<<< HEAD
+
 const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/china.svg');
 const shape = await response.text();
 // 定义地图数据

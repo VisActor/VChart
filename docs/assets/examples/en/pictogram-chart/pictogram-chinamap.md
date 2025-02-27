@@ -34,7 +34,7 @@ This pictogram chart shows the classification information of different regions i
 // import { registerPictogramChart } from '@visactor/vchart';
 // registerPictogramChart();
 /** --Add the above code when using in business context-- */
-<<<<<<< HEAD
+
 
 VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
