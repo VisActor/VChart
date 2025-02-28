@@ -50,6 +50,7 @@ import { Factory } from '../../core/factory';
 import { FunnelSeriesSpecTransformer } from './funnel-transformer';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
+import { moveAfterInArray } from '../../util/array';
 
 export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   extends BaseSeries<T>
@@ -348,6 +349,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     }
 
     const target = labelMark.getTarget();
+    const component = labelMark.getComponent();
 
     if (target === this._funnelMark) {
       this._labelMark = labelMark;
@@ -363,6 +365,16 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         'normal',
         AttributeLevel.Series
       );
+
+      const rootMarks = this.getCompiler().getRootMarks();
+
+      // 调整在rootMarks中的顺序，这个会影响最终渲染的顺序
+      if (this._funnelOuterLabelMark.label) {
+        moveAfterInArray(rootMarks, this._funnelOuterLabelMark.label, component);
+      }
+      if (this._funnelOuterLabelMark.line) {
+        moveAfterInArray(rootMarks, this._funnelOuterLabelMark.line, this._funnelOuterLabelMark.label ?? component);
+      }
       // component.model.event.on(HOOK_EVENT.AFTER_ELEMENT_ENCODE, this.handleLabelComponentUpdate);
     } else if (this._funnelTransformMark && target === this._funnelTransformMark) {
       this._transformLabelMark = labelMark;

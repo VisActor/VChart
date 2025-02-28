@@ -439,5 +439,5 @@ export const registerLabel = () => {
   });
   registerLabelMark();
   registerComponentMark();
-  Factory.registerComponent(Label.type, Label, true, Infinity); // 标签逐渐最后创建
+  Factory.registerComponent(Label.type, Label, true, Infinity); // 标签组件最后创建
 };

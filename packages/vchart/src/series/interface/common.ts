@@ -99,9 +99,6 @@ export interface ISeriesMarkInitOption extends Partial<IMarkOption> {
   /** 是否是 series field 所作用的 mark（用于 tooltip shape 取色等） */
   isSeriesMark?: boolean;
 
-  /** 该 mark 依赖于哪些语法元素 */
-  depend?: IGrammarItem | IGrammarItem[];
-
   /** 数据 key 值 */
   key?: string | ((datum: any) => string);
 

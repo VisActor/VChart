@@ -8,8 +8,6 @@ import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { BaseWordCloudSeries } from './base';
 import { Factory } from '../../core/factory';
 import { registerWordCloud3dAnimation } from './animation';
-import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
-import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-shape';
 import type { ITextMark } from '../../mark/interface';
 
 export class WordCloud3dSeries<
@@ -86,13 +84,11 @@ export class WordCloud3dSeries<
 }
 
 export const registerWordCloud3dSeries = () => {
-  registerWordCloudTransforms();
   registerTextMark();
   registerWordCloud3dAnimation();
   Factory.registerSeries(WordCloud3dSeries.type, WordCloud3dSeries);
 };
 
 export const registerWordCloudShape3dSeries = () => {
-  registerWordCloudShapeTransforms();
   registerWordCloud3dSeries();
 };

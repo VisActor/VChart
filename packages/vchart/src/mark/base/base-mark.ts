@@ -59,6 +59,7 @@ import type { IModel } from '../../model/interface';
 import type { ICompilableData } from '../../compile/data/interface';
 import type { MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
+import { log } from '../../util';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -1394,12 +1395,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   render() {
     if (this._isCommited) {
+      log(`render mark: ${this.getProductId()}, type is ${this.type}`);
       this._runMainTasks();
       // 接入动画后，需要等动画结束在清除exit节点
       this._cleanExitGraphics();
+      this.uncommit();
     }
-
-    this.uncommit();
   }
 
   updateMarkState(key: string): void {

@@ -180,8 +180,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       isSeriesMark: false,
       parent: this._pictogramMark,
       groupKey: '_uniqueId',
-      skipBeforeLayouted: true,
-      depend: this.getMarksWithoutRoot()
+      skipBeforeLayouted: true
     }) as ITextMark;
 
     if (labelMark) {

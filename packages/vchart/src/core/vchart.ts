@@ -414,6 +414,13 @@ export class VChart implements IVChart {
       pluginList.push('scrollbar');
     }
 
+    const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
+    Logger.setInstance(logger);
+    if (this._option?.onError) {
+      logger.addErrorHandler((...args) => {
+        this._option?.onError?.(...args);
+      });
+    }
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -2188,8 +2195,6 @@ export const registerVChartCore = () => {
   registerDimensionHover();
   // install default theme
   registerTheme(darkTheme.name, darkTheme);
-  // set default logger level to Level.error
-  Logger.getInstance(LoggerLevel.Error);
 };
 
 registerVChartCore();
