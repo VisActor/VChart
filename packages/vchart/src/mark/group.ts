@@ -1,7 +1,7 @@
 import { Factory } from './../core/factory';
 import type { Maybe } from '../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { warn } from '../util/debug';
+import { log, warn } from '../util/debug';
 import type { IGroupMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IGroupMark, IMark, IMarkGraphic, MarkType } from './interface';
@@ -116,9 +116,10 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
   render(): void {
     if (this._isCommited) {
+      log(`render mark: ${this.getProductId()}, type is ${this.type}`);
       this._renderSelf();
+      this.uncommit();
     }
-    this.uncommit();
 
     this.getMarks().forEach(mark => {
       mark.render();

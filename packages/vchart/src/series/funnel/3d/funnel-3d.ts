@@ -75,8 +75,7 @@ export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec>
       this._funnelOuterLabelMark.line = this._createMark(Funnel3dSeries.mark.outerLabelLine, {
         themeSpec: lineTheme,
         key: this._seriesField,
-        markSpec: line,
-        depend: [this._funnelOuterLabelMark.label]
+        markSpec: line
       }) as IRuleMark;
     }
   }

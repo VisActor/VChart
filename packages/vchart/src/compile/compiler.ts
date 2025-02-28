@@ -25,6 +25,7 @@ import { Factory } from '../core/factory';
 import type { Gesture } from '@visactor/vrender-kits';
 import { findMarkGraphic, getDatumOfGraphic } from '../util/mark';
 import { diffMarks, findSimpleMarks, traverseGroupMark } from './util';
+import { log } from '../util/debug';
 
 type EventListener = {
   type: string;
@@ -32,6 +33,7 @@ type EventListener = {
 };
 
 export class Compiler implements ICompiler {
+  private _count: number = 0;
   /**
    *  更新后缓存的mark
    */
@@ -104,12 +106,7 @@ export class Compiler implements ICompiler {
     if (this._stage) {
       return;
     }
-    const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
-    if (this._option?.onError) {
-      logger.addErrorHandler((...args) => {
-        this._option?.onError?.(...args);
-      });
-    }
+
     const {
       autoRefreshDpr,
       dpr,
@@ -186,18 +183,7 @@ export class Compiler implements ICompiler {
         isObject(gestureConfig) ? gestureConfig : {}
       ) as Gesture;
     }
-    // 允许手势
 
-    // eventConfig: {
-    //   gesture: isValid(gestureConfig) ? (gestureConfig as any) : isMobileLikeMode(mode),
-    //   disable: interactive === false,
-
-    // },
-    // doLayout: () => {
-    //   this._compileChart?.onLayout(this._view);
-    // },
-    // logger: logger,
-    // logLevel: logger.level()
     this._setCanvasStyle();
 
     // emit afterRender event
@@ -326,6 +312,7 @@ export class Compiler implements ICompiler {
       return;
     }
 
+    log(`--- start of renderMarks(${this._count}) ---`);
     this.clearProgressive();
 
     // 更新所有的mark
@@ -352,6 +339,9 @@ export class Compiler implements ICompiler {
 
     this._doRender();
     this.doPreProgressive();
+
+    log(`--- start of renderMarks(${this._count}) ---`);
+    this._count++;
   }
 
   reuseOrMorphing(morphConfig: IMorphConfig = {}) {
