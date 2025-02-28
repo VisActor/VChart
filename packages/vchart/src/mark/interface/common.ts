@@ -178,8 +178,6 @@ export interface ICompileMarkConfig extends IMarkConfig {
    * 是否支持 3d
    */
   support3d?: boolean;
-  /* customized shape of mark  */
-  setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
   /**
    * 裁剪配置
    * @since 1.10.0
