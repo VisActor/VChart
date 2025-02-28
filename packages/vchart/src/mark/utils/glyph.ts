@@ -13,5 +13,8 @@ export const addRuntimeState = (
 
   g.runtimeStateCache[stateName] = attrs;
 
+  if (g.hasState(stateName)) {
+    g.removeState(stateName);
+  }
   g.addState(stateName, keepCurrentStates, hasAnimation);
 };

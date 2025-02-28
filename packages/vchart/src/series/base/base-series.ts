@@ -688,13 +688,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return `${this.type}_${this.id}_extensionMark`;
   }
 
-  protected _initExtensionMark(options: { hasAnimation: boolean; depend?: IMark[] }) {
+  protected _initExtensionMark(options: { hasAnimation: boolean }) {
     if (!this._spec.extensionMark) {
       return;
     }
-    const mainMarks = this.getMarksWithoutRoot();
-
-    options.depend = mainMarks;
 
     this._spec.extensionMark?.forEach((m, i) => {
       this._createExtensionMark(m, null, this._getExtensionMarkNamePrefix(), i, options);
@@ -706,7 +703,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     parentMark: null | IGroupMark,
     namePrefix: string,
     index: number,
-    options: { hasAnimation: boolean; depend?: IMark[] }
+    options: { hasAnimation: boolean }
   ) {
     const mark = this._createMark(
       { type: spec.type, name: isValid(spec.name) ? `${spec.name}` : `${namePrefix}_${index}` },
@@ -717,7 +714,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         parent: parentMark,
         dataView: false,
         componentType: spec.componentType,
-        depend: options.depend,
         key: spec.dataKey
       }
     ) as IGroupMark;

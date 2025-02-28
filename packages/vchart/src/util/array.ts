@@ -27,5 +27,14 @@ export function combineDomains(domains: number[][]): number[] {
 
   return result;
 }
+export function moveAfterInArray<T>(array: T[], target: T, ref: T) {
+  const index = array.indexOf(target);
+  const refIndex = array.indexOf(ref);
+
+  if (index >= 0 && refIndex >= 0 && index < refIndex) {
+    array.splice(index, 1);
+    array.splice(refIndex, 0, target);
+  }
+}
 
 export { array, peek, maxInArr, minInArr };

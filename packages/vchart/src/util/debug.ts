@@ -2,7 +2,7 @@ import { Logger, isFunction } from '@visactor/vutils';
 
 export const log = (msg: string, ...args: any[]) => {
   if (!config.silent) {
-    return Logger.getInstance().info(msg, ...args);
+    return Logger.getInstance().info(`[VChart log]: ${msg}`, ...args);
   }
   return null;
 };
