@@ -202,11 +202,9 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         themeSpec: this._theme?.funnel,
         groupKey: this._seriesField,
         isSeriesMark: true,
-        stateSort: this._spec.funnel?.stateSort,
         noSeparateStyle: true
       },
       {
-        setCustomizedShape: this._spec.funnel?.customShape,
         morph: shouldMarkDoMorph(this._spec, this._funnelMarkName),
         morphElementKey: this._seriesField
       }
@@ -222,11 +220,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         {
           themeSpec: this._theme?.transform,
           skipBeforeLayouted: true,
-          stateSort: this._spec.transform?.stateSort,
           noSeparateStyle: true
-        },
-        {
-          setCustomizedShape: this._spec.transform?.customShape
         }
       );
       if (this._funnelTransformMark) {

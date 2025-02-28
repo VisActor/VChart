@@ -4,7 +4,8 @@ import type {
   IAnimationConfig,
   ChannelAnimationConfig,
   IAnimationTypeConfig,
-  IAnimationTimeline
+  IAnimationTimeline,
+  TypeAnimationConfig
 } from './interface';
 import type { IStateAnimateSpec, IAnimationSpec } from './spec';
 import { isFunction, isValidNumber } from '../util/type';
@@ -33,7 +34,7 @@ export function animationConfig<Preset extends string>(
   const config = {} as MarkAnimationSpec;
   for (let i = 0; i < AnimationStates.length; i++) {
     const state = AnimationStates[i];
-    const userStateConfig = userConfig ? userConfig[state] : undefined;
+    const userStateConfig = userConfig ? (userConfig as any)[state] : undefined;
 
     if (userStateConfig === false) {
       continue;
@@ -49,17 +50,17 @@ export function animationConfig<Preset extends string>(
       continue;
     }
 
-    if (state !== 'update' && !userStateConfig && !defaultConfig[state]) {
+    if (state !== 'update' && !userStateConfig && !(defaultConfig as any)[state]) {
       // no user config and default config
       continue;
     }
 
     // 开始处理默认动画逻辑
     let defaultStateConfig: IAnimationConfig[];
-    if (isArray(defaultConfig[state])) {
-      defaultStateConfig = defaultConfig[state] as IAnimationConfig[];
+    if (isArray((defaultConfig as any)[state])) {
+      defaultStateConfig = (defaultConfig as any)[state] as IAnimationConfig[];
     } else {
-      defaultStateConfig = [{ ...DEFAULT_ANIMATION_CONFIG[state], ...defaultConfig[state] } as any];
+      defaultStateConfig = [{ ...(DEFAULT_ANIMATION_CONFIG as any)[state], ...(defaultConfig as any)[state] } as any];
     }
     // FIXME: 用来控制当动画状态发生变更时是否清除正在执行的动画。
     // 现在 vrender 对于同一个视觉通道的 tween 不会做覆盖的处理。若不做动画清空同时 exit 动画比 update 动画时间长的情况下，效果会不正确
@@ -70,7 +71,7 @@ export function animationConfig<Preset extends string>(
     }
 
     if (!userStateConfig) {
-      config[state] = defaultStateConfig;
+      (config as any)[state] = defaultStateConfig;
       continue;
     }
 
@@ -83,7 +84,7 @@ export function animationConfig<Preset extends string>(
         if (isChannelAnimation(singleConfig)) {
           // `type` and `channel` is conflict, and `type` has a higher priority.
           // here if user configured `channel`, we should remove `type` which will come from default animation config
-          delete (singleConfig as IAnimationTypeConfig).type;
+          delete (singleConfig as TypeAnimationConfig).type;
         }
         if (singleConfig.oneByOne) {
           singleConfig = produceOneByOne(

@@ -59,15 +59,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   protected _sortDataByAxis: boolean = false;
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
-
-    const areaSpec = this._spec.area || {};
-
     const seriesMark = this._spec.seriesMark ?? 'area';
     const isAreaMarkVisible = this._isAreaVisible() || this._isLineVisible();
     // area
@@ -75,17 +66,14 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       AreaSeries.mark.area,
       {
         groupKey: this._seriesField,
-        isSeriesMark: isAreaMarkVisible && seriesMark !== 'point',
-        stateSort: areaSpec.stateSort
+        isSeriesMark: isAreaMarkVisible && seriesMark !== 'point'
       },
       {
-        ...progressive,
-        morphElementKey: this.getDimensionField()[0],
-        setCustomizedShape: areaSpec.customShape
+        morphElementKey: this.getDimensionField()[0]
       }
     ) as IAreaMark;
 
-    this.initSymbolMark(progressive, seriesMark === 'point');
+    this.initSymbolMark(seriesMark === 'point');
   }
 
   initMarkStyle(): void {

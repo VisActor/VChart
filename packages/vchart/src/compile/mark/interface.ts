@@ -124,7 +124,6 @@ export interface ICompilableMark extends IGrammarItem {
   setVisible: (visible: boolean) => void;
 
   // groupKey 配置
-  getGroupKey: () => string | undefined;
   setGroupKey: (groupKey: string) => void;
 
   // 用户 id
@@ -140,9 +139,6 @@ export interface ICompilableMark extends IGrammarItem {
 
   /** 是否跳过布局阶段 */
   setSkipBeforeLayouted: (skip: boolean) => void;
-  getSkipBeforeLayouted: () => boolean;
-
-  setStateSortCallback: (stateSort: (stateA: string, stateB: string) => number) => void;
 
   getMarkConfig: () => IMarkConfig;
   setMarkConfig: (config: IMarkConfig) => void;

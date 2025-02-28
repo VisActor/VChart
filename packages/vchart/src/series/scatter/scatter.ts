@@ -203,17 +203,11 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       ScatterSeries.mark.point,
       {
         groupKey: this._seriesField,
-        isSeriesMark: true,
-        stateSort: this._spec.point?.stateSort
+        isSeriesMark: true
       },
       {
-        progressiveStep: this._spec.progressiveStep,
-        progressiveThreshold: this._spec.progressiveThreshold,
-        large: this._spec.large,
-        largeThreshold: this._spec.largeThreshold,
         morph: shouldMarkDoMorph(this._spec, ScatterSeries.mark.point.name),
-        morphElementKey: this.getDimensionField()[0],
-        setCustomizedShape: this._spec.point?.customShape
+        morphElementKey: this.getDimensionField()[0]
       }
     ) as ISymbolMark;
   }

@@ -20,7 +20,7 @@ import { linearProgressSeriesMark } from './constant';
 import { Factory } from '../../../core/factory';
 import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IMark, IRectMark } from '../../../mark/interface';
-import { isValid } from '@visactor/vutils';
+import { isNil, isValid } from '@visactor/vutils';
 
 export class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
@@ -44,16 +44,15 @@ export class LinearProgressSeries<
   }
 
   private _initProgressMark() {
-    this._progressMark = this._createMark(
-      LinearProgressSeries.mark.progress,
-      {
-        isSeriesMark: true,
-        stateSort: this._spec.progress?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.progress?.customShape ?? this._defaultProgressCustomShape
-      }
-    ) as IRectMark;
+    this._progressMark = this._createMark(LinearProgressSeries.mark.progress, {
+      isSeriesMark: true
+    }) as IRectMark;
+
+    if (isNil(this._spec.progress?.customShape)) {
+      this._progressMark.setMarkConfig({
+        setCustomizedShape: this._defaultProgressCustomShape
+      });
+    }
     return this._progressMark;
   }
 
@@ -209,15 +208,7 @@ export class LinearProgressSeries<
   };
 
   private _initTrackMark() {
-    this._trackMark = this._createMark(
-      LinearProgressSeries.mark.track,
-      {
-        stateSort: this._spec.track?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.track?.customShape
-      }
-    ) as IRectMark;
+    this._trackMark = this._createMark(LinearProgressSeries.mark.track) as IRectMark;
     return this._trackMark;
   }
 

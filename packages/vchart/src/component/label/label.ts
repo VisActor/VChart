@@ -161,7 +161,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
                 type: MarkTypeEnum.label,
                 name: `${markName}-label-${index}`
               },
-              { noSeparateStyle: true, attributeContext: series.getMarkAttributeContext() }
+              { attributeContext: series.getMarkAttributeContext() }
             ) as ILabelMark;
             if (spec.showRelatedMarkTooltip) {
               series.tooltipHelper?.activeTriggerSet.mark?.add(labelMark);
@@ -197,8 +197,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
           component = this._createMark(
             { type: MarkTypeEnum.component, name: labelName },
             {
-              componentType: 'label',
-              noSeparateStyle: true
+              componentType: 'label'
             },
             {
               support3d: (this._spec as any).support3d

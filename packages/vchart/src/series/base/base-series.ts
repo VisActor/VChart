@@ -14,7 +14,7 @@ import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
-import type { ICompileMarkConfig, IGroupMark, IMark } from '../../mark/interface';
+import type { ICompileMarkConfig, IGroupMark, IMark, IMarkProgressiveConfig } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type {
@@ -719,9 +719,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         componentType: spec.componentType,
         depend: options.depend,
         key: spec.dataKey
-      },
-      {
-        setCustomizedShape: spec?.customShape
       }
     ) as IGroupMark;
     if (!mark) {
@@ -1281,7 +1278,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       dataView,
       parent,
       isSeriesMark,
-      stateSort,
       noSeparateStyle = false
     } = option;
     const m = super._createMark<M>(markInfo, {
@@ -1316,12 +1312,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         m.setGroupKey(groupKey);
       }
 
-      if (stateSort) {
-        m.setStateSortCallback(stateSort);
-      }
-
       const markConfig: IMarkConfig = {
         ...config,
+        progressiveStep: (spec as IMarkProgressiveConfig).progressiveStep,
+        progressiveThreshold: (spec as IMarkProgressiveConfig).progressiveThreshold,
+        large: (spec as IMarkProgressiveConfig).large,
+        largeThreshold: (spec as IMarkProgressiveConfig).largeThreshold,
         morph: config.morph ?? false,
         support3d:
           is3DMark(markInfo.type as MarkTypeEnum) || (config.support3d ?? (spec.support3d || !!(spec as any).zField)),

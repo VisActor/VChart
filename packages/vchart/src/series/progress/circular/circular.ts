@@ -57,12 +57,10 @@ export class CircularProgressSeries<
       CircularProgressSeries.mark.progress,
       {
         parent: this._arcGroupMark,
-        isSeriesMark: true,
-        stateSort: this._spec.progress?.stateSort
+        isSeriesMark: true
       },
       {
-        morph: shouldMarkDoMorph(this._spec, SeriesMarkNameEnum.progress),
-        setCustomizedShape: this._spec.progress?.customShape
+        morph: shouldMarkDoMorph(this._spec, SeriesMarkNameEnum.progress)
       }
     ) as IArcMark;
     return this._progressMark;
@@ -116,16 +114,9 @@ export class CircularProgressSeries<
   }
 
   private _initTrackMark() {
-    this._trackMark = this._createMark(
-      CircularProgressSeries.mark.track,
-      {
-        parent: this._arcGroupMark,
-        stateSort: this._spec.track?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.track?.customShape
-      }
-    ) as IArcMark;
+    this._trackMark = this._createMark(CircularProgressSeries.mark.track, {
+      parent: this._arcGroupMark
+    }) as IArcMark;
 
     // 背景条不参与morphing 动画
     this._trackMark.setMarkConfig({

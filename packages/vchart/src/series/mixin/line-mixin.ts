@@ -103,17 +103,14 @@ export class LineLikeSeriesMixin {
     }
   }
 
-  initLineMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
+  initLineMark(isSeriesMark?: boolean) {
     this._lineMark = this._createMark(
       lineLikeSeriesMark.line,
       {
         groupKey: this._seriesField,
-        isSeriesMark: isSeriesMark ?? true,
-        stateSort: this._spec.line?.stateSort
+        isSeriesMark: isSeriesMark ?? true
       },
       {
-        ...progressive,
-        setCustomizedShape: this._spec.line?.customShape,
         morphElementKey: this.getDimensionField()[0]
       }
     ) as ILineMark;
@@ -224,7 +221,7 @@ export class LineLikeSeriesMixin {
     }
   }
 
-  initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
+  initSymbolMark(isSeriesMark?: boolean) {
     const pointSpec = this._spec.point || {};
 
     if (pointSpec.visible !== false) {
@@ -232,12 +229,9 @@ export class LineLikeSeriesMixin {
         lineLikeSeriesMark.point,
         {
           groupKey: this._seriesField,
-          isSeriesMark: !!isSeriesMark,
-          stateSort: pointSpec.stateSort
+          isSeriesMark: !!isSeriesMark
         },
         {
-          ...progressive,
-          setCustomizedShape: pointSpec.customShape,
           morph: shouldMarkDoMorph(this._spec, lineLikeSeriesMark.point.name),
           morphElementKey: this.getDimensionField()[0]
         }
@@ -253,11 +247,9 @@ export class LineLikeSeriesMixin {
           groupKey: this._seriesField,
           isSeriesMark: false,
           dataView: activeData,
-          parent: this._region.getInteractionMark(),
-          stateSort: pointSpec.stateSort
+          parent: this._region.getInteractionMark()
         },
         {
-          setCustomizedShape: pointSpec.customShape,
           morph: false
         }
       ) as ISymbolMark;

@@ -226,32 +226,18 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       overflow: this._spec.overflow,
       interactive: !!this._spec.overflow
     });
-    const nodeMark = this._createMark(
-      SankeySeries.mark.node,
-      {
-        isSeriesMark: true,
-        dataView: this._nodesSeriesData,
-        stateSort: this._spec.node?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.node?.customShape
-      }
-    ) as IRectMark;
+    const nodeMark = this._createMark(SankeySeries.mark.node, {
+      isSeriesMark: true,
+      dataView: this._nodesSeriesData
+    }) as IRectMark;
     if (nodeMark) {
       nodeMark.setMarkConfig({ zIndex: this._nodeLayoutZIndex });
       this._nodeMark = nodeMark;
     }
 
-    const linkMark = this._createMark(
-      SankeySeries.mark.link,
-      {
-        dataView: this._linksSeriesData,
-        stateSort: this._spec.link?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.link?.customShape
-      }
-    ) as ILinkPathMark;
+    const linkMark = this._createMark(SankeySeries.mark.link, {
+      dataView: this._linksSeriesData
+    }) as ILinkPathMark;
     if (linkMark) {
       this._linkMark = linkMark;
     }

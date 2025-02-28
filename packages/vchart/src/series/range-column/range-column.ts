@@ -53,11 +53,9 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       RangeColumnSeries.mark.bar,
       {
         groupKey: this._seriesField,
-        isSeriesMark: true,
-        stateSort: this._spec.bar?.stateSort
+        isSeriesMark: true
       },
       {
-        setCustomizedShape: this._spec.bar?.customShape,
         morph: shouldMarkDoMorph(this._spec, RangeColumnSeries.mark.bar.name),
         morphElementKey: this.getDimensionField()[0]
       }
