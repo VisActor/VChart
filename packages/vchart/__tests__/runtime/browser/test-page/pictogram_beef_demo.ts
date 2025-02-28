@@ -9,6 +9,7 @@ registerPictogramChart();
 /** --在业务中使用时请删除以上代码-- */
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/pictogram/cow.svg');
 const cow = await response.text();
+const CONTAINER_ID = 'chartContainer';
 
 const spec = {
   type: 'pictogram',

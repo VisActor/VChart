@@ -8,8 +8,11 @@ import VChart from '../../../../src';
 /** --Delete the above code when using in business context-- */
 
 // 加载本地SVG文件（确保路径正确）
-const response = await fetch('D:\\xilzy\\openSource\\ByteDance\\VisActor\\pictogram-bagua.svg');
+const response = await fetch('https://raw.githubusercontent.com/xilzy/images/refs/heads/main/pictogram-bagua.svg');
 const shape = await response.text();
+
+// 定义容器ID常量（与HTML中的id一致）
+const CONTAINER_ID = 'chartContainer';
 
 const spec = {
   type: 'pictogram',
@@ -93,8 +96,16 @@ const spec = {
 // 注册自定义SVG（标识符需与spec.svg字段对应）
 VChart.registerSVG('bagua', shape);
 
+// const vchart = new VChart(spec, { dom: CONTAINER_ID });
+// vchart.renderSync();
+
+// 初始化并渲染
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderSync();
+try {
+  await vchart.renderAsync();
+} catch (error) {
+  console.error('图表初始化失败:', error);
+}
 
 // 控制台调试用，实际部署时删除
 window['vchart'] = vchart;

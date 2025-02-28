@@ -9,6 +9,7 @@ registerPictogramChart();
 
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/pictogram/cat.svg');
 const shape = await response.text();
+const CONTAINER_ID = 'chartContainer';
 
 const spec = {
   type: 'pictogram',
