@@ -188,22 +188,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   setSkipBeforeLayouted(skip: boolean) {
     this._skipBeforeLayouted = skip;
   }
-  getSkipBeforeLayouted(): boolean {
-    return this._skipBeforeLayouted;
-  }
 
   protected _groupKey?: string;
-  getGroupKey() {
-    return this._groupKey;
-  }
   setGroupKey(groupKey: string) {
     this._groupKey = groupKey;
   }
 
   protected _stateSort?: (stateA: string, stateB: string) => number;
-  setStateSortCallback(stateSort: (stateA: string, stateB: string) => number) {
-    this._stateSort = stateSort;
-  }
 
   protected declare _product: Maybe<IGroup>;
   getProduct() {
@@ -222,7 +213,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._context = option?.context;
     const product = this.getProduct();
     // 处理 visible 为 false 的情况
-    if (!this.getVisible()) {
+    if (!this._visible) {
       if (isValid(product)) {
         this.removeProduct();
       }
@@ -424,7 +415,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return this.state.updateState(newState, noRender);
   }
 
-  getMarks(): ICompilableMark[] {
+  getMarks(): IMark[] {
     return [];
   }
 
@@ -527,6 +518,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     if (isBoolean(spec.visible)) {
       this.setVisible(spec.visible);
     }
+
+    this._markConfig.setCustomizedShape = spec.customShape;
+
+    this._stateSort = spec.stateSort;
+
     // style
     this._initSpecStyle(spec);
   }
@@ -1175,7 +1171,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       if (
         this._option.noSeparateStyle ||
         splitGroupEncoder ||
-        isStateAttrChangeable(key, normalStyle, this.getGroupKey())
+        isStateAttrChangeable(key, normalStyle, this._groupKey)
       ) {
         updateStyles[key] = this._computeAttribute(key, 'normal');
       } else {
@@ -1352,7 +1348,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   protected _runMainTasks() {
     if (
       !this.getVisible() ||
-      (this.getSkipBeforeLayouted() && this.getCompiler().getLayoutState() === LayoutState.before)
+      (this._skipBeforeLayouted && this.getCompiler().getLayoutState() === LayoutState.before)
     ) {
       return;
     }

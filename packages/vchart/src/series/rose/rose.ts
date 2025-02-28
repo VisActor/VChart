@@ -55,11 +55,9 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       RoseSeries.mark.rose,
       {
         groupKey: this._seriesField,
-        isSeriesMark: true,
-        stateSort: this._spec.rose?.stateSort
+        isSeriesMark: true
       },
       {
-        setCustomizedShape: this._spec.rose?.customShape,
         morph: shouldMarkDoMorph(this._spec, RoseSeries.mark.rose.name),
         morphElementKey: this.getDimensionField()[0]
       }

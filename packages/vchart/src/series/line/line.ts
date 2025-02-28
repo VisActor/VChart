@@ -53,15 +53,9 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   }
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
     const seriesMark = this._spec.seriesMark ?? 'line';
-    this.initLineMark(progressive, seriesMark === 'line');
-    this.initSymbolMark(progressive, seriesMark === 'point');
+    this.initLineMark(seriesMark === 'line');
+    this.initSymbolMark(seriesMark === 'point');
   }
 
   protected initTooltip() {

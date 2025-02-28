@@ -184,11 +184,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         key: DEFAULT_DATA_KEY,
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
-        isSeriesMark: true,
-        stateSort: this._spec.pie?.stateSort
+        isSeriesMark: true
       },
       {
-        setCustomizedShape: this._spec.pie?.customShape,
         morph: shouldMarkDoMorph(this._spec, this._pieMarkName),
         morphElementKey: this._seriesField
       }

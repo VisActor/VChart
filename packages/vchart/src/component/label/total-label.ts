@@ -102,8 +102,7 @@ export class TotalLabel extends BaseLabelComponent {
     const component = this._createMark(
       { type: MarkTypeEnum.component, name: `${series.name ?? series.type}-total-label-component` },
       {
-        componentType: 'label',
-        noSeparateStyle: true
+        componentType: 'label'
       },
       {
         support3d: this._spec.support3d

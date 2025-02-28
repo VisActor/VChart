@@ -11,6 +11,7 @@ import { type IMarkCompileOption } from '../compile/mark';
 import type { IGroup, IGroupGraphicAttribute } from '@visactor/vrender-core';
 import { registerGroup, registerShadowRoot } from '@visactor/vrender-kits';
 import { isNil } from '@visactor/vutils';
+import { traverseGroupMark } from '../compile/util';
 
 export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
   static readonly type = MarkTypeEnum.group;
@@ -57,23 +58,15 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
   getMarkInUserId(id: string | number) {
     let result: IMark | undefined;
-    this._marks.forEach(m => {
-      if (m.getUserId() === id) {
+    traverseGroupMark(
+      this,
+      m => {
         result = m;
-      }
-    });
-
-    if (!result) {
-      for (let i = 0; i < this._marks.length; i++) {
-        const mark = this._marks[i];
-        if (mark.type === 'group') {
-          result = (mark as GroupMark).getMarkInUserId(id);
-        }
-        if (result) {
-          break;
-        }
-      }
-    }
+      },
+      m => m.getUserId() === id,
+      null,
+      true
+    );
 
     return result;
   }

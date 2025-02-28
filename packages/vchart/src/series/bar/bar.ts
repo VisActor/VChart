@@ -73,38 +73,21 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       },
       {
         groupKey: this._seriesField,
-        isSeriesMark: true,
-        stateSort: this._spec.bar?.stateSort
+        isSeriesMark: true
       },
       {
-        progressiveStep: this._spec.progressiveStep,
-        progressiveThreshold: this._spec.progressiveThreshold,
-        large: this._spec.large,
-        largeThreshold: this._spec.largeThreshold,
         morphElementKey: this.getDimensionField()[0],
-        morph: shouldMarkDoMorph(this._spec, this._barMarkName),
-        setCustomizedShape: this._spec.bar?.customShape
+        morph: shouldMarkDoMorph(this._spec, this._barMarkName)
       }
     ) as IRectMark;
   }
 
   protected _initBarBackgroundMark(): void {
     if (this._spec.barBackground && this._spec.barBackground.visible) {
-      this._barBackgroundMark = this._createMark(
-        BarSeries.mark.barBackground,
-        {
-          dataView: this._barBackgroundViewData.getDataView(),
-          dataProductId: this._barBackgroundViewData.getProductId(),
-          stateSort: this._spec.barBackground.stateSort
-        },
-        {
-          setCustomizedShape: this._spec.barBackground.customShape,
-          progressiveStep: this._spec.progressiveStep,
-          progressiveThreshold: this._spec.progressiveThreshold,
-          large: this._spec.large,
-          largeThreshold: this._spec.largeThreshold
-        }
-      ) as IRectMark;
+      this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
+        dataView: this._barBackgroundViewData.getDataView(),
+        dataProductId: this._barBackgroundViewData.getProductId()
+      }) as IRectMark;
     }
   }
 

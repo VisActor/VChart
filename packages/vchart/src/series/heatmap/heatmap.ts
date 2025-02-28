@@ -47,37 +47,18 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
   }
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
-
     this._cellMark = this._createMark(
       HeatmapSeries.mark.cell,
       {
-        isSeriesMark: true,
-        stateSort: this._spec.cell?.stateSort
+        isSeriesMark: true
       },
       {
-        ...progressive,
-        setCustomizedShape: this._spec.cell?.customShape,
         morph: shouldMarkDoMorph(this._spec, HeatmapSeries.mark.cell.name),
         morphElementKey: this.getDimensionField()[0]
       }
     ) as ICellMark;
 
-    this._backgroundMark = this._createMark(
-      HeatmapSeries.mark.cellBackground,
-      {
-        stateSort: this._spec.cellBackground?.stateSort
-      },
-      {
-        ...progressive,
-        setCustomizedShape: this._spec.cellBackground?.customShape
-      }
-    ) as ICellMark;
+    this._backgroundMark = this._createMark(HeatmapSeries.mark.cellBackground) as ICellMark;
   }
 
   initMarkStyle(): void {

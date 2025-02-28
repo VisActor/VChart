@@ -1,13 +1,7 @@
 import type { Maybe } from '../typings';
 import { createID } from '../util/id';
 import { CompilableBase } from './compilable-base';
-import type {
-  GrammarItemCompileOption,
-  GrammarType,
-  IGrammarItem,
-  GrammarItemInitOption,
-  ITransformSpec
-} from './interface';
+import type { GrammarItemCompileOption, IGrammarItem, GrammarItemInitOption, ITransformSpec } from './interface';
 import { Factory } from '../core/factory';
 
 /** 可以直接编译为一个 VGrammar 语法元素的类的统一基类 */
