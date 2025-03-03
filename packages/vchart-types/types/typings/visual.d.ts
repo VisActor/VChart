@@ -18,6 +18,7 @@ export interface IVisualSpecBase<D, T> {
     specified?: {
         [key: string]: unknown;
     };
+    clamp?: boolean;
 }
 export interface IVisualSpecStyle<D, T> extends IVisualSpecBase<D, T> {
     field?: string;

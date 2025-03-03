@@ -91,7 +91,7 @@ export class Zoomable implements IZoomable {
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
 
-      // 只在drag时屏蔽，而zoom、scrol时不屏蔽
+      // 只在drag时屏蔽，而zoom、scroll时不屏蔽
       // drag move: 屏蔽
       // darg end 结束屏蔽
       // 屏蔽时：clickEnable应该为false，即其他逻辑不允许响应click
@@ -192,7 +192,7 @@ export class Zoomable implements IZoomable {
       ...zoomParams,
       delayMap[delayType]((params: BaseEventParams) => {
         // if (realTime) {
-        this._zoomEventDispatch(params, regionOrSeries, callback, option.allowComponentZoom ?? false);
+        this._zoomEventDispatch(params, regionOrSeries, callback, option?.allowComponentZoom ?? false);
         // }
       }, delayTime) as any
     );

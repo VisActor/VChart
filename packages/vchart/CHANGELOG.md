@@ -1,6 +1,22 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 14 Feb 2025 08:49:08 GMT and should not be manually modified.
+This log was last generated on Mon, 03 Mar 2025 02:00:52 GMT and should not be manually modified.
+
+## 1.13.6
+Mon, 03 Mar 2025 02:00:52 GMT
+
+### Updates
+
+- 'feat: support `clamp` in linear scales, #3738'
+- feat: optimize the display effect of waterfall chart lieaderLine
+
+
+- feat: add `transformRatioText` config for transformRatio text content in funnel tooltip, #3704
+- fix: display line label normally when seriesField is missing, #3709
+- fix: customMark should return components in `getVRenderComponents()`, fix #3727
+
+
+- fix: map zoom error bug. fix#3743
 
 ## 1.13.5
 Fri, 14 Feb 2025 08:49:08 GMT
