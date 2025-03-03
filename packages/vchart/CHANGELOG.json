@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.6",
+      "tag": "@visactor/vchart_v1.13.6",
+      "date": "Mon, 03 Mar 2025 02:00:52 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "'feat: support `clamp` in linear scales, #3738'"
+          },
+          {
+            "comment": "feat: optimize the display effect of waterfall chart lieaderLine\n\n"
+          },
+          {
+            "comment": "feat: add `transformRatioText` config for transformRatio text content in funnel tooltip, #3704"
+          },
+          {
+            "comment": "fix: display line label normally when seriesField is missing, #3709"
+          },
+          {
+            "comment": "fix: customMark should return components in `getVRenderComponents()`, fix #3727\n\n"
+          },
+          {
+            "comment": "fix: map zoom error bug. fix#3743"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.5",
       "tag": "@visactor/vchart_v1.13.5",
       "date": "Fri, 14 Feb 2025 08:49:08 GMT",
