@@ -1,3 +1,23 @@
+# v1.13.6
+
+2025-03-03
+
+**🆕 新增功能**
+
+- **@visactor/vchart**：优化瀑布图引导线的显示效果
+- **@visactor/vchart**：为漏斗图提示框中的转化率文本内容添加 `transformRatioText` 配置，[#3704](https://github.com/VisActor/VChart/issues/3704)
+- **@visactor/vchart**：支持线性比例尺中的 `clamp` 配置，[#3738](https://github.com/VisActor/VChart/issues/3738)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**：当 `seriesField` 缺失时正常显示折线图标签，[#3709](https://github.com/VisActor/VChart/issues/3709)
+- **@visactor/vchart**：自定义 Mark（customMark）应在 `getVRenderComponents()` 方法中返回组件，修复 [#3727](https://github.com/VisActor/VChart/issues/3727)
+- **@visactor/vchart**：修复地图缩放错误问题，修复 [#3743](https://github.com/VisActor/VChart/issues/3743)
+- **@visactor/vchart**：修复桑基图设置了`setNodeLayer`时，内部最大层级没有更新的问题
+- **@visactor/vchart**：修复桑基图节点个数为 1，边的个数为 0 时，节点也不展示的问题，修复 [#3749](https://github.com/VisActor/VChart/issues/3749)
+
+[更多详情请查看 v1.13.6](https://github.com/VisActor/VChart/releases/tag/v1.13.6)
+
 # v1.13.5
 
 2025-02-14
