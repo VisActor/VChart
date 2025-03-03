@@ -304,3 +304,10 @@ export function isAnimationEnabledForSeries(series: ISeries) {
 
   return true;
 }
+
+export function computeDelay(duration: number, totalTime: number, count: number) {
+  if (duration * count < totalTime) {
+    return duration + (totalTime - count * duration) / (count - 1);
+  }
+  return (totalTime - duration) / (count - 1);
+}

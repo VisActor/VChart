@@ -92,7 +92,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
   showTooltip = (activeType: TooltipActiveType, data: TooltipData, params: TooltipHandlerParams) => {
     const { changePositionOnly } = params;
-
     if (changePositionOnly) {
       return this.changeTooltipPosition(params, data);
     }

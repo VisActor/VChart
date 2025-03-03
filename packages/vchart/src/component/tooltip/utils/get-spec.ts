@@ -73,7 +73,6 @@ export const getTooltipSpecForShow = (
         if (finalSpec.handler?.showTooltip) {
           return finalSpec;
         }
-
         const patternList: ITooltipActual[] = [];
         (data as IDimensionInfo[]).forEach(info =>
           info.data.forEach(datum => {

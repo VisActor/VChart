@@ -3,6 +3,7 @@ import { RotateBySphereAnimate } from '@visactor/vrender-core';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { Factory } from '../../core/factory';
 import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams, WordcloudAppearPreset } from './interface';
+import { computeDelay } from '../../animation/utils';
 
 export const WordCloud3dAnimation = (params: IWordcloud3dAnimationParams | (() => any)): IAnimationTypeConfig => {
   return {
@@ -13,13 +14,6 @@ export const WordCloud3dAnimation = (params: IWordcloud3dAnimationParams | (() =
     duration: 6000
   };
 };
-
-function computeWordDelay(duration: number, totalTime: number, wordCount: number) {
-  if (duration * wordCount < totalTime) {
-    return duration + (totalTime - wordCount * duration) / (wordCount - 1);
-  }
-  return (totalTime - duration) / (wordCount - 1);
-}
 
 export const WordCloudScaleInAnimation = (params: IWordcloudAnimationParams): IAnimationTypeConfig => {
   return {
@@ -35,7 +29,7 @@ export const WordCloudScaleInAnimation = (params: IWordcloudAnimationParams): IA
       const totalTime = animationConfig?.totalTime || DEFAULT_ANIMATION_CONFIG.appear.duration;
       const count = vgrammarParams.VGRAMMAR_ANIMATION_PARAMETERS.elementCount;
       const index = vgrammarParams.VGRAMMAR_ANIMATION_PARAMETERS.elementIndex;
-      return index * computeWordDelay(duration as number, totalTime as number, count);
+      return index * computeDelay(duration as number, totalTime as number, count);
     }
   };
 };
