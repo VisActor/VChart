@@ -158,11 +158,12 @@ $ rush docs
 
 ## 💫 Ecosystem
 
-| Project                                                                               | Description                          |
-| ------------------------------------------------------------------------------------- | ------------------------------------ |
-| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React interface for @VisActor/VChart |
-| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                  | OpenInula VChart Components          |
-| [OMI](https://omi.cdn-go.cn/home/latest)                                              | Web Components Framework             |
+| Project                                                                                                          | Description                                                                                                                 |
+| ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart)                            | React interface for @VisActor/VChart                                                                                        |
+| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                                             | OpenInula VChart Components                                                                                                 |
+| [OMI](https://omi.cdn-go.cn/home/latest)                                                                         | Web Components Framework                                                                                                    |
+| [A vercel template built with vchart and Next.js](https://vercel.com/templates/next.js/visactor-nextjs-template) | A modern dashboard template built with vchart and Next.js, featuring a beautiful UI and rich data visualization components. |
 
 ## 💖 Thanks
 
