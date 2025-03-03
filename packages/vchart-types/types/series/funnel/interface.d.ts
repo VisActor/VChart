@@ -21,6 +21,7 @@ export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMar
     maxSize?: number | IPercent;
     minSize?: number | IPercent;
     heightRatio?: number;
+    transformRatioText?: string;
     [SeriesMarkNameEnum.funnel]?: IMarkSpec<IPathMarkSpec>;
     [SeriesMarkNameEnum.transform]?: IMarkSpec<IPathMarkSpec>;
     [SeriesMarkNameEnum.label]?: IFunnelLabelSpec;
