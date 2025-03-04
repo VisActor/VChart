@@ -141,7 +141,7 @@ export const transform = (
   upstreamData: IMarkGraphic[]
 ) => {
   if (!upstreamData || upstreamData.length === 0) {
-    return;
+    return upstreamData;
   }
   let { radius } = options;
   if (isNil(radius)) {
