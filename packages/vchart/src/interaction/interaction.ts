@@ -48,11 +48,11 @@ export class Interaction implements IInteraction {
     reverseState?: string
   ) {
     if (this._disableTriggerEvent) {
-      return;
+      return [];
     }
 
     if (!newStatedGraphics || !newStatedGraphics.length) {
-      return null;
+      return [];
     }
     if (state && reverseState) {
       if (prevStatedGraphics && prevStatedGraphics.length) {

@@ -101,7 +101,7 @@ export function animationConfig<Preset extends string>(
         if (isChannelAnimation(singleConfig)) {
           // `type` and `channel` is conflict, and `type` has a higher priority.
           // here if user configured `channel`, we should remove `type` which will come from default animation config
-          delete (singleConfig as IAnimationTypeConfig).type;
+          delete (singleConfig as TypeAnimationConfig).type;
         }
 
         if (singleConfig.oneByOne) {
@@ -115,7 +115,7 @@ export function animationConfig<Preset extends string>(
       });
     }
 
-    config[state] = stateConfig;
+    (config as any)[state] = stateConfig;
   }
   return config;
 }

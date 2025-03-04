@@ -3,9 +3,9 @@ import type { Datum } from '../../../typings';
 import { computeRatio, getInnerMostElements } from './utils';
 import { isEmpty, maxInArray, minInArray } from '@visactor/vutils';
 import type { IAnimationTypeConfig } from '../../../animation/interface';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IMark, IMarkGraphic } from '../../../mark/interface';
 
-const computeInnerAngleRange = (elements: IGraphic[], startAngle: number, endAngle: number): [number, number] => {
+const computeInnerAngleRange = (elements: IMarkGraphic[], startAngle: number, endAngle: number): [number, number] => {
   // 处理enter时从无到有的case, 例如图例.
   if (isEmpty(elements)) {
     return [startAngle, endAngle];
@@ -20,10 +20,10 @@ export const sunburstEnter = (params: ISunburstAnimationParams): IAnimationTypeC
   return {
     channel: {
       startAngle: {
-        from: (d: Datum, element: IGraphic) => {
+        from: (d: Datum, element: IMarkGraphic, mark: IMark) => {
           const { startAngle, endAngle } = params.animationInfo();
           // 得到最内层的elements.
-          const innerElements = getInnerMostElements(element);
+          const innerElements = getInnerMostElements(mark.getGraphics());
           // 计算间距
           const angleRange = computeInnerAngleRange(innerElements, startAngle, endAngle);
           // 计算比例
@@ -33,10 +33,10 @@ export const sunburstEnter = (params: ISunburstAnimationParams): IAnimationTypeC
         to: (d: Datum) => d.startAngle
       },
       endAngle: {
-        from: (d: Datum, element: IGraphic) => {
+        from: (d: Datum, element: IMarkGraphic, mark: IMark) => {
           const { startAngle, endAngle } = params.animationInfo();
           // 得到最内层的elements.
-          const innerElements = getInnerMostElements(element);
+          const innerElements = getInnerMostElements(mark.getGraphics());
           // 计算间距
           const angleRange = computeInnerAngleRange(innerElements, startAngle, endAngle);
           // 计算比例
