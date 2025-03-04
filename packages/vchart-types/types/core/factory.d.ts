@@ -1,18 +1,22 @@
 import type { IChartConstructor, IChartOption, IChart, IChartSpecTransformerOption, IChartSpecTransformer } from '../chart/interface';
 import type { ISeriesConstructor, ISeriesMarkInfo, ISeriesOption, SeriesMarkNameEnum } from '../series/interface';
 import type { IComponentConstructor } from '../component/interface';
-import type { IMarkOption, MarkConstructor } from '../mark/interface';
+import type { IMarkDataTransform, IMarkOption, MarkConstructor } from '../mark/interface';
 import type { IRegion, IRegionConstructor } from '../region/interface';
 import type { IBaseModelSpecTransformer, IBaseModelSpecTransformerOption, IModelOption } from '../model/interface';
 import type { Transform, Parser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
-import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
 import type { IComponentPluginConstructor } from '../plugin/components/interface';
+import type { IGraphic } from '@visactor/vrender-core';
+import type { IStageEventPlugin, VRenderComponentOptions } from './interface';
+import type { MarkAnimationSpec } from '../animation/interface';
+import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/interface/trigger';
 export declare class Factory {
     private static _charts;
     private static _series;
     private static _components;
+    private static _graphicComponents;
     private static _marks;
     private static _regions;
     private static _animations;
@@ -31,10 +35,23 @@ export declare class Factory {
     };
     static registerChart(key: string, chart: IChartConstructor): void;
     static registerSeries(key: string, series: ISeriesConstructor): void;
-    static registerComponent(key: string, cmp: IComponentConstructor, alwaysCheck?: boolean): void;
+    static registerComponent(key: string, cmp: IComponentConstructor, alwaysCheck?: boolean, createOrder?: number): void;
+    static registerGraphicComponent(key: string, creator: (attrs: any, options?: VRenderComponentOptions) => IGraphic): void;
+    static createGraphicComponent(componentType: string, attrs: any, options?: VRenderComponentOptions): IGraphic<Partial<import("@visactor/vrender-core").IGraphicAttribute>>;
     static registerMark(key: string, mark: MarkConstructor): void;
     static registerRegion(key: string, region: IRegionConstructor): void;
     static registerTransform(key: string, transform: Transform): void;
+    private static _grammarTransforms;
+    static registerGrammarTransform(type: string, transform: {
+        canProgressive?: boolean;
+        transform: IMarkDataTransform;
+        isGraphic?: boolean;
+    }): void;
+    static getGrammarTransform(type: string): {
+        canProgressive?: boolean;
+        transform: IMarkDataTransform<any, any, any>;
+        isGraphic?: boolean;
+    };
     static registerLayout(key: string, layout: ILayoutConstructor): void;
     static registerAnimation(key: string, animation: (params?: any, preset?: any) => MarkAnimationSpec): void;
     static registerImplement(key: string, implement: (...args: any) => void): void;
@@ -50,6 +67,7 @@ export declare class Factory {
     static getComponents(): {
         cmp: IComponentConstructor;
         alwaysCheck?: boolean;
+        createOrder: number;
     }[];
     static getComponentInKey(name: string): IComponentConstructor;
     static getLayout(): ILayoutConstructor[];
@@ -65,4 +83,11 @@ export declare class Factory {
     static getComponentPluginInType(type: string): IComponentPluginConstructor;
     static registerFormatter(func: typeof Factory['_formatter']): void;
     static getFormatter(): (text: string | number | string[] | number[], datum: any, formatter: string | string[]) => any;
+    private static _stageEventPlugins;
+    static registerStageEventPlugin: (type: string, Plugin: IStageEventPlugin<any>) => void;
+    static getStageEventPlugin: (type: string) => IStageEventPlugin<any>;
+    private static _interactionTriggers;
+    static registerInteractionTrigger: (interactionType: string, interaction: ITriggerConstructor) => void;
+    static createInteractionTrigger(interactionType: string, options?: IBaseTriggerOptions): import("../interaction/interface/trigger").ITrigger<IBaseTriggerOptions>;
+    static hasInteractionTrigger(interactionType: string): boolean;
 }

@@ -8,9 +8,9 @@ import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { SeriesData } from '../base/series-data';
 import { DataView } from '@visactor/vdataset';
 import { BarSeriesSpecTransformer } from './bar-transformer';
+import type { ICompilableData } from '../../compile/data';
 export declare const DefaultBandWidth = 6;
 export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
@@ -23,7 +23,7 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     protected _bandPosition: number;
     protected _barMark: IRectMark;
     protected _barBackgroundMark: IRectMark;
-    protected _barBackgroundViewData: SeriesData;
+    protected _barBackgroundViewData: ICompilableData;
     initMark(): void;
     protected _initBarBackgroundMark(): void;
     initMarkStyle(): void;
@@ -61,7 +61,7 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     protected _getBarBackgroundPositionYEncoder: () => (datum: Datum) => number;
     protected _setBarBackgroundPositionYEncoder: (encoder: (datum: Datum) => number) => void;
     dataToBarBackgroundPositionY(datum: Datum, scaleDepth?: number): number;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     compile(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];

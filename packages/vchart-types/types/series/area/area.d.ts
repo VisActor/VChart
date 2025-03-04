@@ -28,7 +28,7 @@ export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> ext
     compile(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     getSeriesStyle(datum: Datum): (attribute: string) => any;
 }
 export declare const registerAreaSeries: () => void;

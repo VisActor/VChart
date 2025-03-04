@@ -8,11 +8,11 @@ import type { ICustomPath2D, ILineGraphicAttribute, ITextGraphicAttribute } from
 import type { ILayoutRect, IPercent } from '../../typings/layout';
 import type { IPointLike } from '@visactor/vutils';
 import type { AnimationStateEnum } from '../../animation/interface';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { Datum } from '../../typings/common';
+import type { IMarkGraphic } from '../../mark/interface';
 export interface IPieAnimationParams {
     growField?: 'angle' | 'radius';
-    growFrom: (datum: Datum, element: IElement, state: AnimationStateEnum) => number;
+    growFrom: (datum: Datum, g: IMarkGraphic, state: AnimationStateEnum) => number;
 }
 export type PieAppearPreset = 'growAngle' | 'growRadius' | 'fadeIn';
 export type PieMarks = 'pie' | 'label' | 'labelLine';

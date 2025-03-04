@@ -6,8 +6,8 @@ import { BaseSeries } from '../base/base-series';
 import type { ILabelMark, IMark, IPolygonMark, IRuleMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IFunnelSeriesSpec } from './interface';
-import { SeriesData } from '../base/series-data';
 import { FunnelSeriesSpecTransformer } from './funnel-transformer';
+import type { ICompilableData } from '../../compile/data';
 export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec> extends BaseSeries<T> implements IFunnelSeries {
     static readonly type: string;
     type: SeriesTypeEnum;
@@ -24,7 +24,7 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
     protected _valueField: string;
     getValueField(): string;
     setValueField(f: string): string;
-    protected _viewDataTransform: SeriesData;
+    protected _viewDataTransform: ICompilableData;
     protected _funnelAlign: 'left' | 'center' | 'right' | 'top' | 'bottom';
     protected _funnelOrient: IOrientType;
     protected _shape: 'rect' | 'trapezoid';
@@ -39,6 +39,7 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
     protected _minLabelLineWidth: number;
     setAttrFromSpec(): void;
     initData(): void;
+    compile(): void;
     compileData(): void;
     getStatisticFields(): {
         key: string;

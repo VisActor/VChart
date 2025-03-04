@@ -3,7 +3,6 @@ import type { IRegion } from '../../region/interface';
 import type { IComponent, IComponentOption } from '../interface';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IGroupMark } from '@visactor/vgrammar-core';
 import type { IAnimate } from '../../animation/interface';
 import type { Datum, ILayoutRect } from '../../typings';
 import type { IComponentSpec } from './interface';
@@ -41,7 +40,7 @@ export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> ex
     release(): void;
     clear(): void;
     compile(): void;
-    compileMarks(group?: string | IGroupMark): void;
+    compileMarks(group?: IGroup): void;
     reAppendComponents(): void;
     protected _delegateEvent: (component: IGraphic, event: any, type: string, item?: any, datum?: Datum) => void;
     getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike;

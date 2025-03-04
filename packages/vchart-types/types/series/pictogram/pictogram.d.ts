@@ -8,12 +8,12 @@ import type { GroupMark } from '../../mark';
 import { PictogramSeriesSpecTransformer } from './pictogram-transformer';
 import type { IMatrix } from '@visactor/vutils';
 import type { Datum } from '../../typings';
-import type { Group } from '@visactor/vrender-core';
-import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import type { GraphicEventType, IGroup } from '@visactor/vrender-core';
+import type { IHoverSpec, ISelectSpec } from '../../interaction/interface/spec';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
-import type { EventType } from '@visactor/vgrammar-core';
 import type { IMark } from '../../mark/interface';
 import type { IPoint } from '../../typings/coordinate';
+import { TRIGGER_TYPE_ENUM } from '../../interaction/triggers/enum';
 export interface SVGParsedElementExtend extends SVGParsedElement {
     _finalAttributes: Record<string, any>;
     _uniqueId: string;
@@ -33,23 +33,17 @@ export declare class PictogramSeries<T extends IPictogramSeriesSpec = IPictogram
     getDatumName(datum: SVGParsedElementExtend): string;
     getMarksWithoutRoot(): IMark[];
     protected _buildMarkAttributeContext(): void;
-    protected _defaultHoverConfig(selector: string[], finalHoverSpec: IHoverSpec): {
-        seriesId: number;
-        regionId: number;
-        selector: string[];
-        type: string;
-        trigger: EventType;
-        triggerOff: EventType;
+    protected _defaultHoverConfig(finalHoverSpec: IHoverSpec): {
+        type: TRIGGER_TYPE_ENUM;
+        trigger: GraphicEventType;
+        triggerOff: GraphicEventType;
         blurState: STATE_VALUE_ENUM;
         highlightState: STATE_VALUE_ENUM;
     };
-    protected _defaultSelectConfig(selector: string[], finalSelectSpec: ISelectSpec): {
-        type: string;
-        seriesId: number;
-        regionId: number;
-        selector: string[];
-        trigger: EventType;
-        triggerOff: EventType;
+    protected _defaultSelectConfig(finalSelectSpec: ISelectSpec): {
+        type: TRIGGER_TYPE_ENUM;
+        trigger: GraphicEventType;
+        triggerOff: GraphicEventType;
         reverseState: STATE_VALUE_ENUM;
         state: STATE_VALUE_ENUM;
         isMultiple: boolean;
@@ -63,10 +57,10 @@ export declare class PictogramSeries<T extends IPictogramSeriesSpec = IPictogram
     dataToPosition(datum: Datum, global?: boolean): IPoint;
     coordToPosition(point: IPoint): IPoint | undefined;
     getRootMatrix(): IMatrix;
-    getPictogramRootGraphic(): Group;
+    getPictogramRootGraphic(): IGroup;
     initData(): void;
     mapViewDataUpdate(): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     updateSVGSize(): void;
     protected initEvent(): void;
     handleZoom(e: ZoomEventParam): void;

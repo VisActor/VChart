@@ -19,7 +19,10 @@ export declare class CircularProgressSeries<T extends ICircularProgressSeriesSpe
     initMarkStyle(): void;
     private _initProgressMark;
     private _initProgressMarkStyle;
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     protected initTooltip(): void;
     private _initTrackMark;
     private _initTrackMarkStyle;

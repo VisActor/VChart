@@ -19,8 +19,8 @@ export declare abstract class LayoutModel<T extends IModelSpec> extends BaseMode
     protected _layoutStartPos: IPoint;
     protected _isLayout: boolean;
     initLayout(): void;
-    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
+    onLayoutEnd(): void;
     afterSetLayoutStartPoint(_pos: ILayoutPoint): void;
     protected _forceLayout(): void;
     getLayoutStartPoint(): IPoint;

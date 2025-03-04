@@ -1,8 +1,13 @@
-import type { Hooks } from '@visactor/vgrammar-core';
-import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
-import type { RenderMode } from '../../typings/spec/common';
+import type { IColor, IStageParams, IStage, ILayer, IOption3D } from '@visactor/vrender-core';
+import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
+export declare enum LayoutState {
+    before = "before",
+    layouting = "layouting",
+    reevaluate = "reevaluate",
+    after = "after"
+}
 export interface IRenderContainer {
     dom?: HTMLElement | 'none';
     canvas?: HTMLCanvasElement | string;
@@ -53,5 +58,9 @@ export interface IRenderOption {
     ReactDOM?: any;
     clickInterval?: number;
     autoPreventDefault?: boolean;
-    performanceHook?: Hooks;
+    performanceHook?: IPerformanceHook;
+    options3d?: {
+        enable?: boolean;
+        enableView3dTranform?: boolean;
+    } & IOption3D;
 }

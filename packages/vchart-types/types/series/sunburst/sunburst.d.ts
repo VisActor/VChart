@@ -48,7 +48,7 @@ export declare class SunburstSeries extends PolarSeries<any> {
     protected initTooltip(): void;
     initAnimation(): void;
     initEvent(): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     private _computeRadius;
     private _computeLevel;
     getGroupFields(): string[];

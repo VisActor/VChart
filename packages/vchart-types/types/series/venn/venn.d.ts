@@ -24,6 +24,7 @@ export declare class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> ext
     getValueField(): string;
     setValueField(f: string): string;
     setAttrFromSpec(): void;
+    initData(): void;
     compile(): void;
     protected _runVennTransform(render?: boolean): void;
     initMark(): void;
@@ -35,7 +36,7 @@ export declare class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> ext
     protected initTooltip(): void;
     getDimensionField(): string[];
     getMeasureField(): string[];
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];
     getStatisticFields(): {

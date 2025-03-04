@@ -32,7 +32,10 @@ export declare class GaugePointerSeries<T extends IGaugePointerSeriesSpec = IGau
     };
     private initPinBackgroundMarkStyle;
     private initPinMarkStyle;
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     initAnimation(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];

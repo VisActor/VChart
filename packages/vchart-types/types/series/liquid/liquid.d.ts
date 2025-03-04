@@ -41,7 +41,10 @@ export declare class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpe
     private _initLiquidBackgroundMarkStyle;
     private _initLiquidMarkStyle;
     protected initTooltip(): void;
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     initAnimation(): void;
     protected initEvent(): void;
     dataToPosition(data: Datum): IPoint;

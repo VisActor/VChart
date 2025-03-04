@@ -60,7 +60,7 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     getGroupFields(): string[];
     getStackGroupFields(): string[];
     getStackValueField(): string;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     getActiveMarks(): IMark[];
     reInit(): void;
 }

@@ -6,7 +6,7 @@ import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { ISeries } from '../../series/interface';
-import type { IElement } from '@visactor/vgrammar-core';
+import type { IMarkGraphic } from '../../mark/interface';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec } from './interface';
 export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> implements IBrush {
     layoutType: 'none';
@@ -23,19 +23,19 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     private _linkedItemMap;
     protected _inBrushElementsMap: {
         [brushName: string]: {
-            [elementKey: string]: IElement;
+            [elementKey: string]: IMarkGraphic;
         };
     };
     protected _outOfBrushElementsMap: {
-        [elementKey: string]: IElement;
+        [elementKey: string]: IMarkGraphic;
     };
     protected _linkedInBrushElementsMap: {
         [brushName: string]: {
-            [elementKey: string]: IElement;
+            [elementKey: string]: IMarkGraphic;
         };
     };
     protected _linkedOutOfBrushElementsMap: {
-        [elementKey: string]: IElement;
+        [elementKey: string]: IMarkGraphic;
     };
     private _needInitOutState;
     private _cacheInteractiveRangeAttrs;
@@ -49,12 +49,14 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     created(): void;
     protected _extendDataInBrush(elementsMap: {
         [brushName: string]: {
-            [elementKey: string]: IElement;
+            [elementKey: string]: IMarkGraphic;
         };
-    }): any[];
+    }): {
+        [x: string]: any;
+    }[];
     protected _extendDatumOutOfBrush(elementsMap: {
-        [elementKey: string]: IElement;
-    }): any[];
+        [elementKey: string]: IMarkGraphic;
+    }): import("../../typings").Datum[];
     protected _getBrushInteractiveAttr(region: IRegion): BrushInteractiveRangeAttr;
     protected _updateBrushComponent(region: IRegion, componentIndex: number): void;
     protected _createBrushComponent(region: IRegion, componentIndex: number): void;
@@ -83,7 +85,7 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
         reSize: boolean;
         reCompile: boolean;
     };
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     clearGraphic(): void;
     clear(): void;
 }

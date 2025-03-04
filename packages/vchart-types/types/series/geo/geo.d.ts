@@ -3,14 +3,14 @@ import type { IPoint } from '../../typings';
 import type { IGeoSeries } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { BaseSeries } from '../base/base-series';
-import type { SeriesData } from '../base/series-data';
 import type { DataView } from '@visactor/vdataset';
 import type { IGeoSeriesSpec } from './interface';
 import type { IMark } from '../../mark/interface';
+import type { ICompilableData } from '../../compile/data';
 export declare abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> extends BaseSeries<T> implements IGeoSeries {
     type: SeriesTypeEnum;
     readonly coordinate = "geo";
-    protected _mapViewData: SeriesData;
+    protected _mapViewData: ICompilableData;
     getMapViewData(): DataView;
     protected _mapViewDataStatistics: DataView;
     _nameField: string;

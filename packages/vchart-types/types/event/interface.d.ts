@@ -1,16 +1,15 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { IChart } from '../chart/interface';
 import type { IModel } from '../model/interface';
-import type { IMark, MarkType } from '../mark/interface';
+import type { IMark, IMarkGraphic, MarkType } from '../mark/interface';
 import type { DimensionEventParams } from './events/dimension/interface';
 import type { Datum, IPoint, StringOrNumber } from '../typings';
-import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
+import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, HOOK_EVENT } from '../constant/event';
 import type { SeriesType } from '../series/interface';
 import type { TooltipEventParams } from '../component/tooltip/interface/event';
 import type { ILayoutItem } from '../layout/interface';
 import type { IVChart } from '../core/interface';
-export type EventType = 'pointerdown' | 'pointerup' | 'pointerupoutside' | 'pointertap' | 'pointerover' | 'pointermove' | 'pointerenter' | 'pointerleave' | 'pointerout' | 'mousedown' | 'mouseup' | 'mouseupoutside' | 'rightdown' | 'rightup' | 'rightupoutside' | 'click' | 'dblclick' | 'mousemove' | 'mouseover' | 'mouseout' | 'mouseenter' | 'mouseleave' | 'wheel' | 'touchstart' | 'touchend' | 'touchendoutside' | 'touchmove' | 'touchcancel' | 'tap' | 'dragstart' | 'drag' | 'dragenter' | 'dragleave' | 'dragover' | 'dragend' | 'drop' | 'pan' | 'panstart' | 'panend' | 'press' | 'pressup' | 'pressend' | 'pinch' | 'pinchstart' | 'pinchend' | 'swipe' | keyof typeof ChartEvent | keyof typeof VGRAMMAR_HOOK_EVENT | string;
+export type EventType = 'pointerdown' | 'pointerup' | 'pointerupoutside' | 'pointertap' | 'pointerover' | 'pointermove' | 'pointerenter' | 'pointerleave' | 'pointerout' | 'mousedown' | 'mouseup' | 'mouseupoutside' | 'rightdown' | 'rightup' | 'rightupoutside' | 'click' | 'dblclick' | 'mousemove' | 'mouseover' | 'mouseout' | 'mouseenter' | 'mouseleave' | 'wheel' | 'touchstart' | 'touchend' | 'touchendoutside' | 'touchmove' | 'touchcancel' | 'tap' | 'dragstart' | 'drag' | 'dragenter' | 'dragleave' | 'dragover' | 'dragend' | 'drop' | 'pan' | 'panstart' | 'panend' | 'press' | 'pressup' | 'pressend' | 'pinch' | 'pinchstart' | 'pinchend' | 'swipe' | keyof typeof ChartEvent | keyof typeof HOOK_EVENT | string;
 export type EventBubbleLevel = keyof typeof Event_Bubble_Level;
 export type ComponentType = 'axis' | 'dataZoom' | 'indicator' | 'legend' | 'mapLabel' | 'markLine' | 'markArea' | 'markPoint' | 'tooltip' | 'title' | 'label' | 'totalLabel' | 'customMark';
 export type EventTargetType = MarkType | ComponentType | SeriesType;
@@ -42,10 +41,9 @@ type SuperEvent = Event & {
 };
 export type BaseEventParams = EventParams & {
     event: SuperEvent;
-    item: IElement;
+    item: IMarkGraphic;
     datum: Datum;
     source: EventSourceType;
-    itemMap: Map<string, any>;
 };
 export type EventCallback<Params extends EventParams> = (params: Params) => boolean | void;
 export type EventFilter = {
@@ -66,10 +64,9 @@ export type EventHandler<Params extends EventParams> = {
 };
 export type ExtendEventParam = EventParams & {
     event?: Event;
-    item?: any;
+    item?: IMarkGraphic;
     datum?: Datum;
     source?: EventSourceType;
-    itemMap?: Map<string, any>;
 };
 export type LayoutEventParam = {
     elements: (ILayoutItem & {
@@ -84,7 +81,7 @@ export type ZoomEventParam = ExtendEventParam & {
     scaleCenter: IPoint;
 };
 export type InteractionEventParam = {
-    items?: IElement[];
+    graphics?: IMarkGraphic[];
     datums?: Datum[];
 } & Partial<BaseEventParams>;
 export type EventParamsDefinition = {

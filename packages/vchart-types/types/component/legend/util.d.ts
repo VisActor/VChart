@@ -13,7 +13,7 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
     };
     background?: {
         visible?: boolean;
-        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "width" | "height" | "visible">;
+        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "visible" | "width" | "height">;
     };
     text?: string | number | string[] | number[] | {
         type?: "text";
@@ -32,10 +32,10 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
             element: any;
         } & import("@visactor/vrender-core").SimpleDomStyleOptions & import("@visactor/vrender-core").CommonDomOptions;
     };
+    visible?: boolean;
+    align?: "start" | "end" | "center";
     padding?: import("@visactor/vrender-components").Padding;
     maxWidth?: number;
     minWidth?: number;
-    visible?: boolean;
     space?: number;
-    align?: "start" | "end" | "center";
 };

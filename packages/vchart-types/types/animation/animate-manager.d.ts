@@ -1,12 +1,10 @@
-import { StateManager } from '../compile/signal/state-manager';
-import type { StateValueMap } from '../compile/signal/interface';
+import { StateManager } from '../compile/state-manager';
 import type { IAnimate, IAnimateState } from './interface';
 import { AnimationStateEnum } from './interface';
+import type { StateValueMap } from '../compile/interface/compilable-item';
 export declare class AnimateManager extends StateManager implements IAnimate {
     protected _stateMap: IAnimateState & StateValueMap;
     readonly id: number;
-    protected stateKeyToSignalName: (key: string) => string;
-    getAnimationStateSignalName(): string;
     updateAnimateState(state: AnimationStateEnum, noRender?: boolean): void;
     protected _getDefaultStateMap(): IAnimateState & StateValueMap;
 }

@@ -28,7 +28,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     constructor(spec: T, options: IComponentOption);
     created(): void;
     setAttrFromSpec(): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     protected _initValueScale(): void;
     protected _updateScaleRange(): void;
     protected _computeDomainOfValueScale(): unknown[];

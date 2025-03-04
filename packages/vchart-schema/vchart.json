@@ -568,6 +568,73 @@
       ],
       "type": "string"
     },
+    "ChannelAnimationConfig": {
+      "properties": {
+        "channel": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "$ref": "#/definitions/IAnimationChannelAttrs"
+            }
+          ]
+        },
+        "controlOptions": {
+          "$ref": "#/definitions/IAnimationControlOptions",
+          "description": "动画执行相关控制配置项"
+        },
+        "custom": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IAnimationCustomConstructor"
+            }
+          ]
+        },
+        "customParameters": {},
+        "delay": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "delayAfter": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "duration": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType"
+        },
+        "loop": {
+          "description": "loop: true 无限循环; loop: 正整数，表示循环的次数",
+          "type": [
+            "number",
+            "boolean"
+          ]
+        },
+        "oneByOne": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number|boolean>"
+        },
+        "options": {
+          "description": "动画 effect 配置项"
+        },
+        "startTime": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "totalTime": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        }
+      },
+      "required": [
+        "channel"
+      ],
+      "type": "object"
+    },
     "ChildNode": {
       "properties": {
         "ATTRIBUTE_NODE": {
@@ -744,6 +811,57 @@
           "type": "string"
         }
       ]
+    },
+    "CommonAnimationConfigItem": {
+      "properties": {
+        "controlOptions": {
+          "$ref": "#/definitions/IAnimationControlOptions",
+          "description": "动画执行相关控制配置项"
+        },
+        "custom": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IAnimationCustomConstructor"
+            }
+          ]
+        },
+        "customParameters": {},
+        "delay": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "delayAfter": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "duration": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType"
+        },
+        "loop": {
+          "description": "loop: true 无限循环; loop: 正整数，表示循环的次数",
+          "type": [
+            "number",
+            "boolean"
+          ]
+        },
+        "oneByOne": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number|boolean>"
+        },
+        "options": {
+          "description": "动画 effect 配置项"
+        },
+        "startTime": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "totalTime": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        }
+      },
+      "type": "object"
     },
     "CommonDomOptions": {
       "properties": {
@@ -9566,112 +9684,6 @@
       ],
       "type": "object"
     },
-    "ElementSelectTriggerOff": {
-      "anyOf": [
-        {
-          "enum": [
-            "click",
-            "dblclick",
-            "drag",
-            "dragend",
-            "dragenter",
-            "dragleave",
-            "dragover",
-            "dragstart",
-            "drop",
-            "empty",
-            "mousedown",
-            "mouseenter",
-            "mouseleave",
-            "mousemove",
-            "mouseout",
-            "mouseover",
-            "mouseup",
-            "mouseupoutside",
-            "none",
-            "pan",
-            "panend",
-            "panstart",
-            "pinch",
-            "pinchend",
-            "pinchstart",
-            "pointerdown",
-            "pointerenter",
-            "pointerleave",
-            "pointermove",
-            "pointerout",
-            "pointerover",
-            "pointertap",
-            "pointerup",
-            "pointerupoutside",
-            "press",
-            "pressend",
-            "pressup",
-            "resize",
-            "rightdown",
-            "rightup",
-            "rightupoutside",
-            "swipe",
-            "tap",
-            "touchcancel",
-            "touchend",
-            "touchendoutside",
-            "touchmove",
-            "touchstart",
-            "view:click",
-            "view:dblclick",
-            "view:drag",
-            "view:dragend",
-            "view:dragenter",
-            "view:dragleave",
-            "view:dragover",
-            "view:dragstart",
-            "view:drop",
-            "view:mousedown",
-            "view:mouseenter",
-            "view:mouseleave",
-            "view:mousemove",
-            "view:mouseout",
-            "view:mouseover",
-            "view:mouseup",
-            "view:mouseupoutside",
-            "view:pan",
-            "view:panend",
-            "view:panstart",
-            "view:pinch",
-            "view:pinchend",
-            "view:pinchstart",
-            "view:pointerdown",
-            "view:pointerenter",
-            "view:pointerleave",
-            "view:pointerout",
-            "view:pointerover",
-            "view:pointertap",
-            "view:pointerup",
-            "view:pointerupoutside",
-            "view:press",
-            "view:pressend",
-            "view:pressup",
-            "view:rightdown",
-            "view:rightup",
-            "view:rightupoutside",
-            "view:swipe",
-            "view:tap",
-            "view:touchcancel",
-            "view:touchend",
-            "view:touchendoutside",
-            "view:touchmove",
-            "view:touchstart",
-            "view:wheel",
-            "wheel"
-          ],
-          "type": "string"
-        },
-        {
-          "type": "number"
-        }
-      ]
-    },
     "ElementSpec": {
       "anyOf": [
         {
@@ -9776,58 +9788,6 @@
     },
     "EventTarget": {
       "type": "object"
-    },
-    "EventType": {
-      "enum": [
-        "click",
-        "dblclick",
-        "drag",
-        "dragend",
-        "dragenter",
-        "dragleave",
-        "dragover",
-        "dragstart",
-        "drop",
-        "mousedown",
-        "mouseenter",
-        "mouseleave",
-        "mousemove",
-        "mouseout",
-        "mouseover",
-        "mouseup",
-        "mouseupoutside",
-        "pan",
-        "panend",
-        "panstart",
-        "pinch",
-        "pinchend",
-        "pinchstart",
-        "pointerdown",
-        "pointerenter",
-        "pointerleave",
-        "pointermove",
-        "pointerout",
-        "pointerover",
-        "pointertap",
-        "pointerup",
-        "pointerupoutside",
-        "press",
-        "pressend",
-        "pressup",
-        "resize",
-        "rightdown",
-        "rightup",
-        "rightupoutside",
-        "swipe",
-        "tap",
-        "touchcancel",
-        "touchend",
-        "touchendoutside",
-        "touchmove",
-        "touchstart",
-        "wheel"
-      ],
-      "type": "string"
     },
     "External": {
       "type": "object"
@@ -9942,6 +9902,79 @@
         }
       ],
       "description": "gradient"
+    },
+    "GraphicEventType": {
+      "enum": [
+        "click",
+        "dblclick",
+        "drag",
+        "dragend",
+        "dragenter",
+        "dragleave",
+        "dragover",
+        "dragstart",
+        "drop",
+        "mousedown",
+        "mouseenter",
+        "mouseleave",
+        "mousemove",
+        "mouseout",
+        "mouseover",
+        "mouseup",
+        "mouseupoutside",
+        "pan",
+        "panend",
+        "panstart",
+        "pinch",
+        "pinchend",
+        "pinchstart",
+        "pointerdown",
+        "pointerenter",
+        "pointerleave",
+        "pointerout",
+        "pointerover",
+        "pointertap",
+        "pointerup",
+        "pointerupoutside",
+        "press",
+        "pressend",
+        "pressup",
+        "rightdown",
+        "rightup",
+        "rightupoutside",
+        "swipe",
+        "tap",
+        "touchcancel",
+        "touchend",
+        "touchendoutside",
+        "touchmove",
+        "touchstart",
+        "wheel"
+      ],
+      "type": "string"
+    },
+    "GraphicFunctionValueType<number>": {
+      "anyOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "GraphicFunctionValueType<number|boolean>": {
+      "anyOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "type": [
+            "number",
+            "boolean"
+          ]
+        }
+      ]
     },
     "GroupTooltipTriggerMark": {
       "enum": [
@@ -18717,64 +18750,37 @@
     "IAnimationConfig": {
       "anyOf": [
         {
-          "$ref": "#/definitions/IAnimationTimeline"
+          "$ref": "#/definitions/CommonAnimationConfigItem"
         },
         {
-          "$ref": "#/definitions/IAnimationTypeConfig"
+          "$ref": "#/definitions/TypeAnimationConfig"
+        },
+        {
+          "$ref": "#/definitions/ChannelAnimationConfig"
+        },
+        {
+          "$ref": "#/definitions/IAnimationTimeline"
         }
       ]
     },
     "IAnimationControlOptions": {
       "properties": {
         "ignoreLoopFinalAttributes": {
+          "description": "encode 计算图元最终状态时是否忽略循环动画",
           "type": "boolean"
         },
         "immediatelyApply": {
+          "description": "是否立即应用动画初始状态",
           "type": "boolean"
         },
         "stopWhenStateChange": {
+          "description": "当动画状态变更时清空动画",
           "type": "boolean"
         }
       },
       "type": "object"
     },
     "IAnimationCustomConstructor": {
-      "type": "object"
-    },
-    "IAnimationEffect": {
-      "properties": {
-        "channel": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IAnimationChannelAttrs"
-            },
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          ]
-        },
-        "custom": {
-          "anyOf": [
-            {
-              "typeof": "function"
-            },
-            {
-              "$ref": "#/definitions/IAnimationCustomConstructor"
-            }
-          ]
-        },
-        "customParameters": {},
-        "easing": {
-          "$ref": "#/definitions/EasingType"
-        },
-        "options": {},
-        "type": {
-          "type": "string"
-        }
-      },
       "type": "object"
     },
     "IAnimationSpec<\"bar\",BarAppearPreset>": {
@@ -18871,22 +18877,22 @@
     "IAnimationTimeSlice": {
       "properties": {
         "delay": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
         },
         "delayAfter": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
         },
         "duration": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
         },
         "effects": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationEffect"
+              "typeof": "function"
             },
             {
               "items": {
-                "$ref": "#/definitions/IAnimationEffect"
+                "typeof": "function"
               },
               "type": "array"
             }
@@ -18901,16 +18907,20 @@
     "IAnimationTimeline": {
       "properties": {
         "controlOptions": {
-          "$ref": "#/definitions/IAnimationControlOptions"
+          "$ref": "#/definitions/IAnimationControlOptions",
+          "description": "动画执行相关控制配置项"
         },
         "id": {
+          "description": "为了方便动画编排，用户可以设置 id 用于识别时间线",
           "type": "string"
         },
         "loop": {
-          "$ref": "#/definitions/MarkFunctionValueType<number|boolean>"
+          "$ref": "#/definitions/GraphicFunctionValueType<number|boolean>",
+          "description": "loop: true 无限循环; loop: 正整数，表示循环的次数"
         },
         "oneByOne": {
-          "$ref": "#/definitions/MarkFunctionValueType<number|boolean>"
+          "$ref": "#/definitions/GraphicFunctionValueType<number|boolean>",
+          "description": "动画依次执行的延迟"
         },
         "partitioner": {
           "typeof": "function"
@@ -18919,7 +18929,8 @@
           "typeof": "function"
         },
         "startTime": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
+          "$ref": "#/definitions/GraphicFunctionValueType<number>",
+          "description": "动画开始的相对时间，可以为负数"
         },
         "timeSlices": {
           "anyOf": [
@@ -18932,78 +18943,17 @@
               },
               "type": "array"
             }
-          ]
+          ],
+          "description": "时间切片"
         },
         "totalTime": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
+          "$ref": "#/definitions/GraphicFunctionValueType<number>",
+          "description": "动画时长"
         }
       },
       "required": [
         "timeSlices"
       ],
-      "type": "object"
-    },
-    "IAnimationTypeConfig": {
-      "properties": {
-        "channel": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IAnimationChannelAttrs"
-            },
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            }
-          ]
-        },
-        "controlOptions": {
-          "$ref": "#/definitions/IAnimationControlOptions"
-        },
-        "custom": {
-          "anyOf": [
-            {
-              "typeof": "function"
-            },
-            {
-              "$ref": "#/definitions/IAnimationCustomConstructor"
-            }
-          ]
-        },
-        "customParameters": {},
-        "delay": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
-        },
-        "delayAfter": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
-        },
-        "duration": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
-        },
-        "easing": {
-          "$ref": "#/definitions/EasingType"
-        },
-        "loop": {
-          "type": [
-            "number",
-            "boolean"
-          ]
-        },
-        "oneByOne": {
-          "$ref": "#/definitions/MarkFunctionValueType<number|boolean>"
-        },
-        "options": {},
-        "startTime": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
-        },
-        "totalTime": {
-          "$ref": "#/definitions/MarkFunctionValueType<number>"
-        },
-        "type": {
-          "type": "string"
-        }
-      },
       "type": "object"
     },
     "IArc3dMarkSpec": {
@@ -19891,7 +19841,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -21291,7 +21241,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -22056,7 +22006,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -23246,7 +23196,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -24319,7 +24269,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -25003,7 +24953,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -26244,7 +26194,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -27485,7 +27435,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -28125,7 +28075,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -28509,7 +28459,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -28951,7 +28901,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -29430,7 +29380,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -32112,7 +32062,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -32564,7 +32514,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -33330,6 +33280,32 @@
         "stepBefore"
       ],
       "type": "string"
+    },
+    "ICustomInteraction": {
+      "description": "元素选中交互，将所有相同名称的元素的状态设置为选中状态；注意该交互不建议和默认的select交互同时使用（象形图除外）",
+      "properties": {
+        "markIds": {
+          "description": "触发交互的图元id",
+          "items": {
+            "$ref": "#/definitions/StringOrNumber"
+          },
+          "type": "array"
+        },
+        "markNames": {
+          "description": "触发交互的图元名称",
+          "items": {
+            "$ref": "#/definitions/StringOrNumber"
+          },
+          "type": "array"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
     },
     "ICustomMarkSpec.T": {
       "enum": [
@@ -35608,7 +35584,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -35852,7 +35828,10 @@
           "$ref": "#/definitions/IBaseInteractionSpec"
         },
         {
-          "$ref": "#/definitions/Pick<ElementActiveByLegendSpec,\"type\"|\"state\"|\"filterType\">"
+          "$ref": "#/definitions/Pick<IElementActiveByLegendOptions,\"state\"|\"filterType\">"
+        },
+        {
+          "typeof": "function"
         }
       ],
       "description": "根据图例激活图元，默认触发事件为图例的 `legendItemHover`和`legendItemUnHover`事件"
@@ -35863,7 +35842,10 @@
           "$ref": "#/definitions/IBaseInteractionSpec"
         },
         {
-          "$ref": "#/definitions/Pick<ElementActiveSpec,\"type\"|\"state\"|\"trigger\"|\"triggerOff\">"
+          "$ref": "#/definitions/Pick<IElementActiveOptions,\"state\"|\"trigger\"|\"triggerOff\">"
+        },
+        {
+          "typeof": "function"
         }
       ],
       "description": "将触发元素的状态设置为激活状态，当开启这个交互的时候，可以在系列图元通过 `state.active` 设置激活状态下的视觉编码"
@@ -35874,7 +35856,10 @@
           "$ref": "#/definitions/IBaseInteractionSpec"
         },
         {
-          "$ref": "#/definitions/Pick<ElementHighlightByGroupSpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">"
+          "$ref": "#/definitions/Pick<IElementHighlightOptions,\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">"
+        },
+        {
+          "typeof": "function"
         }
       ],
       "description": "将触发元素以及和触发元素具有相同分组值（groupKey）的元素状态设置为高亮状态，其他元素的状态设置为失焦状态"
@@ -35885,7 +35870,10 @@
           "$ref": "#/definitions/IBaseInteractionSpec"
         },
         {
-          "$ref": "#/definitions/Pick<ElementHighlightByKeySpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">"
+          "$ref": "#/definitions/Pick<IElementHighlightOptions,\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">"
+        },
+        {
+          "typeof": "function"
         }
       ],
       "description": "将触发元素以及和触发元素具有相同key的元素状态设置为高亮状态，其他元素的状态设置为失焦状态；一般需要配合系列的dataKey 配置使用"
@@ -35896,7 +35884,10 @@
           "$ref": "#/definitions/IBaseInteractionSpec"
         },
         {
-          "$ref": "#/definitions/Pick<ElementHighlightByLegendSpec,\"type\"|\"blurState\"|\"highlightState\"|\"filterType\">"
+          "$ref": "#/definitions/Pick<IElementHighlightByLegendOptions,\"blurState\"|\"highlightState\"|\"filterType\">"
+        },
+        {
+          "typeof": "function"
         }
       ],
       "description": "根据图例高亮图元，默认触发事件为图例的 `legendItemHover`和`legendItemUnHover`事件"
@@ -35907,7 +35898,10 @@
           "$ref": "#/definitions/IBaseInteractionSpec"
         },
         {
-          "$ref": "#/definitions/Pick<ElementHighlightByNameSpec,\"type\"|\"blurState\"|\"highlightState\"|\"graphicName\"|\"parseData\">"
+          "$ref": "#/definitions/Pick<IElementHighlightByNameOptions,\"blurState\"|\"highlightState\"|\"graphicName\"|\"parseData\">"
+        },
+        {
+          "typeof": "function"
         }
       ],
       "description": "根据图例高亮图元，默认触发事件为图例的 `legendItemHover`和`legendItemUnHover`事件"
@@ -35918,7 +35912,10 @@
           "$ref": "#/definitions/IBaseInteractionSpec"
         },
         {
-          "$ref": "#/definitions/Pick<ElementHighlightSpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">"
+          "$ref": "#/definitions/Pick<IElementHighlightOptions,\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">"
+        },
+        {
+          "typeof": "function"
         }
       ],
       "description": "图元高亮交互配置，当开启这个交互的时候，\n可以在系列图元通过 `state.highlight` 设置激活状态下的视觉编码\n可以在系列图元通过 `state.blur` 设置非激活状态下的视觉编码"
@@ -35929,10 +35926,19 @@
           "$ref": "#/definitions/IBaseInteractionSpec"
         },
         {
-          "$ref": "#/definitions/Pick<ElementSelectSpec,\"type\"|\"state\"|\"trigger\"|\"triggerOff\"|\"isMultiple\"|\"reverseState\">"
+          "$ref": "#/definitions/Pick<IElementSelectOptions,\"state\"|\"trigger\"|\"triggerOff\"|\"isMultiple\"|\"reverseState\">"
+        },
+        {
+          "typeof": "function"
         }
       ],
       "description": "图元选中相关交互，当开启这个交互的时候，\n可以在系列图元通过 `state.selected` 设置激活状态下的视觉编码\n可以在系列图元通过 `state.selected_reverse` 设置非激活状态下的视觉编码"
+    },
+    "IElementSelectTriggerOff": {
+      "type": [
+        "string",
+        "number"
+      ]
     },
     "IExtensionGroupMarkSpec": {
       "properties": {
@@ -36211,7 +36217,7 @@
       ],
       "type": "object"
     },
-    "IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">": {
+    "IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">": {
       "properties": {
         "alignSelf": {
           "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
@@ -36811,7 +36817,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -37368,7 +37374,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -38237,7 +38243,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -38736,7 +38742,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -39292,7 +39298,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -39775,7 +39781,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -43079,7 +43085,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -44071,7 +44077,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -44620,7 +44626,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -45761,7 +45767,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -47273,6 +47279,9 @@
         {
           "$ref": "#/definitions/IElementHighlightByName",
           "description": "根据图例高亮图元，默认触发事件为图例的 `legendItemHover`和`legendItemUnHover`事件"
+        },
+        {
+          "$ref": "#/definitions/ICustomInteraction"
         }
       ],
       "description": "交互相关配置，目前支持的交互类型包括：\n- 元素激活\n- 元素选中\n- 元素高亮\n- 根据key值高亮元素\n- 根据group值高亮元素\n- 根据legend值激活元素\n- 根据legend值高亮元素\n- 根据图元名称高亮元素"
@@ -48996,7 +49005,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -50357,7 +50366,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -50951,7 +50960,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -51354,7 +51363,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -51596,7 +51605,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -53362,7 +53371,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -53784,7 +53793,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -59169,7 +59178,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -59797,7 +59806,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -60302,7 +60311,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -62857,7 +62866,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -63391,7 +63400,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -63916,7 +63925,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -64966,7 +64975,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -65480,7 +65489,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -66569,7 +66578,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -67071,7 +67080,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -68160,7 +68169,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -69587,7 +69596,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -70065,7 +70074,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -70808,7 +70817,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -71361,7 +71370,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -71861,7 +71870,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -72886,7 +72895,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -74054,7 +74063,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -76224,12 +76233,15 @@
       "type": "object"
     },
     "IStateAnimationConfig": {
+      "description": "state动画，暂时只支持简单配置",
       "properties": {
         "duration": {
+          "description": "状态动画的动画时长",
           "type": "number"
         },
         "easing": {
-          "$ref": "#/definitions/EasingType"
+          "$ref": "#/definitions/EasingType",
+          "description": "状态动画的缓动函数类型"
         }
       },
       "type": "object"
@@ -76508,7 +76520,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -76965,7 +76977,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -79833,7 +79845,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -80327,7 +80339,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -80662,6 +80674,12 @@
     },
     "IVisualSpecBase<unknown,number>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80691,6 +80709,12 @@
     },
     "IVisualSpecBase<unknown,string>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80720,6 +80744,12 @@
     },
     "IVisualSpecScale<unknown,unknown>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "anyOf": [
             {
@@ -80762,6 +80792,12 @@
     },
     "IVisualSpecStyle<unknown,\"accurate\"|\"imprecise\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80799,6 +80835,12 @@
     },
     "IVisualSpecStyle<unknown,\"break-word\"|\"break-all\"|\"keep-all\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80837,6 +80879,12 @@
     },
     "IVisualSpecStyle<unknown,\"center\"|\"end\"|\"start\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80875,6 +80923,12 @@
     },
     "IVisualSpecStyle<unknown,\"custom\"|\"accurate\"|\"imprecise\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80913,6 +80967,12 @@
     },
     "IVisualSpecStyle<unknown,\"end\"|\"start\"|\"middle\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80951,6 +81011,12 @@
     },
     "IVisualSpecStyle<unknown,\"horizontal\"|\"vertical\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -80988,6 +81054,12 @@
     },
     "IVisualSpecStyle<unknown,\"line\"|\"polyline\"|\"smooth\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81026,6 +81098,12 @@
     },
     "IVisualSpecStyle<unknown,\"normal\"|\"no-wrap\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81063,6 +81141,12 @@
     },
     "IVisualSpecStyle<unknown,\"radial\"|\"horizontal\"|\"vertical\"|\"LR\"|\"RL\"|\"TB\"|\"BL\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81105,6 +81189,12 @@
     },
     "IVisualSpecStyle<unknown,\"rich\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81139,6 +81229,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81172,6 +81268,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>_1": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81205,6 +81307,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>_2": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81238,6 +81346,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>_3": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81271,6 +81385,12 @@
     },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>_4": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81304,6 +81424,12 @@
     },
     "IVisualSpecStyle<unknown,BoxPlotShaftShape>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81337,6 +81463,12 @@
     },
     "IVisualSpecStyle<unknown,Cursor>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81370,6 +81502,12 @@
     },
     "IVisualSpecStyle<unknown,FontWeight>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81403,6 +81541,12 @@
     },
     "IVisualSpecStyle<unknown,HTMLCanvasElement|HTMLImageElement|IColor>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81455,6 +81599,12 @@
     },
     "IVisualSpecStyle<unknown,IBorder>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81488,6 +81638,12 @@
     },
     "IVisualSpecStyle<unknown,IPoint[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81524,6 +81680,12 @@
     },
     "IVisualSpecStyle<unknown,IRepeatType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81557,6 +81719,12 @@
     },
     "IVisualSpecStyle<unknown,IRichTextCharacter[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81593,6 +81761,12 @@
     },
     "IVisualSpecStyle<unknown,InterpolateType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81626,6 +81800,12 @@
     },
     "IVisualSpecStyle<unknown,LineStrokeCap>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81659,6 +81839,12 @@
     },
     "IVisualSpecStyle<unknown,LineStrokeJoin>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81692,6 +81878,12 @@
     },
     "IVisualSpecStyle<unknown,Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81725,6 +81917,12 @@
     },
     "IVisualSpecStyle<unknown,PopTipAttributes>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81758,6 +81956,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextGlobalAlignType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81791,6 +81995,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextGlobalBaselineType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81824,6 +82034,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextLayoutDirectionType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81857,6 +82073,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextVerticalDirection>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81890,6 +82112,12 @@
     },
     "IVisualSpecStyle<unknown,RichTextWordBreak>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81923,6 +82151,12 @@
     },
     "IVisualSpecStyle<unknown,TextAlignType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81956,6 +82190,12 @@
     },
     "IVisualSpecStyle<unknown,TextBaselineType>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -81989,6 +82229,12 @@
     },
     "IVisualSpecStyle<unknown,[number,number]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82032,6 +82278,12 @@
     },
     "IVisualSpecStyle<unknown,[string|number,string|number]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82081,6 +82333,12 @@
     },
     "IVisualSpecStyle<unknown,boolean>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82114,6 +82372,12 @@
     },
     "IVisualSpecStyle<unknown,boolean|[boolean,boolean]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82164,6 +82428,12 @@
     },
     "IVisualSpecStyle<unknown,false|IColorKey|IGradient|VisualType<string>>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82226,6 +82496,12 @@
     },
     "IVisualSpecStyle<unknown,number>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82259,6 +82535,12 @@
     },
     "IVisualSpecStyle<unknown,number[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82295,6 +82577,12 @@
     },
     "IVisualSpecStyle<unknown,number|ITokenKey<any>>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82335,6 +82623,12 @@
     },
     "IVisualSpecStyle<unknown,number|number[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82378,6 +82672,12 @@
     },
     "IVisualSpecStyle<unknown,string>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82411,6 +82711,12 @@
     },
     "IVisualSpecStyle<unknown,string|HTMLCanvasElement|HTMLImageElement>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82454,6 +82760,12 @@
     },
     "IVisualSpecStyle<unknown,string|boolean>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82490,6 +82802,12 @@
     },
     "IVisualSpecStyle<unknown,string|false|IColorKey|IGradient|(number|boolean)[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82552,6 +82870,12 @@
     },
     "IVisualSpecStyle<unknown,string|number|ITokenKey<any>>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82595,6 +82919,12 @@
     },
     "IVisualSpecStyle<unknown,string|number|string[]|number[]>": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
           "items": {},
@@ -82911,7 +83241,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -84026,7 +84356,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -84815,7 +85145,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -85317,7 +85647,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -85816,7 +86146,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -86311,7 +86641,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -86743,7 +87073,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@10850": {
           "type": "string"
         },
         "size": {
@@ -86751,14 +87081,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@10850",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@10850": {
           "type": "string"
         },
         "size": {
@@ -86766,14 +87096,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@10850",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@10850": {
           "type": "string"
         },
         "size": {
@@ -86781,14 +87111,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@10850",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@10850": {
           "type": "string"
         },
         "size": {
@@ -86796,14 +87126,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@10850",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@10850": {
           "type": "string"
         },
         "size": {
@@ -86811,14 +87141,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@10850",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@10850": {
           "type": "string"
         },
         "size": {
@@ -86826,33 +87156,10 @@
         }
       },
       "required": [
-        "__@toStringTag@12170",
+        "__@toStringTag@10850",
         "size"
       ],
       "type": "object"
-    },
-    "MarkFunctionValueType<number>": {
-      "anyOf": [
-        {
-          "typeof": "function"
-        },
-        {
-          "type": "number"
-        }
-      ]
-    },
-    "MarkFunctionValueType<number|boolean>": {
-      "anyOf": [
-        {
-          "typeof": "function"
-        },
-        {
-          "type": [
-            "number",
-            "boolean"
-          ]
-        }
-      ]
     },
     "MaybeArray<GroupTooltipTriggerMark>": {
       "anyOf": [
@@ -88116,7 +88423,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -88841,7 +89148,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -89630,7 +89937,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -90014,7 +90321,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -91978,7 +92285,7 @@
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
               }
             ]
           },
@@ -92517,6 +92824,12 @@
     },
     "Omit<IVisualSpecScale<unknown,string>,\"id\">": {
       "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
         "domain": {
           "anyOf": [
             {
@@ -106003,10 +106316,16 @@
         "area": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106028,10 +106347,16 @@
         "bar": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106053,10 +106378,16 @@
         "funnel": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106078,10 +106409,16 @@
         "liquid": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106103,10 +106440,16 @@
         "rangeColumn": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106128,10 +106471,16 @@
         "rose": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106153,10 +106502,16 @@
         "area": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106173,10 +106528,16 @@
         "line": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106193,10 +106554,16 @@
         "point": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106218,10 +106585,16 @@
         "label": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106238,10 +106611,16 @@
         "leaf": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106258,10 +106637,16 @@
         "nonLeaf": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106278,10 +106663,16 @@
         "nonLeafLabel": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106303,10 +106694,16 @@
         "progress": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106323,10 +106720,16 @@
         "track": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106348,10 +106751,16 @@
         "label": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106368,10 +106777,16 @@
         "point": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106393,10 +106808,16 @@
         "segment": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106413,10 +106834,16 @@
         "track": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106438,10 +106865,16 @@
         "pin": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106458,10 +106891,16 @@
         "pinBackground": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106478,10 +106917,16 @@
         "pointer": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106503,10 +106948,16 @@
         "background": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106523,10 +106974,16 @@
         "cell": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106543,10 +107000,16 @@
         "label": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106568,10 +107031,16 @@
         "line": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106588,10 +107057,16 @@
         "point": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106613,10 +107088,16 @@
         "label": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106633,10 +107114,16 @@
         "labelLine": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106653,10 +107140,16 @@
         "pie": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106678,10 +107171,16 @@
         "area": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106698,10 +107197,16 @@
         "line": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106718,10 +107223,16 @@
         "point": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106743,10 +107254,16 @@
         "label": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106763,10 +107280,16 @@
         "link": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106783,10 +107306,16 @@
         "node": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106808,10 +107337,16 @@
         "label": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106828,10 +107363,16 @@
         "point": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106853,10 +107394,16 @@
         "boxPlot": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106878,10 +107425,16 @@
         "progress": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106898,10 +107451,16 @@
         "track": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -106923,10 +107482,16 @@
         "word": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -107156,10 +107721,16 @@
         "arc": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -107176,10 +107747,16 @@
         "label": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -107201,10 +107778,16 @@
         "leaf": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -107221,10 +107804,16 @@
         "nonLeaf": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IAnimationTimeline"
+              "$ref": "#/definitions/CommonAnimationConfigItem"
             },
             {
-              "$ref": "#/definitions/IAnimationTypeConfig"
+              "$ref": "#/definitions/TypeAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/ChannelAnimationConfig"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
             },
             {
               "items": {
@@ -107477,9 +108066,10 @@
     "Permissions": {
       "type": "object"
     },
-    "Pick<ElementActiveByLegendSpec,\"type\"|\"state\"|\"filterType\">": {
+    "Pick<IElementActiveByLegendOptions,\"state\"|\"filterType\">": {
       "properties": {
         "filterType": {
+          "description": "the filter type of element",
           "enum": [
             "groupKey",
             "key"
@@ -107487,28 +108077,23 @@
           "type": "string"
         },
         "state": {
-          "type": "string"
-        },
-        "type": {
-          "const": "element-active-by-legend",
+          "description": "the active state name",
           "type": "string"
         }
       },
-      "required": [
-        "type"
-      ],
       "type": "object"
     },
-    "Pick<ElementActiveSpec,\"type\"|\"state\"|\"trigger\"|\"triggerOff\">": {
+    "Pick<IElementActiveOptions,\"state\"|\"trigger\"|\"triggerOff\">": {
       "properties": {
         "state": {
+          "description": "the active state name",
           "type": "string"
         },
         "trigger": {
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/EventType"
+                "$ref": "#/definitions/GraphicEventType"
               },
               "type": "array"
             },
@@ -107540,7 +108125,6 @@
                 "pointerdown",
                 "pointerenter",
                 "pointerleave",
-                "pointermove",
                 "pointerout",
                 "pointerover",
                 "pointertap",
@@ -107549,7 +108133,6 @@
                 "press",
                 "pressend",
                 "pressup",
-                "resize",
                 "rightdown",
                 "rightup",
                 "rightupoutside",
@@ -107564,13 +108147,14 @@
               ],
               "type": "string"
             }
-          ]
+          ],
+          "description": "the trigger event name"
         },
         "triggerOff": {
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/EventType"
+                "$ref": "#/definitions/GraphicEventType"
               },
               "type": "array"
             },
@@ -107603,7 +108187,6 @@
                 "pointerdown",
                 "pointerenter",
                 "pointerleave",
-                "pointermove",
                 "pointerout",
                 "pointerover",
                 "pointertap",
@@ -107612,7 +108195,6 @@
                 "press",
                 "pressend",
                 "pressup",
-                "resize",
                 "rightdown",
                 "rightup",
                 "rightupoutside",
@@ -107627,172 +108209,20 @@
               ],
               "type": "string"
             }
-          ]
-        },
-        "type": {
-          "const": "element-active",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "Pick<ElementHighlightByGroupSpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">": {
-      "properties": {
-        "blurState": {
-          "type": "string"
-        },
-        "highlightState": {
-          "type": "string"
-        },
-        "trigger": {
-          "$ref": "#/definitions/EventType"
-        },
-        "triggerOff": {
-          "enum": [
-            "click",
-            "dblclick",
-            "drag",
-            "dragend",
-            "dragenter",
-            "dragleave",
-            "dragover",
-            "dragstart",
-            "drop",
-            "mousedown",
-            "mouseenter",
-            "mouseleave",
-            "mousemove",
-            "mouseout",
-            "mouseover",
-            "mouseup",
-            "mouseupoutside",
-            "none",
-            "pan",
-            "panend",
-            "panstart",
-            "pinch",
-            "pinchend",
-            "pinchstart",
-            "pointerdown",
-            "pointerenter",
-            "pointerleave",
-            "pointermove",
-            "pointerout",
-            "pointerover",
-            "pointertap",
-            "pointerup",
-            "pointerupoutside",
-            "press",
-            "pressend",
-            "pressup",
-            "resize",
-            "rightdown",
-            "rightup",
-            "rightupoutside",
-            "swipe",
-            "tap",
-            "touchcancel",
-            "touchend",
-            "touchendoutside",
-            "touchmove",
-            "touchstart",
-            "wheel"
           ],
-          "type": "string"
-        },
-        "type": {
-          "const": "element-highlight-by-group",
-          "type": "string"
+          "description": "the reset trigger event name"
         }
       },
-      "required": [
-        "type"
-      ],
       "type": "object"
     },
-    "Pick<ElementHighlightByKeySpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">": {
+    "Pick<IElementHighlightByLegendOptions,\"blurState\"|\"highlightState\"|\"filterType\">": {
       "properties": {
         "blurState": {
-          "type": "string"
-        },
-        "highlightState": {
-          "type": "string"
-        },
-        "trigger": {
-          "$ref": "#/definitions/EventType"
-        },
-        "triggerOff": {
-          "enum": [
-            "click",
-            "dblclick",
-            "drag",
-            "dragend",
-            "dragenter",
-            "dragleave",
-            "dragover",
-            "dragstart",
-            "drop",
-            "mousedown",
-            "mouseenter",
-            "mouseleave",
-            "mousemove",
-            "mouseout",
-            "mouseover",
-            "mouseup",
-            "mouseupoutside",
-            "none",
-            "pan",
-            "panend",
-            "panstart",
-            "pinch",
-            "pinchend",
-            "pinchstart",
-            "pointerdown",
-            "pointerenter",
-            "pointerleave",
-            "pointermove",
-            "pointerout",
-            "pointerover",
-            "pointertap",
-            "pointerup",
-            "pointerupoutside",
-            "press",
-            "pressend",
-            "pressup",
-            "resize",
-            "rightdown",
-            "rightup",
-            "rightupoutside",
-            "swipe",
-            "tap",
-            "touchcancel",
-            "touchend",
-            "touchendoutside",
-            "touchmove",
-            "touchstart",
-            "wheel"
-          ],
-          "type": "string"
-        },
-        "type": {
-          "const": "element-highlight-by-key",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "Pick<ElementHighlightByLegendSpec,\"type\"|\"blurState\"|\"highlightState\"|\"filterType\">": {
-      "properties": {
-        "blurState": {
+          "description": "the blur state name",
           "type": "string"
         },
         "filterType": {
+          "description": "the filter type of element",
           "enum": [
             "groupKey",
             "key"
@@ -107800,21 +108230,16 @@
           "type": "string"
         },
         "highlightState": {
-          "type": "string"
-        },
-        "type": {
-          "const": "element-highlight-by-legend",
+          "description": "the highlight state name",
           "type": "string"
         }
       },
-      "required": [
-        "type"
-      ],
       "type": "object"
     },
-    "Pick<ElementHighlightByNameSpec,\"type\"|\"blurState\"|\"highlightState\"|\"graphicName\"|\"parseData\">": {
+    "Pick<IElementHighlightByNameOptions,\"blurState\"|\"highlightState\"|\"graphicName\"|\"parseData\">": {
       "properties": {
         "blurState": {
+          "description": "the blur state name",
           "type": "string"
         },
         "graphicName": {
@@ -107831,33 +108256,31 @@
           ]
         },
         "highlightState": {
+          "description": "the highlight state name",
           "type": "string"
         },
         "parseData": {
           "typeof": "function"
-        },
-        "type": {
-          "const": "element-highlight-by-name",
-          "type": "string"
         }
       },
-      "required": [
-        "type"
-      ],
       "type": "object"
     },
-    "Pick<ElementHighlightSpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">": {
+    "Pick<IElementHighlightOptions,\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">": {
       "properties": {
         "blurState": {
+          "description": "the blur state name",
           "type": "string"
         },
         "highlightState": {
+          "description": "the highlight state name",
           "type": "string"
         },
         "trigger": {
-          "$ref": "#/definitions/EventType"
+          "$ref": "#/definitions/GraphicEventType",
+          "description": "the trigger event name"
         },
         "triggerOff": {
+          "description": "the reset trigger event name",
           "enum": [
             "click",
             "dblclick",
@@ -107886,7 +108309,6 @@
             "pointerdown",
             "pointerenter",
             "pointerleave",
-            "pointermove",
             "pointerout",
             "pointerover",
             "pointertap",
@@ -107895,7 +108317,6 @@
             "press",
             "pressend",
             "pressup",
-            "resize",
             "rightdown",
             "rightup",
             "rightupoutside",
@@ -107909,33 +108330,29 @@
             "wheel"
           ],
           "type": "string"
-        },
-        "type": {
-          "const": "element-highlight",
-          "type": "string"
         }
       },
-      "required": [
-        "type"
-      ],
       "type": "object"
     },
-    "Pick<ElementSelectSpec,\"type\"|\"state\"|\"trigger\"|\"triggerOff\"|\"isMultiple\"|\"reverseState\">": {
+    "Pick<IElementSelectOptions,\"state\"|\"trigger\"|\"triggerOff\"|\"isMultiple\"|\"reverseState\">": {
       "properties": {
         "isMultiple": {
+          "description": "whether or not support multiple selected",
           "type": "boolean"
         },
         "reverseState": {
+          "description": "the non-selected state name",
           "type": "string"
         },
         "state": {
+          "description": "the selected state name",
           "type": "string"
         },
         "trigger": {
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/EventType"
+                "$ref": "#/definitions/GraphicEventType"
               },
               "type": "array"
             },
@@ -107967,7 +108384,6 @@
                 "pointerdown",
                 "pointerenter",
                 "pointerleave",
-                "pointermove",
                 "pointerout",
                 "pointerover",
                 "pointertap",
@@ -107976,7 +108392,6 @@
                 "press",
                 "pressend",
                 "pressup",
-                "resize",
                 "rightdown",
                 "rightup",
                 "rightupoutside",
@@ -107991,128 +108406,27 @@
               ],
               "type": "string"
             }
-          ]
+          ],
+          "description": "the trigger event name"
         },
         "triggerOff": {
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/ElementSelectTriggerOff"
+                "$ref": "#/definitions/IElementSelectTriggerOff"
               },
               "type": "array"
             },
             {
-              "enum": [
-                "click",
-                "dblclick",
-                "drag",
-                "dragend",
-                "dragenter",
-                "dragleave",
-                "dragover",
-                "dragstart",
-                "drop",
-                "empty",
-                "mousedown",
-                "mouseenter",
-                "mouseleave",
-                "mousemove",
-                "mouseout",
-                "mouseover",
-                "mouseup",
-                "mouseupoutside",
-                "none",
-                "pan",
-                "panend",
-                "panstart",
-                "pinch",
-                "pinchend",
-                "pinchstart",
-                "pointerdown",
-                "pointerenter",
-                "pointerleave",
-                "pointermove",
-                "pointerout",
-                "pointerover",
-                "pointertap",
-                "pointerup",
-                "pointerupoutside",
-                "press",
-                "pressend",
-                "pressup",
-                "resize",
-                "rightdown",
-                "rightup",
-                "rightupoutside",
-                "swipe",
-                "tap",
-                "touchcancel",
-                "touchend",
-                "touchendoutside",
-                "touchmove",
-                "touchstart",
-                "view:click",
-                "view:dblclick",
-                "view:drag",
-                "view:dragend",
-                "view:dragenter",
-                "view:dragleave",
-                "view:dragover",
-                "view:dragstart",
-                "view:drop",
-                "view:mousedown",
-                "view:mouseenter",
-                "view:mouseleave",
-                "view:mousemove",
-                "view:mouseout",
-                "view:mouseover",
-                "view:mouseup",
-                "view:mouseupoutside",
-                "view:pan",
-                "view:panend",
-                "view:panstart",
-                "view:pinch",
-                "view:pinchend",
-                "view:pinchstart",
-                "view:pointerdown",
-                "view:pointerenter",
-                "view:pointerleave",
-                "view:pointerout",
-                "view:pointerover",
-                "view:pointertap",
-                "view:pointerup",
-                "view:pointerupoutside",
-                "view:press",
-                "view:pressend",
-                "view:pressup",
-                "view:rightdown",
-                "view:rightup",
-                "view:rightupoutside",
-                "view:swipe",
-                "view:tap",
-                "view:touchcancel",
-                "view:touchend",
-                "view:touchendoutside",
-                "view:touchmove",
-                "view:touchstart",
-                "view:wheel",
-                "wheel"
-              ],
-              "type": "string"
-            },
-            {
-              "type": "number"
+              "type": [
+                "string",
+                "number"
+              ]
             }
-          ]
-        },
-        "type": {
-          "const": "element-select",
-          "type": "string"
+          ],
+          "description": "the reset trigger event name"
         }
       },
-      "required": [
-        "type"
-      ],
       "type": "object"
     },
     "Pick<IGroupTooltipPattern,\"triggerMark\">": {
@@ -108391,34 +108705,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@10850": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12170"
+        "__@toStringTag@10850"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@10850": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12170"
+        "__@toStringTag@10850"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12170": {
+        "__@toStringTag@10850": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12170"
+        "__@toStringTag@10850"
       ],
       "type": "object"
     },
@@ -121429,6 +121743,63 @@
           "type": "string"
         }
       ]
+    },
+    "TypeAnimationConfig": {
+      "properties": {
+        "controlOptions": {
+          "$ref": "#/definitions/IAnimationControlOptions",
+          "description": "动画执行相关控制配置项"
+        },
+        "custom": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IAnimationCustomConstructor"
+            }
+          ]
+        },
+        "customParameters": {},
+        "delay": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "delayAfter": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "duration": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType"
+        },
+        "loop": {
+          "description": "loop: true 无限循环; loop: 正整数，表示循环的次数",
+          "type": [
+            "number",
+            "boolean"
+          ]
+        },
+        "oneByOne": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number|boolean>"
+        },
+        "options": {
+          "description": "动画 effect 配置项"
+        },
+        "startTime": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "totalTime": {
+          "$ref": "#/definitions/GraphicFunctionValueType<number>"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
     },
     "VisualType<\"accurate\"|\"imprecise\">": {
       "anyOf": [

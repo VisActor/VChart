@@ -10,8 +10,8 @@ export declare class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> imp
     };
     constructor(name: string, option: IMarkOption);
     protected _getDefaultStyle(): IMarkStyle<T>;
-    protected computeOuterRadius: (key: string, datum: Datum, states: StateValueType, opt: any, superValue: number) => number;
-    protected computeCenter: (key: 'x' | 'y', datum: Datum, states: StateValueType, opt: any, center: number) => number;
+    protected computeOuterRadius: (key: string, datum: Datum, states: StateValueType, superValue: number) => number;
+    protected computeCenter: (key: 'x' | 'y', datum: Datum, states: StateValueType, center: number) => number;
 }
 export declare class ArcMark extends BaseArcMark<IArcMarkSpec> implements IArcMark {
     static readonly type = MarkTypeEnum.arc;

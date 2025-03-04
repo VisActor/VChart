@@ -2,7 +2,6 @@ import type { ILayoutModel } from './../model/interface';
 import type { IRect, IPoint } from '../typings';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ILayoutItem, ILayoutItemInitOption, ILayoutItemSpec } from './interface';
-import type { IChartLayoutOption } from '../chart/interface/common';
 import type { ILayoutAlignSelf, ILayoutPoint, ILayoutRect } from '../typings/layout';
 export declare class LayoutItem implements ILayoutItem {
     protected _spec: ILayoutItemSpec;
@@ -51,8 +50,8 @@ export declare class LayoutItem implements ILayoutItem {
     constructor(model: ILayoutModel, option: ILayoutItemInitOption);
     private _setLayoutAttributeFromSpec;
     setAttrFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect): void;
-    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
-    onLayoutEnd(option: IChartLayoutOption): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
+    onLayoutEnd(): void;
     private _getAbsoluteSpecValue;
     absoluteLayoutInRect(layoutRect: IRect): void;
     setLayoutStartPosition(pos: Partial<IPoint>): void;

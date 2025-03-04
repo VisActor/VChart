@@ -20,7 +20,7 @@ export declare class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> ext
     protected initTooltip(): void;
     initMarkStyle(): void;
     initAnimation(): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     getSeriesStyle(datum: Datum): (attribute: string) => unknown;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];

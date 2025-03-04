@@ -3,7 +3,7 @@ import { ChartData } from '../chart-meta/data';
 import type { Datum, IMarkStateSpec, IRegionQuerier, MaybeArray, IPadding, IRect, StringOrNumber, IChartSpec, IDataValues, ILayoutRect, ILayoutOrientPadding } from '../../typings';
 import type { ILayoutItem, LayoutCallBack } from '../../layout/interface';
 import type { ILayoutModelState, IModel, IModelOption, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
-import type { IChart, IChartLayoutOption, IChartRenderOption, IChartOption, IChartEvaluateOption, ILayoutParams, DimensionIndexOption, IChartSpecTransformerOption, IChartSpecTransformer } from '../interface';
+import type { IChart, IChartRenderOption, IChartOption, IChartEvaluateOption, DimensionIndexOption, IChartSpecTransformerOption, IChartSpecTransformer } from '../interface';
 import type { ISeries, ISeriesConstructor } from '../../series/interface';
 import type { IRegion } from '../../region/interface';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
@@ -13,9 +13,10 @@ import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike, Maybe } from '@visactor/vutils';
-import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IGlobalScale } from '../../scale/interface';
+import type { IMorphConfig } from '../../animation/spec';
+import type { IInteraction } from '../../interaction/interface/common';
 export declare class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
     readonly type: string;
     readonly seriesType: string;
@@ -52,8 +53,10 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     protected _paddingSpec: ILayoutOrientPadding;
     protected _canvasRect: ILayoutRect;
     protected _backgroundMark: IRectMark;
+    protected _interaction: IInteraction;
     constructor(spec: T, option: IChartOption);
     created(transformer: Maybe<IChartSpecTransformer>): void;
+    _initInteractions(): void;
     init(): void;
     reDataFlow(): void;
     onResize(width: number, height: number, reRender?: boolean): void;
@@ -73,9 +76,9 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     private _createLayout;
     setLayout(layout: LayoutCallBack): void;
     private _initLayoutFunc;
-    layout(params: ILayoutParams): void;
-    onLayoutStart(option: IChartLayoutOption): void;
-    onLayoutEnd(option: IChartLayoutOption): void;
+    layout(): void;
+    onLayoutStart(): void;
+    onLayoutEnd(): void;
     onEvaluateEnd(option: IChartEvaluateOption): void;
     getLayoutElements(): ILayoutItem[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
@@ -135,7 +138,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     compileSeries(): void;
     compileComponents(): void;
     release(): void;
-    onLayout(srView: IView): void;
+    onLayout(): void;
     updateState(state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean): void;
     setSelected(datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
     setHovered(datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
@@ -146,7 +149,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     private _initEvent;
     protected _enableMarkAnimation(states: string | string[]): void;
     protected _disableMarkAnimation(states: string | string[]): void;
-    protected _setStateInDatum(stateKey: string, checkReverse: boolean, datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
+    protected _setStateInDatum(stateKey: string, d: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
     setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption): void;
     getColorScheme(): import("../..").IThemeColorScheme;
 }

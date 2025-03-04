@@ -18,7 +18,7 @@ export declare class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extend
     protected _component: ScrollBarComponent;
     constructor(spec: T, options: IComponentOption);
     setAttrFromSpec(): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     protected _updateScaleRange(): void;
     protected _computeWidth(): number;
     protected _computeHeight(): number;

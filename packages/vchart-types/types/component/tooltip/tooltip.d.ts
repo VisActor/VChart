@@ -1,5 +1,5 @@
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
@@ -44,8 +44,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _getNeedClearVRenderComponents(): IGraphic[];
     protected _registerEvent(): void;
     protected _releaseEvent(): void;
-    onLayout(ctx: IModelLayoutOption): void;
-    onLayoutEnd(ctx: IModelLayoutOption): void;
+    onLayoutEnd(): void;
     onRender(ctx: IModelRenderOption): void;
     created(): void;
     release(): void;

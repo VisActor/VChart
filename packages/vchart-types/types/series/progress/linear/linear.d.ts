@@ -16,7 +16,10 @@ export declare class LinearProgressSeries<T extends ILinearProgressSeriesSpec = 
     private _defaultProgressCustomShape;
     private _initTrackMark;
     private _initTrackMarkStyle;
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     initAnimation(): void;
     protected initTooltip(): void;
     getActiveMarks(): IMark[];

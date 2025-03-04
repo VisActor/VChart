@@ -44,10 +44,13 @@ export declare class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> ext
         scale: any;
         field: string;
     };
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     protected initTooltip(): void;
     protected onMarkTreePositionUpdate(marks: IMark[]): void;
-    getDotInfoData(): import("../../compile/mark").IMarkData;
+    getDotInfoData(): import("../../compile/data").ICompilableData;
     getActiveMarks(): IMark[];
 }
 export declare const registerLinkSeries: () => void;

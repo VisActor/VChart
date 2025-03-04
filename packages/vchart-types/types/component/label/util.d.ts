@@ -1,6 +1,6 @@
 import type { WaterfallSeries } from './../../series/waterfall/waterfall';
 import type { Datum } from '../../typings/common';
-import type { LabelItem, Strategy } from '@visactor/vrender-components';
+import type { LabelItem, OverlapAttrs, Strategy } from '@visactor/vrender-components';
 import type { ILabelInfo, ILabelSpec } from './interface';
 export declare const labelRuleMap: {
     rect: typeof barLabel;
@@ -17,20 +17,14 @@ export declare const labelRuleMap: {
     venn: typeof vennLabel;
 };
 export declare function defaultLabelConfig(rule: string, labelInfo: ILabelInfo): any;
-export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod'], formatter?: ILabelSpec['formatter']): any;
+export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod'], formatter?: ILabelSpec['formatter']): Partial<import("../../typings").IComposedTextMarkSpec>;
 export declare function symbolLabel(labelInfo: ILabelInfo): {
     position: string | ((datum: Datum) => any);
-    overlap: boolean | {
-        strategy: Strategy[] | import("@visactor/vrender-components").ShiftYStrategy;
-        avoidBaseMark: boolean;
-    };
+    overlap: boolean | OverlapAttrs;
 };
 export declare function lineDataLabel(labelInfo: ILabelInfo): {
     position: string | ((datum: Datum) => any);
-    overlap: boolean | {
-        strategy: Strategy[] | import("@visactor/vrender-components").ShiftYStrategy;
-        avoidBaseMark: boolean;
-    };
+    overlap: boolean | OverlapAttrs;
 };
 export declare function barLabel(labelInfo: ILabelInfo): {
     position: (data: any) => string;
@@ -42,6 +36,7 @@ export declare function barLabel(labelInfo: ILabelInfo): {
 export declare function pointLabel(labelInfo: ILabelInfo): {
     position: string;
     overlap: boolean | {
+        clampForce: boolean;
         avoidBaseMark: boolean;
     };
 };
@@ -69,6 +64,10 @@ export declare function vennLabel(labelInfo: ILabelInfo): {
 export declare function LineLabel(labelInfo: ILabelInfo): {
     position: string;
     data: any;
+    overlap: {
+        avoidBaseMark: boolean;
+        clampForce: boolean;
+    };
 };
 export declare function sankeyLabel(labelInfo: ILabelInfo): {
     position: import("@visactor/vrender-components").Functional<string>;

@@ -9,6 +9,7 @@ export * from '../typings/spec/common';
 export * from '../event/interface';
 export * from '../theme/interface';
 export * from './interface';
+export type { IMarkGraphic, IGraphicContext } from '../mark/interface/';
 export * from '../constant/base';
 export * from '../constant/data';
 export * from '../typings/spec/index';

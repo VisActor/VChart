@@ -1,7 +1,7 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import { Tag } from '@visactor/vrender-components';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { IPoint, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
@@ -68,7 +68,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     private _handleTooltipHideOrRelease;
     protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value'): IAxisInfo<T>;
     changeRegions(regions: IRegion[]): void;
-    onLayoutEnd(ctx: IModelLayoutOption): void;
+    onLayoutEnd(): void;
     onRender(ctx: IModelRenderOption): void;
     protected _releaseEvent(): void;
     protected _parseFieldInfo(): void;

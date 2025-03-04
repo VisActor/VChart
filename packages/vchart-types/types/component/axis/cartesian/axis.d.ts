@@ -77,7 +77,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected updateScaleRange(): boolean;
     init(option: IModelInitOption): void;
     setAttrFromSpec(): void;
-    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
     protected getSeriesStatisticsField(s: ICartesianSeries): string[];
     protected _tickTransformOption(): ICartesianTickDataOpt;
     protected axisHelper(): IAxisHelper;

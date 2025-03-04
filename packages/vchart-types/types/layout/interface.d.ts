@@ -76,8 +76,8 @@ export interface ILayoutItem {
     getLayoutRect: () => ILayoutRect;
     getLayout: () => IRect;
     getLastComputeOutBounds: () => IBoundsLike;
-    onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: any) => void;
-    onLayoutEnd: (option: any) => void;
+    onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect) => void;
+    onLayoutEnd: () => void;
     setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) => void;
     computeBoundsInRect: (rect: ILayoutRect) => ILayoutRect;
     setLayoutStartPosition: (pos: Partial<IPoint>) => void;
