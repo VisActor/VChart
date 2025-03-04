@@ -14,3 +14,5 @@ export * from './plugin/components/tooltip-handler';
 export * from './plugin/components/axis-sync';
 export * from './plugin/other';
 export * from './vrender-tools';
+export * from './util/data';
+export * from './util/spec/transform';
