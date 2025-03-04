@@ -20,4 +20,5 @@ export * from './plugin/components/axis-sync';
 export * from './plugin/other';
 export * from './vrender-tools';
 // util
-export * from './util';
+export * from './util/data';
+export * from './util/spec/transform';
