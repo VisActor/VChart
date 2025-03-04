@@ -142,6 +142,16 @@ Global morphing animations allow users to have a better visual experience when t
 A one-to-one animation is the transition animation between two different shapes. For example, in the following example, the global animation when switching between the pie chart and the bar chart is shown:
 
 ```javascript livedemo
+/**
+ * Since version 1.12.0, global morph animations need to be manually registered to take effect.
+ *
+ * import { registerMorph } from '@visactor/vchart';
+ *
+ * registerMorph();
+ */
+
+VCHART_MODULE.registerMorph();
+
 const pieSpec = {
   type: 'pie',
   data: [
@@ -184,6 +194,15 @@ setInterval(() => {
 A one-to-many animation is the transition animation from one graphical element to multiple graphical elements. For example, in the following example, the global animation when switching between the bar chart and the scatter plot is shown. The animation where a large bar is split into multiple scatter points is a one-to-many animation.
 
 ```javascript livedemo
+/**
+ * Since version 1.12.0, global morph animations need to be manually registered to take effect.
+ *
+ * import { registerMorph } from '@visactor/vchart';
+ *
+ * registerMorph();
+ */
+
+VCHART_MODULE.registerMorph();
 function calculateAverage(data, dim) {
   let total = 0;
   for (let i = 0; i < data.length; i++) {
