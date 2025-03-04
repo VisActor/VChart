@@ -36,5 +36,6 @@ export const enum ChartTypeEnum {
   liquid = 'liquid',
   venn = 'venn',
   mosaic = 'mosaic',
-  pictogram = 'pictogram'
+  pictogram = 'pictogram',
+  imageCloud = 'imageCloud'
 }

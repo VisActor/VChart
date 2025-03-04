@@ -980,7 +980,7 @@ export interface IImageMarkSpec extends IFillMarkSpec {
    * 2. image 元素
    * 3. canvas 元素
    */
-  image: string | HTMLImageElement | HTMLCanvasElement;
+  image?: string | HTMLImageElement | HTMLCanvasElement;
 }
 
 /**
