@@ -3,9 +3,9 @@ import type { Datum } from '../../../typings';
 import { computeRatio, getInnerMostElements } from './utils';
 import { maxInArray, minInArray } from '@visactor/vutils';
 import type { IAnimationTypeConfig } from '../../../animation/interface';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IMark, IMarkGraphic } from '../../../mark/interface/common';
 
-const computeInnerAngleRange = (elements: IGraphic[]): [number, number] => {
+const computeInnerAngleRange = (elements: IMarkGraphic[]): [number, number] => {
   const minStartAngle = minInArray(elements.map(m => m.getGraphicAttribute('startAngle', false) * 1));
   const maxEndAngle = maxInArray(elements.map(m => m.getGraphicAttribute('endAngle', false) * 1));
   return [minStartAngle, maxEndAngle];
@@ -15,11 +15,11 @@ export const sunburstExit = (params: ISunburstAnimationParams): IAnimationTypeCo
   return {
     channel: {
       startAngle: {
-        from: (_d: Datum, element: IGraphic) => element.getGraphicAttribute('startAngle', false),
-        to: (_d: Datum, element: IGraphic) => {
+        from: (_d: Datum, element: IMarkGraphic) => element.getGraphicAttribute('startAngle', false),
+        to: (_d: Datum, element: IMarkGraphic, mark: IMark) => {
           const { startAngle, endAngle } = params.animationInfo();
           // 得到最内层的elements.
-          const innerElements = getInnerMostElements(element);
+          const innerElements = getInnerMostElements(mark.getGraphics());
           // 计算range
           const range = computeInnerAngleRange(innerElements);
           // 计算比例
@@ -28,11 +28,11 @@ export const sunburstExit = (params: ISunburstAnimationParams): IAnimationTypeCo
         }
       },
       endAngle: {
-        from: (_d: Datum, element: IGraphic) => element.getGraphicAttribute('endAngle', false),
-        to: (_d: Datum, element: IGraphic) => {
+        from: (_d: Datum, element: IMarkGraphic) => element.getGraphicAttribute('endAngle', false),
+        to: (_d: Datum, element: IMarkGraphic, mark: IMark) => {
           const { startAngle, endAngle } = params.animationInfo();
           // 得到最内层的elements.
-          const innerElements = getInnerMostElements(element);
+          const innerElements = getInnerMostElements(mark.getGraphics());
           // 计算range
           const range = computeInnerAngleRange(innerElements);
           // 计算比例
@@ -41,11 +41,11 @@ export const sunburstExit = (params: ISunburstAnimationParams): IAnimationTypeCo
         }
       },
       outerRadius: {
-        from: (_d: Datum, element: IGraphic) => element.getGraphicAttribute('outerRadius', false),
+        from: (_d: Datum, element: IMarkGraphic) => element.getGraphicAttribute('outerRadius', false),
         to: () => params.animationInfo().innerRadius
       },
       innerRadius: {
-        from: (_d: Datum, element: IGraphic) => element.getGraphicAttribute('innerRadius', false),
+        from: (_d: Datum, element: IMarkGraphic) => element.getGraphicAttribute('innerRadius', false),
         to: () => params.animationInfo().innerRadius
       }
     }

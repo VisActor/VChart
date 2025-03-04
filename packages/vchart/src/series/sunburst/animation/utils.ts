@@ -24,9 +24,9 @@ export const computeRatio = (angle: number, range: [number, number]) => {
 /**
  * 得到最内层的Elements
  */
-export const getInnerMostElements = (g: IMarkGraphic) => {
+export const getInnerMostElements = (graphics: IMarkGraphic[]) => {
   // 所有待更新的marks
-  const updateElements = g.mark.graphics.filter(g => g.context.diffState === DiffState.update);
+  const updateElements = graphics.filter(g => g.context.diffState === DiffState.update);
   // 得到最内层级
   const minDepth = minInArray(updateElements.map(g => g?.context?.data?.[0].depth));
   // 内层的Marks

@@ -105,7 +105,7 @@ export interface TypeAnimationConfig extends CommonAnimationConfigItem {
   type: string;
 }
 
-export type IAnimationChannelFunction = (datum: any, g: IGraphic) => any;
+export type IAnimationChannelFunction = (datum: any, g: IGraphic, mark: IMark) => any;
 
 export type IAnimationChannelAttrs = Record<
   string,
