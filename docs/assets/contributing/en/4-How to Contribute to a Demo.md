@@ -23,9 +23,10 @@ In principle, we require that each PR must have a corresponding issue. Before st
 You can search for demo-related issues using the following method:
 
 ```
- label:demos 
+ label:demos
 
 ```
+
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/RDQZbKyEYomaIRx7jwJccGoMnId.gif' alt='' width='769' height='auto'>
 
 Some features may have the doc label associated with them. Check further if the issue is purely a demo task.
@@ -60,33 +61,36 @@ Taking the example document of a basic area chart as an example (currently, a si
 
 Example Markdown content is divided into several parts:
 
-* Metadata: Attribute definitions of the example content, including chart category, cover image, keywords, etc.
+- Metadata: Attribute definitions of the example content, including chart category, cover image, keywords, etc.
 
-* Title: The main content under the first-level title corresponds to the description information of the example.
+- Title: The main content under the first-level title corresponds to the description information of the example.
 
-* Key Configuration: Explanation of the key configurations included in the example, which will be displayed in the "Key Configuration" section on the right side of the example page.
+- Key Configuration: Explanation of the key configurations included in the example, which will be displayed in the "Key Configuration" section on the right side of the example page.
 
-* Code Demonstration: The specific code content executed in the example; currently only native JavaScript code is supported.
+- Code Demonstration: The specific code content executed in the example; currently only native JavaScript code is supported.
 
 The field definitions of Markdown metadata are:
 
-* group: The classification information of the example, describing which chart category the current example belongs to.
+- group: The classification information of the example, describing which chart category the current example belongs to.
 
-* title: The example title
+- title: The example title
 
-* keywords: Keywords of the example
+- keywords: Keywords of the example
 
-* order: The order criterion of the example within the same group
+- order: The order criterion of the example within the same group
 
-* cover: The cover image of the example
+- cover: The cover image of the example
 
-* tutorial: The tutorial link to jump to (the default example tutorial will jump to the tutorial corresponding to the example group)
+- tutorial: The tutorial link to jump to (the default example tutorial will jump to the tutorial corresponding to the example group)
 
 Currently, chart examples in the group include multiple categories such as area chart, bar chart, combination, storytelling, etc., corresponding to all categories under the vchart example gallery. Refer to existing example documents for specific classification fields.
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/BCvZbkvF9oiPWlx6R2zcJxxBn7e.gif' alt='' width='1000' height='auto'>
 
+Finally, add the new demo path in `docs/assets/examples/menu.json` so that it can be previewed during `rush docs` and displayed on the official website.
+
 # Writing Demos with the Help of Doubao Marscode AI Programming Assistant
+
 [Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)
 
 With the help of Doubao [Marscode AI Programming Assistant](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a), you can get comprehensive assistance throughout the document creation process.
@@ -148,7 +152,7 @@ You can also perform file retrieval directly:
 After the document is completed, push the code to your remote branch, for example:
 
 ```
-git commit -a -m "docs: add custom funnel demo and related docs" 
+git commit -a -m "docs: add custom funnel demo and related docs"
 
 ```
 
@@ -207,15 +211,15 @@ Or create via the `contribute` button:
 
 Fill in the modified content of this submission according to the template:
 
-* Check what type of modification this is
+- Check what type of modification this is
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/V7xpbJhhEoSoCExC31WcyKvHnDe.gif' alt='' width='692' height='auto'>
 
-* Fill in the associated issue
+- Fill in the associated issue
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/O6YqbpdxgodBjfxHXEpcwob4n5E.gif' alt='' width='470' height='auto'>
 
-* If there are complex changes, explain the background and solution
+- If there are complex changes, explain the background and solution
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/QsnYbfLCio4u3MxK2uIc8epKnXh.gif' alt='' width='1000' height='auto'>
 
@@ -241,6 +245,6 @@ Feishu Group:
 
 Discord: https://discord.com/invite/3wPyxVyH6m
 
-
 # This Document Was Contributed By
+
 [玄魂](https://github.com/xuanhun)
