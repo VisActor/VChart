@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@microsoft/rush-lib": "5.94.1",
+    "@microsoft/rush-lib": "5.150.0",
     "chalk": "^3.0.0",
     "fast-glob": "3.2.11",
     "minimist": "1.2.8",

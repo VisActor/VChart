@@ -5,7 +5,7 @@
   "dependencies": {
     "@commitlint/cli": "17.0.3",
     "@commitlint/config-conventional": "17.0.3",
-    "@microsoft/rush-lib": "5.94.1",
+    "@microsoft/rush-lib": "5.150.0",
     "commitizen": "4.2.5",
     "eslint": "~8.18.0",
     "lint-staged": "12.3.7",
