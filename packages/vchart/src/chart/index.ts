@@ -74,8 +74,11 @@ import type { IVennChartSpec } from './venn';
 import { VennChart, registerVennChart } from './venn';
 import type { IMosaicChartSpec } from './mosaic';
 import { MosaicChart, registerMosaicChart } from './mosaic';
-import { IPictogramChartSpec } from './pictogram/interface';
-import { PictogramChart, registerPictogramChart } from './pictogram/pictogram';
+import type { IPictogramChartSpec } from './pictogram';
+import { PictogramChart, registerPictogramChart } from './pictogram';
+import type { IImageCloudChartSpec } from './image-cloud';
+import { ImageCloudChart, registerImageCloudChart } from './image-cloud';
+
 export {
   AreaChart,
   BarChart,
@@ -113,7 +116,8 @@ export {
   VennChart,
   BaseChart,
   MosaicChart,
-  PictogramChart
+  PictogramChart,
+  ImageCloudChart
 };
 
 export {
@@ -153,7 +157,8 @@ export {
   registerWordCloudShapeChart,
   registerVennChart,
   registerMosaicChart,
-  registerPictogramChart
+  registerPictogramChart,
+  registerImageCloudChart
 };
 
 export type {
@@ -194,5 +199,6 @@ export type {
   ICartesianChartSpec,
   IVennChartSpec,
   IMosaicChartSpec,
-  IPictogramChartSpec
+  IPictogramChartSpec,
+  IImageCloudChartSpec
 };

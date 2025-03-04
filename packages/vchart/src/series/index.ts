@@ -75,6 +75,8 @@ import type { IMosaicSeriesSpec } from './mosaic/interface';
 import { MosaicSeries, registerMosaicSeries } from './mosaic/mosaic';
 import type { IPictogramSeriesSpec } from './pictogram/interface';
 import { PictogramSeries, registerPictogramSeries } from './pictogram/pictogram';
+import { ImageCloudSeries, registerImageCloudSeries } from './image-cloud/image-cloud';
+import type { IImageCloudSeriesSpec } from './image-cloud/interface';
 
 import type { ISeries, ICartesianSeries, IPolarSeries, IGeoSeries } from './interface';
 
@@ -118,7 +120,8 @@ export {
   LiquidSeries,
   VennSeries,
   PictogramSeries,
-  MosaicSeries
+  MosaicSeries,
+  ImageCloudSeries
 };
 
 export {
@@ -155,7 +158,8 @@ export {
   registerLiquidSeries,
   registerVennSeries,
   registerMosaicSeries,
-  registerPictogramSeries
+  registerPictogramSeries,
+  registerImageCloudSeries
 };
 
 export type {
@@ -201,7 +205,8 @@ export type {
   ILiquidSeriesSpec,
   IVennSeriesSpec,
   IMosaicSeriesSpec,
-  IPictogramSeriesSpec
+  IPictogramSeriesSpec,
+  IImageCloudSeriesSpec
 };
 
 export * from './interface';
