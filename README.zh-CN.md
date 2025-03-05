@@ -158,9 +158,12 @@ $ rush docs
 
 ## 💫 生态
 
-| 项目                                                                                  | 介绍                       |
-| ------------------------------------------------------------------------------------- | -------------------------- |
-| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React for @VisActor/VChart |
+| 项目                                                                                                       | 介绍                                                                                        |
+| ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart)                      | 适用于 @VisActor/VChart 的 React 组件                                                       |
+| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                                       | OpenInula 的 VChart 组件                                                                    |
+| [OMI](https://omi.cdn-go.cn/home/latest)                                                                   | Web 组件框架                                                                                |
+| [基于 vchart 和 Next.js 构建的 Vercel 模板](https://vercel.com/templates/next.js/visactor-nextjs-template) | 一个使用 vchart 和 Next.js 构建的现代仪表盘模板，拥有美观的用户界面和丰富的数据可视化组件。 |
 
 ## 💖 Thanks
 

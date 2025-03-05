@@ -158,11 +158,12 @@ $ rush docs
 
 ## 💫 エコシステム
 
-| プロジェクト                                                                          | 説明                                       |
-| ------------------------------------------------------------------------------------- | ------------------------------------------ |
-| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | @VisActor/VChart の React インターフェース |
-| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                  | OpenInula VChart コンポーネント            |
-| [OMI](https://omi.cdn-go.cn/home/latest)                                              | Web コンポーネントフレームワーク           |
+| プロジェクト                                                                                                        | 説明                                                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart)                               | @VisActor/VChart の React コンポーネント                                                                                         |
+| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                                                | OpenInula の VChart コンポーネント                                                                                               |
+| [OMI](https://omi.cdn-go.cn/home/latest)                                                                            | Web コンポーネントフレームワーク                                                                                                 |
+| [vchart と Next.js で構築された Vercel テンプレート](https://vercel.com/templates/next.js/visactor-nextjs-template) | vchart と Next.js で構築されたモダンなダッシュボードテンプレートで、美しい UI と豊富なデータ可視化コンポーネントを備えています。 |
 
 ## 💖 Thanks
 
