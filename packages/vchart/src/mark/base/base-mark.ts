@@ -978,12 +978,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _keyGetter: (datum: Datum) => string;
   protected _groupKeyGetter: (datum: Datum) => string;
-
-  private renderContext?: {
+  protected renderContext?: {
     parameters?: any;
     progressive?: ProgressiveContext;
     beforeTransformProgressive?: IProgressiveTransformResult;
   };
+
+  protected _attrsByGroup?: Record<string, T>;
 
   protected _getDataByKey(data: Datum[]) {
     return groupData(data, (datum: Datum, index: number) => {
@@ -1013,6 +1014,44 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       g.context = { ...g.context, ...this._getCommonContext() };
     });
     this._dataByKey = (mark as any)._dataByKey;
+  }
+
+  private _parseProgressiveContext(data: Datum[]) {
+    const enableProgressive =
+      this._markConfig.progressiveStep > 0 &&
+      this._markConfig.progressiveThreshold > 0 &&
+      this._markConfig.progressiveStep < this._markConfig.progressiveThreshold;
+    const large =
+      this._markConfig.large && this._markConfig.largeThreshold > 0 && data.length >= this._markConfig.largeThreshold;
+
+    if (enableProgressive) {
+      const groupedData = this._dataByGroup;
+
+      if (
+        groupedData &&
+        groupedData.keys &&
+        groupedData.keys.some(key => groupedData.data.get(key).length > this._markConfig.progressiveThreshold)
+      ) {
+        return {
+          large,
+          progressive: {
+            data,
+            step: this._markConfig.progressiveStep,
+            currentIndex: 0,
+            totalStep: groupedData.keys.reduce((total, key) => {
+              return Math.max(Math.ceil(groupedData.data.get(key).length / this._markConfig.progressiveStep), total);
+            }, 1),
+            groupedData: groupedData.data as Map<string, any[]>
+          }
+        };
+      }
+
+      return { large };
+    }
+
+    return {
+      large
+    };
   }
 
   getGraphics() {
@@ -1149,6 +1188,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._dataByGroup.keys.forEach(key => {
       attrsByGroup[key] = runEncoder(groupStyles, this._dataByGroup.data.get(key)[0]);
     });
+    this._attrsByGroup = attrsByGroup;
 
     return attrsByGroup;
   }
@@ -1160,33 +1200,27 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     };
   }
 
-  protected _separateNormalStyle(normalStyle: Partial<IAttrs<T>>, splitGroupEncoder?: boolean) {
-    const updateStyles: Record<string, (datum: Datum) => any> = {};
-    const groupStyles: Record<string, (datum: Datum) => any> = {};
+  protected _separateNormalStyle(normalStyle: Partial<IAttrs<T>>) {
+    const updateStyles = {};
+    const groupStyles = {};
 
     Object.keys(normalStyle).forEach(key => {
       if (this._unCompileChannel[key]) {
         return;
       }
 
-      if (
-        this._option.noSeparateStyle ||
-        splitGroupEncoder ||
-        isStateAttrChangeable(key, normalStyle, this._groupKey)
-      ) {
-        updateStyles[key] = this._computeAttribute(key, 'normal');
+      if (this._option.noSeparateStyle || isStateAttrChangeable(key, normalStyle, this._groupKey)) {
+        (updateStyles as any)[key] = normalStyle[key];
       } else {
-        groupStyles[key] = this._computeAttribute(key, 'normal');
+        (groupStyles as any)[key] = normalStyle[key];
       }
     });
 
     return { updateStyles, groupStyles };
   }
 
-  protected _getEncoderByState = (stateName: string) => {
-    const style = this.stateStyle[stateName];
-
-    if (style) {
+  protected _getEncoderOfStyle = (stateName: string, style: Partial<IAttrs<T>>) => {
+    if (style && stateName) {
       const validEncoder: Record<string, (datum: Datum) => any> = {};
       Object.keys(style).forEach(key => {
         if (this._unCompileChannel[key]) {
@@ -1229,18 +1263,19 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         return this._runEncoderOfGraphic(this._encoderOfState?.[stateName], g);
       };
 
-      g.useStates(g.context.states);
+      g.context.states && g.useStates(g.context.states);
     }
   };
 
-  protected _runEncoder(splitGroupEncoder?: boolean) {
-    const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...otherStateStyle } = this.stateStyle;
-    const { groupStyles, updateStyles } = this._separateNormalStyle(normalStyle, splitGroupEncoder);
+  protected _addProgressiveGraphic(parent: IGroup, g: IMarkGraphic) {
+    (parent as IGroup).incrementalAppendChild(g);
+  }
 
-    const attrsByGroup = this._runGroupEncoder(groupStyles);
+  protected _runEncoder(graphics: IMarkGraphic[], noGroupEncode?: boolean) {
+    const attrsByGroup = noGroupEncode ? null : this._runGroupEncoder(this._encoderOfState?.group);
 
-    this._graphics.forEach((g, index) => {
-      const attrs = this._runEncoderOfGraphic(updateStyles, g);
+    graphics.forEach((g, index) => {
+      const attrs = this._runEncoderOfGraphic(this._encoderOfState?.update, g);
 
       // 配置的优先级高于encoder
       if (!isNil(this._markConfig.interactive)) {
@@ -1252,10 +1287,23 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       if (!g.setAttributes) {
         const mockGraphic = g;
         g = this._createGraphic(finalAttrs);
-        this._product.appendChild(g);
         g.context = mockGraphic.context;
-        this._graphics[index] = g;
-        this._graphicMap.set(g.context.uniqueKey, g);
+
+        const gIndex = this._graphics === graphics ? index : index + this._graphics.length - graphics.length;
+        if (gIndex >= 0) {
+          this._graphics[gIndex] = g;
+        }
+
+        if (this.renderContext?.progressive) {
+          const groupIndex = this._dataByGroup ? this._dataByGroup.keys.indexOf(g.context.groupKey) : 0;
+          const group = groupIndex >= 0 ? this._product.getChildAt(groupIndex) : null;
+          if (group) {
+            this._addProgressiveGraphic(group as IGroup, g);
+          }
+        } else {
+          this._product.appendChild(g);
+          this._graphicMap.set(g.context.uniqueKey, g);
+        }
       } else {
         g.setAttributes(finalAttrs);
       }
@@ -1265,18 +1313,25 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     });
   }
 
-  protected _runState() {
+  protected _updateEncoderByState() {
     const encoderOfState: Record<string, Record<string, (datum: Datum) => any>> = {};
 
     Object.keys(this.stateStyle).forEach(stateName => {
-      if (stateName !== STATE_VALUE_ENUM.STATE_NORMAL) {
-        encoderOfState[stateName] = this._getEncoderByState(stateName);
+      if (stateName === STATE_VALUE_ENUM.STATE_NORMAL) {
+        const { groupStyles, updateStyles } = this._separateNormalStyle(this.stateStyle[stateName]);
+
+        encoderOfState.group = this._getEncoderOfStyle(stateName, groupStyles);
+        encoderOfState.update = this._getEncoderOfStyle(stateName, updateStyles);
+      } else {
+        encoderOfState[stateName] = this._getEncoderOfStyle(stateName, this.stateStyle[stateName]);
       }
     });
 
     this._encoderOfState = encoderOfState;
+  }
 
-    this._graphics.forEach(g => {
+  protected _runState(graphics: IMarkGraphic[]) {
+    graphics.forEach(g => {
       const prevInteractionStateValues = (g.currentStates ?? []).filter((sv: string) => {
         return !this.state.getStateInfo(sv);
       });
@@ -1368,16 +1423,20 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         this._updateAttrsOfGroup();
         return;
       }
+      markData = p.output();
     } else {
       markData = array(transformData);
       this._runGroupData(markData);
+      this.renderContext = this._parseProgressiveContext(markData);
     }
 
-    this._runJoin(markData);
-    this._runState();
-    this._runEncoder();
-
-    if (!this.renderContext?.progressive) {
+    if (this.renderContext?.progressive) {
+      this._graphicMap.clear();
+      this._runProgressiveStep();
+    } else {
+      this._runJoin(markData);
+      this._runState(this._graphics);
+      this._runEncoder(this._graphics);
       this.runTransforms(
         this._transform?.filter(transformSpec => {
           if (transformSpec.type) {
@@ -1390,11 +1449,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         this._graphics
       );
     }
+
     this._updateAttrsOfGroup();
   }
 
   render() {
     if (this._isCommited) {
+      this._updateEncoderByState();
       log(`render mark: ${this.getProductId()}, type is ${this.type}`);
       this._runMainTasks();
       // 接入动画后，需要等动画结束在清除exit节点
@@ -1475,7 +1536,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       this.renderContext.progressive.currentIndex = 0;
     }
   }
-  protected renderBeforeProgressive() {
+  private _runBeforeProgressive() {
     const transform = this.renderContext.beforeTransformProgressive;
 
     transform.progressiveRun();
@@ -1488,15 +1549,124 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
       this._runGroupData(output);
       this._runJoin(output);
-      this._runState();
-      this._runEncoder();
+      this._runState(this._graphics);
+      this._runEncoder(this._graphics);
     }
+  }
+
+  protected _runProgressiveJoin(): {
+    graphicsByGroup?: Record<string, IMarkGraphic[]>;
+    graphics?: IMarkGraphic[];
+    needUpdate?: boolean;
+  } {
+    const currentIndex = this.renderContext.progressive.currentIndex;
+
+    const graphics: IMarkGraphic[] = [];
+    const graphicsByGroup: Record<string, IMarkGraphic[]> = {};
+    this._dataByGroup.keys.forEach(groupKey => {
+      const data = this.renderContext.progressive.groupedData.get(groupKey as string);
+      const groupStep = this.renderContext.progressive.step;
+      const dataSlice = data.slice(currentIndex * groupStep, (currentIndex + 1) * groupStep);
+      const group: IMarkGraphic[] = [];
+
+      dataSlice.forEach((entry, i) => {
+        const key = this._keyGetter(entry);
+        const g = {
+          context: {
+            ...this._getCommonContext(),
+            diffState: DiffState.enter,
+            data: [entry],
+            uniqueKey: `${groupKey}_${key ?? currentIndex * groupStep + i}`,
+            key,
+            groupKey: groupKey
+          }
+        };
+
+        group.push(g as IMarkGraphic);
+        graphics.push(g as IMarkGraphic);
+      });
+
+      graphicsByGroup[groupKey as string] = group;
+    });
+
+    return { graphicsByGroup, graphics, needUpdate: true };
+  }
+
+  protected _createIncrementalGraphics() {
+    this._product.removeAllChild();
+
+    this._dataByGroup.keys.forEach(key => {
+      const graphicItem = createGroup({
+        pickable: false,
+        zIndex: this._markConfig.zIndex
+      });
+      graphicItem.incremental = this.renderContext.progressive.step;
+      this._product.appendChild(graphicItem);
+    });
+  }
+
+  protected _setCommonAttributesToTheme(g: IMarkGraphic) {
+    if (this._attrsByGroup && g) {
+      const parent = g.parent;
+
+      if (parent && this._attrsByGroup?.[g.context?.groupKey]) {
+        parent.setTheme({
+          common: this._attrsByGroup[g.context?.groupKey] as any
+        });
+      }
+    }
+  }
+
+  protected _runProgressiveEncoder(graphics: IMarkGraphic[]) {
+    const progressiveIndex = this.renderContext.progressive.currentIndex;
+
+    if (progressiveIndex === 0) {
+      this._runEncoder(graphics);
+
+      this._setCommonAttributesToTheme(this._graphics[0]);
+    } else {
+      this._runEncoder(graphics, true);
+    }
+  }
+
+  protected _runProgressiveStep() {
+    const { graphics, graphicsByGroup, needUpdate } = this._runProgressiveJoin();
+
+    if (this.renderContext.progressive.currentIndex === 0) {
+      this._createIncrementalGraphics();
+      this._graphics = graphics;
+    } else if (needUpdate) {
+      graphics.forEach(g => {
+        this._graphics.push(g);
+      });
+    }
+    this._runState(graphics);
+
+    Object.keys(graphicsByGroup).forEach(groupKey => {
+      this._runProgressiveEncoder(graphicsByGroup[groupKey]);
+    });
+
+    this.runTransforms(
+      this._transform?.filter(transformSpec => {
+        if (transformSpec.type) {
+          const transform = Factory.getGrammarTransform(transformSpec.type);
+          return transform?.isGraphic && transform.canProgressive === true;
+        }
+
+        return false;
+      }),
+      this._graphics
+    );
+
+    this.renderContext.progressive.currentIndex += 1;
   }
 
   renderProgressive() {
     if (this.renderContext?.beforeTransformProgressive) {
-      this.renderBeforeProgressive();
+      this._runBeforeProgressive();
       return;
+    } else if (this.renderContext.progressive) {
+      this._runProgressiveStep();
     }
   }
 }

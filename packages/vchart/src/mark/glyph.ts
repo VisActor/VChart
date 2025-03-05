@@ -136,6 +136,10 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
 
     return glyph;
   }
+
+  protected _runProgressiveEncoder(graphics: IMarkGraphic[]) {
+    this._runEncoder(graphics);
+  }
 }
 
 export const registerGlyphMark = () => {
