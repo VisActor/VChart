@@ -1715,6 +1715,13 @@
             "zh": "商场业态结构图",
             "en": "Shopping Mall Tenant Layout"
           }
+        },
+        {
+          "path": "pictogram-heart",
+          "title": {
+            "zh": "心脏医学示意图",
+            "en": "Medical Schematic Diagram of the Heart"
+          }
         }
       ]
     },
