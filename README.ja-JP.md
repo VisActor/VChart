@@ -61,10 +61,9 @@ VChart は、VisActor ビジュアライゼーションシステムのチャー�
 2. [`react-vchart`](./packages/react-vchart/): [React](https://react.dev/)に基づいてカプセル化された VChart コンポーネント
 3. [`taro-vchart`](./packages/taro-vchart/): [Taro](https://docs.taro.zone/docs/)に基づいてカプセル化された VChart コンポーネント
 4. [`lark-vchart`](./packages/lark-vchart/): [Lark miniAPP](https://open.feishu.cn/document/client-docs/gadget/introduction/host-environment)に基づいてカプセル化された VChart コンポーネント
-5. [`tt-vchart`](./packages/lark-vchart/): [TikTok miniAPP](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/)に基づいてカプセル化された VChart コンポーネント
-6. [`block-vchart`](./packages/block-vchart/): [Lark Block](https://open.feishu.cn/document/client-docs/block/block-introduction)に基づいてカプセル化された VChart コンポーネント
-7. [`wx-vchart`](./packages/wx-vchart/)： [Wx miniAPP](https://developers.weixin.qq.com/miniprogram/dev/framework/)に基づいてカプセル化された VChart コンポーネント
-8. [`docs`](./docs/): VChart サイトのソースコード、およびサイトのすべての中国語および英語のドキュメント、チャートサンプルコードなどが含まれています。
+5. [`block-vchart`](./packages/block-vchart/): [Lark Block](https://open.feishu.cn/document/client-docs/block/block-introduction)に基づいてカプセル化された VChart コンポーネント
+6. [`wx-vchart`](./packages/wx-vchart/)： [Wx miniAPP](https://developers.weixin.qq.com/miniprogram/dev/framework/)に基づいてカプセル化された VChart コンポーネント
+7. [`docs`](./docs/): VChart サイトのソースコード、およびサイトのすべての中国語および英語のドキュメント、チャートサンプルコードなどが含まれています。
 
 ## 🔨 使用方法
 

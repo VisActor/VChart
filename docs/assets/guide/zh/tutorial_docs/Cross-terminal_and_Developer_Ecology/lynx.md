@@ -1,6 +1,8 @@
 # Lynx
 
-Lynx 是字节内用 Web 技术栈快速构建 Native 视图的高性能跨端框架，VChart 也提供了该框架的图表渲染能力支持。
+**【注意】Lynx 开源版本暂时不提供 canvas 画布功能，所以暂时不支持 vchart 的渲染，后续版本将会支持，敬请期待，[更多功能请查看 lynx 官网](https://lynxjs.org/)**
+
+Lynx 是字节开源的高性能跨端框架，基于 Web 技术栈快速构建 Native 视图，Lynx 于 2025-03-05 正式开源；VChart 基于 Lynx 字节内部版本提供了该框架的图表渲染能力支持。
 
 ## 如何获取 VChart
 
@@ -277,6 +279,6 @@ lynx-vchart 本身代码都支持按需加载，当需要 VChart 按需加载的
 
 使用语义化标签的时候，如果用到其他没有默认加载的组件，只需要注册未加载的组件即可；
 
-【注意】：如果使用lynx出现报错类似“No matching export in ...”，请升级lynx的版本，或者配置resolve.enableINodeCache为false
+【注意】：如果使用 lynx 出现报错类似“No matching export in ...”，请升级 lynx 的版本，或者配置 resolve.enableINodeCache 为 false
 
 VChart 按需引用参考[相关文档](/vchart/guide/tutorial_docs/Load_on_Demand)
