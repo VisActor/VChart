@@ -1717,6 +1717,13 @@
           }
         },
         {
+          "path": "pictogram-heart",
+          "title": {
+            "zh": "心脏医学示意图",
+            "en": "Medical Schematic Diagram of the Heart"
+          }
+        },
+        {
           "path": "pictogram-bagua",
           "title": {
             "zh": "太极八卦图",
