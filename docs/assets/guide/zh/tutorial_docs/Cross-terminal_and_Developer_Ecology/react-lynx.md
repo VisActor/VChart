@@ -1,6 +1,8 @@
 # ReactLynx
 
-ReactLynx 是字节内用 Web 技术栈快速构建 Native 视图的高性能跨端框架 Lynx 的 React 语法版本，VChart 也提供了基于 ReactLynx3.0 版本的图表渲染能力支持。
+**【注意】Lynx 开源版本暂时不提供 canvas 画布功能，所以暂时不支持 vchart 的渲染，后续版本将会支持，敬请期待，[更多功能请查看 lynx 官网](https://lynxjs.org/)**
+
+Lynx 是字节开源的高性能跨端框架，基于 Web 技术栈快速构建 Native 视图，Lynx 于 2025-03-05 正式开源，ReactLynx 是 Lynx 的 React 语法版本 ；VChart 基于字节内部版本 ReactLynx3.0 ，提供了图表渲染能力支持。
 
 ## 如何获取 Lynx-VChart
 
