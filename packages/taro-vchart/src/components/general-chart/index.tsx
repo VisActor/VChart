@@ -115,7 +115,8 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
           force: true,
           canvasIdLists,
           freeCanvasIdx: 2,
-          component: undefined
+          component: undefined,
+          forceUpdate: true
         });
       }
     }
