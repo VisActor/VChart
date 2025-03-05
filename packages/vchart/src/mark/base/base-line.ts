@@ -4,11 +4,12 @@ import type { ConvertToMarkStyleSpec, ILineLikeMarkSpec } from '../../typings/vi
 import type { IPointLike } from '@visactor/vutils';
 import { isFunction, isNil } from '@visactor/vutils';
 import { BaseMark } from './base-mark';
-import type { IMarkGraphic, IMarkStyle } from '../interface';
+import { DiffState, type IMarkGraphic, type IMarkStyle } from '../interface';
 import type { Datum } from '../../typings/common';
-import type { ILine, ILineGraphicAttribute } from '@visactor/vrender-core';
+import type { IGroup, ILine, ILineGraphicAttribute } from '@visactor/vrender-core';
 import { isSegmentAttrEqual } from '../utils/line';
 import type { IMarkSpec } from '../../typings/spec/common';
+import { DEFAULT_DATA_KEY } from '../../constant/data';
 
 export const LINE_SEGMENT_ATTRIBUTES = [
   'stroke',
@@ -148,6 +149,8 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
     const lineAttrs: any[] = [];
     const points: IPointLike[] = [];
     const commonAttrs: any = {};
+    const progressive = this.renderContext?.progressive;
+    const isFirstFrame = progressive && progressive.currentIndex === 0;
 
     data.forEach((datum: Datum, index: number) => {
       points[index] = {} as IPointLike;
@@ -156,9 +159,9 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
       Object.keys(newStyles).forEach(attrName => {
         if (this._isValidPointChannel(attrName)) {
           (points[index] as any)[attrName] = newStyles[attrName](datum);
-        } else if (this._segmentStyleKeys.includes(attrName)) {
+        } else if (this._segmentStyleKeys.includes(attrName) && !progressive) {
           lineAttrs[index][attrName] = newStyles[attrName](datum);
-        } else if (index === 0) {
+        } else if (index === 0 && (!progressive || isFirstFrame)) {
           commonAttrs[attrName] = newStyles[attrName](datum);
         }
       });
@@ -167,7 +170,19 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
       (points[index] as any).context = this._keyGetter(datum) ?? index;
     });
 
-    if (this._segmentStyleKeys && this._segmentStyleKeys.length) {
+    if (progressive) {
+      const segments = (g as any).attribute?.segments ?? [];
+
+      segments.push({
+        points
+      });
+      return isFirstFrame
+        ? {
+            ...commonAttrs,
+            segments
+          }
+        : { segments };
+    } else if (this._segmentStyleKeys && this._segmentStyleKeys.length) {
       const segments = this._getLineSegments(lineAttrs, points);
 
       if (segments) {
@@ -199,5 +214,49 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
 
   protected _getDataByKey(data: Datum[]) {
     return this._dataByGroup;
+  }
+
+  protected _runProgressiveJoin() {
+    const currentIndex = this.renderContext.progressive.currentIndex;
+    const graphics: IMarkGraphic[] = [];
+
+    this._dataByGroup.keys.forEach((groupKey, index) => {
+      const data = this.renderContext.progressive.groupedData.get(groupKey as string);
+      const groupStep = this.renderContext.progressive.step;
+      const dataSlice = data.slice(currentIndex * groupStep, (currentIndex + 1) * groupStep);
+
+      if (currentIndex === 0) {
+        const g = {
+          context: {
+            ...this._getCommonContext(),
+            diffState: DiffState.enter,
+            data: dataSlice,
+            uniqueKey: groupKey,
+            key: groupKey,
+            groupKey: groupKey
+          }
+        };
+
+        graphics.push(g as IMarkGraphic);
+      } else {
+        const g = this._graphics[index];
+        g.context.data = dataSlice;
+      }
+    });
+    const res = currentIndex === 0 ? graphics : this._graphics;
+
+    return {
+      graphicsByGroup: { [DEFAULT_DATA_KEY]: res },
+      graphics: res,
+      needUpdate: false
+    };
+  }
+
+  protected _setCommonAttributesToTheme(g: IMarkGraphic) {
+    // do nothing in line/area
+  }
+  protected _addProgressiveGraphic(parent: IGroup, g: IMarkGraphic) {
+    g.incremental = 1;
+    (parent as IGroup).appendChild(g);
   }
 }
