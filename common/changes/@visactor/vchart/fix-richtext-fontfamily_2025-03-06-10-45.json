@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix fontFamily of richtext, fix #3768\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
