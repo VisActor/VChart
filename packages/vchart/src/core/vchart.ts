@@ -1580,7 +1580,10 @@ export class VChart implements IVChart {
     }
     // 全局字体的特殊设置逻辑
     // 设置全局字体
-    (this.getStage() as any)?.setTheme({ text: { fontFamily } });
+    (this.getStage() as any)?.setTheme({
+      text: { fontFamily },
+      richtext: { fontFamily }
+    });
   }
 
   // Tooltip 相关方法
