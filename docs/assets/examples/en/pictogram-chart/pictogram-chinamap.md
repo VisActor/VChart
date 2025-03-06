@@ -4,7 +4,7 @@ group: pictogram chart
 title: Map of China eating spicy degree pictograph  
 keywords: pictogramChart,map,comparison,china
 order: 26-6
-cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinav4.gif
+cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamapv.gif
 option: pictogramChart
 ---
 
@@ -12,7 +12,7 @@ option: pictogramChart
 
 contributed by Qian_Shark
 
-This pictogram chart shows the classification information of different regions in China. The colors are mapped according to different spiciness categories, with warmer colors indicating a higher tolerance for spicy food and cooler colors indicating a lower tolerance. It also supports legend hover interaction to display provincial information.
+The classification information of different regions in China can be displayed through pictograms, and color mapping can be carried out according to different categories of spicy food, from strong to weak colors, more and more cold tones, while supporting legend hover interactive display of province information.
 
 ## Key Configurations
 - In the SVG file, configure the name attribute for the graphic elements. Then, in the chart configuration, you can specify the element styles through the name configuration.
@@ -36,55 +36,58 @@ This pictogram chart shows the classification information of different regions i
 /** --Add the above code when using in business context-- */
 VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
-const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/china.svg');
+const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamap.svg');
 const shape = await response.text();
 // Define map data
 const chinamap_data = [
-  { name: 'Hunan', category: 'MVP' ,level:'🌶🌶🌶🌶'},
-  { name: 'Chongqing', category: 'MVP',level:'🌶🌶🌶🌶' },
-  { name: 'Sichuan', category: 'MVP',level:'🌶🌶🌶🌶' },
-  { name: 'Guizhou', category: 'MVP' ,level:'🌶🌶🌶🌶'},    
-  { name: 'Gansu', category: 'MVP' ,level:'🌶🌶🌶🌶'},
-  { name: 'Xinjiang', category: 'MVP' ,level:'🌶🌶🌶🌶'},
-  { name: 'Jiangxi', category: 'MVP' ,level:'🌶🌶🌶🌶'},
-
-  { name: 'Shanxi', category: 'diamond' ,level:'🌶🌶🌶'},
-  { name: 'Nei Mongol', category: 'diamond' ,level:'🌶🌶🌶'},
-  { name: 'Liaoning', category: 'diamond' ,level:'🌶🌶🌶'},
-  { name: 'Jilin', category: 'diamond' ,level:'🌶🌶🌶'},
-  { name: 'Heilongjiang', category: 'diamond',level:'🌶🌶🌶' },
-  { name: 'Hubei', category: 'diamond' ,level:'🌶🌶🌶'},  
-  { name: 'Yunnan', category: 'diamond' ,level:'🌶🌶🌶'},  
-
-  { name: 'Beijing', category: 'gold' ,level:'🌶🌶'},
-  { name: 'Tianjin', category: 'gold',level:'🌶🌶' },
-  { name: 'Hebei', category: 'gold' ,level:'🌶🌶'},  
-  { name: 'Shandong', category: 'gold' ,level:'🌶🌶'},
-  { name: 'Henan', category: 'gold' ,level:'🌶🌶'},  
-  { name: 'Shaanxi', category: 'gold' ,level:'🌶🌶'},  
-  { name: 'Guangxi Zhuang', category: 'gold',level:'🌶🌶' },
-
-  { name: 'Shanghai', category: 'silver' ,level:'🌶'},
-  { name: 'Jiangsu', category: 'silver' ,level:'🌶'},
-  { name: 'Zhejiang', category: 'silver' ,level:'🌶'},
-  { name: 'Anhui', category: 'silver' ,level:'🌶'},
-  { name: 'Fujian', category: 'silver' ,level:'🌶'},
-  { name: 'Guangdong', category: 'silver',level:'🌶' },
-  
-  { name: 'Hainan', category: 'bronze' ,level:'🌶'},
-  { name: 'Tibet', category: 'bronze' ,level:'🌶'},
-  { name: 'Quinghai', category: 'bronze' ,level:'🌶'},
-  { name: 'Ningxia Hui', category: 'bronze' ,level:'🌶'},
-  { name: 'Hong Kong', category: 'bronze' ,level:'🌶'},
-  { name: 'Macau', category: 'bronze',level:'🌶' },
-  { name: 'Taiwan', category: 'bronze',level:'🌶' }
-     
-  ]
+{ name: '湖南省', category: 'MVP', level: '🌶🌶🌶🌶' },
+  { name: '重庆市', category: 'MVP', level: '🌶🌶🌶🌶' },
+  { name: '四川省', category: 'MVP', level: '🌶🌶🌶🌶' },
+  { name: '贵州省', category: 'MVP', level: '🌶🌶🌶🌶' },
+  { name: '甘肃省', category: 'MVP', level: '🌶🌶🌶🌶' },
+  { name: '新疆维吾尔自治区', category: 'MVP', level: '🌶🌶🌶🌶' },
+  { name: '江西省', category: 'MVP', level: '🌶🌶🌶🌶' },
+  { name: '山西省', category: 'diamond', level: '🌶🌶🌶' },
+  { name: '内蒙古自治区', category: 'diamond', level: '🌶🌶🌶' },
+  { name: '辽宁省', category: 'diamond', level: '🌶🌶🌶' },
+  { name: '吉林省', category: 'diamond', level: '🌶🌶🌶' },
+  { name: '黑龙江省', category: 'diamond', level: '🌶🌶🌶' },
+  { name: '湖北省', category: 'diamond', level: '🌶🌶🌶' },
+  { name: '云南省', category: 'diamond', level: '🌶🌶🌶' },
+  { name: '北京市', category: 'gold', level: '🌶🌶' },
+  { name: '天津市', category: 'gold', level: '🌶🌶' },
+  { name: '河北省', category: 'gold', level: '🌶🌶' },
+  { name: '山东省', category: 'gold', level: '🌶🌶' },
+  { name: '河南省', category: 'gold', level: '🌶🌶' },
+  { name: '陕西省', category: 'gold', level: '🌶🌶' },
+  { name: '广西壮族自治区', category: 'gold', level: '🌶🌶' },
+  { name: '上海市', category: 'silver', level: '🌶' },
+  { name: '江苏省', category: 'silver', level: '🌶' },
+  { name: '浙江省', category: 'silver', level: '🌶' },
+  { name: '安徽省', category: 'silver', level: '🌶' },
+  { name: '福建省', category: 'silver', level: '🌶' },
+  { name: '广东省', category: 'silver', level: '🌶' },
+  { name: '海南省', category: 'bronze', level: '🌶' },
+  { name: '西藏自治区', category: 'bronze', level: '🌶' },
+  { name: '青海省', category: 'bronze', level: '🌶' },
+  { name: '宁夏回族自治区', category: 'bronze', level: '🌶' },
+  { name: '香港特别行政区', category: 'bronze', level: '🌶' },
+  { name: '澳门特别行政区', category: 'bronze', level: '🌶' },
+  { name: '台湾省', category: 'bronze', level: '🌶' }
+]
 
       // Define chart configuration objects
       const spec = {
         // The chart type is pictograph
         type: 'pictogram',
+        width: 1000,  
+        height: 500,  
+        padding: {     
+          top: 20,
+          bottom: 0,
+          left: 20,
+          right: 20
+        },
         data: {
           // Unique identifier of the data
           id: 'data',
@@ -94,17 +97,17 @@ const chinamap_data = [
         color: {
           specified: {
              // master
-            MVP:'rgb(109, 5, 5)',
+            MVP:'rgb(73, 3, 3)',
             // diamond
-            diamond:'rgb(228, 14, 14)',
+            diamond:'rgb(250, 8, 8)',
             //  gold
-            gold:'rgb(223, 89, 71)',
-            // siliver
-            silver:'rgb(247, 166, 16)',
+            gold:'rgb(250, 77, 8)',
+            // silver
+            silver:'rgb(228, 170, 64)',
             // bronze
-            bronze:'#f8e3b0',
+            bronze:'rgb(198, 238, 53)',
             // The color of undefined categories is white
-            undefined: 'white',
+            undefined: 'white'
           },
           // Series fields are categories
           field: 'category'
@@ -122,7 +125,10 @@ const chinamap_data = [
               // Fill color Use color to map the color. The fields are categories
               scale: 'color',
               field: 'category'
-            }
+            },
+          cursor: 'pointer', 
+          stroke: 'white',   
+          lineWidth: 0.5
           },
           state: {
             //  The fill color of the legend hover is white
@@ -131,12 +137,12 @@ const chinamap_data = [
             },
             // The effect of making the province map "spit out" when hovering
             hover: {
-            transform: 'scale(2)', 
-            opacity: 0.3, 
-            shadowBlur: 30, 
-            shadowColor: 'rgba(0, 0, 0, 0.97)', 
+            transform: 'scale(4) rotate(40deg)', 
+            opacity: 0.4, 
+            shadowBlur: 80, 
+            shadowColor: 'rgb(99, 0, 0)', 
             transition: {
-              duration: 1200, 
+              duration: 800, 
               easing: 'ease-out'
             }
           }
@@ -207,13 +213,9 @@ vchart.on('legendItemUnHover', e => {
   });
 });
 
+
 vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
-
-## Related Tutorials
-
-[PictogramChart](link)
-
