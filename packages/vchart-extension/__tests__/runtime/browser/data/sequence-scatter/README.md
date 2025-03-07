@@ -1,60 +1,79 @@
-### 数据说明
+Sequence-Scatter Demo数据说明
 
-Time-Travelling-Visualizer × VisActor 数据demo，包含两个训练过程，分别为：
-
+一、背景
+Sequence-Scatter数据demo，包含两个训练过程，分别为：
 - 代码token与文本token对齐任务（Training_process1）；
 - 图像分类任务（Training_process2）；
 
-每个训练过程数据整理成json格式，具体如下：（以包含**60个样本点**、**30个训练轮次**的训练过程1举例）
+二、训练过程1
+2.1 介绍
+- 60个样本点，分为2种类别（comment token，code token）
+- 30个训练轮次(epoch / iteration)
+- 旨在观察高维特征相似的代码token和文本token之间相互靠近的过程
 
-#### data.json
-
-```json
+2.2 数据说明
+info.json
+包含该训练过程的基本信息，结构如下：
 {
-    "1":{
-        "projection":[[]], //该epoch下每个样本点二维投影坐标，大小为[60,2]
-        "intra_similarity":[[]], //该epoch下每个样本点最相近的6个标签相同的邻居（的下标，包含本身），大小为[60,6]
-        "inter_similarity":[[]], //该epoch下每个样本点最相近的6个标签不同的邻居（的下标，包含本身），大小为[60,6]
+    "label_text":["comment", "code"], //每个类别的标签，如 0-commend， 1-code
+    "label_color":[[144,238,144], [255,165,0]], //每个类别的颜色RGB，该训练过程中由于没有背景，所以仅供参考
+    "label_index":[0,0,0,...,1,1,1...] //每个样本的类别下标，从label_text中找对应的标签
+}
+data.json
+包含每个训练轮次(epoch / iteration)的具体数据，包括每个点的坐标，每个点的邻居，结构如下：
+{
+    "1":{ //轮次编号（共30个轮次）
+        "projection":[[x0, y0],[x1,y1]......], //每个样本在该轮次下的坐标
+        "intra_similarity":[[n1,n2,n3...],[n4,n5,n6...]...], //每个样本的类内邻居，用样本下标表示，样本下标从0开始
+        "inter_similarity":[[m1,m2,m3...],[m4,m5,m6...]...]  //每个样本的类外邻居，用样本下标表示，样本下标从0开始
     },
     "2":{
-        ...
+        "projection":...,
+        "intra_similarity":...,
+        "inter_similarity":...
     },
-    ...  
+    
+    ...
+    
     "30":{
-        ...
+       ...
     }
 }
-```
+如上例，可以得出样本0在第1个轮次下，其坐标为[x0,y0]，类内的邻居有[n1,n2,n3...]，类外的邻居有[m1,m2,m3...]。
 
-例如，对于样本0来说，其标签为`comment`，且在第一轮中与之最相近的6个`comment`样本分别为[0,1,2,7,4,8]，最相近的6个`code`样本为[12,25,43,14,45,24]，则在第一轮中的intra_similarity第一行为[0,1,2,7,4,8]，inter_similarity的第一行为[12,25,43,14,45,24]，及
 
-```json
+三、训练过程2
+3.1 介绍
+- ResNet34在Cifar-10上的图像分类任务训练过程
+- 3000个样本点，10个类别
+- 20个训练轮次
+
+3.2 数据说明
+info.json
+同训练过程1， 需要注意的是 "label_color"中给出的类别颜色与背景图片中的颜色对应，不采用可能会与分类背景颜色不一致。
+
+data.json
+包含每个训练轮次(epoch / iteration)的具体数据，包括每个点的坐标，每个点的邻居，结构如下：
 {
-    "1":{
-        "projection":[[]],
-        "intra_similarity":[
-            [0,1,2,7,4,8], // 第一个样本的邻居
-            ...
-        ],
-        "inter_similarity":[
-            [12,25,43,14,45,24], // 第一个样本的邻居
-        	...
-        ], 
+    "1":{ //轮次编号（共20个轮次）
+        "projection":[[x0, y0],[x1,y1]......], //每个样本在该轮次下的坐标
+        "prediction":[2,1,4,1,5,9,0,...], //每个样本在该轮次中的预测类别
+        "confidence":[0.1,0.1,0.5,0.3...] //每个样本预测该类别的置信度，经过softmax，范围在0~1之间
     },
-	...
+    "2":{
+        "projection":...,
+        "prediction":...,
+        "confidence":...
+    },
+    
+    ...
+    
+    "20":{
+       ...
+    }
 }
-```
 
-💡 similarity是为了初步展示样本之间的联系，后续我们可以自行添加更多的样本间联动关系。
-
-
-
-#### label.json
-
-```json
-{
-	"label_index":[], // 每个样本的标签，例:[0,0,0,0,...,1,1,1,1]
-	"label_text":[] //每个标签对应的含义，例:[comment, code]
-}
-```
-
+Background
+每个训练轮次的分类背景，大小为1000px*800px，保存为.png的形式，四个顶点的坐标分别为(-8,-8),(-8,8),(8,8),(8,-8)，该坐标与数据中点的projection坐标位于同一坐标系，可供参考。
+图片链接为： https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/sequence-scatter-bgimg-2/${epoch}.png
+将${epoch}替换为相应的轮次数（1~30）。
