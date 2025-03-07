@@ -4,22 +4,144 @@ import { CommonChartSpecTransformer } from '@visactor/vchart';
 
 const DATA_KEY = 'dataKey';
 
+
+/**
+ * convert ISequenceScatterSpec to CommonSpec
+ */
 export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransformer<any> {
   transformSpec(spec: any): void {
     super.transformSpec(spec);
     const dataSpecs = processSequenceData(spec as unknown as ISequenceScatterSpec);
 
     spec.type = 'common';
+
+    // data
     spec.dataKey = DATA_KEY;
     spec.data = dataSpecs[0].data;
+
+    // series: background, line, scatter
     spec.series = [
       {
+        id: 'background-series',
+        dataId: 'background',
+        interactive: false,
+        persent: true,
+        type: 'area',
+        xField: 'x',
+        yField: 'y',
+        point:{
+          visible:false,
+        },
+        line:{
+          visible:false, 
+        },
+        area:{
+          visible:true,
+          interactive: false, 
+          style:{
+            background: (datum: { iter: number; }) => {
+              if(spec.taskType === 'neighborhood'){
+                return '';
+              }
+              return `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/sequence-scatter-bgimg-2/${datum.iter}.png`;
+            },
+            fill:'transparent',
+            fillOpacity:0.5
+          }
+        },
+        hover: {
+          enable: false,
+        },
+        select: {
+          enable: false,
+        }
+      },
+      {
+        id: 'line-series',
+        type: 'line',
+        dataId: 'edges',
+        xField: 'x',
+        yField: 'y',
+        seriesField: 'index',
+        animation: true,
+        point:{
+          visible:false,
+        },
+        line:{
+          visible:true,
+          style:{
+            stroke: (datum:{color: string;})=>{
+              return datum.color;
+            },
+            lineDash: (datum: { type: number; }) => {
+                if (datum.type === 1) {
+                    return [0, 0];
+                }
+                else{
+                    return [3, 2];
+                }
+            },
+            lineWidth: 0.8,
+            strokeOpacity: 0.6
+          }
+        }
+      },
+      {
+        id: 'scatter-series',
         type: 'scatter',
+        dataId: 'nodes',
         xField: spec.xField,
-        yField: spec.yField
+        yField: spec.yField,
+        seriesField: 'label',
+        point:{
+          state:{
+            hover:{
+              scaleX: 1.5,
+              scaleY: 1.5,
+              fillOpacity: 1
+            },
+            hover_reverse:{
+              scaleX: 1,
+              scaleY: 1,
+              fillOpacity: (datum:{confidence: number;})=>{
+                return spec.taskType ==='neighborhood'? 0.6: datum.confidence-0.2;
+              }
+            }
+          },
+          style: {
+            size: ()=>{
+              return spec.taskType ==='neighborhood'? 6: 4;
+            },
+            fill: (datum: { label: string; }) => {
+                const color = spec.labelColor[datum.label] ?? 'gray';
+                return color;
+            },
+            fillOpacity: (datum: { confidence: number; }) => {
+                return datum.confidence;
+            }
+          }
+        },
+        label: {
+          visible: true,
+          style:{
+            visible:()=>{
+              return spec.taskType == 'neighborhood';
+            },
+            type:'text',
+            fontFamily:'Console',
+            fontStyle:'italic',
+            fontSize:12,
+            fill:'black',
+            fillOpacity: 0.6,
+            text:(datum:Datum)=>{
+              return datum.index;
+            }
+          }
+        }
       }
     ];
 
+    // player
     if (spec.player) {
       spec.player = {
         ...spec.player,
@@ -36,24 +158,29 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
       };
     }
 
+    // axes
     spec.axes = [
       {
         orient: 'left',
-        type: 'linear'
+        type: 'linear',
+        inverse: true,
+        min: spec.scope[1],
+        max: spec.scope[3],
       },
       {
         orient: 'bottom',
-        label: { visible: true },
-        type: 'linear'
+        type: 'linear',
+        min: spec.scope[0],
+        max: spec.scope[2]
       }
     ];
 
+    // iteration label
     spec.customMark = [
       {
         type: 'text',
-        dataIndex: 1,
+        dataId: 'iter',
         style: {
-          text: (datum: Datum) => datum['inter'],
           x: 50,
           y: () => 10,
           textBaseline: 'top',
@@ -65,55 +192,219 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
           ...spec.infoLabel?.style
         }
       }
-      // TODO: draw polygon according to data
-      // {
-      //   type: 'polygon',
-      //   dataIndex: 1,
-      //   style: {
-      //     points: (datum: Datum) => {
-      //       return [
-      //         {
-      //           x: ,
-      //           y:
-      //         },
-      //         //....
-      //       ];
-      //     },
-      //   }
-      // }
     ];
 
+    // legends
+    spec.legends = [
+      {
+        seriesId: 'scatter-series',
+        visible: true,
+        orient: 'right',
+        position: 'middle',
+        data: (items: any[]) => {
+          return items.map(item => {
+            item.shape.outerBorder = {
+                stroke: item.shape.fill,
+                distance: 2,
+                lineWidth: 1
+            };
+            return item;
+          });
+        },
+        title: {
+          visible: true,
+          align: 'left',
+          textStyle: {
+            text: 'Classes',
+            fontFamily: 'Console',
+            fontSize: 18,
+            fontWeight: 'bold'
+          }
+        },
+        item: {
+          visible: true,
+          width: '8%',
+          value: {
+            alignRight: true,
+            style: {
+              fill: '#000',
+              fillOpacity: 1,
+              fontSize: 12
+            },
+            state: {
+              unselected: {
+                fill: '#d8d8d8'
+              }
+            }
+          }
+        }
+      }
+    ],
+
+    // tooltip
     spec.tooltip = {
-      visible: false
+      seriesId: 'scatter-series',
+      lockAfterClick: false,
+      visible:()=>{
+        return spec.taskType ==='classification';
+      },
+      activeType:'mark',
+      trigger:'hover',
+      mark:{
+        title:{
+          visible: true,
+          value:'Info'
+        },
+        content:[
+          {
+            key:'Label',
+            value: (datum: {label:string})=>{
+              return datum.label;
+            },
+            shapeType: 'circle',
+            shapeSize: 8
+          },
+          {
+            key:'Prediction',
+            value: (datum: {prediction:string})=>{
+              return datum.prediction;
+            },
+            shapeType: 'circle',
+            shapeSize: 8,
+            shapeFill: (datum: { prediction: string }) => {
+              const color = spec.labelColor[datum.prediction] ?? 'gray';
+              return color;
+            }
+          },
+          {
+            key:'Confidence',
+            value: (datum: {confidence:number})=>{
+              return datum.confidence.toFixed(2);
+            },
+            shapeType: 'square',
+            shapeSize: 8,
+            shapeFill: (datum: { label:string, prediction: string}) => {
+              return datum.label === datum.prediction? 'green': 'red';
+            }
+          }
+        ]
+      },        
+      style:{
+        fillOpacity:()=>{
+          return spec.taskType ==='classification'? 0.8: 0;
+        },
+        panel:{
+          padding:{top:10, bottom:15, left:10, right:10},
+          backgroundColor: '#fff',
+          border: {
+            color: '#eee',
+            width: 1,
+            radius: 10
+          }
+        },
+        titleLabel: {
+          fontSize: 20,
+          fontFamily: 'Times New Roman',
+          fill: 'brown',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          lineHeight: 24
+        },
+        keyLabel: {
+          fontSize: 16,
+          fontFamily: 'Times New Roman',
+          fill: 'black',
+          textAlign: 'center',
+          lineHeight: 15,
+          spacing: 10
+        },
+        valueLabel: {
+          fontSize: 14,
+          fill: 'black',
+          textAlign: 'center',
+          lineHeight: 15,
+          spacing: 10
+        }
+      }
     };
+
+
+    // datazoom
+    spec.dataZoom = [
+      {
+        visible: false,
+        orient: 'left',
+        filterMode: 'axis',
+        showDetail: false,
+        roamZoom: {
+          enable: true,
+          focus: true,
+          rate: 3
+        },
+        roamDrag: {
+          enable: true,
+          reverse: true,
+          rate: 1
+        }
+      },
+      {
+        visible: false,
+        orient: 'bottom',
+        filterMode: 'axis',
+        showDetail: false,
+        roamZoom: {
+          enable: true,
+          focus: true,
+          rate: 3
+        },
+        roamDrag: {
+          enable: true,
+          reverse: true,
+          rate: 1
+        },
+      }
+    ];
 
     super.transformSpec(spec);
   }
 }
 
+/**
+ * convert ISequenceScatterData to IScatterData
+ */
 export function processSequenceData(spec: ISequenceScatterSpec) {
   const result: any[] = [];
-  Object.keys(spec.data).forEach(inter => {
+  Object.keys(spec.data).forEach(iter => {
+    const nodes = spec.data[iter].nodes;
     result.push({
       data: [
         {
           id: 'nodes',
-          values: spec.data[inter].map((d, i) => {
+          values: nodes.map((d, i) => {
             return { ...d, [DATA_KEY]: i };
           })
         },
-        // TODO: edges data
-        // {
-        //   id: 'edges',
-        //   values: [....]
-        // },
         {
-          id: 'inter',
+          id: 'edges',
+          values: [] // dynamically filled in events
+        },
+        {
+          id: 'iter',
           values: [
             {
-              inter
+              iter
             }
           ]
+        },
+        {
+          id: 'background',
+          values: [
+              {iter:iter, x:spec.scope[0], y:spec.scope[1]},
+              {iter:iter, x:spec.scope[0], y:spec.scope[3]},
+              {iter:iter, x:spec.scope[2], y:spec.scope[3]},
+              {iter:iter, x:spec.scope[2], y:spec.scope[1]},
+              {iter:iter, x:spec.scope[0], y:spec.scope[1]}
+          ]  
         }
       ]
     });
