@@ -8,8 +8,6 @@ import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { BaseWordCloudSeries } from './base';
 import { Factory } from '../../core/factory';
 import { registerWordCloud3dAnimation } from './animation';
-import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
-import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-shape';
 import type { ITextMark } from '../../mark/interface';
 
 export class WordCloud3dSeries<
@@ -68,9 +66,10 @@ export class WordCloud3dSeries<
       this._wordMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('wordCloud3d')?.(() => {
-            const srView = this.getCompiler().getVGrammarView();
-            const width = srView.width() - padding.left || 0 - padding.right || 0;
-            const height = srView.height() - padding.top || 0 - padding.bottom || 0;
+            const stage = this.getCompiler().getStage();
+
+            const width = stage.width - padding.left || 0 - padding.right || 0;
+            const height = stage.height - padding.top || 0 - padding.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
               center: { x: r, y: r, z: this._spec.depth_3d ?? r },
@@ -85,13 +84,11 @@ export class WordCloud3dSeries<
 }
 
 export const registerWordCloud3dSeries = () => {
-  registerWordCloudTransforms();
   registerTextMark();
   registerWordCloud3dAnimation();
   Factory.registerSeries(WordCloud3dSeries.type, WordCloud3dSeries);
 };
 
 export const registerWordCloudShape3dSeries = () => {
-  registerWordCloudShapeTransforms();
   registerWordCloud3dSeries();
 };

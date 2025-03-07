@@ -1,6 +1,5 @@
 import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
@@ -13,8 +12,7 @@ import type {
   IChartOption,
   IChartRenderOption,
   IChartSpecInfo,
-  IChartSpecTransformerOption,
-  ILayoutParams
+  IChartSpecTransformerOption
 } from './common';
 import type { IBoundsLike, IPadding, Maybe } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
@@ -76,7 +74,7 @@ export interface IChart extends ICompilable {
 
   /** layout */
   setLayout: (layout: LayoutCallBack) => void;
-  layout: (context: ILayoutParams) => void;
+  layout: () => void;
   getLayoutTag: () => boolean;
   setLayoutTag: (tag: boolean, morphConfig?: IMorphConfig, renderNextTick?: boolean) => boolean;
 
@@ -94,7 +92,7 @@ export interface IChart extends ICompilable {
   onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
   onRender: (ctx: IChartRenderOption) => void;
   onResize: (width: number, height: number, reRender: boolean) => void;
-  onLayout: (view: IView) => void;
+  onLayout: () => void;
   /**
    * 图表更新的时候按需调用
    * @since 1.11.0

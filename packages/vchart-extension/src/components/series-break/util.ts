@@ -2,7 +2,7 @@
  * 支持轴翻转
  */
 import type { ILinearAxisBreakSpec, ILinearAxisSpec } from '@visactor/vchart/esm/component/axis';
-import { ICartesianSeries, ISpec } from '@visactor/vchart';
+import { ICartesianSeries, IMarkGraphic, ISpec } from '@visactor/vchart';
 import { SeriesBreakData } from './type';
 import { array, getIntersectPoint, IPointLike, isValid, PointService } from '@visactor/vutils';
 import { Point } from '@visactor/vrender-components';
@@ -65,9 +65,10 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[], axesIndex?: nu
             chart.getAllSeries().forEach((s: ICartesianSeries) => {
               if (s.type === 'bar' || s.type === 'waterfall') {
                 const mark = s.getMarkInName('bar');
-                const vgrammarElements = mark.getProduct().elements;
-                vgrammarElements.forEach((element: any) => {
-                  const elementBounds = element.getBounds();
+                const graphics = mark.getGraphics();
+
+                graphics.forEach((element: IMarkGraphic) => {
+                  const elementBounds = element.AABBBounds;
                   let shouldDrawBreak = false;
                   let startX;
                   let startY;
@@ -113,9 +114,8 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[], axesIndex?: nu
               } else if (s.type === 'line') {
                 // 求水平直线/垂直线同 line path 的交点
                 const mark = s.getMarkInName(s.type);
-                const vgrammarElements = mark.getProduct().elements;
-                vgrammarElements.forEach((element: any) => {
-                  const graphicItem = element.graphicItem;
+                const graphics = mark.getGraphics();
+                graphics.forEach(graphicItem => {
                   const points = getAreaOrLinePathPoints(graphicItem, 'line');
                   points.forEach(linePoints => {
                     // 开始查找交点
@@ -168,9 +168,8 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[], axesIndex?: nu
               } else if (s.type === 'area') {
                 // 默认面积去全部堆叠
                 const mark = s.getMarkInName('area');
-                const vgrammarElements = mark.getProduct().elements;
-                vgrammarElements.forEach((element: any) => {
-                  const graphicItem = element.graphicItem;
+                const graphics = mark.getGraphics();
+                graphics.forEach(graphicItem => {
                   const points = getAreaOrLinePathPoints(graphicItem, 'area');
                   points.forEach(areaPoints => {
                     const intersections = getIntersectionsFromLineAndPolyline(

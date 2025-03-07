@@ -1,26 +1,14 @@
+import { getTestStage } from './stage';
+
 export const getTestCompiler = () =>
   ({
     updateData: () => {},
     updateState: () => {},
     renderAsync: () => {},
-    getVGrammarView: () => {
-      return {
-        updateLayoutTag: () => {},
-        getDataById: () => {},
-        getMarkById: () => {},
-        getSignalById: () => {},
-        signal: () => {
-          return {
-            id: () => {
-              return {
-                value: () => {}
-              };
-            }
-          };
-        }
-      };
-    },
-    addGrammarItem: () => {},
-    addInteraction: () => {},
-    removeInteraction: () => {}
+    getLayoutState: () => '',
+    updateLayoutTag: () => {},
+    getStage: getTestStage,
+    addRootMark: () => {},
+    renderNextTick: () => {},
+    addGrammarItem: () => {}
   } as any);

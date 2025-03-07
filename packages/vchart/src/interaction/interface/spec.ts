@@ -1,58 +1,13 @@
+import type { EventType } from '../../event/interface';
+import type { StringOrNumber } from '../../typings/common';
 import type {
-  ElementActiveByLegendSpec,
-  ElementActiveSpec,
-  ElementHighlightByGroupSpec,
-  ElementHighlightByKeySpec,
-  ElementHighlightByLegendSpec,
-  ElementHighlightByNameSpec,
-  ElementHighlightSpec,
-  ElementSelectSpec,
-  IElement,
-  IInteraction as IVGrammarInteraction
-} from '@visactor/vgrammar-core';
-import type { IMark } from '../mark/interface';
-import type { RenderMode } from '../typings/spec/common';
-import type { BaseEventParams, IEventDispatcher, EventType } from '../event/interface';
-import type { IModel } from '../model/interface';
-import type { StateValue } from '../compile/mark/interface';
-import type { StringOrNumber } from '../typings/common';
-
-export interface IInteraction {
-  registerMark: (state: StateValue, mark: IMark) => void;
-  filterEventMark: (params: BaseEventParams, state: StateValue) => boolean;
-  getStateMark: (state: StateValue) => IMark[] | null;
-
-  getEventElement: (stateValue: StateValue) => IElement[];
-  getEventElementData: (stateValue: StateValue) => any[];
-  addEventElement: (stateValue: StateValue, element: IElement) => void;
-  removeEventElement: (stateValue: StateValue, elements: IElement) => void;
-  exchangeEventElement: (stateValue: StateValue, elements: IElement) => void;
-  clearEventElement: (stateValue: StateValue, clearReverse: boolean) => void;
-  reverseEventElement: (stateValue: StateValue) => void;
-  clearAllEventElement: () => void;
-
-  setDisableActiveEffect: (disable: boolean) => void;
-  addVgrammarInteraction: (state: StateValue, i: IVGrammarInteraction) => void;
-  startInteraction: (state: StateValue, element: IElement) => void;
-  resetInteraction: (state: StateValue, element: IElement) => void;
-  resetAllInteraction: () => void;
-}
-
-export interface ITrigger {
-  init: () => void;
-  setStateKeys: (fields: string[]) => void;
-  registerMark: (mark: IMark) => void;
-  release: () => void;
-  hover?: IHoverSpec;
-  select?: ISelectSpec;
-}
-
-export interface ITriggerOption {
-  mode: RenderMode;
-  interaction: IInteraction;
-  eventDispatcher: IEventDispatcher;
-  model: IModel;
-}
+  IElementActiveByLegendOptions,
+  IElementActiveOptions,
+  IElementHighlightByLegendOptions,
+  IElementHighlightByNameOptions,
+  IElementHighlightOptions,
+  IElementSelectOptions
+} from './trigger';
 
 export interface IBaseInteractionSpec {
   /**
@@ -111,7 +66,12 @@ export interface ISelectSpec extends IBaseInteractionSpec {
  * 将触发元素的状态设置为激活状态，当开启这个交互的时候，可以在系列图元通过 `state.active` 设置激活状态下的视觉编码
  */
 export type IElementActiveSpec = IBaseInteractionSpec &
-  Pick<ElementActiveSpec, 'type' | 'trigger' | 'triggerOff' | 'state'>;
+  Pick<IElementActiveOptions, 'trigger' | 'triggerOff' | 'state'> & {
+    /**
+     * 设置交互的类型为 'element-active'
+     */
+    type: 'element-active';
+  };
 
 /**
  * 图元选中相关交互，当开启这个交互的时候，
@@ -119,39 +79,74 @@ export type IElementActiveSpec = IBaseInteractionSpec &
  * 可以在系列图元通过 `state.selected_reverse` 设置非激活状态下的视觉编码
  */
 export type IElementSelectSpec = IBaseInteractionSpec &
-  Pick<ElementSelectSpec, 'type' | 'trigger' | 'triggerOff' | 'state' | 'isMultiple' | 'reverseState'>;
+  Pick<IElementSelectOptions, 'trigger' | 'triggerOff' | 'state' | 'isMultiple' | 'reverseState'> & {
+    /**
+     * 设置交互的类型为 'element-select'
+     */
+    type: 'element-select';
+  };
 /**
  * 图元高亮交互配置，当开启这个交互的时候，
  * 可以在系列图元通过 `state.highlight` 设置激活状态下的视觉编码
  * 可以在系列图元通过 `state.blur` 设置非激活状态下的视觉编码
  */
 export type IElementHighlightSpec = IBaseInteractionSpec &
-  Pick<ElementHighlightSpec, 'type' | 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'>;
+  Pick<IElementHighlightOptions, 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'> & {
+    /**
+     * 设置交互的类型为 'element-highlight'
+     */
+    type: 'element-highlight';
+  };
 /**
  * 将触发元素以及和触发元素具有相同key的元素状态设置为高亮状态，其他元素的状态设置为失焦状态；一般需要配合系列的dataKey 配置使用
  */
 export type IElementHighlightByKeySpec = IBaseInteractionSpec &
-  Pick<ElementHighlightByKeySpec, 'type' | 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'>;
+  Pick<IElementHighlightOptions, 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'> & {
+    /**
+     * 设置交互的类型为 'element-highlight-by-key'
+     */
+    type: 'element-highlight-by-key';
+  };
 /**
  * 将触发元素以及和触发元素具有相同分组值（groupKey）的元素状态设置为高亮状态，其他元素的状态设置为失焦状态
  */
 export type IElementHighlightByGroup = IBaseInteractionSpec &
-  Pick<ElementHighlightByGroupSpec, 'type' | 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'>;
+  Pick<IElementHighlightOptions, 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'> & {
+    /**
+     * 设置交互的类型为 'element-highlight-by-group'
+     */
+    type: 'element-highlight-by-group';
+  };
 /**
  * 根据图例激活图元，默认触发事件为图例的 `legendItemHover`和`legendItemUnHover`事件
  */
 export type IElementActiveByLegend = IBaseInteractionSpec &
-  Pick<ElementActiveByLegendSpec, 'type' | 'filterType' | 'state'>;
+  Pick<IElementActiveByLegendOptions, 'filterType' | 'state'> & {
+    /**
+     * 设置交互的类型为 'element-active-by-legend'
+     */
+    type: 'element-active-by-legend';
+  };
 /**
  * 根据图例高亮图元，默认触发事件为图例的 `legendItemHover`和`legendItemUnHover`事件
  */
 export type IElementHighlightByLegend = IBaseInteractionSpec &
-  Pick<ElementHighlightByLegendSpec, 'type' | 'filterType' | 'blurState' | 'highlightState'>;
+  Pick<IElementHighlightByLegendOptions, 'filterType' | 'blurState' | 'highlightState'> & {
+    /**
+     * 设置交互的类型为'element-highlight-by-legend'
+     */
+    type: 'element-highlight-by-legend';
+  };
 /**
  * 根据图例高亮图元，默认触发事件为图例的 `legendItemHover`和`legendItemUnHover`事件
  */
 export type IElementHighlightByName = IBaseInteractionSpec &
-  Pick<ElementHighlightByNameSpec, 'type' | 'blurState' | 'highlightState' | 'graphicName' | 'parseData'>;
+  Pick<IElementHighlightByNameOptions, 'blurState' | 'highlightState' | 'graphicName' | 'parseData'> & {
+    /**
+     * 设置交互的类型为'element-highlight-by-name'
+     */
+    type: 'element-highlight-by-name';
+  };
 
 /**
  * 元素选中交互，将所有相同名称的元素的状态设置为选中状态；注意该交互不建议和默认的select交互同时使用（象形图除外）
@@ -179,7 +174,8 @@ export type IInteractionItemSpec =
   | IElementHighlightByGroup
   | IElementActiveByLegend
   | IElementHighlightByLegend
-  | IElementHighlightByName;
+  | IElementHighlightByName
+  | ICustomInteraction;
 
 /**
  *  申明图表交互相关配置

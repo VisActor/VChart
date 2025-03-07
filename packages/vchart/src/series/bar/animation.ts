@@ -2,8 +2,9 @@ import { Factory } from '../../core/factory';
 import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import type { Datum } from '../../typings';
-import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { BarAppearPreset, IBarAnimationParams } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
+import type { IGraphic } from '@visactor/vrender-core';
 
 /**
  * grow生长option
@@ -14,7 +15,7 @@ import type { BarAppearPreset, IBarAnimationParams } from './interface';
  * @returns
  */
 function barGrowOption(barParams: IBarAnimationParams, isOverall = true) {
-  return (datum: Datum, element: IElement, params: any) => {
+  return (datum: Datum, element: IGraphic, params: any) => {
     const field = barParams.direction === 'vertical' ? barParams.yField : barParams.xField;
     const data = datum?.[field];
     if (barParams.direction === 'vertical') {

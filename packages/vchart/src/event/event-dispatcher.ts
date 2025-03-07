@@ -1,6 +1,6 @@
 import { Bubble } from './bubble';
 import { isValid, debounce, throttle, get, isFunction } from '@visactor/vutils';
-import { BASE_EVENTS, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
+import { BASE_EVENTS, Event_Bubble_Level, Event_Source_Type, HOOK_EVENT } from '../constant/event';
 import type {
   EventType,
   EventQuery,
@@ -19,9 +19,11 @@ import type { VChart } from '../core/vchart';
 import type { CompilerListenerParameters } from '../compile/interface';
 import type { Compiler } from '../compile/compiler';
 import type { StringOrNumber } from '../typings';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { IComponent } from '../component/interface';
-import { Factory as VGrammarFactory } from '@visactor/vgrammar-core';
+import { Factory } from '../core/factory';
+import type { IMarkGraphic } from '../mark/interface';
+import { IMark } from '../mark/interface';
+import { getDatumOfGraphic } from '../util';
 
 const componentTypeMap: Record<string, string> = {
   cartesianAxis: 'axis',
@@ -269,11 +271,14 @@ export class EventDispatcher implements IEventDispatcher {
     params: EventParamsDefinition[Evt]
   ): EventParamsDefinition[Evt] {
     // 如果针对于 mark 做了筛选，则事件参数转为筛选器制定的父级 mark
-    if (filter.markName && params.mark && (params as BaseEventParams).itemMap) {
-      const markId = params.mark.getProductId();
-      const item = (params as BaseEventParams).itemMap.get(markId);
-      const datum = item?.getDatum();
-      return { ...params, item, datum };
+    if (filter.markName && params.mark) {
+      const markGraphic = params.mark.getGraphics?.()?.[0];
+
+      return {
+        ...params,
+        item: markGraphic,
+        datum: getDatumOfGraphic(markGraphic)
+      };
     }
     return { ...params };
   }
@@ -285,22 +290,6 @@ export class EventDispatcher implements IEventDispatcher {
     const chart = this.globalInstance.getChart();
     const model = (isValid(listenerParams.modelId) && chart?.getModelById(listenerParams.modelId)) || undefined;
     const mark = (isValid(listenerParams.markId) && chart?.getMarkById(listenerParams.markId)) || null;
-
-    // FIXME: 这里操作的应当是场景树结构，与 vgrammar 结构无关
-    // 遍历取到所有父级的 mark 以支持子元素响应父元素事件
-    const itemMap = new Map<string, any>();
-    let targetMark: any = listenerParams.item?.mark;
-    if (targetMark && isValid(targetMark.id())) {
-      itemMap.set(targetMark.id(), listenerParams.item);
-    }
-    while (targetMark?.elements) {
-      const id = targetMark.id();
-      // 由于父级的 markName 可能重复，因此只取最近的父级 mark
-      if (isValid(id) && !itemMap.has(id)) {
-        itemMap.set(id, targetMark.elements[0]);
-      }
-      targetMark = targetMark.group;
-    }
 
     const node = get(listenerParams.event, 'target');
 
@@ -314,11 +303,10 @@ export class EventDispatcher implements IEventDispatcher {
       item: listenerParams.item,
       source: listenerParams.source,
       datum,
-      itemMap,
       chart,
       model,
       mark: mark ?? undefined,
-      node: get(listenerParams.event, 'target')
+      node: node
     };
     this.dispatch(listenerParams.type, params);
   };
@@ -329,19 +317,19 @@ export class EventDispatcher implements IEventDispatcher {
   private _onDelegateInteractionEvent = (listenerParams: CompilerListenerParameters) => {
     const chart = this.globalInstance.getChart();
     const event = listenerParams.event;
-    let items: IElement[] = null;
+    let graphics: IMarkGraphic[] = null;
 
-    if ((event as any).elements) {
-      items = (event as any).elements;
+    if ((event as any).graphics) {
+      graphics = (event as any).graphics;
     }
     const params: InteractionEventParam = {
       event: listenerParams.event,
       chart,
-      items,
+      graphics,
       datums:
-        items &&
-        items.map(item => {
-          return item.getDatum();
+        graphics &&
+        graphics.map(g => {
+          return getDatumOfGraphic(g);
         })
     };
     this.dispatch(listenerParams.type, params);
@@ -467,7 +455,7 @@ export class EventDispatcher implements IEventDispatcher {
   }
 
   private _isValidEvent(eType: string) {
-    return BASE_EVENTS.includes(eType) || (Object.values(VGRAMMAR_HOOK_EVENT) as string[]).includes(eType);
+    return BASE_EVENTS.includes(eType) || (Object.values(HOOK_EVENT) as string[]).includes(eType);
   }
 
   private _isInteractionEvent(eType: string) {
@@ -476,7 +464,7 @@ export class EventDispatcher implements IEventDispatcher {
     return (
       eType &&
       ((interactionType = eType.split(':')[0]), interactionType) &&
-      VGrammarFactory.hasInteraction(interactionType)
+      Factory.hasInteractionTrigger(interactionType)
     );
   }
 }

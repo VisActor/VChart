@@ -89,9 +89,11 @@ export class SequenceChartSpecTransformer<
     // 重构之前 chart 上的 transformSpec() 本来就在布局之前执行，
     // 原始代码中的 this._layoutRect 中取到的永远是常量 { width: 500, height: 500 }。
     // 重构之后保留这个 mock 值，可以尽快修改下 @skie1997
+    const stage = this._option.getCompiler().getStage();
+
     const viewLayoutRect = {
-      width: this._option.getCompiler().getVGrammarView().width(),
-      height: this._option.getCompiler().getVGrammarView().height()
+      width: stage.viewWidth,
+      height: stage.viewHeight
     };
     let componentsHeight = 0;
     const defaultcomponentsHeight = 60;

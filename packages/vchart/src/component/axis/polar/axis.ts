@@ -580,12 +580,12 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   private _update(attrs: Dict<unknown>) {
     const { grid: gridAttrs, ...axisAttrs } = attrs;
-    const axisProduct = this._axisMark.getProduct(); // 获取语法元素并更新
-    axisProduct.encode(mergeSpec({}, this._axisStyle, axisAttrs));
+    const axisProduct = this._axisMark.getComponent(); // 获取语法元素并更新
+    axisProduct.setAttributes(mergeSpec({}, this._axisStyle, axisAttrs));
 
     if (this._gridMark) {
-      const gridProduct = this._gridMark.getProduct(); // 获取语法元素并更新
-      gridProduct.encode(mergeSpec({}, this._gridStyle, gridAttrs));
+      const gridProduct = this._gridMark.getComponent(); // 获取语法元素并更新
+      gridProduct.setAttributes(mergeSpec({}, this._gridStyle, gridAttrs));
     }
   }
 

@@ -22,11 +22,9 @@ import { GlobalScale } from '../../scale/global-scale';
 import type { ILayoutModelState, IModel, IModelOption, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
 import type {
   IChart,
-  IChartLayoutOption,
   IChartRenderOption,
   IChartOption,
   IChartEvaluateOption,
-  ILayoutParams,
   DimensionIndexOption,
   IChartSpecTransformerOption,
   IChartSpecTransformer
@@ -37,7 +35,7 @@ import type { IRegion } from '../../region/interface';
 import { ComponentTypeEnum } from '../../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent, IComponentConstructor } from '../../component/interface';
-import type { IMark, IRectMark } from '../../mark/interface';
+import type { IMark, IMarkGraphic, IRectMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
@@ -46,7 +44,16 @@ import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
-import { isArray, isValid, createID, calcPadding, normalizeLayoutPaddingSpec, array } from '../../util';
+import {
+  isArray,
+  isValid,
+  createID,
+  calcPadding,
+  normalizeLayoutPaddingSpec,
+  array,
+  isCollectionMark,
+  getDatumOfGraphic
+} from '../../util';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
@@ -54,14 +61,13 @@ import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
+import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout, isBoolean, isObject } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import type { IElement, IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
+import { ChartEvent, HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension';
 import type { ITooltip } from '../../component/tooltip/interface';
@@ -70,6 +76,11 @@ import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
 import { LayoutZIndex } from '../../constant/layout';
 import type { IAxis } from '../../component/axis/interface/common';
+import type { IMorphConfig } from '../../animation/spec';
+import type { IGraphic } from '@visactor/vrender-core';
+import { Interaction } from '../../interaction/interaction';
+import type { IInteraction } from '../../interaction/interface/common';
+import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -131,8 +142,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._layoutTag = tag;
     const compiler = this.getCompiler();
 
-    if (compiler?.getVGrammarView()) {
-      compiler.getVGrammarView().updateLayoutTag();
+    if (compiler) {
+      compiler.updateLayoutTag();
       tag && renderNextTick && compiler.renderNextTick(morphConfig);
     }
     return this._layoutTag;
@@ -181,6 +192,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // background
   protected _backgroundMark: IRectMark;
 
+  protected _interaction: IInteraction;
+
   constructor(spec: T, option: IChartOption) {
     super(option);
     this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme().padding);
@@ -221,6 +234,52 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // components
     transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
   }
+  _initInteractions() {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
+
+    // 创建交互
+    this._interaction = new Interaction();
+
+    const series = this.getAllSeries();
+    const mergedTriggers: Partial<IBaseTriggerOptions>[] = [];
+    const mergedTriggersMarks: Record<string, Partial<IBaseTriggerOptions>> = {};
+
+    series.forEach(s => {
+      const triggers = s.getInteractionTriggers();
+
+      if (triggers && triggers.length) {
+        const regionId = s.getRegion().id;
+
+        triggers.forEach(({ trigger, marks }) => {
+          const interactionId = `${regionId}-${trigger.type}`;
+
+          if (mergedTriggersMarks[interactionId]) {
+            marks.forEach(m => {
+              mergedTriggersMarks[interactionId].marks.push(m);
+            });
+          } else {
+            mergedTriggersMarks[interactionId] = { ...trigger, marks };
+            mergedTriggers.push(mergedTriggersMarks[interactionId]);
+          }
+        });
+      }
+    });
+
+    mergedTriggers.forEach(trigger => {
+      const triggerInstance = Factory.createInteractionTrigger((trigger as any).type, {
+        ...trigger,
+        event: this._event,
+        interaction: this._interaction
+      });
+
+      if (triggerInstance) {
+        triggerInstance.init();
+        this._interaction.addTrigger(triggerInstance);
+      }
+    });
+  }
 
   init() {
     (this as any)._beforeInit?.();
@@ -236,6 +295,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     // data flow start
     this.reDataFlow();
+
+    this._initInteractions();
   }
 
   reDataFlow() {
@@ -285,6 +346,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._backgroundMark.setMarkConfig({
       zIndex: LayoutZIndex.SeriesGroup - 2
     });
+
+    this.getCompiler().addRootMark(this._backgroundMark);
   }
 
   protected _createRegion(constructor: IRegionConstructor, specInfo: IModelSpecInfo) {
@@ -427,36 +490,36 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
-  layout(params: ILayoutParams): void {
-    this._option.performanceHook?.beforeLayoutWithSceneGraph?.();
+  layout(): void {
+    this._option.performanceHook?.beforeLayoutWithSceneGraph?.(this._option.globalInstance);
     if (this.getLayoutTag()) {
       this._event.emit(ChartEvent.layoutStart, { chart: this, vchart: this._option.globalInstance });
 
-      this.onLayoutStart(params);
+      this.onLayoutStart();
       const elements = this.getLayoutElements();
       this._layoutFunc(this, elements, this._layoutRect, this._viewBox);
       this._event.emit(ChartEvent.afterLayout, { elements, chart: this });
       this.setLayoutTag(false);
-      this.onLayoutEnd(params);
+      this.onLayoutEnd();
 
       this._event.emit(ChartEvent.layoutEnd, { chart: this, vchart: this._option.globalInstance });
     }
-    this._option.performanceHook?.afterLayoutWithSceneGraph?.();
+    this._option.performanceHook?.afterLayoutWithSceneGraph?.(this._option.globalInstance);
   }
 
   // 通知所有需要通知的元素 onLayout 钩子
-  onLayoutStart(option: IChartLayoutOption) {
+  onLayoutStart() {
     const elements = this.getAllModels();
-    elements.forEach(element => element.onLayoutStart(this._layoutRect, this._viewRect, option));
+    elements.forEach(element => element.onLayoutStart(this._layoutRect, this._viewRect));
   }
 
   // 通知所有需要通知的元素 onLayoutEnd 钩子
-  onLayoutEnd(option: IChartLayoutOption) {
+  onLayoutEnd() {
     const elements = this.getAllModels();
     elements.forEach(element => {
       // series.onLayoutEnd will be called by region model
       if (element.modelType !== 'series') {
-        element.onLayoutEnd(option);
+        element.onLayoutEnd();
       }
     });
   }
@@ -1026,34 +1089,31 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (!this._backgroundMark) {
       return;
     }
-    this._backgroundMark.compile({ context: { model: this } });
-    this._backgroundMark.getProduct()?.layout(() => {
-      // console.log('region mark layout');
-    });
+    this._backgroundMark.compile();
   }
 
   compileRegions() {
-    this._option.performanceHook?.beforeRegionCompile?.();
+    this._option.performanceHook?.beforeRegionCompile?.(this._option.globalInstance);
     this.getAllRegions().forEach(r => {
       r.compile();
     });
-    this._option.performanceHook?.afterRegionCompile?.();
+    this._option.performanceHook?.afterRegionCompile?.(this._option.globalInstance);
   }
 
   compileSeries() {
-    this._option.performanceHook?.beforeSeriesCompile?.();
+    this._option.performanceHook?.beforeSeriesCompile?.(this._option.globalInstance);
     this.getAllSeries().forEach(s => {
       s.compile();
     });
-    this._option.performanceHook?.afterSeriesCompile?.();
+    this._option.performanceHook?.afterSeriesCompile?.(this._option.globalInstance);
   }
 
   compileComponents() {
-    this._option.performanceHook?.beforeComponentCompile?.();
+    this._option.performanceHook?.beforeComponentCompile?.(this._option.globalInstance);
     this.getAllComponents().forEach(c => {
       c.compile();
     });
-    this._option.performanceHook?.afterComponentCompile?.();
+    this._option.performanceHook?.afterComponentCompile?.(this._option.globalInstance);
   }
 
   release() {
@@ -1078,9 +1138,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._idMap.clear();
   }
 
-  onLayout(srView: IView) {
-    const root = srView.rootMark;
-    this.layout({ group: root, srView });
+  onLayout() {
+    this.layout();
   }
 
   /**
@@ -1132,7 +1191,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ): void {
-    this._setStateInDatum(STATE_VALUE_ENUM.STATE_SELECTED, true, datum, filter, region);
+    this._setStateInDatum(STATE_VALUE_ENUM.STATE_SELECTED, datum, filter, region);
   }
 
   /**
@@ -1146,7 +1205,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ): void {
-    this._setStateInDatum(STATE_VALUE_ENUM.STATE_HOVER, true, datum, filter, region);
+    this._setStateInDatum(STATE_VALUE_ENUM.STATE_HOVER, datum, filter, region);
   }
 
   /**
@@ -1155,11 +1214,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
    * @since 1.11.0
    */
   clearState(state: string) {
-    this.getAllRegions().forEach(r => {
-      r.interaction.clearEventElement(state, true);
-      r.interaction.resetInteraction(state, null);
-      return;
-    });
+    this._interaction.clearByState(state);
   }
 
   /**
@@ -1168,11 +1223,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
    * @since 1.12.4
    */
   clearAllStates() {
-    this.getAllRegions().forEach(r => {
-      r.interaction.clearAllEventElement();
-      r.interaction.resetAllInteraction();
-      return;
-    });
+    this._interaction.clearAllStates();
   }
 
   /**
@@ -1199,9 +1250,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         this._disableMarkAnimation(['exit', 'update']);
         const enableMarkAnimate = () => {
           this._enableMarkAnimation(['exit', 'update']);
-          this._event.off(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
+          this._event.off(HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
         };
-        this._event.on(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
+        this._event.on(HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
       });
     });
   }
@@ -1211,7 +1262,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     marks.forEach(mark => {
       const product = mark.getProduct();
       if (product && product.animate) {
-        product.animate.enableAnimationState(states);
+        // product.animate.enableAnimationState(states);
       }
     });
   }
@@ -1221,72 +1272,71 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     marks.forEach(mark => {
       const product = mark.getProduct();
       if (product && product.animate) {
-        product.animate.disableAnimationState(states);
+        // product.animate.disableAnimationState(states);
       }
     });
   }
 
   protected _setStateInDatum(
     stateKey: string,
-    checkReverse: boolean,
-    datum: MaybeArray<Datum> | null,
+    d: MaybeArray<Datum> | null,
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ) {
-    datum = datum ? array(datum) : null;
-    const keys = !datum ? null : Object.keys(datum[0]);
+    if (!d) {
+      this._interaction.clearByState(stateKey);
+      return;
+    }
+    const datum = array(d);
+    const keys = Object.keys(datum[0]);
+    const pickGraphics = [] as IMarkGraphic[];
+
     this.getRegionsInQuerier(region).forEach(r => {
-      if (!datum) {
-        r.interaction.clearEventElement(stateKey, true);
-        return;
-      }
       r.getSeries().forEach(s => {
         s.getMarks().forEach(m => {
-          if (!m.getProduct()) {
+          const graphics = m.getGraphics();
+          if (!graphics || !graphics.length) {
             return;
           }
           if (!filter || (isFunction(filter) && filter(s, m))) {
-            const isCollect = m.getProduct().isCollectionMark();
-            const elements = m.getProduct().elements;
-            let pickElements = [] as IElement[];
+            const isCollect = isCollectionMark(m.type);
+
             if (isCollect) {
-              pickElements = elements.filter(e => {
-                const elDatum = e.getDatum();
+              graphics.filter(g => {
+                const elDatum = getDatumOfGraphic(g) as Datum[];
+
                 // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
+                const isPicked =
+                  elDatum && (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index]?.[k]));
+
+                if (isPicked) {
+                  pickGraphics.push(g);
+                }
               });
             } else {
               if (datum.length > 1) {
                 const datumTemp = (datum as Datum[]).slice();
-                pickElements = elements.filter(e => {
-                  if (datumTemp.length === 0) {
-                    return false;
-                  }
-                  const elDatum = e.getDatum();
+
+                graphics.forEach((g: IMarkGraphic) => {
+                  const elDatum = getDatumOfGraphic(g) as Datum;
                   // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                  const index = datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
+                  const index = datumTemp.findIndex(d => keys.every(k => d[k] == elDatum?.[k]));
                   if (index >= 0) {
                     datumTemp.splice(index, 1);
-                    return true;
+                    pickGraphics.push(g);
                   }
-                  return false;
                 });
               } else {
                 // eslint-disable-next-line eqeqeq
-                const el = elements.find(e => keys.every(k => datum[0][k] == e.getDatum()[k]));
-                el && (pickElements = [el]);
+                const el = graphics.find(e => keys.every(k => datum[0][k] == (getDatumOfGraphic(e) as Datum)?.[k]));
+                el && pickGraphics.push(el);
               }
             }
-            pickElements.forEach(element => {
-              r.interaction.startInteraction(stateKey, element);
-            });
           }
         });
       });
-      if (checkReverse) {
-        r.interaction.reverseEventElement(stateKey);
-      }
     });
+    this._interaction.updateStateOfGraphics(stateKey, pickGraphics);
   }
 
   /**

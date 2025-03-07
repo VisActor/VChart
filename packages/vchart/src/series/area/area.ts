@@ -22,11 +22,12 @@ import { areaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerAreaSeriesAnimation } from './animation';
 import type { IMark, IAreaMark } from '../../mark/interface';
-import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { AreaSeriesSpecTransformer } from './area-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { STACK_FIELD_END } from '../../constant/data';
+import { registerSymbolOverlapTransform } from '../../mark/transform/symbol-overlap';
+import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -58,15 +59,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   protected _sortDataByAxis: boolean = false;
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
-
-    const areaSpec = this._spec.area || {};
-
     const seriesMark = this._spec.seriesMark ?? 'area';
     const isAreaMarkVisible = this._isAreaVisible() || this._isLineVisible();
     // area
@@ -74,17 +66,14 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       AreaSeries.mark.area,
       {
         groupKey: this._seriesField,
-        isSeriesMark: isAreaMarkVisible && seriesMark !== 'point',
-        stateSort: areaSpec.stateSort
+        isSeriesMark: isAreaMarkVisible && seriesMark !== 'point'
       },
       {
-        ...progressive,
-        morphElementKey: this.getDimensionField()[0],
-        setCustomizedShape: areaSpec.customShape
+        morphElementKey: this.getDimensionField()[0]
       }
     ) as IAreaMark;
 
-    this.initSymbolMark(progressive, seriesMark === 'point');
+    this.initSymbolMark(seriesMark === 'point');
   }
 
   initMarkStyle(): void {
@@ -282,8 +271,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     return [this._areaMark, this._symbolMark, this._lineMark];
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this.reCompileSampling();
   }
 
@@ -307,8 +296,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 mixin(AreaSeries, LineLikeSeriesMixin);
 
 export const registerAreaSeries = () => {
-  registerSampleTransform();
-  registerMarkOverlapTransform();
+  registerDataSamplingTransform();
+  registerSymbolOverlapTransform();
   registerLineMark();
   registerAreaMark();
   registerSymbolMark();

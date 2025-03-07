@@ -189,8 +189,8 @@ export interface ILayoutItem {
   getLastComputeOutBounds: () => IBoundsLike;
 
   /** 生命周期 */
-  onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: any) => void;
-  onLayoutEnd: (option: any) => void;
+  onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect) => void;
+  onLayoutEnd: () => void;
 
   /**
    * 更新元素布局的 layoutRect 大小，用来更新指定布局空间

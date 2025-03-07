@@ -4,11 +4,11 @@
  */
 
 import { AbstractComponent, Point } from '@visactor/vrender-components';
-import { Factory } from '@visactor/vgrammar-core';
 import { SeriesBreakAttrs, SeriesBreakData } from './type';
 import { createGroup, createPath, IGraphic } from '@visactor/vrender-core';
 import { isEmpty, isNumberClose, isValid } from '@visactor/vutils';
 import { SERIES_BREAK } from './constant';
+import { Factory } from '@visactor/vchart';
 
 /**
  * 求锯齿的路径（一个锯齿由向上和向下的两个线段组成）

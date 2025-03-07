@@ -6,9 +6,11 @@ import { mixin } from '@visactor/vutils';
 import type { ICartesianSymlogAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
-import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
-import { continuousTicks } from '@visactor/vrender-components';
+import { continuousTicks, LineAxis, LineAxisGrid } from '@visactor/vrender-components';
 import { registerDataSetInstanceTransform } from '../../../data/register';
+import type { VRenderComponentOptions } from '../../../core/interface';
+import type { IGroup } from '@visactor/vrender-core';
+import { AxisEnum, GridEnum } from '../interface/common';
 
 export interface CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition'>,
@@ -50,8 +52,12 @@ export class CartesianSymlogAxis<
 mixin(CartesianSymlogAxis, LinearAxisMixin);
 
 export const registerCartesianSymlogAxis = () => {
-  registerLineAxis();
-  registerLineGrid();
+  Factory.registerGraphicComponent(AxisEnum.lineAxis, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxis(attrs, options) as unknown as IGroup;
+  });
+  Factory.registerGraphicComponent(GridEnum.lineAxisGrid, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxisGrid(attrs, options) as unknown as IGroup;
+  });
   registerAxis();
   Factory.registerComponent(CartesianSymlogAxis.type, CartesianSymlogAxis);
 };

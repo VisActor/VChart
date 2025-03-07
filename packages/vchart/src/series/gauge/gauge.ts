@@ -5,7 +5,6 @@ import type { IGaugeSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { SEGMENT_FIELD_END, SEGMENT_FIELD_START } from '../../constant/data';
-import type { Datum } from '@visactor/vgrammar-core';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { gaugeSeriesMark } from './constant';
@@ -17,6 +16,7 @@ import { GaugeSeriesSpecTransformer } from './gauge-transformer';
 import { registerArcMark } from '../../mark/arc';
 import { registerPolarLinearAxis } from '../../component/axis/polar';
 import { AttributeLevel } from '../../constant/attribute';
+import type { Datum } from '../../typings/common';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -117,8 +117,8 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     return style;
   }
 
-  initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void {
-    super.initMarkStyleWithSpec(mark, spec, key);
+  initMarkStyleWithSpec(mark?: IMark, spec?: any): void {
+    super.initMarkStyleWithSpec(mark, spec);
     if (mark && mark.name === SeriesMarkNameEnum.segment) {
       // radius 配置需要额外处理比例值
       const segmentSpec = this.getSpec()[SeriesMarkNameEnum.segment];

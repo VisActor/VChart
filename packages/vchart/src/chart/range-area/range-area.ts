@@ -5,6 +5,7 @@ import { Factory } from '../../core/factory';
 import type { IRangeAreaChartSpec } from './interface';
 import { RangeAreaChartSpecTransformer } from './range-area-transformer';
 import { BaseChart } from '../base';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class RangeAreaChart<T extends IRangeAreaChartSpec = IRangeAreaChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.rangeArea;
@@ -16,6 +17,7 @@ export class RangeAreaChart<T extends IRangeAreaChartSpec = IRangeAreaChartSpec>
 }
 
 export const registerRangeAreaChart = () => {
+  registerDimensionHover();
   registerRangeAreaSeries();
   Factory.registerChart(RangeAreaChart.type, RangeAreaChart);
 };

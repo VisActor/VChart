@@ -137,7 +137,7 @@ describe('theme switch test', () => {
     await vchart.renderAsync();
     // await vchart.setCurrentTheme('light');
     // sepc
-    expect(vchart.getCompiler().getVGrammarView().background()).toBe('red');
+    expect(vchart.getCompiler().getStage().background).toBe('red');
   });
 
   it('set theme in spec and theme is an object', async () => {
@@ -178,7 +178,7 @@ describe('theme switch test', () => {
 
     await vchart.renderAsync();
     // spec
-    expect(vchart.getCompiler().getVGrammarView().background()).toBe('red');
+    expect(vchart.getCompiler().getStage().background).toBe('red');
     expect(vchart.getCurrentThemeName()).toBe('light');
   });
 });

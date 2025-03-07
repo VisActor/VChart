@@ -4,8 +4,8 @@ import type { IWordCloudSeriesSpec } from './interface';
 import { BaseWordCloudSeries } from './base';
 import { Factory } from '../../core/factory';
 import { registerWordCloudAnimation } from './animation';
-import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
-import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-shape';
+import { wordcloudTransform } from '@visactor/vgrammar-wordcloud';
+import { wordcloudShapeTransform } from '@visactor/vgrammar-wordcloud-shape';
 import { registerTextMark } from '../../mark/text';
 
 export class WordCloudSeries<T extends IWordCloudSeriesSpec = IWordCloudSeriesSpec> extends BaseWordCloudSeries<T> {
@@ -14,13 +14,17 @@ export class WordCloudSeries<T extends IWordCloudSeriesSpec = IWordCloudSeriesSp
 }
 
 export const registerWordCloudSeries = () => {
-  registerWordCloudTransforms();
+  Factory.registerGrammarTransform('wordcloud', {
+    transform: wordcloudTransform
+  });
   registerTextMark();
   registerWordCloudAnimation();
   Factory.registerSeries(WordCloudSeries.type, WordCloudSeries);
 };
 
 export const registerWordCloudShapeSeries = () => {
-  registerWordCloudShapeTransforms();
+  Factory.registerGrammarTransform('wordcloudShape', {
+    transform: wordcloudShapeTransform
+  });
   registerWordCloudSeries();
 };

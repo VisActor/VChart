@@ -25,6 +25,8 @@ import type { IModel, IModelSpecInfo } from '../../model/interface';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
 import { getSpecInfo } from '../util';
+import { getDatumOfGraphic } from '../../util';
+import type { IMarkGraphic } from '../../mark/interface';
 
 export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type = ComponentTypeEnum.mapLabel;
@@ -120,31 +122,27 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
       return;
     }
 
-    const view = this.getCompiler()?.getVGrammarView();
-
-    if (!view) {
-      return;
-    }
-
     if (trigger === 'hover') {
-      view.addEventListener('element-highlight:start', (params: any) => {
-        if (this._isRelativeSeries(params.options.seriesId)) {
-          this._updateDatum(params.elements[0].getDatum());
+      this.event.on('element-highlight:start', (params: any) => {
+        const g = params.graphics[0];
+        if (this._isRelativeSeries(g)) {
+          this._updateDatum(getDatumOfGraphic(g) as Datum[]);
         }
       });
-      view.addEventListener('element-highlight:reset', (params: any) => {
-        if (this._isRelativeSeries(params.options.seriesId)) {
+      this.event.on('element-highlight:reset', (params: any) => {
+        if (this._activeDatum) {
           this._updateDatum(null);
         }
       });
     } else if (trigger === 'click') {
-      view.addEventListener('element-select:start', (params: any) => {
-        if (this._isRelativeSeries(params.options.seriesId)) {
-          this._updateDatum(params.elements[0].getDatum());
+      this.event.on('element-select:start', (params: any) => {
+        const g = params.graphics[0];
+        if (this._isRelativeSeries(g)) {
+          this._updateDatum(getDatumOfGraphic(g) as Datum[]);
         }
       });
-      view.addEventListener('elementSelectReset', (params: any) => {
-        if (this._isRelativeSeries(params.options.seriesId)) {
+      this.event.on('elementSelectReset', (params: any) => {
+        if (this._activeDatum) {
           this._updateDatum([]);
         }
       });
@@ -429,8 +427,8 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     return model?.id === id;
   }
 
-  private _isRelativeSeries(model: IModel) {
-    return model?.id === this._series.id;
+  private _isRelativeSeries(g: IMarkGraphic) {
+    return g.context?.modelId === this._series.id;
   }
 
   onRender(ctx: any): void {

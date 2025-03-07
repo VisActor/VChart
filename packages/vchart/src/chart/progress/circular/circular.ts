@@ -8,6 +8,7 @@ import type { AdaptiveSpec } from '../../../typings';
 import { BaseChart } from '../../base';
 import { StackChartMixin } from '../../stack';
 import { mixin } from '@visactor/vutils';
+import { registerDimensionHover } from '../../../interaction/triggers/dimension-hover';
 
 export class CircularProgressChart<T extends ICircularProgressChartSpec = ICircularProgressChartSpec> extends BaseChart<
   AdaptiveSpec<T, 'axes'>
@@ -23,6 +24,7 @@ export class CircularProgressChart<T extends ICircularProgressChartSpec = ICircu
 mixin(CircularProgressChart, StackChartMixin);
 
 export const registerCircularProgressChart = () => {
+  registerDimensionHover();
   registerCircularProgressSeries();
   Factory.registerChart(CircularProgressChart.type, CircularProgressChart);
 };

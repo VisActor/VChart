@@ -184,15 +184,9 @@ export class CirclePackingSeries<
       return;
     }
 
-    const circlePacking = this._createMark(
-      CirclePackingSeries.mark.circlePacking,
-      {
-        isSeriesMark: true
-      },
-      {
-        setCustomizedShape: this._spec.circlePacking?.customShape
-      }
-    ) as IArcMark;
+    const circlePacking = this._createMark(CirclePackingSeries.mark.circlePacking, {
+      isSeriesMark: true
+    }) as IArcMark;
 
     this._circlePackingMark = circlePacking;
   }
@@ -290,8 +284,8 @@ export class CirclePackingSeries<
     }
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._rawData.reRunAllTransform();
   }
 

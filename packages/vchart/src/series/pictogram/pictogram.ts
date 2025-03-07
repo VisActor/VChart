@@ -8,7 +8,6 @@ import { SeriesTypeEnum } from '../interface';
 import type { IPictogramSeriesSpec } from './interface';
 import { PictogramSeriesMark } from './constant';
 import { getSVGSource, registerSVGSource, svgSourceMap, unregisterSVGSource } from './svg-source';
-import { SeriesData } from '../base/series-data';
 import { lookup } from '../../data/transforms/lookup';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { GroupMark } from '../../mark';
@@ -19,16 +18,18 @@ import type { IMatrix } from '@visactor/vutils';
 import { Bounds, Matrix, isValid, merge } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
-import type { Group } from '@visactor/vrender-core';
-import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
-import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import type { GraphicEventType, Group, IGroup } from '@visactor/vrender-core';
+import { ChartEvent, HOOK_EVENT } from '../../constant/event';
+import type { IHoverSpec, ISelectSpec } from '../../interaction/interface/spec';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
-import type { EventType } from '@visactor/vgrammar-core';
-import { registerElementHighlightByGraphicName, registerElementSelectByGraphicName } from '@visactor/vgrammar-core';
 import type { IGroupMark, IMark, ITextMark } from '../../mark/interface';
 import { PictogramSeriesTooltipHelper } from './tooltip-helper';
 import { graphicAttributeTransform, pictogram } from '../../data/transforms/pictogram';
 import type { IPoint } from '../../typings/coordinate';
+import { CompilableData } from '../../compile/data';
+import { registerElementHighlightByGraphicName } from '../../interaction/triggers/element-highlight-by-graphic-name';
+import { registerElementSelectByGraphicName } from '../../interaction/triggers/element-select-by-graphic-name';
+import { TRIGGER_TYPE_ENUM } from '../../interaction/triggers/enum';
 
 export interface SVGParsedElementExtend extends SVGParsedElement {
   _finalAttributes: Record<string, any>;
@@ -86,34 +87,29 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     this._markAttributeContext.dataToPosition = this.dataToPosition.bind(this);
   }
 
-  protected _defaultHoverConfig(selector: string[], finalHoverSpec: IHoverSpec) {
+  protected _defaultHoverConfig(finalHoverSpec: IHoverSpec) {
     return {
-      seriesId: this.id,
-      regionId: this._region.id,
-      selector,
-      type: 'element-highlight-by-graphic-name',
+      type: TRIGGER_TYPE_ENUM.ELEMENT_HIGHLIGHT_BY_GRPHIC_NAME,
       // trigger: finalHoverSpec.trigger as EventType,
-      trigger: finalHoverSpec.trigger as EventType,
-      triggerOff: 'pointerout' as EventType,
+      trigger: finalHoverSpec.trigger as GraphicEventType,
+      triggerOff: 'pointerout' as GraphicEventType,
       blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
       highlightState: STATE_VALUE_ENUM.STATE_HOVER
     };
   }
 
-  protected _defaultSelectConfig(selector: string[], finalSelectSpec: ISelectSpec) {
+  protected _defaultSelectConfig(finalSelectSpec: ISelectSpec) {
     const isMultiple = finalSelectSpec.mode === 'multiple';
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
       : isMultiple
       ? ['empty', 'self']
       : ['empty', finalSelectSpec.trigger];
+
     return {
-      type: 'element-select-by-graphic-name',
-      seriesId: this.id,
-      regionId: this._region.id,
-      selector,
-      trigger: finalSelectSpec.trigger as EventType,
-      triggerOff: triggerOff as EventType,
+      type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT_BY_GRPHIC_NAME,
+      trigger: finalSelectSpec.trigger as GraphicEventType,
+      triggerOff: triggerOff as GraphicEventType,
       reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
       state: STATE_VALUE_ENUM.STATE_SELECTED,
       isMultiple
@@ -126,9 +122,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       {
         groupKey: this.getDimensionField()[0],
         isSeriesMark: true,
-        skipBeforeLayouted: true,
-        dataView: this._mapViewData.getDataView(),
-        dataProductId: this._mapViewData.getProductId()
+        skipBeforeLayouted: true
       },
       {
         morph: shouldMarkDoMorph(this._spec, PictogramSeries.mark.pictogram.name)
@@ -138,7 +132,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     if (!this._pictogramMark) {
       return;
     }
-
+    this._pictogramMark.setData(this._mapViewData);
     this._pictogramMark.setUserId(PictogramSeries.mark.pictogram.name);
     for (const element of this._mapViewData.getDataView().latestData as SVGParserResult['elements']) {
       const { graphicType: type, name, parent, id, _nameFromParent, _uniqueId } = element;
@@ -149,8 +143,6 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
           groupKey: _uniqueId,
           isSeriesMark: false,
           skipBeforeLayouted: true,
-          dataView: this._mapViewData.getDataView(),
-          dataProductId: this._mapViewData.getProductId(),
           parent: (this._idToMark.get(parent?._uniqueId) as IGroupMark) ?? this._pictogramMark
         },
         {
@@ -159,6 +151,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       );
 
       if (mark) {
+        mark.setData(this._mapViewData);
         mark.setUserId(_uniqueId); // id 必须唯一，但无法控制 svg 中元素有重复 id， 这里做一个保护
         this._idToMark.set(_uniqueId, mark);
         if (mark.type !== 'group') {
@@ -187,13 +180,12 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       isSeriesMark: false,
       parent: this._pictogramMark,
       groupKey: '_uniqueId',
-      skipBeforeLayouted: true,
-      depend: this.getMarksWithoutRoot()
+      skipBeforeLayouted: true
     }) as ITextMark;
 
     if (labelMark) {
       this._labelMark = labelMark;
-      this._labelMark.setDataView(this._mapViewData.getDataView());
+      this._labelMark.setData(this._mapViewData);
     }
   }
 
@@ -252,7 +244,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
         // 描边粗细跟随缩放倍数
         this.setMarkStyle(mark, { keepStrokeScale: true }, 'normal', AttributeLevel.Built_In);
         if (valid) {
-          this.initMarkStyleWithSpec(mark, merge({}, this._spec.pictogram, this._spec[mark.name]));
+          this.initMarkStyleWithSpec(mark, merge({}, this._spec.pictogram, (this._spec as any)[mark.name]));
           this.setMarkStyle(mark, attributes, 'normal', AttributeLevel.Series);
           mark.setPostProcess('fill', (result, datum) => {
             return isValid(result) ? result : this._spec.defaultFillColor;
@@ -297,11 +289,11 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     let bounds = new Bounds();
     if (global) {
       mark.forEach(m => {
-        bounds = bounds.union(m.getProduct().getGroupGraphicItem().globalAABBBounds);
+        bounds = bounds.union(m.getGraphics()[0].globalAABBBounds);
       });
     } else {
       mark.forEach(m => {
-        bounds = bounds.union(m.getProduct().getBounds());
+        bounds = bounds.union(m.getProduct().AABBBounds);
       });
     }
 
@@ -333,8 +325,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     return this.getPictogramRootGraphic()?.transMatrix as IMatrix;
   }
 
-  getPictogramRootGraphic(): Group {
-    return this._pictogramMark.getProduct()?.getGroupGraphicItem();
+  getPictogramRootGraphic(): IGroup {
+    return this._pictogramMark.getProduct();
   }
 
   initData() {
@@ -378,15 +370,15 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
         }
       });
     this._data?.getDataView().target.addListener('change', svgData.reRunAllTransform);
-    this._mapViewData = new SeriesData(this._option, svgData);
+    this._mapViewData = new CompilableData(this._option, svgData);
   }
 
   mapViewDataUpdate() {
     this._mapViewData.updateData();
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._mapViewData?.getDataView().reRunAllTransform();
   }
 
@@ -417,7 +409,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     super.initEvent();
     this._mapViewData.getDataView()?.target.addListener('change', this.mapViewDataUpdate.bind(this));
     // 必须在有 vrender mark 的时机后更新
-    this.event.on(VGRAMMAR_HOOK_EVENT.AFTER_MARK_LAYOUT_END, this.updateSVGSize.bind(this));
+    this.event.on(ChartEvent.afterMarkLayoutEnd, this.updateSVGSize.bind(this));
   }
 
   handleZoom(e: ZoomEventParam) {

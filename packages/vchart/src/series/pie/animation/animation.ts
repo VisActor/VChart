@@ -1,8 +1,9 @@
-import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar-core';
+import type { IAnimationTypeConfig } from '../../../animation/interface';
 import { AnimationStateEnum } from '../../../animation/interface';
 import type { Datum } from '../../../typings';
 import { Factory } from '../../../core/factory';
 import type { IPieAnimationParams, PieAppearPreset } from '../interface';
+import type { IGraphic } from '@visactor/vrender-core';
 
 /**
  * grow生长option
@@ -13,7 +14,7 @@ import type { IPieAnimationParams, PieAppearPreset } from '../interface';
  * @returns
  */
 export function pieGrowOption(pieParams: IPieAnimationParams, isOverall: boolean, state: AnimationStateEnum) {
-  return (datum: Datum, element: IElement, params: AnimationStateEnum) => {
+  return (datum: Datum, element: IGraphic, params: AnimationStateEnum) => {
     if (isOverall) {
       if (pieParams.growField === 'radius') {
         return {

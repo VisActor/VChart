@@ -14,11 +14,11 @@ export abstract class CompilableBase implements ICompilable {
     this.getCompiler = this._option.getCompiler;
   }
 
-  getVGrammarView() {
-    return this.getCompiler()?.getVGrammarView();
-  }
-
   abstract compile(): void;
+
+  getStage() {
+    return this.getCompiler()?.getStage();
+  }
 
   release() {
     this._option = null;

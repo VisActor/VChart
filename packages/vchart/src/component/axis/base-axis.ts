@@ -15,7 +15,7 @@ import type {
 } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
-import type { IAxis, ICommonAxisSpec, ITick } from './interface';
+import { AxisEnum, GridEnum, type IAxis, type ICommonAxisSpec, type ITick } from './interface';
 import { ComponentTypeEnum, type IComponentOption } from '../interface';
 import { eachSeries, getSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
@@ -42,7 +42,6 @@ import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic }
 import type { ITransformOptions } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataView } from '@visactor/vdataset';
-import { GridEnum } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
@@ -54,6 +53,7 @@ import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';
 import type { IComponentMark } from '../../mark/interface/mark';
+import type { ICompilableMark } from '../../compile/mark';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -135,10 +135,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   getVRenderComponents() {
-    return [
-      this._axisMark?.getProduct()?.getGroupGraphicItem(),
-      this._gridMark?.getProduct()?.getGroupGraphicItem()
-    ].filter(isValid);
+    return [this._axisMark?.getProduct(), this._gridMark?.getProduct()].filter(isValid);
   }
 
   created() {
@@ -158,15 +155,15 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       const axisMark = this._createMark(
         { type: 'component', name: `axis-${this.getOrient()}` },
         {
-          componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
-          mode: this._spec.mode,
-          noSeparateStyle: true
+          componentType: this.getOrient() === 'angle' ? AxisEnum.circleAxis : AxisEnum.lineAxis,
+          mode: this._spec.mode
         },
         {
           skipTheme: true // skip theme of vgrammar to avoid merge
         }
       );
-      this._axisMark = axisMark;
+      this._updateTickDataMarks(axisMark);
+      this._axisMark = axisMark as IComponentMark;
       axisMark.setMarkConfig({ zIndex: this.layoutZIndex });
       if (isValid(this._spec.id)) {
         axisMark.setUserId(this._spec.id);
@@ -179,19 +176,20 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           { type: 'component', name: `axis-${this.getOrient()}-grid` },
           {
             componentType: this.getOrient() === 'angle' ? GridEnum.circleAxisGrid : GridEnum.lineAxisGrid,
-            mode: this._spec.mode,
-            noSeparateStyle: true
+            mode: this._spec.mode
           },
           {
             skipTheme: true
           }
         );
+
+        this._updateTickDataMarks(gridMark);
         gridMark.setMarkConfig({
           zIndex: this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid,
           interactive: false // 轴网格线关闭交互
         });
         this._marks.addMark(gridMark);
-        this._gridMark = gridMark;
+        this._gridMark = gridMark as IComponentMark;
       }
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画
@@ -371,12 +369,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // 留给各个类型的 axis 来 override
   }
 
-  onLayoutEnd(ctx: any): void {
+  onLayoutEnd(): void {
     const changed = this.updateScaleRange();
 
     this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
 
-    super.onLayoutEnd(ctx);
+    super.onLayoutEnd();
   }
 
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
@@ -404,6 +402,14 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       this._tickData.forEach(tickData => {
         tickData.getDataView().reRunAllTransform();
         tickData.updateData();
+      });
+    }
+  }
+
+  protected _updateTickDataMarks(m: ICompilableMark) {
+    if (this._tickData) {
+      this._tickData.forEach(d => {
+        d.addRelatedMark(m);
       });
     }
   }
@@ -631,11 +637,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       alternateColor: spec.grid.alternateColor,
       alignWithLabel: spec.grid.alignWithLabel,
       style: isFunction(spec.grid.style)
-        ? () => {
-            return (datum: Datum, index: number) => {
-              const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
-              return transformToGraphic(mergeSpec({}, this._theme.grid?.style, style));
-            };
+        ? (datum: Datum, index: number) => {
+            const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
+            return transformToGraphic(mergeSpec({}, this._theme.grid?.style, style));
           }
         : transformToGraphic(spec.grid.style),
       subGrid:
@@ -711,7 +715,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     }
 
     if (this._axisMark) {
-      return this._axisMark.getProduct()?.getGroupGraphicItem()?.attribute.items;
+      return (this._axisMark.getComponent() as any)?.attribute.items;
     }
   }
 }

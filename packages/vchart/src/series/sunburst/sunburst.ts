@@ -237,16 +237,9 @@ export class SunburstSeries extends PolarSeries<any> {
       return;
     }
     // SunburstMark
-    const sunburstMark = this._createMark(
-      SunburstSeries.mark.sunburst,
-      {
-        isSeriesMark: true,
-        stateSort: this._spec.sunburst?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.sunburst?.customShape
-      }
-    ) as IArcMark;
+    const sunburstMark = this._createMark(SunburstSeries.mark.sunburst, {
+      isSeriesMark: true
+    }) as IArcMark;
     this._sunburstMark = sunburstMark;
   }
 
@@ -360,8 +353,8 @@ export class SunburstSeries extends PolarSeries<any> {
     }
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._rawData.reRunAllTransform();
   }
 

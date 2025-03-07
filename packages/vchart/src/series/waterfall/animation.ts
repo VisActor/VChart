@@ -1,8 +1,8 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
-import type { IBarAnimationParams, BarAppearPreset } from '../bar/interface';
+import type { IBarAnimationParams } from '../bar/interface';
 import { barGrowIn, barGrowOut } from '../bar/animation';
 import { Factory } from '../../core/factory';
 import type { WaterfallAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 const Appear_FadeIn: IAnimationTypeConfig = {
   type: 'fadeIn'

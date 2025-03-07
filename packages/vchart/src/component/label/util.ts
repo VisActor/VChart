@@ -30,7 +30,7 @@ export function defaultLabelConfig(rule: string, labelInfo: ILabelInfo) {
   if (labelSpec.overlap && !isObject(labelSpec.overlap)) {
     labelSpec.overlap = {};
   }
-  const processor = labelRuleMap[rule] ?? labelRuleMap.point;
+  const processor = (labelRuleMap as any)[rule] ?? labelRuleMap.point;
 
   if (labelInfo.series.type === SeriesTypeEnum.sankey) {
     return sankeyLabel(labelInfo);
@@ -46,17 +46,23 @@ export function textAttribute(
 ) {
   const { labelMark, series } = labelInfo;
   const field = series.getMeasureField()[0];
-  const textAttribute = { text: datum[field], data: datum, textType: labelInfo.labelSpec.textType ?? 'text' } as any;
+  const textAttribute = labelMark.getAttributesOfState(datum);
 
-  const attributes = Object.keys(labelMark.stateStyle.normal);
-
-  for (const key of attributes) {
-    const attr = labelMark.getAttribute(key as any, datum);
-    textAttribute[key] = attr;
+  if (!('text' in textAttribute)) {
+    textAttribute.text = textAttribute.text ?? datum[field];
   }
+  if (!('textType' in textAttribute)) {
+    textAttribute.textType = labelInfo.labelSpec.textType ?? 'text';
+  }
+  textAttribute.data = datum;
 
   if (series.type !== SeriesTypeEnum.sankey) {
-    const { formatFunc, args } = getFormatFunction(formatMethod, formatter, textAttribute.text, datum);
+    const { formatFunc, args } = getFormatFunction(
+      formatMethod,
+      formatter,
+      textAttribute.text as string | number,
+      datum
+    );
     if (formatFunc) {
       textAttribute._originText = textAttribute.text;
       textAttribute.text = formatFunc(...args, { series });
@@ -86,11 +92,12 @@ export function symbolLabel(labelInfo: ILabelInfo) {
   const position = uniformLabelPosition(labelSpec.position) ?? defaultPosition;
 
   // encode overlap config
-  let overlap;
+  let overlap: OverlapAttrs | boolean;
   if (labelSpec.overlap === false) {
     overlap = false;
   } else {
     overlap = {
+      // clampForce: true,
       strategy: (labelSpec.overlap as OverlapAttrs)?.strategy ?? symbolLabelOverlapStrategy(),
       avoidBaseMark: position !== 'center'
     };
@@ -103,6 +110,7 @@ export function lineDataLabel(labelInfo: ILabelInfo) {
   const result = symbolLabel(labelInfo);
   if (!isBoolean(result.overlap)) {
     result.overlap.avoidBaseMark = false;
+    result.overlap.clampForce = false;
   }
   return result;
 }
@@ -211,6 +219,7 @@ export function pointLabel(labelInfo: ILabelInfo) {
     overlap = false;
   } else {
     overlap = {
+      clampForce: false,
       avoidBaseMark: false
     };
   }
@@ -305,7 +314,7 @@ export function stackLabel(
               : 'top';
         }
         attributeTransform?.(label, datum, attribute);
-        return createText({ ...attribute, id: label.id });
+        return createText({ ...attribute, id: label.id } as any);
       });
     },
     dataFilter: (labels: LabelItem[]) => {
@@ -363,7 +372,14 @@ export function LineLabel(labelInfo: ILabelInfo) {
           [DEFAULT_DATA_SERIES_FIELD]: series.getSeriesKeys()[0]
         }
       ];
-  return { position: labelSpec.position ?? 'end', data };
+  return {
+    position: labelSpec.position ?? 'end',
+    data,
+    overlap: {
+      avoidBaseMark: false,
+      clampForce: false
+    }
+  };
 }
 
 export function sankeyLabel(labelInfo: ILabelInfo) {

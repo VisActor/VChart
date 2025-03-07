@@ -5,6 +5,7 @@ import { registerBoxplotSeries } from '../../series/box-plot/box-plot';
 import { Factory } from '../../core/factory';
 import { BoxPlotChartSpecTransformer } from './box-plot-transformer';
 import { BaseChart } from '../base';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
 
 export class BoxPlotChart<T extends IBoxPlotChartSpec = IBoxPlotChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.boxPlot;
@@ -16,6 +17,7 @@ export class BoxPlotChart<T extends IBoxPlotChartSpec = IBoxPlotChartSpec> exten
 }
 
 export const registerBoxplotChart = () => {
+  registerDimensionHover();
   registerBoxplotSeries();
   Factory.registerChart(BoxPlotChart.type, BoxPlotChart);
 };

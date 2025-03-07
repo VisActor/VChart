@@ -1,9 +1,8 @@
-import { registerTextGraphic } from '@visactor/vgrammar-core';
 import { Factory } from './../core/factory';
 import type { IMark } from './interface/common';
 import { MarkTypeEnum } from './interface/type';
-import { TextMark } from './text';
-import type { ILabelMark } from './interface/mark';
+import { registerTextMark, TextMark } from './text';
+import type { IComponentMark, ILabelMark } from './interface/mark';
 
 export class LabelMark extends TextMark implements ILabelMark {
   static readonly type = MarkTypeEnum.text;
@@ -30,16 +29,20 @@ export class LabelMark extends TextMark implements ILabelMark {
     }
   }
 
-  private _component: IMark;
+  private _component: IComponentMark;
   getComponent() {
     return this._component;
   }
-  setComponent(component: IMark) {
+  setComponent(component: IComponentMark) {
     this._component = component;
+  }
+
+  render(): void {
+    // no need to render
   }
 }
 
 export const registerLabelMark = () => {
+  registerTextMark();
   Factory.registerMark(LabelMark.constructorType, LabelMark);
-  registerTextGraphic();
 };
