@@ -1,26 +1,40 @@
 import { IPlayerSpec } from '@visactor/vchart';
-import { Datum } from '@visactor/vchart/src/typings/common';
 import { ITextGraphicAttribute } from '@visactor/vrender-core';
 
-type IterationData = Datum[];
+type IterationNodesData = {
+  index : number,
+  x : number,
+  y : number,
+  label: string,
+  prediction: string,
+  confidence: number
+}[];
+
+type IterationEdgesData = {
+  index: number,
+  x0: number,
+  y0: number,
+  x1: number,
+  y1: number,
+  type: number,
+  color: string
+}[];
+
 type ISequenceScatterData = {
   /**
    * key: 迭代信息
    * value: 每个迭代的数据
    */
-  [Iteration: string]: IterationData;
-
-  // TODO: 支持边的绘制
-  // [Iteration: string]: {
-  //   /**
-  //    * 节点数据
-  //    */
-  //   nodes: IterationNodesData;
-  //   /**
-  //    * 边数据
-  //    */
-  //   edges: IterationEdgesData;
-  // };
+  [Iteration: string]: {
+    /**
+     * 节点数据
+     */
+    nodes: IterationNodesData;
+    /**
+     * 边数据
+     */
+    edges: IterationEdgesData;
+  };
 };
 
 export interface ISequenceScatterSpec {
@@ -28,6 +42,10 @@ export interface ISequenceScatterSpec {
    * 图表类型
    */
   type: 'sequenceScatter';
+  /**
+   * 任务类型
+   */
+  taskType: string;
   /**
    * 数据
    */
@@ -51,4 +69,8 @@ export interface ISequenceScatterSpec {
     visible: boolean;
     style: ITextGraphicAttribute;
   };
+  /**
+   * 画布范围 
+   */
+  scope: [number, number, number, number];
 }
