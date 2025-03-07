@@ -112,7 +112,7 @@ const spec = {
   data: chartData,
   xField: 'x',
   yField: 'y',
-
+  
   infoLabel: {
     visible: true,
     style: {
@@ -138,6 +138,18 @@ const run = () => {
       console.error(err);
     }
   });
+
+  // register events
+  cs.on('pointerover', { id: 'scatter-series' }, (e: { datum: { x: number; y:number }; }) => {
+      const pointX = e.datum?.x;
+      const pointY = e.datum?.y;
+      const endpoints = transformEdges(spec.data, pointX, pointY);
+      cs.updateDataSync('edges', endpoints);
+  });
+  cs.on('pointerout', { id: 'scatter-series' }, e => {
+      cs.updateDataSync('edges', []);  
+  });
+
   console.time('renderTime');
 
   cs.renderSync();
@@ -147,3 +159,21 @@ const run = () => {
   console.log(cs);
 };
 run();
+
+
+/*
+  Helper functions for preprocessing original data
+*/
+function transformEdges(specData, pointX, pointY) {
+  const endpoints: any[] = [];
+  Object.keys(specData).forEach(iter => {
+    const edges = specData[iter].edges;
+    edges.forEach(edge => {
+      if(pointX === edge.x0 && pointY === edge.y0){
+        endpoints.push({x: edge.x0, y: edge.y0, type: edge.type, index: edge.index, color: edge.color});
+        endpoints.push({x: edge.x1, y: edge.y1, type: edge.type, index: edge.index, color: edge.color});
+      }
+    })
+  })
+  return endpoints;
+}
