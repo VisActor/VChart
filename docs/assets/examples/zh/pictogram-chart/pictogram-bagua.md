@@ -3,7 +3,7 @@ category: examples
 group: pictogram chart
 title: 太极八卦图
 keywords: pictogramChart, interaction
-order: 26-6
+order: 26-7
 cover: https://raw.githubusercontent.com/xilzy/images/refs/heads/main/pictogram-bagua-cover.png
 option: pictogramChart
 ---
