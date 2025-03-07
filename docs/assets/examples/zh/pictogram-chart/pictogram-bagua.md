@@ -1,14 +1,44 @@
-import { default as VChart, registerPictogramChart } from '../../../../src/index';
-registerPictogramChart();
+---
+category: examples
+group: pictogram chart
+title: 太极八卦图
+keywords: pictogramChart, interaction
+order: 26-6
+cover: https://raw.githubusercontent.com/xilzy/images/refs/heads/main/pictogram-bagua-cover.png
+option: pictogramChart
+---
+
+# 象形图-太极八卦图
+
+太极八卦象图展示了先天八卦的各个元素。核心位置为太极图案，中间层为 8 个卦象，最外层为八个卦象的符号图案。卦象符号图案都有对应的五行属性。通过使用象形图，我们可以快速了解先天八卦的布局和元素分布情况，为先天八卦研究和分析提供参考。 鼠标悬停在图例上，可以显示一类属性元素的分布；鼠标悬停在图中的形状上，可以显示该形状对应的元素名称。
+
+## 关键配置
+
+- 在 SVG 文件中，为图元配置 `name` 属性，则在图表配置中可以通过 `name` 配置指定图元样式；
+- 通过 `VChart.registerSVG` 接口来注册 svg 资源；
+- `svg` 属性声明为注册的 svg 名称；
+- 数据：声明数据，数据格式为 `[{name: 'xxx', value:'xxx',category: 'xxx'}]`；
+- 颜色配置：以`category`为基本配色单位，阴阳使用黑白色系，五行对应黄绿蓝红褐五种色系，整体上采用柔和的颜色。
+- 交互：采用`element-active-by-legend`交互模式，可以通过点击图例进行交互，也可以通过鼠标悬停在具体元素区域进行交互，对于非核心区域，设置禁止交互模式。
+
+## 代码演示
+
+```javascript livedemo
+/** --在业务中使用时请添加以下代码-- */
+// 在业务中使用时, 请额外引入 registerPictogramChart 并执行
+// import { registerPictogramChart } from '@visactor/vchart';
+// registerPictogramChart();
+/** --在业务中使用时请添加以上代码-- */
+
+/** --在业务中使用时请删除以下代码-- */
+VCHART_MODULE.registerPictogramChart();
+/** --在业务中使用时请删除以上代码-- */
 
 // 加载本地SVG文件（确保路径正确）
 const response = await fetch(
   'https://raw.githubusercontent.com/xilzy/images/refs/heads/main/pictogram-bagua-name3.svg'
 );
 const shape = await response.text();
-
-// 定义容器ID常量（与HTML中的id一致）
-const CONTAINER_ID = 'chartContainer';
 
 const spec = {
   type: 'pictogram',
@@ -130,10 +160,17 @@ const spec = {
     }
   }
 };
-// 注册自定义SVG（标识符需与spec.svg字段对应）
+
+// 注册 SVG 图形资源，名称为bagua，图形数据为 shape
 VChart.registerSVG('bagua', shape);
+
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.on('click', console.log);
 vchart.renderSync();
+
 // 控制台调试用，实际部署时删除
 window['vchart'] = vchart;
+```
+
+## 相关教程
+
+[象形图](link)
