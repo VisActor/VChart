@@ -1,11 +1,5 @@
-/** --Add the following code when using in business context-- */
-// When using in business context, please additionally import
-import { registerPictogramChart } from '@visactor/vchart';
-import VChart from '../../../../src';
+import { default as VChart, registerPictogramChart } from '../../../../src/index';
 registerPictogramChart();
-/** --Add the above code when using in business context-- */
-// VCHART_MODULE.registerPictogramChart();
-/** --Delete the above code when using in business context-- */
 
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/pictogram/cat.svg');
 const shape = await response.text();
