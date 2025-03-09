@@ -2,9 +2,20 @@ import { registerSequenceScatter } from '../../../../src';
 import { VChart } from '@visactor/vchart';
 import trainingData1 from '../data/sequence-scatter/Training_process1/data.json';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import trainingData2 from '../data/sequence-scatter/Training_process2/data.json';
+// import trainingData2 from '../data/sequence-scatter/Training_process2/data.json';
+import bgimgData from '../data/sequence-scatter/Training_process1/bgimg_data.json';
 const origianlData = trainingData1;
 // const origianlData = trainingData2;
+const bgData = {};
+if (bgimgData) {
+  // 假设每个帧对应一个300x300的RGB矩阵
+  Object.keys(bgimgData).forEach(inter => {
+    // 确保原始数据中有这一帧
+    if (origianlData[inter]) {
+      bgData[inter] = bgimgData[inter];
+    }
+  });
+}
 const chartData = {};
 Object.keys(origianlData).forEach(inter => {
   chartData[inter] = [];
@@ -20,6 +31,8 @@ const spec = {
   data: chartData,
   xField: 'x',
   yField: 'y',
+
+  backgroundColors: bgData,
 
   infoLabel: {
     visible: true,
