@@ -51,4 +51,10 @@ export interface ISequenceScatterSpec {
     visible: boolean;
     style: ITextGraphicAttribute;
   };
+  /**
+   * 背景数据
+   */
+  backgroundColors: {
+    [Iteration: string]: any;
+  };
 }
