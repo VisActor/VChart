@@ -1,4 +1,4 @@
-import type { BaseLabelAttrs } from '@visactor/vrender-components';
+import type { BaseLabelAttrs, DataLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, Datum, IComposedTextMarkSpec, IFormatMethod, ITextMarkSpec } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { ILabelMark } from '../../mark/interface';
@@ -60,7 +60,13 @@ export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
   /** 交互样式配置 */
   state?: LabelStateStyle<Partial<IComposedTextMarkSpec>>;
   /** 标签防重叠配置 */
-  overlap?: BaseLabelAttrs['overlap'];
+  overlap?: BaseLabelAttrs['overlap'] & {
+    /**
+     * 防重叠区域边距
+     * @since 1.13.7
+     */
+    padding?: DataLabelAttrs['size']['padding'];
+  };
   /** 标签智能反色配置 */
   smartInvert?: BaseLabelAttrs['smartInvert'];
   /**
@@ -137,7 +143,12 @@ type LabelStateStyle<T> = {
 export type ITotalLabelSpec = Pick<
   ILabelSpec,
   'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType' | 'overlap'
->;
+> & {
+  /** 堆叠汇总标签的位置，在一组堆积图元的上方或下方
+   * @default 'top'
+   */
+  position?: 'top' | 'bottom';
+};
 
 export interface ITotalLabelTheme
   extends Pick<ILabelSpec, 'visible' | 'interactive' | 'offset' | 'overlap' | 'smartInvert' | 'animation'> {
