@@ -139,6 +139,11 @@ export interface IRankingListSpec {
      * 动画缓动效果
      */
     easing?: EasingType;
+    /**
+     * @param spec 经过rankingList转化后的vchart原始spec
+     * @description 获取vchart原始spec, 并根据业务自行添加转换逻辑
+     */
+    customTransformSpec?: (spec: any) => void;
   };
 
   /**

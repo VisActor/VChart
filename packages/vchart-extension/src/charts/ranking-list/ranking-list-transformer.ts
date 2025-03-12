@@ -28,8 +28,20 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   protected formatMap: { [key: string]: (text: string, ctx: any) => string } = {};
   protected orderCount: number;
 
+  protected isSpecValid(spec: any) {
+    const { xField, yField, data } = spec;
+    if (!xField || !yField || !data || data.length === 0) {
+      return false;
+    }
+    return true;
+  }
   transformSpec(spec: any): void {
     super.transformSpec(spec);
+    if (!this.isSpecValid(spec)) {
+      spec.series = [];
+      return;
+    }
+
     this.normalizeSpec(spec);
     this.upgradeTextMeasure(spec);
     this.upgradeFormatMap(spec);
@@ -58,6 +70,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     this.transformPaddingSpec(spec);
 
     // console.log('spec', spec);
+
+    spec.customTransformSpec?.(spec);
 
     super.transformSpec(spec);
   }

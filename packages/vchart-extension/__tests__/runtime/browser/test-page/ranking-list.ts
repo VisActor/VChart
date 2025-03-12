@@ -247,6 +247,11 @@ const spec = {
     enable: guiObject.animationUpdateEnable,
     interval: guiObject.animationNormalInterval,
     easing: guiObject.animationUpdateEasing
+  },
+  // animation: false,
+  customTransformSpec: spec => {
+    console.log('spec----', spec);
+    spec.axes[0].paddingOuter = 0.7;
   }
 };
 
@@ -261,6 +266,7 @@ const getPageCount = (arr, scrollSize, pageSize) => {
   }
   return pageOrder;
 };
+console.log('spec', spec);
 
 const run = () => {
   registerRankingList();
