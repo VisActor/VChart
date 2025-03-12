@@ -1,5 +1,5 @@
 import { Datum } from '@visactor/vchart/src/typings';
-import { cloneDeep, isArray } from '@visactor/vutils';
+import { isArray } from '@visactor/vutils';
 
 export const applyVisible = (spec: any, keyList: string[]) => {
   keyList.forEach(key => {
@@ -27,18 +27,18 @@ export const applyVisible = (spec: any, keyList: string[]) => {
 
 export const mergeObjects = (objA: any, objB: any) => {
   function recursiveMerge(target: any, source: any) {
-    const newTarget = cloneDeep(target);
-    for (const key in source) {
+    // 使用 Object.keys 只获取对象自身的可枚举属性
+    Object.keys(source).forEach(key => {
       if (typeof source[key] === 'object' && source[key] !== null) {
-        if (!newTarget.hasOwnProperty(key)) {
-          newTarget[key] = Array.isArray(source[key]) ? [] : {};
+        if (!target.hasOwnProperty(key)) {
+          target[key] = Array.isArray(source[key]) ? [] : {};
         }
-        recursiveMerge(newTarget[key], source[key]);
-      } else if (!newTarget.hasOwnProperty(key) && typeof target === 'object') {
-        newTarget[key] = source[key];
+        recursiveMerge(target[key], source[key]);
+      } else if (!target.hasOwnProperty(key) && typeof target === 'object') {
+        target[key] = source[key];
       }
-    }
-    return newTarget;
+    });
+    return target;
   }
   return recursiveMerge(objA, objB);
 };
