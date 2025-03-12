@@ -4,7 +4,7 @@ group: pictogram chart
 title: Map of China eating spicy degree pictograph  
 keywords: pictogramChart,map,comparison,china
 order: 26-6
-cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamapv.gif
+cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/4.gif
 option: pictogramChart
 ---
 
@@ -80,14 +80,7 @@ const chinamap_data = [
       const spec = {
         // The chart type is pictograph
         type: 'pictogram',
-        width: 1000,  
-        height: 500,  
-        padding: {     
-          top: 20,
-          bottom: 0,
-          left: 20,
-          right: 20
-        },
+        padding: 0,
         data: {
           // Unique identifier of the data
           id: 'data',
@@ -126,9 +119,7 @@ const chinamap_data = [
               scale: 'color',
               field: 'category'
             },
-          cursor: 'pointer', 
-          stroke: 'white',   
-          lineWidth: 0.5
+          cursor: 'pointer'
           },
           state: {
             //  The fill color of the legend hover is white
@@ -138,7 +129,7 @@ const chinamap_data = [
             // The effect of making the province map "spit out" when hovering
             hover: {
             transform: 'scale(4) rotate(40deg)', 
-            opacity: 0.4, 
+            opacity: 0.1, 
             shadowBlur: 80, 
             shadowColor: 'rgb(99, 0, 0)', 
             transition: {

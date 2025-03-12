@@ -4,7 +4,7 @@ group: pictogram chart
 title: 中国地图吃辣程度一览象形图       
 keywords: pictogramChart,map,comparison,china
 order: 26-6
-cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamapv.gif
+cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/4.gif
 option: pictogramChart
 ---
 
@@ -82,15 +82,8 @@ const chinamap_data = [
 // 定义图表配置对象
 const spec = {
   // 图表类型为象形图
-  type: 'pictogram',
-  width: 1000,  
-  height: 500,  
-  padding: {     
-    top: 20,
-    bottom: 0,
-    left: 20,
-    right: 20
-  },
+  type: 'pictogram', 
+  padding: 0,
   data: {
     // 数据的唯一标识符
     id: 'data',
@@ -130,9 +123,7 @@ const spec = {
         scale: 'color',
         field: 'category'
       },
-      cursor: 'pointer',
-      stroke: 'white',   
-      lineWidth: 0.5
+      cursor: 'pointer'
     },
     state: {
       // 图例悬停时的填充颜色为白色
@@ -142,7 +133,7 @@ const spec = {
         // 鼠标悬停时让省份地图“吐出来”的效果
       hover: {
       transform: 'scale(4) rotate(40deg)',
-      opacity: 0.4,
+      opacity: 0.1,
       shadowBlur: 80,
       shadowColor: 'rgb(99, 0, 0)',
       transition: {
