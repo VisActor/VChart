@@ -27,8 +27,14 @@ export const applyVisible = (spec: any, keyList: string[]) => {
 
 export const mergeObjects = (objA: any, objB: any) => {
   function recursiveMerge(target: any, source: any) {
-    Object.keys(source).forEach(key => {
-      if (key !== '__proto__' && key !== 'constructor' && typeof source[key] === 'object' && source[key] !== null) {
+    for (const key in source) {
+      if (
+        key !== '__proto__' &&
+        key !== 'constructor' &&
+        key !== 'prototype' &&
+        typeof source[key] === 'object' &&
+        source[key] !== null
+      ) {
         if (!target.hasOwnProperty(key)) {
           target[key] = Array.isArray(source[key]) ? [] : {};
         }
@@ -36,7 +42,7 @@ export const mergeObjects = (objA: any, objB: any) => {
       } else if (!target.hasOwnProperty(key) && typeof target === 'object') {
         target[key] = source[key];
       }
-    });
+    }
     return target;
   }
   return recursiveMerge(objA, objB);
