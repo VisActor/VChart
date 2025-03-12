@@ -4,7 +4,7 @@ group: pictogram chart
 title: 太极八卦图
 keywords: pictogramChart, interaction
 order: 26-7
-cover: https://raw.githubusercontent.com/xilzy/images/refs/heads/main/pictogram-bagua-cover.png
+cover: https://cdn.jsdelivr.net/gh/xilzy/images/pictogram-bagua-cover.png
 option: pictogramChart
 ---
 
@@ -34,10 +34,8 @@ option: pictogramChart
 VCHART_MODULE.registerPictogramChart();
 /** --在业务中使用时请删除以上代码-- */
 
-// 加载本地SVG文件（确保路径正确）
-const response = await fetch(
-  'https://raw.githubusercontent.com/xilzy/images/refs/heads/main/pictogram-bagua-name3.svg'
-);
+// 加载SVG文件（确保路径正确）
+const response = await fetch('https://cdn.jsdelivr.net/gh/xilzy/images/pictogram-bagua-name4.svg');
 const shape = await response.text();
 
 const spec = {
@@ -46,26 +44,26 @@ const spec = {
     id: 'data',
     // 八卦数据配置,中心阴阳可分为正负两类，外围八卦对应五行属性分类
     values: [
-      { name: 'yin', value: '阴', category: '阴' },
-      { name: 'yang', value: '阳', category: '阳' },
-      { name: 'yao_yin', value: '爻阴', category: '阴' },
-      { name: 'yao_yang', value: '爻阳', category: '阳' },
-      { name: 'tian', value: '天', category: '金' },
-      { name: 'feng', value: '风', category: '木' },
-      { name: 'shui', value: '水', category: '水' },
-      { name: 'shan', value: '山', category: '土' },
-      { name: 'di', value: '地', category: '土' },
-      { name: 'lei', value: '雷', category: '木' },
-      { name: 'huo', value: '火', category: '火' },
-      { name: 'ze', value: '泽', category: '金' },
-      { name: 'qian', value: '乾', category: '金' },
-      { name: 'xun', value: '巽', category: '木' },
-      { name: 'kan', value: '坎', category: '水' },
-      { name: 'gen', value: '艮', category: '土' },
-      { name: 'kun', value: '坤', category: '土' },
-      { name: 'zhen', value: '震', category: '木' },
-      { name: 'li', value: '离', category: '火' },
-      { name: 'dui', value: '兑', category: '金' }
+      { name: 'Yin', value: '阴', category: '阴' },
+      { name: 'Yang', value: '阳', category: '阳' },
+      { name: 'Yin_Yao', value: '爻阴', category: '阴' },
+      { name: 'Yang_Yao', value: '爻阳', category: '阳' },
+      { name: 'Heaven', value: '天', category: '金' },
+      { name: 'Wind', value: '风', category: '木' },
+      { name: 'Water', value: '水', category: '水' },
+      { name: 'Mountain', value: '山', category: '土' },
+      { name: 'Earth', value: '地', category: '土' },
+      { name: 'Thunder', value: '雷', category: '木' },
+      { name: 'Fire', value: '火', category: '火' },
+      { name: 'Marsh', value: '泽', category: '金' },
+      { name: 'Qian', value: '乾', category: '金' },
+      { name: 'Xun', value: '巽', category: '木' },
+      { name: 'Kan', value: '坎', category: '水' },
+      { name: 'Gen', value: '艮', category: '土' },
+      { name: 'Kun', value: '坤', category: '土' },
+      { name: 'Zhen', value: '震', category: '木' },
+      { name: 'Li', value: '离', category: '火' },
+      { name: 'Dui', value: '兑', category: '金' }
     ]
   },
   seriesField: 'category',
