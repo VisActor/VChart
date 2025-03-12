@@ -1,5 +1,5 @@
 import { registerRankingList } from '../../../../src';
-import { GUI } from 'lil-gui';
+// import { GUI } from 'lil-gui';
 import { VChart } from '@visactor/vchart';
 
 const guiObject = {
@@ -353,147 +353,51 @@ const run = () => {
   }, pageCount * totalDuration);
 
   // gui
-  const gui = new GUI();
-  gui.add(guiObject, 'name');
-  gui.add(guiObject, 'labelLayout', ['top', 'bothEnd']).onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        labelLayout: value
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-  gui.add(guiObject, 'pageSize').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        pageSize: value
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-  gui.add(guiObject, 'scrollSize').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        scrollSize: value
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-
-  gui.add(guiObject, 'animationAppearEnable').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        animationAppear: {
-          ...spec.animationAppear,
-          enable: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-
-  gui.add(guiObject, 'animationAppearDuration').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        animationAppear: {
-          ...spec.animationAppear,
-          duration: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-
-  gui.add(guiObject, 'animationAppearEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        animationAppear: {
-          ...spec.animationAppear,
-          easing: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-
-  gui.add(guiObject, 'animationUpdateEnable').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        animationUpdate: {
-          ...spec.animationUpdate,
-          enable: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-
-  gui.add(guiObject, 'animationUpdateDuration').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        animationUpdate: {
-          ...spec.animationUpdate,
-          duration: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-
-  gui.add(guiObject, 'animationUpdateEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        animationUpdate: {
-          ...spec.animationUpdate,
-          easing: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-
-  // gui.add(guiObject, 'animationNormalEnable').onChange(value => {
+  // const gui = new GUI();
+  // gui.add(guiObject, 'name');
+  // gui.add(guiObject, 'labelLayout', ['top', 'bothEnd']).onChange(value => {
   //   cs.updateSpec(
   //     {
   //       ...spec,
-  //       animationNormal: {
-  //         ...spec.animationNormal,
+  //       labelLayout: value
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+  // gui.add(guiObject, 'pageSize').onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       pageSize: value
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+  // gui.add(guiObject, 'scrollSize').onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       scrollSize: value
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+
+  // gui.add(guiObject, 'animationAppearEnable').onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       animationAppear: {
+  //         ...spec.animationAppear,
   //         enable: value
   //       }
   //     },
@@ -504,28 +408,28 @@ const run = () => {
   //   );
   // });
 
-  gui.add(guiObject, 'animationNormalInterval').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        animationNormal: {
-          ...spec.animationNormal,
-          interval: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-
-  // gui.add(guiObject, 'animationNormalEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
+  // gui.add(guiObject, 'animationAppearDuration').onChange(value => {
   //   cs.updateSpec(
   //     {
   //       ...spec,
-  //       animationNormal: {
-  //         ...spec.animationNormal,
+  //       animationAppear: {
+  //         ...spec.animationAppear,
+  //         duration: value
+  //       }
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+
+  // gui.add(guiObject, 'animationAppearEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       animationAppear: {
+  //         ...spec.animationAppear,
   //         easing: value
   //       }
   //     },
@@ -535,36 +439,132 @@ const run = () => {
   //     }
   //   );
   // });
-  gui.add(guiObject, 'rankingIconVisible').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        rankingIcon: {
-          ...spec.rankingIcon,
-          visible: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
-  gui.add(guiObject, 'orderLabelVisible').onChange(value => {
-    cs.updateSpec(
-      {
-        ...spec,
-        orderLabel: {
-          ...spec.orderLabel,
-          visible: value
-        }
-      },
-      false,
-      {
-        enableExitAnimation: false
-      }
-    );
-  });
+
+  // gui.add(guiObject, 'animationUpdateEnable').onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       animationUpdate: {
+  //         ...spec.animationUpdate,
+  //         enable: value
+  //       }
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+
+  // gui.add(guiObject, 'animationUpdateDuration').onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       animationUpdate: {
+  //         ...spec.animationUpdate,
+  //         duration: value
+  //       }
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+
+  // gui.add(guiObject, 'animationUpdateEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       animationUpdate: {
+  //         ...spec.animationUpdate,
+  //         easing: value
+  //       }
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+
+  // // gui.add(guiObject, 'animationNormalEnable').onChange(value => {
+  // //   cs.updateSpec(
+  // //     {
+  // //       ...spec,
+  // //       animationNormal: {
+  // //         ...spec.animationNormal,
+  // //         enable: value
+  // //       }
+  // //     },
+  // //     false,
+  // //     {
+  // //       enableExitAnimation: false
+  // //     }
+  // //   );
+  // // });
+
+  // gui.add(guiObject, 'animationNormalInterval').onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       animationNormal: {
+  //         ...spec.animationNormal,
+  //         interval: value
+  //       }
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+
+  // // gui.add(guiObject, 'animationNormalEasing', ['linear', 'quadIn', 'quadOut', 'quadInOut']).onChange(value => {
+  // //   cs.updateSpec(
+  // //     {
+  // //       ...spec,
+  // //       animationNormal: {
+  // //         ...spec.animationNormal,
+  // //         easing: value
+  // //       }
+  // //     },
+  // //     false,
+  // //     {
+  // //       enableExitAnimation: false
+  // //     }
+  // //   );
+  // // });
+  // gui.add(guiObject, 'rankingIconVisible').onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       rankingIcon: {
+  //         ...spec.rankingIcon,
+  //         visible: value
+  //       }
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
+  // gui.add(guiObject, 'orderLabelVisible').onChange(value => {
+  //   cs.updateSpec(
+  //     {
+  //       ...spec,
+  //       orderLabel: {
+  //         ...spec.orderLabel,
+  //         visible: value
+  //       }
+  //     },
+  //     false,
+  //     {
+  //       enableExitAnimation: false
+  //     }
+  //   );
+  // });
 
   console.timeEnd('renderTime');
   window['vchart'] = cs;
