@@ -39,7 +39,7 @@ export const mergeObjects = (objA: any, objB: any) => {
     }
     return target;
   }
-  return recursiveMerge(objA, objB);
+  return recursiveMerge({ ...objA }, objB);
 };
 
 export const computeDataRange = (data: Datum[], field: string) => {
