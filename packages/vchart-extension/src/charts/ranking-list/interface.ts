@@ -113,20 +113,24 @@ export interface IRankingListSpec {
    */
   scrollSize?: number;
   /**
-   * 动画
+   * 排行榜动画效果的定义和普通图表不甚相同
+   * animationNormal动画代表由player控制其更新数据时执行的滚动效果的动画, 本质上是由普通图表的 update + enter + exit 共同构成的
    */
-  animation?: {
+  /**
+   * 出现动画
+   */
+  animationAppear?: {
+    /**
+     * 是否开启
+     * @default true
+     */
+    enable?: boolean;
     /**
      * 动画类型
-     * @default 'both'
-     * 'scroll' 滚动
+     * @default 'grow'
      * 'grow' 伸展
      */
-    type?: 'scroll' | 'grow' | 'both';
-    /**
-     * 动画间隔
-     */
-    interval?: number;
+    type?: 'grow';
     /**
      * 动画时长
      */
@@ -135,5 +139,51 @@ export interface IRankingListSpec {
      * 动画缓动效果
      */
     easing?: EasingType;
+  };
+
+  /**
+   * 更新动画
+   */
+  animationUpdate?: {
+    /**
+     * 是否开启
+     * @default true
+     */
+    enable?: boolean;
+    /**
+     * 动画类型
+     * @default 'grow'
+     * 'grow' 伸展
+     */
+    type?: 'grow';
+    /**
+     * 动画时长
+     */
+    duration?: number;
+    /**
+     * 动画缓动效果
+     */
+    easing?: EasingType;
+  };
+
+  /**
+   * 循环滚动动画
+   */
+  animationNormal?: {
+    // /**
+    //  * 是否开启
+    //  * @default true
+    //  */
+    // enable?: boolean;
+    // /**
+    //  * 动画类型
+    //  * @default 'scroll'
+    //  * 'scroll' 伸展
+    //  */
+    // type?: 'scroll';
+    /**
+     * 动画间隔
+     */
+    interval?: number;
   };
 }

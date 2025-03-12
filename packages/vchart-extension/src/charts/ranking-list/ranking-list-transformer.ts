@@ -1,10 +1,10 @@
 import { Datum } from '@visactor/vchart/src/typings';
 import type { IRankingListSpec } from './interface';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
-import { TextMeasure } from '@visactor/vutils';
+import { cloneDeep, TextMeasure } from '@visactor/vutils';
 import { defaultSpec } from './constant';
 import { applyVisible, computeDataRange, mergeObjects } from './utils';
-import { IAnimationParameters, IElement } from '@visactor/vgammar-core';
+import { IElement } from '@visactor/vgammar-core';
 
 const DATA_KEY = 'dataKey';
 const ORDER_KEY = 'VCHART_ORDER';
@@ -23,8 +23,10 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   protected valueLabelTextMeasure: TextMeasure<any>;
   protected orderLabelTextMeasure: TextMeasure<any>;
   protected originalData: Datum[];
+  protected originalSpec: IRankingListSpec;
   protected dataSpecs: any[];
   protected formatMap: { [key: string]: (text: string, ctx: any) => string } = {};
+  protected orderCount: number;
 
   transformSpec(spec: any): void {
     super.transformSpec(spec);
@@ -54,7 +56,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     ];
 
     this.transformPaddingSpec(spec);
-    // console.log('original-spec', spec);
+
+    // console.log('spec', spec);
 
     super.transformSpec(spec);
   }
@@ -98,10 +101,10 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   processData(spec: any) {
     // ps: 如果updateSpec后, 同时执行2次processData会有问题, 在这里用比较hack的方式绕过第2次
     if (!spec.data[0]?.values) {
-      this.dataSpecs = this.processRankingData(spec as unknown as IRankingListSpec);
       this.originalData = spec.data;
+      this.originalSpec = cloneDeep(spec);
+      this.dataSpecs = this.processRankingData(spec as unknown as IRankingListSpec);
       spec.data = this.dataSpecs[0].data;
-      // console.log('processdata');
     }
   }
 
@@ -133,22 +136,22 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   }
 
   transformAnimationSpec(spec: any) {
-    const totalDuration = spec.animation.duration;
-
-    if (spec.animation) {
+    if (spec.animationUpdate.enable && this.orderCount > 1) {
       spec.player = {
-        ...spec.player,
         specs: this.dataSpecs,
         auto: true,
         visible: false,
-        interval: spec.animation.interval + spec.animation.duration / 2,
-        loop: true
+        interval: (spec.animationNormal?.interval ?? 1000) + (spec.animationUpdate.duration ?? 1000) / 2,
+        loop: true,
+        ...spec.player
       };
 
-      spec.animationExit = this.getAnimationExit(spec, totalDuration);
-      spec.animationAppear = this.getAnimationEnter(spec, 'rect', totalDuration);
-      spec.animationEnter = this.getAnimationEnter(spec, 'rect', totalDuration);
+      spec.animationExit = this.getAnimationExit(this.originalSpec);
+      spec.animationEnter = this.getAnimationEnter(this.originalSpec);
+      spec.animationUpdate = this.getAnimationUpdate(this.originalSpec);
     }
+    spec.animationNormal = this.originalSpec.animationNormal;
+    spec.animationAppear = this.getAnimationAppear(this.originalSpec, 'rect');
   }
 
   transformAxesSpec(spec: any) {
@@ -158,7 +161,9 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
         orient: 'left',
         type: 'band',
         visible: false,
-        inverse: true
+        inverse: true,
+        // paddingInner: 0.5,
+        paddingOuter: 0.5
       },
       {
         orient: 'bottom',
@@ -172,7 +177,6 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   }
 
   generateBarBackground(spec: any) {
-    const totalDuration = spec.animation.duration;
     return {
       type: spec.barBackground.type,
       dataId: 'data',
@@ -201,15 +205,15 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           return spec.barBackground.style.visible;
         }
       },
-      animation: Boolean(spec.animation),
-      animationEnter: this.getAnimationEnter(spec, 'barBack', totalDuration),
-      animationExit: this.getAnimationExit(spec, totalDuration),
-      animationAppear: this.getAnimationEnter(spec, 'barBack', totalDuration)
+      animation: true,
+      animationEnter: this.getAnimationEnter(this.originalSpec),
+      animationExit: this.getAnimationExit(this.originalSpec),
+      animationAppear: this.getAnimationAppear(this.originalSpec, 'barBack'),
+      animationUpdate: this.getAnimationUpdate(this.originalSpec)
     };
   }
 
   generateDecorateHaloIcons(spec: any) {
-    const totalDuration = spec.animation.duration;
     return spec.decorateHaloIcons?.map((decorateHaloIcon: any) => {
       return {
         type: 'symbol',
@@ -235,16 +239,16 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
             return decorateHaloIcon.style.visible;
           }
         },
-        animation: Boolean(spec.animation),
-        animationEnter: this.getAnimationEnter(spec, 'symbol', totalDuration),
-        animationExit: this.getAnimationExit(spec, totalDuration),
-        animationAppear: this.getAnimationEnter(spec, 'symbol', totalDuration)
+        animation: true,
+        animationEnter: this.getAnimationEnter(this.originalSpec),
+        animationExit: this.getAnimationExit(this.originalSpec),
+        animationAppear: this.getAnimationAppear(this.originalSpec, 'symbol'),
+        animationUpdate: this.getAnimationUpdate(this.originalSpec)
       };
     });
   }
 
   generateRankingIcon(spec: any) {
-    const totalDuration = spec.animation.duration;
     return {
       type: 'symbol',
       dataId: 'data',
@@ -292,15 +296,15 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           return spec.rankingIcon.style.visible;
         }
       },
-      animation: Boolean(spec.animation),
-      animationEnter: this.getAnimationEnter(spec, 'text', totalDuration),
-      animationExit: this.getAnimationExit(spec, totalDuration),
-      animationAppear: this.getAnimationEnter(spec, 'text', totalDuration)
+      animation: true,
+      animationEnter: this.getAnimationEnter(this.originalSpec),
+      animationExit: this.getAnimationExit(this.originalSpec),
+      animationAppear: this.getAnimationAppear(this.originalSpec, 'text'),
+      animationUpdate: this.getAnimationUpdate(this.originalSpec)
     };
   }
 
   generateNameLabel(spec: any) {
-    const totalDuration = spec.animation.duration;
     return {
       type: 'text',
       dataId: 'data',
@@ -335,15 +339,15 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           return spec.nameLabel.style.visible;
         }
       },
-      animation: Boolean(spec.animation),
-      animationEnter: this.getAnimationEnter(spec, 'text', totalDuration),
-      animationExit: this.getAnimationExit(spec, totalDuration),
-      animationAppear: this.getAnimationEnter(spec, 'text', totalDuration)
+      animation: true,
+      animationEnter: this.getAnimationEnter(this.originalSpec),
+      animationExit: this.getAnimationExit(this.originalSpec),
+      animationAppear: this.getAnimationAppear(this.originalSpec, 'text'),
+      animationUpdate: this.getAnimationUpdate(this.originalSpec)
     };
   }
 
   generateOrderLabel(spec: any) {
-    const totalDuration = spec.animation.duration;
     return {
       type: 'text',
       dataId: 'data',
@@ -378,32 +382,28 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           return spec.orderLabel.style.visible;
         }
       },
-      animation: Boolean(spec.animation),
-      animationEnter: this.getAnimationEnter(spec, 'text', totalDuration),
-      animationExit: this.getAnimationExit(spec, totalDuration),
-      animationAppear: this.getAnimationEnter(spec, 'text', totalDuration)
+      animation: true,
+      animationEnter: this.getAnimationEnter(this.originalSpec),
+      animationExit: this.getAnimationExit(this.originalSpec),
+      animationAppear: this.getAnimationAppear(this.originalSpec, 'text'),
+      animationUpdate: this.getAnimationUpdate(this.originalSpec)
     };
   }
 
   generateValueLabel(spec: any) {
-    const totalDuration = spec.animation.duration;
     return {
       type: 'text',
       dataId: 'data',
       visible: true,
       dataKey: DATA_KEY,
-      state: {
-        blur: {
-          opacity: 0.2
-        }
-      },
+      state: spec.valueLabel?.state,
       style: {
         text: (datum: Datum) => this.formatDatum(spec.xField, datum),
         x: (datum: Datum, ctx: any) => {
           if (spec.labelLayout === 'bothEnd') {
             return (
               ctx.getRegion().getLayoutRect().width +
-              this.getMaxDataLabelLens(spec, spec.xField, this.nameLabelTextMeasure) +
+              // this.getMaxDataLabelLens(spec, spec.xField, this.valueLabelTextMeasure) +
               VALUE_LABEL_PADDING_LEFT
             );
           } else {
@@ -426,10 +426,11 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
           return spec.valueLabel.style.visible;
         }
       },
-      animation: Boolean(spec.animation),
-      animationEnter: this.getAnimationEnter(spec, 'text', totalDuration),
-      animationExit: this.getAnimationExit(spec, totalDuration),
-      animationAppear: this.getAnimationEnter(spec, 'text', totalDuration)
+      animation: true,
+      animationEnter: this.getAnimationEnter(this.originalSpec),
+      animationExit: this.getAnimationExit(this.originalSpec),
+      animationAppear: this.getAnimationAppear(this.originalSpec, 'text'),
+      animationUpdate: this.getAnimationUpdate(this.originalSpec)
     };
   }
 
@@ -452,7 +453,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       right:
         spec.labelLayout === 'bothEnd'
           ? VALUE_LABEL_PADDING_LEFT +
-            this.getMaxDataLabelLens(spec, spec.yField, this.valueLabelTextMeasure) +
+            this.getMaxDataLabelLens(spec, spec.xField, this.valueLabelTextMeasure) +
             CHART_PADDING_RIGHT
           : CHART_PADDING_RIGHT + 10,
       top: 0,
@@ -462,7 +463,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   }
 
   paginateDataArr = (spec: IRankingListSpec) => {
-    const { data: arr, scrollSize = 1, pageSize = 5 } = spec;
+    const { scrollSize = 1, pageSize = 5 } = spec;
+    const arr = this.originalData;
     const result: { [key: string]: Datum[] } = {};
     let pageOrder = 0;
     for (let i = 0; i < arr.length; i += scrollSize) {
@@ -492,6 +494,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     spec.data.forEach((datum, index) => (datum[ORDER_KEY] = index + 1 < 10 ? `0${index + 1}` : index + 1));
     const pagerData = this.paginateDataArr(spec).result;
     const orderCount = this.paginateDataArr(spec).orderCount;
+    this.orderCount = orderCount;
     const supplyCount = spec.pageSize - pagerData[`page${orderCount}`].length;
     pagerData[`page${orderCount}`].push(
       ...Array.from({ length: supplyCount }, _ => {
@@ -508,8 +511,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
         data: [
           {
             id: 'datas',
-            values: pagerData[order].map((d, i) => {
-              return { ...d, [DATA_KEY]: order + '_' + i + '_' + new Date().getTime() };
+            values: pagerData[order].map(d => {
+              return { ...d, [DATA_KEY]: d[spec.yField] };
             })
           },
           {
@@ -524,28 +527,29 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       });
     });
 
-    // 只有1页时, player循环播放时, prePage和curPage data一致, 导致没有动画效果
-    // 在此手动复制1页, 且prePage和curPage dataKey不一致, 保证动画效果
-    if (result.length === 1) {
-      result.push({
-        data: [
-          {
-            id: 'datas',
-            values: pagerData['page1'].map((d, i) => {
-              return { ...d, [DATA_KEY]: 'page2' + '_' + i + '_' + new Date().getTime() };
-            })
-          },
-          {
-            id: 'order',
-            values: [
-              {
-                order: 'page2'
-              }
-            ]
-          }
-        ]
-      });
-    }
+    // // 只有1页时, player循环播放时, prePage和curPage data一致, 导致没有动画效果
+    // // 在此手动复制1页, 且prePage和curPage dataKey不一致, 保证动画效果
+    // if (result.length === 1) {
+    //   result.push({
+    //     data: [
+    //       {
+    //         id: 'datas',
+    //         values: pagerData['page1'].map(d => {
+    //           return { ...d, [DATA_KEY]: 'page2_' + d['y'] };
+    //         })
+    //       },
+    //       {
+    //         id: 'order',
+    //         values: [
+    //           {
+    //             order: 'page2'
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   });
+    // }
+
     return result;
   };
 
@@ -557,7 +561,6 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   }
 
   formatDatum(field: string, datum: Datum) {
-    // console.log('field', field, datum);
     if (this.formatMap?.[field]) {
       return this.formatMap[field](datum[field], datum);
     } else {
@@ -569,51 +572,60 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     return width + padding;
   }
 
-  getAnimationExit(spec: IRankingListSpec, duration: number) {
-    if (spec.animation.type === 'grow') {
-      return {};
+  getAnimationExit(spec: IRankingListSpec) {
+    if (spec.animationUpdate?.enable === false) {
+      return false;
     }
     return {
       type: 'moveOut',
       options: {
         direction: 'y',
         orient: 'negative',
-        point: (datum: Datum, element: IElement, opt: IAnimationParameters) => {
+        point: (datum: Datum, element: IElement) => {
           const channelAttr = element.getGraphicAttribute('y');
-          const barSpace = (spec.height / spec.pageSize - spec.bar.height) / 2;
-          return { y: channelAttr - opt.height + barSpace };
+          const barSpace = spec.height / (spec.pageSize + 1);
+          return { y: channelAttr - barSpace * Math.min(spec.scrollSize, spec.pageSize) };
         }
       },
-      duration: spec.animation.type === 'both' ? duration / 2 : duration,
-      easing: spec.animation.easing
+      duration: spec.animationUpdate?.duration ?? 1000,
+      easing: spec.animationUpdate?.easing ?? 'linear'
     };
   }
 
-  getAnimationEnter(spec: IRankingListSpec, markType: 'rect' | 'text' | 'symbol' | 'barBack', totalDuration: number) {
-    const { animation } = spec;
-    const { type: animationType, easing } = animation;
-    const scrollDuration = animationType === 'both' ? totalDuration / 2 : totalDuration;
-    const growDuration = animationType === 'grow' ? totalDuration : totalDuration / 2;
-    const result = [];
-    if (animationType === 'scroll' || animationType === 'both') {
-      result.push({
-        type: 'moveIn',
-        options: {
-          direction: 'y',
-          orient: 'negative',
-          excludeChannels: ['y'],
-          point: (datum: Datum, element: IElement, opt: IAnimationParameters) => {
-            const channelAttr = element.getGraphicAttribute('y');
-            const barSpace = (spec.height / spec.pageSize - spec.bar.height) / 2;
-            return { y: channelAttr + opt.height - barSpace };
-          }
-        },
-        duration: scrollDuration,
-        easing
-      });
+  getAnimationEnter(spec: IRankingListSpec) {
+    if (spec.animationUpdate?.enable === false) {
+      return false;
     }
-    if ((animationType === 'grow' || animationType === 'both') && markType !== 'text' && markType !== 'barBack') {
-      result.push({
+    return {
+      type: 'moveIn',
+      options: {
+        direction: 'y',
+        orient: 'negative',
+        excludeChannels: ['y'],
+        point: (datum: Datum, element: IElement) => {
+          const channelAttr = element.getGraphicAttribute('y');
+          return { y: channelAttr + (spec.height / (spec.pageSize + 1)) * Math.min(spec.scrollSize, spec.pageSize) };
+        }
+      },
+      duration: spec.animationUpdate?.duration ?? 1000,
+      easing: spec.animationUpdate?.easing ?? 'linear'
+    };
+  }
+
+  getAnimationAppear(spec: IRankingListSpec, markType: 'rect' | 'text' | 'symbol' | 'barBack') {
+    if (spec.animationAppear?.enable === false) {
+      return false;
+    }
+    if (markType === 'rect') {
+      return {
+        type: 'growWidthIn',
+        oneByOne: false,
+        duration: spec.animationAppear?.duration ?? 1000,
+        easing: spec.animationAppear?.easing ?? 'linear',
+        options: {}
+      };
+    } else if (markType === 'symbol') {
+      return {
         channel: {
           x: {
             from: 0,
@@ -622,11 +634,30 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
             }
           }
         },
-        duration: growDuration,
-        delay: animationType === 'both' ? scrollDuration : 0,
-        easing
-      });
+        duration: spec.animationAppear?.duration ?? 1000,
+        easing: spec.animationAppear?.easing ?? 'linear'
+      };
+    } else {
+      return {
+        channel: {
+          opacity: {
+            from: 0,
+            to: 1
+          }
+        },
+        duration: spec.animationAppear?.duration ?? 1000,
+        easing: spec.animationAppear?.easing ?? 'linear'
+      };
     }
-    return result;
+  }
+
+  getAnimationUpdate(spec: IRankingListSpec) {
+    if (spec.animationUpdate.enable === false) {
+      return false;
+    }
+    return {
+      duration: spec.animationUpdate?.duration ?? 1000,
+      easing: spec.animationUpdate?.easing ?? 'linear'
+    };
   }
 }
