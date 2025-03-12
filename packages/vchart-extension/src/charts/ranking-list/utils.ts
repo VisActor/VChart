@@ -27,9 +27,8 @@ export const applyVisible = (spec: any, keyList: string[]) => {
 
 export const mergeObjects = (objA: any, objB: any) => {
   function recursiveMerge(target: any, source: any) {
-    // 使用 Object.keys 只获取对象自身的可枚举属性
     Object.keys(source).forEach(key => {
-      if (typeof source[key] === 'object' && source[key] !== null) {
+      if (key !== '__proto__' && key !== 'constructor' && typeof source[key] === 'object' && source[key] !== null) {
         if (!target.hasOwnProperty(key)) {
           target[key] = Array.isArray(source[key]) ? [] : {};
         }
