@@ -19,7 +19,16 @@ export interface ILayoutRect {
 
 export type IPercent = `${number}%`;
 
-export type IPercentOffset = { percent?: number; offset?: number };
+export type IPercentOffset = {
+  /**
+   * 百分比值，取值范围为0-1
+   */
+  percent?: number;
+  /**
+   * 偏移量，偏移的像素值
+   */
+  offset?: number;
+};
 
 export type ILayoutPercent = IPercent | number;
 

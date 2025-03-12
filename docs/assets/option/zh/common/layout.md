@@ -123,17 +123,25 @@ size: totalSize => totalSize * 0.2 + 20;
 
 必选，请务必指定**所有图表元素**所在位置，图表元素的位置起点和占几行几列，可以占多行多列。图表元素位置允许配置重叠。
 
-#### id(string|number)
+#### modelId(string|number)
 
-布局元素的 id
+布局元素对应的 id。`modelId`和`modelKey`必须至少指定一个。
+
+#### modelKey(string)
+
+布局元素对应的`spec key`，例如 `'legends'` 表示图例。`modelKey`和`modelId`必须至少指定一个。
+
+#### modelIndex(number)
+
+与`modelKey`一起使用，用于指定布局元素在组件中的序号。
 
 #### col(number)
 
-指定布局元素的位置起点列数，序号从 0 开始。
+必选，指定布局元素的位置起点列数，序号从 0 开始。
 
 #### row(number)
 
-指定布局元素的位置起点行数，序号从 0 开始。
+必选，指定布局元素的位置起点行数，序号从 0 开始。
 
 #### colSpan(number) = 1
 

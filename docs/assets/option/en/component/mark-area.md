@@ -159,6 +159,17 @@ Cartesian coordinate system:
 - `'insideTop'`: the upper side inside the area
 - `'insideBottom'`: the lower side inside the area
 
+Supported since version 1.13.4:
+
+- `'topLeft'`: the upper left side outside the area,
+- `'topRight'`: the upper right side outside the area,
+- `'bottomLeft'`: the lower left side outside the area,
+- `'bottomRight'`: the lower right side outside the area,
+- `'insideTopLeft'`: the upper left side inside the area,
+- `'insideTopRight'`: the upper right side inside the area,
+- `'insideBottomLeft'`: the lower right side inside the area,
+- `'insideBottomRight'`: the lower right side inside the area
+
 Polar coordinate system:
 
 - `'arcInnerStart'`: inside the starting point of the arc

@@ -45,5 +45,6 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
     totalPositionX(datum: Datum, field: string, pos?: number): number;
     totalPositionY(datum: Datum, field: string, pos?: number): number;
     initMarkStyle(): void;
+    protected isVisibleLeaderLine(datum: Datum): boolean;
 }
 export declare const registerWaterfallSeries: () => void;

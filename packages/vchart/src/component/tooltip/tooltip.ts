@@ -55,6 +55,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   private _needInitEventOfTooltip?: boolean;
   private _enterable: boolean;
   private _isReleased: boolean = false;
+  /**
+   * 是否正在浏览tooltip内容
+   */
+  private _isEnterTooltip: boolean;
   protected declare _spec: ITooltipSpec;
 
   tooltipHandler?: ITooltipHandler;
@@ -178,6 +182,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         if (!this._enterable) {
           return;
         }
+        this._isEnterTooltip = true;
 
         const rect = element.getBoundingClientRect?.();
         if (rect) {
@@ -198,6 +203,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         if (!this._enterable) {
           return;
         }
+        this._isEnterTooltip = false;
 
         if (this._cacheEnterableRect) {
           const newRect = element.getBoundingClientRect?.();
@@ -211,7 +217,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
             this._cacheEnterableRect = null;
             this._outTimer = setTimeout(
               this.hideTooltip,
-              this._spec.showDelay ?? DEFAULT_SHOW_DELAY
+              this._spec?.showDelay ?? DEFAULT_SHOW_DELAY
             ) as unknown as number;
           }
         }
@@ -341,14 +347,14 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     if (this._enterable) {
       this._outTimer = setTimeout(() => {
         this._handleChartMouseOut(params);
-      }, this._spec.showDelay ?? DEFAULT_SHOW_DELAY) as unknown as number;
+      }, this._spec?.showDelay ?? DEFAULT_SHOW_DELAY) as unknown as number;
     } else {
       this._handleChartMouseOut(params);
     }
   };
 
   protected _handleChartMouseOut = (params?: BaseEventParams) => {
-    if (this._alwaysShow) {
+    if (this._alwaysShow || this._isReleased || this._isEnterTooltip) {
       return;
     }
 
@@ -370,7 +376,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   };
 
   protected _getMouseMoveHandler = (isClick: boolean) => (params: BaseEventParams) => {
-    if (this._isReleased) {
+    if (this._isReleased || this._isEnterTooltip) {
       return;
     }
     if (this._outTimer) {
@@ -405,13 +411,16 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
       this._showTimer = setTimeout(() => {
         this._handleChartMouseMove(params, isClick);
-      }, this._spec.showDelay ?? DEFAULT_SHOW_DELAY) as unknown as number;
+      }, this._spec?.showDelay ?? DEFAULT_SHOW_DELAY) as unknown as number;
     } else {
       this._handleChartMouseMove(params, isClick);
     }
   };
 
   protected _handleChartMouseMove = (params: BaseEventParams, isClick: boolean) => {
+    if (this._isReleased) {
+      return;
+    }
     /* 获取 tooltip 原始数据 */
     const mouseEventData = this._getMouseEventData(params);
     const {
@@ -600,6 +609,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   /** 手动隐藏 tooltip，返回是否成功 */
   hideTooltip = (): boolean => {
+    if (this._isReleased) {
+      return false;
+    }
     const params: TooltipHandlerParams = {
       changePositionOnly: false,
       tooltip: this,

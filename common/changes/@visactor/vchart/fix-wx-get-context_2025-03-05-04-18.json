@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix issue with wx get context",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

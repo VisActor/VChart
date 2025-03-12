@@ -3,6 +3,7 @@ title: 4.如何贡献demo
 
 key words: VisActor,VChart,VTable,VStrory,VMind,VGrammar,VRender,Visualization,Chart,Data,Table,Graph,Gis,LLM
 ---
+
 # 创建分支
 
 VChart 默认分支为 develop 分支。无论是功能开发、bug 修复、文档编写，都请新建立一个分支，再合并到 develop 分支上。使用以下代码创建分支：
@@ -13,26 +14,26 @@ git checkout -b docs/add-funnel-demo
 
 ```
 
+# 寻找或者创建 issue
 
-# 寻找或者创建issue
+原则上，我们规定每一个 pr 都要有对应的 issue。在开始开发之前，请确认是否有对应的 issue，且 issue 没有被认领。
 
-原则上，我们规定每一个pr都要有对应的issue。在开始开发之前，请确认是否有对应的issue，且issue没有被认领。
+## 搜索 demo issue
 
-## 搜索demo issue
-
-可以通过如下方式搜索 demo 相关的issue：
-
-```
- label:demos 
+可以通过如下方式搜索 demo 相关的 issue：
 
 ```
+ label:demos
+
+```
+
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/RDQZbKyEYomaIRx7jwJccGoMnId.gif' alt='' width='769' height='auto'>
 
-其中他有些 feature 会关联doc标签，可以进一步看一下该issue 是不是纯 demo 任务。
+其中他有些 feature 会关联 doc 标签，可以进一步看一下该 issue 是不是纯 demo 任务。
 
-## 创建demo issue
+## 创建 demo issue
 
-点击 “NEW ISSUE”，打开issue 选择页面，选择“**Others”。**
+点击 “NEW ISSUE”，打开 issue 选择页面，选择“**Others”。**
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/VNGhbVirmoaQTIxhOlFc61w3nqb.gif' alt='' width='1000' height='auto'>
 
@@ -40,19 +41,17 @@ git checkout -b docs/add-funnel-demo
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/Cc8SbSAFFoCvQ2xJFd6cjv17nyc.gif' alt='' width='1000' height='auto'>
 
-# 认领issue
+# 认领 issue
 
-如果你想提交 demo 或者修改demo bug，可以在该issue下留言认领。管理员会联系你，确认后将issue assign 给你。
+如果你想提交 demo 或者修改 demo bug，可以在该 issue 下留言认领。管理员会联系你，确认后将 issue assign 给你。
 
 例如：
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/Q2vGbhmevorebJxa8Toc1hmtnMc.gif' alt='' width='988' height='auto'>
 
-
-
 # 创建或者修改 demo
 
-VChart 文档和demo在项目的中的位置如下（examples）：
+VChart 文档和 demo 在项目的中的位置如下（examples）：
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/ObSbbLIPio1un5xZGv7cZ7m8nrh.gif' alt='' width='1000' height='auto'>
 
@@ -62,43 +61,41 @@ VChart 文档和demo在项目的中的位置如下（examples）：
 
 示例 Markdown 内容分为几个部分：
 
-*  元信息：示例内容的属性定义，包括图表分类、封面图、关键词等；
+- 元信息：示例内容的属性定义，包括图表分类、封面图、关键词等；
 
-*  标题：一级标题下的正文内容对应了示例的描述信息；
+- 标题：一级标题下的正文内容对应了示例的描述信息；
 
-*  关键配置：示例中所包含的关键配置说明，这一部分将在示例页面右侧的“关键配置”中呈现；
+- 关键配置：示例中所包含的关键配置说明，这一部分将在示例页面右侧的“关键配置”中呈现；
 
-*  代码演示：示例执行的具体代码内容，目前只支持原生的 JavaScript 代码。
+- 代码演示：示例执行的具体代码内容，目前只支持原生的 JavaScript 代码。
 
 其中 Markdown 的元信息的字段定义为：
 
-*  group：示例的分类信息，描述了当前示例属于什么图表类别
+- group：示例的分类信息，描述了当前示例属于什么图表类别
 
-*  title：示例的标
+- title：示例的标
 
-*  keywords：示例的关键词
+- keywords：示例的关键词
 
-*  order：示例在同个分组下的排序依据
+- order：示例在同个分组下的排序依据
 
-*  cover：示例的封面图
+- cover：示例的封面图
 
-*  tutorial：跳转的教程链接（默认的示例教程将会跳转到示例分组所对应的教程）
+- tutorial：跳转的教程链接（默认的示例教程将会跳转到示例分组所对应的教程）
 
 目前图表示例的 group 包含多个分类，例如 area chart、bar chart、combination、storytelling 等，对应到 vchart 示例画廊中全部图表下的分类。具体的分类字段可以参照已有的示例文档进行填写。
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/BCvZbkvF9oiPWlx6R2zcJxxBn7e.gif' alt='' width='1000' height='auto'>
 
+最后，在 `docs/assets/examples/menu.json` 中添加新的 demo 路径，从而可以在 `rush docs` 时预览效果，并在官网中展示。
 
+# 借助豆包 Marscode AI 编程助手进行 demo 编写
 
-# 借助豆包 Marscode AI编程助手进行demo编写
+借助豆包[Marscode AI 编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)，可以在文档创作的整个流程中提供全方面的帮助。
 
-借助豆包[Marscode AI编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)，可以在文档创作的整个流程中提供全方面的帮助。
+如果你还没有安装[Marscode AI 编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)，请从该链接进入下载页面：https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a
 
-如果你还没有安装[Marscode AI编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)，请从该链接进入下载页面：https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a
-
-
-
-在demo编写中，合理使用 context 指令，可以提升内容的准确性。
+在 demo 编写中，合理使用 context 指令，可以提升内容的准确性。
 
 `**⭐️ #Workspace**`
 
@@ -118,13 +115,11 @@ VChart 文档和demo在项目的中的位置如下（examples）：
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/V4M7bX87hoHOxOxM1Nfc9of0nhL.gif' alt='' width='1000' height='auto'>
 
-
-
-下面举例说明，如何使用[Marscode AI编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a) 进行demo编写。
+下面举例说明，如何使用[Marscode AI 编程助手](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a) 进行 demo 编写。
 
 ## 5.1 提供文档框架
 
-这里 **通过 # 唤起 #Workspace ，**然后进行提问，选中一份example 的文档内容，希望它仿照生成一份新的 example 文档。
+这里 **通过 # 唤起 #Workspace ，**然后进行提问，选中一份 example 的文档内容，希望它仿照生成一份新的 example 文档。
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/TUHVbTez5o6IjtxmCLhcWnGHnZg.gif' alt='' width='1000' height='auto'>
 
@@ -132,21 +127,19 @@ VChart 文档和demo在项目的中的位置如下（examples）：
 
 ## 5.2 生成说明文字
 
-每个demo的说明文字可以先用 [Marscode](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a) 生成，然后再做校对和调整。比如：
+每个 demo 的说明文字可以先用 [Marscode](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a) 生成，然后再做校对和调整。比如：
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/U6n7bEo0DoaCGyxtiVVc1GBGnrg.gif' alt='' width='1000' height='auto'>
 
 ## 5.3 生成示例代码
 
-为了更好的解释说明原理和用法，通常需要给出可以实际运行的demo，可以利用 [Marscode](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a) 的代码生成能力为我们生成示例代码。不过目前各种AI 的代码生成能力都不能保证准确，还需要进一步的进行验证。
+为了更好的解释说明原理和用法，通常需要给出可以实际运行的 demo，可以利用 [Marscode](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a) 的代码生成能力为我们生成示例代码。不过目前各种 AI 的代码生成能力都不能保证准确，还需要进一步的进行验证。
 
 ## 5.4 内容检索
 
-通常我们的每个问答，[Marscode](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a)  都会给出参考文档，这些文档可以给我们提供更多参考上下文，供进一步分析。
+通常我们的每个问答，[Marscode](https://www.marscode.cn/home?utm_source=developer&utm_medium=oss&utm_campaign=visactor_a) 都会给出参考文档，这些文档可以给我们提供更多参考上下文，供进一步分析。
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/DGyBbfi99oucAYxxkyJcfka3nJa.gif' alt='' width='1000' height='auto'>
-
-
 
 也可以直接进行文件检索：
 
@@ -154,15 +147,14 @@ VChart 文档和demo在项目的中的位置如下（examples）：
 
 # 提交代码
 
-文档完成之后，先把代码push到你的远程分支。例如：
+文档完成之后，先把代码 push 到你的远程分支。例如：
 
 ```
-git commit -a -m "docs: add custom funnel demo and related docs" 
+git commit -a -m "docs: add custom funnel demo and related docs"
 
 ```
 
-
-VisActor 的 commit 提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 规范，**demo  使用docs**
+VisActor 的 commit 提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 规范，**demo 使用 docs**
 
 `<type>[optional scope]: <description>`
 
@@ -178,31 +170,36 @@ VisActor 的 commit 提交信息遵循 [Conventional Commits](https://www.conven
 git checkout develop
 
 ```
+
 使用以下代码拉出远程的最新代码:
 
 ```
 git pull upstream develop
 
 ```
+
 切换回自己的开发分支:
 
 ```
 git checkout docs/add-funnel-demo
 
 ```
+
 把 develop 的 commit 合并到自己分支：
 
 ```
 git rebase develop
 
 ```
+
 把更新代码提交到自己的分支中:
 
 ```
 git push origin docs/add-funnel-demo
 
 ```
-# 提交PR
+
+# 提交 PR
 
 你可以在你的 github 代码仓库页面点击 `Compare & pull request` 按钮。
 
@@ -212,29 +209,25 @@ git push origin docs/add-funnel-demo
 
 按照模板填写本次提交的修改内容：
 
-*  勾选这是什么类型的修改
+- 勾选这是什么类型的修改
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/V7xpbJhhEoSoCExC31WcyKvHnDe.gif' alt='' width='692' height='auto'>
 
-*  填写关联的 issue
+- 填写关联的 issue
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/O6YqbpdxgodBjfxHXEpcwob4n5E.gif' alt='' width='470' height='auto'>
 
-*  若有复杂变更，请说明背景和解决方案
+- 若有复杂变更，请说明背景和解决方案
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/QsnYbfLCio4u3MxK2uIc8epKnXh.gif' alt='' width='1000' height='auto'>
 
 相关信息填写完成后，点击 Create pull request 提交。
 
-管理员会review pr 决定是否通过，如果不通过需要进行修改然后重新提交。
+管理员会 review pr 决定是否通过，如果不通过需要进行修改然后重新提交。
 
 # 下一步
 
 接下来可以继续尝试不同类型的任务。
-
-
-
-
 
 github ：[github.com/VisActor](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2FVisActor)
 
@@ -249,7 +242,6 @@ VisActor 官网：[www.visactor.io/](https://link.juejin.cn/?target=https%3A%2F%
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/DdEAbEU9yoFq9IxjrN4curJnnyf.gif' alt='' width='264' height='auto'>
 
 discord：https://discord.com/invite/3wPyxVyH6m
-
 
 # 本文档由由以下人员贡献
 

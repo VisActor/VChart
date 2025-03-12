@@ -55,7 +55,7 @@ export interface LineLikeSeriesMixin extends ISeries {
   _fieldZ?: string[];
 
   _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption, config?: ICompileMarkConfig) => IMark;
-  _getInvalidDefined: () => boolean;
+  _getInvalidDefined: (datum: Datum) => boolean;
   _getInvalidConnectType: () => IInvalidType;
 
   getLayoutRect: () => ILayoutRect;
@@ -316,26 +316,21 @@ export class LineLikeSeriesMixin {
       'normal',
       AttributeLevel.Series
     );
-    if (this._invalidType !== 'zero') {
-      this.setMarkStyle(
-        symbolMark,
-        {
-          visible: this._getInvalidDefined.bind(this)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    }
-
-    this.event.on(ChartEvent.viewDataStatisticsUpdate, { filter: param => param.model === this }, () => {
-      this.encodeDefined(symbolMark, 'visible');
-    });
 
     this.setMarkStyle(
       symbolMark,
       {
-        x: this.dataToPositionX.bind(this),
-        y: this.dataToPositionY.bind(this),
+        x: (datum: Datum) => {
+          // 对于symbol而言，如果undefined 的元素还进行scale机会，Null/undefined 会被当成0，导致交互误显示的问题
+          return this._invalidType !== 'zero' && !this._getInvalidDefined(datum)
+            ? Number.NaN
+            : this.dataToPositionX(datum);
+        },
+        y: (datum: Datum) => {
+          return this._invalidType !== 'zero' && !this._getInvalidDefined(datum)
+            ? Number.NaN
+            : this.dataToPositionY(datum);
+        },
         z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
       },
       'normal',
@@ -410,7 +405,7 @@ export class LineLikeSeriesMixin {
     this.setMarkStyle(labelMark, {
       fill: this.getColorAttribute(),
       text: (datum: Datum) => {
-        return datum[this.getSeriesField()];
+        return datum[this.getSeriesField()] ?? this.getSeriesKeys()[0];
       },
       z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });

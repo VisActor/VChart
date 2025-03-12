@@ -27,6 +27,7 @@ export declare class PictogramSeries<T extends IPictogramSeriesSpec = IPictogram
     protected _pictogramMark: GroupMark;
     protected _parsedSvgResult: SVGParserResult;
     private _labelMark;
+    private _idToMark;
     setAttrFromSpec(): void;
     getDatumCenter(datum: SVGParsedElementExtend): [number, number];
     getDatumName(datum: SVGParsedElementExtend): string;
@@ -74,5 +75,6 @@ export declare class PictogramSeries<T extends IPictogramSeriesSpec = IPictogram
     getMeasureField(): string[];
     getDimensionField(): string[];
     protected _getSeriesInfo(field: string, keys: string[]): ISeriesSeriesInfo[];
+    release(): void;
 }
 export declare const registerPictogramSeries: () => void;

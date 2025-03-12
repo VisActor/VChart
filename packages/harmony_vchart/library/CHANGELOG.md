@@ -1,3 +1,115 @@
+# v1.13.6
+
+2025-03-03
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: optimize the display effect of waterfall chart lieaderLine
+- **@visactor/vchart**: add `transformRatioText` config for transformRatio text content in funnel tooltip, [#3704](https://github.com/VisActor/VChart/issues/3704)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: display line label normally when seriesField is missing, [#3709](https://github.com/VisActor/VChart/issues/3709)
+- **@visactor/vchart**: customMark should return components in `getVRenderComponents()`, fix [#3727](https://github.com/VisActor/VChart/issues/3727)
+- **@visactor/vchart**: map zoom error bug. fix[#3743](https://github.com/VisActor/VChart/issues/3743)
+
+**🔖 other**
+
+- **@visactor/vchart**: 'feat: support `clamp` in linear scales, [#3738](https://github.com/VisActor/VChart/issues/3738)'
+
+
+
+[more detail about v1.13.6](https://github.com/VisActor/VChart/releases/tag/v1.13.6)
+
+# v1.13.5
+
+2025-02-14
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add params of startvalue and endvalue in brushend event
+- **@visactor/vchart**: label support triggering mark tooltip, [#3634](https://github.com/VisActor/VChart/issues/3634)
+- **@visactor/vchart**: export getCartesianDimensionInfo and getPolarDimensionInfo, fix [#3668](https://github.com/VisActor/VChart/issues/3668)
+- **@visactor/vchart**: support stackInverse for waterfall chart
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: incorrect update animation of funnel transform mark, [#3685](https://github.com/VisActor/VChart/issues/3685)
+- **@visactor/vchart**: fix the issue where the upper mark in stacked area overlaps the border of lower mark, [#3684](https://github.com/VisActor/VChart/issues/3684)
+- **@visactor/vchart**: fix cache of crosshair value when hide crosshair, fix [#3686](https://github.com/VisActor/VChart/issues/3686)
+- **@visactor/vchart**: allow dispatch roam zoom in datazoom component. fix[#3714](https://github.com/VisActor/VChart/issues/3714)
+- **@visactor/vchart**: datazoom and scrollbar realtime not work. fix[#3716](https://github.com/VisActor/VChart/issues/3716)
+- **@visactor/vchart**: fix the issue of tickAlign accuracy
+- **@visactor/vchart**: indicator should show when switch `visible`, fix [#3675](https://github.com/VisActor/VChart/issues/3675)
+- **@visactor/vchart**: circular progress should support morphing
+- **@visactor/vchart**: tooltip should not handle mousemove or mouseout when enter tooltip, fix [#3708](https://github.com/VisActor/VChart/issues/3708)
+- **@visactor/vchart**: tooltip should auto wrap when `maxWidth` is valid and `multiLine` is not false, fix [#3718](https://github.com/VisActor/VChart/issues/3718)
+- **@visactor/vchart**: fix the type definition of text mark
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: optimize performance of pictogram
+
+**📖 Site / documentation update**
+
+- **@visactor/vchart**: update options of poptip, close [#3139](https://github.com/VisActor/VChart/issues/3139)
+
+
+
+[more detail about v1.13.5](https://github.com/VisActor/VChart/releases/tag/v1.13.5)
+
+# v1.13.4
+
+2025-01-17
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add wordCloudConfig in _wordCloudTransformOption()
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix error of tooltip about `showDelay`, fix [#3663](https://github.com/VisActor/VChart/issues/3663)
+- **@visactor/vchart**: fix offset of tooltip, fix [#3666](https://github.com/VisActor/VChart/issues/3666)
+- **@visactor/vchart**: fix bug of parse lineHeight of tooltip row, fix [#3643](https://github.com/VisActor/VChart/issues/3643)
+- **@visactor/vchart**: axis break's scope calculate error, fix[#3656](https://github.com/VisActor/VChart/issues/3656)
+- **@visactor/vchart**: fix the issue where map drag interaction cannot be terminated outside the canvas, [#3650](https://github.com/VisActor/VChart/issues/3650)
+- **@visactor/vchart**: fix the issue where map drag interaction cannot be terminated outside the canvas.
+
+
+
+[more detail about v1.13.4](https://github.com/VisActor/VChart/releases/tag/v1.13.4)
+
+# v1.13.3
+
+2025-01-08
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add datum to params on axis-label event
+- **@visactor/vchart**: wrap some hook in vgrammar
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix the issue of incorrect label display in 3D charts, [#3584](https://github.com/VisActor/VChart/issues/3584)
+- **@visactor/vchart**: fix the issue of animation in 3d wordcloud not work
+- **@visactor/vchart**: brush data will be undefined when mark is hovered. fix[#3623](https://github.com/VisActor/VChart/issues/3623)
+- **@visactor/vchart**: fix style of dom tooltip when tooltip has customized child, fix [#3615](https://github.com/VisActor/VChart/issues/3615)
+- **@visactor/vchart**: fix error update of dom tooltip when update theme, fix [#3619](https://github.com/VisActor/VChart/issues/3619)
+- **@visactor/vchart**: fix position of html tooltip when confine is false, fix [#3632](https://github.com/VisActor/VChart/issues/3632)
+- **@visactor/vchart**: fix the typographical error of dataset tutorial
+- **@visactor/vchart**: compilier should add dpr to vrender
+- **@visactor/vchart**: fix invisible region blocking mark events, [#3638](https://github.com/VisActor/VChart/issues/3638)
+- **@visactor/vchart**: undefined points shoulde not show when dimension hover, fix [#3610](https://github.com/VisActor/VChart/issues/3610)
+- **@visactor/vchart**: fix layout error of title component, fix [#3614](https://github.com/VisActor/VChart/issues/3614) 
+
+
+
+[more detail about v1.13.3](https://github.com/VisActor/VChart/releases/tag/v1.13.3)
+
 # v1.13.2
 
 2024-12-24

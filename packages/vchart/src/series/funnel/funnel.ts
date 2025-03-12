@@ -207,7 +207,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         },
         {
           themeSpec: this._theme?.transform,
-          skipBeforeLayouted: false,
+          skipBeforeLayouted: true,
           dataView: this._viewDataTransform.getDataView(),
           dataProductId: this._viewDataTransform.getProductId(),
           stateSort: this._spec.transform?.stateSort,

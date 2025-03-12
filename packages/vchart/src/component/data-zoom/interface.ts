@@ -1,3 +1,4 @@
+import type { BaseEventParams } from '../../event/interface';
 import type { IOrientType } from '../../typings';
 import type { IDelayType } from '../../typings/event';
 import type { IComponentSpec } from '../base/interface';
@@ -162,6 +163,12 @@ export interface IRoamDragSpec extends IRoamSpec {
    * @default true
    */
   reverse?: boolean;
+  /**
+   * 自定义的事件过滤器，返回true则触发datazoom/scrollbar的更新
+   * @since 1.13.5
+   * @returns
+   */
+  filter?: (delta: [number, number], e?: BaseEventParams['event']) => boolean;
 }
 
 export interface IRoamScrollSpec extends IRoamSpec {
@@ -170,6 +177,12 @@ export interface IRoamScrollSpec extends IRoamSpec {
    * @default true
    */
   reverse?: boolean;
+  /**
+   * 自定义的事件过滤器，返回true则触发datazoom/scrollbar的更新
+   * @since 1.13.5
+   * @returns
+   */
+  filter?: (params: { scrollX: number; scrollY: number }, e?: BaseEventParams['event']) => boolean;
 }
 
 export interface IRoamZoomSpec extends IRoamSpec {
@@ -180,6 +193,12 @@ export interface IRoamZoomSpec extends IRoamSpec {
    * 关闭时, 以画布中心缩放
    */
   focus?: boolean;
+  /**
+   * 自定义的事件过滤器，返回true则触发datazoom/scrollbar的更新
+   * @since 1.13.5
+   * @returns
+   */
+  filter?: (params: { zoomDelta: number; zoomX?: number; zoomY?: number }, e?: BaseEventParams['event']) => boolean;
 }
 
 export interface IRoamSpec {

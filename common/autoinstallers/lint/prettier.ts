@@ -28,7 +28,7 @@ function run() {
 
   console.log(patterns);
 
-  execSync(`prettier  --config ${configFilePath} --ignore-path ${ignoreFilePath} --write ${patterns}`, {
+  execSync(`prettier  --config "${configFilePath}" --ignore-path "${ignoreFilePath}" --write ${patterns}`, {
     stdio: [0, 1, 2]
   });
 }

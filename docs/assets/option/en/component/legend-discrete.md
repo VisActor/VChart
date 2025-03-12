@@ -72,6 +72,12 @@ The maximum height of the legend as a whole, which determines whether vertically
 
 Effective only when `orient` is `'top'` | `'bottom'`, indicates the maximum number of rows for the legend item, the legend item beyond the maximum number of rows will be hidden.
 
+### lazyload(boolean)
+
+Supported since version 1.12.12
+
+Whether to enable lazy loading, the default is off. Note that it is recommended to use it in conjunction with the legend scrollbar. When lazy loading is enabled, the rendering of legend items will be delayed, and they will only be rendered when they enter the visible area. The initial and final states of the scrollbar will also differ.
+
 ### item(Object)
 
 Legend Item Configuration, which contains the configuration of graphics, text, etc. within the legend item.
@@ -927,6 +933,35 @@ Supported since version `1.10.0`
 
 This configuration only applies to the scrollbar page turner
 Whether the scrollbar position supports displaying in the middle of the pagination
+
+#### scrollMask(Object)
+
+Supported starting from version `1.12.11`.
+
+A mask for the legend area when scrolling, before reaching the end.
+
+##### visible(boolean) = false
+
+Whether to display the mask.
+
+##### gradientLength(number) = 16
+
+Length of the gradient area of the mask.
+
+##### gradientStops(Object)
+
+Configuration for the gradient fill colors of the mask, for example:
+
+```ts
+scrollMask: {
+  visible: true,
+  gradientStops: [
+    { offset: 0, color: 'rgba(255,255,255,1)' },
+    { offset: 0.5, color: 'rgba(255,255,255,0.8)' },
+    { offset: 1, color: 'rgba(255,255,255,0)' }
+  ]
+}
+```
 
 ### data(Function)
 

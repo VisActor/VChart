@@ -135,7 +135,7 @@ export declare class VChart implements IVChart {
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean, reLayout?: boolean): IVChart;
     on(eType: EventType, handler: EventCallback<EventParams>): void;
     on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
-    off(eType: string, handler?: EventCallback<EventParams>): void;
+    off(eType: EventType, handler?: EventCallback<EventParams>): void;
     updateState(state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean): void;
     setSelected(datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
     setHovered(datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
@@ -196,6 +196,10 @@ export declare class VChart implements IVChart {
         y: number;
     }): void;
     geoZoomById(regionId: string | number, zoom: number, center?: {
+        x: number;
+        y: number;
+    }): void;
+    _geoZoomByQuery(query: MaybeArray<IRegionQuerier>, zoom: number, center?: {
         x: number;
         y: number;
     }): void;

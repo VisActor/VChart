@@ -248,12 +248,7 @@ export interface IChartSpec {
   media?: IMediaQuerySpec;
 }
 
-export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
-  image?: IRectMarkSpec['background'];
-  cornerRadius?: IRectMarkSpec['cornerRadius'];
-};
-
-export type IBackgroundSpec = IColor | IBackgroundStyleSpec;
+export type IBackgroundSpec = IColor | ConvertToMarkStyleSpec<IGroupMarkSpec>;
 
 /** data */
 export type IDataType = IDataValues | DataView;
@@ -299,7 +294,16 @@ export interface IFieldsMeta {
 }
 
 export interface SheetParseOptions extends CommonParseOptions {
+  /**
+   * 特定类型的数据，支持以下类型：
+   * - csv: 逗号分隔值（Comma-Separated Values，CSV，有时也称为字符分隔值，因为分隔字符也可以不是逗号），其文件以纯文本形式存储表格数据（数字和文本）。
+   * - dsv: 分隔值（Delimiter-Separated Values，DSV，有时也称为字符分隔值，因为分隔字符也可以不是逗号），其文件以纯文本形式存储表格数据（数字和文本）。
+   * - tsv: 制表符分隔值（Tab-Separated Values，TSV，有时也称为字符分隔值，因为分隔字符也可以不是逗号），其文件以纯文本形式存储表格数据（数字和文本）。
+   */
   type: 'csv' | 'dsv' | 'tsv';
+  /**
+   * 具体的解析配置
+   */
   options?: IDsvParserOptions;
 }
 
@@ -342,7 +346,9 @@ export interface IDataValues {
     string,
     IFieldsMeta
   >;
-
+  /**
+   * 数据解析器配置
+   */
   parser?: SheetParseOptions | CommonParseOptions;
 }
 
@@ -435,7 +441,7 @@ export interface ISeriesSpec extends IInteractionSpec {
    */
   invalidType?: IInvalidType;
 
-  /** 提示信息 */
+  /** 系列对应的提示信息设置，优先级高于图表的tooltip配置 */
   tooltip?: ISeriesTooltipSpec;
 
   /**
@@ -458,7 +464,7 @@ export interface ISeriesSpec extends IInteractionSpec {
   morph?: IMorphSeriesSpec;
 
   /**
-   * 扩展mark
+   * 系列的扩展mark，能够获取系列上的数据
    */
   extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[];
 
@@ -480,6 +486,29 @@ export type IChartExtendsSeriesSpec<T extends ISeriesSpec> = Omit<T, 'data' | 'm
 export type AdaptiveSpec<T, K extends keyof any> = {
   [key in Exclude<keyof T, K>]: T[key];
 } & { [key in K]: any };
+
+export interface IMarkStateFullSpec<T> extends Record<string, IMarkStateSpec<T> | IMarkStateStyleSpec<T>> {
+  /**
+   * 正常状态下图元的样式设置
+   */
+  normal?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+  /**
+   * hover状态下图元的样式设置
+   */
+  hover?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+  /**
+   * 没有被hover的状态下图元的样式设置
+   */
+  hover_reverse?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+  /**
+   * 选中状态下图元的样式设置
+   */
+  selected?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+  /**
+   * 没有被选中的状态下图元的样式设置
+   */
+  selected_reverse?: IMarkStateSpec<T> | IMarkStateStyleSpec<T>;
+}
 
 /** markSpec */
 export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
@@ -507,14 +536,16 @@ export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
   /** 默认样式设置 */
   style?: ConvertToMarkStyleSpec<T>;
   /** 不同状态下的样式配置 */
-  state?: Record<StateValue, IMarkStateSpec<T> | IMarkStateStyleSpec<T>>;
+  state?: IMarkStateFullSpec<T>;
   /**
    * 状态排序方法，默认状态都是按照添加的顺序处理的，如果有特殊的需求，需要指定状态顺序，可以通过这个方法实现
    * @since 1.9.0
    */
   stateSort?: (stateA: string, stateB: string) => number;
 
-  /* 是否是3d视角的mark */
+  /*
+   * 是否是3d视角的mark
+   */
   support3d?: boolean;
   /* customized shape of mark  */
   customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
@@ -548,6 +579,29 @@ export interface IMarkStateSpec<T> {
 
 export type IMarkStateStyleSpec<T> = ConvertToMarkStyleSpec<T>;
 
+export interface IMarkStateTheme<T> extends Record<string, T> {
+  /**
+   * 图元在正常状态下的主题样式设置
+   */
+  normal?: T;
+  /**
+   * 图元在 hover 状态下的主题样式设置
+   */
+  hover?: T;
+  /**
+   * 图元在 未被hover 状态下的主题样式设置
+   */
+  hover_reverse?: T;
+  /**
+   * 图元在 选中状态下的主题样式设置
+   */
+  selected?: T;
+  /**
+   * 图元在 未被选中 状态下的主题样式设置
+   */
+  selected_reverse?: T;
+}
+
 export type IMarkTheme<T> = {
   /**
    * mark 层 是否显示配置
@@ -556,7 +610,7 @@ export type IMarkTheme<T> = {
   /** 默认样式设置 */
   style?: T;
   /** 不同状态下的样式配置 */
-  state?: Record<StateValue, T>;
+  state?: IMarkStateTheme<T>;
   /**
    * 可交互的开关
    */
@@ -747,7 +801,13 @@ export type ITextFormatMethod<T extends any[]> = (
 
 export type IRichTextFormatMethod<T extends any[]> = (...args: T) =>
   | {
+      /**
+       * 设置文本类型为富文本
+       */
       type: 'rich';
+      /**
+       * 当文本类型为富文本的时候，设置文本的内容
+       */
       text: IRichTextCharacter[];
     }
   | IRichTextCharacter[];

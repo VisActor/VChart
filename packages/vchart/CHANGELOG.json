@@ -2,6 +2,168 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.6",
+      "tag": "@visactor/vchart_v1.13.6",
+      "date": "Mon, 03 Mar 2025 02:00:52 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "'feat: support `clamp` in linear scales, #3738'"
+          },
+          {
+            "comment": "feat: optimize the display effect of waterfall chart lieaderLine\n\n"
+          },
+          {
+            "comment": "feat: add `transformRatioText` config for transformRatio text content in funnel tooltip, #3704"
+          },
+          {
+            "comment": "fix: display line label normally when seriesField is missing, #3709"
+          },
+          {
+            "comment": "fix: customMark should return components in `getVRenderComponents()`, fix #3727\n\n"
+          },
+          {
+            "comment": "fix: map zoom error bug. fix#3743"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.13.5",
+      "tag": "@visactor/vchart_v1.13.5",
+      "date": "Fri, 14 Feb 2025 08:49:08 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: incorrect update animation of funnel transform mark, #3685"
+          },
+          {
+            "comment": "docs: update options of poptip, close #3139\n\n"
+          },
+          {
+            "comment": "feat: add params of startvalue and endvalue in brushend event"
+          },
+          {
+            "comment": "feat: label support triggering mark tooltip, #3634"
+          },
+          {
+            "comment": "feat: export getCartesianDimensionInfo and getPolarDimensionInfo, fix #3668\n\n"
+          },
+          {
+            "comment": "feat: support stackInverse for waterfall chart\n\n"
+          },
+          {
+            "comment": "fix: fix the issue where the upper mark in stacked area overlaps the border of lower mark, #3684"
+          },
+          {
+            "comment": "fix: fix cache of crosshair value when hide crosshair, fix #3686\n\n"
+          },
+          {
+            "comment": "fix: allow dispatch roam zoom in datazoom component. fix#3714"
+          },
+          {
+            "comment": "fix: datazoom and scrollbar realtime not work. fix#3716"
+          },
+          {
+            "comment": "fix: fix the issue of tickAlign accuracy\n\n"
+          },
+          {
+            "comment": "fix: indicator should show when switch `visible`, fix #3675\n\n"
+          },
+          {
+            "comment": "fix: circular progress should support morphing\n\n"
+          },
+          {
+            "comment": "fix: tooltip should not handle mousemove or mouseout when enter tooltip, fix #3708\n\n"
+          },
+          {
+            "comment": "fix: tooltip should auto wrap when `maxWidth` is valid and `multiLine` is not false, fix #3718\n\n"
+          },
+          {
+            "comment": "fix: fix the type definition of text mark\n\n"
+          },
+          {
+            "comment": "refactor: optimize performance of pictogram"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.13.4",
+      "tag": "@visactor/vchart_v1.13.4",
+      "date": "Thu, 16 Jan 2025 07:01:11 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix error of tooltip about `showDelay`, fix #3663\n\n"
+          },
+          {
+            "comment": "fix: fix offset of tooltip, fix #3666\n\n"
+          },
+          {
+            "comment": "fix: fix bug of parse lineHeight of tooltip row, fix #3643\n\n"
+          },
+          {
+            "comment": "feat: add wordCloudConfig in _wordCloudTransformOption()"
+          },
+          {
+            "comment": "fix: axis break's scope calculate error, fix#3656"
+          },
+          {
+            "comment": "fix: fix the issue where map drag interaction cannot be terminated outside the canvas, #3650"
+          },
+          {
+            "comment": "fix: fix the issue where map drag interaction cannot be terminated outside the canvas."
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.13.3",
+      "tag": "@visactor/vchart_v1.13.3",
+      "date": "Tue, 07 Jan 2025 10:21:06 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add datum to params on axis-label event "
+          },
+          {
+            "comment": "feat: package some hook in vgrammar\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of incorrect label display in 3D charts, #3584"
+          },
+          {
+            "comment": "fix: fix the issue of animation in 3d wordcloud not work"
+          },
+          {
+            "comment": "fix: brush data will be undefined when mark is hovered. fix#3623"
+          },
+          {
+            "comment": "fix: fix style of dom tooltip when tooltip has customized child, fix #3615\n\n"
+          },
+          {
+            "comment": "fix: fix error update of dom tooltip when update theme, fix #3619\n\n"
+          },
+          {
+            "comment": "fix: fix position of html tooltip when confine is false, fix #3632\n\n"
+          },
+          {
+            "comment": "fix: fix the typographical error of dataset tutorial\n\n"
+          },
+          {
+            "comment": "fix: compilier should add dpr to vrender\n\n"
+          },
+          {
+            "comment": "fix: fix invisible region blocking mark events, #3638"
+          },
+          {
+            "comment": "fix: undefined points shoulde not show when dimension hover, fix #3610\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.2",
       "tag": "@visactor/vchart_v1.13.2",
       "date": "Mon, 23 Dec 2024 12:30:04 GMT",

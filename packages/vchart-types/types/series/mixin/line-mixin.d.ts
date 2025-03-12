@@ -25,7 +25,7 @@ export interface LineLikeSeriesMixin extends ISeries {
     _fieldY?: string[];
     _fieldZ?: string[];
     _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption, config?: ICompileMarkConfig) => IMark;
-    _getInvalidDefined: () => boolean;
+    _getInvalidDefined: (datum: Datum) => boolean;
     _getInvalidConnectType: () => IInvalidType;
     getLayoutRect: () => ILayoutRect;
 }

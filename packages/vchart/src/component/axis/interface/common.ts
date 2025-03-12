@@ -22,12 +22,24 @@ export interface IAxis extends IComponent {
 }
 
 export interface IAxisItem<T> {
+  /**
+   * 是否显示
+   */
   visible?: boolean;
+  /**
+   * 样式配置
+   */
   style?: Omit<T, 'visible'>;
 }
 
 export interface IAxisItemTheme<T> {
+  /**
+   * 是否显示
+   */
   visible?: boolean;
+  /**
+   * 主题样式配置
+   */
   style?: Omit<T, 'visible'>;
 }
 export type AxisAnimationPreset = 'groupFadeIn' | 'fadeIn' | 'grow';

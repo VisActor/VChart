@@ -14,4 +14,4 @@ export * from '../constant/data';
 export * from '../typings/spec/index';
 export * from '../typings/tooltip';
 export * from '../theme/index';
-export { vglobal } from '@visactor/vrender-core';
+export { vglobal, createGroup, createRichText, createText, createArc, createArea, createRect, createLine, createSymbol } from '@visactor/vrender-core';

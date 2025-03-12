@@ -3,7 +3,7 @@ import { isNil, precisionSub } from '@visactor/vutils';
 import { STACK_FIELD_END, STACK_FIELD_START } from '../../constant/data';
 import { waterfall, waterfallFillTotal } from '../../data/transforms/waterfall';
 import { BarSeries } from '../bar/bar';
-import { valueInScaleRange } from '../../util/scale';
+import { isValueInScaleDomain, valueInScaleRange } from '../../util/scale';
 import { registerWaterfallAnimation } from './animation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IWaterfallSeriesSpec, WaterfallAppearPreset } from './interface';
@@ -100,7 +100,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
             valueField: this.getStackValueField(),
             seriesField: this.getSeriesField(),
             seriesFieldName: this._theme.seriesFieldName,
-            total: this._spec.total
+            total: this._spec.total,
+            stackInverse: this.getRegion().getStackInverse()
           }
         },
         false
@@ -123,7 +124,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
           startAs: STACK_FIELD_START,
           endAs: STACK_FIELD_END,
           total: this._spec.total,
-          groupData: () => this.getGroups().groupData
+          groupData: () => this.getGroups().groupData,
+          stackInverse: this.getRegion().getStackInverse()
         }
       },
       false
@@ -309,7 +311,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
         this.setMarkStyle(
           this._leaderLineMark,
           {
-            visible: (datum: Datum) => !isNil(datum.lastIndex),
+            visible: (datum: Datum) => this.isVisibleLeaderLine(datum),
             x: (datum: Datum) => this.totalPositionX(datum, 'lastEnd', 0),
             x1: (datum: Datum) => this.totalPositionX(datum, datum.isTotal ? 'end' : 'start', 0),
             y: (datum: Datum) => {
@@ -327,7 +329,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
         this.setMarkStyle(
           this._leaderLineMark,
           {
-            visible: (datum: Datum) => !isNil(datum.lastIndex),
+            visible: (datum: Datum) => this.isVisibleLeaderLine(datum),
             x: (datum: Datum) => {
               if (!datum.lastIndex) {
                 return 0;
@@ -343,6 +345,16 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
         );
       }
     }
+  }
+
+  protected isVisibleLeaderLine(datum: Datum): boolean {
+    if (isNil(datum.lastIndex)) {
+      return false;
+    }
+    return isValueInScaleDomain(
+      [datum.lastEnd, datum[datum.isTotal ? 'end' : 'start']],
+      this.direction === Direction.horizontal ? this._xAxisHelper.getScale(0) : this._yAxisHelper.getScale(0)
+    );
   }
 }
 

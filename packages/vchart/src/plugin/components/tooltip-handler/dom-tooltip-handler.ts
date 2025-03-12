@@ -268,7 +268,13 @@ export class DomTooltipHandler extends BaseTooltipHandler {
               row.classList.add(`${TOOLTIP_PREFIX}-${colName}`);
               colDiv.appendChild(row);
             }
-            let styleByRow = index === content.length - 1 ? {} : { ...rowStyle };
+            const styleByRow = {
+              ...rowStyle
+            };
+
+            if (index === content.length - 1) {
+              styleByRow.marginBottom = '0px';
+            }
 
             styleByRow.display = entry.visible === false ? 'none' : 'block';
             // 每次更新，需要更新单元格的高度，防止同步高度的时候没有更新
@@ -277,15 +283,15 @@ export class DomTooltipHandler extends BaseTooltipHandler {
             if (colName === 'key') {
               row.innerHTML = formatContent(entry.key);
               if (entry.keyStyle) {
-                styleByRow = { ...styleByRow, ...getTextStyle(entry.keyStyle) };
+                getTextStyle(entry.keyStyle, styleByRow);
               }
             } else if (colName === 'value') {
               row.innerHTML = formatContent(entry.value);
               if (entry.valueStyle) {
-                styleByRow = { ...styleByRow, ...getTextStyle(entry.valueStyle) };
+                getTextStyle(entry.valueStyle, styleByRow);
               }
             } else if (colName === 'shape') {
-              row.innerHTML = getSvgHtml(entry);
+              row.innerHTML = getSvgHtml(entry, `${this.id}_${index}`);
             }
 
             setStyleToDom(row, styleByRow);
@@ -299,9 +305,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width') {
     const rootDom = this._rootDom;
 
-    const contentDom = rootDom.children[rootDom.children.length - 1];
+    const contentDom = [...(rootDom.children as any)].find(child =>
+      child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)
+    );
 
-    if (contentDom.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)) {
+    if (contentDom) {
       const tooltipSpec = this._component.getSpec() as ITooltipSpec;
       const contentStyle: Partial<CSSStyleDeclaration> = {};
 
@@ -369,6 +377,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   reInit() {
     super.reInit();
     this._initStyle();
+    if (this._rootDom) {
+      setStyleToDom(this._rootDom, this._domStyle.panel);
+    }
+
+    if (this.getVisibility()) {
+      this._updateDomStringByCol(this._tooltipActual);
+      this._updateDomStyle('height');
+    }
   }
 
   protected _updatePosition({ x, y }: ITooltipPositionActual) {

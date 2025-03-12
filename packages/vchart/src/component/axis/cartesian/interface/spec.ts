@@ -18,6 +18,9 @@ export type ICartesianAxisSpec =
   | ICartesianSymlogAxisSpec;
 
 export type ICartesianVertical = {
+  /**
+   * 坐标轴的位置
+   */
   orient: 'left' | 'right';
   /**
    * 内padding/留白
@@ -35,6 +38,9 @@ export type ICartesianVertical = {
   };
 };
 export type ICartesianHorizontal = {
+  /**
+   * 坐标轴的位置
+   */
   orient: 'top' | 'bottom';
   /**
    * 内padding/留白
@@ -52,6 +58,9 @@ export type ICartesianHorizontal = {
   };
 };
 export type ICartesianZ = {
+  /**
+   * 坐标轴的位置
+   */
   orient: 'z';
 };
 
@@ -139,6 +148,9 @@ export interface ILinearAxisSync {
 
 export type ICartesianLinearAxisSpec = ICartesianAxisCommonSpec &
   ILinearAxisSpec & {
+    /**
+     * 设置轴同步相关内容，包含0值对齐和刻度对齐功能
+     */
     sync?: ILinearAxisSync;
   };
 

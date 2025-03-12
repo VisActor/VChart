@@ -25,7 +25,8 @@ export class FunnelChartSpecTransformer<T extends IFunnelChartSpec> extends Base
       'minSize',
       'gap',
       'isCone',
-      'range'
+      'range',
+      'transformRatioText'
     ]);
 
     return series;
