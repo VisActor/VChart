@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: react-vchart should export `WaterfallChart`, fix #3791\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
