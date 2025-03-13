@@ -19,7 +19,7 @@
 
 布局顺序等级，等级越大的，越优先布局，比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。
 
-{{ if: !${noOrient} }}
+{{ if: !${noOrient} & !${isRegion} }}
 #${prefix} orient(string)
 
 模块布局位置。可选位置：
@@ -31,6 +31,8 @@
 
 {{ /if }}
 
+{{ if: !${isRegion} }}
+
 #${prefix} alignSelf('start' | 'end' | 'middle') = 'start'
 
 从 1.8.9 版本开始支持，
@@ -41,6 +43,8 @@
 - 底部的元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐
 - 左侧的元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐
 - 右侧的元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐
+
+{{ /if }}
 
 #${prefix} padding(ILayoutNumber|Array|Object) = 0
 
@@ -139,13 +143,14 @@ padding: {
 
 模块的展示层级，当 2 个模块重叠时，层级较大的展示在上方。
 
-{{ if: !${noClip} }}
+{{ if: !${noClip} | ${isRegion} }}
 #${prefix} clip(boolean)
 
 模块是否裁剪超出布局区域外的绘图内容 。
 
 {{/if}}
 
+{{ if: !${isRegion} }}
 #${prefix} left(ILayoutNumber)
 
 模块绝对布局下，与图表左侧的距离。注意**仅在 layoutType === 'absolute' 时生效**。
@@ -173,3 +178,4 @@ padding: {
 #${prefix} center(boolean)
 
 模块绝对布局下，元素将放置在图表的正中间。注意**仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性**。
+{{/if}}
