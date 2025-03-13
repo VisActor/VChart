@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " feat: support `position` config in totalLabel, #3396",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

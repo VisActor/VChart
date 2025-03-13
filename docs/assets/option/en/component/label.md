@@ -114,6 +114,8 @@ Rich text style configuration.
 
 #${prefix} state(Object)
 
+Label state style configuration.
+
 ##${prefix} hover(Object)
 Hover state style configuration.
 

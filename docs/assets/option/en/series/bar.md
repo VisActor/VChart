@@ -123,13 +123,8 @@ Optional string values are:
 
 Total label, working when the data is stacked. Supported since version `1.3.0`.
 
-{{ use: component-label(
+{{ use: component-total-label(
   prefix = '#' + ${prefix},
-  noPosition = true,
-  hasOverlap = false,
-  hasSmartInvert = false,
-  defaultOffset = 5,
-  ignoreCustom = true
 ) }}
 
 #${prefix} sampling(string)
