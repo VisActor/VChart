@@ -126,20 +126,6 @@
             "zh": "柱状图、散点图间切换的全局动画",
             "en": "Global animation for switching between bar charts and scatter plots"
           }
-        },
-        {
-          "path": "dynamic-texture-progress",
-          "title": {
-            "zh": "进度图的动态纹理",
-            "en": "Dynamic texture for progress chart"
-          }
-        },
-        {
-          "path": "dynamic-texture-bar",
-          "title": {
-            "zh": "柱状图的动态纹理",
-            "en": "Dynamic texture for bar chart"
-          }
         }
       ]
     },
@@ -3088,6 +3074,20 @@
           "title": {
             "zh": "带纹理的饼图",
             "en": "Pie Chart with Texture"
+          }
+        },
+        {
+          "path": "dynamic-texture-progress",
+          "title": {
+            "zh": "进度图的动态纹理",
+            "en": "Dynamic texture for progress chart"
+          }
+        },
+        {
+          "path": "dynamic-texture-bar",
+          "title": {
+            "zh": "柱状图的动态纹理",
+            "en": "Dynamic texture for bar chart"
           }
         }
       ]
