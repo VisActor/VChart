@@ -1,7 +1,7 @@
 ---
 category: examples
-group: storytelling
-title: dynamic texture for progress
+group: pattern
+title: 进度图的动态纹理
 keywords: animation,morphing,linearProgress,dynamic-texture,comparison
 order: 42-0
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/dynamic-texture-lineprogress.gif
@@ -9,21 +9,21 @@ cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/dynamic-texture-linep
 option: linearProgress#dynamicTexture
 ---
 
-# Dynamic Texture Effects for Progress Charts
+# 进度图的动态纹理效果
 
-Dynamic texture is a special effect that adds dynamic texture effects to the progress bar of a progress chart, enhancing the visual experience.
-## Key Configurations
-- `textureOptions.dynamicTexture`: A function for the dynamic texture effect, called after drawing each cell.
-- `textureOptions.beforeDynamicTexture`: A function for the dynamic texture effect, called before drawing each cell.
-- `textureOptions.useNewCanvas`: Try enabling this option when performance is poor.
-- `texture`: The shape of the dynamic texture, which should match the `symbolType` of the symbol graphic, and can accept a custom path.
-- `textureSize`: The size of the dynamic texture.
-- `texturePadding`: The spacing of the dynamic texture.
-- `textureRatio`: The position of the dynamic texture in the current frame, within the range of [0,1].
+动态纹理是一种特殊效果，它可以在进度图的进度条上添加动态的纹理效果，从而增强可视化效果。
+## 关键配置
+- `textureOptions.dynamicTexture`: 动态纹理效果的函数，会在绘制每一个cell之后调用。
+- `textureOptions.beforeDynamicTexture`: 动态纹理效果的函数，会在绘制每一个cell之前调用。
+- `textureOptions.useNewCanvas`: 当性能不佳时，尝试开启这个选项。
+- `texture`: 动态纹理的形状，和symbol图元的symbolType一致，可以传入自定义的path。
+- `textureSize`: 动态纹理的大小。
+- `texturePadding`: 动态纹理的间距。
+- `textureRatio`: 动态纹理当前帧的位置，[0,1]区间。
 
-## Key Configurations
+## 关键配置
 
-## Code Demonstration
+## 代码演示
 
 ```javascript livedemo
 const path =

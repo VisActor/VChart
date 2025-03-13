@@ -1,29 +1,28 @@
 ---
 category: examples
-group: storytelling
-title: dynamic texture for bar
+group: pattern
+title: 柱状图的动态纹理
 keywords: animation,morphing,bar,barChart,dynamic-texture,comparison
 order: 42-0
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/dynamic-texture-bar.gif
 option: barChart#dynamicTexture
 ---
 
-# Dynamic Texture Effects for Bar Charts
+# 柱状图的动态纹理效果
 
-Dynamic texture is a special effect that can add dynamic texture effects to the bars of a bar chart, enhancing the visualization.
+动态纹理是一种特殊效果，它可以在柱状图的柱子上添加动态的纹理效果，从而增强可视化效果。
+## 关键配置
+- `textureOptions.dynamicTexture`: 动态纹理效果的函数，会在绘制每一个cell之后调用。
+- `textureOptions.beforeDynamicTexture`: 动态纹理效果的函数，会在绘制每一个cell之前调用。
+- `textureOptions.useNewCanvas`: 当性能不佳时，尝试开启这个选项。
+- `texture`: 动态纹理的形状，和symbol图元的symbolType一致，可以传入自定义的path。
+- `textureSize`: 动态纹理的大小。
+- `texturePadding`: 动态纹理的间距。
+- `textureRatio`: 动态纹理当前帧的位置，[0,1]区间。
 
-## Key Configuration
-- `textureOptions.dynamicTexture`: A function for the dynamic texture effect that is called after drawing each cell.
-- `textureOptions.beforeDynamicTexture`: A function for the dynamic texture effect that is called before drawing each cell.
-- `textureOptions.useNewCanvas`: Try enabling this option when performance is poor.
-- `texture`: The shape of the dynamic texture, which should be consistent with the symbolType of the symbol graphic, and can accept a custom path.
-- `textureSize`: The size of the dynamic texture.
-- `texturePadding`: The spacing of the dynamic texture.
-- `textureRatio`: The position of the dynamic texture in the current frame, within the range of [0,1].
+## 关键配置
 
-## Key Configuration
-
-## Code Demonstration
+## 代码演示
 
 ```javascript livedemo
 const spec = {
@@ -128,12 +127,12 @@ const spec = {
         const func =
           datum.Age === 'Under 5 Years'
             ? (ctx, row, column, rowCount, columnCount, ratio, graphic) =>
-                VRender.randomOpacity(ctx, row, column, rowCount, columnCount, ratio, graphic, 0.3)
+                VCHART_MODULE.randomOpacity(ctx, row, column, rowCount, columnCount, ratio, graphic, 0.3)
             : datum.Age === '5 to 13 Years'
             ? (ctx, row, column, rowCount, columnCount, ratio, graphic) =>
-                VRender.columnLeftToRight(ctx, row, column, rowCount, columnCount, ratio, graphic)
+                VCHART_MODULE.columnLeftToRight(ctx, row, column, rowCount, columnCount, ratio, graphic)
             : (ctx, row, column, rowCount, columnCount, ratio, graphic) =>
-                VRender.columnRightToLeft(ctx, row, column, rowCount, columnCount, ratio, graphic);
+                VCHART_MODULE.columnRightToLeft(ctx, row, column, rowCount, columnCount, ratio, graphic);
         return {
           dynamicTexture: (ctx, row, column, rowCount, columnCount, ratio, graphic) => {
             const _r = func(ctx, row, column, rowCount, columnCount, ratio, graphic);
