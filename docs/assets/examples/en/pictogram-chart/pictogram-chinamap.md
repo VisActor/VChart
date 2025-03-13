@@ -40,7 +40,7 @@ const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_stor
 const shape = await response.text();
 // Define map data
 const chinamap_data = [
-{ name: '湖南省', category: 'MVP', level: '🌶🌶🌶🌶' },
+  { name: '湖南省', category: 'MVP', level: '🌶🌶🌶🌶' },
   { name: '重庆市', category: 'MVP', level: '🌶🌶🌶🌶' },
   { name: '四川省', category: 'MVP', level: '🌶🌶🌶🌶' },
   { name: '贵州省', category: 'MVP', level: '🌶🌶🌶🌶' },
@@ -128,10 +128,10 @@ const chinamap_data = [
             },
             // The effect of making the province map "spit out" when hovering
             hover: {
-            transform: 'scale(4) rotate(40deg)', 
+            transform: 'scale(4)', 
             opacity: 0.1, 
             shadowBlur: 80, 
-            shadowColor: 'rgb(99, 0, 0)', 
+            shadowColor: 'rgb(0, 0, 0)', 
             transition: {
               duration: 800, 
               easing: 'ease-out'
@@ -210,3 +210,7 @@ vchart.renderSync();
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
+
+## Relative tourials
+
+[pictogram](link)

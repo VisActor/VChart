@@ -92,16 +92,16 @@ const spec = {
   },
   color: {
     specified: {
-  // 大师
-            MVP:'rgb(73, 3, 3)',
-            // 钻石
-            diamond:'rgb(250, 8, 8)',
-            //  黄金
-            gold:'rgb(250, 77, 8)',
-            // 白银
-            silver:'rgb(228, 170, 64)',
-            // 青铜
-            bronze:'rgb(198, 238, 53)',
+      // 大师
+      MVP:'rgb(73, 3, 3)',
+      // 钻石
+      diamond:'rgb(250, 8, 8)',
+      //  黄金
+      gold:'rgb(250, 77, 8)',
+       // 白银
+      silver:'rgb(228, 170, 64)',
+      // 青铜
+      bronze:'rgb(198, 238, 53)',
       // 未定义类别的颜色为白色
       undefined: 'white'
     },
@@ -132,10 +132,10 @@ const spec = {
       },
         // 鼠标悬停时让省份地图“吐出来”的效果
       hover: {
-      transform: 'scale(4) rotate(40deg)',
+      transform: 'scale(4)',
       opacity: 0.1,
       shadowBlur: 80,
-      shadowColor: 'rgb(99, 0, 0)',
+      shadowColor: 'rgb(0, 0, 0)',
       transition: {
         duration: 800,
         easing: 'ease-out'
