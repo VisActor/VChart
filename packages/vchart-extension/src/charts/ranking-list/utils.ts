@@ -4,7 +4,7 @@ import { isArray } from '@visactor/vutils';
 export const applyVisible = (spec: any, keyList: string[]) => {
   keyList.forEach(key => {
     if (isArray(spec[key])) {
-      spec[key].forEach((s, i) => {
+      spec[key]?.forEach((s, i) => {
         spec[key][i] = {
           ...s,
           style: {

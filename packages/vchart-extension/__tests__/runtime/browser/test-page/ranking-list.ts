@@ -73,28 +73,28 @@ const spec = {
   data: chartData,
   xField: 'x',
   yField: 'y',
-  background: 'rgba(0,0,0,1)',
+  // background: 'rgba(0,0,0,1)',
   bar: {
     height: 10,
     style: {
-      cornerRadius: 5,
-      fill: {
-        gradient: 'linear',
-        x0: 0,
-        y0: 0,
-        x1: 1,
-        y1: 0,
-        stops: [
-          {
-            offset: 0,
-            color: 'rgba(0, 110, 255,0.2)'
-          },
-          {
-            offset: 1,
-            color: 'rgba(0, 110, 255,1)'
-          }
-        ]
-      }
+      cornerRadius: 5
+      // fill: {
+      //   gradient: 'linear',
+      //   x0: 0,
+      //   y0: 0,
+      //   x1: 1,
+      //   y1: 0,
+      //   stops: [
+      //     {
+      //       offset: 0,
+      //       color: 'rgba(0, 110, 255,0.2)'
+      //     },
+      //     {
+      //       offset: 1,
+      //       color: 'rgba(0, 110, 255,1)'
+      //     }
+      //   ]
+      // }
     },
     state: {
       selected_reverse: {

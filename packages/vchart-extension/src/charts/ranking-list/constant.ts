@@ -1,36 +1,43 @@
 import { IRankingListSpec } from './interface';
 
+const cornerRadius = 5;
+const animationDuration = 1000;
+const fontSize = 20;
+const pageSize = 5;
+const scrollSize = 1;
+
+// from: packages/vchart/src/theme/builtin/light/color-scheme.ts
+const primaryFontColor = '#21252c';
+const shadowColor = 'rgba(33,37,44,0.1)';
+
 export const defaultSpec: Omit<IRankingListSpec, 'type' | 'data' | 'xField' | 'yField'> = {
-  width: 400,
-  height: 225,
   labelLayout: 'top',
   bar: {
-    height: 100,
     style: {
-      cornerRadius: 5
+      cornerRadius
     }
   },
   barBackground: {
     type: 'rect',
     style: {
-      fill: 'rgba(255,255,255,0.1)',
-      cornerRadius: 5
+      fill: shadowColor,
+      cornerRadius
     }
   },
   rankingIcon: {
     visible: true,
     style: {
-      fill: 'rgba(253,253,253,0.5)',
-      size: 12
+      fill: primaryFontColor,
+      size: fontSize
     }
   },
   nameLabel: {
     visible: true,
     style: {
       // fontFamily: ''
-      fontSize: 20,
+      fontSize: fontSize,
       fontWeight: 'normal',
-      fill: 'rgba(255,255,255,0.7)',
+      fill: primaryFontColor,
       textBaseline: 'middle'
     }
   },
@@ -38,9 +45,9 @@ export const defaultSpec: Omit<IRankingListSpec, 'type' | 'data' | 'xField' | 'y
     visible: true,
     style: {
       // fontFamily: ''
-      fontSize: 20,
+      fontSize: fontSize,
       fontWeight: 'normal',
-      fill: 'rgba(255,255,255,0.7)',
+      fill: primaryFontColor,
       textBaseline: 'middle'
     }
   },
@@ -48,30 +55,30 @@ export const defaultSpec: Omit<IRankingListSpec, 'type' | 'data' | 'xField' | 'y
     visible: true,
     style: {
       // fontFamily: ''
-      fontSize: 14,
+      fontSize: fontSize,
       fontWeight: 'normal',
-      fill: 'rgba(255,255,255,1)',
+      fill: primaryFontColor,
       textBaseline: 'middle'
     }
   },
-  pageSize: 5,
-  scrollSize: 1,
+  pageSize,
+  scrollSize,
   animationAppear: {
     enable: true,
     type: 'grow',
-    duration: 1000,
+    duration: animationDuration,
     easing: 'linear'
   },
   animationUpdate: {
     enable: true,
     type: 'grow',
-    duration: 1000,
+    duration: animationDuration,
     easing: 'linear'
   },
   animationNormal: {
     // enable: true,
     // type: 'scroll',
-    interval: 1000
+    interval: animationDuration
     // easing: 'linear'
   }
 };
