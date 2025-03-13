@@ -100,3 +100,11 @@ Supported since `1.4.0` version, Whether to reverse the order when stacking
 ### stackSort(boolean)
 
 Supported since `1.10.4` version, Whether to sorting data when stacking
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'region',
+  defaultLayoutLevel = 10,
+  defaultLayoutZIndex = 450,
+  isRegion = true,
+) }}
