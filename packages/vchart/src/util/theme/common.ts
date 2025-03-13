@@ -3,10 +3,10 @@ import type { ITheme } from '../../theme';
 import { ThemeManager } from '../../theme';
 import { isObject, isString } from '@visactor/vutils';
 
-export function getThemeObject(theme?: string | ITheme, transformed?: boolean): ITheme {
+export function getThemeObject(theme?: string | ITheme): ITheme {
   if (isString(theme)) {
     if (ThemeManager.themeExist(theme)) {
-      return ThemeManager.getTheme(theme, transformed);
+      return ThemeManager.getTheme(theme);
     }
     return {};
   } else if (isObject(theme)) {
