@@ -12,7 +12,7 @@ if (!fs.existsSync(gitPath)) {
 }
 
 try {
-  child_process.execSync(`${commitlintBinPath} --config ${configPath} --cwd ${path.dirname(gitPath)} --edit`, {
+  child_process.execSync(`"${commitlintBinPath}" --config "${configPath}" --cwd "${path.dirname(gitPath)}" --edit`, {
     stdio: 'inherit',
     windowsHide: true
   });

@@ -22872,7 +22872,14 @@
           "description": "tooltip配置"
         },
         "totalLabel": {
-          "$ref": "#/definitions/ITotalLabelSpec",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Pick<ILabelSpec,\"style\"|\"interactive\"|\"visible\"|\"state\"|\"offset\"|\"overlap\"|\"formatMethod\"|\"textType\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
           "description": "堆叠汇总标签",
           "since": "1.3.0"
         },
@@ -37952,10 +37959,36 @@
         "overlap": {
           "anyOf": [
             {
-              "$ref": "#/definitions/OverlapAttrs"
+              "allOf": [
+                {
+                  "const": false,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
-              "type": "boolean"
+              "allOf": [
+                {
+                  "const": true,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/OverlapAttrs"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "标签防重叠配置"
@@ -45527,7 +45560,14 @@
           "description": "tooltip配置"
         },
         "totalLabel": {
-          "$ref": "#/definitions/ITotalLabelSpec",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Pick<ILabelSpec,\"style\"|\"interactive\"|\"visible\"|\"state\"|\"offset\"|\"overlap\"|\"formatMethod\"|\"textType\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
           "description": "堆叠汇总标签",
           "since": "1.3.0"
         },
@@ -47777,10 +47817,36 @@
         "overlap": {
           "anyOf": [
             {
-              "$ref": "#/definitions/OverlapAttrs"
+              "allOf": [
+                {
+                  "const": false,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
-              "type": "boolean"
+              "allOf": [
+                {
+                  "const": true,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/OverlapAttrs"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "标签防重叠配置"
@@ -79720,52 +79786,14 @@
       "type": "object"
     },
     "ITotalLabelSpec": {
-      "properties": {
-        "formatMethod": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Pick<ILabelSpec,\"style\"|\"interactive\"|\"visible\"|\"state\"|\"offset\"|\"overlap\"|\"formatMethod\"|\"textType\">"
+        },
+        {
           "typeof": "function"
-        },
-        "interactive": {
-          "default": false,
-          "description": "是否支持交互。",
-          "type": "boolean"
-        },
-        "offset": {
-          "description": "标签与其对应数据图元的间距",
-          "type": "number"
-        },
-        "overlap": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/OverlapAttrs"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "标签防重叠配置"
-        },
-        "state": {
-          "typeof": "function"
-        },
-        "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
-          "description": "标签样式配置"
-        },
-        "textType": {
-          "description": "文本类型：text, rich,",
-          "enum": [
-            "rich",
-            "text"
-          ],
-          "since": "1.7.0",
-          "type": "string"
-        },
-        "visible": {
-          "description": "默认不显示标签",
-          "type": "boolean"
         }
-      },
-      "type": "object"
+      ]
     },
     "ITotalLabelTheme": {
       "properties": {
@@ -79791,10 +79819,36 @@
         "overlap": {
           "anyOf": [
             {
-              "$ref": "#/definitions/OverlapAttrs"
+              "allOf": [
+                {
+                  "const": false,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
-              "type": "boolean"
+              "allOf": [
+                {
+                  "const": true,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/OverlapAttrs"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "标签防重叠配置"
@@ -84404,7 +84458,10 @@
         "totalLabel": {
           "allOf": [
             {
-              "$ref": "#/definitions/ITotalLabelSpec"
+              "$ref": "#/definitions/Pick<ILabelSpec,\"style\"|\"interactive\"|\"visible\"|\"state\"|\"offset\"|\"overlap\"|\"formatMethod\"|\"textType\">"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -84869,7 +84926,10 @@
         "totalLabel": {
           "allOf": [
             {
-              "$ref": "#/definitions/ITotalLabelSpec"
+              "$ref": "#/definitions/Pick<ILabelSpec,\"style\"|\"interactive\"|\"visible\"|\"state\"|\"offset\"|\"overlap\"|\"formatMethod\"|\"textType\">"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -87396,7 +87456,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12335": {
+        "__@toStringTag@12336": {
           "type": "string"
         },
         "size": {
@@ -87404,14 +87464,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12335",
+        "__@toStringTag@12336",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12335": {
+        "__@toStringTag@12336": {
           "type": "string"
         },
         "size": {
@@ -87419,14 +87479,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12335",
+        "__@toStringTag@12336",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12335": {
+        "__@toStringTag@12336": {
           "type": "string"
         },
         "size": {
@@ -87434,14 +87494,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12335",
+        "__@toStringTag@12336",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12335": {
+        "__@toStringTag@12336": {
           "type": "string"
         },
         "size": {
@@ -87449,14 +87509,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12335",
+        "__@toStringTag@12336",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12335": {
+        "__@toStringTag@12336": {
           "type": "string"
         },
         "size": {
@@ -87464,14 +87524,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12335",
+        "__@toStringTag@12336",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12335": {
+        "__@toStringTag@12336": {
           "type": "string"
         },
         "size": {
@@ -87479,7 +87539,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12335",
+        "__@toStringTag@12336",
         "size"
       ],
       "type": "object"
@@ -91682,10 +91742,36 @@
         "overlap": {
           "anyOf": [
             {
-              "$ref": "#/definitions/OverlapAttrs"
+              "allOf": [
+                {
+                  "const": false,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
-              "type": "boolean"
+              "allOf": [
+                {
+                  "const": true,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/OverlapAttrs"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "标签防重叠配置"
@@ -92311,10 +92397,36 @@
         "overlap": {
           "anyOf": [
             {
-              "$ref": "#/definitions/OverlapAttrs"
+              "allOf": [
+                {
+                  "const": false,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
-              "type": "boolean"
+              "allOf": [
+                {
+                  "const": true,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/OverlapAttrs"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "标签防重叠配置"
@@ -99857,10 +99969,36 @@
         "overlap": {
           "anyOf": [
             {
-              "$ref": "#/definitions/OverlapAttrs"
+              "allOf": [
+                {
+                  "const": false,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
-              "type": "boolean"
+              "allOf": [
+                {
+                  "const": true,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/OverlapAttrs"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "标签防重叠配置"
@@ -100721,10 +100859,36 @@
         "overlap": {
           "anyOf": [
             {
-              "$ref": "#/definitions/OverlapAttrs"
+              "allOf": [
+                {
+                  "const": false,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             },
             {
-              "type": "boolean"
+              "allOf": [
+                {
+                  "const": true,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/OverlapAttrs"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "标签防重叠配置"
@@ -109588,6 +109752,80 @@
       },
       "type": "object"
     },
+    "Pick<ILabelSpec,\"style\"|\"interactive\"|\"visible\"|\"state\"|\"offset\"|\"overlap\"|\"formatMethod\"|\"textType\">": {
+      "properties": {
+        "formatMethod": {
+          "typeof": "function"
+        },
+        "interactive": {
+          "default": false,
+          "description": "是否支持交互。",
+          "type": "boolean"
+        },
+        "offset": {
+          "description": "标签与其对应数据图元的间距",
+          "type": "number"
+        },
+        "overlap": {
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "const": false,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "const": true,
+                  "type": "boolean"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/OverlapAttrs"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            }
+          ],
+          "description": "标签防重叠配置"
+        },
+        "state": {
+          "typeof": "function"
+        },
+        "style": {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
+          "description": "标签样式配置"
+        },
+        "textType": {
+          "description": "文本类型：text, rich,",
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "since": "1.7.0",
+          "type": "string"
+        },
+        "visible": {
+          "description": "默认不显示标签",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "Pick<IRectMarkSpec,\"fillOpacity\"|\"fill\"|\"cornerRadius\">": {
       "properties": {
         "cornerRadius": {
@@ -109854,34 +110092,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12335": {
+        "__@toStringTag@12336": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12335"
+        "__@toStringTag@12336"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12335": {
+        "__@toStringTag@12336": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12335"
+        "__@toStringTag@12336"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12335": {
+        "__@toStringTag@12336": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12335"
+        "__@toStringTag@12336"
       ],
       "type": "object"
     },

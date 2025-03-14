@@ -1,6 +1,27 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 03 Mar 2025 02:00:52 GMT and should not be manually modified.
+This log was last generated on Fri, 14 Mar 2025 04:02:23 GMT and should not be manually modified.
+
+## 1.13.7
+Fri, 14 Mar 2025 04:02:23 GMT
+
+### Updates
+
+- chore: add util to export
+
+
+-  feat: support `position` config in totalLabel, #3396
+- fix: vchart should not merge original options, fix #3798
+
+
+- fix(react-vchart): lifecycle event callback should be fired, fix #3792
+- fix: react-vchart should export `WaterfallChart`, fix #3791
+
+
+- fix: fix fontFamily of richtext, fix #3768
+
+
+- fix: fix issue with wx get context
 
 ## 1.13.6
 Mon, 03 Mar 2025 02:00:52 GMT

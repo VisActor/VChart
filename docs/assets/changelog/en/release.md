@@ -1,7 +1,26 @@
+# v1.13.6
+
+2025-03-03
+
+**🆕 New feature**
+
+- **@visactor/vchart**: optimize the display effect of waterfall chart lieaderLine
+- **@visactor/vchart**: add `transformRatioText` config for transformRatio text content in funnel tooltip, [#3704](https://github.com/VisActor/VChart/issues/3704)
+- **@visactor/vchart**: support `clamp` in linear scales, [#3738](https://github.com/VisActor/VChart/issues/3738)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: display line label normally when seriesField is missing, [#3709](https://github.com/VisActor/VChart/issues/3709)
+- **@visactor/vchart**: customMark should return components in `getVRenderComponents()`, fix [#3727](https://github.com/VisActor/VChart/issues/3727)
+- **@visactor/vchart**: map zoom error bug. fix[#3743](https://github.com/VisActor/VChart/issues/3743)
+- **@visactor/vchart**: Fix the issue where the maximum internal layer of the Sankey diagram is not updated when `setNodeLayer` is set.
+- **@visactor/vchart**: Fix the issue where nodes are not displayed when the number of nodes in the Sankey diagram is 1 and the number of edges is 0, fix [#3749](https://github.com/VisActor/VChart/issues/3749).
+
+[more detail about v1.13.6](https://github.com/VisActor/VChart/releases/tag/v1.13.6)
+
 # v1.13.5
 
 2025-02-14
-
 
 **🆕 New feature**
 
@@ -31,8 +50,6 @@
 **📖 Site / documentation update**
 
 - **@visactor/vchart**: update options of poptip, close [#3139](https://github.com/VisActor/VChart/issues/3139)
-
-
 
 [more detail about v1.13.5](https://github.com/VisActor/VChart/releases/tag/v1.13.5)
 

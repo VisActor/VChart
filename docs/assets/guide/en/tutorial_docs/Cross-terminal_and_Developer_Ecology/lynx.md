@@ -1,6 +1,8 @@
 # Lynx
 
-Lynx is a high-performance cross-end framework for quickly building Native views using the Web technology stack in Bytes. VChart also provides support for the chart rendering capabilities of this framework.
+**[Note] The open-source version of Lynx currently does not provide canvas functionality, so VChart rendering is not supported at this time. Future versions will support this feature. Stay tuned, [see the Lynx official website for more features](https://lynxjs.org/)**
+
+Lynx is a high-performance cross-platform framework open-sourced by ByteDance, enabling the rapid construction of Native views based on the Web technology stack. Lynx was officially open-sourced on March 5, 2025. VChart provides chart rendering capabilities for this framework based on the internal version of Lynx at ByteDance.
 
 ## How to get VChart
 
