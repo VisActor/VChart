@@ -42,7 +42,7 @@ For elements with a layout type of 'normal-inline', set the alignment of inline 
 - For elements at the bottom, 'start' - align to the bottom; 'end' - align to the top; 'middle' - align to the middle
 - For elements on the left, 'start' - align to the left; 'end' - align to the right; 'middle' - align to the middle
 - For elements on the right, 'start' - align to the right; 'end' - align to the left; 'middle' - align to the middle
-  {{ if: !${isRegion} }}
+  {{ /if}}
 
 #${prefix} padding(ILayoutNumber|Array|Object) = 0
 
