@@ -5,15 +5,15 @@
 
 **🆕 新增功能**
 
-- **@visactor/vchart**: support `position` config in totalLabel, [#3396](https://github.com/VisActor/VChart/issues/3396)
+- **@visactor/vchart**: 支持在 totalLabel 中配置 `position`，[#3396](https://github.com/VisActor/VChart/issues/3396)
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: vchart should not merge original options, fix [#3798](https://github.com/VisActor/VChart/issues/3798)
-- **react-vchart**: lifecycle event callback should be fired, fix [#3792](https://github.com/VisActor/VChart/issues/3792)
-- **@visactor/vchart**: react-vchart should export `WaterfallChart`, fix [#3791](https://github.com/VisActor/VChart/issues/3791)
-- **@visactor/vchart**: fix fontFamily of richtext, fix [#3768](https://github.com/VisActor/VChart/issues/3768)
-- **@visactor/vchart**: fix issue with wx get context
+- **@visactor/vchart**: vchart 内部不合并原始的options，修复 [#3798](https://github.com/VisActor/VChart/issues/3798)
+- **@visactor/react-vchart**: 生命周期事件回调应被触发，修复 [#3792](https://github.com/VisActor/VChart/issues/3792)
+- **@visactor/vchart**: react-vchart 应导出 `WaterfallChart`，修复 [#3791](https://github.com/VisActor/VChart/issues/3791)
+- **@visactor/vchart**: 修复 richtext 的 fontFamily，修复 [#3768](https://github.com/VisActor/VChart/issues/3768)
+- **@visactor/vchart**: 修复 wx 获取上下文的问题
 
 **🔧 项目配置**
 
