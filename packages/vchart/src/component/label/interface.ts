@@ -25,7 +25,7 @@ export interface ILabelFormatMethodContext {
 /**
  * 系列图元标签配置，一般用于展示数据项
  */
-export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
+export interface ILabelSpec extends ILabelAnimationSpec {
   /** 默认不显示标签 */
   visible?: boolean;
   /**
