@@ -4,11 +4,7 @@ group: pictogram chart
 title: Map of China eating spicy degree pictograph  
 keywords: pictogramChart,map,comparison,china
 order: 26-6
-<<<<<<< HEAD
 cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/5.gif
-=======
-cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamapv4.gif
->>>>>>> docs: add custom funnel demo and related docs
 option: pictogramChart
 ---
 
@@ -78,9 +74,7 @@ const chinamap_data = [
   { name: '香港特别行政区', category: 'bronze', level: '🌶' },
   { name: '澳门特别行政区', category: 'bronze', level: '🌶' },
   { name: '台湾省', category: 'bronze', level: '🌶' }
-]
-
-      // Define chart configuration objects
+];
       const spec = {
         // The chart type is pictograph
         type: 'pictogram',
