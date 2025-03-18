@@ -11,8 +11,9 @@ import type {
   StateValueType
 } from '../../compile/mark/interface';
 import type { Datum, StringOrNumber } from '../../typings';
-import type { ICustomPath2D, IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
+import type { MarkAnimationType } from '../../animation/interface';
 
 export interface VisualScaleType {
   scale: IBaseScale;
@@ -80,6 +81,10 @@ export interface IGraphicContext {
    * 数据对比状态
    */
   diffState?: DiffStateValues;
+  /**
+   * 动画状态管理: 'appear' / 'enter' / 'update' / 'exit' / 'disappear'
+   */
+  animationState?: MarkAnimationType;
   /**
    * 数据
    */

@@ -823,9 +823,14 @@ export class VChart implements IVChart {
   }
 
   private _updateAnimateState(initial?: boolean) {
+    // todo @feifei
     if (this._option.animation) {
       const animationState = initial ? AnimationStateEnum.appear : AnimationStateEnum.update;
+
       this._chart?.getAllRegions().forEach(region => {
+        // region.getAllMarks().forEach(mark => {
+
+        //  })
         region.animate?.updateAnimateState(animationState, true);
       });
       this._chart?.getAllComponents().forEach(component => {

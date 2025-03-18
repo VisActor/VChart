@@ -1106,6 +1106,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         if (g.context?.diffState === DiffState.exit) {
           // force element to stop exit animation if it is reentered
           // todo animaiton
+          // const animators = this.animate?.getElementAnimators(element, DiffState.exit);
+          // animators && animators.forEach(animator => animator.stop('start'));
         }
 
         this._graphicMap.set(key, g as IMarkGraphic);
@@ -1124,6 +1126,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         g.context = {
           ...this._getCommonContext(),
           diffState,
+          // todo @feifei animationState
           data: newData,
           uniqueKey: key,
           key: newData ? this._keyGetter(newData[0]) : g.context?.key,
@@ -1281,10 +1284,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       if (!isNil(this._markConfig.interactive)) {
         attrs.pickable = this._markConfig.interactive;
       }
-
       const finalAttrs = this._transformGraphicAttributes(g, attrs, attrsByGroup?.[g.context.groupKey]);
 
-      if (!g.setAttributes) {
+      if (!(g as any).setAttributes) {
         const mockGraphic = g;
         g = this._createGraphic(finalAttrs);
         g.context = mockGraphic.context;
@@ -1305,6 +1307,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           this._graphicMap.set(g.context.uniqueKey, g);
         }
       } else {
+        // todo  @zxy 这里需要补充动画更新逻辑
         g.setAttributes(finalAttrs);
       }
 

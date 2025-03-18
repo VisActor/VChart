@@ -165,6 +165,7 @@ export interface IAnimationTimeline {
 export type IAnimationConfig = IAnimationTimeline | IAnimationTypeConfig;
 
 export interface MarkAnimationSpec {
+  disappear?: IAnimationConfig | IAnimationConfig[];
   appear?: IAnimationConfig | IAnimationConfig[];
   enter?: IAnimationConfig | IAnimationConfig[];
   exit?: IAnimationConfig | IAnimationConfig[];
@@ -172,3 +173,5 @@ export interface MarkAnimationSpec {
   normal?: IAnimationConfig | IAnimationConfig[];
   state?: IStateAnimationConfig;
 }
+
+export type MarkAnimationType = keyof MarkAnimationSpec;

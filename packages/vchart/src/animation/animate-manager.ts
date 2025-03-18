@@ -6,6 +6,7 @@ import { AnimationStateEnum } from './interface';
 import type { StateValueMap } from '../compile/interface/compilable-item';
 import type { IMarkGraphic } from '../mark/interface/common';
 
+// todo @feifei
 export class AnimateManager extends StateManager implements IAnimate {
   protected declare _stateMap: IAnimateState & StateValueMap;
 
