@@ -339,7 +339,12 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod, labelSpec.formatter);
         }
       })
-      .size(() => labelInfos[0].series.getRegion().getLayoutRect());
+      .size(() => {
+        return {
+          padding: labelInfos[0].labelSpec.overlap?.padding,
+          ...labelInfos[0].series.getRegion().getLayoutRect()
+        };
+      });
   }
 
   compileMarks() {

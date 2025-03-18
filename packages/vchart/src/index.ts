@@ -7,6 +7,7 @@ export * from './core';
 // chart model for extension
 export * from './chart';
 export * from './chart/base';
+export * from './chart/common';
 export * from './series';
 export * from './mark';
 export * from './component';
@@ -18,3 +19,7 @@ export * from './plugin/chart';
 export * from './plugin/components/tooltip-handler';
 export * from './plugin/components/axis-sync';
 export * from './plugin/other';
+export * from './vrender-tools';
+// util
+export * from './util/data';
+export * from './util/spec/transform';

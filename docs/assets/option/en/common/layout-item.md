@@ -19,7 +19,7 @@ The currently supported layout types are as follows:
 
 Layout order level. The higher the level, the higher the priority for layout. For example, if both the title and the legend are at the top, the title should be placed at the top first, followed by the legend.
 
-{{ if: !${noOrient} }}
+{{ if: !${noOrient} & !${isRegion} }}
 #${prefix} orient(string)
 
 Module layout position. Available positions:
@@ -31,6 +31,7 @@ Module layout position. Available positions:
 
 {{ /if }}
 
+{{ if: !${isRegion} }}
 #${prefix} alignSelf('start' | 'end' | 'middle') = 'start'
 
 Starting from version 1.8.9,
@@ -41,6 +42,7 @@ For elements with a layout type of 'normal-inline', set the alignment of inline 
 - For elements at the bottom, 'start' - align to the bottom; 'end' - align to the top; 'middle' - align to the middle
 - For elements on the left, 'start' - align to the left; 'end' - align to the right; 'middle' - align to the middle
 - For elements on the right, 'start' - align to the right; 'end' - align to the left; 'middle' - align to the middle
+  {{ if: !${isRegion} }}
 
 #${prefix} padding(ILayoutNumber|Array|Object) = 0
 
@@ -139,12 +141,14 @@ Offset for the module's layout position in the Y direction.
 
 Display layer level for the module. When two modules overlap, the one with the larger level is displayed on top.
 
-{{ if: !${noClip} }}
+{{ if: !${noClip} | ${isRegion} }}
 #${prefix} clip(boolean)
 
 Whether to clip the drawing content outside the layout area of the module.
 
 {{ /if }}
+
+{{ if: !${isRegion} }}
 
 #${prefix} left(ILayoutNumber)
 
@@ -173,3 +177,4 @@ Distance from the module to the bottom side of the chart in absolute layout. Not
 #${prefix} center(boolean)
 
 In absolute layout, the element will be placed in the center of the chart. Note that **this is only effective when layoutType === 'absolute', and the padding property will be ignored**.
+{{ /if }}

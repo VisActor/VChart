@@ -79,7 +79,6 @@ import {
   isArray,
   isEmpty,
   Logger,
-  merge as mergeOrigin,
   isFunction,
   LoggerLevel,
   isEqual,
@@ -371,7 +370,17 @@ export class VChart implements IVChart {
   private _onResize?: () => void;
 
   constructor(spec: ISpec, options: IInitOption) {
-    this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
+    this._option = {
+      ...this._option,
+      animation: (spec as any).animation !== false,
+      ...options
+    };
+    if (options?.optimize) {
+      this._option.optimize = {
+        ...this._option.optimize,
+        ...options.optimize
+      };
+    }
     this._onError = this._option?.onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
@@ -1580,7 +1589,10 @@ export class VChart implements IVChart {
     }
     // 全局字体的特殊设置逻辑
     // 设置全局字体
-    (this.getStage() as any)?.setTheme({ text: { fontFamily } });
+    (this.getStage() as any)?.setTheme({
+      text: { fontFamily },
+      richtext: { fontFamily }
+    });
   }
 
   // Tooltip 相关方法

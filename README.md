@@ -61,10 +61,9 @@ This repository includes the following packages:
 2. [`react-vchart`](./packages/react-vchart/): The VChart component encapsulated based on [React](https://react.dev/)
 3. [`taro-vchart`](./packages/taro-vchart/): The VChart component encapsulated based on [Taro](https://docs.taro.zone/docs/)
 4. [`lark-vchart`](./packages/lark-vchart/): The VChart component encapsulated based on [Lark miniAPP](https://open.feishu.cn/document/client-docs/gadget/introduction/host-environment)
-5. [`tt-vchart`](./packages/lark-vchart/): The VChart component encapsulated based on [TikTok miniAPP](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/)
-6. [`block-vchart`](./packages/block-vchart/): The VChart component encapsulated based on [Lark Block](https://open.feishu.cn/document/client-docs/block/block-introduction)
-7. [`wx-vchart`](./packages/wx-vchart/)：The VChart component encapsulated based on [Wx miniAPP](https://developers.weixin.qq.com/miniprogram/dev/framework/)
-8. [`docs`](./docs/): VChart site source code, and also contains all Chinese and English documents, chart sample codes, etc. of the site.
+5. [`block-vchart`](./packages/block-vchart/): The VChart component encapsulated based on [Lark Block](https://open.feishu.cn/document/client-docs/block/block-introduction)
+6. [`wx-vchart`](./packages/wx-vchart/)：The VChart component encapsulated based on [Wx miniAPP](https://developers.weixin.qq.com/miniprogram/dev/framework/)
+7. [`docs`](./docs/): VChart site source code, and also contains all Chinese and English documents, chart sample codes, etc. of the site.
 
 ## 🔨 Usage
 
@@ -158,11 +157,12 @@ $ rush docs
 
 ## 💫 Ecosystem
 
-| Project                                                                               | Description                          |
-| ------------------------------------------------------------------------------------- | ------------------------------------ |
-| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React interface for @VisActor/VChart |
-| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                  | OpenInula VChart Components          |
-| [OMI](https://omi.cdn-go.cn/home/latest)                                              | Web Components Framework             |
+| Project                                                                                                          | Description                                                                                                                 |
+| ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart)                            | React interface for @VisActor/VChart                                                                                        |
+| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                                             | OpenInula VChart Components                                                                                                 |
+| [OMI](https://omi.cdn-go.cn/home/latest)                                                                         | Web Components Framework                                                                                                    |
+| [A vercel template built with vchart and Next.js](https://vercel.com/templates/next.js/visactor-nextjs-template) | A modern dashboard template built with vchart and Next.js, featuring a beautiful UI and rich data visualization components. |
 
 ## 💖 Thanks
 

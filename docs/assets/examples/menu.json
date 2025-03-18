@@ -1708,6 +1708,20 @@
             "zh": "中国地图吃辣程度一览象形图 ",
             "en": "Map of China eating spicy degree pictograph"
           }
+        },
+        {
+          "path": "pictogram-heart",
+          "title": {
+            "zh": "心脏医学示意图",
+            "en": "Medical Schematic Diagram of the Heart"
+          }
+        },
+        {
+          "path": "pictogram-bagua",
+          "title": {
+            "zh": "太极八卦图",
+            "en": "Taiji Bagua Diagram"
+          }
         }
       ]
     },
@@ -3074,6 +3088,20 @@
           "title": {
             "zh": "带纹理的饼图",
             "en": "Pie Chart with Texture"
+          }
+        },
+        {
+          "path": "dynamic-texture-progress",
+          "title": {
+            "zh": "进度图的动态纹理",
+            "en": "Dynamic texture for progress chart"
+          }
+        },
+        {
+          "path": "dynamic-texture-bar",
+          "title": {
+            "zh": "柱状图的动态纹理",
+            "en": "Dynamic texture for bar chart"
           }
         }
       ]

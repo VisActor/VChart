@@ -41,6 +41,7 @@ export * from './WordCloudChart';
 export * from './WordCloud3dChart';
 export * from './WordCloudChart';
 export * from './VennChart';
+export * from './WaterfallChart';
 
 export type { ChartOptions } from './BaseChart';
 export type { IData, IChartSpec } from '@visactor/vchart';

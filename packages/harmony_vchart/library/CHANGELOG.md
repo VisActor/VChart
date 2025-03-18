@@ -1,3 +1,52 @@
+# v1.13.7
+
+2025-03-14
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support `position` config in totalLabel, [#3396](https://github.com/VisActor/VChart/issues/3396)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: vchart should not merge original options, fix [#3798](https://github.com/VisActor/VChart/issues/3798)
+- **react-vchart**: lifecycle event callback should be fired, fix [#3792](https://github.com/VisActor/VChart/issues/3792)
+- **@visactor/vchart**: react-vchart should export `WaterfallChart`, fix [#3791](https://github.com/VisActor/VChart/issues/3791)
+- **@visactor/vchart**: fix fontFamily of richtext, fix [#3768](https://github.com/VisActor/VChart/issues/3768)
+- **@visactor/vchart**: fix issue with wx get context
+
+**🔧 Configuration releated**
+
+- **@visactor/vchart**: add util to export
+
+
+
+[more detail about v1.13.7](https://github.com/VisActor/VChart/releases/tag/v1.13.7)
+
+# v1.13.6
+
+2025-03-03
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: optimize the display effect of waterfall chart lieaderLine
+- **@visactor/vchart**: add `transformRatioText` config for transformRatio text content in funnel tooltip, [#3704](https://github.com/VisActor/VChart/issues/3704)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: display line label normally when seriesField is missing, [#3709](https://github.com/VisActor/VChart/issues/3709)
+- **@visactor/vchart**: customMark should return components in `getVRenderComponents()`, fix [#3727](https://github.com/VisActor/VChart/issues/3727)
+- **@visactor/vchart**: map zoom error bug. fix[#3743](https://github.com/VisActor/VChart/issues/3743)
+
+**🔖 other**
+
+- **@visactor/vchart**: 'feat: support `clamp` in linear scales, [#3738](https://github.com/VisActor/VChart/issues/3738)'
+
+
+
+[more detail about v1.13.6](https://github.com/VisActor/VChart/releases/tag/v1.13.6)
+
 # v1.13.5
 
 2025-02-14

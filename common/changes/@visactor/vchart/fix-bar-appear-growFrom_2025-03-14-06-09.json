@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "'feat: support `clamp` in linear scales, #3738'",
+      "comment": "fix: fix the issue where the bar chart grow animation does not work correctly when the axis `zero: false`, #3808",
       "type": "none"
     }
   ],
