@@ -115,7 +115,6 @@ import { getSVGSource } from '../series/pictogram/svg-source';
 import { registerGesturePlugin } from '../plugin/other';
 import { registerElementHighlight } from '../interaction/triggers/element-highlight';
 import { registerElementSelect } from '../interaction/triggers/element-select';
-import { registerDimensionHover } from '../interaction/triggers/dimension-hover';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -2204,7 +2203,6 @@ export const registerVChartCore = () => {
   // install default interaction
   registerElementHighlight();
   registerElementSelect();
-  registerDimensionHover();
   // install default theme
   registerTheme(darkTheme.name, darkTheme);
 };

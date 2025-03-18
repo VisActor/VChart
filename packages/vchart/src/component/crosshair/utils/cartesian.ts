@@ -2,7 +2,7 @@ import type { BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous, isDiscrete } from '@visactor/vscale';
 import type { ICartesianSeries } from '../../../series';
-import type { ILayoutPoint, StringOrNumber } from '../../../typings';
+import { Direction, type ILayoutPoint, type StringOrNumber } from '../../../typings';
 import type {
   AxisCurrentValueMap,
   CrossHairStateByField,
@@ -17,6 +17,7 @@ import { getAxisLabelOffset } from '../../axis/util';
 import { isValid } from '@visactor/vutils';
 import type { IAxis, ILinearAxis } from '../../axis';
 import { getFormatFunction } from '../../util';
+import type { IDimensionData } from '../../../event/events/dimension/interface';
 
 export const layoutByValue = (
   stateByField: CrossHairStateByField,
@@ -254,4 +255,58 @@ const getRectSize = (hair: IHair, bandSize: number, axis: IAxis) => {
   }
 
   return extend;
+};
+
+export const getCartesianCrosshairRect = (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => {
+  const currValueX: AxisCurrentValueMap = new Map();
+  const currValueY: AxisCurrentValueMap = new Map();
+  const { series, datum } = dimensionData;
+  const isHorizontal = (series as ICartesianSeries).direction === Direction.horizontal;
+  const axisHelper = isHorizontal
+    ? (series as ICartesianSeries).getYAxisHelper()
+    : (series as ICartesianSeries).getXAxisHelper();
+  const axisId = axisHelper.getAxisId();
+  const axis = series
+    .getChart()
+    .getComponentsByKey('axes')
+    .find(axis => axis.id === axisId) as IAxis;
+
+  if (!axis) {
+    return undefined;
+  }
+  (isHorizontal ? currValueY : currValueX).set(axis.getSpecIndex(), {
+    datum: series.getDatumPositionValues(datum[0], series.getDimensionField())?.[0],
+    axis
+  });
+
+  const state: CrossHairStateByField = {
+    xField: {
+      coordKey: 'x',
+      anotherAxisKey: 'y',
+      currentValue: currValueX,
+      attributes: {
+        visible: !!currValueX.size,
+        type: 'rect'
+      }
+    },
+    yField: {
+      coordKey: 'y',
+      anotherAxisKey: 'x',
+      currentValue: currValueY,
+      attributes: {
+        visible: !!currValueY.size,
+        type: 'rect'
+      }
+    }
+  };
+
+  layoutByValue(state, series as ICartesianSeries, layoutStartPoint);
+
+  if (state.xField.cacheInfo) {
+    return layoutCrosshair(state.xField);
+  }
+  if (state.yField.cacheInfo) {
+    return layoutCrosshair(state.yField);
+  }
+  return undefined;
 };

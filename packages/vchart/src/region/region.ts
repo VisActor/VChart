@@ -5,7 +5,6 @@ import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IGeoRegionSpec, IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
-import type { IInteraction } from '../interaction/interface/common';
 import { ChartEvent } from '../constant/event';
 import { LayoutZIndex } from '../constant/layout';
 import { AttributeLevel } from '../constant/attribute';

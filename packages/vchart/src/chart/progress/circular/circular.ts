@@ -9,6 +9,10 @@ import { BaseChart } from '../../base';
 import { StackChartMixin } from '../../stack';
 import { mixin } from '@visactor/vutils';
 import { registerDimensionHover } from '../../../interaction/triggers/dimension-hover';
+import { registerDimensionEvents } from '../../../event/events';
+import { getPolarDimensionInfo } from '../../../event/events/dimension/util/polar';
+import { registerDimensionTooltipProcessor } from '../../../component/tooltip/processor/dimension-tooltip';
+import { registerMarkTooltipProcessor } from '../../../component/tooltip/processor/mark-tooltip';
 
 export class CircularProgressChart<T extends ICircularProgressChartSpec = ICircularProgressChartSpec> extends BaseChart<
   AdaptiveSpec<T, 'axes'>
@@ -19,11 +23,18 @@ export class CircularProgressChart<T extends ICircularProgressChartSpec = ICircu
   readonly transformerConstructor = CircularProgressChartSpecTransformer;
   readonly type: string = ChartTypeEnum.circularProgress;
   readonly seriesType: string = SeriesTypeEnum.circularProgress;
+
+  protected _setModelOption() {
+    this._modelOption.getDimensionInfo = getPolarDimensionInfo;
+  }
 }
 
 mixin(CircularProgressChart, StackChartMixin);
 
 export const registerCircularProgressChart = () => {
+  registerDimensionTooltipProcessor();
+  registerMarkTooltipProcessor();
+  registerDimensionEvents();
   registerDimensionHover();
   registerCircularProgressSeries();
   Factory.registerChart(CircularProgressChart.type, CircularProgressChart);

@@ -8,6 +8,8 @@ import { IContainPointMode } from '@visactor/vrender-core';
 import type { IDimensionData } from '../../../event/events/dimension/interface';
 import type { Label } from '../../label';
 import { getDatumOfGraphic } from '../../../util/mark';
+import { Factory } from '../../../core/factory';
+import { TooltipType } from '../constant';
 
 export class MarkTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'mark';
@@ -115,3 +117,7 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
     };
   }
 }
+
+export const registerMarkTooltipProcessor = () => {
+  Factory.registerTooltipProcessor(TooltipType.mark, MarkTooltipProcessor);
+};

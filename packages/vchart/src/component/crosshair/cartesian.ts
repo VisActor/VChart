@@ -4,13 +4,12 @@ import { isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { AxisCurrentValueMap, CrossHairStateByField, IAxisInfo, ICartesianCrosshairSpec } from './interface';
+import type { ICartesianCrosshairSpec } from './interface';
 import type { ICartesianSeries } from '../../series/interface';
-import { isDiscrete } from '@visactor/vscale';
 import { LineCrosshair, RectCrosshair } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
-import type { IGraphic, INode } from '@visactor/vrender-core';
+import type { INode } from '@visactor/vrender-core';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, IPoint, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import { isXAxis, isYAxis } from '../axis/cartesian/util/common';

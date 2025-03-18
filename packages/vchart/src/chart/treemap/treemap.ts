@@ -6,6 +6,7 @@ import { registerTreemapSeries } from '../../series/treemap/treemap';
 import { Factory } from '../../core/factory';
 import type { AdaptiveSpec } from '../../typings';
 import { TreemapChartSpecTransformer } from './treemap-transformer';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> extends BaseChart<
   AdaptiveSpec<T, 'data' | 'series'>
@@ -19,6 +20,7 @@ export class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> exten
 }
 
 export const registerTreemapChart = () => {
+  registerMarkTooltipProcessor();
   registerTreemapSeries();
   Factory.registerChart(TreemapChart.type, TreemapChart);
 };

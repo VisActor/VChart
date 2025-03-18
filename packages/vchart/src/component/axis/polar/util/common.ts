@@ -4,6 +4,11 @@ import { ComponentTypeEnum } from '../../../interface';
 import type { IPolarAxisCommonSpec } from '../interface';
 import type { ILayoutRect } from '../../../../typings/layout';
 import type { IPoint } from '../../../../typings/coordinate';
+import type { IPolarOrientType } from '../../../../typings/space';
+import type { AxisType } from '../../interface/common';
+import type { ITheme } from '../../../../theme/interface';
+import { getComponentThemeFromOption } from '../../../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export const getPolarAxisInfo = (spec: IPolarAxisCommonSpec, chartSpec: any) => {
   // TODO: 基于数据处理 axis 类型
@@ -52,4 +57,18 @@ export const computeLayoutRadius = (
   }
 
   return Math.min(rect.width / 2, rect.height / 2);
+};
+
+export const getPolarAxisTheme = (orient: IPolarOrientType, type: AxisType, chartTheme: ITheme) => {
+  const axisTypeTheme =
+    (type === 'band'
+      ? getComponentThemeFromOption('axisBand', chartTheme)
+      : type === 'linear'
+      ? getComponentThemeFromOption('axisLinear', chartTheme)
+      : {}) ?? {};
+  const axisTheme =
+    orient === 'angle'
+      ? getComponentThemeFromOption('axisAngle', chartTheme)
+      : getComponentThemeFromOption('axisRadius', chartTheme);
+  return mergeSpec({}, getComponentThemeFromOption('axis', chartTheme), axisTypeTheme, axisTheme);
 };

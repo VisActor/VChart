@@ -22,6 +22,9 @@ import type { IGraphic } from '@visactor/vrender-core';
 import type { IStageEventPlugin, VRenderComponentOptions } from './interface';
 import type { MarkAnimationSpec } from '../animation/interface';
 import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/interface/trigger';
+import type { IComposedEventConstructor } from '../index-harmony-simple';
+import type { ITooltipProcessorConstructor } from '../component/tooltip/processor/interface';
+import type { ITooltip } from '../component';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
@@ -135,6 +138,10 @@ export class Factory {
     }
     const ChartConstructor = Factory._charts[chartType];
     return new ChartConstructor(spec, options);
+  }
+
+  static getChart(chartType: string) {
+    return Factory._charts[chartType];
   }
 
   static createChartSpecTransformer(
@@ -296,4 +303,26 @@ export class Factory {
   static hasInteractionTrigger(interactionType: string) {
     return !!Factory._interactionTriggers[interactionType];
   }
+
+  private static _composedEventMap: Record<string, IComposedEventConstructor> = {};
+
+  static registerComposedEvent = (eType: string, composedEvent: IComposedEventConstructor) => {
+    Factory._composedEventMap[eType] = composedEvent;
+  };
+
+  static getComposedEvent(eType: string) {
+    return Factory._composedEventMap[eType];
+  }
+
+  private static _tooltipProcessors: Record<string, ITooltipProcessorConstructor> = {};
+  static registerTooltipProcessor = (type: string, processor: ITooltipProcessorConstructor) => {
+    Factory._tooltipProcessors[type] = processor;
+  };
+  static createTooltipProcessor = (type: string, tooltip: ITooltip) => {
+    const Cror = Factory._tooltipProcessors[type];
+    if (!Cror) {
+      return null;
+    }
+    return new Cror(tooltip);
+  };
 }

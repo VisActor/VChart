@@ -1,7 +1,7 @@
 import type { ITheme } from '../../theme';
 import { Direction, type IOrientType } from '../../typings';
-import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
-import { getCartesianAxisTheme, getPolarAxisTheme } from '../axis/util';
+import { getCartesianAxisTheme, getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
+import { getPolarAxisTheme } from '../axis/polar/util/common';
 import { getCartesianCrosshairTheme, getPolarCrosshairTheme } from '../crosshair/utils';
 import type { ComponentThemeWithDirection } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';

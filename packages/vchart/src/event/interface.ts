@@ -3,7 +3,7 @@ import type { IChart } from '../chart/interface';
 import type { IModel } from '../model/interface';
 import type { IMark, IMarkGraphic, MarkType } from '../mark/interface';
 import type { DimensionEventParams } from './events/dimension/interface';
-import type { Datum, IPoint, StringOrNumber } from '../typings';
+import type { Datum, IPoint, RenderMode, StringOrNumber } from '../typings';
 import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, HOOK_EVENT } from '../constant/event';
 import type { SeriesType } from '../series/interface';
 import type { TooltipEventParams } from '../component/tooltip/interface/event';
@@ -342,4 +342,8 @@ export interface IComposedEvent {
   register: <Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) => void;
   unregister: () => void;
   dispatch: (v: unknown, opt: unknown) => unknown;
+}
+
+export interface IComposedEventConstructor {
+  new (eventDispatcher: IEventDispatcher, mode: RenderMode): IComposedEvent;
 }

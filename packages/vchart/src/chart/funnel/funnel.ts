@@ -5,6 +5,7 @@ import { Factory } from '../../core/factory';
 import type { IFunnelChartSpec } from './interface';
 import { FunnelChartSpecTransformer } from './funnel-transformer';
 import { BaseChart } from '../base';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class FunnelChart<T extends IFunnelChartSpec = IFunnelChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.funnel;
@@ -16,6 +17,7 @@ export class FunnelChart<T extends IFunnelChartSpec = IFunnelChartSpec> extends 
 }
 
 export const registerFunnelChart = () => {
+  registerMarkTooltipProcessor();
   registerFunnelSeries();
   Factory.registerChart(FunnelChart.type, FunnelChart);
 };

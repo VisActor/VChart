@@ -5,10 +5,10 @@ import type { DimensionTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
 import { isValid } from '@visactor/vutils';
 import type { ICartesianSeries } from '../../../series/interface';
-import { getCartesianDimensionInfo } from '../../../event/events/dimension/util/cartesian';
-import { getPolarDimensionInfo } from '../../../event/events/dimension/util/polar';
 import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
 import { isDiscrete } from '@visactor/vscale';
+import { Factory } from '../../../core/factory';
+import { TooltipType } from '../constant';
 
 export class DimensionTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'dimension';
@@ -34,10 +34,8 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
     const point = { x: params.event.viewX, y: params.event.viewY };
     layer.globalTransMatrix.transformPoint({ x: params.event.viewX, y: params.event.viewY }, point);
 
-    targetDimensionInfo = [
-      ...(getCartesianDimensionInfo(chart, point, true) ?? []),
-      ...(getPolarDimensionInfo(chart, point) ?? [])
-    ];
+    targetDimensionInfo = this.component.getOption().getDimensionInfo?.(chart, point, true) ?? [];
+
     if (targetDimensionInfo.length === 0) {
       targetDimensionInfo = undefined;
     } else if (targetDimensionInfo.length > 1) {
@@ -101,3 +99,7 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
     };
   }
 }
+
+export const registerDimensionTooltipProcessor = () => {
+  Factory.registerTooltipProcessor(TooltipType.dimension, DimensionTooltipProcessor);
+};
