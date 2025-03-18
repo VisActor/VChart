@@ -101,3 +101,6 @@ vchart.renderSync();
 window['vchart'] = vchart;
 ```
 
+## Related Tutorials
+
+[PictogramChart](link)
