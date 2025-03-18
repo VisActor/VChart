@@ -5,6 +5,10 @@ import { isValid } from '@visactor/vutils';
 import { isValidOrient } from '../../../../util/space';
 import type { ICartesianAxisCommonSpec } from '../interface';
 import { ComponentTypeEnum } from '../../../interface';
+import type { AxisType } from '../../interface/common';
+import type { ITheme } from '../../../../theme/interface';
+import { getComponentThemeFromOption } from '../../../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export function isXAxis(orient: IOrientType) {
   return orient === 'bottom' || orient === 'top';
@@ -55,3 +59,18 @@ export function getCartesianAxisInfo(spec: ICartesianAxisCommonSpec, isHorizonta
   const componentName = `${ComponentTypeEnum.cartesianAxis}-${axisType}`;
   return { axisType, componentName };
 }
+
+export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, chartTheme: ITheme) => {
+  const axisTypeTheme =
+    (type === 'band'
+      ? getComponentThemeFromOption('axisBand', chartTheme)
+      : (['linear', 'log', 'symlog'] as AxisType[]).includes(type)
+      ? getComponentThemeFromOption('axisLinear', chartTheme)
+      : {}) ?? {};
+  const axisTheme = isXAxis(orient)
+    ? getComponentThemeFromOption('axisX', chartTheme)
+    : isYAxis(orient)
+    ? getComponentThemeFromOption('axisY', chartTheme)
+    : getComponentThemeFromOption('axisZ', chartTheme);
+  return mergeSpec({}, getComponentThemeFromOption('axis', chartTheme), axisTypeTheme, axisTheme);
+};

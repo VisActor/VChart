@@ -22,7 +22,6 @@ import type { StringOrNumber } from '../typings';
 import type { IComponent } from '../component/interface';
 import { Factory } from '../core/factory';
 import type { IMarkGraphic } from '../mark/interface';
-import { IMark } from '../mark/interface';
 import { getDatumOfGraphic } from '../util';
 
 const componentTypeMap: Record<string, string> = {

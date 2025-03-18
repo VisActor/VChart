@@ -12,6 +12,7 @@ import type { IRegionQuerier } from '../../typings/params';
 import { isArray, isFunction } from '@visactor/vutils';
 import { loadScrollbar } from '@visactor/vrender-components';
 import { getDatumOfGraphic } from '../../util';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sankey;
@@ -90,6 +91,7 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
 }
 
 export const registerSankeyChart = () => {
+  registerMarkTooltipProcessor();
   loadScrollbar();
   registerSankeySeries();
 

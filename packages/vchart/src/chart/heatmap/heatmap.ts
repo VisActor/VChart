@@ -5,6 +5,7 @@ import { Factory } from '../../core/factory';
 import type { IHeatmapChartSpec } from './interface';
 import { HeatmapChartSpecTransformer } from './heatmap-transformer';
 import { BaseChart } from '../base';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class HeatmapChart<T extends IHeatmapChartSpec = IHeatmapChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.heatmap;
@@ -16,6 +17,7 @@ export class HeatmapChart<T extends IHeatmapChartSpec = IHeatmapChartSpec> exten
 }
 
 export const registerHeatmapChart = () => {
+  registerMarkTooltipProcessor();
   registerHeatmapSeries();
   Factory.registerChart(HeatmapChart.type, HeatmapChart);
 };

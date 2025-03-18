@@ -61,7 +61,7 @@ import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout, isBoolean, isObject } from '@visactor/vutils';
+import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
@@ -69,7 +69,7 @@ import type { IStateInfo } from '../../compile/mark/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { ChartEvent, HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
-import { DimensionEventEnum } from '../../event/events/dimension';
+import { DimensionEventEnum } from '../../event/events/dimension/interface';
 import type { ITooltip } from '../../component/tooltip/interface';
 import { calculateChartSize, mergeUpdateResult } from '../util';
 import { isDiscrete } from '@visactor/vscale';
@@ -77,7 +77,6 @@ import { updateDataViewInData } from '../../data/initialize';
 import { LayoutZIndex } from '../../constant/layout';
 import type { IAxis } from '../../component/axis/interface/common';
 import type { IMorphConfig } from '../../animation/spec';
-import type { IGraphic } from '@visactor/vrender-core';
 import { Interaction } from '../../interaction/interaction';
 import type { IInteraction } from '../../interaction/interface/common';
 import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
@@ -86,7 +85,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   readonly type: string = 'chart';
   readonly seriesType: string;
   readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
-
   readonly id: number = createID();
 
   //FIXME: 转换后的 spec 需要声明 ITransformedChartSpec
@@ -151,6 +149,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   // 模块参数
   protected _modelOption: IModelOption;
+
+  getModelOption() {
+    return this._modelOption;
+  }
 
   // 全局通道
   // protected _globalScale: { [key: string]: IBaseScale } = {};
@@ -1304,8 +1306,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
               graphics.filter(g => {
                 const elDatum = getDatumOfGraphic(g) as Datum[];
 
-                // eslint-disable-next-line max-nested-callbacks, eqeqeq
                 const isPicked =
+                  // eslint-disable-next-line max-nested-callbacks, eqeqeq
                   elDatum && (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index]?.[k]));
 
                 if (isPicked) {

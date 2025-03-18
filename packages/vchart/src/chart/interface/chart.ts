@@ -3,7 +3,7 @@ import type { LayoutCallBack } from '../../layout/interface';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { IModel, IModelConstructor, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
+import type { IModel, IModelConstructor, IModelOption, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
 import type { IRegion, IRegionConstructor } from '../../region/interface';
 import type { ISeries, ISeriesConstructor } from '../../series/interface';
 import type {
@@ -63,6 +63,12 @@ export interface IChart extends ICompilable {
   getViewRect: () => ILayoutRect;
 
   getOption: () => IChartOption;
+
+  getModelOption: () => IModelOption;
+  /**
+   * 图表更新的时候按需调用
+   * @since 1.11.0
+   */
 
   /** event */
   getEvent: () => IEvent;

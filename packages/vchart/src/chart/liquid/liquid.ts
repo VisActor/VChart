@@ -5,6 +5,7 @@ import { Factory } from '../../core/factory';
 import { BaseChart } from '../base';
 import { LiquidChartSpecTransformer } from './liquid-transformer';
 import { registerLiquidSeries } from '../../series/liquid/liquid';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class LiquidChart<T extends ILiquidChartSpec = ILiquidChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.liquid;
@@ -16,6 +17,7 @@ export class LiquidChart<T extends ILiquidChartSpec = ILiquidChartSpec> extends 
 }
 
 export const registerLiquidChart = () => {
+  registerMarkTooltipProcessor();
   registerLiquidSeries();
   Factory.registerChart(LiquidChart.type, LiquidChart);
 };

@@ -6,6 +6,7 @@ import type { IGaugeChartSpec } from './interface';
 import { GaugeChartSpecTransformer } from './gauge-transformer';
 import type { AdaptiveSpec } from '../../typings';
 import { BaseChart } from '../base';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class GaugeChart<T extends IGaugeChartSpec = IGaugeChartSpec> extends BaseChart<AdaptiveSpec<T, 'axes'>> {
   static readonly type: string = ChartTypeEnum.gauge;
@@ -17,6 +18,7 @@ export class GaugeChart<T extends IGaugeChartSpec = IGaugeChartSpec> extends Bas
 }
 
 export const registerGaugeChart = () => {
+  registerMarkTooltipProcessor();
   registerGaugePointerSeries();
   registerGaugeSeries();
   Factory.registerChart(GaugeChart.type, GaugeChart);

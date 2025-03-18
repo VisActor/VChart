@@ -7,6 +7,7 @@ import type { AdaptiveSpec } from '../../../typings';
 import { FunnelChartSpecTransformer } from '../funnel-transformer';
 import { BaseChart } from '../../base';
 import { register3DPlugin } from '../../../plugin/other';
+import { registerMarkTooltipProcessor } from '../../../component/tooltip/processor/mark-tooltip';
 
 export class Funnel3dChart<T extends IFunnel3dChartSpec = IFunnel3dChartSpec> extends BaseChart<
   AdaptiveSpec<T, 'type'>
@@ -20,6 +21,7 @@ export class Funnel3dChart<T extends IFunnel3dChartSpec = IFunnel3dChartSpec> ex
 }
 
 export const registerFunnel3dChart = () => {
+  registerMarkTooltipProcessor();
   register3DPlugin();
   registerFunnel3dSeries();
   Factory.registerChart(Funnel3dChart.type, Funnel3dChart);

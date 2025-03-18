@@ -1,26 +1,25 @@
 import { isNil, isValid } from '@visactor/vutils';
 import type { BaseEventParams } from '../../../event/interface';
 import type { ITooltipActual, TooltipActiveType, TooltipData } from '../../../typings';
-import type { TooltipHandlerParams } from '../interface';
+import type { ITooltip, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../interface/common';
-import type { Tooltip } from '../tooltip';
 import type { MouseEventData, TooltipInfo } from './interface';
 import { ChartEvent } from '../../../constant/event';
 import type { TooltipEventParams } from '../interface/event';
-import type { IDimensionInfo } from '../../../event/events/dimension';
+import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 import type { ISeries } from '../../../series/interface';
 import { getTooltipSpecForShow } from '../utils/get-spec';
 import { isActiveTypeVisible } from '../utils/common';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constant';
 
 export abstract class BaseTooltipProcessor {
-  readonly component: Tooltip;
+  readonly component: ITooltip;
   abstract activeType: TooltipActiveType;
 
   protected _cacheActiveSpec: ITooltipActual | undefined;
 
-  constructor(component: Tooltip) {
+  constructor(component: ITooltip) {
     this.component = component;
   }
 

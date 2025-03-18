@@ -5,6 +5,7 @@ import type { IPictogramChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { PictogramChartSpecTransformer } from './pictogram-transformer';
 import { registerPictogramSeries } from '../../series/pictogram/pictogram';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class PictogramChart<T extends IPictogramChartSpec = IPictogramChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.pictogram;
@@ -16,6 +17,7 @@ export class PictogramChart<T extends IPictogramChartSpec = IPictogramChartSpec>
 }
 
 export const registerPictogramChart = () => {
+  registerMarkTooltipProcessor();
   registerPictogramSeries();
   Factory.registerChart(PictogramChart.type, PictogramChart);
 };

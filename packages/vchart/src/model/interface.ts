@@ -21,6 +21,10 @@ import type { ITooltipSpec } from '../component/tooltip/interface';
 import type { TooltipActiveType } from '../typings';
 import type { IVChart } from '../core/interface';
 import type { ICompilableData } from '../compile/data/interface';
+import type { IDimensionData, IDimensionInfo } from '../event/events/dimension/interface';
+import type { IAxis } from '../component/axis';
+import type { CrossHairStateItem } from '../component/crosshair/interface/common';
+import type { RectCrosshairAttrs } from '@visactor/vrender-components';
 
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -183,6 +187,9 @@ export interface IModelOption extends ICompilableInitOption {
    * 是否关闭交互效果
    */
   disableTriggerEvent?: boolean;
+  getDimensionInfo?: (chart: IChart | undefined, pos: ILayoutPoint, isTooltip?: boolean) => IDimensionInfo[] | null;
+  getDimensionInfoByValue?: (axis: IAxis, value: any) => IDimensionInfo | null;
+  getRectByDimensionData?: (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => any;
 }
 
 export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
