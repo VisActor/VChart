@@ -336,3 +336,12 @@ VChart.registerMap('world', geojson, {
 const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
 vchart.renderSync();
 ```
+
+
+# Get Map Data
+
+## China Map Data
+You can get China map data from [geojson.cn](https://geojson.cn/data/atlas/china), but here we need to remind you that the map data uploaded to the line needs to be reviewed by the relevant department, otherwise there will be legal risks.
+
+## World Map Data
+You can get world map data from [hub.arcgis.com](https://hub.arcgis.com/search)
