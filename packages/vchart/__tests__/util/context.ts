@@ -34,7 +34,8 @@ export function modelOption(opt: Partial<IModelOption> = {}, chart?: TestChart):
 
     getChart: () =>
       ({
-        getSpec: () => ({})
+        getSpec: () => ({}),
+        getOption: () => ({})
       } as any),
     getChartLayoutRect: () => {
       return { width: 500, height: 500 } as any;

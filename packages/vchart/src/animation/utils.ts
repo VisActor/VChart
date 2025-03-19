@@ -276,9 +276,13 @@ export function isAnimationEnabledForSeries(series: ISeries) {
     return false;
   }
 
-  if (!isValid(series.getRegion().animate)) {
+  if (series.getChart()?.getOption()?.animation === false) {
     return false;
   }
+
+  // if (!isValid(series.getRegion().animate)) {
+  //   return false;
+  // }
 
   let animationThreshold = seriesSpec.animationThreshold ?? Number.MAX_SAFE_INTEGER;
 

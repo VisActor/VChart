@@ -275,4 +275,8 @@ export class TestChart implements IChart {
   getMarkById(id: number): IMark | undefined {
     return undefined;
   }
+
+  getOption() {
+    return {} as any;
+  }
 }
