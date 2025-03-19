@@ -464,10 +464,12 @@ export class Compiler implements ICompiler {
         const graphic = event.target;
         let markGraphic: IMarkGraphic = null;
 
-        if (isValid(graphic.context)) {
-          markGraphic = graphic;
-        } else {
-          markGraphic = findMarkGraphic(rootGroup, graphic);
+        if (graphic) {
+          if (isValid(graphic.context)) {
+            markGraphic = graphic;
+          } else {
+            markGraphic = findMarkGraphic(rootGroup, graphic);
+          }
         }
         const context = (markGraphic?.context ?? {}) as Partial<IGraphicContext>;
         const markId = isValid(context.markId) ? context.markId : null;
