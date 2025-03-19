@@ -6,7 +6,7 @@
 import { AbstractComponent } from '@visactor/vrender-components';
 import type { Dict } from '@visactor/vutils';
 import { isEmpty } from '@visactor/vutils';
-import { Factory } from '@visactor/vgrammar-core';
+import { Factory } from '@visactor/vchart';
 import { type IGraphic, type IText, createText, createLine } from '@visactor/vrender-core';
 import { SeriesLabelAttrs, SeriesLabelData } from './type';
 import { dodge, dodgeHorizontal } from './util';
