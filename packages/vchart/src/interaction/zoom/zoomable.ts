@@ -139,6 +139,9 @@ export class Zoomable implements IZoomable {
     ) {
       return;
     }
+    this._clearDragEvent(); // 防止drag 事件被同时触发，状态混乱
+    this._zoomableTrigger.clearScroll(); // 防止scroll事件被同时触发，状态混乱
+
     let extendParams: ReturnType<typeof callback> = {};
     if (callback) {
       extendParams = callback({ zoomDelta, zoomX, zoomY }, event);
@@ -259,6 +262,8 @@ export class Zoomable implements IZoomable {
     ) {
       return stopBubble;
     }
+    this._clearDragEvent(); // 防止drag 同时触发，状态混乱
+    this._zoomableTrigger.clearZoom(); // 防止zoom同时触发，状态混乱
 
     if (callback) {
       stopBubble = callback({ scrollX, scrollY }, event as any);
@@ -483,6 +488,8 @@ export class Zoomable implements IZoomable {
     if (!this._zoomableTrigger.parserDragEvent(params.event)) {
       return;
     }
+    this._zoomableTrigger.clearZoom(); // 防止zoom 事件被同时触发, 状态混乱
+    this._zoomableTrigger.clearScroll(); // 防止 scroll 事件被同时触发, 状态混乱
     const delayType = option?.delayType ?? 'throttle';
     const delayTime = option?.delayTime ?? 0;
     const realTime = option?.realTime ?? true;
