@@ -8,6 +8,15 @@ export const axisRadius: IPolarAxisCommonTheme = {
   subGrid: {
     smooth: true,
     visible: false
+  },
+  label: {
+    visible: false
+  },
+  domainLine: {
+    visible: false
+  },
+  tick: {
+    visible: false
   }
 };
 
