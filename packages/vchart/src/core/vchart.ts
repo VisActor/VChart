@@ -47,7 +47,7 @@ import type { GeoSourceOption } from '../series/map/geo-source';
 // eslint-disable-next-line no-duplicate-imports
 import { getMapSource } from '../series/map/geo-source';
 // eslint-disable-next-line no-duplicate-imports
-import type { IMark, MarkConstructor } from '../mark/interface';
+import type { IMark, IMarkGraphic, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';
 import { copyDataView } from '../data/transforms/copy-data-view';
@@ -773,7 +773,6 @@ export class VChart implements IVChart {
     if (this._isReleased) {
       return false;
     }
-    this._updateAnimateState();
     this._event.emit(ChartEvent.rendered, {
       chart: this._chart,
       vchart: this
@@ -823,18 +822,17 @@ export class VChart implements IVChart {
   }
 
   private _updateAnimateState(initial?: boolean) {
-    // todo @feifei
     if (this._option.animation) {
-      const animationState = initial ? AnimationStateEnum.appear : AnimationStateEnum.update;
+      const updateGraphicAnimationState = (graphic: IMarkGraphic) => {
+        const diffState = graphic.context.diffState;
+        if (initial) {
+          return diffState === 'exit' ? undefined : AnimationStateEnum.appear;
+        }
+        return diffState;
+      };
 
-      this._chart?.getAllRegions().forEach(region => {
-        // region.getAllMarks().forEach(mark => {
-
-        //  })
-        region.animate?.updateAnimateState(animationState, true);
-      });
-      this._chart?.getAllComponents().forEach(component => {
-        component.animate?.updateAnimateState(animationState, true);
+      this._compiler.getRootMarks().forEach(mark => {
+        mark.updateAnimationState(updateGraphicAnimationState);
       });
     }
   }
@@ -954,15 +952,15 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
     if (this._chart) {
-      if (userUpdateOptions?.reAnimate) {
-        this.stopAnimation();
-        this._updateAnimateState(true);
-      }
-
       this._chart.updateData(id, data, true, parserOptions);
 
       // after layout
       this._compiler.render();
+
+      if (userUpdateOptions?.reAnimate) {
+        this.stopAnimation();
+        this._updateAnimateState(true);
+      }
       return this as unknown as IVChart;
     }
     this._spec.data = array(this._spec.data);
@@ -983,13 +981,13 @@ export class VChart implements IVChart {
     userUpdateOptions?: IUpdateSpecResult
   ) {
     if (this._chart) {
-      if (userUpdateOptions?.reAnimate) {
-        this.stopAnimation();
-        this._updateAnimateState(true);
-      }
       this._chart.updateFullData(data);
       if (reRender) {
         this._compiler.render();
+        if (userUpdateOptions?.reAnimate) {
+          this.stopAnimation();
+          this._updateAnimateState(true);
+        }
       }
       return this as unknown as IVChart;
     }

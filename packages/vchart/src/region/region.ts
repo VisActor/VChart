@@ -8,8 +8,6 @@ import type { IGeoRegionSpec, IRegion, IRegionSpec, IRegionSpecInfo } from './in
 import { ChartEvent } from '../constant/event';
 import { LayoutZIndex } from '../constant/layout';
 import { AttributeLevel } from '../constant/attribute';
-import { AnimateManager } from '../animation/animate-manager';
-import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
@@ -28,8 +26,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   protected _series: ISeries[] = [];
   layoutType: ILayoutType = 'region';
   layoutZIndex: number = LayoutZIndex.Region;
-
-  animate?: IAnimate;
 
   declare getSpecInfo: () => IRegionSpecInfo;
 
@@ -72,11 +68,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     super(spec, ctx);
     this.userId = spec.id;
     this.coordinate = spec.coordinate ?? 'cartesian';
-    if (this._option.animation) {
-      this.animate = new AnimateManager({
-        getCompiler: ctx.getCompiler
-      });
-    }
   }
 
   protected _getClipDefaultValue() {

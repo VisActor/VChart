@@ -59,6 +59,8 @@ export type IMarkStyle<T extends ICommonSpec> = {
 
 export type DiffStateValues = 'update' | 'enter' | 'exit';
 
+export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear';
+
 export interface IGraphicContext {
   markType: MarkTypeEnum;
   /**
@@ -84,7 +86,7 @@ export interface IGraphicContext {
   /**
    * 动画状态管理: 'appear' / 'enter' / 'update' / 'exit' / 'disappear'
    */
-  animationState?: MarkAnimationType;
+  animationState?: AnimationStateValues;
   /**
    * 数据
    */
@@ -169,6 +171,8 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   renderProgressive: () => void;
   /** 增量流程后，是否执行动画 */
   canAnimateAfterProgressive: () => boolean;
+  /** 更新图元动画状态 */
+  updateAnimationState: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;

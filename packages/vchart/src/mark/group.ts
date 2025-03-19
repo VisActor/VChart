@@ -4,7 +4,7 @@ import type { Maybe } from '../typings';
 import { log, warn } from '../util/debug';
 import type { IGroupMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IGroupMark, IMark, IMarkGraphic, MarkType } from './interface';
+import type { AnimationStateValues, IGroupMark, IMark, IMarkGraphic, MarkType } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { type IMarkCompileOption } from '../compile/mark';
@@ -123,6 +123,12 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
     this.getMarks().forEach(mark => {
       mark.render();
+    });
+  }
+
+  updateAnimationState(callback: (g: IMarkGraphic) => AnimationStateValues) {
+    this.getMarks().forEach(mark => {
+      mark.updateAnimationState(callback);
     });
   }
 

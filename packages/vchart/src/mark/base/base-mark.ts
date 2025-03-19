@@ -1,3 +1,4 @@
+import { DiffState } from './../interface/enum';
 import { type IStateInfo, type IModelMarkAttributeContext, STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { BaseSeries } from '../../series/base/base-series';
 import type {
@@ -34,7 +35,8 @@ import type {
   DiffStateValues,
   ProgressiveContext,
   IProgressiveTransformResult,
-  MarkType
+  MarkType,
+  AnimationStateValues
 } from '../interface';
 import { DiffState } from '../interface/enum';
 import { GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant/gradient';
@@ -57,7 +59,7 @@ import { GrammarItem } from '../../compile/grammar-item';
 import { LayoutZIndex } from '../../constant/layout';
 import type { IModel } from '../../model/interface';
 import type { ICompilableData } from '../../compile/data/interface';
-import type { MarkAnimationSpec } from '../../animation/interface';
+import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { log } from '../../util';
 
@@ -1126,7 +1128,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         g.context = {
           ...this._getCommonContext(),
           diffState,
-          // todo @feifei animationState
+          animationState: diffState,
           data: newData,
           uniqueKey: key,
           key: newData ? this._keyGetter(newData[0]) : g.context?.key,
@@ -1134,6 +1136,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         };
         enterGraphics.delete(g);
       }
+      return g;
     };
 
     if (prevGroupedData && newGroupedData) {
@@ -1152,13 +1155,17 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       });
     } else if (newGroupedData) {
       newGroupedData.keys.forEach(key => {
-        // enter
-        callback(key, newGroupedData.data.get(key), null);
+        // appear
+        const g = callback(key, newGroupedData.data.get(key), null);
+        if (g) {
+          g.context.animationState = AnimationStateEnum.appear;
+        }
       });
     } else if (prevGroupedData) {
       prevGroupedData.keys.forEach(key => {
-        // exit
-        callback(key, null, prevGroupedData.data.get(key));
+        // disappear
+        const g = callback(key, null, prevGroupedData.data.get(key));
+        g.context.animationState = AnimationStateEnum.disappear;
       });
     }
 
@@ -1670,6 +1677,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       return;
     } else if (this.renderContext.progressive) {
       this._runProgressiveStep();
+    }
+  }
+
+  updateAnimationState(callback: (graphic: IMarkGraphic) => AnimationStateValues) {
+    if (this._graphics) {
+      this._graphics.forEach(g => (g.context.animationState = callback(g)));
     }
   }
 }
