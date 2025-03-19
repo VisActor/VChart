@@ -20,14 +20,6 @@ export interface IAnimateState {
   animationState: { callback: (datum: any, element: any) => AnimationStateEnum };
 }
 
-export interface IAnimate extends ICompilable {
-  id: number;
-  updateAnimateState: (state: AnimationStateEnum, noRender?: boolean) => void;
-  // TODO: animation control
-  // pause: () => void;
-  // resume: () => void;
-}
-
 export interface ICartesianGroupAnimationParams {
   direction: () => 'x' | 'y';
   orient: () => 'positive' | 'negative';

@@ -7,8 +7,6 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
 import { Event_Source_Type } from '../../constant/event';
-import type { IAnimate } from '../../animation/interface';
-import { AnimateManager } from '../../animation/animate-manager';
 // import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import type { Datum, ILayoutRect } from '../../typings';
 import type { IComponentSpec } from './interface';
@@ -44,18 +42,6 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     super.created();
     this.initLayout();
     this.pluginService = new ComponentPluginService(this);
-  }
-
-  animate?: IAnimate;
-
-  constructor(spec: T, options: IComponentOption) {
-    super(spec, options);
-    // 创建组件自己的动画管理器
-    if (this._option.animation) {
-      this.animate = new AnimateManager({
-        getCompiler: options.getCompiler
-      });
-    }
   }
 
   initLayout(): void {
