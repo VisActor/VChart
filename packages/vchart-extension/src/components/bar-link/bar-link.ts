@@ -4,7 +4,7 @@
  */
 import { AbstractComponent, Segment } from '@visactor/vrender-components';
 import { cloneDeep, isEmpty } from '@visactor/vutils';
-import { Factory } from '@visactor/vgrammar-core';
+import { Factory } from '@visactor/vchart';
 import { type IGraphic, type ILineGraphicAttribute, createArea, createText } from '@visactor/vrender-core';
 import { STACK_FIELD_END, STACK_FIELD_START } from '@visactor/vchart';
 import { BarLinkAttrs } from './type';

@@ -1,4 +1,4 @@
-import type { ICartesianSeries, ISpec } from '@visactor/vchart';
+import type { ICartesianSeries, IMarkGraphic, ISpec } from '@visactor/vchart';
 import type { IText, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
 import { last, type IBoundsLike, array, get } from '@visactor/vutils';
 import type { SeriesLabelAttrs, SeriesLabelData, SeriesLabelSpec } from './type';
@@ -148,12 +148,12 @@ export function getSeriesLabelConfig(
             let i = 0;
             chart.getAllSeries().forEach((s: ICartesianSeries) => {
               const mark = s.getMarkInName(seriesTypes[0] === 'waterfall' ? 'bar' : seriesTypes[0]);
-              const vgrammarElements = mark.getProduct().elements;
-              vgrammarElements.forEach((element: any) => {
-                const data = element.data.find((datum: any) => datum[dimensionField] === targetValue);
+              const graphics = mark.getGraphics();
+
+              graphics.forEach((g: IMarkGraphic) => {
+                const data = g.context.data.find((datum: any) => datum[dimensionField] === targetValue);
                 if (data) {
-                  const graphItem = element.getGraphicItem();
-                  const graphBounds = graphItem.AABBBounds;
+                  const graphBounds = g.AABBBounds;
 
                   let point;
                   let color;
@@ -184,10 +184,10 @@ export function getSeriesLabelConfig(
                                 : graphBounds.y2
                               : (graphBounds.y1 + graphBounds.y2) / 2
                           };
-                    color = graphItem.attribute.fill;
+                    color = g.attribute.fill;
                   } else {
                     point = s.dataToPosition(data);
-                    color = graphItem.attribute.stroke || graphItem.attribute.fill;
+                    color = g.attribute.stroke || g.attribute.fill;
                   }
 
                   let textAlign: TextAlignType;
