@@ -1,7 +1,7 @@
 ---
 category: examples
 group: pictogram chart
-title: 中国地图吃辣程度一览象形图       
+title: 中国地图吃辣程度一览象形图
 keywords: pictogramChart,map,comparison,china
 order: 26-6
 cover: https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/5.gif
@@ -10,7 +10,7 @@ option: pictogramChart
 
 # 中国地图象形图--中国省份吃辣程度一览
 
-由 Qian_Shark 贡献
+> 由 Qian_Shark 贡献
 
 通过象形图展示中国各地区的分类信息，可根据吃辣的不同类别进行颜色映射，从强到弱颜色越来越偏冷调，同时支持图例悬停交互显示省份信息。
 
@@ -41,7 +41,7 @@ VCHART_MODULE.registerPictogramChart();
 const response = await fetch('https://cdn.jsdelivr.net/gh/UC-web291/picture_storing/chinamap.svg');
 const shape = await response.text();
 // 定义地图数据
-const chinamap_data = [  
+const chinamap_data = [
   { name: '湖南省', category: 'MVP', level: '🌶🌶🌶🌶' },
   { name: '重庆市', category: 'MVP', level: '🌶🌶🌶🌶' },
   { name: '四川省', category: 'MVP', level: '🌶🌶🌶🌶' },
@@ -76,32 +76,31 @@ const chinamap_data = [
   { name: '香港特别行政区', category: 'bronze', level: '🌶' },
   { name: '澳门特别行政区', category: 'bronze', level: '🌶' },
   { name: '台湾省', category: 'bronze', level: '🌶' }
-
-]
+];
 
 // 定义图表配置对象
 const spec = {
   // 图表类型为象形图
-  type: 'pictogram', 
+  type: 'pictogram',
   padding: 0,
   data: {
     // 数据的唯一标识符
     id: 'data',
     // 数据的值
-    values: chinamap_data,
+    values: chinamap_data
   },
   color: {
     specified: {
       // 大师
-      MVP:'rgb(73, 3, 3)',
+      MVP: 'rgb(73, 3, 3)',
       // 钻石
-      diamond:'rgb(250, 8, 8)',
+      diamond: 'rgb(250, 8, 8)',
       //  黄金
-      gold:'rgb(250, 77, 8)',
-       // 白银
-      silver:'rgb(228, 170, 64)',
+      gold: 'rgb(250, 77, 8)',
+      // 白银
+      silver: 'rgb(228, 170, 64)',
       // 青铜
-      bronze:'rgb(198, 238, 53)',
+      bronze: 'rgb(198, 238, 53)',
       // 未定义类别的颜色为白色
       undefined: 'white'
     },
@@ -132,9 +131,9 @@ const spec = {
       },
       hover: {
         lineWidth: 3,
-        stroke:'black',
+        stroke: 'black',
         shadowBlur: 80,
-        shadowColor: 'black',
+        shadowColor: 'black'
       },
       // 鼠标非悬停时的效果，地图向外扩散，透明度降低，阴影模糊度增加
       hover_reverse: {
@@ -167,10 +166,9 @@ const spec = {
           };
           return item;
         });
-      },
+      }
     }
-  ],
-  
+  ]
 };
 
 // VChart.registerPictogramChart();
@@ -194,7 +192,7 @@ vchart.on('legendItemHover', e => {
           // 查找当前数据项的类别
           const category = chinamap_data.find(chinamap_data => chinamap_data.name === d.data?.name)?.category;
           // 如果类别存在且不等于悬停的图例项名称，则返回 true，否则返回 false
-          return category && category!== hoveredName;
+          return category && category !== hoveredName;
         }
       }
     });

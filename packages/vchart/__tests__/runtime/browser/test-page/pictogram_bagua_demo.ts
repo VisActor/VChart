@@ -82,8 +82,8 @@ const spec = {
       },
       stroke: '#000000', // 边框颜色为黑色
       lineWidth: 2,
-      pickable: datum => datum.name !== 'line',
-      visible: datum => datum.id !== 'path-198'
+      pickable: datum => datum.name !== 'Line',
+      visible: datum => datum => !datum.attributes?.d?.startsWith('M0 0L1024 0L1024 1024L0 1024')
     },
     state: {
       active: {
