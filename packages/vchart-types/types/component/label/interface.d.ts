@@ -1,6 +1,5 @@
 import type { BaseLabelAttrs, DataLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, Datum, IComposedTextMarkSpec, IFormatMethod, ITextMarkSpec } from '../../typings';
-import type { IComponentSpec } from '../base/interface';
 import type { ILabelMark } from '../../mark/interface';
 import type { ISeries } from '../../series/interface';
 import type { ICompilableMark } from '../../compile/mark/interface';
@@ -18,7 +17,8 @@ export interface ILabelComponentContext {
 export interface ILabelFormatMethodContext {
     series?: ISeries;
 }
-export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
+export interface ILabelSpec extends ILabelAnimationSpec {
+    zIndex?: number;
     visible?: boolean;
     interactive?: boolean;
     textType?: 'text' | 'rich';
