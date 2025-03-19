@@ -2,7 +2,7 @@ import type { IPointLike } from '@visactor/vutils';
 import type { IExtensionGroupMarkSpec, IExtensionMarkSpec } from '@visactor/vchart';
 import type { IConversionFunnelSpec, IConversionFunnelChartSpecBase, Arrow } from './interface';
 import type { ParsedArrow } from './arrow-data-transform';
-import { FunnelChart } from '@visactor/vchart';
+import { FunnelChart, LayoutZIndex } from '@visactor/vchart';
 import { isFunction } from '@visactor/vutils';
 import {
   DEFAULT_ARROW_MARK_STYLE,
@@ -73,6 +73,7 @@ function computeArrows(arrows: Arrow[], style: Omit<IConversionFunnelSpec['conve
 
   const rootGroup: IExtensionGroupMarkSpec = {
     type: 'group' as any,
+    zIndex: LayoutZIndex.Mark + 1,
     children: []
   };
   const lineMark = generateArrowLineSpec(line, margin);

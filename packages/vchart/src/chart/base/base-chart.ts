@@ -196,6 +196,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   protected _interaction: IInteraction;
 
+  declare _setModelOption?: () => void;
+
   constructor(spec: T, option: IChartOption) {
     super(option);
     this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme().padding);
@@ -215,6 +217,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       disableTriggerEvent: this._option?.disableTriggerEvent === true,
       getSeriesData: this._chartData.getSeriesData.bind(this._chartData)
     };
+
+    if (this._setModelOption) {
+      this._setModelOption();
+    }
 
     this._spec = spec;
   }
