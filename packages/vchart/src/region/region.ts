@@ -325,7 +325,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   }
 
   compile() {
-    this.animate?.compile();
     this.compileMarks();
   }
 
