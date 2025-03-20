@@ -124,7 +124,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
             ...spec.bar?.style,
             x1: 0,
             visible: (datum: Datum) => {
-              if (datum[SUPPLY_DATA_KEY]) {
+              if (datum[SUPPLY_DATA_KEY] || datum[spec.xField] === null) {
                 return false;
               }
               return spec.bar?.style ?? true;
