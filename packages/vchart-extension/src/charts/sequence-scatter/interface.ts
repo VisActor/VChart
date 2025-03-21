@@ -57,4 +57,12 @@ export interface ISequenceScatterSpec {
   backgroundColors: {
     [Iteration: string]: any;
   };
+  /**
+   * 宽度
+   */
+  width: number;
+  /**
+   * 高度
+   */
+  height: number;
 }
