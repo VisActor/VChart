@@ -1,8 +1,8 @@
 import { Datum } from '@visactor/vchart/src/typings';
 import type { ISequenceScatterSpec } from './interface';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
-
-const DATA_KEY = 'dataKey';
+import { processSequenceData } from '../../utils/processSequenceData';
+import { DATA_KEY } from './constant';
 
 export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransformer<any> {
   transformSpec(spec: any): void {
@@ -12,6 +12,11 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
     spec.type = 'common';
     spec.dataKey = DATA_KEY;
     spec.data = dataSpecs[0].data;
+
+    spec.width = 300;
+    spec.height = 300;
+    spec.autoFit = false;
+
     spec.series = [
       {
         type: 'scatter',
@@ -49,6 +54,19 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
     ];
 
     spec.customMark = [
+      // 背景图像
+      {
+        type: 'image',
+        dataIndex: 2,
+        style: {
+          x: 0,
+          y: 0,
+          width: 300,
+          height: 300,
+          image: (datum: Datum) => datum.imageData,
+          zIndex: -1
+        }
+      },
       {
         type: 'text',
         dataIndex: 1,
@@ -65,22 +83,6 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
           ...spec.infoLabel?.style
         }
       }
-      // TODO: draw polygon according to data
-      // {
-      //   type: 'polygon',
-      //   dataIndex: 1,
-      //   style: {
-      //     points: (datum: Datum) => {
-      //       return [
-      //         {
-      //           x: ,
-      //           y:
-      //         },
-      //         //....
-      //       ];
-      //     },
-      //   }
-      // }
     ];
 
     spec.tooltip = {
@@ -89,34 +91,4 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
 
     super.transformSpec(spec);
   }
-}
-
-export function processSequenceData(spec: ISequenceScatterSpec) {
-  const result: any[] = [];
-  Object.keys(spec.data).forEach(inter => {
-    result.push({
-      data: [
-        {
-          id: 'nodes',
-          values: spec.data[inter].map((d, i) => {
-            return { ...d, [DATA_KEY]: i };
-          })
-        },
-        // TODO: edges data
-        // {
-        //   id: 'edges',
-        //   values: [....]
-        // },
-        {
-          id: 'inter',
-          values: [
-            {
-              inter
-            }
-          ]
-        }
-      ]
-    });
-  });
-  return result;
 }
