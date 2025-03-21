@@ -10,15 +10,16 @@ option: pictogramChart
 
 # 象形图-商场业态结构图
 
-商场业态结构图展示了商场中不同业态的分布情况。每个业态都被表示为一个特定的形状，形状的颜色表示业态的类型。 通过使用象形图，我们可以快速了解商场的布局和业态分布情况，为商场运营和管理提供参考。 鼠标悬停在图例上，可以显示具体某个业态的分布；鼠标悬停在图的形状上，可以显示该形状对应的店铺名称。
+> 由 Qian_Shark 贡献
 
+商场业态结构图展示了商场中不同业态的分布情况。每个业态都被表示为一个特定的形状，形状的颜色表示业态的类型。 通过使用象形图，我们可以快速了解商场的布局和业态分布情况，为商场运营和管理提供参考。 鼠标悬停在图例上，可以显示具体某个业态的分布；鼠标悬停在图的形状上，可以显示该形状对应的店铺名称。
 
 ## 关键配置
 
 - 在 SVG 文件中，为图元配置 `name` 属性，则在图表配置中可以通过 `name` 配置指定图元样式；
 - 通过 `VChart.registerSVG` 接口来注册 svg 资源；
 - `svg` 属性声明为注册的 svg 名称；
-- 交互：关闭 `legend` 的 `select` 配置，通过事件监听鼠标悬停图例事件，再通过状态更新 API `updateState` 来实现hover图例项高亮。需要在属性 `pictogram`中设定更新用的`state`。
+- 交互：关闭 `legend` 的 `select` 配置，通过事件监听鼠标悬停图例事件，再通过状态更新 API `updateState` 来实现 hover 图例项高亮。需要在属性 `pictogram`中设定更新用的`state`。
 - 数据：声明数据，数据格式为 `[{name: 'xxx', category: 'xxx'}]`；
 
 ## 代码演示
@@ -117,7 +118,7 @@ const mall_data = [
   { name: 'Kmart', category: 'shopping' },
   { name: 'AMC Theatres', category: 'entertainment' },
   { name: 'Sears', category: 'shopping' }
-]
+];
 
 // 定义图表配置对象
 const spec = {
@@ -127,7 +128,7 @@ const spec = {
     // 数据的唯一标识符
     id: 'data',
     // 数据的值
-    values: mall_data,
+    values: mall_data
   },
   color: {
     specified: {
@@ -146,7 +147,7 @@ const spec = {
       // 基础设施类别的颜色为暗橄榄绿
       infrastructure: '#556B2F',
       // 未定义类别的颜色为白色
-      undefined: 'white',
+      undefined: 'white'
     },
     // 颜色映射的字段为类别
     field: 'category'
@@ -168,7 +169,7 @@ const spec = {
     state: {
       // 图例悬停时的填充颜色为灰色
       legend_hover_reverse: {
-        fill: '#ccc',
+        fill: '#ccc'
       }
     }
   },
@@ -197,9 +198,9 @@ const spec = {
           };
           return item;
         });
-      },
+      }
     }
-  ],
+  ]
 };
 
 // 注册 SVG 图形资源，名称为 mall，图形数据为 shape
@@ -242,7 +243,6 @@ vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
-
 ```
 
 ## 相关教程

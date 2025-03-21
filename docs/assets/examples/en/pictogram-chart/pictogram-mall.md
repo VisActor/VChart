@@ -10,6 +10,8 @@ option: pictogramChart
 
 # SVG Shopping Mall Tenant Layout
 
+> Contributed by Echo
+
 Shopping Mall Tenant Layout pictogram displays the distribution of different business formats within the mall. Each business format is represented by a specific shape, and the color of the shape indicates the type of business format. By using pictograms, we can quickly understand the mall's layout and business format distribution, providing a reference for mall operation and management. Hovering the mouse over the legend reveals the distribution of a specific business format; hovering the mouse over a shape in the diagram displays the name of the store corresponding to that shape.
 
 ## Key Configurations
@@ -105,7 +107,7 @@ const mall_data = [
   { name: 'Kmart', category: 'shopping' },
   { name: 'AMC Theatres', category: 'entertainment' },
   { name: 'Sears', category: 'shopping' }
-]
+];
 
 // Define the chart configuration object
 const spec = {
@@ -115,7 +117,7 @@ const spec = {
     // The unique identifier of the data
     id: 'data',
     // The value of the data
-    values: mall_data,
+    values: mall_data
   },
   color: {
     specified: {
@@ -134,7 +136,7 @@ const spec = {
       // The color of the infrastructure category is dark olive green
       infrastructure: '#556B2F',
       // The color of the undefined category is white
-      undefined: 'white',
+      undefined: 'white'
     },
     // The field for color mapping is category
     field: 'category'
@@ -156,7 +158,7 @@ const spec = {
     state: {
       // The fill color of the legend item when hovering is gray
       legend_hover_reverse: {
-        fill: '#ccc',
+        fill: '#ccc'
       }
     }
   },
@@ -185,9 +187,9 @@ const spec = {
           };
           return item;
         });
-      },
+      }
     }
-  ],
+  ]
 };
 
 VChart.registerSVG('mall', shape);

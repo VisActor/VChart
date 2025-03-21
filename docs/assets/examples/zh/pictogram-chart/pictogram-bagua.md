@@ -10,7 +10,7 @@ option: pictogramChart
 
 # 象形图-太极八卦图
 
-Contributed by [xilzy](https://github.com/xilzy)
+> 由 [xilzy](https://github.com/xilzy) 贡献
 
 太极八卦象图展示了先天八卦的各个元素。核心位置为太极图案，中间层为 8 个卦象，最外层为八个卦象的符号图案。卦象符号图案都有对应的五行属性。通过使用象形图，我们可以快速了解先天八卦的布局和元素分布情况，为先天八卦研究和分析提供参考。 鼠标悬停在图例上，可以显示一类属性元素的分布；鼠标悬停在图中的形状上，可以显示该形状对应的元素名称。
 
@@ -114,8 +114,8 @@ const spec = {
       },
       stroke: '#000000', // 边框颜色为黑色
       lineWidth: 2,
-      pickable: datum => datum.name !== 'line',
-      visible: datum => datum.id !== 'path-198'
+      pickable: datum => datum.name !== 'Line',
+      visible: datum => datum => !datum.attributes?.d?.startsWith('M0 0L1024 0L1024 1024L0 1024')
     },
     state: {
       active: {
