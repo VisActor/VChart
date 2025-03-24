@@ -37783,15 +37783,6 @@
     },
     "IFunnelLabelSpec": {
       "properties": {
-        "alignSelf": {
-          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
-        },
         "animation": {
           "anyOf": [
             {
@@ -37838,18 +37829,6 @@
             }
           ]
         },
-        "bottom": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "center": {
-          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
-          "type": "boolean"
-        },
-        "clip": {
-          "description": "模块是否裁剪超出布局区域外的绘图内容",
-          "type": "boolean"
-        },
         "customLayoutFunc": {
           "typeof": "function"
         },
@@ -37877,13 +37856,6 @@
           "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\neg: 'type={type},value={value}'",
           "since": "1.7.0"
         },
-        "height": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：高度"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber"
-        },
         "interactive": {
           "default": false,
           "description": "是否支持交互。",
@@ -37897,18 +37869,6 @@
           ],
           "type": "string"
         },
-        "layoutLevel": {
-          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
-          "type": "number"
-        },
-        "layoutType": {
-          "$ref": "#/definitions/ILayoutType",
-          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
-        },
-        "left": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
         "limit": {
           "anyOf": [
             {
@@ -37921,40 +37881,8 @@
           ],
           "description": "标签文字样式"
         },
-        "maxHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大高度"
-        },
-        "maxWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大宽度"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小高度"
-        },
-        "minWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小宽度"
-        },
-        "noOuterPadding": {
-          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
-          "type": "boolean"
-        },
-        "offsetX": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：X"
-        },
-        "offsetY": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：Y"
-        },
         "onAfterOverlapping": {
           "typeof": "function"
-        },
-        "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "模块布局位置"
         },
         "overlap": {
           "anyOf": [
@@ -37992,77 +37920,6 @@
             }
           ],
           "description": "标签防重叠配置"
-        },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局间距"
-        },
-        "regionId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的region id"
-        },
-        "regionIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "default": 0,
-          "description": "组件关联的region索引"
-        },
-        "right": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "seriesId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的系列id"
-        },
-        "seriesIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "组件关联的系列索引"
         },
         "showRelatedMarkTooltip": {
           "default": false,
@@ -38116,20 +37973,12 @@
           "since": "1.7.0",
           "type": "string"
         },
-        "top": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
         "visible": {
           "description": "默认不显示标签",
           "type": "boolean"
         },
-        "width": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：宽度"
-        },
         "zIndex": {
-          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "description": "标签组件的层级",
           "type": "number"
         }
       },
@@ -47649,15 +47498,6 @@
     "ILabelSpec": {
       "description": "系列图元标签配置，一般用于展示数据项",
       "properties": {
-        "alignSelf": {
-          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
-        },
         "animation": {
           "anyOf": [
             {
@@ -47704,18 +47544,6 @@
             }
           ]
         },
-        "bottom": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "center": {
-          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
-          "type": "boolean"
-        },
-        "clip": {
-          "description": "模块是否裁剪超出布局区域外的绘图内容",
-          "type": "boolean"
-        },
         "customLayoutFunc": {
           "typeof": "function"
         },
@@ -47743,13 +47571,6 @@
           "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\neg: 'type={type},value={value}'",
           "since": "1.7.0"
         },
-        "height": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：高度"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber"
-        },
         "interactive": {
           "default": false,
           "description": "是否支持交互。",
@@ -47763,56 +47584,12 @@
           ],
           "type": "string"
         },
-        "layoutLevel": {
-          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
-          "type": "number"
-        },
-        "layoutType": {
-          "$ref": "#/definitions/ILayoutType",
-          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
-        },
-        "left": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "maxHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大高度"
-        },
-        "maxWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大宽度"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小高度"
-        },
-        "minWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小宽度"
-        },
-        "noOuterPadding": {
-          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
-          "type": "boolean"
-        },
         "offset": {
           "description": "标签与其对应数据图元的间距",
           "type": "number"
         },
-        "offsetX": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：X"
-        },
-        "offsetY": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：Y"
-        },
         "onAfterOverlapping": {
           "typeof": "function"
-        },
-        "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "模块布局位置"
         },
         "overlap": {
           "anyOf": [
@@ -47851,80 +47628,9 @@
           ],
           "description": "标签防重叠配置"
         },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局间距"
-        },
         "position": {
           "description": "标签位置",
           "type": "string"
-        },
-        "regionId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的region id"
-        },
-        "regionIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "default": 0,
-          "description": "组件关联的region索引"
-        },
-        "right": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "seriesId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的系列id"
-        },
-        "seriesIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "组件关联的系列索引"
         },
         "showRelatedMarkTooltip": {
           "default": false,
@@ -47978,20 +47684,12 @@
           "since": "1.7.0",
           "type": "string"
         },
-        "top": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
         "visible": {
           "description": "默认不显示标签",
           "type": "boolean"
         },
-        "width": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：宽度"
-        },
         "zIndex": {
-          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "description": "标签组件的层级",
           "type": "number"
         }
       },
@@ -91574,15 +91272,6 @@
     },
     "Omit<ILabelSpec,\"position\">": {
       "properties": {
-        "alignSelf": {
-          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
-        },
         "animation": {
           "anyOf": [
             {
@@ -91629,18 +91318,6 @@
             }
           ]
         },
-        "bottom": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "center": {
-          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
-          "type": "boolean"
-        },
-        "clip": {
-          "description": "模块是否裁剪超出布局区域外的绘图内容",
-          "type": "boolean"
-        },
         "customLayoutFunc": {
           "typeof": "function"
         },
@@ -91668,13 +91345,6 @@
           "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\neg: 'type={type},value={value}'",
           "since": "1.7.0"
         },
-        "height": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：高度"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber"
-        },
         "interactive": {
           "default": false,
           "description": "是否支持交互。",
@@ -91688,56 +91358,12 @@
           ],
           "type": "string"
         },
-        "layoutLevel": {
-          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
-          "type": "number"
-        },
-        "layoutType": {
-          "$ref": "#/definitions/ILayoutType",
-          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
-        },
-        "left": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "maxHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大高度"
-        },
-        "maxWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大宽度"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小高度"
-        },
-        "minWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小宽度"
-        },
-        "noOuterPadding": {
-          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
-          "type": "boolean"
-        },
         "offset": {
           "description": "标签与其对应数据图元的间距",
           "type": "number"
         },
-        "offsetX": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：X"
-        },
-        "offsetY": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：Y"
-        },
         "onAfterOverlapping": {
           "typeof": "function"
-        },
-        "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "模块布局位置"
         },
         "overlap": {
           "anyOf": [
@@ -91775,77 +91401,6 @@
             }
           ],
           "description": "标签防重叠配置"
-        },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局间距"
-        },
-        "regionId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的region id"
-        },
-        "regionIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "default": 0,
-          "description": "组件关联的region索引"
-        },
-        "right": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "seriesId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的系列id"
-        },
-        "seriesIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "组件关联的系列索引"
         },
         "showRelatedMarkTooltip": {
           "default": false,
@@ -91899,20 +91454,12 @@
           "since": "1.7.0",
           "type": "string"
         },
-        "top": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
         "visible": {
           "description": "默认不显示标签",
           "type": "boolean"
         },
-        "width": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：宽度"
-        },
         "zIndex": {
-          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "description": "标签组件的层级",
           "type": "number"
         }
       },
@@ -91920,15 +91467,6 @@
     },
     "Omit<ILabelSpec,\"position\"|\"overlap\">": {
       "properties": {
-        "alignSelf": {
-          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
-        },
         "animation": {
           "anyOf": [
             {
@@ -91975,18 +91513,6 @@
             }
           ]
         },
-        "bottom": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "center": {
-          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
-          "type": "boolean"
-        },
-        "clip": {
-          "description": "模块是否裁剪超出布局区域外的绘图内容",
-          "type": "boolean"
-        },
         "customLayoutFunc": {
           "typeof": "function"
         },
@@ -92014,13 +91540,6 @@
           "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\neg: 'type={type},value={value}'",
           "since": "1.7.0"
         },
-        "height": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：高度"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber"
-        },
         "interactive": {
           "default": false,
           "description": "是否支持交互。",
@@ -92034,127 +91553,12 @@
           ],
           "type": "string"
         },
-        "layoutLevel": {
-          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
-          "type": "number"
-        },
-        "layoutType": {
-          "$ref": "#/definitions/ILayoutType",
-          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
-        },
-        "left": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "maxHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大高度"
-        },
-        "maxWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大宽度"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小高度"
-        },
-        "minWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小宽度"
-        },
-        "noOuterPadding": {
-          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
-          "type": "boolean"
-        },
         "offset": {
           "description": "标签与其对应数据图元的间距",
           "type": "number"
         },
-        "offsetX": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：X"
-        },
-        "offsetY": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：Y"
-        },
         "onAfterOverlapping": {
           "typeof": "function"
-        },
-        "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "模块布局位置"
-        },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局间距"
-        },
-        "regionId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的region id"
-        },
-        "regionIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "default": 0,
-          "description": "组件关联的region索引"
-        },
-        "right": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "seriesId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的系列id"
-        },
-        "seriesIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "组件关联的系列索引"
         },
         "showRelatedMarkTooltip": {
           "default": false,
@@ -92208,20 +91612,12 @@
           "since": "1.7.0",
           "type": "string"
         },
-        "top": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
         "visible": {
           "description": "默认不显示标签",
           "type": "boolean"
         },
-        "width": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：宽度"
-        },
         "zIndex": {
-          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "description": "标签组件的层级",
           "type": "number"
         }
       },
@@ -92229,15 +91625,6 @@
     },
     "Omit<ILineLikeLabelSpec,\"position\">": {
       "properties": {
-        "alignSelf": {
-          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
-        },
         "animation": {
           "anyOf": [
             {
@@ -92284,18 +91671,6 @@
             }
           ]
         },
-        "bottom": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "center": {
-          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
-          "type": "boolean"
-        },
-        "clip": {
-          "description": "模块是否裁剪超出布局区域外的绘图内容",
-          "type": "boolean"
-        },
         "customLayoutFunc": {
           "typeof": "function"
         },
@@ -92323,13 +91698,6 @@
           "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\neg: 'type={type},value={value}'",
           "since": "1.7.0"
         },
-        "height": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：高度"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber"
-        },
         "interactive": {
           "default": false,
           "description": "是否支持交互。",
@@ -92343,56 +91711,12 @@
           ],
           "type": "string"
         },
-        "layoutLevel": {
-          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
-          "type": "number"
-        },
-        "layoutType": {
-          "$ref": "#/definitions/ILayoutType",
-          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
-        },
-        "left": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "maxHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大高度"
-        },
-        "maxWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大宽度"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小高度"
-        },
-        "minWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小宽度"
-        },
-        "noOuterPadding": {
-          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
-          "type": "boolean"
-        },
         "offset": {
           "description": "标签与其对应数据图元的间距",
           "type": "number"
         },
-        "offsetX": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：X"
-        },
-        "offsetY": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：Y"
-        },
         "onAfterOverlapping": {
           "typeof": "function"
-        },
-        "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "模块布局位置"
         },
         "overlap": {
           "anyOf": [
@@ -92431,77 +91755,6 @@
           ],
           "description": "标签防重叠配置"
         },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局间距"
-        },
-        "regionId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的region id"
-        },
-        "regionIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "default": 0,
-          "description": "组件关联的region索引"
-        },
-        "right": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "seriesId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的系列id"
-        },
-        "seriesIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "组件关联的系列索引"
-        },
         "showRelatedMarkTooltip": {
           "default": false,
           "description": "是否显示标签关联图元的 mark tooltip",
@@ -92554,20 +91807,12 @@
           "since": "1.7.0",
           "type": "string"
         },
-        "top": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
         "visible": {
           "description": "默认不显示标签",
           "type": "boolean"
         },
-        "width": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：宽度"
-        },
         "zIndex": {
-          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "description": "标签组件的层级",
           "type": "number"
         }
       },
@@ -99801,15 +99046,6 @@
     },
     "Partial<ILabelSpec>": {
       "properties": {
-        "alignSelf": {
-          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
-        },
         "animation": {
           "anyOf": [
             {
@@ -99856,18 +99092,6 @@
             }
           ]
         },
-        "bottom": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "center": {
-          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
-          "type": "boolean"
-        },
-        "clip": {
-          "description": "模块是否裁剪超出布局区域外的绘图内容",
-          "type": "boolean"
-        },
         "customLayoutFunc": {
           "typeof": "function"
         },
@@ -99895,13 +99119,6 @@
           "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\neg: 'type={type},value={value}'",
           "since": "1.7.0"
         },
-        "height": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：高度"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber"
-        },
         "interactive": {
           "default": false,
           "description": "是否支持交互。",
@@ -99915,56 +99132,12 @@
           ],
           "type": "string"
         },
-        "layoutLevel": {
-          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
-          "type": "number"
-        },
-        "layoutType": {
-          "$ref": "#/definitions/ILayoutType",
-          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
-        },
-        "left": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "maxHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大高度"
-        },
-        "maxWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大宽度"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小高度"
-        },
-        "minWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小宽度"
-        },
-        "noOuterPadding": {
-          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
-          "type": "boolean"
-        },
         "offset": {
           "description": "标签与其对应数据图元的间距",
           "type": "number"
         },
-        "offsetX": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：X"
-        },
-        "offsetY": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：Y"
-        },
         "onAfterOverlapping": {
           "typeof": "function"
-        },
-        "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "模块布局位置"
         },
         "overlap": {
           "anyOf": [
@@ -100003,80 +99176,9 @@
           ],
           "description": "标签防重叠配置"
         },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局间距"
-        },
         "position": {
           "description": "标签位置",
           "type": "string"
-        },
-        "regionId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的region id"
-        },
-        "regionIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "default": 0,
-          "description": "组件关联的region索引"
-        },
-        "right": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "seriesId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的系列id"
-        },
-        "seriesIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "组件关联的系列索引"
         },
         "showRelatedMarkTooltip": {
           "default": false,
@@ -100130,20 +99232,12 @@
           "since": "1.7.0",
           "type": "string"
         },
-        "top": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
         "visible": {
           "description": "默认不显示标签",
           "type": "boolean"
         },
-        "width": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：宽度"
-        },
         "zIndex": {
-          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "description": "标签组件的层级",
           "type": "number"
         }
       },
@@ -100691,15 +99785,6 @@
     },
     "Partial<ILineLikeLabelSpec>": {
       "properties": {
-        "alignSelf": {
-          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
-        },
         "animation": {
           "anyOf": [
             {
@@ -100746,18 +99831,6 @@
             }
           ]
         },
-        "bottom": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "center": {
-          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
-          "type": "boolean"
-        },
-        "clip": {
-          "description": "模块是否裁剪超出布局区域外的绘图内容",
-          "type": "boolean"
-        },
         "customLayoutFunc": {
           "typeof": "function"
         },
@@ -100785,13 +99858,6 @@
           "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\neg: 'type={type},value={value}'",
           "since": "1.7.0"
         },
-        "height": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：高度"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber"
-        },
         "interactive": {
           "default": false,
           "description": "是否支持交互。",
@@ -100805,56 +99871,12 @@
           ],
           "type": "string"
         },
-        "layoutLevel": {
-          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
-          "type": "number"
-        },
-        "layoutType": {
-          "$ref": "#/definitions/ILayoutType",
-          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
-        },
-        "left": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "maxHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大高度"
-        },
-        "maxWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大宽度"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小高度"
-        },
-        "minWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小宽度"
-        },
-        "noOuterPadding": {
-          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
-          "type": "boolean"
-        },
         "offset": {
           "description": "标签与其对应数据图元的间距",
           "type": "number"
         },
-        "offsetX": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：X"
-        },
-        "offsetY": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：Y"
-        },
         "onAfterOverlapping": {
           "typeof": "function"
-        },
-        "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "模块布局位置"
         },
         "overlap": {
           "anyOf": [
@@ -100893,81 +99915,10 @@
           ],
           "description": "标签防重叠配置"
         },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局间距"
-        },
         "position": {
           "$ref": "#/definitions/Functional<\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\">",
           "description": "标签位置",
           "since": "1.6.0\n支持以函数形式配置"
-        },
-        "regionId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的region id"
-        },
-        "regionIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "default": 0,
-          "description": "组件关联的region索引"
-        },
-        "right": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "seriesId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的系列id"
-        },
-        "seriesIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "组件关联的系列索引"
         },
         "showRelatedMarkTooltip": {
           "default": false,
@@ -101021,20 +99972,12 @@
           "since": "1.7.0",
           "type": "string"
         },
-        "top": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
         "visible": {
           "description": "默认不显示标签",
           "type": "boolean"
         },
-        "width": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：宽度"
-        },
         "zIndex": {
-          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "description": "标签组件的层级",
           "type": "number"
         }
       },
