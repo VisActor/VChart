@@ -9,7 +9,9 @@ function isValidStrokeOrFill(attr: any) {
 
 const getLineWidth = (attributes: any) => {
   const strokeWidth = parseFloat(attributes['strokeWidth']);
-  if (!isNaN(strokeWidth)) return strokeWidth;
+  if (!isNaN(strokeWidth)) {
+    return strokeWidth;
+  }
 
   const stroke = attributes['stroke'];
   return stroke && isValidStrokeOrFill(stroke) ? 1 : 0;
@@ -93,7 +95,8 @@ export const graphicAttributeTransform = {
     return {
       ...commonAttributes(attributes),
       path: attributes.d,
-      fillStrokeOrder: false
+      fillStrokeOrder: false,
+      fill: getFill(attributes, '#000')
     };
   },
   arc: (attributes: Record<string, any>) => {

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of pictogram svg path has not been drawn",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
