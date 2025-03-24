@@ -86,7 +86,7 @@ export class Zoomable implements IZoomable {
   initZoomable(evt: IEvent, mode: RenderMode = RenderModeEnum['desktop-browser']) {
     this._eventObj = evt;
     this._renderMode = mode;
-    this._gestureController = (this._option.getChart().getVGrammarView().renderer as any)._gestureController;
+    this._gestureController = (this._option.getCompiler() as any)._gestureController;
     this._isGestureListener = isMobileLikeMode(this._renderMode) || isMiniAppLikeMode(this._renderMode);
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
@@ -489,6 +489,7 @@ export class Zoomable implements IZoomable {
           { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart },
           mouseup as any
         );
+        // this._eventObj.allow(endEventType);
       });
     }, delayTime);
 
@@ -497,6 +498,8 @@ export class Zoomable implements IZoomable {
         return;
       }
       this._clickEnable = false;
+      // 如果两个重合的region同时被注册了drag事件, 则mouseup会被相互阻止导致不触发
+      // end.forEach(endEventType => this._eventObj.prevent(endEventType, mouseup as any));
 
       const event = params.event;
       const dx = event.canvasX - moveX;
