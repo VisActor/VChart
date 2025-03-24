@@ -475,6 +475,16 @@ export class Zoomable implements IZoomable {
     }
   }
 
+  private isDragEnable(event: any) {
+    if (this._isGestureListener && this._gestureController) {
+      const events = (this._gestureController as any).cachedEvents;
+
+      return !events || events.length < 2;
+    }
+
+    return true;
+  }
+
   protected _handleDrag(
     params: ExtendEventParam,
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
@@ -485,7 +495,8 @@ export class Zoomable implements IZoomable {
       return;
     }
     this._clickEnable = false;
-    if (!this._zoomableTrigger.parserDragEvent(params.event)) {
+
+    if (!this.isDragEnable(params.event)) {
       return;
     }
     this._zoomableTrigger.clearZoom(); // 防止zoom 事件被同时触发, 状态混乱
@@ -519,12 +530,11 @@ export class Zoomable implements IZoomable {
         delta,
         model: this
       } as unknown as BaseEventParams);
-      this._zoomableTrigger.pointerId = null;
       this._clearDragEvent();
     }, delayTime);
 
     this._handleDragMouseMove = delayMap[delayType]((params: ExtendEventParam) => {
-      if (!this._zoomableTrigger.parserDragEvent(params.event)) {
+      if (!this.isDragEnable(params.event)) {
         return;
       }
       this._clickEnable = false;

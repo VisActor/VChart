@@ -880,7 +880,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (this._dragAttr.reverse) {
       value = -value;
     }
-
     this._handleChartMove(value, this._dragAttr.rate ?? 1);
   };
 
