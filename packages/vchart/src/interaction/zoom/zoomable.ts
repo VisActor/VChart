@@ -489,7 +489,6 @@ export class Zoomable implements IZoomable {
           { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart },
           mouseup as any
         );
-        this._eventObj.allow(endEventType);
       });
     }, delayTime);
 
@@ -498,7 +497,6 @@ export class Zoomable implements IZoomable {
         return;
       }
       this._clickEnable = false;
-      end.forEach(endEventType => this._eventObj.prevent(endEventType, mouseup as any));
 
       const event = params.event;
       const dx = event.canvasX - moveX;

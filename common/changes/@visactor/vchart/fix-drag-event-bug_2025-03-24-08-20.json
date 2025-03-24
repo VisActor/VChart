@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: pointer up not work. fix#3728",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
