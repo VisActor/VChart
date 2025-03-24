@@ -41,7 +41,7 @@ export const layoutByValue = (
         layoutStartPoint[coordKey as 'x' | 'y'];
       axis = item.axis;
     }
-    const isVisible = !!currentValue.size && Number.isFinite(coord);
+    const isVisible = !!currentValue.size && Number.isFinite(coord) && !Number.isNaN(coord);
     const useCache = enableRemain && !isVisible && isValid(cacheInfo);
     const newCacheInfo: ICrosshairInfo = useCache
       ? cacheInfo
