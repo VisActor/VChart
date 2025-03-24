@@ -1,4 +1,5 @@
 import { registerGaugePointerSeries, registerGaugeSeries } from '../../series/gauge';
+import { registerCircularProgressSeries } from '../../series/progress/circular/circular';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import { Factory } from '../../core/factory';
@@ -19,5 +20,7 @@ export class GaugeChart<T extends IGaugeChartSpec = IGaugeChartSpec> extends Bas
 export const registerGaugeChart = () => {
   registerGaugePointerSeries();
   registerGaugeSeries();
+  // Gauge chart reused the code logic of CircularProgressSeries, So it needs to be registered by default.
+  registerCircularProgressSeries();
   Factory.registerChart(GaugeChart.type, GaugeChart);
 };
