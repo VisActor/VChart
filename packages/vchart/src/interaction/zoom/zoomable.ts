@@ -139,6 +139,9 @@ export class Zoomable implements IZoomable {
     ) {
       return;
     }
+    this._clearDragEvent(); // 防止drag 事件被同时触发，状态混乱
+    this._zoomableTrigger.clearScroll(); // 防止scroll事件被同时触发，状态混乱
+
     let extendParams: ReturnType<typeof callback> = {};
     if (callback) {
       extendParams = callback({ zoomDelta, zoomX, zoomY }, event);
@@ -259,6 +262,8 @@ export class Zoomable implements IZoomable {
     ) {
       return stopBubble;
     }
+    this._clearDragEvent(); // 防止drag 同时触发，状态混乱
+    this._zoomableTrigger.clearZoom(); // 防止zoom同时触发，状态混乱
 
     if (callback) {
       stopBubble = callback({ scrollX, scrollY }, event as any);
@@ -440,18 +445,62 @@ export class Zoomable implements IZoomable {
     }
   }
 
+  private _handleDragMouseUp?: (params: ExtendEventParam) => void;
+  private _handleDragMouseMove?: (params: ExtendEventParam) => void;
+
+  protected _clearDragEvent() {
+    const move = this._getZoomTriggerEvent('move') as string;
+    const end = this._getZoomTriggerEvent('end') as string[];
+
+    if (this._handleDragMouseMove) {
+      this._eventObj.off(
+        move,
+        { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart },
+        this._handleDragMouseMove
+      );
+      this._handleDragMouseMove = undefined;
+    }
+
+    if (this._handleDragMouseUp) {
+      end.forEach(endEventType => {
+        this._eventObj.off(
+          endEventType,
+          { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart },
+          this._handleDragMouseUp
+        );
+        this._eventObj.allow(endEventType);
+      });
+
+      this._handleDragMouseUp = undefined;
+    }
+  }
+
+  private isDragEnable(event: any) {
+    if (this._isGestureListener && this._gestureController) {
+      const events = (this._gestureController as any).cachedEvents;
+
+      return !events || events.length < 2;
+    }
+
+    return true;
+  }
+
   protected _handleDrag(
     params: ExtendEventParam,
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
+    this._clearDragEvent();
     if (this._option.disableTriggerEvent) {
       return;
     }
     this._clickEnable = false;
-    if (!this._zoomableTrigger.parserDragEvent(params.event)) {
+
+    if (!this.isDragEnable(params.event)) {
       return;
     }
+    this._zoomableTrigger.clearZoom(); // 防止zoom 事件被同时触发, 状态混乱
+    this._zoomableTrigger.clearScroll(); // 防止 scroll 事件被同时触发, 状态混乱
     const delayType = option?.delayType ?? 'throttle';
     const delayTime = option?.delayTime ?? 0;
     const realTime = option?.realTime ?? true;
@@ -463,7 +512,7 @@ export class Zoomable implements IZoomable {
     let upX = event.canvasX;
     let upY = event.canvasY;
 
-    const mouseup = delayMap[delayType]((params: BaseEventParams) => {
+    this._handleDragMouseUp = delayMap[delayType]((params: ExtendEventParam) => {
       this._clickEnable = true;
       const event = params.event as any;
       const dx = event.canvasX - upX;
@@ -481,24 +530,15 @@ export class Zoomable implements IZoomable {
         delta,
         model: this
       } as unknown as BaseEventParams);
-      this._zoomableTrigger.pointerId = null;
-      this._eventObj.off(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove as any);
-      end.forEach(endEventType => {
-        this._eventObj.off(
-          endEventType,
-          { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart },
-          mouseup as any
-        );
-        this._eventObj.allow(endEventType);
-      });
+      this._clearDragEvent();
     }, delayTime);
 
-    const mousemove = delayMap[delayType]((params: BaseEventParams) => {
-      if (!this._zoomableTrigger.parserDragEvent(params.event)) {
+    this._handleDragMouseMove = delayMap[delayType]((params: ExtendEventParam) => {
+      if (!this.isDragEnable(params.event)) {
         return;
       }
       this._clickEnable = false;
-      end.forEach(endEventType => this._eventObj.prevent(endEventType, mouseup as any));
+      end.forEach(endEventType => this._eventObj.prevent(endEventType, this._handleDragMouseUp as any));
 
       const event = params.event;
       const dx = event.canvasX - moveX;
@@ -517,12 +557,16 @@ export class Zoomable implements IZoomable {
       } as unknown as ExtendEventParam);
     }, delayTime);
 
-    this._eventObj.on(move, { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart }, mousemove as any);
+    this._eventObj.on(
+      move,
+      { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart },
+      this._handleDragMouseMove as any
+    );
     end.forEach(endEventType => {
       this._eventObj.on(
         endEventType,
         { level: Event_Bubble_Level.chart, source: Event_Source_Type.chart },
-        mouseup as any
+        this._handleDragMouseUp
       );
     });
   }
