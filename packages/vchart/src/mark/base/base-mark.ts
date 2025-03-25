@@ -46,7 +46,7 @@ import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme
 import type { ISeries } from '../../series/interface';
 import { MarkStateManager } from '../../compile/mark';
 import type { ICompilableMark, IMarkCompileOption, IMarkConfig, StateValueType } from '../../compile/mark';
-import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
+import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isObject, isValid } from '@visactor/vutils';
 import { curveTypeTransform, groupData, runEncoder } from '../utils/common';
 import type { ICompilableInitOption } from '../../compile/interface';
 import { LayoutState } from '../../compile/interface';
@@ -59,7 +59,7 @@ import { GrammarItem } from '../../compile/grammar-item';
 import { LayoutZIndex } from '../../constant/layout';
 import type { IModel } from '../../model/interface';
 import type { ICompilableData } from '../../compile/data/interface';
-import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
+import { AnimationStateEnum, IAnimationConfig, type MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { log } from '../../util';
 
@@ -1314,8 +1314,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           this._graphicMap.set(g.context.uniqueKey, g);
         }
       } else {
-        // todo  @zxy 这里需要补充动画更新逻辑
-        g.setAttributes(finalAttrs);
+        if (this.hasAnimationByState(g.context.animationState)) {
+          // todo 执行动画 @zxy
+        } else {
+          g.setAttributes(finalAttrs);
+        }
       }
 
       this._setStateOfGraphic(g);
@@ -1482,9 +1485,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
     this._graphics.forEach(g => {
       if (this.state.checkOneState(g, g.context.data, stateInfo) === 'in') {
-        g.addState(key, true);
+        g.addState(key, true, this.hasAnimationByState('state'));
       } else {
-        g.removeState(key);
+        g.removeState(key, this.hasAnimationByState('state'));
       }
     });
   }
@@ -1684,5 +1687,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     if (this._graphics) {
       this._graphics.forEach(g => (g.context.animationState = callback(g)));
     }
+  }
+
+  hasAnimationByState(state: string) {
+    if (!state || !this._animationConfig || !this._animationConfig[state]) {
+      return false;
+    }
+    const stateAnimationConfig = this._animationConfig[state];
+    return (stateAnimationConfig as IAnimationConfig[]).length > 0 || isObject(stateAnimationConfig);
   }
 }
