@@ -28,7 +28,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     constructor(spec: T, options: IComponentOption);
     protected abstract _layoutCrosshair(x: number, y: number, tooltipData?: TooltipData, activeType?: TooltipActiveType): void;
     abstract setAxisValue(v: StringOrNumber, axis: IAxis): void;
-    abstract layoutByValue(v?: number): void;
+    abstract layoutByValue(enableRemain?: boolean): void;
     protected abstract _getDatumAtPoint(axis: IAxis, point: IPoint): number | string;
     protected _setAllAxisValues(axisMap: IAxisInfo<IAxis>, point: IPoint, field: string): boolean;
     clearAxisValue(): void;
