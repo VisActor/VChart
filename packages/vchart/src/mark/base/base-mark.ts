@@ -1410,12 +1410,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         if (g.context.reusing) {
           // 表示正在被复用，需要重设属性的
           // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除
-          g.context.lastAttrs = (g as any).attribute;
-          (g as any).initAttributes(finalAttrs);
+          g.context.lastAttrs = g.attribute;
+          g.initAttributes(finalAttrs);
           g.context.reusing = false;
         }
         // diff一下，获取差异的属性
-        const prevAttrs = (g as any).attribute;
+        const prevAttrs: Record<string, any> = g.attribute;
         const diffAttrs: Record<string, any> = {};
         Object.keys(finalAttrs).forEach(key => {
           if (prevAttrs[key] !== finalAttrs[key]) {
