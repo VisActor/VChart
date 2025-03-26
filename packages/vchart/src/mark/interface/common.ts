@@ -100,6 +100,22 @@ export interface IGraphicContext {
    */
   diffAttrs?: Record<string, any>;
   /**
+   * 用于保存mark对应series的fieldX
+   */
+  fieldX?: string[];
+  /**
+   * 用于保存mark对应series的fieldX
+   */
+  _originalFieldX?: string[];
+  /**
+   * 用于保存mark对应series的fieldY
+   */
+  fieldY?: string[];
+  /**
+   * 用于保存mark对应series的fieldY
+   */
+  _originalFieldY?: string[];
+  /**
    * 动画状态管理: 'appear' / 'enter' / 'update' / 'exit' / 'disappear'
    */
   animationState?: AnimationStateValues;

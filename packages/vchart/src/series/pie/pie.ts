@@ -468,9 +468,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           .reverse()
           .find(e => e.context.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex);
         if (outState.includes(state)) {
-          return prevMarkElement?.getNextGraphicAttributes()?.endAngle;
+          return prevMarkElement?.getFinalAttribute()?.endAngle;
         }
-        return prevMarkElement?.getGraphicAttribute('endAngle', true);
+        return (prevMarkElement?.attribute as any)?.endAngle;
       }
     };
     const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<PieAppearPreset>)?.preset;

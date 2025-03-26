@@ -63,7 +63,7 @@ import type { IAnimationConfig } from '../../animation/interface';
 import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { log } from '../../util';
-import { GrammarDetector } from '../../animation/grammar-dector';
+import { GrammarDetector, type IAnimationSplitStrategy } from '../../animation/grammar-dector';
 import type { AnimationPlanner } from '../../animation/animation-planner';
 
 export type ExChannelCall = (
@@ -244,8 +244,10 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this.compileData();
     this.compileState();
     this.compileEncode();
-    // 按需加载
-    this._grammarDetector = new GrammarDetector(this);
+    // 初始化 GrammarDetector
+    if (!this._grammarDetector) {
+      this._grammarDetector = new GrammarDetector(this as any);
+    }
     // todo this.compileAnimation();
     // this.compileContext(option?.context);
     // this.compileTransform();
@@ -1123,7 +1125,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       configArray.forEach(config => {
         config.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
       });
-      (this._product as IGroup).applyAnimationState(stateArray, configArray, cb);
+      this._product.applyAnimationState(stateArray, configArray, cb);
     }
 
     // 判断是否需要走normal动画，enter动画执行完成后，需要跟一个normal动画
@@ -1150,7 +1152,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         if (state === 'enter' && animationConfig.normal) {
           shouldRunNormal = true;
         }
-        (g as any).applyAnimationState(stateArray, configArray, cb);
+        g.applyAnimationState(stateArray, configArray, cb);
         _config.customParameters = null;
       }
     });
@@ -1224,6 +1226,24 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
 
       // 如果这是最后一个planner并且它是一个'enter'动画，则运行normal动画
+      // if (index === planners.length - 1 && planner.state === 'enter') {
+      //   // 在enter完成后执行normal动画
+      //   const normalConfig = (this.getAnimationConfig() as any).normal?.[0];
+      //   if (normalConfig && this._product) {
+      //     // 停止normal动画并重置为初始属性
+      //     (this._product as IGroup).stopAnimationState('normal', 'end');
+
+      //     (this._product as IGroup).applyAnimationState(
+      //       ['normal'],
+      //       [
+      //         {
+      //           name: 'normal',
+      //           animation: normalConfig
+      //         }
+      //       ]
+      //     );
+      //   }
+      // }
     });
   }
 
@@ -1284,6 +1304,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           diffState,
           // 从旧context中继承
           reusing: g.context?.reusing,
+          // 从旧context中继承
+          _originalFieldX: g.context?._originalFieldX,
+          // 从旧context中继承
+          _originalFieldY: g.context?._originalFieldY,
+          // 从旧context中继承
+          fieldX: g.context?.fieldX,
+          // 从旧context中继承
+          fieldY: g.context?.fieldY,
           animationState: diffState,
           // TODO 如果newData为空，则使用旧的data，避免exit图元找不到data
           data: newData ?? g.context?.data,
@@ -1891,5 +1919,16 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
     const stateAnimationConfig = this._animationConfig[state];
     return (stateAnimationConfig as IAnimationConfig[]).length > 0 || isObject(stateAnimationConfig);
+  }
+
+  /**
+   * 注册自定义动画拆分策略
+   * @param strategy 动画拆分策略
+   */
+  registerAnimationSplitStrategy(strategy: IAnimationSplitStrategy): void {
+    if (!this._grammarDetector) {
+      this._grammarDetector = new GrammarDetector(this as any);
+    }
+    this._grammarDetector.registerStrategy(strategy);
   }
 }
