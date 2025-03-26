@@ -419,7 +419,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       } else if (this._rawData) {
         // 如果有设置统计信息，应当与设置值保持一致
         const fieldInfo = this._rawData.getFields()?.[field];
-        if (fieldInfo && fieldInfo.domain) {
+        if (fieldInfo && fieldInfo.lockStatisticsByDomain && fieldInfo.domain) {
           this._rawStatisticsCache[field] = {};
           if (isNumeric) {
             this._rawStatisticsCache[field].min = minInArray(fieldInfo.domain);
