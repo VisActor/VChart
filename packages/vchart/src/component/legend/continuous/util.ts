@@ -44,6 +44,8 @@ export function getContinuousLegendAttributes(spec: IColorLegendSpec | ISizeLege
   // transform title
   if (title.visible) {
     attrs.title = transformLegendTitleAttributes(title);
+  } else {
+    attrs.title = { visible: false };
   }
 
   // handlerStyle
