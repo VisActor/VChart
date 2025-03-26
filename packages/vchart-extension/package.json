@@ -24,7 +24,6 @@
     "@visactor/vrender-core": "0.23.0-alpha.2",
     "@visactor/vrender-kits": "0.23.0-alpha.2",
     "@visactor/vrender-components": "0.23.0-alpha.2",
-    "@visactor/vgrammar-core": "0.16.0",
     "@visactor/vutils": "~0.19.4",
     "@visactor/vdataset": "~0.19.4",
     "@visactor/vchart": "workspace:1.13.6"

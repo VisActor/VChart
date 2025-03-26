@@ -96,6 +96,10 @@ export interface IGraphicContext {
    */
   indexKey?: string;
   /**
+   * 差异的属性
+   */
+  diffAttrs?: Record<string, any>;
+  /**
    * 动画状态管理: 'appear' / 'enter' / 'update' / 'exit' / 'disappear'
    */
   animationState?: AnimationStateValues;

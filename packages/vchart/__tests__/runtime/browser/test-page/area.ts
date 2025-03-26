@@ -52,47 +52,84 @@ let dataArray = [
 ];
 
 const spec = {
-  type: 'pie',
-  data: [
-    {
-      id: 'id0',
-      values: [
-        { type: 'oxygen', value: '46.60' },
-        { type: 'silicon', value: '27.72' },
-        { type: 'aluminum', value: '8.13' },
-        { type: 'iron', value: '5' },
-        { type: 'calcium', value: '3.63' },
-        { type: 'sodium', value: '2.83' },
-        { type: 'potassium', value: '2.59' },
-        { type: 'others', value: '3.5' }
-      ]
-    }
-  ],
-  outerRadius: 0.8,
-  valueField: 'value',
-  categoryField: 'type',
+  type: 'bar',
+  data: {
+    id: 'data0',
+    values: dataArray
+  },
   title: {
     visible: true,
-    text: 'Statistics of Surface Element Content'
+    text: 'Stacked area chart of cosmetic products sales'
   },
-  legends: {
-    visible: true,
-    orient: 'left'
-  },
-  label: {
-    visible: true
+  // stack: true,
+  xField: 'type',
+  yField: 'value',
+  seriesField: 'country',
+  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+  crosshair: {
+    followTooltip: true,
+    xField: { visible: true, label: { visible: true } },
+    yField: { visible: true, label: { visible: true } }
   },
   animationAppear: {
-    type: 'growRadiusIn'
+    duration: 3000
   },
-  tooltip: {
-    mark: {
-      content: [
-        {
-          key: datum => datum['type'],
-          value: datum => datum['value'] + '%'
-        }
-      ]
+  animationUpdate: {
+    duration: 3000
+  },
+  animationEnter: {
+    duration: 3000
+  },
+  animationExit: {
+    duration: 3000
+  },
+  animationNormal: {
+    point: [
+      {
+        loop: true,
+        startTime: 100,
+        oneByOne: 100,
+        priority: 1,
+        timeSlices: [
+          {
+            delay: 1000,
+            effects: {
+              channel: {
+                fillOpacity: { to: 0.5 }
+              },
+              easing: 'linear'
+            },
+            duration: 500
+          },
+          {
+            effects: {
+              channel: {
+                fillOpacity: { to: 1 }
+              },
+              easing: 'linear'
+            },
+            duration: 500
+          }
+        ]
+      }
+    ]
+  },
+  axes: [
+    {
+      orient: 'bottom',
+      type: 'band'
+    },
+    { orient: 'left', type: 'linear' },
+    { orient: 'right', type: 'linear' }
+  ],
+  point: {
+    state: {
+      hover: {
+        fill: 'red'
+      }
+    },
+    style: {
+      size: 80
     }
   }
 };

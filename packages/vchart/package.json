@@ -125,7 +125,6 @@
     "@visactor/vrender-kits": "0.23.0-alpha.2",
     "@visactor/vrender-animate": "0.23.0-alpha.2",
     "@visactor/vrender-components": "0.23.0-alpha.2",
-    "@visactor/vgrammar-core": "0.16.0",
     "@visactor/vgrammar-projection": "0.16.0",
     "@visactor/vgrammar-wordcloud": "0.16.0",
     "@visactor/vgrammar-wordcloud-shape": "0.16.0",

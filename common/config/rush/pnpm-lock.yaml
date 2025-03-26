@@ -152,7 +152,6 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.13.6
-      '@visactor/vgrammar-core': 0.16.0
       '@visactor/vrender-core': 0.23.0-alpha.2
       '@visactor/vrender-kits': 0.23.0-alpha.2
       '@visactor/vutils': ~0.19.4
@@ -173,7 +172,6 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vgrammar-core': 0.16.0
       '@visactor/vrender-core': 0.23.0-alpha.2
       '@visactor/vrender-kits': 0.23.0-alpha.2
       '@visactor/vutils': 0.19.4
@@ -217,7 +215,6 @@ importers:
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.13.6
-      '@visactor/vgrammar-core': 0.16.0
       '@visactor/vrender-core': 0.23.0-alpha.2
       '@visactor/vrender-kits': 0.23.0-alpha.2
       '@visactor/vutils': ~0.19.4
@@ -239,7 +236,6 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vgrammar-core': 0.16.0
       '@visactor/vrender-core': 0.23.0-alpha.2
       '@visactor/vrender-kits': 0.23.0-alpha.2
       '@visactor/vutils': 0.19.4
@@ -378,7 +374,6 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vdataset': ~0.19.4
-      '@visactor/vgrammar-core': 0.16.0
       '@visactor/vgrammar-hierarchy': 0.16.0
       '@visactor/vgrammar-projection': 0.16.0
       '@visactor/vgrammar-sankey': 0.16.0
@@ -427,7 +422,6 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vdataset': 0.19.4
-      '@visactor/vgrammar-core': 0.16.0
       '@visactor/vgrammar-hierarchy': 0.16.0
       '@visactor/vgrammar-projection': 0.16.0
       '@visactor/vgrammar-sankey': 0.16.0
@@ -499,7 +493,6 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.13.6
       '@visactor/vdataset': ~0.19.4
-      '@visactor/vgrammar-core': 0.16.0
       '@visactor/vrender-components': 0.23.0-alpha.2
       '@visactor/vrender-core': 0.23.0-alpha.2
       '@visactor/vrender-kits': 0.23.0-alpha.2
@@ -523,7 +516,6 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vdataset': 0.19.4
-      '@visactor/vgrammar-core': 0.16.0
       '@visactor/vrender-components': 0.23.0-alpha.2
       '@visactor/vrender-core': 0.23.0-alpha.2
       '@visactor/vrender-kits': 0.23.0-alpha.2
