@@ -84,6 +84,18 @@ export interface IGraphicContext {
    */
   diffState?: DiffStateValues;
   /**
+   * 是否正在被复用的图元
+   */
+  reusing?: boolean;
+  /**
+   * 复用图元时，保存的上一次的旧属性（用于平滑的过渡动画）
+   */
+  lastAttrs?: Record<string, any>;
+  /**
+   * 用于判定这个图元是第几个，在OneByOne动画中控制顺序
+   */
+  indexKey?: string;
+  /**
    * 动画状态管理: 'appear' / 'enter' / 'update' / 'exit' / 'disappear'
    */
   animationState?: AnimationStateValues;
@@ -121,6 +133,11 @@ export interface IMarkGraphic extends IGraphic {
    * 上下文数据
    */
   context?: IGraphicContext;
+
+  /**
+   * 是否正在退场
+   */
+  isExiting?: boolean;
 }
 
 /**********   mark  ***************/

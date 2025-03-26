@@ -1,4 +1,4 @@
-import { RotateBySphereAnimate } from '@visactor/vrender-core';
+import { RotateBySphereAnimate } from '@visactor/vrender-animate';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { Factory } from '../../core/factory';
 import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams, WordcloudAppearPreset } from './interface';

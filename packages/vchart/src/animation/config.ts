@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IGraphic } from '@visactor/vrender-core';
-import { TagPointsUpdate, ClipDirectionAnimate } from '@visactor/vrender-core';
+import { TagPointsUpdate, ClipDirectionAnimate } from '@visactor/vrender-animate';
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
