@@ -61,6 +61,10 @@ const spec = {
     visible: true,
     text: 'Stacked area chart of cosmetic products sales'
   },
+  bar: {
+    useSequentialAnimation: true
+  },
+  useSequentialAnimation: true,
   // stack: true,
   xField: 'type',
   yField: 'value',
@@ -72,16 +76,17 @@ const spec = {
     yField: { visible: true, label: { visible: true } }
   },
   animationAppear: {
-    duration: 3000
+    duration: 300
   },
   animationUpdate: {
-    duration: 3000
+    duration: 300
   },
   animationEnter: {
-    duration: 3000
+    duration: 300
   },
   animationExit: {
-    duration: 3000
+    duration: 300,
+    type: 'fadeOut'
   },
   animationNormal: {
     point: [
@@ -171,6 +176,25 @@ const run = () => {
     cs.updateData('data0', dataArray);
   });
   document.body.appendChild(button2);
+
+  const button3 = document.createElement('button');
+  button3.innerHTML = 'stack2group';
+  button3.addEventListener('click', () => {
+    const nextSpec: any = { ...spec };
+    (nextSpec as any).xField = ['type', 'country'];
+    const name = Math.random().toString();
+    dataArray = dataArray.map(d => ({
+      ...d,
+      value: 100000 * Math.random(),
+      country: ['EU', 'China', 'USA'].includes(d.country) ? d.country : name
+    }));
+    nextSpec.data = {
+      id: 'data0',
+      values: dataArray
+    };
+    cs.updateSpec(nextSpec);
+  });
+  document.body.appendChild(button3);
 
   window['vchart'] = cs;
   console.log(cs);
