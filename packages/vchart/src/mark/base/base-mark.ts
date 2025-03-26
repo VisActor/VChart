@@ -44,7 +44,7 @@ import { isValidScaleType } from '@visactor/vscale';
 import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
 import type { ISeries } from '../../series/interface';
 import { MarkStateManager } from '../../compile/mark';
-import type { ICompilableMark, IMarkCompileOption, IMarkConfig, StateValueType } from '../../compile/mark';
+import type { ICompilableMark, IMarkCompileOption, IMarkConfig, StateValueType } from '../../compile/mark/interface';
 import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isObject, isValid } from '@visactor/vutils';
 import { curveTypeTransform, groupData, runEncoder } from '../utils/common';
 import type { ICompilableInitOption } from '../../compile/interface';
@@ -62,6 +62,8 @@ import type { IAnimationConfig } from '../../animation/interface';
 import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { log } from '../../util';
+import { GrammarDetector } from '../../animation/grammar-dector';
+import type { AnimationPlanner } from '../../animation/animation-planner';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -87,6 +89,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   };
 
   protected _isCommited?: boolean;
+
+  protected _grammarDetector: GrammarDetector;
 
   commit(render?: boolean, recursion?: boolean) {
     if (recursion && this.getMarks().length > 0) {
@@ -239,6 +243,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this.compileData();
     this.compileState();
     this.compileEncode();
+    // 按需加载
+    this._grammarDetector = new GrammarDetector(this);
     // todo this.compileAnimation();
     // this.compileContext(option?.context);
     // this.compileTransform();
@@ -1085,6 +1091,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   ) {
     const animationConfig = this.getAnimationConfig();
     const { defaultState, cb } = params ?? {};
+    const useSequentialAnimation = this._markConfig.useSequentialAnimation ?? false;
+    if (useSequentialAnimation && this._grammarDetector) {
+      this._runSequentialAnimations(graphics, params);
+      return;
+    }
     // 过滤出appear动画出来，appear动画是整体动画，可以放在全局，同时appear动画和normal动画是串行关系
     const appear = graphics.every(g => (defaultState ?? g.context.animationState) === 'appear');
     const appearConfig = (animationConfig as any).appear?.[0];
@@ -1158,6 +1169,61 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         ]
       );
     }
+  }
+
+  // 处理动画序列
+  protected _runSequentialAnimations(
+    graphics: IMarkGraphic[],
+    params?: { defaultState?: string; cb?: (g: IMarkGraphic) => void }
+  ) {
+    const animationConfig = this.getAnimationConfig();
+    const { defaultState } = params ?? {};
+
+    // 使用 GrammarDetector 检测变化类型
+    const detectionResult = this._grammarDetector.detect(graphics, this._graphicMap, defaultState);
+
+    // 根据检测结果创建动画planners
+    const planners = this._grammarDetector.createPlanners(
+      detectionResult,
+      animationConfig as unknown as Record<string, IAnimationConfig[]>
+    );
+
+    // 按顺序执行planner
+    this._executePlanners(planners, 0);
+  }
+
+  /**
+   * 按顺序执行planner
+   * @param planners
+   * @param index
+   */
+  private _executePlanners(planners: AnimationPlanner[], index: number) {
+    if (index >= planners.length) {
+      return;
+    }
+
+    const planner = planners[index];
+    planner.execute(this._product as IGroup, () => {
+      // 执行下一个planner
+      this._executePlanners(planners, index + 1);
+
+      // 如果这个planner是exit，那么结束之后就删除它
+      if (planner.state === 'exit') {
+        planner.graphics.forEach(g => {
+          if (g.isExiting) {
+            this._graphicMap.delete(g.context.uniqueKey);
+            if (g.parent) {
+              g.parent.removeChild(g);
+            }
+            if (g.release) {
+              g.release();
+            }
+          }
+        });
+      }
+
+      // 如果这是最后一个planner并且它是一个'enter'动画，则运行normal动画
+    });
   }
 
   protected _runJoin(data: Datum[]) {
@@ -1386,10 +1452,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
       const finalAttrs = this._transformGraphicAttributes(g, attrs, attrsByGroup?.[g.context.groupKey]);
 
+      const hasAnimation = this.hasAnimationByState(g.context.animationState);
+      // 新创建的graphic
       if (!(g as any).setAttributes) {
         const mockGraphic = g;
-        g = this._createGraphic(finalAttrs);
+        // 如果要走入场、Enter动画，就不用设置值了
+        g = this._createGraphic(hasAnimation ? {} : finalAttrs);
         g.context = mockGraphic.context;
+        g.context.diffState = finalAttrs;
 
         const gIndex = this._graphics === graphics ? index : index + this._graphics.length - graphics.length;
         if (gIndex >= 0) {
@@ -1411,7 +1481,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           // 表示正在被复用，需要重设属性的
           // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除
           g.context.lastAttrs = g.attribute;
-          g.initAttributes(finalAttrs);
+          // g.initAttributes(finalAttrs);
           g.context.reusing = false;
         }
         // diff一下，获取差异的属性

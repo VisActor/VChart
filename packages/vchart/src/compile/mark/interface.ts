@@ -51,6 +51,11 @@ export interface IMarkConfig {
 
   overflow?: 'scroll' | 'hidden' | 'scroll-x' | 'scroll-y';
   skipTheme?: boolean;
+
+  /**
+   * 是否开启序列动画能力，默认关闭
+   */
+  useSequentialAnimation?: boolean;
 }
 
 export interface IMarkStateManager {
