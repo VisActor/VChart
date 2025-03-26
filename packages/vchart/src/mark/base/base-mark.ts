@@ -1278,7 +1278,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         if (g.context?.diffState === DiffState.exit) {
           // 表示正在被复用，后续需要重设属性的
           g.context.reusing = true;
-          // 停止所有动画
+          // 停止所有动画，
+          // TODO：属性可能回不去了（如果enter和exit不是一个动画），所以在encode阶段要获取finalAttribute，设置上去
           (g as any).animates && (g as any).animates.forEach((a: any) => a.stop());
           // force element to stop exit animation if it is reentered
           // todo animaiton
@@ -1485,10 +1486,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       // 新创建的graphic
       if (!(g as any).setAttributes) {
         const mockGraphic = g;
-        // 如果要走入场、Enter动画，就不用设置值了
+        // TODO：如果要走入场、Enter动画，就不用设置值了，保存到diffAttrs中由入场动画自己去设置，因为入场动画可能会延迟执行，所以首帧不能直接设置属性
         g = this._createGraphic(hasAnimation ? {} : finalAttrs);
+        // 如果有动画，设置一下最终attribute
+        if (hasAnimation) {
+          g.setFinalAttribute(finalAttrs);
+        }
         g.context = mockGraphic.context;
-        g.context.diffState = finalAttrs;
+        g.context.diffAttrs = finalAttrs;
 
         const gIndex = this._graphics === graphics ? index : index + this._graphics.length - graphics.length;
         if (gIndex >= 0) {
@@ -1510,20 +1515,27 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           // 表示正在被复用，需要重设属性的
           // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除
           g.context.lastAttrs = g.attribute;
+          // 为了避免exit一些和enter不一样的属性，所以这里要重置属性
+          // const finalAttrs = g.getFinalAttribute();
+          // finalAttrs && g.initAttributes({ ...finalAttrs });
           // g.initAttributes(finalAttrs);
           g.context.reusing = false;
         }
         // diff一下，获取差异的属性
-        const prevAttrs: Record<string, any> = g.attribute;
+        const prevAttrs: Record<string, any> = g.getAttributes(true);
         const diffAttrs: Record<string, any> = {};
         Object.keys(finalAttrs).forEach(key => {
           if (prevAttrs[key] !== finalAttrs[key]) {
             diffAttrs[key] = finalAttrs[key];
           }
         });
+
         g.context.diffAttrs = diffAttrs;
         if (!this.hasAnimationByState(g.context.animationState) && !g.context.reusing) {
           g.setAttributes(diffAttrs);
+        } else {
+          // 如果有动画，需要设置值
+          g.setFinalAttribute(finalAttrs);
         }
       }
 

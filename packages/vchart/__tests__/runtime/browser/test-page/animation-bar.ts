@@ -85,7 +85,8 @@ let spec = {
     duration: 300
   },
   animationEnter: {
-    duration: 300
+    duration: 300,
+    type: 'fadeIn'
   },
   animationExit: {
     duration: 300,
