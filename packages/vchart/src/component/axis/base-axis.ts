@@ -48,7 +48,7 @@ import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
 import { AXIS_ELEMENT_NAME, GroupTransition } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-core';
+import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-animate';
 import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';

@@ -1079,6 +1079,87 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._dataByGroup = groupData(data, this._groupKeyGetter);
   }
 
+  protected _runStateAnimation(
+    graphics: IMarkGraphic[],
+    params?: { defaultState?: string; cb?: (g: IMarkGraphic) => void }
+  ) {
+    const animationConfig = this.getAnimationConfig();
+    const { defaultState, cb } = params ?? {};
+    // 过滤出appear动画出来，appear动画是整体动画，可以放在全局，同时appear动画和normal动画是串行关系
+    const appear = graphics.every(g => (defaultState ?? g.context.animationState) === 'appear');
+    const appearConfig = (animationConfig as any).appear?.[0];
+    if (appear && this._product) {
+      // TODO 一般appear都在最开始执行，所以这里不需要停掉normal动画
+      // (this._product as IGroup).stopAnimationState('normal');
+      const stateArray = appearConfig ? ['appear'] : [];
+      const configArray = appearConfig
+        ? [
+            {
+              name: 'appear',
+              animation: appearConfig
+            }
+          ]
+        : [];
+      const normalConfig = (animationConfig as any).normal?.[0];
+      if (normalConfig) {
+        stateArray.push('normal');
+        configArray.push({
+          name: 'normal',
+          animation: normalConfig
+        });
+      }
+      configArray.forEach(config => {
+        config.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
+      });
+      (this._product as IGroup).applyAnimationState(stateArray, configArray, cb);
+    }
+
+    // 判断是否需要走normal动画，enter动画执行完成后，需要跟一个normal动画
+    let shouldRunNormal = false;
+    // 处理除了appear以外的动画
+    graphics.forEach(g => {
+      const state = defaultState ?? g.context.animationState;
+      if (state === 'appear') {
+        return;
+      }
+      const config = (animationConfig as any)[state] as any;
+      if (config && config.length > 0) {
+        const _config = config[0];
+        _config.customParameters = g.context;
+        const stateArray = [state];
+
+        const configArray = [
+          {
+            name: state,
+            animation: _config
+          }
+        ];
+
+        if (state === 'enter' && animationConfig.normal) {
+          shouldRunNormal = true;
+        }
+        (g as any).applyAnimationState(stateArray, configArray, cb);
+        _config.customParameters = null;
+      }
+    });
+
+    if (shouldRunNormal && this._product) {
+      const normalConfig = (animationConfig as any).normal?.[0];
+      // 停止normal动画，并回复最初的属性
+      (this._product as IGroup).stopAnimationState('normal', 'end');
+
+      (this._product as IGroup).applyAnimationState(
+        ['normal'],
+        [
+          {
+            name: 'normal',
+            animation: normalConfig
+          }
+        ]
+      );
+    }
+  }
+
   protected _runJoin(data: Datum[]) {
     const newGroupedData = this._getDataByKey(data);
     const prevGroupedData = this._dataByKey;
@@ -1104,8 +1185,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           g = {} as IMarkGraphic; //
         }
         diffState = DiffState.enter;
+        g.isExiting = false;
 
+        // 复用exit的图元，需要设置属性为最初的属性
         if (g.context?.diffState === DiffState.exit) {
+          // 表示正在被复用，后续需要重设属性的
+          g.context.reusing = true;
+          // 停止所有动画
+          (g as any).animates && (g as any).animates.forEach((a: any) => a.stop());
           // force element to stop exit animation if it is reentered
           // todo animaiton
           // const animators = this.animate?.getElementAnimators(element, DiffState.exit);
@@ -1128,11 +1215,17 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         g.context = {
           ...this._getCommonContext(),
           diffState,
+          // 从旧context中继承
+          reusing: g.context?.reusing,
           animationState: diffState,
-          data: newData,
+          // TODO 如果newData为空，则使用旧的data，避免exit图元找不到data
+          data: newData ?? g.context?.data,
           uniqueKey: key,
           key: newData ? this._keyGetter(newData[0]) : g.context?.key,
-          groupKey: newData ? this._groupKeyGetter(newData[0]) : g.context?.groupKey
+          groupKey: newData ? this._groupKeyGetter(newData[0]) : g.context?.groupKey,
+          // TODO 用于判定这个图元是第几个，在OneByOne动画中控制顺序
+          indexKey: '__VCHART_DEFAULT_DATA_INDEX',
+          stateAnimateConfig: this.getAnimationConfig().state
         };
         enterGraphics.delete(g);
       }
@@ -1314,10 +1407,24 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           this._graphicMap.set(g.context.uniqueKey, g);
         }
       } else {
-        if (this.hasAnimationByState(g.context.animationState)) {
-          // todo 执行动画 @zxy
-        } else {
-          g.setAttributes(finalAttrs);
+        if (g.context.reusing) {
+          // 表示正在被复用，需要重设属性的
+          // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除
+          g.context.lastAttrs = (g as any).attribute;
+          (g as any).initAttributes(finalAttrs);
+          g.context.reusing = false;
+        }
+        // diff一下，获取差异的属性
+        const prevAttrs = (g as any).attribute;
+        const diffAttrs: Record<string, any> = {};
+        Object.keys(finalAttrs).forEach(key => {
+          if (prevAttrs[key] !== finalAttrs[key]) {
+            diffAttrs[key] = finalAttrs[key];
+          }
+        });
+        g.context.diffAttrs = diffAttrs;
+        if (!this.hasAnimationByState(g.context.animationState) && !g.context.reusing) {
+          g.setAttributes(diffAttrs);
         }
       }
 
@@ -1461,6 +1568,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         }),
         this._graphics
       );
+      this._runStateAnimation(this._graphics);
     }
 
     this._updateAttrsOfGroup();
@@ -1493,14 +1601,29 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   protected _cleanExitGraphics() {
-    this._graphicMap.forEach((g, key) => {
-      if (g.context.diffState === DiffState.exit) {
-        this._graphicMap.delete(key);
-        if (g.parent) {
-          g.parent.removeChild(g);
-        }
-        if (g.release) {
-          g.release();
+    this._graphicMap.forEach((g: any, key) => {
+      // 避免重复执行退场动画
+      if (g.context.diffState === DiffState.exit && !g.isExiting) {
+        g.isExiting = true;
+        // 执行exit动画
+        const animationConfig = this.getAnimationConfig();
+        const exitConfig = (animationConfig as any).exit?.[0];
+        if (exitConfig) {
+          exitConfig.customParameters = g.context;
+          (g as any).applyAnimationState(['exit'], [{ name: 'exit', animation: exitConfig }], () => {
+            // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
+            // TODO 这里如果频繁执行的话，可能会误判
+            if (g.isExiting) {
+              this._graphicMap.delete(key);
+              if (g.parent) {
+                g.parent.removeChild(g);
+              }
+              if (g.release) {
+                g.release();
+              }
+            }
+          });
+          exitConfig.customParameters = null;
         }
       }
     });
@@ -1684,8 +1807,10 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   updateAnimationState(callback: (graphic: IMarkGraphic) => AnimationStateValues) {
-    if (this._graphics) {
-      this._graphics.forEach(g => (g.context.animationState = callback(g)));
+    if (this._graphics && this._graphics.length) {
+      this._graphics.forEach(g => {
+        g.context.animationState = callback(g);
+      });
     }
   }
 
