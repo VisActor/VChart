@@ -317,7 +317,13 @@ export interface IEventDispatcher {
   dispatch: <Evt extends EventType>(eType: Evt, params?: EventParamsDefinition[Evt], level?: EventBubbleLevel) => this;
   clear: () => void;
   release: () => void;
-  prevent: <Evt extends EventType>(eType: Evt, except: EventCallback<EventParamsDefinition[Evt]>) => void;
+  prevent: <Evt extends EventType>(
+    eType: Evt,
+    except?: {
+      handler: EventCallback<EventParamsDefinition[Evt]>;
+      level: EventBubbleLevel;
+    }
+  ) => void;
   allow: <Evt extends EventType>(eType: Evt) => void;
 }
 
@@ -338,7 +344,13 @@ export interface IEvent {
   release: () => void;
 
   getComposedEventMap: () => Map<EventCallback<EventParams>, { eventType: EventType; event: IComposedEvent }>;
-  prevent: <Evt extends EventType>(eType: Evt, except: EventCallback<EventParamsDefinition[Evt]>) => void;
+  prevent: <Evt extends EventType>(
+    eType: Evt,
+    except?: {
+      handler: EventCallback<EventParamsDefinition[Evt]>;
+      level: EventBubbleLevel;
+    }
+  ) => void;
   allow: <Evt extends EventType>(eType: Evt) => void;
 }
 

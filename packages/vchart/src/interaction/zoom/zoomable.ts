@@ -538,7 +538,14 @@ export class Zoomable implements IZoomable {
         return;
       }
       this._clickEnable = false;
-      end.forEach(endEventType => this._eventObj.prevent(endEventType, this._handleDragMouseUp as any));
+      end.forEach(endEventType => {
+        if (endEventType === 'pointerup') {
+        }
+        this._eventObj.prevent(endEventType, {
+          handler: this._handleDragMouseUp as any,
+          level: Event_Bubble_Level.chart // 这里的level 与下面 end 事件的默认 level 一致
+        });
+      });
 
       const event = params.event;
       const dx = event.canvasX - moveX;
