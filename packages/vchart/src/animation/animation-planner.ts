@@ -1,5 +1,5 @@
 /**
- * 动画计划，执行一批graphic.applyAnimationState，
+ * 动画规划器，执行一批graphic.applyAnimationState，
  * planner和planner之间是串行的
  */
 import type { IMarkGraphic } from '../mark/interface';
@@ -10,16 +10,28 @@ export class AnimationPlanner {
   state: string;
   graphics: IMarkGraphic[];
   private config: IAnimationConfig[];
+  private beforeExecute?: (graphics: IMarkGraphic[]) => void;
+  private afterExecute?: (graphics: IMarkGraphic[]) => void;
 
   /**
    * @param state 要应用的动画状态
    * @param graphics 要动画的图形数组
    * @param config 动画配置
+   * @param beforeExecute 可选的在执行前调用的函数，用于设置diffAttrs
+   * @param afterExecute 可选的在执行后调用的函数，用于恢复diffAttrs
    */
-  constructor(state: string, graphics: IMarkGraphic[], config: IAnimationConfig[]) {
+  constructor(
+    state: string,
+    graphics: IMarkGraphic[],
+    config: IAnimationConfig[],
+    beforeExecute?: (graphics: IMarkGraphic[]) => void,
+    afterExecute?: (graphics: IMarkGraphic[]) => void
+  ) {
     this.state = state;
     this.graphics = graphics;
     this.config = config || [];
+    this.beforeExecute = beforeExecute;
+    this.afterExecute = afterExecute;
   }
 
   /**
@@ -33,6 +45,11 @@ export class AnimationPlanner {
       return;
     }
 
+    // 执行前处理回调，例如设置正确的diffAttrs
+    if (this.beforeExecute) {
+      this.beforeExecute(this.graphics);
+    }
+
     // 使用第一个动画配置作为主配置
     const mainConfig = this.config[0];
 
@@ -44,6 +61,11 @@ export class AnimationPlanner {
     const onAnimationComplete = () => {
       completedCount++;
       if (completedCount >= totalCount) {
+        // 所有动画完成后执行后处理回调
+        if (this.afterExecute) {
+          this.afterExecute(this.graphics);
+        }
+
         onComplete?.();
       }
     };
@@ -77,6 +99,11 @@ export class AnimationPlanner {
       return;
     }
 
+    // 执行前处理回调
+    if (this.beforeExecute) {
+      this.beforeExecute(this.graphics);
+    }
+
     const mainConfig = this.config[0];
     const configArray = [
       {
@@ -91,6 +118,13 @@ export class AnimationPlanner {
     });
 
     // 对整个组应用动画
-    product.applyAnimationState([this.state], configArray, onComplete);
+    product.applyAnimationState([this.state], configArray, () => {
+      // 动画完成后执行后处理回调
+      if (this.afterExecute) {
+        this.afterExecute(this.graphics);
+      }
+
+      onComplete?.();
+    });
   }
 }

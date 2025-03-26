@@ -54,7 +54,7 @@ let dataArray = [
 const direction: string = 'vertical';
 
 let spec = {
-  type: 'bar',
+  type: 'area',
   data: {
     id: 'data0',
     values: dataArray
@@ -76,58 +76,17 @@ let spec = {
     yField: { visible: true, label: { visible: true } }
   },
   animationAppear: {
-    duration: 300
+    duration: 1000
   },
   animationUpdate: {
-    duration: 300
+    duration: 1000
   },
   animationEnter: {
-    duration: 300
+    duration: 1000
   },
   animationExit: {
-    duration: 300,
+    duration: 1000,
     type: 'fadeOut'
-  },
-  animationNormal: {
-    point: [
-      {
-        loop: true,
-        startTime: 100,
-        oneByOne: 100,
-        priority: 1,
-        timeSlices: [
-          {
-            delay: 1000,
-            effects: {
-              channel: {
-                fillOpacity: { to: 0.5 }
-              },
-              easing: 'linear'
-            },
-            duration: 500
-          },
-          {
-            effects: {
-              channel: {
-                fillOpacity: { to: 1 }
-              },
-              easing: 'linear'
-            },
-            duration: 500
-          }
-        ]
-      }
-    ]
-  },
-  point: {
-    state: {
-      hover: {
-        fill: 'red'
-      }
-    },
-    style: {
-      size: 80
-    }
   }
 };
 
@@ -149,7 +108,7 @@ const run = () => {
   });
 
   const button = document.createElement('button');
-  button.innerHTML = 'click';
+  button.innerHTML = 'update';
   button.addEventListener('click', () => {
     dataArray = dataArray.map(d => ({ ...d, value: 100000 * Math.random() }));
     cs.updateData('data0', dataArray);
@@ -172,14 +131,18 @@ const run = () => {
   function addData() {
     const name = Math.random().toString();
     const newData = dataArray
-      .filter(d => d.country === 'EU')
+      .filter(d => d.country !== 'EU')
       .map(d => ({
         ...d,
-        value: 100000 * Math.random(),
-        country: name
+        value: d.country === 'China' ? 100000 * Math.random() : d.value
       }));
+    const newData2 = dataArray.map(d => ({
+      ...d,
+      value: 100000 * Math.random(),
+      country: d.country + 'a'
+    }));
 
-    dataArray = [...dataArray, ...newData];
+    dataArray = [...newData, ...newData2];
   }
 
   function removeData() {
@@ -239,17 +202,20 @@ const run = () => {
     spec = nextSpec;
     cs.updateSpec(spec as any);
   });
-  // document.body.appendChild(button5);
-  // const button6 = document.createElement('button');
-  // button6.innerHTML = 'direction';
-  // button6.addEventListener('click', () => {
-  //   const nextSpec: any = { ...spec };
-  //   nextSpec.direction = nextSpec.direction === 'horizontal' ? 'vertical' : 'horizontal';
-  //   [nextSpec.xField, nextSpec.yField] = [nextSpec.yField, nextSpec.xField];
-  //   spec = nextSpec;
-  //   cs.updateSpec(spec as any);
-  // });
-  // document.body.appendChild(button6);
+  document.body.appendChild(button5);
+  const button6 = document.createElement('button');
+  button6.innerHTML = 'multiDataChange';
+  button6.addEventListener('click', () => {
+    const nextSpec: any = { ...spec };
+    addData();
+    nextSpec.data = {
+      id: 'data0',
+      values: dataArray
+    };
+    spec = nextSpec;
+    cs.updateSpec(spec as any);
+  });
+  document.body.appendChild(button6);
 
   window['vchart'] = cs;
   console.log(cs);
