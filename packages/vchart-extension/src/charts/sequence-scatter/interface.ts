@@ -11,6 +11,9 @@ export type OriginalData = {
   };
 };
 
+/**
+ * 训练信息，包括标签、标签颜色、标签文本
+ */
 export type TrainingInfo = {
   label_text: string[];
   label_color: number[][];
@@ -33,6 +36,9 @@ export type IterationNodesData = {
   confidence: number;
 }[];
 
+/**
+ * 轮次边数据
+ */
 export type IterationEdgesData = {
   index: number;
   x0: number;
