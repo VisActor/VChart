@@ -22,7 +22,8 @@ export const createComponent = <T extends ComponentProps>(
     VChart.useRegisters(registers);
   }
 
-  const ignoreKeys = ['updateId', 'componentId'];
+  // tooltip component 不支持 children，其他组件暂时也都不支持
+  const ignoreKeys = ['updateId', 'componentId', 'children'];
   const notSpecKeys = supportedEvents ? Object.keys(supportedEvents).concat(ignoreKeys) : ignoreKeys;
 
   const Comp: React.FC<T> = (props: T) => {
