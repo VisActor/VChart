@@ -2,7 +2,7 @@ import trainingData1 from '../../../__tests__/runtime/browser/data/sequence-scat
 import trainingInfo1 from '../../../__tests__/runtime/browser/data/sequence-scatter/Training_process1/info.json';
 import trainingData2 from '../../../__tests__/runtime/browser/data/sequence-scatter/Training_process2/data.json';
 import trainingInfo2 from '../../../__tests__/runtime/browser/data/sequence-scatter/Training_process2/info.json';
-import { OriginalData, ChartData, TrainingInfo } from './interface';
+import { ISequenceScatterData, OriginalData, TrainingInfo, Endpoint } from './interface';
 
 export function getSeqScatterChartData(task_type: string) {
   // get basic settings
@@ -14,9 +14,9 @@ export function getSeqScatterChartData(task_type: string) {
   return { chartData, scope, label_color_dict };
 }
 
-/*
-  Get basic settings like canvas scope, label info
-*/
+/**
+ * 获取基本设置，包括画布范围、标签、标签文本和标签颜色
+ */
 function getBasicSettings(task_type: string) {
   const training_info: TrainingInfo = task_type === 'neighborhood' ? trainingInfo1 : trainingInfo2;
   const scope = task_type === 'neighborhood' ? [-9, -9, 6, 6] : [-8, -8, 8, 8];
@@ -44,7 +44,7 @@ function constructChartData(
   label_color_dict: { [key: string]: string }
 ) {
   const original_data: OriginalData = task_type === 'neighborhood' ? trainingData1 : (trainingData2 as OriginalData);
-  const chartData: ChartData = {};
+  const chartData: ISequenceScatterData = {};
 
   Object.keys(original_data).forEach(epoch => {
     chartData[epoch] = {
@@ -62,7 +62,7 @@ function constructChartData(
       }
 
       chartData[epoch].nodes.push({
-        index: id,
+        id: id, // unique identification of a point
         x: pos[0],
         y: pos[1],
         label: label_text[label_index[id]],
@@ -77,32 +77,31 @@ function constructChartData(
       intra_similarity = original_data[epoch].intra_similarity;
       inter_similarity = original_data[epoch].inter_similarity;
 
-      let edgeId = 0;
-
+      let i = 0;
       original_data[epoch].projection.forEach((pos, id) => {
         intra_similarity[id].forEach(neighbor => {
           chartData[epoch].edges.push({
-            index: edgeId,
+            id: i, // unique identification of an edge
             x0: pos[0],
             y0: pos[1],
             x1: original_data[epoch].projection[neighbor][0],
             y1: original_data[epoch].projection[neighbor][1],
-            type: 0,
+            type: 'same_type',
             color: label_color_dict[label_text[label_index[id]]]
           });
-          edgeId++;
+          i++;
         });
         inter_similarity[id].forEach(neighbor => {
           chartData[epoch].edges.push({
-            index: edgeId++,
+            id: i, // unique identification of an edge
             x0: pos[0],
             y0: pos[1],
             x1: original_data[epoch].projection[neighbor][0],
             y1: original_data[epoch].projection[neighbor][1],
-            type: 1,
+            type: 'cross_type',
             color: label_color_dict[label_text[label_index[neighbor]]]
           });
-          edgeId++;
+          i++;
         });
       });
     }
@@ -111,17 +110,17 @@ function constructChartData(
   return chartData;
 }
 
-/*
-  Select edges with given point and return endpoints of these edges for vchart to show
-*/
-export function selectEdges(chartData: ChartData, x: number, y: number) {
-  const endpoints: any[] = [];
+/**
+ * 选择边，根据给定的x和y坐标，返回所有与该点相关的边，构造边的端点用于绘制线段
+ */
+export function selectEdges(chartData: ISequenceScatterData, x: number, y: number) {
+  const endpoints: Endpoint[] = [];
   Object.keys(chartData).forEach(iter => {
     const edges = chartData[iter].edges;
     edges.forEach(edge => {
       if (x === edge.x0 && y === edge.y0) {
-        endpoints.push({ x: edge.x0, y: edge.y0, type: edge.type, index: edge.index, color: edge.color });
-        endpoints.push({ x: edge.x1, y: edge.y1, type: edge.type, index: edge.index, color: edge.color });
+        endpoints.push({ edgeId: edge.id, x: edge.x0, y: edge.y0, type: edge.type, color: edge.color });
+        endpoints.push({ edgeId: edge.id, x: edge.x1, y: edge.y1, type: edge.type, color: edge.color });
       }
     });
   });

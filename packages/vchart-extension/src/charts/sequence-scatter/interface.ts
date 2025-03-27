@@ -1,6 +1,9 @@
 import { IPlayerSpec } from '@visactor/vchart';
 import { ITextGraphicAttribute } from '@visactor/vrender-core';
 
+/**
+ * 原始数据，包括坐标、邻居、预测结果
+ */
 export type OriginalData = {
   [key: string]: {
     projection: number[][];
@@ -20,15 +23,11 @@ export type TrainingInfo = {
   label_index: number[];
 };
 
-export type ChartData = {
-  [key: string]: {
-    nodes: IterationNodesData;
-    edges: IterationEdgesData;
-  };
-};
-
+/**
+ * 轮次点数据
+ */
 export type IterationNodesData = {
-  index: number;
+  id: number; // unique identification of a point
   x: number;
   y: number;
   label: string;
@@ -40,16 +39,27 @@ export type IterationNodesData = {
  * 轮次边数据
  */
 export type IterationEdgesData = {
-  index: number;
+  id: number; // unique identification of an edge
   x0: number;
   y0: number;
   x1: number;
   y1: number;
-  type: number;
+  type: string;
   color: string;
 }[];
 
-type ISequenceScatterData = {
+/**
+ * 边的端点，一条边数据构造两个端点，edgeId相同的端点之间将绘制一条线段
+ */
+export type Endpoint = {
+  edgeId: number; // id of the edge that the endpoint belongs to
+  x: number;
+  y: number;
+  type: string;
+  color: string;
+};
+
+export type ISequenceScatterData = {
   /**
    * key: 迭代信息
    * value: 每个迭代的数据
