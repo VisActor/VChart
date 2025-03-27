@@ -12,6 +12,16 @@ registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
 
+const valueList = [
+  new Array(10000).fill(0).map((item, index) => ({ x: index, y: Math.random() * 100 })),
+  new Array(10000).fill(0).map((item, index) => ({ x: index, y: Math.random() * 100 })),
+  new Array(10000).fill(0).map((item, index) => ({ x: index, y: Math.random() * 100 })),
+  new Array(10000).fill(0).map((item, index) => ({ x: index, y: Math.random() * 100 })),
+  new Array(10000).fill(0).map((item, index) => ({ x: index, y: Math.random() * 100 })),
+  new Array(10000).fill(0).map((item, index) => ({ x: index, y: Math.random() * 100 })),
+  new Array(10000).fill(0).map((item, index) => ({ x: index, y: Math.random() * 100 }))
+];
+
 const spec = {
   type: 'common',
   series: [
@@ -22,6 +32,7 @@ const spec = {
       animationThreshold: 10000000000
     }
   ],
+  animation: false,
   axes: [
     {
       title: {
@@ -51,33 +62,36 @@ const spec = {
 };
 
 const run = () => {
-  registerMediaQuery();
-  // VChart.ThemeManager.setCurrentTheme('dark');
-  const cs = new VChart(spec, {
-    dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    //theme: 'dark',
-    onError: err => {
-      console.error(err);
-    }
-  });
-  console.time('renderTime');
+  const button = document.createElement('button');
+  button.innerHTML = 'create';
+  let cs;
+  button.addEventListener('click', () => {
+    registerMediaQuery();
+    // VChart.ThemeManager.setCurrentTheme('dark');
+    cs = new VChart(spec, {
+      dom: document.getElementById('chart') as HTMLElement,
+      mode: isMobile ? 'mobile-browser' : 'desktop-browser',
+      //theme: 'dark',
+      onError: err => {
+        console.error(err);
+      }
+    });
+    console.time('renderTime');
 
-  cs.renderAsync().then(() => {
-    console.timeEnd('renderTime');
-  });
-  // const button6 = document.createElement('button');
-  // button6.innerHTML = 'direction';
-  // button6.addEventListener('click', () => {
-  //   const nextSpec: any = { ...spec };
-  //   nextSpec.direction = nextSpec.direction === 'horizontal' ? 'vertical' : 'horizontal';
-  //   [nextSpec.xField, nextSpec.yField] = [nextSpec.yField, nextSpec.xField];
-  //   spec = nextSpec;
-  //   cs.updateSpec(spec as any);
-  // });
-  // document.body.appendChild(button6);
+    cs.renderAsync().then(() => {
+      console.timeEnd('renderTime');
+    });
 
-  window['vchart'] = cs;
-  console.log(cs);
+    window['vchart'] = cs;
+  });
+
+  document.body.appendChild(button);
+
+  const button2 = document.createElement('button');
+  button2.innerHTML = 'update';
+  button2.addEventListener('click', () => {
+    cs.updateData('data', valueList[Math.floor(Math.random() * valueList.length)]);
+  });
+  document.body.appendChild(button2);
 };
 run();
