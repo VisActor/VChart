@@ -3,19 +3,19 @@ import { VChart } from '@visactor/vchart';
 import { getSeqScatterChartData, selectEdges } from '../../../../src/charts/sequence-scatter/utils';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-/*
-   Sequence scatter showing neighbors
-*/
+/**
+ * 展示分类任务的Demo
+ */
 const TASK_TYPE = 'neighborhood';
 
-/*
-  get chart data
-*/
+/**
+ * 获取图表数据
+ */
 const { chartData, scope, label_color_dict } = getSeqScatterChartData(TASK_TYPE);
 
-/*
-  create spec for sequence-scatter
-*/
+/**
+ * 创建sequence-scatter的特有配置项
+ */
 const spec = {
   type: 'sequenceScatter',
   taskType: TASK_TYPE,
@@ -50,7 +50,9 @@ const run = () => {
     }
   });
 
-  // register events to show edges
+  /**
+   * 注册鼠标悬浮事件，绘制该节点的邻接边
+   */
   cs.on('pointerover', { id: 'scatter-series' }, (e: { datum: { x: number; y: number } }) => {
     const endpoints = selectEdges(spec.data, e.datum?.x, e.datum?.y);
     cs.updateDataSync('edges', endpoints);

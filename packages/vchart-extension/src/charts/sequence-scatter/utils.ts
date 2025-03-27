@@ -34,9 +34,9 @@ function getBasicSettings(task_type: string) {
   return { scope, label_index, label_text, label_color_dict };
 }
 
-/*
-  Construct chart data containing nodes and edges
-*/
+/**
+ * 构造图表数据，包括节点和边
+ */
 function constructChartData(
   task_type: string,
   label_index: number[],
