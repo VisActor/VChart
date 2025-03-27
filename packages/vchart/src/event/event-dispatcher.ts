@@ -1,6 +1,12 @@
 import { Bubble } from './bubble';
 import { isValid, debounce, throttle, get, isFunction } from '@visactor/vutils';
-import { BASE_EVENTS, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
+import {
+  BASE_EVENTS,
+  Event_Bubble_Level,
+  Event_Source_Type,
+  VGRAMMAR_HOOK_EVENT,
+  EventBubbleLevels as levels
+} from '../constant/event';
 import type {
   EventType,
   EventQuery,
@@ -152,12 +158,6 @@ export class EventDispatcher implements IEventDispatcher {
       const handlers = bubble.getHandlers(level);
       stopBubble = this._invoke(handlers, eType, params);
     } else {
-      const levels = [
-        Event_Bubble_Level.mark,
-        Event_Bubble_Level.model,
-        Event_Bubble_Level.chart,
-        Event_Bubble_Level.vchart
-      ];
       let i = 0;
 
       // Mark 级别的事件只包含对语法层代理的基础事件
@@ -170,14 +170,28 @@ export class EventDispatcher implements IEventDispatcher {
     return this;
   }
 
-  prevent<Evt extends EventType>(eType: Evt, except?: EventCallback<EventParams>): this {
-    const eventTypes = ['canvas', 'chart', 'window'] as EventSourceType[];
-    eventTypes.forEach(type => {
+  prevent<Evt extends EventType>(
+    eType: Evt,
+    except?: {
+      handler: EventCallback<EventParams>;
+      level: EventBubbleLevel;
+    }
+  ): this {
+    const eventSourceTypes = ['canvas', 'chart', 'window'] as EventSourceType[];
+    eventSourceTypes.forEach(type => {
       const bubble = this.getEventBubble(type).get(eType);
       if (bubble) {
         bubble.getAllHandlers().forEach(handler => {
-          if (!except || handler.callback !== except) {
+          if (!except) {
             bubble.preventHandler(handler);
+          } else if (
+            // 只能 prevent 比当前 level 更低的事件
+            (levels as EventBubbleLevel[]).indexOf(handler.filter.level) <
+            (levels as EventBubbleLevel[]).indexOf(except.level)
+          ) {
+            if (handler.callback !== except.handler) {
+              bubble.preventHandler(handler);
+            }
           }
         });
       }

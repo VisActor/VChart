@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " fix: fix the bubble level issue prevented by event.prevent, #3728",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
