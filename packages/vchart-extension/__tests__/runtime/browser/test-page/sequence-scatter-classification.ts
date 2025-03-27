@@ -1,0 +1,61 @@
+import { registerSequenceScatter } from '../../../../src';
+import { VChart } from '@visactor/vchart';
+import { getSeqScatterChartData, selectEdges } from '../../../../src/charts/sequence-scatter/utils';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+/*
+   Sequence scatter showing neighbors
+*/
+const TASK_TYPE = 'classification';
+
+/*
+  get chart data
+*/
+const { chartData, scope, label_color_dict } = getSeqScatterChartData(TASK_TYPE);
+
+/*
+  create spec for sequence-scatter
+*/
+const spec = {
+  type: 'sequenceScatter',
+  taskType: TASK_TYPE,
+  labelColor: label_color_dict,
+  scope: scope,
+  data: chartData,
+  xField: 'x',
+  yField: 'y',
+
+  infoLabel: {
+    visible: true,
+    style: {
+      text: datum => {
+        return 'iteration: ' + datum.iter;
+      }
+    }
+  },
+  player: {
+    orient: 'bottom',
+    auto: true,
+    interval: 2000,
+    duration: 2000
+  }
+};
+
+const run = () => {
+  registerSequenceScatter();
+  const cs = new VChart(spec, {
+    dom: document.getElementById('chart') as HTMLElement,
+    onError: err => {
+      console.error(err);
+    }
+  });
+
+  console.time('renderTime');
+
+  cs.renderSync();
+
+  console.timeEnd('renderTime');
+  window['vchart'] = cs;
+  console.log(cs);
+};
+run();

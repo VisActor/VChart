@@ -3,5 +3,7 @@
  */
 
 // import VChart from '../../../src';
-import './index.page.local';
+// import './index.page.local';
+import './test-page/sequence-scatter-neighborhood';
+// import './test-page/sequence-scatter-classification';
 // window['VChart'] = VChart;
