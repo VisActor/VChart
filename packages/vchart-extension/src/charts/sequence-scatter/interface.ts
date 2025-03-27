@@ -1,23 +1,46 @@
 import { IPlayerSpec } from '@visactor/vchart';
 import { ITextGraphicAttribute } from '@visactor/vrender-core';
 
-type IterationNodesData = {
-  index : number,
-  x : number,
-  y : number,
-  label: string,
-  prediction: string,
-  confidence: number
+export type OriginalData = {
+  [key: string]: {
+    projection: number[][];
+    intra_similarity?: number[][];
+    inter_similarity?: number[][];
+    prediction?: number[];
+    confidence?: number[];
+  };
+};
+
+export type TrainingInfo = {
+  label_text: string[];
+  label_color: number[][];
+  label_index: number[];
+};
+
+export type ChartData = {
+  [key: string]: {
+    nodes: IterationNodesData;
+    edges: IterationEdgesData;
+  };
+};
+
+export type IterationNodesData = {
+  index: number;
+  x: number;
+  y: number;
+  label: string;
+  prediction: string;
+  confidence: number;
 }[];
 
-type IterationEdgesData = {
-  index: number,
-  x0: number,
-  y0: number,
-  x1: number,
-  y1: number,
-  type: number,
-  color: string
+export type IterationEdgesData = {
+  index: number;
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+  type: number;
+  color: string;
 }[];
 
 type ISequenceScatterData = {
@@ -70,7 +93,7 @@ export interface ISequenceScatterSpec {
     style: ITextGraphicAttribute;
   };
   /**
-   * 画布范围 
+   * 画布范围
    */
   scope: [number, number, number, number];
 }
