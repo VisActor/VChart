@@ -55,10 +55,10 @@ const run = () => {
    */
   cs.on('pointerover', { id: 'scatter-series' }, (e: { datum: { x: number; y: number } }) => {
     const endpoints = selectEdges(spec.data, e.datum?.x, e.datum?.y);
-    cs.updateDataSync('edges', endpoints);
+    cs.updateDataSync('endpoints', endpoints);
   });
   cs.on('pointerout', { id: 'scatter-series' }, e => {
-    cs.updateDataSync('edges', []);
+    cs.updateDataSync('endpoints', []);
   });
 
   console.time('renderTime');

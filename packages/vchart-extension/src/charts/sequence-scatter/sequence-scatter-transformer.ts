@@ -12,6 +12,7 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
   transformSpec(spec: any): void {
     super.transformSpec(spec);
     const dataSpecs = processSequenceData(spec as unknown as ISequenceScatterSpec);
+    const showTooltip = spec.taskType === 'neighborhood' ? false : true;
 
     spec.type = 'common';
 
@@ -59,10 +60,10 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
       {
         id: 'line-series',
         type: 'line',
-        dataId: 'edges',
+        dataId: 'endpoints',
         xField: 'x',
         yField: 'y',
-        seriesField: 'index',
+        seriesField: 'edgeId', // a line will be drawn between endpoints with the same edgeId.
         animation: true,
         point:{
           visible:false,
@@ -385,7 +386,7 @@ export function processSequenceData(spec: ISequenceScatterSpec) {
           })
         },
         {
-          id: 'edges',
+          id: 'endpoints',
           values: [] // dynamically filled in events
         },
         {
