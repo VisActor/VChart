@@ -1091,6 +1091,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     graphics: IMarkGraphic[],
     params?: { defaultState?: string; cb?: (g: IMarkGraphic) => void }
   ) {
+    if (!this._animationConfig) {
+      return;
+    }
     const animationConfig = this.getAnimationConfig();
     const { defaultState, cb } = params ?? {};
     const useSequentialAnimation = this._markConfig.useSequentialAnimation ?? false;
@@ -1320,7 +1323,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           groupKey: newData ? this._groupKeyGetter(newData[0]) : g.context?.groupKey,
           // TODO 用于判定这个图元是第几个，在OneByOne动画中控制顺序
           indexKey: '__VCHART_DEFAULT_DATA_INDEX',
-          stateAnimateConfig: this.getAnimationConfig().state
+          stateAnimateConfig: this.getAnimationConfig()?.state
         };
         enterGraphics.delete(g);
       }
