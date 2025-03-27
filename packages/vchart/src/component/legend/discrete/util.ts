@@ -37,6 +37,8 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
   // transform title
   if (title.visible) {
     attrs.title = transformLegendTitleAttributes(title);
+  } else {
+    attrs.title = { visible: false };
   }
 
   // transform item
