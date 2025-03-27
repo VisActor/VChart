@@ -4,7 +4,6 @@ import { CommonChartSpecTransformer } from '@visactor/vchart';
 
 const DATA_KEY = 'dataKey';
 
-
 /**
  * convert ISequenceScatterSpec to CommonSpec
  */
@@ -24,37 +23,37 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
     spec.series = [
       {
         id: 'background-series',
+        type: 'area',
         dataId: 'background',
         interactive: false,
         persent: true,
-        type: 'area',
         xField: 'x',
         yField: 'y',
-        point:{
-          visible:false,
+        point: {
+          visible: false
         },
-        line:{
-          visible:false, 
+        line: {
+          visible: false
         },
-        area:{
-          visible:true,
-          interactive: false, 
-          style:{
-            background: (datum: { iter: number; }) => {
-              if(spec.taskType === 'neighborhood'){
+        area: {
+          visible: true,
+          interactive: false,
+          style: {
+            background: (datum: { iter: number }) => {
+              if (spec.taskType === 'neighborhood') {
                 return '';
               }
               return `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/sequence-scatter-bgimg-2/${datum.iter}.png`;
             },
-            fill:'transparent',
-            fillOpacity:0.5
+            fill: 'transparent',
+            fillOpacity: 0.5
           }
         },
         hover: {
-          enable: false,
+          enable: false
         },
         select: {
-          enable: false,
+          enable: false
         }
       },
       {
@@ -65,22 +64,21 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
         yField: 'y',
         seriesField: 'edgeId', // a line will be drawn between endpoints with the same edgeId.
         animation: true,
-        point:{
-          visible:false,
+        point: {
+          visible: false
         },
-        line:{
-          visible:true,
-          style:{
-            stroke: (datum:{color: string;})=>{
+        line: {
+          visible: true,
+          style: {
+            stroke: (datum: { color: string }) => {
               return datum.color;
             },
-            lineDash: (datum: { type: number; }) => {
-                if (datum.type === 1) {
-                    return [0, 0];
-                }
-                else{
-                    return [3, 2];
-                }
+            lineDash: (datum: { type: string }) => {
+              if (datum.type === 'same_type') {
+                return [0, 0];
+              } else {
+                return [3, 2];
+              }
             },
             lineWidth: 0.8,
             strokeOpacity: 0.6
@@ -94,48 +92,46 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
         xField: spec.xField,
         yField: spec.yField,
         seriesField: 'label',
-        point:{
-          state:{
-            hover:{
+        point: {
+          state: {
+            hover: {
               scaleX: 1.5,
               scaleY: 1.5,
               fillOpacity: 1
             },
-            hover_reverse:{
+            hover_reverse: {
               scaleX: 1,
               scaleY: 1,
-              fillOpacity: (datum:{confidence: number;})=>{
-                return spec.taskType ==='neighborhood'? 0.6: datum.confidence-0.2;
-              }
+              fillOpacity: 0.3
             }
           },
           style: {
-            size: ()=>{
-              return spec.taskType ==='neighborhood'? 6: 4;
+            size: () => {
+              return spec.taskType === 'neighborhood' ? 6 : 4;
             },
-            fill: (datum: { label: string; }) => {
-                const color = spec.labelColor[datum.label] ?? 'gray';
-                return color;
+            fill: (datum: { label: string }) => {
+              const color = spec.labelColor[datum.label] ?? 'gray';
+              return color;
             },
-            fillOpacity: (datum: { confidence: number; }) => {
-                return datum.confidence;
+            fillOpacity: (datum: { confidence: number }) => {
+              return datum.confidence;
             }
           }
         },
         label: {
           visible: true,
-          style:{
-            visible:()=>{
+          style: {
+            visible: () => {
               return spec.taskType == 'neighborhood';
             },
-            type:'text',
-            fontFamily:'Console',
-            fontStyle:'italic',
-            fontSize:12,
-            fill:'black',
+            type: 'text',
+            fontFamily: 'Console',
+            fontStyle: 'italic',
+            fontSize: 12,
+            fill: 'black',
             fillOpacity: 0.6,
-            text:(datum:Datum)=>{
-              return datum.index;
+            text: (datum: Datum) => {
+              return datum.id;
             }
           }
         }
@@ -166,7 +162,7 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
         type: 'linear',
         inverse: true,
         min: spec.scope[1],
-        max: spec.scope[3],
+        max: spec.scope[3]
       },
       {
         orient: 'bottom',
@@ -196,7 +192,7 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
     ];
 
     // legends
-    spec.legends = [
+    (spec.legends = [
       {
         seriesId: 'scatter-series',
         visible: true,
@@ -205,9 +201,9 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
         data: (items: any[]) => {
           return items.map(item => {
             item.shape.outerBorder = {
-                stroke: item.shape.fill,
-                distance: 2,
-                lineWidth: 1
+              stroke: item.shape.fill,
+              distance: 2,
+              lineWidth: 1
             };
             return item;
           });
@@ -240,95 +236,88 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
           }
         }
       }
-    ],
-
-    // tooltip
-    spec.tooltip = {
-      seriesId: 'scatter-series',
-      lockAfterClick: false,
-      visible:()=>{
-        return spec.taskType ==='classification';
-      },
-      activeType:'mark',
-      trigger:'hover',
-      mark:{
-        title:{
-          visible: true,
-          value:'Info'
-        },
-        content:[
-          {
-            key:'Label',
-            value: (datum: {label:string})=>{
-              return datum.label;
-            },
-            shapeType: 'circle',
-            shapeSize: 8
+    ]),
+      // tooltip
+      (spec.tooltip = {
+        visible: showTooltip,
+        seriesId: 'scatter-series',
+        lockAfterClick: false,
+        activeType: 'mark',
+        trigger: 'hover',
+        mark: {
+          title: {
+            visible: true,
+            value: 'Info'
           },
-          {
-            key:'Prediction',
-            value: (datum: {prediction:string})=>{
-              return datum.prediction;
+          content: [
+            {
+              key: 'Label',
+              value: (datum: { label: string }) => {
+                return datum.label;
+              },
+              shapeType: 'circle',
+              shapeSize: 8
             },
-            shapeType: 'circle',
-            shapeSize: 8,
-            shapeFill: (datum: { prediction: string }) => {
-              const color = spec.labelColor[datum.prediction] ?? 'gray';
-              return color;
+            {
+              key: 'Prediction',
+              value: (datum: { prediction: string }) => {
+                return datum.prediction;
+              },
+              shapeType: 'circle',
+              shapeSize: 8,
+              shapeFill: (datum: { prediction: string }) => {
+                const color = spec.labelColor[datum.prediction] ?? 'gray';
+                return color;
+              }
+            },
+            {
+              key: 'Confidence',
+              value: (datum: { confidence: number }) => {
+                return datum.confidence.toFixed(2);
+              },
+              shapeType: 'square',
+              shapeSize: 8,
+              shapeFill: (datum: { label: string; prediction: string }) => {
+                return datum.label === datum.prediction ? 'green' : 'red';
+              }
+            }
+          ]
+        },
+        style: {
+          panel: {
+            padding: { top: 10, bottom: 15, left: 10, right: 10 },
+            backgroundColor: '#fff',
+            border: {
+              color: '#eee',
+              width: 1,
+              radius: 10
             }
           },
-          {
-            key:'Confidence',
-            value: (datum: {confidence:number})=>{
-              return datum.confidence.toFixed(2);
-            },
-            shapeType: 'square',
-            shapeSize: 8,
-            shapeFill: (datum: { label:string, prediction: string}) => {
-              return datum.label === datum.prediction? 'green': 'red';
-            }
+          titleLabel: {
+            fontSize: 20,
+            fontFamily: 'Times New Roman',
+            fill: 'brown',
+            fontWeight: 'bold',
+            textAlign: 'center',
+            lineHeight: 24
+          },
+          keyLabel: {
+            fontSize: 16,
+            fontFamily: 'Times New Roman',
+            fill: 'black',
+            textAlign: 'center',
+            lineHeight: 15,
+            spacing: 10
+          },
+          valueLabel: {
+            fontSize: 14,
+            fill: 'black',
+            textAlign: 'center',
+            lineHeight: 15,
+            spacing: 10
           }
-        ]
-      },        
-      style:{
-        fillOpacity:()=>{
-          return spec.taskType ==='classification'? 0.8: 0;
-        },
-        panel:{
-          padding:{top:10, bottom:15, left:10, right:10},
-          backgroundColor: '#fff',
-          border: {
-            color: '#eee',
-            width: 1,
-            radius: 10
-          }
-        },
-        titleLabel: {
-          fontSize: 20,
-          fontFamily: 'Times New Roman',
-          fill: 'brown',
-          fontWeight: 'bold',
-          textAlign: 'center',
-          lineHeight: 24
-        },
-        keyLabel: {
-          fontSize: 16,
-          fontFamily: 'Times New Roman',
-          fill: 'black',
-          textAlign: 'center',
-          lineHeight: 15,
-          spacing: 10
-        },
-        valueLabel: {
-          fontSize: 14,
-          fill: 'black',
-          textAlign: 'center',
-          lineHeight: 15,
-          spacing: 10
         }
-      }
-    };
-
+      });
 
     // datazoom
     spec.dataZoom = [
@@ -362,7 +351,7 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
           enable: true,
           reverse: true,
           rate: 1
-        },
+        }
       }
     ];
 
@@ -400,12 +389,12 @@ export function processSequenceData(spec: ISequenceScatterSpec) {
         {
           id: 'background',
           values: [
-              {iter:iter, x:spec.scope[0], y:spec.scope[1]},
-              {iter:iter, x:spec.scope[0], y:spec.scope[3]},
-              {iter:iter, x:spec.scope[2], y:spec.scope[3]},
-              {iter:iter, x:spec.scope[2], y:spec.scope[1]},
-              {iter:iter, x:spec.scope[0], y:spec.scope[1]}
-          ]  
+            { iter: iter, x: spec.scope[0], y: spec.scope[1] },
+            { iter: iter, x: spec.scope[0], y: spec.scope[3] },
+            { iter: iter, x: spec.scope[2], y: spec.scope[3] },
+            { iter: iter, x: spec.scope[2], y: spec.scope[1] },
+            { iter: iter, x: spec.scope[0], y: spec.scope[1] }
+          ]
         }
       ]
     });
