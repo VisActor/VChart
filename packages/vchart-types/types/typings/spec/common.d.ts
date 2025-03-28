@@ -109,7 +109,7 @@ export type BuildInTransformOptions = {
 export interface IFieldsMeta {
     alias?: string;
     domain?: StringOrNumber[];
-    lockStatisticsByDomain?: boolean;
+    lockStatisticsByDomain?: boolean | 'onlyFull';
     type?: 'ordinal' | 'linear';
     sortIndex?: number;
     sortReverse?: boolean;

@@ -1,6 +1,39 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 14 Mar 2025 04:02:23 GMT and should not be manually modified.
+This log was last generated on Fri, 28 Mar 2025 08:38:27 GMT and should not be manually modified.
+
+## 1.13.8
+Fri, 28 Mar 2025 08:38:27 GMT
+
+### Updates
+
+- feat: add \`alwayCalculateTotal\` for total label
+- fix: fix the issue where the bar chart grow animation does not work correctly when the axis `zero: false`, #3808
+- fix: crosshair should hide when label is invalid
+
+
+- fix: crosshair should hide when datazoom change
+
+
+-  fix: fix the bubble level issue prevented by event.prevent, #3728
+- fix: fix error when load gauge chart on demand, #3836
+- fix: `legends.title.visible` should change visiblity of title in legend, fix #3846
+
+
+- fix: fix the issue of pictogram svg path has not been drawn
+- fix(react-vchart): children of tooltip should not be set to spec
+- fix: data.fields can set domain of field
+
+
+- feat: add options `full` to lockStatisticsByDomain
+
+
+- fix: fix bug of zoomable in mobile device which only use pointer event
+
+
+- fix: fix datazoom drag and zoom triggered at the same time, fix #3819
+
+
 
 ## 1.13.7
 Fri, 14 Mar 2025 04:02:23 GMT
