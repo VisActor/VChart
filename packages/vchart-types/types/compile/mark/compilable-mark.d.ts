@@ -7,7 +7,7 @@ import type { IModel } from '../../model/interface';
 import { MarkStateManager } from './mark-state-manager';
 import type { ICompilableMark, IMarkDataInitOption, ICompilableMarkOption, StateValueType, IMarkCompileOption, IAttributeOpt, IMarkData } from './interface';
 import { GrammarType } from '../interface/compilable-item';
-import type { IEvent } from '../../event/interface';
+import { Event } from '../../event/event';
 export declare abstract class CompilableMark extends GrammarItem implements ICompilableMark {
     readonly grammarType = GrammarType.mark;
     readonly type: MarkType;
@@ -35,7 +35,7 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     };
     hasState(state: string): boolean;
     getState(state: string): unknown;
-    protected _event: IEvent;
+    protected _event: Event;
     protected _animationConfig: Partial<MarkAnimationSpec>;
     getAnimationConfig(): Partial<MarkAnimationSpec>;
     setAnimationConfig(config: Partial<MarkAnimationSpec>): void;

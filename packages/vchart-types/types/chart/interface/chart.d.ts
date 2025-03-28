@@ -1,4 +1,3 @@
-import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset';
@@ -14,6 +13,7 @@ import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber,
 import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../../scale/interface';
 import type { IMorphConfig } from '../../animation/spec';
+import { Event } from '../../event';
 export type DimensionIndexOption = {
     filter?: (cmp: IComponent) => boolean;
     tooltip?: boolean;
@@ -37,7 +37,7 @@ export interface IChart extends ICompilable {
     getCanvasRect: () => ILayoutRect;
     getViewRect: () => ILayoutRect;
     getOption: () => IChartOption;
-    getEvent: () => IEvent;
+    getEvent: () => Event;
     getGlobalScale: () => IGlobalScale;
     setLayout: (layout: LayoutCallBack) => void;
     layout: (context: ILayoutParams) => void;

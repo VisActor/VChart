@@ -58,5 +58,9 @@ export declare class Zoomable implements IZoomable {
     private _bindDragEventAsRegion;
     initDragEventOfSeries(s: ISeries, callback?: (delta: [number, number], e: BaseEventParams['event']) => void, option?: ITriggerOption): void;
     initDragEventOfRegions(regions: IRegion[], filter?: (s: ISeries) => boolean, callback?: (delta: [number, number], e: BaseEventParams['event']) => void, option?: ITriggerOption): void;
+    private _handleDragMouseUp?;
+    private _handleDragMouseMove?;
+    protected _clearDragEvent(): void;
+    private isDragEnable;
     protected _handleDrag(params: ExtendEventParam, callback?: (delta: [number, number], e: BaseEventParams['event']) => void, option?: ITriggerOption): void;
 }
