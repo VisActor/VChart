@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " feat: support polygon crosshair for angleAxis in polar coordinate, #3458",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
