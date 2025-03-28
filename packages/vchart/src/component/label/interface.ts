@@ -152,6 +152,11 @@ export type ITotalLabelSpec = Pick<
    * @default 'top'
    */
   position?: 'top' | 'bottom';
+  /**
+   * 不管总计标签是否展示，内部都默认计算总计值
+   * @default false
+   */
+  alwayCalculateTotal?: boolean;
 };
 
 export interface ITotalLabelTheme
