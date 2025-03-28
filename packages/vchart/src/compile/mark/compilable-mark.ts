@@ -134,7 +134,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     return this.state.getStateMap()[state];
   }
 
-  protected _event: IEvent;
+  protected _event: Event;
 
   protected _animationConfig: Partial<MarkAnimationSpec>;
   getAnimationConfig() {

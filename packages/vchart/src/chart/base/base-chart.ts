@@ -152,7 +152,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // mark & model 的 id 映射
   protected _idMap: Map<number, IModel | IMark> = new Map();
 
-  protected _event: IEvent;
+  protected _event: Event;
   getEvent() {
     return this._event;
   }

@@ -328,7 +328,7 @@ export class VChart implements IVChart {
   private _chart!: Maybe<IChart>;
   private _chartSpecTransformer!: Maybe<IChartSpecTransformer>;
   private _compiler: Compiler;
-  private _event: Maybe<IEvent>;
+  private _event: Maybe<Event>;
   private _userEvents: {
     eType: EventType;
     query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
