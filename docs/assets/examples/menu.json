@@ -1722,6 +1722,13 @@
             "zh": "太极八卦图",
             "en": "Taiji Bagua Diagram"
           }
+        },
+        {
+          "path": "pictogram-route-swimming",
+          "title": {
+            "zh": "SVG 路径游泳动画",
+            "en": "SVG Motion Path Swimming Animation"
+          }
         }
       ]
     },
