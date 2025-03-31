@@ -1,3 +1,31 @@
+# v1.13.8
+
+2025-03-31
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: add  `alwayCalculateTotal` for total label
+- **@visactor/vchart**: add options `onlyFull` to lockStatisticsByDomain
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: fix the issue where the bar chart grow animation does not work correctly when the axis `zero: false`, [#3808](https://github.com/VisActor/VChart/issues/3808)
+- **@visactor/vchart**: crosshair should hide when label is invalid
+- **@visactor/vchart**: crosshair should hide when datazoom change
+- **@visactor/vchart**: fix the bubble level issue prevented by event.prevent, [#3728](https://github.com/VisActor/VChart/issues/3728)
+- **@visactor/vchart**: fix error when load gauge chart on demand, [#3836](https://github.com/VisActor/VChart/issues/3836)
+- **@visactor/vchart**: `legends.title.visible` should change visiblity of title in legend, fix [#3846](https://github.com/VisActor/VChart/issues/3846)
+- **@visactor/vchart**: fix the issue of pictogram svg path has not been drawn
+- **react-vchart**: children of tooltip should not be set to spec
+- **@visactor/vchart**: data.fields can set domain of field
+- **@visactor/vchart**: fix bug of zoomable in mobile device which only use pointer event
+- **@visactor/vchart**: fix datazoom drag and zoom triggered at the same time, fix [#3819](https://github.com/VisActor/VChart/issues/3819)
+
+
+
+[更多详情请查看 v1.13.8](https://github.com/VisActor/VChart/releases/tag/v1.13.8)
+
 # v1.13.7
 
 2025-03-14
