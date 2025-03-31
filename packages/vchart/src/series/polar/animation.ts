@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import type { EasingType } from '@visactor/vrender-core';
 import type { IPointLike } from '@visactor/vutils';
-import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender-core';
+import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender-animate';
 import { Point, isValidNumber, polarToCartesian, cartesianToPolar } from '@visactor/vutils';
 import { isClose, isValidPoint, normalizeAngle } from '../../util';
 import type { IPoint } from '../../typings';

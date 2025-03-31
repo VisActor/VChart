@@ -44,6 +44,11 @@ export default {
     ...localConf?.resolve,
     alias: {
       ...localConf?.resolve?.alias,
+      '@visactor/vrender-core': '/Users/bytedance/dev/github/vr-animate-refactor/packages/vrender-core/src/index.ts',
+      '@visactor/vrender-kits': '/Users/bytedance/dev/github/vr-animate-refactor/packages/vrender-kits/src/index.ts',
+      '@visactor/vrender-animate': '/Users/bytedance/dev/github/vr-animate-refactor/packages/vrender-animate/src/index.ts',
+      '@visactor/vrender-components':
+        '/Users/bytedance/dev/github/vr-animate-refactor/packages/vrender-components/src/index.ts',
       '@visactor/vutils-extension': path.resolve(__dirname, '../../../../vutils-extension/src/index.ts')
     }
   }

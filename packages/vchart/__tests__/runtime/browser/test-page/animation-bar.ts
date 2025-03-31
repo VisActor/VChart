@@ -6,11 +6,13 @@ import {
   registerMediaQuery,
   registerAnimate,
   registerCustomAnimate,
-  registerStateTransition
+  registerStateTransition,
+  registerSequentialAnimate
 } from '../../../../src/index';
 registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
+registerSequentialAnimate();
 
 let dataArray = [
   { type: 'Nail polish', country: 'Africa', value: 4229 },
@@ -63,6 +65,9 @@ let spec = {
     visible: true,
     text: 'Stacked area chart of cosmetic products sales'
   },
+  bar: {
+    useSequentialAnimation: true
+  },
   direction,
   useSequentialAnimation: true,
   // stack: true,
@@ -82,7 +87,8 @@ let spec = {
     duration: 300
   },
   animationEnter: {
-    duration: 300
+    duration: 300,
+    type: 'fadeIn'
   },
   animationExit: {
     duration: 300,
@@ -149,7 +155,7 @@ const run = () => {
   });
 
   const button = document.createElement('button');
-  button.innerHTML = 'click';
+  button.innerHTML = 'update';
   button.addEventListener('click', () => {
     dataArray = dataArray.map(d => ({ ...d, value: 100000 * Math.random() }));
     cs.updateData('data0', dataArray);
@@ -239,7 +245,7 @@ const run = () => {
     spec = nextSpec;
     cs.updateSpec(spec as any);
   });
-  // document.body.appendChild(button5);
+  document.body.appendChild(button5);
   // const button6 = document.createElement('button');
   // button6.innerHTML = 'direction';
   // button6.addEventListener('click', () => {

@@ -1,5 +1,5 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import { ClipAngleAnimate } from '@visactor/vrender-core';
+import { ClipAngleAnimate } from '@visactor/vrender-animate';
 import { Factory } from '../../core/factory';
 import { PolarPointUpdate, PolarTagPointsUpdate } from '../polar/animation';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
