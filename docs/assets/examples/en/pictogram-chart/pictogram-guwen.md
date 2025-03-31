@@ -205,11 +205,11 @@ const spec = {
     top: 196,
     right: 0,
     textStyle: {
-      fill: '#777',
+      fill: '#fff',
       fontSize: 34,
       fontFamily: font2,
-      stroke: '#009A00',
-      strokeOpacity: 0.2,
+      stroke: '#228822',
+      strokeOpacity: 1,
       lineWidth: 2
     }
   },
