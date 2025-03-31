@@ -1476,6 +1476,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   protected _runEncoder(graphics: IMarkGraphic[], noGroupEncode?: boolean) {
     const attrsByGroup = noGroupEncode ? null : this._runGroupEncoder(this._encoderOfState?.group);
 
+    const hasAnimation = this.hasAnimation();
     graphics.forEach((g, index) => {
       const attrs = this._runEncoderOfGraphic(this._encoderOfState?.update, g);
 
@@ -1485,12 +1486,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
       const finalAttrs = this._transformGraphicAttributes(g, attrs, attrsByGroup?.[g.context.groupKey]);
 
-      const hasAnimation = this.hasAnimationByState(g.context.animationState);
+      const hasStateAnimation = this.hasAnimationByState(g.context.animationState);
       // 新创建的graphic
       if (!(g as any).setAttributes) {
         const mockGraphic = g;
         // TODO：如果要走入场、Enter动画，就不用设置值了，保存到diffAttrs中由入场动画自己去设置，因为入场动画可能会延迟执行，所以首帧不能直接设置属性
-        g = this._createGraphic(hasAnimation ? {} : finalAttrs);
+        g = this._createGraphic(hasStateAnimation ? {} : finalAttrs);
         // 如果有动画，设置一下最终attribute
         if (hasAnimation) {
           g.setFinalAttribute(finalAttrs);
@@ -1514,6 +1515,16 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           this._graphicMap.set(g.context.uniqueKey, g);
         }
       } else {
+        // diff一下，获取差异的属性
+        const prevAttrs: Record<string, any> = g.getAttributes(true);
+        const diffAttrs: Record<string, any> = {};
+        Object.keys(finalAttrs).forEach(key => {
+          if (prevAttrs[key] !== finalAttrs[key]) {
+            diffAttrs[key] = finalAttrs[key];
+          }
+        });
+        g.context.diffAttrs = diffAttrs;
+
         if (g.context.reusing) {
           // 表示正在被复用，需要重设属性的
           // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除
@@ -1523,21 +1534,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           // finalAttrs && g.initAttributes({ ...finalAttrs });
           // g.initAttributes(finalAttrs);
           g.context.reusing = false;
+        } else if (!hasStateAnimation) {
+          // 不是正在被复用的属性，也不需要走动画，那就设置属性
+          hasAnimation ? g.setAttributesAndPreventAnimate(diffAttrs) : g.setAttributes(diffAttrs);
         }
-        // diff一下，获取差异的属性
-        const prevAttrs: Record<string, any> = g.getAttributes(true);
-        const diffAttrs: Record<string, any> = {};
-        Object.keys(finalAttrs).forEach(key => {
-          if (prevAttrs[key] !== finalAttrs[key]) {
-            diffAttrs[key] = finalAttrs[key];
-          }
-        });
 
-        g.context.diffAttrs = diffAttrs;
-        if (!this.hasAnimationByState(g.context.animationState) && !g.context.reusing) {
-          g.setAttributes(diffAttrs);
-        } else {
-          // 如果有动画，需要设置值
+        // 如果有动画，需要设置值
+        if (hasAnimation) {
           g.setFinalAttribute(finalAttrs);
         }
       }
@@ -1715,29 +1718,39 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   protected _cleanExitGraphics() {
-    this._graphicMap.forEach((g: any, key) => {
+    this._graphicMap.forEach((g, key) => {
       // 避免重复执行退场动画
       if (g.context.diffState === DiffState.exit && !g.isExiting) {
-        g.isExiting = true;
-        // 执行exit动画
-        const animationConfig = this.getAnimationConfig();
-        const exitConfig = (animationConfig as any).exit?.[0];
-        if (exitConfig) {
-          exitConfig.customParameters = g.context;
-          (g as any).applyAnimationState(['exit'], [{ name: 'exit', animation: exitConfig }], () => {
-            // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
-            // TODO 这里如果频繁执行的话，可能会误判
-            if (g.isExiting) {
-              this._graphicMap.delete(key);
-              if (g.parent) {
-                g.parent.removeChild(g);
+        if (this.hasAnimationByState('exit')) {
+          g.isExiting = true;
+          // 执行exit动画
+          const animationConfig = this.getAnimationConfig();
+          const exitConfig = (animationConfig as any).exit?.[0];
+          if (exitConfig) {
+            exitConfig.customParameters = g.context;
+            g.applyAnimationState(['exit'], [{ name: 'exit', animation: exitConfig }], () => {
+              // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
+              // TODO 这里如果频繁执行的话，可能会误判
+              if (g.isExiting) {
+                this._graphicMap.delete(key);
+                if (g.parent) {
+                  g.parent.removeChild(g);
+                }
+                if (g.release) {
+                  g.release();
+                }
               }
-              if (g.release) {
-                g.release();
-              }
-            }
-          });
-          exitConfig.customParameters = null;
+            });
+            exitConfig.customParameters = null;
+          }
+        } else {
+          this._graphicMap.delete(key);
+          if (g.parent) {
+            g.parent.removeChild(g);
+          }
+          if (g.release) {
+            g.release();
+          }
         }
       }
     });
@@ -1928,12 +1941,19 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   }
 
-  hasAnimationByState(state: string) {
+  hasAnimationByState(state: keyof MarkAnimationSpec) {
     if (!state || !this._animationConfig || !this._animationConfig[state]) {
       return false;
     }
     const stateAnimationConfig = this._animationConfig[state];
     return (stateAnimationConfig as IAnimationConfig[]).length > 0 || isObject(stateAnimationConfig);
+  }
+
+  hasAnimation() {
+    if (!this._animationConfig) {
+      return false;
+    }
+    return Object.keys(this._animationConfig).length > 0;
   }
 
   /**
