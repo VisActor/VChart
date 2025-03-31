@@ -143,7 +143,7 @@ export const dimensionStatisticsOfSimpleData = (
       if (f.customize) {
         result[key][op] = f.customize;
       } else {
-        if (dataFieldInKey && dataFieldInKey.lockStatisticsByDomain && !isNil(dataFieldInKey.domain)) {
+        if (dataFieldInKey && dataFieldInKey.lockStatisticsByDomain === true && !isNil(dataFieldInKey.domain)) {
           if (op === 'values') {
             result[key][op] = dataFieldInKey.domain.slice();
             return;

@@ -4,18 +4,16 @@ import { isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { AxisCurrentValueMap, CrossHairStateByField, IAxisInfo, ICartesianCrosshairSpec } from './interface';
+import type { ICartesianCrosshairSpec } from './interface';
 import type { ICartesianSeries } from '../../series/interface';
-import { isDiscrete } from '@visactor/vscale';
 import { LineCrosshair, RectCrosshair } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
-import type { IGraphic, INode } from '@visactor/vrender-core';
+import type { INode } from '@visactor/vrender-core';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, IPoint, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import { isXAxis, isYAxis } from '../axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
-import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
 import { layoutByValue, layoutCrosshair } from './utils/cartesian';
 import { getFirstSeries } from '../../util';
@@ -157,10 +155,10 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     xAxisMap && xAxisMap.size && this._setAllAxisValues(xAxisMap, { x, y }, 'xField');
     yAxisMap && yAxisMap.size && this._setAllAxisValues(yAxisMap, { x, y }, 'yField');
 
-    this.layoutByValue(LayoutType.ALL);
+    this.layoutByValue();
   }
 
-  layoutByValue(tag: number = LayoutType.ALL) {
+  layoutByValue(enableRemain?: boolean) {
     if (!this.enable) {
       return;
     }
@@ -169,7 +167,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       return;
     }
 
-    layoutByValue(this._stateByField, series, this.getLayoutStartPoint(), this.enableRemain);
+    layoutByValue(this._stateByField, series, this.getLayoutStartPoint(), enableRemain ?? this.enableRemain);
 
     Object.keys(this._stateByField).forEach(field => {
       this._layoutByField(field);

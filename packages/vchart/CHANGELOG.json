@@ -2,6 +2,54 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.8",
+      "tag": "@visactor/vchart_v1.13.8",
+      "date": "Fri, 28 Mar 2025 08:38:27 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add \\`alwayCalculateTotal\\` for total label"
+          },
+          {
+            "comment": "fix: fix the issue where the bar chart grow animation does not work correctly when the axis `zero: false`, #3808"
+          },
+          {
+            "comment": "fix: crosshair should hide when label is invalid\n\n"
+          },
+          {
+            "comment": "fix: crosshair should hide when datazoom change\n\n"
+          },
+          {
+            "comment": " fix: fix the bubble level issue prevented by event.prevent, #3728"
+          },
+          {
+            "comment": "fix: fix error when load gauge chart on demand, #3836"
+          },
+          {
+            "comment": "fix: `legends.title.visible` should change visiblity of title in legend, fix #3846\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of pictogram svg path has not been drawn"
+          },
+          {
+            "comment": "fix(react-vchart): children of tooltip should not be set to spec"
+          },
+          {
+            "comment": "fix: data.fields can set domain of field\n\n"
+          },
+          {
+            "comment": "feat: add options `full` to lockStatisticsByDomain\n\n"
+          },
+          {
+            "comment": "fix: fix bug of zoomable in mobile device which only use pointer event\n\n"
+          },
+          {
+            "comment": "fix: fix datazoom drag and zoom triggered at the same time, fix #3819\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.7",
       "tag": "@visactor/vchart_v1.13.7",
       "date": "Fri, 14 Mar 2025 04:02:23 GMT",

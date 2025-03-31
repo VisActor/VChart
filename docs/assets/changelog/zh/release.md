@@ -1,3 +1,28 @@
+# v1.13.7
+
+2025-03-14
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 支持在 totalLabel 中配置 `position`，[#3396](https://github.com/VisActor/VChart/issues/3396)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: vchart 内部不合并原始的options，修复 [#3798](https://github.com/VisActor/VChart/issues/3798)
+- **@visactor/react-vchart**: 生命周期事件回调应被触发，修复 [#3792](https://github.com/VisActor/VChart/issues/3792)
+- **@visactor/vchart**: react-vchart 应导出 `WaterfallChart`，修复 [#3791](https://github.com/VisActor/VChart/issues/3791)
+- **@visactor/vchart**: 修复 richtext 的 fontFamily，修复 [#3768](https://github.com/VisActor/VChart/issues/3768)
+- **@visactor/vchart**: 修复 wx 获取上下文的问题
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: add util to export
+
+
+
+[更多详情请查看 v1.13.7](https://github.com/VisActor/VChart/releases/tag/v1.13.7)
+
 # v1.13.6
 
 2025-03-03

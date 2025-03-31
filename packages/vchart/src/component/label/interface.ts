@@ -25,7 +25,11 @@ export interface ILabelFormatMethodContext {
 /**
  * 系列图元标签配置，一般用于展示数据项
  */
-export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
+export interface ILabelSpec extends ILabelAnimationSpec {
+  /**
+   * 标签组件的层级
+   */
+  zIndex?: number;
   /** 默认不显示标签 */
   visible?: boolean;
   /**
@@ -148,6 +152,11 @@ export type ITotalLabelSpec = Pick<
    * @default 'top'
    */
   position?: 'top' | 'bottom';
+  /**
+   * 不管总计标签是否展示，内部都默认计算总计值
+   * @default false
+   */
+  alwayCalculateTotal?: boolean;
 };
 
 export interface ITotalLabelTheme

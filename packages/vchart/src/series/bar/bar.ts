@@ -42,6 +42,7 @@ import { ComponentTypeEnum } from '../../component/interface';
 import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
 import { createRect } from '@visactor/vrender-core';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { maxInArr, minInArr } from '../../util/array';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -678,10 +679,21 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       yField: this._fieldY[0],
       xField: this._fieldX[0],
       direction: this.direction,
-      growFrom: () =>
-        this.direction === 'horizontal'
-          ? this._xAxisHelper?.getScale(0).scale(0)
-          : this._yAxisHelper?.getScale(0).scale(0)
+      growFrom: () => {
+        const scale = this.direction === 'horizontal' ? this._xAxisHelper?.getScale(0) : this._yAxisHelper.getScale(0);
+        if (scale) {
+          const domain = scale.domain();
+          const domainMin = minInArr<number>(domain);
+          const domainMax = maxInArr<number>(domain);
+          if (domainMax < 0) {
+            return scale.scale(domainMax);
+          } else if (domainMin > 0) {
+            return scale.scale(domainMin);
+          } else {
+            return scale.scale(0);
+          }
+        }
+      }
     };
     const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<BarAppearPreset>)?.preset;
     const animationParams = getGroupAnimationParams(this);

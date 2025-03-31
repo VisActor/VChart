@@ -252,7 +252,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (
       !isEqual(newSpec, prevSpec.current, { skipFunction: skipFunctionDiff }) ||
-      !isEqual(newSpecFromChildren, specFromChildren.current)
+      !isEqual(newSpecFromChildren, specFromChildren.current, { skipFunction: skipFunctionDiff })
     ) {
       prevSpec.current = newSpec;
       specFromChildren.current = newSpecFromChildren;

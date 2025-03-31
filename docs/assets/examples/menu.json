@@ -1703,6 +1703,13 @@
           }
         },
         {
+          "path": "pictogram-chinamap",
+          "title": {
+            "zh": "中国地图吃辣程度一览象形图 ",
+            "en": "Map of China eating spicy degree pictograph"
+          }
+        },
+        {
           "path": "pictogram-heart",
           "title": {
             "zh": "心脏医学示意图",

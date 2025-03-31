@@ -10,7 +10,7 @@ option: pictogramChart
 
 # SVG Taiji Bagua Symbol Diagram
 
-Contributed by [xilzy](https://github.com/xilzy)
+> Contributed by [xilzy](https://github.com/xilzy)
 
 The Taiji Bagua Symbol Diagram illustrates the elements of the Early Heaven Bagua (Xiantian Bagua). At its core lies the Taiji symbol, surrounded by a middle layer of eight trigram symbols and an outermost layer displaying their corresponding symbolic patterns. Each trigram symbol pattern corresponds to a specific Five Elements attribute. By using the pictographic diagram, viewers can quickly grasp the layout and elemental distribution of the Early Heaven Bagua, offering a valuable reference for its study and analysis. Hovering the mouse over the legend reveals the distribution of a particular elemental attribute, while hovering over the shapes in the diagram displays the name of the element associated with that shape.
 
@@ -112,8 +112,8 @@ const spec = {
       },
       stroke: '#000000', // Border color: Black
       lineWidth: 2,
-      pickable: datum => datum.name !== 'line',
-      visible: datum => datum.id !== 'path-198'
+      pickable: datum => datum.name !== 'Line',
+      visible: datum => datum => !datum.attributes?.d?.startsWith('M0 0L1024 0L1024 1024L0 1024')
     },
     state: {
       active: {
