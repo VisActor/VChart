@@ -207,7 +207,7 @@ const spec = {
     top: 196,
     right: 0,
     textStyle: {
-      fill: '#555',
+      fill: '#777',
       fontSize: 34,
       fontFamily: font2,
       stroke: '#009A00',
