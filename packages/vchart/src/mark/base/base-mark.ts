@@ -62,8 +62,6 @@ import type { IAnimationConfig } from '../../animation/interface';
 import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { log } from '../../util';
-import { GrammarDetector, type IAnimationSplitStrategy } from '../../animation/grammar-dector';
-import type { AnimationPlanner } from '../../animation/animation-planner';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -89,8 +87,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   };
 
   protected _isCommited?: boolean;
-
-  protected _grammarDetector: GrammarDetector;
 
   commit(render?: boolean, recursion?: boolean) {
     if (recursion && this.getMarks().length > 0) {
@@ -243,10 +239,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this.compileData();
     this.compileState();
     this.compileEncode();
-    // 初始化 GrammarDetector
-    if (!this._grammarDetector) {
-      this._grammarDetector = new GrammarDetector(this as any);
-    }
     // todo this.compileAnimation();
     // this.compileContext(option?.context);
     // this.compileTransform();
@@ -1097,8 +1089,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     const animationConfig = this.getAnimationConfig();
     const { defaultState, cb } = params ?? {};
     const useSequentialAnimation = this._markConfig.useSequentialAnimation ?? false;
-    if (useSequentialAnimation && this._grammarDetector) {
-      this._runSequentialAnimations(graphics, params);
+    if (useSequentialAnimation && (this as any)._runSequentialAnimations) {
+      (this as any)._runSequentialAnimations(graphics, params);
       return;
     }
     // 过滤出appear动画出来，appear动画是整体动画，可以放在全局，同时appear动画和normal动画是串行关系
@@ -1174,79 +1166,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         ]
       );
     }
-  }
-
-  // 处理动画序列
-  protected _runSequentialAnimations(
-    graphics: IMarkGraphic[],
-    params?: { defaultState?: string; cb?: (g: IMarkGraphic) => void }
-  ) {
-    const animationConfig = this.getAnimationConfig();
-    const { defaultState } = params ?? {};
-
-    // 使用 GrammarDetector 检测变化类型
-    const detectionResult = this._grammarDetector.detect(graphics, this._graphicMap, defaultState);
-
-    // 根据检测结果创建动画planners
-    const planners = this._grammarDetector.createPlanners(
-      detectionResult,
-      animationConfig as unknown as Record<string, IAnimationConfig[]>
-    );
-
-    // 按顺序执行planner
-    this._executePlanners(planners, 0);
-  }
-
-  /**
-   * 按顺序执行planner
-   * @param planners
-   * @param index
-   */
-  private _executePlanners(planners: AnimationPlanner[], index: number) {
-    if (index >= planners.length) {
-      return;
-    }
-
-    const planner = planners[index];
-    planner.execute(this._product as IGroup, () => {
-      // 执行下一个planner
-      this._executePlanners(planners, index + 1);
-
-      // 如果这个planner是exit，那么结束之后就删除它
-      if (planner.state === 'exit') {
-        planner.graphics.forEach(g => {
-          if (g.isExiting) {
-            this._graphicMap.delete(g.context.uniqueKey);
-            if (g.parent) {
-              g.parent.removeChild(g);
-            }
-            if (g.release) {
-              g.release();
-            }
-          }
-        });
-      }
-
-      // 如果这是最后一个planner并且它是一个'enter'动画，则运行normal动画
-      // if (index === planners.length - 1 && planner.state === 'enter') {
-      //   // 在enter完成后执行normal动画
-      //   const normalConfig = (this.getAnimationConfig() as any).normal?.[0];
-      //   if (normalConfig && this._product) {
-      //     // 停止normal动画并重置为初始属性
-      //     (this._product as IGroup).stopAnimationState('normal', 'end');
-
-      //     (this._product as IGroup).applyAnimationState(
-      //       ['normal'],
-      //       [
-      //         {
-      //           name: 'normal',
-      //           animation: normalConfig
-      //         }
-      //       ]
-      //     );
-      //   }
-      // }
-    });
   }
 
   protected _runJoin(data: Datum[]) {
@@ -1953,16 +1872,5 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       return false;
     }
     return Object.keys(this._animationConfig).length > 0;
-  }
-
-  /**
-   * 注册自定义动画拆分策略
-   * @param strategy 动画拆分策略
-   */
-  registerAnimationSplitStrategy(strategy: IAnimationSplitStrategy): void {
-    if (!this._grammarDetector) {
-      this._grammarDetector = new GrammarDetector(this as any);
-    }
-    this._grammarDetector.registerStrategy(strategy);
   }
 }

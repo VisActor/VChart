@@ -17,10 +17,10 @@ export const register3DPlugin = () => {
   registerViewTransform3dPlugin();
 };
 
-export const registerAnimate = () => {
-  // registerAnimateAPI();
-  registerVGrammarCommonAnimation();
-};
+// export const registerAnimate = () => {
+//   // registerAnimateAPI();
+//   registerVGrammarCommonAnimation();
+// };
 
 export const registerDragPlugin = () => {
   Factory.registerStageEventPlugin('drag', DragNDrop);

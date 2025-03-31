@@ -29,5 +29,4 @@ export * from './util/mark';
 // base component model for extension
 export * from './component/base';
 export * from './compile/data/compilable-data';
-export { registerAnimate, registerCustomAnimate } from '@visactor/vrender-animate';
-export { registerStateTransition } from './animation/state-transition';
+export * from './animation';
