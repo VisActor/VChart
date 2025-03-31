@@ -6,11 +6,13 @@ import {
   registerMediaQuery,
   registerAnimate,
   registerCustomAnimate,
-  registerStateTransition
+  registerStateTransition,
+  registerSequentialAnimate
 } from '../../../../src/index';
 registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
+registerSequentialAnimate();
 
 let dataArray = [
   { type: 'Nail polish', country: 'Africa', value: 4229 },

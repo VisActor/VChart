@@ -6,11 +6,13 @@ import {
   registerMediaQuery,
   registerAnimate,
   registerCustomAnimate,
-  registerStateTransition
+  registerStateTransition,
+  registerSequentialAnimate
 } from '../../../../src/index';
 registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
+registerSequentialAnimate();
 
 const valueList = [
   new Array(10000).fill(0).map((item, index) => ({ x: index, y: Math.random() * 100 })),
