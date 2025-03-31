@@ -56,3 +56,4 @@ export declare enum Event_Bubble_Level {
     model = "model",
     mark = "mark"
 }
+export declare const EventBubbleLevels: Event_Bubble_Level[];

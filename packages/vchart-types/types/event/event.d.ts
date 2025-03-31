@@ -14,7 +14,10 @@ export declare class Event implements IEvent {
     off<Evt extends EventType>(eType: Evt, callback?: EventCallback<EventParamsDefinition[Evt]>): this;
     off<Evt extends EventType>(eType: Evt, query: EventQuery, callback: EventCallback<EventParamsDefinition[Evt]>): this;
     emit<Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt], level?: EventBubbleLevel): this;
-    prevent<Evt extends EventType>(eType: Evt, except?: EventCallback<EventParamsDefinition[Evt]>): this;
+    prevent<Evt extends EventType>(eType: Evt, except?: {
+        handler: EventCallback<EventParamsDefinition[Evt]>;
+        level: EventBubbleLevel;
+    }): this;
     allow<Evt extends EventType>(eType: Evt): this;
     release(): void;
 }
