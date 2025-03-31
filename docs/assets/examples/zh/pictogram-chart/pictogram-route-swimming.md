@@ -8,17 +8,19 @@ cover: /vchart/preview/swimming.png
 option: pictogramChart
 ---
 
-# SVG Swimming Animation
+# 游泳路径动画
 
-> 这是一个人们在泳池中比赛的路径动画
+> 由 [ZhangJhxx](https://github.com/ZhangJhxx) 贡献
 
-## Key Configurations
+这是一个人们在泳池中比赛的路径动画
+
+## 代码演示
 
 - 从远端加载所有需要使用到的动画素材；
 - 使用 `customMark` 绘制路径和小人的扩展图元；
 - 遍历小人为他们创造运动路径，在 callback 函数中为他们的镜像小人创造反向的动画；
 
-## Code Demo
+## 代码演示
 
 ```javascript livedemo
 const response = await fetch('https://lf3-static.bytednsdoc.com/obj/eden-cn/oqeh7nuvonuhpqnuhog/swimmingPool.svg');
@@ -426,6 +428,7 @@ const flippedPeopleGroup = chart?.getMarkByUserName('flippedPeople');
 const routeGroup = chart?.getMarkByUserName('route');
 const flippedRouteGroup = chart?.getMarkByUserName('flippedRoute');
 
+// 创建所有前进路线
 const cps = routeGroup.map(item => {
   const route = item?.getProduct()?.getGroupGraphicItem();
   const cp = new VRender.CustomPath2D();
@@ -433,6 +436,7 @@ const cps = routeGroup.map(item => {
   return cp;
 });
 
+// 创建所有返回路线
 const flippedCps = flippedRouteGroup.map(item => {
   const route = item?.getProduct()?.getGroupGraphicItem();
   const flippedCp = new VRender.CustomPath2D();
@@ -440,6 +444,7 @@ const flippedCps = flippedRouteGroup.map(item => {
   return flippedCp;
 });
 
+// 循环人物创建路径动画
 peopleGroup.forEach((peopleWrapper, index) => {
   const people = peopleWrapper?.getProduct()?.getGroupGraphicItem();
   const difference = 600 * index;
@@ -474,6 +479,6 @@ peopleGroup.forEach((peopleWrapper, index) => {
 window['vchart'] = vchart;
 ```
 
-## Related Tutorials
+## 相关教程
 
-[PictogramChart](link)
+[象形图](link)
