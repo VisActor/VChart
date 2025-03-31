@@ -42,7 +42,7 @@ VCHART_MODULE.registerPictogramChart();
 /** --Delete the above code when using in business context-- */
 
 // Use the fetch API to get SVG graphic data
-const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/lisao.svg');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/lisao_2.svg');
 const shape = await response.text();
 
 const base_data = [
@@ -119,12 +119,15 @@ const data = [
   }
 ];
 
+const font1 = 'DFKai-SB, BiauKai, KaiTi, STKaiti, "楷体", "楷体_GB2312", serif';
+const font2 = 'serif, "楷体", "楷体_GB2312", "KaiTi"';
+
 const spec = {
   type: 'pictogram',
-  width: 373.5,
+  width: 418.5,
   height: 500.4,
   background: {
-    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/lisao.png'
+    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/lisao_2.png'
   },
   padding: 0,
   data: {
@@ -163,7 +166,7 @@ const spec = {
     filter: false,
     layoutType: 'absolute',
     top: 5,
-    right: 0,
+    right: 45,
     background: {
       visible: true,
       style: {
@@ -195,6 +198,21 @@ const spec = {
       }
     }
   },
+  title: {
+    text: ['离', '骚'],
+    orient: 'right',
+    layoutType: 'absolute',
+    top: 196,
+    right: 0,
+    textStyle: {
+      fill: '#555',
+      fontSize: 34,
+      fontFamily: font2,
+      stroke: '#009A00',
+      strokeOpacity: 0.2,
+      lineWidth: 2
+    }
+  },
   tooltip: {
     enterable: true,
     updateElement: (tooltipElement, actualTooltip, params) => {
@@ -206,7 +224,7 @@ const spec = {
           iframeDoc.body.innerHTML = `
     <style>
       html{
-        font-family: "楷体", "楷体_GB2312", "KaiTi", serif;
+        font-family: ${font2};
       }
       body{
         margin: 0;
@@ -228,10 +246,10 @@ const spec = {
       h1{
         margin: 8px 0;
         text-align: center;
-        font-family: DFKai-SB, BiauKai, KaiTi, STKaiti, "楷体", "楷体_GB2312", serif;
+        font-family: ${font1};
         font-size: 32;
         span {
-          font-family: "楷体", "楷体_GB2312", "KaiTi", serif;
+          font-family: ${font2};
           font-size: 18;
         }
         a {
