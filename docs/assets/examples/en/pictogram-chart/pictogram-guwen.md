@@ -121,8 +121,8 @@ const data = [
 
 const spec = {
   type: 'pictogram',
-  width: 415,
-  height: 556,
+  width: 373.5,
+  height: 500.4,
   background: {
     image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/lisao.png'
   },
@@ -162,12 +162,12 @@ const spec = {
     orient: 'right',
     filter: false,
     layoutType: 'absolute',
-    top: 10,
+    top: 5,
     right: 0,
     background: {
       visible: true,
       style: {
-        padding: 2,
+        padding: 1,
         fill: '#009A00',
         fillOpacity: 0.2
       }
@@ -184,7 +184,8 @@ const spec = {
       },
       label: {
         style: {
-          fill: 'black'
+          fill: 'black',
+          fontSize: 11
         },
         state: {
           unSelected: {
