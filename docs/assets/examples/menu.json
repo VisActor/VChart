@@ -1729,6 +1729,13 @@
             "zh": "SVG 路径游泳动画",
             "en": "SVG Motion Path Swimming Animation"
           }
+        },
+        {
+          "path": "pictogram-guwen",
+          "title": {
+            "zh": "古文识别图",
+            "en": "Ancient Chinese Text Recognition Diagram"
+          }
         }
       ]
     },
