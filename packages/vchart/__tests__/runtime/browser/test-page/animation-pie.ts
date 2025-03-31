@@ -35,6 +35,7 @@ const spec = {
   outerRadius: 0.8,
   valueField: 'value',
   categoryField: 'type',
+  // animation: false,
   title: {
     visible: true,
     text: 'Statistics of Surface Element Content'
@@ -44,7 +45,7 @@ const spec = {
     orient: 'left'
   },
   label: {
-    visible: false
+    visible: true
   },
   animationAppear: {
     duration: 300
