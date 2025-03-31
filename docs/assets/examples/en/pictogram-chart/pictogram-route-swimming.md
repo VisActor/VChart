@@ -10,7 +10,9 @@ option: pictogramChart
 
 # SVG Swimming Animation
 
-> This is a animation of people competing in a swimming pool.
+> Contributed by [ZhangJhxx](https://github.com/ZhangJhxx)
+
+This is a animation of people competing in a swimming pool.
 
 ## Key Configurations
 
@@ -427,6 +429,7 @@ const flippedPeopleGroup = chart?.getMarkByUserName('flippedPeople');
 const routeGroup = chart?.getMarkByUserName('route');
 const flippedRouteGroup = chart?.getMarkByUserName('flippedRoute');
 
+// create forward routes
 const cps = routeGroup.map(item => {
   const route = item?.getProduct()?.getGroupGraphicItem();
   const cp = new VRender.CustomPath2D();
@@ -434,6 +437,7 @@ const cps = routeGroup.map(item => {
   return cp;
 });
 
+// create backward routes
 const flippedCps = flippedRouteGroup.map(item => {
   const route = item?.getProduct()?.getGroupGraphicItem();
   const flippedCp = new VRender.CustomPath2D();
@@ -441,6 +445,7 @@ const flippedCps = flippedRouteGroup.map(item => {
   return flippedCp;
 });
 
+// loop figures and create motion path animation
 peopleGroup.forEach((peopleWrapper, index) => {
   const people = peopleWrapper?.getProduct()?.getGroupGraphicItem();
   const difference = 600 * index;
