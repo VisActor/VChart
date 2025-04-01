@@ -119,23 +119,20 @@ export class CartesianMarkLine extends BaseMarkLine {
         // 如果用户配置了主线段，则不进行 label 的偏移处理，直接显示在主线段中间
         labelPositionAttrs = {
           position: 'middle',
-          autoRotate: false,
-          refX: 0,
-          refY: 0
+          autoRotate: false
         };
       } else {
         labelPositionAttrs = {
           position: 'start',
           autoRotate: false,
-          ...getTextOffset((points as IPoint[])[0], (points as IPoint[])[1], connectDirection, expandDistanceValue),
-          refX: 0,
-          refY: 0
+          ...getTextOffset((points as IPoint[])[0], (points as IPoint[])[1], connectDirection, expandDistanceValue)
         };
       }
 
       const markerComponentAttr = this._markerComponent?.attribute ?? {};
       const prevLabelAttrs = array(markerComponentAttr.label);
-      const label = array(updateAttrs.label ?? {});
+      const updateLabels = array(updateAttrs.label);
+      const labelsInSpec = array(this._spec.label);
       this._markerComponent?.setAttributes({
         points: multiSegment
           ? [
@@ -144,22 +141,31 @@ export class CartesianMarkLine extends BaseMarkLine {
               [joinPoints[2], joinPoints[3]]
             ]
           : joinPoints,
-        label: label.map((labelItem, index) => {
-          if (isValidNumber(labelItem?.refX)) {
-            labelPositionAttrs.refX += labelItem.refX;
+        label: updateLabels.map((labelItem, index) => {
+          let refX = 0;
+          let refY = 0;
+          let dx = labelPositionAttrs.dx ?? 0;
+          let dy = labelPositionAttrs.dy ?? 0;
+          const labelSpec = labelsInSpec[index] ?? labelsInSpec[0];
+          if (isValidNumber(labelSpec?.refX)) {
+            refX += labelSpec.refX;
           }
-          if (isValidNumber(labelItem?.refY)) {
-            labelPositionAttrs.refY += labelItem.refY;
+          if (isValidNumber(labelSpec?.refY)) {
+            refY += labelSpec.refY;
           }
-          if (isValidNumber(labelItem?.dx)) {
-            labelPositionAttrs.dx = (labelPositionAttrs.dx || 0) + labelItem.dx;
+          if (isValidNumber(labelSpec?.dx)) {
+            dx += labelSpec.dx;
           }
-          if (isValidNumber(labelItem?.dy)) {
-            labelPositionAttrs.dy = (labelPositionAttrs.dy || 0) + labelItem.dy;
+          if (isValidNumber(labelSpec?.dy)) {
+            dy += labelSpec.dy;
           }
           return {
             ...labelItem,
             ...labelPositionAttrs,
+            refX,
+            refY,
+            dx,
+            dy,
             textStyle: {
               ...prevLabelAttrs[index]?.textStyle,
               textAlign: 'center',
