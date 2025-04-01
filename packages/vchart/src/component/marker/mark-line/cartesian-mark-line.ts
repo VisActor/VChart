@@ -8,7 +8,7 @@ import {
   MarkLine as MarkLineComponent,
   registerMarkLineAnimate
 } from '@visactor/vrender-components';
-import { isValid, isValidNumber } from '@visactor/vutils';
+import { array, isValid, isValidNumber } from '@visactor/vutils';
 import type { IDataPos, IMarkProcessOptions } from '../interface';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
@@ -105,7 +105,7 @@ export class CartesianMarkLine extends BaseMarkLine {
       } else {
         expandDistanceValue = expandDistance as number;
       }
-      const { points, label, limitRect } = updateAttrs;
+      const { points, limitRect } = updateAttrs;
 
       const joinPoints = getInsertPoints(
         (points as IPoint[])[0],
@@ -133,19 +133,9 @@ export class CartesianMarkLine extends BaseMarkLine {
         };
       }
 
-      if (isValidNumber(this._spec.label?.refX)) {
-        labelPositionAttrs.refX += this._spec.label.refX;
-      }
-      if (isValidNumber(this._spec.label?.refY)) {
-        labelPositionAttrs.refY += this._spec.label.refY;
-      }
-      if (isValidNumber(this._spec.label?.dx)) {
-        labelPositionAttrs.dx = (labelPositionAttrs.dx || 0) + this._spec.label.dx;
-      }
-      if (isValidNumber(this._spec.label?.dy)) {
-        labelPositionAttrs.dy = (labelPositionAttrs.dy || 0) + this._spec.label.dy;
-      }
       const markerComponentAttr = this._markerComponent?.attribute ?? {};
+      const prevLabelAttrs = array(markerComponentAttr.label);
+      const label = array(updateAttrs.label ?? {});
       this._markerComponent?.setAttributes({
         points: multiSegment
           ? [
@@ -154,15 +144,29 @@ export class CartesianMarkLine extends BaseMarkLine {
               [joinPoints[2], joinPoints[3]]
             ]
           : joinPoints,
-        label: {
-          ...label,
-          ...labelPositionAttrs,
-          textStyle: {
-            ...markerComponentAttr.label.textStyle,
-            textAlign: 'center',
-            textBaseline: 'middle'
+        label: label.map((labelItem, index) => {
+          if (isValidNumber(labelItem?.refX)) {
+            labelPositionAttrs.refX += labelItem.refX;
           }
-        },
+          if (isValidNumber(labelItem?.refY)) {
+            labelPositionAttrs.refY += labelItem.refY;
+          }
+          if (isValidNumber(labelItem?.dx)) {
+            labelPositionAttrs.dx = (labelPositionAttrs.dx || 0) + labelItem.dx;
+          }
+          if (isValidNumber(labelItem?.dy)) {
+            labelPositionAttrs.dy = (labelPositionAttrs.dy || 0) + labelItem.dy;
+          }
+          return {
+            ...labelItem,
+            ...labelPositionAttrs,
+            textStyle: {
+              ...prevLabelAttrs[index]?.textStyle,
+              textAlign: 'center',
+              textBaseline: 'middle'
+            }
+          };
+        }),
         limitRect,
         multiSegment,
         mainSegmentIndex,
