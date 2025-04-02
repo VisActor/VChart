@@ -204,6 +204,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           dataView: false
         }
       ) as IArcMark;
+
+      this._emptyArcMark.setDepend(this._pieMark);
     }
   }
 
@@ -258,8 +260,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         {
           ...initialStyle,
           visible: () => {
-            const angleField = this.getAngleField()[0];
-            return isDataEmpty(this.getViewData().latestData, angleField, this._supportNegative);
+            const data = this.getViewData().latestData;
+            return !data || !data.length;
           }
         },
         'normal',

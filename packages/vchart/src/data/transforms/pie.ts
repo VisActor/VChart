@@ -55,7 +55,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
   }
 
   if (!showAllZero && showEmptyCircle && isDataEmpty(data, angleField, supportNegative)) {
-    return data;
+    return [];
   }
 
   const appendArcInfo = (data: Datum, startAngle: number, angle: number) => {
