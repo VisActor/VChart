@@ -1226,6 +1226,83 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     });
   }
 
+  filterGraphicsByDatum(
+    datum: MaybeArray<Datum> | null,
+    opt: {
+      filter?: (series: ISeries, mark: IMark) => boolean;
+      region?: IRegionQuerier;
+      getDatum?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => Datum;
+      callback?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => void;
+      regionCallback?: (pickElements: IElement[], r: IRegion) => void;
+    } = {}
+  ) {
+    datum = datum ? array(datum) : null;
+    const keys = !datum ? null : Object.keys((datum as Datum[])[0]);
+    const allElements = [] as IElement[];
+    const getDatumOfElement = opt.getDatum ?? ((el: IElement) => el.getDatum());
+
+    this.getRegionsInQuerier(opt.region).forEach(r => {
+      const pickElements = [] as IElement[];
+      datum &&
+        r.getSeries().forEach(s => {
+          s.getMarks().forEach(m => {
+            if (!m.getProduct()) {
+              return;
+            }
+            if (!opt.filter || (isFunction(opt.filter) && opt.filter(s, m))) {
+              const isCollect = m.getProduct().isCollectionMark();
+              const elements = m.getProduct().elements;
+              if (isCollect) {
+                elements.filter(e => {
+                  const elDatum = getDatumOfElement(e, m, s, r);
+                  // eslint-disable-next-line max-nested-callbacks, eqeqeq
+                  const isPick = (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
+
+                  if (isPick) {
+                    pickElements.push(e);
+                    allElements.push(e);
+                    opt.callback && opt.callback(e, m, s, r);
+                  }
+                });
+              } else {
+                if (datum.length > 1) {
+                  const datumTemp = (datum as Datum[]).slice();
+
+                  elements.forEach(e => {
+                    const elDatum = getDatumOfElement(e, m, s, r);
+                    // eslint-disable-next-line max-nested-callbacks, eqeqeq
+                    const index = datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
+                    if (index >= 0) {
+                      datumTemp.splice(index, 1);
+
+                      pickElements.push(e);
+                      allElements.push(e);
+                      opt.callback && opt.callback(e, m, s, r);
+                    }
+                  });
+                } else {
+                  const el = elements.find(e =>
+                    // eslint-disable-next-line eqeqeq
+                    keys.every(k => (datum as Datum[])[0][k] == getDatumOfElement(e, m, s, r)[k])
+                  );
+
+                  if (el) {
+                    pickElements.push(el);
+                    allElements.push(el);
+                    opt.callback && opt.callback(el, m, s, r);
+                  }
+                }
+              }
+            }
+          });
+        });
+
+      opt.regionCallback && opt.regionCallback(pickElements, r);
+    });
+
+    return allElements;
+  }
+
   protected _setStateInDatum(
     stateKey: string,
     checkReverse: boolean,
@@ -1233,58 +1310,21 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ) {
-    datum = datum ? array(datum) : null;
-    const keys = !datum ? null : Object.keys(datum[0]);
-    this.getRegionsInQuerier(region).forEach(r => {
-      if (!datum) {
-        r.interaction.clearEventElement(stateKey, true);
-        return;
-      }
-      r.getSeries().forEach(s => {
-        s.getMarks().forEach(m => {
-          if (!m.getProduct()) {
-            return;
+    this.filterGraphicsByDatum(datum, {
+      filter,
+      region,
+      regionCallback: (elements, r) => {
+        if (!datum) {
+          r.interaction.clearEventElement(stateKey, true);
+        } else if (elements.length) {
+          elements.forEach(e => {
+            r.interaction.startInteraction(stateKey, e);
+          });
+
+          if (checkReverse) {
+            r.interaction.reverseEventElement(stateKey);
           }
-          if (!filter || (isFunction(filter) && filter(s, m))) {
-            const isCollect = m.getProduct().isCollectionMark();
-            const elements = m.getProduct().elements;
-            let pickElements = [] as IElement[];
-            if (isCollect) {
-              pickElements = elements.filter(e => {
-                const elDatum = e.getDatum();
-                // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
-              });
-            } else {
-              if (datum.length > 1) {
-                const datumTemp = (datum as Datum[]).slice();
-                pickElements = elements.filter(e => {
-                  if (datumTemp.length === 0) {
-                    return false;
-                  }
-                  const elDatum = e.getDatum();
-                  // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                  const index = datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
-                  if (index >= 0) {
-                    datumTemp.splice(index, 1);
-                    return true;
-                  }
-                  return false;
-                });
-              } else {
-                // eslint-disable-next-line eqeqeq
-                const el = elements.find(e => keys.every(k => datum[0][k] == e.getDatum()[k]));
-                el && (pickElements = [el]);
-              }
-            }
-            pickElements.forEach(element => {
-              r.interaction.startInteraction(stateKey, element);
-            });
-          }
-        });
-      });
-      if (checkReverse) {
-        r.interaction.reverseEventElement(stateKey);
+        }
       }
     });
   }
