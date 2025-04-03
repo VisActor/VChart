@@ -1255,8 +1255,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
               if (isCollect) {
                 elements.filter(e => {
                   const elDatum = getDatumOfElement(e, m, s, r);
-                  // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                  const isPick = (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
+                  const isPick =
+                    // eslint-disable-next-line max-nested-callbacks, eqeqeq
+                    elDatum && (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
 
                   if (isPick) {
                     pickElements.push(e);
@@ -1271,7 +1272,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                   elements.forEach(e => {
                     const elDatum = getDatumOfElement(e, m, s, r);
                     // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                    const index = datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
+                    const index = elDatum && datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
                     if (index >= 0) {
                       datumTemp.splice(index, 1);
 
@@ -1281,10 +1282,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                     }
                   });
                 } else {
-                  const el = elements.find(e =>
+                  const el = elements.find(e => {
+                    const elDatum = getDatumOfElement(e, m, s, r);
                     // eslint-disable-next-line eqeqeq
-                    keys.every(k => (datum as Datum[])[0][k] == getDatumOfElement(e, m, s, r)[k])
-                  );
+                    return elDatum && keys.every(k => (datum as Datum[])[0][k] == elDatum[k]);
+                  });
 
                   if (el) {
                     pickElements.push(el);
