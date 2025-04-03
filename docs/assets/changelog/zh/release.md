@@ -1,7 +1,31 @@
+# v1.13.8
+
+2025-03-31
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 为总计标签添加 `alwayCalculateTotal` 配置项
+- **@visactor/vchart**: 为 `lockStatisticsByDomain` 添加 `onlyFull` 配置项
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复当轴配置 `zero: false` 时，柱状图增长动画无法正常工作的问题，[#3808](https://github.com/VisActor/VChart/issues/3808)
+- **@visactor/vchart**: 当标签无效时，十字线应隐藏
+- **@visactor/vchart**: 当 datazoom 发生变化时，十字线应隐藏
+- **@visactor/vchart**: 修复事件 `prevent` 导致的气泡层级问题，[#3728](https://github.com/VisActor/VChart/issues/3728)
+- **@visactor/vchart**: 修复按需加载仪表盘图表时的错误，[#3836](https://github.com/VisActor/VChart/issues/3836)
+- **@visactor/vchart**: `legends.title.visible` 应控制图例标题的可见性，修复 [#3846](https://github.com/VisActor/VChart/issues/3846)
+- **@visactor/vchart**: 修复象形图中 SVG 路径未绘制的问题
+- **react-vchart**: tooltip 的子元素不应设置到 spec 中
+- **@visactor/vchart**: `data.fields` 可设置字段的 domain
+- **@visactor/vchart**: 修复仅使用 pointer 事件的移动设备上 zoomable 的问题
+- **@visactor/vchart**: 修复 datazoom 拖拽和缩放同时触发的问题，修复 [#3819](https://github.com/VisActor/VChart/issues/3819)
+
+[更多详情请查看 v1.13.8](https://github.com/VisActor/VChart/releases/tag/v1.13.8)
+
 # v1.13.7
 
 2025-03-14
-
 
 **🆕 新增功能**
 
@@ -9,7 +33,7 @@
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: vchart 内部不合并原始的options，修复 [#3798](https://github.com/VisActor/VChart/issues/3798)
+- **@visactor/vchart**: vchart 内部不合并原始的 options，修复 [#3798](https://github.com/VisActor/VChart/issues/3798)
 - **@visactor/react-vchart**: 生命周期事件回调应被触发，修复 [#3792](https://github.com/VisActor/VChart/issues/3792)
 - **@visactor/vchart**: react-vchart 应导出 `WaterfallChart`，修复 [#3791](https://github.com/VisActor/VChart/issues/3791)
 - **@visactor/vchart**: 修复 richtext 的 fontFamily，修复 [#3768](https://github.com/VisActor/VChart/issues/3768)
@@ -18,8 +42,6 @@
 **🔧 项目配置**
 
 - **@visactor/vchart**: add util to export
-
-
 
 [更多详情请查看 v1.13.7](https://github.com/VisActor/VChart/releases/tag/v1.13.7)
 
