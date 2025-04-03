@@ -9,7 +9,7 @@ Sequence Chart
     chartType = 'sequence'
 ) }}
 
-## appendPadding(number)
+## appendPadding(number|Object)
 
 This property is used to configure the chart's inner padding. It is recommended to configure this, otherwise the event link series' title will overlap with the gridline.
 
