@@ -141,7 +141,7 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
     /**
      * 起点文字文本样式配置
      */
-    style?: IMarkSpec<ITextMarkSpec>;
+    style?: ITextMarkSpec;
     /**
      * 起点文字格式化配置，使用回调函数的形式配置。
      */
@@ -161,7 +161,7 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
     /**
      * 终点文字文本样式配置
      */
-    style?: IMarkSpec<ITextMarkSpec>;
+    style?: ITextMarkSpec;
     /**
      *
      * 终点文字格式化配置, 使用回调函数的形式配置
