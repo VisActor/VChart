@@ -724,13 +724,17 @@ export const registerAxis = () => {
   registerComponentMark();
   Factory.registerAnimation('axis', () => ({
     appear: {
-      custom: GroupFadeIn
+      type: 'fadeIn'
+    },
+    enter: {
+      type: 'fadeIn'
     },
     update: {
-      custom: GroupTransition
+      type: 'update'
     },
     exit: {
-      custom: GroupFadeOut
+      type: 'fadeOut'
+      // custom: GroupFadeOut
     }
   }));
 };

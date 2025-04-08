@@ -18,11 +18,7 @@ let dataArray = [
   { type: 'oxygen', value: '46.60' },
   { type: 'silicon', value: '27.72' },
   { type: 'aluminum', value: '8.13' },
-  { type: 'iron', value: '5' },
-  { type: 'calcium', value: '3.63' },
-  { type: 'sodium', value: '2.83' },
-  { type: 'potassium', value: '2.59' },
-  { type: 'others', value: '3.5' }
+  { type: 'iron', value: '5' }
 ];
 
 const spec = {
@@ -30,48 +26,41 @@ const spec = {
   data: [
     {
       id: 'data0',
-      values: dataArray
+      values: [
+        { type: 'oxygen', value: '46.60' },
+        { type: 'silicon', value: '27.72' },
+        { type: 'aluminum', value: '8.13' }
+        // { type: 'iron', value: '5' }
+      ]
     }
   ],
-  useSequentialAnimation: true,
-  outerRadius: 0.8,
-  valueField: 'value',
-  categoryField: 'type',
-  // animation: false,
-  title: {
-    visible: true,
-    text: 'Statistics of Surface Element Content'
-  },
-  legends: {
-    visible: true,
-    orient: 'left'
-  },
-  label: {
-    visible: true
+  pie: {
+    state: {
+      hover: {
+        fill: 'red'
+      }
+    }
   },
   animationAppear: {
-    duration: 300
+    duration: 1000
   },
   animationUpdate: {
     duration: 300
   },
   animationEnter: {
-    duration: 300,
-    type: 'fadeIn'
+    duration: 300
   },
   animationExit: {
-    duration: 300,
-    type: 'fadeOut'
+    duration: 300
   },
-  tooltip: {
-    mark: {
-      content: [
-        {
-          key: datum => datum['type'],
-          value: datum => datum['value'] + '%'
-        }
-      ]
-    }
+  outerRadius: 0.8,
+  valueField: 'value',
+  categoryField: 'type',
+  legends: {
+    visible: false
+  },
+  label: {
+    visible: true
   }
 };
 
@@ -104,12 +93,14 @@ const run = () => {
   button2.innerHTML = 'add&remove';
   button2.addEventListener('click', () => {
     const name = Math.random().toString();
-    dataArray = dataArray.map(d => ({
-      ...d,
-      value: 100 * Math.random(),
-      type: d.type === 'iron' ? name : d.type
-    }));
-    cs.updateData('data0', dataArray);
+    dataArray = [
+      { type: 'oxygen', value: '16.60' }, // update
+      { type: 'silicon', value: '27.72' },
+      // { type: 'aluminum', value: '8.13' }, // remove
+      { type: 'test', value: '8.13' } // add
+      // { type: 'iron', value: '5' }
+    ];
+    cs.updateDataSync('data0', dataArray);
   });
   document.body.appendChild(button2);
 
