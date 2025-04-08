@@ -1,10 +1,9 @@
+import type { EasingType } from '@visactor/vrender-core';
+import type { IGlyph } from '@visactor/vrender-core';
+import type { IAnimationParameters } from '../../animation/interface';
 import { isHorizontal } from '@visactor/vgrammar-util';
 import { isValidNumber } from '@visactor/vutils';
-import { IBoxPlotMark } from '../../mark/interface';
-import { EasingType, IGlyph, IGraphic } from '@visactor/vrender-core';
-import { IAnimationParameters } from '../../animation/interface';
 import { ACustomAnimate, AnimateExecutor } from '@visactor/vrender-animate';
-
 export interface IBoxplotScaleAnimationOptions {
   center?: number;
 }
