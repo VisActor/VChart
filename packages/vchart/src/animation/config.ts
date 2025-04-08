@@ -1,6 +1,6 @@
 /* eslint-disable no-duplicate-imports */
 import type { IGraphic } from '@visactor/vrender-core';
-import { TagPointsUpdate, ClipDirectionAnimate } from '@visactor/vrender-animate';
+import { TagPointsUpdate, ClipDirectionAnimate, registerCustomAnimate } from '@visactor/vrender-animate';
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
@@ -152,7 +152,10 @@ export const registerAreaAnimation = () => {
   Factory.registerAnimation('area', lineOrAreaAnimation);
 };
 
-export const registerVGrammarCommonAnimation = () => {
+export const registerBuiltInAnimation = () => {
+  // TODO: 内置动画注册粒度
+  registerCustomAnimate();
+
   // View.useRegisters([
   //   registerScaleInAnimation,
   //   registerScaleOutAnimation,

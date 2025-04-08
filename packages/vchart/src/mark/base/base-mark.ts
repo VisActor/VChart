@@ -1084,7 +1084,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     graphics: IMarkGraphic[],
     params?: { defaultState?: string; cb?: (g: IMarkGraphic) => void }
   ) {
-    if (!this._animationConfig) {
+    if (!this._animationConfig || graphics.length === 0) {
       return;
     }
     const animationConfig = this.getAnimationConfig();
@@ -1096,7 +1096,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
     // 过滤出appear动画出来，appear动画是整体动画，可以放在全局，同时appear动画和normal动画是串行关系
     const appear = graphics.every(g => (defaultState ?? g.context.animationState) === 'appear');
-    const appearConfig = (animationConfig as any).appear?.[0];
+    const appearConfig = (animationConfig as any).appear?.[0]; // TODO: animation: appear 数组
     if (appear && this._product) {
       // TODO 一般appear都在最开始执行，所以这里不需要停掉normal动画
       // (this._product as IGroup).stopAnimationState('normal');
@@ -1109,6 +1109,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
             }
           ]
         : [];
+      // TODO: normalConfig 支持数组
       const normalConfig = (animationConfig as any).normal?.[0];
       if (normalConfig) {
         stateArray.push('normal');
@@ -1133,6 +1134,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
       const config = (animationConfig as any)[state] as any;
       if (config && config.length > 0) {
+        // TODO: 支持 config 数组
         const _config = config[0];
         _config.customParameters = g.context;
         const stateArray = [state];

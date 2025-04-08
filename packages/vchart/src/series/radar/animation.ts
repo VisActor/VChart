@@ -1,5 +1,5 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import { ClipAngleAnimate } from '@visactor/vrender-animate';
+import { ClipAngleAnimate, AnimateExecutor } from '@visactor/vrender-animate';
 import { Factory } from '../../core/factory';
 import { PolarPointUpdate, PolarTagPointsUpdate } from '../polar/animation';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
@@ -98,14 +98,15 @@ export const registerRadarAnimation = () => {
       disappear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'out'),
       update: [
         {
-          options: { excludeChannels: ['points', 'defined', 'center'] }
-        },
-        {
           channel: ['points', 'center'],
           custom: PolarTagPointsUpdate,
           customParameters: params,
           duration: DEFAULT_ANIMATION_CONFIG.update.duration,
           easing: DEFAULT_ANIMATION_CONFIG.update.easing
+        },
+        {
+          type: 'update',
+          options: { excludeChannels: ['points', 'defined', 'center'] }
         }
       ]
     } as MarkAnimationSpec;

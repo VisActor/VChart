@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import type { EasingType } from '@visactor/vrender-core';
+import type { EasingType, ILineAttribute } from '@visactor/vrender-core';
 import type { IPointLike } from '@visactor/vutils';
 import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender-animate';
 import { Point, isValidNumber, polarToCartesian, cartesianToPolar } from '@visactor/vutils';
@@ -53,6 +53,7 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
     if (isClose(this._fromAngle, this._toAngle) && isClose(this._fromRadius, this._toRadius)) {
       this.valid = false;
     }
+    this.props = this.getEndProps() as any;
   }
 
   onUpdate(end: boolean, ratio: number, out: Record<string, any>): void {
@@ -61,23 +62,17 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
       out.y = this.to.y;
       return;
     }
-    if (end) {
-      const { x, y } = this.getEndProps();
-      out.x = x;
-      out.y = y;
-      out.center = this._center;
-    } else {
-      const { x, y } = polarToCartesian(
-        {
-          x: this._prevCenter.x + (this._center.x - this._prevCenter.x) * ratio,
-          y: this._prevCenter.y + (this._center.y - this._prevCenter.y) * ratio
-        },
-        this._fromRadius + (this._toRadius - this._fromRadius) * ratio,
-        this._fromAngle + (this._toAngle - this._fromAngle) * ratio
-      );
-      out.x = x;
-      out.y = y;
-    }
+    const { x, y } = polarToCartesian(
+      {
+        x: this._prevCenter.x + (this._center.x - this._prevCenter.x) * ratio,
+        y: this._prevCenter.y + (this._center.y - this._prevCenter.y) * ratio
+      },
+      this._fromRadius + (this._toRadius - this._fromRadius) * ratio,
+      this._fromAngle + (this._toAngle - this._fromAngle) * ratio
+    );
+    this.target.setAttributes({ x, y });
+    this.target.addUpdatePositionTag();
+    this.target.addUpdateShapeAndBoundsTag();
   }
 }
 
@@ -90,19 +85,14 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
   private _center: IPointLike;
   private _prevCenter: IPointLike;
 
-  constructor(
-    from: any,
-    to: any,
-    duration: number,
-    easing: EasingType,
-    params?: {
-      newPointAnimateType?: 'grow' | 'appear';
-    }
-  ) {
-    super(from, to, duration, easing, params);
-    this._center = to.center;
-    this._prevCenter = from.center;
+  onBind(): void {
+    super.onBind();
+    const { center } = this.target.attribute as any;
+    const { center: centerTo } = this.target.getFinalAttribute() as any;
+    this._center = center;
+    this._prevCenter = centerTo;
   }
+
   onUpdate(end: boolean, ratio: number, out: Record<string, any>): void {
     // if not create new points, multi points animation might not work well.
     this.points = this.points.map((point, index) => {
@@ -117,7 +107,9 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
       newPoint.context = point.context;
       return newPoint;
     });
-    out.points = this.points;
+    (this.target.attribute as ILineAttribute).points = this.points;
+    this.target.addUpdatePositionTag();
+    this.target.addUpdateShapeAndBoundsTag();
   }
 
   private _interpolationSinglePoint(pointA: IPoint, pointB: IPoint, ratio: number): IPoint {
