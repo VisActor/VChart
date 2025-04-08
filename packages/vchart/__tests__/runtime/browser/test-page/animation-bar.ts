@@ -65,11 +65,8 @@ let spec = {
     visible: true,
     text: 'Stacked area chart of cosmetic products sales'
   },
-  bar: {
-    useSequentialAnimation: true
-  },
   direction,
-  useSequentialAnimation: true,
+  // useSequentialAnimation: true,
   // stack: true,
   xField: direction === 'horizontal' ? 'value' : 'type',
   yField: direction === 'horizontal' ? 'type' : 'value',
@@ -87,12 +84,10 @@ let spec = {
     duration: 300
   },
   animationEnter: {
-    duration: 300,
-    type: 'fadeIn'
+    duration: 300
   },
   animationExit: {
-    duration: 300,
-    type: 'fadeOut'
+    duration: 300
   },
   animationNormal: {
     point: [
@@ -134,7 +129,41 @@ let spec = {
     style: {
       size: 80
     }
-  }
+  },
+  axes: [
+    {
+      orient: 'left',
+      animation: true,
+      animationAppear: {
+        duration: 3000
+      },
+      animationEnter: {
+        duration: 3000
+      },
+      animationUpdate: {
+        duration: 3000
+      },
+      animationExit: {
+        duration: 3000
+      }
+    },
+    {
+      orient: 'bottom',
+      animation: true,
+      animationAppear: {
+        duration: 3000
+      },
+      animationEnter: {
+        duration: 3000
+      },
+      animationUpdate: {
+        duration: 3000
+      },
+      animationExit: {
+        duration: 3000
+      }
+    }
+  ]
 };
 
 const run = () => {

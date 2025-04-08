@@ -186,7 +186,7 @@ function produceOneByOne(
     if (oneByOneTime === false) {
       return userDelayAfter;
     }
-    const indexCount = dataCount ? dataCount() : g.mark.graphics.length;
+    const indexCount = dataCount ? dataCount() : g.parent.count - 1;
     oneByOneTime = oneByOneTime === true ? 0 : oneByOneTime;
     return userDelayAfter + (indexCount - index) * (durationTime + oneByOneTime);
   };
