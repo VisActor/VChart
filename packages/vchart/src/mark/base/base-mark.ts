@@ -45,7 +45,7 @@ import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme
 import type { ISeries } from '../../series/interface';
 import { MarkStateManager } from '../../compile/mark';
 import type { ICompilableMark, IMarkCompileOption, IMarkConfig, StateValueType } from '../../compile/mark/interface';
-import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isObject, isValid } from '@visactor/vutils';
+import { array, degreeToRadian, has, isArray, isBoolean, isFunction, isNil, isObject, isValid } from '@visactor/vutils';
 import { curveTypeTransform, groupData, runEncoder } from '../utils/common';
 import type { ICompilableInitOption } from '../../compile/interface';
 import { LayoutState } from '../../compile/interface';
@@ -266,6 +266,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     );
     // todo 为了和之前的版本兼容，这里暂时设置成name
     this._product.name = id;
+    // 为了从graphic上能索引到mark
+    this._product.mark = this;
 
     // todo
     (group ?? this.getCompiler()?.getRootGroup()).appendChild(this._product);
@@ -1108,17 +1110,23 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
             }
           ]
         : [];
-      // TODO: normalConfig 支持数组
-      const normalConfig = (animationConfig as any).normal?.[0];
-      if (normalConfig) {
+
+      if ((animationConfig as any).normal && (animationConfig as any).normal.length) {
         stateArray.push('normal');
-        configArray.push({
-          name: 'normal',
-          animation: normalConfig
-        });
+        const normalConfigList = (animationConfig as any).normal.map((item: any, index: number) => ({
+          name: `normal_${index}`,
+          animation: item
+        }));
+        configArray.push(normalConfigList.length === 1 ? normalConfigList[0] : normalConfigList);
       }
       configArray.forEach(config => {
-        config.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
+        if (Array.isArray(config)) {
+          config.forEach(item => {
+            item.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
+          });
+        } else {
+          config.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
+        }
       });
       this._product.applyAnimationState(stateArray, configArray, cb);
     }
@@ -1133,39 +1141,41 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
       const config = (animationConfig as any)[state] as any;
       if (config && config.length > 0) {
+<<<<<<< HEAD
         // TODO: 支持 config 数组
         const _config = config[0];
         _config.customParameters = g.context;
+=======
+        const configList = config.map((item: any, index: number) => ({
+          name: `${state}_${index}`,
+          animation: item
+        }));
+        configList.forEach((item: any) => {
+          item.animation.customParameters = g.context;
+        });
+>>>>>>> e4c58ff65 (feat: animate config support array)
         const stateArray = [state];
-
-        const configArray = [
-          {
-            name: state,
-            animation: _config
-          }
-        ];
 
         if (state === 'enter' && animationConfig.normal) {
           shouldRunNormal = true;
         }
-        g.applyAnimationState(stateArray, configArray, cb);
-        _config.customParameters = null;
+        g.applyAnimationState(stateArray, [configList.length === 1 ? configList[0] : configList], cb);
+        configList.forEach((item: any) => {
+          item.animation.customParameters = null;
+        });
       }
     });
 
-    if (shouldRunNormal && this._product) {
-      const normalConfig = (animationConfig as any).normal?.[0];
+    if (shouldRunNormal && this._product && (animationConfig as any).normal?.length) {
       // 停止normal动画，并回复最初的属性
       (this._product as IGroup).stopAnimationState('normal', 'end');
-
+      const normalConfigList = (animationConfig as any).normal.map((item: any, index: number) => ({
+        name: `normal_${index}`,
+        animation: item
+      }));
       (this._product as IGroup).applyAnimationState(
         ['normal'],
-        [
-          {
-            name: 'normal',
-            animation: normalConfig
-          }
-        ]
+        [normalConfigList.length === 1 ? normalConfigList[0] : normalConfigList]
       );
     }
   }
@@ -1444,7 +1454,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           }
         });
         g.context.diffAttrs = diffAttrs;
-
         if (g.context.reusing) {
           // 表示正在被复用，需要重设属性的
           // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除
@@ -1645,10 +1654,15 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           g.isExiting = true;
           // 执行exit动画
           const animationConfig = this.getAnimationConfig();
-          const exitConfig = (animationConfig as any).exit?.[0];
-          if (exitConfig) {
-            exitConfig.customParameters = g.context;
-            g.applyAnimationState(['exit'], [{ name: 'exit', animation: exitConfig }], () => {
+          if ((animationConfig as any).exit && (animationConfig as any).exit.length) {
+            const exitConfigList = (animationConfig as any).exit.map((item: any, index: number) => ({
+              name: `exit_${index}`,
+              animation: {
+                ...item,
+                customParameters: g.context
+              }
+            }));
+            g.applyAnimationState(['exit'], [exitConfigList.length === 1 ? exitConfigList[0] : exitConfigList], () => {
               // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
               // TODO 这里如果频繁执行的话，可能会误判
               if (g.isExiting) {
@@ -1661,7 +1675,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
                 }
               }
             });
-            exitConfig.customParameters = null;
           }
         } else {
           this._graphicMap.delete(key);

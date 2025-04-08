@@ -87,7 +87,9 @@ export class Interaction implements IInteraction {
         reverseState && markIdByState[reverseState] && markIdByState[reverseState].includes(g.context.markId);
 
       if (hasReverse) {
-        g.addState(reverseState, true, true);
+        const m = g.parent?.mark;
+        const hasAnimation = (m as any).hasAnimationByState && (m as any).hasAnimationByState('state');
+        g.addState(reverseState, true, hasAnimation);
       }
     });
 
@@ -96,7 +98,9 @@ export class Interaction implements IInteraction {
         reverseState && markIdByState[reverseState] && markIdByState[reverseState].includes(g.context.markId);
 
       if (hasReverse) {
-        g.removeState(reverseState, true);
+        const m = g.parent?.mark;
+        const hasAnimation = (m as any).hasAnimationByState && (m as any).hasAnimationByState('state');
+        g.removeState(reverseState, hasAnimation);
       }
     });
   }
@@ -113,15 +117,18 @@ export class Interaction implements IInteraction {
       const hasState = state && markIdByState[state] && markIdByState[state].includes(g.context.markId);
 
       if (hasState) {
-        g.removeState(state, true);
+        const m = g.parent?.mark;
+        const hasAnimation = (m as any).hasAnimationByState && (m as any).hasAnimationByState('state');
+        g.removeState(state, hasAnimation);
       }
     });
 
     newStatedGraphics.forEach(g => {
       const hasState = state && markIdByState[state] && markIdByState[state].includes(g.context.markId);
-
       if (hasState) {
-        g.addState(state, true, true);
+        const m = g.parent?.mark;
+        const hasAnimation = (m as any).hasAnimationByState && (m as any).hasAnimationByState('state');
+        g.addState(state, true, hasAnimation);
       }
     });
   }
@@ -143,16 +150,16 @@ export class Interaction implements IInteraction {
         return;
       }
 
+      const hasAnimation = (m as any).hasAnimationByState && (m as any).hasAnimationByState('state');
       m.getGraphics()?.forEach(g => {
         const isStated = statedGraphics && statedGraphics.includes(g);
-
         if (isStated) {
           if (hasState) {
-            g.addState(state, true, true);
+            g.addState(state, true, hasAnimation);
           }
         } else {
           if (hasReverse) {
-            g.addState(reverseState, true, true);
+            g.addState(reverseState, true, hasAnimation);
           }
         }
       });
@@ -170,12 +177,14 @@ export class Interaction implements IInteraction {
         return;
       }
 
+      const hasAnimation = (mark as any).hasAnimationByState && (mark as any).hasAnimationByState('state');
+
       mark.getGraphics()?.forEach(g => {
         const isStated = statedGraphics && statedGraphics.includes(g);
 
         if (isStated) {
           if (hasState) {
-            g.addState(state, true, true);
+            g.addState(state, true, hasAnimation);
           }
         }
       });
@@ -198,18 +207,18 @@ export class Interaction implements IInteraction {
     marks.forEach(mark => {
       if (mark) {
         const graphics = mark.getGraphics();
-
+        const hasAnimation = (mark as any).hasAnimationByState && (mark as any).hasAnimationByState('state');
         if (graphics && graphics.length) {
           if (reverseState && markIdByState[reverseState] && markIdByState[reverseState].includes(mark.id)) {
             graphics.forEach(g => {
-              g.removeState(reverseState, true);
+              g.removeState(reverseState, hasAnimation);
             });
           }
 
           if (state && markIdByState[state] && markIdByState[state].includes(mark.id)) {
             graphics.forEach(g => {
               if (statedGraphics.includes(g)) {
-                g.removeState(state, true);
+                g.removeState(state, hasAnimation);
               }
             });
           }
