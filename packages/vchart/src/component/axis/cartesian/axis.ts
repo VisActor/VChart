@@ -749,7 +749,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         text: this._spec.title.text || this._dataFieldText,
         maxWidth: this._getTitleLimit(isX)
       },
-      items
+      items,
+      lastScale: this._lastScale
     };
     if (!ignoreGrid) {
       attrs.grid = {
@@ -845,10 +846,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   protected _updateAxisLayout = () => {
     const startPoint = this.getLayoutStartPoint();
     const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
-    //const axisComponent = this._axisMark.getComponent(); // 获取语法元素
     const axisAttrs = mergeSpec({ x: startPoint.x, y: startPoint.y }, this._axisStyle, updateAxisAttrs);
     //axisComponent.setAttributes(axisAttrs);
-
     this._axisMark.setSimpleStyle(axisAttrs);
 
     if (this._gridMark) {
