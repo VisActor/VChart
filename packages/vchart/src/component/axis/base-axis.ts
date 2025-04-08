@@ -11,7 +11,9 @@ import type {
   Datum,
   StringOrNumber,
   IGroup as ISeriesGroup,
-  CoordinateType
+  CoordinateType,
+  IRect,
+  ILayoutRect
 } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
@@ -123,6 +125,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   getCoordinateType() {
     return this._coordinateType;
   }
+
+  protected _lastScale: IBaseScale;
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
@@ -369,6 +373,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // 留给各个类型的 axis 来 override
   }
 
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void {
+    super.onLayoutStart(layoutRect, viewRect);
+    this._lastScale = this._scale.clone();
+  }
+
   onLayoutEnd(): void {
     const changed = this.updateScaleRange();
 
@@ -463,7 +472,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _getAxisAttributes() {
     const spec = this._spec;
-
     const axisAttrs: any = {
       orient: this.getOrient(),
       select: this._option.disableTriggerEvent === true ? false : spec.select,
