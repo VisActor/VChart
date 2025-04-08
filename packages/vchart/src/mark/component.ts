@@ -56,6 +56,13 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
       attrs = this._attributesTransform(attrs);
     }
 
+    if (this._animationConfig) {
+      attrs = {
+        ...attrs,
+        ...this._animationConfig
+      };
+    }
+
     if (!this._component) {
       this._component = Factory.createGraphicComponent(this._componentType, attrs, {
         mode: this._mode,
