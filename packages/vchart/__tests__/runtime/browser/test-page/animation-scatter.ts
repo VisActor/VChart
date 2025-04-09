@@ -53,32 +53,87 @@ let dataArray = [
   { type: 'Mascara', country: 'USA', value: 11261 }
 ];
 
-const direction: string = 'vertical';
-
-let spec = {
-  type: 'gauge',
+const spec = {
+  type: 'common',
+  seriesField: 'color',
   data: [
     {
       id: 'id0',
       values: [
-        {
-          type: '目标A',
-          value: 0.6
-        }
+        { x: 'Monday', type: 'breakfast', y: 15 },
+        { x: 'Monday', type: 'lunch', y: 25 },
+        { x: 'Tuesday', type: 'breakfast', y: 12 },
+        { x: 'Tuesday', type: 'lunch', y: 30 },
+        { x: 'Wednesday', type: 'breakfast', y: 15 },
+        { x: 'Wednesday', type: 'lunch', y: 24 },
+        { x: 'Thursday', type: 'breakfast', y: 10 },
+        { x: 'Thursday', type: 'lunch', y: 25 },
+        { x: 'Friday', type: 'breakfast', y: 13 },
+        { x: 'Friday', type: 'lunch', y: 20 },
+        { x: 'Saturday', type: 'breakfast', y: 10 },
+        { x: 'Saturday', type: 'lunch', y: 22 },
+        { x: 'Sunday', type: 'breakfast', y: 12 },
+        { x: 'Sunday', type: 'lunch', y: 19 }
+      ]
+    },
+    {
+      id: 'id1',
+      values: [
+        { x: 'Monday', type: 'drinks', y: 22 },
+        { x: 'Tuesday', type: 'drinks', y: 43 },
+        { x: 'Wednesday', type: 'drinks', y: 33 },
+        { x: 'Thursday', type: 'drinks', y: 22 },
+        { x: 'Friday', type: 'drinks', y: 10 },
+        { x: 'Saturday', type: 'drinks', y: 30 },
+        { x: 'Sunday', type: 'drinks', y: 46 }
       ]
     }
   ],
-  categoryField: 'type',
-  valueField: 'value',
-  outerRadius: 0.8,
-  innerRadius: 0.5,
-  startAngle: -180,
-  endAngle: 0
+  series: [
+    {
+      type: 'bar',
+      dataIndex: 0,
+      seriesField: 'type',
+      xField: ['x', 'type'],
+      yField: 'y'
+    },
+    {
+      type: 'line',
+      dataIndex: 1,
+      seriesField: 'type',
+      xField: 'x',
+      yField: 'y',
+      stack: false,
+      point: {
+        style: {
+          shape: 'star',
+          angle: 180,
+          size: 20
+        }
+      },
+      animationAppear: {
+        // 点图元动画配置
+        point: {
+          type: 'rotateIn',
+          duration: 1000
+        },
+        // 线图元动画配置
+        line: {
+          duration: 1000,
+          easing: 'cubicOut'
+        }
+      }
+    }
+  ],
+  axes: [{ orient: 'left' }, { orient: 'bottom', label: { visible: true }, type: 'band' }],
+  legends: {
+    visible: true,
+    orient: 'bottom'
+  }
 };
 
 const run = () => {
   registerMediaQuery();
-
   // VChart.ThemeManager.setCurrentTheme('dark');
   const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
@@ -131,61 +186,6 @@ const run = () => {
   function removeData() {
     dataArray = dataArray.filter(d => ['EU', 'China', 'USA'].includes(d.country));
   }
-
-  const button3 = document.createElement('button');
-  button3.innerHTML = 'stack<->group';
-  button3.addEventListener('click', () => {
-    const nextSpec: any = { ...spec };
-    const fieldKey = direction === 'horizontal' ? 'yField' : 'xField';
-    if (typeof nextSpec[fieldKey] === 'string') {
-      (nextSpec as any)[fieldKey] = ['type', 'country'];
-    } else {
-      (nextSpec as any)[fieldKey] = 'type';
-    }
-    spec = nextSpec;
-    cs.updateSpec(spec as any);
-  });
-  document.body.appendChild(button3);
-
-  const button4 = document.createElement('button');
-  button4.innerHTML = 'stack<->group add';
-  button4.addEventListener('click', () => {
-    const nextSpec: any = { ...spec };
-    const fieldKey = direction === 'horizontal' ? 'yField' : 'xField';
-    if (typeof nextSpec[fieldKey] === 'string') {
-      (nextSpec as any)[fieldKey] = ['type', 'country'];
-    } else {
-      (nextSpec as any)[fieldKey] = 'type';
-    }
-    addData();
-    nextSpec.data = {
-      id: 'data0',
-      values: dataArray
-    };
-    spec = nextSpec;
-    cs.updateSpec(spec as any);
-  });
-  document.body.appendChild(button4);
-
-  const button5 = document.createElement('button');
-  button5.innerHTML = 'stack<->group remove';
-  button5.addEventListener('click', () => {
-    const nextSpec: any = { ...spec };
-    const fieldKey = direction === 'horizontal' ? 'yField' : 'xField';
-    if (typeof nextSpec[fieldKey] === 'string') {
-      (nextSpec as any)[fieldKey] = ['type', 'country'];
-    } else {
-      (nextSpec as any)[fieldKey] = 'type';
-    }
-    removeData();
-    nextSpec.data = {
-      id: 'data0',
-      values: dataArray
-    };
-    spec = nextSpec;
-    cs.updateSpec(spec as any);
-  });
-  document.body.appendChild(button5);
   // const button6 = document.createElement('button');
   // button6.innerHTML = 'direction';
   // button6.addEventListener('click', () => {

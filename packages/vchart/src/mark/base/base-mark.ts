@@ -1451,8 +1451,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         g.context.diffAttrs = diffAttrs;
         if (g.context.reusing) {
           // 表示正在被复用，需要重设属性的
-          // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除
+          // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除，这里需要硬拷贝(通过initAttributes重设属性也行)
           g.context.lastAttrs = g.attribute;
+          g.initAttributes({});
           // 为了避免exit一些和enter不一样的属性，所以这里要重置属性
           // const finalAttrs = g.getFinalAttribute();
           // finalAttrs && g.initAttributes({ ...finalAttrs });
