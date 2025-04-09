@@ -48,16 +48,18 @@ const spec = {
     duration: 300
   },
   animationEnter: {
-    duration: 300
+    duration: 1000,
+    type: 'growAngleIn'
   },
   animationExit: {
-    duration: 300
+    duration: 1000,
+    type: 'growAngleOut'
   },
   outerRadius: 0.8,
   valueField: 'value',
   categoryField: 'type',
   legends: {
-    visible: false
+    visible: true
   },
   label: {
     visible: true
