@@ -126,8 +126,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return this._coordinateType;
   }
 
-  protected _lastScale: IBaseScale;
-
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._visible = spec.visible ?? true;
@@ -371,11 +369,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _clearRawDomain() {
     // 留给各个类型的 axis 来 override
-  }
-
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void {
-    super.onLayoutStart(layoutRect, viewRect);
-    this._lastScale = this._scale.clone();
   }
 
   onLayoutEnd(): void {
