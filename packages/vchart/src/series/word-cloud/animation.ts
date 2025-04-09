@@ -29,12 +29,12 @@ export const WordCloudScaleInAnimation = (params: IWordcloudAnimationParams): IA
       }
     },
     duration: 200,
-    delay: (datum, element, vgrammarParams) => {
+    delay: (datum, graphic) => {
       const animationConfig = params.animationConfig();
       const duration = animationConfig?.duration || 200;
       const totalTime = animationConfig?.totalTime || DEFAULT_ANIMATION_CONFIG.appear.duration;
-      const count = vgrammarParams.VGRAMMAR_ANIMATION_PARAMETERS.elementCount;
-      const index = vgrammarParams.VGRAMMAR_ANIMATION_PARAMETERS.elementIndex;
+      const count = graphic.context.graphicCount;
+      const index = graphic.context.graphicIndex;
       return index * computeWordDelay(duration as number, totalTime as number, count);
     }
   };

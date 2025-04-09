@@ -18,6 +18,7 @@ import type { ISeries } from '../series';
 import type { ISeriesSpec } from '../typings';
 import type { IModelMarkAttributeContext } from '../compile/mark';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { IMarkGraphic } from '../core';
 
 export const AnimationStates = [...Object.keys(DEFAULT_ANIMATION_CONFIG), 'normal'];
 
@@ -194,8 +195,8 @@ function produceOneByOne(
   return stateConfig;
 }
 
-function defaultDataIndex(datum: any, params: any) {
-  return datum?.[DEFAULT_DATA_INDEX] ?? params?.VGRAMMAR_ANIMATION_PARAMETERS?.elementIndex;
+function defaultDataIndex(datum: any, graphic: IMarkGraphic) {
+  return datum?.[DEFAULT_DATA_INDEX] ?? graphic.context.graphicIndex;
 }
 
 export function shouldMarkDoMorph(spec: ISeriesSpec & IAnimationSpec<string, string>, markName: string) {
