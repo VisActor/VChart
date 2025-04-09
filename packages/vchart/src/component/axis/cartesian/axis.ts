@@ -750,7 +750,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         maxWidth: this._getTitleLimit(isX)
       },
       items,
-      lastScale: this._lastScale
+      scale: this._scale.clone()
     };
     if (!ignoreGrid) {
       attrs.grid = {
