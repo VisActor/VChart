@@ -1120,15 +1120,15 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         }));
         configArray.push(normalConfigList.length === 1 ? normalConfigList[0] : normalConfigList);
       }
-      configArray.forEach(config => {
-        if (Array.isArray(config)) {
-          config.forEach(item => {
-            item.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
-          });
-        } else {
-          config.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
-        }
-      });
+      // configArray.forEach(config => {
+      //   if (Array.isArray(config)) {
+      //     config.forEach(item => {
+      //       item.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
+      //     });
+      //   } else {
+      //     config.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
+      //   }
+      // });
       this._product.applyAnimationState(stateArray, configArray, cb);
     }
 
@@ -1146,18 +1146,18 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           name: `${state}_${index}`,
           animation: item
         }));
-        configList.forEach((item: any) => {
-          item.animation.customParameters = g.context;
-        });
+        // configList.forEach((item: any) => {
+        //   item.animation.customParameters = g.context;
+        // });
         const stateArray = [state];
 
         if (state === 'enter' && animationConfig.normal) {
           shouldRunNormal = true;
         }
         g.applyAnimationState(stateArray, [configList.length === 1 ? configList[0] : configList], cb);
-        configList.forEach((item: any) => {
-          item.animation.customParameters = null;
-        });
+        // configList.forEach((item: any) => {
+        //   item.animation.customParameters = null;
+        // });
       }
     });
 
