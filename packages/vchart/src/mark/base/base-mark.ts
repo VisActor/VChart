@@ -1119,15 +1119,15 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         }));
         configArray.push(normalConfigList.length === 1 ? normalConfigList[0] : normalConfigList);
       }
-      configArray.forEach(config => {
-        if (Array.isArray(config)) {
-          config.forEach(item => {
-            item.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
-          });
-        } else {
-          config.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
-        }
-      });
+      // configArray.forEach(config => {
+      //   if (Array.isArray(config)) {
+      //     config.forEach(item => {
+      //       item.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
+      //     });
+      //   } else {
+      //     config.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
+      //   }
+      // });
       this._product.applyAnimationState(stateArray, configArray, cb);
     }
 
@@ -1141,28 +1141,27 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
       const config = (animationConfig as any)[state] as any;
       if (config && config.length > 0) {
-<<<<<<< HEAD
-        // TODO: 支持 config 数组
-        const _config = config[0];
-        _config.customParameters = g.context;
-=======
         const configList = config.map((item: any, index: number) => ({
           name: `${state}_${index}`,
           animation: item
         }));
+
         configList.forEach((item: any) => {
           item.animation.customParameters = g.context;
         });
->>>>>>> e4c58ff65 (feat: animate config support array)
+
+        // configList.forEach((item: any) => {
+        //   item.animation.customParameters = g.context;
+        // });
         const stateArray = [state];
 
         if (state === 'enter' && animationConfig.normal) {
           shouldRunNormal = true;
         }
         g.applyAnimationState(stateArray, [configList.length === 1 ? configList[0] : configList], cb);
-        configList.forEach((item: any) => {
-          item.animation.customParameters = null;
-        });
+        // configList.forEach((item: any) => {
+        //   item.animation.customParameters = null;
+        // });
       }
     });
 
