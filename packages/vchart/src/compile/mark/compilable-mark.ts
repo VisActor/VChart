@@ -469,6 +469,10 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     return undefined;
   }
 
+  clear() {
+    this._event.off(VGRAMMAR_HOOK_EVENT.AFTER_DO_RENDER);
+  }
+
   release() {
     super.release();
     this.state.release();
