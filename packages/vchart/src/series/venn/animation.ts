@@ -1,7 +1,7 @@
-import { Factory } from '../../core/factory';
-import { VennOverlapAnimation } from '@visactor/vgrammar-venn';
 import type { VennAppearPreset } from './interface';
 import type { IAnimationTypeConfig } from '../../animation/interface';
+// import { ACustomAnimate } from '@visactor/vrender-animate';
+import { Factory } from '../../core/factory';
 
 export const vennCirclePresetAnimation = (preset: VennAppearPreset): IAnimationTypeConfig => {
   switch (preset) {
@@ -60,7 +60,7 @@ export const registerVennAnimation = () => {
   Factory.registerAnimation('vennOverlap', (params: unknown, preset: VennAppearPreset) => {
     return {
       appear: vennOverlapPresetAnimation(preset),
-      update: { custom: VennOverlapAnimation },
+      // update: { custom: VennOverlapAnimation }, // TODO: vgrammar 封装的动画，要更新依赖
       enter: { type: 'fadeIn' },
       exit: { type: 'fadeOut' },
       disappear: { type: 'fadeOut' }

@@ -1296,7 +1296,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
       (g as IMarkGraphic).release();
     });
-
+    const graphicCount = newGraphics.length;
+    newGraphics.forEach((g, index) => {
+      g.context.graphicCount = graphicCount;
+      g.context.graphicIndex = index;
+    });
     this._dataByKey = newGroupedData;
     this._graphics = newGraphics;
   }

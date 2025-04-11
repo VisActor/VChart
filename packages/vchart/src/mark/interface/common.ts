@@ -141,6 +141,14 @@ export interface IGraphicContext {
    * 状态
    */
   states?: string[];
+  /**
+   * 图元总数量
+   */
+  graphicCount?: number;
+  /**
+   * 图元索引顺序
+   */
+  graphicIndex?: number;
 }
 
 export interface IMarkGraphic extends IGraphic {
