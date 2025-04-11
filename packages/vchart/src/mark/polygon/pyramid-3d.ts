@@ -3,7 +3,7 @@ import { Factory } from './../../core/factory';
 import type { IPyramid3dMarkSpec } from '../../typings/visual';
 import { MarkTypeEnum } from '../interface/type';
 import { BasePolygonMark } from './base-polygon';
-import { registerVGrammarPolygonAnimation } from '../../animation/config';
+import { registerPolygonAnimation } from '../../animation/config';
 import type { IPyramid3dMark } from '../interface/mark';
 import { registerPyramid3d, registerShadowRoot } from '@visactor/vrender-kits';
 import { createPyramid3d } from '@visactor/vrender-core';
@@ -17,7 +17,7 @@ export const registerPyramid3dMark = () => {
   Factory.registerMark(Pyramid3dMark.type, Pyramid3dMark);
   registerShadowRoot();
   registerPyramid3d();
-  registerVGrammarPolygonAnimation();
+  registerPolygonAnimation();
 
   Factory.registerGraphicComponent(MarkTypeEnum.pyramid3d, createPyramid3d);
 };

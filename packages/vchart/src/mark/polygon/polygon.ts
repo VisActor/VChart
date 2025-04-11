@@ -4,7 +4,7 @@ import type { IPolygonMarkSpec } from '../../typings/visual';
 import { BasePolygonMark } from './base-polygon';
 import type { IMarkStyle, IPolygonMark } from '../interface';
 import { MarkTypeEnum } from '../interface/type';
-import { registerVGrammarPolygonAnimation } from '../../animation/config';
+import { registerPolygonAnimation } from '../../animation/config';
 import { registerPolygon, registerShadowRoot } from '@visactor/vrender-kits';
 import { createPolygon } from '@visactor/vrender-core';
 
@@ -25,7 +25,7 @@ export const registerPolygonMark = () => {
   Factory.registerMark(PolygonMark.type, PolygonMark);
   registerShadowRoot();
   registerPolygon();
-  registerVGrammarPolygonAnimation();
+  registerPolygonAnimation();
 
   Factory.registerGraphicComponent(MarkTypeEnum.polygon, createPolygon);
 };
