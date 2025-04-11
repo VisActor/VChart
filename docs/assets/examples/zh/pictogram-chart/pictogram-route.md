@@ -153,17 +153,15 @@ VChart.registerSVG('route', routeSVG);
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
-
-const people = vchart.getChart()?.getMarkByUserName('people')[0]?.getProduct()?.getGroupGraphicItem();
-
-const route = vchart.getChart()?.getMarkByUserName('route')[0]?.getProduct()?.getGroupGraphicItem();
+const people = vchart.getChart()?.getMarkByUserName('people')[0]?.getGraphics()[0];
+const route = vchart.getChart()?.getMarkByUserName('route')[0]?.getGraphics()[0];
 const cp = new VRender.CustomPath2D();
 cp.fromLine(route);
 people
   .animate()
   .wait(2000)
   .play(
-    new VRender.MotionPath(null, null, 10000, 'linear', {
+    new VRenderAnimate.MotionPath(null, null, 10000, 'linear', {
       path: cp,
       distance: 1,
       changeAngle: true,
