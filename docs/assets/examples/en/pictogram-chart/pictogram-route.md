@@ -152,10 +152,8 @@ VChart.registerSVG('route', routeSVG);
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
-
-const people = vchart.getChart()?.getMarkByUserName('people')[0]?.getProduct()?.getGroupGraphicItem();
-
-const route = vchart.getChart()?.getMarkByUserName('route')[0]?.getProduct()?.getGroupGraphicItem();
+const people = vchart.getChart()?.getMarkByUserName('people')[0]?.getGraphics()[0];
+const route = vchart.getChart()?.getMarkByUserName('route')[0]?.getGraphics()[0];
 const cp = new VRender.CustomPath2D();
 cp.fromLine(route);
 people

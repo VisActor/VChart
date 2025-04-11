@@ -160,7 +160,7 @@ export class BoxplotScaleIn extends ACustomAnimate<Record<string, number>> {
     if (this.params?.diffAttrs) {
       this.target.setAttributes(this.params.diffAttrs);
     }
-    const { from, to } = scaleIn(computeBarBoxplotCenter)(this.target as IGlyph, this.params, this.params);
+    const { from, to } = scaleIn(computeBarBoxplotCenter)(this.target as IGlyph, this.params, this.params.options);
     this.propKeys = Object.keys(to).filter(key => to[key] != null);
     this.animate.reSyncProps();
     this.from = from;
@@ -187,7 +187,7 @@ export class BoxplotScaleOut extends ACustomAnimate<Record<string, number>> {
     if (this.params?.diffAttrs) {
       this.target.setAttributes(this.params.diffAttrs);
     }
-    const { from, to } = scaleOut(computeBarBoxplotCenter)(this.target as IGlyph, this.params, this.params);
+    const { from, to } = scaleOut(computeBarBoxplotCenter)(this.target as IGlyph, this.params, this.params?.options);
     this.propKeys = Object.keys(to).filter(key => to[key] != null);
     this.animate.reSyncProps();
     this.from = from;
