@@ -4,7 +4,7 @@ import { BaseLineMark, LINE_SEGMENT_ATTRIBUTES } from './base/base-line';
 import type { IAreaMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerVGrammarLineOrAreaAnimation } from '../animation/config';
+import { registerLineOrAreaAnimation } from '../animation/config';
 import { registerArea, registerShadowRoot } from '@visactor/vrender-kits';
 import { registerLineDataLabel, registerSymbolDataLabel } from '@visactor/vrender-components';
 import { createArea } from '@visactor/vrender-core';
@@ -51,6 +51,6 @@ export const registerAreaMark = () => {
   registerArea();
   registerLineDataLabel();
   registerSymbolDataLabel();
-  registerVGrammarLineOrAreaAnimation();
+  registerLineOrAreaAnimation();
   Factory.registerGraphicComponent(MarkTypeEnum.area, createArea);
 };

@@ -56,6 +56,33 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
       attrs = this._attributesTransform(attrs);
     }
 
+    if (this._animationConfig) {
+      attrs = {
+        ...attrs,
+        animation: true,
+        animationAppear: this._animationConfig.appear
+          ? Array.isArray(this._animationConfig.appear)
+            ? this._animationConfig.appear[0]
+            : this._animationConfig.appear
+          : undefined,
+        animationEnter: this._animationConfig.enter
+          ? Array.isArray(this._animationConfig.enter)
+            ? this._animationConfig.enter[0]
+            : this._animationConfig.enter
+          : undefined,
+        animationUpdate: this._animationConfig.update
+          ? Array.isArray(this._animationConfig.update)
+            ? this._animationConfig.update[0]
+            : this._animationConfig.update
+          : undefined,
+        animationExit: this._animationConfig.exit
+          ? Array.isArray(this._animationConfig.exit)
+            ? this._animationConfig.exit[0]
+            : this._animationConfig.exit
+          : undefined
+      } as any;
+    }
+
     if (!this._component) {
       this._component = Factory.createGraphicComponent(this._componentType, attrs, {
         mode: this._mode,

@@ -38,7 +38,6 @@ VChart.useRegisters([
   // plugin
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-
   registerAnimate,
   registerReactAttributePlugin,
   registerHtmlAttributePlugin

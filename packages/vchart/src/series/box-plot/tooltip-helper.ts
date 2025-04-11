@@ -134,7 +134,7 @@ export class BoxPlotSeriesTooltipHelper extends BaseSeriesTooltipHelper implemen
 
   getOutlierFillColor = (datum: Datum) => {
     const outliersStyle = (this.series as BoxPlotSeries).getOutliersStyle();
-    return outliersStyle?.fill ?? (this.series.getMarkInName('outlier').getAttribute('fill' as any, datum) as any);
+    return outliersStyle?.fill ?? (this.series.getMarkInName('outlier')?.getAttribute('fill' as any, datum) as any);
   };
   isOutlierMark = (datum: Datum) => {
     return isValid(datum[BOX_PLOT_OUTLIER_VALUE_FIELD]);

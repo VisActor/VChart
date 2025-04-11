@@ -7,7 +7,7 @@ import { BaseMark } from './base/base-mark';
 import type { IArcMark, IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerVGrammarArcAnimation } from '../animation/config';
+import { registerArcAnimation } from '../animation/config';
 import { polarToCartesian } from '@visactor/vutils';
 import { createArc } from '@visactor/vrender-core';
 import { registerArcDataLabel } from '@visactor/vrender-components';
@@ -75,7 +75,7 @@ export const registerArcMark = () => {
   registerShadowRoot();
   registerArc();
   registerArcDataLabel();
-  registerVGrammarArcAnimation();
+  registerArcAnimation();
   Factory.registerGraphicComponent(MarkTypeEnum.arc, createArc);
   Factory.registerMark(ArcMark.type, ArcMark);
 };

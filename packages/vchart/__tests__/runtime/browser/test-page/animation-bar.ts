@@ -6,11 +6,13 @@ import {
   registerMediaQuery,
   registerAnimate,
   registerCustomAnimate,
-  registerStateTransition
+  registerStateTransition,
+  registerSequentialAnimate
 } from '../../../../src/index';
 registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
+registerSequentialAnimate();
 
 let dataArray = [
   { type: 'Nail polish', country: 'Africa', value: 4229 },
@@ -54,85 +56,29 @@ let dataArray = [
 const direction: string = 'vertical';
 
 let spec = {
-  type: 'bar',
-  data: {
-    id: 'data0',
-    values: dataArray
-  },
-  title: {
-    visible: true,
-    text: 'Stacked area chart of cosmetic products sales'
-  },
-  direction,
-  useSequentialAnimation: true,
-  // stack: true,
-  xField: direction === 'horizontal' ? 'value' : 'type',
-  yField: direction === 'horizontal' ? 'type' : 'value',
-  seriesField: 'country',
-  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
-  crosshair: {
-    followTooltip: true,
-    xField: { visible: true, label: { visible: true } },
-    yField: { visible: true, label: { visible: true } }
-  },
-  animationAppear: {
-    duration: 300
-  },
-  animationUpdate: {
-    duration: 300
-  },
-  animationEnter: {
-    duration: 300
-  },
-  animationExit: {
-    duration: 300,
-    type: 'fadeOut'
-  },
-  animationNormal: {
-    point: [
-      {
-        loop: true,
-        startTime: 100,
-        oneByOne: 100,
-        priority: 1,
-        timeSlices: [
-          {
-            delay: 1000,
-            effects: {
-              channel: {
-                fillOpacity: { to: 0.5 }
-              },
-              easing: 'linear'
-            },
-            duration: 500
-          },
-          {
-            effects: {
-              channel: {
-                fillOpacity: { to: 1 }
-              },
-              easing: 'linear'
-            },
-            duration: 500
-          }
-        ]
-      }
-    ]
-  },
-  point: {
-    state: {
-      hover: {
-        fill: 'red'
-      }
-    },
-    style: {
-      size: 80
+  type: 'gauge',
+  data: [
+    {
+      id: 'id0',
+      values: [
+        {
+          type: '目标A',
+          value: 0.6
+        }
+      ]
     }
-  }
+  ],
+  categoryField: 'type',
+  valueField: 'value',
+  outerRadius: 0.8,
+  innerRadius: 0.5,
+  startAngle: -180,
+  endAngle: 0
 };
 
 const run = () => {
   registerMediaQuery();
+
   // VChart.ThemeManager.setCurrentTheme('dark');
   const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
@@ -149,7 +95,7 @@ const run = () => {
   });
 
   const button = document.createElement('button');
-  button.innerHTML = 'click';
+  button.innerHTML = 'update';
   button.addEventListener('click', () => {
     dataArray = dataArray.map(d => ({ ...d, value: 100000 * Math.random() }));
     cs.updateData('data0', dataArray);
@@ -239,7 +185,7 @@ const run = () => {
     spec = nextSpec;
     cs.updateSpec(spec as any);
   });
-  // document.body.appendChild(button5);
+  document.body.appendChild(button5);
   // const button6 = document.createElement('button');
   // button6.innerHTML = 'direction';
   // button6.addEventListener('click', () => {

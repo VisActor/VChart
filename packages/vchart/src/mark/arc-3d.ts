@@ -3,7 +3,7 @@ import type { IArc3dMarkSpec } from '../typings';
 import { BaseArcMark } from './arc';
 import type { IArc3dMark } from './interface';
 import { MarkTypeEnum } from './interface/type';
-import { registerVGrammarArcAnimation } from '../animation/config';
+import { registerArcAnimation } from '../animation/config';
 import { registerArc3d, registerShadowRoot } from '@visactor/vrender-kits';
 import { createArc3d } from '@visactor/vrender-core';
 
@@ -14,7 +14,7 @@ export class Arc3dMark extends BaseArcMark<IArc3dMarkSpec> implements IArc3dMark
 }
 
 export const registerArc3dMark = () => {
-  registerVGrammarArcAnimation();
+  registerArcAnimation();
   registerShadowRoot();
   registerArc3d();
   Factory.registerGraphicComponent(MarkTypeEnum.arc3d, createArc3d);

@@ -19,6 +19,7 @@ export class BasePieChartSpecTransformer<T extends IPieChartSpec> extends PolarC
       'emptyPlaceholder',
       'showAllZero',
       'supportNegative',
+      'useSequentialAnimation',
       'layoutRadius'
     ]);
     // 兼容旧版写法

@@ -5,7 +5,7 @@ import { BaseLineMark } from './base/base-line';
 import type { ILineMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerVGrammarLineOrAreaAnimation } from '../animation/config';
+import { registerLineOrAreaAnimation } from '../animation/config';
 import type { IGraphic, ILineGraphicAttribute } from '@visactor/vrender-core';
 import { createLine } from '@visactor/vrender-core';
 import { registerLine, registerShadowRoot } from '@visactor/vrender-kits';
@@ -42,7 +42,7 @@ export const registerLineMark = () => {
   registerLine();
   registerLineDataLabel();
   registerSymbolDataLabel();
-  registerVGrammarLineOrAreaAnimation();
+  registerLineOrAreaAnimation();
 
   Factory.registerGraphicComponent(MarkTypeEnum.line, createLine);
 };

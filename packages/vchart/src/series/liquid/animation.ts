@@ -21,16 +21,7 @@ const Appear_Grow = (params: ILiquidAnimationParams): IAnimationTypeConfig => {
   };
 };
 
-const Appear_WaveGrow = (params: ILiquidAnimationParams): IAnimationTypeConfig => {
-  return {
-    duration: 2000,
-    channel: {
-      wave: { from: 0, to: 1 },
-      height: params.height,
-      dy: params.dy
-    }
-  };
-};
+const Appear_WaveGrow = Appear_Grow;
 
 const Appear_Group_Grow = (params: ILiquidAnimationParams): IAnimationTypeConfig => {
   return {

@@ -47,8 +47,8 @@ const spec = {
   animationAppear: {
     duration: 200, // 每个柱子的动画时长为 100ms
     delay: (datum, element, ctx, ...args) => {
-      const { elementIndex } = ctx.VGRAMMAR_ANIMATION_PARAMETERS;
-      return elementIndex * (200 + 50); // 柱子延迟为 100ms（之前柱子的动画时长）+ 50ms（动画间隔时间）
+      const { graphicIndex } = graphic.context;
+      return graphicIndex * (200 + 50); // 柱子延迟为 100ms（之前柱子的动画时长）+ 50ms（动画间隔时间）
     }
   },
   legends: [{ visible: true, position: 'middle', orient: 'bottom' }],

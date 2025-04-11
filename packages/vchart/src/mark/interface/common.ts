@@ -84,6 +84,38 @@ export interface IGraphicContext {
    */
   diffState?: DiffStateValues;
   /**
+   * 是否正在被复用的图元
+   */
+  reusing?: boolean;
+  /**
+   * 复用图元时，保存的上一次的旧属性（用于平滑的过渡动画）
+   */
+  lastAttrs?: Record<string, any>;
+  /**
+   * 用于判定这个图元是第几个，在OneByOne动画中控制顺序
+   */
+  indexKey?: string;
+  /**
+   * 差异的属性
+   */
+  diffAttrs?: Record<string, any>;
+  /**
+   * 用于保存mark对应series的fieldX
+   */
+  fieldX?: string[];
+  /**
+   * 用于保存mark对应series的fieldX
+   */
+  _originalFieldX?: string[];
+  /**
+   * 用于保存mark对应series的fieldY
+   */
+  fieldY?: string[];
+  /**
+   * 用于保存mark对应series的fieldY
+   */
+  _originalFieldY?: string[];
+  /**
    * 动画状态管理: 'appear' / 'enter' / 'update' / 'exit' / 'disappear'
    */
   animationState?: AnimationStateValues;
@@ -109,6 +141,14 @@ export interface IGraphicContext {
    * 状态
    */
   states?: string[];
+  /**
+   * 图元总数量
+   */
+  graphicCount?: number;
+  /**
+   * 图元索引顺序
+   */
+  graphicIndex?: number;
 }
 
 export interface IMarkGraphic extends IGraphic {
@@ -121,6 +161,11 @@ export interface IMarkGraphic extends IGraphic {
    * 上下文数据
    */
   context?: IGraphicContext;
+
+  /**
+   * 是否正在退场
+   */
+  isExiting?: boolean;
 }
 
 /**********   mark  ***************/

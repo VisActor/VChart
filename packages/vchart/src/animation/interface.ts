@@ -1,5 +1,5 @@
-import type { ACustomAnimate, EasingType, IGraphic } from '@visactor/vrender-core';
-import type { ICompilable } from '../compile/interface';
+import type { ACustomAnimate, EasingType } from '@visactor/vrender-animate';
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IMark } from '../mark/interface/common';
 
 export enum AnimationStateEnum {
