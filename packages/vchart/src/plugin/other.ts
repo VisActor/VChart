@@ -6,10 +6,10 @@ import {
   registerViewTransform3dPlugin
 } from '@visactor/vrender-core';
 
-// import { registerViewMorphAPI, registerAnimate as registerAnimateAPI } from '@visactor/vgrammar-core';
-import { registerVGrammarCommonAnimation } from '../animation/config';
+import { registerAnimate as registerVRenderAnimate } from '@visactor/vrender-animate';
 import { DragNDrop, Gesture } from '@visactor/vrender-kits';
 import { Factory } from '../core/factory';
+import { registerBuiltInAnimation } from '../animation/config';
 
 export const register3DPlugin = () => {
   registerDirectionalLight();
@@ -17,10 +17,10 @@ export const register3DPlugin = () => {
   registerViewTransform3dPlugin();
 };
 
-// export const registerAnimate = () => {
-//   // registerAnimateAPI();
-//   registerVGrammarCommonAnimation();
-// };
+export const registerAnimate = () => {
+  registerVRenderAnimate();
+  registerBuiltInAnimation();
+};
 
 export const registerDragPlugin = () => {
   Factory.registerStageEventPlugin('drag', DragNDrop);
