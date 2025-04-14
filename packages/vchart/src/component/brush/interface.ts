@@ -121,7 +121,7 @@ export interface IBrushTheme {
    * 不需要被brush操作的mark类型
    * @since 1.13.9
    */
-  markTypeFilter?: ('symbol' | 'rect' | 'line' | 'area')[];
+  markTypeFilter?: string[];
   /**
    * 自定义change事件
    * 返回true, 则清空brush
