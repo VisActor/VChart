@@ -15,7 +15,8 @@ export interface IMarkAreaTheme {
    */
   area?: Partial<IMarkerState<IPolygonMarkSpec | IArcMarkSpec>>;
   /**
-   * 标记区域的标签样式配置
+   * 标记区域的标签样式配置。
+   * 自 1.13.9 版本开始，支持创建多个标签
    */
   label?: IMarkAreaLabel | IMarkAreaLabel[];
 }

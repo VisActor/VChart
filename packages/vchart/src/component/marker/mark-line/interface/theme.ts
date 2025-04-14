@@ -15,7 +15,8 @@ export interface IMarkLineTheme {
    */
   line?: Partial<IMarkerState<ILineMarkSpec | IArcMarkSpec>>;
   /**
-   * 标注线的标签样式
+   * 标注线的标签样式。
+   * 自 1.13.9 版本开始，支持创建多个标签。
    */
   label?: IMarkLineLabel | IMarkLineLabel[];
 
