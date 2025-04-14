@@ -630,6 +630,10 @@ const run = async () => {
     invalidType: 'break',
     animation: false,
     brush: {
+      onBrushEnd: () => {
+        console.log('onBrushEnd');
+        return true;
+      },
       // markTypeFilter: ['line'],
       endTrigger: ['pointerup', 'pointerupoutside'],
       sizeThreshold: 50,

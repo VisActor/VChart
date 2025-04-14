@@ -123,11 +123,11 @@ export interface IBrushTheme {
    */
   markTypeFilter?: string[];
   /**
-   * 自定义change事件
+   * 自定义brush事件, 触发时机: 框选结束
    * 返回true, 则清空brush
    * @since 1.13.9
    */
-  onBrushChange: ({}) => boolean;
+  onBrushEnd: (e: any) => boolean;
 }
 
 export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
