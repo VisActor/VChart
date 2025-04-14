@@ -96,6 +96,7 @@ export enum ChartEvent {
   brushStart = 'brushStart',
   brushChange = 'brushChange',
   brushEnd = 'brushEnd',
+  brushActive = 'brushActive',
   brushClear = 'brushClear',
   // legend
   legendSelectedDataChange = 'legendSelectedDataChange',

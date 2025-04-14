@@ -15,11 +15,11 @@ interface IBrushDataBindSpec {
    */
   regionId?: string | string[]; // 默认为所有region
   /**
-   * 可刷取的seriesIndex
+   * 可刷取的seriesIndex（在可刷取的region范围内）
    */
   seriesIndex?: number | number[]; // 默认为所有系列
   /**
-   * 可刷取的seriesId
+   * 可刷取的seriesId（在可刷取的region范围内）
    */
   seriesId?: string | string[]; // 默认为所有系列
   /**
@@ -117,6 +117,17 @@ export interface IBrushTheme {
    * @since 1.2.0
    */
   sizeThreshold?: number;
+  /**
+   * 不需要被brush操作的mark类型
+   * @since 1.13.9
+   */
+  markTypeFilter?: ('symbol' | 'rect' | 'line' | 'area')[];
+  /**
+   * 自定义change事件
+   * 返回true, 则清空brush
+   * @since 1.13.9
+   */
+  onBrushChange: ({}) => boolean;
 }
 
 export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
