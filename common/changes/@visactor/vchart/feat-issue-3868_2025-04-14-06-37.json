@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: markLine and markArea supports render multiple labels",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
