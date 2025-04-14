@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "refactor: brush interactive. close#3765 & #3262 & #2802",
+      "comment": "refactor: brush interactive. close#3765 & #3262 & #2802 & #3885",
       "type": "none"
     }
   ],
