@@ -14,6 +14,7 @@ import type {
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, IBandAxisLayer, ITickCalculationCfg, StyleCallback } from './common';
 import type { IBaseScale } from '@visactor/vscale';
+import type { IVChart } from '../../../core';
 
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
@@ -272,7 +273,7 @@ export interface ITick extends IAxisItem<IRuleMarkSpec>, ITickCalculationCfg {
    * 用于 tick 的数据过滤
    * @since 1.1.0
    */
-  dataFilter?: (data: AxisItem[]) => AxisItem[];
+  dataFilter?: (data: AxisItem[], context: { vchart: IVChart }) => AxisItem[];
 }
 
 // 子刻度线配置
@@ -347,7 +348,7 @@ export interface ILabel extends IAxisItem<ITextMarkSpec> {
    * 用于 label 的数据过滤
    * @since 1.1.0
    */
-  dataFilter?: (data: AxisItem[], layer: number) => AxisItem[];
+  dataFilter?: (data: AxisItem[], layer: number, context: { vchart: IVChart }) => AxisItem[];
 }
 
 // 轴线配置

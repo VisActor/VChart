@@ -488,6 +488,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       if (spec.label.state) {
         axisAttrs.label.state = transformAxisLabelStateStyle(spec.label.state);
       }
+      if (isFunction(spec.label.dataFilter)) {
+        axisAttrs.label.dataFilter = (data: ITickDataOpt[], layer: number) =>
+          spec.label.dataFilter(data, layer, { vchart: this._option.globalInstance });
+      }
     } else {
       axisAttrs.label = {
         visible: false
@@ -500,7 +504,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         length: spec.tick.tickSize,
         inside: spec.tick.inside,
         alignWithLabel: spec.tick.alignWithLabel,
-        dataFilter: spec.tick.dataFilter
+        dataFilter: isFunction(spec.tick.dataFilter)
+          ? (data: ITickDataOpt[]) => spec.tick.dataFilter(data, { vchart: this._option.globalInstance })
+          : undefined
       };
       if (spec.tick.style) {
         axisAttrs.tick.style = isFunction(spec.tick.style)

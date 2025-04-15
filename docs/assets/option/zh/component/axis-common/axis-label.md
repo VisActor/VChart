@@ -89,9 +89,10 @@ formatMethod: text => {
    * 用于 label 的数据过滤
    * @param data
    * @param layer
+   * @param context since 1.13.9
    * @returns
    */
-  dataFilter?: (data: AxisItem[], layer: number) => AxisItem[];
+  dataFilter?: (data: AxisItem[], layer: number, context: {vchart: IVChart}) => AxisItem[];
 ```
 
 #${prefix} style(Object|Function)
