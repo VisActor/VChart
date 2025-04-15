@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-duplicate-imports
-import type { ITickDataOpt } from '@visactor/vrender-components';
+import type { ITickDataOpt, AxisItem } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
@@ -489,7 +489,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         axisAttrs.label.state = transformAxisLabelStateStyle(spec.label.state);
       }
       if (isFunction(spec.label.dataFilter)) {
-        axisAttrs.label.dataFilter = (data: ITickDataOpt[], layer: number) =>
+        axisAttrs.label.dataFilter = (data: AxisItem[], layer: number) =>
           spec.label.dataFilter(data, layer, { vchart: this._option.globalInstance });
       }
     } else {
@@ -505,7 +505,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         inside: spec.tick.inside,
         alignWithLabel: spec.tick.alignWithLabel,
         dataFilter: isFunction(spec.tick.dataFilter)
-          ? (data: ITickDataOpt[]) => spec.tick.dataFilter(data, { vchart: this._option.globalInstance })
+          ? (data: AxisItem[]) => spec.tick.dataFilter(data, { vchart: this._option.globalInstance })
           : undefined
       };
       if (spec.tick.style) {
