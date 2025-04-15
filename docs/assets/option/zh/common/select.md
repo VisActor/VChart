@@ -21,6 +21,10 @@ select 交互开关，默认开启。
 
 select 交互的触发事件配置。
 
+{{ use: trigger-spec()}}
+
 ##${prefix} triggerOff(string|string[])
 
 select 交互的终止事件配置。
+
+{{ use: trigger-spec()}}
