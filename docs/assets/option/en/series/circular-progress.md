@@ -16,6 +16,30 @@
   seriesMarks = ['progress', 'track']
 ) }}
 
+#${prefix} tickMask(Object)
+Tick mode display. Supported since `1.4.0` version.
+
+##${prefix} angle(number)
+Default width of a single tick, angle value.
+
+##${prefix} offsetAngle(number)
+Offset angle of a single tick, angle value.
+
+##${prefix} forceAlign(boolean)
+Whether the primitives under the tick mask are forced to align with the tick edge.
+
+##${prefix} style(Object)
+{{ use: mark-style(
+markName = 'area'
+) }}
+
+{{ use: mark-area(
+prefix = '##' + ${prefix}
+) }}
+
+#${prefix} clip(boolean) = false
+Supported since `1.13.9` version, whether the out-of-axis range is clipped (except tick mode, because tick mode has its own clipping).
+
 #${prefix} categoryField(string|string[])
 
 Category field, mapped to the radius axis. Can be declared as an array type, internally grouping data according to the declared fields.

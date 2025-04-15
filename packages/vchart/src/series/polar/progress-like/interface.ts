@@ -33,6 +33,13 @@ export interface IProgressLikeSeriesSpec extends IPolarSeriesSpec {
    * @since 1.4.0
    */
   tickMask?: Omit<IMarkSpec<IArcMarkSpec>, 'state'> & ITickMaskSpec;
+
+  /**
+   * 超出轴范围是否被裁剪（除tick模式外, 因为tick模式自带裁剪）
+   * @since 1.13.9
+   * @default false
+   */
+  clip?: boolean;
 }
 
 export interface IProgressLikeSeriesTheme extends IPolarSeriesTheme {

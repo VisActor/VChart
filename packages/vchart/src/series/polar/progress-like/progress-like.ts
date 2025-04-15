@@ -92,8 +92,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
           index >= subTickData.length || originValue > subTickData[index].value - step / 2
             ? Math.min(index, subTickData.length - 1)
             : index > 0
-            ? index - 1
-            : undefined;
+              ? index - 1
+              : undefined;
         if (targetIndex !== undefined) {
           pos = this.angleAxisHelper.dataToPosition([
             subTickData[targetIndex].value - step / 2 // 确保占满整个 tick mask
@@ -128,8 +128,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
         index >= subTickData.length || originValue > subTickData[index].value - step / 2
           ? Math.min(index, subTickData.length - 1)
           : index > 0
-          ? index - 1
-          : undefined;
+            ? index - 1
+            : undefined;
       let pos: number;
       if (targetIndex !== undefined) {
         pos = this.angleAxisHelper.dataToPosition([
@@ -213,12 +213,12 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
       clip: true,
       clipPath: () => {
         const axis = this._getAngleAxis();
+        const { x, y } = this.angleAxisHelper.center();
+        const radius = this._computeLayoutRadius();
         if (this._isTickMaskVisible(axis)) {
           const { tickMask } = this._spec;
           const { angle, offsetAngle, style = {} } = tickMask;
           const subTickData = this._getAngleAxisSubTickData(axis);
-          const { x, y } = this.angleAxisHelper.center();
-          const radius = this._computeLayoutRadius();
           const markStyle = style as any;
           return subTickData.map(({ value }) => {
             const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);
@@ -234,6 +234,18 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
               fill: true
             });
           });
+        } else if (this._spec.clip) {
+          return [
+            createArc({
+              x,
+              y,
+              startAngle: this._startAngle,
+              endAngle: this._endAngle,
+              innerRadius: radius * this._innerRadius,
+              outerRadius: radius * this._outerRadius,
+              fill: true
+            })
+          ];
         }
         const { width, height } = this.getLayoutRect();
         return [

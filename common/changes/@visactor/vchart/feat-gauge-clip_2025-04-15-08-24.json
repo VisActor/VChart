@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: gauge support clip when mark outof axis. close#3859",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
