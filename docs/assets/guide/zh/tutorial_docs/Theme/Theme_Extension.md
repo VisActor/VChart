@@ -1,5 +1,7 @@
 # VChart 扩展主题包
 
+- 仓库地址: [https://github.com/VisActor/vchart-theme](https://github.com/VisActor/vchart-theme)
+
 在默认主题的基础上，VChart 也封装了一系列开箱即用的扩展主题，以单独主题包的形式提供。这些主题默认没有内置在 VChart 里，而是支持用户按需使用，使用户可以通过更少的工作获得更美观宜人、更贴合使用场景的 VChart 图表。
 
 此外，VChart 针对现有组件库也做了单独的主题包。这些包将在下文分别介绍。
