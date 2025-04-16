@@ -2,7 +2,10 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { IArcMarkSpec, ITextMarkSpec, IMarkSpec, IMarkTheme, ISeriesSpec } from '../../typings';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesTheme } from '../polar/interface';
-import type { CirclePackingAppearPreset, CirclePackingMark } from './animation';
+
+export type CirclePackingMark = 'leaf' | 'nonLeaf' | 'label' | 'nonLeafLabel';
+
+export type CirclePackingAppearPreset = 'growIn' | 'fadeIn';
 
 export interface ICirclePackingSeriesSpec
   extends ISeriesSpec,
@@ -54,7 +57,16 @@ export interface ICirclePackingSeriesSpec
 }
 
 export interface ICirclePackingSeriesTheme extends Omit<IPolarSeriesTheme, 'label'> {
+  /**
+   * 层内边距
+   */
   layoutPadding?: number | number[];
+  /**
+   * 标签的主题样式配置
+   */
   [SeriesMarkNameEnum.label]?: IMarkTheme<ITextMarkSpec>;
+  /**
+   * 圆图元的主题样式配置
+   */
   [SeriesMarkNameEnum.circlePacking]?: IMarkTheme<IArcMarkSpec>;
 }

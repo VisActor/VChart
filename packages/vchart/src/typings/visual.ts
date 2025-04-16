@@ -5,11 +5,11 @@ import type { InterpolateType } from './interpolate';
 import type { ScaleType } from './scale';
 import type { ShapeType } from './shape';
 import type { IPoint } from './coordinate';
-import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark';
+import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark/interface';
 import type { Datum } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { ITokenKey } from '../theme/token';
+import type { ITokenKey } from '../theme/token/interface';
 import type {
   IRepeatType,
   TextAlignType,
@@ -38,20 +38,42 @@ export interface IVisualSpecBase<D, T> {
    * @since 1.1.0
    */
   specified?: { [key: string]: unknown };
+  /**
+   * enable clamp in linear scale
+   * If clamp is enabled, the return value of the scale is always within the scale’s range.
+   * @since 1.13.6
+   * @default false
+   */
+  clamp?: boolean;
 }
 // 用来给用户进行mark.style上的映射配置。所以要配置数据维度
 export interface IVisualSpecStyle<D, T> extends IVisualSpecBase<D, T> {
+  /**
+   * 指定映射对应的数据字段
+   */
   field?: string;
 }
 
 export type IDataDomainSpec = {
+  /**
+   * 数据的id
+   */
   dataId: string;
+  /**
+   * 数据字段
+   */
   fields: string[];
 };
 
 // 用来提供给用户进行 scale 配置 所以名字是必选的 对用户配置
 export interface IVisualSpecScale<D, T> extends Omit<IVisualSpecBase<D, T>, 'domain'> {
+  /**
+   * scale 的id
+   */
   id: string;
+  /**
+   * 定义域范围
+   */
   domain:
     | IVisualSpecBase<D, T>['domain']
     // 使用数据的字段值，如果 scale 是连续的，就取区间，如果是离散的就使用 values 。
@@ -107,37 +129,100 @@ export type ConvertToMarkStyleSpec<T extends Record<string, any>> = {
  * border
  */
 export interface IBorder {
+  /**
+   * 边框离图形边缘的距离
+   */
   distance: number | string;
+  /**
+   * 边框的颜色
+   */
   stroke?: string | IGradient;
+  /**
+   * 边框的透明度
+   */
   strokeOpacity?: number;
+  /**
+   * 边框线的宽度
+   */
   lineWidth?: number;
+  /**
+   * 给边框配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度
+   */
   lineDash?: number[];
+  /**
+   * 设置边框的虚线偏移量
+   */
   lineDashOffset?: number;
 }
 
 export interface ICommonSpec {
+  /**
+   * 图形是否可见
+   */
   visible?: boolean;
+  /**
+   * 图形的x坐标
+   */
   x?: number;
+  /**
+   * 图形的y坐标
+   */
   y?: number;
+  /**
+   * 图形的z坐标，仅适用于3D图表
+   */
   z?: number;
   /**
+   * 图形的描边颜色。
+   * 支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边
    * @todo 隔离主题和 spec 配置
    * IColorKey 类型只适用于主题
    */
-  stroke?: string | IGradient | false | (number | boolean)[] | IColorKey;
+  stroke?: string | IGradient | false | (number | boolean)[] | IColorKey | null;
+  /**
+   * 描边透明度
+   */
   strokeOpacity?: number;
+  /**
+   * 图形的透明度，既影响描边也影响填充
+   */
   opacity?: number;
+  /**
+   * 图形的描边宽度
+   */
   lineWidth?: number;
+  /**
+   * 给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度
+   */
   lineDash?: number[];
+  /**
+   * 设置虚线偏移量的属性
+   */
   lineDashOffset?: number;
-
+  /**
+   * 设置图形的鼠标样式
+   */
   cursor?: Cursor;
+  /**
+   * 设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染
+   */
   zIndex?: number;
+  /**
+   * 图形的旋转角度
+   */
   angle?: number;
+  /**
+   * 基于AABB的锚点位置，用于简单的定位某些path的位置
+   */
   anchor?: [number, number];
 
-  // 缩放属性
+  /**
+   * x方向的缩放比例，默认为1，即不进行缩放
+   */
   scaleX?: number;
+  /**
+   * y方向的缩放比例，默认为1，即不进行缩放
+   */
   scaleY?: number;
   /**
    * 图形缩放中心
@@ -147,14 +232,26 @@ export interface ICommonSpec {
   scaleCenter?: [number | string, number | string];
 
   // 3d旋转的属性
-  beta?: number;
+  /**
+   * x方向的旋转角度
+   */
   alpha?: number;
+  /**
+   * y方向的旋转角度
+   */
+  beta?: number;
+  /**
+   * 3d的锚点位置
+   */
   anchor3d?: [number, number];
 
   /**
    * 选择模式，精确模式，粗糙模式（包围盒模式），自定义模式
    */
   pickMode?: 'accurate' | 'imprecise' | 'custom';
+  /**
+   * bounds的计算模式
+   */
   boundsMode?: 'accurate' | 'imprecise';
 
   /**
@@ -183,17 +280,17 @@ export interface ICommonSpec {
   texturePadding?: number;
 
   /**
-   * 外边框
+   * 外边框，外描边，描边位于图形外侧
    */
   outerBorder?: IBorder;
   /**
-   * 内边框
+   * 内边框，内描边，描边位于图形内侧
    */
   innerBorder?: IBorder;
   /**
+   * html 浮层，会将配置的html相关内容，绝对定位到图元的位置
    * @experimental
    * @since 1.10.0
-   * html 浮层
    */
   html?: IMarkHtmlSpec;
 
@@ -202,53 +299,110 @@ export interface ICommonSpec {
 
 export interface IFillMarkSpec extends ICommonSpec {
   /**
+   * 图形的填充颜色
    * @todo 隔离主题和 spec 配置
    * IColorKey 类型只适用于主题
    */
   fill?: VisualType<string> | IGradient | false | IColorKey;
+  /**
+   * 填充的透明度
+   */
   fillOpacity?: number;
-  // TODO：waite VRender support this api
-  // backgroundMode: number; // 填充模式（与具体图元有关）
-  // can coexist with fill
+
+  /**
+   * 图形的背景色，支持纯色、image元素、canvas元素
+   */
   background?: IColor | HTMLImageElement | HTMLCanvasElement | null;
 }
 
 export type IMarkHtmlSpec = Partial<IGraphicStyle['html']>;
 
 export interface ISymbolMarkSpec extends IFillMarkSpec {
+  /**
+   * x方向的偏移量
+   */
   dx?: number;
+  /**
+   * y方向的偏移量
+   */
   dy?: number;
+  /**
+   * 大小，相当于外接圆的半径
+   */
   size?: number | number[];
   /** 对外声明使用shape，vrender图形属性对应的是shape */
   shape?: ShapeType | string;
-  /** FIXME:  vrender Symbol接收的图形属性，暂时都申明一下 */
+  /**
+   * 标记的类型
+   * FIXME:  vrender Symbol接收的图形属性，暂时都申明一下
+   * */
   symbolType?: ShapeType | string;
+  /**
+   * x方向的缩放比例，默认为1，即不进行缩放
+   */
   scaleX?: number;
+  /**
+   * y方向的缩放比例，默认为1，即不进行缩放
+   */
   scaleY?: number;
 }
 
 // lineMark 和 areaMark 共同配置
 export interface ILineLikeMarkSpec extends IFillMarkSpec {
+  /**
+   * 取消的差值类型，默认为线性插值，也就是普通的折线
+   */
   curveType?: InterpolateType;
+  /**
+   * 设置点是否有效，也就是是否合法
+   */
   defined?: boolean;
 }
 
 export interface IAreaMarkSpec extends ILineLikeMarkSpec {
+  /**
+   * 面积的x1值
+   */
   x1?: number;
+  /**
+   * 面积的y1值
+   */
   y1?: number;
-
+  /**
+   * 面积图元的方向，
+   * horizontal - 水平方向
+   * vertical - 垂直方向
+   */
   orient?: 'horizontal' | 'vertical';
 }
 
 export interface ILineMarkSpec extends ILineLikeMarkSpec {
+  /**
+   * 指定如何绘制每一条线段末端的属性。有 3 个可能的值，分别是：'butt', 'round' and 'square'。默认值是 butt。
+   */
   lineCap?: LineStrokeCap;
+  /**
+   * 用来设置 2 个长度不为 0 的相连部分（线段、圆弧、曲线）如何连接在一起的属性（长度为 0 的变形部分，其指定的末端和控制点在同一位置，会被忽略）。此属性有 3 个值： 'round', 'bevel' and 'miter'。默认值是 'miter'
+   */
   lineJoin?: LineStrokeJoin;
+  /**
+   * 设置斜接面限制比例的属性。当获取属性值时，会返回当前的值（默认值是 10.0 ）。当给属性赋值时，0、负数、 Infinity 和 NaN 都会被忽略；除此之外都会被赋予一个新值。
+   */
   miterLimit?: number;
+  /**
+   * stroke 的有界缓冲区
+   */
   strokeBoundsBuffer?: number;
 }
 
 export interface IRuleMarkSpec extends ILineMarkSpec {
+  /**
+   * 终点x坐标
+   */
   x1?: number;
+  /**
+   * 终点y坐标
+   */
   y1?: number;
 }
 
@@ -270,11 +424,11 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    */
   fontSize?: number | ITokenKey;
   /**
-   * 文字对齐方式
+   * 文字水平方向的对齐方式
    */
   textAlign?: TextAlign;
   /**
-   * 文字居中方式
+   * 文字竖直方向的对齐方式
    */
   textBaseline?: TextBaseLine;
   /**
@@ -286,7 +440,7 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    */
   fontWeight?: FontWeight;
   /**
-   * 字体样式
+   * 字体样式，是否为斜体等
    */
   fontStyle?: FontStyle;
   /**
@@ -311,6 +465,14 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    */
   underline?: boolean;
   /**
+   * 下划线的虚线样式
+   */
+  underlineDash?: number[];
+  /**
+   * 下划线的虚线偏移量
+   */
+  underlineOffset?: number;
+  /**
    * 中划线
    */
   lineThrough?: boolean;
@@ -328,6 +490,22 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * @default 'horizontal'
    */
   direction?: 'horizontal' | 'vertical';
+  /*
+   * 单词断行
+   */
+  wordBreak?: 'break-word' | 'break-all' | 'keep-all';
+  /**
+   * 高度限制控制显示内容及省略号
+   */
+  heightLimit?: number;
+  /**
+   * 按照行数限制显示内容及省略号
+   */
+  lineClamp?: number;
+  /**
+   * 设置如何处理空白字符
+   */
+  whiteSpace?: 'normal' | 'no-wrap';
 }
 
 export type IRichTextMarkSpec = IRichTextAttribute &
@@ -344,14 +522,30 @@ export interface IRectMarkSpec extends IFillMarkSpec {
    * 2. 如果传入数组，则分别为 [上左, 上右, 下右, 下左]
    */
   cornerRadius?: number | number[];
+  /**
+   * 宽度
+   */
   width?: number;
+  /**
+   * 高度
+   */
   height?: number;
+  /**
+   * x方向终点坐标
+   */
   x1?: number;
+  /**
+   * y方向终点坐标
+   */
+
   y1?: number;
 }
 
 // 3d rect，支持length表示长宽高中的长属性（深度属性）
 export interface IRect3dMarkSpec extends IRectMarkSpec {
+  /**
+   * 3d柱子的深度
+   */
   length?: number;
 }
 
@@ -384,11 +578,25 @@ export interface IBoxPlotMarkSpec extends ICommonSpec {
    * 中轴线透明度，仅当shaftType=bar时生效
    */
   shaftFillOpacity?: number;
-
+  /**
+   * 最小值
+   */
   min?: (datum: Datum) => number;
+  /**
+   * 25%分位数
+   */
   q1?: (datum: Datum) => number;
+  /**
+   * 中位数
+   */
   median?: (datum: Datum) => number;
+  /**
+   * 75%分位数
+   */
   q3?: (datum: Datum) => number;
+  /**
+   * 最大值
+   */
   max?: (datum: Datum) => number;
 }
 
@@ -412,75 +620,171 @@ export interface ILiquidMarkSpec extends ICommonSpec {
 }
 
 export interface ILiquidOutlineSpec extends ISymbolMarkSpec {
+  /**
+   * 描边的宽度
+   */
   lineWidth: number;
 }
 
 export interface IOutlierMarkSpec {
-  //异常点填充颜色
+  /**
+   * 异常点填充颜色
+   */
   fill?: string;
-  //异常点大小
+  /**
+   * 异常点大小
+   */
   size?: number;
 }
 
 export interface IPathMarkSpec extends IFillMarkSpec {
   path?: string;
   // TODO: 该属性后续可能会删除，未定
-  // 平滑缩放，不然会发生跳变，在地图交互场景需要配置为true；常规path缩放不需要
+  /**
+   * 平滑缩放，不然会发生跳变，在地图交互场景需要配置为true；常规path缩放不需要
+   */
   smoothScale?: boolean;
 }
 
 export interface ILinkPathMarkSpec extends IFillMarkSpec {
+  /**
+   * 连边起点的x坐标
+   */
   x0?: number;
+  /**
+   * 连边起点的y坐标
+   */
   y0?: number;
+  /**
+   * 连边终点的x坐标
+   */
   x1?: number;
+  /**
+   * 连边终点的y坐标
+   */
   y1?: number;
+  /**
+   * 连边的厚度，也可以理解为宽度
+   */
   thickness?: number;
+  /**
+   * 连边的曲度，决定了连边的弯曲程度，取值范围为0-1，
+   * 0表示不弯曲，也就是直线
+   * 1表示最大的弯曲度，
+   * 默认值为0.5
+   */
   curvature?: number;
   /** round all the coordinates */
   round?: boolean;
   /** the ratio of normal style path */
   ratio?: number;
+  /**
+   * 对齐方式
+   */
   align?: 'start' | 'end' | 'center';
+  /**
+   * 连边的类型
+   *
+   */
   pathType?: 'line' | 'smooth' | 'polyline';
+  /**
+   * 是否展示终点的箭头
+   */
   endArrow?: boolean;
+  /**
+   * 是否展示起点的箭头
+   */
   startArrow?: boolean;
+  /**
+   * 背景线的样式，主要用于部分高亮的场景
+   */
   backgroundStyle?: any;
+  /**
+   * 连边的方向
+   */
   direction?: 'horizontal' | 'vertical' | 'LR' | 'RL' | 'TB' | 'BL' | 'radial';
 }
 
+/**
+ * arc图元的视觉通道配置
+ */
 export interface IArcMarkSpec extends IFillMarkSpec {
+  /**
+   * 圆弧的开始角度
+   */
   startAngle?: number;
+  /**
+   * 圆弧的结束角度
+   */
   endAngle?: number;
+  /**
+   * 间隙角度；间隔角度会转换为一个在两个相邻的弧之间的确定的线性距离，定义为 padRadius * | padAngle |
+   * 这个距离在弧的开始和结束处都是相等的；
+   * 间隔角度通常只应用于环形扇区（即当内半径大于 0）
+   */
   padAngle?: number;
 
+  /**
+   * 外径，既外半径
+   */
   outerRadius?: number;
+  /**
+   * 内径，既内半径
+   */
   innerRadius?: number;
+  /**
+   * 圆角
+   */
   cornerRadius?: number;
-
+  /**
+   * 内边距
+   */
   innerPadding?: number;
+  /**
+   * 外边距
+   */
   outerPadding?: number;
-
-  /** arc的中心点偏移距离 */
+  /**
+   * arc的中心点偏移距离，一般是通过在交互状态下设置这个属性来实现将扇区移出中心的一个效果
+   */
   centerOffset?: number;
-
-  /** arc 的 roundCap 属性，即圆角是否伸出 startAngle 和 endAngle 之外 */
+  /**
+   * arc 的 roundCap 属性，即圆角是否伸出 startAngle 和 endAngle 之外
+   */
   cap?: boolean | [boolean, boolean];
-  /** arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效 */
+  /**
+   * arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效
+   */
   autoCapConical?: boolean;
 }
 
 // 3d arc，有高度配置
 export interface IArc3dMarkSpec extends IArcMarkSpec {
+  /**
+   * 3d圆弧的高度
+   */
   height?: number;
 }
 
 export interface ICellMarkSpec extends ISymbolMarkSpec {
+  /**
+   * 内边距
+   */
   padding?: number | number[] | IPadding;
 }
 
 export interface IGroupMarkSpec extends IFillMarkSpec {
+  /**
+   * 是否开启裁剪
+   */
   clip?: boolean;
+  /**
+   * 宽度
+   */
   width?: number;
+  /**
+   * 高度
+   */
   height?: number;
   /**
    * 圆角配置。
@@ -491,17 +795,28 @@ export interface IGroupMarkSpec extends IFillMarkSpec {
 }
 
 export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
+  /**
+   * 顶点坐标
+   */
   points?: IPoint[];
   /**
    * 圆角配置，支持数组配置，数组的顺序同组成 polygon 的顺序对应
    */
   cornerRadius?: number | number[];
+  /**
+   * x方向的缩放比例，默认为1，即不进行缩放
+   */
   scaleX?: number;
+  /**
+   * y方向的缩放比例，默认为1，即不进行缩放
+   */
   scaleY?: number;
 }
 
 export interface IPyramid3dMarkSpec extends IPolygonMarkSpec {
-  // 只能有4个顶点
+  /**
+   * 3d金字塔顶点坐标，注意只能有4个顶点
+   */
   points?: IPoint[];
 }
 
@@ -517,36 +832,105 @@ export type ImageOriginType = 'top' | 'bottom';
  */
 export type GradientPropValue<T> = ValueType<T> | FunctionType<T>;
 export type GradientStop = {
+  /**
+   * 渐变色的偏移量，0-1的值
+   */
   offset: GradientPropValue<number>;
+  /**
+   * 渐变色的颜色
+   */
   color?: GradientPropValue<string>;
+  /**
+   * 渐变色的透明度
+   */
   opacity?: number;
 };
 export interface IGradientLinear {
+  /**
+   * 渐变色的起点x坐标，0-1的值，相对于图形包围盒x方向取值的比例值
+   */
   x0?: GradientPropValue<number>;
+  /**
+   * 渐变色的起点y坐标，0-1的值，相对于图形包围盒y方向取值的比例值
+   */
   y0?: GradientPropValue<number>;
+  /**
+   * 渐变色的终点x坐标，0-1的值，相对于图形包围盒x方向取值的比例值
+   */
   x1?: GradientPropValue<number>;
+  /**
+   * 渐变色的终点y坐标，0-1的值，相对于图形包围盒y方向取值的比例值
+   */
   y1?: GradientPropValue<number>;
+  /**
+   * 渐变色的颜色
+   */
   stops: GradientStop[];
+  /**
+   * 渐变色的类型设置为 'linear'，即线形渐变
+   */
   gradient: 'linear';
 }
 
 export interface IGradientRadial {
+  /**
+   * 径向渐变的起点的半径
+   */
   r0?: GradientPropValue<number>;
+  /**
+   * 径向渐变的起点的x坐标
+   */
   x0?: GradientPropValue<number>;
+  /**
+   * 径向渐变的起点的y坐标
+   */
   y0?: GradientPropValue<number>;
+  /**
+   * 径向渐变的终点的x坐标
+   */
   x1?: GradientPropValue<number>;
+  /**
+   * 径向渐变的终点的y坐标
+   */
   y1?: GradientPropValue<number>;
+  /**
+   * 径向渐变的终点的半径
+   */
   r1?: GradientPropValue<number>;
+  /**
+   * 渐变色的颜色
+   */
   stops: GradientStop[];
+  /**
+   * 渐变色的类型设置为 'radial'，即径向渐变
+   */
   gradient: 'radial';
 }
 
 export interface IGradientConical {
+  /**
+   * 锥形渐变的中心点x坐标
+   */
   x?: GradientPropValue<number>;
+  /**
+   * 锥形渐变的中心点y坐标
+   */
   y?: GradientPropValue<number>;
+  /**
+   * 锥形渐变的开始角度
+   */
   startAngle?: GradientPropValue<number>;
+  /**
+   * 锥形渐变的结束角度
+   */
   endAngle?: GradientPropValue<number>;
+  /**
+   * 锥形渐变的颜色
+   */
   stops: GradientStop[];
+  /**
+   * 渐变色的类型设置为 'conical'，即锥形渐变
+   */
   gradient: 'conical';
 }
 
@@ -579,10 +963,28 @@ export interface IImageMarkSpec extends IFillMarkSpec {
    * 2. 如果传入数组，则分别为 [上左, 上右, 下右, 下左]
    */
   cornerRadius?: number | number[];
+  /**
+   * 图片的宽度
+   */
   width?: number;
+  /**
+   * 图片的高度
+   */
   height?: number;
+  /**
+   * 当图片的宽度小于 width 时，图片的重复方式
+   */
   repeatX?: IRepeatType;
+  /**
+   * 当图片的高度小于 height 时，图片的重复方式
+   */
   repeatY?: IRepeatType;
+  /**
+   * 设置图片的内容，支持三种类型：
+   * 1. string类型，可以是图片资源的路径或者是svg 标签字符串
+   * 2. image 元素
+   * 3. canvas 元素
+   */
   image: string | HTMLImageElement | HTMLCanvasElement;
 }
 

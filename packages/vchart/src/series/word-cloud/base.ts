@@ -4,7 +4,6 @@ import { isNil, isObject, isValidNumber } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import { DEFAULT_DATA_INDEX, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
-import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
 import { isTrueBrowser } from '../../util/env';
@@ -35,8 +34,7 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { wordCloudSeriesMark } from './constant';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { Factory } from '../../core/factory';
-import type { IMark } from '../../mark/interface';
-import type { IRectMark } from '../../mark/rect';
+import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { LinearScale } from '@visactor/vscale';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
 
@@ -393,21 +391,24 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       padding: this._spec.word?.padding ?? DEFAULT_FONT_PADDING,
       fontFamily: isValid(this._spec.fontFamilyField)
         ? { field: this._spec.fontFamilyField }
-        : wordStyleSpec.fontFamily ?? this._defaultFontFamily,
+        : (wordStyleSpec.fontFamily ?? this._defaultFontFamily),
       // 为了保持和旧版逻辑一致，优先级如下： spec field > mark style > default (根据valueField映射)
       fontWeight: isValid(this._spec.fontWeightField)
         ? { field: this._spec.fontWeightField }
         : isValid(wordStyleSpec.fontWeight)
-        ? wordStyleSpec.fontWeight
-        : isValid(this._valueField)
-        ? this._calculateFontWeight
-        : 'normal',
+          ? wordStyleSpec.fontWeight
+          : isValid(this._valueField)
+            ? this._calculateFontWeight
+            : 'normal',
       fontStyle: isValid(this._spec.fontStyleField) ? { field: this._spec.fontStyleField } : wordStyleSpec.fontStyle
     };
   }
 
   protected _wordCloudTransformOption(): Object {
+    const wordCloudConfig = this._wordCloudConfig ?? {};
+
     return {
+      ...wordCloudConfig,
       ...this._getCommonTransformOptions(),
       // TIP: 非浏览器环境下，使用 fast 布局，否则会出现兼容问题
       layoutType: this._wordCloudConfig.layoutMode,
@@ -438,7 +439,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
       fillingFontFamily: isValid(wordCloudShapeConfig.fillingFontFamilyField)
         ? { field: wordCloudShapeConfig.fillingFontFamilyField }
-        : fillingWordStyleSpec.fontFamily ?? this._defaultFontFamily,
+        : (fillingWordStyleSpec.fontFamily ?? this._defaultFontFamily),
       fillingPadding: this._spec.fillingWord?.padding ?? DEFAULT_FONT_PADDING,
       fillingFontStyle: isValid(wordCloudShapeConfig.fillingFontStyleField)
         ? { field: wordCloudShapeConfig.fillingFontStyleField }

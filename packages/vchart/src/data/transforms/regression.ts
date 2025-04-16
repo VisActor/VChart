@@ -1,10 +1,6 @@
 import type { DataView } from '@visactor/vdataset';
 import { regression } from '../../util/math';
-
-export type IOptionRegr = {
-  fieldX: string;
-  fieldY: string;
-};
+import type { IOptionRegr } from './interface';
 
 export function markerRegression(_data: Array<DataView>, opt: IOptionRegr) {
   const data = _data[0].latestData;

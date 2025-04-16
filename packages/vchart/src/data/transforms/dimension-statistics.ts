@@ -4,6 +4,7 @@ import { couldBeValidNumber } from '../../util/type';
 import { mergeFields } from '../../util/data';
 import type { DataView } from '@visactor/vdataset';
 import type { Datum } from '../../typings';
+import type { IStatisticsOption, StatisticOperations } from './interface';
 
 const methods = {
   min: (arr: any[]) => {
@@ -32,19 +33,6 @@ const methods = {
     return res;
   }
 };
-
-export type StatisticOperations = Array<'max' | 'min' | 'values' | 'array-max' | 'array-min' | 'allValid'>;
-
-export interface IStatisticsOption {
-  fields: {
-    key: string;
-    operations: StatisticOperations;
-    filter?: (fv: any) => boolean;
-    customize?: { max: number; min: number } | any[];
-  }[];
-  // operations: Array<'max' | 'min' | 'values'>;
-  target?: 'parser' | 'latest';
-}
 
 /**
  * 聚合统计主要用于处理数据(诸如统计平均值,求和等),并返回计算后的数据结果
@@ -155,7 +143,7 @@ export const dimensionStatisticsOfSimpleData = (
       if (f.customize) {
         result[key][op] = f.customize;
       } else {
-        if (dataFieldInKey && dataFieldInKey.lockStatisticsByDomain && !isNil(dataFieldInKey.domain)) {
+        if (dataFieldInKey && dataFieldInKey.lockStatisticsByDomain === true && !isNil(dataFieldInKey.domain)) {
           if (op === 'values') {
             result[key][op] = dataFieldInKey.domain.slice();
             return;

@@ -80,7 +80,7 @@ describe('treemap chart test', () => {
         getSpecInfo: () => info
       } as any
     );
-    chart.created();
+    chart.created(transformer);
     chart.init();
 
     const series: TreemapSeries = chart.getAllSeries()[0] as TreemapSeries;

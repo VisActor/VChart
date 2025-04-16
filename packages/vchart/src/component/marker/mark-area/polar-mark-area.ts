@@ -1,5 +1,5 @@
 import { ComponentTypeEnum } from '../../interface/type';
-import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/aggregation';
+import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/interface';
 import { getMarkAreaProcessInfo, polarCoordinateLayout, polarLayout } from '../utils';
 import type { MarkArcAreaAttrs, MarkAreaAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
@@ -23,7 +23,7 @@ export class PolarMarkArea extends BaseMarkArea {
   static coordinateType = 'polar';
   coordinateType = 'polar' as CoordinateType;
 
-  protected declare _markerComponent: MarkArcAreaComponent;
+  declare protected _markerComponent: MarkArcAreaComponent;
 
   protected _newMarkAreaComponent(attr: MarkArcAreaAttrs | MarkAreaAttrs): MarkArcAreaComponent | MarkAreaComponent {
     const { doRadiusProcess, doAngleProcess, doRadAngProcess } = getMarkAreaProcessInfo(this._spec as any);

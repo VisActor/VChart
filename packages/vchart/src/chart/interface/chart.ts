@@ -1,6 +1,6 @@
 import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IView } from '@visactor/vgrammar-core';
+import type { IElement, IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
@@ -16,7 +16,7 @@ import type {
   IChartSpecTransformerOption,
   ILayoutParams
 } from './common';
-import type { IBoundsLike, IPadding } from '@visactor/vutils';
+import type { IBoundsLike, IPadding, Maybe } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
 import type {
   IRegionQuerier,
@@ -87,7 +87,7 @@ export interface IChart extends ICompilable {
   // update scale domain which in GlobalScale
   updateGlobalScaleDomain: () => void;
   //生命周期
-  created: () => void;
+  created: (transformer: Maybe<IChartSpecTransformer>) => void;
   init: () => void;
   onLayoutStart: (ctx: IChartLayoutOption) => void;
   onLayoutEnd: (ctx: IChartLayoutOption) => void;
@@ -210,6 +210,20 @@ export interface IChart extends ICompilable {
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   // setDimensionIndex
   setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
+  /**
+   * 根据数据筛选图元
+   * @since 1.13.9
+   */
+  filterGraphicsByDatum: (
+    datum: MaybeArray<Datum> | null,
+    opt?: {
+      filter?: (series: ISeries, mark: IMark) => boolean;
+      region?: IRegionQuerier;
+      getDatum?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => Datum;
+      callback?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => void;
+      regionCallback?: (pickElements: IElement[], r: IRegion) => void;
+    }
+  ) => IElement[];
 }
 
 export interface IChartSpecTransformer {

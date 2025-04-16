@@ -45,6 +45,9 @@ export interface IComponent extends ILayoutModel {
 
   // 清空，用于更新等场景
   clear: () => void;
+
+  // 数据
+  getDatum: (childGraphic?: IGraphic) => any | undefined;
 }
 
 export interface IComponentConstructor extends IModelConstructor {

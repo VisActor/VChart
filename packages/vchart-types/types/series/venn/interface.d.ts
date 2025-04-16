@@ -1,9 +1,10 @@
 import type { IArcMarkSpec, IPathMarkSpec } from '../../typings';
 import type { IMarkSpec, IMarkTheme, ISeriesSpec } from '../../typings/spec';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { VennAppearPreset, VennMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ILabelSpec } from '../../component';
+import type { ILabelSpec } from '../../component/label/interface';
+export type VennMark = 'circle' | 'overlap';
+export type VennAppearPreset = 'growIn' | 'fadeIn' | 'scaleIn';
 export interface IVennSeriesSpec extends ISeriesSpec, IAnimationSpec<VennMark, VennAppearPreset> {
     type: 'venn';
     categoryField?: string;

@@ -3,9 +3,15 @@ import type { ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IFormatMethod, IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IPositionedTextMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { RangeColumnAppearPreset } from './animation';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec } from '../../component/label/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import type { DirectionType } from '../../typings/space';
+
+export interface IRangeColumnAnimationParams {
+  direction: DirectionType;
+}
+
+export type RangeColumnAppearPreset = 'fadeIn' | 'grow';
 
 export const enum PositionEnum {
   middle = 'middle',

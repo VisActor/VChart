@@ -1,14 +1,12 @@
 import { Factory } from './../core/factory';
 import { BaseMark } from './base/base-mark';
 import type { IRippleMarkSpec } from '../typings/visual';
-import type { IMarkRaw, IMarkStyle } from './interface';
+import type { IMarkStyle, IRippleMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerRippleGlyph } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { IGroupMark } from '@visactor/vgrammar-core';
-
-export type IRippleMark = IMarkRaw<IRippleMarkSpec>;
 
 export class RippleMark extends BaseMark<IRippleMarkSpec> implements IRippleMark {
   static readonly type = MarkTypeEnum.ripple;

@@ -1,4 +1,4 @@
-import type { ICartesianCrosshairSpec, ICommonCrosshairSpec, ICrosshairCategoryFieldSpec, ICrosshairValueFieldSpec, IPolarCrosshairSpec } from '.';
+import type { ICartesianCrosshairSpec, ICommonCrosshairSpec, ICrosshairCategoryFieldSpec, ICrosshairValueFieldSpec, IPolarCrosshairSpec } from './spec';
 export interface ICrosshairTheme extends ICommonCrosshairSpec {
     bandField?: Partial<ICrosshairCategoryFieldSpec>;
     linearField?: Partial<ICrosshairValueFieldSpec>;

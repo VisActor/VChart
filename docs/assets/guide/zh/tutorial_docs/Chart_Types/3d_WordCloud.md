@@ -28,7 +28,6 @@
 ```javascript livedemo
 const spec = {
   type: 'wordCloud3d',
-  // 待申请新外网可访问的存储空间后更换
   maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/log.jpeg`,
   nameField: 'challenge_name',
   valueField: 'sum_count',

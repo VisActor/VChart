@@ -1,9 +1,8 @@
 import { PolarSeries } from '../polar/polar';
-import type { ICorrelationSeriesSpec } from './interface';
+import type { CorrelationAppearPreset, ICorrelationSeriesSpec } from './interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { correlationSeriesMark } from './constant';
-import type { ISymbolMark } from '../../mark/symbol';
 import { registerDataSetInstanceTransform, registerDataSetInstanceParser } from '../../data/register';
 import { correlation } from '../../data/transforms/correlation';
 import { correlationCenter } from '../../data/transforms/correlation-center';
@@ -21,19 +20,16 @@ import { AttributeLevel } from '../../constant/attribute';
 import { LayoutZIndex } from '../../constant/layout';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import type { IRippleMark } from '../../mark/ripple';
 // eslint-disable-next-line no-duplicate-imports
 import { registerRippleMark } from '../../mark/ripple';
-import type { ILabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant/correlation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { Factory } from '../../core/factory';
-import type { CorrelationAppearPreset } from './animation';
 // eslint-disable-next-line no-duplicate-imports
 import { registerCorrelationAnimation } from './animation';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { IMark } from '../../mark/interface';
+import type { ILabelMark, IMark, IRippleMark, ISymbolMark } from '../../mark/interface';
 import { CorrelationSeriesSpecTransformer } from './correlation-transformer';
 
 export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<

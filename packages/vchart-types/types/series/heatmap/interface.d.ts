@@ -2,10 +2,10 @@ import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/i
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IRectMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { HeatmapAppearPreset } from './animation';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec } from '../../component/label/interface';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
+export type HeatmapAppearPreset = 'fadeIn';
 type HeatmapMarks = 'cell' | 'background' | 'label';
 export interface IHeatmapSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<HeatmapMarks, HeatmapAppearPreset>, IMarkProgressiveConfig {
     type: 'heatmap';

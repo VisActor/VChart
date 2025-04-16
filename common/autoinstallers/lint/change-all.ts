@@ -32,7 +32,7 @@ function run() {
     message = lastCommitMessage;
   } else {
     try {
-      execSync(`echo ${message} | ${commitLintBinPath} --config ${commitLineConfigPath}`, {
+      execSync(`echo ${message} | "${commitLintBinPath}" --config "${commitLineConfigPath}"`, {
         stdio: 'inherit'
       });
     } catch (e) {

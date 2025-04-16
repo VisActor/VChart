@@ -1,4 +1,5 @@
 export * from './charts/ranking-bar/ranking-bar';
+export * from './charts/ranking-list/ranking-list';
 export * from './charts/conversion-funnel';
 export * from './charts/sequence-scatter-link/sequence-scatter-link';
 export * from './charts/sequence-scatter-kde/sequence-scatter-kde';

@@ -4,8 +4,7 @@ import { array, isArray, isNil, isValid, isObject, degreeToRadian, mixin } from 
 
 import type { IMarkSpec } from '../../typings/spec';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { ITextMark } from '../../mark/text';
-import type { IArcMark } from '../../mark/arc';
+import type { ITextMark, IArcMark } from '../../mark/interface';
 import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { ISunburstAnimationParams, SunburstAppearPreset } from './animation';
@@ -24,7 +23,7 @@ import { MarkTypeEnum } from '../../mark/interface/type';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
+import { DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
@@ -39,9 +38,10 @@ import { registerArcMark } from '../../mark/arc';
 import { registerTextMark } from '../../mark/text';
 import { sunburstSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { appendHierarchyFields } from '../util/hierarchy';
 
 export class SunburstSeries extends PolarSeries<any> {
-  protected declare _spec: ISunburstSeriesSpec;
+  declare protected _spec: ISunburstSeriesSpec;
 
   static readonly type: string = SeriesTypeEnum.sunburst;
   type = SeriesTypeEnum.sunburst;
@@ -203,25 +203,7 @@ export class SunburstSeries extends PolarSeries<any> {
   }
 
   getStatisticFields() {
-    const fields = super.getStatisticFields();
-    return fields.concat([
-      {
-        key: this._categoryField,
-        operations: ['values']
-      },
-      {
-        key: this._valueField,
-        operations: ['max', 'min']
-      },
-      {
-        key: DEFAULT_HIERARCHY_DEPTH,
-        operations: ['max', 'min', 'values']
-      },
-      {
-        key: DEFAULT_HIERARCHY_ROOT,
-        operations: ['values']
-      }
-    ]);
+    return appendHierarchyFields(super.getStatisticFields(), this._categoryField, this._valueField);
   }
 
   protected _addDataIndexAndKey() {
@@ -306,7 +288,7 @@ export class SunburstSeries extends PolarSeries<any> {
     this.setMarkStyle(
       this._labelMark,
       {
-        visible: d => {
+        visible: (d: Datum) => {
           // 自动隐藏密集标签逻辑.
           const labelAutoVisible = this._labelAutoVisible;
 
@@ -318,11 +300,11 @@ export class SunburstSeries extends PolarSeries<any> {
           }
           return this._spec.label.visible;
         },
-        x: d => d.label?.x + (isValid(this._offsetX) ? this._offsetX : 0),
-        y: d => d.label?.y + (isValid(this._offsetY) ? this._offsetY : 0),
-        textBaseline: d => d.label?.textBaseline,
-        textAlign: d => d.label?.textAlign,
-        angle: d => d.label?.angle ?? 0,
+        x: (d: Datum) => d.label?.x + (isValid(this._offsetX) ? this._offsetX : 0),
+        y: (d: Datum) => d.label?.y + (isValid(this._offsetY) ? this._offsetY : 0),
+        textBaseline: (d: Datum) => d.label?.textBaseline,
+        textAlign: (d: Datum) => d.label?.textAlign,
+        angle: (d: Datum) => d.label?.angle ?? 0,
         fontSize: 10,
         text: (d: Datum) => d.name
       },

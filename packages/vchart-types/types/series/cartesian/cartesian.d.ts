@@ -5,9 +5,9 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { DirectionType } from '../../typings/space';
 import type { Datum, StringOrNumber } from '../../typings';
-import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { ICartesianSeriesSpec } from './interface';
 import type { IAxisLocationCfg } from '../../component/axis';
+import type { StatisticOperations } from '../../data/transforms/interface';
 export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec> extends BaseSeries<T> implements ICartesianSeries {
     readonly coordinate: 'cartesian';
     protected _bandPosition: number;
@@ -31,7 +31,7 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     protected _specXField: string[];
     protected _specYField: string[];
     protected _direction: DirectionType;
-    get direction(): "horizontal" | "vertical";
+    get direction(): "vertical" | "horizontal";
     protected _scaleX: IBaseScale;
     get scaleX(): IBaseScale;
     setScaleX(s: IBaseScale): void;

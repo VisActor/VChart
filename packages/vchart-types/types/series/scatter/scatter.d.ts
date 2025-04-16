@@ -4,8 +4,7 @@ import type { IScatterSeriesSpec } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { ILabelMark } from '../../mark/label';
-import type { IMark } from '../../mark/interface';
+import type { ILabelMark, IMark } from '../../mark/interface';
 import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 export declare class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;

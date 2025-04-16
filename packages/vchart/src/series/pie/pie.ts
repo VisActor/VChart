@@ -21,22 +21,18 @@ import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
-import type { IMark, IMarkStyle } from '../../mark/interface';
+import type { IArcMark, IMark, IMarkStyle, IPathMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
-import type { IArcMark } from '../../mark/arc';
-import type { ITextMark } from '../../mark/text';
-import type { IPathMark } from '../../mark/path';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IPieOpt } from '../../data/transforms/pie';
 // eslint-disable-next-line no-duplicate-imports
 import { isDataEmpty, pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
 import { registerEmptyCircleAnimation, registerPieAnimation } from './animation/animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
-import type { IBasePieSeriesSpec, IPieSeriesSpec } from './interface';
+import type { IBasePieSeriesSpec, IPieAnimationParams, IPieSeriesSpec, PieAppearPreset } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
@@ -208,6 +204,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           dataView: false
         }
       ) as IArcMark;
+
+      this._emptyArcMark.setDepend(this._pieMark);
     }
   }
 
@@ -262,8 +260,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         {
           ...initialStyle,
           visible: () => {
-            const angleField = this.getAngleField()[0];
-            return isDataEmpty(this.getViewData().latestData, angleField, this._supportNegative);
+            const data = this.getViewData().latestData;
+            return !data || !data.length;
           }
         },
         'normal',

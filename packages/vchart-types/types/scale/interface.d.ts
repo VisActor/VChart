@@ -1,5 +1,5 @@
 import type { IBaseScale } from '@visactor/vscale';
-import type { StatisticOperations } from '../data/transforms/dimension-statistics';
+import type { StatisticOperations } from '../data/transforms/interface';
 import type { IChartSpec, IVisualScale, IVisualSpecScale } from '../typings';
 import type { IUpdateSpecResult } from '../model/interface';
 export interface IGlobalScale {

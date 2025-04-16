@@ -63,16 +63,18 @@ function breakScope(data: number[], points: number[], scopeType: 'count' | 'leng
   const res: [number, number][] = [];
   let acc = 0;
 
+  let resIndex = 0; // 因为有的结果会被剔除，所以要从 res 的真实索引上拿
   bins.forEach((bin, i) => {
     if (totalLength === 0) {
       res.push([0, i / bins.length - 1]);
     } else {
       const length = scopeType === 'count' ? bin.count : bin.max - bin.min;
-      const b0 = res[i - 1] ? res[i - 1][1] : 0;
+      const b0 = res[resIndex - 1] ? res[resIndex - 1][1] : 0;
       const b1 = i === bins.length - 1 ? 1 : Math.min((acc + length) / totalLength, 1);
 
       if (b0 === b1 && (b0 === 0 || b0 === 1)) {
       } else {
+        resIndex += 1;
         res.push([b0, b1]);
         acc += length;
       }

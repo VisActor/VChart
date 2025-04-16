@@ -2246,3 +2246,172 @@ describe('vchart updateSpec of different title', () => {
     });
   });
 });
+
+describe('vchart updateSpec of different indicator', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterAll(() => {
+    removeDom(container);
+    vchart.release();
+  });
+
+  it('should reMake when `visible` of indicator change to `false`', () => {
+    const spec = {
+      type: 'area',
+      data: [
+        {
+          id: 'area',
+          values: [
+            { x: '1990', y: 110, from: 'video ad' },
+            { x: '1995', y: 160, from: 'video ad' },
+            { x: '2000', y: 230, from: 'video ad' },
+            { x: '2005', y: 300, from: 'video ad' },
+            { x: '2010', y: 448, from: 'video ad' },
+            { x: '2015', y: 500, from: 'video ad' },
+            { x: '1990', y: 120, from: 'email marketing' },
+            { x: '1995', y: 150, from: 'email marketing' },
+            { x: '2000', y: 200, from: 'email marketing' },
+            { x: '2005', y: 210, from: 'email marketing' },
+            { x: '2010', y: 300, from: 'email marketing' },
+            { x: '2015', y: 320, from: 'email marketing' }
+          ]
+        }
+      ],
+      title: {
+        visible: true,
+        text: 'test'
+      },
+      xField: 'x',
+      yField: 'y',
+      seriesField: 'from',
+      indicator: {
+        title: {
+          visible: true,
+          style: {
+            text: 'bbb'
+          }
+        },
+        content: [
+          {
+            visible: true,
+            style: {
+              fontSize: 20,
+              text: '2222'
+            }
+          }
+        ]
+      }
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        indicator: {
+          ...spec.indicator,
+          visible: false
+        }
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      changeBackground: false,
+      change: true,
+      changeTheme: false,
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should reMake when `visible` of indicator change from `false` to `true`', () => {
+    const spec = {
+      type: 'area',
+      data: [
+        {
+          id: 'area',
+          values: [
+            { x: '1990', y: 110, from: 'video ad' },
+            { x: '1995', y: 160, from: 'video ad' },
+            { x: '2000', y: 230, from: 'video ad' },
+            { x: '2005', y: 300, from: 'video ad' },
+            { x: '2010', y: 448, from: 'video ad' },
+            { x: '2015', y: 500, from: 'video ad' },
+            { x: '1990', y: 120, from: 'email marketing' },
+            { x: '1995', y: 150, from: 'email marketing' },
+            { x: '2000', y: 200, from: 'email marketing' },
+            { x: '2005', y: 210, from: 'email marketing' },
+            { x: '2010', y: 300, from: 'email marketing' },
+            { x: '2015', y: 320, from: 'email marketing' }
+          ]
+        }
+      ],
+      title: {
+        visible: true,
+        text: 'test'
+      },
+      xField: 'x',
+      yField: 'y',
+      seriesField: 'from',
+      indicator: {
+        title: {
+          visible: false,
+          style: {
+            text: 'bbb'
+          }
+        },
+        content: [
+          {
+            visible: true,
+            style: {
+              fontSize: 20,
+              text: '2222'
+            }
+          }
+        ]
+      }
+    };
+    vchart = new VChart(spec, {
+      dom
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        indicator: {
+          ...spec.indicator,
+          visible: true
+        }
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      changeBackground: false,
+      change: true,
+      changeTheme: false,
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});

@@ -1694,6 +1694,48 @@
             "zh": "SVG 路径动画",
             "en": "SVG Motion Path Animation"
           }
+        },
+        {
+          "path": "pictogram-mall",
+          "title": {
+            "zh": "商场业态结构图",
+            "en": "Shopping Mall Tenant Layout"
+          }
+        },
+        {
+          "path": "pictogram-chinamap",
+          "title": {
+            "zh": "中国地图吃辣程度一览象形图 ",
+            "en": "Map of China eating spicy degree pictograph"
+          }
+        },
+        {
+          "path": "pictogram-heart",
+          "title": {
+            "zh": "心脏医学示意图",
+            "en": "Medical Schematic Diagram of the Heart"
+          }
+        },
+        {
+          "path": "pictogram-bagua",
+          "title": {
+            "zh": "太极八卦图",
+            "en": "Taiji Bagua Diagram"
+          }
+        },
+        {
+          "path": "pictogram-route-swimming",
+          "title": {
+            "zh": "SVG 路径游泳动画",
+            "en": "SVG Motion Path Swimming Animation"
+          }
+        },
+        {
+          "path": "pictogram-guwen",
+          "title": {
+            "zh": "古文识别图",
+            "en": "Ancient Chinese Text Recognition Diagram"
+          }
         }
       ]
     },
@@ -2885,6 +2927,13 @@
             "zh": "富文本标签",
             "en": "RichText Label"
           }
+        },
+        {
+          "path": "label-mark-tooltip",
+          "title": {
+            "zh": "标签触发图元 Tooltip",
+            "en": "Enable mark tooltip triggered by label"
+          }
         }
       ]
     },
@@ -3054,6 +3103,13 @@
             "zh": "业务漏斗图（柱状图模拟）",
             "en": "Business Funnel(Simulated with Bar)"
           }
+        },
+        {
+          "path": "pie-extension-icon",
+          "title": {
+            "zh": "饼图自定义Icon标记",
+            "en": "Pie Extension Icon"
+          }
         }
       ]
     },
@@ -3076,6 +3132,20 @@
           "title": {
             "zh": "带纹理的饼图",
             "en": "Pie Chart with Texture"
+          }
+        },
+        {
+          "path": "dynamic-texture-progress",
+          "title": {
+            "zh": "进度图的动态纹理",
+            "en": "Dynamic texture for progress chart"
+          }
+        },
+        {
+          "path": "dynamic-texture-bar",
+          "title": {
+            "zh": "柱状图的动态纹理",
+            "en": "Dynamic texture for bar chart"
           }
         }
       ]

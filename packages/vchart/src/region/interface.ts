@@ -1,4 +1,4 @@
-import type { IMark } from '../mark/interface';
+import type { IMark, IGroupMark } from '../mark/interface';
 import type { ILayoutModel, IModelConstructor, IModelOption, IModelSpecInfo } from '../model/interface';
 import type { ISeries, SeriesType } from '../series/interface';
 import type { CoordinateType } from '../typings/coordinate';
@@ -6,7 +6,6 @@ import type { IInteraction } from '../interaction/interface';
 import type { IProjectionSpec } from '../component/geo/interface';
 import type { ConvertToMarkStyleSpec, IRectMarkSpec } from '../typings/visual';
 import type { IAnimate } from '../animation/interface';
-import type { IGroupMark } from '../mark/group';
 import type { StringOrNumber } from '../typings';
 import type { ILayoutItemSpec } from '../layout/interface';
 
@@ -98,7 +97,13 @@ export interface IGeoRegionSpec extends IRegionSpec {
    * 缩放最大最小倍数限制
    */
   zoomLimit?: {
+    /**
+     * 最小缩放倍数
+     */
     min?: number;
+    /**
+     * 最大缩放倍数
+     */
     max?: number;
   };
 }

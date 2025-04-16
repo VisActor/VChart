@@ -3,7 +3,6 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { IChart } from '../chart/interface';
 import type { IModel } from '../model/interface';
 import type { IMark, MarkType } from '../mark/interface';
-import type { VChart } from '../core/vchart';
 import type { DimensionEventParams } from './events/dimension/interface';
 import type { Datum, IPoint, StringOrNumber } from '../typings';
 import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
@@ -148,13 +147,16 @@ export type EventParamsDefinition = {
     [key: string]: ExtendEventParam;
 };
 export interface IEventDispatcher {
-    globalInstance: VChart;
+    globalInstance: IVChart;
     register: <Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) => this;
     unregister: <Evt extends EventType>(eType: Evt, handler?: EventHandler<EventParamsDefinition[Evt]>) => this;
     dispatch: <Evt extends EventType>(eType: Evt, params?: EventParamsDefinition[Evt], level?: EventBubbleLevel) => this;
     clear: () => void;
     release: () => void;
-    prevent: <Evt extends EventType>(eType: Evt, except: EventCallback<EventParamsDefinition[Evt]>) => void;
+    prevent: <Evt extends EventType>(eType: Evt, except?: {
+        handler: EventCallback<EventParamsDefinition[Evt]>;
+        level: EventBubbleLevel;
+    }) => void;
     allow: <Evt extends EventType>(eType: Evt) => void;
 }
 export interface IEvent {
@@ -166,7 +168,10 @@ export interface IEvent {
         eventType: EventType;
         event: IComposedEvent;
     }>;
-    prevent: <Evt extends EventType>(eType: Evt, except: EventCallback<EventParamsDefinition[Evt]>) => void;
+    prevent: <Evt extends EventType>(eType: Evt, except?: {
+        handler: EventCallback<EventParamsDefinition[Evt]>;
+        level: EventBubbleLevel;
+    }) => void;
     allow: <Evt extends EventType>(eType: Evt) => void;
 }
 export interface IComposedEvent {

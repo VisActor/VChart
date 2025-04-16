@@ -50,9 +50,9 @@ export declare const graphicAttributeTransform: {
     path: (attributes: Record<string, any>) => {
         path: any;
         fillStrokeOrder: boolean;
+        fill: any;
         x: number;
         y: number;
-        fill: any;
         lineWidth: number;
         stroke: any;
     };

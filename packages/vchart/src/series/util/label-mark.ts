@@ -1,4 +1,4 @@
-import type { ITextMark } from '../../mark/text';
+import type { ITextMark } from '../../mark/interface';
 import type { DirectionType } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';

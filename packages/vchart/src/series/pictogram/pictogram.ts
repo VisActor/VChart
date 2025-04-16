@@ -1,36 +1,34 @@
 import { DataView } from '@visactor/vdataset';
 import type { SVGParsedElement, SVGParserResult } from '@visactor/vdataset';
-import { Factory, PanEventParam, ZoomEventParam } from '../../core';
+import type { PanEventParam, ZoomEventParam } from '../../core';
+import { Factory } from '../../core';
 import { GeoSeries } from '../geo/geo';
-import { ISeriesSeriesInfo, SeriesMarkMap, SeriesTypeEnum } from '../interface';
+import type { ISeriesSeriesInfo, SeriesMarkMap } from '../interface';
+import { SeriesTypeEnum } from '../interface';
 import type { IPictogramSeriesSpec } from './interface';
 import { PictogramSeriesMark } from './constant';
 import { getSVGSource, registerSVGSource, svgSourceMap, unregisterSVGSource } from './svg-source';
 import { SeriesData } from '../base/series-data';
 import { lookup } from '../../data/transforms/lookup';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { GroupMark } from '../../mark';
-import { IGroupMark } from '../../mark/group';
+import type { GroupMark } from '../../mark';
 import { shouldMarkDoMorph } from '../../animation/utils';
 import { AttributeLevel } from '../../constant/attribute';
 import { PictogramSeriesSpecTransformer } from './pictogram-transformer';
-import { Bounds, IMatrix, Matrix, isValid, merge } from '@visactor/vutils';
+import type { IMatrix } from '@visactor/vutils';
+import { Bounds, Matrix, isValid, merge } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
-import type { Group, IGraphic } from '@visactor/vrender-core';
+import type { Group } from '@visactor/vrender-core';
 import { VGRAMMAR_HOOK_EVENT } from '../../constant/event';
-import { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
-import {
-  EventType,
-  registerElementHighlightByGraphicName,
-  registerElementSelectByGraphicName
-} from '@visactor/vgrammar-core';
-import { IMark } from '../../mark/interface';
+import type { EventType } from '@visactor/vgrammar-core';
+import { registerElementHighlightByGraphicName, registerElementSelectByGraphicName } from '@visactor/vgrammar-core';
+import type { IGroupMark, IMark, ITextMark } from '../../mark/interface';
 import { PictogramSeriesTooltipHelper } from './tooltip-helper';
 import { graphicAttributeTransform, pictogram } from '../../data/transforms/pictogram';
 import type { IPoint } from '../../typings/coordinate';
-import { ITextMark } from '../../mark/text';
 
 export interface SVGParsedElementExtend extends SVGParsedElement {
   _finalAttributes: Record<string, any>;
@@ -48,6 +46,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
   protected _pictogramMark: GroupMark;
   protected _parsedSvgResult: SVGParserResult;
   private _labelMark: ITextMark;
+
+  private _idToMark: Map<string, IMark> = new Map();
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -105,8 +105,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
       : isMultiple
-      ? ['empty', 'self']
-      : ['empty', finalSelectSpec.trigger];
+        ? ['empty', 'self']
+        : ['empty', finalSelectSpec.trigger];
     return {
       type: 'element-select-by-graphic-name',
       seriesId: this.id,
@@ -151,7 +151,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
           skipBeforeLayouted: true,
           dataView: this._mapViewData.getDataView(),
           dataProductId: this._mapViewData.getProductId(),
-          parent: (this._pictogramMark.getMarkInUserId(parent?._uniqueId) as IGroupMark) ?? this._pictogramMark
+          parent: (this._idToMark.get(parent?._uniqueId) as IGroupMark) ?? this._pictogramMark
         },
         {
           morph: shouldMarkDoMorph(this._spec, PictogramSeries.mark.pictogram.name)
@@ -160,6 +160,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
       if (mark) {
         mark.setUserId(_uniqueId); // id 必须唯一，但无法控制 svg 中元素有重复 id， 这里做一个保护
+        this._idToMark.set(_uniqueId, mark);
         if (mark.type !== 'group') {
           mark.setMarkConfig({ graphicName: mark.name });
         }
@@ -203,10 +204,10 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     this.setMarkStyle(
       this._labelMark,
       {
-        visible: d => !!this._validElement(d as SVGParsedElementExtend),
-        x: d => this.dataToPosition(d, true)?.x,
-        y: d => this.dataToPosition(d, true)?.y,
-        text: d => d[this.nameField],
+        visible: (d: Datum) => !!this._validElement(d as SVGParsedElementExtend),
+        x: (d: Datum) => this.dataToPosition(d, true)?.x,
+        y: (d: Datum) => this.dataToPosition(d, true)?.y,
+        text: (d: Datum) => d[this.nameField],
         textAlign: 'center',
         textBaseline: 'middle'
       },
@@ -245,7 +246,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     }
     for (const element of elements) {
       const { _uniqueId, _finalAttributes: attributes } = element as SVGParsedElementExtend;
-      const mark = this._pictogramMark.getMarkInUserId(_uniqueId);
+      const mark = this._idToMark.get(_uniqueId);
       const valid = this._validElement(element);
       if (mark) {
         // 描边粗细跟随缩放倍数
@@ -477,6 +478,12 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
         shapeType: defaultShapeType
       } as ISeriesSeriesInfo;
     });
+  }
+
+  release(): void {
+    this._parsedSvgResult = null;
+    this._idToMark.clear();
+    this._idToMark = null;
   }
 }
 

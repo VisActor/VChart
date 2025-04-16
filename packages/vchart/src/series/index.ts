@@ -71,6 +71,10 @@ import type { ILiquidSeriesSpec } from './liquid/interface';
 import { LiquidSeries, registerLiquidSeries } from './liquid/liquid';
 import type { IVennSeriesSpec } from './venn/interface';
 import { VennSeries, registerVennSeries } from './venn/venn';
+import type { IMosaicSeriesSpec } from './mosaic/interface';
+import { MosaicSeries, registerMosaicSeries } from './mosaic/mosaic';
+import type { IPictogramSeriesSpec } from './pictogram/interface';
+import { PictogramSeries, registerPictogramSeries } from './pictogram/pictogram';
 
 import type { ISeries, ICartesianSeries, IPolarSeries, IGeoSeries } from './interface';
 
@@ -112,7 +116,9 @@ export {
   ProgressLikeSeries,
   CorrelationSeries,
   LiquidSeries,
-  VennSeries
+  VennSeries,
+  PictogramSeries,
+  MosaicSeries
 };
 
 export {
@@ -147,7 +153,9 @@ export {
   registerWordCloud3dSeries,
   registerWordCloudSeries,
   registerLiquidSeries,
-  registerVennSeries
+  registerVennSeries,
+  registerMosaicSeries,
+  registerPictogramSeries
 };
 
 export type {
@@ -191,7 +199,9 @@ export type {
   IWordCloudSeriesSpec,
   ICorrelationSeriesSpec,
   ILiquidSeriesSpec,
-  IVennSeriesSpec
+  IVennSeriesSpec,
+  IMosaicSeriesSpec,
+  IPictogramSeriesSpec
 };
 
 export * from './interface';

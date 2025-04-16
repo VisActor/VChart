@@ -6,36 +6,24 @@ export class TreemapChartSpecTransformer<
   T extends ITreemapChartSpec = ITreemapChartSpec
 > extends BaseChartSpecTransformer<AdaptiveSpec<T, 'data' | 'series'>> {
   protected _getDefaultSeriesSpec(spec: T): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
-      categoryField: spec.categoryField,
-      valueField: spec.valueField,
-
-      seriesField: spec.seriesField,
-
-      aspectRatio: spec.aspectRatio,
-      splitType: spec.splitType,
-      maxDepth: spec.maxDepth,
-      gapWidth: spec.gapWidth,
-      nodePadding: spec.nodePadding,
-      minVisibleArea: spec.minVisibleArea,
-      minChildrenVisibleArea: spec.minChildrenVisibleArea,
-      minChildrenVisibleSize: spec.minChildrenVisibleSize,
-
-      roam: spec.roam,
-      drill: spec.drill,
-      drillField: spec.drillField,
-
-      leaf: spec.leaf,
-      nonLeaf: spec.nonLeaf,
-      nonLeafLabel: spec.nonLeafLabel
-    };
-    const seriesType = this.seriesType;
-    if (seriesType) {
-      series.type = seriesType;
-      series[seriesType] = spec[seriesType];
-    }
-
+    const series: any = super._getDefaultSeriesSpec(spec, [
+      'categoryField',
+      'valueField',
+      'aspectRatio',
+      'splitType',
+      'maxDepth',
+      'gapWidth',
+      'nodePadding',
+      'minVisibleArea',
+      'minChildrenVisibleArea',
+      'minChildrenVisibleSize',
+      'roam',
+      'drill',
+      'drillField',
+      'leaf',
+      'nonLeaf',
+      'nonLeafLabel'
+    ]);
     return series;
   }
 

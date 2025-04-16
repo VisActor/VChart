@@ -9,7 +9,7 @@ import { type IComponentOption } from '../interface';
 import type { ISeries } from '../../series/interface';
 import type { ITransformOptions } from '@visactor/vdataset';
 import { DataView } from '@visactor/vdataset';
-import type { IComponentMark } from '../../mark/component';
+import type { IComponentMark } from '../../mark/interface/mark';
 export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> extends BaseComponent<T> implements IAxis {
     static specKey: string;
     specKey: string;
@@ -101,5 +101,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _tickTransformOption(): ITickDataOpt;
     addTransformToTickData(options: ITransformOptions, execute?: boolean): void;
     dataToPosition(values: any[]): number;
+    getDatum(childGraphic?: IGraphic): any;
 }
 export declare const registerAxis: () => void;

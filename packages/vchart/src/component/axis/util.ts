@@ -6,7 +6,6 @@ import { transformComponentStyle } from '../../util/style';
 import { isXAxis, isYAxis } from './cartesian/util/common';
 import { getComponentThemeFromOption } from '../util';
 import type { ITheme } from '../../theme';
-import { ISeries } from '../../series';
 import type { IAxisHelper } from './cartesian';
 import type { IPolarAxisHelper } from './polar';
 
@@ -73,13 +72,13 @@ export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, chart
     (type === 'band'
       ? getComponentThemeFromOption('axisBand', chartTheme)
       : (['linear', 'log', 'symlog'] as AxisType[]).includes(type)
-      ? getComponentThemeFromOption('axisLinear', chartTheme)
-      : {}) ?? {};
+        ? getComponentThemeFromOption('axisLinear', chartTheme)
+        : {}) ?? {};
   const axisTheme = isXAxis(orient)
     ? getComponentThemeFromOption('axisX', chartTheme)
     : isYAxis(orient)
-    ? getComponentThemeFromOption('axisY', chartTheme)
-    : getComponentThemeFromOption('axisZ', chartTheme);
+      ? getComponentThemeFromOption('axisY', chartTheme)
+      : getComponentThemeFromOption('axisZ', chartTheme);
   return mergeSpec({}, getComponentThemeFromOption('axis', chartTheme), axisTypeTheme, axisTheme);
 };
 
@@ -88,8 +87,8 @@ export const getPolarAxisTheme = (orient: IPolarOrientType, type: AxisType, char
     (type === 'band'
       ? getComponentThemeFromOption('axisBand', chartTheme)
       : type === 'linear'
-      ? getComponentThemeFromOption('axisLinear', chartTheme)
-      : {}) ?? {};
+        ? getComponentThemeFromOption('axisLinear', chartTheme)
+        : {}) ?? {};
   const axisTheme =
     orient === 'angle'
       ? getComponentThemeFromOption('axisAngle', chartTheme)

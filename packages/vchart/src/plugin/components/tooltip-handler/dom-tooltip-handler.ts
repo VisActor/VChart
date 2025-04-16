@@ -39,7 +39,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   };
   protected _rootDom?: HTMLElement;
   protected _tooltipActual?: ITooltipActual;
-  protected declare _container: Maybe<HTMLDivElement>;
+  declare protected _container: Maybe<HTMLDivElement>;
 
   /** 自定义 tooltip 的位置缓存 */
   protected _cacheCustomTooltipPosition: ILayoutPoint;
@@ -246,9 +246,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         const colName = colDiv.getAttribute('data-col');
 
         if (colName && columns.includes(colName)) {
+          const hideColumn = colName === 'shape' && content.every(c => !c.hasShape || !c.shapeType);
+
           setStyleToDom(colDiv, {
             ...(this._domStyle as any)[colName],
-            display: 'inline-block',
+            display: hideColumn ? 'none' : 'inline-block',
             verticalAlign: 'top'
           });
           const rows = [...(colDiv.children as any)] as HTMLElement[];
@@ -266,21 +268,30 @@ export class DomTooltipHandler extends BaseTooltipHandler {
               row.classList.add(`${TOOLTIP_PREFIX}-${colName}`);
               colDiv.appendChild(row);
             }
+            const styleByRow = {
+              ...rowStyle
+            };
+
+            if (index === content.length - 1) {
+              styleByRow.marginBottom = '0px';
+            }
+
+            styleByRow.display = entry.visible === false ? 'none' : 'block';
             // 每次更新，需要更新单元格的高度，防止同步高度的时候没有更新
-            let styleByRow = index === content.length - 1 ? { height: 'initial' } : { ...rowStyle, height: 'initial' };
+            styleByRow.height = 'initial';
 
             if (colName === 'key') {
               row.innerHTML = formatContent(entry.key);
               if (entry.keyStyle) {
-                styleByRow = { ...styleByRow, ...getTextStyle(entry.keyStyle) };
+                getTextStyle(entry.keyStyle, styleByRow);
               }
             } else if (colName === 'value') {
               row.innerHTML = formatContent(entry.value);
               if (entry.valueStyle) {
-                styleByRow = { ...styleByRow, ...getTextStyle(entry.valueStyle) };
+                getTextStyle(entry.valueStyle, styleByRow);
               }
             } else if (colName === 'shape') {
-              row.innerHTML = getSvgHtml(entry);
+              row.innerHTML = getSvgHtml(entry, `${this.id}_${index}`);
             }
 
             setStyleToDom(row, styleByRow);
@@ -294,9 +305,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width') {
     const rootDom = this._rootDom;
 
-    const contentDom = rootDom.children[rootDom.children.length - 1];
+    const contentDom = [...(rootDom.children as any)].find(child =>
+      child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)
+    );
 
-    if (contentDom.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)) {
+    if (contentDom) {
       const tooltipSpec = this._component.getSpec() as ITooltipSpec;
       const contentStyle: Partial<CSSStyleDeclaration> = {};
 
@@ -364,6 +377,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   reInit() {
     super.reInit();
     this._initStyle();
+    if (this._rootDom) {
+      setStyleToDom(this._rootDom, this._domStyle.panel);
+    }
+
+    if (this.getVisibility()) {
+      this._updateDomStringByCol(this._tooltipActual);
+      this._updateDomStyle('height');
+    }
   }
 
   protected _updatePosition({ x, y }: ITooltipPositionActual) {

@@ -1,10 +1,9 @@
 import { isValidScaleType } from '@visactor/vscale';
 import type { StateValueType } from '../../compile/mark';
 import type { ConvertToMarkStyleSpec, ILineLikeMarkSpec } from '../../typings/visual';
-import { isFunction, isNil, isValid } from '@visactor/vutils';
-import { BaseMark, ExChannelCall } from './base-mark';
-import type { IMarkOption, IMarkStyle, StyleConvert } from '../interface';
-import { Datum } from '../../typings';
+import { isFunction, isNil } from '@visactor/vutils';
+import { BaseMark } from './base-mark';
+import type { IMarkStyle } from '../interface';
 
 export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSpec> extends BaseMark<T> {
   protected abstract _getIgnoreAttributes(): string[];

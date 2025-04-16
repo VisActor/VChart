@@ -8,13 +8,12 @@ export class RoseLikeChartSpecTransformer<T extends IPolarChartSpec> extends Pol
   }
 
   protected _getDefaultSeriesSpec(spec: any): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
+    const series: any = super._getDefaultSeriesSpec(spec);
 
-      // 兼容旧版写法
-      categoryField: spec.categoryField || spec.angleField,
-      valueField: spec.valueField || spec.radiusField
-    };
+    // 兼容旧版写法
+    series.categoryField = spec.categoryField || spec.angleField;
+    series.valueField = spec.valueField || spec.radiusField;
+
     return series;
   }
 

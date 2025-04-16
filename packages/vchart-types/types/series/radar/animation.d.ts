@@ -1,18 +1,12 @@
 import type { Datum, IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
-import type { IPoint, Maybe } from '../../typings';
-export interface IRadarAnimationParams {
-    center: () => Maybe<IPoint>;
-    radius: () => number;
-    startAngle: number;
-}
-export type RadarAppearPreset = 'grow' | 'fadeIn' | 'clipIn';
+import type { IRadarAnimationParams, RadarAppearPreset } from './interface';
 export declare const radarFadeAnimation: (animationType: 'in' | 'out') => {
     type: string;
 };
 export declare const radarGrowAnimation: (params: IRadarAnimationParams, animationType: 'in' | 'out') => {
     type: string;
     options: () => {
-        center: IPoint;
+        center: import("../../typings").IPoint;
     };
 };
 export declare function radarPresetAnimation(params: IRadarAnimationParams, preset: RadarAppearPreset, animationType: 'in' | 'out'): {

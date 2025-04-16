@@ -299,7 +299,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
       delayType: spec.delayType,
-      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
+      delayTime: isValid(spec.delayType) ? (spec.delayTime ?? 30) : 0,
       realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,
@@ -328,7 +328,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         } else {
           isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
         }
-        this._component.setStatePointToData((state: number) => this._statePointToData(state));
+        this._component.setStatePointToData((state: number) => this.statePointToData(state));
 
         this._component.addEventListener('change', (e: any) => {
           const { start, end, tag } = e.detail;
@@ -351,8 +351,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
       this._start = start;
       this._end = end;
-      const startValue = this._statePointToData(start);
-      const endValue = this._statePointToData(end);
+      const startValue = this.statePointToData(start);
+      const endValue = this.statePointToData(end);
       const hasChange = isFunction(this._spec.updateDataAfterChange)
         ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
         : this._handleStateChange(startValue, endValue, tag);

@@ -56,6 +56,13 @@
                 "zh": "一份基础的 spec",
                 "en": "A Basic Spec"
               }
+            },
+            {
+              "path": "DeepSeek_With_Cursor",
+              "title": {
+                "zh": "Cursor+DeepSeek，快速上手属于你的 VChart 代码",
+                "en": "Cursor+DeepSeek: Quick Start to Your VChart Code"
+              }
             }
           ]
         },
@@ -837,6 +844,13 @@
               "title": {
                 "zh": "svg 插件",
                 "en": "svg plugin"
+              }
+            },
+            {
+              "path": "midscene",
+              "title": {
+                "zh": "使用 Midscene.js 通过AI简化测试",
+                "en": "Use Midscene.js to simplify testing with AI"
               }
             }
           ]

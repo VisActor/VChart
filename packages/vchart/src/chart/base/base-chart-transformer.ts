@@ -57,13 +57,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
   }
 
-  /**
-   * 转换 model spec。包含以下步骤：
-   * - model 层级的主题合并
-   * - model 层级的在初始化阶段的 spec 修改，如添加 label spec
-   */
-  transformModelSpec(chartSpec: T): IChartSpecInfo {
-    const transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
+  generateTransform(chartSpec: T, isRuntime?: boolean) {
+    return (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
       const { spec, specPath, specInfoPath, type } = specInfo;
       const transformer = new constructor.transformerConstructor({
         ...this._option,
@@ -71,13 +66,26 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       });
       // 调用 model 自己的 transformer 进行转换
       const transformResult = transformer.transformSpec(spec, chartSpec, chartSpecInfo);
-      setProperty(chartSpec, specPath, transformResult.spec);
-      setProperty(chartSpecInfo, specInfoPath ?? specPath, {
+      const chartSpecInfoValue = {
         ...specInfo,
         ...transformResult
-      });
+      };
+      if (isRuntime) {
+        chartSpecInfoValue.theme = transformer.getTheme(spec, chartSpec);
+      } else {
+        setProperty(chartSpec, specPath, transformResult.spec);
+      }
+      setProperty(chartSpecInfo, specInfoPath ?? specPath, chartSpecInfoValue);
     };
-    return this.createSpecInfo(chartSpec, transform);
+  }
+
+  /**
+   * 转换 model spec。包含以下步骤：
+   * - model 层级的主题合并
+   * - model 层级的在初始化阶段的 spec 修改，如添加 label spec
+   */
+  transformModelSpec(chartSpec: T): IChartSpecInfo {
+    return this.createSpecInfo(chartSpec, this.generateTransform(chartSpec, false));
   }
 
   /** 遍历图表 spec 中包含的所有的 model，进行 spec 转换并生成图表 spec info */
@@ -93,20 +101,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     ) => void
   ): IChartSpecInfo {
     if (!transform) {
-      transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
-        const { spec, specPath, specInfoPath, type } = specInfo;
-        const transformer = new constructor.transformerConstructor({
-          ...this._option,
-          type
-        });
-        const transformResult = transformer.transformSpec(spec, chartSpec, chartSpecInfo);
-
-        setProperty(chartSpecInfo, specInfoPath ?? specPath, {
-          ...specInfo,
-          ...transformResult,
-          theme: transformer.getTheme(spec, chartSpec)
-        });
-      };
+      transform = this.generateTransform(chartSpec, true);
     }
 
     const currentChartSpecInfo: IChartSpecInfo = {};
@@ -165,7 +160,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     return true;
   }
 
-  protected _getDefaultSeriesSpec(chartSpec: any) {
+  protected _getDefaultSeriesSpec(chartSpec: any, pickKeys?: string[], pickKeys2?: string[]) {
     const series: any = {
       dataKey: chartSpec.dataKey,
 
@@ -202,6 +197,23 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
       interactions: chartSpec.interactions
     };
+
+    const seriesType = this.seriesType;
+    if (seriesType) {
+      series.type = seriesType;
+      series[seriesType] = (chartSpec as any)[seriesType];
+    }
+
+    if (pickKeys && pickKeys.length) {
+      pickKeys.forEach(k => {
+        series[k] = chartSpec[k];
+      });
+    }
+    if (pickKeys2 && pickKeys2.length) {
+      pickKeys2.forEach(k => {
+        series[k] = chartSpec[k];
+      });
+    }
     return series;
   }
 
@@ -271,7 +283,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         polarAxis = cmp;
       } else if (cmp.type === ComponentTypeEnum.geoCoordinate) {
         geoCoordinate = cmp;
-      } else if (alwaysCheck || chartSpec[cmp.specKey ?? cmp.type]) {
+      } else if (alwaysCheck || (chartSpec as any)[cmp.specKey ?? cmp.type]) {
         if (cmp.type === ComponentTypeEnum.tooltip) {
           tooltip = cmp;
         } else {
@@ -340,7 +352,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
           if (!(k in s)) {
-            s[k] = defaultSeriesSpec[k];
+            (s as any)[k] = defaultSeriesSpec[k];
           }
         });
       });

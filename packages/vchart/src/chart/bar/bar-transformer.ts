@@ -1,4 +1,4 @@
-import { isArray, isNumber, isObject } from '@visactor/vutils';
+import { isObject } from '@visactor/vutils';
 import type { IBarSeriesSpec } from '../../series';
 import { CartesianChartSpecTransformer } from '../cartesian';
 import { setDefaultCrosshairForCartesianChart } from '../util';
@@ -7,18 +7,17 @@ import type { ICartesianBandAxisSpec } from '../../component';
 
 export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> extends CartesianChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-      barWidth: spec.barWidth,
-      barMaxWidth: spec.barMaxWidth,
-      barMinWidth: spec.barMinWidth,
-      barGapInGroup: spec.barGapInGroup,
-      barMinHeight: spec.barMinHeight,
-      sampling: spec.sampling,
-      samplingFactor: spec.samplingFactor,
-      barBackground: spec.barBackground,
-      stackCornerRadius: spec.stackCornerRadius
-    } as IBarSeriesSpec;
+    return super._getDefaultSeriesSpec(spec, [
+      'barWidth',
+      'barMaxWidth',
+      'barMinWidth',
+      'barGapInGroup',
+      'barMinHeight',
+      'sampling',
+      'samplingFactor',
+      'barBackground',
+      'stackCornerRadius'
+    ]) as IBarSeriesSpec;
   }
 
   transformSpec(spec: T): void {
@@ -38,7 +37,7 @@ export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> ex
     if (bandAxis && !bandAxis.bandSize && !bandAxis.maxBandSize && !bandAxis.minBandSize) {
       // 将 autoBandSize 应用在轴上
       if (!!spec.autoBandSize) {
-        const extend = isObject(spec.autoBandSize) ? spec.autoBandSize.extend ?? 0 : 0;
+        const extend = isObject(spec.autoBandSize) ? (spec.autoBandSize.extend ?? 0) : 0;
         const { barMaxWidth, barMinWidth, barWidth, barGapInGroup } = spec.series.find(
           series => series.type === 'bar'
         ) as IBarSeriesSpec;

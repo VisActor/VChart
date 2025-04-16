@@ -14,6 +14,7 @@ import type {
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, IBandAxisLayer, ITickCalculationCfg, StyleCallback } from './common';
 import type { IBaseScale } from '@visactor/vscale';
+import type { IVChart } from '../../../core';
 
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
@@ -141,7 +142,13 @@ export interface ILinearAxisSpec {
    * @description 当配置了 min和 max，该配置项失效
    */
   expand?: {
+    /**
+     * 轴范围扩展的最小比例
+     */
     min?: number;
+    /**
+     * 轴范围扩展的最大比例
+     */
     max?: number;
   };
 
@@ -266,7 +273,7 @@ export interface ITick extends IAxisItem<IRuleMarkSpec>, ITickCalculationCfg {
    * 用于 tick 的数据过滤
    * @since 1.1.0
    */
-  dataFilter?: (data: AxisItem[]) => AxisItem[];
+  dataFilter?: (data: AxisItem[], context: { vchart: IVChart }) => AxisItem[];
 }
 
 // 子刻度线配置
@@ -341,7 +348,7 @@ export interface ILabel extends IAxisItem<ITextMarkSpec> {
    * 用于 label 的数据过滤
    * @since 1.1.0
    */
-  dataFilter?: (data: AxisItem[], layer: number) => AxisItem[];
+  dataFilter?: (data: AxisItem[], layer: number, context: { vchart: IVChart }) => AxisItem[];
 }
 
 // 轴线配置
@@ -364,10 +371,9 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
    * */
   type?: 'text' | 'rich';
   /**
-   * 轴标题内容格式化函数
-   * @param text 原始标签文本值
-   * @param datum 图形数据
-   * @returns 格式化后的文本
+   * 轴标题内容，支持多种格式
+   * - 字符串或者数值
+   * - 字符串或者数值数组
    */
   text?: ITextMarkSpec['text'] | ReturnType<IRichTextFormatMethod<[]>>;
   /**

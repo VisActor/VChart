@@ -11,27 +11,18 @@ export class MapChartSpecTransformer<T extends IMapChartSpec = IMapChartSpec> ex
   }
 
   protected _getDefaultSeriesSpec(spec: IMapChartSpec): IMapSeriesSpec {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
-
-      type: spec.type,
-
-      nameField: spec.nameField,
-      valueField: spec.valueField,
-      seriesField: spec.seriesField,
-
-      map: spec.map,
-
-      nameProperty: spec.nameProperty,
-      centroidProperty: spec.centroidProperty,
-      nameMap: spec.nameMap,
-      area: spec.area,
-
-      defaultFillColor: spec.defaultFillColor,
-      showDefaultName: spec.showDefaultName
-    };
-
-    return series;
+    return super._getDefaultSeriesSpec(spec, [
+      'type',
+      'nameField',
+      'valueField',
+      'map',
+      'nameProperty',
+      'centroidProperty',
+      'nameMap',
+      'area',
+      'defaultFillColor',
+      'showDefaultName'
+    ]);
   }
 
   transformSpec(spec: T): void {
@@ -41,20 +32,6 @@ export class MapChartSpecTransformer<T extends IMapChartSpec = IMapChartSpec> ex
       r.coordinate = 'geo';
     });
 
-    const defaultSeriesSpec = this._getDefaultSeriesSpec(spec);
-    if (!spec.series || spec.series.length === 0) {
-      spec.series = [defaultSeriesSpec];
-    } else {
-      spec.series.forEach((s: ISeriesSpec) => {
-        if (!this._isValidSeries(s.type)) {
-          return;
-        }
-        Object.keys(defaultSeriesSpec).forEach(k => {
-          if (!(k in s)) {
-            s[k] = defaultSeriesSpec[k];
-          }
-        });
-      });
-    }
+    super.transformSeriesSpec(spec);
   }
 }

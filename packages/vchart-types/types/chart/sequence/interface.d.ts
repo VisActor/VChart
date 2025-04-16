@@ -1,6 +1,7 @@
 import type { IChartSpec, ISeriesSpec } from '../../typings/spec/common';
 import type { ICartesianAxisSpec } from '../../component/axis/cartesian/interface';
-import type { IDataZoomSpec, IScrollBarSpec } from '../../component/data-zoom';
+import type { IDataZoomSpec } from '../../component/data-zoom/data-zoom/interface';
+import type { IScrollBarSpec } from '../../component/data-zoom/scroll-bar/interface';
 import type { ICartesianCrosshairSpec } from '../../component/crosshair/interface';
 import type { ILayoutSpec } from '../../layout/interface';
 import type { RegionSpec } from '../../region/interface';

@@ -1,5 +1,4 @@
-import type { Compiler } from './compiler';
-import type { ICompilableInitOption, ICompilable } from './interface';
+import type { ICompilableInitOption, ICompilable, ICompiler } from './interface';
 
 /** 可以编译的类的统一基类 */
 export abstract class CompilableBase implements ICompilable {
@@ -8,7 +7,7 @@ export abstract class CompilableBase implements ICompilable {
     return this._option;
   }
 
-  getCompiler: () => Compiler;
+  getCompiler: () => ICompiler;
 
   constructor(option: ICompilableInitOption) {
     this._option = option;

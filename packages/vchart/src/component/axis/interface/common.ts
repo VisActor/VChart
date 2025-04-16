@@ -1,4 +1,4 @@
-import type { ContinuousScale, IBaseScale, CustomTicksFunc } from '@visactor/vscale';
+import type { IContinuousScale, IBaseScale, CustomTicksFunc } from '@visactor/vscale';
 import type { CoordinateType, Datum, IPolarOrientType, StringOrNumber } from '../../../typings';
 import type { IComponent } from '../../interface/common';
 import type { ICartesianAxisSpec } from '../cartesian/interface';
@@ -22,12 +22,24 @@ export interface IAxis extends IComponent {
 }
 
 export interface IAxisItem<T> {
+  /**
+   * 是否显示
+   */
   visible?: boolean;
+  /**
+   * 样式配置
+   */
   style?: Omit<T, 'visible'>;
 }
 
 export interface IAxisItemTheme<T> {
+  /**
+   * 是否显示
+   */
   visible?: boolean;
+  /**
+   * 主题样式配置
+   */
   style?: Omit<T, 'visible'>;
 }
 export type AxisAnimationPreset = 'groupFadeIn' | 'fadeIn' | 'grow';
@@ -72,7 +84,7 @@ export interface ITickCalculationCfg {
    * @since 1.3.0
    *
    * @typedef {function} CustomTicksFunc
-   * @param {ContinuousScale} scale - 连续轴的比例尺对象
+   * @param {IContinuousScale} scale - 连续轴的比例尺对象
    * @param {number} tickCount - 生成tick的数量
    * @returns {number[]} - 生成的 tick 数组
    * @since 1.12.0
@@ -85,7 +97,7 @@ export interface ITickCalculationCfg {
    *   return Array.from({ length: tickCount }, (_, i) => domain[0] + i * step);
    * };
    */
-  tickMode?: 'average' | 'd3' | CustomTicksFunc<ContinuousScale>;
+  tickMode?: 'average' | 'd3' | CustomTicksFunc<IContinuousScale>;
   /**
    * 连续轴，是否避免小数 tick。
    * @default false

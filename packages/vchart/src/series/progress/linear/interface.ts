@@ -4,12 +4,17 @@ import type { IMarkSpec, IMarkTheme } from '../../../typings/spec/common';
 import type { IRectMarkSpec } from '../../../typings/visual';
 import type { SeriesMarkNameEnum } from '../../interface/type';
 import type { IProgressSeriesSpec } from '../interface';
-import type { LinearProgressAppearPreset } from './animation';
+
+export interface ILinearProgressAnimationParams {
+  direction: DirectionType;
+}
+
+export type LinearProgressAppearPreset = 'grow' | 'fadeIn';
 
 export interface ILinearProgressSeriesSpec
   extends IProgressSeriesSpec,
     // TODO: 补充MarkName类型 @liupei
-    IAnimationSpec<string, LinearProgressAppearPreset> {
+    IAnimationSpec<SeriesMarkNameEnum.progress | SeriesMarkNameEnum.track, LinearProgressAppearPreset> {
   type: 'linearProgress';
   /**
    * coordinate: 'cartesian'
@@ -54,7 +59,17 @@ export interface ILinearProgressSeriesSpec
 }
 
 export interface ILinearProgressSeriesTheme {
+  /**
+   * 进度条宽度
+   * 以像素值(px)为单位
+   */
   bandWidth?: number;
+  /**
+   * 进度条样式
+   */
   [SeriesMarkNameEnum.progress]?: Partial<IMarkTheme<IRectMarkSpec>>;
+  /**
+   * 背景条样式
+   */
   [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IRectMarkSpec>>;
 }

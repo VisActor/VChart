@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-duplicate-imports
-import type { ITickDataOpt } from '@visactor/vrender-components';
+import type { ITickDataOpt, AxisItem } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import type { IGroup, IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type {
   IOrientType,
@@ -24,7 +24,6 @@ import type { ISeries } from '../../series/interface';
 import { ChartEvent } from '../../constant/event';
 import { LayoutZIndex } from '../../constant/layout';
 import { animationConfig } from '../../animation/utils';
-import type { LooseFunction } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import {
   degreeToRadian,
@@ -33,7 +32,6 @@ import {
   array,
   get,
   isArray,
-  isBoolean,
   isFunction,
   isNil,
   isValid,
@@ -45,17 +43,17 @@ import type { ITransformOptions } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataView } from '@visactor/vdataset';
 import { GridEnum } from '@visactor/vgrammar-core';
-import type { IComponentMark } from '../../mark/component';
 // eslint-disable-next-line no-duplicate-imports
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupTransition } from '@visactor/vrender-components';
+import { AXIS_ELEMENT_NAME, GroupTransition } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-core';
 import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';
+import type { IComponentMark } from '../../mark/interface/mark';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -490,6 +488,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       if (spec.label.state) {
         axisAttrs.label.state = transformAxisLabelStateStyle(spec.label.state);
       }
+      if (isFunction(spec.label.dataFilter)) {
+        axisAttrs.label.dataFilter = (data: AxisItem[], layer: number) =>
+          spec.label.dataFilter(data, layer, { vchart: this._option.globalInstance });
+      }
     } else {
       axisAttrs.label = {
         visible: false
@@ -502,7 +504,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         length: spec.tick.tickSize,
         inside: spec.tick.inside,
         alignWithLabel: spec.tick.alignWithLabel,
-        dataFilter: spec.tick.dataFilter
+        dataFilter: isFunction(spec.tick.dataFilter)
+          ? (data: AxisItem[]) => spec.tick.dataFilter(data, { vchart: this._option.globalInstance })
+          : undefined
       };
       if (spec.tick.style) {
         axisAttrs.tick.style = isFunction(spec.tick.style)
@@ -561,7 +565,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         // 处理纵轴的标题样式
         if (autoRotate && isNil(titleAngle)) {
           titleAngle = spec.orient === 'left' ? -90 : 90;
-          titleTextStyle = DEFAULT_TITLE_STYLE[spec.orient];
+          titleTextStyle = (DEFAULT_TITLE_STYLE as any)[spec.orient];
         }
       }
 
@@ -705,6 +709,16 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   dataToPosition(values: any[]): number {
     return this._scale.scale(values);
+  }
+
+  getDatum(childGraphic?: IGraphic) {
+    if (childGraphic && childGraphic.name === AXIS_ELEMENT_NAME.label) {
+      return childGraphic.data;
+    }
+
+    if (this._axisMark) {
+      return this._axisMark.getProduct()?.getGroupGraphicItem()?.attribute.items;
+    }
   }
 }
 

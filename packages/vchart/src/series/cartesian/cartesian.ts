@@ -18,13 +18,13 @@ import type { Datum, StringOrNumber } from '../../typings';
 import { array, isValid } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { ICartesianSeriesSpec } from './interface';
 import { sortDataInAxisHelper } from '../util/utils';
 import type { IAxisLocationCfg } from '../../component/axis';
 import { ComponentTypeEnum } from '../../component/interface/type';
 import { ChartEvent } from '../../constant/event';
 import { PREFIX } from '../../constant/base';
+import type { StatisticOperations } from '../../data/transforms/interface';
 
 export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec>
   extends BaseSeries<T>

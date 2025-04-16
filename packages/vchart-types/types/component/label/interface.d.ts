@@ -1,12 +1,24 @@
-import type { BaseLabelAttrs } from '@visactor/vrender-components';
+import type { BaseLabelAttrs, DataLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, Datum, IComposedTextMarkSpec, IFormatMethod, ITextMarkSpec } from '../../typings';
-import type { IComponentSpec } from '../base/interface';
-import type { ILabelMark } from '../../mark/label';
-import type { ISeries } from '../../series';
+import type { ILabelMark } from '../../mark/interface';
+import type { ISeries } from '../../series/interface';
+import type { ICompilableMark } from '../../compile/mark/interface';
+import type { IRegion } from '../../region/interface';
+export interface ILabelInfo {
+    baseMark: ICompilableMark;
+    labelMark: ILabelMark;
+    series: ISeries;
+    labelSpec: TransformedLabelSpec;
+}
+export interface ILabelComponentContext {
+    region: IRegion;
+    labelInfo: ILabelInfo[];
+}
 export interface ILabelFormatMethodContext {
     series?: ISeries;
 }
-export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
+export interface ILabelSpec extends ILabelAnimationSpec {
+    zIndex?: number;
     visible?: boolean;
     interactive?: boolean;
     textType?: 'text' | 'rich';
@@ -16,15 +28,19 @@ export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
     position?: string;
     style?: ConvertToMarkStyleSpec<IComposedTextMarkSpec>;
     state?: LabelStateStyle<Partial<IComposedTextMarkSpec>>;
-    overlap?: BaseLabelAttrs['overlap'];
+    overlap?: BaseLabelAttrs['overlap'] & {
+        padding?: DataLabelAttrs['size']['padding'];
+    };
     smartInvert?: BaseLabelAttrs['smartInvert'];
     stackDataFilterType?: 'min' | 'max';
     dataFilter?: BaseLabelAttrs['dataFilter'];
     customLayoutFunc?: BaseLabelAttrs['customLayoutFunc'];
     customOverlapFunc?: BaseLabelAttrs['customOverlapFunc'];
+    onAfterOverlapping?: BaseLabelAttrs['onAfterOverlapping'];
     labelLayout?: 'series' | 'region';
     support3d?: boolean;
     syncState?: boolean;
+    showRelatedMarkTooltip?: boolean;
 }
 export type ILabelAnimationSpec = Pick<BaseLabelAttrs, 'animation' | 'animationEnter' | 'animationUpdate' | 'animationExit'>;
 export type IMultiLabelSpec<T extends Omit<ILabelSpec, 'position'>> = T | T[];
@@ -34,7 +50,10 @@ type LabelStateStyle<T> = {
     selected?: T;
     selected_reverse?: T;
 };
-export type ITotalLabelSpec = Pick<ILabelSpec, 'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType' | 'overlap'>;
+export type ITotalLabelSpec = Pick<ILabelSpec, 'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType' | 'overlap'> & {
+    position?: 'top' | 'bottom';
+    alwayCalculateTotal?: boolean;
+};
 export interface ITotalLabelTheme extends Pick<ILabelSpec, 'visible' | 'interactive' | 'offset' | 'overlap' | 'smartInvert' | 'animation'> {
     style?: ITextMarkSpec;
 }

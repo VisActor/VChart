@@ -7,22 +7,20 @@ import type { IChart, IChartLayoutOption, IChartRenderOption, IChartOption, ICha
 import type { ISeries, ISeriesConstructor } from '../../series/interface';
 import type { IRegion } from '../../region/interface';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IRectMark } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import type { IParserOptions } from '@visactor/vdataset';
-import type { IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike, Maybe } from '@visactor/vutils';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IGlobalScale } from '../../scale/interface';
-import type { IRectMark } from '../../mark/rect';
 export declare class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
     readonly type: string;
     readonly seriesType: string;
     readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
     readonly id: number;
-    protected _transformer: IChartSpecTransformer;
     protected _spec: T;
     getSpec(): T;
     setSpec(s: T): void;
@@ -55,7 +53,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     protected _canvasRect: ILayoutRect;
     protected _backgroundMark: IRectMark;
     constructor(spec: T, option: IChartOption);
-    created(): void;
+    created(transformer: Maybe<IChartSpecTransformer>): void;
     init(): void;
     reDataFlow(): void;
     onResize(width: number, height: number, reRender?: boolean): void;

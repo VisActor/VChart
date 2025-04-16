@@ -2,9 +2,9 @@ import { BarSeries } from '../bar/bar';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { ITextMark } from '../../mark/text';
 import type { Datum } from '../../typings';
 import type { IRangeColumnSeriesSpec } from './interface';
+import type { ITextMark } from '../../mark/interface';
 export declare const DefaultBandWidth = 6;
 export declare class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSeriesSpec> extends BarSeries<any> {
     static readonly type: string;
@@ -20,6 +20,7 @@ export declare class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRange
     private _labelMark?;
     initMark(): void;
     initMarkStyle(): void;
+    _initLabelMarkPos(labelMark: ITextMark, labelSpec: IRangeColumnSeriesSpec['label']['minLabel'], fieldIndex: number, defaultPosition: string): void;
     initLabelMarkStyle(labelMark: ITextMark): void;
     protected _dataToPosX(datum: Datum): number;
     protected _dataToPosX1(datum: Datum): number;

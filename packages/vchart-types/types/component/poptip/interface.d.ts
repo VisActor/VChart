@@ -1,6 +1,6 @@
 import type { PopTipAttributes } from '@visactor/vrender-components';
 import type { IColorKey } from '../../theme/color-scheme/interface';
-import type { ITokenKey } from '../../theme/token';
+import type { ITokenKey } from '../../theme/token/interface';
 export interface IPoptipTheme extends Omit<PopTipAttributes, 'titleStyle' | 'contentStyle' | 'panel'> {
     titleStyle?: Partial<Omit<PopTipAttributes['titleStyle'], 'fill' | 'fontSize'>> & {
         fill?: PopTipAttributes['titleStyle']['fill'] | IColorKey;

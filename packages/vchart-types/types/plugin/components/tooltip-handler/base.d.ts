@@ -1,7 +1,6 @@
 import type { Maybe, RenderMode } from '../../../typings';
 import type { TooltipData, ITooltipActual, TooltipActiveType, ITooltipHandler, ITooltipPositionActual } from '../../../typings/tooltip';
 import type { IGroup } from '@visactor/vrender-core';
-import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IChartOption } from '../../../chart/interface';
 import type { ITooltipSpec, Tooltip, TooltipHandlerParams } from '../../../component/tooltip';
@@ -9,6 +8,7 @@ import { TooltipResult } from '../../../component/tooltip';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
 import type { ITooltipHandlerOptions } from './interface';
+import type { ICompiler } from '../../../compile/interface/compilable-item';
 type ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, data?: TooltipData) => TooltipResult;
 type ChangeTooltipPositionFunc = (params: TooltipHandlerParams, data: TooltipData) => TooltipResult;
 export declare abstract class BaseTooltipHandler extends BasePlugin implements ITooltipHandler, IComponentPlugin {
@@ -19,10 +19,10 @@ export declare abstract class BaseTooltipHandler extends BasePlugin implements I
     protected _option: ITooltipHandlerOptions;
     protected _chartOption: IChartOption;
     protected _env: RenderMode;
-    get env(): "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
+    get env(): "node" | "desktop-browser" | "mobile-browser" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
     protected _component: Tooltip;
     protected _chartContainer: Maybe<HTMLElement>;
-    protected _compiler: Compiler;
+    protected _compiler: ICompiler;
     protected _container: Maybe<IGroup | HTMLElement>;
     protected _isReleased: boolean;
     onAdd(service: IComponentPluginService<any>): void;

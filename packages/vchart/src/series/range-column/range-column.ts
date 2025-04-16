@@ -4,10 +4,8 @@ import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
-import type { IRectMark } from '../../mark/rect';
 // eslint-disable-next-line no-duplicate-imports
 import { registerRectMark } from '../../mark/rect';
-import type { ITextMark } from '../../mark/text';
 // eslint-disable-next-line no-duplicate-imports
 import { registerTextMark } from '../../mark/text';
 import { setRectLabelPos } from '../util/label-mark';
@@ -19,7 +17,7 @@ import type { IRangeColumnSeriesSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PositionEnum } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { RangeColumnAppearPreset } from './animation';
+import type { RangeColumnAppearPreset } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { registerRangeColumnAnimation } from './animation';
 import { rangeColumnSeriesMark } from './constant';
@@ -27,6 +25,7 @@ import { Factory } from '../../core/factory';
 import { getGroupAnimationParams } from '../util/utils';
 import { RangeColumnSeriesSpecTransformer } from './range-column-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import type { IRectMark, ITextMark } from '../../mark/interface';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -36,7 +35,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
   protected _barName: string = SeriesTypeEnum.bar;
 
-  protected declare _spec: T;
+  declare protected _spec: T;
 
   static readonly mark: SeriesMarkMap = rangeColumnSeriesMark;
   static readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
@@ -80,65 +79,35 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
   initMarkStyle(): void {
     super.initMarkStyle();
+    this._initLabelMarkPos(this._minLabelMark, this._spec.label?.minLabel, 0, 'end');
+    this._initLabelMarkPos(this._maxLabelMark, this._spec.label?.maxLabel, 1, 'start');
+  }
 
-    const minLabelMark = this._minLabelMark;
-    const minLabelSpec = this._spec.label?.minLabel;
-    if (minLabelMark) {
-      this.setMarkStyle(minLabelMark, {
-        fill: minLabelSpec?.style?.fill ?? this.getColorAttribute(),
+  _initLabelMarkPos(
+    labelMark: ITextMark,
+    labelSpec: IRangeColumnSeriesSpec['label']['minLabel'],
+    fieldIndex: number,
+    defaultPosition: string
+  ): void {
+    if (labelMark) {
+      this.setMarkStyle(labelMark, {
+        fill: labelSpec?.style?.fill ?? this.getColorAttribute(),
         text: (datum: Datum) => {
-          const min =
-            this._spec.direction === Direction.horizontal ? datum[this._spec.xField[0]] : datum[this._spec.yField[0]];
-          if (minLabelSpec?.formatMethod) {
-            return minLabelSpec.formatMethod(min, datum);
+          const val =
+            this._spec.direction === Direction.horizontal
+              ? datum[this._spec.xField[fieldIndex]]
+              : datum[this._spec.yField[fieldIndex]];
+          if (labelSpec?.formatMethod) {
+            return labelSpec.formatMethod(val, datum);
           }
-          return min;
+          return val;
         }
       });
-      const position = minLabelSpec?.position ?? 'end';
-      const offset = minLabelSpec?.offset ?? (this._direction === 'vertical' ? -20 : -25);
+      const position = labelSpec?.position ?? defaultPosition;
+      const offset = labelSpec?.offset ?? (this._direction === 'vertical' ? -20 : -25);
       setRectLabelPos(
         this,
-        minLabelMark,
-        position,
-        offset,
-        (datum: Datum) => this._barMark.getAttribute('x', datum) as number,
-        (datum: Datum) => {
-          return this._direction === 'vertical'
-            ? (this._barMark.getAttribute('x', datum) as number) +
-                (this._barMark.getAttribute('width', datum) as number)
-            : (this._barMark.getAttribute('x1', datum) as number);
-        },
-        (datum: Datum) => this._barMark.getAttribute('y', datum) as number,
-        (datum: Datum) => {
-          return this._direction === 'vertical'
-            ? (this._barMark.getAttribute('y1', datum) as number)
-            : (this._barMark.getAttribute('y', datum) as number) +
-                (this._barMark.getAttribute('height', datum) as number);
-        },
-        () => this._direction
-      );
-    }
-
-    const maxLabelMark = this._maxLabelMark;
-    const maxLabelSpec = this._spec.label?.maxLabel;
-    if (maxLabelMark) {
-      this.setMarkStyle(maxLabelMark, {
-        fill: maxLabelSpec?.style?.fill ?? this.getColorAttribute(),
-        text: (datum: Datum) => {
-          const max =
-            this._spec.direction === Direction.horizontal ? datum[this._spec.xField[1]] : datum[this._spec.yField[1]];
-          if (maxLabelSpec?.formatMethod) {
-            return maxLabelSpec.formatMethod(max, datum);
-          }
-          return max;
-        }
-      });
-      const position = maxLabelSpec?.position ?? 'start';
-      const offset = maxLabelSpec?.offset ?? (this._direction === 'vertical' ? -20 : -25);
-      setRectLabelPos(
-        this,
-        maxLabelMark,
+        labelMark,
         position,
         offset,
         (datum: Datum) => this._barMark.getAttribute('x', datum) as number,

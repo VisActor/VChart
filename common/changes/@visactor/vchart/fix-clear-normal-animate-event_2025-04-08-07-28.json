@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: clear event listener for normal animation when updateSpec, #3881",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

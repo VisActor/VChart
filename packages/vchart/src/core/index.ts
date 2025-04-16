@@ -36,4 +36,14 @@ export * from '../typings/tooltip';
 export * from '../theme/index';
 
 // vrender
-export { vglobal } from '@visactor/vrender-core';
+export {
+  vglobal,
+  createGroup,
+  createRichText,
+  createText,
+  createArc,
+  createArea,
+  createRect,
+  createLine,
+  createSymbol
+} from '@visactor/vrender-core';

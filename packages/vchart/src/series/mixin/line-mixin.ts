@@ -5,30 +5,24 @@ import { ChartEvent } from '../../constant/event';
 import type { ISeries } from '../interface/series';
 import { AttributeLevel } from '../../constant/attribute';
 
-import type { ICompileMarkConfig, IMark, IMarkProgressiveConfig } from '../../mark/interface';
+import type {
+  ICompileMarkConfig,
+  IMark,
+  IMarkProgressiveConfig,
+  ILabelMark,
+  ILineMark,
+  ISymbolMark,
+  ITextMark
+} from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface/type';
-import type { ILineMark } from '../../mark/line';
-import type { ISymbolMark } from '../../mark/symbol';
-import type { ITextMark } from '../../mark/text';
-import type {
-  DirectionType,
-  IInvalidType,
-  InterpolateType,
-  ILineMarkSpec,
-  ISymbolMarkSpec,
-  Maybe,
-  Datum,
-  IMarkTheme,
-  ILayoutRect
-} from '../../typings';
+import type { DirectionType, IInvalidType, InterpolateType, Maybe, Datum, ILayoutRect } from '../../typings';
 import { DEFAULT_LINEAR_INTERPOLATE, DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings/line-stroke';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
-import type { ILabelSpec } from '../../component/label';
 import { shouldMarkDoMorph } from '../../animation/utils';
 import type { DimensionEventParams } from '../../event/events/dimension';
 // eslint-disable-next-line no-duplicate-imports
@@ -36,27 +30,10 @@ import { DimensionEventEnum } from '../../event/events/dimension';
 import type { EventCallback, EventParams } from '../../event/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
-import type { ILabelMark } from '../../mark/label';
-import type { Functional } from '@visactor/vrender-components';
 import type { IRegion } from '../../region/interface';
 import type { SeriesData } from '../base/series-data';
 import { mergeSpec } from '@visactor/vutils-extension';
-
-export interface ILineLikeSeriesTheme {
-  line?: Partial<IMarkTheme<ILineMarkSpec>>;
-  point?: Partial<IMarkTheme<ISymbolMarkSpec>> & { visibleInActive?: boolean };
-  label?: Partial<ILineLikeLabelSpec>;
-}
-
-export type ILineLikeLabelSpec = Omit<ILabelSpec, 'position'> & {
-  /** 标签位置
-   * @since 1.6.0
-   * 支持以函数形式配置
-   */
-  position?: Functional<
-    'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center'
-  >;
-};
+import type { ILineLikeSeriesTheme } from './interface';
 
 export interface LineLikeSeriesMixin extends ISeries {
   _spec: any;
@@ -78,7 +55,7 @@ export interface LineLikeSeriesMixin extends ISeries {
   _fieldZ?: string[];
 
   _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption, config?: ICompileMarkConfig) => IMark;
-  _getInvalidDefined: () => boolean;
+  _getInvalidDefined: (datum: Datum) => boolean;
   _getInvalidConnectType: () => IInvalidType;
 
   getLayoutRect: () => ILayoutRect;
@@ -339,26 +316,21 @@ export class LineLikeSeriesMixin {
       'normal',
       AttributeLevel.Series
     );
-    if (this._invalidType !== 'zero') {
-      this.setMarkStyle(
-        symbolMark,
-        {
-          visible: this._getInvalidDefined.bind(this)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    }
-
-    this.event.on(ChartEvent.viewDataStatisticsUpdate, { filter: param => param.model === this }, () => {
-      this.encodeDefined(symbolMark, 'visible');
-    });
 
     this.setMarkStyle(
       symbolMark,
       {
-        x: this.dataToPositionX.bind(this),
-        y: this.dataToPositionY.bind(this),
+        x: (datum: Datum) => {
+          // 对于symbol而言，如果undefined 的元素还进行scale机会，Null/undefined 会被当成0，导致交互误显示的问题
+          return this._invalidType !== 'zero' && !this._getInvalidDefined(datum)
+            ? Number.NaN
+            : this.dataToPositionX(datum);
+        },
+        y: (datum: Datum) => {
+          return this._invalidType !== 'zero' && !this._getInvalidDefined(datum)
+            ? Number.NaN
+            : this.dataToPositionY(datum);
+        },
         z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
       },
       'normal',
@@ -433,7 +405,7 @@ export class LineLikeSeriesMixin {
     this.setMarkStyle(labelMark, {
       fill: this.getColorAttribute(),
       text: (datum: Datum) => {
-        return datum[this.getSeriesField()];
+        return datum[this.getSeriesField()] ?? this.getSeriesKeys()[0];
       },
       z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });

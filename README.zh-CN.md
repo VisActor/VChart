@@ -61,10 +61,9 @@ VChart 是 VisActor 可视化体系中的图表组件库，基于可视化语法
 2. [`react-vchart`](./packages/react-vchart/)：基于 [React](https://react.dev/) 封装的 VChart 图表组件
 3. [`taro-vchart`](./packages/taro-vchart/)：基于 [Taro](https://docs.taro.zone/docs/) 封装的 VChart 图表组件
 4. [`lark-vchart`](./packages/lark-vchart/)：基于 [飞书小程序](https://open.feishu.cn/document/client-docs/gadget/introduction/host-environment) 封装的 VChart 图表组件
-5. [`tt-vchart`](./packages/lark-vchart/): 基于 [抖音小程序](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/) 封装的 VChart 图表组件
-6. [`block-vchart`](./packages/block-vchart/)：基于 [飞书小组件](https://open.feishu.cn/document/client-docs/block/block-introduction) 封装的 VChart 图表组件
-7. [`wx-vchart`](./packages/wx-vchart/)：基于 [微信小程序](https://developers.weixin.qq.com/miniprogram/dev/framework/) 封装的 VChart 图表组件
-8. [`docs`](./docs/): VChart 站点源码，同时也包含站点所有的中英文文档、图表示例代码等内容。
+5. [`block-vchart`](./packages/block-vchart/)：基于 [飞书小组件](https://open.feishu.cn/document/client-docs/block/block-introduction) 封装的 VChart 图表组件
+6. [`wx-vchart`](./packages/wx-vchart/)：基于 [微信小程序](https://developers.weixin.qq.com/miniprogram/dev/framework/) 封装的 VChart 图表组件
+7. [`docs`](./docs/): VChart 站点源码，同时也包含站点所有的中英文文档、图表示例代码等内容。
 
 ## 🔨 使用
 
@@ -158,9 +157,25 @@ $ rush docs
 
 ## 💫 生态
 
-| 项目                                                                                  | 介绍                       |
-| ------------------------------------------------------------------------------------- | -------------------------- |
-| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React for @VisActor/VChart |
+| 项目                                                                                                       | 介绍                                                                                        |
+| ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart)                      | 适用于 @VisActor/VChart 的 React 组件                                                       |
+| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                                       | OpenInula 的 VChart 组件                                                                    |
+| [OMI](https://omi.cdn-go.cn/home/latest)                                                                   | Web 组件框架                                                                                |
+| [基于 vchart 和 Next.js 构建的 Vercel 模板](https://vercel.com/templates/next.js/visactor-nextjs-template) | 一个使用 vchart 和 Next.js 构建的现代仪表盘模板，拥有美观的用户界面和丰富的数据可视化组件。 |
+
+## 💖 Thanks
+
+<div>
+  <a href="https://semi.design/#gh-dark-mode-only" target="_blank">
+    <img alt="VisActor Logo" height="60" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/visactor/semi-dark.svg"/>
+  </a>
+  <a href="https://semi.design/#gh-light-mode-only" target="_blank">
+    <img alt="VisActor Logo" height="60" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/visactor/semi.svg"/>
+  </a>
+</div>
+
+感谢 [semi](https://semi.design/) 提供主题可视化定制解决方案
 
 ## 🤝 参与贡献 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 

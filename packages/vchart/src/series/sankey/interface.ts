@@ -2,9 +2,16 @@ import type { ISeriesSpec, DirectionType, IMarkTheme } from '../../typings';
 import type { IMarkSpec } from '../../typings/spec/common';
 import type { IRectMarkSpec, ILinkPathMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
-import type { SankeyAppearPreset, SankeyMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec } from '../../component/label/interface';
+
+export type SankeyMark = 'node' | 'link' | 'label';
+
+export type SankeyAppearPreset = 'growIn' | 'fadeIn';
+export interface ISankeyAnimationParams {
+  direction: DirectionType;
+  growFrom: () => number;
+}
 
 export type ISankeyLabelSpec = ILabelSpec & {
   /**

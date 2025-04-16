@@ -1,13 +1,25 @@
 import type { IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
-import type { GrammarItemCompileOption, GrammarItemInitOption } from '../interface';
-import type { IGrammarItem } from '../interface';
-import type { MarkStateManager } from './mark-state-manager';
+import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem } from '../interface';
 import type { DataView } from '@visactor/vdataset';
 import type { IAnimate, IAnimateArranger, IElement, IGroupMark, IMark, IMarkConfig, MarkAnimationSpec, Nil, TransformSpec } from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import type { MarkData } from './mark-data';
 import type { IRegion } from '../../region/interface';
+import type { ICompilableData } from '../data/interface';
+export interface IMarkStateManager {
+    getStateInfoList: () => IStateInfo[];
+    getStateInfo: (stateValue: StateValue) => IStateInfo;
+    addStateInfo: (stateInfo: IStateInfo) => void;
+    changeStateInfo: (stateInfo: Partial<IStateInfo>) => void;
+    clearStateInfo: (stateValues: StateValue[]) => void;
+    checkOneState: (renderNode: IElement, datum: Datum | Datum[], state: IStateInfo, isMultiMark?: boolean) => 'in' | 'out' | 'skip';
+    checkState: (renderNode: IElement, datum: Datum | Datum[]) => StateValue[];
+    updateLayoutState: (noRender?: boolean) => void;
+}
+export interface IMarkData extends ICompilableData {
+    setCompiledProductId: (name: string) => any;
+    generateProductId: () => string;
+}
 export interface ICompilableMarkOption extends GrammarItemInitOption {
     key?: string | ((datum: Datum) => string);
     groupKey?: string;
@@ -21,11 +33,11 @@ export interface ICompilableMark extends IGrammarItem {
     readonly name: string;
     readonly key?: string | ((datum: Datum) => string);
     readonly model: IModel;
-    getData: () => MarkData | undefined;
-    setData: (d: MarkData) => void;
+    getData: () => IMarkData | undefined;
+    setData: (d: IMarkData) => void;
     getDataView: () => DataView | undefined;
     setDataView: (d?: DataView, productId?: string) => void;
-    state: MarkStateManager;
+    state: IMarkStateManager;
     readonly stateStyle: IMarkStateStyle<any>;
     hasState: (state: string) => boolean;
     getState: (state: string) => any;

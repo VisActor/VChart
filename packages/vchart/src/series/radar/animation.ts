@@ -1,19 +1,10 @@
 import type { Datum, IAnimationTypeConfig, IElement, MarkAnimationSpec } from '@visactor/vgrammar-core';
-import type { IPoint, Maybe } from '../../typings';
 import { ClipAngleAnimate } from '@visactor/vrender-core';
-import type { IPolarAxisHelper } from '../../component/axis';
 import { Factory } from '../../core/factory';
 import { PolarPointUpdate, PolarTagPointsUpdate } from '../polar/animation';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { registerArc } from '@visactor/vrender-kits';
-
-export interface IRadarAnimationParams {
-  center: () => Maybe<IPoint>;
-  radius: () => number;
-  startAngle: number;
-}
-
-export type RadarAppearPreset = 'grow' | 'fadeIn' | 'clipIn';
+import type { IRadarAnimationParams, RadarAppearPreset } from './interface';
 
 export const radarFadeAnimation = (animationType: 'in' | 'out') => ({
   type: animationType === 'in' ? 'fadeIn' : 'fadeOut'
@@ -137,7 +128,7 @@ export const registerRadarAnimation = () => {
             easing: DEFAULT_ANIMATION_CONFIG.update.easing
           }
         ]
-      } as MarkAnimationSpec)
+      }) as MarkAnimationSpec
   );
   Factory.registerAnimation('radarGroup', (params: IRadarAnimationParams, preset: RadarAppearPreset) => {
     return {

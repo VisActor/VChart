@@ -1,12 +1,11 @@
-import type { ILabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import { STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant/data';
+import { STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_BOTTOM, STACK_FIELD_TOTAL_TOP } from '../../constant/data';
 import { LayoutZIndex } from '../../constant/layout';
 import { AttributeLevel } from '../../constant/attribute';
-import type { IMark, MarkType } from '../../mark/interface';
+import type { ILabelMark, IMark, MarkType } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '@visactor/vutils-extension';
@@ -21,7 +20,6 @@ import type { Datum, Maybe } from '../../typings';
 import { Factory } from '../../core/factory';
 import { registerComponentMark } from '../../mark/component';
 import type { IChartSpecInfo } from '../../chart/interface';
-import { HOOK_EVENT } from '@visactor/vgrammar-core';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
@@ -125,12 +123,12 @@ export class TotalLabel extends BaseLabelComponent {
         .configure({ interactive: false })
         .labelStyle(() => {
           if (this._baseMark) {
-            const { offset, animation, overlap } = this._spec;
+            const { offset, animation, overlap, position = 'top' } = this._spec;
             const interactive = this._interactiveConfig(this._spec);
             return mergeSpec(
               {
                 textStyle: { pickable: this._spec.interactive === true },
-                position: totalLabelPosition(series, this._baseMark.type),
+                position: totalLabelPosition(series, this._baseMark.type, position),
                 x: 0,
                 y: 0
               },
@@ -143,7 +141,9 @@ export class TotalLabel extends BaseLabelComponent {
                 animation,
                 overlap,
                 dataFilter: (data: any) => {
-                  return data.filter((d: any) => d.data[STACK_FIELD_TOTAL_TOP]);
+                  return data.filter((d: any) =>
+                    position === 'bottom' ? d.data[STACK_FIELD_TOTAL_BOTTOM] : d.data[STACK_FIELD_TOTAL_TOP]
+                  );
                 },
                 ...interactive
               }
@@ -162,7 +162,12 @@ export class TotalLabel extends BaseLabelComponent {
             this._spec.formatMethod
           );
         })
-        .size(() => this._regions[0].getLayoutRect());
+        .size(() => {
+          return {
+            padding: this._spec.overlap?.padding,
+            ...this._regions[0].getLayoutRect()
+          };
+        });
     });
   }
 
@@ -189,24 +194,29 @@ export class TotalLabel extends BaseLabelComponent {
   }
 }
 
-export function totalLabelPosition(series: ISeries, type: MarkType) {
-  let position;
+export function totalLabelPosition(series: ISeries, type: MarkType, position: 'top' | 'bottom' = 'top') {
+  let finalPosition;
   const { direction } = series as ICartesianSeries;
   const isInverse =
     direction === 'horizontal'
       ? (series as ICartesianSeries).getXAxisHelper()?.isInverse()
       : (series as ICartesianSeries).getYAxisHelper()?.isInverse();
-  const positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
+  let positionMap;
+  if (position === 'bottom') {
+    positionMap = { vertical: ['bottom', 'top'], horizontal: ['left', 'right'] };
+  } else {
+    positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
+  }
   const index = isInverse ? 1 : 0;
   switch (type) {
     case 'rect':
     case 'symbol':
-      position = positionMap[direction][index];
+      finalPosition = positionMap[direction][index];
       break;
     default:
-      position = 'top';
+      finalPosition = 'top';
   }
-  return position;
+  return finalPosition;
 }
 
 export const registerTotalLabel = () => {

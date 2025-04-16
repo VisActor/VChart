@@ -1,4 +1,5 @@
 import type {
+  IData,
   IElement,
   IGroupMark,
   IMark,
@@ -29,7 +30,8 @@ import type {
   ICompilableMarkOption,
   StateValueType,
   IMarkCompileOption,
-  IAttributeOpt
+  IAttributeOpt,
+  IMarkData
 } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from './interface';
@@ -94,7 +96,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   readonly model: IModel;
 
   /** 数据（可以没有） */
-  protected _data: Maybe<MarkData>;
+  protected _data: IMarkData;
   getDataView(): DataView | undefined {
     return this._data?.getDataView();
   }
@@ -113,7 +115,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   getData() {
     return this._data;
   }
-  setData(d?: MarkData) {
+  setData(d?: IMarkData) {
     this._data = d;
   }
 
@@ -165,7 +167,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._stateSort = stateSort;
   }
 
-  protected declare _option: ICompilableMarkOption;
+  declare protected _option: ICompilableMarkOption;
 
   constructor(option: ICompilableMarkOption, name: string, model: IModel) {
     super(option);
@@ -182,7 +184,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._event = new Event(model.getOption().eventDispatcher, model.getOption().mode);
   }
 
-  protected declare _product: Maybe<IMark>;
+  declare protected _product: Maybe<IMark>;
   declare getProduct: () => Maybe<IMark>;
 
   // transform目前在形状词云中使用，但直接用的 vgrammar 接口 (this._wordMark as ICompilableMark).getProduct().transform(wordCloudTransforms);
@@ -264,7 +266,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     // 绑定数据
     const dataProduct = this._data.getProduct();
     if (isValid(this._product) && isValid(dataProduct)) {
-      this._product.join(dataProduct, this.key, undefined, this.getGroupKey());
+      this._product.join(dataProduct as IData, this.key, undefined, this.getGroupKey());
     }
   }
 
@@ -465,6 +467,10 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       return product.elements;
     }
     return undefined;
+  }
+
+  clear() {
+    this._event.off(VGRAMMAR_HOOK_EVENT.AFTER_DO_RENDER);
   }
 
   release() {

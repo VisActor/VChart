@@ -3,8 +3,7 @@ import { PREFIX } from '../../constant/base';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import type { Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
-import type { ISymbolMark } from '../../mark/symbol';
-import type { IScatterSeriesSpec } from './interface';
+import type { IScatterSeriesSpec, ScatterAppearPreset } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric } from '@visactor/vutils';
 import { AttributeLevel } from '../../constant/attribute';
@@ -21,13 +20,11 @@ import {
 } from '../../constant/scatter';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import type { ScatterAppearPreset } from './animation';
 import { registerScatterAnimation } from './animation';
 import { registerSymbolMark } from '../../mark/symbol';
 import { scatterSeriesMark } from './constant';
-import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
-import type { IMark } from '../../mark/interface';
+import type { ILabelMark, IMark, ISymbolMark } from '../../mark/interface';
 import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
@@ -385,28 +382,8 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   }
 
   handlePan(e: any) {
-    this.getMarksWithoutRoot().forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const elements = vGrammarMark.elements;
-
-      elements.forEach((el: IElement, i: number) => {
-        const graphicItem = el.getGraphicItem();
-        const datum = el.getDatum();
-        const newPosition = this.dataToPosition(datum);
-        if (newPosition && graphicItem) {
-          graphicItem.translateTo(newPosition.x, newPosition.y);
-        }
-      });
-    });
-    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
-
-    if (vgrammarLabel) {
-      (vgrammarLabel as any).evaluate(null, null);
-    }
+    // TODO 现在处理好像一模一样
+    this.handleZoom(e);
   }
 
   getDefaultShapeType() {

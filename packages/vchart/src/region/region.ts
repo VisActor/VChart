@@ -8,19 +8,18 @@ import { MarkTypeEnum } from '../mark/interface/type';
 import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
-import type { IGroupMark } from '../mark/group';
+import type { IGeoRegionSpec, IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
 import type { IInteraction, ITrigger } from '../interaction/interface';
 import { Interaction } from '../interaction/interaction';
 import { ChartEvent } from '../constant/event';
 import { LayoutZIndex } from '../constant/layout';
 import { AttributeLevel } from '../constant/attribute';
-import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
+import type { IGroupMark, IRectMark } from '../mark/interface/mark';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
@@ -109,6 +108,10 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     super.created();
     const clip = this._spec.clip ?? this._getClipDefaultValue();
     this._groupMark = this._createGroupMark('regionGroup', this.userId, this.layoutZIndex);
+    if ((this._spec as IGeoRegionSpec).roam) {
+      this._groupMark.setMarkConfig({ interactive: true });
+    }
+
     // 交互层
     this._interactionMark = this._createGroupMark(
       'regionInteractionGroup',
@@ -168,6 +171,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
       'normal',
       AttributeLevel.User_Mark
     );
+
     this._marks.addMark(groupMark);
     return groupMark;
   }
@@ -214,7 +218,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
         this._foregroundMark,
         {
           ...this._spec.style,
-          fillOpacity: 0
+          fillOpacity: 0,
+          pickable: false
         },
         'normal',
         AttributeLevel.User_Mark
@@ -360,11 +365,13 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   compileMarks(group?: string | IVGrammarGroupMark) {
     this.getMarks().forEach(m => {
       m.compile({ group, context: { model: this } });
-      m.getProduct()?.layout(
-        (group: IVGrammarGroupMark, children: IMark[], parentLayoutBounds: IBoundsLike, options?: ILayoutOptions) => {
-          // console.log('region mark layout');
-        }
-      );
+      m
+        .getProduct()
+        ?.layout(
+          (group: IVGrammarGroupMark, children: IMark[], parentLayoutBounds: IBoundsLike, options?: ILayoutOptions) => {
+            // console.log('region mark layout');
+          }
+        );
     });
   }
 

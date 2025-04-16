@@ -1,12 +1,6 @@
 import { Factory } from '../../core/factory';
-import type { DirectionType } from '../../typings';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
-
-export interface IRangeColumnAnimationParams {
-  direction: DirectionType;
-}
-
-export type RangeColumnAppearPreset = 'fadeIn' | 'grow';
+import type { IRangeColumnAnimationParams, RangeColumnAppearPreset } from './interface';
 
 export const rangeColumnGrowIn = (params: IRangeColumnAnimationParams): IAnimationTypeConfig => {
   return {

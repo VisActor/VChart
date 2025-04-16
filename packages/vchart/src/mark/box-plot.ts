@@ -4,10 +4,9 @@ import { BaseMark } from './base/base-mark';
 import type { IGroupMark } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { registerBarBoxplotGlyph, registerBoxplotGlyph } from '@visactor/vgrammar-core';
-import type { IMarkRaw, IMarkStyle } from './interface';
+import type { IBoxPlotMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-export type IBoxPlotMark = IMarkRaw<IBoxPlotMarkSpec>;
 
 const BOX_PLOT_GLYPH_TYPE = 'boxplot';
 const BAR_BOX_PLOT_GLYPH_TYPE = 'barBoxplot';

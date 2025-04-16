@@ -1,12 +1,11 @@
-import type { IMark } from '../../mark/interface';
+import type { ILabelMark, IMark } from '../../mark/interface';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IVennSeriesSpec } from './interface';
-import type { ILabelMark } from '../../mark/label';
 import { VennSeriesSpecTransformer } from './venn-transform';
 import { BaseSeries } from '../base';
-import type { BaseLegend } from '../../component/legend/base-legend';
+import type { ILegend } from '../../component/legend/interface';
 export declare class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends BaseSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
@@ -57,7 +56,7 @@ export declare class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> ext
         shapeType: string;
     }[];
     getSeriesFieldValue(datum: Datum, seriesField?: string): string;
-    legendSelectedFilter(component: BaseLegend<any>, selectedKeys: StringOrNumber[]): StringOrNumber[];
+    legendSelectedFilter(component: ILegend, selectedKeys: StringOrNumber[]): StringOrNumber[];
     initAnimation(): void;
 }
 export declare const registerVennSeries: () => void;
