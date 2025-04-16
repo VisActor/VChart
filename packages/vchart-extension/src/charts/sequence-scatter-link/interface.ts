@@ -59,7 +59,7 @@ export type Endpoint = {
   color: string;
 };
 
-export type ISequenceScatterData = {
+export type ISequenceScatterLinkData = {
   /**
    * key: 迭代信息
    * value: 每个迭代的数据
@@ -76,11 +76,11 @@ export type ISequenceScatterData = {
   };
 };
 
-export interface ISequenceScatterSpec {
+export interface ISequenceScatterLinkSpec {
   /**
    * 图表类型
    */
-  type: 'sequenceScatter';
+  type: 'sequenceScatterLink';
   /**
    * 任务类型
    */
@@ -88,7 +88,7 @@ export interface ISequenceScatterSpec {
   /**
    * 数据
    */
-  data: ISequenceScatterData;
+  data: ISequenceScatterLinkData;
   /**
    * x轴字段
    */

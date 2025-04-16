@@ -2,7 +2,7 @@ import trainingData1 from '../../../__tests__/runtime/browser/data/sequence-scat
 import trainingInfo1 from '../../../__tests__/runtime/browser/data/sequence-scatter/Training_process1/info.json';
 import trainingData2 from '../../../__tests__/runtime/browser/data/sequence-scatter/Training_process2/data.json';
 import trainingInfo2 from '../../../__tests__/runtime/browser/data/sequence-scatter/Training_process2/info.json';
-import { ISequenceScatterData, OriginalData, TrainingInfo, Endpoint } from './interface';
+import { ISequenceScatterLinkData, OriginalData, TrainingInfo, Endpoint } from './interface';
 
 export function getSeqScatterChartData(task_type: string) {
   // get basic settings
@@ -27,7 +27,7 @@ function getBasicSettings(task_type: string) {
   const label_color_dict: { [key: string]: string } = {}; // text -> rgb
 
   for (let i = 0; i < label_color_list.length; i++) {
-    let c = label_color_list[i];
+    const c = label_color_list[i];
     label_color_dict[label_text[i]] = `rgb(${c[0]},${c[1]},${c[2]})`;
   }
 
@@ -44,7 +44,7 @@ function constructChartData(
   label_color_dict: { [key: string]: string }
 ) {
   const original_data: OriginalData = task_type === 'neighborhood' ? trainingData1 : (trainingData2 as OriginalData);
-  const chartData: ISequenceScatterData = {};
+  const chartData: ISequenceScatterLinkData = {};
 
   Object.keys(original_data).forEach(epoch => {
     chartData[epoch] = {
@@ -113,7 +113,7 @@ function constructChartData(
 /**
  * 选择边，根据给定的x和y坐标，返回所有与该点相关的边，构造边的端点用于绘制线段
  */
-export function selectEdges(chartData: ISequenceScatterData, x: number, y: number) {
+export function selectEdges(chartData: ISequenceScatterLinkData, x: number, y: number) {
   const endpoints: Endpoint[] = [];
   Object.keys(chartData).forEach(iter => {
     const edges = chartData[iter].edges;

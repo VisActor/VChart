@@ -1,16 +1,16 @@
 import { Datum } from '@visactor/vchart/src/typings';
-import type { ISequenceScatterSpec } from './interface';
+import type { ISequenceScatterLinkSpec } from './interface';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
 
 const DATA_KEY = 'dataKey';
 
 /**
- * convert ISequenceScatterSpec to CommonSpec
+ * convert ISequenceScatterLinkSpec to CommonSpec
  */
-export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransformer<any> {
+export class SequenceScatterLinkChartSpecTransformer extends CommonChartSpecTransformer<any> {
   transformSpec(spec: any): void {
     super.transformSpec(spec);
-    const dataSpecs = processSequenceData(spec as unknown as ISequenceScatterSpec);
+    const dataSpecs = processSequenceData(spec as unknown as ISequenceScatterLinkSpec);
     const showTooltip = spec.taskType === 'neighborhood' ? false : true;
 
     spec.type = 'common';
@@ -360,9 +360,9 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
 }
 
 /**
- * convert ISequenceScatterData to IScatterData
+ * convert ISequenceScatterLinkData to IScatterData
  */
-export function processSequenceData(spec: ISequenceScatterSpec) {
+export function processSequenceData(spec: ISequenceScatterLinkSpec) {
   const result: any[] = [];
   Object.keys(spec.data).forEach(iter => {
     const nodes = spec.data[iter].nodes;

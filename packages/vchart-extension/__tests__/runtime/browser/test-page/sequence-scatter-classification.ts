@@ -1,6 +1,6 @@
-import { registerSequenceScatter } from '../../../../src';
+import { registerSequenceScatterLink } from '../../../../src';
 import { VChart } from '@visactor/vchart';
-import { getSeqScatterChartData, selectEdges } from '../../../../src/charts/sequence-scatter/utils';
+import { getSeqScatterChartData } from '../../../../src/charts/sequence-scatter-link/utils';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 /**
@@ -17,7 +17,7 @@ const { chartData, scope, label_color_dict } = getSeqScatterChartData(TASK_TYPE)
  * 创建sequence-scatter的特有配置项
  */
 const spec = {
-  type: 'sequenceScatter',
+  type: 'sequenceScatterLink',
   taskType: TASK_TYPE,
   labelColor: label_color_dict,
   scope: scope,
@@ -42,7 +42,7 @@ const spec = {
 };
 
 const run = () => {
-  registerSequenceScatter();
+  registerSequenceScatterLink();
   const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     onError: err => {
