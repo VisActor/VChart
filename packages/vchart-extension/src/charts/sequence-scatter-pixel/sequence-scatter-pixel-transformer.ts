@@ -1,7 +1,7 @@
 import { Datum } from '@visactor/vchart/src/typings';
 import type { ISequenceScatterPixelSpec } from './interface';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
-import { processSequenceData } from '../../utils/processSequenceData';
+import { processSequenceData } from './utils';
 import { DATA_KEY } from './constant';
 
 export class SequenceScatterPixelChartSpecTransformer extends CommonChartSpecTransformer<any> {

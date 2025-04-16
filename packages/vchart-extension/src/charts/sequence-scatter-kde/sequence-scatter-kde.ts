@@ -33,7 +33,7 @@ export class SequenceScatterKDE extends BaseChart<Omit<ISequenceScatterKDESpec, 
   }
 }
 
-export const registerSequenceScatter = (option?: { VChart?: typeof VChart }) => {
+export const registerSequenceScatterKDE = (option?: { VChart?: typeof VChart }) => {
   const vchartConstructor = option?.VChart || VChart;
   if (vchartConstructor) {
     vchartConstructor.useChart([SequenceScatterKDE, ScatterChart]);

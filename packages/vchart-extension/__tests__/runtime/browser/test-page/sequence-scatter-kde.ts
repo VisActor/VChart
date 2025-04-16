@@ -1,4 +1,4 @@
-import { registerSequenceScatter } from '../../../../src';
+import { registerSequenceScatterKDE } from '../../../../src';
 import { VChart } from '@visactor/vchart';
 import trainingData1 from '../data/sequence-scatter/Training_process1/data.json';
 import labelData from '../data/sequence-scatter/Training_process1/label.json';
@@ -48,7 +48,7 @@ const spec = {
 };
 
 const run = () => {
-  registerSequenceScatter();
+  registerSequenceScatterKDE();
   const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     //theme: 'dark',

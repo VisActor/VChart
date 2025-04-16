@@ -1,4 +1,4 @@
-import { registerSequenceScatter } from '../../../../src';
+import { registerSequenceScatterPixel } from '../../../../src';
 import { VChart } from '@visactor/vchart';
 import trainingData1 from '../data/sequence-scatter/Training_process1/data.json';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -57,7 +57,7 @@ const spec = {
 };
 
 const run = () => {
-  registerSequenceScatter();
+  registerSequenceScatterPixel();
   const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     //theme: 'dark',

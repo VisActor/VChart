@@ -33,7 +33,7 @@ export class SequenceScatterPixel extends BaseChart<Omit<ISequenceScatterPixelSp
   }
 }
 
-export const registerSequenceScatter = (option?: { VChart?: typeof VChart }) => {
+export const registerSequenceScatterPixel = (option?: { VChart?: typeof VChart }) => {
   const vchartConstructor = option?.VChart || VChart;
   if (vchartConstructor) {
     vchartConstructor.useChart([SequenceScatterPixel, ScatterChart]);

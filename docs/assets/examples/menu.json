@@ -1930,6 +1930,36 @@
       ]
     },
     {
+      "path": "extension-chart",
+      "title": {
+        "zh": "拓展图表",
+        "en": "extension-chart"
+      },
+      "children": [
+        {
+          "path": "sequence-scatter-link-classification",
+          "title": {
+            "zh": "时序散点关系图-支持分类背景",
+            "en": "sequence-scatter-link-classification"
+          }
+        },
+        {
+          "path": "sequence-scatter-link-neighborhood",
+          "title": {
+            "zh": "时序散点关系图-支持交互邻域",
+            "en": "sequence-scatter-link-neighborhood"
+          }
+        },
+        {
+          "path": "sequence-scatter-kde",
+          "title": {
+            "zh": "时序散点图-支持KDE背景",
+            "en": "sequence-scatter-kde"
+          }
+        }
+      ]
+    },
+    {
       "path": "chart-3d",
       "title": {
         "zh": "chart-3d",

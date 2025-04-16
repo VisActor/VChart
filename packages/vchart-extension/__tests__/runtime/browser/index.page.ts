@@ -6,6 +6,6 @@
 // import './index.page.local';
 // import './test-page/sequence-scatter-pixel';
 // import './test-page/sequence-scatter-kde';
-// import './test-page/sequence-scatter-link-neighborhood';
-import './test-page/sequence-scatter-link-classification';
+import './test-page/sequence-scatter-link-neighborhood';
+// import './test-page/sequence-scatter-link-classification';
 // window['VChart'] = VChart;
