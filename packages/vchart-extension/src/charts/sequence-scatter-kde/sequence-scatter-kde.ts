@@ -1,16 +1,16 @@
-import { ISequenceScatterSpec } from './interface';
+import { ISequenceScatterKDESpec } from './interface';
 import { VChart, BaseChart, ScatterChart } from '@visactor/vchart';
-import { SequenceScatterChartSpecTransformer } from './sequence-scatter-transformer';
+import { SequenceScatterKDEChartSpecTransformer } from './sequence-scatter-kde-transformer';
 
-export class SequenceScatter extends BaseChart<Omit<ISequenceScatterSpec, 'data'>> {
-  type = 'sequenceScatter';
-  static type = 'sequenceScatter';
+export class SequenceScatterKDE extends BaseChart<Omit<ISequenceScatterKDESpec, 'data'>> {
+  type = 'sequenceScatterKDE';
+  static type = 'sequenceScatterKDE';
   static readonly view: string = 'singleDefault';
 
-  declare _spec: ISequenceScatterSpec;
+  declare _spec: ISequenceScatterKDESpec;
 
-  static readonly transformerConstructor = SequenceScatterChartSpecTransformer;
-  readonly transformerConstructor = SequenceScatterChartSpecTransformer;
+  static readonly transformerConstructor = SequenceScatterKDEChartSpecTransformer;
+  readonly transformerConstructor = SequenceScatterKDEChartSpecTransformer;
 
   init() {
     if (!this.isValid()) {
@@ -36,6 +36,6 @@ export class SequenceScatter extends BaseChart<Omit<ISequenceScatterSpec, 'data'
 export const registerSequenceScatter = (option?: { VChart?: typeof VChart }) => {
   const vchartConstructor = option?.VChart || VChart;
   if (vchartConstructor) {
-    vchartConstructor.useChart([SequenceScatter, ScatterChart]);
+    vchartConstructor.useChart([SequenceScatterKDE, ScatterChart]);
   }
 };

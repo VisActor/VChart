@@ -1,15 +1,15 @@
 import { Datum } from '@visactor/vchart/src/typings';
-import type { ISequenceScatterSpec } from './interface';
+import type { ISequenceScatterKDESpec } from './interface';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
 import { Point } from './interface';
 import { calculateKDE } from './utils';
 
 const DATA_KEY = 'dataKey';
 
-export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransformer<any> {
+export class SequenceScatterKDEChartSpecTransformer extends CommonChartSpecTransformer<any> {
   transformSpec(spec: any): void {
     super.transformSpec(spec);
-    const dataSpecs = processSequenceData(spec as unknown as ISequenceScatterSpec);
+    const dataSpecs = processSequenceData(spec as unknown as ISequenceScatterKDESpec);
 
     spec.type = 'common';
     spec.dataKey = DATA_KEY;
@@ -164,7 +164,7 @@ export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransfor
   }
 }
 
-export function processSequenceData(spec: ISequenceScatterSpec) {
+export function processSequenceData(spec: ISequenceScatterKDESpec) {
   const result: any[] = [];
   Object.keys(spec.data).forEach(iter => {
     const currentData = spec.data[iter].map((d: Datum, i) => ({

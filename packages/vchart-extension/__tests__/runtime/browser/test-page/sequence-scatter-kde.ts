@@ -24,7 +24,7 @@ Object.keys(origianlData).forEach(iter => {
 const spec = {
   width: 800,
   height: 500,
-  type: 'sequenceScatter',
+  type: 'sequenceScatterKDE',
   data: chartData,
   xField: 'x',
   yField: 'y',

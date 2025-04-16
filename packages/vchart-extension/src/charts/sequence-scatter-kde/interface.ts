@@ -3,7 +3,7 @@ import { Datum } from '@visactor/vchart/src/typings/common';
 import { ITextGraphicAttribute } from '@visactor/vrender-core';
 
 type IterationData = Datum[];
-type ISequenceScatterData = {
+type ISequenceScatterKDEData = {
   /**
    * key: 迭代信息
    * value: 每个迭代的数据
@@ -23,15 +23,15 @@ type ISequenceScatterData = {
   // };
 };
 
-export interface ISequenceScatterSpec {
+export interface ISequenceScatterKDESpec {
   /**
    * 图表类型
    */
-  type: 'sequenceScatter';
+  type: 'sequenceScatterKDE';
   /**
    * 数据
    */
-  data: ISequenceScatterData;
+  data: ISequenceScatterKDEData;
   /**
    * x轴字段
    */
