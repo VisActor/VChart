@@ -25,7 +25,7 @@ export class PolarMarkLine extends BaseMarkLine {
   static coordinateType = 'polar';
   coordinateType = 'polar' as CoordinateType;
 
-  protected declare _markerComponent: MarkArcLineComponent;
+  declare protected _markerComponent: MarkArcLineComponent;
 
   protected _newMarkLineComponent(attr: MarkArcLineAttrs | MarkLineAttrs): MarkArcLineComponent | MarkLineComponent {
     const { doRadiusProcess, doRadAngAng1Process } = getMarkLineProcessInfo(this._spec as any);

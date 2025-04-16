@@ -32,7 +32,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     });
   }
 
-  protected declare _option: IComponentOption;
+  declare protected _option: IComponentOption;
 
   protected _regions: IRegion[];
   getRegions() {

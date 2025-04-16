@@ -9,7 +9,7 @@ import type { ICompilableSignal } from './interface';
 
 export class CompilableSignal<T> extends GrammarItem implements ICompilableSignal<T> {
   readonly grammarType = GrammarType.signal;
-  protected declare _product: Maybe<ISignal<T>>;
+  declare protected _product: Maybe<ISignal<T>>;
   declare getProduct: () => Maybe<ISignal<T>>;
 
   readonly name: string;

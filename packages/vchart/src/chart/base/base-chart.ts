@@ -164,7 +164,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     return this._chartData;
   }
 
-  protected declare _option: IChartOption;
+  declare protected _option: IChartOption;
 
   // 模块内的需要动态影像图表的属性
   readonly state: ILayoutModelState = {

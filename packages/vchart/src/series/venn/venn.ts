@@ -40,7 +40,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
   private _overlapMark: IPathMark;
   private _labelMark: ILabelMark;
 
-  protected declare _spec: T;
+  declare protected _spec: T;
 
   // range for venn layout, change while zoom and pan
   private _viewBox: IBounds = new Bounds();

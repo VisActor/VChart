@@ -48,7 +48,7 @@ export const measureTooltipText = (text: string | TooltipRichTextAttrs, style: I
         ({
           ...style,
           text: line
-        } as unknown as IRichTextParagraphCharacter)
+        }) as unknown as IRichTextParagraphCharacter
     );
   } else {
     textConfig = (text as TooltipRichTextAttrs).text as IRichTextCharacter[];

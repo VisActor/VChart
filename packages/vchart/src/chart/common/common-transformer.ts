@@ -30,7 +30,7 @@ export class CommonChartSpecTransformer<T extends ICommonChartSpec = ICommonChar
         if (series.type === 'bar') {
           const relatedAxis = this._findBandAxisBySeries(series, seriesIndex, spec.axes);
           if (relatedAxis && !relatedAxis.bandSize && !relatedAxis.maxBandSize && !relatedAxis.minBandSize) {
-            const extend = isObject(series.autoBandSize) ? series.autoBandSize.extend ?? 0 : 0;
+            const extend = isObject(series.autoBandSize) ? (series.autoBandSize.extend ?? 0) : 0;
             const { barMaxWidth, barMinWidth, barWidth, barGapInGroup } = series;
             this._applyAxisBandSize(relatedAxis, extend, { barMaxWidth, barMinWidth, barWidth, barGapInGroup });
           }

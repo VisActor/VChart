@@ -34,7 +34,7 @@ export class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSp
   protected _extend: { [key: string]: number } = {};
 
   protected _scale = new LinearScale();
-  protected declare _groupScales: LinearScale[];
+  declare protected _groupScales: LinearScale[];
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();

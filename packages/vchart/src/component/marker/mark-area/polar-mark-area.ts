@@ -23,7 +23,7 @@ export class PolarMarkArea extends BaseMarkArea {
   static coordinateType = 'polar';
   coordinateType = 'polar' as CoordinateType;
 
-  protected declare _markerComponent: MarkArcAreaComponent;
+  declare protected _markerComponent: MarkArcAreaComponent;
 
   protected _newMarkAreaComponent(attr: MarkArcAreaAttrs | MarkAreaAttrs): MarkArcAreaComponent | MarkAreaComponent {
     const { doRadiusProcess, doAngleProcess, doRadAngProcess } = getMarkAreaProcessInfo(this._spec as any);

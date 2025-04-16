@@ -20,11 +20,11 @@ export const getPolarAxisInfo = (spec: IPolarAxisCommonSpec, chartSpec: any) => 
     center: isValid(chartSpec.center)
       ? chartSpec.center
       : isValid(chartSpec?.centerX) || isValid(chartSpec?.centerY)
-      ? {
-          x: chartSpec?.centerX,
-          y: chartSpec?.centerY
-        }
-      : undefined,
+        ? {
+            x: chartSpec?.centerX,
+            y: chartSpec?.centerY
+          }
+        : undefined,
     // 优先使用 outerRadius, 但要兼容 radius
     outerRadius: spec.outerRadius ?? spec.radius ?? chartSpec.outerRadius ?? chartSpec.radius,
     layoutRadius: chartSpec.layoutRadius
