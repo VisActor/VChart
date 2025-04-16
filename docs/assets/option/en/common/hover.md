@@ -14,6 +14,10 @@ Hover interaction switch, enabled by default.
 
 Configuration for hover interaction trigger event.
 
+{{ use: trigger-spec}}
+
 ##${prefix} triggerOff(string|string[]) = ['pointermove', 'pointerleave']
 
 Configuration for hover interaction termination event.
+
+{{ use: trigger-spec}}
