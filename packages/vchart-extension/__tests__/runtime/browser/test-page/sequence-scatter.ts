@@ -22,6 +22,8 @@ Object.keys(origianlData).forEach(iter => {
 });
 
 const spec = {
+  width: 800,
+  height: 500,
   type: 'sequenceScatter',
   data: chartData,
   xField: 'x',
@@ -41,7 +43,8 @@ const spec = {
     auto: true,
     interval: 2000,
     duration: 2000
-  }
+  },
+  animation: false
 };
 
 const run = () => {

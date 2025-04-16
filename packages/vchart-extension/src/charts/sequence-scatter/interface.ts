@@ -66,3 +66,9 @@ export interface ISequenceScatterSpec {
    */
   height: number;
 }
+
+export interface Point {
+  x: number;
+  y: number;
+  label?: string;
+}
