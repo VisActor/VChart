@@ -25,7 +25,7 @@ export class CartesianSymlogAxis<
   protected _zero: boolean = false;
 
   protected _scale: SymlogScale = new SymlogScale();
-  protected declare _scales: SymlogScale[];
+  declare protected _scales: SymlogScale[];
 
   /**
    * @override

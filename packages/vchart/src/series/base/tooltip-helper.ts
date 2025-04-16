@@ -57,7 +57,7 @@ export class BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   protected _getSeriesCacheInfo = (): ISeriesCacheInfo => {
     const { series } = this;
     const _seriesField = series.getSeriesField();
-    const seriesFields = isValid(_seriesField) ? array(_seriesField) : series.getSeriesKeys() ?? [];
+    const seriesFields = isValid(_seriesField) ? array(_seriesField) : (series.getSeriesKeys() ?? []);
     return {
       seriesFields,
       dimensionFields: series.getDimensionField() ?? [],
