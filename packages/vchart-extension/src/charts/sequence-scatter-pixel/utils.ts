@@ -1,7 +1,8 @@
-import { ISequenceScatterSpec } from '../charts/sequence-scatter/interface';
+import { ISequenceScatterPixelSpec } from './interface';
+import { BACKGROUND_KEY, DATA_KEY } from './constant';
 
 // 将RGB三元组数组转换为Canvas可用的imageData
-export function createImageDataFromColorMatrix(colorMatrix: any[][], spec: ISequenceScatterSpec): string | null {
+export function createImageDataFromColorMatrix(colorMatrix: any[][], spec: ISequenceScatterPixelSpec): string | null {
   // 浏览器环境检查
   if (typeof document === 'undefined') {
     throw new Error('Canvas rendering requires browser environment with document object'); // 非浏览器环境下返回null
@@ -37,4 +38,38 @@ export function createImageDataFromColorMatrix(colorMatrix: any[][], spec: ISequ
   // 将imageData绘制到canvas然后返回dataURL
   ctx.putImageData(imageData, 0, 0);
   return canvas.toDataURL('image/png');
+}
+
+export function processSequenceData(spec: ISequenceScatterPixelSpec) {
+  const result: any[] = [];
+  Object.keys(spec.data).forEach(inter => {
+    let backgroundData = null;
+    if (spec.backgroundColors && spec.backgroundColors[inter]) {
+      const imageData = createImageDataFromColorMatrix(spec.backgroundColors[inter], spec);
+      backgroundData = { imageData };
+    }
+    result.push({
+      data: [
+        {
+          id: 'nodes',
+          values: spec.data[inter].map((d, i) => {
+            return { ...d, [DATA_KEY]: i };
+          })
+        },
+        {
+          id: 'inter',
+          values: [
+            {
+              inter
+            }
+          ]
+        },
+        {
+          id: BACKGROUND_KEY,
+          values: backgroundData ? [backgroundData] : []
+        }
+      ]
+    });
+  });
+  return result;
 }

@@ -1,13 +1,13 @@
 import { Datum } from '@visactor/vchart/src/typings';
-import type { ISequenceScatterSpec } from './interface';
+import type { ISequenceScatterPixelSpec } from './interface';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
 import { processSequenceData } from '../../utils/processSequenceData';
 import { DATA_KEY } from './constant';
 
-export class SequenceScatterChartSpecTransformer extends CommonChartSpecTransformer<any> {
+export class SequenceScatterPixelChartSpecTransformer extends CommonChartSpecTransformer<any> {
   transformSpec(spec: any): void {
     super.transformSpec(spec);
-    const dataSpecs = processSequenceData(spec as unknown as ISequenceScatterSpec);
+    const dataSpecs = processSequenceData(spec as unknown as ISequenceScatterPixelSpec);
 
     spec.type = 'common';
     spec.dataKey = DATA_KEY;
