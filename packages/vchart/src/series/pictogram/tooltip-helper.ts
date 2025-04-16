@@ -1,8 +1,8 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { PictogramSeries } from './pictogram';
-import type { TooltipHandlerParams } from '../../component';
-import type { Datum } from '../../typings';
+import { PictogramSeries } from './pictogram';
+import { TooltipHandlerParams } from '../../component';
+import { Datum } from '../../typings';
 
 export class PictogramSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   dimensionTooltipTitleCallback = (datum: any) => {

@@ -134,8 +134,10 @@ export {
   registerCustomMark,
   registerMapLabel,
   registerPoptip,
+
   // layout
   registerGridLayout,
+
   // vgrammar interactions,
   registerElementHighlight,
   registerElementSelect

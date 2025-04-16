@@ -74,7 +74,7 @@ import type { IVennChartSpec } from './venn';
 import { VennChart, registerVennChart } from './venn';
 import type { IMosaicChartSpec } from './mosaic';
 import { MosaicChart, registerMosaicChart } from './mosaic';
-import type { IPictogramChartSpec } from './pictogram/interface';
+import { IPictogramChartSpec } from './pictogram/interface';
 import { PictogramChart, registerPictogramChart } from './pictogram/pictogram';
 export {
   AreaChart,

@@ -7,7 +7,6 @@ export * from './core';
 // chart model for extension
 export * from './chart';
 export * from './chart/base';
-export * from './chart/cartesian';
 export * from './chart/common';
 export * from './series';
 export * from './mark';
