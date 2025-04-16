@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: axis datafilter support context. close#3332",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
