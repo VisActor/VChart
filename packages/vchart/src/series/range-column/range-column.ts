@@ -35,7 +35,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
   protected _barName: string = SeriesTypeEnum.bar;
 
-  protected declare _spec: T;
+  declare protected _spec: T;
 
   static readonly mark: SeriesMarkMap = rangeColumnSeriesMark;
   static readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;

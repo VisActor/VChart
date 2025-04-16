@@ -37,7 +37,7 @@ export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> ex
     if (bandAxis && !bandAxis.bandSize && !bandAxis.maxBandSize && !bandAxis.minBandSize) {
       // 将 autoBandSize 应用在轴上
       if (!!spec.autoBandSize) {
-        const extend = isObject(spec.autoBandSize) ? spec.autoBandSize.extend ?? 0 : 0;
+        const extend = isObject(spec.autoBandSize) ? (spec.autoBandSize.extend ?? 0) : 0;
         const { barMaxWidth, barMinWidth, barWidth, barGapInGroup } = spec.series.find(
           series => series.type === 'bar'
         ) as IBarSeriesSpec;

@@ -26,7 +26,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
   layoutZIndex: number = LayoutZIndex.CustomMark;
   layoutLevel: number = LayoutLevel.CustomMark;
 
-  protected declare _spec: ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec;
+  declare protected _spec: ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec;
 
   created() {
     super.created();

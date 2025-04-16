@@ -92,8 +92,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
           index >= subTickData.length || originValue > subTickData[index].value - step / 2
             ? Math.min(index, subTickData.length - 1)
             : index > 0
-            ? index - 1
-            : undefined;
+              ? index - 1
+              : undefined;
         if (targetIndex !== undefined) {
           pos = this.angleAxisHelper.dataToPosition([
             subTickData[targetIndex].value - step / 2 // 确保占满整个 tick mask
@@ -128,8 +128,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
         index >= subTickData.length || originValue > subTickData[index].value - step / 2
           ? Math.min(index, subTickData.length - 1)
           : index > 0
-          ? index - 1
-          : undefined;
+            ? index - 1
+            : undefined;
       let pos: number;
       if (targetIndex !== undefined) {
         pos = this.angleAxisHelper.dataToPosition([

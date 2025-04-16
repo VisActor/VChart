@@ -39,7 +39,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   };
   protected _rootDom?: HTMLElement;
   protected _tooltipActual?: ITooltipActual;
-  protected declare _container: Maybe<HTMLDivElement>;
+  declare protected _container: Maybe<HTMLDivElement>;
 
   /** 自定义 tooltip 的位置缓存 */
   protected _cacheCustomTooltipPosition: ILayoutPoint;

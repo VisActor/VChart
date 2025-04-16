@@ -391,15 +391,15 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       padding: this._spec.word?.padding ?? DEFAULT_FONT_PADDING,
       fontFamily: isValid(this._spec.fontFamilyField)
         ? { field: this._spec.fontFamilyField }
-        : wordStyleSpec.fontFamily ?? this._defaultFontFamily,
+        : (wordStyleSpec.fontFamily ?? this._defaultFontFamily),
       // 为了保持和旧版逻辑一致，优先级如下： spec field > mark style > default (根据valueField映射)
       fontWeight: isValid(this._spec.fontWeightField)
         ? { field: this._spec.fontWeightField }
         : isValid(wordStyleSpec.fontWeight)
-        ? wordStyleSpec.fontWeight
-        : isValid(this._valueField)
-        ? this._calculateFontWeight
-        : 'normal',
+          ? wordStyleSpec.fontWeight
+          : isValid(this._valueField)
+            ? this._calculateFontWeight
+            : 'normal',
       fontStyle: isValid(this._spec.fontStyleField) ? { field: this._spec.fontStyleField } : wordStyleSpec.fontStyle
     };
   }
@@ -439,7 +439,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
       fillingFontFamily: isValid(wordCloudShapeConfig.fillingFontFamilyField)
         ? { field: wordCloudShapeConfig.fillingFontFamilyField }
-        : fillingWordStyleSpec.fontFamily ?? this._defaultFontFamily,
+        : (fillingWordStyleSpec.fontFamily ?? this._defaultFontFamily),
       fillingPadding: this._spec.fillingWord?.padding ?? DEFAULT_FONT_PADDING,
       fillingFontStyle: isValid(wordCloudShapeConfig.fillingFontStyleField)
         ? { field: wordCloudShapeConfig.fillingFontStyleField }

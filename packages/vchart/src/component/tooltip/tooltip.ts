@@ -59,7 +59,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
    * 是否正在浏览tooltip内容
    */
   private _isEnterTooltip: boolean;
-  protected declare _spec: ITooltipSpec;
+  declare protected _spec: ITooltipSpec;
 
   tooltipHandler?: ITooltipHandler;
 
