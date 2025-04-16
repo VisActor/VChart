@@ -20,7 +20,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     return this._marks;
   }
 
-  declare protected _product: Maybe<IVGrammarGroupMark>;
+  protected declare _product: Maybe<IVGrammarGroupMark>;
   declare getProduct: () => Maybe<IVGrammarGroupMark>;
 
   protected _getDefaultStyle() {

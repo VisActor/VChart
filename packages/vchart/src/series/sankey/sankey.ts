@@ -1034,10 +1034,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             return datum[this._spec.categoryField];
           })
       : data?.links
-        ? Array.from(this.extractNamesFromLink(data.links))
-        : data?.values?.map((datum: Datum, index: number) => {
-            return datum[this._spec.categoryField];
-          });
+      ? Array.from(this.extractNamesFromLink(data.links))
+      : data?.values?.map((datum: Datum, index: number) => {
+          return datum[this._spec.categoryField];
+        });
 
     this._nodeList = nodeList;
 
@@ -1045,7 +1045,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   _getNodeNameFromData(datum: Datum) {
-    return datum?.datum ? datum.datum[this._spec.categoryField] : (datum.key ?? datum[this._spec.categoryField]);
+    return datum?.datum ? datum.datum[this._spec.categoryField] : datum.key ?? datum[this._spec.categoryField];
   }
 
   extractNamesFromTree(tree: any, categoryName: string) {

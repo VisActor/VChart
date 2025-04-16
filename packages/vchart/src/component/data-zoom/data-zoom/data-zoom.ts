@@ -299,7 +299,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
       delayType: spec.delayType,
-      delayTime: isValid(spec.delayType) ? (spec.delayTime ?? 30) : 0,
+      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
       realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,

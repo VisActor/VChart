@@ -294,15 +294,15 @@ export function stackLabel(
             pos === 'middle'
               ? 'center'
               : (pos === 'withChange' && datum.end - datum.start >= 0) || pos === 'max'
-                ? 'left'
-                : 'right';
+              ? 'left'
+              : 'right';
         } else {
           attribute.textBaseline =
             pos === 'middle'
               ? pos
               : (pos === 'withChange' && datum.end - datum.start >= 0) || pos === 'max'
-                ? 'bottom'
-                : 'top';
+              ? 'bottom'
+              : 'top';
         }
         attributeTransform?.(label, datum, attribute);
         return createText({ ...attribute, id: label.id });
