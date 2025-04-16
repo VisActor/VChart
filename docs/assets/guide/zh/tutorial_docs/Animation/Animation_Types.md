@@ -142,6 +142,16 @@ VChart 提供了各个系列间相关切换的形变动画。在你通过 `updat
 一对一动画是指两个不同的图形之间的过渡动画。例如在下面这个例子中，展示了我们在饼图和柱状图之间切换时的全局动画：
 
 ```javascript livedemo
+/**
+ * 自1.12.0后，全局形变动画需要手动注册才能生效
+ *
+ * import { registerMorph } from '@visactor/vchart';
+ *
+ * registerMorph();
+ */
+
+VCHART_MODULE.registerMorph();
+
 const pieSpec = {
   type: 'pie',
   data: [
@@ -184,6 +194,16 @@ setInterval(() => {
 一对多动画是指一个图形元素向多个图形元素过渡的动画。例如在下面这个例子中，展示了我们在柱状图和散点图之间切换时的全局动画，其中，将一个大的柱子拆分为多个散点的动画就是一对多动画。
 
 ```javascript livedemo
+/**
+ * 自1.12.0后，全局形变动画需要手动注册才能生效
+ *
+ * import { registerMorph } from '@visactor/vchart';
+ *
+ * registerMorph();
+ */
+
+VCHART_MODULE.registerMorph();
+
 function calculateAverage(data, dim) {
   let total = 0;
   for (let i = 0; i < data.length; i++) {

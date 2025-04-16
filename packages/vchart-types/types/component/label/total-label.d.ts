@@ -25,5 +25,5 @@ export declare class TotalLabel extends BaseLabelComponent {
     getVRenderComponents(): any[];
     protected _getSeries(): ISeries;
 }
-export declare function totalLabelPosition(series: ISeries, type: MarkType): string;
+export declare function totalLabelPosition(series: ISeries, type: MarkType, position?: 'top' | 'bottom'): string;
 export declare const registerTotalLabel: () => void;

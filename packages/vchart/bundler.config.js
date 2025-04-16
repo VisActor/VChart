@@ -63,7 +63,7 @@ const crossEnvs = bundle_analyze_mode ? {} : {
   },
 };
 
-const esEntries = ['index-harmony', 'index-harmony-simple'];
+const esEntries = bundle_analyze_mode ? [] : ['index-harmony', 'index-harmony-simple'];
 const umdEntries = Object.keys(crossEnvs)
   .map(env => crossEnvs[env].input)
   .filter((input, index, arr) => arr.indexOf(input, 0) === index);

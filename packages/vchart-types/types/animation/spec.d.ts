@@ -1,20 +1,22 @@
 import type { IAnimationConfig, IStateAnimationConfig } from '@visactor/vgrammar-core';
 import type { EasingType } from '@visactor/vrender-core';
 export type { IRunningConfig as IMorphConfig, IMorphAnimationConfig } from '@visactor/vgrammar-core';
-export type IStateAnimateSpec<Preset extends string> = {
-    preset?: Preset | false;
+export interface ICommonStateAnimateSpec {
     duration?: number;
     delay?: number;
     easing?: EasingType;
     oneByOne?: boolean;
-};
+}
+export interface IStateAnimateSpec<Preset extends string> extends ICommonStateAnimateSpec {
+    preset?: Preset | false;
+}
 export type IMarkAnimateSpec<MarkName extends string> = Partial<Record<MarkName, false | IAnimationConfig | IAnimationConfig[]>>;
 export interface IAnimationSpec<MarkName extends string, Preset extends string> {
     animationAppear?: boolean | IStateAnimateSpec<Preset> | IMarkAnimateSpec<MarkName>;
-    animationEnter?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
-    animationUpdate?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
-    animationExit?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
-    animationDisappear?: boolean | Omit<IStateAnimateSpec<Preset>, 'preset'> | IMarkAnimateSpec<MarkName>;
+    animationEnter?: boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>;
+    animationUpdate?: boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>;
+    animationExit?: boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>;
+    animationDisappear?: boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>;
     animationState?: boolean | IStateAnimationConfig;
     animationNormal?: IMarkAnimateSpec<MarkName>;
 }

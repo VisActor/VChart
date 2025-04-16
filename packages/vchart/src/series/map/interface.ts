@@ -1,7 +1,7 @@
 import type { IPathMarkSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IMarkSpec, IMarkTheme, ISeriesSpec } from '../../typings/spec/common';
 import type { IAnimationSpec } from '../../animation/spec';
-import { ILabelSpec } from '../../component';
+import type { ILabelSpec } from '../../component/label/interface';
 
 type LineMarks = 'area';
 
@@ -42,7 +42,9 @@ export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, '
    */
   area?: IMarkSpec<Omit<IPathMarkSpec, 'smoothScale'>>;
 
-  /** 默认填充颜色 */
+  /**
+   * 默认填充颜色
+   */
   defaultFillColor?: string;
 
   /**
@@ -57,7 +59,27 @@ export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, '
 }
 
 export interface IMapSeriesTheme {
+  /**
+   * 地图系列默认的填充颜色
+   */
   defaultFillColor?: string;
-  label?: Partial<IMarkTheme<ITextMarkSpec> & { offset?: number; position?: string }>;
+  /**
+   * 地图标签主题样式配置
+   */
+  label?: Partial<
+    IMarkTheme<ITextMarkSpec> & {
+      /**
+       * 标签文字偏移量
+       */
+      offset?: number;
+      /**
+       * 标签位置
+       */
+      position?: string;
+    }
+  >;
+  /**
+   * 地图中色块图元的主题样式配置
+   */
   area?: Partial<IMarkTheme<Omit<IPathMarkSpec, 'smoothScale'>>>;
 }

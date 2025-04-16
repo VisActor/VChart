@@ -1,13 +1,12 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IGrammarItem } from '../../compile/interface';
-import type { IGroupMark } from '../../mark/group';
 import type { IBaseModelSpecTransformerResult, IModelConstructor, IModelMarkInfo, IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
-import type { IMarkOption } from '../../mark/interface';
+import type { IGroupMark, IMarkOption } from '../../mark/interface';
 import type { ISeriesSpec, StringOrNumber } from '../../typings';
-import type { TransformedLabelSpec } from '../../component/label';
+import type { TransformedLabelSpec } from '../../component/label/interface';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
 export interface ISeriesSeriesInfo {
     key: string;

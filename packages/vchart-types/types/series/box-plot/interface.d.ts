@@ -3,7 +3,7 @@ import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { DirectionType, IBoxPlotMarkSpec, IOutlierMarkSpec, IMarkSpec, IMarkTheme } from '../../typings';
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
-export interface IBoxPlotSeriesSpec extends Omit<ICartesianSeriesSpec, 'xField' | 'yField' | 'direction'>, IAnimationSpec<string, string>, IMarkProgressiveConfig {
+export interface IBoxPlotSeriesSpec extends Omit<ICartesianSeriesSpec, 'xField' | 'yField' | 'direction'>, IAnimationSpec<SeriesMarkNameEnum.boxPlot, string>, IMarkProgressiveConfig {
     type: 'boxPlot';
     direction?: DirectionType;
     xField?: string | string[];

@@ -4,7 +4,7 @@ group: axis
 title: General Style Configuration
 keywords: lineChart,comparison,trend,line,axis
 order: 25-1
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/axis/style.png
+cover: /vchart/preview/axis-style_1.13.1.png
 option: lineChart#axes
 ---
 
@@ -23,6 +23,7 @@ For axis style configuration, configure through:
 - `tick` Coordinate axis scale line configuration
 - `grid` Coordinate axis grid line configuration
 - `title` Coordinate axis title configuration
+- `unit` Coordinate axis unit configuration
 
 ## Demo source
 
@@ -30,19 +31,19 @@ For axis style configuration, configure through:
 const spec = {
   type: 'line',
   theme: {
-    fontFamily: 'serif' // configure global font
+    fontFamily: 'serif' // Configure global fonts
   },
   data: [
     {
       id: 'line',
       values: [
-        { x: '周一', y: 12 },
-        { x: '周二', y: 13 },
-        { x: '周三', y: 11 },
-        { x: '周四', y: 10 },
-        { x: '周五', y: 12 },
-        { x: '周六', y: 14 },
-        { x: '周日', y: 17 }
+        { x: 'Monday', y: 12 },
+        { x: 'Tuesday', y: 13 },
+        { x: 'Wednesday', y: 11 },
+        { x: 'Thursday', y: 10 },
+        { x: 'Friday', y: 12 },
+        { x: 'Saturday', y: 14 },
+        { x: 'Sunday', y: 17 }
       ]
     }
   ],
@@ -54,12 +55,21 @@ const spec = {
       title: {
         visible: true,
         space: 12,
-        text: '右轴标题'
+        text: 'Right axis title'
       },
       label: {
         formatMethod: val => `${val}°C`,
         style: {
           fill: '#000'
+        }
+      },
+      unit: {
+        visible: true,
+        text: 'Unit of right axis',
+        style: {
+          // dx: -18,
+          dy: -8
+          // textAlign: 'right'
         }
       },
       tick: {
@@ -85,7 +95,16 @@ const spec = {
       title: {
         visible: true,
         space: 12,
-        text: '左轴标题'
+        text: 'Left axis title'
+      },
+      unit: {
+        visible: true,
+        text: 'Unit of left axis',
+        style: {
+          // dx: -18,
+          dy: -8
+          // textAlign: 'right'
+        }
       },
       label: {
         formatMethod: val => `${val}°C`,
@@ -121,6 +140,7 @@ const spec = {
           fill: '#000'
         }
       },
+
       tick: {
         inside: true,
         tickSize: 8,

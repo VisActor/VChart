@@ -8,18 +8,17 @@ export class BoxPlotChartSpecTransformer<
 > extends CartesianChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
     const dataFields = [spec.maxField, spec.medianField, spec.q1Field, spec.q3Field, spec.minField, spec.outliersField];
-    const seriesSpec = {
-      ...super._getDefaultSeriesSpec(spec),
-      boxPlot: spec.boxPlot,
-      direction: spec.direction ?? Direction.vertical,
-      minField: spec.minField,
-      maxField: spec.maxField,
-      q1Field: spec.q1Field,
-      medianField: spec.medianField,
-      q3Field: spec.q3Field,
-      outliersField: spec.outliersField,
-      outliersStyle: spec.outliersStyle
-    };
+    const seriesSpec = super._getDefaultSeriesSpec(spec, [
+      'boxPlot',
+      'minField',
+      'maxField',
+      'q1Field',
+      'medianField',
+      'q3Field',
+      'outliersField',
+      'outliersStyle'
+    ]);
+    seriesSpec.direction = spec.direction ?? Direction.vertical;
     seriesSpec[seriesSpec.direction === Direction.horizontal ? 'xField' : 'yField'] = dataFields;
 
     return seriesSpec;

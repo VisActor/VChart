@@ -1,5 +1,5 @@
 import type { IPoint, StringOrNumber } from '../../../typings';
-import type { IPolarAxis } from '../../axis';
+import type { IPolarAxis } from '../../axis/polar/interface';
 export interface IPolarCrosshairInfo {
     x: number;
     y: number;

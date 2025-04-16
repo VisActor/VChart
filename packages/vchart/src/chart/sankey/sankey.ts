@@ -9,7 +9,7 @@ import type { Datum, MaybeArray } from '../../typings/common';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface/common';
 import type { IRegionQuerier } from '../../typings/params';
-import { isArray, isFunction } from '@visactor/vutils';
+import { isArray } from '@visactor/vutils';
 import { loadScrollbar } from '@visactor/vrender-components';
 
 export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
@@ -29,57 +29,41 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
   ) {
     // 桑基图暂时只支持单选
     const activeDatum = isArray(datum) ? datum[0] : datum;
-    const keys = !activeDatum ? null : Object.keys(activeDatum);
-    this.getRegionsInQuerier(region).forEach(r => {
-      if (!activeDatum) {
-        r.interaction.clearEventElement(stateKey, true);
-        return;
-      }
-      let hasPick = false;
-      r.getSeries().forEach(s => {
-        let activeNodeOrLink = null;
+    const markFilter = (series: ISeries, mark: IMark) => {
+      return mark.type !== 'text' && mark.getProduct() && (!filter || filter(series, mark));
+    };
 
-        s.getMarksWithoutRoot().forEach(m => {
-          if (m.type === 'text') {
-            return;
-          }
+    this.filterGraphicsByDatum(activeDatum, {
+      filter: markFilter,
+      region,
+      getDatum: e => {
+        let d = e.getDatum()?.datum;
 
-          let pickElement = null;
-          const mark = m.getProduct();
-          if (!mark) {
-            return;
-          }
-          if (!filter || (isFunction(filter) && filter(s, m))) {
-            pickElement = mark.elements.find((e: any) =>
-              keys.every(k => {
-                let datum = e.getDatum()?.datum;
-
-                if (isArray(datum)) {
-                  // data of link
-                  datum = datum[0];
-                }
-
-                // eslint-disable-next-line eqeqeq
-                return activeDatum[k] == datum?.[k];
-              })
-            );
-          }
-          if (pickElement) {
-            hasPick = true;
-            r.interaction.startInteraction(stateKey, pickElement);
-
-            if (mark.id().includes('node') || mark.id().includes('link')) {
-              activeNodeOrLink = pickElement;
-            }
-          }
-        });
-
-        if (activeNodeOrLink) {
-          (s as any)._handleEmphasisElement?.({ item: activeNodeOrLink });
+        if (isArray(d)) {
+          // data of link
+          d = d[0];
         }
-      });
-      if (checkReverse && hasPick) {
-        r.interaction.reverseEventElement(stateKey);
+        return d;
+      },
+      callback: (element, mark, s, r) => {
+        const id = mark.getProduct()?.id();
+        if (id && (id.includes('node') || id.includes('link'))) {
+          (s as any)._handleEmphasisElement?.({ item: element });
+        }
+      },
+      regionCallback: (elements, r) => {
+        if (!activeDatum) {
+          r.interaction.clearEventElement(stateKey, true);
+          return;
+        } else if (elements.length) {
+          elements.forEach(e => {
+            r.interaction.startInteraction(stateKey, e);
+          });
+
+          if (checkReverse) {
+            r.interaction.reverseEventElement(stateKey);
+          }
+        }
       }
     });
   }

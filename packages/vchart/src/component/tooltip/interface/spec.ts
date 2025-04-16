@@ -20,6 +20,9 @@ export interface ITooltipSpec
      */
     ITooltipActiveTypeAsKeys<
       ITooltipPattern & {
+        /**
+         * mark tooltip是否展示触发点所在的所有图形的数据
+         */
         checkOverlap?: boolean;
       },
       ITooltipPattern,
@@ -77,7 +80,7 @@ export interface ITooltipSpec
    */
   lockAfterClick?: boolean;
   /**
-   * tooltip样式
+   * tooltip样式，是现在支持的三种类型的tooltip组件（包括dimension、mark、group）的公共样式
    */
   style?: Omit<ITooltipTheme<string>, 'offset' | 'transitionDuration'>;
 
@@ -125,9 +128,17 @@ export interface ITooltipSpec
    * @since 1.6.0
    */
   updateElement?: (tooltipElement: HTMLElement, actualTooltip: ITooltipActual, params: TooltipHandlerParams) => void;
-
+  /**
+   * 计算tooltip位置时候的偏移量
+   */
   offset?: {
+    /**
+     * x 方向的偏移量
+     */
     x?: number;
+    /**
+     * y 方向的偏移量
+     */
     y?: number;
   };
 }
@@ -155,8 +166,17 @@ type ISeriesToolipPattern = Pick<
  * 对于visible相当配置，系列tooltip只能关闭，不能覆盖全局tooltip配置
  */
 export interface ISeriesTooltipSpec extends Pick<ITooltipSpec, 'visible' | 'activeType' | 'handler'> {
+  /**
+   * 该系列数据在dimension tooltip中特有的配置
+   */
   dimension?: ISeriesToolipPattern;
+  /**
+   * 该系列数据在mark tooltip中特有的配置
+   */
   mark?: ISeriesToolipPattern;
+  /**
+   * 该系列数据在group tooltip中特有的配置
+   */
   group?: Pick<IGroupTooltipPattern, 'triggerMark'> & ISeriesToolipPattern;
 }
 

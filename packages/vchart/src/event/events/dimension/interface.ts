@@ -1,7 +1,7 @@
 import type { BaseEventParams } from '../../interface';
 import type { ISeries } from '../../../series/interface';
 import type { Datum } from '../../../typings';
-import type { IAxis } from '../../../component/axis';
+import type { IAxis } from '../../../component/axis/interface';
 
 export enum DimensionEventEnum {
   dimensionHover = 'dimensionHover',

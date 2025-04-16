@@ -21,12 +21,12 @@ export class WaterfallChartSpecTransformer<
   }
 
   protected _getDefaultSeriesSpec(spec: AdaptiveSpec<T, 'type' | 'series' | 'label'>): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-      bar: spec.bar,
-      stackLabel: spec.stackLabel,
-      leaderLine: spec.leaderLine,
-      total: spec.total
-    };
+    const series = super._getDefaultSeriesSpec(spec);
+    series.bar = spec.bar;
+    series.stackLabel = spec.stackLabel;
+    series.leaderLine = spec.leaderLine;
+    series.total = spec.total;
+
+    return series;
   }
 }

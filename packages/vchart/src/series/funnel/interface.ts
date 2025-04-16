@@ -15,7 +15,7 @@ import type {
 } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import { ILabelSpec } from '../../component';
+import type { ILabelSpec } from '../../component/label/interface';
 
 type FunnelMarks = 'funnel';
 
@@ -84,6 +84,12 @@ export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMar
    * @since 1.10.1
    */
   heightRatio?: number;
+  /**
+   * 漏斗图转化率文案，用于转化层 tooltip key 的显示内容
+   *  @since 1.13.6
+   * @default '转化率'
+   * */
+  transformRatioText?: string;
   /**
    * 漏斗层样式
    */

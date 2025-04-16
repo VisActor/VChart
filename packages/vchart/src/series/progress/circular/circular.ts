@@ -1,11 +1,10 @@
 /* eslint-disable no-duplicate-imports */
 import type { BandScale } from '@visactor/vscale';
-import type { IArcMark } from '../../../mark/arc';
 import type { Datum } from '../../../typings';
 import { isValidNumber } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
-import { animationConfig, userAnimationConfig } from '../../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../../animation/utils';
 import type { ICircularProgressSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IStateAnimateSpec } from '../../../animation/spec';
@@ -16,7 +15,7 @@ import { AttributeLevel } from '../../../constant/attribute';
 import { Factory } from '../../../core/factory';
 import { registerProgressLikeAnimation } from '../../polar/progress-like';
 import { registerFadeInOutAnimation } from '../../../animation/config';
-import type { IMark } from '../../../mark/interface';
+import type { IArcMark, IMark } from '../../../mark/interface';
 import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
 import { registerPolarLinearAxis, registerPolarBandAxis } from '../../../component/axis/polar';
 
@@ -62,6 +61,7 @@ export class CircularProgressSeries<
         stateSort: this._spec.progress?.stateSort
       },
       {
+        morph: shouldMarkDoMorph(this._spec, SeriesMarkNameEnum.progress),
         setCustomizedShape: this._spec.progress?.customShape
       }
     ) as IArcMark;
@@ -126,6 +126,13 @@ export class CircularProgressSeries<
         setCustomizedShape: this._spec.track?.customShape
       }
     ) as IArcMark;
+
+    // 背景条不参与morphing 动画
+    this._trackMark.setMarkConfig({
+      morph: false,
+      morphKey: null,
+      morphElementKey: null
+    });
     return this._trackMark;
   }
 

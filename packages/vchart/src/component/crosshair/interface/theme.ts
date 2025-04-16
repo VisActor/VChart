@@ -4,7 +4,7 @@ import type {
   ICrosshairCategoryFieldSpec,
   ICrosshairValueFieldSpec,
   IPolarCrosshairSpec
-} from '.';
+} from './spec';
 
 export interface ICrosshairTheme extends ICommonCrosshairSpec {
   /**

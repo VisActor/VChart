@@ -1,6 +1,6 @@
 import type { ISeriesSpec } from '../../typings/spec/common';
 import type { DirectionType } from '../../typings';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec } from '../../component/label/interface';
 
 export interface ICartesianSeriesSpec extends ISeriesSpec {
   /**

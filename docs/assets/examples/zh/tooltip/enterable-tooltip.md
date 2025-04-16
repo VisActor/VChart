@@ -87,7 +87,7 @@ const spec = {
         el.style.width = 'auto';
         el.style.height = 'auto';
         el.style.minHeight = 'auto';
-        el.getElementsByClassName('value-box')[0].style.flex = '1';
+        el.getElementsByClassName('vchart-tooltip-value-column')[0].style.flex = '1';
         for (const valueLabel of el.getElementsByClassName('value')) {
           valueLabel.style.maxWidth = 'none';
         }

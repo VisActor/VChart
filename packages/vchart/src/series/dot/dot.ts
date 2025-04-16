@@ -4,17 +4,12 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import type { Datum } from '../../typings';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { isValid } from '@visactor/vutils';
-import type { ISymbolMark } from '../../mark/symbol';
-import type { ITextMark } from '../../mark/text';
-import type { IRuleMark } from '../../mark/rule';
-import type { IMark } from '../../mark/interface';
+import type { IGroupMark, IMark, IRectMark, IRuleMark, ISymbolMark, ITextMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { dataViewParser } from '@visactor/vdataset';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
-import type { IGroupMark } from '../../mark/group';
 import type { IModelEvaluateOption } from '../../model/interface';
 import { DotSeriesTooltipHelper } from './tooltip-helper';
-import type { IRectMark } from '../../mark/rect';
 import type { FunctionType, IFillMarkSpec, VisualType } from '../../typings/visual';
 import type { IDotSeriesSpec } from './interface';
 import { copyDataView } from '../../data/transforms/copy-data-view';
@@ -391,8 +386,8 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     return this._seriesGroupField
       ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
       : this._seriesField
-      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-      : [];
+        ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+        : [];
   }
 
   /**
@@ -414,10 +409,10 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     const colorDomain = this._dotTypeField
       ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesGroupField
-      ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
-      : this._seriesField
-      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-      : [];
+        ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
+        : this._seriesField
+          ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+          : [];
     const colorRange = this._getDataScheme();
     return new ColorOrdinalScale().domain(colorDomain).range(colorRange);
   }

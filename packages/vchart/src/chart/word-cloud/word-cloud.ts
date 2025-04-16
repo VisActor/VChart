@@ -1,17 +1,17 @@
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
-import type { IWordCloudChartSpec } from './interface';
+import { IWordCloudChartSpec } from './interface';
 import { BaseWordCloudChart } from './base/base';
 import { registerWordCloudSeries, registerWordCloudShapeSeries } from '../../series/word-cloud/word-cloud';
 import { Factory } from '../../core/factory';
-import { WordCloudChartSpecTransformer } from './word-cloud-transformer';
+import { BaseWordCloudChartSpecTransformer } from './base/word-cloud-base-transformer';
 
 export class WordCloudChart<T extends IWordCloudChartSpec = IWordCloudChartSpec> extends BaseWordCloudChart<T> {
   static readonly type: string = ChartTypeEnum.wordCloud;
   static readonly seriesType: string = SeriesTypeEnum.wordCloud;
-  static readonly transformerConstructor = WordCloudChartSpecTransformer;
-  readonly transformerConstructor = WordCloudChartSpecTransformer;
+  static readonly transformerConstructor = BaseWordCloudChartSpecTransformer<IWordCloudChartSpec>;
+  readonly transformerConstructor = BaseWordCloudChartSpecTransformer<IWordCloudChartSpec>;
   readonly type: string = ChartTypeEnum.wordCloud;
   readonly seriesType: string = SeriesTypeEnum.wordCloud;
 }

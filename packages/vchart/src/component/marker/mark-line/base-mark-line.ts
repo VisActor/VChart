@@ -15,7 +15,7 @@ import type { MarkLine as MarkLineComponent, MarkArcLine as MarkArcLineComponent
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { IGroup } from '@visactor/vrender-core';
-import type { IMarkProcessOptions, IMarkerSymbol } from '../interface';
+import type { IMarkerSymbol } from '../interface';
 import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant/layout';
 import { markerFilter } from '../../../data/transforms/marker-filter';
@@ -30,7 +30,6 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
     attr: MarkLineAttrs | MarkArcLineAttrs
   ): MarkLineComponent | MarkArcLineComponent;
   protected abstract _computePointsAttr(): any;
-  protected abstract _computeOptions(): IMarkProcessOptions;
 
   static _getMarkerCoordinateType(markerSpec: any): string {
     const { doAngleProcess, doRadiusProcess, doAngRadRad1Process, doRadAngAng1Process, doRadAngProcess } =

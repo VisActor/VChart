@@ -7,7 +7,7 @@ import type { SeriesMarkNameEnum } from '../interface/type';
 export interface IBoxPlotSeriesSpec
   extends Omit<ICartesianSeriesSpec, 'xField' | 'yField' | 'direction'>,
     // TODO: 补充动画类型 @chengda
-    IAnimationSpec<string, string>,
+    IAnimationSpec<SeriesMarkNameEnum.boxPlot, string>,
     IMarkProgressiveConfig {
   /** 系列类型 */
   type: 'boxPlot';

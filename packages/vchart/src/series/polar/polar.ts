@@ -11,6 +11,7 @@ import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
 import { ChartEvent } from '../../constant/event';
+import type { StatisticOperations } from '../../data/transforms/interface';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>
@@ -165,7 +166,7 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   }
 
   getStatisticFields() {
-    const fields: { key: string; operations: Array<'max' | 'min' | 'values'> }[] = [];
+    const fields: { key: string; operations: StatisticOperations }[] = [];
     if (this.radiusAxisHelper?.getScale) {
       this._radiusField.forEach(f => {
         const result: { key: string; operations: Array<'max' | 'min' | 'values'> } = { key: f, operations: [] };

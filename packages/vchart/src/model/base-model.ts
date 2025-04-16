@@ -79,7 +79,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   readonly specKey: string = '';
 
-  protected declare _option: IModelOption;
+  declare protected _option: IModelOption;
   getOption() {
     return this._option;
   }
@@ -157,6 +157,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   beforeRelease() {
     // do nothing
+  }
+
+  clear() {
+    this.getMarks().forEach(m => m.clear?.());
   }
 
   release() {

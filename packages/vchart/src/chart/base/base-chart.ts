@@ -37,7 +37,7 @@ import type { IRegion } from '../../region/interface';
 import { ComponentTypeEnum } from '../../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent, IComponentConstructor } from '../../component/interface';
-import type { IMark } from '../../mark/interface';
+import type { IMark, IRectMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
@@ -52,7 +52,7 @@ import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
 // eslint-disable-next-line no-duplicate-imports
 import type { IParserOptions } from '@visactor/vdataset';
-import type { IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
@@ -65,11 +65,11 @@ import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension';
 import type { ITooltip } from '../../component/tooltip/interface';
-import type { IRectMark } from '../../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from '../util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
 import { LayoutZIndex } from '../../constant/layout';
+import type { IAxis } from '../../component/axis/interface/common';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -77,8 +77,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
 
   readonly id: number = createID();
-
-  protected _transformer: IChartSpecTransformer;
 
   //FIXME: 转换后的 spec 需要声明 ITransformedChartSpec
   protected _spec: T;
@@ -131,9 +129,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
   setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, renderNextTick: boolean = true): boolean {
     this._layoutTag = tag;
-    if (this.getCompiler()?.getVGrammarView()) {
-      this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && renderNextTick && this.getCompiler().renderNextTick(morphConfig);
+    const compiler = this.getCompiler();
+
+    if (compiler?.getVGrammarView()) {
+      compiler.getVGrammarView().updateLayoutTag();
+      tag && renderNextTick && compiler.renderNextTick(morphConfig);
     }
     return this._layoutTag;
   }
@@ -164,7 +164,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     return this._chartData;
   }
 
-  protected declare _option: IChartOption;
+  declare protected _option: IChartOption;
 
   // 模块内的需要动态影像图表的属性
   readonly state: ILayoutModelState = {
@@ -204,12 +204,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._spec = spec;
   }
 
-  created() {
-    this._transformer = new this.transformerConstructor({
-      ...this._option,
-      type: this.type,
-      seriesType: this.seriesType
-    });
+  created(transformer: Maybe<IChartSpecTransformer>) {
     // data
     this._chartData.parseData(this._spec.data);
     // scale
@@ -220,11 +215,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._createLayout();
     // 基于spec 创建元素。
     // region
-    this._transformer.forEachRegionInSpec(this._spec, this._createRegion.bind(this));
+    transformer.forEachRegionInSpec(this._spec, this._createRegion.bind(this));
     // series
-    this._transformer.forEachSeriesInSpec(this._spec, this._createSeries.bind(this));
+    transformer.forEachSeriesInSpec(this._spec, this._createSeries.bind(this));
     // components
-    this._transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
+    transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
   }
 
   init() {
@@ -714,6 +709,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           Object.prototype.hasOwnProperty.call(tempSpec, 'range') && (colorScaleSpec.range = tempSpec.range);
           Object.prototype.hasOwnProperty.call(tempSpec, 'specified') &&
             (colorScaleSpec.specified = tempSpec.specified);
+          Object.prototype.hasOwnProperty.call(tempSpec, 'clamp') && (colorScaleSpec.clamp = tempSpec.clamp);
         }
       }
     }
@@ -881,7 +877,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     const checkVisibleComponents: Record<string, boolean> = {
       [ComponentTypeEnum.title]: true,
       [ComponentTypeEnum.brush]: true,
-      [ComponentTypeEnum.mapLabel]: true
+      [ComponentTypeEnum.mapLabel]: true,
+      [ComponentTypeEnum.indicator]: true
     };
 
     this._components.forEach(c => {
@@ -1229,6 +1226,85 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     });
   }
 
+  filterGraphicsByDatum(
+    datum: MaybeArray<Datum> | null,
+    opt: {
+      filter?: (series: ISeries, mark: IMark) => boolean;
+      region?: IRegionQuerier;
+      getDatum?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => Datum;
+      callback?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => void;
+      regionCallback?: (pickElements: IElement[], r: IRegion) => void;
+    } = {}
+  ) {
+    datum = datum ? array(datum) : null;
+    const keys = !datum ? null : Object.keys((datum as Datum[])[0]);
+    const allElements = [] as IElement[];
+    const getDatumOfElement = opt.getDatum ?? ((el: IElement) => el.getDatum());
+
+    this.getRegionsInQuerier(opt.region).forEach(r => {
+      const pickElements = [] as IElement[];
+      datum &&
+        r.getSeries().forEach(s => {
+          s.getMarks().forEach(m => {
+            if (!m.getProduct()) {
+              return;
+            }
+            if (!opt.filter || (isFunction(opt.filter) && opt.filter(s, m))) {
+              const isCollect = m.getProduct().isCollectionMark();
+              const elements = m.getProduct().elements;
+              if (isCollect) {
+                elements.filter(e => {
+                  const elDatum = getDatumOfElement(e, m, s, r);
+                  const isPick =
+                    // eslint-disable-next-line max-nested-callbacks, eqeqeq
+                    elDatum && (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
+
+                  if (isPick) {
+                    pickElements.push(e);
+                    allElements.push(e);
+                    opt.callback && opt.callback(e, m, s, r);
+                  }
+                });
+              } else {
+                if (datum.length > 1) {
+                  const datumTemp = (datum as Datum[]).slice();
+
+                  elements.forEach(e => {
+                    const elDatum = getDatumOfElement(e, m, s, r);
+                    // eslint-disable-next-line max-nested-callbacks, eqeqeq
+                    const index = elDatum && datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
+                    if (index >= 0) {
+                      datumTemp.splice(index, 1);
+
+                      pickElements.push(e);
+                      allElements.push(e);
+                      opt.callback && opt.callback(e, m, s, r);
+                    }
+                  });
+                } else {
+                  const el = elements.find(e => {
+                    const elDatum = getDatumOfElement(e, m, s, r);
+                    // eslint-disable-next-line eqeqeq
+                    return elDatum && keys.every(k => (datum as Datum[])[0][k] == elDatum[k]);
+                  });
+
+                  if (el) {
+                    pickElements.push(el);
+                    allElements.push(el);
+                    opt.callback && opt.callback(el, m, s, r);
+                  }
+                }
+              }
+            }
+          });
+        });
+
+      opt.regionCallback && opt.regionCallback(pickElements, r);
+    });
+
+    return allElements;
+  }
+
   protected _setStateInDatum(
     stateKey: string,
     checkReverse: boolean,
@@ -1236,58 +1312,21 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ) {
-    datum = datum ? array(datum) : null;
-    const keys = !datum ? null : Object.keys(datum[0]);
-    this.getRegionsInQuerier(region).forEach(r => {
-      if (!datum) {
-        r.interaction.clearEventElement(stateKey, true);
-        return;
-      }
-      r.getSeries().forEach(s => {
-        s.getMarks().forEach(m => {
-          if (!m.getProduct()) {
-            return;
+    this.filterGraphicsByDatum(datum, {
+      filter,
+      region,
+      regionCallback: (elements, r) => {
+        if (!datum) {
+          r.interaction.clearEventElement(stateKey, true);
+        } else if (elements.length) {
+          elements.forEach(e => {
+            r.interaction.startInteraction(stateKey, e);
+          });
+
+          if (checkReverse) {
+            r.interaction.reverseEventElement(stateKey);
           }
-          if (!filter || (isFunction(filter) && filter(s, m))) {
-            const isCollect = m.getProduct().isCollectionMark();
-            const elements = m.getProduct().elements;
-            let pickElements = [] as IElement[];
-            if (isCollect) {
-              pickElements = elements.filter(e => {
-                const elDatum = e.getDatum();
-                // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
-              });
-            } else {
-              if (datum.length > 1) {
-                const datumTemp = (datum as Datum[]).slice();
-                pickElements = elements.filter(e => {
-                  if (datumTemp.length === 0) {
-                    return false;
-                  }
-                  const elDatum = e.getDatum();
-                  // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                  const index = datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
-                  if (index >= 0) {
-                    datumTemp.splice(index, 1);
-                    return true;
-                  }
-                  return false;
-                });
-              } else {
-                // eslint-disable-next-line eqeqeq
-                const el = elements.find(e => keys.every(k => datum[0][k] == e.getDatum()[k]));
-                el && (pickElements = [el]);
-              }
-            }
-            pickElements.forEach(element => {
-              r.interaction.startInteraction(stateKey, element);
-            });
-          }
-        });
-      });
-      if (checkReverse) {
-        r.interaction.reverseEventElement(stateKey);
+        }
       }
     });
   }
@@ -1338,15 +1377,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
       if (crosshair && crosshair.clearAxisValue && crosshair.setAxisValue) {
         if (isUnableValue) {
-          crosshair.clearAxisValue?.();
-          crosshair.hide?.();
+          crosshair.hideCrosshair();
         } else {
-          dimensionInfo.forEach((d: IDimensionInfo) => {
-            const { axis, value } = d;
-            crosshair.clearAxisValue();
-            crosshair.setAxisValue(value, axis);
-            crosshair.layoutByValue();
-          });
+          crosshair.showCrosshair(dimensionInfo as { axis: IAxis; value: string | number }[]);
         }
       }
     }

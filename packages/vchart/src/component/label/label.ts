@@ -7,43 +7,29 @@ import { STACK_FIELD_TOTAL_BOTTOM, STACK_FIELD_TOTAL_TOP } from '../../constant/
 import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
 import { AttributeLevel } from '../../constant/attribute';
 import { LayoutZIndex } from '../../constant/layout';
-import { MarkTypeEnum } from '../../mark/interface';
+import type { IComponentMark, ILabelMark } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { eachSeries } from '../../util/model';
-import type { ISeries } from '../../series/interface';
+import type { ISeries, SeriesMarkNameEnum } from '../../series/interface';
 import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { defaultLabelConfig, textAttribute } from './util';
-import type { IComponentMark } from '../../mark/component';
 // eslint-disable-next-line no-duplicate-imports
 import { registerComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isArray, isFunction, isValid, pickWithout } from '@visactor/vutils';
-import type { ILabelSpec, TransformedLabelSpec } from './interface';
+import type { ILabelInfo, ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
-import type { ILabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabelMark } from '../../mark/label';
-import type { ICompilableMark } from '../../compile/mark';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';
 import { LabelSpecTransformer } from './label-transformer';
-import { HOOK_EVENT } from '@visactor/vgrammar-core';
-
-export interface ILabelInfo {
-  baseMark: ICompilableMark;
-  labelMark: ILabelMark;
-  series: ISeries;
-  labelSpec: TransformedLabelSpec;
-}
-
-export interface ILabelComponentContext {
-  region: IRegion;
-  labelInfo: ILabelInfo[];
-}
+import type { IGraphic } from '@visactor/vrender-core';
 
 export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
   static type = ComponentTypeEnum.label;
@@ -156,7 +142,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         if (!mark) {
           continue;
         }
-        markLabelSpec[markName].forEach((spec: TransformedLabelSpec, index: number) => {
+        markLabelSpec[markName as SeriesMarkNameEnum].forEach((spec: TransformedLabelSpec, index: number) => {
           if (spec.visible) {
             const info = this._labelInfoMap.get(region);
             const labelMark = this._createMark(
@@ -166,6 +152,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
               },
               { noSeparateStyle: true, attributeContext: series.getMarkAttributeContext() }
             ) as ILabelMark;
+            if (spec.showRelatedMarkTooltip) {
+              series.tooltipHelper?.activeTriggerSet.mark?.add(labelMark);
+            }
             labelMark.setTarget(mark);
             info.push({
               labelMark,
@@ -350,7 +339,12 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod, labelSpec.formatter);
         }
       })
-      .size(() => labelInfos[0].series.getRegion().getLayoutRect());
+      .size(() => {
+        return {
+          padding: labelInfos[0].labelSpec.overlap?.padding,
+          ...labelInfos[0].series.getRegion().getLayoutRect()
+        };
+      });
   }
 
   compileMarks() {
@@ -368,13 +362,29 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
 
   getVRenderComponents() {
     const labels: any[] = [];
-    this._labelComponentMap.forEach((info, component) => {
+    this._labelComponentMap.forEach((infoFunc, component) => {
       const graphicItem = component.getProduct().getGroupGraphicItem();
       if (graphicItem) {
         labels.push(graphicItem);
       }
     });
     return labels;
+  }
+
+  getLabelInfoByTextGraphic(text: IGraphic): ILabelInfo {
+    let labelInfo: ILabelInfo;
+    const vrenderLabel = text?.parent;
+    const vrenderDataLabel = vrenderLabel?.parent;
+    if (vrenderDataLabel) {
+      const labelIndex = vrenderDataLabel.getChildren().indexOf(vrenderLabel as any);
+      this._labelComponentMap.forEach((infoFunc, component) => {
+        const graphicItem = component.getProduct().getGroupGraphicItem();
+        if (graphicItem === vrenderDataLabel) {
+          labelInfo = array(infoFunc())[labelIndex];
+        }
+      });
+    }
+    return labelInfo;
   }
 }
 

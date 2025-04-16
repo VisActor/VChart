@@ -2,7 +2,7 @@ import type { ICartesianHorizontal } from './interface/spec';
 import { Bounds, last, type IBounds, type IBoundsLike, type Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
-import { SeriesTypeEnum, type ICartesianSeries } from '../../../series/interface';
+import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianVertical } from './interface';
 import { mergeSpec } from '@visactor/vutils-extension';
@@ -50,7 +50,6 @@ import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
 import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
-import { STACK_FIELD_END, STACK_FIELD_START } from '../../../constant/data';
 
 const CartesianAxisPlugin = [AxisSyncPlugin];
 
@@ -674,8 +673,9 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   private _getTitleLimit(isX: boolean) {
-    if (this._spec.title.visible && isNil(this._spec.title.style?.maxLineWidth)) {
-      const angle = this._axisStyle.title?.angle ?? this._spec.title.style?.angle ?? 0;
+    const titleSpec = this._spec.title;
+    if (titleSpec.visible && isNil(titleSpec.style?.maxLineWidth)) {
+      const angle = this._axisStyle.title?.angle ?? titleSpec.style?.angle ?? 0;
       if (isX) {
         const width = this.getLayoutRect().width;
         const cosValue = Math.abs(Math.cos(angle));
@@ -722,66 +722,21 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     const isX = isXAxis(this._orient);
     const isY = isYAxis(this._orient);
     const isZ = isZAxis(this._orient);
-    let end = { x: 0, y: 0 };
-    let gridLength = 0;
-    let axisLength = 0;
     const depth = this.layout3dBox ? this.layout3dBox.length : 0;
+    let end = { x: 0, y: 0 };
+    let gridLength = regionHeight;
+    let axisLength = width;
+
     if (isX) {
       end = { x: width, y: 0 };
-      gridLength = regionHeight;
-      axisLength = width;
     } else if (isY) {
       end = { x: 0, y: height };
       gridLength = regionWidth;
       axisLength = height;
+    } else if (isZ) {
+      end = { x: depth, y: 0 };
     }
-    if (isZ) {
-      const directionStr = this.directionStr ?? 'r2l';
-      const depthZ = this.layout3dBox ? this.layout3dBox.width : 0;
-      let anchor3d = [0, 0];
-      let alpha = -Math.PI / 2;
-      let z = 0;
-      if (directionStr === 'l2r') {
-        z = this.layout3dBox.length;
-        anchor3d = [0, 0, 0];
-        alpha = Math.PI / 2;
-      }
-      const items = this.getLabelItems(width);
-      const axisAttrs: any = {
-        start: { x: 0, y: 0 },
-        end: { x: depth, y: 0 },
-        z: z,
-        alpha,
-        anchor3d,
-        title: {
-          text: this._spec.title.text || this._dataFieldText,
-          maxWidth: this._getTitleLimit(isX)
-        },
-        items
-      };
-      if (!ignoreGrid) {
-        axisAttrs.grid = {
-          type: 'line',
-          start: { x: 0, y: 0 },
-          end: { x: depth, y: 0 },
-          items: items[0],
-          verticalFactor: this._axisStyle.verticalFactor,
-          depth: depthZ,
-          length: regionHeight,
-          z: z,
-          alpha,
-          anchor3d
-        };
-      }
-      return axisAttrs;
-    }
-    let verticalMinSize = isX ? this.layout.minHeight : this.layout.minWidth;
-    if (
-      (isX && this._layout.layoutRectLevelMap.height === USER_LAYOUT_RECT_LEVEL) ||
-      (isY && this._layout.layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL)
-    ) {
-      verticalMinSize = this._verticalLimitSize;
-    }
+
     const items = this.getLabelItems(axisLength);
     const attrs: any = {
       start: { x: 0, y: 0 },
@@ -790,12 +745,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         text: this._spec.title.text || this._dataFieldText,
         maxWidth: this._getTitleLimit(isX)
       },
-      items,
-      verticalLimitSize: this._verticalLimitSize,
-      verticalMinSize,
-      label: {
-        overflowLimitLength: this._getLabelOverflowLimit(isX)
-      }
+      items
     };
     if (!ignoreGrid) {
       attrs.grid = {
@@ -808,6 +758,41 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         length: gridLength
       };
     }
+
+    if (isZ) {
+      const directionStr = this.directionStr ?? 'r2l';
+      const depthZ = this.layout3dBox ? this.layout3dBox.width : 0;
+      let anchor3d = [0, 0];
+      let alpha = -Math.PI / 2;
+      let z = 0;
+      if (directionStr === 'l2r') {
+        z = this.layout3dBox.length;
+        anchor3d = [0, 0, 0];
+        alpha = Math.PI / 2;
+      }
+      attrs.z = z;
+      attrs.alpha = alpha;
+      attrs.anchor3d = anchor3d;
+
+      if (!ignoreGrid) {
+        attrs.grid.depth = depthZ;
+      }
+    } else {
+      let verticalMinSize = isX ? this.layout.minHeight : this.layout.minWidth;
+      if (
+        (isX && this._layout.layoutRectLevelMap.height === USER_LAYOUT_RECT_LEVEL) ||
+        (isY && this._layout.layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL)
+      ) {
+        verticalMinSize = this._verticalLimitSize;
+      }
+
+      attrs.verticalLimitSize = this._verticalLimitSize;
+      attrs.verticalMinSize = verticalMinSize;
+      attrs.label = {
+        overflowLimitLength: this._getLabelOverflowLimit(isX)
+      };
+    }
+
     return attrs;
   }
 

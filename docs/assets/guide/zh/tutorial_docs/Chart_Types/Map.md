@@ -336,3 +336,16 @@ VChart.registerMap('world', geojson, {
 const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
 vchart.renderSync();
 ```
+
+# 免费获取地图数
+
+## 中国地图数据
+可以从[geojson.cn](https://geojson.cn/data/atlas/china)获取中国地图数据，但是这里需要提醒的是，上线的地图都需要经过有关部分进行审核，否则会有法律风险。
+
+## 世界地图数据
+可以从[hub.arcgis.com](https://hub.arcgis.com/search)获取世界地图数据
+
+
+
+
+

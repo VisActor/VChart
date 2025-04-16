@@ -380,7 +380,14 @@ The event parameters are as follows:
     /** In linked series: vgrammar elements outside the marquee */
     linkedOutOfBrushElementsMap: { [elementKey: string]: IElement };
      /** record of axis and datazoom change */
-    zoomRecord: { operateComponent: AxisComponent | DataZoom; start: number; end: number }[];
+    zoomRecord: {
+      operateComponent: AxisComponent | DataZoom;
+      start: number;
+      end: number;
+      /** since 1.13.5+ version */
+      startValue: number | string;
+      endValue: number | string;
+    }[];
   }
 }
 ```

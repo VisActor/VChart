@@ -1,6 +1,6 @@
 import type { IGlobalScale } from './interface';
 import { isArray, isEmpty, isEqual, isNil } from '@visactor/vutils';
-import type { IBaseScale, OrdinalScale } from '@visactor/vscale';
+import type { IBaseScale, LinearScale, OrdinalScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { IChart } from '../chart/interface';
 import type { IChartSpec } from '../typings/spec';
@@ -8,7 +8,7 @@ import { createScale } from '../util/scale';
 import { isDataDomainSpec } from '../util/type';
 import { mergeFields } from '../util/data';
 import type { IVisualScale, IVisualSpecScale } from '../typings';
-import type { StatisticOperations } from '../data/transforms/dimension-statistics';
+import type { StatisticOperations } from '../data/transforms/interface';
 import type { ISeries } from '../series';
 
 export class GlobalScale implements IGlobalScale {
@@ -51,6 +51,11 @@ export class GlobalScale implements IGlobalScale {
     if (s.specified && (<OrdinalScale>scale).specified) {
       (<OrdinalScale>scale).specified(s.specified);
     }
+
+    if (s.clamp && (<LinearScale>scale).clamp) {
+      (<LinearScale>scale).clamp(s.clamp);
+    }
+
     return scale;
   }
 

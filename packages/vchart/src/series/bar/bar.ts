@@ -3,7 +3,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
+import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import {
   DEFAULT_DATA_KEY,
@@ -17,14 +17,11 @@ import type { Datum, DirectionType } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
 import { getRegionStackGroup } from '../../util/data';
 import { getActualNumValue } from '../../util/space';
-import type { BarAppearPreset, IBarAnimationParams } from './animation';
 import { registerBarAnimation } from './animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
-import type { IBarSeriesSpec } from './interface';
+import type { BarAppearPreset, IBarAnimationParams, IBarSeriesSpec } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
-import type { IRectMark } from '../../mark/rect';
 import type { IModelInitOption } from '../../model/interface';
-import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
@@ -45,6 +42,7 @@ import { ComponentTypeEnum } from '../../component/interface';
 import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
 import { createRect } from '@visactor/vrender-core';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { maxInArr, minInArr } from '../../util/array';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -681,10 +679,21 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       yField: this._fieldY[0],
       xField: this._fieldX[0],
       direction: this.direction,
-      growFrom: () =>
-        this.direction === 'horizontal'
-          ? this._xAxisHelper?.getScale(0).scale(0)
-          : this._yAxisHelper?.getScale(0).scale(0)
+      growFrom: () => {
+        const scale = this.direction === 'horizontal' ? this._xAxisHelper?.getScale(0) : this._yAxisHelper.getScale(0);
+        if (scale) {
+          const domain = scale.domain();
+          const domainMin = minInArr<number>(domain);
+          const domainMax = maxInArr<number>(domain);
+          if (domainMax < 0) {
+            return scale.scale(domainMax);
+          } else if (domainMin > 0) {
+            return scale.scale(domainMin);
+          } else {
+            return scale.scale(0);
+          }
+        }
+      }
     };
     const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<BarAppearPreset>)?.preset;
     const animationParams = getGroupAnimationParams(this);

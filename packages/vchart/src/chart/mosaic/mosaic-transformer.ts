@@ -7,19 +7,16 @@ export class MosaicChartSpecTransformer<
   T extends IMosaicChartSpec = IMosaicChartSpec
 > extends CartesianChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec),
-      barWidth: (spec as IMosaicChartSpec).barWidth,
-      barMaxWidth: (spec as IMosaicChartSpec).barMaxWidth,
-      barMinWidth: (spec as IMosaicChartSpec).barMinWidth,
-      barGapInGroup: (spec as IMosaicChartSpec).barGapInGroup,
-      barBackground: (spec as IMosaicChartSpec).barBackground,
-      barMinHeight: (spec as IMosaicChartSpec).barMinHeight,
-      stackCornerRadius: (spec as IMosaicChartSpec).stackCornerRadius
-    };
-    series.bar = spec.bar;
-
-    return series;
+    return super._getDefaultSeriesSpec(spec, [
+      'barWidth',
+      'barMaxWidth',
+      'barMinWidth',
+      'barGapInGroup',
+      'barBackground',
+      'barMinHeight',
+      'stackCornerRadius',
+      'bar'
+    ]);
   }
 
   transformSpec(spec: T): void {

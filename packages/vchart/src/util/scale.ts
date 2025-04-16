@@ -64,6 +64,10 @@ function initScaleWithSpec(scale: IBaseScale, spec: IVisualSpecBase<any, any>) {
   if (spec.specified && (<OrdinalScale>scale).specified) {
     (<OrdinalScale>scale).specified(spec.specified);
   }
+
+  if (spec.clamp && (<LinearScale>scale).clamp) {
+    (<LinearScale>scale).clamp(spec.clamp);
+  }
 }
 
 /**
@@ -82,6 +86,22 @@ export function valueInScaleRange(v: number, s?: IBaseScale, useWholeRange?: boo
   const min = Math.min(range[0], range[range.length - 1]);
   const max = Math.max(range[0], range[range.length - 1]);
   return Math.min(Math.max(min, v), max);
+}
+
+export function isValueInScaleDomain(v: number | number[], s?: IBaseScale, useWholeRange?: boolean) {
+  if (!s) {
+    return true;
+  }
+  const scaleRange = s.range();
+  const range =
+    useWholeRange && (s as any)._calculateWholeRange ? (s as any)._calculateWholeRange(scaleRange) : s.range();
+  const domain = range.map((v: number) => s.invert(v));
+  const min = Math.min(domain[0], domain[domain.length - 1]);
+  const max = Math.max(domain[0], domain[domain.length - 1]);
+  if (Array.isArray(v)) {
+    return v.every(v => v >= min && v <= max);
+  }
+  return v >= min && v <= max;
 }
 
 export function isSpecValueWithScale(specValue: any) {

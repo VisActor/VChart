@@ -1,17 +1,18 @@
 import type { SVGParsedElement, SVGParserResult } from '@visactor/vdataset';
-import { PanEventParam, ZoomEventParam } from '../../core';
+import type { PanEventParam, ZoomEventParam } from '../../core';
 import { GeoSeries } from '../geo/geo';
-import { ISeriesSeriesInfo, SeriesMarkMap, SeriesTypeEnum } from '../interface';
+import type { ISeriesSeriesInfo, SeriesMarkMap } from '../interface';
+import { SeriesTypeEnum } from '../interface';
 import type { IPictogramSeriesSpec } from './interface';
-import { GroupMark } from '../../mark';
+import type { GroupMark } from '../../mark';
 import { PictogramSeriesSpecTransformer } from './pictogram-transformer';
-import { IMatrix } from '@visactor/vutils';
+import type { IMatrix } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import type { Group } from '@visactor/vrender-core';
-import { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
-import { EventType } from '@visactor/vgrammar-core';
-import { IMark } from '../../mark/interface';
+import type { EventType } from '@visactor/vgrammar-core';
+import type { IMark } from '../../mark/interface';
 import type { IPoint } from '../../typings/coordinate';
 export interface SVGParsedElementExtend extends SVGParsedElement {
     _finalAttributes: Record<string, any>;
@@ -26,6 +27,7 @@ export declare class PictogramSeries<T extends IPictogramSeriesSpec = IPictogram
     protected _pictogramMark: GroupMark;
     protected _parsedSvgResult: SVGParserResult;
     private _labelMark;
+    private _idToMark;
     setAttrFromSpec(): void;
     getDatumCenter(datum: SVGParsedElementExtend): [number, number];
     getDatumName(datum: SVGParsedElementExtend): string;
@@ -73,5 +75,6 @@ export declare class PictogramSeries<T extends IPictogramSeriesSpec = IPictogram
     getMeasureField(): string[];
     getDimensionField(): string[];
     protected _getSeriesInfo(field: string, keys: string[]): ISeriesSeriesInfo[];
+    release(): void;
 }
 export declare const registerPictogramSeries: () => void;

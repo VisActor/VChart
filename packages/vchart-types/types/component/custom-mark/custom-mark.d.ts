@@ -39,5 +39,6 @@ export declare class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMark
         x2: number;
         y2: number;
     };
+    getVRenderComponents(): any[];
 }
 export declare const registerCustomMark: () => void;

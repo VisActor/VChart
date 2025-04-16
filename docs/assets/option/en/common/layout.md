@@ -123,9 +123,17 @@ size: totalSize => totalSize * 0.2 + 20;
 
 Required, be sure to specify the location of **all chart elements**, the starting point of the chart element's position, and how many rows and columns it occupies. Chart elements can span multiple rows and columns. Overlapping chart element positions is allowed.
 
-#### id(string|number)
+#### modelId(string|number)
 
-Layout element id
+The id corresponding to the layout element. Either `modelId` or `modelKey` must be specified.
+
+#### modelKey(string)
+
+The `spec key` corresponding to the layout element, for example, `'legends'` represents the legend. Either `modelKey` or `modelId` must be specified.
+
+#### modelIndex(number)
+
+Used with `modelKey` to specify the index of the layout element in the component.
 
 #### col(number)
 

@@ -1,9 +1,20 @@
 import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod, IRectMarkSpec } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { WordcloudAppearPreset } from './animation';
 import type { shapes } from '@visactor/vgrammar-wordcloud';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
+import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
+
+export interface IWordcloud3dAnimationParams {
+  radius: number;
+  depth_3d: number;
+}
+
+export interface IWordcloudAnimationParams {
+  animationConfig: () => IAnimationTypeConfig;
+}
+
+export type WordcloudAppearPreset = 'scaleIn' | 'fadeIn';
 
 export type WordCloudShapeType = keyof typeof shapes;
 
@@ -188,7 +199,9 @@ export type WordCloudShapeConfigType = {
   fillingRatio?: number;
 };
 
-export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<string, WordcloudAppearPreset> {
+export interface IWordCloudSeriesBaseSpec
+  extends ISeriesSpec,
+    IAnimationSpec<SeriesMarkNameEnum.word, WordcloudAppearPreset> {
   /**
    * 文本字段
    */

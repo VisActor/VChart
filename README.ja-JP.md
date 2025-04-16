@@ -13,7 +13,7 @@
 
 <div align="center">
 
-VChartは、クロスプラットフォームのチャートライブラリであるだけでなく、表現力豊かなデータストーリーテラーでもあります。
+VChart は、クロスプラットフォームのチャートライブラリであるだけでなく、表現力豊かなデータストーリーテラーでもあります。
 
 <p align="center">
   <a href="https://www.visactor.io/vchart">紹介</a> •
@@ -47,7 +47,7 @@ English | [简体中文](./README.zh-CN.md) | 日本語
 
 ## 紹介
 
-VChartは、VisActorビジュアライゼーションシステムのチャートコンポーネントライブラリです。ビジュアル文法ライブラリ[VGrammar](https://github.com/VisActor/VGrammar)に基づいてチャートロジックをラップし、ビジュアルレンダリングエンジン[VRender](https://github.com/VisActor/VRender)に基づいてコンポーネントをカプセル化します。コア機能は次のとおりです。
+VChart は、VisActor ビジュアライゼーションシステムのチャートコンポーネントライブラリです。ビジュアル文法ライブラリ[VGrammar](https://github.com/VisActor/VGrammar)に基づいてチャートロジックをラップし、ビジュアルレンダリングエンジン[VRender](https://github.com/VisActor/VRender)に基づいてコンポーネントをカプセル化します。コア機能は次のとおりです。
 
 1. **クロスプラットフォーム**：デスクトップ、H5、および複数の小プログラム環境に自動的に適応
 2. **ストーリーテリング**：ビジュアルストーリーテリングのための包括的な注釈、アニメーション、フロー制御、ナラティブテンプレート、およびその他の強化機能
@@ -57,14 +57,13 @@ VChartは、VisActorビジュアライゼーションシステムのチャート
 
 このリポジトリには、次のパッケージが含まれています。
 
-1. [`vchart`](./packages/vchart/): VChartのコアコードリポジトリ
-2. [`react-vchart`](./packages/react-vchart/): [React](https://react.dev/)に基づいてカプセル化されたVChartコンポーネント
-3. [`taro-vchart`](./packages/taro-vchart/): [Taro](https://docs.taro.zone/docs/)に基づいてカプセル化されたVChartコンポーネント
-4. [`lark-vchart`](./packages/lark-vchart/): [Lark miniAPP](https://open.feishu.cn/document/client-docs/gadget/introduction/host-environment)に基づいてカプセル化されたVChartコンポーネント
-5. [`tt-vchart`](./packages/lark-vchart/): [TikTok miniAPP](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/introduction/overview/)に基づいてカプセル化されたVChartコンポーネント
-6. [`block-vchart`](./packages/block-vchart/): [Lark Block](https://open.feishu.cn/document/client-docs/block/block-introduction)に基づいてカプセル化されたVChartコンポーネント
-7. [`wx-vchart`](./packages/wx-vchart/)： [Wx miniAPP](https://developers.weixin.qq.com/miniprogram/dev/framework/)に基づいてカプセル化されたVChartコンポーネント
-8. [`docs`](./docs/): VChartサイトのソースコード、およびサイトのすべての中国語および英語のドキュメント、チャートサンプルコードなどが含まれています。
+1. [`vchart`](./packages/vchart/): VChart のコアコードリポジトリ
+2. [`react-vchart`](./packages/react-vchart/): [React](https://react.dev/)に基づいてカプセル化された VChart コンポーネント
+3. [`taro-vchart`](./packages/taro-vchart/): [Taro](https://docs.taro.zone/docs/)に基づいてカプセル化された VChart コンポーネント
+4. [`lark-vchart`](./packages/lark-vchart/): [Lark miniAPP](https://open.feishu.cn/document/client-docs/gadget/introduction/host-environment)に基づいてカプセル化された VChart コンポーネント
+5. [`block-vchart`](./packages/block-vchart/): [Lark Block](https://open.feishu.cn/document/client-docs/block/block-introduction)に基づいてカプセル化された VChart コンポーネント
+6. [`wx-vchart`](./packages/wx-vchart/)： [Wx miniAPP](https://developers.weixin.qq.com/miniprogram/dev/framework/)に基づいてカプセル化された VChart コンポーネント
+7. [`docs`](./docs/): VChart サイトのソースコード、およびサイトのすべての中国語および英語のドキュメント、チャートサンプルコードなどが含まれています。
 
 ## 🔨 使用方法
 
@@ -137,7 +136,7 @@ $ rush docs
 
 ## 📖 ドキュメント
 
-インストールとクローンと更新後、ローカルでドキュメントをプレビューするためにdocsを実行します。
+インストールとクローンと更新後、ローカルでドキュメントをプレビューするために docs を実行します。
 
 ```bash
 # vchartドキュメントサーバーを開始
@@ -158,11 +157,24 @@ $ rush docs
 
 ## 💫 エコシステム
 
-| プロジェクト                                                                               | 説明                          |
-| ------------------------------------------------------------------------------------- | ------------------------------------ |
-| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | @VisActor/VChartのReactインターフェース |
-| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula) | OpenInula VChartコンポーネント |
-| [OMI](https://omi.cdn-go.cn/home/latest) | Webコンポーネントフレームワーク |
+| プロジェクト                                                                                                        | 説明                                                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart)                               | @VisActor/VChart の React コンポーネント                                                                                         |
+| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                                                | OpenInula の VChart コンポーネント                                                                                               |
+| [OMI](https://omi.cdn-go.cn/home/latest)                                                                            | Web コンポーネントフレームワーク                                                                                                 |
+| [vchart と Next.js で構築された Vercel テンプレート](https://vercel.com/templates/next.js/visactor-nextjs-template) | vchart と Next.js で構築されたモダンなダッシュボードテンプレートで、美しい UI と豊富なデータ可視化コンポーネントを備えています。 |
+
+## 💖 Thanks
+
+<div>
+  <a href="https://semi.design/#gh-dark-mode-only" target="_blank">
+    <img alt="VisActor Logo" height="60" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/visactor/semi-dark.svg"/>
+  </a>
+  <a href="https://semi.design/#gh-light-mode-only" target="_blank">
+    <img alt="VisActor Logo" height="60" src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/visactor/semi.svg"/>
+  </a>
+</div>
+セミ（[semi](https://semi.design/)）によるテーマの視覚的カスタマイズソリューションの提供に感謝します
 
 ## 🤝 貢献 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 

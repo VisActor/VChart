@@ -2,7 +2,7 @@ import type { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
-import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/aggregation';
+import type { IOptionAggr, IOptionWithCoordinates, IOptionRegr } from '../../../data/transforms/interface';
 import { polarLayout, getMarkLineProcessInfo, polarCoordinateLayout } from '../utils';
 import type { MarkArcLineAttrs, MarkLineAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
@@ -12,7 +12,6 @@ import {
   registerMarkArcLineAnimate,
   registerMarkLineAnimate
 } from '@visactor/vrender-components';
-import type { IOptionRegr } from '../../../data/transforms/regression';
 import { Factory } from '../../../core/factory';
 import type { CoordinateType, IPoint, IPolarPoint } from '../../../typings';
 import type { IPolarSeries } from 'src/series';
@@ -26,7 +25,7 @@ export class PolarMarkLine extends BaseMarkLine {
   static coordinateType = 'polar';
   coordinateType = 'polar' as CoordinateType;
 
-  protected declare _markerComponent: MarkArcLineComponent;
+  declare protected _markerComponent: MarkArcLineComponent;
 
   protected _newMarkLineComponent(attr: MarkArcLineAttrs | MarkLineAttrs): MarkArcLineComponent | MarkLineComponent {
     const { doRadiusProcess, doRadAngAng1Process } = getMarkLineProcessInfo(this._spec as any);

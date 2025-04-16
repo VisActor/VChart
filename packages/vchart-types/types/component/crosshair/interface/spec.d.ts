@@ -4,10 +4,14 @@ import type { IAxis } from '../../axis/interface';
 import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
 export interface ICrossHair extends IComponent {
-    clearAxisValue?: () => void;
-    setAxisValue?: (v: StringOrNumber, axis: IAxis) => void;
-    layoutByValue?: (v?: number) => void;
-    hide?: () => void;
+    clearAxisValue: () => void;
+    setAxisValue: (v: StringOrNumber, axis: IAxis) => void;
+    layoutByValue: (enableRemain?: boolean) => void;
+    hideCrosshair: () => any;
+    showCrosshair: (dimInfo: {
+        axis: IAxis;
+        value: string | number;
+    }[]) => any;
 }
 export type CrossHairTrigger = 'click' | 'hover' | ['click', 'hover'];
 export interface ICommonCrosshairSpec extends IComponentSpec {

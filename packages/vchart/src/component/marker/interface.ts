@@ -21,11 +21,11 @@ import type { ICartesianSeries, IGeoSeries, IPolarSeries } from '../../series/in
 import type {
   IOptionAggr,
   IOptionAggrField,
+  IOptionRegr,
   IOptionSeries,
   IOptionWithCoordinates
-} from '../../data/transforms/aggregation';
-import type { IOptionRegr } from '../../data/transforms/regression';
-import type { VChart } from '../../vchart-all';
+} from '../../data/transforms/interface';
+import type { IVChart } from '../../core/interface';
 
 export type IMarkerSupportSeries = ICartesianSeries | IPolarSeries | IGeoSeries;
 
@@ -65,9 +65,12 @@ export type IDataPointSpec = {
    */
   [key: string]: IDataPos | IDataPosCallback;
   /**
-   * 具体某个数据元素关联的series（仅在标注目标：数据元素下有效）
+   * 具体某个数据元素关联的series序号（仅在标注目标：数据元素下有效）
    */
   refRelativeSeriesIndex?: number;
+  /**
+   * 具体某个数据元素关联的series 的id（仅在标注目标：数据元素下有效）
+   */
   refRelativeSeriesId?: StringOrNumber;
   /**
    * 指定使用 xField 上的那个维度索引，因为 xField 字段有可能会包含多个维度，比如分组场景
@@ -155,6 +158,9 @@ export type IMarkerPositionsSpec = {
 };
 
 export type IMarkerLabelWithoutRefSpec = {
+  /**
+   * 是否展示标注标签
+   */
   visible?: boolean;
   /**
    * label整体 - 是否自动旋转
@@ -173,6 +179,9 @@ export type IMarkerLabelWithoutRefSpec = {
    * label整体 - 背景面板配置
    */
   labelBackground?: {
+    /**
+     * 标签背景是否显示，是否可见
+     */
     visible?: boolean;
     /**
      * 标签背景支持自定义path
@@ -189,7 +198,10 @@ export type IMarkerLabelWithoutRefSpec = {
     padding?: IPadding | number[] | number;
   } & Partial<IMarkerState<Omit<IRectMarkSpec, 'visible'>>>;
 
-  /** @deprecated  */
+  /**
+   * @deprecated
+   * 设置文本类型为富文本或者普通文本，已废弃
+   **/
   type?: 'rich' | 'text';
   /**
    * 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
@@ -208,7 +220,13 @@ export type IMarkerLabelWithoutRefSpec = {
    * label文本 - 文本前 mark 图元
    */
   shape?: {
+    /**
+     * 是否显示标签文本前的图形
+     */
     visible?: boolean;
+    /**
+     * 标签文本前的图形对应的样式设置
+     */
     style: Omit<ISymbolMarkSpec, 'visible'>;
   };
   /**
@@ -252,25 +270,41 @@ export interface IMarkerRef {
 // 跨越系列的配置
 export interface IMarkerCrossSeriesSpec {
   /**
-   * 起点和终点关联的series（仅在标注目标：坐标空间下有效）
+   * 设置起点关联的系列，设置该系列的序号（仅在标注目标：坐标空间下有效）
    */
   startRelativeSeriesIndex?: number;
+  /**
+   * 设置终点关联的系列，设置该序列的序号（仅在标注目标：坐标空间下有效）
+   */
   endRelativeSeriesIndex?: number;
+  /**
+   * 设置起点关联的系列，设置该系列的id（仅在标注目标：坐标空间下有效）
+   */
   startRelativeSeriesId?: string;
+  /**
+   * 设置终点关联的系列，设置该序列的id（仅在标注目标：坐标空间下有效）
+   */
   endRelativeSeriesId?: string;
   /**
-   * 数据处理需要单独关联系列, 当配置为'all'时代表关联当前region下所有系列
+   * 数据处理需要单独关联系列, 设置序列的序号来进行关联，当配置为'all'时代表关联当前region下所有系列
    * @since 1.11.0
    */
   specifiedDataSeriesIndex?: 'all' | number | number[];
+  /**
+   * 数据处理需要单独关联系列, 设置序列的id来进行关联，当配置为'all'时代表关联当前region下所有系列
+   * @since 1.11.0
+   */
   specifiedDataSeriesId?: 'all' | string | string[];
 }
 
 export type IMarkerSpec = IComponentSpec & {
   /**
-   * 标注数据关联的series
+   * 标注数据关联的series序号
    */
   relativeSeriesIndex?: number;
+  /**
+   * 标注数据关联系列对应的id
+   */
   relativeSeriesId?: number | string;
   /**
    * marker组件是否可见
@@ -361,7 +395,7 @@ export type IMarkProcessOptions = {
 };
 
 export type IMarkerAttributeContext = {
-  vchart: VChart;
+  vchart: IVChart;
   relativeSeries: IMarkerSupportSeries;
   startRelativeSeries: IMarkerSupportSeries;
   endRelativeSeries: IMarkerSupportSeries;

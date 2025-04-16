@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: empty placeholder should update after data is updated, fix #3855\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

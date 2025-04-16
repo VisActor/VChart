@@ -19,8 +19,17 @@ export type TooltipHandlerParams = DimensionEventParams & {
 };
 
 export interface ITooltipActiveTypeAsKeys<T, K, U> {
+  /**
+   * mark tooltip对应的配置，其中mark tooltip 用于展示图元对应的数据信息，比如柱图中的柱子，散点图中的点，面积图中的点灯
+   */
   mark?: T;
+  /**
+   * dimension tooltip 对应的配置，其中dimension tooltip 用于展示维度对应的数据信息，比如x轴对应的数据信息
+   */
   dimension?: K;
+  /**
+   * group tooltip 对应的配置，其中group tooltip 用于展示整个分组数据对应的数据信息，比如说线图中一条线代表一个相同的分组，可以使用 group tooltip展示整条线所有点对应的数据
+   */
   group?: U;
 }
 

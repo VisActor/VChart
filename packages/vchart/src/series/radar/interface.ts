@@ -1,12 +1,21 @@
 import type { IAnimationSpec } from '../../animation/spec';
-import { IMultiLabelSpec } from '../../component/label';
+import type { IMultiLabelSpec } from '../../component/label/interface';
 import type { IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
+import type { Maybe } from '../../typings/common';
+import type { IPoint } from '../../typings/coordinate';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IAreaMarkSpec, ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mixin';
-import type { IRoseLikeSeriesSpec, IRoseLikeSeriesTheme } from '../polar/rose-like';
-import type { RadarAppearPreset } from './animation';
+import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/interface';
+import type { IRoseLikeSeriesSpec, IRoseLikeSeriesTheme } from '../polar/rose-like/interface';
+
+export interface IRadarAnimationParams {
+  center: () => Maybe<IPoint>;
+  radius: () => number;
+  startAngle: number;
+}
+
+export type RadarAppearPreset = 'grow' | 'fadeIn' | 'clipIn';
 
 type RadarMarks = 'point' | 'line' | 'area';
 
@@ -49,5 +58,8 @@ export interface IRadarSeriesSpec
 }
 
 export interface IRadarSeriesTheme extends IRoseLikeSeriesTheme, ILineLikeSeriesTheme {
+  /**
+   * 面积图元的主题样式配置
+   */
   [SeriesMarkNameEnum.area]?: Partial<IMarkTheme<IAreaMarkSpec>>;
 }

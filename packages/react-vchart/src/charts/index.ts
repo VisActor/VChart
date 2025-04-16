@@ -20,9 +20,13 @@ export * from './LineChart';
 export * from './LiquidChart';
 
 export * from './MapChart';
+export * from './MosaicChart';
+export * from './PictogramChart';
+
 export * from './PieChart';
 export * from './Pie3dChart';
 export * from './RadarChart';
+export * from './RangeAreaChart';
 export * from './RangeColumnChart';
 export * from './RangeColumn3dChart';
 export * from './RoseChart';
@@ -37,6 +41,7 @@ export * from './WordCloudChart';
 export * from './WordCloud3dChart';
 export * from './WordCloudChart';
 export * from './VennChart';
+export * from './WaterfallChart';
 
 export type { ChartOptions } from './BaseChart';
 export type { IData, IChartSpec } from '@visactor/vchart';

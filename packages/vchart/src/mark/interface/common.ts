@@ -8,7 +8,7 @@ import type {
   ICompilableMarkOption,
   IModelMarkAttributeContext,
   StateValueType
-} from '../../compile/mark';
+} from '../../compile/mark/interface';
 import type { StringOrNumber } from '../../typings';
 import type { IMarkConfig } from '@visactor/vgrammar-core';
 import type { ICustomPath2D } from '@visactor/vrender-core';
@@ -87,7 +87,9 @@ export interface ICompileMarkConfig extends IMarkConfig {
 
   /** morph元素的唯一key */
   morphElementKey?: string;
-  /** 是否支持 3d */
+  /**
+   * 是否支持 3d
+   */
   support3d?: boolean;
   /* customized shape of mark  */
   setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;

@@ -7,17 +7,13 @@ export class CircularProgressChartSpecTransformer<
 > extends ProgressLikeChartSpecTransformer<AdaptiveSpec<T, 'axes'>> {
   protected _getDefaultSeriesSpec(spec: T): any {
     const series = super._getDefaultSeriesSpec(spec);
-    return {
-      ...series,
 
-      cornerRadius: spec.cornerRadius ?? 0,
-      roundCap: spec.roundCap ?? false,
-
-      progress: spec.progress,
-      track: spec.track,
-
-      tickMask: spec.tickMask
-    };
+    series.progress = spec.progress;
+    series.track = spec.track;
+    series.tickMask = spec.tickMask;
+    series.cornerRadius = spec.cornerRadius ?? 0;
+    series.roundCap = spec.roundCap ?? false;
+    return series;
   }
 
   transformSpec(spec: AdaptiveSpec<T, 'axes'>): void {

@@ -114,6 +114,8 @@ Rich text style configuration.
 
 #${prefix} state(Object)
 
+Label state style configuration.
+
 ##${prefix} hover(Object)
 Hover state style configuration.
 
@@ -367,8 +369,42 @@ const layout = (attribute, text, getRelatedGraphic) => {
 Custom label avoidance function. Supported since version `1.3.0`.
 
 When `customOverlapFunc` is configured, and if `customLayoutFunc` is not also configured, it will initially perform a layout based on position and offset before entering the custom avoidance logic. The configured overlap prevention logic (`overlap`) will not take effect.
+The type definition of the function is as follows, where the last parameter `labelComponent` is supported since version `1.13.5`, and it returns the label component instance.
 
-The function callback parameter is: `(label: Text[], getRelatedGraphic: (data: LabelItem) => IGraphic) => Text[]`
+```ts
+(
+  /**
+   * The graphic node corresponding to the label, which may be a text graphic or a rich text graphic, generated according to the configuration.
+   */
+  label: (IText | IRichText)[],
+  /**
+   * Get the graphic associated with the data corresponding to the label, suitable for scenarios such as displaying bar labels, scatter labels, etc.
+   */
+  getRelatedGraphic: (data: LabelItem) => IGraphic,
+  /**
+   * Get the point coordinates associated with the data corresponding to the label, suitable for scenarios such as displaying labels corresponding to line chart elements, area chart elements, etc.
+   */
+  getRelatedPoint: ((data: LabelItem) => IPointLike) | null | undefined,
+  /**
+   * Label component instance
+   */
+  labelComponent: IGroup
+  ) => (IText | IRichText)[];
+```
+
+#${prefix} onAfterOverlapping(function)
+Callback function after overlap calculation is completed. Supported since version `1.3.5`.
+
+The type definition of the function is as follows, with parameters defined the same as `customOverlapFunc`:
+
+```ts
+(
+    label: (IText | IRichText)[],
+    getRelatedGraphic: (data: LabelItem) => IGraphic,
+    getRelatedPoint: ((data: LabelItem) => IPointLike) | null | undefined,
+    labelComponent: IGroup
+  ) => (IText | IRichText)[];
+```
 
 {{ /if }}
 
@@ -403,3 +439,10 @@ Used for filtering stacked group data
 
 - 'min' displays labels for the maximum value in the stacked group
 - 'max' displays labels for the minimum value in the stacked group
+
+#${prefix} showRelatedMarkTooltip(boolean)=false
+
+Available since version 1.13.5.
+
+The default value is `false`, which means hovering over the label will not trigger the tooltip.
+When set to `true`, hovering over the label will trigger the mark tooltip of its associated graphic.

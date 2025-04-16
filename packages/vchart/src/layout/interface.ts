@@ -2,14 +2,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../typings/common';
 import type { IOrientType, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
-import type {
-  ILayoutAlignSelf,
-  ILayoutNumber,
-  ILayoutPaddingSpec,
-  ILayoutPoint,
-  ILayoutRect,
-  ILayoutType
-} from '../typings/layout';
+import type { ILayoutNumber, ILayoutPaddingSpec, ILayoutPoint, ILayoutRect, ILayoutType } from '../typings/layout';
 import type { ILayoutModel } from '../model/interface';
 
 export interface IBaseLayout {
@@ -32,40 +25,99 @@ export type LayoutCallBack = (
 ) => void;
 
 export interface ILayoutSpecBase {
+  /**
+   * 布局的类型，现在支持 grid布局和默认布局（基于占位的布局）
+   */
   type: string;
 }
 
 export type ElementSpec = (
   | {
-      modelKey: string; // spec key
+      /**
+       * 组件对应的spec key，如'legends'表示图例
+       */
+      modelKey: string;
+      /**
+       * 组件对应的序号
+       */
       modelIndex: number;
     }
   | {
+      /**
+       * 组件对应的id
+       */
       modelId: string;
     }
 ) & {
+  /**
+   * 组件在grid布局中所在的列。从左向右，从 0 开始计数
+   */
   col: number;
+  /**
+   * 组件在grid布局中所在的列跨度，即占了几列，默认值为1
+   */
   colSpan?: number;
+  /**
+   * 组件在grid布局中所在的行。从上向下，从 0 开始计数。
+   */
   row: number;
+  /**
+   * 组件在grid布局中所在的行跨度，即占了几行，默认值为1
+   */
   rowSpan?: number;
 };
 
 export interface IGridLayoutSpec extends ILayoutSpecBase {
+  /**
+   * 设置布局类型为grid布局
+   */
   type: 'grid';
+  /**
+   * grid布局的总列数
+   */
   col: number;
+  /**
+   * grid布局的总行数
+   */
   row: number;
+  /**
+   * 可选配置，指定某几列的宽度
+   */
   colWidth?: {
+    /**
+     * 指定列数，序号从 0 开始
+     */
     index: number;
+    /**
+     * 设置指定列的宽度，单位为像素
+     */
     size: number | ((maxSize: number) => number);
   }[];
+  /**
+   * 可选配置，指定某几行的高度
+   */
   rowHeight?: {
+    /**
+     * 指定行数，序号从 0 开始
+     */
     index: number;
+    /**
+     * 设置指定行的高度，单位为像素
+     */
     size: number | ((maxSize: number) => number);
   }[];
+  /**
+   *
+   * 指定所有图表元素所在位置，图表元素的位置起点和占几行几列，可以占多行多列
+   * 图表元素位置允许配置重叠。
+   */
   elements: ElementSpec[];
 }
 
 export interface IBaseLayoutSpec extends ILayoutSpecBase {
+  /**
+   * 设置布局类型为默认布局
+   */
   type: 'base';
 }
 

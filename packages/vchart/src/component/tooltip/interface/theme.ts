@@ -1,32 +1,57 @@
 import type { ITextAttribute } from '@visactor/vrender-core';
 import type { ILayoutNumber, ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components';
-import type { ITokenKey } from '../../../theme/token';
+import type { ITokenKey } from '../../../theme/token/interface';
 
 export interface ITooltipTextTheme<ColorType = string> {
-  /** 字体 */
+  /**
+   * 字体
+   */
   fontFamily?: string;
-  /** 字体大小 */
+  /**
+   * 字体大小
+   */
   fontSize?: number | ITokenKey;
-  /** 字体颜色 */
+  /**
+   * 字体颜色
+   */
   fill?: ColorType;
-  /** @deprecated 字体颜色（兼容旧版本） */
+  /**
+   * 字体颜色（兼容旧版本）
+   * @deprecated
+   */
   fontColor?: ColorType;
-  /** 字重 */
+  /**
+   * 字重
+   */
   fontWeight?: StringOrNumber;
-  /** 对齐方式 */
+  /**
+   * 对齐方式
+   */
   textAlign?: TextAlign;
-  /** 字体基线 */
+  /**
+   * 字体基线
+   */
   textBaseline?: TextBaseLine;
-  /** 行高 */
+  /**
+   * 行高
+   */
   lineHeight?: number | string | ITokenKey;
-  /** 与相邻元素的水平间距 */
+  /**
+   * 与相邻元素的水平间距
+   */
   spacing?: number;
-  /** 是否支持换行 */
+  /**
+   * 是否支持换行
+   */
   multiLine?: boolean;
-  /** 最大宽度 */
+  /**
+   * 最大宽度
+   */
   maxWidth?: number;
-  /** 换行模式，默认为'break-word' */
+  /**
+   * 换行模式，默认为'break-word'
+   */
   wordBreak?: ITextAttribute['wordBreak'];
   /**
    * 是否开启自动宽度。效果分为以下几种情况：
@@ -61,6 +86,9 @@ export interface ITooltipTheme<ColorType = string> {
       color: ColorType;
     };
   };
+  /**
+   * 设置 tooltip 中 shape 的样式
+   */
   shape?: {
     /** 标记大小 */
     size?: number;
@@ -92,11 +120,10 @@ export interface ITooltipTheme<ColorType = string> {
    */
   transitionDuration?: number;
   /**
-   * @since 1.11.5
-   *
    * shape、key、value的对齐方式，可选项如下：
    * 'left': 从左到右对齐
    * 'right': 从右到左对齐
+   * @since 1.11.5
    */
   align?: 'left' | 'right';
 }

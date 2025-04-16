@@ -25,7 +25,6 @@ option: wordCloudChart
 ```javascript livedemo
 const spec = {
   type: 'wordCloud',
-  // 待申请新外网可访问的存储空间后更换
   maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/shape_logo.png`,
   colorList: ['#325AB4'],
   wordCloudShapeConfig: {

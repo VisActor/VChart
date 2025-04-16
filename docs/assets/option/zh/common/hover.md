@@ -13,7 +13,9 @@ hover 交互开关，默认开启。
 ##${prefix} trigger(string|string[]) = 'pointermove'
 
 hover 交互的触发事件配置。
+{{ use: trigger-spec}}
 
 ##${prefix} triggerOff(string|string[]) = ['pointermove', 'pointerleave']
 
 hover 交互的终止事件配置。
+{{ use: trigger-spec}}
