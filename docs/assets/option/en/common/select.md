@@ -21,10 +21,10 @@ Selection mode configuration, default is `single` selection.
 
 Configuration of trigger events for select interaction.
 
-{{ use: trigger-spec()}}
+{{ use: trigger-spec}}
 
 ##${prefix} triggerOff(string|string[])
 
 Configuration of termination events for select interaction.
 
-{{ use: trigger-spec()}}
+{{ use: trigger-spec}}

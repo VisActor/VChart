@@ -45,12 +45,12 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'pointerover'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 交互的终止事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight
 
@@ -67,12 +67,12 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'pointerover'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 交互的终止事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-select
 
@@ -89,7 +89,7 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'click'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | number | string[]) = 'pointerout'
 
@@ -98,7 +98,7 @@ markNames: ['line', 'area']
 - 'empty': 点击空白处
 - number: 定时清除选中状态
 - 其他事件名称
-  {{ use: element-active-trigger()}}
+  {{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight-by-legend
 
@@ -128,12 +128,12 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'pointerover'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 交互的终止事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-active-by-legend
 
@@ -157,12 +157,12 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'pointerover'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 交互的终止事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight-by-group
 
@@ -179,12 +179,12 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'pointerover'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 交互的终止事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight-by-key
 
@@ -201,12 +201,12 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'pointerover'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 交互的终止事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight-by-name
 
@@ -245,12 +245,12 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'pointerover'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 交互的终止事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight-by-graphic-name
 
@@ -267,12 +267,12 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'pointerover'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 交互的终止事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-select-by-graphic-name
 
@@ -289,7 +289,7 @@ markNames: ['line', 'area']
 ###${prefix} trigger(string | string[]) = 'click'
 
 交互的触发事件配置
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | number | string[]) = 'pointerout'
 
@@ -298,4 +298,4 @@ markNames: ['line', 'area']
 - 'empty': 点击空白处
 - number: 定时清除选中状态
 - 其他事件名称
-  {{ use: element-active-trigger()}}
+  {{ use: element-active-trigger}}

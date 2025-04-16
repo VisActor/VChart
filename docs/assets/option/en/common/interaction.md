@@ -46,13 +46,13 @@ The state name corresponding to the active state
 
 Configuration of the trigger event for the interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 Configuration of the end event for the interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight
 
@@ -70,13 +70,13 @@ The state name corresponding to the blurred state
 
 Configuration of trigger events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 Configuration of termination events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-select
 
@@ -94,7 +94,7 @@ Whether multiple selections are supported
 
 Configuration of trigger events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | number | string[]) = 'pointerout'
 
@@ -104,7 +104,7 @@ Configuration of termination events for interaction; supported configurations in
 - number: timed clearing of selected state
 - other event names
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight-by-legend
 
@@ -135,13 +135,13 @@ State name corresponding to the blurred state
 
 Configuration of trigger events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 Configuration of termination events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-active-by-legend
 
@@ -166,13 +166,13 @@ State name corresponding to the activated state
 
 Configuration of trigger events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 Configuration of termination events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight-by-group
 
@@ -190,13 +190,13 @@ State name corresponding to the blurred state
 
 Configuration of trigger events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 Configuration of termination events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight-by-key
 
@@ -214,13 +214,13 @@ State name corresponding to the blurred state
 
 Configuration of trigger events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 Configuration of termination events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-highlight-by-name
 
@@ -260,11 +260,11 @@ State name corresponding to the blurred state
 
 Configuration of trigger events for interaction
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 Configuration of termination events for interaction
 
@@ -284,13 +284,13 @@ The state name corresponding to the blur state.
 
 Configuration of the triggering event for the interaction.
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | string[]) = 'pointerout'
 
 Configuration of the termination event for the interaction.
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ##${prefix} type.element-select-by-graphic-name
 
@@ -308,7 +308,7 @@ Whether multiple selection is supported.
 
 Configuration of the triggering event for the interaction.
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
 
 ###${prefix} triggerOff(string | number | string[]) = 'pointerout'
 
@@ -318,4 +318,4 @@ Configuration of the termination event for the interaction; supported configurat
 - number: Timed clearing of the selected state
 - Other event names
 
-{{ use: element-active-trigger()}}
+{{ use: element-active-trigger}}
