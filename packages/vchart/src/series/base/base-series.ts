@@ -108,7 +108,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   declare getSpecInfo: () => ISeriesSpecInfo;
 
-  declare protected _option: ISeriesOption;
+  protected declare _option: ISeriesOption;
 
   // 坐标系信息
   readonly coordinate: CoordinateType = 'none';
@@ -237,7 +237,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
   protected _dataSet: DataSet;
 
-  declare protected _tooltipHelper: ISeriesTooltipHelper | undefined;
+  protected declare _tooltipHelper: ISeriesTooltipHelper | undefined;
   get tooltipHelper() {
     if (!this._tooltipHelper) {
       this.initTooltip();
@@ -861,8 +861,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
       : isMultiple
-        ? ['empty']
-        : ['empty', finalSelectSpec.trigger];
+      ? ['empty']
+      : ['empty', finalSelectSpec.trigger];
     return {
       type: 'element-select',
       seriesId: this.id,

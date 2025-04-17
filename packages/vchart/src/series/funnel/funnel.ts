@@ -549,7 +549,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     const viewHeight = this._isHorizontal() ? this.getLayoutRect().width : this.getLayoutRect().height;
 
     const hasTransform = !!this._spec.isTransform;
-    const gap = hasTransform ? 0 : (this._spec.gap ?? 0);
+    const gap = hasTransform ? 0 : this._spec.gap ?? 0;
     const transformCount = hasTransform ? Math.max(0, funnelCount - 1) : 0;
     const heightRatio = this._spec.heightRatio || 0.5;
     const funnelHeight =

@@ -49,7 +49,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     return this._totalData?.getLatestData();
   }
 
-  declare protected _spec: T;
+  protected declare _spec: T;
 
   protected _leaderLineMark: IRuleMark = null;
   protected _stackLabelMark: ITextMark = null;

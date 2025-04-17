@@ -215,7 +215,7 @@ export class Factory {
     return Factory._componentPlugin[type];
   }
 
-  static registerFormatter(func: (typeof Factory)['_formatter']) {
+  static registerFormatter(func: typeof Factory['_formatter']) {
     this._formatter = func;
   }
 

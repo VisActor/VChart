@@ -141,16 +141,16 @@ export class LayoutItem implements ILayoutItem {
       this.layoutPaddingBottom = paddingValue.bottom;
 
       this._minHeight = isNil(spec.minHeight)
-        ? (this._minHeight ?? null)
+        ? this._minHeight ?? null
         : calcLayoutNumber(spec.minHeight, chartViewRect.height, chartViewRect);
       this._maxHeight = isNil(spec.maxHeight)
-        ? (this._maxHeight ?? null)
+        ? this._maxHeight ?? null
         : calcLayoutNumber(spec.maxHeight, chartViewRect.height, chartViewRect);
       this._minWidth = isNil(spec.minWidth)
-        ? (this._minWidth ?? null)
+        ? this._minWidth ?? null
         : calcLayoutNumber(spec.minWidth, chartViewRect.width, chartViewRect);
       this._maxWidth = isNil(spec.maxWidth)
-        ? (this._maxWidth ?? null)
+        ? this._maxWidth ?? null
         : calcLayoutNumber(spec.maxWidth, chartViewRect.width, chartViewRect);
       // 处理 user width
       if (spec.width) {

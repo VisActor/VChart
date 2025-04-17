@@ -10,7 +10,7 @@ import { GrammarType } from '../interface/compilable-item';
 
 export class CompilableData extends GrammarItem implements ICompilableData {
   readonly grammarType = GrammarType.data;
-  declare protected _product: Maybe<IVGrammarData>;
+  protected declare _product: Maybe<IVGrammarData>;
   declare getProduct: () => Maybe<IVGrammarData>;
 
   /** 原始DataView */

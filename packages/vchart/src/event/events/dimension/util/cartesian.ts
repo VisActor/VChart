@@ -26,8 +26,8 @@ const getDimensionFieldFunc = (isXAxis: boolean, isDiscreteAxis: boolean) =>
       ? discreteXAxisGetDimensionField
       : continuousXAxisGetDimensionField
     : isDiscreteAxis
-      ? discreteYAxisGetDimensionField
-      : continuousYAxisGetDimensionField;
+    ? discreteYAxisGetDimensionField
+    : continuousYAxisGetDimensionField;
 
 export const getCartesianDimensionInfo = (
   chart: IChart | undefined,

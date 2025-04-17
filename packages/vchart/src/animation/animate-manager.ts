@@ -8,7 +8,7 @@ import type { IAnimate, IAnimateState } from './interface';
 import { AnimationStateEnum } from './interface';
 
 export class AnimateManager extends StateManager implements IAnimate {
-  declare protected _stateMap: IAnimateState & StateValueMap;
+  protected declare _stateMap: IAnimateState & StateValueMap;
 
   readonly id: number = createID();
 
@@ -65,8 +65,8 @@ export class AnimateManager extends StateManager implements IAnimate {
           return element.diffState === 'exit'
             ? AnimationStateEnum.exit
             : element.diffState === 'update'
-              ? AnimationStateEnum.update
-              : AnimationStateEnum.appear;
+            ? AnimationStateEnum.update
+            : AnimationStateEnum.appear;
         }
       }
     };
