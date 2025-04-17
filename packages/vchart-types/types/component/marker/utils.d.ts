@@ -22,6 +22,18 @@ export declare function transformState(state: {} | Record<MarkerStateValue, any 
 export declare function transformStyle(style: any, markerData: DataView, markerAttributeContext: IMarkerAttributeContext): any;
 export declare function transformOffset(offset: string | number | Function, region: IRegion): any;
 export declare function computeOffsetFromRegion(point: IPointLike, offset: string | number, region: IRegion): number;
+export declare function getProcessInfo(spec: any): {
+    isXProcess: boolean;
+    isYProcess: boolean;
+    isX1Process: boolean;
+    isY1Process: boolean;
+    isAngleProcess: boolean;
+    isRadiusProcess: boolean;
+    isAngle1Process: boolean;
+    isRadius1Process: boolean;
+    isCoordinatesProcess: boolean;
+    isValidProcess: boolean;
+};
 export declare function getMarkLineProcessInfo(spec: any): {
     doXProcess: boolean;
     doXYY1Process: boolean;

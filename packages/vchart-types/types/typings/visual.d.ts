@@ -57,7 +57,7 @@ export interface ICommonSpec {
     x?: number;
     y?: number;
     z?: number;
-    stroke?: string | IGradient | false | (number | boolean)[] | IColorKey;
+    stroke?: string | IGradient | false | (number | boolean)[] | IColorKey | null;
     strokeOpacity?: number;
     opacity?: number;
     lineWidth?: number;
