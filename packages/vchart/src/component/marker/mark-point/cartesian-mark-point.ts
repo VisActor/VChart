@@ -17,7 +17,7 @@ export class CartesianMarkPoint extends BaseMarkPoint {
   coordinateType = 'cartesian' as CoordinateType;
 
   protected _computePointsAttr() {
-    const spec = this._spec;
+    const spec = this._spec as any;
     const data = this._markerData;
     const relativeSeries = this._relativeSeries;
     const isXYLayout = isValid(spec.x) && isValid(spec.y);
