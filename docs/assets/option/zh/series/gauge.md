@@ -35,7 +35,7 @@ tick mask 下的图元是否强制和 tick 的边线对齐。
   prefix = '##' + ${prefix}
 ) }}
 
-#${prefix} clip(boolean) = false
+#${prefix} clamp(boolean) = false
 自`1.13.9`版本支持，超出轴范围是否被裁剪（除tick模式外, 因为tick模式自带裁剪）。
 
 #${prefix} padAngle(number)

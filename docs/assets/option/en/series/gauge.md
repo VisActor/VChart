@@ -35,7 +35,7 @@ markName = 'area'
 prefix = '##' + ${prefix}
 ) }}
 
-#${prefix} clip(boolean) = false
+#${prefix} clamp(boolean) = false
 Supported since `1.13.9` version, whether the out-of-axis range is clipped (except tick mode, because tick mode has its own clipping).
 
 #${prefix} padAngle(number)

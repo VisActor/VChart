@@ -39,7 +39,7 @@ export interface IProgressLikeSeriesSpec extends IPolarSeriesSpec {
    * @since 1.13.9
    * @default false
    */
-  clip?: boolean;
+  clamp?: boolean;
 }
 
 export interface IProgressLikeSeriesTheme extends IPolarSeriesTheme {

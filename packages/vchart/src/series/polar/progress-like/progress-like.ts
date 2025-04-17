@@ -168,7 +168,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
         return value;
       }
     }
-    return this.angleAxisHelper.dataToPosition([datum[this._angleField[0]]]);
+    const angle = this.angleAxisHelper.dataToPosition([datum[this._angleField[0]]]);
+    return this._spec.clamp ? valueInScaleRange(angle, this.angleAxisHelper.getScale(0)) : angle;
   }
 
   getDimensionField(): string[] {
@@ -234,18 +235,6 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
               fill: true
             });
           });
-        } else if (this._spec.clip) {
-          return [
-            createArc({
-              x,
-              y,
-              startAngle: this._startAngle,
-              endAngle: this._endAngle,
-              innerRadius: radius * this._innerRadius,
-              outerRadius: radius * this._outerRadius,
-              fill: true
-            })
-          ];
         }
         const { width, height } = this.getLayoutRect();
         return [

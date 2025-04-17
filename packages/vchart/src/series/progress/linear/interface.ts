@@ -40,6 +40,13 @@ export interface ILinearProgressSeriesSpec
   bandWidth?: number;
 
   /**
+   * 超出轴范围是否被裁剪
+   * @since 1.13.9
+   * @default false
+   */
+  clamp?: boolean;
+
+  /**
    * 进度条样式
    * TODO: 支持百分比作为padding, 类型为string
    */

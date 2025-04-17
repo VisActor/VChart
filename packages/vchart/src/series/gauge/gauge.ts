@@ -17,6 +17,7 @@ import { GaugeSeriesSpecTransformer } from './gauge-transformer';
 import { registerArcMark } from '../../mark/arc';
 import { registerPolarLinearAxis } from '../../component/axis/polar';
 import { AttributeLevel } from '../../constant/attribute';
+import { valueInScaleRange } from '../../util';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -157,19 +158,21 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   protected _getAngleValueStartWithoutMask(datum: Datum) {
     const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
     const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
-    return clamper(
+    const angle = clamper(
       startAngle,
       (startAngle + endAngle) / 2
     )(startAngle + (endAngle > startAngle ? 1 : -1) * Math.abs(this._padAngle / 2));
+    return this._spec.clamp ? valueInScaleRange(angle, this.angleAxisHelper.getScale(0)) : angle;
   }
 
   protected _getAngleValueEndWithoutMask(datum: Datum) {
     const startAngle = this._getAngleValueStartWithoutPadAngle(datum);
     const endAngle = this._getAngleValueEndWithoutPadAngle(datum);
-    return clamper(
+    const angle = clamper(
       endAngle,
       (startAngle + endAngle) / 2
     )(endAngle - (endAngle > startAngle ? 1 : -1) * Math.abs(this._padAngle / 2));
+    return this._spec.clamp ? valueInScaleRange(angle, this.angleAxisHelper.getScale(0)) : angle;
   }
 
   protected _getAngleValueStartWithoutPadAngle(datum: Datum) {
