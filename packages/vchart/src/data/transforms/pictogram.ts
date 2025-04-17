@@ -41,7 +41,7 @@ const commonAttributes = (attributes: Record<string, any>) => {
 
 export const graphicAttributeTransform = {
   group: (attributes: Record<string, any>) => {
-    const common = commonAttributes(attributes);
+    const common = commonAttributes(attributes) as any;
     return {
       ...common,
       visibleAll: common['visible'] !== false
