@@ -202,7 +202,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     brush.addEventListener(BrushEvent.drawing, (e: any) => {
       // 需要重置out状态的情况：
-      // _needInitOutState：框选模式为'single' 且 开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
+      // _needInitOutState：框选模式为'single'且开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
       if (this._needInitOutState && brushMode === 'single') {
         this._initMarkBrushState(componentIndex, OUT_BRUSH_STATE);
       }
