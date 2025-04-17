@@ -46,7 +46,7 @@ export type ExChannelCall = (
 export class BaseMark<T extends ICommonSpec> extends CompilableMark implements IMarkRaw<T> {
   declare stateStyle: IMarkStateStyle<T>;
 
-  declare protected _option: IMarkOption;
+  protected declare _option: IMarkOption;
 
   protected _attributeContext: IModelMarkAttributeContext;
 

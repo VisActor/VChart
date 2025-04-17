@@ -79,7 +79,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   readonly specKey: string = '';
 
-  declare protected _option: IModelOption;
+  protected declare _option: IModelOption;
   getOption() {
     return this._option;
   }

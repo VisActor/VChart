@@ -455,7 +455,7 @@ export class VChart implements IVChart {
     // 设置全局字体
     this._setFontFamilyTheme(this._currentTheme?.fontFamily as string);
     this._initDataSet(this._option.dataSet);
-    this._autoSize = isTrueBrowseEnv ? (spec.autoFit ?? this._option.autoFit ?? true) : false;
+    this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
     this._initChartPlugin();
@@ -1517,7 +1517,7 @@ export class VChart implements IVChart {
     }
 
     const lasAutoSize = this._autoSize;
-    this._autoSize = isTrueBrowser(this._option.mode) ? (this._spec.autoFit ?? this._option.autoFit ?? true) : false;
+    this._autoSize = isTrueBrowser(this._option.mode) ? this._spec.autoFit ?? this._option.autoFit ?? true : false;
     if (this._autoSize !== lasAutoSize) {
       resize = true;
     }

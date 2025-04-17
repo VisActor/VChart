@@ -162,8 +162,8 @@ function produceOneByOne(
     const durationTime = isFunction(duration)
       ? duration(datum, element, params)
       : isValidNumber(duration)
-        ? duration
-        : 0;
+      ? duration
+      : 0;
     const userDelay = isFunction(delay) ? delay(datum, element, params) : isValidNumber(delay) ? delay : 0;
     let oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, element, params) : oneByOne;
     if (oneByOneTime === false) {
@@ -177,13 +177,13 @@ function produceOneByOne(
     const durationTime = isFunction(duration)
       ? duration(datum, element, params)
       : isValidNumber(duration)
-        ? duration
-        : 0;
+      ? duration
+      : 0;
     const userDelayAfter = isFunction(delayAfter)
       ? delayAfter(datum, element, params)
       : isValidNumber(delayAfter)
-        ? delayAfter
-        : 0;
+      ? delayAfter
+      : 0;
     let oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, element, params) : oneByOne;
     if (oneByOneTime === false) {
       return userDelayAfter;

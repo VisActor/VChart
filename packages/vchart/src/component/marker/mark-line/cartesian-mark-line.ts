@@ -23,7 +23,7 @@ export class CartesianMarkLine extends BaseMarkLine {
   static coordinateType = 'cartesian';
   coordinateType = 'cartesian' as CoordinateType;
 
-  declare protected _markerComponent: MarkLineComponent;
+  protected declare _markerComponent: MarkLineComponent;
 
   protected _newMarkLineComponent(attr: MarkLineAttrs): MarkLineComponent {
     return new MarkLineComponent(attr);

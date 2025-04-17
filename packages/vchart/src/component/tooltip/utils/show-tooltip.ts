@@ -226,7 +226,7 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
     const groupField = series.getSeriesField();
     const groupData = isValid(groupField) ? datum[groupField] : undefined;
     const groupDomain = isValid(groupField)
-      ? (series.getViewDataStatistics?.()?.latestData[groupField]?.values ?? [])
+      ? series.getViewDataStatistics?.()?.latestData[groupField]?.values ?? []
       : [];
 
     const dimensionData = getDataArrayFromFieldArray(dimensionFields, datum);

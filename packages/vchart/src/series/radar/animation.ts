@@ -128,7 +128,7 @@ export const registerRadarAnimation = () => {
             easing: DEFAULT_ANIMATION_CONFIG.update.easing
           }
         ]
-      }) as MarkAnimationSpec
+      } as MarkAnimationSpec)
   );
   Factory.registerAnimation('radarGroup', (params: IRadarAnimationParams, preset: RadarAppearPreset) => {
     return {
