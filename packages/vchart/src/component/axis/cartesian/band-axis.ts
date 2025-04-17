@@ -26,7 +26,7 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
 
   protected _scale: BandScale = new BandScale();
 
-  protected declare _scales: BandScale[];
+  declare protected _scales: BandScale[];
 
   protected computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[] {
     return this.computeBandDomain(data);

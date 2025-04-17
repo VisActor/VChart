@@ -119,8 +119,8 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
     const height = this._spec.height
       ? this._spec.height
       : isValidNumber(titleBounds.height())
-      ? titleBounds.height()
-      : 0;
+        ? titleBounds.height()
+        : 0;
     return {
       width,
       height

@@ -42,7 +42,7 @@ export class CartesianLinearAxis<
   protected _extend: { [key: string]: number } = {};
 
   protected _scale: LinearScale | LogScale = new LinearScale();
-  protected declare _scales: LinearScale[] | LogScale[];
+  declare protected _scales: LinearScale[] | LogScale[];
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();

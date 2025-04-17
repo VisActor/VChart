@@ -689,9 +689,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             return scale.scale(domainMax);
           } else if (domainMin > 0) {
             return scale.scale(domainMin);
-          } else {
-            return scale.scale(0);
           }
+          return scale.scale(0);
         }
       }
     };

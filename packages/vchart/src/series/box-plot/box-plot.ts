@@ -113,7 +113,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     this._strokeColor = boxPlotStyle.stroke;
 
     this._shaftFillOpacity =
-      this._shaftShape === 'bar' ? boxPlotStyle.shaftFillOpacity ?? DEFAULT_SHAFT_FILL_OPACITY : undefined;
+      this._shaftShape === 'bar' ? (boxPlotStyle.shaftFillOpacity ?? DEFAULT_SHAFT_FILL_OPACITY) : undefined;
 
     this._outliersStyle = this._spec.outliersStyle;
   }

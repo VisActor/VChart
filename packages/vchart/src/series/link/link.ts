@@ -311,8 +311,8 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     return this._dotTypeField
       ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesField
-      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-      : [];
+        ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+        : [];
   }
 
   /**

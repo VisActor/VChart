@@ -167,7 +167,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._stateSort = stateSort;
   }
 
-  protected declare _option: ICompilableMarkOption;
+  declare protected _option: ICompilableMarkOption;
 
   constructor(option: ICompilableMarkOption, name: string, model: IModel) {
     super(option);
@@ -184,7 +184,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._event = new Event(model.getOption().eventDispatcher, model.getOption().mode);
   }
 
-  protected declare _product: Maybe<IMark>;
+  declare protected _product: Maybe<IMark>;
   declare getProduct: () => Maybe<IMark>;
 
   // transform目前在形状词云中使用，但直接用的 vgrammar 接口 (this._wordMark as ICompilableMark).getProduct().transform(wordCloudTransforms);

@@ -23,7 +23,7 @@ export class CartesianMarkLine extends BaseMarkLine {
   static coordinateType = 'cartesian';
   coordinateType = 'cartesian' as CoordinateType;
 
-  protected declare _markerComponent: MarkLineComponent;
+  declare protected _markerComponent: MarkLineComponent;
 
   protected _newMarkLineComponent(attr: MarkLineAttrs): MarkLineComponent {
     return new MarkLineComponent(attr);
@@ -243,15 +243,15 @@ export class CartesianMarkLine extends BaseMarkLine {
           type: 'markerAggregation',
           options
         });
-      if (spec.process && 'x' in spec.process) {
+      if (spec.process && isValid(spec.process.x)) {
         options = [this._processSpecByDims([{ dim: 'x', specValue: spec.process.x as unknown as IDataPos }])];
         needAggr = true;
       }
-      if (spec.process && 'y' in spec.process) {
+      if (spec.process && isValid(spec.process.y)) {
         options = options = [this._processSpecByDims([{ dim: 'y', specValue: spec.process.y as unknown as IDataPos }])];
         needAggr = true;
       }
-      if (spec.process && 'xy' in spec.process) {
+      if (spec.process && isValid(spec.process.xy)) {
         const { xField, yField } = relativeSeries.getSpec();
         options = {
           fieldX: xField,

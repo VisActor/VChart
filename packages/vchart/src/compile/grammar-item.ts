@@ -9,7 +9,7 @@ import type { GrammarItemCompileOption, GrammarType, IGrammarItem, GrammarItemIn
 export abstract class GrammarItem extends CompilableBase implements IGrammarItem {
   grammarType: GrammarType;
 
-  protected declare _option: GrammarItemInitOption;
+  declare protected _option: GrammarItemInitOption;
 
   /** id */
   readonly id: number = createID();

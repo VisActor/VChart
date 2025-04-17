@@ -105,8 +105,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
       : isMultiple
-      ? ['empty', 'self']
-      : ['empty', finalSelectSpec.trigger];
+        ? ['empty', 'self']
+        : ['empty', finalSelectSpec.trigger];
     return {
       type: 'element-select-by-graphic-name',
       seriesId: this.id,

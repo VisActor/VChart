@@ -162,9 +162,10 @@ The function definition for tick data filtering is as follows:
   /**
    * :: Data filtering for ticks
    * @param data
+   * @param context since 1.13.9
    * @returns
    */
-  dataFilter?: (data: AxisItem[]) => AxisItem[];
+  dataFilter?: (data: AxisItem[], context: {vchart: IVChart}) => AxisItem[];
 ```
 
 ##${prefix} style(Object|Function)

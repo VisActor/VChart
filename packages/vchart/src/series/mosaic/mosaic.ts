@@ -23,7 +23,7 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
   static readonly type: string = SeriesTypeEnum.mosaic;
   type = SeriesTypeEnum.mosaic;
 
-  protected declare _spec: T;
+  declare protected _spec: T;
 
   static readonly transformerConstructor = BarSeriesSpecTransformer as any;
   readonly transformerConstructor = BarSeriesSpecTransformer as any;
@@ -79,15 +79,15 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
             ? this._fieldY2
             : this._fieldX2
           : this.direction === Direction.horizontal
-          ? this._fieldY
-          : this._fieldX
+            ? this._fieldY
+            : this._fieldX
         : filterType === 'min'
-        ? this.direction === Direction.horizontal
-          ? this._fieldX2
-          : this._fieldY2
-        : this.direction === Direction.horizontal
-        ? this._fieldX
-        : this._fieldY;
+          ? this.direction === Direction.horizontal
+            ? this._fieldX2
+            : this._fieldY2
+          : this.direction === Direction.horizontal
+            ? this._fieldX
+            : this._fieldY;
       const filterFunc =
         filterType === 'min'
           ? (a: any, b: any) => {

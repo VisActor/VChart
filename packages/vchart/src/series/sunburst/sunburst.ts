@@ -41,7 +41,7 @@ import { Factory } from '../../core/factory';
 import { appendHierarchyFields } from '../util/hierarchy';
 
 export class SunburstSeries extends PolarSeries<any> {
-  protected declare _spec: ISunburstSeriesSpec;
+  declare protected _spec: ISunburstSeriesSpec;
 
   static readonly type: string = SeriesTypeEnum.sunburst;
   type = SeriesTypeEnum.sunburst;

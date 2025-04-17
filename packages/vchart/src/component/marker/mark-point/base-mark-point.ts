@@ -22,7 +22,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
   specKey = 'markPoint';
 
   layoutZIndex: number = LayoutZIndex.MarkPoint;
-  protected declare _markerComponent: MarkPointComponent;
+  declare protected _markerComponent: MarkPointComponent;
 
   protected abstract _computePointsAttr(): any;
 

@@ -53,7 +53,7 @@ export class TreemapSeries extends CartesianSeries<any> {
   private _labelMark: ILabelMark;
   private _nonLeafLabelMark: ILabelMark;
 
-  protected declare _spec: ITreemapSeriesSpec;
+  declare protected _spec: ITreemapSeriesSpec;
 
   protected _categoryField: string = 'name';
 

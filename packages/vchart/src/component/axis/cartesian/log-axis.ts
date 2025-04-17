@@ -23,7 +23,7 @@ export class CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxi
   protected _zero: boolean = false;
 
   protected _scale: LogScale = new LogScale();
-  protected declare _scales: LogScale[];
+  declare protected _scales: LogScale[];
 
   /**
    * @override
