@@ -140,13 +140,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   protected _bindRegions() {
-    if (isValid(this._spec.regionId) && isValid(this._spec.regionIndex)) {
+    if (!isValid(this._spec.regionId) && !isValid(this._spec.regionIndex)) {
       this._relativeRegions = this._option.getAllRegions();
+    } else {
+      this._relativeRegions = this._option.getRegionsInUserIdOrIndex(
+        array(this._spec.regionId),
+        array(this._spec.regionIndex)
+      );
     }
-    this._relativeRegions = this._option.getRegionsInUserIdOrIndex(
-      array(this._spec.regionId),
-      array(this._spec.regionIndex)
-    );
   }
 
   protected _bindLinkedSeries() {
