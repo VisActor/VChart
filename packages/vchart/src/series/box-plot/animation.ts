@@ -1,4 +1,4 @@
-import type { EasingType } from '@visactor/vrender-core';
+import type { EasingType, ILineAttribute, IRectAttribute } from '@visactor/vrender-core';
 import type { IGlyph } from '@visactor/vrender-core';
 import type { IAnimationParameters } from '../../animation/interface';
 import { isValidNumber } from '@visactor/vutils';
@@ -107,25 +107,25 @@ const computeBarBoxplotCenter = (
   let q1: number;
   let q3: number;
   if (direction === 'horizontal') {
-    median = getGlyphChildByName(glyphMark, 'median')?.attribute.points?.[0]?.x;
-    const minMaxBoxWidth = getGlyphChildByName(glyphMark, 'minMaxBox')?.attribute.width;
+    median = (getGlyphChildByName(glyphMark, 'median')?.attribute as ILineAttribute).points?.[0]?.x;
+    const minMaxBoxWidth = (getGlyphChildByName(glyphMark, 'minMaxBox')?.attribute as IRectAttribute).width;
     const minMaxBoxBoxX = getGlyphChildByName(glyphMark, 'minMaxBox')?.attribute.x;
     min = minMaxBoxBoxX;
     max = minMaxBoxBoxX + minMaxBoxWidth;
 
-    const q1q3BoxWidth = getGlyphChildByName(glyphMark, 'q1q3Box')?.attribute.width;
+    const q1q3BoxWidth = (getGlyphChildByName(glyphMark, 'q1q3Box')?.attribute as IRectAttribute).width;
     const q1q3BoxX = getGlyphChildByName(glyphMark, 'q1q3Box')?.attribute.x;
     q1 = q1q3BoxX;
     q3 = q1q3BoxX + q1q3BoxWidth;
   } else {
-    median = getGlyphChildByName(glyphMark, 'median')?.attribute.points?.[0]?.y;
+    median = (getGlyphChildByName(glyphMark, 'median')?.attribute as ILineAttribute).points?.[0]?.y;
 
-    const minMaxBoxHeight = getGlyphChildByName(glyphMark, 'minMaxBox')?.attribute.height;
+    const minMaxBoxHeight = (getGlyphChildByName(glyphMark, 'minMaxBox')?.attribute as IRectAttribute).height;
     const minMaxBoxBoxY = getGlyphChildByName(glyphMark, 'minMaxBox')?.attribute.y;
     min = minMaxBoxBoxY;
     max = minMaxBoxBoxY + minMaxBoxHeight;
 
-    const q1q3BoxHeight = getGlyphChildByName(glyphMark, 'q1q3Box')?.attribute.height;
+    const q1q3BoxHeight = (getGlyphChildByName(glyphMark, 'q1q3Box')?.attribute as IRectAttribute).height;
     const q1q3BoxY = getGlyphChildByName(glyphMark, 'q1q3Box')?.attribute.y;
     q1 = q1q3BoxY;
     q3 = q1q3BoxY + q1q3BoxHeight;

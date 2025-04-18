@@ -44,12 +44,18 @@ import { isValidScaleType } from '@visactor/vscale';
 import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
 import type { ISeries } from '../../series/interface';
 import { MarkStateManager } from '../../compile/mark';
-import type { ICompilableMark, IMarkCompileOption, IMarkConfig, StateValueType } from '../../compile/mark/interface';
+import type {
+  ICompilableMark,
+  IMarkCompileOption,
+  IMarkConfig,
+  IMarkStateManager,
+  StateValueType
+} from '../../compile/mark/interface';
 import { array, degreeToRadian, has, isArray, isBoolean, isFunction, isNil, isObject, isValid } from '@visactor/vutils';
 import { curveTypeTransform, groupData, runEncoder } from '../utils/common';
 import type { ICompilableInitOption } from '../../compile/interface';
 import { LayoutState } from '../../compile/interface';
-import type { IGroupGraphicAttribute, IGraphicAttribute, IGroup } from '@visactor/vrender-core';
+import type { IGroupGraphicAttribute, IGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
 import { createGroup, CustomPath2D } from '@visactor/vrender-core';
 import { isStateAttrChangeable } from '../../compile/mark/util';
 import { Factory } from '../../core/factory';
@@ -166,7 +172,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   stateStyle: IMarkStateStyle<T> = {};
 
   /** 状态管理器 */
-  state: MarkStateManager;
+  state: IMarkStateManager;
 
   protected _unCompileChannel: { [key in string]: boolean } = {};
 
@@ -486,7 +492,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this.name = name;
     this.model = option.model;
     this.key = option.key;
-    this.state = new MarkStateManager(option, this as unknown as IMark);
+    this.state = new MarkStateManager(option, this as unknown as IMark) as unknown as IMarkStateManager;
     // 这里的上下文多数情况下与 mark 是什么是没有关系的，与mark的使用者，也就是series，component有的逻辑有关。
     this._attributeContext = option.attributeContext;
     option.map?.set(this.id, this as unknown as IMark);
@@ -1062,7 +1068,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return this._graphics;
   }
 
-  protected _createGraphic(attrs: any = {}): IMarkGraphic {
+  protected _createGraphic(attrs: any = {}): IGraphic {
     return Factory.createGraphicComponent(this.type, attrs);
   }
 
@@ -1432,7 +1438,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       if (!(g as any).setAttributes) {
         const mockGraphic = g;
         // TODO：如果要走入场、Enter动画，就不用设置值了，保存到diffAttrs中由入场动画自己去设置，因为入场动画可能会延迟执行，所以首帧不能直接设置属性
-        g = this._createGraphic(hasStateAnimation ? {} : finalAttrs);
+        g = this._createGraphic(hasStateAnimation ? {} : finalAttrs) as IMarkGraphic;
         // 如果有动画，设置一下最终attribute
         if (hasAnimation) {
           g.setFinalAttribute(finalAttrs);
