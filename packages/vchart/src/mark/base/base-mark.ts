@@ -1,4 +1,4 @@
-import { DiffState } from './../interface/enum';
+import { DiffState } from '../interface/enum';
 import { type IStateInfo, type IModelMarkAttributeContext, STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { BaseSeries } from '../../series/base/base-series';
 import type {

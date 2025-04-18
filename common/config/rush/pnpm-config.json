@@ -87,10 +87,10 @@
     "@visactor/vlayouts": "1.0.2",
     "@visactor/vdataset": "1.0.2",
     "@visactor/vscale": "1.0.2",
-    "@visactor/vrender-core": "0.23.0-alpha.2",
-    "@visactor/vrender-kits": "0.23.0-alpha.2",
-    "@visactor/vrender-animate": "0.23.0-alpha.2",
-    "@visactor/vrender-components": "0.23.0-alpha.2"
+    "@visactor/vrender-core": "1.0.0-alpha.7",
+    "@visactor/vrender-kits": "1.0.0-alpha.7",
+    "@visactor/vrender-animate": "1.0.0-alpha.7",
+    "@visactor/vrender-components": "1.0.0-alpha.7"
   },
   /**
    * The `globalPeerDependencyRules` setting provides various settings for suppressing validation errors

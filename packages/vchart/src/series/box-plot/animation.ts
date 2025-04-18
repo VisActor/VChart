@@ -1,7 +1,6 @@
 import type { EasingType } from '@visactor/vrender-core';
 import type { IGlyph } from '@visactor/vrender-core';
 import type { IAnimationParameters } from '../../animation/interface';
-import { isHorizontal } from '@visactor/vgrammar-util';
 import { isValidNumber } from '@visactor/vutils';
 import { ACustomAnimate, AnimateExecutor } from '@visactor/vrender-animate';
 export interface IBoxplotScaleAnimationOptions {
@@ -107,7 +106,7 @@ const computeBarBoxplotCenter = (
   let min: number;
   let q1: number;
   let q3: number;
-  if (isHorizontal(direction)) {
+  if (direction === 'horizontal') {
     median = getGlyphChildByName(glyphMark, 'median')?.attribute.points?.[0]?.x;
     const minMaxBoxWidth = getGlyphChildByName(glyphMark, 'minMaxBox')?.attribute.width;
     const minMaxBoxBoxX = getGlyphChildByName(glyphMark, 'minMaxBox')?.attribute.x;
