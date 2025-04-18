@@ -55,7 +55,7 @@ import { registerCustomMark } from './component/custom-mark';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
 import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
-import { DefaultTicker } from '@visactor/vrender-core';
+import { DefaultTicker } from '@visactor/vrender-animate';
 import { registerAnimate } from './plugin/other';
 import { registerElementSelect } from './interaction/triggers/element-select';
 import { registerElementHighlight } from './interaction/triggers/element-highlight';
