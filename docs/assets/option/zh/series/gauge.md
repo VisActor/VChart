@@ -14,6 +14,30 @@
   seriesMarks = ['segment'],
 ) }}
 
+#${prefix} tickMask(Object)
+tick 模式显示. 自`1.4.0`版本支持。
+
+##${prefix} angle(number)
+单个 tick 的默认宽度，角度值。
+
+##${prefix} offsetAngle(number)
+单个 tick 的偏移角度，角度值。
+
+##${prefix} forceAlign(boolean)
+tick mask 下的图元是否强制和 tick 的边线对齐。
+
+##${prefix} style(Object)
+{{ use: mark-style(
+  markName = 'area'
+) }}
+
+{{ use: mark-area(
+  prefix = '##' + ${prefix}
+) }}
+
+#${prefix} clamp(boolean) = false
+自`1.13.9`版本支持，超出轴范围是否被裁剪（除tick模式外, 因为tick模式自带裁剪）。
+
 #${prefix} padAngle(number)
 
 配置扇区间隔角度。

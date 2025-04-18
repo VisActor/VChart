@@ -78,3 +78,6 @@ Background bar style configuration.
 
 Progress bar width.
 In pixel (px) units.
+
+#${prefix} clamp(boolean) = false
+Supported since `1.13.9` version, whether the out-of-axis range is clipped.
