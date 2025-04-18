@@ -21,10 +21,10 @@
   },
   "dependencies": {
     "@visactor/vchart": "workspace:1.11.0",
-    "@visactor/vrender-core": "0.22.6",
-    "@visactor/vrender-kits": "0.22.6",
-    "@visactor/vrender-components": "0.22.6",
-    "@visactor/vutils": "~0.19.4"
+    "@visactor/vrender-core": "0.22.8",
+    "@visactor/vrender-kits": "0.22.8",
+    "@visactor/vrender-components": "0.22.8",
+    "@visactor/vutils": "~0.19.5"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

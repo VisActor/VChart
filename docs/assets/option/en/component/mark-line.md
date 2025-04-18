@@ -219,9 +219,10 @@ The line style of the dimension line. When performing multi-section configuratio
    prefix = '####'
 ) }}
 
-### label(Object)
+### label(Array|Object)
 
 Label style for dimension lines.
+Since `1.13.9`, configuring multiple labels is supported.
 
 #### position(Object)
 
