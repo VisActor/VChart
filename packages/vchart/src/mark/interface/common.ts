@@ -13,7 +13,7 @@ import type {
 import type { Datum, StringOrNumber } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
-import type { MarkAnimationType } from '../../animation/interface';
+import type { IAnimationConfig } from '../../animation/interface';
 
 export interface VisualScaleType {
   scale: IBaseScale;
@@ -149,6 +149,10 @@ export interface IGraphicContext {
    * 图元索引顺序
    */
   graphicIndex?: number;
+  /**
+   * 状态动画配置
+   */
+  stateAnimateConfig?: IAnimationConfig | IAnimationConfig[];
 }
 
 export interface IMarkGraphic extends IGraphic {

@@ -1,6 +1,6 @@
-import type { IMark, IMarkStateStyle, MarkType } from '../../mark/interface';
+import type { IMark, IMarkGraphic, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
-import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem } from '../interface';
+import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem, StateValueMap } from '../interface';
 import type { DataView } from '@visactor/vdataset';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { IRegion } from '../../region/interface';
@@ -64,8 +64,11 @@ export interface IMarkStateManager {
   addStateInfo: (stateInfo: IStateInfo) => void;
   changeStateInfo: (stateInfo: Partial<IStateInfo>) => void;
   clearStateInfo: (stateValues: StateValue[]) => void;
-  checkOneState: (renderNode: IGraphic, datum: Datum[], state: IStateInfo) => 'in' | 'out' | 'skip';
-  checkState: (renderNode: IGraphic, datum: Datum[]) => StateValue[];
+  checkOneState: (renderNode: IMarkGraphic, datum: Datum[], state: IStateInfo) => 'in' | 'out' | 'skip';
+  checkState: (renderNode: IMarkGraphic, datum: Datum[]) => StateValue[];
+  getStateMap: () => StateValueMap;
+  updateState: (newState: Partial<StateValueMap>, noRender?: boolean) => void;
+  release: () => void;
 }
 
 export interface IMarkData extends ICompilableData {
