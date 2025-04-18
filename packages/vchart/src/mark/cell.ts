@@ -1,6 +1,6 @@
 import { Factory } from './../core/factory';
 import type { ICellMarkSpec } from '../typings';
-import type { ICellMark, IMarkStyle } from './interface';
+import type { ICellMark, IMarkGraphic, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerShadowRoot, registerSymbol } from '@visactor/vrender-kits';
@@ -28,7 +28,7 @@ export class CellMark extends BaseMark<ICellMarkSpec> implements ICellMark {
     return createSymbol(attrs);
   }
 
-  protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
+  protected _transformGraphicAttributes(g: IMarkGraphic, attrs: any, groupAttrs?: any) {
     const symbolAttrs = super._transformGraphicAttributes(g, attrs, groupAttrs);
     const symbolType =
       symbolAttrs.shape ?? symbolAttrs.symbolType ?? (g.attribute as ISymbolGraphicAttribute)?.symbolType;

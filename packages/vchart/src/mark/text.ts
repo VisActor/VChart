@@ -1,7 +1,7 @@
 import { Factory } from './../core/factory';
 import type { IComposedTextMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IMarkOption, IMarkStyle } from './interface';
+import type { IMarkGraphic, IMarkOption, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
 import type { ITextMark, ITextSpec } from './interface/mark';
@@ -42,7 +42,7 @@ export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMa
     }
   }
 
-  protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
+  protected _transformGraphicAttributes(g: IMarkGraphic, attrs: any, groupAttrs?: any) {
     const textAttrs = super._transformGraphicAttributes(g, attrs, groupAttrs);
 
     const { text } = textAttrs;

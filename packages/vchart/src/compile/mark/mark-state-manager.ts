@@ -253,4 +253,8 @@ export class MarkStateManager extends StateManager implements IMarkStateManager 
     const datum_v = this._isMultiMark() ? datum[0]?.[key] : datum[key];
     return datum_v < domain[0] || datum_v > domain[domain.length - 1];
   }
+
+  release(): void {
+    // todo
+  }
 }

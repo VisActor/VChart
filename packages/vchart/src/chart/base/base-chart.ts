@@ -196,7 +196,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   protected _interaction: IInteraction;
 
-  declare _setModelOption?: () => void;
+  protected _setModelOption(): void {
+    // implement in subclass
+  }
 
   constructor(spec: T, option: IChartOption) {
     super(option);

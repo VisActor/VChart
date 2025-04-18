@@ -3,7 +3,7 @@ import { AnimationStateEnum } from '../../../animation/interface';
 import type { Datum } from '../../../typings';
 import { Factory } from '../../../core/factory';
 import type { IPieAnimationParams, PieAppearPreset } from '../interface';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IMarkGraphic } from '../../../core';
 
 /**
  * grow生长option
@@ -14,7 +14,7 @@ import type { IGraphic } from '@visactor/vrender-core';
  * @returns
  */
 export function pieGrowOption(pieParams: IPieAnimationParams, isOverall: boolean, state: AnimationStateEnum) {
-  return (datum: Datum, element: IGraphic, params: AnimationStateEnum) => {
+  return (datum: Datum, graphic: IMarkGraphic, params: AnimationStateEnum) => {
     if (isOverall) {
       if (pieParams.growField === 'radius') {
         return {
@@ -22,7 +22,7 @@ export function pieGrowOption(pieParams: IPieAnimationParams, isOverall: boolean
         };
       }
       return {
-        overall: pieParams.growFrom(datum, element, state)
+        overall: pieParams.growFrom(datum, graphic, state)
       };
     }
     return {
