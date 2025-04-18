@@ -222,17 +222,17 @@ export const layoutCrosshair = (stateItem: CrossHairStateItem) => {
       end: { [coordKey]: pos, [anotherAxisKey]: sizeRange[1] }
     };
   } else if (type === 'rect') {
-    const extend = getRectSize(attributes, bandSize, cacheInfo.axis);
+    const [offset0, offset1] = getRectSize(attributes, bandSize, offsetSize, cacheInfo.axis);
     const { coordRange } = cacheInfo;
 
     positionAttribute = {
       visible: true,
       start: {
-        [coordKey]: Math.max(coord - extend / 2 - offsetSize / 2, coordRange[0]),
+        [coordKey]: Math.max(coord + offset0, coordRange[0]),
         [anotherAxisKey]: sizeRange[0]
       },
       end: {
-        [coordKey]: Math.min(coord + bandSize + extend / 2 + offsetSize / 2, coordRange[1]),
+        [coordKey]: Math.min(coord + offset1, coordRange[1]),
         [anotherAxisKey]: sizeRange[1]
       }
     };
@@ -241,17 +241,20 @@ export const layoutCrosshair = (stateItem: CrossHairStateItem) => {
   return positionAttribute;
 };
 
-const getRectSize = (hair: IHair, bandSize: number, axis: IAxis) => {
+const getRectSize = (hair: IHair, bandSize: number, offsetSize: number, axis: IAxis) => {
   // 外部设置的size
-  let extend = 0;
+  const visualSize = bandSize === 0 ? offsetSize : bandSize;
+  let size = visualSize;
+
   if (hair.style?.sizePercent) {
-    extend = (hair.style.sizePercent - 1) * bandSize;
+    // 按照百分比设置大小
+    size = visualSize * hair.style.sizePercent;
   } else if (typeof hair.style?.size === 'number') {
-    extend = hair.style.size - bandSize;
+    size = hair.style.size;
   } else if (typeof hair.style?.size === 'function') {
     const axisRect = axis.getLayoutRect();
-    extend = hair.style.size(axisRect, axis) - bandSize;
+    size = hair.style.size(axisRect, axis);
   }
 
-  return extend;
+  return bandSize === 0 ? [-size / 2, size / 2] : [bandSize / 2 - size / 2, size / 2 + bandSize / 2];
 };
