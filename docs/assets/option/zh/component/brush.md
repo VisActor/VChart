@@ -97,7 +97,7 @@ brush 选框的大小阈值。自 `1.2.0` 版本开始支持。
 
 是否开启刷取下钻。自 0.10.0 版本生效。
 
-## zoomWhenEmpty(boolean) = false
+### zoomWhenEmpty(boolean) = false
 
 刷取到空数据时, 是否下钻。自 1.12.2 版本生效。
 
@@ -123,6 +123,19 @@ brush 选框的大小阈值。自 `1.2.0` 版本开始支持。
 1. 缩放连续轴时: 轴的 zero、nice、min、max 等配置可能导致轴范围与 dataZoom 范围不一致（这个问题最好通过 DataZoom.customDomain 解决）
 2. 缩放连续轴时: 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象
 3. 缩放离散轴时: 不希望严格按照筛选的数据范围缩放, 而是希望缩放后两端仍有空间
+
+### markTypeFilter(string[])
+
+不需要被brush操作的mark类型。(比如对于折线图而言，只想框选点图元，而不想框选线图元，则可以配置`markTypeFilter: ['line']`)
+自 1.13.9 版本生效。
+
+### onBrushEnd(Function)
+
+自定义brush事件, 触发时机: 框选结束。
+返回true, 则清空brush。
+自 1.13.9 版本生效。
+
+`onBrushEnd: (e: any) => boolean;`
 
 ### style(Object)
 

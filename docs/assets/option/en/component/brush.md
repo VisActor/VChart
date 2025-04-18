@@ -97,7 +97,7 @@ The size threshold of the brush selection box. Supported since version `1.2.0`.
 
 Whether to turn on the brush to remove the drill. Effective from version 0.10.0.
 
-## zoomWhenEmpty(boolean) = false
+### zoomWhenEmpty(boolean) = false
 
 Whether to drill down when empty data is retrieved. Effective from version 1.12.2.
 
@@ -122,6 +122,19 @@ When updating the dataZoom range, expand the range, expand the range by percenta
 1. When scaling continuous axes: The zero, nice, min, max and other configurations of the axis may cause the axis range to be inconsistent with the dataZoom range (this problem is best solved through DataZoom.customDomain)
 2. When scaling the continuous axis: The scatter plot is positioned according to the scatter point center. If updated strictly according to the center range, the scatter points will exceed the canvas.
 3. When scaling discrete axes: You do not want to strictly follow the filtered data range, but you want to still have space at both ends after scaling.
+
+### markTypeFilter(string[])
+
+Mark types that do not need to be operated by brush. (For example, for line charts, if you only want to select point elements but not line elements, you can configure `markTypeFilter: ['line']`)
+Effective since version 1.13.9.
+
+### onBrushEnd(Function)
+
+Custom brush event, trigger time: selection ends.
+Return true to clear the brush.
+Effective since version 1.13.9.
+
+`onBrushEnd: (e: any) => boolean;`
 
 ### style(Object)
 
