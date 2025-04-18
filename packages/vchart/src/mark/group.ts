@@ -12,6 +12,7 @@ import type { IGroup, IGroupGraphicAttribute } from '@visactor/vrender-core';
 import { registerGroup, registerShadowRoot } from '@visactor/vrender-kits';
 import { isNil } from '@visactor/vutils';
 import { traverseGroupMark } from '../compile/util';
+import { LayoutState } from '../compile/interface';
 
 export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
   static readonly type = MarkTypeEnum.group;
@@ -110,8 +111,12 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
     const style = this._simpleStyle ?? this.getAttributesOfState({});
 
-    this._product.context = this._getCommonContext();
+    this._product.context = { ...this._product.context, ...this._getCommonContext() };
     this._product.setAttributes(this._getAttrsFromConfig(style));
+
+    if (this.getCompiler().getLayoutState() !== LayoutState.before) {
+      this._runStateAnimation(this.getGraphics());
+    }
   }
 
   render(): void {
@@ -127,6 +132,11 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
   }
 
   updateAnimationState(callback: (g: IMarkGraphic) => AnimationStateValues) {
+    this.getGraphics().forEach(g => {
+      if (g) {
+        g.context = { ...g.context, animationState: callback(g) };
+      }
+    });
     this.getMarks().forEach(mark => {
       mark.updateAnimationState(callback);
     });

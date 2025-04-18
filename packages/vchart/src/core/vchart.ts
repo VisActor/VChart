@@ -811,8 +811,11 @@ export class VChart implements IVChart {
     if (!this._beforeRender(option)) {
       return self;
     }
+    this._updateAnimateState(true);
     // 填充数据绘图
     this._compiler?.render(option.morphConfig);
+    this._updateAnimateState(false);
+
     this._afterRender();
     return self;
   };
@@ -824,13 +827,12 @@ export class VChart implements IVChart {
   private _updateAnimateState(initial?: boolean) {
     if (this._option.animation) {
       const updateGraphicAnimationState = (graphic: IMarkGraphic) => {
-        const diffState = graphic.context.diffState;
+        const diffState = graphic.context?.diffState;
         if (initial) {
           return diffState === 'exit' ? undefined : AnimationStateEnum.appear;
         }
         return diffState;
       };
-
       this._compiler.getRootMarks().forEach(mark => {
         mark.updateAnimationState(updateGraphicAnimationState);
       });
