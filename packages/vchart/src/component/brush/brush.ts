@@ -302,7 +302,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   private _reconfigItem(operateMask: IPolygon, region: IRegion) {
-    // 遍历图元, 更新状态
+    // 遍历图元,更新状态
     this._itemMap[region.id].forEach((mark: IMark) => {
       const grammarMark = mark.getProduct();
       if (!grammarMark || !grammarMark.elements || !grammarMark.elements.length) {

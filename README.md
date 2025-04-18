@@ -17,7 +17,7 @@ VChart, more than just a cross-platform charting library, but also an expressive
 
 <p align="center">
   <a href="https://www.visactor.io/vchart">Introduction</a> •
-  <a href="https://www.visactor.io/vchart/example">Demo </a> •
+  <a href="https://www.visactor.io/vchart/example">Demo</a> •
   <a href="https://www.visactor.io/vchart/guide/tutorial_docs/VChart_Website_Guide">Tutorial</a> •
   <a href="https://www.visactor.io/vchart/option/barChart">API</a>•
   <a href="https://www.visactor.io/vchart/guide/tutorial_docs/cross-terminal_and_developer_ecology/node">Cross-Platform</a>
