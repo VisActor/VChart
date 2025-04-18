@@ -76,9 +76,9 @@ export const radarGroupClipAnimation = (
 ): IAnimationTypeConfig => {
   return {
     custom: ClipAngleAnimate,
-    customParameters: (datum: any, element: IGraphic) => {
+    customParameters: (datum: any, graphic: IGraphic) => {
       return {
-        group: element.getGraphicItem(),
+        group: graphic,
         startAngle: params.startAngle ?? Math.PI / 2,
         orient: 'clockwise',
         center: params.center(),
