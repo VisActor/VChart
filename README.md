@@ -17,7 +17,7 @@ VChart, more than just a cross-platform charting library, but also an expressive
 
 <p align="center">
   <a href="https://www.visactor.io/vchart">Introduction</a> •
-  <a href="https://www.visactor.io/vchart/example">Demo</a> •
+  <a href="https://www.visactor.io/vchart/example">Demo </a> •
   <a href="https://www.visactor.io/vchart/guide/tutorial_docs/VChart_Website_Guide">Tutorial</a> •
   <a href="https://www.visactor.io/vchart/option/barChart">API</a>•
   <a href="https://www.visactor.io/vchart/guide/tutorial_docs/cross-terminal_and_developer_ecology/node">Cross-Platform</a>
@@ -161,8 +161,8 @@ $ rush docs
 | Project                                                                               | Description                          |
 | ------------------------------------------------------------------------------------- | ------------------------------------ |
 | [React-VChart](https://github.com/VisActor/VChart/tree/develop/packages/react-vchart) | React interface for @VisActor/VChart |
-| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula) | OpenInula VChart Components |
-| [OMI](https://omi.cdn-go.cn/home/latest) | Web Components Framework |
+| [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                  | OpenInula VChart Components          |
+| [OMI](https://omi.cdn-go.cn/home/latest)                                              | Web Components Framework             |
 
 ## 🤝 Contribution [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 
