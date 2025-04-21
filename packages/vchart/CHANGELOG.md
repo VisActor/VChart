@@ -1,6 +1,34 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 28 Mar 2025 08:38:27 GMT and should not be manually modified.
+This log was last generated on Mon, 21 Apr 2025 08:22:38 GMT and should not be manually modified.
+
+## 1.13.9
+Mon, 21 Apr 2025 08:22:38 GMT
+
+### Updates
+
+- feat: axis datafilter support context. close#3332
+- feat: gauge support clip when mark outof axis. close#3859
+- feat: markLine and markArea supports render multiple labels
+- fix: clear event listener for normal animation when updateSpec, #3881
+- fix: fix coordinate of rect crosshair when bandSize is 0, fix #3907
+
+
+- fix: when set defaultSelect of crosshair, `axisIndex` should have a default value: 0
+
+
+- fix: fix type error of datazoom texts
+
+
+- fix: the width of title label should auto fit content width when `autoWidth` is true, fix #3880
+
+
+- fix: mark line valid judgement. fix#3857
+- fix: empty placeholder should update after data is updated, fix #3855
+
+
+- docs: supply interface of docs. fix#3877
+- refactor: brush interactive. close#3765 & #3262 & #2802 & #3885
 
 ## 1.13.8
 Fri, 28 Mar 2025 08:38:27 GMT
