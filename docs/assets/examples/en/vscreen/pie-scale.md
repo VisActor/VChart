@@ -59,10 +59,10 @@ const spec = {
         channel: {
           outerRadius: {
             from: (...p) => {
-              return p[1].graphicItem.attribute.outerRadius;
+              return p[1].attribute.outerRadius;
             },
             to: (...p) => {
-              return p[1].graphicItem.attribute.outerRadius + 10;
+              return p[1].attribute.outerRadius + 10;
             }
           }
         },
@@ -80,10 +80,10 @@ const spec = {
         channel: {
           outerRadius: {
             from: (...p) => {
-              return p[1].graphicItem.attribute.outerRadius + 10;
+              return p[1].attribute.outerRadius + 10;
             },
             to: (...p) => {
-              return p[1].graphicItem.attribute.outerRadius;
+              return p[1].attribute.outerRadius;
             }
           }
         },

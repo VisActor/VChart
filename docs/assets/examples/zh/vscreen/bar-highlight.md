@@ -119,13 +119,15 @@ const spec = {
                 fill: {
                   from: fillColor,
                   to: (...p) => {
-                    return p[1].graphicItem.attribute.fill;
+                    console.log('aaa');
+                    return p[1].attribute.fill;
                   }
                 },
                 stroke: {
                   from: strokeColor,
                   to: (...p) => {
-                    return p[1].graphicItem.attribute.fill;
+                    console.log('aaa');
+                    return p[1].attribute.fill;
                   }
                 }
               },
