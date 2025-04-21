@@ -94,6 +94,57 @@ const getGlyphChildByName = (mark: IGlyph, name: string) => {
   return mark.getSubGraphic().find(child => child.name === name);
 };
 
+const computeBoxplotCenter = (
+  glyphMark: IGlyph,
+  direction: 'vertical' | 'horizontal',
+  options: IBoxplotScaleAnimationOptions
+) => {
+  if (options && isValidNumber(options.center)) {
+    return options.center;
+  }
+  let median: number;
+  let max: number;
+  let min: number;
+  let q1: number;
+  let q3: number;
+  if (isHorizontal(direction)) {
+    median = (getGlyphChildByName(glyphMark, 'median')?.attribute as ILineAttribute).points?.[0]?.x;
+    max = (getGlyphChildByName(glyphMark, 'max')?.attribute as ILineAttribute)?.points?.[0]?.x;
+    min = (getGlyphChildByName(glyphMark, 'min')?.attribute as ILineAttribute)?.points?.[0]?.x;
+
+    const boxWidth = (getGlyphChildByName(glyphMark, 'box').attribute as IRectAttribute).width;
+    const boxX = getGlyphChildByName(glyphMark, 'box').attribute.x;
+    q1 = boxX;
+    q3 = boxX + boxWidth;
+  } else {
+    median = (getGlyphChildByName(glyphMark, 'median')?.attribute as ILineAttribute).points?.[0]?.y;
+    max = (getGlyphChildByName(glyphMark, 'max')?.attribute as ILineAttribute)?.points?.[0]?.y;
+    min = (getGlyphChildByName(glyphMark, 'min')?.attribute as ILineAttribute)?.points?.[0]?.y;
+
+    const boxHeight = (getGlyphChildByName(glyphMark, 'box').attribute as IRectAttribute).height;
+    const boxY = getGlyphChildByName(glyphMark, 'box').attribute.y;
+    q1 = boxY;
+    q3 = boxY + boxHeight;
+  }
+
+  if (isValidNumber(median)) {
+    return median;
+  }
+  if (isValidNumber(q1) && isValidNumber(q3)) {
+    return (q1 + q3) / 2;
+  }
+  if (isValidNumber(max) && isValidNumber(min)) {
+    return (max + min) / 2;
+  }
+  if (isValidNumber(min)) {
+    return min;
+  }
+  if (isValidNumber(max)) {
+    return max;
+  }
+  return NaN;
+};
+
 const computeBarBoxplotCenter = (
   glyphMark: IGlyph,
   direction: 'vertical' | 'horizontal',
@@ -156,16 +207,21 @@ export class BoxplotScaleIn extends ACustomAnimate<Record<string, number>> {
   }
 
   onBind(): void {
-    // 用于入场的时候设置属性（因为有动画的时候VChart不会再设置属性了）
-    if (this.params?.diffAttrs) {
-      this.target.setAttributes(this.params.diffAttrs);
+    super.onBind();
+    const finalAttribute = this.target.getFinalAttribute();
+    if (finalAttribute) {
+      this.target.setAttributes(finalAttribute);
     }
-    const { from, to } = scaleIn(computeBarBoxplotCenter)(this.target as IGlyph, this.params, this.params.options);
+    const { from, to } = this.computeAttribute();
     this.propKeys = Object.keys(to).filter(key => to[key] != null);
     this.animate.reSyncProps();
     this.from = from;
     this.to = to;
     this.target.setAttributes(this.from);
+  }
+
+  computeAttribute() {
+    return scaleIn(computeBoxplotCenter)(this.target as IGlyph, this.params, this.params.options);
   }
 
   onUpdate(end: boolean, ratio: number, out: Record<string, any>): void {
@@ -187,12 +243,16 @@ export class BoxplotScaleOut extends ACustomAnimate<Record<string, number>> {
     if (this.params?.diffAttrs) {
       this.target.setAttributes(this.params.diffAttrs);
     }
-    const { from, to } = scaleOut(computeBarBoxplotCenter)(this.target as IGlyph, this.params, this.params?.options);
+    const { from, to } = this.computeAttribute();
     this.propKeys = Object.keys(to).filter(key => to[key] != null);
     this.animate.reSyncProps();
     this.from = from;
     this.to = to;
     this.target.setAttributes(this.from);
+  }
+
+  computeAttribute() {
+    return scaleOut(computeBoxplotCenter)(this.target as IGlyph, this.params, this.params.options);
   }
 
   onUpdate(end: boolean, ratio: number, out: Record<string, any>): void {
@@ -204,7 +264,21 @@ export class BoxplotScaleOut extends ACustomAnimate<Record<string, number>> {
   }
 }
 
+export class BarBoxplotScaleIn extends BoxplotScaleIn {
+  computeAttribute() {
+    return scaleIn(computeBarBoxplotCenter)(this.target as IGlyph, this.params, this.params.options);
+  }
+}
+
+export class BarBoxplotScaleOut extends BoxplotScaleOut {
+  computeAttribute() {
+    return scaleOut(computeBarBoxplotCenter)(this.target as IGlyph, this.params, this.params.options);
+  }
+}
+
 export const registeBoxPlotScaleAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('boxplotScaleIn', BoxplotScaleIn);
   AnimateExecutor.registerBuiltInAnimate('boxplotScaleOut', BoxplotScaleOut);
+  AnimateExecutor.registerBuiltInAnimate('barBoxplotScaleIn', BarBoxplotScaleIn);
+  AnimateExecutor.registerBuiltInAnimate('barBoxplotScaleOut', BarBoxplotScaleOut);
 };
