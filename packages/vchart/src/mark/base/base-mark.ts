@@ -1081,6 +1081,22 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._dataByGroup = groupData(data, this._groupKeyGetter);
   }
 
+  protected createAnimationStateList(type: string, animationConfig: Partial<MarkAnimationSpec>) {
+    let config = (animationConfig as any)[type];
+    if (config && Array.isArray(config)) {
+      config = config.length === 1 ? config[0] : config;
+    }
+    // TODO 因为数据的覆盖特点，无动画的时候新的更新一定会覆盖前一次的旧值，所以默认都是后面的动画覆盖前面的动画
+    // TODO 但是如果用户定义了一个动画数组，他的预期是动画不会覆盖，通过priority为INfinity来控制不覆盖
+    if (Array.isArray(config)) {
+      config = config.map((item: any, index: number) => ({
+        ...item,
+        priority: item.priority ?? Infinity
+      }));
+    }
+    return config;
+  }
+
   protected _runStateAnimation(
     graphics: IMarkGraphic[],
     params?: { defaultState?: string; cb?: (g: IMarkGraphic) => void }
@@ -1097,7 +1113,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
     // 过滤出appear动画出来，appear动画是整体动画，可以放在全局，同时appear动画和normal动画是串行关系
     const appear = graphics.every(g => (defaultState ?? g.context.animationState) === 'appear');
-    const appearConfig = (animationConfig as any).appear?.[0]; // TODO: animation: appear 数组
+    // const appearConfig = (animationConfig as any).appear?.[0]; // TODO: animation: appear 数组
+    const appearConfig = this.createAnimationStateList('appear', animationConfig);
     if (appear && this._product) {
       // TODO 一般appear都在最开始执行，所以这里不需要停掉normal动画
       // (this._product as IGroup).stopAnimationState('normal');
@@ -1111,23 +1128,16 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           ]
         : [];
 
-      if ((animationConfig as any).normal && (animationConfig as any).normal.length) {
+      if ((animationConfig as any).normal) {
         stateArray.push('normal');
-        const normalConfigList = (animationConfig as any).normal.map((item: any, index: number) => ({
-          name: `normal_${index}`,
-          animation: item
-        }));
-        configArray.push(normalConfigList.length === 1 ? normalConfigList[0] : normalConfigList);
+        const normal = this.createAnimationStateList('normal', animationConfig);
+        const normalConfig = {
+          name: 'normal',
+          animation: normal
+        };
+
+        configArray.push(normalConfig);
       }
-      // configArray.forEach(config => {
-      //   if (Array.isArray(config)) {
-      //     config.forEach(item => {
-      //       item.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
-      //     });
-      //   } else {
-      //     config.animation.customParameters = (data: any, g: IMarkGraphic) => g.context;
-      //   }
-      // });
       this._product.applyAnimationState(stateArray, configArray, cb);
     }
 
@@ -1167,15 +1177,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
     if (shouldRunNormal && this._product && (animationConfig as any).normal?.length) {
       // 停止normal动画，并回复最初的属性
-      (this._product as IGroup).stopAnimationState('normal', 'end');
-      const normalConfigList = (animationConfig as any).normal.map((item: any, index: number) => ({
-        name: `normal_${index}`,
-        animation: item
-      }));
-      (this._product as IGroup).applyAnimationState(
-        ['normal'],
-        [normalConfigList.length === 1 ? normalConfigList[0] : normalConfigList]
-      );
+      (this._product as IGroup).stopAnimationState('normal', 'start');
+      const normal = this.createAnimationStateList('normal', animationConfig);
+      const normalConfig = {
+        name: 'normal',
+        animation: normal
+      };
+      (this._product as IGroup).applyAnimationState(['normal'], [normalConfig], cb);
     }
   }
 

@@ -133,6 +133,7 @@ export class Compiler implements ICompiler {
         afterRender: this._option.afterRender,
         disableDirtyBounds: true,
         autoRender: true,
+        ticker: this._option.ticker,
         pluginList: this._option.pluginList,
         enableHtmlAttribute: this._option.enableHtmlAttribute,
         optimize: this._option.optimize,

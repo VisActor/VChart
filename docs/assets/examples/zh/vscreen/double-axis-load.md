@@ -92,6 +92,7 @@ const spec = {
                 to: 0.5
               }
             },
+            priority: Infinity,
             delay: 4000,
             duration: 800,
             delayAfter: 2400
@@ -108,11 +109,12 @@ const spec = {
             controlOptions: {
               immediatelyApply: false
             },
+            priority: Infinity,
             type: 'fadeIn',
             duration: 800,
             delayAfter: 1600,
             loop: true,
-            delay: 800
+            delay: 4800
           },
           {
             channel: {
@@ -125,7 +127,13 @@ const spec = {
                 to: 1
               }
             },
-            delay: 1600,
+            controlOptions: {
+              immediatelyApply: false
+            },
+            priority: Infinity,
+            oneByOne: true,
+            loop: true,
+            delay: 5600,
             duration: 800,
             delayAfter: 800
           },
@@ -141,11 +149,12 @@ const spec = {
             controlOptions: {
               immediatelyApply: false
             },
+            priority: Infinity,
             type: 'fadeIn',
             duration: 800,
             delayAfter: 0,
             loop: true,
-            delay: 2400
+            delay: 6400
           }
         ]
       },
