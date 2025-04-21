@@ -1722,6 +1722,20 @@
             "zh": "太极八卦图",
             "en": "Taiji Bagua Diagram"
           }
+        },
+        {
+          "path": "pictogram-route-swimming",
+          "title": {
+            "zh": "SVG 路径游泳动画",
+            "en": "SVG Motion Path Swimming Animation"
+          }
+        },
+        {
+          "path": "pictogram-guwen",
+          "title": {
+            "zh": "古文识别图",
+            "en": "Ancient Chinese Text Recognition Diagram"
+          }
         }
       ]
     },
@@ -1953,6 +1967,36 @@
           "title": {
             "zh": "日历图自定义日程",
             "en": "Calendar Custom Event"
+          }
+        }
+      ]
+    },
+    {
+      "path": "extension-chart",
+      "title": {
+        "zh": "拓展图表",
+        "en": "extension-chart"
+      },
+      "children": [
+        {
+          "path": "sequence-scatter-link-classification",
+          "title": {
+            "zh": "时序散点关系图-支持分类背景",
+            "en": "sequence-scatter-link-classification"
+          }
+        },
+        {
+          "path": "sequence-scatter-link-neighborhood",
+          "title": {
+            "zh": "时序散点关系图-支持交互邻域",
+            "en": "sequence-scatter-link-neighborhood"
+          }
+        },
+        {
+          "path": "sequence-scatter-kde",
+          "title": {
+            "zh": "时序散点图-支持KDE背景",
+            "en": "sequence-scatter-kde"
           }
         }
       ]

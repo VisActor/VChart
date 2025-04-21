@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vutils-extension",
-  "version": "1.13.8",
+  "version": "1.13.9",
   "description": "The extension module for VUtil from VisActor",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -25,8 +25,8 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.19.4",
-    "@visactor/vdataset": "~0.19.4"
+    "@visactor/vutils": "~0.19.5",
+    "@visactor/vdataset": "~0.19.5"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

@@ -19,6 +19,7 @@ import type { IMarkerSymbol } from '../interface';
 import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant/layout';
 import { markerFilter } from '../../../data/transforms/marker-filter';
+import { array } from '@visactor/vutils';
 
 export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
   static specKey = 'markLine';
@@ -49,11 +50,8 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
   }
 
   protected _createMarkerComponent() {
-    const {
-      label = {},
-      startSymbol = {} as IMarkerSymbol,
-      endSymbol = {} as IMarkerSymbol
-    } = this._spec as IMarkLineSpec;
+    const { startSymbol = {} as IMarkerSymbol, endSymbol = {} as IMarkerSymbol } = this._spec as IMarkLineSpec;
+    const label = array(this._spec.label ?? {});
 
     const markLineAttrs: MarkLineAttrs | MarkArcLineAttrs = {
       zIndex: this.layoutZIndex,
@@ -77,7 +75,9 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
         this._markAttributeContext
       ),
       clipInRange: this._spec.clip ?? false,
-      label: transformLabelAttributes(label, this._markerData, this._markAttributeContext),
+      label: label.map(labelItem => {
+        return transformLabelAttributes(labelItem, this._markerData, this._markAttributeContext);
+      }),
       state: {
         line: transformState(this._spec.line?.state ?? {}, this._markerData, this._markAttributeContext),
         lineStartSymbol: transformState(
@@ -86,12 +86,12 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
           this._markAttributeContext
         ),
         lineEndSymbol: transformState(this._spec.endSymbol?.state ?? {}, this._markerData, this._markAttributeContext),
-        label: transformState(this._spec?.label?.state ?? {}, this._markerData, this._markAttributeContext),
-        labelBackground: transformState(
-          this._spec?.label?.labelBackground?.state ?? {},
-          this._markerData,
-          this._markAttributeContext
-        )
+        label: label.map(labelItem => {
+          return transformState(labelItem.state ?? {}, this._markerData, this._markAttributeContext);
+        }),
+        labelBackground: label.map(labelItem => {
+          return transformState(labelItem.labelBackground?.state ?? {}, this._markerData, this._markAttributeContext);
+        })
       },
       animation: this._spec.animation ?? false,
       animationEnter: this._spec.animationEnter,
@@ -140,7 +140,7 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
       data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
 
     let limitRect;
-    if (spec.clip || spec.label?.confine) {
+    if (spec.clip || array(spec.label).some(labelCfg => labelCfg?.confine)) {
       const { minX, maxX, minY, maxY } = computeClipRange([
         startRelativeSeries.getRegion(),
         endRelativeSeries.getRegion(),
@@ -154,13 +154,16 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
       };
     }
     const markerComponentAttr = this._markerComponent?.attribute ?? {};
-    const labelAttrs = {
-      ...markerComponentAttr.label,
-      text: this._spec.label.formatMethod
-        ? this._spec.label.formatMethod(dataPoints, seriesData)
-        : markerComponentAttr.label?.text
-    };
+    const prevLabelAttrs = array(markerComponentAttr.label);
+    const specLabels = array(this._spec.label);
 
+    const labelAttrs = prevLabelAttrs.map((prevLabel, index) => {
+      const specLabel = specLabels[index] || {};
+      return {
+        ...prevLabel,
+        text: specLabel.formatMethod ? (specLabel.formatMethod(dataPoints, seriesData) as any) : prevLabel?.text
+      };
+    });
     return {
       ...pointsAttr,
       label: labelAttrs as MarkLineComponent['attribute']['label'],

@@ -8,22 +8,22 @@ function isValidStrokeOrFill(attr: any) {
 }
 
 const getLineWidth = (attributes: any) => {
-  const strokeWidth = parseFloat(attributes['strokeWidth']);
+  const strokeWidth = parseFloat(attributes.strokeWidth);
   if (!isNaN(strokeWidth)) {
     return strokeWidth;
   }
 
-  const stroke = attributes['stroke'];
+  const stroke = attributes.stroke;
   return stroke && isValidStrokeOrFill(stroke) ? 1 : 0;
 };
 
 const getFill = (attributes: any, defaultFill?: string) => {
-  const fill = attributes['fill'] ?? defaultFill;
+  const fill = attributes.fill ?? defaultFill;
   return fill && isValidStrokeOrFill(fill) ? fill : undefined;
 };
 
 const getStroke = (attributes: any, defaultStroke?: string) => {
-  const stroke = attributes['stroke'] ?? defaultStroke;
+  const stroke = attributes.stroke ?? defaultStroke;
   return stroke && isValidStrokeOrFill(stroke) ? stroke : false;
 };
 
@@ -41,10 +41,10 @@ const commonAttributes = (attributes: Record<string, any>) => {
 
 export const graphicAttributeTransform = {
   group: (attributes: Record<string, any>) => {
-    const common = commonAttributes(attributes);
+    const common = commonAttributes(attributes) as any;
     return {
       ...common,
-      visibleAll: common['visible'] !== false
+      visibleAll: common.visible !== false
     };
   },
   rule: (attributes: Record<string, any>) => {
@@ -140,7 +140,7 @@ export const pictogram = (data: DataView[]) => {
 
       const { graphicType: type, transform } = el;
 
-      let finalAttributes = {
+      const finalAttributes = {
         visible: el.attributes.visibility !== 'hidden' && el.attributes.visibility !== 'collapse'
       };
 
@@ -179,7 +179,7 @@ export const pictogram = (data: DataView[]) => {
       });
 
       if (children && children.length) {
-        let startX = texts[i]._textGroupStyle?.x ?? 0;
+        const startX = texts[i]._textGroupStyle?.x ?? 0;
         let curX = startX;
 
         for (let j = 0; j < children.length; j++) {

@@ -162,9 +162,10 @@ tickMode: (scale, tickCount = 5) => {
   /**
    * 用于 tick 的数据过滤
    * @param data
+   * @param context since 1.13.9
    * @returns
    */
-  dataFilter?: (data: AxisItem[]) => AxisItem[];
+  dataFilter?: (data: AxisItem[], context: {vchart: IVChart}) => AxisItem[];
 ```
 
 ##${prefix} style(Object|Function)

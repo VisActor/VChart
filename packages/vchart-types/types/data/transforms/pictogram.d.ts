@@ -1,14 +1,6 @@
 import type { DataView } from '@visactor/vdataset';
 export declare const graphicAttributeTransform: {
-    group: (attributes: Record<string, any>) => {
-        visibleAll: boolean;
-        x: number;
-        y: number;
-        fillStrokeOrder: boolean;
-        fill: any;
-        lineWidth: number;
-        stroke: any;
-    };
+    group: (attributes: Record<string, any>) => any;
     rule: (attributes: Record<string, any>) => {
         x: number;
         y: number;

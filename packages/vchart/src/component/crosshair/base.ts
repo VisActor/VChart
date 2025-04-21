@@ -162,7 +162,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       const fieldSpec = (this._spec as any)[field];
 
       if (fieldSpec && fieldSpec.visible && fieldSpec.defaultSelect) {
-        const { axisIndex, datum } = fieldSpec.defaultSelect;
+        const { axisIndex = 0, datum } = fieldSpec.defaultSelect;
         const axis = this._option.getComponentsByKey('axes').find(c => c.getSpecIndex() === axisIndex) as IAxis;
 
         if (axis) {

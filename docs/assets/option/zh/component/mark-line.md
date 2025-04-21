@@ -219,9 +219,10 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
   prefix = '####'
 ) }}
 
-### label(Object)
+### label(Array|Object)
 
 标注线的标签样式。
+自 `1.13.9` 版本开始，支持配置多个标签。
 
 #### position(Object)
 
