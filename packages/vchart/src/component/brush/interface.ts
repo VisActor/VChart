@@ -127,7 +127,7 @@ export interface IBrushTheme {
    * 返回true, 则清空brush
    * @since 1.13.9
    */
-  onBrushEnd: (e: any) => boolean;
+  onBrushEnd?: (e: any) => boolean;
 }
 
 export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
