@@ -141,11 +141,16 @@ const linkPathUpdate: TypeAnimation<IGraphic> = (
 
 export class LinkPathGrowIn extends ACustomAnimate<Record<string, number>> {
   onBind(): void {
+    super.onBind();
     if (this.params?.diffAttrs) {
       this.target.setAttributes(this.params.diffAttrs);
     }
     const { from, to } = linkPathGrowIn(this.target, this.params.options, this.params);
     const fromAttrs = this.target.context?.lastAttrs ?? from;
+    const finalAttribute = this.target.getFinalAttribute();
+    if (finalAttribute) {
+      Object.assign(this.target.attribute, finalAttribute);
+    }
     this.props = to;
     this.propKeys = Object.keys(to).filter(key => to[key] != null);
     this.animate.reSyncProps();
@@ -165,6 +170,7 @@ export class LinkPathGrowIn extends ACustomAnimate<Record<string, number>> {
 
 export class LinkPathGrowOut extends ACustomAnimate<Record<string, number>> {
   onBind(): void {
+    super.onBind();
     if (this.params?.diffAttrs) {
       this.target.setAttributes(this.params.diffAttrs);
     }
