@@ -13,7 +13,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike, Maybe } from '@visactor/vutils';
-import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
+import type { IElement, IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IGlobalScale } from '../../scale/interface';
 export declare class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
@@ -146,6 +146,13 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     private _initEvent;
     protected _enableMarkAnimation(states: string | string[]): void;
     protected _disableMarkAnimation(states: string | string[]): void;
+    filterGraphicsByDatum(datum: MaybeArray<Datum> | null, opt?: {
+        filter?: (series: ISeries, mark: IMark) => boolean;
+        region?: IRegionQuerier;
+        getDatum?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => Datum;
+        callback?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => void;
+        regionCallback?: (pickElements: IElement[], r: IRegion) => void;
+    }): IElement[];
     protected _setStateInDatum(stateKey: string, checkReverse: boolean, datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
     setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption): void;
     getColorScheme(): import("../..").IThemeColorScheme;
