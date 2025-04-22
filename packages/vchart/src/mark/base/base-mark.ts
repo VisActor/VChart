@@ -1119,7 +1119,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
    * @param graphics
    * @returns
    */
-  protected checkMorphing(graphics: IMarkGraphic[]) {
+  protected tryRunMorphing(graphics: IMarkGraphic[]) {
     if (this._lastMark) {
       // 得设置入场图元的属性
       graphics.forEach(g => {
@@ -1138,7 +1138,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     if (!this._animationConfig || graphics.length === 0) {
       return;
     }
-    if (this.checkMorphing(graphics)) {
+    if (this.tryRunMorphing(graphics)) {
       return;
     }
     const animationConfig = this.getAnimationConfig();
