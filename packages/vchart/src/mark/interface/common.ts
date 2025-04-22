@@ -222,6 +222,8 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   canAnimateAfterProgressive: () => boolean;
   /** 更新图元动画状态 */
   updateAnimationState: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
+  /** 执行动画 */
+  runAnimation: () => void;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;

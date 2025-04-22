@@ -693,7 +693,9 @@ export class Compiler implements ICompiler {
       const raf = vglobal.getRequestAnimationFrame();
       this._progressiveRafId = raf(this.handleProgressiveFrame);
     } else if (this._progressiveMarks && this._progressiveMarks.every(mark => mark.canAnimateAfterProgressive())) {
-      // todo this.animate.animate();
+      this._progressiveMarks.forEach(mark => {
+        mark.runAnimation();
+      });
     } else if (this._progressiveMarks) {
       this._progressiveMarks = null;
     }
