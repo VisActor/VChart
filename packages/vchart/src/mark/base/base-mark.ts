@@ -1901,4 +1901,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
     return Object.keys(this._animationConfig).length > 0;
   }
+
+  runAnimation() {
+    this._runStateAnimation(this._graphics);
+  }
 }
