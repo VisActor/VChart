@@ -68,6 +68,7 @@ import type { IAnimationConfig } from '../../animation/interface';
 import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { log } from '../../util';
+import { morph as runMorph } from '../../compile/morph';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -209,6 +210,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   getProduct() {
     return this._product;
   }
+
+  protected declare _lastMark?: IMark;
 
   /** 初始化 mark data */
   protected initMarkData(option: ICompilableInitOption) {
@@ -1012,6 +1015,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     };
   }
 
+  prepareMorph(mark: IMark) {
+    // 可以同类型进行morphing
+    // if (this.type === mark.type) {
+    //   return;
+    // }
+    this._lastMark = mark;
+  }
+
   reuse(mark: IMark) {
     if (this.type !== mark.type) {
       return;
@@ -1103,8 +1114,31 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return config;
   }
 
+  /**
+   * 尝试执行morphing动画
+   * @param graphics
+   * @returns
+   */
+  protected checkMorphing(graphics: IMarkGraphic[]) {
+    if (this._lastMark) {
+      // 得设置入场图元的属性
+      graphics.forEach(g => {
+        if (g.context.animationState === 'appear' || g.context.animationState === 'enter') {
+          g.setAttributes((g.getAttributes as any)(true));
+        }
+      });
+      const res = runMorph([this._lastMark], [this as any], {});
+      this._lastMark = null;
+      return res;
+    }
+    return false;
+  }
+
   protected _runStateAnimation(graphics: IMarkGraphic[]) {
     if (!this._animationConfig || graphics.length === 0) {
+      return;
+    }
+    if (this.checkMorphing(graphics)) {
       return;
     }
     const animationConfig = this.getAnimationConfig();
