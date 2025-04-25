@@ -189,7 +189,27 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return this._animationConfig;
   }
   setAnimationConfig(config: Partial<MarkAnimationSpec>) {
-    this._animationConfig = config;
+    // 封装options，批量添加一些默认参数
+    const animationConfig = { ...config };
+    Object.keys(animationConfig).forEach(key => {
+      const value = (animationConfig as any)[key];
+      if (isArray(value)) {
+        value.forEach(item => {
+          const options = item!.options ?? {};
+          item.options = (...args: any[]) => {
+            const _options = typeof options === 'function' ? options(...args) : options;
+            return {
+              ..._options,
+              layoutRect: (this.model as any).getLayoutRect?.()
+            };
+          };
+        });
+      }
+      // if (isNil(animationConfig[key])) {
+      //   animationConfig[key] = {};
+      // }
+    });
+    this._animationConfig = animationConfig;
   }
 
   /** 布局标记 */
@@ -1463,7 +1483,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       if (!(g as any).setAttributes) {
         const mockGraphic = g;
         // TODO：如果要走入场、Enter动画，就不用设置值了，保存到diffAttrs中由入场动画自己去设置，因为入场动画可能会延迟执行，所以首帧不能直接设置属性
+        // TODO 太麻烦了，会影响后续bounds等计算逻辑，还是首帧设置吧。。。
         g = this._createGraphic(hasStateAnimation ? {} : finalAttrs) as IMarkGraphic;
+        // g = this._createGraphic(finalAttrs) as IMarkGraphic;
         // 如果有动画，设置一下最终attribute
         if (hasAnimation) {
           g.setFinalAttribute(finalAttrs);
