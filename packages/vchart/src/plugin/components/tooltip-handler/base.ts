@@ -322,6 +322,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
           case -2:
             calcPos[posKey] = dim1 - boxSize * tooltipSizeScale - dimOffset;
             break;
+          case -1.5:
+            calcPos[posKey] = dim1 + dimOffset;
+            break;
           case 0:
             calcPos[posKey] = (dim1 + dim2) / 2 - (boxSize * tooltipSizeScale) / 2;
             break;
@@ -330,6 +333,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
             break;
           case 1:
             calcPos[posKey] = (dim1 + dim2) / 2 + dimOffset;
+            break;
+          case 1.5:
+            calcPos[posKey] = dim2 - boxSize * tooltipSizeScale - dimOffset;
             break;
           case 2:
             calcPos[posKey] = dim2 + dimOffset;
