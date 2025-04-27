@@ -231,6 +231,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return this._product;
   }
 
+  // 保存上一次的mark，用于morph的时候获取上次的图元
   protected declare _lastMark?: IMark;
 
   /** 初始化 mark data */
