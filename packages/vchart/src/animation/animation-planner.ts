@@ -50,9 +50,6 @@ export class AnimationPlanner {
       this.beforeExecute(this.graphics);
     }
 
-    // 使用第一个动画配置作为主配置
-    const mainConfig = this.config[0];
-
     // 计数完成的动画
     let completedCount = 0;
     const totalCount = this.graphics.length;
@@ -79,10 +76,16 @@ export class AnimationPlanner {
       if (this.state === 'exit') {
         g.isExiting = true;
       }
-      const animationConfig = {
-        name: this.state,
-        animation: { ...mainConfig, customParameters: g.context } as any
-      };
+      const animationConfig =
+        this.config.length > 1
+          ? this.config.map(c => ({
+              name: this.state,
+              animation: { ...c, customParameters: g.context } as any
+            }))
+          : {
+              name: this.state,
+              animation: { ...this.config[0], customParameters: g.context } as any
+            };
 
       g.applyAnimationState([this.state], [animationConfig], onAnimationComplete);
     });
