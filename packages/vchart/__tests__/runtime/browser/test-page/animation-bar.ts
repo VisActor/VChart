@@ -56,29 +56,118 @@ let dataArray = [
 const direction: string = 'vertical';
 
 let spec = {
-  type: 'gauge',
-  data: [
-    {
-      id: 'id0',
-      values: [
-        {
-          type: '目标A',
-          value: 0.6
-        }
-      ]
+  type: 'bar',
+  data: {
+    id: 'data0',
+    values: dataArray
+  },
+  title: {
+    visible: true,
+    text: 'Stacked area chart of cosmetic products sales'
+  },
+  direction,
+  useSequentialAnimation: true,
+  // stack: true,
+  xField: direction === 'horizontal' ? 'value' : 'type',
+  yField: direction === 'horizontal' ? 'type' : 'value',
+  seriesField: 'country',
+  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+  crosshair: {
+    followTooltip: true,
+    xField: { visible: true, label: { visible: true } },
+    yField: { visible: true, label: { visible: true } }
+  },
+  animationAppear: {
+    duration: 300
+  },
+  animationUpdate: {
+    duration: 300
+  },
+  animationEnter: {
+    duration: 300
+  },
+  animationExit: {
+    duration: 300
+  },
+  animationNormal: {
+    point: [
+      {
+        loop: true,
+        startTime: 100,
+        oneByOne: 100,
+        priority: 1,
+        timeSlices: [
+          {
+            delay: 1000,
+            effects: {
+              channel: {
+                fillOpacity: { to: 0.5 }
+              },
+              easing: 'linear'
+            },
+            duration: 500
+          },
+          {
+            effects: {
+              channel: {
+                fillOpacity: { to: 1 }
+              },
+              easing: 'linear'
+            },
+            duration: 500
+          }
+        ]
+      }
+    ]
+  },
+  point: {
+    state: {
+      hover: {
+        fill: 'red'
+      }
+    },
+    style: {
+      size: 80
     }
-  ],
-  categoryField: 'type',
-  valueField: 'value',
-  outerRadius: 0.8,
-  innerRadius: 0.5,
-  startAngle: -180,
-  endAngle: 0
+  },
+  axes: [
+    {
+      orient: 'left',
+      animation: true,
+      animationAppear: {
+        duration: 3000
+      },
+      animationEnter: {
+        duration: 3000
+      },
+      animationUpdate: {
+        duration: 3000
+      },
+      animationExit: {
+        duration: 3000
+      }
+    },
+    {
+      orient: 'bottom',
+      animation: true,
+      animationAppear: {
+        duration: 3000
+      },
+      animationEnter: {
+        duration: 3000
+      },
+      animationUpdate: {
+        duration: 3000
+      },
+      animationExit: {
+        duration: 3000
+      }
+    }
+  ]
 };
 
 const run = () => {
   registerMediaQuery();
-
   // VChart.ThemeManager.setCurrentTheme('dark');
   const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,

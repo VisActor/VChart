@@ -31,16 +31,12 @@ class SequentialAnimate {
   }
 
   // 处理动画序列
-  protected _runSequentialAnimations(
-    graphics: IMarkGraphic[],
-    params?: { defaultState?: string; cb?: (g: IMarkGraphic) => void }
-  ) {
+  protected _runSequentialAnimations(graphics: IMarkGraphic[]) {
     this.initGrammarDetector();
     const animationConfig = (this as any).getAnimationConfig();
-    const { defaultState } = params ?? {};
 
     // 使用 GrammarDetector 检测变化类型
-    const detectionResult = this._grammarDetector.detect(graphics, (this as any)._graphicMap, defaultState);
+    const detectionResult = this._grammarDetector.detect(graphics, (this as any)._graphicMap);
 
     // 根据检测结果创建动画planners
     const planners = this._grammarDetector.createPlanners(

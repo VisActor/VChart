@@ -11,8 +11,10 @@
 import { AnimationPlanner } from './animation-planner';
 import type { IMarkGraphic } from '../mark/interface';
 import { DiffState } from '../mark/interface/enum';
-import type { IAnimationConfig } from './interface';
+import type { IAnimationConfig, IAnimationSplitStrategy } from './interface';
 import type { BaseMark } from '../mark';
+import { VerticalBarSplitStrategy } from './strategy/vertical-bar-split';
+import { HorizontalBarSplitStrategy } from './strategy/horizontal-bar-split';
 
 export interface IDetectionResult {
   hasExit: boolean;
@@ -23,186 +25,6 @@ export interface IDetectionResult {
   updateGraphics: IMarkGraphic[];
   enterGraphics: IMarkGraphic[];
   appearGraphics: IMarkGraphic[];
-}
-
-/**
- * 动画拆分策略接口
- * 用于定义如何拆分一个动画更新为多个步骤
- */
-export interface IAnimationSplitStrategy {
-  /**
-   * 策略名称
-   */
-  name: string;
-
-  /**
-   * 检查是否应该应用此策略
-   * @param mark 图表标记
-   * @param graphic 图形元素
-   * @returns 是否应用此策略
-   */
-  shouldApply: (mark: BaseMark<any>, graphic: IMarkGraphic) => boolean;
-
-  /**
-   * 拆分动画更新
-   * @param mark 图表标记
-   * @param graphic 图形元素
-   * @returns 拆分后的动画更新数组（每个元素包含一组属性和执行顺序）
-   */
-  split: (
-    mark: BaseMark<any>,
-    graphic: IMarkGraphic
-  ) => Array<{
-    attrs: Record<string, any>;
-    order: number;
-  }>;
-}
-
-/**
- * 垂直柱状图拆分策略
- * 针对垂直柱状图，先更新x和width，再更新y和height
- */
-export class VerticalBarSplitStrategy implements IAnimationSplitStrategy {
-  name = 'verticalBarSplit';
-
-  shouldApply(mark: BaseMark<any>, graphic: IMarkGraphic): boolean {
-    // 检查是否是柱状图且方向是垂直的
-    const isRectMark = mark.type === 'rect';
-    const isVertical = (mark.model as any)?.direction === 'vertical';
-
-    // 检查是否同时存在维度和值的变化
-    const diffAttrs = graphic.context?.diffAttrs || {};
-    const hasDimensionChanges = 'x' in diffAttrs || 'width' in diffAttrs || 'x1' in diffAttrs;
-    const hasValueChanges = 'y' in diffAttrs || 'height' in diffAttrs || 'y1' in diffAttrs;
-
-    return isRectMark && isVertical && hasDimensionChanges && hasValueChanges;
-  }
-
-  split(mark: BaseMark<any>, graphic: IMarkGraphic): Array<{ attrs: Record<string, any>; order: number }> {
-    const diffAttrs = graphic.context?.diffAttrs || {};
-    const dimensionAttrs: Record<string, any> = {};
-    const valueAttrs: Record<string, any> = {};
-
-    // 分配属性到对应的组
-    Object.entries(diffAttrs).forEach(([key, value]) => {
-      if (key === 'x' || key === 'width' || key === 'x1') {
-        dimensionAttrs[key] = value;
-      } else if (key === 'y' || key === 'height' || key === 'y1') {
-        valueAttrs[key] = value;
-      } else {
-        // 其他属性（如颜色、透明度等）与维度一起更新
-        dimensionAttrs[key] = value;
-      }
-    });
-
-    // 检查是从堆积变为分组还是从分组变为堆积
-    // 如果fieldX长度增加，说明是从堆积变为分组，先执行x/width
-    // 如果fieldX长度减少，说明是从分组变为堆积，先执行y/height
-    const context = graphic.context as any;
-    const fieldX = context.fieldX;
-    const originalFieldX = context._originalFieldX;
-
-    // 检查fieldX是否是数组（表示多维度）
-    const isGrouped = Array.isArray(fieldX) && fieldX.length > 1;
-    const wasStacked = originalFieldX ? !(Array.isArray(originalFieldX) && originalFieldX.length > 1) : !isGrouped;
-
-    const stack2group = wasStacked && isGrouped;
-    // 默认情况：先执行x/width，再执行y/height
-    return [
-      { attrs: dimensionAttrs, order: stack2group ? 1 : 2 }, // 先更新维度（x和width）
-      { attrs: valueAttrs, order: stack2group ? 2 : 1 } // 再更新值（y和height）
-    ];
-  }
-}
-
-/**
- * 水平柱状图拆分策略
- * 针对水平柱状图，先更新y和height，再更新x和width
- */
-export class HorizontalBarSplitStrategy implements IAnimationSplitStrategy {
-  name = 'horizontalBarSplit';
-
-  shouldApply(mark: BaseMark<any>, graphic: IMarkGraphic): boolean {
-    // 检查是否是柱状图且方向是水平的
-    const isRectMark = mark.type === 'rect';
-    const isHorizontal = (mark.model as any)?.direction === 'horizontal';
-
-    // 检查是否同时存在维度和值的变化
-    const diffAttrs = graphic.context?.diffAttrs || {};
-    const hasDimensionChanges = 'y' in diffAttrs || 'height' in diffAttrs || 'y1' in diffAttrs;
-    const hasValueChanges = 'x' in diffAttrs || 'width' in diffAttrs || 'x1' in diffAttrs;
-
-    return isRectMark && isHorizontal && hasDimensionChanges && hasValueChanges;
-  }
-
-  split(mark: BaseMark<any>, graphic: IMarkGraphic): Array<{ attrs: Record<string, any>; order: number }> {
-    const diffAttrs = graphic.context?.diffAttrs || {};
-    const dimensionAttrs: Record<string, any> = {};
-    const valueAttrs: Record<string, any> = {};
-
-    // 分配属性到对应的组
-    Object.entries(diffAttrs).forEach(([key, value]) => {
-      if (key === 'y' || key === 'height' || key === 'y1') {
-        dimensionAttrs[key] = value;
-      } else if (key === 'x' || key === 'width' || key === 'x1') {
-        valueAttrs[key] = value;
-      } else {
-        // 其他属性（如颜色、透明度等）与维度一起更新
-        dimensionAttrs[key] = value;
-      }
-    });
-
-    // 检查是从堆积变为分组还是从分组变为堆积
-    // 如果fieldY长度增加，说明是从堆积变为分组，先执行y/height
-    // 如果fieldY长度减少，说明是从分组变为堆积，先执行x/width
-    const context = graphic.context as any;
-    const fieldY = context.fieldY;
-    const originalFieldY = context._originalFieldY;
-
-    // 检查fieldY是否是数组（表示多维度）
-    const isGrouped = Array.isArray(fieldY) && fieldY.length > 1;
-    const wasStacked = originalFieldY ? !(Array.isArray(originalFieldY) && originalFieldY.length > 1) : !isGrouped;
-    const group2stack = !wasStacked && !isGrouped;
-
-    return [
-      { attrs: dimensionAttrs, order: group2stack ? 2 : 1 }, // 先更新维度（y和height）
-      { attrs: valueAttrs, order: group2stack ? 1 : 2 } // 再更新值（x和width）
-    ];
-  }
-}
-
-/**
- * 自定义拆分策略
- * 允许用户自定义条件和拆分逻辑
- */
-export class CustomSplitStrategy implements IAnimationSplitStrategy {
-  name: string;
-  private checkFn: (mark: BaseMark<any>, graphic: IMarkGraphic) => boolean;
-  private splitFn: (mark: BaseMark<any>, graphic: IMarkGraphic) => Array<{ attrs: Record<string, any>; order: number }>;
-
-  /**
-   * 创建自定义拆分策略
-   * @param name 策略名称
-   * @param checkFn 用于检查是否应用此策略的函数
-   * @param splitFn 用于拆分动画的函数
-   */
-  constructor(
-    name: string,
-    checkFn: (mark: BaseMark<any>, graphic: IMarkGraphic) => boolean,
-    splitFn: (mark: BaseMark<any>, graphic: IMarkGraphic) => Array<{ attrs: Record<string, any>; order: number }>
-  ) {
-    this.name = name;
-    this.checkFn = checkFn;
-    this.splitFn = splitFn;
-  }
-
-  shouldApply(mark: BaseMark<any>, graphic: IMarkGraphic): boolean {
-    return this.checkFn(mark, graphic);
-  }
-
-  split(mark: BaseMark<any>, graphic: IMarkGraphic): Array<{ attrs: Record<string, any>; order: number }> {
-    return this.splitFn(mark, graphic);
-  }
 }
 
 export class GrammarDetector {
@@ -229,10 +51,9 @@ export class GrammarDetector {
   /**
    * 检测图形的变化类型
    * @param graphics 要分析的图形列表
-   * @param defaultState 可选的默认状态，用于覆盖图形的状态
    * @returns 一个检测结果，指示需要哪些类型的动画
    */
-  detect(graphics: IMarkGraphic[], graphicMap: Map<string, IMarkGraphic>, defaultState?: string): IDetectionResult {
+  detect(graphics: IMarkGraphic[], graphicMap: Map<string, IMarkGraphic>): IDetectionResult {
     const exitGraphics: IMarkGraphic[] = [];
     const updateGraphics: IMarkGraphic[] = [];
     const enterGraphics: IMarkGraphic[] = [];
@@ -247,17 +68,17 @@ export class GrammarDetector {
 
       // 保存原始fieldX/fieldY以供比较
       if (context.fieldX) {
-        context._originalFieldX = context.fieldX;
+        context.originalFieldX = context.fieldX;
       }
       if (context.fieldY) {
-        context._originalFieldY = context.fieldY;
+        context.originalFieldY = context.fieldY;
       }
 
       // 更新为当前field
       context.fieldX = fieldX;
       context.fieldY = fieldY;
 
-      const state = defaultState ?? g.context.animationState;
+      const state = g.context.animationState;
       switch (state) {
         case 'update':
           updateGraphics.push(g);
