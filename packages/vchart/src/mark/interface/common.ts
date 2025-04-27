@@ -106,7 +106,7 @@ export interface IGraphicContext {
   /**
    * 用于保存mark对应series的fieldX
    */
-  _originalFieldX?: string[];
+  originalFieldX?: string[];
   /**
    * 用于保存mark对应series的fieldY
    */
@@ -114,7 +114,7 @@ export interface IGraphicContext {
   /**
    * 用于保存mark对应series的fieldY
    */
-  _originalFieldY?: string[];
+  originalFieldY?: string[];
   /**
    * 动画状态管理: 'appear' / 'enter' / 'update' / 'exit' / 'disappear'
    */

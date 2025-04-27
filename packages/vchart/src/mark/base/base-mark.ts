@@ -1103,25 +1103,21 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return config;
   }
 
-  protected _runStateAnimation(
-    graphics: IMarkGraphic[],
-    params?: { defaultState?: string; cb?: (g: IMarkGraphic) => void }
-  ) {
+  protected _runStateAnimation(graphics: IMarkGraphic[]) {
     if (!this._animationConfig || graphics.length === 0) {
       return;
     }
     const animationConfig = this.getAnimationConfig();
-    const { defaultState, cb } = params ?? {};
     const useSequentialAnimation = this._markConfig.useSequentialAnimation ?? false;
     if (useSequentialAnimation && (this as any)._runSequentialAnimations) {
-      (this as any)._runSequentialAnimations(graphics, params);
+      (this as any)._runSequentialAnimations(graphics);
       return;
     }
     // 过滤出appear动画出来，appear动画是整体动画，可以放在全局，同时appear动画和normal动画是串行关系
-    const appear = graphics.every(g => (defaultState ?? g.context.animationState) === 'appear');
+    const isAppear = graphics.every(g => g.context.animationState === 'appear');
     // const appearConfig = (animationConfig as any).appear?.[0]; // TODO: animation: appear 数组
     const appearConfig = this.createAnimationStateList('appear', animationConfig);
-    if (appear && this._product) {
+    if (isAppear && this._product) {
       // TODO 一般appear都在最开始执行，所以这里不需要停掉normal动画
       // (this._product as IGroup).stopAnimationState('normal');
       const stateArray = appearConfig ? ['appear'] : [];
@@ -1144,14 +1140,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
         configArray.push(normalConfig);
       }
-      this._product.applyAnimationState(stateArray, configArray, cb);
+      this._product.applyAnimationState(stateArray, configArray);
     }
 
     // 判断是否需要走normal动画，enter动画执行完成后，需要跟一个normal动画
     let shouldRunNormal = false;
     // 处理除了appear以外的动画
     graphics.forEach(g => {
-      const state = defaultState ?? g.context.animationState;
+      const state = g.context.animationState;
       if (state === 'appear') {
         return;
       }
@@ -1169,7 +1165,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         if (state === 'enter' && animationConfig.normal) {
           shouldRunNormal = true;
         }
-        g.applyAnimationState(stateArray, [configList.length === 1 ? configList[0] : configList], cb);
+        g.applyAnimationState(stateArray, [configList.length === 1 ? configList[0] : configList]);
         // configList.forEach((item: any) => {
         //   item.animation.customParameters = null;
         // });
@@ -1184,7 +1180,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         name: 'normal',
         animation: normal
       };
-      (this._product as IGroup).applyAnimationState(['normal'], [normalConfig], cb);
+      (this._product as IGroup).applyAnimationState(['normal'], [normalConfig]);
     }
   }
 
@@ -1247,9 +1243,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           // 从旧context中继承
           reusing: g.context?.reusing,
           // 从旧context中继承
-          _originalFieldX: g.context?._originalFieldX,
+          originalFieldX: g.context?.originalFieldX,
           // 从旧context中继承
-          _originalFieldY: g.context?._originalFieldY,
+          originalFieldY: g.context?.originalFieldY,
           // 从旧context中继承
           fieldX: g.context?.fieldX,
           // 从旧context中继承
@@ -1660,6 +1656,15 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   protected _cleanExitGraphics() {
+    const doRemove = (g: IMarkGraphic, key: string) => {
+      this._graphicMap.delete(key);
+      if (g.parent) {
+        g.parent.removeChild(g);
+      }
+      if (g.release) {
+        g.release();
+      }
+    };
     this._graphicMap.forEach((g, key) => {
       // 避免重复执行退场动画
       if (g.context.diffState === DiffState.exit && !g.isExiting) {
@@ -1678,25 +1683,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
             g.applyAnimationState(['exit'], [exitConfigList.length === 1 ? exitConfigList[0] : exitConfigList], () => {
               // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
               // TODO 这里如果频繁执行的话，可能会误判
-              if (g.isExiting) {
-                this._graphicMap.delete(key);
-                if (g.parent) {
-                  g.parent.removeChild(g);
-                }
-                if (g.release) {
-                  g.release();
-                }
-              }
+              doRemove(g, key);
             });
           }
         } else {
-          this._graphicMap.delete(key);
-          if (g.parent) {
-            g.parent.removeChild(g);
-          }
-          if (g.release) {
-            g.release();
-          }
+          doRemove(g, key);
         }
       }
     });
