@@ -483,6 +483,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
     this.state.release();
     super.release();
+    this._lastMark = null;
   }
 
   protected _simpleStyle: T;
