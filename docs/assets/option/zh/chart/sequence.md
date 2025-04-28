@@ -9,7 +9,7 @@
     chartType = 'sequence'
 ) }}
 
-## appendPadding(number)
+## appendPadding(number|Object)
 
 属性用于配置图表的内边距， 建议配置， 否则事件link 系列的 title 将会与 gridline 重叠。
 

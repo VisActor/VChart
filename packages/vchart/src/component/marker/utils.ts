@@ -558,17 +558,34 @@ export function computeOffsetFromRegion(point: IPointLike, offset: string | numb
   return offset as number;
 }
 
+export function getProcessInfo(spec: any) {
+  return {
+    isXProcess: isValid(spec.x),
+    isYProcess: isValid(spec.y),
+    isX1Process: isValid(spec.x1),
+    isY1Process: isValid(spec.y1),
+    isAngleProcess: isValid(spec.angle),
+    isRadiusProcess: isValid(spec.radius),
+    isAngle1Process: isValid(spec.angle1),
+    isRadius1Process: isValid(spec.radius1),
+    isCoordinatesProcess: isValid(spec.coordinates),
+    isValidProcess: isValid(spec.process)
+  };
+}
+
 export function getMarkLineProcessInfo(spec: any) {
-  const isXProcess = 'x' in spec;
-  const isYProcess = 'y' in spec;
-  const isX1Process = 'x1' in spec;
-  const isY1Process = 'y1' in spec;
-  const isAngleProcess = 'angle' in spec;
-  const isRadiusProcess = 'radius' in spec;
-  const isAngle1Process = 'angle1' in spec;
-  const isRadius1Process = 'radius1' in spec;
-  const isCoordinatesProcess = 'coordinates' in spec;
-  const isValidProcess = 'process' in spec;
+  const {
+    isXProcess,
+    isYProcess,
+    isX1Process,
+    isY1Process,
+    isAngleProcess,
+    isRadiusProcess,
+    isAngle1Process,
+    isRadius1Process,
+    isCoordinatesProcess,
+    isValidProcess
+  } = getProcessInfo(spec);
 
   return {
     doXProcess: isXProcess && !isYProcess && !isY1Process,
@@ -586,15 +603,17 @@ export function getMarkLineProcessInfo(spec: any) {
 }
 
 export function getMarkAreaProcessInfo(spec: any) {
-  const isXProcess = 'x' in spec;
-  const isX1Process = 'x1' in spec;
-  const isYProcess = 'y' in spec;
-  const isY1Process = 'y1' in spec;
-  const isAngleProcess = 'angle' in spec;
-  const isRadiusProcess = 'radius' in spec;
-  const isAngle1Process = 'angle1' in spec;
-  const isRadius1Process = 'radius1' in spec;
-  const isCoordinatesProcess = 'coordinates' in spec;
+  const {
+    isXProcess,
+    isYProcess,
+    isX1Process,
+    isY1Process,
+    isAngleProcess,
+    isRadiusProcess,
+    isAngle1Process,
+    isRadius1Process,
+    isCoordinatesProcess
+  } = getProcessInfo(spec);
   return {
     doXProcess: isXProcess && isX1Process && !isYProcess && !isY1Process,
     doYProcess: isYProcess && isY1Process && !isXProcess && !isX1Process,

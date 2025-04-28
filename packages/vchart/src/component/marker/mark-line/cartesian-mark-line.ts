@@ -8,7 +8,7 @@ import {
   MarkLine as MarkLineComponent,
   registerMarkLineAnimate
 } from '@visactor/vrender-components';
-import { isValid, isValidNumber } from '@visactor/vutils';
+import { array, isValid, isValidNumber } from '@visactor/vutils';
 import type { IDataPos, IMarkProcessOptions } from '../interface';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
@@ -105,7 +105,7 @@ export class CartesianMarkLine extends BaseMarkLine {
       } else {
         expandDistanceValue = expandDistance as number;
       }
-      const { points, label, limitRect } = updateAttrs;
+      const { points, limitRect } = updateAttrs;
 
       const joinPoints = getInsertPoints(
         (points as IPoint[])[0],
@@ -119,33 +119,20 @@ export class CartesianMarkLine extends BaseMarkLine {
         // 如果用户配置了主线段，则不进行 label 的偏移处理，直接显示在主线段中间
         labelPositionAttrs = {
           position: 'middle',
-          autoRotate: false,
-          refX: 0,
-          refY: 0
+          autoRotate: false
         };
       } else {
         labelPositionAttrs = {
           position: 'start',
           autoRotate: false,
-          ...getTextOffset((points as IPoint[])[0], (points as IPoint[])[1], connectDirection, expandDistanceValue),
-          refX: 0,
-          refY: 0
+          ...getTextOffset((points as IPoint[])[0], (points as IPoint[])[1], connectDirection, expandDistanceValue)
         };
       }
 
-      if (isValidNumber(this._spec.label?.refX)) {
-        labelPositionAttrs.refX += this._spec.label.refX;
-      }
-      if (isValidNumber(this._spec.label?.refY)) {
-        labelPositionAttrs.refY += this._spec.label.refY;
-      }
-      if (isValidNumber(this._spec.label?.dx)) {
-        labelPositionAttrs.dx = (labelPositionAttrs.dx || 0) + this._spec.label.dx;
-      }
-      if (isValidNumber(this._spec.label?.dy)) {
-        labelPositionAttrs.dy = (labelPositionAttrs.dy || 0) + this._spec.label.dy;
-      }
       const markerComponentAttr = this._markerComponent?.attribute ?? {};
+      const prevLabelAttrs = array(markerComponentAttr.label);
+      const updateLabels = array(updateAttrs.label);
+      const labelsInSpec = array(this._spec.label);
       this._markerComponent?.setAttributes({
         points: multiSegment
           ? [
@@ -154,15 +141,38 @@ export class CartesianMarkLine extends BaseMarkLine {
               [joinPoints[2], joinPoints[3]]
             ]
           : joinPoints,
-        label: {
-          ...label,
-          ...labelPositionAttrs,
-          textStyle: {
-            ...markerComponentAttr.label.textStyle,
-            textAlign: 'center',
-            textBaseline: 'middle'
+        label: updateLabels.map((labelItem, index) => {
+          let refX = 0;
+          let refY = 0;
+          let dx = labelPositionAttrs.dx ?? 0;
+          let dy = labelPositionAttrs.dy ?? 0;
+          const labelSpec = labelsInSpec[index] ?? labelsInSpec[0];
+          if (isValidNumber(labelSpec?.refX)) {
+            refX += labelSpec.refX;
           }
-        },
+          if (isValidNumber(labelSpec?.refY)) {
+            refY += labelSpec.refY;
+          }
+          if (isValidNumber(labelSpec?.dx)) {
+            dx += labelSpec.dx;
+          }
+          if (isValidNumber(labelSpec?.dy)) {
+            dy += labelSpec.dy;
+          }
+          return {
+            ...labelItem,
+            ...labelPositionAttrs,
+            refX,
+            refY,
+            dx,
+            dy,
+            textStyle: {
+              ...prevLabelAttrs[index]?.textStyle,
+              textAlign: 'center',
+              textBaseline: 'middle'
+            }
+          };
+        }),
         limitRect,
         multiSegment,
         mainSegmentIndex,
@@ -233,15 +243,15 @@ export class CartesianMarkLine extends BaseMarkLine {
           type: 'markerAggregation',
           options
         });
-      if (spec.process && 'x' in spec.process) {
+      if (spec.process && isValid(spec.process.x)) {
         options = [this._processSpecByDims([{ dim: 'x', specValue: spec.process.x as unknown as IDataPos }])];
         needAggr = true;
       }
-      if (spec.process && 'y' in spec.process) {
+      if (spec.process && isValid(spec.process.y)) {
         options = options = [this._processSpecByDims([{ dim: 'y', specValue: spec.process.y as unknown as IDataPos }])];
         needAggr = true;
       }
-      if (spec.process && 'xy' in spec.process) {
+      if (spec.process && isValid(spec.process.xy)) {
         const { xField, yField } = relativeSeries.getSpec();
         options = {
           fieldX: xField,

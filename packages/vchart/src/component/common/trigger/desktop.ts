@@ -1,8 +1,6 @@
 import type { IZoomTrigger } from './interface';
 
 export class DeskTopTrigger implements IZoomTrigger {
-  pointerId: number;
-
   parserScrollEvent(e: any) {
     if (!e) {
       return e;
@@ -39,8 +37,5 @@ export class DeskTopTrigger implements IZoomTrigger {
 
   clearDrag(): void {
     // do nothing
-  }
-  parserDragEvent(): boolean {
-    return true;
   }
 }

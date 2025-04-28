@@ -89,7 +89,47 @@ export type TooltipFixedPosition =
    */
   | 'centerRight'
   /** tooltip 显示在鼠标所在图形中心位置（旧版兼容，建议用 `'center'`） */
-  | 'inside';
+  | 'inside'
+  /**
+   * tooltip 显示在鼠标所在图形的内侧顶部
+   * @since 1.13.10
+   */
+  | 'insideTop'
+  /**
+   * tooltip 显示在鼠标所在图形的内侧底部
+   * @since 1.13.10
+   */
+  | 'insideBottom'
+  /**
+   * tooltip 显示在鼠标所在图形的内侧左侧
+   * @since 1.13.10
+   */
+  | 'insideLeft'
+  /**
+   * tooltip 显示在鼠标所在图形的内侧右侧
+   * @since 1.13.10
+   */
+  | 'insideRight'
+  /**
+   * tooltip 显示在鼠标所在图形的内侧左上角
+   * @since 1.13.10
+   */
+  | 'insideTopLeft'
+  /**
+   * tooltip 显示在鼠标所在图形的内侧右上角
+   * @since 1.13.10
+   */
+  | 'insideTopRight'
+  /**
+   * tooltip 显示在鼠标所在图形的内侧左下角
+   * @since 1.13.10
+   */
+  | 'insideBottomLeft'
+  /**
+   * tooltip 显示在鼠标所在图形的内侧右下角
+   * @since 1.13.10
+   */
+  | 'insideBottomRight';
 
 export type TooltipPositionMode =
   /** tooltip 固定在鼠标指针附近 */

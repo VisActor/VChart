@@ -1,3 +1,89 @@
+# v1.13.9
+
+2025-04-21
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: axis datafilter support context. close [#3332](https://github.com/VisActor/VChart/issues/3332)
+- **@visactor/vchart**: gauge support clip when mark outof axis. close [#3859](https://github.com/VisActor/VChart/issues/3859)
+- **@visactor/vchart**: markLine and markArea supports render multiple labels
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: clear event listener for normal animation when updateSpec, [#3881](https://github.com/VisActor/VChart/issues/3881)
+- **@visactor/vchart**: fix coordinate of rect crosshair when bandSize is 0, fix [#3907](https://github.com/VisActor/VChart/issues/3907)
+- **@visactor/vchart**: when set defaultSelect of crosshair, `axisIndex` should have a default value: 0
+- **@visactor/vchart**: fix type error of datazoom texts
+- **@visactor/vchart**: the width of title label should auto fit content width when `autoWidth` is true, fix [#3880](https://github.com/VisActor/VChart/issues/3880)
+- **@visactor/vchart**: mark line valid judgement. fix[#3857](https://github.com/VisActor/VChart/issues/3857)
+- **@visactor/vchart**: empty placeholder should update after data is updated, fix [#3855](https://github.com/VisActor/VChart/issues/3855)
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: brush interactive. close[#3765](https://github.com/VisActor/VChart/issues/3765) & [#3262](https://github.com/VisActor/VChart/issues/3262) & [#2802](https://github.com/VisActor/VChart/issues/2802) & [#3885](https://github.com/VisActor/VChart/issues/3885)
+
+**📖 Site / documentation update**
+
+- **@visactor/vchart**: supply interface of docs. fix [#3877](https://github.com/VisActor/VChart/issues/3877)
+
+
+
+[more detail about v1.13.9](https://github.com/VisActor/VChart/releases/tag/v1.13.9)
+
+# v1.13.8
+
+2025-03-31
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add  `alwayCalculateTotal` for total label
+- **@visactor/vchart**: add options `onlyFull` to lockStatisticsByDomain
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix the issue where the bar chart grow animation does not work correctly when the axis `zero: false`, [#3808](https://github.com/VisActor/VChart/issues/3808)
+- **@visactor/vchart**: crosshair should hide when label is invalid
+- **@visactor/vchart**: crosshair should hide when datazoom change
+- **@visactor/vchart**: fix the bubble level issue prevented by event.prevent, [#3728](https://github.com/VisActor/VChart/issues/3728)
+- **@visactor/vchart**: fix error when load gauge chart on demand, [#3836](https://github.com/VisActor/VChart/issues/3836)
+- **@visactor/vchart**: `legends.title.visible` should change visiblity of title in legend, fix [#3846](https://github.com/VisActor/VChart/issues/3846)
+- **@visactor/vchart**: fix the issue of pictogram svg path has not been drawn
+- **react-vchart**: children of tooltip should not be set to spec
+- **@visactor/vchart**: data.fields can set domain of field
+- **@visactor/vchart**: fix bug of zoomable in mobile device which only use pointer event
+- **@visactor/vchart**: fix datazoom drag and zoom triggered at the same time, fix [#3819](https://github.com/VisActor/VChart/issues/3819)
+
+
+
+[more detail about v1.13.8](https://github.com/VisActor/VChart/releases/tag/v1.13.8)
+
+# v1.13.7
+
+2025-03-14
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support `position` config in totalLabel, [#3396](https://github.com/VisActor/VChart/issues/3396)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: vchart should not merge original options, fix [#3798](https://github.com/VisActor/VChart/issues/3798)
+- **react-vchart**: lifecycle event callback should be fired, fix [#3792](https://github.com/VisActor/VChart/issues/3792)
+- **@visactor/vchart**: react-vchart should export `WaterfallChart`, fix [#3791](https://github.com/VisActor/VChart/issues/3791)
+- **@visactor/vchart**: fix fontFamily of richtext, fix [#3768](https://github.com/VisActor/VChart/issues/3768)
+- **@visactor/vchart**: fix issue with wx get context
+
+**🔧 Configuration releated**
+
+- **@visactor/vchart**: add util to export
+
+
+
+[more detail about v1.13.7](https://github.com/VisActor/VChart/releases/tag/v1.13.7)
+
 # v1.13.6
 
 2025-03-03

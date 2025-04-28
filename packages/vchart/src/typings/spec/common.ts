@@ -270,12 +270,18 @@ export type BuildInTransformOptions =
 export interface IFieldsMeta {
   /** TODO: 字段通用format, 暂时先不支持 */
   // format?: (datum: Datum, index: number) => unknown;
-  /** 字段别名 */
+  /**
+   * 字段别名
+   */
   alias?: string;
   /** 字段取值范围 */
   domain?: StringOrNumber[];
-  /** 是否使用 domain 锁定统计信息。默认为 false */
-  lockStatisticsByDomain?: boolean;
+  /**
+   * 是否使用 domain 锁定统计信息。默认为 false
+   * true - 在图例交互场景，也固定domain
+   * 当设置为 `onlyFull` 时，仅在初始化的展示完整数据的场景锁定domain，在交互触发的筛选场景不锁定
+   */
+  lockStatisticsByDomain?: boolean | 'onlyFull';
   /** 连续型 还是 离散型 */
   type?: 'ordinal' | 'linear';
   /** 排序顺序 不设置的话当前维度不进行排序 */

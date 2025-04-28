@@ -33,6 +33,7 @@ export declare enum ChartEvent {
     brushChange = "brushChange",
     brushEnd = "brushEnd",
     brushClear = "brushClear",
+    brushActive = "brushActive",
     legendSelectedDataChange = "legendSelectedDataChange",
     legendFilter = "legendFilter",
     legendItemClick = "legendItemClick",
@@ -56,3 +57,4 @@ export declare enum Event_Bubble_Level {
     model = "model",
     mark = "mark"
 }
+export declare const EventBubbleLevels: Event_Bubble_Level[];

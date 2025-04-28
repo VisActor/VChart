@@ -14,6 +14,7 @@ export interface ILinearProgressSeriesSpec extends IProgressSeriesSpec, IAnimati
     yField: string | string[];
     direction?: DirectionType;
     bandWidth?: number;
+    clamp?: boolean;
     [SeriesMarkNameEnum.progress]?: IMarkSpec<IRectMarkSpec> & {
         topPadding?: number;
         bottomPadding?: number;

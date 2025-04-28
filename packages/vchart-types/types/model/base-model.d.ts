@@ -48,6 +48,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     abstract onRender(ctx: IModelRenderOption): void;
     onDataUpdate(): void;
     beforeRelease(): void;
+    clear(): void;
     release(): void;
     updateSpec(spec: T): {
         change: boolean;

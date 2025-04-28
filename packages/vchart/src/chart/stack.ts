@@ -56,6 +56,10 @@ export class Stack {
     }
     // total label need percent
     const hasTotalLabel = series.some(s => {
+      // 如果设置了alwayCalculateTotal，那么一定需要计算total
+      if (s.getSpec()?.totalLabel?.alwayCalculateTotal) {
+        return true;
+      }
       return s.getSpec()?.totalLabel?.visible;
     });
     const hasPercent = hasTotalLabel || series.some(s => s.getPercent());

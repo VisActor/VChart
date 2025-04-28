@@ -100,3 +100,11 @@ region 的 id，可以在其他功能模块中使用这个 id 来索引这个 re
 ### stackSort(boolean)
 
 从 `1.10.4` 版本开始支持，是否在堆积时对数据排序。
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'region',
+  defaultLayoutLevel = 10,
+  defaultLayoutZIndex = 450,
+  isRegion = true,
+) }}

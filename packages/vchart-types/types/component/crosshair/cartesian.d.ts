@@ -17,7 +17,7 @@ export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICar
     protected _getDatumAtPoint(axis: IAxis, point: IPoint): number | string;
     setAxisValue(datum: StringOrNumber, axis: IAxis): void;
     protected _layoutCrosshair(relativeX: number, relativeY: number, tooltipData?: TooltipData, activeType?: TooltipActiveType): void;
-    layoutByValue(tag?: number): void;
+    layoutByValue(enableRemain?: boolean): void;
     private _layoutByField;
     private _updateCrosshairByField;
 }

@@ -137,9 +137,10 @@ y 轴上的标注区域边界，与 markArea.y 共同构造标注区域。可以
   prefix = '####'
 ) }}
 
-### label(Object)
+### label(Array|Object)
 
 标注线的标签样式。
+自 `1.13.9` 版本开始，支持配置多个标签。
 
 #### position(Object)
 

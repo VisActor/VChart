@@ -168,6 +168,7 @@ export enum ChartEvent {
   brushChange = 'brushChange',
   brushEnd = 'brushEnd',
   brushClear = 'brushClear',
+  brushActive = 'brushActive',
   // legend
   legendSelectedDataChange = 'legendSelectedDataChange',
   legendFilter = 'legendFilter',
@@ -198,3 +199,11 @@ export enum Event_Bubble_Level {
   model = 'model',
   mark = 'mark'
 }
+
+// 事件冒泡逻辑：Mark -> Model -> Chart -> VChart
+export const EventBubbleLevels = [
+  Event_Bubble_Level.mark,
+  Event_Bubble_Level.model,
+  Event_Bubble_Level.chart,
+  Event_Bubble_Level.vchart
+];

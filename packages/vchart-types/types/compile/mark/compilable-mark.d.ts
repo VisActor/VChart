@@ -83,5 +83,6 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     pauseAnimationByState(state?: string): import("@visactor/vgrammar-core").IAnimate;
     resumeAnimationByState(state?: string): import("@visactor/vgrammar-core").IAnimate;
     getProductElements(): IElement[];
+    clear(): void;
     release(): void;
 }

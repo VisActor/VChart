@@ -173,7 +173,7 @@ export interface ICommonSpec {
    * @todo 隔离主题和 spec 配置
    * IColorKey 类型只适用于主题
    */
-  stroke?: string | IGradient | false | (number | boolean)[] | IColorKey;
+  stroke?: string | IGradient | false | (number | boolean)[] | IColorKey | null;
   /**
    * 描边透明度
    */

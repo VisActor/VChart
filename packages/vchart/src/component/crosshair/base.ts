@@ -78,7 +78,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   ): void;
 
   abstract setAxisValue(v: StringOrNumber, axis: IAxis): void;
-  abstract layoutByValue(v?: number): void;
+  abstract layoutByValue(enableRemain?: boolean): void;
   protected abstract _getDatumAtPoint(axis: IAxis, point: IPoint): number | string;
 
   /**
@@ -138,7 +138,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       const { axis, value } = d;
       this.setAxisValue(value, axis);
     });
-    this.layoutByValue();
+    this.layoutByValue(false);
   }
 
   protected _getLimitBounds() {
@@ -162,7 +162,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       const fieldSpec = (this._spec as any)[field];
 
       if (fieldSpec && fieldSpec.visible && fieldSpec.defaultSelect) {
-        const { axisIndex, datum } = fieldSpec.defaultSelect;
+        const { axisIndex = 0, datum } = fieldSpec.defaultSelect;
         const axis = this._option.getComponentsByKey('axes').find(c => c.getSpecIndex() === axisIndex) as IAxis;
 
         if (axis) {
@@ -187,14 +187,14 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     });
 
     if (hasVisible) {
-      this.layoutByValue();
+      this.layoutByValue(false);
     }
   }
 
   protected _showDefaultCrosshair() {
     if (this.showDefault) {
       this._showDefaultCrosshairBySpec();
-      this.layoutByValue();
+      this.layoutByValue(false);
     } else {
       this._updateVisibleCrosshair();
     }

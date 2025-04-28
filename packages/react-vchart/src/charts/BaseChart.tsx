@@ -185,14 +185,16 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     isUnmount.current = false;
   };
 
-  const handleChartRender = () => {
+  const handleChartRender = (rebindEvent?: boolean) => {
     // rebind events after render
     if (!isUnmount.current) {
       if (!chartContext.current || !chartContext.current.chart) {
         return;
       }
 
-      bindEventsToChart(chartContext.current.chart, props, eventsBinded.current, CHART_EVENTS);
+      if (rebindEvent) {
+        bindEventsToChart(chartContext.current.chart, props, eventsBinded.current, CHART_EVENTS);
+      }
 
       setUpdateId(updateId + 1);
       if (props.onReady) {
@@ -203,6 +205,9 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
   const renderChart = () => {
     if (chartContext.current.chart) {
+      // event should bind before render when the chart has not been rendered
+      bindEventsToChart(chartContext.current.chart, props, eventsBinded.current, CHART_EVENTS);
+
       chartContext.current.chart.renderSync({
         reuse: false
       });
@@ -227,11 +232,11 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
         chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, props.morphConfig ?? defaultMorphConfig);
-        handleChartRender();
+        handleChartRender(true);
         eventsBinded.current = props;
       } else if (eventsBinded.current.data !== props.data) {
         chartContext.current.chart.updateFullDataSync(props.data as any);
-        handleChartRender();
+        handleChartRender(true);
         eventsBinded.current = props;
       }
       return;
@@ -241,13 +246,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (
       !isEqual(newSpec, prevSpec.current, { skipFunction: skipFunctionDiff }) ||
-      !isEqual(newSpecFromChildren, specFromChildren.current)
+      !isEqual(newSpecFromChildren, specFromChildren.current, { skipFunction: skipFunctionDiff })
     ) {
       prevSpec.current = newSpec;
       specFromChildren.current = newSpecFromChildren;
 
       chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, props.morphConfig ?? defaultMorphConfig);
-      handleChartRender();
+      handleChartRender(true);
       eventsBinded.current = props;
     }
   }, [props]);

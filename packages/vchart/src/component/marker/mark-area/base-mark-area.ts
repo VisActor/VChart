@@ -13,6 +13,7 @@ import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant/layout';
 import type { IGroup } from '@visactor/vrender-core';
+import { array } from '@visactor/vutils';
 export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   static specKey = 'markArea';
   specKey = 'markArea';
@@ -35,7 +36,7 @@ export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements 
   }
 
   protected _createMarkerComponent() {
-    const label = this._spec.label ?? {};
+    const label = array(this._spec.label ?? {});
     const markAreaAttrs: MarkAreaAttrs | MarkArcAreaAttrs = {
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? true,
@@ -61,15 +62,17 @@ export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements 
         this._markAttributeContext
       ),
       clipInRange: this._spec.clip ?? false,
-      label: transformLabelAttributes(label, this._markerData, this._markAttributeContext),
+      label: label.map((labelItem: any) => {
+        return transformLabelAttributes(labelItem, this._markerData, this._markAttributeContext);
+      }),
       state: {
         area: transformState(this._spec.area?.state, this._markerData, this._markAttributeContext),
-        label: transformState(this._spec.label?.state, this._markerData, this._markAttributeContext),
-        labelBackground: transformState(
-          this._spec?.label?.labelBackground?.state,
-          this._markerData,
-          this._markAttributeContext
-        )
+        label: label.map((labelItem: any) => {
+          return transformState(labelItem.state, this._markerData, this._markAttributeContext);
+        }),
+        labelBackground: label.map((labelItem: any) => {
+          return transformState(labelItem.labelBackground?.state, this._markerData, this._markAttributeContext);
+        })
       },
       animation: this._spec.animation ?? false,
       animationEnter: this._spec.animationEnter,
@@ -98,7 +101,7 @@ export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements 
       : seriesData;
 
     let limitRect;
-    if (spec.clip || spec.label?.confine) {
+    if (spec.clip || array(spec.label).some(labelCfg => labelCfg?.confine)) {
       const { minX, maxX, minY, maxY } = computeClipRange([
         startRelativeSeries.getRegion(),
         endRelativeSeries.getRegion(),
@@ -113,15 +116,21 @@ export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements 
     }
 
     if (this._markerComponent) {
+      const prevLabelAttrs = array(this._markerComponent.attribute?.label);
+      const specLabels = array(this._spec.label);
+
       this._markerComponent.setAttributes({
         ...pointsAttr,
-        label: {
-          ...this._markerComponent.attribute?.label,
-          text: this._spec.label.formatMethod
-            ? // type error here will be fixed in components
-              (this._spec.label.formatMethod(dataPoints, seriesData) as any)
-            : this._markerComponent.attribute?.label?.text
-        },
+        label: prevLabelAttrs.map((prevLabel, index) => {
+          const specLabel = specLabels[index] || {};
+          return {
+            ...prevLabel,
+            text: specLabel.formatMethod
+              ? // type error here will be fixed in components
+                (specLabel.formatMethod(dataPoints, seriesData) as any)
+              : prevLabel?.text
+          };
+        }),
         limitRect,
         dx: this._layoutOffsetX,
         dy: this._layoutOffsetY

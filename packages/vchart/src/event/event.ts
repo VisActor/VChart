@@ -111,7 +111,13 @@ export class Event implements IEvent {
     return this;
   }
 
-  prevent<Evt extends EventType>(eType: Evt, except?: EventCallback<EventParamsDefinition[Evt]>) {
+  prevent<Evt extends EventType>(
+    eType: Evt,
+    except?: {
+      handler: EventCallback<EventParamsDefinition[Evt]>;
+      level: EventBubbleLevel;
+    }
+  ): this {
     this._eventDispatcher.prevent(eType, except);
     return this;
   }
