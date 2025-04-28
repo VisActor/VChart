@@ -219,8 +219,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return result;
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     if (this._option.disableTriggerEvent) {
       return;
     }

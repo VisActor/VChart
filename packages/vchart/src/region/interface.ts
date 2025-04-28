@@ -4,13 +4,10 @@ import type { ISeries, SeriesType } from '../series/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IProjectionSpec } from '../component/geo/interface';
 import type { ConvertToMarkStyleSpec, IRectMarkSpec } from '../typings/visual';
-import type { IAnimate } from '../animation/interface';
 import type { StringOrNumber } from '../typings';
 import type { ILayoutItemSpec } from '../layout/interface';
 
 export interface IRegion extends ILayoutModel {
-  animate?: IAnimate;
-
   //stack
   getStackInverse: () => boolean;
   getStackSort: () => boolean;

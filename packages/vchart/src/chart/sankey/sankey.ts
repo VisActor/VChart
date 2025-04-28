@@ -12,6 +12,7 @@ import type { IRegionQuerier } from '../../typings/params';
 import { isArray } from '@visactor/vutils';
 import { loadScrollbar } from '@visactor/vrender-components';
 import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
+import { getDatumOfGraphic } from '../../util/mark';
 
 export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sankey;
@@ -32,7 +33,7 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
       this._interaction.clearByState(stateKey);
       return;
     }
-    const activeNodeOrLink: IMarkGraphic = null;
+    let activeNodeOrLink: IMarkGraphic = null;
     const activeMark: IMark = null;
     const activeSeries: ISeries = null;
     const markFilter = (series: ISeries, mark: IMark) => {
@@ -43,7 +44,7 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
       filter: markFilter,
       region,
       getDatum: e => {
-        let d = e.getDatum()?.datum;
+        let d = (getDatumOfGraphic(e) as any)?.datum;
 
         if (isArray(d)) {
           // data of link
@@ -52,21 +53,14 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
         return d;
       },
       callback: (element, mark, s, r) => {
-        const id = mark.id();
+        const id = mark.getProductId();
         if (id && (id.includes('node') || id.includes('link'))) {
           (s as any)._handleEmphasisElement?.({ item: element });
         }
       },
       regionCallback: (elements, r) => {
-        if (!activeDatum) {
-          r.interaction.clearEventElement(stateKey, true);
-          return;
-        } else if (elements.length) {
-          elements.forEach(e => {
-            r.interaction.startInteraction(stateKey, e);
-          });
-
-          r.interaction.reverseEventElement(stateKey);
+        if (activeDatum && elements.length) {
+          activeNodeOrLink = elements[0];
         }
       }
     });
