@@ -203,7 +203,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         }
       ) as IArcMark;
 
-      this._emptyArcMark.setDepend(this._pieMark);
+      this._data.addRelatedMark(this._emptyArcMark);
     }
   }
 

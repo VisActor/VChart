@@ -38,7 +38,6 @@ import type {
   MarkType,
   AnimationStateValues
 } from '../interface';
-import { DiffState } from '../interface/enum';
 import { GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant/gradient';
 import { AttributeLevel } from '../../constant/attribute';
 import { isValidScaleType } from '@visactor/vscale';
@@ -59,7 +58,8 @@ import { GrammarItem } from '../../compile/grammar-item';
 import { LayoutZIndex } from '../../constant/layout';
 import type { IModel } from '../../model/interface';
 import type { ICompilableData } from '../../compile/data/interface';
-import { AnimationStateEnum, IAnimationConfig, type MarkAnimationSpec } from '../../animation/interface';
+import type { IAnimationConfig } from '../../animation/interface';
+import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { log } from '../../util';
 
