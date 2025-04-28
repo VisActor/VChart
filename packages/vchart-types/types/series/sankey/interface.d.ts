@@ -15,7 +15,6 @@ export type ISankeyLabelSpec = ILabelSpec & {
     limit?: number;
 };
 export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSpec<SankeyMark, SankeyAppearPreset> {
-    nameKey: any;
     type: 'sankey';
     categoryField: string;
     valueField: string;
