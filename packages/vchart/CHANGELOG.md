@@ -1,6 +1,88 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 03 Mar 2025 02:00:52 GMT and should not be manually modified.
+This log was last generated on Mon, 21 Apr 2025 08:22:38 GMT and should not be manually modified.
+
+## 1.13.9
+Mon, 21 Apr 2025 08:22:38 GMT
+
+### Updates
+
+- feat: axis datafilter support context. close#3332
+- feat: gauge support clip when mark outof axis. close#3859
+- feat: markLine and markArea supports render multiple labels
+- fix: clear event listener for normal animation when updateSpec, #3881
+- fix: fix coordinate of rect crosshair when bandSize is 0, fix #3907
+
+
+- fix: when set defaultSelect of crosshair, `axisIndex` should have a default value: 0
+
+
+- fix: fix type error of datazoom texts
+
+
+- fix: the width of title label should auto fit content width when `autoWidth` is true, fix #3880
+
+
+- fix: mark line valid judgement. fix#3857
+- fix: empty placeholder should update after data is updated, fix #3855
+
+
+- docs: supply interface of docs. fix#3877
+- refactor: brush interactive. close#3765 & #3262 & #2802 & #3885
+
+## 1.13.8
+Fri, 28 Mar 2025 08:38:27 GMT
+
+### Updates
+
+- feat: add \`alwayCalculateTotal\` for total label
+- fix: fix the issue where the bar chart grow animation does not work correctly when the axis `zero: false`, #3808
+- fix: crosshair should hide when label is invalid
+
+
+- fix: crosshair should hide when datazoom change
+
+
+-  fix: fix the bubble level issue prevented by event.prevent, #3728
+- fix: fix error when load gauge chart on demand, #3836
+- fix: `legends.title.visible` should change visiblity of title in legend, fix #3846
+
+
+- fix: fix the issue of pictogram svg path has not been drawn
+- fix(react-vchart): children of tooltip should not be set to spec
+- fix: data.fields can set domain of field
+
+
+- feat: add options `full` to lockStatisticsByDomain
+
+
+- fix: fix bug of zoomable in mobile device which only use pointer event
+
+
+- fix: fix datazoom drag and zoom triggered at the same time, fix #3819
+
+
+
+## 1.13.7
+Fri, 14 Mar 2025 04:02:23 GMT
+
+### Updates
+
+- chore: add util to export
+
+
+-  feat: support `position` config in totalLabel, #3396
+- fix: vchart should not merge original options, fix #3798
+
+
+- fix(react-vchart): lifecycle event callback should be fired, fix #3792
+- fix: react-vchart should export `WaterfallChart`, fix #3791
+
+
+- fix: fix fontFamily of richtext, fix #3768
+
+
+- fix: fix issue with wx get context
 
 ## 1.13.6
 Mon, 03 Mar 2025 02:00:52 GMT

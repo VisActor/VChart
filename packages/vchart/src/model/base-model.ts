@@ -159,6 +159,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     // do nothing
   }
 
+  clear() {
+    this.getMarks().forEach(m => m.clear?.());
+  }
+
   release() {
     this._releaseEvent();
     this._spec = undefined;

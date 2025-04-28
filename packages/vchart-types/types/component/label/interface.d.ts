@@ -1,6 +1,5 @@
-import type { BaseLabelAttrs } from '@visactor/vrender-components';
+import type { BaseLabelAttrs, DataLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, Datum, IComposedTextMarkSpec, IFormatMethod, ITextMarkSpec } from '../../typings';
-import type { IComponentSpec } from '../base/interface';
 import type { ILabelMark } from '../../mark/interface';
 import type { ISeries } from '../../series/interface';
 import type { ICompilableMark } from '../../compile/mark/interface';
@@ -18,7 +17,8 @@ export interface ILabelComponentContext {
 export interface ILabelFormatMethodContext {
     series?: ISeries;
 }
-export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
+export interface ILabelSpec extends ILabelAnimationSpec {
+    zIndex?: number;
     visible?: boolean;
     interactive?: boolean;
     textType?: 'text' | 'rich';
@@ -28,7 +28,9 @@ export interface ILabelSpec extends IComponentSpec, ILabelAnimationSpec {
     position?: string;
     style?: ConvertToMarkStyleSpec<IComposedTextMarkSpec>;
     state?: LabelStateStyle<Partial<IComposedTextMarkSpec>>;
-    overlap?: BaseLabelAttrs['overlap'];
+    overlap?: BaseLabelAttrs['overlap'] & {
+        padding?: DataLabelAttrs['size']['padding'];
+    };
     smartInvert?: BaseLabelAttrs['smartInvert'];
     stackDataFilterType?: 'min' | 'max';
     dataFilter?: BaseLabelAttrs['dataFilter'];
@@ -48,7 +50,10 @@ type LabelStateStyle<T> = {
     selected?: T;
     selected_reverse?: T;
 };
-export type ITotalLabelSpec = Pick<ILabelSpec, 'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType' | 'overlap'>;
+export type ITotalLabelSpec = Pick<ILabelSpec, 'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType' | 'overlap'> & {
+    position?: 'top' | 'bottom';
+    alwayCalculateTotal?: boolean;
+};
 export interface ITotalLabelTheme extends Pick<ILabelSpec, 'visible' | 'interactive' | 'offset' | 'overlap' | 'smartInvert' | 'animation'> {
     style?: ITextMarkSpec;
 }

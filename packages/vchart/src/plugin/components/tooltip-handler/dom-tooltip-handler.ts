@@ -304,17 +304,32 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   }
   protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width') {
     const rootDom = this._rootDom;
-
     const contentDom = [...(rootDom.children as any)].find(child =>
       child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)
     );
+    const titleDom = [...(rootDom.children as any)].find(child => child.className.includes(TOOLTIP_TITLE_CLASS_NAME));
 
     if (contentDom) {
       const tooltipSpec = this._component.getSpec() as ITooltipSpec;
       const contentStyle: Partial<CSSStyleDeclaration> = {};
+      const titleLabel = tooltipSpec.style?.titleLabel;
+      const autoFixTitleWidth = titleLabel && titleLabel.autoWidth && titleLabel.multiLine !== false;
+
+      if (autoFixTitleWidth && titleDom) {
+        const maxWidth = [...(contentDom.children as any)].reduce((res, col) => {
+          return sizeKey === 'height'
+            ? res + col.getBoundingClientRect().width
+            : Math.max(res, col.getBoundingClientRect().width);
+        }, 0);
+
+        if (maxWidth > 0) {
+          titleDom.style.maxWidth = `${maxWidth}px`;
+          // 需要再计算一次，因为之前可能因为没有设置maxWidth， content的dom被撑宽了
+          titleDom.style.maxWidth = `${Math.ceil(contentDom.getBoundingClientRect().width)}px`;
+        }
+      }
 
       if (isValid(tooltipSpec?.style?.maxContentHeight)) {
-        const titleDom = rootDom.children[0];
         const titleHeight =
           titleDom && titleDom.className.includes(TOOLTIP_TITLE_CLASS_NAME)
             ? titleDom.getBoundingClientRect().height + (tooltipSpec.style.spaceRow ?? 0)

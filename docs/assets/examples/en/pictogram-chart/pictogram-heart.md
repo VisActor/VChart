@@ -10,7 +10,7 @@ option: pictogramChart
 
 # Pictogram - Medical Schematic Diagram of the Heart
 
-Contributed by [Zero1017](https://github.com/Eomnational)
+> Contributed by [Zero1017](https://github.com/Eomnational)
 
 A pictogram is a form of data visualization that uses graphic symbols (usually in SVG format) to represent specific values or categories in data. This example demonstrates how to use a pictogram to present a medical schematic diagram of the heart, distinguishing different parts of the heart by different colors.
 

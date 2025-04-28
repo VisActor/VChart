@@ -167,7 +167,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
         return value;
       }
     }
-    return this.angleAxisHelper.dataToPosition([datum[this._angleField[0]]]);
+    const angle = this.angleAxisHelper.dataToPosition([datum[this._angleField[0]]]);
+    return this._spec.clamp ? valueInScaleRange(angle, this.angleAxisHelper.getScale(0)) : angle;
   }
 
   getDimensionField(): string[] {
@@ -212,12 +213,12 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
       clip: true,
       clipPath: () => {
         const axis = this._getAngleAxis();
+        const { x, y } = this.angleAxisHelper.center();
+        const radius = this._computeLayoutRadius();
         if (this._isTickMaskVisible(axis)) {
           const { tickMask } = this._spec;
           const { angle, offsetAngle, style = {} } = tickMask;
           const subTickData = this._getAngleAxisSubTickData(axis);
-          const { x, y } = this.angleAxisHelper.center();
-          const radius = this._computeLayoutRadius();
           const markStyle = style as any;
           return subTickData.map(({ value }) => {
             const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);

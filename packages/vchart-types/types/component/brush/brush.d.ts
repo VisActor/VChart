@@ -37,45 +37,23 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     protected _linkedOutOfBrushElementsMap: {
         [elementKey: string]: IElement;
     };
-    private _needInitOutState;
     private _cacheInteractiveRangeAttrs;
     private _needDisablePickable;
     private _releatedAxes;
     private _regionAxisMap;
     private _axisDataZoomMap;
     private _zoomRecord;
-    init(): void;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
+    init(): void;
+    private _initNeedOperatedItem;
     created(): void;
-    protected _extendDataInBrush(elementsMap: {
-        [brushName: string]: {
-            [elementKey: string]: IElement;
-        };
-    }): any[];
-    protected _extendDatumOutOfBrush(elementsMap: {
-        [elementKey: string]: IElement;
-    }): any[];
-    protected _getBrushInteractiveAttr(region: IRegion): BrushInteractiveRangeAttr;
-    protected _updateBrushComponent(region: IRegion, componentIndex: number): void;
-    protected _createBrushComponent(region: IRegion, componentIndex: number): void;
-    private _handleBrushChange;
-    private _emitEvent;
-    private _transformBrushedMarkAttr;
-    private _reconfigItem;
-    private _reconfigLinkedItem;
-    private _isBrushContainItem;
-    private _stateClamp;
-    private _setAxisAndDataZoom;
     protected _bindRegions(): void;
     protected _bindLinkedSeries(): void;
     private _initRegionAxisMap;
     private _initAxisDataZoomMap;
-    private _initNeedOperatedItem;
-    protected _initMarkBrushState(componentIndex: number, stateName: string): void;
     protected initEvent(): void;
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
-    protected _getNeedClearVRenderComponents(): IGraphic[];
     _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
@@ -84,6 +62,27 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
         reCompile: boolean;
     };
     onLayoutEnd(ctx: any): void;
+    protected _updateBrushComponent(region: IRegion, componentIndex: number): void;
+    protected _createBrushComponent(region: IRegion, componentIndex: number): void;
+    protected _getBrushInteractiveAttr(region: IRegion): BrushInteractiveRangeAttr;
+    private _transformBrushedMarkAttr;
+    private _handleBrushChange;
+    protected _extendDataInBrush(elementsMap: {
+        [brushName: string]: {
+            [elementKey: string]: IElement;
+        };
+    }): any[];
+    protected _extendDatumOutOfBrush(elementsMap: {
+        [elementKey: string]: IElement;
+    }): any[];
+    private _emitEvent;
+    private _reconfigItem;
+    private _reconfigLinkedItem;
+    private _isBrushContainItem;
+    protected _initMarkBrushState(componentIndex: number, stateName: string): void;
+    private _stateClamp;
+    private _setAxisAndDataZoom;
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     clearGraphic(): void;
     clear(): void;
 }

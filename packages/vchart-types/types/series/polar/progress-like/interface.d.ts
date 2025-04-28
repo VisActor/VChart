@@ -17,6 +17,7 @@ export interface IProgressLikeSeriesSpec extends IPolarSeriesSpec {
     roundCap?: boolean | [boolean, boolean];
     cornerRadius?: number;
     tickMask?: Omit<IMarkSpec<IArcMarkSpec>, 'state'> & ITickMaskSpec;
+    clamp?: boolean;
 }
 export interface IProgressLikeSeriesTheme extends IPolarSeriesTheme {
     roundCap?: boolean | [boolean, boolean];

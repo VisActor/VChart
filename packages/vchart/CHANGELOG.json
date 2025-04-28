@@ -2,6 +2,129 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.9",
+      "tag": "@visactor/vchart_v1.13.9",
+      "date": "Mon, 21 Apr 2025 08:22:38 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: axis datafilter support context. close#3332"
+          },
+          {
+            "comment": "feat: gauge support clip when mark outof axis. close#3859"
+          },
+          {
+            "comment": "feat: markLine and markArea supports render multiple labels"
+          },
+          {
+            "comment": "fix: clear event listener for normal animation when updateSpec, #3881"
+          },
+          {
+            "comment": "fix: fix coordinate of rect crosshair when bandSize is 0, fix #3907\n\n"
+          },
+          {
+            "comment": "fix: when set defaultSelect of crosshair, `axisIndex` should have a default value: 0\n\n"
+          },
+          {
+            "comment": "fix: fix type error of datazoom texts\n\n"
+          },
+          {
+            "comment": "fix: the width of title label should auto fit content width when `autoWidth` is true, fix #3880\n\n"
+          },
+          {
+            "comment": "fix: mark line valid judgement. fix#3857"
+          },
+          {
+            "comment": "fix: empty placeholder should update after data is updated, fix #3855\n\n"
+          },
+          {
+            "comment": "docs: supply interface of docs. fix#3877"
+          },
+          {
+            "comment": "refactor: brush interactive. close#3765 & #3262 & #2802 & #3885"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.13.8",
+      "tag": "@visactor/vchart_v1.13.8",
+      "date": "Fri, 28 Mar 2025 08:38:27 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add \\`alwayCalculateTotal\\` for total label"
+          },
+          {
+            "comment": "fix: fix the issue where the bar chart grow animation does not work correctly when the axis `zero: false`, #3808"
+          },
+          {
+            "comment": "fix: crosshair should hide when label is invalid\n\n"
+          },
+          {
+            "comment": "fix: crosshair should hide when datazoom change\n\n"
+          },
+          {
+            "comment": " fix: fix the bubble level issue prevented by event.prevent, #3728"
+          },
+          {
+            "comment": "fix: fix error when load gauge chart on demand, #3836"
+          },
+          {
+            "comment": "fix: `legends.title.visible` should change visiblity of title in legend, fix #3846\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of pictogram svg path has not been drawn"
+          },
+          {
+            "comment": "fix(react-vchart): children of tooltip should not be set to spec"
+          },
+          {
+            "comment": "fix: data.fields can set domain of field\n\n"
+          },
+          {
+            "comment": "feat: add options `full` to lockStatisticsByDomain\n\n"
+          },
+          {
+            "comment": "fix: fix bug of zoomable in mobile device which only use pointer event\n\n"
+          },
+          {
+            "comment": "fix: fix datazoom drag and zoom triggered at the same time, fix #3819\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.13.7",
+      "tag": "@visactor/vchart_v1.13.7",
+      "date": "Fri, 14 Mar 2025 04:02:23 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "chore: add util to export\n\n"
+          },
+          {
+            "comment": " feat: support `position` config in totalLabel, #3396"
+          },
+          {
+            "comment": "fix: vchart should not merge original options, fix #3798\n\n"
+          },
+          {
+            "comment": "fix(react-vchart): lifecycle event callback should be fired, fix #3792"
+          },
+          {
+            "comment": "fix: react-vchart should export `WaterfallChart`, fix #3791\n\n"
+          },
+          {
+            "comment": "fix: fix fontFamily of richtext, fix #3768\n\n"
+          },
+          {
+            "comment": "fix: fix issue with wx get context"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.6",
       "tag": "@visactor/vchart_v1.13.6",
       "date": "Mon, 03 Mar 2025 02:00:52 GMT",

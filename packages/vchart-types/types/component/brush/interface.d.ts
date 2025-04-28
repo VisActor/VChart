@@ -27,6 +27,8 @@ export interface IBrushTheme {
     delayType?: IDelayType;
     delayTime?: number;
     sizeThreshold?: number;
+    markTypeFilter?: string[];
+    onBrushEnd?: (e: any) => boolean;
 }
 export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
     id?: string;

@@ -13,7 +13,6 @@ import { polarToCartesian } from '@visactor/vutils';
 import type { IGroup, INode } from '@visactor/vrender-core';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { Factory } from '../../core/factory';
-import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
 import { layoutByValue, layoutCrosshair } from './utils/polar';
 import { getFirstSeries } from '../../util';
@@ -153,10 +152,10 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     angleAxisMap && this._setAllAxisValues(angleAxisMap, { x, y }, 'categoryField');
     radiusAxisMap && this._setAllAxisValues(radiusAxisMap, { x, y }, 'valueField');
 
-    this.layoutByValue(LayoutType.ALL);
+    this.layoutByValue();
   }
 
-  layoutByValue(tag: number = LayoutType.ALL) {
+  layoutByValue(enableRemain?: boolean) {
     if (!this.enable) {
       return;
     }
@@ -165,7 +164,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
       return;
     }
 
-    layoutByValue(this._stateByField, series, this.enableRemain);
+    layoutByValue(this._stateByField, series, enableRemain ?? this.enableRemain);
 
     Object.keys(this._stateByField).forEach(field => {
       this._layoutByField(field);

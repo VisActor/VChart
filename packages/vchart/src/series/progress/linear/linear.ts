@@ -75,7 +75,10 @@ export class LinearProgressSeries<
               );
             },
             y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), this._yAxisHelper?.getScale?.(0)),
-            y: () => this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
+            y: () => {
+              const value = this._yAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition });
+              return this._spec.clamp ? valueInScaleRange(value, this._yAxisHelper?.getScale?.(0)) : value;
+            },
             width: this._spec.bandWidth - leftPadding - rightPadding,
             cornerRadius: this._spec.cornerRadius,
             fill: this.getColorAttribute()
@@ -100,7 +103,10 @@ export class LinearProgressSeries<
               );
             },
             height: this._spec.bandWidth - topPadding - bottomPadding,
-            x: () => this._xAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition }),
+            x: () => {
+              const value = this._xAxisHelper?.dataToPosition([0], { bandPosition: this._bandPosition });
+              return this._spec.clamp ? valueInScaleRange(value, this._xAxisHelper?.getScale?.(0)) : value;
+            },
             cornerRadius: this._spec.cornerRadius,
             fill: this.getColorAttribute()
           },

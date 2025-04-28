@@ -1,3 +1,80 @@
+# v1.13.9
+
+2025-04-21
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 轴数据过滤支持上下文，关闭 [#3332](https://github.com/VisActor/VChart/issues/3332)
+- **@visactor/vchart**: 仪表盘支持在标记超出轴范围时裁剪，关闭 [#3859](https://github.com/VisActor/VChart/issues/3859)
+- **@visactor/vchart**: markLine 和 markArea 支持渲染多个标签
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 更新规格时清除普通动画的事件监听器，[#3881](https://github.com/VisActor/VChart/issues/3881)
+- **@visactor/vchart**: 修复当 bandSize 为 0 时矩形十字线的坐标问题，修复 [#3907](https://github.com/VisActor/VChart/issues/3907)
+- **@visactor/vchart**: 当设置十字线的默认选择时，`axisIndex` 应有默认值 0
+- **@visactor/vchart**: 修复 datazoom 文本的类型错误
+- **@visactor/vchart**: 当 `autoWidth` 为 true 时，标题标签的宽度应自动适应内容宽度，修复 [#3880](https://github.com/VisActor/VChart/issues/3880)
+- **@visactor/vchart**: 修复 markLine 的有效性判断，修复 [#3857](https://github.com/VisActor/VChart/issues/3857)
+- **@visactor/vchart**: 数据更新后空占位符应更新，修复 [#3855](https://github.com/VisActor/VChart/issues/3855)
+
+**🔨 功能重构**
+
+- **@visactor/vchart**: 重构 brush 交互，关闭 [#3765](https://github.com/VisActor/VChart/issues/3765)、[#3262](https://github.com/VisActor/VChart/issues/3262)、[#2802](https://github.com/VisActor/VChart/issues/2802) 和 [#3885](https://github.com/VisActor/VChart/issues/3885)
+
+**📖 文档更新**
+
+- **@visactor/vchart**: 提供文档接口，修复 [#3877](https://github.com/VisActor/VChart/issues/3877)
+
+[更多详情请查看 v1.13.9](https://github.com/VisActor/VChart/releases/tag/v1.13.9)
+
+# v1.13.8
+
+2025-03-31
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 为总计标签添加 `alwayCalculateTotal` 配置项
+- **@visactor/vchart**: 为 `lockStatisticsByDomain` 添加 `onlyFull` 配置项
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复当轴配置 `zero: false` 时，柱状图增长动画无法正常工作的问题，[#3808](https://github.com/VisActor/VChart/issues/3808)
+- **@visactor/vchart**: 当标签无效时，十字线应隐藏
+- **@visactor/vchart**: 当 datazoom 发生变化时，十字线应隐藏
+- **@visactor/vchart**: 修复事件 `prevent` 导致的气泡层级问题，[#3728](https://github.com/VisActor/VChart/issues/3728)
+- **@visactor/vchart**: 修复按需加载仪表盘图表时的错误，[#3836](https://github.com/VisActor/VChart/issues/3836)
+- **@visactor/vchart**: `legends.title.visible` 应控制图例标题的可见性，修复 [#3846](https://github.com/VisActor/VChart/issues/3846)
+- **@visactor/vchart**: 修复象形图中 SVG 路径未绘制的问题
+- **react-vchart**: tooltip 的子元素不应设置到 spec 中
+- **@visactor/vchart**: `data.fields` 可设置字段的 domain
+- **@visactor/vchart**: 修复仅使用 pointer 事件的移动设备上 zoomable 的问题
+- **@visactor/vchart**: 修复 datazoom 拖拽和缩放同时触发的问题，修复 [#3819](https://github.com/VisActor/VChart/issues/3819)
+
+[更多详情请查看 v1.13.8](https://github.com/VisActor/VChart/releases/tag/v1.13.8)
+
+# v1.13.7
+
+2025-03-14
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 支持在 totalLabel 中配置 `position`，[#3396](https://github.com/VisActor/VChart/issues/3396)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: vchart 内部不合并原始的 options，修复 [#3798](https://github.com/VisActor/VChart/issues/3798)
+- **@visactor/react-vchart**: 生命周期事件回调应被触发，修复 [#3792](https://github.com/VisActor/VChart/issues/3792)
+- **@visactor/vchart**: react-vchart 应导出 `WaterfallChart`，修复 [#3791](https://github.com/VisActor/VChart/issues/3791)
+- **@visactor/vchart**: 修复 richtext 的 fontFamily，修复 [#3768](https://github.com/VisActor/VChart/issues/3768)
+- **@visactor/vchart**: 修复 wx 获取上下文的问题
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: add util to export
+
+[更多详情请查看 v1.13.7](https://github.com/VisActor/VChart/releases/tag/v1.13.7)
+
 # v1.13.6
 
 2025-03-03

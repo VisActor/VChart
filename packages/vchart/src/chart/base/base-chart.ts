@@ -1284,6 +1284,86 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     });
   }
 
+  filterGraphicsByDatum(
+    datum: MaybeArray<Datum> | null,
+    opt: {
+      filter?: (series: ISeries, mark: IMark) => boolean;
+      region?: IRegionQuerier;
+      getDatum?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => Datum;
+      callback?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => void;
+      regionCallback?: (pickElements: IMarkGraphic[], r: IRegion) => void;
+    } = {}
+  ) {
+    datum = datum ? array(datum) : null;
+    const keys = !datum ? null : Object.keys((datum as Datum[])[0]);
+    const allElements = [] as IMarkGraphic[];
+    const getDatumOfElement = opt.getDatum ?? getDatumOfGraphic;
+
+    this.getRegionsInQuerier(opt.region).forEach(r => {
+      const pickElements = [] as IMarkGraphic[];
+      datum &&
+        r.getSeries().forEach(s => {
+          s.getMarks().forEach(m => {
+            const graphics = m.getGraphics();
+            if (!graphics || !graphics.length) {
+              return;
+            }
+            if (!opt.filter || (isFunction(opt.filter) && opt.filter(s, m))) {
+              const isCollect = isCollectionMark(m.type);
+
+              if (isCollect) {
+                graphics.filter(e => {
+                  const elDatum = getDatumOfElement(e, m, s, r);
+                  const isPick =
+                    // eslint-disable-next-line max-nested-callbacks, eqeqeq
+                    elDatum && (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
+
+                  if (isPick) {
+                    pickElements.push(e);
+                    allElements.push(e);
+                    opt.callback && opt.callback(e, m, s, r);
+                  }
+                });
+              } else {
+                if (datum.length > 1) {
+                  const datumTemp = (datum as Datum[]).slice();
+
+                  graphics.forEach(e => {
+                    const elDatum = getDatumOfElement(e, m, s, r);
+                    // eslint-disable-next-line max-nested-callbacks, eqeqeq
+                    const index = elDatum && datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
+                    if (index >= 0) {
+                      datumTemp.splice(index, 1);
+
+                      pickElements.push(e);
+                      allElements.push(e);
+                      opt.callback && opt.callback(e, m, s, r);
+                    }
+                  });
+                } else {
+                  const el = graphics.find(e => {
+                    const elDatum = getDatumOfElement(e, m, s, r);
+                    // eslint-disable-next-line eqeqeq
+                    return elDatum && keys.every(k => (datum as Datum[])[0][k] == elDatum[k]);
+                  });
+
+                  if (el) {
+                    pickElements.push(el);
+                    allElements.push(el);
+                    opt.callback && opt.callback(el, m, s, r);
+                  }
+                }
+              }
+            }
+          });
+        });
+
+      opt.regionCallback && opt.regionCallback(pickElements, r);
+    });
+
+    return allElements;
+  }
+
   protected _setStateInDatum(
     stateKey: string,
     d: MaybeArray<Datum> | null,
@@ -1294,54 +1374,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       this._interaction.clearByState(stateKey);
       return;
     }
-    const datum = array(d);
-    const keys = Object.keys(datum[0]);
-    const pickGraphics = [] as IMarkGraphic[];
 
-    this.getRegionsInQuerier(region).forEach(r => {
-      r.getSeries().forEach(s => {
-        s.getMarks().forEach(m => {
-          const graphics = m.getGraphics();
-          if (!graphics || !graphics.length) {
-            return;
-          }
-          if (!filter || (isFunction(filter) && filter(s, m))) {
-            const isCollect = isCollectionMark(m.type);
-
-            if (isCollect) {
-              graphics.filter(g => {
-                const elDatum = getDatumOfGraphic(g) as Datum[];
-
-                const isPicked =
-                  // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                  elDatum && (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index]?.[k]));
-
-                if (isPicked) {
-                  pickGraphics.push(g);
-                }
-              });
-            } else {
-              if (datum.length > 1) {
-                const datumTemp = (datum as Datum[]).slice();
-
-                graphics.forEach((g: IMarkGraphic) => {
-                  const elDatum = getDatumOfGraphic(g) as Datum;
-                  // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                  const index = datumTemp.findIndex(d => keys.every(k => d[k] == elDatum?.[k]));
-                  if (index >= 0) {
-                    datumTemp.splice(index, 1);
-                    pickGraphics.push(g);
-                  }
-                });
-              } else {
-                // eslint-disable-next-line eqeqeq
-                const el = graphics.find(e => keys.every(k => datum[0][k] == (getDatumOfGraphic(e) as Datum)?.[k]));
-                el && pickGraphics.push(el);
-              }
-            }
-          }
-        });
-      });
+    const pickGraphics = this.filterGraphicsByDatum(d, {
+      filter,
+      region
     });
     this._interaction.updateStateOfGraphics(stateKey, pickGraphics);
   }

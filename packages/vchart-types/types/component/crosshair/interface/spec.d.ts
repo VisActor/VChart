@@ -6,7 +6,7 @@ import type { IComponent } from '../../interface';
 export interface ICrossHair extends IComponent {
     clearAxisValue: () => void;
     setAxisValue: (v: StringOrNumber, axis: IAxis) => void;
-    layoutByValue: (v?: number) => void;
+    layoutByValue: (enableRemain?: boolean) => void;
     hideCrosshair: () => any;
     showCrosshair: (dimInfo: {
         axis: IAxis;

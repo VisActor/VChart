@@ -87,6 +87,7 @@ const run = () => {
     direction: 'horizontal',
     brush: {
       brushType: 'rect',
+      brushMode: 'multiple',
       sizeThreshold: 100,
       inBrush: {
         colorAlpha: 1

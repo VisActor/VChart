@@ -14,7 +14,6 @@ import type { IAxis } from '../axis/interface';
 import type { IOrientType, IPoint, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import { isXAxis, isYAxis } from '../axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
-import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
 import { layoutByValue, layoutCrosshair } from './utils/cartesian';
 import { getFirstSeries } from '../../util';
@@ -156,10 +155,10 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     xAxisMap && xAxisMap.size && this._setAllAxisValues(xAxisMap, { x, y }, 'xField');
     yAxisMap && yAxisMap.size && this._setAllAxisValues(yAxisMap, { x, y }, 'yField');
 
-    this.layoutByValue(LayoutType.ALL);
+    this.layoutByValue();
   }
 
-  layoutByValue(tag: number = LayoutType.ALL) {
+  layoutByValue(enableRemain?: boolean) {
     if (!this.enable) {
       return;
     }
@@ -168,7 +167,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       return;
     }
 
-    layoutByValue(this._stateByField, series, this.getLayoutStartPoint(), this.enableRemain);
+    layoutByValue(this._stateByField, series, this.getLayoutStartPoint(), enableRemain ?? this.enableRemain);
 
     Object.keys(this._stateByField).forEach(field => {
       this._layoutByField(field);

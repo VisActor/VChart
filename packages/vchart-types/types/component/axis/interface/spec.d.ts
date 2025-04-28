@@ -4,6 +4,7 @@ import type { Datum, IFormatMethod, IPadding, IRectMarkSpec, IRichTextFormatMeth
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, IBandAxisLayer, ITickCalculationCfg, StyleCallback } from './common';
 import type { IBaseScale } from '@visactor/vscale';
+import type { IVChart } from '../../../core';
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
     type?: AxisType;
     visible?: boolean;
@@ -63,7 +64,9 @@ export interface ITick extends IAxisItem<IRuleMarkSpec>, ITickCalculationCfg {
     alignWithLabel?: boolean;
     style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;
     state?: AxisItemStateStyle<IRuleMarkSpec>;
-    dataFilter?: (data: AxisItem[]) => AxisItem[];
+    dataFilter?: (data: AxisItem[], context: {
+        vchart: IVChart;
+    }) => AxisItem[];
 }
 export interface ISubTick extends IAxisItem<IRuleMarkSpec> {
     tickCount?: number;
@@ -80,7 +83,9 @@ export interface ILabel extends IAxisItem<ITextMarkSpec> {
     minGap?: number;
     style?: ITextMarkSpec | StyleCallback<ITextMarkSpec | undefined>;
     state?: AxisItemStateStyle<ITextMarkSpec>;
-    dataFilter?: (data: AxisItem[], layer: number) => AxisItem[];
+    dataFilter?: (data: AxisItem[], layer: number, context: {
+        vchart: IVChart;
+    }) => AxisItem[];
 }
 export interface IDomainLine extends IAxisItem<IRuleMarkSpec> {
     state?: AxisItemStateStyle<IRuleMarkSpec>;

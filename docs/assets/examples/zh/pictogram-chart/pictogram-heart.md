@@ -10,7 +10,7 @@ option: pictogramChart
 
 # 象形图-心脏医学示意图
 
-由 [Zero1017](https://github.com/Eomnational) 贡献
+> 由 [Zero1017](https://github.com/Eomnational) 贡献
 
 象形图是一种数据可视化形式，它通过使用图形符号（通常是 SVG 格式）来表示数据中的具体值或类别。本示例展示了如何使用象形图来呈现心脏医学示意图，通过不同的颜色区分心脏的不同部分。
 

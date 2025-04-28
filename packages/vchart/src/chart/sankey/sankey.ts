@@ -9,9 +9,8 @@ import type { Datum, MaybeArray } from '../../typings/common';
 import type { ISeries } from '../../series/interface';
 import type { IMark, IMarkGraphic } from '../../mark/interface/common';
 import type { IRegionQuerier } from '../../typings/params';
-import { isArray, isFunction } from '@visactor/vutils';
+import { isArray } from '@visactor/vutils';
 import { loadScrollbar } from '@visactor/vrender-components';
-import { getDatumOfGraphic } from '../../util';
 import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
@@ -33,54 +32,43 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
       this._interaction.clearByState(stateKey);
       return;
     }
-    let activeNodeOrLink: IMarkGraphic = null;
-    let activeMark: IMark = null;
-    let activeSeries: ISeries = null;
-    // 桑基图暂时只支持单选
-    const keys = !activeDatum ? null : Object.keys(activeDatum);
-    this.getRegionsInQuerier(region).forEach(r => {
-      if (activeNodeOrLink) {
-        return;
-      }
+    const activeNodeOrLink: IMarkGraphic = null;
+    const activeMark: IMark = null;
+    const activeSeries: ISeries = null;
+    const markFilter = (series: ISeries, mark: IMark) => {
+      return mark.type !== 'text' && mark.getProduct() && (!filter || filter(series, mark));
+    };
 
-      r.getSeries().forEach(s => {
-        if (activeNodeOrLink) {
-          return;
+    this.filterGraphicsByDatum(activeDatum, {
+      filter: markFilter,
+      region,
+      getDatum: e => {
+        let d = e.getDatum()?.datum;
+
+        if (isArray(d)) {
+          // data of link
+          d = d[0];
         }
-        s.getMarksWithoutRoot().forEach(m => {
-          if (m.type === 'text' || activeNodeOrLink) {
-            return;
-          }
+        return d;
+      },
+      callback: (element, mark, s, r) => {
+        const id = mark.id();
+        if (id && (id.includes('node') || id.includes('link'))) {
+          (s as any)._handleEmphasisElement?.({ item: element });
+        }
+      },
+      regionCallback: (elements, r) => {
+        if (!activeDatum) {
+          r.interaction.clearEventElement(stateKey, true);
+          return;
+        } else if (elements.length) {
+          elements.forEach(e => {
+            r.interaction.startInteraction(stateKey, e);
+          });
 
-          let pickElement = null;
-          const graphics = m.getGraphics();
-          if (!graphics || !graphics.length) {
-            return;
-          }
-          if (!filter || (isFunction(filter) && filter(s, m))) {
-            pickElement = graphics.find((e: any) =>
-              keys.every(k => {
-                let datum = (getDatumOfGraphic(e) as Datum)?.datum;
-
-                if (isArray(datum)) {
-                  // data of link
-                  datum = datum[0];
-                }
-
-                // eslint-disable-next-line eqeqeq
-                return activeDatum[k] == datum?.[k];
-              })
-            );
-          }
-          if (pickElement) {
-            if (m.getProductId().includes('node') || m.getProductId().includes('link')) {
-              activeNodeOrLink = pickElement;
-              activeMark = m;
-              activeSeries = s;
-            }
-          }
-        });
-      });
+          r.interaction.reverseEventElement(stateKey);
+        }
+      }
     });
 
     if (activeNodeOrLink) {

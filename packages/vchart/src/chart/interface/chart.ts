@@ -31,6 +31,7 @@ import type {
 import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../../scale/interface';
 import type { IMorphConfig } from '../../animation/spec';
+import type { IMarkGraphic } from '../../mark/interface/common';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -214,6 +215,20 @@ export interface IChart extends ICompilable {
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   // setDimensionIndex
   setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
+  /**
+   * 根据数据筛选图元
+   * @since 1.13.9
+   */
+  filterGraphicsByDatum: (
+    datum: MaybeArray<Datum> | null,
+    opt?: {
+      filter?: (series: ISeries, mark: IMark) => boolean;
+      region?: IRegionQuerier;
+      getDatum?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => Datum;
+      callback?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => void;
+      regionCallback?: (pickElements: IMarkGraphic[], r: IRegion) => void;
+    }
+  ) => IMarkGraphic[];
 }
 
 export interface IChartSpecTransformer {

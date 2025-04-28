@@ -375,7 +375,10 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         return spec;
       },
       size: () => {
-        return labelInfos[0].series.getRegion().getLayoutRect();
+        return {
+          padding: labelInfos[0].labelSpec.overlap?.padding,
+          ...labelInfos[0].series.getRegion().getLayoutRect()
+        };
       },
       itemEncoder: (datum: Datum, { labelIndex }: { labelIndex: number }) => {
         return labelInfos[labelIndex] && !labelInfos[labelIndex].labelMark.skipEncode
@@ -385,7 +388,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
               labelInfos[labelIndex].labelSpec.formatMethod,
               labelInfos[labelIndex].labelSpec.formatter
             )
-          : {};
+          : { data: datum };
       }
     });
 
