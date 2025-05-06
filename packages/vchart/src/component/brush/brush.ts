@@ -469,7 +469,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         // now: 不在当前brush中
         const isBrushContainItem = this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem);
         if (this._outOfBrushElementsMap?.[elementKey] && isBrushContainItem) {
-          graphicItem.addState(IN_BRUSH_STATE);
+          graphicItem.addState(IN_BRUSH_STATE, true);
           if (!this._inBrushElementsMap[operateMask?.name]) {
             this._inBrushElementsMap[operateMask?.name] = {};
           }
@@ -477,7 +477,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           delete this._outOfBrushElementsMap[elementKey];
         } else if (this._inBrushElementsMap?.[operateMask?.name]?.[elementKey] && !isBrushContainItem) {
           graphicItem.removeState(IN_BRUSH_STATE);
-          graphicItem.addState(OUT_BRUSH_STATE);
+          graphicItem.addState(OUT_BRUSH_STATE, true);
           this._outOfBrushElementsMap[elementKey] = graphicItem;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
@@ -597,6 +597,33 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return brushMaskAABBBounds.intersects(item.globalAABBBounds);
   }
 
+  protected _initItemMap(
+    itemMap: Record<string, IMark[]>,
+    elementMap: Record<string, IMarkGraphic>,
+    stateName: string
+  ) {
+    const { markTypeFilter = [] } = this._spec;
+
+    Object.entries(itemMap).forEach(([regionId, marks]) => {
+      marks.forEach((mark: IMark) => {
+        if (markTypeFilter.includes(mark.type)) {
+          return;
+        }
+        const graphics = mark.getGraphics();
+        if (!graphics || !graphics.length) {
+          return;
+        }
+        graphics.forEach((el: IMarkGraphic) => {
+          const elementKey = mark.id + '_' + el.context.key;
+          el.removeState(IN_BRUSH_STATE);
+          el.removeState(OUT_BRUSH_STATE);
+          stateName && el.addState(stateName, true);
+          elementMap[elementKey] = el;
+        });
+      });
+    });
+  }
+
   protected _initMarkBrushState(componentIndex: number, stateName: string) {
     this._brushComponents.forEach((brush, index) => {
       if (index !== componentIndex) {
@@ -608,44 +635,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     this._outOfBrushElementsMap = {};
     this._linkedInBrushElementsMap = {};
     this._linkedOutOfBrushElementsMap = {};
-    const { markTypeFilter = [] } = this._spec;
 
-    Object.entries(this._itemMap).forEach(([regionId, marks]) => {
-      marks.forEach((mark: IMark) => {
-        if (markTypeFilter.includes(mark.type)) {
-          return;
-        }
-        const graphics = mark.getGraphics();
-        if (!graphics || !graphics.length) {
-          return;
-        }
-        graphics.forEach((el: IMarkGraphic) => {
-          const elementKey = mark.id + '_' + el.context.key;
-          el.removeState(IN_BRUSH_STATE);
-          el.removeState(OUT_BRUSH_STATE);
-          el.addState(stateName);
-          this._outOfBrushElementsMap[elementKey] = el;
-        });
-      });
-    });
-    Object.entries(this._linkedItemMap).forEach(([seriesId, marks]) => {
-      marks.forEach((mark: IMark) => {
-        if (markTypeFilter.includes(mark.type)) {
-          return;
-        }
-        const graphics = mark.getGraphics();
-        if (!graphics || !graphics.length) {
-          return;
-        }
-        graphics.forEach((el: IMarkGraphic) => {
-          const elementKey = mark.id + '_' + el.context.key;
-          el.removeState(IN_BRUSH_STATE);
-          el.removeState(OUT_BRUSH_STATE);
-          el.addState(stateName);
-          this._linkedOutOfBrushElementsMap[elementKey] = el;
-        });
-      });
-    });
+    this._initItemMap(this._itemMap, this._outOfBrushElementsMap, stateName);
+    this._initItemMap(this._linkedItemMap, this._linkedOutOfBrushElementsMap, stateName);
   }
   /** end: set mark state  ***/
 
