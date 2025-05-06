@@ -535,7 +535,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           graphics.forEach((graphicItem: IMarkGraphic) => {
             const { key } = graphicItem.context;
 
-            const elementKey = mark.id + '_' + key;
+            const elementKey = mark.id + '_' + graphicItem.context.key;
             // 判断逻辑:
             // 应该被置为inBrush状态的图元:
             // before: 在out brush elment map, 即不在任何brush中
@@ -620,7 +620,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           return;
         }
         graphics.forEach((el: IMarkGraphic) => {
-          const elementKey = mark.id + '_' + el.key;
+          const elementKey = mark.id + '_' + el.context.key;
           el.removeState(IN_BRUSH_STATE);
           el.removeState(OUT_BRUSH_STATE);
           el.addState(stateName);
@@ -638,7 +638,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           return;
         }
         graphics.forEach((el: IMarkGraphic) => {
-          const elementKey = mark.id + '_' + el.key;
+          const elementKey = mark.id + '_' + el.context.key;
           el.removeState(IN_BRUSH_STATE);
           el.removeState(OUT_BRUSH_STATE);
           el.addState(stateName);
