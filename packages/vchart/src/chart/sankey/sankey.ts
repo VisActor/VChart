@@ -34,8 +34,6 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
       return;
     }
     let activeNodeOrLink: IMarkGraphic = null;
-    const activeMark: IMark = null;
-    const activeSeries: ISeries = null;
     const markFilter = (series: ISeries, mark: IMark) => {
       return mark.type !== 'text' && mark.getProduct() && (!filter || filter(series, mark));
     };
@@ -55,7 +53,7 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
       callback: (element, mark, s, r) => {
         const id = mark.getProductId();
         if (id && (id.includes('node') || id.includes('link'))) {
-          (s as any)._handleEmphasisElement?.({ item: element });
+          (s as any)._handleEmphasisElement?.({ item: element, mark });
         }
       },
       regionCallback: (elements, r) => {
@@ -67,7 +65,6 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
 
     if (activeNodeOrLink) {
       this._interaction.updateStateOfGraphics(stateKey, [activeNodeOrLink]);
-      (activeSeries as any)._handleEmphasisElement?.({ item: activeNodeOrLink, mark: activeMark });
     }
   }
 }
