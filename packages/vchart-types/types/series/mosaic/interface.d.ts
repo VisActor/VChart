@@ -12,5 +12,6 @@ export interface IMosaicSeriesSpec extends Omit<IBarSeriesSpec, 'type' | 'label'
         };
         position?: Functional<'outside' | 'top' | 'bottom' | 'left' | 'right' | 'inside' | 'inside-top' | 'inside-bottom' | 'inside-right' | 'inside-left' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'>;
     }>;
+    bandField?: string;
 }
 export type IMosaicSeriesTheme = IBarSeriesTheme;
