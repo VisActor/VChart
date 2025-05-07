@@ -28,13 +28,18 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
   static readonly transformerConstructor = BarSeriesSpecTransformer as any;
   readonly transformerConstructor = BarSeriesSpecTransformer as any;
 
+  private _bandField?: string;
+  get bandField() {
+    return this._bandField;
+  }
   getStack() {
     return true;
   }
 
   getPercent() {
-    return !!this.getSeriesField();
+    return this._spec.percent;
   }
+
   getGroupFields() {
     return this.direction === 'vertical' ? this._specXField : this._specYField;
   }
@@ -59,6 +64,10 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
 
       this.setFieldX(MOSAIC_CAT_END_PERCENT);
       this.setFieldX2(MOSAIC_CAT_START_PERCENT);
+    }
+
+    if (this._spec.bandField) {
+      this._bandField = this._spec.bandField;
     }
   }
 
