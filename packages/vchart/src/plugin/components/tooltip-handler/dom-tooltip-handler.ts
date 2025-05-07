@@ -55,6 +55,10 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     }
   }
 
+  getRootDom() {
+    return this._rootDom;
+  }
+
   constructor() {
     super(DomTooltipHandler.type);
   }
