@@ -21,6 +21,7 @@ import { isValid, toValidNumber } from './type';
 import { max, sum } from './math';
 import type { ISeries, ISeriesStackDataMeta } from '../series/interface';
 import type { IRegion } from '../region/interface';
+import { MosaicSeries } from '../series';
 
 export function mergeFields(
   targetFields: {
@@ -236,11 +237,19 @@ export function stackMosaic(s: ISeries, stackCache: IStackCacheNode, mosaicData?
       key: `${stackCache.groupField}`,
       values: groupValues.map(group => {
         const groupValues = stackCache.nodes[group];
+        let value;
+        if ((s as MosaicSeries).bandField) {
+          value =
+            groupValues.values.find(v => isValid(v[(s as MosaicSeries).bandField]))?.[(s as MosaicSeries).bandField] ??
+            groupValues.total;
+        } else {
+          value = groupValues.total;
+        }
 
         return {
           groupValue: group,
-          value: groupValues.total,
-          end: groupValues.total
+          value,
+          end: value
         };
       })
     };

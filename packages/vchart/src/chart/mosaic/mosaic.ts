@@ -47,7 +47,6 @@ export class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> extends 
       const stackData = s.getStackData();
       const stackValue = s.getStackValue();
       const stackValueField = s.getStackValueField(); // yField
-
       if (stackData && stackValueField) {
         stackMosaicTotal(stackValueGroup[stackValue] as IStackCacheNode, stackValueField);
         stackMosaic(s, stackValueGroup[stackValue] as IStackCacheNode);
