@@ -5,5 +5,5 @@ export { VChartCore };
 export type VChartProps = Omit<BaseChartProps, 'container' | 'data' | 'width' | 'height' | 'type'>;
 
 export const VChart = createChart<VChartProps>('VChart', {
-  vchartConstrouctor: VChartCore
+  vchartConstructor: VChartCore
 });

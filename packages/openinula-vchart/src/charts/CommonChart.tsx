@@ -9,5 +9,5 @@ export interface CommonChartProps
 
 export const CommonChart = createChart<React.PropsWithChildren<CommonChartProps> & { type: 'common' }>('CommonChart', {
   type: 'common',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

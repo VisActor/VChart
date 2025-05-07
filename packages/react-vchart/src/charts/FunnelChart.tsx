@@ -13,7 +13,7 @@ export const FunnelChart = createChart<React.PropsWithChildren<FunnelChartProps>
   'FunnelChart',
   {
     type: 'funnel',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerFunnelChart, registerLabel, ...registers]
 );

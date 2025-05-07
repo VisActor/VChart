@@ -11,5 +11,5 @@ export const CircularProgressChart = createChart<
   React.PropsWithChildren<CircularProgressChartProps> & { type: 'circularProgress' }
 >('CircularProgressChart', {
   type: 'circularProgress',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

@@ -113,7 +113,7 @@ interface VChartProps extends EventsProps {
 
 ## 按需加载标签 `<VChartSimple />`
 
-该标签的主要使用方法和`<VChart />`类似，该标签支持 VChart 的按需加载功能，使用的时候需要额外配置一个`vchartConstrouctor`字段，将 VChart 传入
+该标签的主要使用方法和`<VChart />`类似，该标签支持 VChart 的按需加载功能，使用的时候需要额外配置一个`vchartConstructor`字段，将 VChart 传入
 
 ```ts
 import { VChartSimple } from '@dp/lynx-vchart';
@@ -124,7 +124,7 @@ export default function Demo() {
     <view>
       <VChartSimple
         // vchart核心包
-        vchartConstrouctor={VChartCore}
+        vchartConstructor={VChartCore}
         width="700rpx"
         height="900rpx"
         spec={spec}

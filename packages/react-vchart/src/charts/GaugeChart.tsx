@@ -13,7 +13,7 @@ export const GaugeChart = createChart<React.PropsWithChildren<GaugeChartProps> &
   'GaugeChart',
   {
     type: 'gauge',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerGaugeChart, ...registers]
 );
