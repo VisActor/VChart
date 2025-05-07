@@ -1,6 +1,6 @@
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkSpec, IMarkTheme, ISeriesSpec } from '../../typings/spec';
-import type { SunburstLabelConfig } from '@visactor/vgrammar-hierarchy';
+import type { SunburstLabelConfig } from '@visactor/vlayouts';
 import type { SunburstAppearPreset, SunburstMark } from './animation/interface';
 import type { IArcMarkSpec, ITextMarkSpec } from '../../typings';
 import type { IPolarSeriesTheme } from '../polar/interface';

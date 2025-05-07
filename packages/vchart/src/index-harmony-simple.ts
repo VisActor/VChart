@@ -135,7 +135,7 @@ export {
   registerPoptip,
   // layout
   registerGridLayout,
-  // vgrammar interactions,
+  // interactions,
   registerElementHighlight,
   registerElementSelect
 };

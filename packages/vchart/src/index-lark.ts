@@ -134,7 +134,7 @@ VChart.useRegisters([
   registerCanvasTooltipHandler,
   registerFormatPlugin,
 
-  // vgrammar interactions,
+  // interactions,
   registerElementHighlight,
   registerElementSelect
 ]);

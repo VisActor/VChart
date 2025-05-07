@@ -1,7 +1,6 @@
-import type { SankeyData } from '@visactor/vgrammar-sankey';
 import { isArray } from '@visactor/vutils';
 
-export const sankeyLinks = (data: SankeyData) => {
+export const sankeyLinks = (data: any) => {
   if (!data || !isArray(data)) {
     return [];
   }

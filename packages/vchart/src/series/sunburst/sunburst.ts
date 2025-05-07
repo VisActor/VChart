@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import type { SunburstLabelConfig, SunburstNodeElement } from '@visactor/vgrammar-hierarchy';
+import type { SunburstLabelConfig, SunburstNodeElement } from '@visactor/vlayouts';
 import { array, isArray, isNil, isValid, isObject, degreeToRadian, mixin } from '@visactor/vutils';
 
 import type { IMarkSpec } from '../../typings/spec';

@@ -1,4 +1,4 @@
-import { vennTransform } from '@visactor/vgrammar-venn';
+import { vennTransform } from '@visactor/vlayouts';
 
 export const vennLayout = (
   data: Array<any>,

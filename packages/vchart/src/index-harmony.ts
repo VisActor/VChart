@@ -135,7 +135,7 @@ VChart.useRegisters([
   // plugin
   registerCanvasTooltipHandler,
 
-  // vgrammar interactions,
+  // interactions,
   registerElementHighlight,
   registerElementSelect
 ]);
