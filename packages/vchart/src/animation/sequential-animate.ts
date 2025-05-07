@@ -1,9 +1,8 @@
 import { mixin } from '@visactor/vutils';
 import type { IMarkGraphic } from '../core';
 import type { AnimationPlanner } from './animation-planner';
-import type { IAnimationSplitStrategy } from './grammar-dector';
 import { GrammarDetector } from './grammar-dector';
-import type { IAnimationConfig } from './interface';
+import type { IAnimationConfig, IAnimationSplitStrategy } from './interface';
 import { BaseMark } from '../mark';
 
 class SequentialAnimate {
