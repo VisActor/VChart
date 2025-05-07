@@ -13,7 +13,7 @@ export const Histogram3dChart = createChart<React.PropsWithChildren<Histogram3dC
   'Histogram3dChart',
   {
     type: 'histogram3d',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerHistogram3dChart, registerLabel, ...registers]
 );

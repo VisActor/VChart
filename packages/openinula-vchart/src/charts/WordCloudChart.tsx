@@ -11,6 +11,6 @@ export const WordCloudChart = createChart<React.PropsWithChildren<WordCloudChart
   'WordCloudChart',
   {
     type: 'wordCloud',
-    vchartConstrouctor: VChart
+    vchartConstructor: VChart
   }
 );

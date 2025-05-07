@@ -13,7 +13,7 @@ export const RoseChart = createChart<React.PropsWithChildren<RoseChartProps> & {
   'RoseChart',
   {
     type: 'rose',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerRoseChart, registerLabel, ...registers]
 );

@@ -11,6 +11,6 @@ export const HistogramChart = createChart<React.PropsWithChildren<HistogramChart
   'HistogramChart',
   {
     type: 'histogram',
-    vchartConstrouctor: VChart
+    vchartConstructor: VChart
   }
 );

@@ -15,7 +15,7 @@ export const Bar3dChart = createChart<React.PropsWithChildren<Bar3dChartProps> &
   'Bar3dChart',
   {
     type: 'bar3d',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerBar3dChart, registerLabel, registerTotalLabel, ...registers]
 );

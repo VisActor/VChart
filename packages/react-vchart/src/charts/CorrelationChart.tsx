@@ -13,7 +13,7 @@ export const CorrelationChart = createChart<React.PropsWithChildren<CorrelationC
   'CorrelationChart',
   {
     type: 'correlation',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerCorrelationChart, ...registers]
 );

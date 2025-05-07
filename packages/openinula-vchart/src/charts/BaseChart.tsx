@@ -37,7 +37,7 @@ export interface BaseChartProps
     HierarchyEventProps,
     ChartLifeCycleEventProps,
     IReactTooltipProps {
-  vchartConstrouctor?: IVChartConstructor;
+  vchartConstructor?: IVChartConstructor;
   type?: string;
   /** 上层container */
   container?: HTMLDivElement;
@@ -73,7 +73,7 @@ type Props = React.PropsWithChildren<BaseChartProps>;
 const notSpecKeys = [
   ...REACT_PRIVATE_PROPS,
   ...CHART_EVENTS_KEYS,
-  'vchartConstrouctor',
+  'vchartConstructor',
   'useSyncRender',
   'skipFunctionDiff',
   'onError',
@@ -152,7 +152,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   };
 
   const createChart = (props: Props) => {
-    const cs = new props.vchartConstrouctor(parseSpec(props), {
+    const cs = new props.vchartConstructor(parseSpec(props), {
       ...props.options,
       onError: props.onError,
       autoFit: true,

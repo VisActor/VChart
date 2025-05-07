@@ -111,7 +111,7 @@ For example, developers can register the callback events that need to be trigger
 
 ## `<VChartSimple />` tag with lazy loading
 
-The usage of this tag is similar to `<VChart />`. This tag supports the lazy loading feature of VChart. When using it, you need to configure an additional `vchartConstrouctor` field to pass in the VChart.
+The usage of this tag is similar to `<VChart />`. This tag supports the lazy loading feature of VChart. When using it, you need to configure an additional `vchartConstructor` field to pass in the VChart.
 
 ```ts
 import { VChartSimple } from '@dp/lynx-vchart';
@@ -122,7 +122,7 @@ export default function Demo() {
     <view>
       <VChartSimple
         // vchart核心包
-        vchartConstrouctor={VChartCore}
+        vchartConstructor={VChartCore}
         width="700rpx"
         height="900rpx"
         spec={spec}
