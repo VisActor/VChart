@@ -2,19 +2,19 @@
 
 <!-- ISymbolMarkSpec -->
 
-#${prefix} dx(number)
+#${prefix} dx(number|function)
 
 x 方向偏移。
 
-#${prefix} dy(number)
+#${prefix} dy(number|function)
 
 y 方向偏移。
 
-#${prefix} size(number)
+#${prefix} size(number|function)
 
 大小。
 
-#${prefix} shape(string)
+#${prefix} shape(string|function)
 
 形状。
 

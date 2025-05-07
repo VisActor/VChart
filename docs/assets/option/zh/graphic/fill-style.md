@@ -2,7 +2,7 @@
 
 <!-- IFillStyle -->
 
-#${prefix} fill(string|Object)
+#${prefix} fill(string|Object|function)
 
 填充颜色。支持使用 `rgb(255,255,255)`，`rgba(255,255,255,1)`，`#fff` 等方式设置为纯色，也支持设置为渐变色填充。
 
@@ -10,11 +10,11 @@
 
 {{ use: graphic-gradient }}
 
-#${prefix} fillOpacity(number)
+#${prefix} fillOpacity(number|function)
 
 填充透明度。
 
-#${prefix} shadowBlur(number)
+#${prefix} shadowBlur(number|function)
 
 图形阴影的模糊大小。该属性配合 shadowColor,shadowOffsetX, shadowOffsetY 一起设置图形的阴影效果。
 
@@ -27,19 +27,20 @@
 }
 ```
 
-#${prefix} shadowColor(string)
+#${prefix} shadowColor(string|function)
 
 阴影颜色。
 
-#${prefix} shadowOffsetX(number)
+#${prefix} shadowOffsetX(number|function)
 
 阴影水平方向上的偏移距离。
 
-#${prefix} shadowOffsetY(number)
+#${prefix} shadowOffsetY(number|function)
 
 阴影垂直方向上的偏移距离。
 
-#${prefix} background(string|HtmlImageElement)
+#${prefix} background(string|HtmlImageElement|function)
+
 自`1.2.0`版本开始支持，背景配置， 可以配置为颜色字符串或者图片地址
 
 > 注意配置为图片地址时，透明度受 `fillOpacity` 影响，请务必配置 `fillOpacity`

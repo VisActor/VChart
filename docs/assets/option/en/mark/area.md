@@ -2,7 +2,7 @@
 
 <!-- IAreaMarkSpec -->
 
-#${prefix} curveType(string)
+#${prefix} curveType(string|function)
 
 Curve interpolation type.
 
@@ -20,7 +20,7 @@ Available options:
 - `catmullRom`
 - `catmullRomClosed`
 
-#${prefix} orient(string) = `horizontal`
+#${prefix} orient(string|function) = `horizontal`
 
 Available options:
 
