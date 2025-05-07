@@ -414,13 +414,13 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         linkInBrushData: this._extendDataInBrush(this._linkedInBrushElementsMap),
         // 被链接的系列中：在选框外的 element data
         linkOutOfBrushData: this._extendDatumOutOfBrush(this._linkedOutOfBrushElementsMap),
-        // 在选框内的 vgrammar elements
+        // 在选框内的 图形
         inBrushElementsMap: this._inBrushElementsMap,
-        // 在选框外的 vgrammar elements
+        // 在选框外的 图形
         outOfBrushElementsMap: this._outOfBrushElementsMap,
-        // 被链接的系列中：在选框内的 vgrammar elements
+        // 被链接的系列中：在选框内的 图形
         linkedInBrushElementsMap: this._linkedInBrushElementsMap,
-        // 被链接的系列中：在选框外的 vgrammar elements
+        // 被链接的系列中：在选框外的 图形
         linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap,
         // 缩放记录
         zoomRecord: this._zoomRecord

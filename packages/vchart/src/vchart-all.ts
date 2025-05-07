@@ -167,7 +167,7 @@ VChart.useRegisters([
   registerCanvasTooltipHandler,
   registerFormatPlugin,
 
-  // vgrammar interactions,
+  // interactions,
   registerElementActive,
 
   registerElementActiveByLegend,
@@ -177,7 +177,7 @@ VChart.useRegisters([
   registerElementHighlightByGroup,
   registerElementHighlightByKey,
 
-  // vgrammar animate,
+  // animate,
   registerAnimate,
   registerReactAttributePlugin,
   registerHtmlAttributePlugin

@@ -28,7 +28,7 @@ import { registerTextMark } from '../../mark/text';
 import { registerLinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
-import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
+import type { SankeyNodeElement } from '@visactor/vlayouts';
 import { Factory } from '../../core/factory';
 import type { IGlyphMark, ILinkPathMark, IMark, IMarkGraphic, IRectMark, ITextMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';

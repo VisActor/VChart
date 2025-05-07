@@ -20,7 +20,7 @@ import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
 import { DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
-import type { CirclePackingNodeElement } from '@visactor/vgrammar-hierarchy';
+import type { CirclePackingNodeElement } from '@visactor/vlayouts';
 import { flatten } from '../../data/transforms/flatten';
 import { CirclePackingTooltipHelper } from './tooltip-helper';
 import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';

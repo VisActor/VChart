@@ -1,5 +1,5 @@
-import type { TreemapNodeElement, TreemapOptions } from '@visactor/vgrammar-hierarchy';
-import { flattenNodes, TreemapLayout } from '@visactor/vgrammar-hierarchy';
+import type { TreemapNodeElement, TreemapOptions } from '@visactor/vlayouts';
+import { flattenNodes, TreemapLayout } from '@visactor/vlayouts';
 import { DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 
 export const treemapLayout = (

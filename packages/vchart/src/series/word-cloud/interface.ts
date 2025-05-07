@@ -1,8 +1,7 @@
 import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod, IRectMarkSpec } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { shapes } from '@visactor/vgrammar-wordcloud';
-import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
+import type { shapes, GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
 import type { IAnimationTypeConfig } from '../../animation/interface';
 
 export interface IWordcloud3dAnimationParams {

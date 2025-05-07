@@ -1,5 +1,4 @@
 import { Matrix, isValid, isValidNumber } from '@visactor/vutils';
-import { registerProjection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
@@ -347,7 +346,6 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
 export const registerMapSeries = () => {
   // 注册语法元素
-  registerProjection();
   registerGeoCoordinate();
   registerPathMark();
   Factory.registerSeries(MapSeries.type, MapSeries);

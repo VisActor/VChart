@@ -1,5 +1,12 @@
-import { isNil, isNumber, degreeToRadian, isArray } from '@visactor/vutils';
-import { field as getFieldAccessor, extent, toPercent } from '@visactor/vgrammar-util';
+import {
+  isNil,
+  isNumber,
+  degreeToRadian,
+  isArray,
+  field as getFieldAccessor,
+  extent,
+  toPercent
+} from '@visactor/vutils';
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant/correlation';
 
 export interface ICorrelationOpt {

@@ -15,7 +15,7 @@ import { flatten } from '../../data/transforms/flatten';
 import type { IBounds } from '@visactor/vutils';
 import { isValidNumber, Bounds, Matrix, mixin, merge } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { TreemapNodeElement } from '@visactor/vgrammar-hierarchy';
+import type { TreemapNodeElement } from '@visactor/vlayouts';
 import { DataView } from '@visactor/vdataset';
 import { hierarchyDimensionStatistics } from '../../data/transforms/hierarchy-dimension-statistics';
 import { addVChartProperty } from '../../data/transforms/add-property';

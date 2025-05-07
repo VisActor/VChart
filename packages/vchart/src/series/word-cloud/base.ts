@@ -28,7 +28,6 @@ import type {
 import type { Datum, IMarkSpec, IPoint, ITextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { WORD_CLOUD_TEXT } from '../../constant/word-cloud';
-import type { ICompilableMark } from '../../compile/mark';
 import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { wordCloudSeriesMark } from './constant';
@@ -36,8 +35,9 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import { Factory } from '../../core/factory';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { LinearScale } from '@visactor/vscale';
-import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
+import type { GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
 import type { ITransformSpec } from '../../compile/interface';
+import { vglobal, getTextBounds, createImage } from '@visactor/vrender-core';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -397,7 +397,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         : isValid(this._valueField)
         ? this._calculateFontWeight
         : 'normal',
-      fontStyle: isValid(this._spec.fontStyleField) ? { field: this._spec.fontStyleField } : wordStyleSpec.fontStyle
+      fontStyle: isValid(this._spec.fontStyleField) ? { field: this._spec.fontStyleField } : wordStyleSpec.fontStyle,
+      createCanvas: vglobal.createCanvas.bind(vglobal),
+      getTextBounds
     };
   }
 
@@ -430,6 +432,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     return {
       ...wordCloudShapeConfig,
       ...this._getCommonTransformOptions(),
+      createImage,
 
       rotateList: this._rotateAngles,
       fillingRotateList: wordCloudShapeConfig.fillingRotateAngles,
