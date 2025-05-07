@@ -15,7 +15,7 @@ export const HeatmapChart = createChart<React.PropsWithChildren<HeatmapChartProp
   'HeatmapChart',
   {
     type: 'heatmap',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerHeatmapChart, registerLabel, ...registers]
 );

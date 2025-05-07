@@ -9,5 +9,5 @@ export interface FunnelChartProps
 
 export const FunnelChart = createChart<React.PropsWithChildren<FunnelChartProps> & { type: 'funnel' }>('FunnelChart', {
   type: 'funnel',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

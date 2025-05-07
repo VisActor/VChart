@@ -13,7 +13,7 @@ export const WordCloudChart = createChart<React.PropsWithChildren<WordCloudChart
   'WordCloudChart',
   {
     type: 'wordCloud',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerWordCloudChart, ...registers]
 );

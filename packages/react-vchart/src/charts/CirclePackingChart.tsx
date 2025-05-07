@@ -15,7 +15,7 @@ export const CirclePackingChart = createChart<
   'CirclePackingChart',
   {
     type: 'circlePacking',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerCirclePackingChart, registerLabel, ...registers]
 );

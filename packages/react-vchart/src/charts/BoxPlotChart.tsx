@@ -13,7 +13,7 @@ export const BoxPlotChart = createChart<React.PropsWithChildren<BoxPlotChartProp
   'BoxPlotChart',
   {
     type: 'boxPlot',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerBoxplotChart, registerLabel, ...registers]
 );

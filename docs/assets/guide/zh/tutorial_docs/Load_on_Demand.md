@@ -163,7 +163,7 @@ interface VChartSimpleProps extends EventsProps {
    *
    * @since 1.8.3
    **/
-  vchartConstrouctor: IVChartConstructor;
+  vchartConstructor: IVChartConstructor;
 }
 ```
 
