@@ -174,17 +174,16 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
-    const container = this.tooltipHandler.getTooltipContainer?.();
-    const element = container?.firstChild as HTMLElement;
+    const container = this.tooltipHandler.getRootDom?.();
 
-    if (element) {
-      element.addEventListener('pointerenter', () => {
+    if (container) {
+      container.addEventListener('pointerenter', () => {
         if (!this._enterable) {
           return;
         }
         this._isEnterTooltip = true;
 
-        const rect = element.getBoundingClientRect?.();
+        const rect = container.getBoundingClientRect?.();
         if (rect) {
           this._cacheEnterableRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
         }
@@ -199,14 +198,14 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         }
       });
 
-      element.addEventListener('pointerleave', () => {
+      container.addEventListener('pointerleave', () => {
         if (!this._enterable) {
           return;
         }
         this._isEnterTooltip = false;
 
         if (this._cacheEnterableRect) {
-          const newRect = element.getBoundingClientRect?.();
+          const newRect = container.getBoundingClientRect?.();
 
           if (
             newRect &&
