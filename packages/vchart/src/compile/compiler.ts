@@ -133,6 +133,7 @@ export class Compiler implements ICompiler {
         afterRender: this._option.afterRender,
         disableDirtyBounds: true,
         autoRender: true,
+        ticker: this._option.ticker,
         pluginList: this._option.pluginList,
         enableHtmlAttribute: this._option.enableHtmlAttribute,
         optimize: this._option.optimize,
@@ -350,13 +351,19 @@ export class Compiler implements ICompiler {
     const { update, exit } = diffMarks(this._cachedMarks, newMarks, { morph, morphAll, reuse });
 
     update.forEach(({ prev, next }) => {
-      const enableMarkMorphConfig =
-        prev.every(mark => mark.getMarkConfig().morph) && next.every(mark => mark.getMarkConfig().morph);
+      // const enableMarkMorphConfig =
+      //   prev.every(mark => mark.getMarkConfig().morph) && next.every(mark => mark.getMarkConfig().morph);
 
-      if ((enableExitAnimation && morph) || morphAll) {
-        // todo morphing
-      } else if (reuse && prev.length === 1 && next.length === 1 && prev[0].type === next[0].type) {
+      // 优先复用
+      if (reuse && prev.length === 1 && next.length === 1 && prev[0].type === next[0].type) {
         next[0].reuse(prev[0]);
+      } else {
+        // 执行morphing
+        const prevMark = prev.filter(item => item.getMarkConfig().morph)[0];
+        prevMark &&
+          next.forEach(item => {
+            item.getMarkConfig().morph && item.prepareMorph(prevMark);
+          });
       }
     });
 
@@ -692,7 +699,9 @@ export class Compiler implements ICompiler {
       const raf = vglobal.getRequestAnimationFrame();
       this._progressiveRafId = raf(this.handleProgressiveFrame);
     } else if (this._progressiveMarks && this._progressiveMarks.every(mark => mark.canAnimateAfterProgressive())) {
-      // todo this.animate.animate();
+      this._progressiveMarks.forEach(mark => {
+        mark.runAnimation();
+      });
     } else if (this._progressiveMarks) {
       this._progressiveMarks = null;
     }

@@ -11,7 +11,9 @@ import type {
   Datum,
   StringOrNumber,
   IGroup as ISeriesGroup,
-  CoordinateType
+  CoordinateType,
+  IRect,
+  ILayoutRect
 } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
@@ -48,7 +50,7 @@ import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
 import { AXIS_ELEMENT_NAME, GroupTransition } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-core';
+import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-animate';
 import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';
@@ -463,7 +465,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _getAxisAttributes() {
     const spec = this._spec;
-
     const axisAttrs: any = {
       orient: this.getOrient(),
       select: this._option.disableTriggerEvent === true ? false : spec.select,
@@ -730,13 +731,17 @@ export const registerAxis = () => {
   registerComponentMark();
   Factory.registerAnimation('axis', () => ({
     appear: {
-      custom: GroupFadeIn
+      type: 'fadeIn'
+    },
+    enter: {
+      type: 'fadeIn'
     },
     update: {
-      custom: GroupTransition
+      type: 'update'
     },
     exit: {
-      custom: GroupFadeOut
+      type: 'fadeOut'
+      // custom: GroupFadeOut
     }
   }));
 };

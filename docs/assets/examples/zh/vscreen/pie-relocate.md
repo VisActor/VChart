@@ -62,20 +62,20 @@ const spec = {
         channel: {
           x: {
             from: (...p) => {
-              return p[1].graphicItem.attribute.x;
+              return p[1].attribute.x;
             },
             to: (...p) => {
-              const angle = (p[1].graphicItem.attribute.startAngle + p[1].graphicItem.attribute.endAngle) / 2;
-              return p[1].graphicItem.attribute.x + relocate_offset * Math.cos(angle);
+              const angle = (p[1].attribute.startAngle + p[1].attribute.endAngle) / 2;
+              return p[1].attribute.x + relocate_offset * Math.cos(angle);
             }
           },
           y: {
             from: (...p) => {
-              return p[1].graphicItem.attribute.y;
+              return p[1].attribute.y;
             },
             to: (...p) => {
-              const angle = (p[1].graphicItem.attribute.startAngle + p[1].graphicItem.attribute.endAngle) / 2;
-              return p[1].graphicItem.attribute.y + relocate_offset * Math.sin(angle);
+              const angle = (p[1].attribute.startAngle + p[1].attribute.endAngle) / 2;
+              return p[1].attribute.y + relocate_offset * Math.sin(angle);
             }
           }
         },
@@ -93,20 +93,20 @@ const spec = {
         channel: {
           x: {
             from: (...p) => {
-              const angle = (p[1].graphicItem.attribute.startAngle + p[1].graphicItem.attribute.endAngle) / 2;
-              return p[1].graphicItem.attribute.x + relocate_offset * Math.cos(angle);
+              const angle = (p[1].attribute.startAngle + p[1].attribute.endAngle) / 2;
+              return p[1].attribute.x + relocate_offset * Math.cos(angle);
             },
             to: (...p) => {
-              return p[1].graphicItem.attribute.x;
+              return p[1].attribute.x;
             }
           },
           y: {
             from: (...p) => {
-              const angle = (p[1].graphicItem.attribute.startAngle + p[1].graphicItem.attribute.endAngle) / 2;
-              return p[1].graphicItem.attribute.y + relocate_offset * Math.sin(angle);
+              const angle = (p[1].attribute.startAngle + p[1].attribute.endAngle) / 2;
+              return p[1].attribute.y + relocate_offset * Math.sin(angle);
             },
             to: (...p) => {
-              return p[1].graphicItem.attribute.y;
+              return p[1].attribute.y;
             }
           }
         },

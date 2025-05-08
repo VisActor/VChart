@@ -31,6 +31,7 @@ import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
+import { registeBoxPlotScaleAnimation } from './animation';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -127,12 +128,14 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       groupKey: this._seriesField,
       isSeriesMark: true
     }) as IBoxPlotMark;
-    this._outlierMark = this._createMark(BoxPlotSeries.mark.outlier, {
-      key: DEFAULT_DATA_INDEX,
-      groupKey: this._seriesField,
-      dataView: this._outlierDataView.getDataView(),
-      dataProductId: this._outlierDataView.getProductId()
-    }) as ISymbolMark;
+    if (this._outliersField) {
+      this._outlierMark = this._createMark(BoxPlotSeries.mark.outlier, {
+        key: DEFAULT_DATA_INDEX,
+        groupKey: this._seriesField,
+        dataView: this._outlierDataView.getDataView(),
+        dataProductId: this._outlierDataView.getProductId()
+      }) as ISymbolMark;
+    }
   }
 
   initMarkStyle(): void {
@@ -407,5 +410,6 @@ export const registerBoxplotSeries = () => {
   registerScaleInOutAnimation();
   registerCartesianBandAxis();
   registerCartesianLinearAxis();
+  registeBoxPlotScaleAnimation();
   Factory.registerSeries(BoxPlotSeries.type, BoxPlotSeries);
 };

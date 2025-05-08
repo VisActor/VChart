@@ -53,6 +53,7 @@ export {
   createLine,
   createSymbol
 } from '@visactor/vrender-core';
+export { ManualTicker } from '@visactor/vrender-animate';
 
 // utils
 export * from '../util/space';

@@ -1,6 +1,7 @@
-import type { ACustomAnimate, EasingType, IGraphic } from '@visactor/vrender-core';
-import type { ICompilable } from '../compile/interface';
-import type { IMark } from '../mark/interface/common';
+import type { ACustomAnimate } from '@visactor/vrender-animate';
+import type { IGraphic, EasingType } from '@visactor/vrender-core';
+import type { IMark, IMarkGraphic } from '../mark/interface/common';
+import type { BaseMark } from '../mark';
 
 export enum AnimationStateEnum {
   appear = 'appear',
@@ -167,3 +168,36 @@ export interface MarkAnimationSpec {
 }
 
 export type MarkAnimationType = keyof MarkAnimationSpec;
+
+/**
+ * 动画拆分策略接口
+ * 用于定义如何拆分一个动画更新为多个步骤
+ */
+export interface IAnimationSplitStrategy {
+  /**
+   * 策略名称
+   */
+  name: string;
+
+  /**
+   * 检查是否应该应用此策略
+   * @param mark 图表标记
+   * @param graphic 图形元素
+   * @returns 是否应用此策略
+   */
+  shouldApply: (mark: BaseMark<any>, graphic: IMarkGraphic) => boolean;
+
+  /**
+   * 拆分动画更新
+   * @param mark 图表标记
+   * @param graphic 图形元素
+   * @returns 拆分后的动画更新数组（每个元素包含一组属性和执行顺序）
+   */
+  split: (
+    mark: BaseMark<any>,
+    graphic: IMarkGraphic
+  ) => Array<{
+    attrs: Record<string, any>;
+    order: number;
+  }>;
+}

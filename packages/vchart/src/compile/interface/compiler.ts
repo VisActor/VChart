@@ -1,4 +1,4 @@
-import type { IColor, IStageParams, IStage, ILayer, IOption3D } from '@visactor/vrender-core';
+import type { IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
 import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
@@ -155,6 +155,10 @@ export interface IRenderOption {
    * vrender 的插件列表
    */
   pluginList?: string[];
+  /**
+   * vrender 的 ticker
+   */
+  ticker?: ITicker;
   /**
    * @since 1.8.0
    */

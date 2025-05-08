@@ -196,6 +196,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   protected _interaction: IInteraction;
 
+  protected _setModelOption(): void {
+    // implement in subclass
+  }
+
   constructor(spec: T, option: IChartOption) {
     super(option);
     this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme().padding);

@@ -1,4 +1,4 @@
-import { RotateBySphereAnimate } from '@visactor/vrender-core';
+import { RotateBySphereAnimate } from '@visactor/vrender-animate';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { Factory } from '../../core/factory';
 import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams, WordcloudAppearPreset } from './interface';
@@ -23,18 +23,14 @@ function computeWordDelay(duration: number, totalTime: number, wordCount: number
 
 export const WordCloudScaleInAnimation = (params: IWordcloudAnimationParams): IAnimationTypeConfig => {
   return {
-    channel: {
-      fontSize: {
-        from: 0
-      }
-    },
+    type: 'scaleIn',
     duration: 200,
-    delay: (datum, element, vgrammarParams) => {
+    delay: (datum, graphic) => {
       const animationConfig = params.animationConfig();
       const duration = animationConfig?.duration || 200;
       const totalTime = animationConfig?.totalTime || DEFAULT_ANIMATION_CONFIG.appear.duration;
-      const count = vgrammarParams.VGRAMMAR_ANIMATION_PARAMETERS.elementCount;
-      const index = vgrammarParams.VGRAMMAR_ANIMATION_PARAMETERS.elementIndex;
+      const count = graphic.context.graphicCount;
+      const index = graphic.context.graphicIndex;
       return index * computeWordDelay(duration as number, totalTime as number, count);
     }
   };

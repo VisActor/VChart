@@ -13,7 +13,7 @@ import type {
 import type { Datum, StringOrNumber } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
-import type { MarkAnimationType } from '../../animation/interface';
+import type { IAnimationConfig } from '../../animation/interface';
 
 export interface VisualScaleType {
   scale: IBaseScale;
@@ -84,6 +84,38 @@ export interface IGraphicContext {
    */
   diffState?: DiffStateValues;
   /**
+   * 是否正在被复用的图元
+   */
+  reusing?: boolean;
+  /**
+   * 复用图元时，保存的上一次的旧属性（用于平滑的过渡动画）
+   */
+  lastAttrs?: Record<string, any>;
+  /**
+   * 用于判定这个图元是第几个，在OneByOne动画中控制顺序
+   */
+  indexKey?: string;
+  /**
+   * 差异的属性
+   */
+  diffAttrs?: Record<string, any>;
+  /**
+   * 用于保存mark对应series的fieldX
+   */
+  fieldX?: string[];
+  /**
+   * 用于保存mark对应series的fieldX
+   */
+  originalFieldX?: string[];
+  /**
+   * 用于保存mark对应series的fieldY
+   */
+  fieldY?: string[];
+  /**
+   * 用于保存mark对应series的fieldY
+   */
+  originalFieldY?: string[];
+  /**
    * 动画状态管理: 'appear' / 'enter' / 'update' / 'exit' / 'disappear'
    */
   animationState?: AnimationStateValues;
@@ -109,6 +141,18 @@ export interface IGraphicContext {
    * 状态
    */
   states?: string[];
+  /**
+   * 图元总数量
+   */
+  graphicCount?: number;
+  /**
+   * 图元索引顺序
+   */
+  graphicIndex?: number;
+  /**
+   * 状态动画配置
+   */
+  stateAnimateConfig?: IAnimationConfig | IAnimationConfig[];
 }
 
 export interface IMarkGraphic extends IGraphic {
@@ -121,6 +165,11 @@ export interface IMarkGraphic extends IGraphic {
    * 上下文数据
    */
   context?: IGraphicContext;
+
+  /**
+   * 是否正在退场
+   */
+  isExiting?: boolean;
 }
 
 /**********   mark  ***************/
@@ -158,6 +207,7 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   getGraphics: () => IMarkGraphic[];
 
   reuse: (mark: IMark) => void;
+  prepareMorph: (mark: IMark) => void;
 
   /** 是否启动了增量渲染模式 */
   isProgressive: () => boolean;
@@ -173,6 +223,8 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   canAnimateAfterProgressive: () => boolean;
   /** 更新图元动画状态 */
   updateAnimationState: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
+  /** 执行动画 */
+  runAnimation: () => void;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;

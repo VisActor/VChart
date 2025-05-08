@@ -44,7 +44,7 @@ export class RippleMark extends GlyphMark<IRippleMarkSpec> implements IRippleMar
     }
   };
 
-  protected _positionChannels: string[] = ['ripple'];
+  protected _positionChannels: string[] = ['ripple', 'size'];
 
   protected _positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
     const { ripple = (g.attribute as any).ripple, size = (g.attribute as any).size } = glyphAttrs;

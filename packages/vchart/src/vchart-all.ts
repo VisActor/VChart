@@ -69,12 +69,7 @@ import {
   registerElementHighlightByKey
 } from './interaction';
 import { registerAllMarks } from './mark';
-import {
-  register3DPlugin,
-  registerAnimate,
-  registerHtmlAttributePlugin,
-  registerReactAttributePlugin
-} from './plugin/other';
+import { registerAnimate, registerHtmlAttributePlugin, registerReactAttributePlugin } from './plugin/other';
 
 VChart.useRegisters([
   // charts
@@ -177,7 +172,6 @@ VChart.useRegisters([
   registerElementHighlightByGroup,
   registerElementHighlightByKey,
 
-  // animate,
   registerAnimate,
   registerReactAttributePlugin,
   registerHtmlAttributePlugin

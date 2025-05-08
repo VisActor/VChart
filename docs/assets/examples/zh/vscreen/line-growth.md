@@ -102,7 +102,7 @@ const spec = {
             attribute: {
               stroke: strokeColor,
               strokeOpacity: 0.8,
-              lineWidth: args[1].graphicItem.attribute?.lineWidth ?? 1
+              lineWidth: args[1].attribute?.lineWidth ?? 1
             }
           };
         }
@@ -125,19 +125,21 @@ const spec = {
               return {
                 distance: 16,
                 strokeOpacity: 0.00000001, // canvas bug, 待优化
-                stroke: args[1].graphicItem.attribute.fill
+                stroke: args[1].attribute.fill
               };
             }
           }
         },
-        custom: (ratio, from, to, out) => {
-          out.strokeOpacity = ratio * (to.strokeOpacity - from.strokeOpacity) + from.strokeOpacity;
-          out.outerBorder = {
+        custom: (ratio, from, to, step, graphic) => {
+          graphic.attribute.strokeOpacity = ratio * (to.strokeOpacity - from.strokeOpacity) + from.strokeOpacity;
+          graphic.attribute.outerBorder = {
             distance: ratio * (to.outerBorder.distance - from.outerBorder.distance) + from.outerBorder.distance,
             strokeOpacity:
               ratio * (to.outerBorder.strokeOpacity - from.outerBorder.strokeOpacity) + from.outerBorder.strokeOpacity,
             stroke: to.outerBorder.stroke
           };
+          graphic.addUpdatePositionTag();
+          graphic.addUpdateShapeAndBoundsTag();
         }
       }
     ]
