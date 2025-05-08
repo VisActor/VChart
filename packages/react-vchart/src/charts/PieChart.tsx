@@ -13,7 +13,7 @@ export const PieChart = createChart<React.PropsWithChildren<PieChartProps> & { t
   'PieChart',
   {
     type: 'pie',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerPieChart, registerLabel, registerIndicator, ...registers]
 );

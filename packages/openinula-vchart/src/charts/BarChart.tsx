@@ -11,5 +11,5 @@ export interface BarChartProps
 
 export const BarChart = createChart<React.PropsWithChildren<BarChartProps> & { type: 'bar' }>('BarChart', {
   type: 'bar',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

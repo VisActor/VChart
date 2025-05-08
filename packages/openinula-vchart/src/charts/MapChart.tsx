@@ -9,5 +9,5 @@ export interface MapChartProps
 
 export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { type: 'map' }>('MapChart', {
   type: 'map',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

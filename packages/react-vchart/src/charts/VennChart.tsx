@@ -13,7 +13,7 @@ export const VennChart = createChart<React.PropsWithChildren<VennChartProps> & {
   'VennChart',
   {
     type: 'venn',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerVennChart, registerLabel, ...registers]
 );

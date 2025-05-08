@@ -11,5 +11,5 @@ export const LinearProgressChart = createChart<
   React.PropsWithChildren<LinearProgressChartProps> & { type: 'linearProgress' }
 >('LinearProgressChart', {
   type: 'linearProgress',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

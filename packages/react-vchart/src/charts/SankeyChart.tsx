@@ -13,7 +13,7 @@ export const SankeyChart = createChart<React.PropsWithChildren<SankeyChartProps>
   'SankeyChart',
   {
     type: 'sankey',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerSankeyChart, registerLabel, ...registers]
 );

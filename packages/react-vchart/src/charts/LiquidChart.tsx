@@ -13,7 +13,7 @@ export const LiquidChart = createChart<React.PropsWithChildren<LiquidChartProps>
   'LiquidChart',
   {
     type: 'liquid',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerLiquidChart, registerIndicator, ...registers]
 );

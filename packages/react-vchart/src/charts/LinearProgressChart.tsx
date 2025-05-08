@@ -15,7 +15,7 @@ export const LinearProgressChart = createChart<
   'LinearProgressChart',
   {
     type: 'linearProgress',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerLinearProgressChart, registerLabel, ...registers]
 );

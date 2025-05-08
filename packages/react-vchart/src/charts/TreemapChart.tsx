@@ -14,7 +14,7 @@ export const TreemapChart = createChart<React.PropsWithChildren<TreemapChartProp
   'TreemapChart',
   {
     type: 'treemap',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerTreemapChart, registerLabel, ...registers]
 );
