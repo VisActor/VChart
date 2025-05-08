@@ -238,10 +238,11 @@ export function stackMosaic(s: ISeries, stackCache: IStackCacheNode, mosaicData?
       values: groupValues.map(group => {
         const groupValues = stackCache.nodes[group];
         let value;
-        if ((s as MosaicSeries).bandField) {
+        if ((s as MosaicSeries).bandWidthField) {
           value =
-            groupValues.values.find(v => isValid(v[(s as MosaicSeries).bandField]))?.[(s as MosaicSeries).bandField] ??
-            groupValues.total;
+            groupValues.values.find(v => isValid(v[(s as MosaicSeries).bandWidthField]))?.[
+              (s as MosaicSeries).bandWidthField
+            ] ?? groupValues.total;
         } else {
           value = groupValues.total;
         }

@@ -46,7 +46,7 @@ export interface IMosaicSeriesSpec extends Omit<IBarSeriesSpec, 'type' | 'label'
    * - 竖形图方向时自动映射宽度
    * @since 1.13.10
    */
-  bandField?: string;
+  bandWidthField?: string;
 }
 
 export type IMosaicSeriesTheme = IBarSeriesTheme;

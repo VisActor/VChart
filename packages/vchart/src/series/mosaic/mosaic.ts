@@ -28,9 +28,9 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
   static readonly transformerConstructor = BarSeriesSpecTransformer as any;
   readonly transformerConstructor = BarSeriesSpecTransformer as any;
 
-  private _bandField?: string;
-  get bandField() {
-    return this._bandField;
+  private _bandWidthField?: string;
+  get bandWidthField() {
+    return this._bandWidthField;
   }
   getStack() {
     return true;
@@ -66,8 +66,8 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
       this.setFieldX2(MOSAIC_CAT_START_PERCENT);
     }
 
-    if (this._spec.bandField) {
-      this._bandField = this._spec.bandField;
+    if (this._spec.bandWidthField) {
+      this._bandWidthField = this._spec.bandWidthField;
     }
   }
 
@@ -107,7 +107,7 @@ export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> exten
             };
 
       labelStyle.dataFilter = (data: any) => {
-        const filteredData = {};
+        const filteredData: any = {};
 
         data.forEach((d: any) => {
           const datum = d.data;
