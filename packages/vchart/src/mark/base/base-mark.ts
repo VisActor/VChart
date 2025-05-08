@@ -1007,7 +1007,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   protected _dataByGroup: GroupedData<Datum>;
+  /**
+   * 最新的数据map
+   */
   protected _dataByKey: GroupedData<Datum>;
+  /**
+   * 上一次的数据map
+   */
+  protected _prevDataByKey: GroupedData<Datum>;
   protected _graphicMap: Map<string, IMarkGraphic> = new Map();
   protected _graphics: IMarkGraphic[] = [];
 
@@ -1018,7 +1025,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     progressive?: ProgressiveContext;
     beforeTransformProgressive?: IProgressiveTransformResult;
   };
-
   protected _attrsByGroup?: Record<string, T>;
 
   protected _getDataByKey(data: Datum[]) {
@@ -1057,6 +1063,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       g.context = { ...g.context, ...this._getCommonContext() };
     });
     this._dataByKey = (mark as any)._dataByKey;
+    this._prevDataByKey = (mark as any)._prevDataByKey;
   }
 
   private _parseProgressiveContext(data: Datum[]) {
@@ -1247,7 +1254,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _runJoin(data: Datum[]) {
     const newGroupedData = this._getDataByKey(data);
-    const prevGroupedData = this._dataByKey;
+    const prevGroupedData = this._prevDataByKey;
     const newGraphics: IMarkGraphic[] = [];
 
     const enterGraphics = new Set<IMarkGraphic>(this._graphics.filter(g => g.context.diffState === DiffState.enter));
@@ -1686,7 +1693,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         }),
         this._graphics
       );
-      this._runStateAnimation(this._graphics);
+      // this._runStateAnimation(this._graphics);
     }
 
     this._updateAttrsOfGroup();
@@ -1697,8 +1704,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       this._updateEncoderByState();
       log(`render mark: ${this.getProductId()}, type is ${this.type}`);
       this._runMainTasks();
-      // 接入动画后，需要等动画结束在清除exit节点
-      this._cleanExitGraphics();
       this.uncommit();
     }
   }
@@ -1718,7 +1723,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     });
   }
 
-  protected _cleanExitGraphics() {
+  clearExitGraphics() {
+    this._prevDataByKey = this._dataByKey;
+
     const doRemove = (g: IMarkGraphic, key: string) => {
       this._graphicMap.delete(key);
       if (g.parent) {

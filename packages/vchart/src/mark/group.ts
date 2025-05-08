@@ -101,7 +101,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
   }
 
   getGraphics(): IMarkGraphic[] {
-    return [this._product];
+    return [this._product as unknown as IMarkGraphic];
   }
 
   protected _renderSelf() {

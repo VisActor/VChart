@@ -209,6 +209,8 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   reuse: (mark: IMark) => void;
   prepareMorph: (mark: IMark) => void;
 
+  clearExitGraphics: () => void;
+
   /** 是否启动了增量渲染模式 */
   isProgressive: () => boolean;
   /** 是否正在执行增量渲染 */

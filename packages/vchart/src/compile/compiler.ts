@@ -298,13 +298,29 @@ export class Compiler implements ICompiler {
     }
   };
 
-  private _doRender() {
+  private _doRender(immediately: boolean) {
     if (this._stage) {
+      this._rootMarks.forEach(g => {
+        traverseGroupMark(
+          g,
+          m => {
+            if (!this._progressiveMarks) {
+              m.runAnimation();
+            }
+            m.clearExitGraphics();
+          },
+          null,
+          true
+        );
+      });
+
       // 全量渲染的时候先关闭dirty bounds 提升性能
       this._stage.disableDirtyBounds();
       this._stage.afterNextRender(this._handleAfterNextRender);
 
-      this._stage.render();
+      if (immediately) {
+        this._stage.render();
+      }
     }
   }
 
@@ -338,7 +354,7 @@ export class Compiler implements ICompiler {
 
     this.findProgressiveMarks();
 
-    this._doRender();
+    this._doRender(true);
     this.doPreProgressive();
 
     log(`--- start of renderMarks(${this._count}) ---`);
@@ -475,7 +491,7 @@ export class Compiler implements ICompiler {
           if (isValid(graphic.context)) {
             markGraphic = graphic;
           } else {
-            markGraphic = findMarkGraphic(rootGroup, graphic);
+            markGraphic = findMarkGraphic(rootGroup, graphic) as unknown as IMarkGraphic;
           }
         }
         const context = (markGraphic?.context ?? {}) as Partial<IGraphicContext>;
