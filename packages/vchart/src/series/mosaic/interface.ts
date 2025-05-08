@@ -40,6 +40,13 @@ export interface IMosaicSeriesSpec extends Omit<IBarSeriesSpec, 'type' | 'label'
       >;
     }
   >;
+  /**
+   * 柱子尺寸映射字段，如果不声明默认会根据相同维度下的总值占比进行映射
+   * - 条形图方向时自动映射高度
+   * - 竖形图方向时自动映射宽度
+   * @since 1.13.10
+   */
+  bandField?: string;
 }
 
 export type IMosaicSeriesTheme = IBarSeriesTheme;
