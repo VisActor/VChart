@@ -37,7 +37,7 @@ export const Appear_FadeIn: IAnimationTypeConfig = {
 
 export function linearProgressPresetAnimation(
   params: ILinearProgressAnimationParams,
-  preset: LinearProgressAppearPreset | boolean
+  preset: LinearProgressAppearPreset | boolean = 'grow'
 ) {
   if (preset === false) {
     return {};
@@ -56,7 +56,7 @@ export const registerLinearProgressAnimation = () => {
     (params: ILinearProgressAnimationParams, preset: LinearProgressAppearPreset) => {
       return {
         appear: linearProgressPresetAnimation(params, preset),
-        enter: { type: 'grow' },
+        enter: linearProgressPresetAnimation(params),
         disappear: linearProgressDisappear(params)
       };
     }
