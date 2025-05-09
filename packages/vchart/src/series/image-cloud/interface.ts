@@ -81,10 +81,3 @@ export interface IImageCloudSeriesSpec extends ISeriesSpec, IAnimationSpec<'imag
     padding?: number;
   };
 }
-
-export type GridLayoutConfig = {
-  layoutMode: 'grid';
-  cellType?: 'rect' | 'circle' | 'hexagonal';
-  rectAspectRatio?: number;
-  placement?: 'default' | 'masked' | 'edge';
-};

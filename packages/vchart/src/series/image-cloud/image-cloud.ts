@@ -251,12 +251,6 @@ export class ImageCloudSeries<T extends IImageCloudSeriesSpec> extends BaseSerie
   }
 
   dataToPosition(data: Datum): IPoint | null {
-    // const elements = this._imageMark?.getProductElements();
-    // if (!elements) {
-    //   return null;
-    // }
-    // const el = elements.find(e => e.data[0][this._urlField] === data[this._urlField] && e.data[0].frequency === 1);
-    // return el ? { x: el.getGraphicItem().attribute.x, y: el.getGraphicItem().attribute.y } : null;
     return null;
   }
 
