@@ -103,7 +103,7 @@ export interface IBarSeriesSpec
    * 当存在多层分组时，可以使用数组来设置不同层级的间距，如 [10, '20%']，表示第一层分组的间距为 10px，第二层分组的间距为 '20%'。
    * 如果 barGapInGroup 的数组个数小于分组层数，则后面的分组间距使用最后一个值。
    * 1. number 类型，表示像素值
-   * 2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比(因为柱子是等宽的，所以采用最后一层分组的 scale)
+   * 2. string 类型，百分比用法，如 '10%'，该值为对应实际柱子宽度（barWidth）的占比
    * @since 1.2.0
    */
   barGapInGroup?: number | string | (number | string)[];
