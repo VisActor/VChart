@@ -27,10 +27,6 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
   ) {
     super(from, to, duration, easing, params);
     this._center = to.center;
-    this._prevCenter = from.center;
-    if (!this._center || !this._prevCenter) {
-      this.valid = false;
-    }
   }
 
   getEndProps(): Record<string, any> {
@@ -41,6 +37,12 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
   }
 
   onBind(): void {
+    this.from = this.target.attribute as any;
+    this.to = this.target.getFinalAttribute();
+    this._prevCenter = (this.target.attribute as any).center;
+    if (!this._center || !this._prevCenter) {
+      this.valid = false;
+    }
     const { angle: fromAngle, radius: fromRadius } = cartesianToPolar(this.from, this._prevCenter);
     const { angle: toAngle, radius: toRadius } = cartesianToPolar(this.to, this._center);
     if (!isValidNumber(toAngle * toRadius)) {
