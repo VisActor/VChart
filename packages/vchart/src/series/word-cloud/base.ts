@@ -145,10 +145,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _wordMark: ITextMark;
 
   initMark(): void {
-    if (this._spec.wordMask?.visible) {
-      this._maskMark = this._createMark(BaseWordCloudSeries.mark.wordMask, { dataView: false }) as IRectMark;
-    }
-
     this._wordMark = this._createMark(
       BaseWordCloudSeries.mark.word,
       {
@@ -160,6 +156,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         morphElementKey: this._seriesField
       }
     ) as ITextMark;
+    if (this._spec.wordMask?.visible) {
+      this._maskMark = this._createMark(BaseWordCloudSeries.mark.wordMask, { dataView: false }) as IRectMark;
+    }
   }
 
   initMarkStyle() {
