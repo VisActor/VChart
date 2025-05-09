@@ -36,7 +36,8 @@ export enum SeriesTypeEnum {
   liquid = 'liquid',
   venn = 'venn',
   mosaic = 'mosaic',
-  pictogram = 'pictogram'
+  pictogram = 'pictogram',
+  imageCloud = 'imageCloud'
 }
 
 export const enum SeriesMarkNameEnum {
@@ -103,5 +104,7 @@ export const enum SeriesMarkNameEnum {
   circle = 'circle',
   overlap = 'overlap',
   overlapLabel = 'overlapLabel',
-  pictogram = 'pictogram'
+  pictogram = 'pictogram',
+  image = 'image',
+  imageMask = 'imageMask'
 }
