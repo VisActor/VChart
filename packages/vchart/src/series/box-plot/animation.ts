@@ -106,7 +106,7 @@ const computeBoxplotCenter = (
   let min: number;
   let q1: number;
   let q3: number;
-  if (isHorizontal(direction)) {
+  if (direction === 'horizontal') {
     median = (getGlyphChildByName(glyphMark, 'median')?.attribute as ILineAttribute).points?.[0]?.x;
     max = (getGlyphChildByName(glyphMark, 'max')?.attribute as ILineAttribute)?.points?.[0]?.x;
     min = (getGlyphChildByName(glyphMark, 'min')?.attribute as ILineAttribute)?.points?.[0]?.x;
