@@ -250,7 +250,7 @@ export class Compiler implements ICompiler {
   }
   protected clearNextRender() {
     if (this._nextRafId) {
-      vglobal.getCancelAnimationFrame()(this._nextRafId);
+      vglobal.getSpecifiedCancelAnimationFrame(10)(this._nextRafId);
       this._nextRafId = null;
 
       return true;
@@ -274,7 +274,7 @@ export class Compiler implements ICompiler {
       this.clearNextRender();
     }
 
-    this._nextRafId = vglobal.getRequestAnimationFrame()(() => {
+    this._nextRafId = vglobal.getSpecifiedRequestAnimationFrame(10)(() => {
       this._nextRafId = null;
       this.render(morphConfig);
     }) as unknown as number;
@@ -712,7 +712,7 @@ export class Compiler implements ICompiler {
 
   private doPreProgressive() {
     if (this._progressiveMarks && this._progressiveMarks.some(mark => mark.isDoingProgressive())) {
-      const raf = vglobal.getRequestAnimationFrame();
+      const raf = vglobal.getSpecifiedRequestAnimationFrame(10);
       this._progressiveRafId = raf(this.handleProgressiveFrame);
     } else if (this._progressiveMarks && this._progressiveMarks.every(mark => mark.canAnimateAfterProgressive())) {
       this._progressiveMarks.forEach(mark => {
@@ -739,7 +739,7 @@ export class Compiler implements ICompiler {
   /** 清除 */
   private clearProgressive() {
     if (this._progressiveRafId) {
-      const cancelRaf = vglobal.getCancelAnimationFrame();
+      const cancelRaf = vglobal.getSpecifiedCancelAnimationFrame(10);
       cancelRaf(this._progressiveRafId);
     }
 
