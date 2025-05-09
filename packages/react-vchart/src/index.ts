@@ -3,6 +3,7 @@ export * from './series';
 export * from './components';
 export * from './VChart';
 export * from './VChartSimple';
+export * from './register';
 export { VChart as VChartCore } from '@visactor/vchart';
 
 // export the version, since @1.8.3
