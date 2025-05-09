@@ -1315,7 +1315,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         large: (spec as IMarkProgressiveConfig).large,
         largeThreshold: (spec as IMarkProgressiveConfig).largeThreshold,
         morph: config.morph ?? false,
-        useSequentialAnimation: spec.useSequentialAnimation,
+        useSequentialAnimation: (spec as any).useSequentialAnimation,
         support3d:
           is3DMark(markInfo.type as MarkTypeEnum) || (config.support3d ?? (spec.support3d || !!(spec as any).zField)),
         morphKey: spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`,
