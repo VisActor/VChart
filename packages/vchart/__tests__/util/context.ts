@@ -14,6 +14,8 @@ import { getTestCompiler } from './factory/compiler';
 import { GlobalScale } from '../../src/scale/global-scale';
 import type { IRegion } from '../../src/region/interface';
 import type { StringOrNumber } from '../../src/typings';
+import { isValid } from '@visactor/vutils';
+import { preprocessTheme } from '../../src/util/theme/preprocess';
 
 export function modelOption(opt: Partial<IModelOption> = {}, chart?: TestChart): Partial<IModelOption> {
   return {
@@ -52,7 +54,7 @@ export function modelOption(opt: Partial<IModelOption> = {}, chart?: TestChart):
 export function seriesOption(opt: Partial<IModelOption> = {}, chart?: TestChart): ISeriesOption {
   const option = modelOption(opt) as ISeriesOption;
   option.globalScale = new GlobalScale([], chart as any);
-  option.getTheme = () => ThemeManager.getCurrentTheme();
+  option.getTheme = getTheme;
   option.region = (chart?.getAllRegions?.()?.[0] ?? new TestRegion({})) as IRegion;
   option.onError = msg => {
     console.log(msg);
@@ -66,7 +68,7 @@ export function seriesOption(opt: Partial<IModelOption> = {}, chart?: TestChart)
 
 export function componentOption(opt: Partial<IModelOption> = {}, chart: TestChart): IComponentOption {
   const option = modelOption(opt) as IComponentOption;
-  option.getTheme = () => ThemeManager.getCurrentTheme();
+  option.getTheme = getTheme;
   // 区域
   option.getRegionsInIndex = chart.getRegionsInIndex.bind(chart);
   option.getRegionsInIds = chart.getRegionsInIds.bind(chart);
@@ -108,4 +110,27 @@ export function initChartDataSet(dataSet: DataSet) {
   dataSet.registerParser('array', arrayParser);
   dataSet.registerTransform('stackSplit', stackSplit);
   dataSet.registerTransform('copyDataView', copyDataView);
+}
+
+export function getTheme(...keys: string[]) {
+  const currentTheme = ThemeManager.getCurrentTheme();
+  let theme = currentTheme;
+
+  keys.forEach((key: string, index: number) => {
+    if (theme && isValid(key)) {
+      theme = (theme as any)[key];
+
+      if (index === keys.length - 1 && isValid(theme)) {
+        theme = preprocessTheme(
+          {
+            [key]: theme
+          },
+          currentTheme.colorScheme,
+          currentTheme.token
+        )[key];
+      }
+    }
+  });
+
+  return theme;
 }

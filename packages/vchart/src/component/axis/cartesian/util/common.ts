@@ -60,17 +60,17 @@ export function getCartesianAxisInfo(spec: ICartesianAxisCommonSpec, isHorizonta
   return { axisType, componentName };
 }
 
-export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, chartTheme: ITheme) => {
+export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, getTheme: (...keys: string[]) => any) => {
   const axisTypeTheme =
     (type === 'band'
-      ? getComponentThemeFromOption('axisBand', chartTheme)
+      ? getComponentThemeFromOption('axisBand', getTheme)
       : (['linear', 'log', 'symlog'] as AxisType[]).includes(type)
-      ? getComponentThemeFromOption('axisLinear', chartTheme)
+      ? getComponentThemeFromOption('axisLinear', getTheme)
       : {}) ?? {};
   const axisTheme = isXAxis(orient)
-    ? getComponentThemeFromOption('axisX', chartTheme)
+    ? getComponentThemeFromOption('axisX', getTheme)
     : isYAxis(orient)
-    ? getComponentThemeFromOption('axisY', chartTheme)
-    : getComponentThemeFromOption('axisZ', chartTheme);
-  return mergeSpec({}, getComponentThemeFromOption('axis', chartTheme), axisTypeTheme, axisTheme);
+    ? getComponentThemeFromOption('axisY', getTheme)
+    : getComponentThemeFromOption('axisZ', getTheme);
+  return mergeSpec({}, getComponentThemeFromOption('axis', getTheme), axisTypeTheme, axisTheme);
 };

@@ -298,7 +298,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   }
 
   getColorScheme() {
-    return this._option.getTheme?.().colorScheme;
+    return this._option.getTheme?.('colorScheme');
   }
 
   getSpecInfo() {

@@ -2,7 +2,7 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import { ThemeManager, default as VChart } from '../../../src';
+import { default as VChart } from '../../../src';
 import { DataSet, csvParser } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
@@ -12,7 +12,7 @@ import type { ITreemapChartSpec } from '../../../src/chart/treemap';
 import { TreemapChart } from '../../../src/chart/treemap';
 import type { TreemapSeries } from '../../../src/series/treemap/treemap';
 import { DEFAULT_HIERARCHY_DEPTH } from '../../../src/constant/hierarchy';
-import { initChartDataSet } from '../../util/context';
+import { getTheme, initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
@@ -54,7 +54,7 @@ describe('treemap chart test', () => {
     const transformer = new TreemapChart.transformerConstructor({
       type: 'treemap',
       seriesType: 'treemap',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
@@ -75,7 +75,7 @@ describe('treemap chart test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme(true),
+        getTheme: getTheme,
         onError: () => {},
         getSpecInfo: () => info
       } as any

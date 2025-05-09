@@ -168,7 +168,7 @@ export interface IModelOption extends ICompilableInitOption {
   specPath?: Array<string | number>;
   specInfoPath?: Array<string | number>;
 
-  getTheme?: () => ITheme;
+  getTheme?: (...keys: string[]) => any;
   getSpecInfo?: () => IChartSpecInfo;
   getChartLayoutRect: () => IRect;
   getChartViewRect: () => ILayoutRect;

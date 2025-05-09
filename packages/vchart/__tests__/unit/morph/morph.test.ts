@@ -1,10 +1,10 @@
-import { BarChart, CommonChart, ThemeManager } from '../../../src';
+import { BarChart, CommonChart } from '../../../src';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
-import { initChartDataSet } from '../../util/context';
+import { getTheme, initChartDataSet } from '../../util/context';
 
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
@@ -113,7 +113,7 @@ describe('Bar chart test', () => {
   test('default morph', () => {
     const transformer = new CommonChart.transformerConstructor({
       type: 'common',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(scatterSpec as any);
@@ -135,7 +135,7 @@ describe('Bar chart test', () => {
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
         onError: () => {},
-        getTheme: () => ThemeManager.getCurrentTheme(true),
+        getTheme: getTheme,
         getSpecInfo: () => info
       } as any
     );
@@ -145,7 +145,7 @@ describe('Bar chart test', () => {
     const barTransformer = new BarChart.transformerConstructor({
       type: 'bar',
       seriesType: 'bar',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const barInfo = barTransformer.initChartSpec(barSpec as any);
@@ -167,7 +167,7 @@ describe('Bar chart test', () => {
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
         onError: () => {},
-        getTheme: () => ThemeManager.getCurrentTheme(true),
+        getTheme: getTheme,
         getSpecInfo: () => barInfo
       } as any
     );
@@ -190,7 +190,7 @@ describe('Bar chart test', () => {
   test('custom morph config', () => {
     const transformer = new CommonChart.transformerConstructor({
       type: 'common',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(multiScatterSeriesSpec as any);
@@ -212,7 +212,7 @@ describe('Bar chart test', () => {
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
         onError: () => {},
-        getTheme: () => ThemeManager.getCurrentTheme(true),
+        getTheme: getTheme,
         getSpecInfo: () => info
       } as any
     );
