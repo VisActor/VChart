@@ -25,8 +25,8 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vutils": "~1.0.3",
-    "@visactor/vdataset": "~1.0.3"
+    "@visactor/vutils": "~1.0.5",
+    "@visactor/vdataset": "~1.0.5"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
