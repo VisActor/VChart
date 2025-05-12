@@ -71,7 +71,7 @@ export const measureTooltipText = (text: string | TooltipRichTextAttrs, style: I
 
 export function getTextAttributes(
   style: ITooltipTextTheme = {},
-  globalTheme?: ITheme,
+  globalFontFamily?: string,
   defaultAttributes?: Partial<ITooltipTextStyle>
 ): ITooltipTextStyle {
   const attrs: ITooltipTextStyle = {
@@ -79,7 +79,7 @@ export function getTextAttributes(
     fill: (style.fill ?? style.fontColor) as string,
     textAlign: style.textAlign,
     textBaseline: style.textBaseline,
-    fontFamily: style.fontFamily ?? (globalTheme?.fontFamily as string),
+    fontFamily: style.fontFamily ?? globalFontFamily,
     fontSize: style.fontSize as number,
     fontWeight: style.fontWeight,
     lineHeight: style.lineHeight as number,
@@ -121,7 +121,7 @@ export const getPanelAttributes = (style: ITooltipTheme['panel']): TooltipPanelA
 export const getTooltipAttributes = (
   actualTooltip: ITooltipActual,
   spec: ITooltipSpec,
-  globalTheme: ITheme
+  globalFontFamily?: string
 ): ITooltipAttributes => {
   const { style = {}, enterable, transitionDuration } = spec;
   const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow, align } = style;
@@ -133,16 +133,16 @@ export const getTooltipAttributes = (
       textAlign: align === 'right' ? 'right' : 'left',
       ...titleLabel
     },
-    globalTheme
+    globalFontFamily
   );
   const keyStyle = getTextAttributes(
     {
       textAlign: align === 'right' ? 'right' : 'left',
       ...keyLabel
     },
-    globalTheme
+    globalFontFamily
   );
-  const valueStyle = getTextAttributes(valueLabel, globalTheme);
+  const valueStyle = getTextAttributes(valueLabel, globalFontFamily);
   const shapeStyle: TooltipRowStyleAttrs['shape'] = {
     fill: true,
     size: shape?.size ?? 8,

@@ -59,16 +59,16 @@ export const computeLayoutRadius = (
   return Math.min(rect.width / 2, rect.height / 2);
 };
 
-export const getPolarAxisTheme = (orient: IPolarOrientType, type: AxisType, chartTheme: ITheme) => {
+export const getPolarAxisTheme = (orient: IPolarOrientType, type: AxisType, getTheme: (...keys: string[]) => any) => {
   const axisTypeTheme =
     (type === 'band'
-      ? getComponentThemeFromOption('axisBand', chartTheme)
+      ? getComponentThemeFromOption('axisBand', getTheme)
       : type === 'linear'
-      ? getComponentThemeFromOption('axisLinear', chartTheme)
+      ? getComponentThemeFromOption('axisLinear', getTheme)
       : {}) ?? {};
   const axisTheme =
     orient === 'angle'
-      ? getComponentThemeFromOption('axisAngle', chartTheme)
-      : getComponentThemeFromOption('axisRadius', chartTheme);
-  return mergeSpec({}, getComponentThemeFromOption('axis', chartTheme), axisTypeTheme, axisTheme);
+      ? getComponentThemeFromOption('axisAngle', getTheme)
+      : getComponentThemeFromOption('axisRadius', getTheme);
+  return mergeSpec({}, getComponentThemeFromOption('axis', getTheme), axisTypeTheme, axisTheme);
 };

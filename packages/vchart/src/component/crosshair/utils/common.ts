@@ -9,7 +9,6 @@ import { isDiscrete } from '@visactor/vscale';
 import type { ICartesianAxisCommonSpec, IPolarAxisCommonSpec } from '../../axis';
 import { getComponentThemeFromOption } from '../../util';
 import { ComponentTypeEnum } from '../../interface/type';
-import type { ITheme } from '../../../theme';
 import { isDiscreteAxis } from '../../axis/util';
 import { mergeSpec } from '@visactor/vutils-extension';
 
@@ -72,10 +71,10 @@ export function getDatumByValue(data: Datum[], value: number, startField: string
   return null;
 }
 
-export const getCartesianCrosshairTheme = (chartTheme: ITheme, chartSpec: any): ICrosshairTheme => {
+export const getCartesianCrosshairTheme = (getTheme: (...keys: string[]) => any, chartSpec: any): ICrosshairTheme => {
   const axes: ICartesianAxisCommonSpec[] = array(chartSpec.axes ?? []);
   const { bandField, linearField, xField, yField } =
-    getComponentThemeFromOption(ComponentTypeEnum.crosshair, chartTheme) ?? {};
+    getComponentThemeFromOption(ComponentTypeEnum.crosshair, getTheme) ?? {};
 
   const xAxis = axes.find(axis => isXAxis(axis.orient));
   let newXField;
@@ -99,10 +98,10 @@ export const getCartesianCrosshairTheme = (chartTheme: ITheme, chartSpec: any): 
   };
 };
 
-export const getPolarCrosshairTheme = (chartTheme: ITheme, chartSpec: any): ICrosshairTheme => {
+export const getPolarCrosshairTheme = (getTheme: (...keys: string[]) => any, chartSpec: any): ICrosshairTheme => {
   const axes: IPolarAxisCommonSpec[] = array(chartSpec.axes ?? []);
   const { bandField, linearField, categoryField, valueField } =
-    getComponentThemeFromOption(ComponentTypeEnum.crosshair, chartTheme) ?? {};
+    getComponentThemeFromOption(ComponentTypeEnum.crosshair, getTheme) ?? {};
 
   const angleAxis = axes.find(axis => axis.orient === 'angle');
   let newAngleField;

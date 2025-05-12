@@ -127,7 +127,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     this._isWordCloudShape =
       !SHAPE_TYPE.includes(this._maskShape as string) &&
       !['fast', 'grid', 'cloud'].includes(this._wordCloudConfig.layoutMode);
-    this._defaultFontFamily = this._option.getTheme().fontFamily as string;
+    this._defaultFontFamily = this._option.getTheme('fontFamily') as string;
   }
 
   /**
@@ -370,7 +370,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         (this._maskShape as TextShapeMask).type === 'text' &&
         isNil((this._maskShape as TextShapeMask).fontFamily)
           ? {
-              fontFamily: this._option.getTheme()?.fontFamily,
+              fontFamily: this._option.getTheme('fontFamily'),
               ...this._maskShape
             }
           : this._maskShape,
