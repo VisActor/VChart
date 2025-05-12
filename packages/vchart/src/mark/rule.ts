@@ -1,7 +1,7 @@
 import { Factory } from './../core/factory';
 import type { IRuleMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IMarkStyle, IRuleMark } from './interface';
+import type { IMarkGraphic, IMarkStyle, IRuleMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerLine, registerShadowRoot } from '@visactor/vrender-kits';
@@ -20,7 +20,7 @@ export class RuleMark extends BaseMark<IRuleMarkSpec> implements IRuleMark {
     return defaultStyle;
   }
 
-  protected _transformGraphicAttributes(g: IGraphic, attrs: any, groupAttrs?: any) {
+  protected _transformGraphicAttributes(g: IMarkGraphic, attrs: any, groupAttrs?: any) {
     const finalAttrs = super._transformGraphicAttributes(g, attrs, groupAttrs);
     const { x, x1, y, y1, ...rest } = finalAttrs;
 
