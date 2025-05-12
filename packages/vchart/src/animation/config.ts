@@ -13,6 +13,7 @@ import {
   RotateIn,
   RotateOut,
   Update,
+  State,
   GrowHeightIn,
   GrowHeightOut,
   GrowWidthIn,
@@ -164,6 +165,7 @@ export const registerBuiltInAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('rotateIn', RotateIn);
   AnimateExecutor.registerBuiltInAnimate('rotateOut', RotateOut);
   AnimateExecutor.registerBuiltInAnimate('update', Update);
+  AnimateExecutor.registerBuiltInAnimate('state', State);
   AnimateExecutor.registerBuiltInAnimate('fromTo', FromTo);
 };
 
