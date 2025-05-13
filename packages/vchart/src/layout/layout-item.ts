@@ -70,6 +70,9 @@ export class LayoutItem implements ILayoutItem {
   }
   /** for layout diff */
   protected _lastComputeRect: ILayoutRect = null;
+  get lastComputeRect() {
+    return this._lastComputeRect;
+  }
   protected _lastComputeOutBounds: IBoundsLike = { x1: 0, x2: 0, y1: 0, y2: 0 };
   getLastComputeOutBounds(): IBoundsLike {
     return this._lastComputeOutBounds;
@@ -116,6 +119,11 @@ export class LayoutItem implements ILayoutItem {
 
   protected _option: ILayoutItemInitOption;
 
+  protected _willLayoutTag: boolean = true;
+  get willLayoutTag() {
+    return this._willLayoutTag;
+  }
+
   constructor(model: ILayoutModel, option: ILayoutItemInitOption) {
     this._model = model;
     this._option = option;
@@ -133,12 +141,15 @@ export class LayoutItem implements ILayoutItem {
     }
     if ((this._spec as unknown as any).visible !== false) {
       // 处理 user spec value to px;
-      const padding = normalizeLayoutPaddingSpec(spec.padding);
-      const paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
-      this.layoutPaddingLeft = paddingValue.left;
-      this.layoutPaddingRight = paddingValue.right;
-      this.layoutPaddingTop = paddingValue.top;
-      this.layoutPaddingBottom = paddingValue.bottom;
+      // region 关联元素的 padding 配置不应当生效
+      if (!(this.layoutType === 'region-relative' || this.layoutType === 'region-relative-overlap')) {
+        const padding = normalizeLayoutPaddingSpec(spec.padding);
+        const paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
+        this.layoutPaddingLeft = paddingValue.left;
+        this.layoutPaddingRight = paddingValue.right;
+        this.layoutPaddingTop = paddingValue.top;
+        this.layoutPaddingBottom = paddingValue.bottom;
+      }
 
       this._minHeight = isNil(spec.minHeight)
         ? this._minHeight ?? null
@@ -403,5 +414,13 @@ export class LayoutItem implements ILayoutItem {
 
   getModelVisible() {
     return this._model.getVisible();
+  }
+
+  setWillLayoutTag() {
+    this._willLayoutTag = true;
+  }
+
+  clearWillLayoutTag() {
+    this._willLayoutTag = false;
   }
 }

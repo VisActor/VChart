@@ -73,6 +73,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
     if (this._isLayout) {
       return;
     }
+    this._layout?.setWillLayoutTag();
     this._forceLayoutTag = true;
     this._option.globalInstance.getChart()?.setLayoutTag(true);
   }
