@@ -159,7 +159,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             const labelMark = this._createMark(
               {
                 type: MarkTypeEnum.label,
-                name: `${markName}-label-${index}`
+                name: `${series.userId ?? series.id}-${markName}-label-${index}`
               },
               { attributeContext: series.getMarkAttributeContext() }
             ) as ILabelMark;
