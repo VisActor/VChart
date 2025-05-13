@@ -30,6 +30,7 @@ export interface BandAxisMixin {
   _tickTransformOption: () => any;
   _forceLayout: () => void;
   _getNormalizedValue: (values: any[], length: number) => number;
+  _onTickDataChange: (compilableData: CompilableData) => void;
 }
 
 export class BandAxisMixin {
@@ -48,9 +49,11 @@ export class BandAxisMixin {
             },
             layer
           );
-          tickData.target.addListener('change', this._forceLayout.bind(this));
           const compilableData = new CompilableData(this._option, tickData);
           this._tickData.push(compilableData);
+          tickData.target.addListener('change', () => {
+            this._onTickDataChange(compilableData);
+          });
 
           if (!this._tickDataMap) {
             this._tickDataMap = {};
@@ -60,8 +63,10 @@ export class BandAxisMixin {
       }
     } else {
       const tickData = this._initTickDataSet(this._tickTransformOption());
-      tickData.target.addListener('change', this._forceLayout.bind(this));
       const compilableData = new CompilableData(this._option, tickData);
+      tickData.target.addListener('change', () => {
+        this._onTickDataChange(compilableData);
+      });
       this._tickData = [compilableData];
       this._tickDataMap = {
         0: compilableData
