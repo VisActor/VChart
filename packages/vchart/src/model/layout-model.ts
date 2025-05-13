@@ -2,7 +2,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual, merge } from '@visactor/vutils';
 import type { ILayoutItem } from '../layout/interface';
-import type { IOrientType, IPolarOrientType, IRect } from '../typings/space';
+import type { IOrientType, IPadding, IPolarOrientType, IRect } from '../typings/space';
 import { BaseModel } from './base-model';
 import type { IModelSpec } from './interface';
 import { LayoutItem } from '../layout/layout-item';
@@ -42,7 +42,8 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
       layoutLevel: this.layoutLevel,
       layoutOrient: this._orient as IOrientType,
       transformLayoutRect: this._transformLayoutRect,
-      transformLayoutPosition: this._transformLayoutPosition
+      transformLayoutPosition: this._transformLayoutPosition,
+      transformLayoutPadding: this._transformLayoutPadding
     });
     if (this._orient && this._orient !== 'radius' && this._orient !== 'angle' && this._layout) {
       this._layout.layoutOrient = this._orient;
@@ -123,4 +124,5 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
 
   protected _transformLayoutRect: (rect: ILayoutRect) => ILayoutRect = null;
   protected _transformLayoutPosition: (rect: Partial<IPoint>) => Partial<IPoint> = null;
+  protected _transformLayoutPadding: (padding: IPadding) => IPadding = null;
 }

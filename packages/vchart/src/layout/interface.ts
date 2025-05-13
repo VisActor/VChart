@@ -1,6 +1,6 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../typings/common';
-import type { IOrientType, IRect } from '../typings/space';
+import type { IOrientType, IPadding, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
 import type { ILayoutNumber, ILayoutPaddingSpec, ILayoutPoint, ILayoutRect, ILayoutType } from '../typings/layout';
 import type { ILayoutModel } from '../model/interface';
@@ -294,4 +294,5 @@ export interface ILayoutItemInitOption {
   layoutOrient?: IOrientType;
   transformLayoutRect?: (rect: ILayoutRect) => ILayoutRect;
   transformLayoutPosition?: (pos: Partial<IPoint>) => Partial<IPoint>;
+  transformLayoutPadding?: (padding: IPadding) => IPadding;
 }

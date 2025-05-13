@@ -143,21 +143,14 @@ export class LayoutItem implements ILayoutItem {
       // 处理 user spec value to px;
       // 先计算出 padding
       const padding = normalizeLayoutPaddingSpec(spec.padding);
-      const paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
+      let paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
+      if (this._option.transformLayoutPadding) {
+        paddingValue = this._option.transformLayoutPadding(paddingValue);
+      }
       this.layoutPaddingLeft = paddingValue.left;
       this.layoutPaddingRight = paddingValue.right;
       this.layoutPaddingTop = paddingValue.top;
       this.layoutPaddingBottom = paddingValue.bottom;
-      // region 关联元素的 padding 配置，只有部分生效
-      if (this.layoutType === 'region-relative' || this.layoutType === 'region-relative-overlap') {
-        if (this._layoutOrient === 'left' || this._layoutOrient === 'right') {
-          this.layoutPaddingTop = 0;
-          this.layoutPaddingBottom = 0;
-        } else if (this._layoutOrient === 'top' || this._layoutOrient === 'bottom') {
-          this.layoutPaddingLeft = 0;
-          this.layoutPaddingRight = 0;
-        }
-      }
 
       this._minHeight = isNil(spec.minHeight)
         ? this._minHeight ?? null
