@@ -135,6 +135,15 @@ export interface ILayoutConstructor {
 export interface ILayoutItem {
   readonly type: string;
   /**
+   * 标记当前布局元素是否需要重新计算布局属性
+   * 图表模块可能部分需要重新布局，部分不需要，根据这个tag在布局过程中进行优化
+   */
+  readonly willLayoutTag: boolean;
+  /**
+   * 上一次布局的布局尺寸
+   */
+  readonly lastComputeRect: ILayoutRect;
+  /**
    * 标记这个布局Item的方向（left->right, right->left, top->bottom, bottom->top）
    */
   directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
@@ -208,6 +217,14 @@ export interface ILayoutItem {
    * 更新绝对布局元素的位置信息
    */
   absoluteLayoutInRect: (rect: IRect) => void;
+  /**
+   * 布局完成后，清楚标记
+   */
+  clearWillLayoutTag: () => void;
+  /**
+   * 标记要重新布局
+   */
+  setWillLayoutTag: () => void;
 }
 
 export interface ILayoutItemSpec {

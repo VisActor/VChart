@@ -1,6 +1,12 @@
-import { isNil, last } from '@visactor/vutils';
+import { isNil, last, isEqual } from '@visactor/vutils';
 import type { Layout } from './base-layout';
 import type { ILayoutItem } from './interface';
+import type { ILayoutRect } from '../typings';
+
+export type IRecompute = {
+  recomputeWidth: boolean;
+  recomputeHeight: boolean;
+};
 
 function getPositionItems(items: ILayoutItem[]) {
   const startItems: ILayoutItem[] = [];
@@ -95,7 +101,8 @@ function layoutLeftRightStartOrMiddleItems(
   layout: Layout,
   limitHeight: number,
   isMiddle: boolean,
-  position: 'left' | 'right'
+  position: 'left' | 'right',
+  recompute: IRecompute
 ) {
   if (items.length) {
     let maxWidth = 0;
@@ -108,9 +115,7 @@ function layoutLeftRightStartOrMiddleItems(
     let singleLineItems: ILayoutItem[] = [];
     const maxWidths: number[] = [];
     items.forEach(item => {
-      const layoutRect = layout.getItemComputeLayoutRect(item);
-      const rect = item.computeBoundsInRect(layoutRect);
-      item.setLayoutRect(rect);
+      const { rect } = getItemLayoutWithTag(item, layout, recompute);
       const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
       const itemOffsetX = isRight ? -rect.width - item.layoutPaddingRight : item.layoutPaddingLeft;
@@ -154,7 +159,13 @@ function layoutLeftRightStartOrMiddleItems(
   }
 }
 
-function layoutLeftRightEndItems(items: ILayoutItem[], layout: Layout, limitWidth: number, position: 'left' | 'right') {
+function layoutLeftRightEndItems(
+  items: ILayoutItem[],
+  layout: Layout,
+  limitWidth: number,
+  position: 'left' | 'right',
+  recompute: IRecompute
+) {
   if (items.length) {
     let maxWidth = 0;
     const isRight = position === 'right';
@@ -166,9 +177,7 @@ function layoutLeftRightEndItems(items: ILayoutItem[], layout: Layout, limitWidt
     let singleLineItems: ILayoutItem[] = [];
     const maxWidths: number[] = [];
     items.forEach(item => {
-      const layoutRect = layout.getItemComputeLayoutRect(item);
-      const rect = item.computeBoundsInRect(layoutRect);
-      item.setLayoutRect(rect);
+      const { rect } = getItemLayoutWithTag(item, layout, recompute);
       const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
       const itemOffsetX = isRight ? -rect.width - item.layoutPaddingRight : item.layoutPaddingLeft;
@@ -213,7 +222,8 @@ function layoutTopBottomStartOrMiddleItems(
   layout: Layout,
   limitWidth: number,
   isMiddle: boolean,
-  position: 'top' | 'bottom'
+  position: 'top' | 'bottom',
+  recompute: IRecompute
 ) {
   if (items.length) {
     const isTop = position === 'top';
@@ -226,9 +236,7 @@ function layoutTopBottomStartOrMiddleItems(
     const maxHeights: number[] = [];
 
     items.forEach(item => {
-      const layoutRect = layout.getItemComputeLayoutRect(item);
-      const rect = item.computeBoundsInRect(layoutRect);
-      item.setLayoutRect(rect);
+      const { rect } = getItemLayoutWithTag(item, layout, recompute);
       const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
       const itemOffsetY = isTop ? item.layoutPaddingTop : -rect.height - item.layoutPaddingBottom;
@@ -271,7 +279,13 @@ function layoutTopBottomStartOrMiddleItems(
   }
 }
 
-function layoutTopBottomEndItems(items: ILayoutItem[], layout: Layout, limitWidth: number, position: 'top' | 'bottom') {
+function layoutTopBottomEndItems(
+  items: ILayoutItem[],
+  layout: Layout,
+  limitWidth: number,
+  position: 'top' | 'bottom',
+  recompute: IRecompute
+) {
   if (items.length) {
     const isTop = position === 'top';
     const ySign = isTop ? 1 : -1;
@@ -284,9 +298,7 @@ function layoutTopBottomEndItems(items: ILayoutItem[], layout: Layout, limitWidt
     const maxHeights: number[] = [];
 
     items.forEach(item => {
-      const layoutRect = layout.getItemComputeLayoutRect(item);
-      const rect = item.computeBoundsInRect(layoutRect);
-      item.setLayoutRect(rect);
+      const { layoutTag, layoutRect, rect } = getItemLayoutWithTag(item, layout, recompute);
       const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
       const itemOffsetY = isTop ? item.layoutPaddingTop : -rect.height - item.layoutPaddingBottom;
@@ -325,65 +337,130 @@ function layoutTopBottomEndItems(items: ILayoutItem[], layout: Layout, limitWidt
   }
 }
 
-export function layoutLeftInlineItems(items: ILayoutItem[], layout: Layout, limitHeight: number) {
+export function layoutLeftInlineItems(
+  items: ILayoutItem[],
+  layout: Layout,
+  limitHeight: number,
+  recompute: IRecompute
+) {
   const { startItems, middleItems, endItems } = getPositionItems(items);
   if (startItems.length) {
-    layoutLeftRightStartOrMiddleItems(startItems, layout, limitHeight, false, 'left');
+    layoutLeftRightStartOrMiddleItems(startItems, layout, limitHeight, false, 'left', recompute);
   }
 
   if (middleItems.length) {
-    layoutLeftRightStartOrMiddleItems(middleItems, layout, limitHeight, true, 'left');
+    layoutLeftRightStartOrMiddleItems(middleItems, layout, limitHeight, true, 'left', recompute);
   }
 
   if (endItems.length) {
-    layoutLeftRightEndItems(endItems, layout, limitHeight, 'left');
+    layoutLeftRightEndItems(endItems, layout, limitHeight, 'left', recompute);
   }
 }
 
-export function layoutRightInlineItems(items: ILayoutItem[], layout: Layout, limitHeight: number) {
+export function layoutRightInlineItems(
+  items: ILayoutItem[],
+  layout: Layout,
+  limitHeight: number,
+  recompute: IRecompute
+) {
   const { startItems, middleItems, endItems } = getPositionItems(items);
 
   if (startItems.length) {
-    layoutLeftRightStartOrMiddleItems(startItems, layout, limitHeight, false, 'right');
+    layoutLeftRightStartOrMiddleItems(startItems, layout, limitHeight, false, 'right', recompute);
   }
 
   if (middleItems.length) {
-    layoutLeftRightStartOrMiddleItems(middleItems, layout, limitHeight, true, 'right');
+    layoutLeftRightStartOrMiddleItems(middleItems, layout, limitHeight, true, 'right', recompute);
   }
 
   if (endItems.length) {
-    layoutLeftRightEndItems(endItems, layout, limitHeight, 'right');
+    layoutLeftRightEndItems(endItems, layout, limitHeight, 'right', recompute);
   }
 }
 
-export function layoutTopInlineItems(items: ILayoutItem[], layout: Layout, limitWidth: number) {
+export function layoutTopInlineItems(items: ILayoutItem[], layout: Layout, limitWidth: number, recompute: IRecompute) {
   const { startItems, middleItems, endItems } = getPositionItems(items);
 
   if (startItems.length) {
-    layoutTopBottomStartOrMiddleItems(startItems, layout, limitWidth, false, 'top');
+    layoutTopBottomStartOrMiddleItems(startItems, layout, limitWidth, false, 'top', recompute);
   }
 
   if (middleItems.length) {
-    layoutTopBottomStartOrMiddleItems(middleItems, layout, limitWidth, true, 'top');
+    layoutTopBottomStartOrMiddleItems(middleItems, layout, limitWidth, true, 'top', recompute);
   }
 
   if (endItems.length) {
-    layoutTopBottomEndItems(endItems, layout, limitWidth, 'top');
+    layoutTopBottomEndItems(endItems, layout, limitWidth, 'top', recompute);
   }
 }
 
-export function layoutBottomInlineItems(items: ILayoutItem[], layout: Layout, limitWidth: number) {
+export function layoutBottomInlineItems(
+  items: ILayoutItem[],
+  layout: Layout,
+  limitWidth: number,
+  recompute: IRecompute
+) {
   const { startItems, middleItems, endItems } = getPositionItems(items);
 
   if (startItems.length) {
-    layoutTopBottomStartOrMiddleItems(startItems, layout, limitWidth, false, 'bottom');
+    layoutTopBottomStartOrMiddleItems(startItems, layout, limitWidth, false, 'bottom', recompute);
   }
 
   if (middleItems.length) {
-    layoutTopBottomStartOrMiddleItems(middleItems, layout, limitWidth, true, 'bottom');
+    layoutTopBottomStartOrMiddleItems(middleItems, layout, limitWidth, true, 'bottom', recompute);
   }
 
   if (endItems.length) {
-    layoutTopBottomEndItems(endItems, layout, limitWidth, 'bottom');
+    layoutTopBottomEndItems(endItems, layout, limitWidth, 'bottom', recompute);
   }
+}
+
+export function getItemLayoutWithTag(
+  item: ILayoutItem,
+  layout: Layout,
+  recompute: IRecompute,
+  setRectToItem: boolean = true
+) {
+  let layoutRect;
+  let rect;
+  // 如果当前 item 自身不需要布局，同时当前的高度没有变化，那么直接复用上次的布局结果
+  // 这里认为左右两侧布局的元素，如果提供给他的布局高度不变，那么 rect 理论上也不会变化，可以直接复用上次的布局结果
+  let checkTagKey: keyof IRecompute = 'recomputeHeight';
+  let setTagKey: keyof IRecompute = 'recomputeWidth';
+  let rectKey: keyof ILayoutRect = 'width';
+  if (item.layoutOrient === 'top' || item.layoutOrient === 'bottom') {
+    checkTagKey = 'recomputeWidth';
+    setTagKey = 'recomputeHeight';
+    rectKey = 'height';
+  }
+  let layoutTag = !(!item.willLayoutTag && recompute[checkTagKey] === false);
+  if (layoutTag) {
+    const lastRect = { ...item.getLayoutRect() };
+    const lastLayoutRect = item.lastComputeRect;
+    layoutRect = layout.getItemComputeLayoutRect(item);
+    // 再次判定，如果当前 item 自身不需要布局，同时当前的布局空间没变化
+    if (!item.willLayoutTag && isEqual(layoutRect, lastLayoutRect)) {
+      layoutTag = false;
+      rect = item.getLayoutRect();
+    } else {
+      rect = item.computeBoundsInRect(layoutRect);
+      // 如果当前布局了，但是结果没变化，那么也不需要重新布局
+      // 注意左右2侧只考虑的宽度变化, 上下2侧只考虑的高度变化
+      if (isEqual(lastRect[rectKey], rect[rectKey])) {
+        layoutTag = false;
+      } else {
+        setRectToItem && item.setLayoutRect(rect);
+        recompute[setTagKey] = true;
+      }
+    }
+  } else {
+    layoutRect = item.getLastComputeOutBounds();
+    rect = item.getLayoutRect();
+  }
+
+  return {
+    layoutRect,
+    rect,
+    layoutTag
+  };
 }

@@ -145,6 +145,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   private _bindLegendDataChange() {
     this._preSelectedData = this._selectedData.slice();
     this._initSelectedData();
+    this._forceLayout();
   }
 
   protected initData() {
@@ -157,7 +158,9 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       this._regions,
       s => {
         s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
-          this._legendData.getDataView().reRunAllTransform();
+          this._legendData.getDataView().reRunAllTransform({
+            skipEqual: true
+          });
         });
       },
       {

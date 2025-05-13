@@ -56,6 +56,7 @@ import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';
 import type { IComponentMark } from '../../mark/interface/mark';
 import type { ICompilableMark } from '../../compile/mark';
+import type { ICompilableData } from './../../compile/data/interface';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -238,11 +239,19 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return this.getVisible() || this._spec.forceInitTick;
   }
 
+  protected _onTickDataChange = (tickData: ICompilableData) => {
+    this._forceLayout();
+    tickData.updateData();
+  };
+
   // data
   protected _initData() {
     const tickData = this._initTickDataSet(this._tickTransformOption());
-    tickData.target.addListener('change', this._forceLayout.bind(this));
-    this._tickData = [new CompilableData(this._option, tickData)];
+    const tickDataCompile = new CompilableData(this._option, tickData);
+    this._tickData = [tickDataCompile];
+    tickData.target.addListener('change', () => {
+      this._onTickDataChange(tickDataCompile);
+    });
   }
 
   protected collectData(depth: number, rawData?: boolean) {
@@ -402,8 +411,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))
     ) {
       this._tickData.forEach(tickData => {
-        tickData.getDataView().reRunAllTransform();
-        tickData.updateData();
+        tickData.getDataView().reRunAllTransform({
+          skipEqual: true
+        });
       });
     }
   }
