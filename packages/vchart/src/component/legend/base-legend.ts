@@ -304,8 +304,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     }
     // 更新数据流
     this.effect.onSelectedDataChange?.();
-    // 需要重新布局
-    this.getChart()?.setLayoutTag(true, null, false);
     this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
   }
 

@@ -84,6 +84,7 @@ export interface IChart extends ICompilable {
   layout: () => void;
   getLayoutTag: () => boolean;
   setLayoutTag: (tag: boolean, morphConfig?: IMorphConfig, renderNextTick?: boolean) => boolean;
+  resetLayoutItemTag: () => void;
 
   // 使用parse前的原始数据结构更新数据
   updateData: (id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions) => void;
