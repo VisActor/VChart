@@ -147,6 +147,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     return this._layoutTag;
   }
 
+  resetLayoutItemTag() {
+    this.getLayoutElements().forEach(element => element.setWillLayoutTag());
+  }
+
   // 模块参数
   protected _modelOption: IModelOption;
 
@@ -322,12 +326,14 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     };
     this._canvasRect = canvasRect;
     this._updateLayoutRect(this._option.viewBox);
+    this.resetLayoutItemTag();
     this.setLayoutTag(true, null, reRender);
   }
 
   updateViewBox(viewBox: IBoundsLike, reLayout: boolean) {
     this._option.viewBox = viewBox;
     this._updateLayoutRect(viewBox);
+    this.resetLayoutItemTag();
     this.setLayoutTag(true, null, reLayout);
   }
 
@@ -1040,6 +1046,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this.updateChartConfig({ change: true, reMake: false }, this._spec);
 
     // 需要重新布局
+    this.resetLayoutItemTag();
     this.setLayoutTag(true, null, false);
 
     // 设置色板，只设置 colorScale 的 range
@@ -1405,7 +1412,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         if (isUnableValue) {
           (<any>tooltip).hideTooltip?.();
         } else {
-          const dataFilter = {};
+          const dataFilter: { [key: string]: any } = {};
           dimensionInfo.forEach((d: IDimensionInfo) => {
             const { axis, value, data } = d;
             const isY = axis.getOrient() === 'left' || axis.getOrient() === 'right';
