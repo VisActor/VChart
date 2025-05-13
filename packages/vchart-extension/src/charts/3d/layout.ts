@@ -8,8 +8,12 @@ export class Layout3d extends Layout implements IBaseLayout {
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
     // 布局初始化
     this._layoutInit(_chart, items, chartLayoutRect, chartViewBox);
+    const recompute = {
+      recomputeWidth: this.recomputeWidth,
+      recomputeHeight: this.recomputeHeight
+    };
     // 先布局 normal 类型的元素
-    this._layoutNormalItems(items);
+    this._layoutNormalItems(items, recompute);
 
     // 开始布局 region 相关元素
     // 为了锁紧先保存一下当前的布局空间
@@ -40,10 +44,18 @@ export class Layout3d extends Layout implements IBaseLayout {
     // 有元素开启了自动缩进
     // TODO:目前只有普通占位布局下的 region-relative 元素支持
     // 主要考虑常规元素超出画布一般为用户个性设置，而且可以设置padding规避裁剪,不需要使用自动缩进
-    this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems);
+    this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems, recompute);
 
     // 缩进
-    this._processAutoIndent(regionItems, relativeItems, relativeOverlapItems, overlapItems, allRelatives, layoutTemp);
+    this._processAutoIndent(
+      regionItems,
+      relativeItems,
+      relativeOverlapItems,
+      overlapItems,
+      allRelatives,
+      layoutTemp,
+      recompute
+    );
 
     // z轴以外的绝对定位
     const absoluteItemExceptZAxis = absoluteItem.filter(i => i.layoutOrient !== 'z');
