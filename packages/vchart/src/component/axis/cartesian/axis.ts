@@ -18,7 +18,7 @@ import {
   minInArr,
   clamp
 } from '../../../util';
-import type { IOrientType, IRect } from '../../../typings/space';
+import type { IOrientType, IPadding, IRect } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
 import type { IBaseScale } from '@visactor/vscale';
@@ -594,6 +594,18 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     result.height = Math.ceil(result.height);
     return this._layout.setRectInSpec(this._layoutCacheProcessing(result));
   };
+
+  _transformLayoutPadding = (padding: IPadding) => {
+    if (this.layoutOrient === 'left' || this.layoutOrient === 'right') {
+      padding.top = 0;
+      padding.bottom = 0;
+    } else if (this.layoutOrient === 'top' || this.layoutOrient === 'bottom') {
+      padding.left = 0;
+      padding.right = 0;
+    }
+    return padding;
+  };
+
   /**
    * bounds 预计算
    * @param rect
