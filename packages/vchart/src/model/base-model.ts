@@ -175,6 +175,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   updateSpec(spec: T) {
     const result = this._compareSpec(spec, this._spec);
+    // 如果发现需要改变
+    if (result.reRender || result.reMake || result.reCompile) {
+      this._layout?.setWillLayoutTag();
+    }
     this._spec = spec;
 
     return result;
