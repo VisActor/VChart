@@ -136,9 +136,7 @@ export interface ITooltipTheme<ColorType = string> {
   align?: 'left' | 'right';
   /**
    * tooltip触发方式
-   * hover: 鼠标悬停时显示
-   * click: 点击时显示
-   * none: 不显示
+   * （*会影响自定义handler）
    */
   trigger?:
     | MaybeArray<'hover' | 'click' | { eventType: EventType; source?: EventSourceType; consume?: boolean }>
