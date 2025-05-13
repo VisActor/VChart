@@ -104,8 +104,8 @@ export const getCartesianCrosshairTheme = (chartTheme: ITheme, chartSpec: any): 
 
 export const getPolarCrosshairTheme = (chartTheme: ITheme, chartSpec: any): ICrosshairTheme => {
   const axes: IPolarAxisCommonSpec[] = array(chartSpec.axes ?? []);
-  const crosshairTheme = getComponentThemeFromOption(ComponentTypeEnum.crosshair, chartTheme) ?? {};
-  const { bandField, linearField, categoryField, valueField, trigger, triggerOff } = crosshairTheme;
+  const { bandField, linearField, categoryField, valueField, trigger, triggerOff } =
+    getComponentThemeFromOption(ComponentTypeEnum.crosshair, chartTheme) ?? {};
 
   const angleAxis = axes.find(axis => axis.orient === 'angle');
   let newAngleField;
