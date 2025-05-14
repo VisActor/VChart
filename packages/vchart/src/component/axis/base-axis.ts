@@ -239,9 +239,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return this.getVisible() || this._spec.forceInitTick;
   }
 
-  protected _onTickDataChange = (tickData: ICompilableData) => {
+  protected _onTickDataChange = (tickData?: ICompilableData) => {
     this._forceLayout();
-    tickData.updateData();
+    tickData?.updateData();
   };
 
   // data
