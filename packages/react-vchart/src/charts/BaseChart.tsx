@@ -47,7 +47,7 @@ export interface BaseChartProps
     ChartLifeCycleEventProps,
     IReactTooltipProps {
   vchartConstructor?: IVChartConstructor;
-  /** @deprecated 请使用 vchartConstructor */
+  /**  @deprecated 请使用 vchartConstructor  */
   vchartConstrouctor?: IVChartConstructor;
   type?: string;
   /** 上层container */

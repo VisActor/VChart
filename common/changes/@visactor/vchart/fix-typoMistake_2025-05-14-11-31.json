@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix:Replace all the vchartConstrouctor to vchartConstructor,and ensure backward compatibility with older versions.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
