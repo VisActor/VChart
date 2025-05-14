@@ -219,26 +219,26 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (reverse) {
       switch (tag) {
         case 'startHandler':
-          axisScale.rangeFactorEnd(newRangeFactor[1]);
+          axis.scaleRangeFactorEnd(newRangeFactor[1]);
           break;
         case 'endHandler':
-          axisScale.rangeFactorStart(newRangeFactor[0]);
+          axis.scaleRangeFactorStart(newRangeFactor[0]);
           break;
         default:
-          axisScale.rangeFactorStart(newRangeFactor[0], true);
-          axisScale.rangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
+          axis.scaleRangeFactorStart(newRangeFactor[0], true);
+          axis.scaleRangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
       }
     } else {
       switch (tag) {
         case 'startHandler':
-          axisScale.rangeFactorStart(newRangeFactor[0]);
+          axis.scaleRangeFactorStart(newRangeFactor[0]);
           break;
         case 'endHandler':
-          axisScale.rangeFactorEnd(newRangeFactor[1]);
+          axis.scaleRangeFactorEnd(newRangeFactor[1]);
           break;
         default:
-          axisScale.rangeFactorEnd(newRangeFactor[1], true);
-          axisScale.rangeFactorStart(newRangeFactor[0]); // start 保证为准确值
+          axis.scaleRangeFactorEnd(newRangeFactor[1], true);
+          axis.scaleRangeFactorStart(newRangeFactor[0]); // start 保证为准确值
       }
     }
 

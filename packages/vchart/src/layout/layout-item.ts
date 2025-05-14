@@ -70,6 +70,9 @@ export class LayoutItem implements ILayoutItem {
   }
   /** for layout diff */
   protected _lastComputeRect: ILayoutRect = null;
+  get lastComputeRect() {
+    return this._lastComputeRect;
+  }
   protected _lastComputeOutBounds: IBoundsLike = { x1: 0, x2: 0, y1: 0, y2: 0 };
   getLastComputeOutBounds(): IBoundsLike {
     return this._lastComputeOutBounds;
@@ -116,6 +119,11 @@ export class LayoutItem implements ILayoutItem {
 
   protected _option: ILayoutItemInitOption;
 
+  protected _willLayoutTag: boolean = true;
+  get willLayoutTag() {
+    return this._willLayoutTag;
+  }
+
   constructor(model: ILayoutModel, option: ILayoutItemInitOption) {
     this._model = model;
     this._option = option;
@@ -133,8 +141,12 @@ export class LayoutItem implements ILayoutItem {
     }
     if ((this._spec as unknown as any).visible !== false) {
       // 处理 user spec value to px;
+      // 先计算出 padding
       const padding = normalizeLayoutPaddingSpec(spec.padding);
-      const paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
+      let paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
+      if (this._option.transformLayoutPadding) {
+        paddingValue = this._option.transformLayoutPadding(paddingValue);
+      }
       this.layoutPaddingLeft = paddingValue.left;
       this.layoutPaddingRight = paddingValue.right;
       this.layoutPaddingTop = paddingValue.top;
@@ -403,5 +415,13 @@ export class LayoutItem implements ILayoutItem {
 
   getModelVisible() {
     return this._model.getVisible();
+  }
+
+  setWillLayoutTag() {
+    this._willLayoutTag = true;
+  }
+
+  clearWillLayoutTag() {
+    this._willLayoutTag = false;
   }
 }

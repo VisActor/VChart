@@ -159,7 +159,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             const labelMark = this._createMark(
               {
                 type: MarkTypeEnum.label,
-                name: `${markName}-label-${index}`
+                name: `${series.userId ?? series.id}-${markName}-label-${index}`
               },
               { attributeContext: series.getMarkAttributeContext() }
             ) as ILabelMark;
@@ -324,6 +324,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     labelInfos: ILabelInfo[]
   ) {
     const totalLabels = this._option.getComponentsByType('totalLabel');
+
+    // label组件比较特殊，不清楚老的节点会存在属性覆盖的问题
+    labelComponent.clearComponent();
 
     labelComponent.setMarkConfig({
       interactive: false
