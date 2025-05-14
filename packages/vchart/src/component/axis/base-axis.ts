@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-duplicate-imports
 import type { ITickDataOpt, AxisItem } from '@visactor/vrender-components';
-import type { IBaseScale } from '@visactor/vscale';
+import type { IBandLikeScale, IBaseScale, IContinuousScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { IGraphic } from '@visactor/vrender-core';
@@ -734,6 +734,21 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     if (this._axisMark) {
       return (this._axisMark.getComponent() as any)?.attribute.items;
     }
+  }
+
+  scaleRangeFactor(_?: [number, number], slience?: boolean, clear?: boolean) {
+    this._onTickDataChange(this.getTickData());
+    return (this.getScale() as IContinuousScale | IBandLikeScale).rangeFactor(_, slience, clear);
+  }
+
+  scaleRangeFactorEnd(_?: number, slience?: boolean, clear?: boolean) {
+    this._onTickDataChange(this.getTickData());
+    return (this.getScale() as IContinuousScale | IBandLikeScale).rangeFactorEnd(_, slience);
+  }
+
+  scaleRangeFactorStart(_?: number, slience?: boolean, clear?: boolean) {
+    this._onTickDataChange(this.getTickData());
+    return (this.getScale() as IContinuousScale | IBandLikeScale).rangeFactorStart(_, slience);
   }
 }
 

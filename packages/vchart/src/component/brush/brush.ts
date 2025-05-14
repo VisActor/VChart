@@ -688,7 +688,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           });
         } else {
           const range = axis.getScale().range();
-          const rangeFactor = (axis.getScale() as IContinuousScale | IBandLikeScale).rangeFactor() ?? [0, 1];
+          const rangeFactor = axis.scaleRangeFactor() ?? [0, 1];
 
           // 判断轴是否为反向轴（last(range) < range[0])，即从右到左, 或从下到上
           // 如果是反向轴, 计算start和end时, 也要保持 start < end
@@ -704,7 +704,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
             ((endPos - range[0]) / (last(range) - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
           const newStart = this._stateClamp(start - axisRangeExpand);
           const newEnd = this._stateClamp(end + axisRangeExpand);
-          (axis.getScale() as ILinearScale).rangeFactor([newStart, newEnd]);
+          axis.scaleRangeFactor([newStart, newEnd]);
           axis.effect.scaleUpdate();
 
           this._zoomRecord.push({
