@@ -269,7 +269,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this.compileData();
     this.compileState();
     this.compileEncode();
-    // todo this.compileAnimation();
     // this.compileContext(option?.context);
     // this.compileTransform();
   }
@@ -299,7 +298,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     // 为了从graphic上能索引到mark
     this._product.mark = this;
 
-    // todo
     (group ?? this.getCompiler()?.getRootGroup()).appendChild(this._product);
 
     // if (this.name && this._product) {
