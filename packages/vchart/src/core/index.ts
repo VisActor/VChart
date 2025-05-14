@@ -45,5 +45,7 @@ export {
   createArea,
   createRect,
   createLine,
-  createSymbol
+  createSymbol,
+  ManualTicker,
+  StreamLight
 } from '@visactor/vrender-core';
