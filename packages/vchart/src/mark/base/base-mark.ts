@@ -1482,7 +1482,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   protected _runEncoder(graphics: IMarkGraphic[], noGroupEncode?: boolean) {
     const attrsByGroup = noGroupEncode ? null : this._runGroupEncoder(this._encoderOfState?.group);
 
-    const hasAnimation = this.hasAnimation();
     graphics.forEach((g, index) => {
       const attrs = this._runEncoderOfGraphic(this._encoderOfState?.update, g);
 
@@ -1491,6 +1490,15 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         attrs.pickable = this._markConfig.interactive;
       }
       const finalAttrs = this._transformGraphicAttributes(g, attrs, attrsByGroup?.[g.context.groupKey]);
+
+      g.context.finalAttrs = finalAttrs;
+    });
+  }
+
+  protected _runApplyGraphic(graphics: IMarkGraphic[]) {
+    const hasAnimation = this.hasAnimation();
+    graphics.forEach((g, index) => {
+      const finalAttrs = g.context.finalAttrs;
 
       const hasStateAnimation = this.hasAnimationByState(g.context.animationState);
       // 新创建的graphic
@@ -1633,11 +1641,24 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   }
 
-  protected runBeforeTransform(data: Datum[]) {
+  protected _runBeforeTransform(data: Datum[]) {
     const transforms = this._transform?.filter(transformSpec => {
       if (transformSpec.type) {
         const transform = Factory.getGrammarTransform(transformSpec.type);
-        return !transform?.isGraphic;
+        return transform && (!transform.runType || transform.runType === 'beforeJoin');
+      }
+
+      return false;
+    });
+
+    return this.runTransforms(transforms, data);
+  }
+
+  protected _runEncoderTransform(data: Datum[], isProgressive: boolean) {
+    const transforms = this._transform?.filter(transformSpec => {
+      if (transformSpec.type) {
+        const transform = Factory.getGrammarTransform(transformSpec.type);
+        return transform && transform.runType === 'afterEncode' && !!transform.canProgressive === isProgressive;
       }
 
       return false;
@@ -1656,7 +1677,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
     const data = this._data?.getProduct() ?? [{}];
 
-    const transformData = this.runBeforeTransform(data);
+    const transformData = this._runBeforeTransform(data);
     let markData: Datum[];
 
     if ((transformData as any)?.progressive) {
@@ -1682,17 +1703,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       this._runJoin(markData);
       this._runState(this._graphics);
       this._runEncoder(this._graphics);
-      this.runTransforms(
-        this._transform?.filter(transformSpec => {
-          if (transformSpec.type) {
-            const transform = Factory.getGrammarTransform(transformSpec.type);
-            return transform?.isGraphic;
-          }
-
-          return false;
-        }),
-        this._graphics
-      );
+      this._runEncoderTransform(this._graphics, false);
+      this._runApplyGraphic(this._graphics);
       // this._runStateAnimation(this._graphics);
     }
 
@@ -1821,6 +1833,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       this._runJoin(output);
       this._runState(this._graphics);
       this._runEncoder(this._graphics);
+      this._runApplyGraphic(this._graphics);
     }
   }
 
@@ -1892,10 +1905,19 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
     if (progressiveIndex === 0) {
       this._runEncoder(graphics);
-
-      this._setCommonAttributesToTheme(this._graphics[0]);
     } else {
       this._runEncoder(graphics, true);
+    }
+  }
+
+  protected _runProgressiveApplyGraphic(graphics: IMarkGraphic[]) {
+    const progressiveIndex = this.renderContext.progressive.currentIndex;
+
+    if (progressiveIndex === 0) {
+      this._runApplyGraphic(graphics);
+      this._setCommonAttributesToTheme(graphics[0]);
+    } else {
+      this._runApplyGraphic(graphics);
     }
   }
 
@@ -1915,18 +1937,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     Object.keys(graphicsByGroup).forEach(groupKey => {
       this._runProgressiveEncoder(graphicsByGroup[groupKey]);
     });
+    this._runEncoderTransform(this._graphics, true);
 
-    this.runTransforms(
-      this._transform?.filter(transformSpec => {
-        if (transformSpec.type) {
-          const transform = Factory.getGrammarTransform(transformSpec.type);
-          return transform?.isGraphic && transform.canProgressive === true;
-        }
-
-        return false;
-      }),
-      this._graphics
-    );
+    Object.keys(graphicsByGroup).forEach(groupKey => {
+      this._runProgressiveApplyGraphic(graphicsByGroup[groupKey]);
+    });
 
     this.renderContext.progressive.currentIndex += 1;
   }
