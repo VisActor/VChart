@@ -325,6 +325,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
   ) {
     const totalLabels = this._option.getComponentsByType('totalLabel');
 
+    // label组件比较特殊，不清楚老的节点会存在属性覆盖的问题
+    labelComponent.clearComponent();
+
     labelComponent.setMarkConfig({
       interactive: false
     });

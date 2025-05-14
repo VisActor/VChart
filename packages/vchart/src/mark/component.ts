@@ -32,6 +32,15 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
   getComponent() {
     return this._component;
   }
+  clearComponent() {
+    if (this._component) {
+      if (this._component.parent) {
+        this._component.parent.removeChild(this._component);
+      }
+
+      this._component = null;
+    }
+  }
 
   protected _getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}) {
     const configAttrs = super._getAttrsFromConfig(attrs);
