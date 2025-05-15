@@ -393,14 +393,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
 
     const curBarWidth = x1 - x;
-    if (this._spec.barMinWidth) {
-      const barMinWidth = getActualNumValue(this._spec.barMinWidth, realBarWidth);
-      if (curBarWidth < barMinWidth) {
-        const widthDiff = barMinWidth - curBarWidth;
-        const halfWidthDiff = widthDiff / 2;
-        x -= halfWidthDiff;
-        x1 += halfWidthDiff;
-      }
+    const barMinWidth = getActualNumValue(this._spec.barMinWidth || 1, realBarWidth);
+    if (curBarWidth < barMinWidth) {
+      const widthDiff = barMinWidth - curBarWidth;
+      const halfWidthDiff = widthDiff / 2;
+      x -= halfWidthDiff;
+      x1 += halfWidthDiff;
     }
 
     return [x, x1];
