@@ -83,7 +83,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   private _cacheInfo: TooltipInfo | undefined;
   private _cacheParams: BaseEventParams | undefined;
   private _cacheActiveType: TooltipActiveType | undefined;
-  private _cacheEnterableRect: { x: number; y: number; width: number; height: number };
+  private _cacheEnterableRect: { width: number; height: number };
 
   private _eventList: EventHandlerList = [];
 
@@ -195,7 +195,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
         const rect = container.getBoundingClientRect?.();
         if (rect) {
-          this._cacheEnterableRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+          this._cacheEnterableRect = { width: rect.width, height: rect.height };
         }
         if (this._outTimer) {
           clearTimeout(this._outTimer);
@@ -217,6 +217,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         if (this._cacheEnterableRect) {
           const newRect = container.getBoundingClientRect?.();
 
+          /**
+           * 这里需要比对width，height，是防止用户在进入到tooltip 的时候做了一些操作，
+           * 导致tooltip的尺寸发生变更，这种情况一般不需要隐藏tooltip
+           */
           if (
             newRect &&
             Object.keys(this._cacheEnterableRect).every(
@@ -603,6 +607,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     if (!this.tooltipHandler?.showTooltip) {
       return false;
     }
+
     const result = showTooltip(datum, options, this);
     if (result !== 'none') {
       this._alwaysShow = !!options?.alwaysShow;
@@ -615,6 +620,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     if (this._isReleased) {
       return false;
     }
+
     const params: TooltipHandlerParams = {
       changePositionOnly: false,
       tooltip: this,
