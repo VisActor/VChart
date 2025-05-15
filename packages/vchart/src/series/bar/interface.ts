@@ -119,6 +119,11 @@ export interface IBarSeriesSpec
    * 圆角支持回调配置 @since 1.12.4
    */
   stackCornerRadius?: number | number[] | IStackCornerRadiusCallback;
+
+  /**
+   * 柱条间 padding 值
+   */
+  barPadding?: number;
 }
 
 export interface IBarBackgroundSpec {
