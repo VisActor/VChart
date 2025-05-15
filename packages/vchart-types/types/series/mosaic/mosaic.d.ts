@@ -7,6 +7,8 @@ export declare class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpe
     protected _spec: T;
     static readonly transformerConstructor: any;
     readonly transformerConstructor: any;
+    private _bandWidthField?;
+    get bandWidthField(): string;
     getStack(): boolean;
     getPercent(): boolean;
     getGroupFields(): string[];

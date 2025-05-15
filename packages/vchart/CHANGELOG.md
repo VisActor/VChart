@@ -1,6 +1,28 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 21 Apr 2025 08:22:38 GMT and should not be manually modified.
+This log was last generated on Thu, 15 May 2025 12:13:18 GMT and should not be manually modified.
+
+## 1.13.10
+Thu, 15 May 2025 12:13:18 GMT
+
+### Updates
+
+- feat: tooltip support inside position
+
+
+- feat: mosaic chart supports bandWidthField and percent config, closed #3945
+- fix: export ManualTicker & StreamLight
+
+
+- fix: tooltip should hide when enterable, fix #3965, fix #3922
+
+
+- fix: fix error of enterable tooltip when multiple charts in a page, fix #3940
+
+
+- fix: upgrade vgrammar to 0.16.7, fix #3965
+
+
 
 ## 1.13.9
 Mon, 21 Apr 2025 08:22:38 GMT
