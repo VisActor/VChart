@@ -1,10 +1,11 @@
-import { Datum } from '@visactor/vchart/src/typings';
+import type { Datum } from '@visactor/vchart/src/typings';
 import type { IRankingListSpec } from './interface';
+import type { IMarkGraphic } from '@visactor/vchart';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
 import { cloneDeep, TextMeasure } from '@visactor/vutils';
 import { defaultSpec } from './constant';
 import { applyVisible, computeDataRange, mergeObjects } from './utils';
-import { IElement } from '@visactor/vgammar-core';
+import { IGradientColor } from '@visactor/vrender-core';
 
 const DATA_KEY = 'dataKey';
 const ORDER_KEY = 'VCHART_ORDER';
@@ -376,9 +377,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
               this.nameLabelTextMeasure.fullMeasure(this.formatDatum(spec.yField, datum)).width +
               NAME_ORDER_PADDING_RIGHT
             );
-          } else {
-            return spec.rankingIcon.style.visible ? NAME_SYMBOL_PADDING_RIGHT + (spec.rankingIcon.style.size ?? 10) : 0;
           }
+          return spec.rankingIcon.style.visible ? NAME_SYMBOL_PADDING_RIGHT + (spec.rankingIcon.style.size ?? 10) : 0;
         },
         y: (datum: Datum, ctx: any) => {
           if (spec.labelLayout === 'bothEnd') {
@@ -420,9 +420,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
               // this.getMaxDataLabelLens(spec, spec.xField, this.valueLabelTextMeasure) +
               VALUE_LABEL_PADDING_LEFT
             );
-          } else {
-            return ctx.getRegion().getLayoutRect().width;
           }
+          return ctx.getRegion().getLayoutRect().width;
         },
         y: (datum: Datum, ctx: any) => {
           if (spec.labelLayout === 'bothEnd') {
@@ -511,7 +510,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
     this.orderCount = orderCount;
     const supplyCount = spec.pageSize - pagerData[`page${orderCount}`].length;
     pagerData[`page${orderCount}`].push(
-      ...Array.from({ length: supplyCount }, _ => {
+      ...Array.from({ length: supplyCount }, (_: any) => {
         return {
           [spec.yField]: Math.random() * 100,
           [spec.xField]: null,
@@ -577,9 +576,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
   formatDatum(field: string, datum: Datum) {
     if (this.formatMap?.[field]) {
       return this.formatMap[field](datum[field], datum);
-    } else {
-      return datum[field];
     }
+    return datum[field];
   }
 
   getLabelWidth(padding: number, width: number) {
@@ -595,8 +593,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       options: {
         direction: 'y',
         orient: 'negative',
-        point: (datum: Datum, element: IElement) => {
-          const channelAttr = element.getGraphicAttribute('y');
+        point: (datum: Datum, graphic: IMarkGraphic) => {
+          const channelAttr = graphic.getGraphicAttribute('y');
           const barSpace = spec.height / (spec.pageSize + 1);
           return { y: channelAttr - barSpace * Math.min(spec.scrollSize, spec.pageSize) };
         }
@@ -616,8 +614,8 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
         direction: 'y',
         orient: 'negative',
         excludeChannels: ['y'],
-        point: (datum: Datum, element: IElement) => {
-          const channelAttr = element.getGraphicAttribute('y');
+        point: (datum: Datum, graphic: IMarkGraphic) => {
+          const channelAttr = graphic.getGraphicAttribute('y');
           return { y: channelAttr + (spec.height / (spec.pageSize + 1)) * Math.min(spec.scrollSize, spec.pageSize) };
         }
       },
@@ -643,26 +641,25 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
         channel: {
           x: {
             from: 0,
-            to: (datum: Datum, element: IElement) => {
-              return element.getGraphicItem().attribute.x;
+            to: (datum: Datum, graphic: IMarkGraphic) => {
+              return graphic.getGraphicAttribute('x');
             }
           }
         },
         duration: spec.animationAppear?.duration ?? 1000,
         easing: spec.animationAppear?.easing ?? 'linear'
       };
-    } else {
-      return {
-        channel: {
-          opacity: {
-            from: 0,
-            to: 1
-          }
-        },
-        duration: spec.animationAppear?.duration ?? 1000,
-        easing: spec.animationAppear?.easing ?? 'linear'
-      };
     }
+    return {
+      channel: {
+        opacity: {
+          from: 0,
+          to: 1
+        }
+      },
+      duration: spec.animationAppear?.duration ?? 1000,
+      easing: spec.animationAppear?.easing ?? 'linear'
+    };
   }
 
   getAnimationUpdate(spec: IRankingListSpec) {

@@ -208,7 +208,7 @@ export function getSeriesLabelConfig(
                       y: point.y + regionStartY
                     },
                     label: labelValue,
-                    color,
+                    color: color as string,
                     textAlign,
                     textBaseline,
                     series: s,

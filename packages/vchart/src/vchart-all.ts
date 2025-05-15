@@ -2,26 +2,21 @@ import { VChart } from './core';
 
 import { registerLineChart } from './chart/line';
 import { registerAreaChart } from './chart/area';
-import { registerBar3dChart, registerBarChart } from './chart/bar';
+import { registerBarChart } from './chart/bar';
 import { registerScatterChart } from './chart/scatter';
 import { registerMapChart } from './chart/map';
-import { registerPie3dChart, registerPieChart } from './chart/pie';
+import { registerPieChart } from './chart/pie';
 import { registerRoseChart } from './chart/rose';
 import { registerRadarChart } from './chart/radar';
 import { registerCommonChart } from './chart/common';
 import { registerSequenceChart } from './chart/sequence';
-import { registerHistogram3dChart, registerHistogramChart } from './chart/histogram';
+import { registerHistogramChart } from './chart/histogram';
 import { registerCircularProgressChart } from './chart/progress/circular';
 import { registerGaugeChart } from './chart/gauge';
-import {
-  registerWordCloudChart,
-  registerWordCloudShapeChart,
-  registerWordCloud3dChart,
-  registerWordCloudShape3dChart
-} from './chart/word-cloud';
-import { registerFunnel3dChart, registerFunnelChart } from './chart/funnel';
+import { registerWordCloudChart, registerWordCloudShapeChart } from './chart/word-cloud';
+import { registerFunnelChart } from './chart/funnel';
 import { registerLinearProgressChart } from './chart/progress/linear';
-import { registerRangeColumn3dChart, registerRangeColumnChart } from './chart/range-column';
+import { registerRangeColumnChart } from './chart/range-column';
 import { registerSunburstChart } from './chart/sunburst';
 import { registerCirclePackingChart } from './chart/circle-packing';
 import { registerTreemapChart } from './chart/treemap';
@@ -55,7 +50,6 @@ import { registerMarkPoint, registerPolarMarkPoint, registerGeoMarkPoint } from 
 import { registerBrush } from './component/brush';
 import { registerCustomMark } from './component/custom-mark';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
-import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
 import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin/components/tooltip-handler';
 import { registerFormatPlugin } from './plugin/chart/formatter';
@@ -104,15 +98,6 @@ VChart.useRegisters([
   // registerVennChart,
   registerCommonChart,
 
-  // 3d charts
-  registerBar3dChart,
-  registerPie3dChart,
-  registerHistogram3dChart,
-  registerFunnel3dChart,
-  registerRangeColumn3dChart,
-  registerWordCloud3dChart,
-  registerWordCloudShape3dChart,
-
   // components
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
@@ -152,7 +137,6 @@ VChart.useRegisters([
 
   // layout
   registerGridLayout,
-  registerLayout3d,
 
   // mark
   registerAllMarks,

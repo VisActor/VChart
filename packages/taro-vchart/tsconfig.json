@@ -18,5 +18,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "exclude": ["node_modules", "rollup.config.js"]
+  "exclude": ["node_modules", "rollup.config.js"],
+  "references": [
+    {
+      "path": "../vchart"
+    },
+    {
+      "path": "../vchart-extension"
+    }
+  ]
 }

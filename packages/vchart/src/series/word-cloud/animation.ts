@@ -1,18 +1,7 @@
-import { RotateBySphereAnimate } from '@visactor/vrender-animate';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { Factory } from '../../core/factory';
-import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams, WordcloudAppearPreset } from './interface';
+import type { IWordcloudAnimationParams, WordcloudAppearPreset } from './interface';
 import type { IAnimationTypeConfig } from '../../animation/interface';
-
-export const WordCloud3dAnimation = (params: IWordcloud3dAnimationParams | (() => any)): IAnimationTypeConfig => {
-  return {
-    custom: RotateBySphereAnimate,
-    customParameters: () => params,
-    easing: 'linear',
-    loop: Infinity,
-    duration: 6000
-  };
-};
 
 function computeWordDelay(duration: number, totalTime: number, wordCount: number) {
   if (duration * wordCount < totalTime) {
@@ -58,11 +47,5 @@ export const registerWordCloudAnimation = () => {
     enter: { type: 'fadeIn' },
     exit: { type: 'fadeOut' },
     disappear: { type: 'fadeOut' }
-  }));
-};
-
-export const registerWordCloud3dAnimation = () => {
-  Factory.registerAnimation('wordCloud3d', (params: IWordcloud3dAnimationParams) => ({
-    enter: WordCloud3dAnimation(params)
   }));
 };

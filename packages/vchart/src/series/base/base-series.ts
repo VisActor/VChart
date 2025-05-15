@@ -91,7 +91,6 @@ import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
-import { is3DMark } from '../../mark/utils/common';
 import type { GraphicEventType } from '@visactor/vrender-core';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
@@ -1316,8 +1315,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         largeThreshold: (spec as IMarkProgressiveConfig).largeThreshold,
         morph: config.morph ?? false,
         useSequentialAnimation: (spec as any).useSequentialAnimation,
-        support3d:
-          is3DMark(markInfo.type as MarkTypeEnum) || (config.support3d ?? (spec.support3d || !!(spec as any).zField)),
+        support3d: config.support3d ?? (spec.support3d || !!(spec as any).zField),
         morphKey: spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`,
         morphElementKey: spec.morph?.morphElementKey ?? config.morphElementKey
       };

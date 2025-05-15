@@ -1,4 +1,4 @@
-import type { ParsedArrow } from './conversion-funnel-transformer';
+import type { ParsedArrow } from './arrow-data-transform';
 
 export function isArrowCross(arrow1: ParsedArrow, arrow2: ParsedArrow) {
   const { from: from1, to: to1 } = arrow1;

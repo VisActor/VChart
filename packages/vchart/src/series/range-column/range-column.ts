@@ -31,8 +31,8 @@ export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有
 
 export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.rangeColumn;
-  type = SeriesTypeEnum.rangeColumn;
-  protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
+  type: string = SeriesTypeEnum.rangeColumn;
+  protected _barMarkType: string = MarkTypeEnum.rect;
   protected _barName: string = SeriesTypeEnum.bar;
 
   protected declare _spec: T;

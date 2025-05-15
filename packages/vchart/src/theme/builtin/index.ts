@@ -5,6 +5,7 @@ import { isString } from '@visactor/vutils';
 import { mergeTheme } from '../../util/theme/merge-theme';
 import type { ITheme } from '../interface';
 import { lightTheme } from './light';
+import { getFunnelTheme } from './common/series/funnel';
 // import { darkTheme } from './dark';
 // import { preprocessTheme } from '../../util/theme/preprocess';
 
@@ -73,3 +74,5 @@ export const getMergedTheme = (theme: Partial<ITheme>): ITheme => {
   const baseTheme = getTheme(baseThemeName);
   return mergeTheme({}, baseTheme, theme);
 };
+
+export { getFunnelTheme };

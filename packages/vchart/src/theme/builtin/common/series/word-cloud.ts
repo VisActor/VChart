@@ -1,6 +1,6 @@
-import type { IWordCloudSeriesTheme, IWordCloud3dSeriesTheme } from '../../../../series/word-cloud/interface';
+import type { IWordCloudSeriesTheme } from '../../../../series/word-cloud/interface';
 
-const getWordCloudTheme = (): IWordCloudSeriesTheme | IWordCloud3dSeriesTheme => {
+const getWordCloudTheme = (): IWordCloudSeriesTheme => {
   return {
     word: {
       padding: 1,
@@ -13,4 +13,3 @@ const getWordCloudTheme = (): IWordCloudSeriesTheme | IWordCloud3dSeriesTheme =>
 };
 
 export const wordCloud: IWordCloudSeriesTheme = getWordCloudTheme();
-export const wordCloud3d: IWordCloud3dSeriesTheme = getWordCloudTheme();

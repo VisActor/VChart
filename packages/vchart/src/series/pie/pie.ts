@@ -51,8 +51,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;
   readonly transformerConstructor = PieSeriesSpecTransformer;
 
-  protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie;
-  protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc;
+  protected _pieMarkName: string = SeriesMarkNameEnum.pie;
+  protected _pieMarkType: string = MarkTypeEnum.arc;
 
   static readonly mark: SeriesMarkMap = pieSeriesMark;
 
