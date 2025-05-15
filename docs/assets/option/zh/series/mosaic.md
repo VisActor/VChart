@@ -9,13 +9,22 @@
   noType = ${noType},
   noData = ${noData},
   noMorph = ${noMorph},
+    noStack = ${noStack},
+  percent = ${percent},
   useInChart = ${useInChart},
-  noStack = ${noStack},
   seriesType = 'mosaic',
   seriesMarks = ['bar'],
   preset = 'grow' + '|' + 'fadeIn' + '|' + 'scaleIn',
   defaultPreset = 'grow'
 ) }}
+
+#${prefix} bandWidthField(string)
+
+自 `1.13.10` 版本开始支持。
+
+- 柱子尺寸映射字段，如果不声明默认会根据相同维度下的总值占比进行映射
+  - 条形图方向时自动映射高度
+  - 竖形图方向时自动映射宽度
 
 #${prefix} bar(Object)
 

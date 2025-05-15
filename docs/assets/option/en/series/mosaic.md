@@ -9,13 +9,23 @@
   noType = ${noType},
   noData = ${noData},
   noMorph = ${noMorph},
-  useInChart = ${useInChart},
   noStack = ${noStack},
+  percent = ${percent},
+  useInChart = ${useInChart},
   seriesType = 'mosaic',
   seriesMarks = ['bar'],
   preset = 'grow' + '|' + 'fadeIn' + '|' + 'scaleIn',
   defaultPreset = 'grow'
 ) }}
+
+#${prefix} bandWidthField(string)
+
+Supported since version 1.13.10.
+
+Column size mapping field, if not declared, will be mapped according to the proportion of total value under the same dimension by default
+
+1. Automatic mapping height when bar chart direction
+2. Automatic mapping width when vertical diagram direction
 
 #${prefix} bar(Object)
 

@@ -90,6 +90,14 @@
 
 {{ /if }}
 
+{{ if: !${percent} }}
+
+#${prefix} percent(boolean)
+
+否对数据进行百分比处理。
+
+{{ /if }}
+
 {{ if: !${noInvalidType} }}
 
 #${prefix} invalidType(string)

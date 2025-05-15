@@ -13,6 +13,7 @@
   noPreset = ${noPreset},
   preset = ${preset},
   noStack = ${noStack},
+  percent = ${percent},
   defaultPreset = ${defaultPreset}
 ) }}
 
