@@ -386,14 +386,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     if (this._spec.barPadding) {
       const tempX = x + this._spec.barPadding;
       const tempX1 = x1 - this._spec.barPadding;
-      if (tempX < tempX1) {
-        x = tempX;
-        x1 = tempX1;
-      }
+      x = tempX;
+      x1 = tempX1;
     }
 
     const curBarWidth = x1 - x;
-    const barMinWidth = getActualNumValue(this._spec.barMinWidth || 1, realBarWidth);
+    const barMinWidth = getActualNumValue(this._spec.barMinWidth || 2, realBarWidth);
     if (curBarWidth < barMinWidth) {
       const widthDiff = barMinWidth - curBarWidth;
       const halfWidthDiff = widthDiff / 2;
@@ -455,8 +453,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   };
 
   protected _getLinearBarYRange = (datum: Datum, scale: IBaseScale, useWholeRange?: boolean) => {
-    const y = valueInScaleRange(this._dataToPosX(datum), scale, useWholeRange);
-    const y1 = valueInScaleRange(this._dataToPosX1(datum), scale, useWholeRange);
+    const y = valueInScaleRange(this._dataToPosY(datum), scale, useWholeRange);
+    const y1 = valueInScaleRange(this._dataToPosY1(datum), scale, useWholeRange);
     return this._getLinearBarRange(Math.min(y, y1), Math.max(y, y1));
   };
 
