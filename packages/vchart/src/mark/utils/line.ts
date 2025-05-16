@@ -1,4 +1,4 @@
-import { isNil, isString } from '@visactor/vutils';
+import { isNil, isString, isArray } from '@visactor/vutils';
 import type { IColor, IColorStop } from '@visactor/vrender-core';
 
 export const isStopsEqual = (prev: IColorStop[], next: IColorStop[]) => {
@@ -23,7 +23,7 @@ export const isStopsEqual = (prev: IColorStop[], next: IColorStop[]) => {
   });
 };
 
-const isColorAttrEqual = (prev: IColor, next: IColor) => {
+const isColorAttrEqual = (prev: IColor, next: IColor): boolean => {
   if (prev === next) {
     return true;
   }
@@ -36,7 +36,15 @@ const isColorAttrEqual = (prev: IColor, next: IColor) => {
     return false;
   }
 
-  if (prev.gradient !== (next as any).gradient) {
+  if (isArray(prev)) {
+    if ((prev as any).length !== (next as any).length) {
+      return false;
+    }
+
+    return (prev as any).every((prevEntry: any, index: number) => isColorAttrEqual(prevEntry, (next as any)[index]));
+  }
+
+  if ((prev as any).gradient !== (next as any).gradient) {
     return false;
   }
 
@@ -49,7 +57,7 @@ const isColorAttrEqual = (prev: IColor, next: IColor) => {
 
   return prevKeys.every(key => {
     if (key === 'stops') {
-      return isStopsEqual(prev[key], (next as any)[key]);
+      return isStopsEqual((prev as any)[key], (next as any)[key]);
     }
 
     return (prev as any)[key] === (next as any)[key];

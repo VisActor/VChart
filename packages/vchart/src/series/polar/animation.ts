@@ -91,8 +91,8 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
     super.onBind();
     const { center } = this.target.attribute as any;
     const { center: centerTo } = this.target.getFinalAttribute() as any;
-    this._center = center;
-    this._prevCenter = centerTo;
+    this._center = centerTo;
+    this._prevCenter = center;
   }
 
   onUpdate(end: boolean, ratio: number, out: Record<string, any>): void {

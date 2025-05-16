@@ -201,7 +201,7 @@ export class BoxPlotMark
           attributes.median = {
             points: [
               {
-                x: median, // todo
+                x: median,
                 y: y - boxHeight / 2
               },
               {
@@ -213,7 +213,7 @@ export class BoxPlotMark
           attributes.shaft = {
             points: [
               {
-                x: min, // todo
+                x: min,
                 y: y
               },
               {
@@ -225,7 +225,7 @@ export class BoxPlotMark
           attributes.max = {
             points: [
               {
-                x: max, // todo
+                x: max,
                 y: y - ruleHeight / 2
               },
               {
@@ -237,7 +237,7 @@ export class BoxPlotMark
           attributes.min = {
             points: [
               {
-                x: min, // todo
+                x: min,
                 y: y - ruleHeight / 2
               },
               {

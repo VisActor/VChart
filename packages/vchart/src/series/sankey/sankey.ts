@@ -972,9 +972,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     graphics.forEach(g => {
-      // todo 升级 vrender版本，切换成数组
-      g.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-      g.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+      g.removeState([STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]);
 
       if (highlightNodes.includes((getDatumOfGraphic(g) as Datum).key)) {
         g.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true);

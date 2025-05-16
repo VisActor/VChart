@@ -84,9 +84,7 @@ export class ElementHighlightByLegend
     if (g) {
       const statedGraphics = interaction.getStatedGraphics(this);
       if (statedGraphics && statedGraphics.includes(g)) {
-        // todo 升级 vrender版本，切换成数组
-        g.removeState(highlightState);
-        g.removeState(blurState);
+        g.removeState([highlightState, blurState]);
         interaction.setStatedGraphics(
           this,
           statedGraphics.filter(sg => sg !== g)

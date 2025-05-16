@@ -565,19 +565,13 @@ export class VChart implements IVChart {
     if (!this._compiler) {
       return;
     }
-    // todo
-    // view.addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
-    //   this._event.emit(ChartEvent.animationFinished, {
-    //     chart: this._chart,
-    //     vchart: this
-    //   });
-    // });
-    // view.addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
-    //   this._event.emit(ChartEvent.renderFinished, {
-    //     chart: this._chart,
-    //     vchart: this
-    //   });
-    // });
+
+    (this._compiler.getStage()?.getTimeline() as any)?.on('animationEnd', () => {
+      this._event.emit(ChartEvent.animationFinished, {
+        chart: this._chart,
+        vchart: this
+      });
+    });
   }
 
   private _bindResizeEvent() {
@@ -720,9 +714,6 @@ export class VChart implements IVChart {
         // recompile
         // 清除之前的所有 compile 内容
         this._compiler?.clear({ chart: this._chart, vChart: this });
-        // TODO: 释放事件？ vgrammar 的 view 应该不需要释放，响应的stage也没有释放，所以事件可以不绑定
-        // 重新绑定事件
-        // TODO: 释放XX？
         // 重新compile
         this._compiler?.compile({ chart: this._chart, vChart: this });
       }
