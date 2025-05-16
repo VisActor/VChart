@@ -3,5 +3,6 @@
  */
 
 // import VChart from '../../../src';
-import './index.page.local.ts';
+//import './index.page.local.ts';
 // window['VChart'] = VChart;
+import './test-page/word-cloud-shape';
