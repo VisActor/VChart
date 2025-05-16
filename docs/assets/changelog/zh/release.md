@@ -1,3 +1,24 @@
+# v1.13.10
+
+2025-05-16
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: tooltip support inside position
+- **@visactor/vchart**: mosaic chart supports bandWidthField and percent config, closed [#3945](https://github.com/VisActor/VChart/issues/3945)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: export ManualTicker & StreamLight
+- **@visactor/vchart**: tooltip should hide when enterable, fix [#3965](https://github.com/VisActor/VChart/issues/3965), fix [#3922](https://github.com/VisActor/VChart/issues/3922)
+- **@visactor/vchart**: fix error of enterable tooltip when multiple charts in a page, fix [#3940](https://github.com/VisActor/VChart/issues/3940)
+- **@visactor/vchart**: upgrade vgrammar to 0.16.7, fix [#3965](https://github.com/VisActor/VChart/issues/3965)
+
+
+
+[更多详情请查看 v1.13.10](https://github.com/VisActor/VChart/releases/tag/v1.13.10)
+
 # v1.13.9
 
 2025-04-21
