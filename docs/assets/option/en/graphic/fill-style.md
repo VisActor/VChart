@@ -2,7 +2,7 @@
 
 <!-- IFillStyle -->
 
-#${prefix} fill(string|Object)
+#${prefix} fill(string|Object|function)
 
 Fill color. Supports setting to pure color in ways like `rgb(255,255,255)`, `rgba(255,255,255,1)`, `#fff`, and also supports setting to gradient color fill.
 
@@ -10,11 +10,11 @@ Fill color. Supports setting to pure color in ways like `rgb(255,255,255)`, `rgb
 
 {{ use: graphic-gradient }}
 
-#${prefix} fillOpacity(number)
+#${prefix} fillOpacity(number|function)
 
 Fill opacity.
 
-#${prefix} shadowBlur(number)
+#${prefix} shadowBlur(number|function)
 
 The blur size of the graphic shadow. This property is used together with shadowColor, shadowOffsetX, and shadowOffsetY to set the shadow effect of the graphic.
 
@@ -27,19 +27,19 @@ Example:
 }
 ```
 
-#${prefix} shadowColor(string)
+#${prefix} shadowColor(string|function)
 
 Shadow color.
 
-#${prefix} shadowOffsetX(number)
+#${prefix} shadowOffsetX(number|function)
 
 The offset distance of the shadow in the horizontal direction.
 
-#${prefix} shadowOffsetY(number)
+#${prefix} shadowOffsetY(number|function)
 
 The offset distance of the shadow in the vertical direction.
 
-#${prefix} background(string|HtmlImageElement)
+#${prefix} background(string|HtmlImageElement|function)
 
 Supported since `1.2.0` version, background configuration, which can be configured as a color string or image URL
 

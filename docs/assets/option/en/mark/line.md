@@ -2,7 +2,7 @@
 
 <!-- ILineMarkSpec -->
 
-#${prefix} curveType(string)
+#${prefix} curveType(string|function)
 
 Curve interpolation type.
 
@@ -20,15 +20,15 @@ Available options:
 - `catmullRom`
 - `catmullRomClosed`
 
-#${prefix} defined(boolean)
+#${prefix} defined(boolean|function)
 
 Indicates if it is a valid number.
 
-#${prefix} enableSegments(boolean)
+#${prefix} enableSegments(boolean|function)
 
 A flag to inform Sirius if it should execute the getLineSegmentConfigs method.
 
-#${prefix} strokeBoundsBuffer(number)
+#${prefix} strokeBoundsBuffer(number|function)
 
 The bounded buffer for stroke.
 
