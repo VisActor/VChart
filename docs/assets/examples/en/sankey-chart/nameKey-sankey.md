@@ -13,8 +13,8 @@ option: sankeyChart
 The links of a Sankey diagram have a source node and an end node (source), and nodes can be represented in two forms:
 
 - By default, the index value of nodes is used.
-- By configuring the callback function of nameKey, use the node name as the starting and ending nodes of the edge.
-  This example uses the callback function of nameKey as the node configuration of the edge.
+- By configuring the callback function of nodeKey, use the node name as the starting and ending nodes of the edge.
+  This example uses the callback function of nodeKey as the node configuration of the edge.
 
 ## Key option
 

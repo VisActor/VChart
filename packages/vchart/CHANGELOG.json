@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.10",
+      "tag": "@visactor/vchart_v1.13.10",
+      "date": "Thu, 15 May 2025 12:13:18 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: tooltip support inside position\n\n"
+          },
+          {
+            "comment": "feat: mosaic chart supports bandWidthField and percent config, closed #3945"
+          },
+          {
+            "comment": "fix: export ManualTicker & StreamLight\n\n"
+          },
+          {
+            "comment": "fix: tooltip should hide when enterable, fix #3965, fix #3922\n\n"
+          },
+          {
+            "comment": "fix: fix error of enterable tooltip when multiple charts in a page, fix #3940\n\n"
+          },
+          {
+            "comment": "fix: upgrade vgrammar to 0.16.7, fix #3965\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.9",
       "tag": "@visactor/vchart_v1.13.9",
       "date": "Mon, 21 Apr 2025 08:22:38 GMT",

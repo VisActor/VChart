@@ -15,7 +15,8 @@ export class MosaicChartSpecTransformer<
       'barBackground',
       'barMinHeight',
       'stackCornerRadius',
-      'bar'
+      'bar',
+      'bandWidthField'
     ]);
   }
 

@@ -1,76 +1,79 @@
-# Cursor+DeepSeek: Quick Start to Your VChart Code
+# Cursor+DeepSeek: Quick Start with Your VChart Code
 
-In the previous sections, we have gained a basic understanding of the components of a spec and how a basic chart is generated. However, due to VChart's powerful features and diverse APIs, quickly implementing a complex chart with VChart can be challenging. Is there an easy way to get started without endlessly searching through API documentation?
+In the previous chapters, we have learned about the basic components of a spec and how to generate basic charts. However, due to VChart's powerful features and diverse APIs, it can be challenging to quickly implement complex charts. Is there an easy way to get started without having to search through API documentation?
 
-The answer is yes! Thanks to the rapid development of current AI technologies, you can quickly understand and master VChart usage with AI tools. This not only significantly boosts your coding efficiency but also allows you as a developer to focus on creativity and business logic. In this tutorial, we will configure `Cursor` and `DeepSeek` (or any other AI) to help you quickly get started with your VChart code!
+The answer is yes! Thanks to the rapid development of AI technology, AI tools can not only help you quickly understand and master VChart usage but also significantly improve coding efficiency, allowing developers to focus on creativity and business logic implementation.
+
+In this tutorial, we'll learn how to quickly get started with your VChart code by configuring `Cursor` and `DeepSeek` (you can use other AIs as well, and Cursor's default model is also fine - the key is custom document integration)!
 
 ## 1. Preparation
 
-### A VChart Project
+### A Project Using VChart
 
-For example, you may have a simple project initialized with:
+For example, I have a simple project initialized with `npx create-react-app my-app --template typescript`, which looks like this after startup:
 
 <div style="text-align: center;">
-  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepSeek+Cursor_1.PNG" alt="初始化项目">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepSeek+Cursor_1.PNG" alt="Initialized Project">
 </div>
 
 ### DeepSeek
 
-Register deepSeek, create a new API key on the [deepSeek api 官网](https://platform.deepseek.com/api_keys)
+Register for DeepSeek and create your API key on the [DeepSeek API official website](https://platform.deepseek.com/api_keys)
 
 ### Cursor
 
-Download and register on the [official website](https://www.cursor.com/), use `cursor` to open your VChart project, and configure `cursor`
+Download and register from the [official website](https://www.cursor.com/), open your VChart project with `cursor`, and configure `cursor`
 
-### Configure cursor
+### Configure Cursor
 
-For example, the model name is `deepseek-chat`, the API address is https://api.deepseek.com/v1, see [api usage official website](https://api-docs.deepseek.com/zh-cn/)
-We create a new model in the `model` page, set the corresponding `api` address and `model` name.
+Take `deepSeek-V3` as an example, its model name is `deepseek-chat`, and the API address is https://api.deepseek.com/v1. For details, see the [API usage official website](https://api-docs.deepseek.com/zh-cn/)
 
-_Note: Currently, `cursor` official website does not support direct access to `deepSeek`. We can achieve access to `deepSeek` by overriding the interface address of `openAPI`. During the setup process, we need to close other models and only access `deepSeek` model_
+Create a new model on the `model` page and set the corresponding `api` address and `model` name.
+
+_Note: Currently, `cursor` officially does not support direct integration with `deepSeek`. We can achieve integration with `deepSeek` by overriding the `openAPI` interface address. During the setup process, you need to close other models first and only integrate the `deepSeek` model_
 
 <div style="text-align: center;">
-  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_en_1.jpeg" alt="cursor配置">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_cursor_2.PNG" alt="Cursor Configuration">
 </div>
 
-## 2. Practice
+## 2. Practical Usage
 
-### Add Column Chart
+### Add a Bar Chart
 
-Use `cmd+i` command to call up AI interaction, directly let AI generate a simple column chart code, apply this spec, we check the result, a simple column chart is rendered; we can find that `deepSeek` has a certain understanding of `vchart`, simple charts can be directly added, we try a more complex scenario.
+Use the `cmd+i` command to invoke AI interaction, and let the AI help us generate a simple bar chart code. After applying this spec, we can see the result - a simple bar chart is rendered. We can see that `deepSeek` has a certain understanding of `vchart`, and simple charts can be added directly. Let's try a more complex scenario.
 
 <p style="text-align: center;">
- <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deep_seek_3.PNG" alt="cursor结果" height="380">
-  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_4.PNG" alt="渲染结果" height="380">
+ <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deep_seek_3.PNG" alt="Cursor Result" height="380">
+  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_4.PNG" alt="Rendering Result" height="380">
 </p>
 
-### Complex Scenario, Inject Docs
+### Complex Scenario: Injecting Docs
 
-We hope to add an average auxiliary line to the y-axis, check the result, but the result is not correct, carefully check to find that `markLine` seems to be written correctly, but the `spec` does not conform to the specification, and the average line has been calculated, we solve this problem by injecting docs.
+We want to add a mean auxiliary line on the y-axis. Looking at the result, it's not correct. Upon closer inspection, we can see that although `markLine` is written as expected, the `spec` doesn't conform to the specification, and the mean line has been calculated. We'll solve this problem by injecting docs.
 
 <p style="text-align: center;">
  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_5.png" alt="markline_cursor" height="380">
  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_6.png" alt="markline_result" height="380">
 </p>
 
-### Set Docs
+### Setting up Docs
 
-Enter the `cursor` setting page, select `Features`, add docs, you can choose one of the following docs addresses:
+Go to the `cursor` settings page, select `Features`, and add docs. You can choose from the following docs addresses:
 
 - https://visactor.com/vchart
 - https://visactor.io/vchart
 
-![配置docs](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deep_seek_6.gif)
+![Configure docs](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deep_seek_6.gif)
 
-You can also directly add a new doc through `@Docs` in the editing page
+You can also add new docs directly in the editor through `@Docs`
 
-### Experimental Result
+### Experimental Results
 
-After editing the new added docs again, you can get the correct result!
+By adding the new docs and editing again, we can get the correct result!
 
 <p style="text-align: center;">
  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_7.png" alt="markline_cursor" height="380">
  <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/deepseek_8.png" alt="markline_result" height="380">
 </p>
 
-Through this tutorial, you have learned how to use `cursor+deepseek` to improve your VChart coding efficiency and explore the powerful features and flexibility of VChart. I wish you a pleasant coding experience!
+Through this tutorial, you've learned how to improve your VChart coding efficiency using `cursor+deepseek`, while exploring VChart's powerful features and flexibility to create colorful charts. Happy coding!

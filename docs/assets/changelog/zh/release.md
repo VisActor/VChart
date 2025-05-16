@@ -1,3 +1,33 @@
+# v1.13.9
+
+2025-04-21
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 轴数据过滤支持上下文，关闭 [#3332](https://github.com/VisActor/VChart/issues/3332)
+- **@visactor/vchart**: 仪表盘支持在标记超出轴范围时裁剪，关闭 [#3859](https://github.com/VisActor/VChart/issues/3859)
+- **@visactor/vchart**: markLine 和 markArea 支持渲染多个标签
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 更新规格时清除普通动画的事件监听器，[#3881](https://github.com/VisActor/VChart/issues/3881)
+- **@visactor/vchart**: 修复当 bandSize 为 0 时矩形十字线的坐标问题，修复 [#3907](https://github.com/VisActor/VChart/issues/3907)
+- **@visactor/vchart**: 当设置十字线的默认选择时，`axisIndex` 应有默认值 0
+- **@visactor/vchart**: 修复 datazoom 文本的类型错误
+- **@visactor/vchart**: 当 `autoWidth` 为 true 时，标题标签的宽度应自动适应内容宽度，修复 [#3880](https://github.com/VisActor/VChart/issues/3880)
+- **@visactor/vchart**: 修复 markLine 的有效性判断，修复 [#3857](https://github.com/VisActor/VChart/issues/3857)
+- **@visactor/vchart**: 数据更新后空占位符应更新，修复 [#3855](https://github.com/VisActor/VChart/issues/3855)
+
+**🔨 功能重构**
+
+- **@visactor/vchart**: 重构 brush 交互，关闭 [#3765](https://github.com/VisActor/VChart/issues/3765)、[#3262](https://github.com/VisActor/VChart/issues/3262)、[#2802](https://github.com/VisActor/VChart/issues/2802) 和 [#3885](https://github.com/VisActor/VChart/issues/3885)
+
+**📖 文档更新**
+
+- **@visactor/vchart**: 提供文档接口，修复 [#3877](https://github.com/VisActor/VChart/issues/3877)
+
+[更多详情请查看 v1.13.9](https://github.com/VisActor/VChart/releases/tag/v1.13.9)
+
 # v1.13.8
 
 2025-03-31

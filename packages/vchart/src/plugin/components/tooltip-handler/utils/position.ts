@@ -32,20 +32,31 @@ export const getActualTooltipPositionValue = (
   return result;
 };
 
-// 'left' | 'centerLeft' | 'center'  | 'centerRight' |  'right'
-// 'top' | 'centerTop' | 'center' | 'centerBottom' | 'bottom'
-export type TooltipPositionType = -2 | -1 | 0 | 1 | 2;
+// 'left' | 'innerLeft' |  'centerLeft' | 'center'  | 'centerRight' | 'innerRight'  |  'right'
+// 'top' | 'innerTop' | 'centerTop' | 'center' | 'centerBottom' | 'innerBottom' | 'bottom'
+export type TooltipPositionType = -2 | -1.5 | -1 | 0 | 1 | 1.5 | 2;
 
 /** position 对齐方式在 x、y 分量下的分解 */
 export const positionType: Record<TooltipFixedPosition, [TooltipPositionType, TooltipPositionType]> = {
   left: [-2, 0],
   right: [2, 0],
   top: [0, -2],
+  bottom: [0, 2],
+
+  insideTop: [0, -1.5],
+  insideBottom: [0, 1.5],
+  insideLeft: [-1.5, 0],
+  insideRight: [1.5, 0],
+
+  insideTopLeft: [-1.5, -1.5],
+  insideTopRight: [1.5, -1.5],
+  insideBottomLeft: [-1.5, 1.5],
+  insideBottomRight: [1.5, 1.5],
+
   lt: [-2, -2],
   tl: [-2, -2],
   rt: [2, -2],
   tr: [2, -2],
-  bottom: [0, 2],
   bl: [-2, 2],
   lb: [-2, 2],
   br: [2, 2],
