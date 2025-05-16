@@ -332,7 +332,9 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
         this._component.addEventListener('change', (e: any) => {
           const { start, end, tag } = e.detail;
-          this._handleChange(start, end, undefined, tag);
+          // 传入tag后, datazoom每次只更新 startHandler / endHandler, 如果快速拖动会出现handler更新不及时的情况
+          // 追溯上下文发现tag逻辑与auto有关(pull#1492), 所以在此做判断, 尽量不产生额外影响, 如果有额外影响应当再做处理
+          this._handleChange(start, end, undefined, this._auto ? tag : undefined);
         });
         container.add(this._component as unknown as INode);
 
@@ -448,7 +450,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
             line: { visible: false },
             area: { visible: false }
           },
-      disableTriggerEvent: this._option.disableTriggerEvent
+      disableTriggerEvent: this._option.disableTriggerEvent,
+      disableDispatchOutSide: (this._spec as any).disableDispatchOutSide ?? false
     };
   }
 
