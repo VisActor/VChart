@@ -13,7 +13,7 @@ export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps> &
   'RadarChart',
   {
     type: 'radar',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerRadarChart, registerLabel, ...registers]
 );

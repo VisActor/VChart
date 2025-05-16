@@ -13,7 +13,7 @@ export const PictogramChart = createChart<React.PropsWithChildren<PictogramChart
   'PictogramChart',
   {
     type: 'pictogram',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerPictogramChart, registerLabel, ...registers]
 );

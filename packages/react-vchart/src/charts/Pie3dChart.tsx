@@ -13,7 +13,7 @@ export const Pie3dChart = createChart<React.PropsWithChildren<Pie3dChartProps> &
   'Pie3dChart',
   {
     type: 'pie3d',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerPie3dChart, registerLabel, registerIndicator, ...registers]
 );

@@ -13,7 +13,7 @@ export const LineChart = createChart<React.PropsWithChildren<LineChartProps> & {
   'LineChart',
   {
     type: 'line',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerLineChart, registerLabel, ...registers]
 );

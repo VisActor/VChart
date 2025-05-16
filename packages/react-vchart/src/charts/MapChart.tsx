@@ -13,7 +13,7 @@ export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { t
   'MapChart',
   {
     type: 'map',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerMapChart, registerLabel, ...registers]
 );
