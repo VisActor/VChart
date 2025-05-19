@@ -3,121 +3,123 @@ import { PREFIX } from '../../constant/base';
 import { isNil } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import type { IMarkGraphic } from '../interface';
-import { MarkTypeEnum } from '../interface';
 
 export const OVERLAP_HIDE_KEY = `${PREFIX}_hide_`;
 
+function setVisible(g: IMarkGraphic, visible: boolean) {
+  if (g.context.finalAttrs) {
+    g.context.finalAttrs.visible = visible;
+  }
+}
+
 function reset(graphics: IMarkGraphic[]) {
   graphics.forEach(g => {
-    const hide = g[OVERLAP_HIDE_KEY];
+    const hide = (g as any)[OVERLAP_HIDE_KEY];
 
     if (hide) {
-      g.setAttribute('visible', true);
+      setVisible(g, true);
 
-      g[OVERLAP_HIDE_KEY] = false;
+      (g as any)[OVERLAP_HIDE_KEY] = false;
     }
   });
   return graphics;
 }
 
-function overlapX(graphics: IMarkGraphic[], delta: number, deltaMul: number, useRadius: boolean) {
-  if (useRadius) {
-    let lastX = -Infinity;
-    let lastR = 0;
-    const useDeltaMul = isNil(delta);
-    let itemDelta = delta;
+function overlapX(graphics: IMarkGraphic[], delta: number, deltaMul: number) {
+  let lastX = -Infinity;
+  let lastR = 0;
+  const useDeltaMul = isNil(delta);
+  let itemDelta = delta;
 
-    graphics.forEach(g => {
-      if (g.attribute.visible === false) {
-        // skip hidden points
-        return;
-      }
+  graphics.forEach(g => {
+    if (g.context.finalAttrs.visible === false) {
+      // skip hidden points
+      return;
+    }
 
-      const r = ((g.attribute as ISymbolGraphicAttribute).size as number) / 2;
-      const currentX = g.attribute.x;
-      if (useDeltaMul) {
-        itemDelta = (r + lastR) * deltaMul;
-      }
-      if (Math.abs(currentX - lastX) < itemDelta + lastR + r) {
-        if (!(g.attribute as any).forceShow) {
-          g[OVERLAP_HIDE_KEY] = true;
-          g.setAttribute('visible', false);
-        }
-      } else {
-        lastX = currentX;
-      }
+    const r = ((g.context.finalAttrs as ISymbolGraphicAttribute).size as number) / 2;
+    const currentX = g.context.finalAttrs.x;
+    if (useDeltaMul) {
+      itemDelta = (r + lastR) * deltaMul;
+    }
+    if (Math.abs(currentX - lastX) < itemDelta + lastR + r) {
+      if (!(g.context.finalAttrs as any).forceShow) {
+        (g as any)[OVERLAP_HIDE_KEY] = true;
 
-      lastR = r;
-    });
-  }
+        setVisible(g, false);
+      }
+    } else {
+      lastX = currentX;
+    }
+
+    lastR = r;
+  });
 }
 
-function overlapY(graphics: IMarkGraphic[], delta: number, deltaMul: number, useRadius: boolean) {
-  if (useRadius) {
-    let lastY = -Infinity;
-    let lastR = 0;
-    const useDeltaMul = isNil(delta);
-    let itemDelta = delta;
+function overlapY(graphics: IMarkGraphic[], delta: number, deltaMul: number) {
+  let lastY = -Infinity;
+  let lastR = 0;
+  const useDeltaMul = isNil(delta);
+  let itemDelta = delta;
 
-    graphics.forEach(g => {
-      if (g.attribute.visible === false) {
-        // skip hidden points
-        return;
-      }
+  graphics.forEach(g => {
+    if (g.context.finalAttrs.visible === false) {
+      // skip hidden points
+      return;
+    }
 
-      const r = ((g.attribute as ISymbolGraphicAttribute).size as number) / 2;
-      const currentY = g.attribute.y;
-      if (useDeltaMul) {
-        itemDelta = (r + lastR) * deltaMul;
-      }
-      if (Math.abs(currentY - lastY) < itemDelta + lastR + r) {
-        if (!(g.attribute as any).forceShow) {
-          g[OVERLAP_HIDE_KEY] = true;
-          g.setAttribute('visible', false);
-        }
-      } else {
-        lastY = currentY;
-      }
+    const r = ((g.context.finalAttrs as ISymbolGraphicAttribute).size as number) / 2;
+    const currentY = g.context.finalAttrs.y;
+    if (useDeltaMul) {
+      itemDelta = (r + lastR) * deltaMul;
+    }
+    if (Math.abs(currentY - lastY) < itemDelta + lastR + r) {
+      if (!(g.context.finalAttrs as any).forceShow) {
+        (g as any)[OVERLAP_HIDE_KEY] = true;
 
-      lastR = r;
-    });
-  }
+        setVisible(g, false);
+      }
+    } else {
+      lastY = currentY;
+    }
+
+    lastR = r;
+  });
 }
 
-function overlapXY(graphics: IMarkGraphic[], delta: number, deltaMul: number, useRadius: boolean) {
-  if (useRadius) {
-    const lastX = -Infinity;
-    let lastY = -Infinity;
-    let lastR = 0;
-    let dis = 0;
-    const useDeltaMul = isNil(delta);
-    let itemDelta = delta;
+function overlapXY(graphics: IMarkGraphic[], delta: number, deltaMul: number) {
+  const lastX = -Infinity;
+  let lastY = -Infinity;
+  let lastR = 0;
+  let dis = 0;
+  const useDeltaMul = isNil(delta);
+  let itemDelta = delta;
 
-    graphics.forEach(g => {
-      if (g.attribute.visible === false) {
-        // skip hidden points
-        return;
+  graphics.forEach(g => {
+    if (g.context.finalAttrs.visible === false) {
+      // skip hidden points
+      return;
+    }
+
+    const r = ((g.context.finalAttrs as ISymbolGraphicAttribute).size as number) / 2;
+    const { x: currentX, y: currentY } = g.context.finalAttrs;
+
+    if (useDeltaMul) {
+      itemDelta = (r + lastR) * deltaMul;
+    }
+    dis = (lastX - currentX) ** 2 + (lastY - currentY) ** 2;
+    if (dis < (itemDelta + lastR + r) ** 2) {
+      if (!(g.context.finalAttrs as any).forceShow) {
+        (g as any)[OVERLAP_HIDE_KEY] = true;
+
+        setVisible(g, false);
       }
+    } else {
+      lastY = currentY;
+    }
 
-      const r = ((g.attribute as ISymbolGraphicAttribute).size as number) / 2;
-      const { x: currentX, y: currentY } = g.attribute;
-
-      if (useDeltaMul) {
-        itemDelta = (r + lastR) * deltaMul;
-      }
-      dis = (lastX - currentX) ** 2 + (lastY - currentY) ** 2;
-      if (dis < (itemDelta + lastR + r) ** 2) {
-        if (!(g.attribute as any).forceShow) {
-          g[OVERLAP_HIDE_KEY] = true;
-          g.setAttribute('visible', false);
-        }
-      } else {
-        lastY = currentY;
-      }
-
-      lastR = r;
-    });
-  }
+    lastR = r;
+  });
 }
 
 /**
@@ -131,7 +133,6 @@ export const transform = (
     direction: number;
     delta?: number;
     deltaMul?: number;
-    radius?: boolean;
     hideMode?: number;
     forceUpdate?: boolean;
     forceUpdateStamp?: number;
@@ -143,12 +144,6 @@ export const transform = (
   if (!upstreamData || upstreamData.length === 0) {
     return upstreamData;
   }
-  let { radius } = options;
-  if (isNil(radius)) {
-    if (upstreamData[0].type === MarkTypeEnum.symbol) {
-      radius = true;
-    }
-  }
 
   const { direction, delta, deltaMul = 1, groupBy } = options;
 
@@ -157,16 +152,16 @@ export const transform = (
 
     const sortedgraphics = options.sort
       ? graphics.slice().sort((a, b) => {
-          return a.getGraphicAttribute('x') - b.getGraphicAttribute('x');
+          return a.context.finalAttrs.x - b.context.finalAttrs.x;
         })
       : graphics;
 
     if (direction === 0) {
-      overlapXY(sortedgraphics, delta, deltaMul, radius);
+      overlapXY(sortedgraphics, delta, deltaMul);
     } else if (direction === 1) {
-      overlapX(sortedgraphics, delta, deltaMul, radius);
+      overlapX(sortedgraphics, delta, deltaMul);
     } else {
-      overlapY(sortedgraphics, delta, deltaMul, radius);
+      overlapY(sortedgraphics, delta, deltaMul);
     }
   };
 
@@ -197,6 +192,6 @@ export const transform = (
 export const registerSymbolOverlapTransform = () => {
   Factory.registerGrammarTransform('symbolOverlap', {
     transform,
-    isGraphic: true
+    runType: 'afterEncode'
   });
 };

@@ -100,6 +100,10 @@ export interface IGraphicContext {
    */
   diffAttrs?: Record<string, any>;
   /**
+   * 更新后最终的属性
+   */
+  finalAttrs?: Record<string, any>;
+  /**
    * 用于保存mark对应series的fieldX
    */
   fieldX?: string[];

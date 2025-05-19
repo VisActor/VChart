@@ -296,6 +296,13 @@ export class Compiler implements ICompiler {
     if (this._stage && !this._option.disableDirtyBounds) {
       this._stage.enableDirtyBounds();
     }
+
+    if (this._compileChart) {
+      this._compileChart.getEvent()?.emit(ChartEvent.renderFinished, {
+        chart: this._compileChart,
+        vchart: this._compileChart.getOption()?.globalInstance
+      });
+    }
   };
 
   private _doRender(immediately: boolean) {

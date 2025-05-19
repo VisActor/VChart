@@ -128,9 +128,7 @@ export class ElementHighlight
   reset(markGraphic: IMarkGraphic) {
     if (markGraphic) {
       if (this._markSet.getMarkInId(markGraphic.context.markId)) {
-        // todo 升级 vrender版本，切换成数组
-        markGraphic.removeState(this.options.highlightState);
-        markGraphic.removeState(this.options.blurState);
+        markGraphic.removeState([this.options.highlightState, this.options.blurState]);
       }
     } else {
       this.resetAll();

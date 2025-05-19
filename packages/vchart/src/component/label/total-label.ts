@@ -118,6 +118,9 @@ export class TotalLabel extends BaseLabelComponent {
     super.updateLayoutAttribute();
     const series = this._getSeries();
     this._marks.forEach((componentMark, index) => {
+      // label组件比较特殊，不清楚老的节点会存在属性覆盖的问题
+      (componentMark as IComponentMark).clearComponent();
+
       componentMark.setMarkConfig({
         interactive: false
       });

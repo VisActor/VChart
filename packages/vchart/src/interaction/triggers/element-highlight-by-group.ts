@@ -84,9 +84,7 @@ export class ElementHighlightByGroup
         const { interaction } = this.options;
         const statedGraphics = interaction.getStatedGraphics(this);
 
-        // todo 升级vrender 版本切换成数组
-        g.removeState(this.options.highlightState);
-        g.removeState(this.options.blurState);
+        g.removeState([this.options.highlightState, this.options.blurState]);
 
         interaction.setStatedGraphics(
           this,
