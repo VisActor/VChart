@@ -15,14 +15,15 @@ import { isValid } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant/layout';
-import type { IGroup } from '@visactor/vrender-core';
+import type { IGroup, IRichTextAttribute } from '@visactor/vrender-core';
+import type { IMapLabelSpec } from '../../map-label';
 
 export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
   static specKey = 'markPoint';
   specKey = 'markPoint';
 
   layoutZIndex: number = LayoutZIndex.MarkPoint;
-  protected declare _markerComponent: MarkPointComponent;
+  declare protected _markerComponent: MarkPointComponent;
 
   protected abstract _computePointsAttr(): any;
 
@@ -38,8 +39,57 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
 
   protected _createMarkerComponent() {
     const { itemContent = {}, itemLine = {}, targetSymbol = {} } = this._spec;
-    const { text: label = {}, symbol, image, richText, ...restItemContent } = itemContent;
+    const {
+      type = 'text',
 
+      // 老写法
+      text: label,
+      symbol,
+      image,
+      richText,
+      customMark,
+
+      // 新写法
+      style = {},
+      state = {},
+
+      ...restItemContent
+    } = itemContent;
+
+    let itemContentState = null;
+    let itemContentStyle = null;
+
+    if (type === 'text') {
+      itemContentState = label?.state ?? state;
+      itemContentStyle = transformLabelAttributes(
+        label ?? (style as IMapLabelSpec),
+        this._markerData,
+        this._markAttributeContext
+      );
+    } else if ((type as any) === 'richText') {
+      itemContentState = richText?.state ?? state;
+      const richLabel = {
+        type: 'rich',
+        text: ((richText.style ?? style) as IRichTextAttribute)?.textConfig ?? [],
+        textStyle: richText.style ?? style
+      } as unknown as IMapLabelSpec;
+      itemContentStyle = transformLabelAttributes(
+        richLabel ?? (style as IMapLabelSpec),
+        this._markerData,
+        this._markAttributeContext
+      );
+    } else if (type === 'symbol') {
+      itemContentState = symbol?.state ?? state;
+      itemContentStyle = transformToGraphic(
+        transformStyle(symbol?.style ?? style, this._markerData, this._markAttributeContext)
+      );
+    } else if (type === 'image') {
+      itemContentState = image?.state ?? state;
+      itemContentStyle = transformStyle(image?.style ?? style, this._markerData, this._markAttributeContext);
+    } else if (type === 'custom') {
+      itemContentState = customMark?.state ?? state;
+      itemContentStyle = transformStyle(customMark?.style ?? style, this._markerData, this._markAttributeContext);
+    }
     const markPointAttrs: MarkPointAttrs = {
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? true,
@@ -50,7 +100,8 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       itemContent: {
         offsetX: transformOffset(itemContent.offsetX, this._relativeSeries.getRegion()),
         offsetY: transformOffset(itemContent.offsetX, this._relativeSeries.getRegion()),
-        ...restItemContent // Tips: 因为网站 demo 上已经透出了 imageStyle richTextStyle 的写法，为了兼容所以这个需要在后面覆盖
+        ...restItemContent, // Tips: 因为网站 demo 上已经透出了 imageStyle richTextStyle 的写法，为了兼容所以这个需要在后面覆盖
+        style: transformStyle(itemContentStyle, this._markerData, this._markAttributeContext)
       },
       targetSymbol: {
         offset: targetSymbol.offset ?? 0,
@@ -70,25 +121,9 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
           this._markerData,
           this._markAttributeContext
         ),
-        symbol: transformState(
-          this._spec.itemContent.symbol?.state ?? {},
-          this._markerData,
-          this._markAttributeContext
-        ),
-        image: transformState(this._spec.itemContent.image?.state ?? {}, this._markerData, this._markAttributeContext),
-        text: transformState(this._spec.itemContent.text?.state ?? {}, this._markerData, this._markAttributeContext),
+        itemContent: transformState(itemContentState, this._markerData, this._markAttributeContext),
         textBackground: transformState(
           this._spec.itemContent.text?.labelBackground?.state,
-          this._markerData,
-          this._markAttributeContext
-        ),
-        richText: transformState(
-          this._spec.itemContent.richText?.state ?? {},
-          this._markerData,
-          this._markAttributeContext
-        ),
-        customMark: transformState(
-          this._spec.itemContent.customMark?.state ?? {},
           this._markerData,
           this._markAttributeContext
         ),
@@ -99,29 +134,6 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       animationExit: this._spec.animationExit,
       animationUpdate: this._spec.animationUpdate
     };
-
-    if (symbol?.style) {
-      markPointAttrs.itemContent.symbolStyle = transformToGraphic(
-        transformStyle(symbol.style, this._markerData, this._markAttributeContext)
-      );
-    }
-    if (image?.style) {
-      markPointAttrs.itemContent.imageStyle = transformStyle(image.style, this._markerData, this._markAttributeContext);
-    }
-    if (label) {
-      markPointAttrs.itemContent.textStyle = transformLabelAttributes(
-        label,
-        this._markerData,
-        this._markAttributeContext
-      );
-    }
-    if (richText?.style) {
-      markPointAttrs.itemContent.richTextStyle = transformStyle(
-        richText.style,
-        this._markerData,
-        this._markAttributeContext
-      );
-    }
 
     const { visible, line = {}, ...restItemLine } = itemLine;
     if (visible !== false) {
