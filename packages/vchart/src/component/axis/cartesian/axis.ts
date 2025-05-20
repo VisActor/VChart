@@ -944,6 +944,12 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return rect;
   }
 
+  // 需要在重新设置属性时，更新cache
+  reInit(spec?: T): void {
+    super.reInit(spec);
+    this._clearLayoutCache();
+  }
+
   _clearLayoutCache() {
     this._hasAutoIndent = false;
     this._layoutCache.width = 0;
