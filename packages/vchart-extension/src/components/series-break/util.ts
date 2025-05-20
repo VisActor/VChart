@@ -2,11 +2,12 @@
  * 支持轴翻转
  */
 import type { ILinearAxisBreakSpec, ILinearAxisSpec } from '@visactor/vchart/esm/component/axis';
-import { ICartesianSeries, IMarkGraphic, ISpec } from '@visactor/vchart';
-import { SeriesBreakData } from './type';
-import { array, getIntersectPoint, IPointLike, isValid, PointService } from '@visactor/vutils';
-import { Point } from '@visactor/vrender-components';
-import { IArea, ILine } from '@visactor/vrender-core';
+import type { ICartesianSeries, IMarkGraphic, ISpec } from '@visactor/vchart';
+import type { SeriesBreakData } from './type';
+import type { IPointLike } from '@visactor/vutils';
+import { array, getIntersectPoint, isValid, PointService } from '@visactor/vutils';
+import type { Point } from '@visactor/vrender-components';
+import type { IArea, ILine } from '@visactor/vrender-core';
 import { getAllRegionBounds } from '../../utils/element';
 import { isNumberEqual } from '../../utils/math';
 import { SERIES_BREAK } from './constant';
@@ -357,7 +358,9 @@ function isPointInPolygon(point: Point, polygon: Point[]) {
 
 export const appendSeriesBreakConfig = (rawSpec: ISpec) => {
   if (rawSpec.axes?.length) {
-    const breakedAxes = rawSpec.axes.filter((axis: any) => axis.breaks && axis.breaks.length && axis.visible !== false);
+    const breakedAxes = (rawSpec.axes as any[]).filter(
+      (axis: any) => axis.breaks && axis.breaks.length && (axis as any).visible !== false
+    );
 
     if (breakedAxes.length) {
       (rawSpec as any).customMark = array((rawSpec as any).customMark).filter(
@@ -366,7 +369,7 @@ export const appendSeriesBreakConfig = (rawSpec: ISpec) => {
       (rawSpec as any).customMark.push(
         getSeriesBreakConfig(
           breakedAxes as ILinearAxisSpec[],
-          breakedAxes.map(axisSpec => {
+          breakedAxes.map((axisSpec: any) => {
             return rawSpec.axes.indexOf(axisSpec as any);
           })
         )

@@ -19,7 +19,6 @@ import type { ILayoutSpec } from '../../layout/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type {
   ConvertToMarkStyleSpec,
-  IArc3dMarkSpec,
   IArcMarkSpec,
   IAreaMarkSpec,
   IBoxPlotMarkSpec,
@@ -29,8 +28,6 @@ import type {
   ILinkPathMarkSpec,
   IPathMarkSpec,
   IPolygonMarkSpec,
-  IPyramid3dMarkSpec,
-  IRect3dMarkSpec,
   IRectMarkSpec,
   IRuleMarkSpec,
   ISymbolMarkSpec,
@@ -707,14 +704,11 @@ export type IBuildinMarkSpec = {
   line: ILineMarkSpec;
   text: ITextMarkSpec;
   rect: IRectMarkSpec;
-  rect3d: IRect3dMarkSpec;
   image: IImageMarkSpec;
   path: IPathMarkSpec;
   area: IAreaMarkSpec;
   arc: IArcMarkSpec;
-  arc3d: IArc3dMarkSpec;
   polygon: IPolygonMarkSpec;
-  pyramid3d: IPyramid3dMarkSpec;
   boxPlot: IBoxPlotMarkSpec;
   linkPath: ILinkPathMarkSpec;
   ripple: IRippleMarkSpec;

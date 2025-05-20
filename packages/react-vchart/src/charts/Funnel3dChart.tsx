@@ -1,9 +1,11 @@
 import type React from 'react';
-import type { IFunnel3dChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerFunnel3dChart, registerLabel } from '@visactor/vchart';
+import type { IVChartConstructor } from '@visactor/vchart';
+import { VChart, registerLabel } from '@visactor/vchart';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 import { registers } from './registers/simple';
+import type { IFunnel3dChartSpec } from '@visactor/vchart-extension';
+import { registerFunnel3dChart } from '@visactor/vchart-extension';
 
 export interface Funnel3dChartProps
   extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,

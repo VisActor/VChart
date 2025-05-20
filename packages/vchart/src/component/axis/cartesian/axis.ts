@@ -49,6 +49,7 @@ import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
 import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
+import { getCombinedSizeOfRegions } from '../../../util/region';
 
 const CartesianAxisPlugin = [AxisSyncPlugin];
 
@@ -75,8 +76,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   protected _dataSet: DataSet;
 
-  layout3dBox?: { width: number; height: number; length: number };
-
   protected _orient: IOrientType = 'left';
   getOrient() {
     return this._orient;
@@ -99,7 +98,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   protected _tick: ITick | undefined = undefined;
 
-  private _axisStyle: Partial<LineAxisAttributes>;
+  protected _axisStyle: Partial<LineAxisAttributes>;
   private _latestBounds: IBounds;
   private _verticalLimitSize: number;
   private _unitText: IText;
@@ -200,10 +199,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     super.initLayout();
     this._layout.autoIndent = this._spec.autoIndent !== false;
     this._layout.layoutOrient = this._orient;
-  }
-
-  setLayout3dBox(box3d: { width: number; height: number; length: number }) {
-    this.layout3dBox = box3d;
   }
 
   effect: IEffect = {
@@ -676,7 +671,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return this._scale.invert(pos);
   }
 
-  private _getTitleLimit(isX: boolean) {
+  protected _getTitleLimit(isX: boolean) {
     const titleSpec = this._spec.title;
     if (titleSpec.visible && isNil(titleSpec.style?.maxLineWidth)) {
       const angle = this._axisStyle.title?.angle ?? titleSpec.style?.angle ?? 0;
@@ -703,30 +698,14 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     let regionWidth = 0;
 
     if (!ignoreGrid) {
-      const regions = this.getRegions();
-      let { x: minX, y: minY } = regions[0].getLayoutStartPoint();
-      let maxX = minX + regions[0].getLayoutRect().width;
-      let maxY = minY + regions[0].getLayoutRect().height;
-
-      for (let index = 1; index < regions.length; index++) {
-        const region = regions[index];
-        const { x, y } = region.getLayoutStartPoint();
-        const { width, height } = region.getLayoutRect();
-
-        minX = Math.min(minX, x);
-        maxX = Math.max(maxX, width + x);
-        minY = Math.min(minY, y);
-        maxY = Math.max(maxY, height + y);
-      }
-      regionHeight = Math.abs(maxY - minY);
-      regionWidth = Math.abs(maxX - minX);
+      const regionSize = getCombinedSizeOfRegions(this.getRegions());
+      regionWidth = regionSize.width;
+      regionHeight = regionSize.height;
     }
 
     const { width, height } = this.getLayoutRect();
     const isX = isXAxis(this._orient);
     const isY = isYAxis(this._orient);
-    const isZ = isZAxis(this._orient);
-    const depth = this.layout3dBox ? this.layout3dBox.length : 0;
     let end = { x: 0, y: 0 };
     let gridLength = regionHeight;
     let axisLength = width;
@@ -737,8 +716,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       end = { x: 0, y: height };
       gridLength = regionWidth;
       axisLength = height;
-    } else if (isZ) {
-      end = { x: depth, y: 0 };
     }
 
     const items = this.getLabelItems(axisLength);
@@ -759,44 +736,23 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         end,
         items: items[0],
         verticalFactor: this._axisStyle.verticalFactor,
-        depth,
         length: gridLength
       };
     }
 
-    if (isZ) {
-      const directionStr = this.directionStr ?? 'r2l';
-      const depthZ = this.layout3dBox ? this.layout3dBox.width : 0;
-      let anchor3d = [0, 0];
-      let alpha = -Math.PI / 2;
-      let z = 0;
-      if (directionStr === 'l2r') {
-        z = this.layout3dBox.length;
-        anchor3d = [0, 0, 0];
-        alpha = Math.PI / 2;
-      }
-      attrs.z = z;
-      attrs.alpha = alpha;
-      attrs.anchor3d = anchor3d;
-
-      if (!ignoreGrid) {
-        attrs.grid.depth = depthZ;
-      }
-    } else {
-      let verticalMinSize = isX ? this.layout.minHeight : this.layout.minWidth;
-      if (
-        (isX && this._layout.layoutRectLevelMap.height === USER_LAYOUT_RECT_LEVEL) ||
-        (isY && this._layout.layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL)
-      ) {
-        verticalMinSize = this._verticalLimitSize;
-      }
-
-      attrs.verticalLimitSize = this._verticalLimitSize;
-      attrs.verticalMinSize = verticalMinSize;
-      attrs.label = {
-        overflowLimitLength: this._getLabelOverflowLimit(isX)
-      };
+    let verticalMinSize = isX ? this.layout.minHeight : this.layout.minWidth;
+    if (
+      (isX && this._layout.layoutRectLevelMap.height === USER_LAYOUT_RECT_LEVEL) ||
+      (isY && this._layout.layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL)
+    ) {
+      verticalMinSize = this._verticalLimitSize;
     }
+
+    attrs.verticalLimitSize = this._verticalLimitSize;
+    attrs.verticalMinSize = verticalMinSize;
+    attrs.label = {
+      overflowLimitLength: this._getLabelOverflowLimit(isX)
+    };
 
     return attrs;
   }

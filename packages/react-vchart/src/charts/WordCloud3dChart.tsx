@@ -4,6 +4,8 @@ import { VChart, registerWordCloud3dChart } from '@visactor/vchart';
 import { registers } from './registers/simple';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
+import { registerWordCloud3dChart } from '@visactor/vchart-extension';
+import type { IWordCloud3dChartSpec } from '@visactor/vchart-extension';
 
 export interface WordCloud3dChartProps
   extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,

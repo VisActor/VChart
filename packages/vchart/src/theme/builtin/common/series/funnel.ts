@@ -1,7 +1,7 @@
-import type { IFunnel3dSeriesTheme, IFunnelSeriesTheme } from '../../../../series/funnel/interface';
+import type { IFunnelSeriesTheme } from '../../../../series/funnel/interface';
 
-const getFunnelTheme = (is3d?: boolean): IFunnelSeriesTheme | IFunnel3dSeriesTheme => {
-  const res: IFunnelSeriesTheme | IFunnel3dSeriesTheme = {
+export const getFunnelTheme = (is3d?: boolean): IFunnelSeriesTheme => {
+  const res: IFunnelSeriesTheme = {
     label: {
       style: {
         fill: 'white',
@@ -29,7 +29,7 @@ const getFunnelTheme = (is3d?: boolean): IFunnelSeriesTheme | IFunnel3dSeriesThe
     }
   };
 
-  res[is3d ? 'transform3d' : 'transform'] = {
+  (res as any)[is3d ? 'transform3d' : 'transform'] = {
     style: {
       fill: { type: 'palette', key: 'axisGridColor' }
     }
@@ -39,4 +39,3 @@ const getFunnelTheme = (is3d?: boolean): IFunnelSeriesTheme | IFunnel3dSeriesThe
 };
 
 export const funnel: IFunnelSeriesTheme = getFunnelTheme();
-export const funnel3d: IFunnel3dSeriesTheme = getFunnelTheme(true);

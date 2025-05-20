@@ -1,6 +1,7 @@
-import { BaseSeriesProps, createSeries } from './BaseSeries';
-import type { IWordCloud3dSeriesSpec } from '@visactor/vchart';
-import { registerWordCloud3dSeries } from '@visactor/vchart';
+import type { BaseSeriesProps } from './BaseSeries';
+import { createSeries } from './BaseSeries';
+import type { IWordCloud3dSeriesSpec } from '@visactor/vchart-extension';
+import { registerWordCloud3dSeries } from '@visactor/vchart-extension';
 
 export type WordCloud3dProps = BaseSeriesProps & Omit<IWordCloud3dSeriesSpec, 'type'>;
 

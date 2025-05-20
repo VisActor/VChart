@@ -57,11 +57,11 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   implements IFunnelSeries
 {
   static readonly type: string = SeriesTypeEnum.funnel;
-  type = SeriesTypeEnum.funnel;
-  protected _funnelMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.funnel;
-  protected _funnelMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
-  protected _transformMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.transform;
-  protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
+  type: string = SeriesTypeEnum.funnel;
+  protected _funnelMarkName: string = SeriesMarkNameEnum.funnel;
+  protected _funnelMarkType: string = MarkTypeEnum.polygon;
+  protected _transformMarkName: string = SeriesMarkNameEnum.transform;
+  protected _transformMarkType: string = MarkTypeEnum.polygon;
 
   static readonly mark: SeriesMarkMap = funnelSeriesMark;
   static readonly transformerConstructor = FunnelSeriesSpecTransformer as any;

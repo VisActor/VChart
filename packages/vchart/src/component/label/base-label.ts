@@ -64,11 +64,11 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
     if (markType === 'line' || markType === 'area') {
       return type ?? 'line-data';
     }
-    if (markType === MarkTypeEnum.rect || markType === MarkTypeEnum.rect3d) {
+    if (markType === MarkTypeEnum.rect) {
       return 'rect';
     }
 
-    if (markType === MarkTypeEnum.arc || markType === MarkTypeEnum.arc3d) {
+    if (markType === MarkTypeEnum.arc) {
       return 'arc';
     }
 
@@ -76,7 +76,7 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
       return 'symbol';
     }
 
-    return '';
+    return baseMark.setDataLabelType ? baseMark.setDataLabelType() : '';
   }
 
   _setTransformOfComponent(labelComponent: IComponentMark, baseMark: IMark | IMark[]) {

@@ -536,14 +536,6 @@ export interface IRectMarkSpec extends IFillMarkSpec {
   y1?: number;
 }
 
-// 3d rect，支持length表示长宽高中的长属性（深度属性）
-export interface IRect3dMarkSpec extends IRectMarkSpec {
-  /**
-   * 3d柱子的深度
-   */
-  length?: number;
-}
-
 export interface IBoxPlotMarkSpec extends ICommonSpec {
   /**
    * box描边宽度
@@ -753,14 +745,6 @@ export interface IArcMarkSpec extends IFillMarkSpec {
   autoCapConical?: boolean;
 }
 
-// 3d arc，有高度配置
-export interface IArc3dMarkSpec extends IArcMarkSpec {
-  /**
-   * 3d圆弧的高度
-   */
-  height?: number;
-}
-
 export interface ICellMarkSpec extends ISymbolMarkSpec {
   /**
    * 内边距
@@ -806,13 +790,6 @@ export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
    * y方向的缩放比例，默认为1，即不进行缩放
    */
   scaleY?: number;
-}
-
-export interface IPyramid3dMarkSpec extends IPolygonMarkSpec {
-  /**
-   * 3d金字塔顶点坐标，注意只能有4个顶点
-   */
-  points?: IPoint[];
 }
 
 /**

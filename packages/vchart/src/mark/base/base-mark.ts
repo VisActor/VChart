@@ -1443,7 +1443,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   };
 
   protected _setGraphicFromMarkConfig = (g: IMarkGraphic) => {
-    const { setCustomizedShape, support3d, graphicName } = this._markConfig;
+    const { setCustomizedShape, graphicName } = this._markConfig;
 
     if (setCustomizedShape) {
       g.pathProxy = (attrs: Partial<IGraphicAttribute>) => {

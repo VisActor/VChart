@@ -484,13 +484,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   private _initLayoutFunc() {
     this._layoutFunc = this._option.layout;
     if (!this._layoutFunc) {
-      // 判断是否使用3d的layout
-      let use3dLayout = false;
-      // 查找是否需要使用3d布局模块
-      if ((this._spec as any).zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
-        use3dLayout = true;
-      }
-      const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base'));
+      const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? 'base');
       if (constructor) {
         const layout = new constructor(this._spec.layout, {
           onError: this._option?.onError

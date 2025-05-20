@@ -6,7 +6,6 @@ import { isValidOrient } from '../../../../util/space';
 import type { ICartesianAxisCommonSpec } from '../interface';
 import { ComponentTypeEnum } from '../../../interface';
 import type { AxisType } from '../../interface/common';
-import type { ITheme } from '../../../../theme/interface';
 import { getComponentThemeFromOption } from '../../../util';
 import { mergeSpec } from '@visactor/vutils-extension';
 

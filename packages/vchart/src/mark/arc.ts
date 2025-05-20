@@ -14,7 +14,7 @@ import { registerArcDataLabel } from '@visactor/vrender-components';
 import { registerArc, registerShadowRoot } from '@visactor/vrender-kits';
 
 export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements IMarkRaw<T> {
-  readonly type: MarkTypeEnum = ArcMark.type;
+  readonly type: string = ArcMark.type;
 
   _unCompileChannel = { centerOffset: true, radiusOffset: true };
 

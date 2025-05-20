@@ -27,6 +27,7 @@ export type { IMarkGraphic, IGraphicContext } from '../mark/interface/';
 export * from '../constant/base';
 export * from '../constant/data';
 export * from '../constant/layout';
+export { AttributeLevel } from '../constant/attribute';
 export { TransformLevel } from '../data/initialize';
 
 /**

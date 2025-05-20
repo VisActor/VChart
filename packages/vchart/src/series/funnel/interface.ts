@@ -8,7 +8,6 @@ import type {
   IPolygonMarkSpec,
   IRuleMarkSpec,
   ITextMarkSpec,
-  IPyramid3dMarkSpec,
   IPercent,
   IComposedTextMarkSpec,
   IFormatMethod
@@ -156,20 +155,6 @@ export interface IFunnelOuterLabelSpec extends IMarkSpec<IComposedTextMarkSpec> 
 export interface IFunnelSeriesTheme {
   [SeriesMarkNameEnum.funnel]?: Partial<IMarkTheme<IPolygonMarkSpec>>;
   [SeriesMarkNameEnum.transform]?: Partial<IMarkTheme<IPolygonMarkSpec>>;
-  [SeriesMarkNameEnum.label]?: Partial<IMarkTheme<ITextMarkSpec>>;
-  [SeriesMarkNameEnum.outerLabel]?: Partial<IMarkTheme<ITextMarkSpec>> & {
-    line?: Partial<IMarkTheme<IRuleMarkSpec>>;
-  };
-  [SeriesMarkNameEnum.transformLabel]?: Partial<IMarkTheme<ITextMarkSpec>>;
-}
-
-export type IFunnel3dSeriesSpec = {
-  type: 'funnel3d';
-} & Omit<IFunnelSeriesSpec, 'type'>;
-
-export interface IFunnel3dSeriesTheme {
-  [SeriesMarkNameEnum.funnel3d]?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
-  [SeriesMarkNameEnum.transform3d]?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
   [SeriesMarkNameEnum.label]?: Partial<IMarkTheme<ITextMarkSpec>>;
   [SeriesMarkNameEnum.outerLabel]?: Partial<IMarkTheme<ITextMarkSpec>> & {
     line?: Partial<IMarkTheme<IRuleMarkSpec>>;
