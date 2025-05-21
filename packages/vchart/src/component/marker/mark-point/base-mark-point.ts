@@ -48,6 +48,11 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       image,
       richText,
       customMark,
+      textStyle,
+      symbolStyle,
+      imageStyle,
+      richTextStyle,
+      customMarkStyle,
 
       // 新写法
       style = {},
@@ -62,7 +67,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
     if (type === 'text') {
       itemContentState = label?.state ?? state;
       itemContentStyle = transformLabelAttributes(
-        label ?? (style as IMapLabelSpec),
+        label ?? textStyle ?? (style as IMapLabelSpec),
         this._markerData,
         this._markAttributeContext
       );
@@ -70,7 +75,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       itemContentState = richText?.state ?? state;
       const richLabel = {
         type: 'rich',
-        text: ((richText.style ?? style) as IRichTextAttribute)?.textConfig ?? [],
+        text: ((richText.style ?? richTextStyle ?? style) as IRichTextAttribute)?.textConfig ?? [],
         textStyle: richText.style ?? style
       } as unknown as IMapLabelSpec;
       itemContentStyle = transformLabelAttributes(
@@ -81,14 +86,22 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
     } else if (type === 'symbol') {
       itemContentState = symbol?.state ?? state;
       itemContentStyle = transformToGraphic(
-        transformStyle(symbol?.style ?? style, this._markerData, this._markAttributeContext)
+        transformStyle(symbol?.style ?? symbolStyle ?? style, this._markerData, this._markAttributeContext)
       );
     } else if (type === 'image') {
       itemContentState = image?.state ?? state;
-      itemContentStyle = transformStyle(image?.style ?? style, this._markerData, this._markAttributeContext);
+      itemContentStyle = transformStyle(
+        image?.style ?? imageStyle ?? style,
+        this._markerData,
+        this._markAttributeContext
+      );
     } else if (type === 'custom') {
       itemContentState = customMark?.state ?? state;
-      itemContentStyle = transformStyle(customMark?.style ?? style, this._markerData, this._markAttributeContext);
+      itemContentStyle = transformStyle(
+        customMark?.style ?? customMarkStyle ?? style,
+        this._markerData,
+        this._markAttributeContext
+      );
     }
     const markPointAttrs: MarkPointAttrs = {
       zIndex: this.layoutZIndex,
@@ -98,6 +111,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       position: { x: 0, y: 0 },
       clipInRange: this._spec.clip ?? false,
       itemContent: {
+        type: type === 'richText' ? 'text' : type,
         offsetX: transformOffset(itemContent.offsetX, this._relativeSeries.getRegion()),
         offsetY: transformOffset(itemContent.offsetX, this._relativeSeries.getRegion()),
         ...restItemContent, // Tips: 因为网站 demo 上已经透出了 imageStyle richTextStyle 的写法，为了兼容所以这个需要在后面覆盖
