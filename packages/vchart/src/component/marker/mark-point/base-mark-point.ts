@@ -16,7 +16,7 @@ import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant/layout';
 import type { IGroup, IRichTextAttribute } from '@visactor/vrender-core';
-import type { IMapLabelSpec } from '../../map-label';
+import type { IMarkerLabelSpec } from '../interface';
 
 export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
   static specKey = 'markPoint';
@@ -67,7 +67,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
     if (type === 'text') {
       itemContentState = label?.state ?? state;
       itemContentStyle = transformLabelAttributes(
-        label ?? textStyle ?? (style as IMapLabelSpec),
+        label ?? textStyle ?? (style as IMarkerLabelSpec),
         this._markerData,
         this._markAttributeContext
       );
@@ -77,9 +77,9 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         type: 'rich',
         text: ((richText.style ?? richTextStyle ?? style) as IRichTextAttribute)?.textConfig ?? [],
         textStyle: richText.style ?? style
-      } as unknown as IMapLabelSpec;
+      } as unknown as IMarkerLabelSpec;
       itemContentStyle = transformLabelAttributes(
-        richLabel ?? (style as IMapLabelSpec),
+        richLabel ?? (style as IMarkerLabelSpec),
         this._markerData,
         this._markAttributeContext
       );
@@ -192,7 +192,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
     }
     if (this._markerComponent) {
       const attribute = this._markerComponent.attribute ?? {};
-      const textStyle = attribute.itemContent?.textStyle ?? {};
+      const textStyle = (attribute.itemContent as any)?.textStyle ?? {};
       this._markerComponent.setAttributes({
         position: point === undefined ? { x: null, y: null } : point, // setAttrs时merge时undefined会被忽略, 所以这里做转换
         itemContent: {
