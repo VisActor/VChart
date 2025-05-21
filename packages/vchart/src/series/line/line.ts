@@ -19,6 +19,7 @@ import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { registerSymbolOverlapTransform } from '../../mark/transform/symbol-overlap';
 import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
+import { line } from '../../theme/builtin/common/series/line';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -41,6 +42,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   type = SeriesTypeEnum.line;
 
   static readonly mark: SeriesMarkMap = lineSeriesMark;
+  static readonly builtInTheme = { line };
   static readonly transformerConstructor = LineLikeSeriesSpecTransformer;
   readonly transformerConstructor = LineLikeSeriesSpecTransformer;
 

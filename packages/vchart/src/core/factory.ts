@@ -244,6 +244,13 @@ export class Factory {
     return Factory._series[seriesType].mark;
   }
 
+  static getSeriesBuiltInTheme(seriesType: string): Record<string, any> {
+    if (!Factory._series[seriesType]) {
+      return {};
+    }
+    return Factory._series[seriesType].builtInTheme;
+  }
+
   static getChartPlugins() {
     return Object.values(Factory._chartPlugin);
   }

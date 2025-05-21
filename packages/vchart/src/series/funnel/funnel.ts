@@ -31,7 +31,7 @@ import {
 } from '../../constant/funnel';
 import { calcLayoutNumber } from '../../util/space';
 import { field } from '../../util/object';
-import type { FunnelAppearPreset, IFunnelSeriesSpec } from './interface';
+import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
 import { isFunction, isValid, isNumber } from '@visactor/vutils';
 import {
@@ -51,6 +51,7 @@ import { FunnelSeriesSpecTransformer } from './funnel-transformer';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
 import { moveAfterInArray } from '../../util/array';
+import { funnel as funnelTheme } from '../../theme/builtin/common/series/funnel';
 
 export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   extends BaseSeries<T>
@@ -64,6 +65,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   protected _transformMarkType: string = MarkTypeEnum.polygon;
 
   static readonly mark: SeriesMarkMap = funnelSeriesMark;
+  static readonly builtInTheme: Record<string, IFunnelSeriesTheme> = { funnel: funnelTheme };
   static readonly transformerConstructor = FunnelSeriesSpecTransformer as any;
   readonly transformerConstructor = FunnelSeriesSpecTransformer;
 

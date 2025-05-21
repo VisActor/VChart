@@ -33,6 +33,7 @@ import type { ILabelMark, IRuleMark, ITextMark } from '../../mark/interface';
 import type { IBarAnimationParams } from '../bar/interface';
 import type { ILabelInfo } from '../../component/label/interface';
 import { CompilableData, type ICompilableData } from '../../compile/data';
+import { waterfall as waterfallTheme } from '../../theme/builtin/common/series/waterfall';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -41,6 +42,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   type = SeriesTypeEnum.waterfall;
 
   static readonly mark: SeriesMarkMap = waterfallSeriesMark;
+  static readonly builtInTheme = { waterfall: waterfallTheme };
   static readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
   readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
 

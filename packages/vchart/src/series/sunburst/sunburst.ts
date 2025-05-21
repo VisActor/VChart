@@ -39,6 +39,7 @@ import { registerTextMark } from '../../mark/text';
 import { sunburstSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { appendHierarchyFields } from '../util/hierarchy';
+import { sunburst } from '../../theme/builtin/common/series/sunburst';
 
 export class SunburstSeries extends PolarSeries<any> {
   protected declare _spec: ISunburstSeriesSpec;
@@ -47,6 +48,7 @@ export class SunburstSeries extends PolarSeries<any> {
   type = SeriesTypeEnum.sunburst;
 
   static readonly mark: SeriesMarkMap = sunburstSeriesMark;
+  static readonly builtInTheme = { sunburst };
 
   private _sunburstMark: IArcMark;
   private _labelMark: ITextMark;

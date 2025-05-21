@@ -19,7 +19,7 @@ import { getRegionStackGroup } from '../../util/data';
 import { getActualNumValue } from '../../util/space';
 import { registerBarAnimation } from './animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
-import type { BarAppearPreset, IBarAnimationParams, IBarSeriesSpec } from './interface';
+import type { BarAppearPreset, IBarAnimationParams, IBarSeriesSpec, IBarSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { SeriesMarkMap } from '../interface';
@@ -44,6 +44,7 @@ import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
 import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
 import { maxInArr, minInArr } from '../../util/array';
+import { bar } from '../../theme/builtin/common/series/bar';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -53,6 +54,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barMarkName: string = SeriesMarkNameEnum.bar;
   protected _barMarkType: string = MarkTypeEnum.rect;
 
+  static readonly builtInTheme: Record<string, IBarSeriesTheme> = { bar };
   static readonly mark: SeriesMarkMap = barSeriesMark;
   static readonly transformerConstructor = BarSeriesSpecTransformer as any;
   readonly transformerConstructor = BarSeriesSpecTransformer;

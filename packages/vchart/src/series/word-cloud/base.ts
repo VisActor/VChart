@@ -21,6 +21,7 @@ import {
 } from './config';
 import type {
   IWordCloudSeriesSpec,
+  IWordCloudSeriesTheme,
   WordCloudConfigType,
   WordCloudShapeConfigType,
   WordCloudShapeType
@@ -38,11 +39,13 @@ import { LinearScale } from '@visactor/vscale';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
 import type { ITransformSpec } from '../../compile/interface';
 import { vglobal, getTextBounds, createImage } from '@visactor/vrender-core';
+import { wordCloud } from '../../theme/builtin/common/series/word-cloud';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
 export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSeriesSpec> extends BaseSeries<T> {
   static readonly mark: SeriesMarkMap = wordCloudSeriesMark;
+  static readonly builtInTheme: Record<string, IWordCloudSeriesTheme> = { wordCloud };
 
   protected _nameField: string;
   protected _valueField?: string;

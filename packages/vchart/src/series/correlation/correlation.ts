@@ -31,6 +31,7 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ILabelMark, IMark, IRippleMark, ISymbolMark } from '../../mark/interface';
 import { CorrelationSeriesSpecTransformer } from './correlation-transformer';
 import { CompilableData, type ICompilableData } from '../../compile/data';
+import { correlation as correlationTheme } from '../../theme/builtin/common/series/correlation';
 
 export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<
   AdaptiveSpec<T, 'outerRadius' | 'innerRadius'>
@@ -39,6 +40,7 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
   type = SeriesTypeEnum.correlation;
 
   static readonly mark: SeriesMarkMap = correlationSeriesMark;
+  static readonly builtInTheme = { correlation: correlationTheme };
   static readonly transformerConstructor = CorrelationSeriesSpecTransformer as any;
   readonly transformerConstructor = CorrelationSeriesSpecTransformer;
 

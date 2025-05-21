@@ -39,12 +39,14 @@ import { registerMarkFilterTransform } from '../../mark/transform/filter';
 import { registerMarkMapTransform } from '../../mark/transform/map';
 import { treemapLayout } from '../../data/transforms/treemap';
 import type { ITransformSpec } from '../../compile/interface/compilable-item';
+import { treemap } from '../../theme/builtin/common/series/treemap';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
   type = SeriesTypeEnum.treemap;
 
   static readonly mark: SeriesMarkMap = treemapSeriesMark;
+  static readonly builtInTheme = { treemap };
 
   static readonly transformerConstructor = TreemapSeriesSpecTransformer;
   readonly transformerConstructor = TreemapSeriesSpecTransformer;

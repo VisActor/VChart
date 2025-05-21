@@ -21,6 +21,7 @@ import { Factory } from '../../../core/factory';
 import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IMark, IRectMark } from '../../../mark/interface';
 import { isNil, isValid } from '@visactor/vutils';
+import { linearProgress } from '../../../theme/builtin/common/series/linear-progress';
 
 export class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
@@ -29,6 +30,7 @@ export class LinearProgressSeries<
   type = SeriesTypeEnum.linearProgress;
 
   static readonly mark: SeriesMarkMap = linearProgressSeriesMark;
+  static readonly builtInTheme = { linearProgress };
 
   private _progressMark: IRectMark | null = null;
   private _trackMark: IRectMark | null = null;

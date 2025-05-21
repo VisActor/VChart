@@ -6,6 +6,7 @@ export const circlePacking: ICirclePackingSeriesTheme = {
     visible: true,
     style: {
       cursor: 'pointer',
+      lineWidth: 1,
       stroke: { type: 'palette', key: 'backgroundColor' }
     }
   },

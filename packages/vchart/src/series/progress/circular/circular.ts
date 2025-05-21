@@ -18,6 +18,7 @@ import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IArcMark, IMark } from '../../../mark/interface';
 import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
 import { registerPolarLinearAxis, registerPolarBandAxis } from '../../../component/axis/polar';
+import { circularProgress } from '../../../theme/builtin/common/series/circular-progress';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
@@ -26,6 +27,7 @@ export class CircularProgressSeries<
   type = SeriesTypeEnum.circularProgress;
 
   static readonly mark: SeriesMarkMap = circularProgressSeriesMark;
+  static readonly builtInTheme = { circularProgress };
   static readonly transformerConstructor = CircularProgressSeriesSpecTransformer as any;
   readonly transformerConstructor = CircularProgressSeriesSpecTransformer;
 

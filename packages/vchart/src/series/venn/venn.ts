@@ -28,12 +28,14 @@ import type { ILegend, IDiscreteLegend } from '../../component/legend/interface'
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { vennLayout } from '../../data/transforms/venn';
 import type { ITransformSpec } from '../../compile/interface';
+import { venn } from '../../theme/builtin/common/series/venn';
 
 export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends BaseSeries<T> {
   static readonly type: string = SeriesTypeEnum.venn;
   type = SeriesTypeEnum.venn;
 
   static readonly mark: SeriesMarkMap = vennSeriesMark;
+  static readonly builtInTheme = { venn };
 
   static readonly transformerConstructor = VennSeriesSpecTransformer;
   readonly transformerConstructor = VennSeriesSpecTransformer;

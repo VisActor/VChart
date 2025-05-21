@@ -27,12 +27,14 @@ import type { ILabelMark, IMark, IMarkGraphic, ISymbolMark } from '../../mark/in
 import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { scatter } from '../../theme/builtin/common/series/scatter';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
   type = SeriesTypeEnum.scatter;
 
   static readonly mark: SeriesMarkMap = scatterSeriesMark;
+  static readonly builtInTheme = { scatter };
   static readonly transformerConstructor = ScatterSeriesSpecTransformer as any;
   readonly transformerConstructor = ScatterSeriesSpecTransformer;
 

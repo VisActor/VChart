@@ -26,6 +26,7 @@ import { getGroupAnimationParams } from '../util/utils';
 import { RangeColumnSeriesSpecTransformer } from './range-column-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import type { IRectMark, ITextMark } from '../../mark/interface';
+import { rangeColumn } from '../../theme/builtin/common/series/rangeColumn';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -38,6 +39,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   protected declare _spec: T;
 
   static readonly mark: SeriesMarkMap = rangeColumnSeriesMark;
+  static readonly builtInTheme = { rangeColumn };
   static readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
   readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
 

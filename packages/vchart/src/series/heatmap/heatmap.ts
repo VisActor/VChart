@@ -19,6 +19,7 @@ import type { ICellMark, IMark, ITextMark } from '../../mark/interface';
 import { getGroupAnimationParams } from '../util/utils';
 import { HeatmapSeriesSpecTransformer } from './heatmap-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { heatmap } from '../../theme/builtin/common/series/heatmap';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -27,6 +28,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
   type = SeriesTypeEnum.heatmap;
 
   static readonly mark: SeriesMarkMap = heatmapSeriesMark;
+  static readonly builtInTheme = { heatmap };
   static readonly transformerConstructor = HeatmapSeriesSpecTransformer as any;
   readonly transformerConstructor = HeatmapSeriesSpecTransformer;
 

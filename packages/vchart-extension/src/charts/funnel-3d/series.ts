@@ -7,6 +7,7 @@ import { AttributeLevel, Factory, FunnelSeries, registerRuleMark, registerTextMa
 import { MarkType3dEnum, SeriesMark3dNameEnum, SeriesType3dEnum } from '../3d/enum';
 import type { IPyramid3dMark } from '../3d/interface';
 import { registerPyramid3dMark } from '../3d/pyramid-3d';
+import { funnel3d } from './theme';
 
 export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec> extends FunnelSeries<
   AdaptiveSpec<T, 'type'>
@@ -19,6 +20,7 @@ export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec>
   protected _transformMarkType: string = MarkType3dEnum.pyramid3d;
 
   static readonly mark = funnel3dSeriesMark;
+  static readonly builtInTheme = { funnel3d };
   static readonly transformerConstructor = Funnel3dSeriesSpecTransformer as any;
   readonly transformerConstructor = Funnel3dSeriesSpecTransformer as any;
 

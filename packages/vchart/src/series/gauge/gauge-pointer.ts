@@ -17,6 +17,7 @@ import { registerGaugePointerAnimation } from './animation';
 import { GaugePointerSeriesSpecTransformer } from './gauge-pointer-transformer';
 import { registerPolarBandAxis, registerPolarLinearAxis } from '../../component/axis/polar';
 import { GaugePointerTooltipHelper } from './pointer-tooltip-helper';
+import { gaugePointer } from '../../theme/builtin/common/series/gauge-pointer';
 
 export class GaugePointerSeries<
   T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec
@@ -25,6 +26,8 @@ export class GaugePointerSeries<
   type = SeriesTypeEnum.gaugePointer;
 
   static readonly mark: SeriesMarkMap = gaugePointerSeriesMark;
+
+  static readonly builtInTheme = { gaugePointer };
   static readonly transformerConstructor = GaugePointerSeriesSpecTransformer as any;
   readonly transformerConstructor = GaugePointerSeriesSpecTransformer;
 

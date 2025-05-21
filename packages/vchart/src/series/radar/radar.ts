@@ -21,6 +21,7 @@ import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { registerPolarBandAxis, registerPolarLinearAxis } from '../../component/axis/polar';
+import { radar } from '../../theme/builtin/common/series/radar';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
@@ -42,6 +43,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
   type = SeriesTypeEnum.radar;
 
   static readonly mark: SeriesMarkMap = radarSeriesMark;
+  static readonly builtInTheme = { radar };
   static readonly transformerConstructor = LineLikeSeriesSpecTransformer as any;
   readonly transformerConstructor = LineLikeSeriesSpecTransformer;
 

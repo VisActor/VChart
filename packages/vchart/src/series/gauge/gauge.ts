@@ -18,12 +18,15 @@ import { registerPolarLinearAxis } from '../../component/axis/polar';
 import { AttributeLevel } from '../../constant/attribute';
 import type { Datum } from '../../typings/common';
 import { valueInScaleRange } from '../../util';
+import { gauge } from '../../theme/builtin/common/series/gauge';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
   type = SeriesTypeEnum.gauge;
 
   static readonly mark: SeriesMarkMap = gaugeSeriesMark;
+
+  static readonly builtInTheme = { gauge };
   static readonly transformerConstructor = GaugeSeriesSpecTransformer as any;
   readonly transformerConstructor = GaugeSeriesSpecTransformer;
 

@@ -98,6 +98,7 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.liquid]?: ILiquidSeriesTheme;
   [SeriesTypeEnum.venn]?: IVennSeriesTheme;
   [SeriesTypeEnum.mosaic]?: IMosaicSeriesTheme;
+  [key: string]: any;
 }
 
 /** 带有方向信息的系列类型，作为主题相关的补充类型 */
