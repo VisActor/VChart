@@ -43,7 +43,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@visactor/vchart": "workspace:1.13.9"
+    "@visactor/vchart": "workspace:1.13.9",
+    "@visactor/vchart-extension": "workspace:1.13.9"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

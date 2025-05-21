@@ -3,7 +3,9 @@
   "compilerOptions": {
     "types": ["jest", "offscreencanvas", "node"],
     "baseUrl": "./",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "outDir": "./esm",
+    "composite": true
   },
   "ts-node": {
     "transpileOnly": true,

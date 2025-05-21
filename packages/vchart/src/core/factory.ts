@@ -7,7 +7,7 @@ import type {
 } from '../chart/interface';
 import type { ISeriesConstructor, ISeriesMarkInfo, ISeriesOption, SeriesMarkNameEnum } from '../series/interface';
 import type { IComponentConstructor } from '../component/interface';
-import type { IMarkConstructor, IMarkDataTransform, IMarkOption, MarkConstructor } from '../mark/interface';
+import type { IMarkConstructor, IMarkOption, MarkConstructor } from '../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../mark/interface/type';
 import type { IRegion, IRegionConstructor } from '../region/interface';
@@ -19,7 +19,7 @@ import type { ILayoutConstructor } from '../layout/interface';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
 import type { IComponentPluginConstructor } from '../plugin/components/interface';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IStageEventPlugin, VRenderComponentOptions } from './interface';
+import type { GrammarTransformOption, IStageEventPlugin, VRenderComponentOptions } from './interface';
 import type { MarkAnimationSpec } from '../animation/interface';
 import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/interface/trigger';
 import type { IComposedEventConstructor } from '../index-harmony-simple';
@@ -96,20 +96,9 @@ export class Factory {
     Factory.transforms[key] = transform;
   }
 
-  private static _grammarTransforms: Record<
-    string,
-    {
-      /** 是否支持渐进流程 */
-      canProgressive?: boolean;
-      transform: IMarkDataTransform;
-      isGraphic?: boolean;
-    }
-  > = {};
+  private static _grammarTransforms: Record<string, GrammarTransformOption> = {};
 
-  static registerGrammarTransform(
-    type: string,
-    transform: { canProgressive?: boolean; transform: IMarkDataTransform; isGraphic?: boolean }
-  ) {
+  static registerGrammarTransform(type: string, transform: GrammarTransformOption) {
     Factory._grammarTransforms[type] = transform;
   }
 
@@ -267,7 +256,7 @@ export class Factory {
     return Factory._componentPlugin[type];
   }
 
-  static registerFormatter(func: typeof Factory['_formatter']) {
+  static registerFormatter(func: (typeof Factory)['_formatter']) {
     this._formatter = func;
   }
 

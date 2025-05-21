@@ -7,14 +7,14 @@ import { cloneDeep, isEmpty } from '@visactor/vutils';
 import { Factory } from '@visactor/vchart';
 import { type IGraphic, type ILineGraphicAttribute, createArea, createText } from '@visactor/vrender-core';
 import { STACK_FIELD_END, STACK_FIELD_START } from '@visactor/vchart';
-import { BarLinkAttrs } from './type';
+import type { BarLinkAttrs } from './type';
 import { BAR_LINK } from './constant';
 
 export class BarLinkComponent extends AbstractComponent<Required<BarLinkAttrs>> {
   name = BAR_LINK;
 
   protected render() {
-    const { data, linkStyle, areaStyle, styleMap, label, linkType = 'total' } = this.attribute as BarLinkLineAttrs;
+    const { data, linkStyle, areaStyle, styleMap, label, linkType = 'total' } = this.attribute as BarLinkAttrs;
     if (isEmpty(data)) {
       return;
     }
@@ -40,7 +40,7 @@ export class BarLinkComponent extends AbstractComponent<Required<BarLinkAttrs>> 
       if (
         linePoints &&
         styleMap?.[`line-${id}`]?.visible !== false &&
-        linkStyle?.lineStyle?.lineWidth !== 0 &&
+        (linkStyle?.lineStyle as any)?.lineWidth !== 0 &&
         styleMap?.[`line-${id}`]?.lineWidth !== 0
       ) {
         // 再绘制点
@@ -109,7 +109,7 @@ export class BarLinkComponent extends AbstractComponent<Required<BarLinkAttrs>> 
         const text = createText({
           x: (linePoints[0].x + linePoints[1].x) * 0.5,
           y: (linePoints[0].y + linePoints[1].y) * 0.5,
-          text: formatMethod ? formatMethod(value, percentage, curData) : `${value} ${percentage}`,
+          text: formatMethod ? (formatMethod(value, percentage, curData) as string) : `${value} ${percentage}`,
           fontSize: 14,
           fill: '#000',
           stroke: '#fff',

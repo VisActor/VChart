@@ -24,8 +24,8 @@
     "@visactor/vrender-core": "1.0.0-alpha.14",
     "@visactor/vrender-kits": "1.0.0-alpha.14",
     "@visactor/vrender-components": "1.0.0-alpha.14",
-    "@visactor/vutils": "~1.0.3",
-    "@visactor/vdataset": "~1.0.3",
+    "@visactor/vutils": "~1.0.6",
+    "@visactor/vdataset": "~1.0.6",
     "@visactor/vchart": "workspace:1.13.9"
   },
   "devDependencies": {

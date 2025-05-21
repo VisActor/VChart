@@ -147,6 +147,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     return this._layoutTag;
   }
 
+  resetLayoutItemTag() {
+    this.getLayoutElements().forEach(element => element.setWillLayoutTag());
+  }
+
   // 模块参数
   protected _modelOption: IModelOption;
 
@@ -177,7 +181,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     return this._chartData;
   }
 
-  protected declare _option: IChartOption;
+  declare protected _option: IChartOption;
 
   // 模块内的需要动态影像图表的属性
   readonly state: ILayoutModelState = {
@@ -322,12 +326,14 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     };
     this._canvasRect = canvasRect;
     this._updateLayoutRect(this._option.viewBox);
+    this.resetLayoutItemTag();
     this.setLayoutTag(true, null, reRender);
   }
 
   updateViewBox(viewBox: IBoundsLike, reLayout: boolean) {
     this._option.viewBox = viewBox;
     this._updateLayoutRect(viewBox);
+    this.resetLayoutItemTag();
     this.setLayoutTag(true, null, reLayout);
   }
 
@@ -484,13 +490,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   private _initLayoutFunc() {
     this._layoutFunc = this._option.layout;
     if (!this._layoutFunc) {
-      // 判断是否使用3d的layout
-      let use3dLayout = false;
-      // 查找是否需要使用3d布局模块
-      if ((this._spec as any).zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
-        use3dLayout = true;
-      }
-      const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base'));
+      const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? 'base');
       if (constructor) {
         const layout = new constructor(this._spec.layout, {
           onError: this._option?.onError
@@ -1046,6 +1046,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this.updateChartConfig({ change: true, reMake: false }, this._spec);
 
     // 需要重新布局
+    this.resetLayoutItemTag();
     this.setLayoutTag(true, null, false);
 
     // 设置色板，只设置 colorScale 的 range
@@ -1411,7 +1412,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         if (isUnableValue) {
           (<any>tooltip).hideTooltip?.();
         } else {
-          const dataFilter = {};
+          const dataFilter: { [key: string]: any } = {};
           dimensionInfo.forEach((d: IDimensionInfo) => {
             const { axis, value, data } = d;
             const isY = axis.getOrient() === 'left' || axis.getOrient() === 'right';

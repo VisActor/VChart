@@ -972,9 +972,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     graphics.forEach(g => {
-      // todo 升级 vrender版本，切换成数组
-      g.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-      g.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+      g.removeState([STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]);
 
       if (highlightNodes.includes((getDatumOfGraphic(g) as Datum).key)) {
         g.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true);
@@ -1041,10 +1039,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             return datum[this._spec.categoryField];
           })
       : data?.links
-      ? Array.from(this.extractNamesFromLink(data.links))
-      : data?.values?.map((datum: Datum, index: number) => {
-          return datum[this._spec.categoryField];
-        });
+        ? Array.from(this.extractNamesFromLink(data.links))
+        : data?.values?.map((datum: Datum, index: number) => {
+            return datum[this._spec.categoryField];
+          });
 
     this._nodeList = nodeList;
 
@@ -1052,7 +1050,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   _getNodeNameFromData(datum: Datum) {
-    return datum?.datum ? datum.datum[this._spec.categoryField] : datum.key ?? datum[this._spec.categoryField];
+    return datum?.datum ? datum.datum[this._spec.categoryField] : (datum.key ?? datum[this._spec.categoryField]);
   }
 
   extractNamesFromTree(tree: any, categoryName: string) {

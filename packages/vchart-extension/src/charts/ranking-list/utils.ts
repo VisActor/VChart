@@ -1,10 +1,10 @@
-import { Datum } from '@visactor/vchart/src/typings';
+import type { Datum } from '@visactor/vchart/src/typings';
 import { isArray } from '@visactor/vutils';
 
 export const applyVisible = (spec: any, keyList: string[]) => {
   keyList.forEach(key => {
     if (isArray(spec[key])) {
-      spec[key]?.forEach((s, i) => {
+      spec[key]?.forEach((s: any, i: number) => {
         spec[key][i] = {
           ...s,
           style: {
@@ -49,7 +49,8 @@ export const mergeObjects = (objA: any, objB: any) => {
 };
 
 export const computeDataRange = (data: Datum[], field: string) => {
-  let dataMin, dataMax;
+  let dataMin: number;
+  let dataMax: number;
   const datumX = data.map(d => d[field]).filter(d => typeof d !== 'undefined' && d !== null);
 
   // 避免数据都为null, 即xField都为null, 导致scale异常, 图表为空

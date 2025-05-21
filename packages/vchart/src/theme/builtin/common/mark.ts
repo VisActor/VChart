@@ -63,11 +63,6 @@ export const markByName: IGlobalMarkThemeByName = {
       stroke: { type: 'palette', key: 'backgroundColor' }
     }
   },
-  funnel3d: {
-    style: {
-      stroke: false
-    }
-  },
   barBackground: {
     visible: false,
     style: {

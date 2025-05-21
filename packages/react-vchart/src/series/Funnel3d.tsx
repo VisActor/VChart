@@ -1,6 +1,7 @@
-import { BaseSeriesProps, createSeries } from './BaseSeries';
-import type { IFunnel3dSeriesSpec } from '@visactor/vchart';
-import { registerFunnel3dSeries } from '@visactor/vchart';
+import type { BaseSeriesProps } from './BaseSeries';
+import { createSeries } from './BaseSeries';
+import type { IFunnel3dSeriesSpec } from '@visactor/vchart-extension';
+import { registerFunnel3dSeries } from '@visactor/vchart-extension';
 
 export type Funnel3dProps = BaseSeriesProps & Omit<IFunnel3dSeriesSpec, 'type'>;
 

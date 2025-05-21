@@ -164,8 +164,8 @@ export function getSeriesLabelConfig(
                             x: isTransposed
                               ? (graphBounds.x1 + graphBounds.x2) / 2
                               : isBandAxisInverse
-                              ? graphBounds.x1
-                              : graphBounds.x2,
+                                ? graphBounds.x1
+                                : graphBounds.x2,
                             y: isTransposed
                               ? isBandAxisInverse
                                 ? graphBounds.y2
@@ -176,8 +176,8 @@ export function getSeriesLabelConfig(
                             x: isTransposed
                               ? (graphBounds.x1 + graphBounds.x2) / 2
                               : isBandAxisInverse
-                              ? graphBounds.x2
-                              : graphBounds.x1,
+                                ? graphBounds.x2
+                                : graphBounds.x1,
                             y: isTransposed
                               ? isBandAxisInverse
                                 ? graphBounds.y1
@@ -208,7 +208,7 @@ export function getSeriesLabelConfig(
                       y: point.y + regionStartY
                     },
                     label: labelValue,
-                    color,
+                    color: color as string,
                     textAlign,
                     textBaseline,
                     series: s,

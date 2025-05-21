@@ -1,21 +1,9 @@
-import {
-  registerDirectionalLight,
-  registerOrthoCamera,
-  registerHtmlAttributePlugin,
-  registerReactAttributePlugin,
-  registerViewTransform3dPlugin
-} from '@visactor/vrender-core';
+import { registerHtmlAttributePlugin, registerReactAttributePlugin } from '@visactor/vrender-core';
 
 import { registerAnimate as registerVRenderAnimate } from '@visactor/vrender-animate';
 import { DragNDrop, Gesture } from '@visactor/vrender-kits';
 import { Factory } from '../core/factory';
 import { registerBuiltInAnimation } from '../animation/config';
-
-export const register3DPlugin = () => {
-  registerDirectionalLight();
-  registerOrthoCamera();
-  registerViewTransform3dPlugin();
-};
 
 export const registerAnimate = () => {
   registerVRenderAnimate();

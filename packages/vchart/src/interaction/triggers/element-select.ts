@@ -143,9 +143,7 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
   reset(markGraphic: IMarkGraphic) {
     if (markGraphic) {
       if (this._markSet.getMarkInId(markGraphic.context.markId)) {
-        // todo 升级 vrender版本，切换成数组
-        markGraphic.removeState(this.options.state);
-        markGraphic.removeState(this.options.reverseState);
+        markGraphic.removeState([this.options.state, this.options.reverseState]);
       }
     } else {
       this.resetAll();

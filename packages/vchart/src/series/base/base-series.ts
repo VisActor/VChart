@@ -91,7 +91,6 @@ import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 import { LayoutZIndex } from '../../constant/layout';
 import type { ILabelSpec } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
-import { is3DMark } from '../../mark/utils/common';
 import type { GraphicEventType } from '@visactor/vrender-core';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
@@ -112,7 +111,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   declare getSpecInfo: () => ISeriesSpecInfo;
 
-  protected declare _option: ISeriesOption;
+  declare protected _option: ISeriesOption;
 
   // 坐标系信息
   readonly coordinate: CoordinateType = 'none';
@@ -241,7 +240,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
   protected _dataSet: DataSet;
 
-  protected declare _tooltipHelper: ISeriesTooltipHelper | undefined;
+  declare protected _tooltipHelper: ISeriesTooltipHelper | undefined;
   get tooltipHelper() {
     if (!this._tooltipHelper) {
       this.initTooltip();
@@ -841,8 +840,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
       : isMultiple
-      ? ['empty']
-      : ['empty', finalSelectSpec.trigger];
+        ? ['empty']
+        : ['empty', finalSelectSpec.trigger];
     return {
       type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT,
       trigger: finalSelectSpec.trigger as GraphicEventType,
@@ -1282,7 +1281,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       attributeContext: this._markAttributeContext,
       componentType: option.componentType,
       noSeparateStyle,
-      parent: parent !== false ? parent ?? this._rootMark : null
+      parent: parent !== false ? (parent ?? this._rootMark) : null
     });
 
     if (isValid(m)) {
@@ -1316,8 +1315,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         largeThreshold: (spec as IMarkProgressiveConfig).largeThreshold,
         morph: config.morph ?? false,
         useSequentialAnimation: (spec as any).useSequentialAnimation,
-        support3d:
-          is3DMark(markInfo.type as MarkTypeEnum) || (config.support3d ?? (spec.support3d || !!(spec as any).zField)),
+        support3d: config.support3d ?? (spec.support3d || !!(spec as any).zField),
         morphKey: spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`,
         morphElementKey: spec.morph?.morphElementKey ?? config.morphElementKey
       };

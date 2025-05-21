@@ -81,8 +81,8 @@ export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
 // @ts-ignore
 // FIXME: some private attribute should be changed to protected for better inheritance
 export class PolarTagPointsUpdate extends TagPointsUpdate {
-  private declare points: IPointLike[];
-  private declare interpolatePoints: [IPointLike, IPointLike][];
+  declare private points: IPointLike[];
+  declare private interpolatePoints: [IPointLike, IPointLike][];
 
   private _center: IPointLike;
   private _prevCenter: IPointLike;
@@ -91,8 +91,8 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
     super.onBind();
     const { center } = this.target.attribute as any;
     const { center: centerTo } = this.target.getFinalAttribute() as any;
-    this._center = center;
-    this._prevCenter = centerTo;
+    this._center = centerTo;
+    this._prevCenter = center;
   }
 
   onUpdate(end: boolean, ratio: number, out: Record<string, any>): void {

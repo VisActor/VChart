@@ -57,11 +57,11 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   implements IFunnelSeries
 {
   static readonly type: string = SeriesTypeEnum.funnel;
-  type = SeriesTypeEnum.funnel;
-  protected _funnelMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.funnel;
-  protected _funnelMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
-  protected _transformMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.transform;
-  protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
+  type: string = SeriesTypeEnum.funnel;
+  protected _funnelMarkName: string = SeriesMarkNameEnum.funnel;
+  protected _funnelMarkType: string = MarkTypeEnum.polygon;
+  protected _transformMarkName: string = SeriesMarkNameEnum.transform;
+  protected _transformMarkType: string = MarkTypeEnum.polygon;
 
   static readonly mark: SeriesMarkMap = funnelSeriesMark;
   static readonly transformerConstructor = FunnelSeriesSpecTransformer as any;
@@ -557,7 +557,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     const viewHeight = this._isHorizontal() ? this.getLayoutRect().width : this.getLayoutRect().height;
 
     const hasTransform = !!this._spec.isTransform;
-    const gap = hasTransform ? 0 : this._spec.gap ?? 0;
+    const gap = hasTransform ? 0 : (this._spec.gap ?? 0);
     const transformCount = hasTransform ? Math.max(0, funnelCount - 1) : 0;
     const heightRatio = this._spec.heightRatio || 0.5;
     const funnelHeight =

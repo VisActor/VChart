@@ -19,7 +19,6 @@ import type { ILayoutSpec } from '../../layout/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type {
   ConvertToMarkStyleSpec,
-  IArc3dMarkSpec,
   IArcMarkSpec,
   IAreaMarkSpec,
   IBoxPlotMarkSpec,
@@ -29,8 +28,6 @@ import type {
   ILinkPathMarkSpec,
   IPathMarkSpec,
   IPolygonMarkSpec,
-  IPyramid3dMarkSpec,
-  IRect3dMarkSpec,
   IRectMarkSpec,
   IRuleMarkSpec,
   ISymbolMarkSpec,
@@ -288,6 +285,13 @@ export interface IFieldsMeta {
   sortIndex?: number;
   /** 排序时是否反转 默认为 false */
   sortReverse?: boolean;
+  /**
+   * 排序简易配置
+   * 当配置了 sort 时，sortIndex 默认为 0 ，sortReverse 跟随 sort 的值，'desc' 时为 true，'asc' 时为 false
+   * 当配置了 sortIndex 和 sortReverser 时，优先级会高于 sort 的默认效果
+   * @support since 2.0.0
+   */
+  sort?: 'desc' | 'asc';
 }
 
 export interface SheetParseOptions extends CommonParseOptions {
@@ -707,14 +711,11 @@ export type IBuildinMarkSpec = {
   line: ILineMarkSpec;
   text: ITextMarkSpec;
   rect: IRectMarkSpec;
-  rect3d: IRect3dMarkSpec;
   image: IImageMarkSpec;
   path: IPathMarkSpec;
   area: IAreaMarkSpec;
   arc: IArcMarkSpec;
-  arc3d: IArc3dMarkSpec;
   polygon: IPolygonMarkSpec;
-  pyramid3d: IPyramid3dMarkSpec;
   boxPlot: IBoxPlotMarkSpec;
   linkPath: ILinkPathMarkSpec;
   ripple: IRippleMarkSpec;

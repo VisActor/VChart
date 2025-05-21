@@ -16,7 +16,7 @@ import type {
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventCallback, EventQuery, EventType, ExtendEventParam } from '../event/interface';
-import type { IMark } from '../mark/interface';
+import type { IMark, IMarkDataTransform } from '../mark/interface';
 import type { ISeries } from '../series/interface/series';
 import type { ITheme } from '../theme/interface';
 import type { IComponent } from '../component/interface';
@@ -582,7 +582,17 @@ export interface VRenderComponentOptions {
 }
 
 export interface IStageEventPlugin<T> {
-  new (taget: IEventTarget, cfg?: T): {
+  new (
+    taget: IEventTarget,
+    cfg?: T
+  ): {
     release: () => void;
   };
+}
+
+export interface GrammarTransformOption {
+  /** 是否支持渐进流程 */
+  canProgressive?: boolean;
+  transform: IMarkDataTransform;
+  runType?: 'beforeJoin' | 'afterEncode';
 }

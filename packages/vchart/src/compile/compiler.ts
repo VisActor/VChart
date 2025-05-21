@@ -107,17 +107,8 @@ export class Compiler implements ICompiler {
       return;
     }
 
-    const {
-      autoRefreshDpr,
-      dpr,
-      mode,
-      gestureConfig,
-      interactive,
-      clickInterval,
-      autoPreventDefault,
-      options3d,
-      background
-    } = this._option;
+    const { autoRefreshDpr, dpr, mode, gestureConfig, interactive, clickInterval, autoPreventDefault, background } =
+      this._option;
     this._stage =
       this._option.stage ??
       (new Stage({
@@ -149,9 +140,6 @@ export class Compiler implements ICompiler {
 
     this._stage.enableIncrementalAutoRender();
 
-    if (options3d?.enable) {
-      this._stage.set3dOptions(options3d);
-    }
     // 之前vgrammar 设置了一些默认配置
     (this._stage as any).setTheme({
       symbol: {
@@ -295,6 +283,13 @@ export class Compiler implements ICompiler {
   private _handleAfterNextRender = () => {
     if (this._stage && !this._option.disableDirtyBounds) {
       this._stage.enableDirtyBounds();
+    }
+
+    if (this._compileChart) {
+      this._compileChart.getEvent()?.emit(ChartEvent.renderFinished, {
+        chart: this._compileChart,
+        vchart: this._compileChart.getOption()?.globalInstance
+      });
     }
   };
 

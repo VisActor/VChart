@@ -6,7 +6,6 @@ import { isValidOrient } from '../../../../util/space';
 import type { ICartesianAxisCommonSpec } from '../interface';
 import { ComponentTypeEnum } from '../../../interface';
 import type { AxisType } from '../../interface/common';
-import type { ITheme } from '../../../../theme/interface';
 import { getComponentThemeFromOption } from '../../../util';
 import { mergeSpec } from '@visactor/vutils-extension';
 
@@ -65,12 +64,12 @@ export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, getTh
     (type === 'band'
       ? getComponentThemeFromOption('axisBand', getTheme)
       : (['linear', 'log', 'symlog'] as AxisType[]).includes(type)
-      ? getComponentThemeFromOption('axisLinear', getTheme)
-      : {}) ?? {};
+        ? getComponentThemeFromOption('axisLinear', getTheme)
+        : {}) ?? {};
   const axisTheme = isXAxis(orient)
     ? getComponentThemeFromOption('axisX', getTheme)
     : isYAxis(orient)
-    ? getComponentThemeFromOption('axisY', getTheme)
-    : getComponentThemeFromOption('axisZ', getTheme);
+      ? getComponentThemeFromOption('axisY', getTheme)
+      : getComponentThemeFromOption('axisZ', getTheme);
   return mergeSpec({}, getComponentThemeFromOption('axis', getTheme), axisTypeTheme, axisTheme);
 };

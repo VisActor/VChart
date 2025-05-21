@@ -163,6 +163,7 @@ export interface ICompilableMark extends IGrammarItem {
   // resumeAnimationByState: (animationState: string) => IAnimate;
 
   layout: (layoutCallback: () => void) => void;
+  setDataLabelType?: () => string;
 }
 
 export interface IMarkCompileOption extends GrammarItemCompileOption {

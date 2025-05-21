@@ -85,7 +85,7 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
 
   protected _addMarkLabelSpec<V extends ISeries = ISeries>(
     spec: T,
-    markName: SeriesMarkNameEnum | ((spec: ILabelSpec) => SeriesMarkNameEnum),
+    markName: string | ((spec: ILabelSpec) => string),
     labelSpecKey: keyof T = 'label' as any,
     styleHandlerName: keyof V = 'initLabelMarkStyle',
     hasAnimation: boolean = true,

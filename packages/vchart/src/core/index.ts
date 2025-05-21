@@ -27,6 +27,7 @@ export type { IMarkGraphic, IGraphicContext } from '../mark/interface/';
 export * from '../constant/base';
 export * from '../constant/data';
 export * from '../constant/layout';
+export { AttributeLevel } from '../constant/attribute';
 export { TransformLevel } from '../data/initialize';
 
 /**
@@ -53,7 +54,7 @@ export {
   createLine,
   createSymbol
 } from '@visactor/vrender-core';
-export { ManualTicker } from '@visactor/vrender-animate';
+export { ManualTicker, StreamLight } from '@visactor/vrender-animate';
 
 // utils
 export * from '../util/space';

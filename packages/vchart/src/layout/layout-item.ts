@@ -70,6 +70,9 @@ export class LayoutItem implements ILayoutItem {
   }
   /** for layout diff */
   protected _lastComputeRect: ILayoutRect = null;
+  get lastComputeRect() {
+    return this._lastComputeRect;
+  }
   protected _lastComputeOutBounds: IBoundsLike = { x1: 0, x2: 0, y1: 0, y2: 0 };
   getLastComputeOutBounds(): IBoundsLike {
     return this._lastComputeOutBounds;
@@ -116,6 +119,11 @@ export class LayoutItem implements ILayoutItem {
 
   protected _option: ILayoutItemInitOption;
 
+  protected _willLayoutTag: boolean = true;
+  get willLayoutTag() {
+    return this._willLayoutTag;
+  }
+
   constructor(model: ILayoutModel, option: ILayoutItemInitOption) {
     this._model = model;
     this._option = option;
@@ -133,24 +141,28 @@ export class LayoutItem implements ILayoutItem {
     }
     if ((this._spec as unknown as any).visible !== false) {
       // 处理 user spec value to px;
+      // 先计算出 padding
       const padding = normalizeLayoutPaddingSpec(spec.padding);
-      const paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
+      let paddingValue = calcPadding(padding, chartViewRect, chartViewRect);
+      if (this._option.transformLayoutPadding) {
+        paddingValue = this._option.transformLayoutPadding(paddingValue);
+      }
       this.layoutPaddingLeft = paddingValue.left;
       this.layoutPaddingRight = paddingValue.right;
       this.layoutPaddingTop = paddingValue.top;
       this.layoutPaddingBottom = paddingValue.bottom;
 
       this._minHeight = isNil(spec.minHeight)
-        ? this._minHeight ?? null
+        ? (this._minHeight ?? null)
         : calcLayoutNumber(spec.minHeight, chartViewRect.height, chartViewRect);
       this._maxHeight = isNil(spec.maxHeight)
-        ? this._maxHeight ?? null
+        ? (this._maxHeight ?? null)
         : calcLayoutNumber(spec.maxHeight, chartViewRect.height, chartViewRect);
       this._minWidth = isNil(spec.minWidth)
-        ? this._minWidth ?? null
+        ? (this._minWidth ?? null)
         : calcLayoutNumber(spec.minWidth, chartViewRect.width, chartViewRect);
       this._maxWidth = isNil(spec.maxWidth)
-        ? this._maxWidth ?? null
+        ? (this._maxWidth ?? null)
         : calcLayoutNumber(spec.maxWidth, chartViewRect.width, chartViewRect);
       // 处理 user width
       if (spec.width) {
@@ -403,5 +415,13 @@ export class LayoutItem implements ILayoutItem {
 
   getModelVisible() {
     return this._model.getVisible();
+  }
+
+  setWillLayoutTag() {
+    this._willLayoutTag = true;
+  }
+
+  clearWillLayoutTag() {
+    this._willLayoutTag = false;
   }
 }

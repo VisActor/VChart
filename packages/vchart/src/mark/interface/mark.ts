@@ -1,7 +1,6 @@
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IMarkSpec } from '../../typings';
 import type {
-  IArc3dMarkSpec,
   IArcMarkSpec,
   IAreaMarkSpec,
   IBoxPlotMarkSpec,
@@ -14,8 +13,6 @@ import type {
   ILinkPathMarkSpec,
   IPathMarkSpec,
   IPolygonMarkSpec,
-  IPyramid3dMarkSpec,
-  IRect3dMarkSpec,
   IRectMarkSpec,
   IRippleMarkSpec,
   IRuleMarkSpec,
@@ -27,6 +24,7 @@ import type { MarkType } from './type';
 export interface IComponentMark extends IMarkRaw<ICommonSpec> {
   renderInner: () => void;
   getComponent: () => IGraphic;
+  clearComponent: () => void;
   setAttributeTransform: (t: (attrs: any) => any) => any;
 }
 
@@ -62,11 +60,7 @@ export type ITextMark = IMarkRaw<IComposedTextMarkSpec> & { getTextType: () => '
 
 export type ITextSpec<T> = IMarkSpec<T> & { textType?: 'rich' | 'text' };
 
-export type IArc3dMark = IMarkRaw<IArc3dMarkSpec>;
-
 export type IPolygonMark = IMarkRaw<IPolygonMarkSpec>;
-
-export type IPyramid3dMark = IMarkRaw<IPyramid3dMarkSpec>;
 
 export type IArcMark = IMarkRaw<IArcMarkSpec>;
 
@@ -83,8 +77,6 @@ export type ILineMark = IMarkRaw<ILineMarkSpec>;
 export type ILinkPathMark = IMarkRaw<ILinkPathMarkSpec>;
 
 export type IPathMark = IMarkRaw<IPathMarkSpec>;
-
-export type IRect3dMark = IMarkRaw<IRect3dMarkSpec>;
 
 export type IRectMark = IMarkRaw<IRectMarkSpec>;
 

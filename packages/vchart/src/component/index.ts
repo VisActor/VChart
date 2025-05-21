@@ -16,7 +16,8 @@ import type {
   ICartesianTimeAxisSpec,
   ICartesianAxisSpec,
   ICartesianLogAxisSpec,
-  ICartesianAxisCommonTheme
+  ICartesianAxisCommonTheme,
+  ICartesianSymlogAxisSpec
 } from './axis/cartesian/index';
 import {
   CartesianAxis,
@@ -78,14 +79,22 @@ import { Label, registerLabel } from './label';
 import { TotalLabel, registerTotalLabel } from './label/total-label';
 import { registerPoptip } from './poptip/index';
 import type { IComponentTheme } from './interface';
-import type { IAxisCommonTheme, IAxisItemTheme, IBandAxisTheme } from './axis/interface';
+import type { IAxis, IAxisCommonTheme, IAxisItemTheme, IBandAxisTheme } from './axis/interface';
 import type { IPoptipTheme } from './poptip/interface';
+import { registerDimensionTooltipProcessor } from './tooltip/processor/dimension-tooltip';
+import { registerMarkTooltipProcessor } from './tooltip/processor/mark-tooltip';
+import { getCartesianCrosshairRect } from './crosshair/utils/cartesian';
+import { registerGroupTooltipProcessor } from './tooltip/processor/group-tooltip';
+import { BandAxisMixin } from './axis/mixin/band-axis-mixin';
+import { LinearAxisMixin } from './axis/mixin/linear-axis-mixin';
 
 export {
   ScrollBar,
   DataZoom,
   CustomMark,
   Brush,
+  BandAxisMixin,
+  LinearAxisMixin,
   CartesianAxis,
   CartesianBandAxis,
   CartesianLinearAxis,
@@ -115,10 +124,15 @@ export {
   TotalLabel
 };
 
+export { getCartesianCrosshairRect };
+
 export {
   registerBrush,
   registerScrollBar,
   registerTitle,
+  registerMarkTooltipProcessor,
+  registerDimensionTooltipProcessor,
+  registerGroupTooltipProcessor,
   registerTooltip,
   registerCartesianBandAxis,
   registerCartesianCrossHair,
@@ -149,6 +163,7 @@ export {
 };
 
 export type {
+  IAxis,
   IComponent,
   IScrollBarSpec,
   IBrushSpec,
@@ -158,6 +173,7 @@ export type {
   ICartesianLinearAxisSpec,
   ICartesianTimeAxisSpec,
   ICartesianLogAxisSpec,
+  ICartesianSymlogAxisSpec,
   IContinuousLegendSpec,
   IDataZoomSpec,
   IDiscreteLegendSpec,
@@ -206,3 +222,7 @@ export type {
 
 // tooltip
 export * from './tooltip/interface';
+
+// utils
+
+export { isXAxis, isYAxis, isZAxis } from './axis/cartesian/util';

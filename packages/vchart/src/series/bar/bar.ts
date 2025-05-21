@@ -49,9 +49,9 @@ export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有
 
 export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.bar;
-  type = SeriesTypeEnum.bar;
-  protected _barMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.bar;
-  protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
+  type: string = SeriesTypeEnum.bar;
+  protected _barMarkName: string = SeriesMarkNameEnum.bar;
+  protected _barMarkType: string = MarkTypeEnum.rect;
 
   static readonly mark: SeriesMarkMap = barSeriesMark;
   static readonly transformerConstructor = BarSeriesSpecTransformer as any;
