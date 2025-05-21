@@ -206,7 +206,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
           },
           offsetX: computeOffsetFromRegion(point, attribute.itemContent.offsetX, this._relativeSeries.getRegion()),
           offsetY: computeOffsetFromRegion(point, attribute.itemContent.offsetY, this._relativeSeries.getRegion())
-        },
+        } as any,
         limitRect,
         dx: this._layoutOffsetX,
         dy: this._layoutOffsetY
