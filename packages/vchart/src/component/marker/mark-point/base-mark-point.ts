@@ -59,7 +59,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       state = {},
 
       ...restItemContent
-    } = itemContent;
+    } = itemContent as any;
 
     let itemContentState = null;
     let itemContentStyle = null;
