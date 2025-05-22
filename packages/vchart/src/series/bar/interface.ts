@@ -123,7 +123,7 @@ export interface IBarSeriesSpec
   /**
    * 柱条间 padding 值
    */
-  barPadding?: number;
+  barGap?: number;
 }
 
 export interface IBarBackgroundSpec {
