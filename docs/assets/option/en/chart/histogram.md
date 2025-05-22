@@ -25,7 +25,7 @@ x2 field. (x field is the left interval field of frequency statistics, x2 field 
 
 y2 field. (y field is the left interval field of frequency statistics, y2 field is the right interval field of frequency statistics)
 
-## barPadding(number)
+## barGap(number)
 
 Used to adjust the distance between each column in the histogram and support passing in pixel values.
 

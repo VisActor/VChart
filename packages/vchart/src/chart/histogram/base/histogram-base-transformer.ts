@@ -9,6 +9,6 @@ export class BaseHistogramChartSpecTransformer<T extends IHistogramChartSpec> ex
   }
 
   protected _getDefaultSeriesSpec(spec: T): any {
-    return super._getDefaultSeriesSpec(spec, ['x2Field', 'y2Field', 'barMinHeight', 'barBackground', 'barPadding']);
+    return super._getDefaultSeriesSpec(spec, ['x2Field', 'y2Field', 'barMinHeight', 'barBackground', 'barGap']);
   }
 }
