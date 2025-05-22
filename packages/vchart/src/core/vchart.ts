@@ -405,7 +405,7 @@ export class VChart implements IVChart {
     this._currentSize = this.getCurrentSize();
     const pluginList: string[] = [];
 
-    if (!poptip !== false) {
+    if (poptip !== false) {
       pluginList.push('poptipForText');
     }
 
