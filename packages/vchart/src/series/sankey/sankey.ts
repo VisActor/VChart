@@ -39,6 +39,7 @@ import { getFormatFunction } from '../../component/util';
 import type { ILabelSpec } from '../../component';
 import { getDatumOfGraphic } from '../../util';
 import { addRuntimeState } from '../../mark/utils/glyph';
+import { sankey } from '../../theme/builtin/common/series/sankey';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -48,6 +49,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   readonly transformerConstructor = SankeySeriesSpecTransformer;
 
   static readonly mark: SeriesMarkMap = sankeySeriesMark;
+  static readonly builtInTheme = { sankey };
 
   private _nodeMark: IRectMark;
   private _linkMark: ILinkPathMark;

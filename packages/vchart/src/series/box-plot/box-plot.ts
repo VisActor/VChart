@@ -32,6 +32,7 @@ import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../co
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
 import { registeBoxPlotScaleAnimation } from './animation';
+import { boxPlot } from '../../theme/builtin/common/series/box-plot';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -45,6 +46,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   static readonly type: string = SeriesTypeEnum.boxPlot;
   type = SeriesTypeEnum.boxPlot;
 
+  static readonly builtInTheme = { boxPlot };
   static readonly mark: SeriesMarkMap = boxPlotSeriesMark;
 
   protected _minField: string;

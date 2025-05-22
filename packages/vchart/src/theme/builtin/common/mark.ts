@@ -51,18 +51,6 @@ export const markByName: IGlobalMarkThemeByName = {
       fontSize: null
     }
   },
-  sunburst: {
-    style: {
-      lineWidth: 1,
-      stroke: { type: 'palette', key: 'backgroundColor' }
-    }
-  },
-  circlePacking: {
-    style: {
-      lineWidth: 1,
-      stroke: { type: 'palette', key: 'backgroundColor' }
-    }
-  },
   barBackground: {
     visible: false,
     style: {

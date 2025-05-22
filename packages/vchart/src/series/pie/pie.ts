@@ -26,13 +26,19 @@ import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IPieOpt } from '../../data/transforms/pie';
 // eslint-disable-next-line no-duplicate-imports
-import { isDataEmpty, pie } from '../../data/transforms/pie';
+import { pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { registerEmptyCircleAnimation, registerPieAnimation } from './animation/animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IAnimationTypeConfig, TypeAnimationConfig } from '../../animation/interface';
 import { AnimationStateEnum } from '../../animation/interface';
-import type { IBasePieSeriesSpec, IPieAnimationParams, IPieSeriesSpec, PieAppearPreset } from './interface';
+import type {
+  IBasePieSeriesSpec,
+  IPieAnimationParams,
+  IPieSeriesSpec,
+  IPieSeriesTheme,
+  PieAppearPreset
+} from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { centerOffsetConfig } from './animation/centerOffset';
 import { registerArcMark } from '../../mark/arc';
@@ -46,6 +52,7 @@ import { computeLayoutRadius } from '../../component/axis/polar/util/common';
 import { calcLayoutNumber } from '../../util/space';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
+import { pie as pieTheme } from '../../theme/builtin/common/series/pie';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;
@@ -55,6 +62,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _pieMarkType: string = MarkTypeEnum.arc;
 
   static readonly mark: SeriesMarkMap = pieSeriesMark;
+  static readonly builtInTheme: Record<string, IPieSeriesTheme> = { pie: pieTheme };
 
   protected _viewDataLabel!: ICompilableData;
 

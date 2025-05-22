@@ -38,6 +38,7 @@ export interface ISeriesOption extends IModelOption {
 export interface ISeriesConstructor extends IModelConstructor {
   readonly type: string;
   mark?: SeriesMarkMap;
+  builtInTheme?: any;
   new (spec: any, options: ISeriesOption): ISeries;
 }
 

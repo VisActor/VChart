@@ -1,10 +1,10 @@
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
-import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/common';
+import type { IDataValues, IMarkStateSpec, IInitOption, ISeriesSpec } from '../typings/spec/common';
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
-import type { ISeriesConstructor } from '../series/interface';
+import type { ISeriesConstructor, ISeriesTheme } from '../series/interface';
 import {
   ChartTypeEnum,
   type DimensionIndexOption,
@@ -487,6 +487,39 @@ export class VChart implements IVChart {
     return spec;
   }
 
+  private _updateSeriesTheme(spec: any) {
+    const series = (spec.series ?? []) as ISeriesSpec[];
+    const cache: Record<string, boolean> = {};
+    let hasTheme = false;
+    const seriesTheme = {};
+
+    series.forEach(seriesItem => {
+      if (seriesItem.type) {
+        const seriesBuiltInTheme = Factory.getSeriesBuiltInTheme(seriesItem.type);
+
+        if (seriesBuiltInTheme && !cache[seriesItem.type]) {
+          // 清除缓存
+          if (this._cachedProcessedTheme) {
+            Object.keys(seriesBuiltInTheme).forEach(k => {
+              if ((this._cachedProcessedTheme as any)[`series.${k}`]) {
+                (this._cachedProcessedTheme as any)[`series.${k}`] = null;
+              }
+            });
+          }
+
+          mergeSpec(seriesTheme, seriesBuiltInTheme as ISeriesTheme);
+
+          cache[seriesItem.type] = true;
+          hasTheme = true;
+        }
+      }
+    });
+
+    if (hasTheme) {
+      this._currentTheme.series = mergeSpec({}, seriesTheme, this._currentTheme.series);
+    }
+  }
+
   private _initChartSpec(spec: any, actionSource: VChartRenderActionSource) {
     // 如果用户注册了函数，在配置中替换相应函数名为函数内容
     if (VChart.getFunctionList() && VChart.getFunctionList().length) {
@@ -504,7 +537,7 @@ export class VChart implements IVChart {
 
     // 插件生命周期
     this._chartPluginApply('onAfterChartSpecTransform', this._spec, actionSource);
-
+    this._updateSeriesTheme(this._spec);
     this._specInfo = this._chartSpecTransformer?.transformModelSpec(this._spec);
 
     // 插件生命周期

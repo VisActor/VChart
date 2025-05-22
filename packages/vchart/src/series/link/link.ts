@@ -18,12 +18,14 @@ import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { AttributeLevel } from '../../constant/attribute';
+import { link } from '../../theme/builtin/common/series/link';
 
 export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;
   type = SeriesTypeEnum.link;
 
   static readonly mark: SeriesMarkMap = linkSeriesMark;
+  static readonly builtInTheme = { link };
 
   protected _fromField?: string;
   getFromField() {

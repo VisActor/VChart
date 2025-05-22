@@ -24,12 +24,14 @@ import type { ILabelMark, IMark, IPathMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
 import { MapSeriesSpecTransformer } from './map-transformer';
 import { CompilableData } from '../../compile/data';
+import { map as mapTheme } from '../../theme/builtin/common/series/map';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
   type = SeriesTypeEnum.map;
 
   static readonly mark: SeriesMarkMap = mapSeriesMark;
+  static readonly builtInTheme = { map: mapTheme };
   static readonly transformerConstructor = MapSeriesSpecTransformer as any;
   readonly transformerConstructor = MapSeriesSpecTransformer;
 

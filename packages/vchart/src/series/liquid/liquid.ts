@@ -25,6 +25,7 @@ import { labelSmartInvert } from '@visactor/vrender-components';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import type { DataView } from '@visactor/vdataset';
 import { LiquidSeriesTooltipHelper } from './tooltip-helper';
+import { liquid } from '../../theme/builtin/common/series/liquid';
 
 export type ILiquidMark = IMarkRaw<ILiquidMarkSpec>;
 export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> extends BaseSeries<T> {
@@ -32,6 +33,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
   type = SeriesTypeEnum.liquid;
 
   static readonly mark: SeriesMarkMap = LiquidSeriesMark;
+  static readonly builtInTheme = { liquid };
   static readonly transformerConstructor = LineLikeSeriesSpecTransformer;
   readonly transformerConstructor = LineLikeSeriesSpecTransformer;
   private _liquidGroupMark?: IGroupMark;

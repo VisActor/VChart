@@ -14,6 +14,7 @@ export const sunburst: ISunburstSeriesTheme = {
   },
   sunburst: {
     style: {
+      lineWidth: 1,
       stroke: { type: 'palette', key: 'backgroundColor' },
       fillOpacity: 1,
       cursor: 'pointer'

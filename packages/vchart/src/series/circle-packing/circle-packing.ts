@@ -35,6 +35,7 @@ import { registerArcMark } from '../../mark/arc';
 import { registerTextMark } from '../../mark/text';
 import { circlePackingSeriesMark } from './constant';
 import { appendHierarchyFields } from '../util/hierarchy';
+import { circlePacking } from '../../theme/builtin/common/series/circle-packing';
 
 export class CirclePackingSeries<
   T extends ICirclePackingSeriesSpec = ICirclePackingSeriesSpec
@@ -43,6 +44,7 @@ export class CirclePackingSeries<
   type = SeriesTypeEnum.circlePacking;
 
   static readonly mark: SeriesMarkMap = circlePackingSeriesMark;
+  static readonly builtInTheme = { circlePacking };
 
   // 映射字段
   protected _categoryField!: string;

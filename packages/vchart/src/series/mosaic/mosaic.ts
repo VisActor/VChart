@@ -18,12 +18,15 @@ import {
   MOSAIC_VALUE_START_PERCENT
 } from '../../constant/data';
 import { isNil } from '@visactor/vutils';
+import type { IBarSeriesTheme } from '../bar/interface';
+import { mosaic } from '../../theme/builtin/common/series/mosaic';
 
 export class MosaicSeries<T extends IMosaicSeriesSpec = IMosaicSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.mosaic;
   type = SeriesTypeEnum.mosaic;
 
   protected declare _spec: T;
+  static readonly builtInTheme: Record<string, IBarSeriesTheme> = { mosaic };
 
   static readonly transformerConstructor = BarSeriesSpecTransformer as any;
   readonly transformerConstructor = BarSeriesSpecTransformer as any;

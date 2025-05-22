@@ -14,6 +14,7 @@ import { Factory } from '../../core/factory';
 import type { IArcMark, ILabelMark, IMark, ITextMark } from '../../mark/interface';
 import { RoseSeriesSpecTransformer } from './rose-transformer';
 import { registerPolarBandAxis, registerPolarLinearAxis } from '../../component/axis/polar';
+import { rose } from '../../theme/builtin/common/series/rose';
 
 export const DefaultBandWidth = 0.5;
 
@@ -22,6 +23,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
   type = SeriesTypeEnum.rose;
 
   static readonly mark: SeriesMarkMap = roseSeriesMark;
+  static readonly builtInTheme = { rose };
   static readonly transformerConstructor = RoseSeriesSpecTransformer as any;
   readonly transformerConstructor = RoseSeriesSpecTransformer;
 

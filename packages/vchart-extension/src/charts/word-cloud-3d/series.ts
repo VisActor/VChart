@@ -11,12 +11,14 @@ import {
   SeriesMarkNameEnum,
   userAnimationConfig
 } from '@visactor/vchart';
+import { wordCloud3d } from './theme';
 
 export class WordCloud3dSeries<
   T extends IWordCloud3dSeriesSpec = IWordCloud3dSeriesSpec
 > extends BaseWordCloudSeries<T> {
   static readonly type: string = SeriesType3dEnum.wordCloud3d;
   type = SeriesType3dEnum.wordCloud3d;
+  static readonly builtInTheme = { wordCloud3d };
 
   protected _wordCloudTransformOption() {
     return {

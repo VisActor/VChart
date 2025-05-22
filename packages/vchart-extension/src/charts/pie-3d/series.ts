@@ -8,6 +8,7 @@ import { AttributeLevel, BasePieSeries, Factory, type IArcSeries } from '@visact
 import { Pie3dSeriesSpecTransformer } from './series-spec-transformer';
 import { registerPie3dAnimation } from './animation';
 import { registerLayout3d } from '../3d/layout';
+import { pie3d } from './theme';
 
 export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesType3dEnum.pie3d;
@@ -16,6 +17,7 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
   protected _pieMarkType = MarkType3dEnum.arc3d;
 
   static readonly mark = pie3dSeriesMark;
+  static readonly builtInTheme = { pie3d };
   static readonly transformerConstructor = Pie3dSeriesSpecTransformer as any;
   readonly transformerConstructor = Pie3dSeriesSpecTransformer as any;
 

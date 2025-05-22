@@ -12,7 +12,7 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { mixin } from '@visactor/vutils';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
-import type { IAreaSeriesSpec } from './interface';
+import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { registerLineMark } from '../../mark/line';
 import { registerAreaMark } from '../../mark/area';
@@ -28,6 +28,7 @@ import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../co
 import { STACK_FIELD_END } from '../../constant/data';
 import { registerSymbolOverlapTransform } from '../../mark/transform/symbol-overlap';
 import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
+import { area } from '../../theme/builtin/common/series/area';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -51,6 +52,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   static readonly type: string = SeriesTypeEnum.area;
   type = SeriesTypeEnum.area;
 
+  static readonly builtInTheme: Record<string, IAreaSeriesTheme> = { area };
   static readonly mark: SeriesMarkMap = areaSeriesMark;
   static readonly transformerConstructor = AreaSeriesSpecTransformer as any;
   readonly transformerConstructor = AreaSeriesSpecTransformer;

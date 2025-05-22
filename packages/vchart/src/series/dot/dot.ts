@@ -25,12 +25,15 @@ import { dotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
 import { AttributeLevel } from '../../constant/attribute';
+import { dot } from '../../theme/builtin/common/series/dot';
 
 export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;
   type = SeriesTypeEnum.dot;
 
   static readonly mark: SeriesMarkMap = dotSeriesMark;
+
+  static readonly builtInTheme = { dot };
 
   private _xDimensionStatisticsDomain: any[];
 
