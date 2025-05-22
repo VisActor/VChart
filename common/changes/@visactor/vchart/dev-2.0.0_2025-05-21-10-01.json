@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: remove marker type. close #3782",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
