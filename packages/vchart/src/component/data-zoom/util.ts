@@ -104,8 +104,9 @@ export interface IDataFilterComputeDomainOption {
 export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterComputeDomainOption) => {
   const { stateFields, valueFields, dataCollection } = op.input;
   const { stateField, valueField } = op.output;
-  const resultObj = {};
+  const resultObj: any = {};
   const resultData: any[] = [];
+  const stateValues: any[] = [];
 
   dataCollection.forEach((dv: DataView, i) => {
     if (isNil(stateFields[i])) {
@@ -115,7 +116,10 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
     const stateFieldInfo = dv.getFields()?.[stateFields[i]];
     if (stateFieldInfo && stateFieldInfo.lockStatisticsByDomain) {
       stateFieldInfo.domain.forEach((d: any) => {
-        resultObj[d] = 0;
+        if (isNil(resultObj[d])) {
+          stateValues.push(d);
+          resultObj[d] = 0;
+        }
       });
     }
     dv.latestData.forEach((d: any) => {
@@ -123,6 +127,7 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
       array(stateFields[i]).forEach(state => {
         if (!isNil(d[state])) {
           if (isNil(resultObj[d[state]])) {
+            stateValues.push(d[state]);
             resultObj[d[state]] = 0;
           }
           if (!isNil(valueFields[i])) {
@@ -134,11 +139,12 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
       });
     });
   });
-  Object.keys(resultObj).forEach((d, i) => {
-    const res = { [stateField]: d };
+
+  stateValues.forEach(state => {
+    const res = { [stateField]: state };
 
     if (valueField) {
-      res[valueField] = resultObj[d];
+      res[valueField] = resultObj[state];
     }
 
     resultData.push(res);
