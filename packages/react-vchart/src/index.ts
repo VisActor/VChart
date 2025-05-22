@@ -11,25 +11,20 @@ export const version = __VERSION__;
 export type {
   IAreaChartSpec,
   IBarChartSpec,
-  IBar3dChartSpec,
   IBoxPlotChartSpec,
   ICirclePackingChartSpec,
   ICommonChartSpec,
   IFunnelChartSpec,
-  IFunnel3dChartSpec,
   IGaugeChartSpec,
   IHeatmapChartSpec,
   IHistogramChartSpec,
-  IHistogram3dChartSpec,
   ILineChartSpec,
   IMapChartSpec,
   IPieChartSpec,
-  IPie3dChartSpec,
   ICircularProgressChartSpec,
   ILinearProgressChartSpec,
   IRadarChartSpec,
   IRangeColumnChartSpec,
-  IRangeColumn3dChartSpec,
   IRangeAreaChartSpec,
   IRoseChartSpec,
   IScatterChartSpec,
@@ -40,7 +35,6 @@ export type {
   IWaterfallChartSpec,
   ICorrelationChartSpec,
   ILiquidChartSpec,
-  IWordCloud3dChartSpec,
   IWordCloudChartSpec,
   IPolarChartSpec,
   ICartesianChartSpec,
@@ -49,3 +43,12 @@ export type {
   ISpec,
   IVChart
 } from '@visactor/vchart';
+
+export type {
+  IBar3dChartSpec,
+  IFunnel3dChartSpec,
+  IHistogram3dChartSpec,
+  IPie3dChartSpec,
+  IRangeColumn3dChartSpec,
+  IWordCloud3dChartSpec
+} from '@visactor/vchart-extension';

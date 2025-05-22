@@ -11,6 +11,7 @@ export * from './charts/histogram-3d';
 export * from './charts/pie-3d';
 export * from './charts/word-cloud-3d';
 export * from './charts/axis-3d';
+export * from './charts/range-column-3d';
 export { register3DPlugin } from './charts/3d/plugin';
 
 export * from './components/series-break';
