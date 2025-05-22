@@ -244,11 +244,25 @@ export class Factory {
     return Factory._series[seriesType].mark;
   }
 
-  static getSeriesBuiltInTheme(seriesType: string): Record<string, any> {
-    if (!Factory._series[seriesType]) {
-      return {};
+  static getSeriesBuiltInTheme(themeKey: string): Record<string, any> {
+    for (const key in Factory._series) {
+      const item = Factory._series[key];
+      if (item && item.builtInTheme && item.builtInTheme[themeKey]) {
+        return item.builtInTheme[themeKey];
+      }
     }
-    return Factory._series[seriesType].builtInTheme;
+
+    return null;
+  }
+
+  static getComponentBuiltInTheme(themeKey: string): Record<string, any> {
+    for (const key in Factory._components) {
+      const item = Factory._components[key];
+      if (item && item.cmp && item.cmp.builtInTheme && item.cmp.builtInTheme[themeKey]) {
+        return item.cmp.builtInTheme[themeKey];
+      }
+    }
+    return null;
   }
 
   static getChartPlugins() {

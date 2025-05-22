@@ -19,10 +19,14 @@ import { getFirstSeries } from '../../util';
 import type { IDimensionData, IDimensionInfo } from '../../event/events/dimension/interface';
 import { getSpecInfo } from '../util';
 import type { IAxis } from '../axis';
+import { crosshair } from '../../theme/builtin/common/component/crosshair';
 
 export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
   static specKey = 'crosshair';
 
+  static readonly builtInTheme = {
+    crosshair
+  };
   static type = ComponentTypeEnum.polarCrosshair;
   type = ComponentTypeEnum.polarCrosshair;
   name: string = ComponentTypeEnum.polarCrosshair;

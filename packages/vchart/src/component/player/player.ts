@@ -1,3 +1,4 @@
+import { builtinThemes } from './../../theme/builtin/index';
 import { Factory } from './../../core/factory';
 import type { INode, IGroup, IGraphic } from '@visactor/vrender-core';
 import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visactor/vrender-components';
@@ -22,10 +23,15 @@ import { transformContinuousSpecToAttrs, transformDiscreteSpecToAttrs } from './
 import { isHorizontal, isVertical } from './utils/orient';
 import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { ChartEvent } from '../../constant/event';
+import { player } from '../../theme/builtin/common/component/player';
 
 export class Player extends BaseComponent<IPlayer> implements IComponent {
   layoutZIndex: number = LayoutZIndex.Player;
   layoutLevel: number = LayoutLevel.Player;
+
+  static readonly builtinThemes = {
+    player
+  };
 
   static specKey = 'player';
   specKey: string = 'player';

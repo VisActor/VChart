@@ -35,6 +35,7 @@ import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
 import { error } from '../../util';
 import { DEFAULT_SHOW_DELAY, TooltipHandlerType, TooltipType } from './constant';
+import { tooltip } from '../../theme/builtin/common/component/tooltip';
 
 type EventHandlerList = {
   eventType: EventType;
@@ -48,6 +49,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
   readonly transformerConstructor = TooltipSpecTransformer;
+
+  static readonly builtInTheme = {
+    tooltip
+  };
 
   static specKey = 'tooltip';
   specKey = 'tooltip';

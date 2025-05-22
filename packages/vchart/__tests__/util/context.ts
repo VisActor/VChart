@@ -16,6 +16,9 @@ import type { IRegion } from '../../src/region/interface';
 import type { StringOrNumber } from '../../src/typings';
 import { isValid } from '@visactor/vutils';
 import { preprocessTheme } from '../../src/util/theme/preprocess';
+import { series } from '../../src/theme/builtin/common/series';
+import { component } from '../../src/theme/builtin/common/component';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export function modelOption(opt: Partial<IModelOption> = {}, chart?: TestChart): Partial<IModelOption> {
   return {
@@ -114,7 +117,14 @@ export function initChartDataSet(dataSet: DataSet) {
 
 export function getTheme(...keys: string[]) {
   const currentTheme = ThemeManager.getCurrentTheme();
-  let theme = currentTheme;
+  let theme = mergeSpec(
+    {},
+    {
+      series,
+      component
+    },
+    currentTheme
+  );
 
   keys.forEach((key: string, index: number) => {
     if (theme && isValid(key)) {

@@ -19,6 +19,7 @@ import { layoutByValue, layoutCrosshair } from './utils/cartesian';
 import { getFirstSeries } from '../../util';
 import type { IDimensionData, IDimensionInfo } from '../../event/events/dimension/interface';
 import { getSpecInfo } from '../util';
+import { crosshair } from '../../theme/builtin/common/component/crosshair';
 
 // 1. crosshair保存上次记录的x和y轴dimension
 // 2. 每次交互触发时，首先转化成dimension保存，然后依据dimension计算x和y绘制
@@ -28,6 +29,9 @@ import { getSpecInfo } from '../util';
 export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCrosshairSpec> extends BaseCrossHair<T> {
   static specKey = 'crosshair';
 
+  static readonly builtInTheme = {
+    crosshair
+  };
   static type = ComponentTypeEnum.cartesianCrosshair;
   type = ComponentTypeEnum.cartesianCrosshair;
   name: string = ComponentTypeEnum.cartesianCrosshair;

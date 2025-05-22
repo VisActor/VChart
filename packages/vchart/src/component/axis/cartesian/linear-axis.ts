@@ -3,7 +3,7 @@ import type { LogScale } from '@visactor/vscale';
 import { LinearScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import { isValid, isValidNumber, last, mixin } from '@visactor/vutils';
-import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
+import type { IAxisHelper, ICartesianAxisCommonTheme, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { Factory } from '../../../core/factory';
@@ -16,6 +16,9 @@ import { combineDomains, isPercent } from '../../../util';
 import type { VRenderComponentOptions } from '../../../core/interface';
 import type { IGroup } from '@visactor/vrender-core';
 import { AxisEnum, GridEnum } from '../interface';
+import { axisLinear } from '../../../theme/builtin/common/component/axis/linear-axis';
+import { axisX, axisY } from '../../../theme/builtin/common/component/axis/cartesian-axis';
+import { commonAxis } from '../../../theme/builtin/common/component/axis/common-axis';
 
 export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec>
   extends Pick<
@@ -38,6 +41,12 @@ export class CartesianLinearAxis<
   type = ComponentTypeEnum.cartesianLinearAxis;
 
   static specKey = 'axes';
+  static readonly builtInTheme: Record<string, ICartesianAxisCommonTheme> = {
+    axis: commonAxis,
+    axisLinear,
+    axisX,
+    axisY
+  };
 
   protected _zero: boolean = true;
   protected _nice: boolean = true;

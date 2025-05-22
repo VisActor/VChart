@@ -13,6 +13,9 @@ import type { VRenderComponentOptions } from '../../../core/interface';
 import { LineAxis } from '@visactor/vrender-components';
 import type { IGroup } from '@visactor/vrender-core';
 import { AxisEnum, GridEnum } from '../interface';
+import { axisBand } from '../../../theme/builtin/common/component/axis/band-axis';
+import { commonAxis } from '../../../theme/builtin/common/component/axis/common-axis';
+import { axisX, axisY } from '../../../theme/builtin/common/component/axis/cartesian-axis';
 
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
   extends Pick<
@@ -26,6 +29,12 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
   type = ComponentTypeEnum.cartesianBandAxis;
 
   static specKey = 'axes';
+  static readonly builtInTheme = {
+    axis: commonAxis,
+    axisBand,
+    axisX,
+    axisY
+  };
 
   protected _scale: BandScale = new BandScale();
 

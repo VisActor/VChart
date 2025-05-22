@@ -29,10 +29,14 @@ import type { ILayoutRect } from '../../../typings/layout';
 import type { StringOrNumber } from '../../../typings';
 import { getFormatFunction, getSpecInfo } from '../../util';
 import type { IDiscreteLegendData } from '../../../data/transforms/legend-data/discrete';
+import { discreteLegend } from '../../../theme/builtin/common/component/legend/discrete-legend';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static specKey = 'legends';
 
+  static readonly builtInTheme = {
+    discreteLegend
+  };
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;

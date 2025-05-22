@@ -19,9 +19,9 @@ import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle }
 import { isEqual } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import type { DataZoom } from '../data-zoom';
-import type { IBandLikeScale, IContinuousScale, ILinearScale } from '@visactor/vscale';
 import type { AxisComponent } from '../axis/base-axis';
 import { getSpecInfo } from '../util';
+import { brush } from '../../theme/builtin/common/component/brush';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -32,6 +32,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   type = ComponentTypeEnum.brush;
   name: string = ComponentTypeEnum.brush;
 
+  static readonly builtInTheme = {
+    brush
+  };
   static specKey = 'brush';
   specKey = 'brush';
 

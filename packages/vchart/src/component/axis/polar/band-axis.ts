@@ -18,6 +18,9 @@ import {
 import type { IGroup } from '@visactor/vrender-core';
 import type { VRenderComponentOptions } from '../../../core/interface';
 import { GridEnum, AxisEnum } from '../interface';
+import { commonAxis } from '../../../theme/builtin/common/component/axis/common-axis';
+import { axisBand } from '../../../theme/builtin/common/component/axis/band-axis';
+import { axisAngle, axisRadius } from '../../../theme/builtin/common/component/axis/polar-axis';
 
 export interface PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec>
   extends Pick<
@@ -31,6 +34,12 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
   type = ComponentTypeEnum.polarBandAxis;
 
   static specKey = 'axes';
+  static readonly builtInTheme = {
+    axis: commonAxis,
+    axisBand,
+    axisAngle,
+    axisRadius
+  };
 
   protected _scale: BandScale = new BandScale();
 
