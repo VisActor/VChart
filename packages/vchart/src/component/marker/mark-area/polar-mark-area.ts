@@ -15,6 +15,7 @@ import type { IPolarSeries } from 'src/series';
 import { BaseMarkArea } from './base-mark-area';
 import type { IMarkProcessOptions } from '../interface';
 import { polarToCartesian } from '@visactor/vutils';
+import { markArea } from '../../../theme/builtin/common/component/mark-area';
 
 export class PolarMarkArea extends BaseMarkArea {
   static type = ComponentTypeEnum.polarMarkArea;
@@ -22,6 +23,10 @@ export class PolarMarkArea extends BaseMarkArea {
   name: string = ComponentTypeEnum.polarMarkArea;
   static coordinateType = 'polar';
   coordinateType = 'polar' as CoordinateType;
+
+  static readonly builtInTheme = {
+    polarMarkArea: markArea
+  };
 
   protected declare _markerComponent: MarkArcAreaComponent;
 

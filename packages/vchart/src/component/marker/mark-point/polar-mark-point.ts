@@ -7,6 +7,7 @@ import type { IPolarSeries } from 'src/series';
 import type { IMarkProcessOptions } from '../interface';
 import { polarToCartesian } from '@visactor/vutils';
 import type { CoordinateType } from '../../../typings';
+import { markPoint } from '../../../theme/builtin/common/component/mark-point';
 
 export class PolarMarkPoint extends BaseMarkPoint {
   static type = ComponentTypeEnum.polarMarkPoint;
@@ -14,6 +15,10 @@ export class PolarMarkPoint extends BaseMarkPoint {
   name: string = ComponentTypeEnum.polarMarkPoint;
   static coordinateType = 'polar';
   coordinateType = 'polar' as CoordinateType;
+
+  static readonly builtInTheme = {
+    polarMarkPoint: markPoint
+  };
 
   protected _computePointsAttr() {
     const data = this._markerData;

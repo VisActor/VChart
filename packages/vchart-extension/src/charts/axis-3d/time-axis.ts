@@ -2,6 +2,7 @@ import type { ICartesianTimeAxisSpec } from '@visactor/vchart';
 import { LinearAxisMixin, CartesianTimeAxis, Factory, isZAxis } from '@visactor/vchart';
 import { mixin } from '@visactor/vutils';
 import { getUpdateAttributeOfZAxis } from './util';
+import { axisZ } from './theme';
 
 export interface CartesianTimeAxis3d<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition'>,
@@ -10,6 +11,14 @@ export interface CartesianTimeAxis3d<T extends ICartesianTimeAxisSpec = ICartesi
 export class CartesianTimeAxis3d<
   T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec
 > extends CartesianTimeAxis<T> {
+  static readonly builtInTheme = {
+    ...CartesianTimeAxis.builtInTheme,
+    axisZ: {
+      ...CartesianTimeAxis.builtInTheme.axisX,
+      ...axisZ
+    }
+  };
+
   layout3dBox?: { width: number; height: number; length: number };
 
   setLayout3dBox(box3d: { width: number; height: number; length: number }) {

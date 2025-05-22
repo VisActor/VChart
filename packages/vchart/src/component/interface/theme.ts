@@ -42,10 +42,6 @@ export interface IComponentTheme {
    */
   axisY?: ICartesianAxisCommonTheme;
   /**
-   * 笛卡尔坐标系下 z 轴配置
-   */
-  axisZ?: ICartesianAxisCommonTheme;
-  /**
    * 极坐标系下半径轴配置
    */
   axisRadius?: IPolarAxisCommonTheme;
@@ -122,6 +118,7 @@ export interface IComponentTheme {
    * @since 1.3.0
    */
   [ComponentTypeEnum.totalLabel]?: ITotalLabelTheme;
+  [key: string]: any;
 }
 
 /** 区分方向的组件主题类型 */

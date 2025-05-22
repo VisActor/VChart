@@ -25,12 +25,16 @@ import type { IRichTextCharacter } from '@visactor/vrender-core';
 import { getSpecInfo } from '../util';
 import { getDatumOfGraphic } from '../../util/mark';
 import type { IMarkGraphic } from '../../mark/interface';
+import { indicator } from '../../theme/builtin/common/component/indicator';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;
 
+  static readonly builtInTheme = {
+    indicator
+  };
   static specKey = 'indicator';
   specKey = 'indicator';
 

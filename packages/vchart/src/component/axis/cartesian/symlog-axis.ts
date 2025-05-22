@@ -11,6 +11,9 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { VRenderComponentOptions } from '../../../core/interface';
 import type { IGroup } from '@visactor/vrender-core';
 import { AxisEnum, GridEnum } from '../interface/common';
+import { commonAxis } from '../../../theme/builtin/common/component/axis/common-axis';
+import { axisLinear } from '../../../theme/builtin/common/component/axis/linear-axis';
+import { axisX, axisY } from '../../../theme/builtin/common/component/axis/cartesian-axis';
 
 export interface CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition'>,
@@ -23,6 +26,12 @@ export class CartesianSymlogAxis<
   type = ComponentTypeEnum.cartesianSymlogAxis;
 
   static specKey = 'axes';
+  static readonly builtInTheme = {
+    axis: commonAxis,
+    axisLinear,
+    axisX,
+    axisY
+  };
 
   protected _zero: boolean = false;
 

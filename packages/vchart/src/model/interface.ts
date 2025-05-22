@@ -210,6 +210,7 @@ export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
 }
 
 export interface IModelConstructor {
+  readonly builtInTheme?: any;
   readonly transformerConstructor: new (option: IBaseModelSpecTransformerOption) => IBaseModelSpecTransformer;
 }
 

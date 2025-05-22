@@ -17,6 +17,7 @@ import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual, isValidNumber, pickWithout, isValid } from '@visactor/vutils';
 import { getSpecInfo } from '../util';
+import { title } from '../../theme/builtin/common/component/title';
 
 export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> implements ITitle {
   static type = ComponentTypeEnum.title;
@@ -27,6 +28,10 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
   layoutType: ILayoutType = 'normal';
   layoutZIndex: number = LayoutZIndex.Title;
   layoutLevel: number = LayoutLevel.Title;
+
+  static readonly builtInTheme = {
+    title
+  };
 
   protected _orient: IOrientType = 'top';
 

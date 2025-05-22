@@ -12,6 +12,9 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { IGroup } from '@visactor/vrender-core';
 import type { VRenderComponentOptions } from '../../../core/interface';
 import { GridEnum, AxisEnum } from '../interface';
+import { axisLinear } from '../../../theme/builtin/common/component/axis/linear-axis';
+import { commonAxis } from '../../../theme/builtin/common/component/axis/common-axis';
+import { axisAngle, axisRadius } from '../../../theme/builtin/common/component/axis/polar-axis';
 
 export interface PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSpec>
   extends Pick<
@@ -30,6 +33,12 @@ export class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSp
   type = ComponentTypeEnum.polarLinearAxis;
 
   static specKey = 'axes';
+  static readonly builtInTheme = {
+    axis: commonAxis,
+    axisLinear,
+    axisAngle,
+    axisRadius
+  };
 
   protected _zero: boolean = true;
   protected _nice: boolean = true;

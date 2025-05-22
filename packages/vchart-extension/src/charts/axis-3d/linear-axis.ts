@@ -2,6 +2,7 @@ import type { ICartesianLinearAxisSpec } from '@visactor/vchart';
 import { LinearAxisMixin, CartesianLinearAxis, Factory, isZAxis } from '@visactor/vchart';
 import { mixin } from '@visactor/vutils';
 import { getUpdateAttributeOfZAxis } from './util';
+import { axisZ } from './theme';
 
 export interface CartesianLinearAxis3d<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec>
   extends Pick<
@@ -20,6 +21,14 @@ export interface CartesianLinearAxis3d<T extends ICartesianLinearAxisSpec = ICar
 export class CartesianLinearAxis3d<
   T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec
 > extends CartesianLinearAxis<T> {
+  static readonly builtInTheme = {
+    ...CartesianLinearAxis.builtInTheme,
+    axisZ: {
+      ...CartesianLinearAxis.builtInTheme.axisX,
+      ...axisZ
+    }
+  };
+
   layout3dBox?: { width: number; height: number; length: number };
 
   setLayout3dBox(box3d: { width: number; height: number; length: number }) {

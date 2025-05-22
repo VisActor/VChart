@@ -2,6 +2,7 @@ import type { ICartesianBandAxisSpec } from '@visactor/vchart';
 import { BandAxisMixin, CartesianBandAxis, Factory, isZAxis } from '@visactor/vchart';
 import { mixin } from '@visactor/vutils';
 import { getUpdateAttributeOfZAxis } from './util';
+import { axisZ } from './theme';
 
 export interface CartesianBandAxis3d<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
   extends Pick<
@@ -13,6 +14,14 @@ export interface CartesianBandAxis3d<T extends ICartesianBandAxisSpec = ICartesi
 export class CartesianBandAxis3d<
   T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec
 > extends CartesianBandAxis<T> {
+  static readonly builtInTheme = {
+    ...CartesianBandAxis.builtInTheme,
+    axisZ: {
+      ...CartesianBandAxis.builtInTheme.axisX,
+      ...axisZ
+    }
+  };
+
   layout3dBox?: { width: number; height: number; length: number };
 
   setLayout3dBox(box3d: { width: number; height: number; length: number }) {

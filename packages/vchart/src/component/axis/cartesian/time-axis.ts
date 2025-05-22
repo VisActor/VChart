@@ -21,6 +21,8 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { IGroup } from '@visactor/vrender-core';
 import type { VRenderComponentOptions } from '../../../core/interface';
 import { AxisEnum, GridEnum } from '../interface/common';
+import { commonAxis } from '../../../theme/builtin/common/component/axis/common-axis';
+import { axisX, axisY } from '../../../theme/builtin/common/component/axis/cartesian-axis';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition'>,
@@ -33,6 +35,11 @@ export class CartesianTimeAxis<
   type = ComponentTypeEnum.cartesianTimeAxis;
 
   static specKey = 'axes';
+  static readonly builtInTheme = {
+    axis: commonAxis,
+    axisX,
+    axisY
+  };
 
   protected _layerTickData!: CompilableData;
 

@@ -35,10 +35,3 @@ export const axisY: ICartesianAxisCommonTheme = {
   maxWidth: '30%',
   unit: getUnitTheme()
 };
-
-export const axisZ: ICartesianAxisCommonTheme = {
-  ...axisX,
-  label: {
-    space: 0
-  }
-};

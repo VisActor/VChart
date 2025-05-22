@@ -17,6 +17,7 @@ import type { CoordinateType, IPoint, IPolarPoint } from '../../../typings';
 import type { IPolarSeries } from 'src/series';
 import { BaseMarkLine } from './base-mark-line';
 import { polarToCartesian } from '@visactor/vutils';
+import { markLine } from '../../../theme/builtin/common/component/mark-line';
 
 export class PolarMarkLine extends BaseMarkLine {
   static type = ComponentTypeEnum.polarMarkLine;
@@ -24,6 +25,10 @@ export class PolarMarkLine extends BaseMarkLine {
   name: string = ComponentTypeEnum.polarMarkLine;
   static coordinateType = 'polar';
   coordinateType = 'polar' as CoordinateType;
+
+  static readonly builtInTheme = {
+    polarMarkLine: markLine
+  };
 
   protected declare _markerComponent: MarkArcLineComponent;
 

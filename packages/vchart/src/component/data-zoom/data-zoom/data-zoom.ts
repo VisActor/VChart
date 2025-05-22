@@ -33,6 +33,7 @@ import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
 import { getFormatFunction } from '../../util';
+import { dataZoom } from '../../../theme/builtin/common/component/data-zoom';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -41,6 +42,9 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   name: string = ComponentTypeEnum.dataZoom;
   readonly transformerConstructor = DataZoomSpecTransformer;
 
+  static readonly builtInTheme = {
+    dataZoom
+  };
   static specKey = 'dataZoom';
   specKey = 'dataZoom';
 

@@ -20,12 +20,16 @@ import type { IChartSpecInfo } from '../../chart/interface';
 import type { DataLabelAttrs } from '@visactor/vrender-components';
 import { DataLabel } from '@visactor/vrender-components';
 import type { IGroup } from '@visactor/vrender-core';
+import { totalLabel } from '../../theme/builtin/common/component/total-label';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
   type = ComponentTypeEnum.totalLabel;
   name: string = ComponentTypeEnum.totalLabel;
 
+  static readonly builtInTheme = {
+    totalLabel
+  };
   static specKey = 'totalLabel';
   specKey = 'totalLabel';
 

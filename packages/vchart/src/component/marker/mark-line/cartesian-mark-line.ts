@@ -15,6 +15,7 @@ import { Factory } from '../../../core/factory';
 import { isPercent } from '../../../util';
 import type { CoordinateType, IPoint } from '../../../typings';
 import { BaseMarkLine } from './base-mark-line';
+import { markLine } from '../../../theme/builtin/common/component/mark-line';
 
 export class CartesianMarkLine extends BaseMarkLine {
   static type = ComponentTypeEnum.markLine;
@@ -22,6 +23,10 @@ export class CartesianMarkLine extends BaseMarkLine {
   name: string = ComponentTypeEnum.markLine;
   static coordinateType = 'cartesian';
   coordinateType = 'cartesian' as CoordinateType;
+
+  static readonly builtInTheme = {
+    markLine
+  };
 
   protected declare _markerComponent: MarkLineComponent;
 

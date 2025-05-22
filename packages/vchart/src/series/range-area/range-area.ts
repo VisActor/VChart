@@ -17,7 +17,6 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
   type = SeriesTypeEnum.rangeArea;
 
   static readonly mark: SeriesMarkMap = rangeAreaSeriesMark;
-  static readonly builtInTheme = {};
 
   initMark(): void {
     this._areaMark = this._createMark(

@@ -10,6 +10,7 @@ import { Factory } from '../../../core/factory';
 import type { CoordinateType, IPoint } from '../../../typings';
 import type { IMarkProcessOptions } from '../interface';
 import { BaseMarkArea } from './base-mark-area';
+import { markArea } from '../../../theme/builtin/common/component/mark-area';
 
 export class CartesianMarkArea extends BaseMarkArea {
   static type = ComponentTypeEnum.markArea;
@@ -17,6 +18,10 @@ export class CartesianMarkArea extends BaseMarkArea {
   name: string = ComponentTypeEnum.markArea;
   static coordinateType = 'cartesian';
   coordinateType = 'cartesian' as CoordinateType;
+
+  static readonly builtInTheme = {
+    markArea
+  };
 
   protected _newMarkAreaComponent(attr: MarkAreaAttrs): MarkAreaComponent {
     return new MarkAreaComponent(attr);
