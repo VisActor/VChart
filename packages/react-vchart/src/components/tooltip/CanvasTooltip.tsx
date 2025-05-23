@@ -1,8 +1,8 @@
-import { createComponent } from '../BaseComponent';
-import { TooltipProps } from './interface';
+import { createTooltip } from './BaseTooltip';
+import type { TooltipProps } from './interface';
 import { registerTooltip, registerCanvasTooltipHandler } from '@visactor/vchart';
 
-export const CanvasTooltip = createComponent<TooltipProps>('CanvasTooltip', 'tooltip', null, true, [
+export const CanvasTooltip = createTooltip<TooltipProps>('CanvasTooltip', 'tooltip', [
   registerTooltip,
   registerCanvasTooltipHandler
 ]);
