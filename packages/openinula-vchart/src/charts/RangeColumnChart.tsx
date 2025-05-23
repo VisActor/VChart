@@ -11,6 +11,6 @@ export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnC
   'RangeColumnChart',
   {
     type: 'rangeColumn',
-    vchartConstrouctor: VChart
+    vchartConstructor: VChart
   }
 );

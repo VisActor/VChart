@@ -9,5 +9,5 @@ export interface LineChartProps
 
 export const LineChart = createChart<React.PropsWithChildren<LineChartProps> & { type: 'line' }>('LineChart', {
   type: 'line',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

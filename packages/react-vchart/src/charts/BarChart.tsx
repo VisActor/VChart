@@ -15,7 +15,7 @@ export const BarChart = createChart<React.PropsWithChildren<BarChartProps> & { t
   'BarChart',
   {
     type: 'bar',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerBarChart, registerLabel, registerTotalLabel, ...registers]
 );

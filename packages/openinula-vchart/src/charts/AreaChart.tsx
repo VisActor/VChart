@@ -9,5 +9,5 @@ export interface AreaChartProps
 
 export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & { type: 'area' }>('AreaChart', {
   type: 'area',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

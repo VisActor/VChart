@@ -13,7 +13,7 @@ export const RangeAreaChart = createChart<React.PropsWithChildren<RangeAreaChart
   'RangeAreaChart',
   {
     type: 'rangeArea',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerRangeAreaChart, registerLabel, ...registers]
 );

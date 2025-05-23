@@ -15,7 +15,7 @@ export const WaterfallChart = createChart<React.PropsWithChildren<WaterfallChart
   'WaterfallChart',
   {
     type: 'waterfall',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerWaterfallChart, registerLabel, registerTotalLabel, ...registers]
 );

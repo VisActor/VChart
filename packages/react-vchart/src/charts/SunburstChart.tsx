@@ -13,7 +13,7 @@ export const SunburstChart = createChart<React.PropsWithChildren<SunburstChartPr
   'SunburstChart',
   {
     type: 'sunburst',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerSunburstChart, registerLabel, ...registers]
 );

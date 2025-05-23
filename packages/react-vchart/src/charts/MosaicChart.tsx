@@ -15,7 +15,7 @@ export const MosaicChart = createChart<React.PropsWithChildren<MosaicChartProps>
   'MosaicChart',
   {
     type: 'mosaic',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerMosaicChart, registerLabel, registerTotalLabel, ...registers]
 );
