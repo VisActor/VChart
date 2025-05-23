@@ -337,11 +337,30 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
 vchart.renderSync();
 ```
 
-
 # Get Map Data
 
 ## China Map Data
-You can get China map data from [geojson.cn](https://geojson.cn/data/atlas/china), but here we need to remind you that the map data uploaded to the line needs to be reviewed by the relevant department, otherwise there will be legal risks.
+
+You can get China map data from these websites:
+
+- [geojson.cn](https://geojson.cn/data/atlas/china)
+- [cloudcenter.tianditu.gov.cn](https://cloudcenter.tianditu.gov.cn/administrativeDivision)
+- [datav.aliyun.com](https://datav.aliyun.com/portal/school/atlas/area_selector)
+
+Please note that map data uploaded online needs to be reviewed by relevant authorities, otherwise there will be legal risks.
 
 ## World Map Data
-You can get world map data from [hub.arcgis.com](https://hub.arcgis.com/search)
+
+You can get world map data from:
+
+- [hub.arcgis.com](https://hub.arcgis.com/search)
+- [geojson-maps.kyd.au](https://geojson-maps.kyd.au/)
+
+## Online Editing Tools
+
+You can edit map data and process GeoJSON format files through these websites:
+
+- [geojson.io](https://geojson.io/) - Online creation, editing, and viewing of GeoJSON
+- [mapshaper.org](https://mapshaper.org/) - Map data editing and format conversion
+- [leafletjs.com](https://leafletjs.com/) - Leaflet mapping library official website
+- [geoman.io](https://geoman.io/) - Map geometry editing tool
