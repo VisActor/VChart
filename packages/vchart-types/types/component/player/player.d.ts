@@ -9,6 +9,9 @@ import { BaseComponent } from '../base/base-component';
 export declare class Player extends BaseComponent<IPlayer> implements IComponent {
     layoutZIndex: number;
     layoutLevel: number;
+    static readonly builtinThemes: {
+        player: import("./interface").IPlayerTheme;
+    };
     static specKey: string;
     specKey: string;
     static type: ComponentTypeEnum;

@@ -10,6 +10,9 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    static readonly builtInTheme: {
+        indicator: import("./interface").IIndicatorTheme;
+    };
     static specKey: string;
     specKey: string;
     layoutType: 'none';

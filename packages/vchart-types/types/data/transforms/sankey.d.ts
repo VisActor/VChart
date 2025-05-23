@@ -1,4 +1,4 @@
-import type { SankeyOptions, SankeyData } from '@visactor/vgrammar-sankey';
+import type { SankeyOptions, SankeyData } from '@visactor/vlayouts';
 export interface ISankeyOpt extends SankeyOptions {
     targetField: string;
     sourceField: string;
@@ -13,7 +13,7 @@ export interface ISankeyOpt extends SankeyOptions {
 export declare const collectHierarchyField: (set: Set<any>, data: any[], field: string) => void;
 export declare const sankeyFormat: (data: any[]) => SankeyData[];
 export declare const sankeyLayout: (data: SankeyData[], op: ISankeyOpt) => {
-    nodes: import("@visactor/vgrammar-sankey").SankeyNodeElement[];
-    links: import("@visactor/vgrammar-sankey").SankeyLinkElement[];
-    columns: import("@visactor/vgrammar-sankey").SankeyNodeElement[][];
+    nodes: import("@visactor/vlayouts").SankeyNodeElement[];
+    links: import("@visactor/vlayouts").SankeyLinkElement[];
+    columns: import("@visactor/vlayouts").SankeyNodeElement[][];
 }[];

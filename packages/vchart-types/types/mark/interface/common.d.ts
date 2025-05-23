@@ -2,11 +2,12 @@ import type { IGlobalScale } from '../../scale/interface';
 import type { ICommonSpec, VisualType, ValueType, FunctionType } from '../../typings/visual';
 import type { IModel } from '../../model/interface';
 import type { IBaseScale } from '@visactor/vscale';
-import type { MarkType } from './type';
-import type { ICompilableMark, ICompilableMarkOption, IModelMarkAttributeContext, StateValueType } from '../../compile/mark/interface';
-import type { StringOrNumber } from '../../typings';
-import type { IMarkConfig } from '@visactor/vgrammar-core';
-import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { MarkType, MarkTypeEnum } from './type';
+import type { ICompilableMark, ICompilableMarkOption, IMarkConfig, IModelMarkAttributeContext, StateValueType } from '../../compile/mark/interface';
+import type { Datum, StringOrNumber } from '../../typings';
+import type { IGraphic } from '@visactor/vrender-core';
+import type { IGroupMark } from './mark';
+import type { IAnimationConfig } from '../../animation/interface';
 export interface VisualScaleType {
     scale: IBaseScale;
     field: StringOrNumber;
@@ -33,22 +34,71 @@ export type IMarkStateStyle<T extends ICommonSpec> = Record<StateValueType, Part
 export type IMarkStyle<T extends ICommonSpec> = {
     [key in keyof T]: MarkInputStyle<T[key]>;
 };
+export type DiffStateValues = 'update' | 'enter' | 'exit';
+export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear';
+export interface IGraphicContext {
+    markType: MarkTypeEnum;
+    markId: number;
+    modelId: number;
+    markUserId?: number | string;
+    modelUserId?: number | string;
+    diffState?: DiffStateValues;
+    reusing?: boolean;
+    lastAttrs?: Record<string, any>;
+    indexKey?: string;
+    diffAttrs?: Record<string, any>;
+    finalAttrs?: Record<string, any>;
+    fieldX?: string[];
+    originalFieldX?: string[];
+    fieldY?: string[];
+    originalFieldY?: string[];
+    animationState?: AnimationStateValues;
+    data?: Datum[];
+    uniqueKey?: string;
+    key?: string;
+    groupKey?: string;
+    states?: string[];
+    graphicCount?: number;
+    graphicIndex?: number;
+    stateAnimateConfig?: IAnimationConfig | IAnimationConfig[];
+}
+export interface IMarkGraphic extends IGraphic {
+    runtimeStateCache?: Record<string, any>;
+    context?: IGraphicContext;
+    isExiting?: boolean;
+}
 export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     readonly stateStyle: IMarkStateStyle<T>;
-    getAttribute: <U extends keyof T>(key: U, datum: any, state?: StateValueType, opt?: any) => unknown;
+    getAttributesOfState: (datum: Datum, state?: StateValueType) => Partial<T>;
+    getAttribute: <U extends keyof T>(key: U, datum: any, state?: StateValueType) => unknown;
     setAttribute: <U extends keyof T>(attr: U, style: StyleConvert<T[U]>, state?: StateValueType, level?: number) => void;
     setStyle: (style: Partial<IMarkStyle<T>>, state?: StateValueType, level?: number) => void;
-    setReferer: (mark: IMarkRaw<T>, styleKey?: string, state?: StateValueType, stateStyle?: IMarkStateStyle<T>) => void;
-    initStyleWithSpec: (spec: any, key?: string) => void;
+    setSimpleStyle: (s: T) => void;
+    getSimpleStyle: () => T;
+    setReferer: (mark: IMarkRaw<T>, styleKey?: string, state?: StateValueType) => void;
+    initStyleWithSpec: (spec: any) => void;
     created: () => void;
     setPostProcess: <U extends keyof T, A>(key: U, postProcessFunc: IAttrConfig<A, T>['postProcess'], state?: StateValueType) => void;
+    updateMarkState: (key: string) => void;
+    render: () => void;
+    getGraphics: () => IMarkGraphic[];
+    reuse: (mark: IMark) => void;
+    prepareMorph: (mark: IMark) => void;
+    clearExitGraphics: () => void;
+    isProgressive: () => boolean;
+    isDoingProgressive: () => boolean;
+    clearProgressive: () => void;
+    restartProgressive: () => void;
+    renderProgressive: () => void;
+    canAnimateAfterProgressive: () => boolean;
+    updateAnimationState: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
+    runAnimation: () => void;
 }
 export type IMark = IMarkRaw<ICommonSpec>;
 export interface ICompileMarkConfig extends IMarkConfig {
     morph?: boolean;
     morphElementKey?: string;
     support3d?: boolean;
-    setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
     clip?: boolean;
     skipTheme?: boolean;
 }
@@ -59,6 +109,7 @@ export interface IMarkOption extends ICompilableMarkOption {
     seriesId?: number;
     componentType?: string;
     attributeContext?: IModelMarkAttributeContext;
+    parent?: IGroupMark | false;
 }
 export interface IMarkConstructor {
     type: MarkType;
@@ -84,4 +135,25 @@ export interface IMarkOverlap {
     pointDis?: number;
     pointDisMul?: number;
     markOverlap?: boolean;
+}
+export type GroupedData<T> = {
+    keys: string[];
+    data: Map<string, T[]>;
+};
+export interface IProgressiveTransformResult<Output = any> {
+    unfinished: () => boolean;
+    output: () => Output;
+    progressiveOutput: () => Output;
+    progressiveRun: () => void;
+    release: () => void;
+    canAnimate?: () => boolean;
+}
+export type IMarkDataTransform<Options = any, Input = any, Output = any> = (options: Options, data: Input) => Output | IProgressiveTransformResult<Output>;
+export interface ProgressiveContext {
+    currentIndex: number;
+    totalStep: number;
+    step: number;
+    data: any[];
+    groupKeys?: string[];
+    groupedData?: Map<string, any[]>;
 }

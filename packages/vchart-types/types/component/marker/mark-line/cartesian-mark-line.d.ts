@@ -9,6 +9,9 @@ export declare class CartesianMarkLine extends BaseMarkLine {
     name: string;
     static coordinateType: string;
     coordinateType: CoordinateType;
+    static readonly builtInTheme: {
+        markLine: import("./interface").IMarkLineTheme;
+    };
     protected _markerComponent: MarkLineComponent;
     protected _newMarkLineComponent(attr: MarkLineAttrs): MarkLineComponent;
     protected _computePointsAttr(): {

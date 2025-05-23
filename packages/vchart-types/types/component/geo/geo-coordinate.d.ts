@@ -1,6 +1,6 @@
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IEffect, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IGeoRegionSpec, IRegion } from '../../region/interface';
@@ -42,7 +42,7 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
     initEvent(): void;
     initProjection(): void;
     coordinateHelper(): void;
-    onLayoutEnd(ctx: IModelLayoutOption): void;
+    onLayoutEnd(): void;
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
     protected _getNeedClearVRenderComponents(): IGraphic[];

@@ -1,14 +1,12 @@
-import type { IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
 import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
-import type { IInteraction, ITrigger } from '../interaction/interface';
-import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
 import type { IGroupMark, IRectMark } from '../mark/interface/mark';
+import type { IGroup } from '@visactor/vrender-core';
 export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
     static type: string;
     static readonly transformerConstructor: typeof RegionSpecTransformer;
@@ -20,8 +18,6 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     protected _series: ISeries[];
     layoutType: ILayoutType;
     layoutZIndex: number;
-    animate?: IAnimate;
-    interaction: IInteraction;
     getSpecInfo: () => IRegionSpecInfo;
     getMaxWidth(): number;
     setMaxWidth(value: number): void;
@@ -35,7 +31,6 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     getStackSort(): boolean;
     protected _backgroundMark?: IRectMark;
     protected _foregroundMark?: IRectMark;
-    protected _trigger: ITrigger;
     constructor(spec: T, ctx: IModelOption);
     protected _getClipDefaultValue(): boolean;
     created(): void;
@@ -73,10 +68,7 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     initSeriesDataflow(): void;
     seriesDataFilterOver: () => void;
     release(): void;
-    createTrigger(): void;
-    initTrigger(): void;
-    initInteraction(): void;
-    compileMarks(group?: string | IVGrammarGroupMark): void;
+    compileMarks(group?: IGroup): void;
     compile(): void;
     getBoundsInRect: () => {
         x1: number;
@@ -84,5 +76,5 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
         x2: number;
         y2: number;
     };
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
 }

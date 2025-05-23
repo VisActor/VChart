@@ -9,5 +9,6 @@ export declare class WaterfallChart<T extends IWaterfallChartSpec = IWaterfallCh
     readonly transformerConstructor: typeof WaterfallChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
+    protected _setModelOption(): void;
 }
 export declare const registerWaterfallChart: () => void;

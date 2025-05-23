@@ -9,6 +9,9 @@ export declare class SunburstSeries extends PolarSeries<any> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        sunburst: import("./interface").ISunburstSeriesTheme;
+    };
     private _sunburstMark;
     private _labelMark;
     protected _categoryField: string;
@@ -48,7 +51,7 @@ export declare class SunburstSeries extends PolarSeries<any> {
     protected initTooltip(): void;
     initAnimation(): void;
     initEvent(): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     private _computeRadius;
     private _computeLevel;
     getGroupFields(): string[];

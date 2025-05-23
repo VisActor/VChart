@@ -7,3 +7,4 @@ export declare class MarkTooltipProcessor extends BaseTooltipProcessor {
     showTooltip(info: MarkTooltipInfo, params: BaseEventParams, changePositionOnly: boolean): import("../interface").TooltipResult;
     getMouseEventData(params: BaseEventParams): MouseEventData;
 }
+export declare const registerMarkTooltipProcessor: () => void;

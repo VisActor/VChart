@@ -7,6 +7,9 @@ export declare class GeoMarkPoint extends BaseMarkPoint {
     name: string;
     static coordinateType: string;
     coordinateType: CoordinateType;
+    static readonly builtInTheme: {
+        geoMarkPoint: import("./interface").IMarkPointTheme<Partial<import("../interface").IMarkerSymbol>>;
+    };
     protected _computePointsAttr(): {
         point: import("../../../typings").IPoint;
     };
