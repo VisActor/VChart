@@ -17,6 +17,7 @@ import { getAxisLabelOffset } from '../../axis/util';
 import { isValid } from '@visactor/vutils';
 import type { IAxis, ILinearAxis } from '../../axis';
 import { getFormatFunction } from '../../util';
+import { ComponentTypeEnum } from '../../interface';
 
 export const layoutByValue = (
   stateByField: CrossHairStateByField,
@@ -63,7 +64,7 @@ export const layoutByValue = (
     if (newCacheInfo) {
       newCacheInfo._isCache = useCache;
     }
-    let bandSize;
+    let bandSize: number = 0;
     let offsetSize: number = 0;
 
     // 计算x轴和y轴的数据，只允许最多一对x和一对y
@@ -87,6 +88,10 @@ export const layoutByValue = (
               bandSize = Math.abs(
                 startX - (field === 'xField' ? series.dataToPositionX1(datum) : series.dataToPositionY1(datum))
               );
+              // cartesian 线性 axies 轴反向时需要同步反向
+              if (axis.getInverse() && axis.type === ComponentTypeEnum.cartesianLinearAxis) {
+                bandSize = -bandSize;
+              }
               value = `${datum[field1]} ~ ${datum[field2]}`;
             } else {
               bandSize = 1;
@@ -95,6 +100,7 @@ export const layoutByValue = (
           }
           niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
         }
+
         if (newCacheInfo && attributes.label?.visible && !useCache) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
           const axisOrient = axis.getOrient();
