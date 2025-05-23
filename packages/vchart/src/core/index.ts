@@ -29,6 +29,8 @@ export * from '../constant/data';
 export * from '../constant/layout';
 export { AttributeLevel } from '../constant/attribute';
 export { TransformLevel } from '../data/initialize';
+export { STATE_VALUE_ENUM } from '../compile/mark/interface';
+export { ChartEvent } from '../constant/event';
 
 /**
  * spec
@@ -60,3 +62,7 @@ export { ManualTicker, StreamLight } from '@visactor/vrender-animate';
 export * from '../util/space';
 export { transformToGraphic } from '../util/style';
 export { getSpecInfo } from '../component/util';
+export { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
+export { lookup } from '../data/transforms/lookup';
+export { warn } from '../util/debug';
+export { measureText } from '../util/text';

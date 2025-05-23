@@ -1,5 +1,5 @@
-export { registerElementHighlight } from './triggers/element-highlight';
-export { registerElementSelect } from './triggers/element-select';
+export { registerElementHighlight, ElementHighlight } from './triggers/element-highlight';
+export { registerElementSelect, ElementSelect } from './triggers/element-select';
 export { registerDimensionHover } from './triggers/dimension-hover';
 export { registerElementActive } from './triggers/element-active';
 export { registerElementActiveByLegend } from './triggers/element-active-by-legend';
@@ -7,3 +7,4 @@ export { registerElementHighlightByGroup } from './triggers/element-highlight-by
 export { registerElementHighlightByKey } from './triggers/element-highlight-by-key';
 export { registerElementHighlightByLegend } from './triggers/element-highlight-by-legend';
 export { registerElementHighlightByName } from './triggers/element-highlight-by-name';
+export type { IHoverSpec, ISelectSpec } from './interface/spec';

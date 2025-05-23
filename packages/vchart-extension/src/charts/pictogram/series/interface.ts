@@ -1,6 +1,4 @@
-import type { IPathMarkSpec } from '../../typings/visual';
-import type { IMarkSpec, IMarkTheme, ISeriesSpec } from '../../typings/spec/common';
-import type { IAnimationSpec } from '../../animation/spec';
+import type { IAnimationSpec, IMarkSpec, IMarkTheme, IPathMarkSpec, ISeriesSpec } from '@visactor/vchart';
 
 export interface IPictogramSeriesSpec extends ISeriesSpec, IAnimationSpec<'pictogram', 'fadeIn'> {
   /**

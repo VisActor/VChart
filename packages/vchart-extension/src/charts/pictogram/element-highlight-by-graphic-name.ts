@@ -1,8 +1,5 @@
-import { Factory } from '../../core/factory';
-import { ElementHighlight } from './element-highlight';
-import type { BaseEventParams } from '../../event/interface';
+import { ElementHighlight, Factory, type BaseEventParams, type IMarkGraphic } from '@visactor/vchart';
 import { isNil } from '@visactor/vutils';
-import type { IMarkGraphic } from '../../mark/interface/common';
 
 const type = 'element-highlight-by-graphic-name';
 
