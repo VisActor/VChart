@@ -1,5 +1,5 @@
-import type { Datum } from '../../typings';
-import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
+import type { Datum } from '@visactor/vchart';
+import { BaseSeriesTooltipHelper } from '@visactor/vchart';
 import type { ImageCloudSeries } from './image-cloud';
 
 export class ImageCloudTooltipHelper extends BaseSeriesTooltipHelper {

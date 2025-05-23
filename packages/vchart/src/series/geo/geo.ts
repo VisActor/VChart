@@ -11,7 +11,7 @@ import type { IMark } from '../../mark/interface';
 import type { ICompilableData } from '../../compile/data';
 
 export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> extends BaseSeries<T> implements IGeoSeries {
-  type = SeriesTypeEnum.geo;
+  type: string = SeriesTypeEnum.geo;
   readonly coordinate = 'geo';
 
   protected _mapViewData: ICompilableData;

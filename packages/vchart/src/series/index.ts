@@ -69,10 +69,6 @@ import type { IVennSeriesSpec } from './venn/interface';
 import { VennSeries, registerVennSeries } from './venn/venn';
 import type { IMosaicSeriesSpec } from './mosaic/interface';
 import { MosaicSeries, registerMosaicSeries } from './mosaic/mosaic';
-import type { IPictogramSeriesSpec } from './pictogram/interface';
-import { PictogramSeries, registerPictogramSeries } from './pictogram/pictogram';
-import { ImageCloudSeries, registerImageCloudSeries } from './image-cloud/image-cloud';
-import type { IImageCloudSeriesSpec } from './image-cloud/interface';
 
 import type { ISeries, ICartesianSeries, IPolarSeries, IGeoSeries } from './interface';
 import { barGrowIn, barGrowOut, barPresetAnimation } from './bar/animation';
@@ -82,6 +78,9 @@ import { pieDisappear, pieEnter, pieExit, piePresetAnimation } from './pie/anima
 import { PieSeriesSpecTransformer } from './pie/pie-transformer';
 import { baseSeriesMark } from './base/constant';
 import { FunnelSeriesSpecTransformer } from './funnel/funnel-transformer';
+import { BaseSeriesTooltipHelper } from './base/tooltip-helper';
+import { BaseSeriesSpecTransformer } from './base/base-series-transformer';
+import { GeoSeries } from './geo/geo';
 
 export {
   PositionEnum,
@@ -96,6 +95,9 @@ export {
 };
 
 export {
+  GeoSeries,
+  BaseSeriesSpecTransformer,
+  BaseSeriesTooltipHelper,
   WaterfallSeries,
   BarSeries,
   BarSeriesSpecTransformer,
@@ -135,9 +137,7 @@ export {
   CorrelationSeries,
   LiquidSeries,
   VennSeries,
-  PictogramSeries,
-  MosaicSeries,
-  ImageCloudSeries
+  MosaicSeries
 };
 
 export {
@@ -168,9 +168,7 @@ export {
   registerWordCloudSeries,
   registerLiquidSeries,
   registerVennSeries,
-  registerMosaicSeries,
-  registerPictogramSeries,
-  registerImageCloudSeries
+  registerMosaicSeries
 };
 
 export type {
@@ -219,9 +217,7 @@ export type {
   ICorrelationSeriesSpec,
   ILiquidSeriesSpec,
   IVennSeriesSpec,
-  IMosaicSeriesSpec,
-  IPictogramSeriesSpec,
-  IImageCloudSeriesSpec
+  IMosaicSeriesSpec
 };
 
 export * from './interface';

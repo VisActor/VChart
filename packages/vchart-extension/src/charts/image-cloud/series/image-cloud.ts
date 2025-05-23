@@ -1,26 +1,29 @@
-import { registerImageMark } from '../../mark/image';
-import type { SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface';
 import type { IImageCloudSeriesSpec } from './interface';
-import { imageCloudSeriesMark } from './constant';
-import { BaseSeries } from '../base';
+import { IMAGE_CLOUD_SERIES_TYPE, ImageCloudMarkNameEnum, imageCloudSeriesMark } from './constant';
+import type { IPoint } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
-import type { IImageMark, IMark, IRectMark } from '../../mark/interface';
-import type { Datum, IPoint } from '../../typings';
-import { AttributeLevel } from '../../constant/attribute';
 import { imagecloudTransform } from '@visactor/vlayouts';
 import type { GridLayoutConfig } from '@visactor/vlayouts';
-import { DEFAULT_DATA_KEY, Factory, vglobal } from '../../core';
-import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerImageCloudAnimation } from './animation';
 import { ImageCloudTooltipHelper } from './tooltip-helper';
-import { createImage, type IGraphic } from '@visactor/vrender-core';
+import { createImage } from '@visactor/vrender-core';
+import type { Datum, IImageMark, IMark, IRectMark } from '@visactor/vchart';
+import {
+  animationConfig,
+  AttributeLevel,
+  BaseSeries,
+  DEFAULT_DATA_KEY,
+  Factory,
+  registerImageMark,
+  userAnimationConfig,
+  vglobal
+} from '@visactor/vchart';
 
 export class ImageCloudSeries<T extends IImageCloudSeriesSpec> extends BaseSeries<T> {
-  static readonly type: string = SeriesTypeEnum.imageCloud;
-  type = SeriesTypeEnum.imageCloud;
+  static readonly type: string = IMAGE_CLOUD_SERIES_TYPE;
+  type = IMAGE_CLOUD_SERIES_TYPE;
 
-  static readonly mark: SeriesMarkMap = imageCloudSeriesMark;
+  static readonly mark = imageCloudSeriesMark;
 
   protected _urlField: string;
   protected _nameField?: string;
@@ -182,8 +185,8 @@ export class ImageCloudSeries<T extends IImageCloudSeriesSpec> extends BaseSerie
           this._maskMark
             .getProduct()
             .getChildren()
-            .forEach(element => {
-              (element as IGraphic).setAttribute('background', inputImage);
+            .forEach((element: any) => {
+              element.setAttribute('background', inputImage);
             });
         }
         if (maskImage && (this._spec.layoutConfig as GridLayoutConfig)?.placement === 'masked') {
@@ -215,7 +218,7 @@ export class ImageCloudSeries<T extends IImageCloudSeriesSpec> extends BaseSerie
         mark.setAnimationConfig(
           animationConfig(
             Factory.getAnimationInKey('imageCloud')(params, appearPreset),
-            userAnimationConfig(SeriesMarkNameEnum.image, this._spec, this._markAttributeContext)
+            userAnimationConfig(ImageCloudMarkNameEnum.image, this._spec, this._markAttributeContext)
           )
         );
       }

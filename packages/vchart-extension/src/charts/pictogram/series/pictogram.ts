@@ -1,35 +1,44 @@
 import { DataView } from '@visactor/vdataset';
 import type { SVGParsedElement, SVGParserResult } from '@visactor/vdataset';
-import type { PanEventParam, ZoomEventParam } from '../../core';
-import { Factory } from '../../core';
-import { GeoSeries } from '../geo/geo';
-import type { ISeriesSeriesInfo, SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum } from '../interface';
 import type { IPictogramSeriesSpec } from './interface';
-import { PictogramSeriesMark } from './constant';
+import {
+  ELEMENT_HIGHLIGHT_BY_GRPHIC_NAME,
+  ELEMENT_SELECT_BY_GRPHIC_NAME,
+  PICTOGRAM_SERIES_TYPE,
+  PictogramSeriesMark
+} from './constant';
 import { getSVGSource, registerSVGSource, svgSourceMap, unregisterSVGSource } from './svg-source';
-import { lookup } from '../../data/transforms/lookup';
-import { registerDataSetInstanceTransform } from '../../data/register';
-import type { GroupMark } from '../../mark';
-import { shouldMarkDoMorph } from '../../animation/utils';
-import { AttributeLevel } from '../../constant/attribute';
 import { PictogramSeriesSpecTransformer } from './pictogram-transformer';
-import type { IMatrix } from '@visactor/vutils';
+import type { IMatrix, IPoint, IPointLike } from '@visactor/vutils';
 import { Bounds, Matrix, isValid, merge } from '@visactor/vutils';
-import type { Datum } from '../../typings';
 import { createRect } from '@visactor/vrender-core';
-import type { GraphicEventType, Group, IGroup } from '@visactor/vrender-core';
-import { ChartEvent, HOOK_EVENT } from '../../constant/event';
-import type { IHoverSpec, ISelectSpec } from '../../interaction/interface/spec';
-import { STATE_VALUE_ENUM } from '../../compile/mark';
-import type { IGroupMark, IMark, ITextMark } from '../../mark/interface';
 import { PictogramSeriesTooltipHelper } from './tooltip-helper';
-import { graphicAttributeTransform, pictogram } from '../../data/transforms/pictogram';
-import type { IPoint } from '../../typings/coordinate';
-import { CompilableData } from '../../compile/data';
-import { registerElementHighlightByGraphicName } from '../../interaction/triggers/element-highlight-by-graphic-name';
-import { registerElementSelectByGraphicName } from '../../interaction/triggers/element-select-by-graphic-name';
-import { TRIGGER_TYPE_ENUM } from '../../interaction/triggers/enum';
+import type {
+  Datum,
+  IGroupMark,
+  IHoverSpec,
+  IMark,
+  ISelectSpec,
+  ISeriesSeriesInfo,
+  ITextMark,
+  PanEventParam,
+  ZoomEventParam
+} from '@visactor/vchart';
+import {
+  AttributeLevel,
+  ChartEvent,
+  CompilableData,
+  Factory,
+  GeoSeries,
+  lookup,
+  registerDataSetInstanceTransform,
+  shouldMarkDoMorph,
+  STATE_VALUE_ENUM
+} from '@visactor/vchart';
+import { registerElementHighlightByGraphicName } from '../element-highlight-by-graphic-name';
+import { registerElementSelectByGraphicName } from '../element-select-by-graphic-name';
+import { graphicAttributeTransform, pictogram } from './transform';
+import type { IGroup, GraphicEventType } from '@visactor/vrender-core';
 
 export interface SVGParsedElementExtend extends SVGParsedElement {
   _finalAttributes: Record<string, any>;
@@ -37,14 +46,14 @@ export interface SVGParsedElementExtend extends SVGParsedElement {
 }
 
 export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSpec> extends GeoSeries<T> {
-  static readonly type: string = SeriesTypeEnum.pictogram;
-  type = SeriesTypeEnum.pictogram;
-  static readonly mark: SeriesMarkMap = PictogramSeriesMark;
+  static readonly type: string = PICTOGRAM_SERIES_TYPE;
+  type = PICTOGRAM_SERIES_TYPE;
+  static readonly mark = PictogramSeriesMark;
   static readonly transformerConstructor = PictogramSeriesSpecTransformer;
 
   svg!: string;
 
-  protected _pictogramMark: GroupMark;
+  protected _pictogramMark: IGroupMark;
   protected _parsedSvgResult: SVGParserResult;
   private _labelMark: ITextMark;
 
@@ -89,7 +98,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
   protected _defaultHoverConfig(finalHoverSpec: IHoverSpec) {
     return {
-      type: TRIGGER_TYPE_ENUM.ELEMENT_HIGHLIGHT_BY_GRPHIC_NAME,
+      type: ELEMENT_HIGHLIGHT_BY_GRPHIC_NAME,
       // trigger: finalHoverSpec.trigger as EventType,
       trigger: finalHoverSpec.trigger as GraphicEventType,
       triggerOff: 'pointerout' as GraphicEventType,
@@ -107,7 +116,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       : ['empty', finalSelectSpec.trigger];
 
     return {
-      type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT_BY_GRPHIC_NAME,
+      type: ELEMENT_SELECT_BY_GRPHIC_NAME,
       trigger: finalSelectSpec.trigger as GraphicEventType,
       triggerOff: triggerOff as GraphicEventType,
       reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
@@ -127,7 +136,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       {
         morph: shouldMarkDoMorph(this._spec, PictogramSeries.mark.pictogram.name)
       }
-    ) as GroupMark;
+    ) as IGroupMark;
 
     if (!this._pictogramMark) {
       return;
@@ -273,7 +282,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     });
   }
 
-  dataToPosition(datum: Datum, global = false): IPoint {
+  dataToPosition(datum: Datum, global = false): IPointLike {
     if (!datum) {
       return null;
     }
