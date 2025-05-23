@@ -381,6 +381,28 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     return this.dataToPositionY1(datum);
   }
 
+  protected _getLinearBarRange = (start: number, end: number) => {
+    let [x, x1] = [start, end].sort((a, b) => a - b);
+    const realBarWidth = x1 - x;
+    if (this._spec.barGap) {
+      const tempX = x + this._spec.barGap;
+      const tempX1 = x1 - this._spec.barGap;
+      x = tempX;
+      x1 = tempX1;
+    }
+
+    const curBarWidth = x1 - x;
+    const barMinWidth = getActualNumValue(this._spec.barMinWidth || 2, realBarWidth);
+    if (curBarWidth < barMinWidth) {
+      const widthDiff = barMinWidth - curBarWidth;
+      const halfWidthDiff = widthDiff / 2;
+      x -= halfWidthDiff;
+      x1 += halfWidthDiff;
+    }
+
+    return [x, x1];
+  };
+
   protected _getBarXStart = (datum: Datum, scale: IBaseScale, useWholeRange?: boolean) => {
     if (this._shouldDoPreCalculate()) {
       this._calculateStackRectPosition(false);
@@ -403,6 +425,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     return valueInScaleRange(this._dataToPosX1(datum), scale, useWholeRange);
   };
 
+  protected _getLinearBarXRange = (datum: Datum, scale: IBaseScale, useWholeRange?: boolean) => {
+    const x = valueInScaleRange(this._dataToPosX(datum), scale, useWholeRange);
+    const x1 = valueInScaleRange(this._dataToPosX1(datum), scale, useWholeRange);
+    return this._getLinearBarRange(x, x1);
+  };
+
   protected _getBarYStart = (datum: Datum, scale: IBaseScale) => {
     if (this._shouldDoPreCalculate()) {
       this._calculateStackRectPosition(true);
@@ -423,6 +451,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
 
     return valueInScaleRange(this._dataToPosY1(datum), scale);
+  };
+
+  protected _getLinearBarYRange = (datum: Datum, scale: IBaseScale, useWholeRange?: boolean) => {
+    const y = valueInScaleRange(this._dataToPosY(datum), scale, useWholeRange);
+    const y1 = valueInScaleRange(this._dataToPosY1(datum), scale, useWholeRange);
+    return this._getLinearBarRange(y, y1);
   };
 
   initBandRectMarkStyle() {
@@ -543,8 +577,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     if (this.direction === Direction.horizontal) {
       const yChannels = isValid(this._fieldY2)
         ? {
-            y: (datum: Datum) => valueInScaleRange(this._dataToPosY(datum), yScale, true),
-            y1: (datum: Datum) => valueInScaleRange(this._dataToPosY1(datum), yScale, true)
+            y: (datum: Datum) => this._getLinearBarYRange(datum, yScale, true)[0],
+            y1: (datum: Datum) => this._getLinearBarYRange(datum, yScale, true)[1]
           }
         : {
             y: (datum: Datum) =>
@@ -575,8 +609,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     } else {
       const xChannels = isValid(this._fieldX2)
         ? {
-            x: (datum: Datum) => valueInScaleRange(this._dataToPosX(datum), xScale, true),
-            x1: (datum: Datum) => valueInScaleRange(this._dataToPosX1(datum), xScale, true)
+            x: (datum: Datum) => this._getLinearBarXRange(datum, xScale, true)[0],
+            x1: (datum: Datum) => this._getLinearBarXRange(datum, xScale, true)[1]
           }
         : {
             x: (datum: Datum) =>
