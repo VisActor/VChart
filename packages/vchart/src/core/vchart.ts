@@ -1,10 +1,10 @@
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
-import type { IDataValues, IMarkStateSpec, IInitOption, ISeriesSpec } from '../typings/spec/common';
+import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/common';
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
-import type { ISeriesConstructor, ISeriesTheme } from '../series/interface';
+import type { ISeriesConstructor } from '../series/interface';
 import {
   ChartTypeEnum,
   type DimensionIndexOption,
@@ -112,7 +112,6 @@ import type { IChartPluginService } from '../plugin/chart/interface';
 import { ChartPluginService } from '../plugin/chart/plugin-service';
 import type { IIndicator } from '../component/indicator';
 import type { IGeoCoordinate } from '../component/geo';
-import { getSVGSource } from '../series/pictogram/svg-source';
 import { registerGesturePlugin } from '../plugin/other';
 import { registerElementHighlight } from '../interaction/triggers/element-highlight';
 import { registerElementSelect } from '../interaction/triggers/element-select';
@@ -273,15 +272,6 @@ export class VChart implements IVChart {
   static unregisterSVG(key: string) {
     const impl = Factory.getImplementInKey('unregisterSVG');
     impl && impl(key);
-  }
-
-  /**
-   * 根据地图名称获取地图数据
-   * @param key 地图名称
-   * @returns 地图数据
-   */
-  static getSVG(key: string): any {
-    return getSVGSource(key);
   }
 
   /**

@@ -1,15 +1,16 @@
 // eslint-disable-next-line no-duplicate-imports
-import { SeriesTypeEnum } from '../../series';
-import type { IPictogramSeriesSpec } from '../../series/pictogram/interface';
-import type { RegionSpec, ISeriesSpec } from '../../typings';
-import { BaseChartSpecTransformer } from '../base';
+
+import type { RegionSpec } from '@visactor/vchart';
+import { BaseChartSpecTransformer } from '@visactor/vchart';
 import type { IPictogramChartSpec } from './interface';
+import { PICTOGRAM_SERIES_TYPE } from './series/constant';
+import type { IPictogramSeriesSpec } from './series/interface';
 
 export class PictogramChartSpecTransformer<
   T extends IPictogramChartSpec = IPictogramChartSpec
 > extends BaseChartSpecTransformer<T> {
   protected _isValidSeries(type: string) {
-    return type === SeriesTypeEnum.pictogram;
+    return type === PICTOGRAM_SERIES_TYPE;
   }
 
   protected _getDefaultSeriesSpec(spec: IPictogramChartSpec): IPictogramSeriesSpec {

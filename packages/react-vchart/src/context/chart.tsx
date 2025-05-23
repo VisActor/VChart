@@ -9,15 +9,19 @@ export interface ChartContextType {
 const ChartContext = React.createContext<ChartContextType>(null);
 ChartContext.displayName = 'ChartContext';
 
-export function withChartInstance<T>(Component: typeof React.Component) {
-  const Com = React.forwardRef<any, T>((props: T, ref) => {
+export function withChartInstance<T>(Component: React.ComponentType<T & { chart?: IVChart }>) {
+  const Com = React.forwardRef<any, T>((props, ref) => {
     return (
       <ChartContext.Consumer>
-        {(ctx: ChartContextType) => <Component ref={ref} chart={ctx.chart} {...props} />}
+        {(ctx: ChartContextType) => (
+          // Only pass ref if Component supports it (i.e., is a forwardRef component)
+          // Otherwise, omit ref to avoid type errors
+          <Component {...(props as T)} chart={ctx.chart} {...(ref ? { ref } : {})} />
+        )}
       </ChartContext.Consumer>
     );
   });
-  Com.displayName = Component.name;
+  Com.displayName = Component.displayName || Component.name;
   return Com;
 }
 

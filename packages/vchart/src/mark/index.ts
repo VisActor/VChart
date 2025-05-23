@@ -44,8 +44,8 @@ export type {
   ConvertToMarkStyleSpec
 } from '../typings/visual';
 
-export type { IMarkRaw, IMarkStyle } from './interface/common';
-export type { ITextMark, ILabelMark, IRectMark, IRuleMark } from './interface/mark';
+export type { IMarkRaw, IMark, IMarkStyle } from './interface/common';
+export type { ITextMark, ILabelMark, IRectMark, IRuleMark, IImageMark, IGroupMark } from './interface/mark';
 
 export {
   MarkTypeEnum,

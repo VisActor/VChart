@@ -302,7 +302,7 @@ export const createChart = <T extends Props>(
     defaultProps.vchartConstrouctor.useRegisters(registers);
   }
 
-  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
+  const Com = withContainer<T>(BaseChart as any, componentName, (props: T) => {
     if (defaultProps) {
       return Object.assign(props, defaultProps);
     }

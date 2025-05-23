@@ -5,10 +5,9 @@ import type {
   TextShapeMask
 } from '@visactor/vlayouts';
 
-import type { IImageMarkSpec, IMarkSpec, ISeriesSpec } from '../../typings';
-import type { SeriesMarkNameEnum } from '../interface';
-import type { IAnimationSpec } from '../../animation/spec';
 import type { ImageCloudAppearPresetType } from './animation';
+import type { IAnimationSpec, IImageMarkSpec, IMarkSpec, ISeriesSpec } from '@visactor/vchart';
+import type { ImageCloudMarkNameEnum } from './constant';
 
 export interface IImageCloudSeriesSpec extends ISeriesSpec, IAnimationSpec<'image', ImageCloudAppearPresetType> {
   type: 'imageCloud';
@@ -77,7 +76,7 @@ export interface IImageCloudSeriesSpec extends ISeriesSpec, IAnimationSpec<'imag
    * 图片图元配置
    * @description 可以根据 datum._frequency 来区分图片是否为填充图片
    */
-  [SeriesMarkNameEnum.image]?: IMarkSpec<Partial<IImageMarkSpec>> & {
+  [ImageCloudMarkNameEnum.image]?: IMarkSpec<Partial<IImageMarkSpec>> & {
     padding?: number;
   };
 }

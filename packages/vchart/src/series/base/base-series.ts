@@ -827,7 +827,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _defaultHoverConfig(finalHoverSpec: IHoverSpec) {
     return {
-      type: TRIGGER_TYPE_ENUM.ELEMENT_HIGHLIGHT,
+      type: TRIGGER_TYPE_ENUM.ELEMENT_HIGHLIGHT as string,
       trigger: finalHoverSpec.trigger as GraphicEventType,
       triggerOff: finalHoverSpec.triggerOff as GraphicEventType,
       blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
@@ -843,7 +843,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       ? ['empty']
       : ['empty', finalSelectSpec.trigger];
     return {
-      type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT,
+      type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT as string,
       trigger: finalSelectSpec.trigger as GraphicEventType,
       triggerOff: triggerOff as GraphicEventType,
       reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,

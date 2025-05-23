@@ -1,9 +1,11 @@
 import type React from 'react';
-import type { IPie3dChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerPie3dChart, registerIndicator, registerLabel } from '@visactor/vchart';
+import type { IVChartConstructor } from '@visactor/vchart';
+import { VChart, registerIndicator, registerLabel } from '@visactor/vchart';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 import { registers } from './registers/simple';
+import { registerPie3dChart } from '@visactor/vchart-extension';
+import type { IPie3dChartSpec } from '@visactor/vchart-extension';
 
 export interface Pie3dChartProps
   extends Omit<BaseChartProps, 'container' | 'type' | 'data'>,

@@ -1,6 +1,7 @@
-import { BaseSeriesProps, createSeries } from './BaseSeries';
-import type { IRangeColumn3dSeriesSpec } from '@visactor/vchart';
-import { registerRangeColumn3dSeries } from '@visactor/vchart';
+import type { BaseSeriesProps } from './BaseSeries';
+import { createSeries } from './BaseSeries';
+import type { IRangeColumn3dSeriesSpec } from '@visactor/vchart-extension';
+import { registerRangeColumn3dSeries } from '@visactor/vchart-extension';
 
 export type RangeColumn3dProps = BaseSeriesProps & Omit<IRangeColumn3dSeriesSpec, 'type'>;
 

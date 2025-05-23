@@ -487,6 +487,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@visactor/vchart': workspace:1.13.9
       '@visactor/vdataset': 1.0.6
+      '@visactor/vlayouts': 1.0.6
       '@visactor/vrender-animate': 1.0.0-alpha.17
       '@visactor/vrender-components': 1.0.0-alpha.17
       '@visactor/vrender-core': 1.0.0-alpha.17
@@ -511,6 +512,7 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vdataset': 1.0.6
+      '@visactor/vlayouts': 1.0.6
       '@visactor/vrender-animate': 1.0.0-alpha.17
       '@visactor/vrender-components': 1.0.0-alpha.17
       '@visactor/vrender-core': 1.0.0-alpha.17

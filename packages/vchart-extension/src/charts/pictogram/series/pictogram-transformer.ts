@@ -1,8 +1,7 @@
 import { isValid } from '@visactor/vutils';
-import type { ISeriesSpec } from '../../typings';
-import { BaseSeriesSpecTransformer } from '../base';
 import { svgSourceMap } from './svg-source';
 import type { SVGParserResult } from '@visactor/vdataset';
+import { BaseSeriesSpecTransformer, type ISeriesSpec } from '@visactor/vchart';
 
 export class PictogramSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseSeriesSpecTransformer<T, K> {
   protected _getDefaultSpecFromChart(chartSpec: any): any {

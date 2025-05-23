@@ -63,10 +63,6 @@ import type { IVennChartSpec } from './venn';
 import { VennChart, registerVennChart } from './venn';
 import type { IMosaicChartSpec } from './mosaic';
 import { MosaicChart, registerMosaicChart } from './mosaic';
-import type { IPictogramChartSpec } from './pictogram/interface';
-import { PictogramChart, registerPictogramChart } from './pictogram/pictogram';
-import type { IImageCloudChartSpec } from './image-cloud';
-import { ImageCloudChart, registerImageCloudChart } from './image-cloud';
 import type { IChart } from './interface/chart';
 import { BaseWordCloudChart } from './word-cloud/base/base';
 import { BaseWordCloudChartSpecTransformer } from './word-cloud/base/word-cloud-base-transformer';
@@ -110,9 +106,7 @@ export {
   TreemapChart,
   VennChart,
   BaseChart,
-  MosaicChart,
-  PictogramChart,
-  ImageCloudChart
+  MosaicChart
 };
 
 export {
@@ -145,9 +139,7 @@ export {
   registerLiquidChart,
   registerWordCloudShapeChart,
   registerVennChart,
-  registerMosaicChart,
-  registerPictogramChart,
-  registerImageCloudChart
+  registerMosaicChart
 };
 
 export type {
@@ -182,7 +174,5 @@ export type {
   IPolarChartSpec,
   ICartesianChartSpec,
   IVennChartSpec,
-  IMosaicChartSpec,
-  IPictogramChartSpec,
-  IImageCloudChartSpec
+  IMosaicChartSpec
 };

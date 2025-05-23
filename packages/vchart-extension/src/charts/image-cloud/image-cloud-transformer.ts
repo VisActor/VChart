@@ -1,4 +1,4 @@
-import { BaseChartSpecTransformer } from '../base';
+import { BaseChartSpecTransformer } from '@visactor/vchart';
 import type { IImageCloudChartSpec } from './interface';
 
 export class ImageCloudChartSpecTransformer<T extends IImageCloudChartSpec> extends BaseChartSpecTransformer<T> {
