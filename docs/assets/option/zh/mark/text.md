@@ -2,19 +2,19 @@
 
 <!-- ITextMarkSpec -->
 
-#${prefix} text(string|number|string[])
+#${prefix} text(string|number|string[]|function)
 
 文本。
 
-#${prefix} dx(number)
+#${prefix} dx(number|function)
 
 x 方向偏移。
 
-#${prefix} dy(number)
+#${prefix} dy(number|function)
 
 y 方向偏移。
 
-#${prefix} textAlgin(string)
+#${prefix} textAlgin(string|function)
 
 文字对齐方式。
 
@@ -24,7 +24,7 @@ y 方向偏移。
 - `'right'`: 右对齐
 - `'center'`: 居中对齐
 
-#${prefix} textBaseline(string)
+#${prefix} textBaseline(string|function)
 
 文字基线。
 
@@ -34,11 +34,11 @@ y 方向偏移。
 - `'bottom'`
 - `'middle'`
 
-#${prefix} fontFamily(string)
+#${prefix} fontFamily(string|function)
 
 文字字体。
 
-#${prefix} fontWeight(string|number)
+#${prefix} fontWeight(string|number|function)
 
 文字字体的粗细。
 
@@ -50,7 +50,7 @@ y 方向偏移。
 - `'lighter'`
 - `100 | 200 | 300 | 400`...
 
-#${prefix} fontStyle(string)
+#${prefix} fontStyle(string|function)
 
 文字字体的风格。
 
@@ -60,15 +60,15 @@ y 方向偏移。
 - `'italic'`
 - `'oblique'`
 
-#${prefix} limit(number)
+#${prefix} limit(number|function)
 
 文字长度限制。
 
-#${prefix} ellipsis(string)
+#${prefix} ellipsis(string|function)
 
 文字省略方式。
 
-#${prefix} suffixPosition(string) = 'end'
+#${prefix} suffixPosition(string|function) = 'end'
 
 自 `1.7.3` 版本开始支持，用于配置文本省略的位置，默认尾部省略。
 
