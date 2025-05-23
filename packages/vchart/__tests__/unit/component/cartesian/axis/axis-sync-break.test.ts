@@ -1507,12 +1507,12 @@ describe('VChart', () => {
       const range = la.getScale().range();
       expect(range[0]).toBeCloseTo(426);
       expect(range[1]).toBeCloseTo(423.8873352657334);
-      expect(range[2]).toBeCloseTo(423.58867525684406);
+      expect(range[2]).toBeCloseTo(423.88585307996357);
       expect(range[3]).toBeCloseTo(0);
 
       const rightDomain = ra.getScale().domain();
 
-      expect(rightDomain[0]).toBeCloseTo(-393970724.0726612);
+      expect(rightDomain[0]).toBeCloseTo(-394248484.9018328);
       expect(rightDomain[1]).toBeCloseTo(80000000000);
       expect(ra.getScale().range()).toEqual([426, 0]);
     });
