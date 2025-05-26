@@ -1,9 +1,8 @@
 import type { EasingType } from '@visactor/vrender-core';
-import type { IAnimationConfig } from '../../animation/interface';
 import { ACustomAnimate } from '@visactor/vrender-animate';
-import { Factory } from '../../core';
 import { isValidNumber } from '@visactor/vutils';
-import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
+import type { IAnimationConfig } from '@visactor/vchart';
+import { DEFAULT_ANIMATION_CONFIG, Factory } from '@visactor/vchart';
 
 export class AxialRotateAnimation extends ACustomAnimate<{}> {
   declare valid: boolean;

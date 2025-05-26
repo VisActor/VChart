@@ -7,13 +7,13 @@ export interface ContainerProps {
   height?: number | string;
 }
 
-export default function withContainer<Props extends ContainerProps, CompProps>(
-  Comp: any,
+export default function withContainer<P extends ContainerProps>(
+  Comp: React.ComponentType<any>,
   name = 'ChartContainer',
-  getProps?: (props: any) => CompProps
+  getProps?: (props: any) => any
 ) {
-  const Cls = React.forwardRef<any, CompProps & Props>((props: CompProps & Props, ref) => {
-    const container = useRef();
+  const Cls = React.forwardRef<any, P>((props, ref) => {
+    const container = useRef<HTMLDivElement>(null);
     const [inited, setInited] = useState(false);
     const { className, style, width, ...options } = props;
 
@@ -33,7 +33,7 @@ export default function withContainer<Props extends ContainerProps, CompProps>(
         }}
       >
         {inited ? (
-          <Comp ref={ref} container={container.current} {...(getProps ? getProps(options) : (options as CompProps))} />
+          <Comp ref={ref} container={container.current} {...(getProps ? getProps(options) : options)} />
         ) : (
           <></>
         )}

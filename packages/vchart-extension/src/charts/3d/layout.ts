@@ -3,11 +3,14 @@ import { Factory, isXAxis, isYAxis, Layout } from '@visactor/vchart';
 import type { IBoundsLike } from '@visactor/vutils';
 
 export class Layout3d extends Layout implements IBaseLayout {
+  declare recomputeWidth: boolean;
+  declare recomputeHeight: boolean;
   static type = 'layout3d';
 
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
     // 布局初始化
     this._layoutInit(_chart, items, chartLayoutRect, chartViewBox);
+
     const recompute = {
       recomputeWidth: this.recomputeWidth,
       recomputeHeight: this.recomputeHeight

@@ -1,6 +1,5 @@
-import type { IMarkGraphic } from '../../mark/interface/common';
-import { Factory } from '../../core/factory';
-import { ElementSelect } from './element-select';
+import type { IMarkGraphic } from '@visactor/vchart';
+import { ElementSelect, Factory } from '@visactor/vchart';
 
 const type = 'element-select-by-graphic-name';
 
