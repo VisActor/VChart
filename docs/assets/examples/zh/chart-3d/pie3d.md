@@ -26,6 +26,20 @@ option: pieChart
 ## 代码演示
 
 ```javascript livedemo
+/**
+ * 自2.0.0版本后，3d图表从vchart-extension中引入
+ *
+ * import { registerPie3dChart } from '@visactor/vchart-extension';
+ *
+ * registerPie3dChart();
+ */
+
+/** --Remove the following code when using in business-- */
+if (VChartExtension.registerPie3dChart) {
+  VChartExtension.registerPie3dChart();
+}
+/** --Remove the above code when using in business-- */
+
 const spec = {
   type: 'pie3d',
   data: [
