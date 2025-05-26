@@ -1,4 +1,3 @@
-import { builtinThemes } from './../../theme/builtin/index';
 import { Factory } from './../../core/factory';
 import type { INode, IGroup, IGraphic } from '@visactor/vrender-core';
 import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visactor/vrender-components';
@@ -29,7 +28,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   layoutZIndex: number = LayoutZIndex.Player;
   layoutLevel: number = LayoutLevel.Player;
 
-  static readonly builtinThemes = {
+  static readonly builtInTheme = {
     player
   };
 
