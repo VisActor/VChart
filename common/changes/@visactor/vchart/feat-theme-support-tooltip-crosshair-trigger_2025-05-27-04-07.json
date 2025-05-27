@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support tooltip.trigger and crosshair.trigger in theme",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
