@@ -7,7 +7,6 @@ import { MarkTypeEnum } from './interface/type';
 import type { IGraphic, IGroupGraphicAttribute } from '@visactor/vrender-core';
 import { isNil } from '@visactor/vutils';
 import { HOOK_EVENT } from '../constant/event';
-import { log } from '../util/debug';
 
 export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMark {
   static readonly type = MarkTypeEnum.component;
@@ -114,16 +113,6 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
       mark: this,
       model: this.model
     });
-  }
-
-  render(): void {
-    if (!this._isCommited) {
-      return;
-    }
-    log(`render mark: ${this.getProductId()}, type is ${this.type}`);
-    this.renderInner();
-
-    this.uncommit();
   }
 
   release() {

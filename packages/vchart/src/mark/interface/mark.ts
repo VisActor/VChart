@@ -22,7 +22,6 @@ import type { IMark, IMarkRaw } from './common';
 import type { MarkType } from './type';
 
 export interface IComponentMark extends IMarkRaw<ICommonSpec> {
-  renderInner: () => void;
   getComponent: () => IGraphic;
   clearComponent: () => void;
   setAttributeTransform: (t: (attrs: any) => any) => any;

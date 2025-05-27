@@ -207,6 +207,7 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   updateMarkState: (key: string) => void;
 
   render: () => void;
+  renderInner: () => void;
 
   getGraphics: () => IMarkGraphic[];
 
