@@ -93,6 +93,7 @@ export interface IDataFilterComputeDomainOption {
     dataCollection: any[];
     stateFields: string[];
     valueFields: string[];
+    isCategoryState?: boolean;
     method: 'sum'; // todo: 也许可以提供多种数据统计方法 @chensiji
   };
   output: {
@@ -102,10 +103,12 @@ export interface IDataFilterComputeDomainOption {
 }
 
 export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterComputeDomainOption) => {
-  const { stateFields, valueFields, dataCollection } = op.input;
+  const { stateFields, valueFields, dataCollection, isCategoryState } = op.input;
   const { stateField, valueField } = op.output;
-  const resultObj = {};
+  const resultObj: any = {};
   const resultData: any[] = [];
+  const stateValues: any[] = [];
+  let hasLockDomain = false;
 
   dataCollection.forEach((dv: DataView, i) => {
     if (isNil(stateFields[i])) {
@@ -114,8 +117,12 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
     // 按照用户指定的domain进行排序(这里不通过getRawDataStatistics来取是因为时机不对，此时getRawDataStatistics还没有正确结果)
     const stateFieldInfo = dv.getFields()?.[stateFields[i]];
     if (stateFieldInfo && stateFieldInfo.lockStatisticsByDomain) {
+      hasLockDomain = true;
       stateFieldInfo.domain.forEach((d: any) => {
-        resultObj[d] = 0;
+        if (isNil(resultObj[d])) {
+          stateValues.push(d);
+          resultObj[d] = 0;
+        }
       });
     }
     dv.latestData.forEach((d: any) => {
@@ -123,6 +130,7 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
       array(stateFields[i]).forEach(state => {
         if (!isNil(d[state])) {
           if (isNil(resultObj[d[state]])) {
+            stateValues.push(d[state]);
             resultObj[d[state]] = 0;
           }
           if (!isNil(valueFields[i])) {
@@ -134,11 +142,18 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
       });
     });
   });
-  Object.keys(resultObj).forEach((d, i) => {
-    const res = { [stateField]: d };
+
+  const sortedStateValues = hasLockDomain
+    ? stateValues
+    : isCategoryState === false
+    ? stateValues.sort((a, b) => a - b)
+    : Object.keys(resultObj);
+
+  sortedStateValues.forEach(state => {
+    const res = { [stateField]: state };
 
     if (valueField) {
-      res[valueField] = resultObj[d];
+      res[valueField] = resultObj[state];
     }
 
     resultData.push(res);
