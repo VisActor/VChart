@@ -3,8 +3,7 @@ import type {
   ICommonCrosshairSpec,
   ICrosshairCategoryFieldSpec,
   ICrosshairValueFieldSpec,
-  IPolarCrosshairSpec,
-  CrossHairTrigger
+  IPolarCrosshairSpec
 } from './spec';
 
 export interface ICrosshairTheme extends ICommonCrosshairSpec {
@@ -23,12 +22,9 @@ export interface ICrosshairTheme extends ICommonCrosshairSpec {
   categoryField?: Partial<IPolarCrosshairSpec['categoryField']>;
   valueField?: Partial<IPolarCrosshairSpec['valueField']>;
   /**
-   * 是否可以通过 点击 固定住一组 crosshair，也可以同时触发。
-   * @default 'hover'
+   * crosshair trigger配置
+   * @since 1.13.11
    */
-  trigger?: CrossHairTrigger;
-  /**
-   * 隐藏crosshair的触发方式（目前仅支持和trigger一致的设置以及none）
-   */
-  triggerOff?: CrossHairTrigger | 'none' | number;
+  trigger?: ICommonCrosshairSpec['trigger'];
+  triggerOff?: ICommonCrosshairSpec['triggerOff'];
 }
