@@ -48,3 +48,11 @@ export interface ITickCalculationCfg {
 export interface IBandAxisLayer extends Omit<ITickCalculationCfg, 'noDecimals' | 'tickMode'> {
     visible?: boolean;
 }
+export declare enum AxisEnum {
+    lineAxis = "lineAxis",
+    circleAxis = "circleAxis"
+}
+export declare enum GridEnum {
+    lineAxisGrid = "lineAxisGrid",
+    circleAxisGrid = "circleAxisGrid"
+}

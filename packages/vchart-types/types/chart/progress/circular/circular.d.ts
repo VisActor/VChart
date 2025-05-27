@@ -9,5 +9,6 @@ export declare class CircularProgressChart<T extends ICircularProgressChartSpec 
     readonly transformerConstructor: typeof CircularProgressChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
+    protected _setModelOption(): void;
 }
 export declare const registerCircularProgressChart: () => void;

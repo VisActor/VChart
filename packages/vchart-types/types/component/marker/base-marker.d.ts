@@ -59,7 +59,7 @@ export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComp
     clear(): void;
     private _getFirstSeries;
     protected _getNeedClearVRenderComponents(): IGraphic[];
-    onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect, ctx: any): void;
+    onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect): void;
     _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;

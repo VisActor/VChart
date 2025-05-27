@@ -11,6 +11,9 @@ export declare class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extend
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        map: import("./interface").IMapSeriesTheme;
+    };
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof MapSeriesSpecTransformer;
     map: string;

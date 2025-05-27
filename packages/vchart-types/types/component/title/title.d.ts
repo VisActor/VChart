@@ -15,6 +15,9 @@ export declare class Title<T extends ITitleSpec = ITitleSpec> extends BaseCompon
     layoutType: ILayoutType;
     layoutZIndex: number;
     layoutLevel: number;
+    static readonly builtInTheme: {
+        title: import("./interface").ITitleTheme;
+    };
     protected _orient: IOrientType;
     private _titleComponent;
     private _cacheAttrs;

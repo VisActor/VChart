@@ -1,6 +1,6 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../typings/common';
-import type { IOrientType, IRect } from '../typings/space';
+import type { IOrientType, IPadding, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
 import type { ILayoutNumber, ILayoutPaddingSpec, ILayoutPoint, ILayoutRect, ILayoutType } from '../typings/layout';
 import type { ILayoutModel } from '../model/interface';
@@ -46,6 +46,8 @@ export interface ILayoutConstructor {
 }
 export interface ILayoutItem {
     readonly type: string;
+    readonly willLayoutTag: boolean;
+    readonly lastComputeRect: ILayoutRect;
     directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
     layoutClip: boolean;
     layoutType: ILayoutType;
@@ -76,12 +78,14 @@ export interface ILayoutItem {
     getLayoutRect: () => ILayoutRect;
     getLayout: () => IRect;
     getLastComputeOutBounds: () => IBoundsLike;
-    onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: any) => void;
-    onLayoutEnd: (option: any) => void;
+    onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect) => void;
+    onLayoutEnd: () => void;
     setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) => void;
     computeBoundsInRect: (rect: ILayoutRect) => ILayoutRect;
     setLayoutStartPosition: (pos: Partial<IPoint>) => void;
     absoluteLayoutInRect: (rect: IRect) => void;
+    clearWillLayoutTag: () => void;
+    setWillLayoutTag: () => void;
 }
 export interface ILayoutItemSpec {
     layoutType?: ILayoutType;
@@ -112,4 +116,5 @@ export interface ILayoutItemInitOption {
     layoutOrient?: IOrientType;
     transformLayoutRect?: (rect: ILayoutRect) => ILayoutRect;
     transformLayoutPosition?: (pos: Partial<IPoint>) => Partial<IPoint>;
+    transformLayoutPadding?: (padding: IPadding) => IPadding;
 }

@@ -5,7 +5,7 @@ import type { InterpolateType } from './interpolate';
 import type { ScaleType } from './scale';
 import type { ShapeType } from './shape';
 import type { IPoint } from './coordinate';
-import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark/interface';
+import type { IModelMarkAttributeContext } from '../compile/mark/interface';
 import type { Datum } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
@@ -37,7 +37,7 @@ export interface IVisualScale {
     field?: string;
     changeDomain?: 'none' | 'replace' | 'expand';
 }
-export type FunctionType<T> = (datum: Datum, context: IModelMarkAttributeContext, opt?: IAttributeOpt, source?: DataView) => T;
+export type FunctionType<T> = (datum: Datum, context: IModelMarkAttributeContext, source?: DataView) => T;
 export type ValueType<T> = T;
 export type VisualType<T> = ValueType<T> | FunctionType<T> | IVisual<unknown, T>;
 export type TextureType = 'circle' | 'dimond' | 'rect' | 'vertical-line' | 'horizontal-line' | 'bias-lr' | 'bias-rl' | 'grid';
@@ -157,9 +157,6 @@ export interface IRectMarkSpec extends IFillMarkSpec {
     x1?: number;
     y1?: number;
 }
-export interface IRect3dMarkSpec extends IRectMarkSpec {
-    length?: number;
-}
 export interface IBoxPlotMarkSpec extends ICommonSpec {
     lineWidth?: number;
     boxWidth?: number;
@@ -220,9 +217,6 @@ export interface IArcMarkSpec extends IFillMarkSpec {
     cap?: boolean | [boolean, boolean];
     autoCapConical?: boolean;
 }
-export interface IArc3dMarkSpec extends IArcMarkSpec {
-    height?: number;
-}
 export interface ICellMarkSpec extends ISymbolMarkSpec {
     padding?: number | number[] | IPadding;
 }
@@ -237,9 +231,6 @@ export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
     cornerRadius?: number | number[];
     scaleX?: number;
     scaleY?: number;
-}
-export interface IPyramid3dMarkSpec extends IPolygonMarkSpec {
-    points?: IPoint[];
 }
 export type RepeatType = 'no-repeat' | 'repeat-x' | 'repeat-y' | 'repeat';
 export type RepeatXYType = 'no-repeat' | 'repeat' | 'stretch';
@@ -296,7 +287,7 @@ export interface IImageMarkSpec extends IFillMarkSpec {
     height?: number;
     repeatX?: IRepeatType;
     repeatY?: IRepeatType;
-    image: string | HTMLImageElement | HTMLCanvasElement;
+    image?: string | HTMLImageElement | HTMLCanvasElement;
 }
 export type TextAlign = TextAlignType;
 export type TextBaseLine = TextBaselineType;

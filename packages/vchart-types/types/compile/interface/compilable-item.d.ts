@@ -1,16 +1,17 @@
-import type { IGroupMark, IGrammarBase, IView, IRenderer, InteractionSpec } from '@visactor/vgrammar-core';
-import type { Maybe, IPerformanceHook, StringOrNumber } from '../../typings';
-import type { IColor, IStage } from '@visactor/vrender-core';
+import type { StringOrNumber } from '../../typings';
+import type { IColor, IGroup, IStage } from '@visactor/vrender-core';
 import type { IChart } from '../../chart/interface/chart';
-import type { IVChart } from '../../core/interface';
+import type { IVChart, IVChartRenderOption } from '../../core/interface';
 import type { IMorphConfig } from '../../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType, EventType } from '../../event/interface';
+import type { IMark, IMarkGraphic } from '../../mark/interface';
+import type { LayoutState } from '../interface/compiler';
 export type CompilerListenerParameters = {
     type: EventType;
     event: Event;
     source: EventSourceType;
-    item: any | null;
+    item: IMarkGraphic | null;
     datum: any | null;
     markId: number | null;
     modelId: number | null;
@@ -26,15 +27,12 @@ export interface IGrammarItemMap<T extends IGrammarItem> {
 export type ICompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
 export interface ICompiler {
     isInited?: boolean;
-    getVGrammarView: () => IView;
-    getModel: () => ICompilerModel;
-    getRenderer: () => IRenderer;
     getCanvas: () => HTMLCanvasElement | undefined;
     getStage: () => IStage | undefined;
     compile: (ctx: {
         chart: IChart;
         vChart: IVChart;
-    }, option: any) => void;
+    }, option?: IVChartRenderOption) => void;
     clear: (ctx: {
         chart: IChart;
         vChart: IVChart;
@@ -50,45 +48,41 @@ export interface ICompiler {
     removeEventListener: (source: EventSourceType, type: string, callback: (params: CompilerListenerParameters) => void) => void;
     release: () => void;
     releaseGrammar: (removeGraphicItems: boolean) => void;
-    addGrammarItem: (grammarItem: IGrammarItem) => void;
-    removeGrammarItem: (grammarItem: IGrammarItem, reserveVGrammarModel?: boolean) => void;
-    addInteraction: (interaction: InteractionSpec & {
-        seriesId?: number;
-        regionId?: number;
-    }) => void;
-    removeInteraction: (seriesId: number) => void;
-    updateDepend: (items?: IGrammarItem[]) => boolean;
+    addRootMark: (mark: IMark) => any;
+    removeRootMark: (mark: IMark) => any;
+    getRootMarks: () => IMark[];
+    updateLayoutTag: () => void;
+    getLayoutState: () => LayoutState;
+    getRootGroup: () => IGroup;
 }
 export interface ICompilable {
     getCompiler: () => ICompiler;
-    getVGrammarView: () => IView;
+    getStage: () => IStage;
     compile: () => void;
-    compileMarks?: (group?: string | IGroupMark) => void;
+    compileMarks?: (group?: IGroup) => void;
     compileData?: () => void;
-    compileSignal?: () => void;
     clear?: () => void;
     afterCompile?: () => void;
     release: () => void;
 }
 export interface ICompilableInitOption {
     getCompiler: () => ICompiler;
-    performanceHook?: IPerformanceHook;
 }
 export declare enum GrammarType {
     data = "data",
-    signal = "signal",
     mark = "mark"
+}
+export interface ITransformSpec {
+    type: string;
+    [key: string]: any;
 }
 export interface IGrammarItem extends ICompilable {
     id: number;
-    grammarType: GrammarType;
-    getProduct: () => Maybe<IGrammarBase>;
     generateProductId: () => string;
     getProductId: () => string;
-    removeProduct: (reserveVGrammarModel?: boolean) => void;
-    getDepend: () => IGrammarItem[];
-    setDepend: (...depend: IGrammarItem[]) => void;
-    updateDepend: () => boolean;
+    removeProduct: () => void;
+    setTransform: (transform: ITransformSpec[]) => void;
 }
 export type GrammarItemInitOption = ICompilableInitOption;
 export type GrammarItemCompileOption = Record<string, any>;
+export type StateValueMap = Record<string, unknown>;

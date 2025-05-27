@@ -1,5 +1,5 @@
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
@@ -7,7 +7,7 @@ import type { ITooltipHandler, TooltipActiveType } from '../../typings/tooltip';
 import type { Datum, IShowTooltipOption } from '../../typings';
 import type { ITooltip, ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams, TotalMouseEventData } from './interface';
 import { TooltipResult } from './interface/common';
-import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
+import type { DimensionTooltipInfo, GroupTooltipInfo, ITooltipProcessor, MarkTooltipInfo } from './processor/interface';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
 export declare class Tooltip extends BaseComponent<any> implements ITooltip {
@@ -17,6 +17,9 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     type: ComponentTypeEnum;
     name: string;
     readonly transformerConstructor: typeof TooltipSpecTransformer;
+    static readonly builtInTheme: {
+        tooltip: import("./interface").ITooltipTheme<string | import("../..").IColorKey>;
+    };
     static specKey: string;
     specKey: string;
     layoutType: 'none';
@@ -29,7 +32,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     private _isEnterTooltip;
     protected _spec: ITooltipSpec;
     tooltipHandler?: ITooltipHandler;
-    processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor, GroupTooltipProcessor>;
+    processor: ITooltipActiveTypeAsKeys<ITooltipProcessor<MarkTooltipInfo>, ITooltipProcessor<DimensionTooltipInfo>, ITooltipProcessor<GroupTooltipInfo>>;
     private _alwaysShow;
     private _cacheInfo;
     private _cacheParams;
@@ -44,8 +47,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _getNeedClearVRenderComponents(): IGraphic[];
     protected _registerEvent(): void;
     protected _releaseEvent(): void;
-    onLayout(ctx: IModelLayoutOption): void;
-    onLayoutEnd(ctx: IModelLayoutOption): void;
+    onLayoutEnd(): void;
     onRender(ctx: IModelRenderOption): void;
     created(): void;
     release(): void;

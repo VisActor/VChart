@@ -7,6 +7,9 @@ export declare class LinearProgressSeries<T extends ILinearProgressSeriesSpec = 
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        linearProgress: import("./interface").ILinearProgressSeriesTheme;
+    };
     private _progressMark;
     private _trackMark;
     initMark(): void;
@@ -16,7 +19,10 @@ export declare class LinearProgressSeries<T extends ILinearProgressSeriesSpec = 
     private _defaultProgressCustomShape;
     private _initTrackMark;
     private _initTrackMarkStyle;
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     initAnimation(): void;
     protected initTooltip(): void;
     getActiveMarks(): IMark[];
