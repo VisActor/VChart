@@ -341,20 +341,25 @@ vchart.renderSync();
 
 ## 中国地图数据
 
-可以从这些网站获取中国地图数据。
-[geojson.cn](https://geojson.cn/data/atlas/china)
-[cloudcenter.tianditu.gov.cn](https://cloudcenter.tianditu.gov.cn/administrativeDivision)
-[datav.aliyun.com](https://datav.aliyun.com/portal/school/atlas/area_selector)
-需要提醒的是，上线的地图都需要经过有关部分进行审核，否则会有法律风险。
+可以从这些网站获取中国地图数据：
+
+- [geojson.cn](https://geojson.cn/data/atlas/china)
+- [cloudcenter.tianditu.gov.cn](https://cloudcenter.tianditu.gov.cn/administrativeDivision)
+- [datav.aliyun.com](https://datav.aliyun.com/portal/school/atlas/area_selector)
+  需要提醒的是，上线的地图都需要经过有关部分进行审核，否则会有法律风险。
 
 ## 世界地图数据
 
-可以从[hub.arcgis.com](https://hub.arcgis.com/search)和[geojson-maps.kyd.au](https://geojson-maps.kyd.au/)获取世界地图数据
+可以从这些网站获取世界地图数据：
+
+- [hub.arcgis.com](https://hub.arcgis.com/search)
+- [geojson-maps.kyd.au](https://geojson-maps.kyd.au/)
 
 ## 在线编辑工具：
 
-可以通过这些网站编辑地图数据，处理 GeoJson 格式文件
-[geojson.io](https://geojson.io/) - 在线创建、编辑、查看 GeoJSON
-[mapshaper.org](https://mapshaper.org/) - 地图数据编辑和格式转换
-[leafletjs.com](https://leafletjs.com/) - Leaflet 地图库官网
-[geoman.io](https://geoman.io/) - 地图几何编辑工具
+可以通过这些网站编辑地图数据，处理 GeoJson 格式文件：
+
+- [geojson.io](https://geojson.io/) - 在线创建、编辑、查看 GeoJSON
+- [mapshaper.org](https://mapshaper.org/) - 地图数据编辑和格式转换
+- [leafletjs.com](https://leafletjs.com/) - Leaflet 地图库官网
+- [geoman.io](https://geoman.io/) - 地图几何编辑工具
