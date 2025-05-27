@@ -149,6 +149,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const specFromChildren = useRef<Omit<ISpec, 'type' | 'data' | 'width' | 'height'>>(null);
   const eventsBinded = React.useRef<BaseChartProps>(null);
   const skipFunctionDiff = !!props.skipFunctionDiff;
+  const [tooltipNode, setTooltipNode] = useState<ReactNode>(null);
 
   const parseSpec = (props: Props) => {
     let spec: ISpec;
@@ -169,7 +170,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       } as ISpec;
     }
 
-    const tooltipSpec = initCustomTooltip(props, spec.tooltip);
+    const tooltipSpec = initCustomTooltip(setTooltipNode, props, spec.tooltip);
     if (tooltipSpec) {
       spec.tooltip = tooltipSpec;
     }
@@ -294,6 +295,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
             </React.Fragment>
           );
         })}
+        {tooltipNode}
       </ViewContext.Provider>
     </RootChartContext.Provider>
   );
