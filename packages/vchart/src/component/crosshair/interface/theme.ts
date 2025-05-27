@@ -23,7 +23,6 @@ export interface ICrosshairTheme extends ICommonCrosshairSpec {
   valueField?: Partial<IPolarCrosshairSpec['valueField']>;
   /**
    * crosshair trigger配置
-   * @since 1.13.11
    */
   trigger?: ICommonCrosshairSpec['trigger'];
   triggerOff?: ICommonCrosshairSpec['triggerOff'];

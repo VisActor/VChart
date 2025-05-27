@@ -130,13 +130,11 @@ export interface ITooltipTheme<ColorType = string> {
   /**
    * tooltip触发方式
    * （*会影响自定义handler）
-   * @since 1.13.11
    */
   trigger?: ITooltipSpec['trigger'];
   /**
    * 隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）
    * （*会影响自定义handler）
-   * @since 1.13.11
    */
   triggerOff?: ITooltipSpec['triggerOff'];
 }
