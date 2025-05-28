@@ -339,7 +339,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
       if (selectedKeys.length === originalLegendKeys.length) {
         return selectedKeys;
       }
-      const emptyKey = '';
+      const emptyKey = 'others';
 
       const hasEmpty = selectedKeys.includes(emptyKey);
       const nonEmpty = selectedKeys.filter(key => key !== emptyKey);
