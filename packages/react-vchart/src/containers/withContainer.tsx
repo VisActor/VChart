@@ -5,6 +5,7 @@ export interface ContainerProps {
   className?: string;
   width?: number | string;
   height?: number | string;
+  id?: string;
 }
 
 export default function withContainer<Props extends ContainerProps, CompProps>(
@@ -15,7 +16,7 @@ export default function withContainer<Props extends ContainerProps, CompProps>(
   const Cls = React.forwardRef<any, CompProps & Props>((props: CompProps & Props, ref) => {
     const container = useRef();
     const [inited, setInited] = useState(false);
-    const { className, style, width, ...options } = props;
+    const { className, style, width, height, id, ...options } = props;
 
     useLayoutEffect(() => {
       setInited(true);
@@ -24,11 +25,12 @@ export default function withContainer<Props extends ContainerProps, CompProps>(
     return (
       <div
         ref={container}
+        id={id}
         className={className}
         style={{
           position: 'relative',
-          height: props.height || '100%',
-          width: props.width || '100%',
+          height: height || '100%',
+          width: width || '100%',
           ...style
         }}
       >
