@@ -218,7 +218,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   setSkipBeforeLayouted(skip: boolean) {
     this._skipBeforeLayouted = skip;
   }
-
   protected _groupKey?: string;
   setGroupKey(groupKey: string) {
     this._groupKey = groupKey;
@@ -1665,13 +1664,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return this.runTransforms(transforms, data);
   }
 
-  protected _runMainTasks() {
-    if (
-      !this.getVisible() ||
-      (this._skipBeforeLayouted && this.getCompiler().getLayoutState() === LayoutState.before)
-    ) {
-      return;
-    }
+  renderInner() {
+    this._updateEncoderByState();
 
     const data = this._data?.getProduct() ?? [{}];
 
@@ -1710,10 +1704,16 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   render() {
-    if (this._isCommited) {
-      this._updateEncoderByState();
-      log(`render mark: ${this.getProductId()}, type is ${this.type}`);
-      this._runMainTasks();
+    if (this.isCommited()) {
+      if (
+        this.getVisible() &&
+        (!this._skipBeforeLayouted || this.getCompiler().getLayoutState() !== LayoutState.before)
+      ) {
+        log(`render mark: ${this.getProductId()}, type is ${this.type}`);
+
+        this.renderInner();
+      }
+
       this.uncommit();
     }
   }
