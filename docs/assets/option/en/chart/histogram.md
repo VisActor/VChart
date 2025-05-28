@@ -27,6 +27,8 @@ y2 field. (y field is the left interval field of frequency statistics, y2 field 
 
 ## barGap(number)
 
+Since `1.13.11`, configuring barGap is supported.
+
 Used to adjust the distance between each column in the histogram and support passing in pixel values.
 
 {{ use: chart-component(
