@@ -25,8 +25,24 @@ option: AreaChart
  * import { register3DPlugin } from '@visactor/vchart';
  *
  * register3DPlugin();
+ *
+ * 自2.0.0版本后，3d图表从vchart-extension中引入
+ *
+ * import { registerAxis3dPlugin } from '@visactor/vchart-extension';
+ *
+ * registerAxis3dPlugin();
  */
-VCHART_MODULE.register3DPlugin();
+
+/** --Remove the following code when using in business-- */
+if (VCHART_MODULE.register3DPlugin) {
+  // 1.12.0 版本执行注册代码
+  VCHART_MODULE.register3DPlugin();
+} else if (VChartExtension.registerAxis3dPlugin) {
+  // 2.0.0版本执行注册代码
+  VChartExtension.registerAxis3dPlugin();
+}
+/** --Remove the above code when using in business-- */
+
 const spec = {
   type: 'area',
   data: {

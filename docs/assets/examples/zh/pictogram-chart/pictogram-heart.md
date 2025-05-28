@@ -24,14 +24,22 @@ option: pictogramChart
 
 ```javascript livedemo
 /** --在业务中使用时请添加以下代码-- */
-// 在业务中使用时, 请额外引入 registerPictogramChart 并执行
+// 1.x版本，在业务中使用时, 请额外引入 registerPictogramChart 并执行
 // import { registerPictogramChart } from '@visactor/vchart';
+// registerPictogramChart();
+// 2.0.0版本，在业务中使用时, 请额外引入 registerPictogramChart 并执行
+// import { registerPictogramChart } from '@visactor/vchart-extension';
 // registerPictogramChart();
 /** --在业务中使用时请添加以上代码-- */
 
 /** --在业务中使用时请删除以下代码-- */
-VCHART_MODULE.registerPictogramChart();
-/** --在业务中使用时请删除以上代码-- */
+if (VCHART_MODULE.registerPictogramChart) {
+  // 1.x 版本执行注册代码
+  VCHART_MODULE.registerPictogramChart();
+} else if (VChartExtension.registerPictogramChart) {
+  // 2.0.0版本执行注册代码
+  VChartExtension.registerPictogramChart();
+}
 
 // 从指定 URL 异步获取 SVG 资源
 const response = await fetch('https://cdn.jsdelivr.net/gh/Eomnational/image/img/3.svg');

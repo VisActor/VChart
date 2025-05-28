@@ -28,7 +28,24 @@ option: scatterChart
  * import { register3DPlugin } from '@visactor/vchart';
  *
  * register3DPlugin();
+ *
+ * 自2.0.0版本后，3d图表从vchart-extension中引入
+ *
+ * import { registerAxis3dPlugin } from '@visactor/vchart-extension';
+ *
+ * registerAxis3dPlugin();
  */
+
+/** --Remove the following code when using in business-- */
+if (VCHART_MODULE.register3DPlugin) {
+  // 1.12.0 版本执行注册代码
+  VCHART_MODULE.register3DPlugin();
+} else if (VChartExtension.registerAxis3dPlugin) {
+  // 2.0.0版本执行注册代码
+  VChartExtension.registerAxis3dPlugin();
+}
+/** --Remove the above code when using in business-- */
+
 VCHART_MODULE.register3DPlugin();
 const data = [
   { continent: 'Americas', Country: 'Argentina', LifeExpectancy: 75.32, GDP: 12779.37964, Population: 40301927 },

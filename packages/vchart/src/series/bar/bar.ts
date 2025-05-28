@@ -818,6 +818,14 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
   }
 
+  onDataUpdate(): void {
+    super.onDataUpdate();
+
+    const region = this.getRegion();
+    // @ts-ignore
+    region._bar_series_position_calculated = false;
+  }
+
   compile(): void {
     super.compile();
 
