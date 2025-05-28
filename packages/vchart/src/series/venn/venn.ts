@@ -339,27 +339,38 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
       if (selectedKeys.length === originalLegendKeys.length) {
         return selectedKeys;
       }
+      const emptyKey = '';
 
-      // 找到缺失的项
-      const selectedFilter = {};
-      selectedKeys.forEach(s => {
-        selectedFilter[s] = true;
-      });
-      const disableKeys = originalLegendKeys.filter(key => !selectedFilter[getVennSeriesDataKey(key)]);
+      const hasEmpty = selectedKeys.includes(emptyKey);
+      const nonEmpty = selectedKeys.filter(key => key !== emptyKey);
 
-      // 找到缺失的项的派生项（如 “A&B” 的派生项 “A&B&C”）
-      const derivedDisableKeys = originalLegendKeys.filter(key => {
-        if (disableKeys.includes(key)) {
-          return false;
-        }
-        return disableKeys.some(disableKey => array(disableKey).every(k => key.includes(k)));
-      });
+      if (nonEmpty.length > 0) {
+        // 过滤出非空的原始图例键
+        const validKeys = originalLegendKeys.filter(key => getVennSeriesDataKey(key) !== emptyKey);
+        // 找到缺失的项
+        const selectedFilter: Record<StringOrNumber, boolean> = {};
+        selectedKeys.forEach(s => {
+          selectedFilter[s] = true;
+        });
+        const disableKeys = validKeys.filter(key => !selectedFilter[getVennSeriesDataKey(key)]);
 
-      // 将派生项从 selectedKeys 中移除
-      selectedKeys = selectedKeys.slice();
-      derivedDisableKeys.forEach(key => {
-        selectedKeys.splice(selectedKeys.indexOf(getVennSeriesDataKey(key)), 1);
-      });
+        // 找到缺失的项的派生项（如 “A&B” 的派生项 “A&B&C”）
+        const derivedDisableKeys = validKeys.filter(key => {
+          if (disableKeys.includes(key)) {
+            return false;
+          }
+          return disableKeys.some(disableKey => array(disableKey).every(k => key.includes(k)));
+        });
+
+        // 将派生项从 nonEmpty 中移除
+        selectedKeys = nonEmpty.slice();
+        derivedDisableKeys.forEach(key => {
+          selectedKeys.splice(selectedKeys.indexOf(getVennSeriesDataKey(key)), 1);
+        });
+      }
+      if (hasEmpty) {
+        selectedKeys.push(emptyKey);
+      }
     }
     return selectedKeys;
   }
