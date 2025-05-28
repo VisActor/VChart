@@ -385,8 +385,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     let [x, x1] = [start, end].sort((a, b) => a - b);
     const realBarWidth = x1 - x;
     if (this._spec.barGap) {
-      const tempX = x + this._spec.barGap;
-      const tempX1 = x1 - this._spec.barGap;
+      const halfBarGap = this._spec.barGap * 0.5;
+      const tempX = x + halfBarGap;
+      const tempX1 = x1 - halfBarGap;
       x = tempX;
       x1 = tempX1;
     }

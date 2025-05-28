@@ -121,7 +121,7 @@ export interface IBarSeriesSpec
   stackCornerRadius?: number | number[] | IStackCornerRadiusCallback;
 
   /**
-   * 柱条间 padding 值
+   * 柱条间 gap 值 @since 1.13.11
    */
   barGap?: number;
 }
