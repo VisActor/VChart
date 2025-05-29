@@ -9,5 +9,5 @@ export interface PieChartProps
 
 export const PieChart = createChart<React.PropsWithChildren<PieChartProps> & { type: 'pie' }>('PieChart', {
   type: 'pie',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

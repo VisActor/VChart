@@ -2,6 +2,7 @@ import type { ITextAttribute } from '@visactor/vrender-core';
 import type { ILayoutNumber, ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components';
 import type { ITokenKey } from '../../../theme/token/interface';
+import type { ITooltipSpec } from './spec';
 
 export interface ITooltipTextTheme<ColorType = string> {
   /**
@@ -126,4 +127,14 @@ export interface ITooltipTheme<ColorType = string> {
    * @since 1.11.5
    */
   align?: 'left' | 'right';
+  /**
+   * tooltip触发方式
+   * （*会影响自定义handler）
+   */
+  trigger?: ITooltipSpec['trigger'];
+  /**
+   * 隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）
+   * （*会影响自定义handler）
+   */
+  triggerOff?: ITooltipSpec['triggerOff'];
 }

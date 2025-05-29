@@ -13,7 +13,7 @@ export const HistogramChart = createChart<React.PropsWithChildren<HistogramChart
   'HistogramChart',
   {
     type: 'histogram',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerHistogramChart, registerLabel, ...registers]
 );
