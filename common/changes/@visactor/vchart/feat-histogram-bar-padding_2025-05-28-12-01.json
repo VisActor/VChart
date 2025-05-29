@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "Add barGap option for histogram chart",
+      "comment": "feat: add `barGap` option for histogram chart",
       "type": "none"
     }
   ],
