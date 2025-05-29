@@ -1,6 +1,8 @@
 import type React from 'react';
-import type { IPictogramChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerPictogramChart, registerLabel } from '@visactor/vchart';
+import type { IVChartConstructor } from '@visactor/vchart';
+import { VChart, registerLabel } from '@visactor/vchart';
+import type { IPictogramChartSpec } from '@visactor/vchart-extension';
+import { registerPictogramChart } from '@visactor/vchart-extension';
 import { registers } from './registers/simple';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
