@@ -2,19 +2,19 @@
 
 <!-- ITextMarkSpec -->
 
-#${prefix} text(string|number|string[])
+#${prefix} text(string|number|string[]|function)
 
 Text.
 
-#${prefix} dx(number)
+#${prefix} dx(number|function)
 
 X-axis offset.
 
-#${prefix} dy(number)
+#${prefix} dy(number|function)
 
 Y-axis offset.
 
-#${prefix} textAlgin(string)
+#${prefix} textAlgin(string|function)
 
 Text alignment.
 
@@ -24,7 +24,7 @@ Optional values:
 - `'right'`: Align right
 - `'center'`: Align center
 
-#${prefix} textBaseline(string)
+#${prefix} textBaseline(string|function)
 
 Text baseline.
 
@@ -34,11 +34,11 @@ Optional values:
 - `'bottom'`
 - `'middle'`
 
-#${prefix} fontFamily(string)
+#${prefix} fontFamily(string|function)
 
 Text font.
 
-#${prefix} fontWeight(string|number)
+#${prefix} fontWeight(string|number|function)
 
 Font weight of the text.
 
@@ -50,7 +50,7 @@ Optional:
 - `'lighter'`
 - `100 | 200 | 300 | 400`...
 
-#${prefix} fontStyle(string)
+#${prefix} fontStyle(string|function)
 
 Style of text font.
 
@@ -60,15 +60,15 @@ Optional:
 - `'italic'`
 - `'oblique'`
 
-#${prefix} limit(number)
+#${prefix} limit(number|function)
 
 Text length limit.
 
-#${prefix} ellipsis(string)
+#${prefix} ellipsis(string|function)
 
 Text truncation method.
 
-#${prefix} suffixPosition(string) = 'end'
+#${prefix} suffixPosition(string|function) = 'end'
 
 Supported since `1.7.3` version, used to configure the position of text omission, the default is to omit the tail.
 
