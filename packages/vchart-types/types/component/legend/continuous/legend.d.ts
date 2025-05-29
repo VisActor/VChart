@@ -8,6 +8,10 @@ import { BaseLegend } from '../base-legend';
 import type { ILayoutRect } from '../../../typings/layout';
 export declare class ContinuousLegend<T extends IColorLegendSpec | ISizeLegendSpec = IColorLegendSpec | ISizeLegendSpec> extends BaseLegend<T> {
     static specKey: string;
+    static readonly builtInTheme: {
+        colorLegend: import("./interface").IColorLegendTheme;
+        sizeLegend: import("./interface").ISizeLegendTheme;
+    };
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;

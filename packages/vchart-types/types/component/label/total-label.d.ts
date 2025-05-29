@@ -9,6 +9,9 @@ export declare class TotalLabel extends BaseLabelComponent {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    static readonly builtInTheme: {
+        totalLabel: import("./interface").ITotalLabelTheme;
+    };
     static specKey: string;
     specKey: string;
     layoutZIndex: number;

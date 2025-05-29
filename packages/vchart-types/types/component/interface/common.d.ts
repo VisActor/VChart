@@ -1,5 +1,4 @@
 import type { ISeriesFilter } from '../../region/interface';
-import type { IAnimate } from '../../animation/interface';
 import type { ILayoutModel, IModelConstructor, IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
@@ -23,7 +22,6 @@ export interface IComponentOption extends IModelOption {
 }
 export interface IComponent extends ILayoutModel {
     readonly name: string;
-    readonly animate?: IAnimate;
     getRegions: () => IRegion[];
     getBindSeriesFilter?: () => ISeriesFilter;
     changeRegions: (regions: IRegion[]) => void;

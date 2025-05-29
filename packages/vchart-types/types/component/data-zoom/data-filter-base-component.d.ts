@@ -115,8 +115,8 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _initCommonEvent(): void;
     updateLayoutAttribute(): void;
     protected _autoVisible(isShown: boolean): void;
-    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
+    onLayoutEnd(): void;
     getBoundsInRect(rect: ILayoutRect): IBoundsLike;
     hide(): void;
     show(): void;

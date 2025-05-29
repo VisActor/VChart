@@ -1,8 +1,9 @@
 import type { utilFunctionCtx } from '../typings/params';
 import type { IChart } from '../chart/interface/chart';
-import type { IBoundsLike } from '@visactor/vutils';
+import { type IBoundsLike } from '@visactor/vutils';
 import type { IBaseLayout, ILayoutItem } from './interface';
 import type { IOrientType, IPadding, IRect } from '../typings/space';
+import type { IRecompute } from './util';
 import type { ILayoutRect } from '../typings/layout';
 export type LayoutSideType = {
     top: number;
@@ -28,10 +29,12 @@ export declare class Layout implements IBaseLayout {
     bottomCurrent: number;
     _chartLayoutRect: IRect;
     _chartViewBox: IBoundsLike;
+    recomputeWidth: boolean;
+    recomputeHeight: boolean;
     protected _onError: (msg: string) => void;
     constructor(_spec?: unknown, ctx?: utilFunctionCtx);
     protected _layoutInit(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void;
-    protected _layoutNormalItems(items: ILayoutItem[]): void;
+    protected _layoutNormalItems(items: ILayoutItem[], recompute: IRecompute): void;
     protected _groupItems(items: ILayoutItem[]): {
         regionItems: ILayoutItem[];
         relativeItems: ILayoutItem[];
@@ -48,18 +51,18 @@ export declare class Layout implements IBaseLayout {
     layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void;
     protected _processAutoIndent(regionItems: ILayoutItem[], relativeItems: ILayoutItem[], relativeOverlapItems: ILayoutItem[], overlapItems: {
         [key in IOrientType]: overlapInfo;
-    }, allRelatives: ILayoutItem[], layoutTemp: LayoutSideType): void;
-    protected layoutNormalItems(normalItems: ILayoutItem[]): void;
-    protected layoutNormalInlineItems(normalItems: ILayoutItem[]): void;
-    protected _layoutRelativeOverlap(orient: IOrientType, info: overlapInfo): void;
-    protected _layoutRelativeItem(item: ILayoutItem, layoutRect: ILayoutRect): void;
+    }, allRelatives: ILayoutItem[], layoutTemp: LayoutSideType, recompute: IRecompute): void;
+    protected layoutNormalItems(normalItems: ILayoutItem[], recompute: IRecompute): void;
+    protected layoutNormalInlineItems(normalItems: ILayoutItem[], recompute: IRecompute): boolean;
+    protected _layoutRelativeOverlap(orient: IOrientType, info: overlapInfo, recompute: IRecompute): void;
+    protected _layoutRelativeItem(item: ILayoutItem, recompute: IRecompute): void;
     protected _layoutRegionItem(regionItems: ILayoutItem[], regionRelativeTotalWidth: number, regionRelativeTotalHeight: number): {
         regionHeight: number;
         regionWidth: number;
     };
-    protected layoutRegionItems(regionItems: ILayoutItem[], regionRelativeItems: ILayoutItem[], regionRelativeOverlapItems: ILayoutItem[], overlapItems?: {
+    protected layoutRegionItems(regionItems: ILayoutItem[], regionRelativeItems: ILayoutItem[], regionRelativeOverlapItems: ILayoutItem[], overlapItems: {
         [key in IOrientType]: overlapInfo;
-    }): void;
+    }, recompute: IRecompute): void;
     protected layoutAbsoluteItems(absoluteItems: ILayoutItem[]): void;
     filterRegionsWithID(items: ILayoutItem[], id: number): ILayoutItem;
     getItemComputeLayoutRect(item: ILayoutItem): {

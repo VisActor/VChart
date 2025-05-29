@@ -15,13 +15,14 @@ import type { IGeoCoordinateHelper } from '../../component/geo/interface';
 import type { ILabelSpec, ILabelInfo } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
 import type { ILegend } from '../../component/legend/interface';
+import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 export interface ISeries extends IModel {
     readonly type: string;
     readonly name?: string;
     tooltipHelper: ISeriesTooltipHelper;
     getSpec: () => any;
     readonly coordinate: CoordinateType;
-    onLayoutEnd: (ctx: any) => void;
+    onLayoutEnd: () => void;
     getRawData: () => DataView | undefined;
     getViewDataFilter: () => DataView | undefined;
     getViewData: () => DataView | undefined;
@@ -104,6 +105,10 @@ export interface ISeries extends IModel {
     getSeriesFieldValue: (datum: Datum, seriesField?: string) => any;
     legendSelectedFilter?: (component: ILegend, selectedKeys: StringOrNumber[]) => StringOrNumber[];
     parseLabelStyle?: (labelStyle: any, labelSpec: any, labelMark?: ILabelMark) => any;
+    getInteractionTriggers?: () => {
+        trigger: Partial<IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
 }
 export interface ICartesianSeries extends ISeries {
     readonly coordinate: 'cartesian';

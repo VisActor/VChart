@@ -10,6 +10,12 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     static specKey: string;
+    static readonly builtInTheme: {
+        axis: import("../interface").IAxisCommonTheme;
+        axisBand: import("../interface").IBandAxisTheme;
+        axisX: import("./interface").ICartesianAxisCommonTheme;
+        axisY: import("./interface").ICartesianAxisCommonTheme;
+    };
     protected _scale: BandScale;
     protected _scales: BandScale[];
     protected computeDomain(data: {
