@@ -2,6 +2,7 @@ import type { ITextAttribute } from '@visactor/vrender-core';
 import type { ILayoutNumber, ITooltipShapePattern, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components';
 import type { ITokenKey } from '../../../theme/token/interface';
+import type { ITooltipSpec } from './spec';
 export interface ITooltipTextTheme<ColorType = string> {
     fontFamily?: string;
     fontSize?: number | ITokenKey;
@@ -49,4 +50,6 @@ export interface ITooltipTheme<ColorType = string> {
     };
     transitionDuration?: number;
     align?: 'left' | 'right';
+    trigger?: ITooltipSpec['trigger'];
+    triggerOff?: ITooltipSpec['triggerOff'];
 }

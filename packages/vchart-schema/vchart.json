@@ -21941,6 +21941,10 @@
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
+        },
         "barGapInGroup": {
           "anyOf": [
             {
@@ -23138,6 +23142,10 @@
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
+        },
         "barGapInGroup": {
           "anyOf": [
             {
@@ -24263,6 +24271,10 @@
           ],
           "description": "柱状背景图元",
           "since": "1.6.0"
+        },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
         },
         "barGapInGroup": {
           "anyOf": [
@@ -33232,8 +33244,7 @@
         },
         "trigger": {
           "$ref": "#/definitions/CrossHairTrigger",
-          "default": "'hover'",
-          "description": "是否可以通过 点击 固定住一组 crosshair，也可以同时触发。"
+          "description": "crosshair trigger配置"
         },
         "triggerOff": {
           "anyOf": [
@@ -44572,6 +44583,10 @@
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
+        },
         "barGapInGroup": {
           "anyOf": [
             {
@@ -45719,6 +45734,10 @@
           ],
           "description": "柱状背景图元",
           "since": "1.6.0"
+        },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
         },
         "barGapInGroup": {
           "anyOf": [
@@ -65478,6 +65497,10 @@
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
+        },
         "barGapInGroup": {
           "anyOf": [
             {
@@ -66620,6 +66643,10 @@
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
+        },
         "barGapInGroup": {
           "anyOf": [
             {
@@ -67068,6 +67095,10 @@
           ],
           "description": "柱状背景图元",
           "since": "1.6.0"
+        },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
         },
         "barGapInGroup": {
           "anyOf": [
@@ -68210,6 +68241,10 @@
           ],
           "description": "柱状背景图元",
           "since": "1.6.0"
+        },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
         },
         "barGapInGroup": {
           "anyOf": [
@@ -79656,6 +79691,72 @@
           "since": "1.11.9",
           "type": "number"
         },
+        "trigger": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "hover",
+                "none"
+              ],
+              "type": "string"
+            }
+          ],
+          "description": "tooltip触发方式\n（*会影响自定义handler）"
+        },
+        "triggerOff": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "hover",
+                "none"
+              ],
+              "type": "string"
+            }
+          ],
+          "description": "隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）\n（*会影响自定义handler）"
+        },
         "valueLabel": {
           "$ref": "#/definitions/ITooltipTextTheme<string|IColorKey>",
           "description": "tooltip内容，value字段"
@@ -83367,6 +83468,10 @@
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
+        },
         "barGapInGroup": {
           "anyOf": [
             {
@@ -84537,6 +84642,10 @@
           ],
           "description": "柱状背景图元",
           "since": "1.6.0"
+        },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
         },
         "barGapInGroup": {
           "anyOf": [
@@ -87334,7 +87443,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13591": {
+        "__@toStringTag@13592": {
           "type": "string"
         },
         "size": {
@@ -87342,14 +87451,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13591",
+        "__@toStringTag@13592",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13591": {
+        "__@toStringTag@13592": {
           "type": "string"
         },
         "size": {
@@ -87357,14 +87466,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13591",
+        "__@toStringTag@13592",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13591": {
+        "__@toStringTag@13592": {
           "type": "string"
         },
         "size": {
@@ -87372,14 +87481,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13591",
+        "__@toStringTag@13592",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13591": {
+        "__@toStringTag@13592": {
           "type": "string"
         },
         "size": {
@@ -87387,14 +87496,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13591",
+        "__@toStringTag@13592",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13591": {
+        "__@toStringTag@13592": {
           "type": "string"
         },
         "size": {
@@ -87402,14 +87511,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13591",
+        "__@toStringTag@13592",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13591": {
+        "__@toStringTag@13592": {
           "type": "string"
         },
         "size": {
@@ -87417,7 +87526,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13591",
+        "__@toStringTag@13592",
         "size"
       ],
       "type": "object"
@@ -88687,6 +88796,10 @@
           ],
           "description": "柱状背景图元",
           "since": "1.6.0"
+        },
+        "barGap": {
+          "description": "柱条间 gap 值 @since 1.13.11",
+          "type": "number"
         },
         "barGapInGroup": {
           "anyOf": [
@@ -92829,6 +92942,72 @@
         "titleLabel": {
           "$ref": "#/definitions/ITooltipTextTheme<string>",
           "description": "tooltip标题"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "hover",
+                "none"
+              ],
+              "type": "string"
+            }
+          ],
+          "description": "tooltip触发方式\n（*会影响自定义handler）"
+        },
+        "triggerOff": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "hover",
+                "none"
+              ],
+              "type": "string"
+            }
+          ],
+          "description": "隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）\n（*会影响自定义handler）"
         },
         "valueLabel": {
           "$ref": "#/definitions/ITooltipTextTheme<string>",
@@ -110022,34 +110201,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13591": {
+        "__@toStringTag@13592": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13591"
+        "__@toStringTag@13592"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13591": {
+        "__@toStringTag@13592": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13591"
+        "__@toStringTag@13592"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13591": {
+        "__@toStringTag@13592": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13591"
+        "__@toStringTag@13592"
       ],
       "type": "object"
     },

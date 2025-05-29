@@ -12,6 +12,7 @@ export interface IDataFilterComputeDomainOption {
         dataCollection: any[];
         stateFields: string[];
         valueFields: string[];
+        isCategoryState?: boolean;
         method: 'sum';
     };
     output: {
