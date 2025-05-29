@@ -113,10 +113,6 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
     this._product.context = { ...this._product.context, ...this._getCommonContext() };
     this._product.setAttributes(this._getAttrsFromConfig(style));
-
-    if (this.getCompiler().getLayoutState() !== LayoutState.before) {
-      this._runStateAnimation(this.getGraphics());
-    }
   }
 
   render(): void {
