@@ -1,3 +1,29 @@
+# v1.13.11
+
+2025-05-29
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add `barGap` option for histogram chart
+- **@visactor/vchart**: support tooltip.trigger and crosshair.trigger in theme
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix data-zoom domain when the label of band size is number-like string, fix [#3982](https://github.com/VisActor/VChart/issues/3982)
+- **@visactor/vchart**: fix the order of title in mark tooltip when dimension tooltip has no title, fix [#3991](https://github.com/VisActor/VChart/issues/3991)
+- **@visactor/vchart**: option `{ poptip: true } should load `poptipForText`
+- **react-vchart**: when use children to render customized tooltip, react-vchart should update
+- **@visactor/vchart**: customized render of tooltip should be render in react 17 and react 18
+
+**🔖 other**
+
+- **@visactor/vchart**: fix:Replace all the vchartConstrouctor to vchartConstructor,and ensure backward compatibility with older versions.
+
+
+
+[more detail about v1.13.11](https://github.com/VisActor/VChart/releases/tag/v1.13.11)
+
 # v1.13.10
 
 2025-05-16
