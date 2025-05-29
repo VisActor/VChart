@@ -17,7 +17,6 @@ module.exports = {
   },
   globals: {
     '@visactor/vchart': 'VChart',
-    '@visactor/vutils': 'VUtils'
   },
-  external: ['@visactor/vchart', '@visactor/vutils']
+  external: ['@visactor/vchart']
 };
