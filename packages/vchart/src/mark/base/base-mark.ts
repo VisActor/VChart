@@ -1977,6 +1977,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   runAnimation() {
-    this._runStateAnimation(this._graphics);
+    this._runStateAnimation(this.getGraphics());
   }
 }
