@@ -1507,7 +1507,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         // g = this._createGraphic(finalAttrs) as IMarkGraphic;
         // 如果有动画，设置一下最终attribute
         if (hasAnimation) {
-          g.setFinalAttribute(finalAttrs);
+          g.setFinalAttributes(finalAttrs);
         }
         g.context = mockGraphic.context;
         g.context.diffAttrs = finalAttrs;
@@ -1554,7 +1554,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
         // 如果有动画，需要设置值
         if (hasAnimation) {
-          g.setFinalAttribute(finalAttrs);
+          g.setFinalAttributes(finalAttrs);
         }
       }
 
