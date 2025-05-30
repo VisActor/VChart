@@ -18,7 +18,6 @@ export {
   registerIndicator,
   registerLabel,
   registerTotalLabel,
-  registerMapLabel,
   registerMarkLine,
   registerMarkArea,
   registerMarkPoint,
@@ -33,29 +32,36 @@ export {
   registerPoptip
 } from '@visactor/vchart';
 
+export {
+  registerMapLabel,
+  registerAxis3dPlugin,
+  registerBar3dChart,
+  registerFunnel3dChart,
+  registerHistogram3dChart,
+  registerPie3dChart,
+  registerRangeColumn3dChart,
+  registerWordCloud3dChart,
+  registerPictogramChart
+} from '@visactor/vchart-extension';
+
 // Charts
 export {
   registerLineChart,
   registerAreaChart,
   registerBarChart,
-  registerBar3dChart,
   registerBoxplotChart,
   registerCirclePackingChart,
   registerCircularProgressChart,
   registerCommonChart,
   registerFunnelChart,
-  registerFunnel3dChart,
   registerGaugeChart,
   registerHeatmapChart,
   registerHistogramChart,
-  registerHistogram3dChart,
   registerLinearProgressChart,
   registerMapChart,
-  registerPie3dChart,
   registerPieChart,
   registerRadarChart,
   registerRangeAreaChart,
-  registerRangeColumn3dChart,
   registerRangeColumnChart,
   registerRoseChart,
   registerSankeyChart,
@@ -64,12 +70,10 @@ export {
   registerSunburstChart,
   registerTreemapChart,
   registerWaterfallChart,
-  registerWordCloud3dChart,
   registerWordCloudChart,
   registerCorrelationChart,
   registerLiquidChart,
   registerWordCloudShapeChart,
   registerVennChart,
-  registerMosaicChart,
-  registerPictogramChart
+  registerMosaicChart
 } from '@visactor/vchart';
