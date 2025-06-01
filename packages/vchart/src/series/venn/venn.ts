@@ -210,7 +210,14 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
       {
         x: datum => (datum as IVennCircleDatum).labelX,
         y: datum => (datum as IVennCircleDatum).labelY,
-        text: datum => getVennSeriesDataKey((datum as IVennCircleDatum).sets),
+        text: datum => {
+          const sets = (datum as IVennOverlapDatum).sets;
+          // 如果是空sets，返回空字符串不显示
+          if (!sets || (Array.isArray(sets) && sets.length === 0)) {
+            return '';
+          }
+          return getVennSeriesDataKey(sets);
+        },
         maxLineWidth: (datum: any) => {
           const { x, radius, labelX } = datum as IVennCircleDatum;
           const circleX0 = x - radius;
