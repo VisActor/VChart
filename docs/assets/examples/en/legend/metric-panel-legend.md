@@ -10555,241 +10555,242 @@ const leastData = {
   ]
 };
 
-  const formatMilliseconds = (value: number) => {
-    if (value === 0) {
-      return '0 μs';
-    } else if (value < 1000) {
-      return `${value} ms`;
-    } else if (value === 1000) {
-      return '1 s';
-    }
-    return `${value / 1000} s`;
-  };
+const formatMilliseconds = value => {
+  if (value === 0) {
+    return '0 μs';
+  } else if (value < 1000) {
+    return `${value} ms`;
+  } else if (value === 1000) {
+    return '1 s';
+  }
+  return `${value / 1000} s`;
+};
 
-  const spec = {
-    type: 'area',
-    data: leastData,
-    point: {
-      style: {
-        size: 0
-      }
-    },
-    stack: false,
-    seriesField: 'timeType',
-    xField: 'time',
-    yField: 'count',
-    axes: [
-      {
-        orient: 'bottom',
-        type: 'band',
-        label: {
-          visible: true,
-          formatMethod: value => {
-            // Format X-axis label as hour:minute (e.g., 11:00)
-            // Assume value is a string in "HH:MM:SS" format
-            return value.substring(0, 5); // Extract "HH:MM"
-          }
-        },
-        tick: {
-          tickStep: 60
-        },
-        grid: {
-          visible: true,
-          style: {
-            lineDash: [5, 5],
-            stroke: 'grey'
-          }
+const spec = {
+  type: 'area',
+  data: leastData,
+  point: {
+    style: {
+      size: 0
+    }
+  },
+  stack: false,
+  seriesField: 'timeType',
+  xField: 'time',
+  yField: 'count',
+  axes: [
+    {
+      orient: 'bottom',
+      type: 'band',
+      label: {
+        visible: true,
+        formatMethod: value => {
+          // format X axis labels to hours:minutes (e.g., 11:00)
+          // assume value is a string in the format "HH:MM:SS"
+          return value.substring(0, 5);
         }
       },
-      {
-        orient: 'left',
-        type: 'linear',
-        min: 0,
-        // max: 1000,
-        label: {
-          visible: true,
-          formatMethod: formatMilliseconds
-        },
-        tick: {
-          values: [0, 250, 500, 750, 1000]
-        },
-        grid: {
-          visible: true,
-          style: {
-            lineDash: [5, 5],
-            stroke: 'grey'
-          }
+      tick: {
+        tickStep: 60
+      },
+      grid: {
+        visible: true,
+        style: {
+          lineDash: [5, 5],
+          stroke: 'grey'
         }
-      }
-    ],
-    area: {
-      style: {
-        fillOpacity: 0.05
       }
     },
-    legends: {
-      visible: false
-    }
-  };
-
-  const cs = document.getElementById(CONTAINER_ID) as HTMLElement;
-
-  const chartDiv = document.createElement('div');
-  cs.appendChild(chartDiv);
-
-  const vchart = new VChart(spec, {
-    dom: chartDiv,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser'
-  });
-
-  const metricsMap = {};
-  leastData.values.forEach(item => {
-    const key = item.timeType;
-    if (!metricsMap[key]) metricsMap[key] = { countList: [], current: 0 };
-    metricsMap[key].countList.push(item.count);
-    metricsMap[key].current = formatMilliseconds(Math.round(item.count));
-  });
-  Object.keys(metricsMap).forEach(key => {
-    const arr = metricsMap[key].countList;
-    const sum = arr.reduce((s, v) => s + v, 0);
-    metricsMap[key].avg = formatMilliseconds(Math.round(sum / arr.length));
-    metricsMap[key].max = formatMilliseconds(Math.round(Math.max(...arr)));
-  });
-
-  console.time('renderTime');
-
-  vchart.renderAsync().then(() => {
-    console.timeEnd('renderTime');
-
-    const legendItems = vchart.getLegendDataByIndex(0);
-    let selectedNames = vchart.getLegendSelectedDataByIndex(0);
-
-    function buildLegendTable() {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'legend-table-wrapper';
-      wrapper.style.marginTop = '8px';
-
-      const table = document.createElement('table');
-      table.style.width = '100%';
-      table.style.borderCollapse = 'collapse';
-
-      const thead = document.createElement('thead');
-      thead.innerHTML = `
-    <tr style="border-bottom:1px solid #ccc; text-align:right;">
-      <th style="text-align:left; padding:4px 8px;">Metrics</th>
-      <th style="text-align:center; padding:4px 8px;">Max</th>
-      <th style="text-align:center; padding:4px 8px;">Avg</th>
-      <th style="text-align:center; padding:4px 8px;">Current</th>
-    </tr>`;
-      table.appendChild(thead);
-
-      const tbody = document.createElement('tbody');
-      legendItems.forEach((item, index) => {
-        const seriesName = item.key;
-        const color = item.style('fill');
-        const visible = item.style('visible');
-        const { max, avg, current } = metricsMap[seriesName] || { max: '-', avg: '-', current: '-' };
-
-        const tr = document.createElement('tr');
-        if (index % 2 === 1) {
-          tr.style.backgroundColor = '#f9f9f9';
+    {
+      orient: 'left',
+      type: 'linear',
+      min: 0,
+      // max: 1000,
+      label: {
+        visible: true,
+        formatMethod: formatMilliseconds
+      },
+      tick: {
+        values: [0, 250, 500, 750, 1000]
+      },
+      grid: {
+        visible: true,
+        style: {
+          lineDash: [5, 5],
+          stroke: 'grey'
         }
-        tr.style.borderBottom = '1px solid #eee';
-        tr.style.cursor = 'pointer';
+      }
+    }
+  ],
+  area: {
+    style: {
+      fillOpacity: 0.05
+    }
+  },
+  legends: {
+    visible: false
+  }
+};
 
-        tr.setAttribute('data-series', seriesName);
-        if (!visible) tr.classList.add('legend-disabled');
-        tr.innerHTML = `
-      <td style="padding:4px 8px; text-align:left; display:flex; align-items:center;">
-        <span
-          style="
-            display:inline-block;
-            width:16px;
-            height:5px;
-            background-color:${color};
-            border-radius:5px;
-            margin-right:6px;
-            ${visible ? '' : 'opacity:0.3;'}
-          "
-        ></span>
-        <span style="${visible ? '' : 'color:#aaa;'}">${seriesName}</span>
-      </td>
-      <td style="text-align:center; padding:4px 8px; ${visible ? '' : 'color:#aaa;'}">${max}</td>
-      <td style="text-align:center; padding:4px 8px; ${visible ? '' : 'color:#aaa;'}">${avg}</td>
-      <td style="text-align:center; padding:4px 8px; ${visible ? '' : 'color:#aaa;'}">${current}</td>
-    `;
-        tbody.appendChild(tr);
-      });
-      table.appendChild(tbody);
-      wrapper.appendChild(table);
+const cs = document.getElementById(CONTAINER_ID);
+const chartDiv = document.createElement('div');
+cs.appendChild(chartDiv);
 
-      tbody.querySelectorAll('tr').forEach(tr => {
-        tr.addEventListener('mouseover', () => {
-          const series = tr.getAttribute('data-series');
-          if (series) {
-            const idx = selectedNames.indexOf(series);
-            const isSelected = idx >= 0;
-            // Set the highlighted state of the corresponding series in the chart
-            vchart.setHovered({
-              series: [series]
-            });
-            // Set the style of the corresponding row in the legend
-            tr.style.backgroundColor = '#f0f0f0';
-            tr.style.transition = 'background-color 0.2s';
-          }
-        });
+const vchart = new VChart(spec, {
+  dom: chartDiv
+});
 
-        tr.addEventListener('mouseout', () => {
-          vchart.clearHovered();
+const metricsMap = {};
+leastData.values.forEach(item => {
+  const key = item.timeType;
+  if (!metricsMap[key]) metricsMap[key] = { countList: [], current: 0 };
+  metricsMap[key].countList.push(item.count);
+  metricsMap[key].current = formatMilliseconds(Math.round(item.count));
+});
+Object.keys(metricsMap).forEach(key => {
+  const arr = metricsMap[key].countList;
+  const sum = arr.reduce((s, v) => s + v, 0);
+  metricsMap[key].avg = formatMilliseconds(Math.round(sum / arr.length));
+  metricsMap[key].max = formatMilliseconds(Math.round(Math.max(...arr)));
+});
 
-          // Reset the background color of the row
-          const index = Array.from(tbody.children).indexOf(tr);
-          tr.style.backgroundColor = index % 2 === 1 ? '#f9f9f9' : 'transparent';
-        });
+console.time('renderTime');
 
-        tr.addEventListener('click', () => {
-          const series = tr.getAttribute('data-series');
-          if (!series) return;
+vchart.renderAsync().then(() => {
+  console.timeEnd('renderTime');
+
+  const legendItems = vchart.getLegendDataByIndex(0);
+  let selectedNames = vchart.getLegendSelectedDataByIndex(0);
+
+  function buildLegendTable() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'legend-table-wrapper';
+    wrapper.style.marginTop = '8px';
+
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+  <tr style="border-bottom:1px solid #ccc; text-align:right;">
+    <th style="text-align:left; padding:4px 8px;">Metrics</th>
+    <th style="text-align:center; padding:4px 8px;">Max</th>
+    <th style="text-align:center; padding:4px 8px;">Avg</th>
+    <th style="text-align:center; padding:4px 8px;">Current</th>
+  </tr>`;
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    legendItems.forEach((item, index) => {
+      const seriesName = item.key;
+      const color = item.style('fill');
+      const visible = item.style('visible');
+      const { max, avg, current } = metricsMap[seriesName] || { max: '-', avg: '-', current: '-' };
+
+      const tr = document.createElement('tr');
+      if (index % 2 === 1) {
+        tr.style.backgroundColor = '#f9f9f9';
+      }
+      tr.style.borderBottom = '1px solid #eee';
+      tr.style.cursor = 'pointer';
+
+      tr.setAttribute('data-series', seriesName);
+      if (!visible) tr.classList.add('legend-disabled');
+      tr.innerHTML = `
+    <td style="padding:4px 8px; text-align:left; display:flex; align-items:center;">
+      <span
+        style="
+          display:inline-block;
+          width:16px;
+          height:5px;
+          background-color:${color};
+          border-radius:5px;
+          margin-right:6px;
+          ${visible ? '' : 'opacity:0.3;'}
+        "
+      ></span>
+      <span style="${visible ? '' : 'color:#aaa;'}">${seriesName}</span>
+    </td>
+    <td style="text-align:center; padding:4px 8px; ${visible ? '' : 'color:#aaa;'}">${max}</td>
+    <td style="text-align:center; padding:4px 8px; ${visible ? '' : 'color:#aaa;'}">${avg}</td>
+    <td style="text-align:center; padding:4px 8px; ${visible ? '' : 'color:#aaa;'}">${current}</td>
+  `;
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    wrapper.appendChild(table);
+
+    tbody.querySelectorAll('tr').forEach(tr => {
+      tr.addEventListener('mouseover', () => {
+        const series = tr.getAttribute('data-series');
+        if (series) {
           const idx = selectedNames.indexOf(series);
           const isSelected = idx >= 0;
-
-          // if current selected count is 1 and want to unselect, not allow
-          if (isSelected && selectedNames.length === 1) {
-            return;
-          }
-
-          const newSelectedNames = isSelected
-            ? selectedNames.filter(name => name !== series)
-            : [...selectedNames, series];
-
-          // update style of row and series in chart
-          const spans = tr.querySelectorAll('td span');
-          spans.forEach(span => {
-            if (span instanceof HTMLElement) {
-              span.style.opacity = isSelected ? '0.3' : '1';
-            }
+          // set hovered series
+          vchart.setHovered({
+            series: [series]
           });
-          const textSpans = tr.querySelectorAll('td span + span');
-          textSpans.forEach(span => {
-            if (span instanceof HTMLElement) {
-              span.style.color = isSelected ? '#aaa' : '#000';
-            }
-          });
-
-          selectedNames = newSelectedNames;
-          // update legend in chart
-          vchart.setLegendSelectedDataByIndex(0, newSelectedNames);
-        });
+          // set background color of the row
+          tr.style.backgroundColor = '#f0f0f0';
+          tr.style.transition = 'background-color 0.2s';
+        }
       });
-      return wrapper;
-    }
 
-    const wrapper = buildLegendTable();
-    const existing = cs.querySelector('.legend-table-wrapper');
-    if (!existing) {
-      cs.appendChild(wrapper);
-    }
-  });
+      tr.addEventListener('mouseout', () => {
+        vchart.clearHovered();
+
+        // reset background color of the row
+        const index = Array.from(tbody.children).indexOf(tr);
+        tr.style.backgroundColor = index % 2 === 1 ? '#f9f9f9' : 'transparent';
+      });
+
+      tr.addEventListener('click', () => {
+        const series = tr.getAttribute('data-series');
+        if (!series) return;
+        const idx = selectedNames.indexOf(series);
+        const isSelected = idx >= 0;
+
+        // if current selected count is 1 and want to unselect, do not allow
+        if (isSelected && selectedNames.length === 1) {
+          return;
+        }
+
+        const newSelectedNames = isSelected
+          ? selectedNames.filter(name => name !== series)
+          : [...selectedNames, series];
+
+        // update legend table
+        const spans = tr.querySelectorAll('td span');
+        spans.forEach(span => {
+          if (span instanceof HTMLElement) {
+            span.style.opacity = isSelected ? '0.3' : '1';
+          }
+        });
+        const textSpans = tr.querySelectorAll('td span + span');
+        textSpans.forEach(span => {
+          if (span instanceof HTMLElement) {
+            span.style.color = isSelected ? '#aaa' : '#000';
+          }
+        });
+
+        selectedNames = newSelectedNames;
+        // updata legend
+        vchart.setLegendSelectedDataByIndex(0, newSelectedNames);
+      });
+    });
+    return wrapper;
+  }
+
+  const wrapper = buildLegendTable();
+  const existing = cs.querySelector('.legend-table-wrapper');
+  if (!existing) {
+    cs.prepend(wrapper);
+  }
+});
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
 ```
 
 ## Related Tutorials

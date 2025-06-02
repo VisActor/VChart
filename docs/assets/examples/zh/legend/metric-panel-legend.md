@@ -10633,7 +10633,6 @@ const spec = {
 };
 
 const cs = document.getElementById(CONTAINER_ID);
-
 const chartDiv = document.createElement('div');
 cs.appendChild(chartDiv);
 
@@ -10786,7 +10785,7 @@ vchart.renderAsync().then(() => {
   const wrapper = buildLegendTable();
   const existing = cs.querySelector('.legend-table-wrapper');
   if (!existing) {
-    cs.appendChild(wrapper);
+    cs.prepend(wrapper);
   }
 });
 
