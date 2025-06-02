@@ -89,6 +89,45 @@ padding: {
 }
 ```
 
+#${prefix} noOuterPadding(boolean) = true
+
+Determines whether to automatically modify padding by hiding the outer padding according to the orient property. When set to true, the component will automatically set the padding on the outer side (the direction specified by orient) to 0. This feature is currently only effective for components.
+
+Property Specifications:
+
+- Type: `boolean`
+- Default value: `true`
+- Depends on the `orient` property - only takes effect when `orient` is set and the component supports this property
+- Only effective for components, not applicable to other layout elements
+
+Usage Scenarios:
+
+- When components (such as legends, titles, axes, etc.) are positioned adjacent to chart edges, it is often desirable to automatically set the outer padding (in the orient-specified direction) to 0 for space efficiency and better visual alignment
+- When maximizing chart space utilization
+
+Example Usage:
+
+```ts
+const legendSpec = {
+  type: 'legend',
+  orient: 'right', // The legend is positioned on the right
+  padding: [10, 10, 10, 10], // 10px padding on all four sides: top, right, bottom, left
+  noOuterPadding: true // Automatically sets the right padding to 0
+};
+// Result: The effective padding is { top: 10, right: 0, bottom: 10, left: 10 }
+```
+
+Comparison:
+
+- When `noOuterPadding: false`, the padding for all sides is retained.
+- When `noOuterPadding: true`, the padding on the side specified by `orient` is automatically set to 0.
+
+Notes:
+
+- This property defaults to `true`, so you usually do not need to set it explicitly unless you want to retain the outer padding.
+- It depends on `orient`; if `orient` is not set, this property has no effect.
+- Currently, this property only applies to components.
+
 #${prefix} width(ILayoutNumber)
 
 Layout width configuration for the module.

@@ -91,6 +91,45 @@ padding: {
 }
 ```
 
+#${prefix} noOuterPadding(boolean) = true
+
+是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。当设置为 true 时，组件会自动将外侧（即 orient 指定的方向）的 padding 设置为 0。目前只在组件上生效。
+
+属性说明：
+
+- 类型：`boolean`
+- 默认值：`true`
+- 依赖于 `orient` 属性，只有设置了 `orient` 并且组件支持该属性时才生效。
+- 仅对组件有效，对其他布局元素无效。
+
+使用场景：
+
+- 当组件（如图例、标题、坐标轴等）贴近图表边缘时，通常希望外侧（orient 指定方向）的 padding 自动为 0，以节省空间并实现更好的视觉对齐。
+- 需要最大化利用图表空间时。
+
+使用示例：
+
+```ts
+const legendSpec = {
+  type: 'legend',
+  orient: 'right', // 图例位于右侧
+  padding: [10, 10, 10, 10], // 上、右、下、左四个方向都有10px的内边距
+  noOuterPadding: true // 自动将右侧padding设置为0
+};
+// 结果：实际生效的padding为 { top: 10, right: 0, bottom: 10, left: 10 }
+```
+
+效果对比：
+
+- `noOuterPadding: false` 时，所有方向的 padding 都会保留。
+- `noOuterPadding: true` 时，orient 指定方向的 padding 会被自动设置为 0。
+
+注意事项：
+
+- 该属性默认值为 `true`，通常无需显式配置，除非你希望保留外侧 padding。
+- 依赖于 `orient`，未设置 `orient` 时该属性无效。
+- 目前仅对组件生效。
+
 #${prefix} width(ILayoutNumber)
 
 模块的布局宽度配置。
