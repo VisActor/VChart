@@ -4,7 +4,7 @@ group: legend
 title: 指标面板图例
 keywords: lineChart,comparison,trend,line,legend
 order: 27-10
-cover: /vchart/preview/legend-with-metric-panel_1.0.0.jpg
+cover: /vchart/preview/legend-with-metric-panel_1.13.11.jpg
 option: lineChart#legends
 ---
 
@@ -10555,39 +10555,240 @@ const leastData = {
   ]
 };
 
+const formatMilliseconds = value => {
+  if (value === 0) {
+    return '0 μs';
+  } else if (value < 1000) {
+    return `${value} ms`;
+  } else if (value === 1000) {
+    return '1 s';
+  }
+  return `${value / 1000} s`;
+};
+
 const spec = {
-  type: 'line',
+  type: 'area',
   data: leastData,
   point: {
     style: {
       size: 0
     }
   },
+  stack: false,
   seriesField: 'timeType',
   xField: 'time',
   yField: 'count',
   axes: [
     {
+      orient: 'bottom',
+      type: 'band',
+      label: {
+        visible: true,
+        formatMethod: value => {
+          // 格式化 X 轴标签为小时:分钟 (e.g., 11:00)
+          // 假设 value 是 "HH:MM:SS" 格式的字符串
+          return value.substring(0, 5); // 截取 "HH:MM"
+        }
+      },
+      tick: {
+        tickStep: 60
+      },
+      grid: {
+        visible: true,
+        style: {
+          lineDash: [5, 5],
+          stroke: 'grey'
+        }
+      }
+    },
+    {
       orient: 'left',
       type: 'linear',
       min: 0,
-      max: 1000
+      // max: 1000,
+      label: {
+        visible: true,
+        formatMethod: formatMilliseconds
+      },
+      tick: {
+        values: [0, 250, 500, 750, 1000]
+      },
+      grid: {
+        visible: true,
+        style: {
+          lineDash: [5, 5],
+          stroke: 'grey'
+        }
+      }
     }
-    // {
-    //   orient: 'bottom',
-    //   type: 'time',
-    //   layers: {
-    //     timeFormat: '%H:%M:%S',
-    //   },
-    // }
-  ]
-  // legends: {
-  //   visible: true // 不显示默认图例, 使用自定义图例
-  // }
+  ],
+  area: {
+    style: {
+      fillOpacity: 0.05
+    }
+  },
+  legends: {
+    visible: false
+  }
 };
 
-const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderSync();
+const cs = document.getElementById(CONTAINER_ID);
+
+const chartDiv = document.createElement('div');
+cs.appendChild(chartDiv);
+
+const vchart = new VChart(spec, {
+  dom: chartDiv
+});
+
+const metricsMap = {};
+leastData.values.forEach(item => {
+  const key = item.timeType;
+  if (!metricsMap[key]) metricsMap[key] = { countList: [], current: 0 };
+  metricsMap[key].countList.push(item.count);
+  metricsMap[key].current = formatMilliseconds(Math.round(item.count));
+});
+Object.keys(metricsMap).forEach(key => {
+  const arr = metricsMap[key].countList;
+  const sum = arr.reduce((s, v) => s + v, 0);
+  metricsMap[key].avg = formatMilliseconds(Math.round(sum / arr.length));
+  metricsMap[key].max = formatMilliseconds(Math.round(Math.max(...arr)));
+});
+
+console.time('renderTime');
+
+vchart.renderAsync().then(() => {
+  console.timeEnd('renderTime');
+
+  const legendItems = vchart.getLegendDataByIndex(0);
+  let selectedNames = vchart.getLegendSelectedDataByIndex(0);
+
+  function buildLegendTable() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'legend-table-wrapper';
+    wrapper.style.marginTop = '8px';
+
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+  <tr style="border-bottom:1px solid #ccc; text-align:right;">
+    <th style="text-align:left; padding:4px 8px;">Metrics</th>
+    <th style="text-align:center; padding:4px 8px;">Max</th>
+    <th style="text-align:center; padding:4px 8px;">Avg</th>
+    <th style="text-align:center; padding:4px 8px;">Current</th>
+  </tr>`;
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    legendItems.forEach((item, index) => {
+      const seriesName = item.key;
+      const color = item.style('fill');
+      const visible = item.style('visible');
+      const { max, avg, current } = metricsMap[seriesName] || { max: '-', avg: '-', current: '-' };
+
+      const tr = document.createElement('tr');
+      if (index % 2 === 1) {
+        tr.style.backgroundColor = '#f9f9f9';
+      }
+      tr.style.borderBottom = '1px solid #eee';
+      tr.style.cursor = 'pointer';
+
+      tr.setAttribute('data-series', seriesName);
+      if (!visible) tr.classList.add('legend-disabled');
+      tr.innerHTML = `
+    <td style="padding:4px 8px; text-align:left; display:flex; align-items:center;">
+      <span
+        style="
+          display:inline-block;
+          width:16px;
+          height:5px;
+          background-color:${color};
+          border-radius:5px;
+          margin-right:6px;
+          ${visible ? '' : 'opacity:0.3;'}
+        "
+      ></span>
+      <span style="${visible ? '' : 'color:#aaa;'}">${seriesName}</span>
+    </td>
+    <td style="text-align:center; padding:4px 8px; ${visible ? '' : 'color:#aaa;'}">${max}</td>
+    <td style="text-align:center; padding:4px 8px; ${visible ? '' : 'color:#aaa;'}">${avg}</td>
+    <td style="text-align:center; padding:4px 8px; ${visible ? '' : 'color:#aaa;'}">${current}</td>
+  `;
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    wrapper.appendChild(table);
+
+    tbody.querySelectorAll('tr').forEach(tr => {
+      tr.addEventListener('mouseover', () => {
+        const series = tr.getAttribute('data-series');
+        if (series) {
+          const idx = selectedNames.indexOf(series);
+          const isSelected = idx >= 0;
+          // 设置图表中对应 series 的高亮状态
+          vchart.setHovered({
+            series: [series]
+          });
+          // 设置图例中对应行的样式
+          tr.style.backgroundColor = '#f0f0f0';
+          tr.style.transition = 'background-color 0.2s';
+        }
+      });
+
+      tr.addEventListener('mouseout', () => {
+        vchart.clearHovered();
+
+        // 恢复图例行的样式
+        const index = Array.from(tbody.children).indexOf(tr);
+        tr.style.backgroundColor = index % 2 === 1 ? '#f9f9f9' : 'transparent';
+      });
+
+      tr.addEventListener('click', () => {
+        const series = tr.getAttribute('data-series');
+        if (!series) return;
+        const idx = selectedNames.indexOf(series);
+        const isSelected = idx >= 0;
+
+        // 如果当前选中的图例数量为1，且要取消选中，则不允许
+        if (isSelected && selectedNames.length === 1) {
+          return;
+        }
+
+        const newSelectedNames = isSelected
+          ? selectedNames.filter(name => name !== series)
+          : [...selectedNames, series];
+
+        // 更新UI样式
+        const spans = tr.querySelectorAll('td span');
+        spans.forEach(span => {
+          if (span instanceof HTMLElement) {
+            span.style.opacity = isSelected ? '0.3' : '1';
+          }
+        });
+        const textSpans = tr.querySelectorAll('td span + span');
+        textSpans.forEach(span => {
+          if (span instanceof HTMLElement) {
+            span.style.color = isSelected ? '#aaa' : '#000';
+          }
+        });
+
+        selectedNames = newSelectedNames;
+        // 更新图例
+        vchart.setLegendSelectedDataByIndex(0, newSelectedNames);
+      });
+    });
+    return wrapper;
+  }
+
+  const wrapper = buildLegendTable();
+  const existing = cs.querySelector('.legend-table-wrapper');
+  if (!existing) {
+    cs.appendChild(wrapper);
+  }
+});
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
