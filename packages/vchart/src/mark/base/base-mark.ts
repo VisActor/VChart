@@ -1014,6 +1014,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   protected _prevDataByKey: GroupedData<Datum>;
   protected _graphicMap: Map<string, IMarkGraphic> = new Map();
   protected _graphics: IMarkGraphic[] = [];
+  /**
+   * only need to clear elements after join and render
+   * but `handleRenderEnd` will be call after every render
+   */
+  needClear?: boolean;
 
   protected _keyGetter: (datum: Datum) => string;
   protected _groupKeyGetter: (datum: Datum) => string;
@@ -1041,10 +1046,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   prepareMorph(mark: IMark) {
-    // 可以同类型进行morphing
-    // if (this.type === mark.type) {
-    //   return;
-    // }
     this._lastMark = mark;
   }
 
@@ -1061,6 +1062,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     });
     this._dataByKey = (mark as any)._dataByKey;
     this._prevDataByKey = (mark as any)._prevDataByKey;
+    this.needClear = (mark as any).needClear;
   }
 
   private _parseProgressiveContext(data: Datum[]) {
@@ -1377,6 +1379,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     });
     this._dataByKey = newGroupedData;
     this._graphics = newGraphics;
+    this.needClear = true;
   }
 
   _runEncoderOfGraphic(styles: Record<string, (datum: Datum) => any>, g: IMarkGraphic, attrs: any = {}) {
@@ -1494,6 +1497,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _runApplyGraphic(graphics: IMarkGraphic[]) {
     const hasAnimation = this.hasAnimation();
+
     graphics.forEach((g, index) => {
       const finalAttrs = g.context.finalAttrs;
 
@@ -1503,7 +1507,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         const mockGraphic = g;
         // TODO：如果要走入场、Enter动画，就不用设置值了，保存到diffAttrs中由入场动画自己去设置，因为入场动画可能会延迟执行，所以首帧不能直接设置属性
         // TODO 太麻烦了，会影响后续bounds等计算逻辑，还是首帧设置吧。。。
-        g = this._createGraphic(hasStateAnimation ? {} : finalAttrs) as IMarkGraphic;
+        g = this._createGraphic(finalAttrs) as IMarkGraphic;
         // g = this._createGraphic(finalAttrs) as IMarkGraphic;
         // 如果有动画，设置一下最终attribute
         if (hasAnimation) {
@@ -1697,7 +1701,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       this._runEncoder(this._graphics);
       this._runEncoderTransform(this._graphics, false);
       this._runApplyGraphic(this._graphics);
-      // this._runStateAnimation(this._graphics);
     }
 
     this._updateAttrsOfGroup();
@@ -1710,7 +1713,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         (!this._skipBeforeLayouted || this.getCompiler().getLayoutState() !== LayoutState.before)
       ) {
         log(`render mark: ${this.getProductId()}, type is ${this.type}`);
-
         this.renderInner();
       }
 
