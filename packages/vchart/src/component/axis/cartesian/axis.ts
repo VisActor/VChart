@@ -766,6 +766,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       overflowLimitLength: this._getLabelOverflowLimit(isX)
     };
 
+    if ((this as any)._afterUpdateAttribute) {
+      return (this as any)._afterUpdateAttribute(attrs, ignoreGrid);
+    }
+
     return attrs;
   }
 
