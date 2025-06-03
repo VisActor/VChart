@@ -315,9 +315,9 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
 
   changePlayerIndex(index: number) {
     const spec = this._specs[index];
-    (array(spec.data) as IDataValues[]).forEach(data => {
-      this._option?.globalInstance?.updateData(data.id, data.values);
-    });
+
+    this._option.globalInstance.updateFullData((spec as any).data);
+
     this.event.emit(ChartEvent.playerChange, {
       model: this,
       value: {
