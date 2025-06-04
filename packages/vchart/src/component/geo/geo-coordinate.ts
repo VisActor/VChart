@@ -296,15 +296,6 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     super.onLayoutEnd();
   }
 
-  onRender(ctx: IModelRenderOption) {
-    // do nothing
-  }
-
-  // region
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
   // util
   protected collectFeatures() {
     const features: any[] = [];

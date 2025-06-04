@@ -49,19 +49,12 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     this._regions = this._regions ?? this._option.getRegionsInIndex();
     this._layout && (this._layout.layoutBindRegionID = this._regions.map(x => x?.id));
   }
-
-  changeRegions(regions: IRegion[]): void {
-    throw new Error('Method not implemented.');
-  }
   /**
    * 当创建vrender组件时，reCompile 的时候需要清理老的组件，创建新的组件，需要通过这个返回
    * 注意，像label 组件比较特殊，现在是通过componentMark 管理的，所以不需要通过这个接口被清理
    */
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
-  }
-  onRender(ctx: IModelRenderOption): void {
-    throw new Error('Method not implemented.');
   }
 
   getVRenderComponents() {

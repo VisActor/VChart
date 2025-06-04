@@ -219,14 +219,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return region ? region.getLayoutStartPoint() : pos;
   };
 
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
-  changeRegions(/** regions: IRegion[] */): void {
-    // do nothing
-  }
-
   protected _tickTransformOption() {
     return {
       ...super._tickTransformOption(),

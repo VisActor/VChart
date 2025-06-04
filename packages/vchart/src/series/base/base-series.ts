@@ -1131,9 +1131,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   onEvaluateEnd(ctx: IModelEvaluateOption): void {
     this._data.updateData();
   }
-  onRender(ctx: IModelRenderOption): void {
-    return;
-  }
+
   release(): void {
     super.release();
     this._viewDataMap.clear();

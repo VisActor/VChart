@@ -97,9 +97,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     return this._isTooltipShown;
   }
 
-  changeRegions(regions: IRegion[]) {
-    /* do nothing */
-  }
   protected _registerEvent() {
     /* do nothing */
   }
@@ -107,9 +104,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     /* do nothing */
   }
   onLayoutEnd() {
-    /* do nothing */
-  }
-  onRender(ctx: IModelRenderOption) {
     /* do nothing */
   }
 

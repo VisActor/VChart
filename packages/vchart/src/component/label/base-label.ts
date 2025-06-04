@@ -151,13 +151,6 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
     });
   }
 
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing
-  }
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
   getVRenderComponents() {
     const labels: any[] = [];
     this.getMarks().forEach(m => {

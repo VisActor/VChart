@@ -755,11 +755,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
   }
 
-  /** LifeCycle API**/
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
   /**
    * updateSpec
    */
@@ -781,16 +776,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         this.initMarkStyleWithSpec(m, (this._spec as any)[m.name]);
       });
     });
-  }
-
-  changeRegions() {
-    // do nothing
-  }
-  protected update(ctx: IComponentOption) {
-    // do nothing
-  }
-  protected resize(ctx: IComponentOption) {
-    // do nothing
   }
 
   protected _parseDomainFromState(startValue: number | string, endValue: number | string) {

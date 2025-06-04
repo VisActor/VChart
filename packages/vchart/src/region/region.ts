@@ -290,10 +290,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     return this.getSeries({ dataName });
   }
 
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
   initSeriesDataflow() {
     const viewDataFilters = this._series.map(s => s.getViewDataFilter() ?? s.getViewData()).filter(v => !!v);
     this._option.dataSet.multipleDataViewAddListener(viewDataFilters, 'change', this.seriesDataFilterOver);
