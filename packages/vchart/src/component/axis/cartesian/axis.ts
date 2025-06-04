@@ -432,22 +432,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     });
   }
 
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
-  update(ctx: IComponentOption) {
-    // TODO
-  }
-
-  resize(ctx: IComponentOption) {
-    // TODO
-  }
-
   protected collectScale() {
     const scales: IBaseScale[] = [];
     eachSeries(

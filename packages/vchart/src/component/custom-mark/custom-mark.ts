@@ -145,14 +145,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     return result;
   }
 
-  changeRegions(regions: IRegion[]): void {
-    // do nothing;
-  }
-
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing;
-  }
-
   private _getMarkAttributeContext() {
     return {
       vchart: this._option.globalInstance,

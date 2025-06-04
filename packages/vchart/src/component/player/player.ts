@@ -109,14 +109,6 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     return bounds;
   }
 
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing
-  }
-
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._playerComponent] as unknown as IGroup[];
   }
