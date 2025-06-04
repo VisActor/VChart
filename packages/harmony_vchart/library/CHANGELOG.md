@@ -12,7 +12,7 @@
 
 - **@visactor/vchart**: fix data-zoom domain when the label of band size is number-like string, fix [#3982](https://github.com/VisActor/VChart/issues/3982)
 - **@visactor/vchart**: fix the order of title in mark tooltip when dimension tooltip has no title, fix [#3991](https://github.com/VisActor/VChart/issues/3991)
-- **@visactor/vchart**: option `{ poptip: true } should load `poptipForText`
+- **@visactor/vchart**: option `{ poptip: true }` should load `poptipForText`
 - **react-vchart**: when use children to render customized tooltip, react-vchart should update
 - **@visactor/vchart**: customized render of tooltip should be render in react 17 and react 18
 
