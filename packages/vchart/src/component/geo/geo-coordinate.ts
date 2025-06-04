@@ -305,10 +305,6 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     // do nothing
   }
 
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [];
-  }
-
   // util
   protected collectFeatures() {
     const features: any[] = [];

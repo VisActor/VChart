@@ -100,9 +100,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   changeRegions(regions: IRegion[]) {
     /* do nothing */
   }
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [];
-  }
   protected _registerEvent() {
     /* do nothing */
   }
