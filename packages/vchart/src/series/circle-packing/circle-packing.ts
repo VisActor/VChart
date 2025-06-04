@@ -84,6 +84,18 @@ export class CirclePackingSeries<
     return [this._valueField];
   }
 
+  _updateValueField = (data: Array<Datum>) => {
+    if (this._spec.valueField) {
+      return data.map(item => {
+        return {
+          ...item,
+          value: item[this._spec.valueField]
+        };
+      });
+    }
+    return data;
+  };
+
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
 
@@ -119,10 +131,17 @@ export class CirclePackingSeries<
       (this as unknown as IDrillable).initDrillableData(this._dataSet);
     }
 
+    // 注册映射 value 为指定字段
+    registerDataSetInstanceTransform(this._dataSet, 'updateValueField', this._updateValueField);
     // 注册布局算法
     registerDataSetInstanceTransform(this._dataSet, 'circlePackingLayout', circlePackingLayout);
     // 注册扁平化算法
     registerDataSetInstanceTransform(this._dataSet, 'flatten', flatten);
+
+    // 映射 value 为指定字段
+    rawData.transform({
+      type: 'updateValueField'
+    });
 
     // 布局算法
     rawData.transform({
