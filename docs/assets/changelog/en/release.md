@@ -18,7 +18,7 @@
 
 **🔖 other**
 
-- **@visactor/vchart**: fix:Replace all the vchartConstrouctor to vchartConstructor,and ensure backward compatibility with older versions.
+- **@visactor/vchart**: fix: Replace all the vchartConstructor to vchartConstructor, and ensure backward compatibility with older versions.
 
 
 
