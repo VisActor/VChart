@@ -10566,6 +10566,16 @@ const formatMilliseconds = value => {
   return `${value / 1000} s`;
 };
 
+const minSec = leastData.values.reduce((min, item) => {
+  const time = Number(item.time);
+  return Math.min(min, time);
+}, Infinity);
+
+const maxSec = leastData.values.reduce((max, item) => {
+  const time = Number(item.time);
+  return Math.max(max, time);
+}, 0);
+
 const spec = {
   type: 'area',
   data: leastData,
@@ -10578,21 +10588,31 @@ const spec = {
   seriesField: 'timeType',
   xField: 'time',
   yField: 'count',
+  tooltip: {
+    dimension: {
+      title: {
+        value: datum => {
+          const date = new Date(Number(datum.time));
+          return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+        }
+      },
+      content: {
+        key: datum => datum.timeType,
+        value: datum => formatMilliseconds(Math.round(datum.count))
+      }
+    }
+  },
   axes: [
     {
       orient: 'bottom',
-      type: 'band',
-      label: {
-        visible: true,
-        formatMethod: value => {
-          // format X axis labels to hours:minutes (e.g., 11:00)
-          // assume value is a string in the format "HH:MM:SS"
-          return value.substring(0, 5);
+      type: 'time',
+      min: minSec,
+      max: maxSec,
+      layers: [
+        {
+          timeFormat: '%H:%M'
         }
-      },
-      tick: {
-        tickStep: 60
-      },
+      ],
       grid: {
         visible: true,
         style: {
@@ -10611,7 +10631,7 @@ const spec = {
         formatMethod: formatMilliseconds
       },
       tick: {
-        values: [0, 250, 500, 750, 1000]
+        tickCount: 5
       },
       grid: {
         visible: true,
