@@ -72,7 +72,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         dy: 0
       };
       itemContentStyle = transformLabelAttributes(
-        merge(label ?? textStyle ?? (style as IMarkerLabelSpec), defaultStyle),
+        merge(defaultStyle, label ?? textStyle ?? (style as IMarkerLabelSpec)),
         this._markerData,
         this._markAttributeContext
       );
