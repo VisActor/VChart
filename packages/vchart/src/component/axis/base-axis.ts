@@ -133,10 +133,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     this._coordinateType = 'none';
   }
 
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [];
-  }
-
   getVRenderComponents() {
     return [this._axisMark?.getProduct(), this._gridMark?.getProduct()].filter(isValid);
   }

@@ -157,7 +157,25 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
   changeRegions(regions: IRegion[]): void {
     // do nothing
   }
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [];
+
+  getVRenderComponents() {
+    const labels: any[] = [];
+    this.getMarks().forEach(m => {
+      const graphicItem = (m as IComponentMark).getComponent();
+      if (graphicItem) {
+        labels.push(graphicItem);
+      }
+    });
+    return labels;
+  }
+
+  clear() {
+    super.clear();
+
+    this.getMarks().forEach(m => {
+      if (m) {
+        (m as IComponentMark).clearComponent();
+      }
+    });
   }
 }

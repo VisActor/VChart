@@ -149,10 +149,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     // do nothing;
   }
 
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [];
-  }
-
   onRender(ctx: IModelRenderOption): void {
     // do nothing;
   }
