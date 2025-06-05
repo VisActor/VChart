@@ -149,7 +149,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   onEvaluateEnd(ctx: IModelEvaluateOption) {
     // do nothing
   }
-  abstract onRender(ctx: IModelRenderOption): void;
 
   onDataUpdate() {
     // do nothing

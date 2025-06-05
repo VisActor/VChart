@@ -732,10 +732,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this.getAllModels().forEach(model => model.onDataUpdate());
   }
 
-  onRender(option: IChartRenderOption) {
-    // do nothing
-  }
-
   setCanvasRect(width: number, height: number) {
     this._canvasRect = { width, height };
   }

@@ -40,6 +40,7 @@ import type { GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
 import type { ITransformSpec } from '../../compile/interface';
 import { vglobal, getTextBounds, createImage } from '@visactor/vrender-core';
 import { wordCloud } from '../../theme/builtin/common/series/word-cloud';
+import { LayoutZIndex } from '../../constant/layout';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -161,6 +162,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     ) as ITextMark;
     if (this._spec.wordMask?.visible) {
       this._maskMark = this._createMark(BaseWordCloudSeries.mark.wordMask, { dataView: false }) as IRectMark;
+
+      this._maskMark.setMarkConfig({
+        zIndex: LayoutZIndex.Mark - 1
+      });
     }
   }
 

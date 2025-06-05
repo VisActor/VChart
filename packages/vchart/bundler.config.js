@@ -13,7 +13,7 @@ function copyFile(source, target) {
   }
 }
 
-
+const IGNORE_ENTRIES = process.env.IGNORE_ENTRIES;
 const bundle_analyze_mode = process.env.BUNDLE_ANALYZE;
 let umdInput = 'index.ts';
 let umdOutput = 'index';
@@ -40,7 +40,7 @@ const plugins = bundle_analyze_mode
     ]
   : [];
 
-const crossEnvs = bundle_analyze_mode ? {} : {
+const crossEnvs = bundle_analyze_mode || IGNORE_ENTRIES ? {} : {
   lark: {
     input: 'index-lark',
     output: '../lark-vchart/src/vchart/index.js'
@@ -63,7 +63,7 @@ const crossEnvs = bundle_analyze_mode ? {} : {
   },
 };
 
-const esEntries = bundle_analyze_mode ? [] : ['index-harmony', 'index-harmony-simple'];
+const esEntries = bundle_analyze_mode || IGNORE_ENTRIES ? [] : ['index-harmony', 'index-harmony-simple'];
 const umdEntries = Object.keys(crossEnvs)
   .map(env => crossEnvs[env].input)
   .filter((input, index, arr) => arr.indexOf(input, 0) === index);

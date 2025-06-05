@@ -38,7 +38,6 @@ export interface IComponent extends ILayoutModel {
   // 区域
   getRegions: () => IRegion[];
   getBindSeriesFilter?: () => ISeriesFilter;
-  changeRegions: (regions: IRegion[]) => void;
   getVRenderComponents: () => IGraphic[];
 
   // 清空，用于更新等场景

@@ -75,15 +75,6 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     this._regions = this._option.getRegionsInUserIdOrIndex(array(this._spec.regionId), array(this._spec.regionIndex));
   }
 
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
-  // region
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
   // event
   protected initEvent() {
     if (this._option.disableTriggerEvent) {

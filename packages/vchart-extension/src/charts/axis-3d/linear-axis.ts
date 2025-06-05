@@ -1,59 +1,19 @@
-import type { ICartesianLinearAxisSpec } from '@visactor/vchart';
-import { LinearAxisMixin, CartesianLinearAxis, Factory, isZAxis } from '@visactor/vchart';
-import { mixin } from '@visactor/vutils';
-import { getUpdateAttributeOfZAxis } from './util';
+import { CartesianLinearAxis, Factory, registerCartesianLinearAxis } from '@visactor/vchart';
 import { axisZ } from './theme';
+import { mixin } from '@visactor/vutils';
+import { Axis3dMixin } from './axis-3d-mixin';
 
-export interface CartesianLinearAxis3d<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec>
-  extends Pick<
-      LinearAxisMixin,
-      | 'setExtraAttrFromSpec'
-      | 'computeLinearDomain'
-      | 'valueToPosition'
-      | 'setScaleNice'
-      | '_domain'
-      | 'transformScaleDomain'
-      | 'setExtendDomain'
-      | '_break'
-    >,
-    CartesianLinearAxis<T> {}
+export const registerCartesianLinearAxis3d = () => {
+  registerCartesianLinearAxis();
+  const AxisCls = Factory.getComponentInKey(CartesianLinearAxis.type);
 
-export class CartesianLinearAxis3d<
-  T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec
-> extends CartesianLinearAxis<T> {
-  static readonly builtInTheme = {
-    ...CartesianLinearAxis.builtInTheme,
+  (AxisCls as any).builtInTheme = {
+    ...AxisCls.builtInTheme,
     axisZ: {
       ...CartesianLinearAxis.builtInTheme.axisX,
       ...axisZ
     }
   };
 
-  layout3dBox?: { width: number; height: number; length: number };
-
-  setLayout3dBox(box3d: { width: number; height: number; length: number }) {
-    this.layout3dBox = box3d;
-  }
-
-  protected _getUpdateAttribute(ignoreGrid: boolean) {
-    const isZ = isZAxis(this._orient);
-
-    if (!isZ) {
-      const attrs = super._getUpdateAttribute(ignoreGrid);
-
-      if (!ignoreGrid) {
-        attrs.grid.depth = this.layout3dBox ? this.layout3dBox.length : 0;
-      }
-
-      return attrs;
-    }
-
-    return getUpdateAttributeOfZAxis(this, ignoreGrid);
-  }
-}
-
-mixin(CartesianLinearAxis3d, LinearAxisMixin);
-
-export const registerCartesianLinearAxis3d = () => {
-  Factory.registerComponent(CartesianLinearAxis.type, CartesianLinearAxis3d, false);
+  mixin(AxisCls, Axis3dMixin);
 };

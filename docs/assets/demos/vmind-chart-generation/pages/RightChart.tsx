@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import './index.scss';
 import { Button, Input, Card, Space, Modal, Spin } from '@arco-design/web-react';
-import { defaultTicker } from '@visactor/vrender';
 import VChart from '@visactor/vchart';
 
 import VMind from '@visactor/vmind';
@@ -89,7 +88,6 @@ export function RightChart(props: IPropsType) {
         dpr: 2,
         disableDirtyBounds: true
       });
-      defaultTicker.mode = 'raf';
       setChartSpace(cs);
     } else {
       cs.updateSpec(props.spec);

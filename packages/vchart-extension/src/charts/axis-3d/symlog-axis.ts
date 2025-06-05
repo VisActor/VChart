@@ -1,43 +1,19 @@
-import type { ICartesianSymlogAxisSpec } from '@visactor/vchart';
-import { LinearAxisMixin, Factory, isZAxis, CartesianSymlogAxis } from '@visactor/vchart';
-import { mixin } from '@visactor/vutils';
-import { getUpdateAttributeOfZAxis } from './util';
+import { CartesianSymlogAxis, Factory, registerCartesianLogAxis } from '@visactor/vchart';
 import { axisZ } from './theme';
+import { mixin } from '@visactor/vutils';
+import { Axis3dMixin } from './axis-3d-mixin';
 
-export interface CartesianSymlogAxis3d<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec>
-  extends Pick<LinearAxisMixin, 'valueToPosition'>,
-    CartesianSymlogAxis<T> {}
+export const registerCartesianSymlogAxis3d = () => {
+  registerCartesianLogAxis();
+  const AxisCls = Factory.getComponentInKey(CartesianSymlogAxis.type);
 
-export class CartesianSymlogAxis3d<
-  T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec
-> extends CartesianSymlogAxis<T> {
-  static readonly builtInTheme = {
-    ...CartesianSymlogAxis.builtInTheme,
+  (AxisCls as any).builtInTheme = {
+    ...AxisCls.builtInTheme,
     axisZ: {
-      ...CartesianSymlogAxis.builtInTheme.axisX,
+      ...AxisCls.builtInTheme.axisX,
       ...axisZ
     }
   };
 
-  layout3dBox?: { width: number; height: number; length: number };
-
-  setLayout3dBox(box3d: { width: number; height: number; length: number }) {
-    this.layout3dBox = box3d;
-  }
-
-  protected _getUpdateAttribute(ignoreGrid: boolean) {
-    const isZ = isZAxis(this._orient);
-
-    if (!isZ) {
-      return super._getUpdateAttribute(ignoreGrid);
-    }
-
-    return getUpdateAttributeOfZAxis(this, ignoreGrid);
-  }
-}
-
-mixin(CartesianSymlogAxis3d, LinearAxisMixin);
-
-export const registerCartesianSymlogAxis3d = () => {
-  Factory.registerComponent(CartesianSymlogAxis.type, CartesianSymlogAxis3d, false);
+  mixin(AxisCls, Axis3dMixin);
 };

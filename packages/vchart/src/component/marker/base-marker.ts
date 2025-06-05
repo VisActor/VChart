@@ -225,12 +225,6 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
       this._relativeSeries.event.on('scroll', this._markerLayout.bind(this));
     }
   }
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing
-  }
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
 
   clear(): void {
     super.clear();

@@ -104,7 +104,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     return [this._product as unknown as IMarkGraphic];
   }
 
-  protected _renderSelf() {
+  renderInner() {
     if (!this._product) {
       return;
     }
@@ -113,12 +113,13 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
     this._product.context = { ...this._product.context, ...this._getCommonContext() };
     this._product.setAttributes(this._getAttrsFromConfig(style));
+    this.needClear = true;
   }
 
   render(): void {
     if (this._isCommited) {
       log(`render mark: ${this.getProductId()}, type is ${this.type}`);
-      this._renderSelf();
+      this.renderInner();
       this.uncommit();
     }
 

@@ -58,10 +58,6 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
     });
   }
 
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
   /**
    * updateSpec
    */
@@ -76,19 +72,6 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
     result.change = true;
     result.reRender = true;
     return result;
-  }
-
-  // region
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
-  update(ctx: IComponentOption) {
-    // TODO
-  }
-
-  resize(ctx: IComponentOption) {
-    // TODO
   }
 
   afterSetLayoutStartPoint(pos: IPoint): void {
