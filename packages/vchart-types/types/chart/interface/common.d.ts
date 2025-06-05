@@ -1,18 +1,10 @@
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { IModelOption, IModelSpecInfo } from '../../model/interface';
-import type { IView } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ISeriesSpecInfo } from '../../series/interface';
 import type { IRegionSpecInfo } from '../../region/interface';
-export interface ILayoutParams {
-    srView?: IView;
-    group?: any;
-}
-export interface IAttributeParams {
-    srView?: IView;
-    group?: any;
-}
+import type { IPerformanceHook } from '../../typings';
 export interface IChartOption extends Omit<IModelOption, 'getChartViewRect' | 'getChartLayoutRect' | 'globalScale' | 'getChart' | 'getSeriesData'> {
     container: HTMLElement | null;
     canvas?: HTMLCanvasElement | OffscreenCanvas | string;
@@ -20,6 +12,7 @@ export interface IChartOption extends Omit<IModelOption, 'getChartViewRect' | 'g
     viewBox?: IBoundsLike;
     layout?: LayoutCallBack;
     disableTriggerEvent?: boolean;
+    performanceHook?: IPerformanceHook;
 }
 export interface IChartSpecTransformerOption extends Partial<IChartOption> {
     seriesType?: string;

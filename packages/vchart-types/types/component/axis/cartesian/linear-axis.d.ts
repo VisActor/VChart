@@ -1,7 +1,7 @@
 import type { LogScale } from '@visactor/vscale';
 import { LinearScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
-import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
+import type { IAxisHelper, ICartesianAxisCommonTheme, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
@@ -11,6 +11,7 @@ export declare class CartesianLinearAxis<T extends ICartesianLinearAxisSpec = IC
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     static specKey: string;
+    static readonly builtInTheme: Record<string, ICartesianAxisCommonTheme>;
     protected _zero: boolean;
     protected _nice: boolean;
     protected _extend: {

@@ -4,12 +4,14 @@ import type { IGraphic } from '@visactor/vrender-core';
 import type { IOrientType, IPolarOrientType, StringOrNumber, CoordinateType } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
-import type { IAxis, ICommonAxisSpec, ITick } from './interface';
+import { type IAxis, type ICommonAxisSpec, type ITick } from './interface';
 import { type IComponentOption } from '../interface';
 import type { ISeries } from '../../series/interface';
 import type { ITransformOptions } from '@visactor/vdataset';
 import { DataView } from '@visactor/vdataset';
 import type { IComponentMark } from '../../mark/interface/mark';
+import type { ICompilableMark } from '../../compile/mark';
+import type { ICompilableData } from './../../compile/data/interface';
 export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> extends BaseComponent<T> implements IAxis {
     static specKey: string;
     specKey: string;
@@ -49,10 +51,10 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _coordinateType: CoordinateType;
     getCoordinateType(): CoordinateType;
     constructor(spec: T, options: IComponentOption);
-    protected _getNeedClearVRenderComponents(): IGraphic[];
-    getVRenderComponents(): any[];
+    getVRenderComponents(): import("@visactor/vrender-core").IGroup[];
     created(): void;
     protected _shouldComputeTickData(): boolean;
+    protected _onTickDataChange: (tickData?: ICompilableData) => void;
     protected _initData(): void;
     protected collectData(depth: number, rawData?: boolean): {
         min: number;
@@ -68,8 +70,9 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected initEvent(): void;
     protected updateScaleDomain(): void;
     protected _clearRawDomain(): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     protected computeData(updateType?: 'domain' | 'range' | 'force'): void;
+    protected _updateTickDataMarks(m: ICompilableMark): void;
     protected initScales(): void;
     _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
@@ -102,5 +105,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     addTransformToTickData(options: ITransformOptions, execute?: boolean): void;
     dataToPosition(values: any[]): number;
     getDatum(childGraphic?: IGraphic): any;
+    scaleRangeFactor(_?: [number, number], slience?: boolean, clear?: boolean): any;
+    scaleRangeFactorEnd(_?: number, slience?: boolean, clear?: boolean): any;
+    scaleRangeFactorStart(_?: number, slience?: boolean, clear?: boolean): any;
 }
 export declare const registerAxis: () => void;

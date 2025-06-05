@@ -1,7 +1,6 @@
 import { DataView } from '@visactor/vdataset';
 import type { Maybe } from '@visactor/vutils';
-import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
-import type { IRegion } from '../../region/interface';
+import type { IModelSpecInfo } from '../../model/interface';
 import type { CoordinateType, ILayoutRect, ILayoutType, IRect } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IDataPos, IDataPosCallback, IMarkerAttributeContext, IMarkerSpec, IMarkerSupportSeries, IMarkProcessOptions } from './interface';
@@ -54,12 +53,10 @@ export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComp
     private _getSeriesByIdOrIndex;
     protected _bindSeries(): void;
     protected initEvent(): void;
-    onRender(ctx: IModelRenderOption): void;
-    changeRegions(regions: IRegion[]): void;
     clear(): void;
     private _getFirstSeries;
     protected _getNeedClearVRenderComponents(): IGraphic[];
-    onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect, ctx: any): void;
+    onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect): void;
     _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;

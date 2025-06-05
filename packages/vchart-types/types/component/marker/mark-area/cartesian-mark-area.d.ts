@@ -10,6 +10,9 @@ export declare class CartesianMarkArea extends BaseMarkArea {
     name: string;
     static coordinateType: string;
     coordinateType: CoordinateType;
+    static readonly builtInTheme: {
+        markArea: import("./interface").IMarkAreaTheme;
+    };
     protected _newMarkAreaComponent(attr: MarkAreaAttrs): MarkAreaComponent;
     protected _computePointsAttr(): {
         points: IPoint[];
