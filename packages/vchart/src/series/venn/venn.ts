@@ -251,9 +251,6 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
         y: datum => (datum as IVennOverlapDatum).labelY,
         text: datum => {
           const sets = (datum as IVennOverlapDatum).sets;
-          if (!sets || (Array.isArray(sets) && sets.length === 0)) {
-            return '';
-          }
           return getVennSeriesDataKey(sets);
         }
       },
