@@ -36,7 +36,6 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
 
   static readonly mark: SeriesMarkMap = vennSeriesMark;
   static readonly builtInTheme = { venn };
-
   static readonly transformerConstructor = VennSeriesSpecTransformer;
   readonly transformerConstructor = VennSeriesSpecTransformer;
 
@@ -67,11 +66,21 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     return this._valueField;
   }
 
+  protected _emptySetKey!: string;
+  getEmptySetKey() {
+    return this._emptySetKey;
+  }
+  setEmptySetKey(f: string): string {
+    this._emptySetKey = f;
+    return this._emptySetKey;
+  }
+
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     this.setCategoryField(this._spec.categoryField ?? 'sets');
     this.setValueField(this._spec.valueField ?? 'size');
     this.setSeriesField(this._spec.seriesField ?? DEFAULT_DATA_KEY);
+    this.setEmptySetKey(this._spec.emptySetKey ?? 'others');
   }
 
   initData() {
@@ -212,7 +221,6 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
         y: datum => (datum as IVennCircleDatum).labelY,
         text: datum => {
           const sets = (datum as IVennOverlapDatum).sets;
-          // 如果是空sets，返回空字符串不显示
           if (!sets || (Array.isArray(sets) && sets.length === 0)) {
             return '';
           }
@@ -241,7 +249,13 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
       {
         x: datum => (datum as IVennOverlapDatum).labelX,
         y: datum => (datum as IVennOverlapDatum).labelY,
-        text: datum => getVennSeriesDataKey((datum as IVennOverlapDatum).sets)
+        text: datum => {
+          const sets = (datum as IVennOverlapDatum).sets;
+          if (!sets || (Array.isArray(sets) && sets.length === 0)) {
+            return '';
+          }
+          return getVennSeriesDataKey(sets);
+        }
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
@@ -317,7 +331,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
   protected _getSeriesInfo(field: string, keys: string[]) {
     const defaultShapeType = this.getDefaultShapeType();
     return keys.map(originalKey => {
-      const dataKey = getVennSeriesDataKey(originalKey);
+      const dataKey = getVennSeriesDataKey(originalKey, this._emptySetKey);
       return {
         key: dataKey,
         originalKey,
@@ -331,7 +345,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
 
   getSeriesFieldValue(datum: Datum, seriesField?: string) {
     const value = super.getSeriesFieldValue(datum, seriesField);
-    return getVennSeriesDataKey(value);
+    return getVennSeriesDataKey(value, this._emptySetKey);
   }
 
   legendSelectedFilter(component: ILegend, selectedKeys: StringOrNumber[]) {
@@ -346,20 +360,20 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
       if (selectedKeys.length === originalLegendKeys.length) {
         return selectedKeys;
       }
-      const emptyKey = 'others';
+      const emptyKey = this._emptySetKey;
 
       const hasEmpty = selectedKeys.includes(emptyKey);
       const nonEmpty = selectedKeys.filter(key => key !== emptyKey);
 
       if (nonEmpty.length > 0) {
         // 过滤出非空的原始图例键
-        const validKeys = originalLegendKeys.filter(key => getVennSeriesDataKey(key) !== emptyKey);
+        const validKeys = originalLegendKeys.filter(key => getVennSeriesDataKey(key, this._emptySetKey) !== emptyKey);
         // 找到缺失的项
         const selectedFilter: Record<StringOrNumber, boolean> = {};
         selectedKeys.forEach(s => {
           selectedFilter[s] = true;
         });
-        const disableKeys = validKeys.filter(key => !selectedFilter[getVennSeriesDataKey(key)]);
+        const disableKeys = validKeys.filter(key => !selectedFilter[getVennSeriesDataKey(key, this._emptySetKey)]);
 
         // 找到缺失的项的派生项（如 “A&B” 的派生项 “A&B&C”）
         const derivedDisableKeys = validKeys.filter(key => {
@@ -372,7 +386,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
         // 将派生项从 nonEmpty 中移除
         selectedKeys = nonEmpty.slice();
         derivedDisableKeys.forEach(key => {
-          selectedKeys.splice(selectedKeys.indexOf(getVennSeriesDataKey(key)), 1);
+          selectedKeys.splice(selectedKeys.indexOf(getVennSeriesDataKey(key, this._emptySetKey)), 1);
         });
       }
       if (hasEmpty) {
