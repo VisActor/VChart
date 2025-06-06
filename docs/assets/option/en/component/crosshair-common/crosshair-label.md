@@ -39,6 +39,10 @@ For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutori
 
 Text background related configuration.
 
+#${prefix} syncAxisLabelAngle(boolean) = false
+
+Whether the text rotates with the axis label angle. Currently only supported in rectangular coordinate system, supported since version `1.13.11`.
+
 ##${prefix} visible(boolean) = true
 
 Whether to display the text background or not.
