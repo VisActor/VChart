@@ -2,7 +2,7 @@ import type { Dict } from '@visactor/vutils';
 import type { IPadding, StringOrNumber } from '../../../typings';
 import type { IAxis } from '../../axis/interface';
 import type { LineCrosshair, RectCrosshair, Tag } from '@visactor/vrender-components';
-import type { IGroup, IRichTextGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { IGroup, IRichTextGraphicAttribute, IText, ITextGraphicAttribute } from '@visactor/vrender-core';
 
 export type AxisCurrentValueMap = Map<
   number,
@@ -41,6 +41,12 @@ export interface IHair {
     padding?: IPadding | number | number[];
     panel?: Dict<any>;
     zIndex?: number;
+    /**
+     * 文本是否跟随轴标签的角度旋转
+     * default: false
+     * @since 1.13.11
+     */
+    syncAxisLabelAngle?: boolean;
   };
   /**
    * 极坐标系样式
@@ -75,6 +81,7 @@ export interface ICrosshairInfo {
   visible: boolean;
   _isCache?: boolean;
   axis: IAxis;
+  axisLabel: IText;
   /**
    * 半径轴对应的crosshair，当crosshair类型为多边形的时候，多边形的边数
    */

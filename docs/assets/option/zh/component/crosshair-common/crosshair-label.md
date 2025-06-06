@@ -39,6 +39,10 @@ label 文本格式化方法。函数的定义如下：
 
 文本背景相关配置。
 
+#${prefix} syncAxisLabelAngle(boolean) = false
+
+文本是否跟随轴标签的角度旋转，目前只在直角坐标系下支持，自`1.13.11`版本开始支持。
+
 ##${prefix} visible(boolean) = true
 
 是否显示文本背景。
