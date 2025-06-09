@@ -200,12 +200,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   protected initEvent() {
     // do nothing
   }
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing
-  }
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
 
   _compareSpec(spec: T, prevSpec: T) {
     if (this._brushComponents) {

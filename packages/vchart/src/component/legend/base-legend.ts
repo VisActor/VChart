@@ -113,11 +113,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     this.initData();
   }
 
-  /** LifeCycle API**/
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
   /** Update API **/
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
@@ -130,10 +125,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       result.reCompile = true;
     }
     return result;
-  }
-
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
   }
 
   protected abstract _initLegendData(): DataView;

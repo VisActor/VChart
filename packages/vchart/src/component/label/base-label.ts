@@ -151,13 +151,24 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
     });
   }
 
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing
+  getVRenderComponents() {
+    const labels: any[] = [];
+    this.getMarks().forEach(m => {
+      const graphicItem = (m as IComponentMark).getComponent();
+      if (graphicItem) {
+        labels.push(graphicItem);
+      }
+    });
+    return labels;
   }
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [];
+
+  clear() {
+    super.clear();
+
+    this.getMarks().forEach(m => {
+      if (m) {
+        (m as IComponentMark).clearComponent();
+      }
+    });
   }
 }

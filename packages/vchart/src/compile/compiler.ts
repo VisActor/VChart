@@ -299,10 +299,13 @@ export class Compiler implements ICompiler {
         traverseGroupMark(
           g,
           m => {
-            if (!this._progressiveMarks) {
-              m.runAnimation();
+            if (m.needClear) {
+              if (!this._progressiveMarks) {
+                m.runAnimation();
+              }
+              m.clearExitGraphics();
+              m.needClear = false;
             }
-            m.clearExitGraphics();
           },
           null,
           true

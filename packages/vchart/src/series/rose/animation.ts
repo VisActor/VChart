@@ -2,13 +2,13 @@ import { Factory } from '../../core/factory';
 import type { IRoseAnimationParams, RoseAppearPreset } from './interface';
 import type { IAnimationTypeConfig } from '../../animation/interface';
 
-const growInType = (growField: string) => {
+function growInType(growField: string) {
   return growField === 'angle' ? 'growAngleIn' : 'growRadiusIn';
-};
+}
 
-const growOutType = (growField: string) => {
+function growOutType(growField: string) {
   return growField === 'angle' ? 'growAngleOut' : 'growRadiusOut';
-};
+}
 
 export const Appear_Grow = (params: IRoseAnimationParams): IAnimationTypeConfig => {
   return {

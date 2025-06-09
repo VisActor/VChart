@@ -347,8 +347,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
         .forEach((indicatorComponent: any) => {
           // wave item比较特殊,  由wave1、wave2、wave3在x方向上偏移叠加而成
           // 由于在水波图中只需要判断y方向上是否重叠, 所以此处取wave1做y方向上对比
-          const grammarMark = this._liquidMark.getProduct();
-          const waveItem = (grammarMark.getGraphics()[0] as IGlyph).getSubGraphic()?.[0];
+          const waveItem = (this._liquidMark.getGraphics()[0] as unknown as IGlyph).getSubGraphic()?.[0];
           let { y1: waveY1, y2: waveY2 } = waveItem.globalAABBBounds;
           waveY1 += this._region.getLayoutStartPoint().y;
           waveY2 += this._region.getLayoutStartPoint().y;

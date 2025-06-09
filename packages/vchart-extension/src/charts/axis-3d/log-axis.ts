@@ -1,41 +1,19 @@
-import type { ICartesianLogAxisSpec } from '@visactor/vchart';
-import { LinearAxisMixin, CartesianLogAxis, Factory, isZAxis } from '@visactor/vchart';
-import { mixin } from '@visactor/vutils';
-import { getUpdateAttributeOfZAxis } from './util';
+import { CartesianLogAxis, Factory, registerCartesianLogAxis } from '@visactor/vchart';
 import { axisZ } from './theme';
+import { mixin } from '@visactor/vutils';
+import { Axis3dMixin } from './axis-3d-mixin';
 
-export interface CartesianLogAxis3d<T extends ICartesianLogAxisSpec = ICartesianLogAxisSpec>
-  extends Pick<LinearAxisMixin, 'valueToPosition'>,
-    CartesianLogAxis<T> {}
+export const registerCartesianLogAxis3d = () => {
+  registerCartesianLogAxis();
+  const AxisCls = Factory.getComponentInKey(CartesianLogAxis.type);
 
-export class CartesianLogAxis3d<T extends ICartesianLogAxisSpec = ICartesianLogAxisSpec> extends CartesianLogAxis<T> {
-  static readonly builtInTheme = {
-    ...CartesianLogAxis.builtInTheme,
+  (AxisCls as any).builtInTheme = {
+    ...AxisCls.builtInTheme,
     axisZ: {
       ...CartesianLogAxis.builtInTheme.axisX,
       ...axisZ
     }
   };
 
-  layout3dBox?: { width: number; height: number; length: number };
-
-  setLayout3dBox(box3d: { width: number; height: number; length: number }) {
-    this.layout3dBox = box3d;
-  }
-
-  protected _getUpdateAttribute(ignoreGrid: boolean) {
-    const isZ = isZAxis(this._orient);
-
-    if (!isZ) {
-      return super._getUpdateAttribute(ignoreGrid);
-    }
-
-    return getUpdateAttributeOfZAxis(this, ignoreGrid);
-  }
-}
-
-mixin(CartesianLogAxis3d, LinearAxisMixin);
-
-export const registerCartesianLogAxis3d = () => {
-  Factory.registerComponent(CartesianLogAxis.type, CartesianLogAxis3d, false);
+  mixin(AxisCls, Axis3dMixin);
 };

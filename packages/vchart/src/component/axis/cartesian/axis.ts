@@ -432,22 +432,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     });
   }
 
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
-  update(ctx: IComponentOption) {
-    // TODO
-  }
-
-  resize(ctx: IComponentOption) {
-    // TODO
-  }
-
   protected collectScale() {
     const scales: IBaseScale[] = [];
     eachSeries(
@@ -765,6 +749,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     attrs.label = {
       overflowLimitLength: this._getLabelOverflowLimit(isX)
     };
+
+    if ((this as any)._afterUpdateAttribute) {
+      return (this as any)._afterUpdateAttribute(attrs, ignoreGrid);
+    }
 
     return attrs;
   }
