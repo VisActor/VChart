@@ -188,7 +188,7 @@ export interface ICrosshairLabelSpec {
   labelBackground?: ICrosshairLabelBackgroundSpec;
   /**
    * 文本是否跟随轴标签的角度旋转，目前只在直角坐标系下支持
-   * @since 1.13.11
+   * @since 1.13.12
    */
   syncAxisLabelAngle?: boolean;
 }

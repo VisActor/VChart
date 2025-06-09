@@ -41,7 +41,7 @@ Text background related configuration.
 
 #${prefix} syncAxisLabelAngle(boolean) = false
 
-Whether the text rotates with the axis label angle. Currently only supported in rectangular coordinate system, supported since version `1.13.11`.
+Whether the text rotates with the axis label angle. Currently only supported in rectangular coordinate system, supported since version `1.13.12`.
 
 ##${prefix} visible(boolean) = true
 
