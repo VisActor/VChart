@@ -559,6 +559,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
     if (!!label.visible) {
       const labelBackground = label.labelBackground || {};
+      const syncAxisLabelAngle = label.syncAxisLabelAngle ?? false;
       const labelStyle = label.style || {};
       const {
         fill: rectFill = 'rgba(47, 59, 82, 0.9)',
@@ -573,6 +574,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         minWidth: labelBackground.minWidth,
         maxWidth: labelBackground.maxWidth,
         padding: labelBackground.padding,
+        syncAxisLabelAngle,
         textStyle: {
           fontSize: 14,
           pickable: false,

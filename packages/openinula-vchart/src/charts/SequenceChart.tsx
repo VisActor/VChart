@@ -11,6 +11,6 @@ export const SequenceChart = createChart<React.PropsWithChildren<SequenceChartPr
   'SequenceChart',
   {
     type: 'sequence',
-    vchartConstrouctor: VChart
+    vchartConstructor: VChart
   }
 );

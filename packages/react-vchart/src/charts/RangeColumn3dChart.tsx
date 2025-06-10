@@ -17,7 +17,7 @@ export const RangeColumn3dChart = createChart<
   'RangeColumn3dChart',
   {
     type: 'rangeColumn3d',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerRangeColumn3dChart, registerLabel, ...registers]
 );

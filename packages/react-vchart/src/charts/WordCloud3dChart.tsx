@@ -15,7 +15,7 @@ export const WordCloud3dChart = createChart<React.PropsWithChildren<WordCloud3dC
   'WordCloud3dChart',
   {
     type: 'wordCloud3d',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerWordCloud3dChart, ...registers]
 );

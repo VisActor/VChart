@@ -7,7 +7,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
 import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, polygonIntersectPolygon, isValid, last, cloneDeep } from '@visactor/vutils';
+import { array, polygonIntersectPolygon, isValid, last } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic, IGroup, INode, IPolygon } from '@visactor/vrender-core';
@@ -56,8 +56,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   protected _linkedOutOfBrushElementsMap: { [elementKey: string]: IMarkGraphic } = {};
 
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
-
-  private _needDisablePickable: boolean = false;
 
   private _releatedAxes: AxisComponent[] = [];
 
@@ -269,39 +267,41 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     });
 
     brush.addEventListener(BrushEvent.drawStart, (e: any) => {
+      this._setRegionMarkPickable(region, true);
       this._emitEvent(ChartEvent.brushStart, region);
     });
 
     brush.addEventListener(BrushEvent.moveStart, (e: any) => {
+      this._setRegionMarkPickable(region, true);
       this._emitEvent(ChartEvent.brushStart, region);
     });
 
     brush.addEventListener(BrushEvent.drawing, (e: any) => {
-      this._needDisablePickable = true;
+      this._setRegionMarkPickable(region, false);
       this._handleBrushChange(region, e);
       this._emitEvent(ChartEvent.brushChange, region);
     });
 
     brush.addEventListener(BrushEvent.moving, (e: any) => {
+      this._setRegionMarkPickable(region, false);
       this._handleBrushChange(region, e);
       this._emitEvent(ChartEvent.brushChange, region);
     });
 
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
+      this._setRegionMarkPickable(region, true);
       this._initMarkBrushState(componentIndex, '');
-      this._needDisablePickable = false;
       this._emitEvent(ChartEvent.brushClear, region);
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
-      this._needDisablePickable = false;
+      this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       if (this._spec?.onBrushEnd) {
         // 如果onBrushEnd返回true，则清空brush， 并抛出clear事件
         if (this._spec.onBrushEnd(e) === true) {
           this.clearGraphic();
           this._initMarkBrushState(componentIndex, '');
-          this._needDisablePickable = false;
           this._emitEvent(ChartEvent.brushClear, region);
         } else {
           this._spec.onBrushEnd(e);
@@ -317,6 +317,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     });
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
+      this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
       if (!this._spec.zoomWhenEmpty && inBrushData.length > 0) {
@@ -478,7 +479,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           this._outOfBrushElementsMap[elementKey] = graphicItem;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
-        graphicItem.setAttribute('pickable', !this._needDisablePickable);
       });
     });
   }
@@ -559,7 +559,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
               graphicItem.addState(OUT_BRUSH_STATE, true);
               this._linkedOutOfBrushElementsMap[elementKey] = graphicItem;
             }
-            graphicItem.setAttribute('pickable', !this._needDisablePickable);
           });
         });
       }
@@ -635,6 +634,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     this._initItemMap(this._itemMap, this._outOfBrushElementsMap, stateName);
     this._initItemMap(this._linkedItemMap, this._linkedOutOfBrushElementsMap, stateName);
+  }
+
+  // 绘制brush的时候, 避免brush与图元交互冲突
+  private _setRegionMarkPickable(region: IRegion, pickable: boolean) {
+    region
+      .getGroupMark()
+      .getGraphics()
+      .forEach(g => g.setAttribute('childrenPickable', pickable));
   }
   /** end: set mark state  ***/
 
@@ -736,7 +743,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._brushComponents.forEach((brush, index) => {
         // 清空元素状态
         this._initMarkBrushState(index, '');
-        this._needDisablePickable = false;
 
         brush.removeAllChild();
         brush.releaseBrushEvents();

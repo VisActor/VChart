@@ -11,6 +11,6 @@ export const ScatterChart = createChart<React.PropsWithChildren<ScatterChartProp
   'ScatterChart',
   {
     type: 'scatter',
-    vchartConstrouctor: VChart
+    vchartConstructor: VChart
   }
 );

@@ -15,7 +15,7 @@ export const CircularProgressChart = createChart<
   'CircularProgressChart',
   {
     type: 'circularProgress',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerCircularProgressChart, registerLabel, registerIndicator, ...registers]
 );

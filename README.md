@@ -133,14 +133,20 @@ $ rush react
 # start site development server
 $ rush docs
 ```
+# 📖 Documents
 
-## 📖 Documents
-
-After installation & clone & update, run docs to preview documents locally.
+After installation & clone & update, run docs to preview VTable documents locally.
 
 ```bash
-# start vchart document server
+# start vtable document server. execute in file path: ./
+$ rush update
+$ rush build
 $ rush docs
+```
+# If you meet dependency problems
+```bash
+$ rush purge
+$ rush update
 ```
 
 ## 🔗 Related Links

@@ -5,7 +5,6 @@ import { CommonChartSpecTransformer } from '@visactor/vchart';
 import { cloneDeep, TextMeasure } from '@visactor/vutils';
 import { defaultSpec } from './constant';
 import { applyVisible, computeDataRange, mergeObjects } from './utils';
-import { IGradientColor } from '@visactor/vrender-core';
 
 const DATA_KEY = 'dataKey';
 const ORDER_KEY = 'VCHART_ORDER';

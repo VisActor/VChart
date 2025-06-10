@@ -1,3 +1,44 @@
+# v1.13.11
+
+2025-05-29
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 直方图新增 `barGap` 配置项
+- **@visactor/vchart**: 主题支持 `tooltip.trigger` 和 `crosshair.trigger` 配置
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复当轴标签为类数字字符串时 data-zoom 的 domain 问题，修复 [#3982](https://github.com/VisActor/VChart/issues/3982)
+- **@visactor/vchart**: 修复当维度 tooltip 无标题时，mark tooltip 标题顺序错误的问题，修复 [#3991](https://github.com/VisActor/VChart/issues/3991)
+- **@visactor/vchart**: 配置项 `{ poptip: true }` 时应加载 `poptipForText`
+- **react-vchart**: 使用 children 自定义渲染 tooltip 时，react-vchart 应能正确更新
+- **@visactor/vchart**: tooltip 的自定义渲染应兼容 React 17 和 React 18
+
+**🔖 其他**
+
+- **@visactor/vchart**: 修复：将所有 `vchartConstrouctor` 替换为 `vchartConstructor`，并保证旧版本兼容性
+
+[更多详情请查看 v1.13.11](https://github.com/VisActor/VChart/releases/tag/v1.13.11)
+
+# v1.13.10
+
+2025-05-16
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: tooltip 定位支持内侧相关的定位点
+- **@visactor/vchart**: 马赛克图表支持 bandWidthField 和 percent 配置，关闭 [#3945](https://github.com/VisActor/VChart/issues/3945)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 导出 ManualTicker 和 StreamLight
+- **@visactor/vchart**: tooltip 设置`enterable`后，离开 tooltip，tooltip 应隐藏，修复 [#3965](https://github.com/VisActor/VChart/issues/3965)，修复 [#3922](https://github.com/VisActor/VChart/issues/3922)
+- **@visactor/vchart**: 修复页面中多个图表配置 tooltip 的 enterable 时，部分图表 tooltip 不能正确交互的错误，修复 [#3940](https://github.com/VisActor/VChart/issues/3940)
+- **@visactor/vchart**: 升级 vgrammar 至 0.16.7，修复 [#3965](https://github.com/VisActor/VChart/issues/3965)
+
+[更多详情请查看 v1.13.10](https://github.com/VisActor/VChart/releases/tag/v1.13.10)
+
 # v1.13.9
 
 2025-04-21
