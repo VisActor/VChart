@@ -92,6 +92,8 @@ export interface CommonAnimationConfigItem {
   options?: GraphicFunctionValueType<any>;
   /** 动画执行相关控制配置项 */
   controlOptions?: IAnimationControlOptions;
+  /** 该动画是否需要忽略子图元 */
+  selfOnly?: boolean;
 }
 
 export interface TypeAnimationConfig extends CommonAnimationConfigItem {
