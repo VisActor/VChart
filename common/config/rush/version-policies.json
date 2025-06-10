@@ -4,6 +4,6 @@
     "policyName": "vchartMain",
     "version": "1.13.11",
     "mainProject": "@visactor/vchart",
-    "nextBump": "patch"
+    "nextBump": "major"
   }
 ]
