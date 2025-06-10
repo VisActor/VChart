@@ -2,6 +2,27 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.0",
+      "tag": "@visactor/vchart_v2.0.0",
+      "date": "Tue, 10 Jun 2025 13:40:24 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: remove marker type. close #3782"
+          },
+          {
+            "comment": "fix: mark interactive problem when brush. fix visactor/vchart#4017"
+          },
+          {
+            "comment": "fix: markLine position error when domain is a same array. fix#4016"
+          },
+          {
+            "comment": "refactor: migrate mapLabel component into vchart-extension package"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.11",
       "tag": "@visactor/vchart_v1.13.11",
       "date": "Thu, 29 May 2025 09:26:04 GMT",

@@ -1,5 +1,5 @@
 import { VChart } from './core';
-import { DefaultTicker } from '@visactor/vrender-core';
+import { DefaultTicker } from '@visactor/vrender-animate';
 export { VChart, DefaultTicker };
 export default VChart;
 export * from './core';

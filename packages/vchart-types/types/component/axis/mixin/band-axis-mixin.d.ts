@@ -32,6 +32,7 @@ export interface BandAxisMixin {
     _tickTransformOption: () => any;
     _forceLayout: () => void;
     _getNormalizedValue: (values: any[], length: number) => number;
+    _onTickDataChange: (compilableData: CompilableData) => void;
 }
 export declare class BandAxisMixin {
     private _tickDataMap;

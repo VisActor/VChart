@@ -9,6 +9,9 @@ export declare class CircularProgressSeries<T extends ICircularProgressSeriesSpe
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        circularProgress: import("./interface").ICircularProgressSeriesTheme;
+    };
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof CircularProgressSeriesSpecTransformer;
     private _progressMark;
@@ -19,7 +22,10 @@ export declare class CircularProgressSeries<T extends ICircularProgressSeriesSpe
     initMarkStyle(): void;
     private _initProgressMark;
     private _initProgressMarkStyle;
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     protected initTooltip(): void;
     private _initTrackMark;
     private _initTrackMarkStyle;

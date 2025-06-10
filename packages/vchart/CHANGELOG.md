@@ -1,6 +1,16 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 29 May 2025 09:26:04 GMT and should not be manually modified.
+This log was last generated on Tue, 10 Jun 2025 13:40:24 GMT and should not be manually modified.
+
+## 2.0.0
+Tue, 10 Jun 2025 13:40:24 GMT
+
+### Updates
+
+- feat: remove marker type. close #3782
+- fix: mark interactive problem when brush. fix visactor/vchart#4017
+- fix: markLine position error when domain is a same array. fix#4016
+- refactor: migrate mapLabel component into vchart-extension package
 
 ## 1.13.11
 Thu, 29 May 2025 09:26:04 GMT

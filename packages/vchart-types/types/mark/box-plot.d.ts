@@ -1,12 +1,18 @@
-import type { IBoxPlotMarkSpec } from '../typings/visual';
-import { BaseMark } from './base/base-mark';
-import type { IGroupMark } from '@visactor/vgrammar-core';
+import type { BoxPlotShaftShape, IBoxPlotMarkSpec } from '../typings/visual';
 import type { IBoxPlotMark, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
-export declare class BoxPlotMark extends BaseMark<IBoxPlotMarkSpec> implements IBoxPlotMark {
+import { GlyphMark } from './glyph';
+export declare class BoxPlotMark extends GlyphMark<IBoxPlotMarkSpec, {
+    direction?: 'horizontal' | 'vertical';
+    shaftShape?: BoxPlotShaftShape;
+}> implements IBoxPlotMark {
     static readonly type = MarkTypeEnum.boxPlot;
     readonly type = MarkTypeEnum.boxPlot;
+    protected _isHorizontal(): boolean;
+    setGlyphConfig(cfg: {
+        direction?: 'horizontal' | 'vertical';
+        shaftShape?: BoxPlotShaftShape;
+    }): void;
     protected _getDefaultStyle(): IMarkStyle<IBoxPlotMarkSpec>;
-    protected _initProduct(group?: string | IGroupMark): void;
 }
 export declare const registerBoxPlotMark: () => void;

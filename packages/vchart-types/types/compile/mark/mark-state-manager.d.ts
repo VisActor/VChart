@@ -1,26 +1,25 @@
-import type { IElement, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+import type { IMark, IMarkGraphic } from '../../mark/interface';
 import type { Datum, StringOrNumber } from '../../typings';
-import type { IStateManagerOption } from '../signal/interface';
-import { StateManager } from '../signal/state-manager';
-import type { CompilableMark } from './compilable-mark';
 import type { IMarkStateManager, IStateInfo, StateValue } from './interface';
+import type { ICompilableInitOption } from '../interface/compilable-item';
+import { StateManager } from '../state-manager';
 export declare class MarkStateManager extends StateManager implements IMarkStateManager {
-    protected _mark: CompilableMark;
+    protected _mark: IMark;
     private _stateInfoList;
     getStateInfoList(): IStateInfo[];
-    constructor(option: IStateManagerOption, mark: CompilableMark);
+    constructor(options: ICompilableInitOption, mark: IMark);
     protected _getDefaultStateMap(): Record<string, unknown>;
     getStateInfo(stateValue: StateValue): IStateInfo;
     addStateInfo(stateInfo: IStateInfo): void;
     private _clearStateBeforeSet;
     changeStateInfo(stateInfo: Partial<IStateInfo>): void;
     clearStateInfo(stateValues: StateValue[]): void;
-    checkOneState(renderNode: IElement, datum: Datum | Datum[], state: IStateInfo, isMultiMark?: boolean): 'in' | 'out' | 'skip';
-    checkState(renderNode: IElement, datum: Datum | Datum[]): StateValue[];
-    checkDatumState(state: IStateInfo, datum: Datum | Datum[], isMultiMark: boolean): boolean;
+    protected _isMultiMark(): boolean;
+    checkOneState(renderNode: IMarkGraphic, datum: Datum[], state: IStateInfo): 'in' | 'out' | 'skip';
+    checkState(renderNode: IMarkGraphic, datum: Datum[]): StateValue[];
+    checkDatumState(state: IStateInfo, datum: Datum[]): boolean;
     checkItemsState(state: IStateInfo, item: any): boolean | undefined;
-    checkFieldsState(state: IStateInfo, datum: Datum | Datum[], item: any, isMultiMark: boolean): boolean;
-    checkLinearFieldState(domain: StringOrNumber[], key: string, datum: any, item: any, isMultiMark: boolean): boolean;
-    updateLayoutState(noRender?: boolean): void;
-    compileState(product: IVGrammarMark, stateSort?: (stateA: string, stateB: string) => number): void;
+    checkFieldsState(state: IStateInfo, datum: Datum[], item: any): boolean;
+    checkLinearFieldState(domain: StringOrNumber[], key: string, datum: any, item: any): boolean;
+    release(): void;
 }

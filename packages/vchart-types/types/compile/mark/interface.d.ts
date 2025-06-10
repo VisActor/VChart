@@ -1,20 +1,42 @@
-import type { IMarkStateStyle, MarkType } from '../../mark/interface';
+import type { IMark, IMarkGraphic, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
-import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem } from '../interface';
+import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem, StateValueMap } from '../interface';
 import type { DataView } from '@visactor/vdataset';
-import type { IAnimate, IAnimateArranger, IElement, IGroupMark, IMark, IMarkConfig, MarkAnimationSpec, Nil, TransformSpec } from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { IRegion } from '../../region/interface';
 import type { ICompilableData } from '../data/interface';
+import type { ICustomPath2D, IGraphic, IGroup } from '@visactor/vrender-core';
+import type { MarkAnimationSpec } from '../../animation/interface';
+export interface IMarkConfig {
+    clipPath?: IGraphic[] | ((graphics: IGraphic[]) => IGraphic[]);
+    clip?: boolean;
+    zIndex?: number;
+    interactive?: boolean;
+    setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+    large?: boolean;
+    largeThreshold?: number;
+    progressiveStep?: number;
+    progressiveThreshold?: number;
+    support3d?: boolean;
+    graphicName?: string | ((g: IMarkConfig) => string);
+    morph?: boolean;
+    morphKey?: string;
+    morphElementKey?: string;
+    overflow?: 'scroll' | 'hidden' | 'scroll-x' | 'scroll-y';
+    skipTheme?: boolean;
+    useSequentialAnimation?: boolean;
+}
 export interface IMarkStateManager {
     getStateInfoList: () => IStateInfo[];
     getStateInfo: (stateValue: StateValue) => IStateInfo;
     addStateInfo: (stateInfo: IStateInfo) => void;
     changeStateInfo: (stateInfo: Partial<IStateInfo>) => void;
     clearStateInfo: (stateValues: StateValue[]) => void;
-    checkOneState: (renderNode: IElement, datum: Datum | Datum[], state: IStateInfo, isMultiMark?: boolean) => 'in' | 'out' | 'skip';
-    checkState: (renderNode: IElement, datum: Datum | Datum[]) => StateValue[];
-    updateLayoutState: (noRender?: boolean) => void;
+    checkOneState: (renderNode: IMarkGraphic, datum: Datum[], state: IStateInfo) => 'in' | 'out' | 'skip';
+    checkState: (renderNode: IMarkGraphic, datum: Datum[]) => StateValue[];
+    getStateMap: () => StateValueMap;
+    updateState: (newState: Partial<StateValueMap>, noRender?: boolean) => void;
+    release: () => void;
 }
 export interface IMarkData extends ICompilableData {
     setCompiledProductId: (name: string) => any;
@@ -33,48 +55,38 @@ export interface ICompilableMark extends IGrammarItem {
     readonly name: string;
     readonly key?: string | ((datum: Datum) => string);
     readonly model: IModel;
-    getData: () => IMarkData | undefined;
-    setData: (d: IMarkData) => void;
+    commit: (render?: boolean, recursion?: boolean) => void;
+    uncommit: () => void;
+    isCommited: () => boolean;
+    getData: () => ICompilableData | undefined;
+    setData: (d: ICompilableData) => void;
     getDataView: () => DataView | undefined;
-    setDataView: (d?: DataView, productId?: string) => void;
+    setDataView: (d: DataView) => void;
     state: IMarkStateManager;
     readonly stateStyle: IMarkStateStyle<any>;
     hasState: (state: string) => boolean;
     getState: (state: string) => any;
     updateState: (newState: Record<string, unknown>) => void;
-    updateStaticEncode: () => void;
     compileEncode: () => void;
-    updateLayoutState: (noRender?: boolean, recursion?: boolean) => void;
-    updateMarkState: (key: string) => void;
-    setTransform: (transform: TransformSpec[] | Nil) => void;
     setAnimationConfig: (config: Partial<MarkAnimationSpec>) => void;
     getAnimationConfig: () => Partial<MarkAnimationSpec>;
     getVisible: () => boolean;
     setVisible: (visible: boolean) => void;
-    getGroupKey: () => string | undefined;
     setGroupKey: (groupKey: string) => void;
     getUserId: () => StringOrNumber | undefined;
     setUserId: (id: StringOrNumber) => void;
     compile: (option?: IMarkCompileOption) => void;
-    getProduct: () => Maybe<IMark>;
-    getProductElements: () => Maybe<IMark['elements']>;
+    getProduct: () => Maybe<IGroup>;
     getMarks: () => ICompilableMark[];
     setSkipBeforeLayouted: (skip: boolean) => void;
-    getSkipBeforeLayouted: () => boolean;
-    setStateSortCallback: (stateSort: (stateA: string, stateB: string) => number) => void;
     getMarkConfig: () => IMarkConfig;
     setMarkConfig: (config: IMarkConfig) => void;
-    runAnimationByState: (animationState?: string) => IAnimateArranger;
-    stopAnimationByState: (animationState?: string) => IAnimate;
-    pauseAnimationByState: (animationState: string) => IAnimate;
-    resumeAnimationByState: (animationState: string) => IAnimate;
-}
-export interface IMarkDataInitOption extends ICompilableMarkOption {
-    mark: ICompilableMark;
+    getContext: () => any;
+    layout: (layoutCallback: () => void) => void;
+    setDataLabelType?: () => string;
 }
 export interface IMarkCompileOption extends GrammarItemCompileOption {
-    group?: string | IGroupMark;
-    ignoreChildren?: boolean;
+    group?: IGroup;
     context?: any;
 }
 export interface IStateInfo {
@@ -83,7 +95,11 @@ export interface IStateInfo {
     datums?: any[] | null | undefined;
     datumKeys?: string[] | null | undefined;
     items?: any[] | null | undefined;
-    filter?: ((datum: any, options: Record<string, any>) => boolean) | null | undefined;
+    filter?: ((datum: any, options: {
+        mark?: IMark;
+        type?: string;
+        renderNode?: IGraphic;
+    }) => boolean) | null | undefined;
     cache?: {
         [key: string]: {
             [key: string]: boolean;
@@ -116,7 +132,10 @@ export declare enum STATE_VALUE_ENUM {
     STATE_SELECTED = "selected",
     STATE_SELECTED_REVERSE = "selected_reverse",
     STATE_SANKEY_EMPHASIS = "selected",
-    STATE_SANKEY_EMPHASIS_REVERSE = "blur"
+    STATE_SANKEY_EMPHASIS_REVERSE = "blur",
+    STATE_HIGHLIGHT = "highlight",
+    STATE_BLUR = "blur",
+    STATE_ACTIVE = "active"
 }
 export declare enum STATE_VALUE_ENUM_REVERSE {
     STATE_HOVER_REVERSE = "hover_reverse",
@@ -130,11 +149,6 @@ export type STATE_CUSTOM = string;
 export type StateValueNot = STATE_HOVER_REVERSE | STATE_CUSTOM;
 export type StateValue = STATE_NORMAL | STATE_HOVER | STATE_CUSTOM;
 export type StateValueType = StateValue | StateValueNot;
-export interface IAttributeOpt {
-    element: IElement;
-    mark: IElement['mark'];
-    parent: IElement['mark']['group'];
-}
 export interface IModelMarkAttributeContext {
     [key: string]: unknown;
 }

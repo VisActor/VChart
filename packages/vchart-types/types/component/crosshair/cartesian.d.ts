@@ -8,6 +8,9 @@ import type { IPoint, StringOrNumber, TooltipActiveType, TooltipData } from '../
 import type { IModelSpecInfo } from '../../model/interface';
 export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCrosshairSpec> extends BaseCrossHair<T> {
     static specKey: string;
+    static readonly builtInTheme: {
+        crosshair: import("./interface").ICrosshairTheme;
+    };
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;

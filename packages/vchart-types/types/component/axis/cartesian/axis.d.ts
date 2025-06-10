@@ -1,15 +1,15 @@
 import { type IBoundsLike, type Maybe } from '@visactor/vutils';
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
-import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper } from './interface';
-import type { IOrientType, IRect } from '../../../typings/space';
+import type { IOrientType, IPadding, IRect } from '../../../typings/space';
 import type { IBaseScale } from '@visactor/vscale';
 import type { StringOrNumber } from '../../../typings/common';
 import type { IPoint } from '../../../typings/coordinate';
 import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
+import type { LineAxisAttributes } from '@visactor/vrender-components';
 import type { IAxis, ITick } from '../interface';
 import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
 import type { DataSet } from '@visactor/vdataset';
@@ -28,11 +28,6 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     layoutZIndex: number;
     layoutLevel: number;
     protected _dataSet: DataSet;
-    layout3dBox?: {
-        width: number;
-        height: number;
-        length: number;
-    };
     protected _orient: IOrientType;
     getOrient(): IOrientType;
     protected getDefaultInteractive(): boolean;
@@ -42,7 +37,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected _scales: IBaseScale[];
     getScales(): IBaseScale[];
     protected _tick: ITick | undefined;
-    private _axisStyle;
+    protected _axisStyle: Partial<LineAxisAttributes>;
     private _latestBounds;
     private _verticalLimitSize;
     private _unitText;
@@ -61,11 +56,6 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     static createComponent(specInfo: IModelSpecInfo, options: IComponentOption): IAxis;
     initLayout(): void;
-    setLayout3dBox(box3d: {
-        width: number;
-        height: number;
-        length: number;
-    }): void;
     effect: IEffect;
     protected abstract computeDomain(data: {
         min: number;
@@ -77,15 +67,11 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected updateScaleRange(): boolean;
     init(option: IModelInitOption): void;
     setAttrFromSpec(): void;
-    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
     protected getSeriesStatisticsField(s: ICartesianSeries): string[];
     protected _tickTransformOption(): ICartesianTickDataOpt;
     protected axisHelper(): IAxisHelper;
     afterCompile(): void;
-    onRender(ctx: any): void;
-    changeRegions(regions: IRegion[]): void;
-    update(ctx: IComponentOption): void;
-    resize(ctx: IComponentOption): void;
     protected collectScale(): IBaseScale[];
     protected collectSeriesField(depth: number, series: ICartesianSeries): string | string[];
     protected updateSeriesScale(): void;
@@ -94,9 +80,10 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
         y: number;
     };
     _transformLayoutRect: (result: ILayoutRect) => ILayoutRect;
+    _transformLayoutPadding: (padding: IPadding) => IPadding;
     getBoundsInRect(rect: ILayoutRect): IBoundsLike;
     positionToData(pos: number, isViewPos?: boolean): any;
-    private _getTitleLimit;
+    protected _getTitleLimit(isX: boolean): number;
     protected _getUpdateAttribute(ignoreGrid: boolean): any;
     protected getLabelItems(length: number): any[];
     protected initEvent(): void;
@@ -104,6 +91,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected _getNormalizedValue(values: any[], length: number): number;
     private _fixAxisOnZero;
     protected _layoutCacheProcessing(rect: ILayoutRect): ILayoutRect;
+    reInit(spec?: T): void;
     _clearLayoutCache(): void;
     onDataUpdate(): void;
     private _appendAxisUnit;

@@ -8,5 +8,6 @@ export declare class RangeColumnChart<T extends IRangeColumnChartSpec = IRangeCo
     readonly transformerConstructor: typeof RangeColumnChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
+    protected _setModelOption(): void;
 }
 export declare const registerRangeColumnChart: () => void;

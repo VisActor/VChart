@@ -10,6 +10,9 @@ import type { ILayoutRect } from '../../../typings/layout';
 import type { StringOrNumber } from '../../../typings';
 export declare class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     static specKey: string;
+    static readonly builtInTheme: {
+        discreteLegend: import("./interface").IDiscreteLegendTheme;
+    };
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;

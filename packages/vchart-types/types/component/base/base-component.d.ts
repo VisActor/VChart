@@ -3,13 +3,11 @@ import type { IRegion } from '../../region/interface';
 import type { IComponent, IComponentOption } from '../interface';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IGroupMark } from '@visactor/vgrammar-core';
-import type { IAnimate } from '../../animation/interface';
 import type { Datum, ILayoutRect } from '../../typings';
 import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
 import { BaseComponentSpecTransformer } from './base-component-transformer';
-import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IModelSpecInfo } from '../../model/interface';
 export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {
     static transformerConstructor: typeof BaseComponentSpecTransformer;
     name: string;
@@ -22,12 +20,8 @@ export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> ex
     getRegions(): IRegion[];
     protected _container: IGroup;
     created(): void;
-    animate?: IAnimate;
-    constructor(spec: T, options: IComponentOption);
     initLayout(): void;
-    changeRegions(regions: IRegion[]): void;
     protected _getNeedClearVRenderComponents(): IGraphic[];
-    onRender(ctx: IModelRenderOption): void;
     getVRenderComponents(): IGraphic<Partial<IGraphicAttribute>>[];
     protected callPlugin(cb: (plugin: IComponentPlugin) => void): void;
     protected getContainer(): IGroup;
@@ -41,7 +35,7 @@ export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> ex
     release(): void;
     clear(): void;
     compile(): void;
-    compileMarks(group?: string | IGroupMark): void;
+    compileMarks(group?: IGroup): void;
     reAppendComponents(): void;
     protected _delegateEvent: (component: IGraphic, event: any, type: string, item?: any, datum?: Datum) => void;
     getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike;

@@ -1,12 +1,42 @@
-import { BaseMark } from './base/base-mark';
 import type { ILinkPathMarkSpec } from '../typings/visual';
-import type { ILinkPathMark, IMarkStyle } from './interface';
+import type { ILinkPathConfig, ILinkPathMark, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
-import type { IGroupMark } from '@visactor/vgrammar-core';
-export declare class LinkPathMark extends BaseMark<ILinkPathMarkSpec> implements ILinkPathMark {
+import { GlyphMark } from './glyph';
+import type { IGlyph } from '@visactor/vrender-core';
+import type { Datum } from '../typings/common';
+export declare const getHorizontalPath: (options: ILinkPathMarkSpec, ratio?: number) => string;
+export declare const getVerticalPath: (options: ILinkPathMarkSpec, ratio?: number) => string;
+export declare class LinkPathMark extends GlyphMark<ILinkPathMarkSpec, ILinkPathConfig> implements ILinkPathMark {
     static readonly type = MarkTypeEnum.linkPath;
     readonly type = MarkTypeEnum.linkPath;
     protected _getDefaultStyle(): IMarkStyle<ILinkPathMarkSpec>;
-    protected _initProduct(group?: string | IGroupMark): void;
+    protected _subMarks: {
+        back: {
+            type: string;
+            defaultAttributes: {
+                zIndex: number;
+            };
+        };
+        front: {
+            type: string;
+            defaultAttributes: {
+                zIndex: number;
+            };
+        };
+    };
+    protected _positionChannels: string[];
+    protected _channelEncoder: {
+        backgroundStyle: (val: any) => {
+            back: any;
+        };
+    };
+    protected _positionEncoder: (glyphAttrs: any, datum: Datum, g: IGlyph) => {
+        back: {
+            path: string;
+        };
+        front: {
+            path: string;
+        };
+    };
 }
 export declare const registerLinkPathMark: () => void;

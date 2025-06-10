@@ -8,3 +8,4 @@ export declare class GroupTooltipProcessor extends BaseTooltipProcessor {
     getMouseEventData(params: BaseEventParams): MouseEventData;
     protected _getGroupDatum(params: BaseEventParams): any;
 }
+export declare const registerGroupTooltipProcessor: () => void;
