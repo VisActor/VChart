@@ -21,4 +21,9 @@ export interface ICrosshairTheme extends ICommonCrosshairSpec {
   yField?: Partial<ICartesianCrosshairSpec['yField']>;
   categoryField?: Partial<IPolarCrosshairSpec['categoryField']>;
   valueField?: Partial<IPolarCrosshairSpec['valueField']>;
+  /**
+   * crosshair trigger配置
+   */
+  trigger?: ICommonCrosshairSpec['trigger'];
+  triggerOff?: ICommonCrosshairSpec['triggerOff'];
 }

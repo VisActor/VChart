@@ -13,7 +13,7 @@ export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & {
   'AreaChart',
   {
     type: 'area',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerAreaChart, registerLabel, registerTotalLabel, ...registers]
 );

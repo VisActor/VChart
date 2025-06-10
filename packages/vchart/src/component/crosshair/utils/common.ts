@@ -73,7 +73,7 @@ export function getDatumByValue(data: Datum[], value: number, startField: string
 
 export const getCartesianCrosshairTheme = (getTheme: (...keys: string[]) => any, chartSpec: any): ICrosshairTheme => {
   const axes: ICartesianAxisCommonSpec[] = array(chartSpec.axes ?? []);
-  const { bandField, linearField, xField, yField } =
+  const { bandField, linearField, xField, yField, trigger, triggerOff } =
     getComponentThemeFromOption(ComponentTypeEnum.crosshair, getTheme) ?? {};
 
   const xAxis = axes.find(axis => isXAxis(axis.orient));
@@ -92,15 +92,18 @@ export const getCartesianCrosshairTheme = (getTheme: (...keys: string[]) => any,
     newYField = yField;
   }
 
+  // 返回主题配置，包括交互相关配置
   return {
     xField: newXField,
-    yField: newYField
+    yField: newYField,
+    trigger,
+    triggerOff
   };
 };
 
 export const getPolarCrosshairTheme = (getTheme: (...keys: string[]) => any, chartSpec: any): ICrosshairTheme => {
   const axes: IPolarAxisCommonSpec[] = array(chartSpec.axes ?? []);
-  const { bandField, linearField, categoryField, valueField } =
+  const { bandField, linearField, categoryField, valueField, trigger, triggerOff } =
     getComponentThemeFromOption(ComponentTypeEnum.crosshair, getTheme) ?? {};
 
   const angleAxis = axes.find(axis => axis.orient === 'angle');
@@ -119,8 +122,11 @@ export const getPolarCrosshairTheme = (getTheme: (...keys: string[]) => any, cha
     newRadiusField = valueField;
   }
 
+  // 返回主题配置，包括交互相关配置
   return {
     categoryField: newAngleField,
-    valueField: newRadiusField
+    valueField: newRadiusField,
+    trigger,
+    triggerOff
   };
 };

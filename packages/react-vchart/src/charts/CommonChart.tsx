@@ -27,7 +27,7 @@ export const CommonChart = createChart<React.PropsWithChildren<CommonChartProps>
   'CommonChart',
   {
     type: 'common',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [
     registerCommonChart,

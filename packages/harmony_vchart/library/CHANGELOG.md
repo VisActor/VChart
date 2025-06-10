@@ -1,3 +1,50 @@
+# v1.13.11
+
+2025-05-29
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: add `barGap` option for histogram chart
+- **@visactor/vchart**: support tooltip.trigger and crosshair.trigger in theme
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix data-zoom domain when the label of band size is number-like string, fix [#3982](https://github.com/VisActor/VChart/issues/3982)
+- **@visactor/vchart**: fix the order of title in mark tooltip when dimension tooltip has no title, fix [#3991](https://github.com/VisActor/VChart/issues/3991)
+- **@visactor/vchart**: option `{ poptip: true }` should load `poptipForText`
+- **react-vchart**: when use children to render customized tooltip, react-vchart should update
+- **@visactor/vchart**: customized render of tooltip should be render in react 17 and react 18
+
+**🔖 other**
+
+- **@visactor/vchart**: fix:Replace all the vchartConstrouctor to vchartConstructor,and ensure backward compatibility with older versions.
+
+
+
+[more detail about v1.13.11](https://github.com/VisActor/VChart/releases/tag/v1.13.11)
+
+# v1.13.10
+
+2025-05-16
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: tooltip support inside position
+- **@visactor/vchart**: mosaic chart supports bandWidthField and percent config, closed [#3945](https://github.com/VisActor/VChart/issues/3945)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: export ManualTicker & StreamLight
+- **@visactor/vchart**: tooltip should hide when enterable, fix [#3965](https://github.com/VisActor/VChart/issues/3965), fix [#3922](https://github.com/VisActor/VChart/issues/3922)
+- **@visactor/vchart**: fix error of enterable tooltip when multiple charts in a page, fix [#3940](https://github.com/VisActor/VChart/issues/3940)
+- **@visactor/vchart**: upgrade vgrammar to 0.16.7, fix [#3965](https://github.com/VisActor/VChart/issues/3965)
+
+
+
+[more detail about v1.13.10](https://github.com/VisActor/VChart/releases/tag/v1.13.10)
+
 # v1.13.9
 
 2025-04-21

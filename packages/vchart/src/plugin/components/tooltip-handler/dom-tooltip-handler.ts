@@ -202,6 +202,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     const rowStyle = this._domStyle.row;
     const chilren = [...(this._rootDom.children as any)] as HTMLElement[];
     let titleDom = chilren.find(child => child.className.includes(TOOLTIP_TITLE_CLASS_NAME));
+    let contentDom = chilren.find(child => child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME));
 
     if (!titleDom && title.visible !== false) {
       titleDom = document.createElement('h2');
@@ -209,7 +210,13 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       titleDom.appendChild(span);
 
       titleDom.classList.add(TOOLTIP_TITLE_CLASS_NAME);
-      this._rootDom.appendChild(titleDom);
+
+      // 将 titleDom 插入到 this._rootDom 中作为第一个节点
+      if (this._rootDom.firstChild) {
+        this._rootDom.insertBefore(titleDom, this._rootDom.firstChild);
+      } else {
+        this._rootDom.appendChild(titleDom);
+      }
     }
 
     if (titleDom && title.visible !== false) {
@@ -223,7 +230,6 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       titleDom.parentNode.removeChild(titleDom);
     }
 
-    let contentDom = chilren.find(child => child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME));
     const columns = ['shape', 'key', 'value'];
 
     if (!contentDom && hasContent) {

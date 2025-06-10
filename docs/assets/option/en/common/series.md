@@ -90,6 +90,14 @@ Whether to offset the silhouette around the central axis. Useful for drawing som
 
 {{ /if }}
 
+{{ if: !${percent} }}
+
+#${prefix} percent(boolean)
+
+Whether to display the data as a percentage.
+
+{{ /if }}
+
 {{ if: !${noInvalidType} }}
 
 #${prefix} invalidType(string)
