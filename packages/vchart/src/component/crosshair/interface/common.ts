@@ -81,7 +81,7 @@ export interface ICrosshairInfo {
   visible: boolean;
   _isCache?: boolean;
   axis: IAxis;
-  axisLabel: IText;
+  axisLabel?: IText;
   /**
    * 半径轴对应的crosshair，当crosshair类型为多边形的时候，多边形的边数
    */
