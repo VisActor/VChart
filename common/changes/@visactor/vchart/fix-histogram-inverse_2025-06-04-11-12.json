@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: add inverse crosshair when set axes inverse",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
