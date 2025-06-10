@@ -189,25 +189,36 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return this._animationConfig;
   }
   setAnimationConfig(config: Partial<MarkAnimationSpec>) {
+    // group mark 动画默认只挂到自己
+    const defaultPrams = this.type === 'group' ? { selfOnly: true } : {};
+
     // 封装options，批量添加一些默认参数
-    const animationConfig = { ...config };
-    Object.keys(animationConfig).forEach(key => {
-      const value = (animationConfig as any)[key];
+    const animationConfig: Partial<MarkAnimationSpec> = {};
+
+    Object.keys(config).forEach(key => {
+      const value = (config as any)[key];
       if (isArray(value)) {
-        value.forEach(item => {
+        (animationConfig as any)[key] = value.map(item => {
           const options = item!.options ?? {};
-          item.options = (...args: any[]) => {
-            const _options = typeof options === 'function' ? options(...args) : options;
-            return {
-              ..._options,
-              layoutRect: (this.model as any).getLayoutRect?.()
-            };
+
+          return {
+            ...defaultPrams,
+            ...item,
+            options: (...args: any[]) => {
+              const _options = typeof options === 'function' ? options(...args) : options;
+              return {
+                ..._options,
+                layoutRect: (this.model as any).getLayoutRect?.()
+              };
+            }
           };
         });
+      } else {
+        (animationConfig as any)[key] = {
+          ...defaultPrams,
+          ...(config as any)[key]
+        };
       }
-      // if (isNil(animationConfig[key])) {
-      //   animationConfig[key] = {};
-      // }
     });
     this._animationConfig = animationConfig;
   }
