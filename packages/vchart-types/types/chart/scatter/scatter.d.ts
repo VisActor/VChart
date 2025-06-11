@@ -8,5 +8,6 @@ export declare class ScatterChart<T extends IScatterChartSpec = IScatterChartSpe
     readonly transformerConstructor: typeof ScatterChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
+    protected _setModelOption(): void;
 }
 export declare const registerScatterChart: () => void;

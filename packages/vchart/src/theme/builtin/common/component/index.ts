@@ -1,6 +1,6 @@
 import type { IComponentTheme } from '../../../../component/interface';
 import { axisBand } from './axis/band-axis';
-import { axisX, axisY, axisZ } from './axis/cartesian-axis';
+import { axisX, axisY } from './axis/cartesian-axis';
 import { commonAxis } from './axis/common-axis';
 import { axisLinear } from './axis/linear-axis';
 import { axisAngle, axisRadius } from './axis/polar-axis';
@@ -11,7 +11,6 @@ import { indicator } from './indicator';
 import { colorLegend } from './legend/color-legend';
 import { discreteLegend } from './legend/discrete-legend';
 import { sizeLegend } from './legend/size-legend';
-import { mapLabel } from './map-label';
 import { markArea } from './mark-area';
 import { markLine } from './mark-line';
 import { markPoint } from './mark-point';
@@ -31,7 +30,6 @@ export const component: IComponentTheme = {
   axisLinear,
   axisX,
   axisY,
-  axisZ,
   axisAngle,
   axisRadius,
   markLine: markLine,
@@ -48,7 +46,6 @@ export const component: IComponentTheme = {
   brush,
   indicator,
   title,
-  mapLabel,
   poptip,
   totalLabel,
   scrollBar

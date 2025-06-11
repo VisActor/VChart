@@ -6,10 +6,7 @@ import type { IComponentPluginService, IComponentPlugin } from '../../plugin/com
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
-import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant/event';
-import type { IAnimate } from '../../animation/interface';
-import { AnimateManager } from '../../animation/animate-manager';
 // import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import type { Datum, ILayoutRect } from '../../typings';
 import type { IComponentSpec } from './interface';
@@ -47,32 +44,17 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     this.pluginService = new ComponentPluginService(this);
   }
 
-  animate?: IAnimate;
-
-  constructor(spec: T, options: IComponentOption) {
-    super(spec, options);
-    // 创建组件自己的动画管理器
-    if (this._option.animation) {
-      this.animate = new AnimateManager({
-        getCompiler: options.getCompiler
-      });
-    }
-  }
-
   initLayout(): void {
     super.initLayout();
     this._regions = this._regions ?? this._option.getRegionsInIndex();
     this._layout && (this._layout.layoutBindRegionID = this._regions.map(x => x?.id));
   }
-
-  changeRegions(regions: IRegion[]): void {
-    throw new Error('Method not implemented.');
-  }
+  /**
+   * 当创建vrender组件时，reCompile 的时候需要清理老的组件，创建新的组件，需要通过这个返回
+   * 注意，像label 组件比较特殊，现在是通过componentMark 管理的，所以不需要通过这个接口被清理
+   */
   protected _getNeedClearVRenderComponents(): IGraphic[] {
-    throw new Error('Method not implemented.');
-  }
-  onRender(ctx: IModelRenderOption): void {
-    throw new Error('Method not implemented.');
+    return [];
   }
 
   getVRenderComponents() {
@@ -136,7 +118,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     this.reAppendComponents();
   }
 
-  compileMarks(group?: string | IGroupMark) {
+  compileMarks(group?: IGroup) {
     this.getMarks().forEach(m => {
       m.compile({ group, context: { model: this } });
     });

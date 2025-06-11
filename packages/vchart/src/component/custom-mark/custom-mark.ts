@@ -52,21 +52,8 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     if (!this._spec) {
       return;
     }
-    const series = this._option && this._option.getAllSeries();
     const hasAnimation = this._option.animation !== false;
-    const depend: IMark[] = [];
 
-    if (series && series.length) {
-      series.forEach(s => {
-        const marks = s && s.getMarksWithoutRoot();
-
-        if (marks && marks.length) {
-          marks.forEach(mark => {
-            depend.push(mark);
-          });
-        }
-      });
-    }
     let parentMark: IGroupMark | null = null;
     if (this._spec.parent) {
       const mark = this.getChart()
@@ -77,7 +64,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
       }
     }
     this._createExtensionMark(this._spec, parentMark, `${PREFIX}_series_${this.id}_extensionMark`, 0, {
-      depend,
       hasAnimation
     });
   }
@@ -87,7 +73,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     parentMark: null | IGroupMark,
     namePrefix: string,
     index: number = 0,
-    options: { hasAnimation?: boolean; depend?: IMark[] }
+    options: { hasAnimation?: boolean }
   ) {
     const mark = this._createMark(
       {
@@ -116,9 +102,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
       mark.setAnimationConfig(config);
     }
 
-    if (options.depend && options.depend.length) {
-      mark.setDepend(...options.depend);
-    }
     if (isNil(parentMark)) {
       this._marks.addMark(mark);
     } else if (parentMark) {
@@ -162,18 +145,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     return result;
   }
 
-  changeRegions(regions: IRegion[]): void {
-    // do nothing;
-  }
-
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [];
-  }
-
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing;
-  }
-
   private _getMarkAttributeContext() {
     return {
       vchart: this._option.globalInstance,
@@ -196,7 +167,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
       const product = mark.getProduct();
 
       if (product) {
-        bounds.union(product.getBounds());
+        bounds.union(product.AABBBounds);
       }
     });
 

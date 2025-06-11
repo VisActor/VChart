@@ -1,8 +1,6 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IPoint, Quadrant, TextAlign, TextBaseLine } from '../typings';
-import type { Datum } from '@visactor/vgrammar-core';
+import type { Datum, IPoint, TextAlign, TextBaseLine } from '../typings';
 import { isValidNumber } from './type';
-import { regressionLinear } from '@visactor/vgrammar-util';
 import {
   isNumberClose,
   isGreater,
@@ -12,7 +10,8 @@ import {
   median as visMedian,
   maxInArray,
   minInArray,
-  normalizeAngle
+  normalizeAngle,
+  regressionLinear
 } from '@visactor/vutils';
 import { angleLabelOrientAttribute } from '@visactor/vrender-components';
 export const isClose = isNumberClose;

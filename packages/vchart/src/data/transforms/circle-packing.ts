@@ -1,8 +1,8 @@
 import type { Datum } from '../../typings';
-import type { CirclePackingOptions } from '@visactor/vgrammar-hierarchy';
 
 // eslint-disable-next-line no-duplicate-imports
-import { CirclePackingLayout } from '@visactor/vgrammar-hierarchy';
+import type { CirclePackingOptions } from '@visactor/vlayouts';
+import { CirclePackingLayout } from '@visactor/vlayouts';
 
 export interface ICirclePackingOpt extends CirclePackingOptions {
   width: number;

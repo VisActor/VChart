@@ -92,7 +92,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   initRootDom() {
     const tooltipSpec = this._component.getSpec() as ITooltipSpec;
     const tooltipElement = document.createElement('div');
-    const globalTheme = this._chartOption?.getTheme() ?? {};
+    const themeFontFamily = this._chartOption?.getTheme('fontFamily');
 
     setStyleToDom(tooltipElement, {
       left: '0',
@@ -101,7 +101,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       padding: '12px',
       position: 'absolute',
       zIndex: DEFAULT_TOOLTIP_Z_INDEX,
-      fontFamily: (globalTheme?.fontFamily ?? token.fontFamily) as string,
+      fontFamily: (themeFontFamily ?? token.fontFamily) as string,
       fontSize: '11px',
       borderRadius: '3px',
       borderStyle: 'solid',

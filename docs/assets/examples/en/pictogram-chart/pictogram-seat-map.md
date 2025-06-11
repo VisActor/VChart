@@ -20,13 +20,23 @@ Pictogram charts are a form of data visualization that represent specific values
 ## Code Demo
 
 ```javascript livedemo
-/** --Add the following code when using in business context-- */
-// When using in business context, please additionally import
+/** --Please add the following code when using in your project-- */
+// For version 1.x, please additionally import and execute registerPictogramChart in your project
 // import { registerPictogramChart } from '@visactor/vchart';
 // registerPictogramChart();
-/** --Add the above code when using in business context-- */
-VCHART_MODULE.registerPictogramChart();
-/** --Delete the above code when using in business context-- */
+// For version 2.0.0, please additionally import and execute registerPictogramChart in your project
+// import { registerPictogramChart } from '@visactor/vchart-extension';
+// registerPictogramChart();
+/** --Please add the above code when using in your project-- */
+
+/** --Please remove the following code when using in your project-- */
+if (VCHART_MODULE.registerPictogramChart) {
+  // Execute registration code for version 1.x
+  VCHART_MODULE.registerPictogramChart();
+} else if (VChartExtension.registerPictogramChart) {
+  // Execute registration code for version 2.0.0
+  VChartExtension.registerPictogramChart();
+}
 
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/pictogram/cinema.svg');
 const cinema = await response.text();

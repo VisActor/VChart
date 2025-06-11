@@ -3,17 +3,22 @@ import type { LogScale } from '@visactor/vscale';
 import { LinearScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import { isValid, isValidNumber, last, mixin } from '@visactor/vutils';
-import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
+import type { IAxisHelper, ICartesianAxisCommonTheme, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
-import { registerLineAxis, registerLineGrid } from '@visactor/vgrammar-core';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
-import { continuousTicks } from '@visactor/vrender-components';
+import { continuousTicks, LineAxis, LineAxisGrid } from '@visactor/vrender-components';
 import { isXAxis, isZAxis } from './util';
 import { combineDomains, isPercent } from '../../../util';
+import type { VRenderComponentOptions } from '../../../core/interface';
+import type { IGroup } from '@visactor/vrender-core';
+import { AxisEnum, GridEnum } from '../interface';
+import { axisLinear } from '../../../theme/builtin/common/component/axis/linear-axis';
+import { axisX, axisY } from '../../../theme/builtin/common/component/axis/cartesian-axis';
+import { commonAxis } from '../../../theme/builtin/common/component/axis/common-axis';
 
 export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec>
   extends Pick<
@@ -36,6 +41,12 @@ export class CartesianLinearAxis<
   type = ComponentTypeEnum.cartesianLinearAxis;
 
   static specKey = 'axes';
+  static readonly builtInTheme: Record<string, ICartesianAxisCommonTheme> = {
+    axis: commonAxis,
+    axisLinear,
+    axisX,
+    axisY
+  };
 
   protected _zero: boolean = true;
   protected _nice: boolean = true;
@@ -145,8 +156,12 @@ export class CartesianLinearAxis<
 mixin(CartesianLinearAxis, LinearAxisMixin);
 
 export const registerCartesianLinearAxis = () => {
-  registerLineAxis();
-  registerLineGrid();
+  Factory.registerGraphicComponent(AxisEnum.lineAxis, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxis(attrs, options) as unknown as IGroup;
+  });
+  Factory.registerGraphicComponent(GridEnum.lineAxisGrid, (attrs: any, options: VRenderComponentOptions) => {
+    return new LineAxisGrid(attrs, options) as unknown as IGroup;
+  });
   registerAxis();
   Factory.registerComponent(CartesianLinearAxis.type, CartesianLinearAxis);
 };

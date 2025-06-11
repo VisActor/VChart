@@ -21,6 +21,7 @@ import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { registerPolarBandAxis, registerPolarLinearAxis } from '../../component/axis/polar';
+import { radar } from '../../theme/builtin/common/series/radar';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
@@ -42,6 +43,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
   type = SeriesTypeEnum.radar;
 
   static readonly mark: SeriesMarkMap = radarSeriesMark;
+  static readonly builtInTheme = { radar };
   static readonly transformerConstructor = LineLikeSeriesSpecTransformer as any;
   readonly transformerConstructor = LineLikeSeriesSpecTransformer;
 
@@ -58,18 +60,11 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
   }
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
-
     const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
     const seriesMark = this._spec.seriesMark ?? 'area';
-    this.initAreaMark(progressive, isAreaVisible && seriesMark === 'area');
-    this.initLineMark(progressive, seriesMark === 'line' || (seriesMark === 'area' && !isAreaVisible));
-    this.initSymbolMark(progressive, seriesMark === 'point');
+    this.initAreaMark(isAreaVisible && seriesMark === 'area');
+    this.initLineMark(seriesMark === 'line' || (seriesMark === 'area' && !isAreaVisible));
+    this.initSymbolMark(seriesMark === 'point');
   }
 
   initMarkStyle(): void {
@@ -87,19 +82,11 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
     });
   }
 
-  initAreaMark(progressive: IMarkProgressiveConfig, isSeriesMark: boolean) {
-    this._areaMark = this._createMark(
-      RadarSeries.mark.area,
-      {
-        groupKey: this._seriesField,
-        isSeriesMark,
-        stateSort: this._spec.area?.stateSort
-      },
-      {
-        ...progressive,
-        setCustomizedShape: this._spec.area?.customShape
-      }
-    ) as IAreaMark;
+  initAreaMark(isSeriesMark: boolean) {
+    this._areaMark = this._createMark(RadarSeries.mark.area, {
+      groupKey: this._seriesField,
+      isSeriesMark
+    }) as IAreaMark;
   }
 
   initAreaMarkStyle() {

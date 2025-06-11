@@ -10,6 +10,12 @@ export declare class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxis
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     static specKey: string;
+    static readonly builtInTheme: {
+        axis: import("../interface").IAxisCommonTheme;
+        axisBand: import("../interface").IBandAxisTheme;
+        axisAngle: import("./interface").IPolarAxisCommonTheme;
+        axisRadius: import("./interface").IPolarAxisCommonTheme;
+    };
     protected _scale: BandScale;
     protected _scales: BandScale[];
     protected computeDomain(data: {

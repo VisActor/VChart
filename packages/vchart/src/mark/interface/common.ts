@@ -2,16 +2,18 @@ import type { IGlobalScale } from '../../scale/interface';
 import type { ICommonSpec, VisualType, ValueType, FunctionType } from '../../typings/visual';
 import type { IModel } from '../../model/interface';
 import type { IBaseScale } from '@visactor/vscale';
-import type { MarkType } from './type';
+import type { MarkType, MarkTypeEnum } from './type';
 import type {
   ICompilableMark,
   ICompilableMarkOption,
+  IMarkConfig,
   IModelMarkAttributeContext,
   StateValueType
 } from '../../compile/mark/interface';
-import type { StringOrNumber } from '../../typings';
-import type { IMarkConfig } from '@visactor/vgrammar-core';
-import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { Datum, StringOrNumber } from '../../typings';
+import type { IGraphic } from '@visactor/vrender-core';
+import type { IGroupMark } from './mark';
+import type { IAnimationConfig } from '../../animation/interface';
 
 export interface VisualScaleType {
   scale: IBaseScale;
@@ -54,21 +56,144 @@ export type IMarkStateStyle<T extends ICommonSpec> = Record<StateValueType, Part
 export type IMarkStyle<T extends ICommonSpec> = {
   [key in keyof T]: MarkInputStyle<T[key]>;
 };
+
+export type DiffStateValues = 'update' | 'enter' | 'exit';
+
+export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear';
+
+export interface IGraphicContext {
+  markType: MarkTypeEnum;
+  /**
+   * 图形所属mark对应的id，自增id
+   */
+  markId: number;
+  /**
+   * 图形所属model对应的id，自增id
+   */
+  modelId: number;
+  /**
+   * 图形所属mark对应的用户设置id
+   */
+  markUserId?: number | string;
+  /**
+   * 图形所属model对应的用户设置id
+   */
+  modelUserId?: number | string;
+  /**
+   * 数据对比状态
+   */
+  diffState?: DiffStateValues;
+  /**
+   * 是否正在被复用的图元
+   */
+  reusing?: boolean;
+  /**
+   * 复用图元时，保存的上一次的旧属性（用于平滑的过渡动画）
+   */
+  lastAttrs?: Record<string, any>;
+  /**
+   * 用于判定这个图元是第几个，在OneByOne动画中控制顺序
+   */
+  indexKey?: string;
+  /**
+   * 差异的属性
+   */
+  diffAttrs?: Record<string, any>;
+  /**
+   * 更新后最终的属性
+   */
+  finalAttrs?: Record<string, any>;
+  /**
+   * 用于保存mark对应series的fieldX
+   */
+  fieldX?: string[];
+  /**
+   * 用于保存mark对应series的fieldX
+   */
+  originalFieldX?: string[];
+  /**
+   * 用于保存mark对应series的fieldY
+   */
+  fieldY?: string[];
+  /**
+   * 用于保存mark对应series的fieldY
+   */
+  originalFieldY?: string[];
+  /**
+   * 动画状态管理: 'appear' / 'enter' / 'update' / 'exit' / 'disappear'
+   */
+  animationState?: AnimationStateValues;
+  /**
+   * 数据
+   */
+  data?: Datum[];
+  /**
+   * 用于区分图形的唯一key，
+   * 对于line/mark而言，和`groupKey` 是一致的
+   * 对于其他图元，由 `groupKey` 和 `key` 拼装得到
+   */
+  uniqueKey?: string;
+  /**
+   * 唯一key
+   */
+  key?: string;
+  /**
+   * 分组key
+   */
+  groupKey?: string;
+  /**
+   * 状态
+   */
+  states?: string[];
+  /**
+   * 图元总数量
+   */
+  graphicCount?: number;
+  /**
+   * 图元索引顺序
+   */
+  graphicIndex?: number;
+  /**
+   * 状态动画配置
+   */
+  stateAnimateConfig?: IAnimationConfig | IAnimationConfig[];
+}
+
+export interface IMarkGraphic extends IGraphic {
+  /**
+   * 缓存运行时的状态编码数据
+   */
+  runtimeStateCache?: Record<string, any>;
+
+  /**
+   * 上下文数据
+   */
+  context?: IGraphicContext;
+
+  /**
+   * 是否正在退场
+   */
+  isExiting?: boolean;
+}
+
 /**********   mark  ***************/
 export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   readonly stateStyle: IMarkStateStyle<T>;
 
-  getAttribute: <U extends keyof T>(key: U, datum: any, state?: StateValueType, opt?: any) => unknown;
+  getAttributesOfState: (datum: Datum, state?: StateValueType) => Partial<T>;
+  getAttribute: <U extends keyof T>(key: U, datum: any, state?: StateValueType) => unknown;
   setAttribute: <U extends keyof T>(attr: U, style: StyleConvert<T[U]>, state?: StateValueType, level?: number) => void;
 
   // 需要支持优先级并且可以使用优先级覆盖
   /** @deprecated VChart 层尽量使用 IModel.setMarkStyle() */
   setStyle: (style: Partial<IMarkStyle<T>>, state?: StateValueType, level?: number) => void;
+  setSimpleStyle: (s: T) => void;
+  getSimpleStyle: () => T;
 
-  setReferer: (mark: IMarkRaw<T>, styleKey?: string, state?: StateValueType, stateStyle?: IMarkStateStyle<T>) => void;
+  setReferer: (mark: IMarkRaw<T>, styleKey?: string, state?: StateValueType) => void;
 
   /** @deprecated VChart 层尽量使用 IModel.initMarkStyleWithSpec() */
-  initStyleWithSpec: (spec: any, key?: string) => void;
+  initStyleWithSpec: (spec: any) => void;
 
   created: () => void;
 
@@ -77,6 +202,38 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     postProcessFunc: IAttrConfig<A, T>['postProcess'],
     state?: StateValueType
   ) => void;
+
+  /** 更新某一个状态 */
+  updateMarkState: (key: string) => void;
+
+  render: () => void;
+  renderInner: () => void;
+
+  getGraphics: () => IMarkGraphic[];
+
+  reuse: (mark: IMark) => void;
+  prepareMorph: (mark: IMark) => void;
+
+  clearExitGraphics: () => void;
+
+  /** 是否启动了增量渲染模式 */
+  isProgressive: () => boolean;
+  /** 是否正在执行增量渲染 */
+  isDoingProgressive: () => boolean;
+  /** 清除增量渲染相关状态 */
+  clearProgressive: () => void;
+  /** 从第一帧开始增量计算 */
+  restartProgressive: () => void;
+  /** 分片执行 */
+  renderProgressive: () => void;
+  /** 增量流程后，是否执行动画 */
+  canAnimateAfterProgressive: () => boolean;
+  /** 更新图元动画状态 */
+  updateAnimationState: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
+  /** 执行动画 */
+  runAnimation: () => void;
+  /** 是否需要清除旧的数据 */
+  needClear?: boolean;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;
@@ -91,8 +248,6 @@ export interface ICompileMarkConfig extends IMarkConfig {
    * 是否支持 3d
    */
   support3d?: boolean;
-  /* customized shape of mark  */
-  setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
   /**
    * 裁剪配置
    * @since 1.10.0
@@ -112,6 +267,9 @@ export interface IMarkOption extends ICompilableMarkOption {
   /** 组件 mark 的具体类型 */
   componentType?: string;
   attributeContext?: IModelMarkAttributeContext;
+
+  /** 父级 mark */
+  parent?: IGroupMark | false;
 }
 export interface IMarkConstructor {
   type: MarkType;
@@ -171,4 +329,42 @@ export interface IMarkOverlap {
    * @default false
    */
   markOverlap?: boolean;
+}
+
+export type GroupedData<T> = {
+  // iterating over array is faster than set
+  keys: string[];
+  // operation on map is faster than object
+  data: Map<string, T[]>;
+};
+
+export interface IProgressiveTransformResult<Output = any> {
+  /** is progressive finished */
+  unfinished: () => boolean;
+  /** return all the result */
+  output: () => Output;
+  /** the output result of current progressive run */
+  progressiveOutput: () => Output;
+  /** run in progressive mode */
+  progressiveRun: () => void;
+  /** release the progressive context */
+  release: () => void;
+  /**
+   * can animate after progressive
+   */
+  canAnimate?: () => boolean;
+}
+
+export type IMarkDataTransform<Options = any, Input = any, Output = any> = (
+  options: Options,
+  data: Input
+) => Output | IProgressiveTransformResult<Output>;
+
+export interface ProgressiveContext {
+  currentIndex: number;
+  totalStep: number;
+  step: number;
+  data: any[];
+  groupKeys?: string[];
+  groupedData?: Map<string, any[]>;
 }

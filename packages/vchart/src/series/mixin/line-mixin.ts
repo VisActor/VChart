@@ -31,9 +31,9 @@ import type { EventCallback, EventParams } from '../../event/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
 import type { IRegion } from '../../region/interface';
-import type { SeriesData } from '../base/series-data';
 import { mergeSpec } from '@visactor/vutils-extension';
 import type { ILineLikeSeriesTheme } from './interface';
+import type { ICompilableData } from '../../compile/data';
 
 export interface LineLikeSeriesMixin extends ISeries {
   _spec: any;
@@ -44,7 +44,7 @@ export interface LineLikeSeriesMixin extends ISeries {
   _invalidType: IInvalidType;
   _region: IRegion;
   _direction: DirectionType;
-  _data: SeriesData;
+  _data: ICompilableData;
 
   _lineMark: ILineMark;
   _symbolMark: ISymbolMark;
@@ -65,19 +65,21 @@ export class LineLikeSeriesMixin {
   addSamplingCompile(): void {
     if (this._spec.sampling) {
       const { width, height } = this._region.getLayoutRect();
-      const samplingTrans = [];
       const fieldsY = this._fieldY;
       const fieldsX = this._fieldX;
 
-      samplingTrans.push({
-        type: 'sampling',
-        size: this._direction === Direction.horizontal ? height : width,
-        factor: this._spec.samplingFactor,
-        yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
-        groupBy: this._seriesField,
-        mode: this._spec.sampling
-      });
-      this._data.getProduct().transform(samplingTrans);
+      if (this._data) {
+        this._data.setTransform([
+          {
+            type: 'dataSampling',
+            size: this._direction === Direction.horizontal ? height : width,
+            factor: this._spec.samplingFactor,
+            yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
+            groupBy: this._seriesField,
+            mode: this._spec.sampling
+          }
+        ]);
+      }
     }
   }
 
@@ -85,13 +87,13 @@ export class LineLikeSeriesMixin {
     if (this._spec.markOverlap) {
       const overlapTrans = [];
       overlapTrans.push({
-        type: 'markoverlap',
+        type: 'symbolOverlap',
         direction: this._direction === Direction.horizontal && this.coordinate === 'cartesian' ? 2 : 1,
         delta: this._spec.pointDis,
         deltaMul: this._spec.pointDisMul,
         groupBy: this._seriesField
       });
-      this._symbolMark?.getProduct().transform(overlapTrans);
+      this._symbolMark?.setTransform(overlapTrans);
     }
   }
 
@@ -101,17 +103,14 @@ export class LineLikeSeriesMixin {
     }
   }
 
-  initLineMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
+  initLineMark(isSeriesMark?: boolean) {
     this._lineMark = this._createMark(
       lineLikeSeriesMark.line,
       {
         groupKey: this._seriesField,
-        isSeriesMark: isSeriesMark ?? true,
-        stateSort: this._spec.line?.stateSort
+        isSeriesMark: isSeriesMark ?? true
       },
       {
-        ...progressive,
-        setCustomizedShape: this._spec.line?.customShape,
         morphElementKey: this.getDimensionField()[0]
       }
     ) as ILineMark;
@@ -222,7 +221,7 @@ export class LineLikeSeriesMixin {
     }
   }
 
-  initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean) {
+  initSymbolMark(isSeriesMark?: boolean) {
     const pointSpec = this._spec.point || {};
 
     if (pointSpec.visible !== false) {
@@ -230,12 +229,9 @@ export class LineLikeSeriesMixin {
         lineLikeSeriesMark.point,
         {
           groupKey: this._seriesField,
-          isSeriesMark: !!isSeriesMark,
-          stateSort: pointSpec.stateSort
+          isSeriesMark: !!isSeriesMark
         },
         {
-          ...progressive,
-          setCustomizedShape: pointSpec.customShape,
           morph: shouldMarkDoMorph(this._spec, lineLikeSeriesMark.point.name),
           morphElementKey: this.getDimensionField()[0]
         }
@@ -251,11 +247,9 @@ export class LineLikeSeriesMixin {
           groupKey: this._seriesField,
           isSeriesMark: false,
           dataView: activeData,
-          parent: this._region.getInteractionMark(),
-          stateSort: pointSpec.stateSort
+          parent: this._region.getInteractionMark()
         },
         {
-          setCustomizedShape: pointSpec.customShape,
           morph: false
         }
       ) as ISymbolMark;
@@ -430,9 +424,7 @@ export class LineLikeSeriesMixin {
       this.setMarkStyle(mark, { [attr]: this._getInvalidDefined.bind(this) }, 'normal', AttributeLevel.Series);
     }
     // if has produce, reCompile encode to set attribute to product
-    if (mark.getProduct()) {
-      mark.compileEncode();
-    }
+    mark.compileEncode();
   }
 
   protected _isFieldAllValid() {

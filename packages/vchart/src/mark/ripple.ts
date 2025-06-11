@@ -1,14 +1,15 @@
 import { Factory } from './../core/factory';
-import { BaseMark } from './base/base-mark';
 import type { IRippleMarkSpec } from '../typings/visual';
 import type { IMarkStyle, IRippleMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerRippleGlyph } from '@visactor/vgrammar-core';
-// eslint-disable-next-line no-duplicate-imports
-import type { IGroupMark } from '@visactor/vgrammar-core';
+import { GlyphMark, registerGlyphMark } from './glyph';
+import type { Datum } from '../typings/common';
+import { createSymbol, type IGlyph, type ISymbolGraphicAttribute } from '@visactor/vrender-core';
+import { clamp } from '@visactor/vutils';
+import { registerSymbol } from '@visactor/vrender-kits';
 
-export class RippleMark extends BaseMark<IRippleMarkSpec> implements IRippleMark {
+export class RippleMark extends GlyphMark<IRippleMarkSpec> implements IRippleMark {
   static readonly type = MarkTypeEnum.ripple;
   readonly type = RippleMark.type;
 
@@ -22,18 +23,45 @@ export class RippleMark extends BaseMark<IRippleMarkSpec> implements IRippleMark
     return defaultStyle;
   }
 
-  protected _initProduct(group?: string | IGroupMark) {
-    const view = this.getVGrammarView();
+  protected _subMarks = {
+    ripple0: {
+      type: 'symbol',
+      defaultAttributes: {
+        fillOpacity: 0.75
+      }
+    },
+    ripple1: {
+      type: 'symbol',
+      defaultAttributes: {
+        fillOpacity: 0.5
+      }
+    },
+    ripple2: {
+      type: 'symbol',
+      defaultAttributes: {
+        fillOpacity: 0.25
+      }
+    }
+  };
 
-    // 声明语法元素
-    const id = this.getProductId();
-    const glyphType = 'ripplePoint';
-    this._product = view.glyph(glyphType, group ?? view.rootMark).id(id);
-    this._compiledProductId = id;
-  }
+  protected _positionChannels: string[] = ['ripple', 'size'];
+
+  protected _positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
+    const { ripple = (g.attribute as any).ripple, size = (g.attribute as any).size } = glyphAttrs;
+    const r = clamp(ripple, 0, 1);
+    const rippleSize = size * 0.5;
+
+    return {
+      ripple0: { size: size + rippleSize * r, fillOpacity: 0.75 - r * 0.25 },
+      ripple1: { size: size + rippleSize * (1 + r), fillOpacity: 0.5 - r * 0.25 },
+      ripple2: { size: size + rippleSize * (2 + r), fillOpacity: 0.25 - r * 0.25 }
+    };
+  };
 }
 
 export const registerRippleMark = () => {
+  registerGlyphMark();
+  registerSymbol();
   Factory.registerMark(RippleMark.type, RippleMark);
-  registerRippleGlyph();
+  Factory.registerGraphicComponent('symbol', (attrs: ISymbolGraphicAttribute) => createSymbol(attrs));
 };

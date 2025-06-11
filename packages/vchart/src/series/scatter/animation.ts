@@ -1,7 +1,7 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { Factory } from '../../core/factory';
 import { ScaleInOutAnimation } from '../../animation/config';
 import type { IScatterAnimationParams, ScatterAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 export const scatterPresetAnimation = (
   _params: IScatterAnimationParams, // 此处仅为保持结构统一

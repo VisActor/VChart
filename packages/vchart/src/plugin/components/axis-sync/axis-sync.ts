@@ -75,6 +75,15 @@ export class AxisSyncPlugin
         targetAxis: () => targetAxis,
         currentAxis: () => axis
       };
+      const targetDataView = targetAxis.getTickData()?.getDataView();
+      // 目标数据更新后，需要再次更新
+      if (targetDataView) {
+        targetDataView.target.addListener('change', () => {
+          axis.getTickData()?.getDataView()?.reRunAllTransform({
+            skipEqual: true
+          });
+        });
+      }
       // only make this one follow target
       axis.addTransformToTickData({ type: 'tickAlign', options: opt, level: Number.MAX_SAFE_INTEGER }, false);
     }

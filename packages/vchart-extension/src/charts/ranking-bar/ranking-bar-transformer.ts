@@ -108,7 +108,7 @@ export function processData(spec: IRankingBarSpec) {
     if (currentData.length < topN) {
       const _d = { ...d };
       if (icon && icon[_d[yField]]) {
-        _d['icon'] = icon[_d[yField]];
+        _d.icon = icon[_d[yField]];
       }
       currentData.push(_d);
     }
@@ -218,18 +218,18 @@ function axisSpec(xAxis: IRankingBarSpec['xAxis'] = {}, yAxis: IRankingBarSpec['
     orient: 'left',
     type: 'band',
     inverse: true,
-    label: { style: yAxis.label },
+    label: { style: yAxis.label as any },
     domainLine: { style: yAxis.domainLine },
-    grid: { style: yAxis.grid }
+    grid: { style: yAxis.grid as any }
   };
   const bottomAxis: ICartesianAxisSpec = {
     orient: 'bottom',
     type: 'linear',
     nice: false,
     animation: true,
-    label: { style: xAxis.label },
+    label: { style: xAxis.label as any },
     domainLine: { style: xAxis.domainLine },
-    grid: { style: xAxis.grid },
+    grid: { style: xAxis.grid as any },
     innerOffset: { right: '10%' }
   };
 
@@ -295,9 +295,8 @@ function iconSpec(
             return bandwidth / 2;
           } else if (iconPosition === 'axis') {
             return -bandwidth / 2;
-          } else {
-            return series.dataToPositionX(data) - bandwidth / 2;
           }
+          return series.dataToPositionX(data) - bandwidth / 2;
         }
         return undefined;
       },

@@ -28,6 +28,20 @@ option: funnel3dChart
 ## 代码演示
 
 ```javascript livedemo
+/**
+ * 自2.0.0版本后，3d图表从vchart-extension中引入
+ *
+ * import { registerFunnel3dChart } from '@visactor/vchart-extension';
+ *
+ * registerFunnel3dChart();
+ */
+
+/** --Remove the following code when using in business-- */
+if (VChartExtension.registerFunnel3dChart) {
+  VChartExtension.registerFunnel3dChart();
+}
+/** --Remove the above code when using in business-- */
+
 const spec = {
   padding: {
     top: 30

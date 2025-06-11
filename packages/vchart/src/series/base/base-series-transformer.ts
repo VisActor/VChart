@@ -38,20 +38,18 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
 
   getTheme(spec: T, chartSpec: any): K {
     const direction = getDirectionFromSeriesSpec(spec);
-    const chartTheme = this._option?.getTheme();
-    const { markByName, mark } = chartTheme;
+    const getTheme = this._option?.getTheme;
+    // const { markByName, mark } = chartTheme;
     const type = this._option.type;
     // 基本主题
     const seriesMarkMap = Factory.getSeriesMarkMap(type);
 
-    const theme = seriesMarkMap
-      ? transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName)
-      : {};
+    const theme = seriesMarkMap ? transformSeriesThemeToMerge(getTheme('series', type), type, getTheme) : {};
     // 区分方向的主题
-    const themeWithDirection = get(chartTheme, `series.${type}_${direction}`);
+    const themeWithDirection = getTheme('series', `${type}_${direction}`);
     // stack 状态下的主题
     const stack = this.stack ?? themeWithDirection?.stack ?? theme?.stack;
-    const themeWithStack = stack ? get(chartTheme, `series.${type}_stack`) : undefined;
+    const themeWithStack = stack ? getTheme('series', `${type}_stack`) : undefined;
     return mergeSpec({}, theme, themeWithDirection, themeWithStack);
   }
 
@@ -87,7 +85,7 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
 
   protected _addMarkLabelSpec<V extends ISeries = ISeries>(
     spec: T,
-    markName: SeriesMarkNameEnum | ((spec: ILabelSpec) => SeriesMarkNameEnum),
+    markName: string | ((spec: ILabelSpec) => string),
     labelSpecKey: keyof T = 'label' as any,
     styleHandlerName: keyof V = 'initLabelMarkStyle',
     hasAnimation: boolean = true,

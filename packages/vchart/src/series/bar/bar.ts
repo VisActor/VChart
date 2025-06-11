@@ -19,7 +19,7 @@ import { getRegionStackGroup } from '../../util/data';
 import { getActualNumValue } from '../../util/space';
 import { registerBarAnimation } from './animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
-import type { BarAppearPreset, IBarAnimationParams, IBarSeriesSpec } from './interface';
+import type { BarAppearPreset, IBarAnimationParams, IBarSeriesSpec, IBarSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { SeriesMarkMap } from '../interface';
@@ -31,27 +31,30 @@ import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
 import { Factory } from '../../core/factory';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { SeriesData } from '../base/series-data';
 import { DataView } from '@visactor/vdataset';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
-import { registerSampleTransform } from '@visactor/vgrammar-core';
 import { getGroupAnimationParams } from '../util/utils';
 import { BarSeriesSpecTransformer } from './bar-transformer';
 import { ComponentTypeEnum } from '../../component/interface';
 import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
 import { createRect } from '@visactor/vrender-core';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import type { ICompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data';
+import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
 import { maxInArr, minInArr } from '../../util/array';
+import { bar } from '../../theme/builtin/common/series/bar';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
 export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.bar;
-  type = SeriesTypeEnum.bar;
-  protected _barMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.bar;
-  protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
+  type: string = SeriesTypeEnum.bar;
+  protected _barMarkName: string = SeriesMarkNameEnum.bar;
+  protected _barMarkType: string = MarkTypeEnum.rect;
 
+  static readonly builtInTheme: Record<string, IBarSeriesTheme> = { bar };
   static readonly mark: SeriesMarkMap = barSeriesMark;
   static readonly transformerConstructor = BarSeriesSpecTransformer as any;
   readonly transformerConstructor = BarSeriesSpecTransformer;
@@ -60,7 +63,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barMark!: IRectMark;
   protected _barBackgroundMark!: IRectMark;
 
-  protected _barBackgroundViewData: SeriesData;
+  protected _barBackgroundViewData: ICompilableData;
 
   initMark(): void {
     this._initBarBackgroundMark();
@@ -73,38 +76,21 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       },
       {
         groupKey: this._seriesField,
-        isSeriesMark: true,
-        stateSort: this._spec.bar?.stateSort
+        isSeriesMark: true
       },
       {
-        progressiveStep: this._spec.progressiveStep,
-        progressiveThreshold: this._spec.progressiveThreshold,
-        large: this._spec.large,
-        largeThreshold: this._spec.largeThreshold,
         morphElementKey: this.getDimensionField()[0],
-        morph: shouldMarkDoMorph(this._spec, this._barMarkName),
-        setCustomizedShape: this._spec.bar?.customShape
+        morph: shouldMarkDoMorph(this._spec, this._barMarkName)
       }
     ) as IRectMark;
   }
 
   protected _initBarBackgroundMark(): void {
     if (this._spec.barBackground && this._spec.barBackground.visible) {
-      this._barBackgroundMark = this._createMark(
-        BarSeries.mark.barBackground,
-        {
-          dataView: this._barBackgroundViewData.getDataView(),
-          dataProductId: this._barBackgroundViewData.getProductId(),
-          stateSort: this._spec.barBackground.stateSort
-        },
-        {
-          setCustomizedShape: this._spec.barBackground.customShape,
-          progressiveStep: this._spec.progressiveStep,
-          progressiveThreshold: this._spec.progressiveThreshold,
-          large: this._spec.large,
-          largeThreshold: this._spec.largeThreshold
-        }
-      ) as IRectMark;
+      this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
+        dataView: this._barBackgroundViewData.getDataView(),
+        dataProductId: this._barBackgroundViewData.getProductId()
+      }) as IRectMark;
     }
   }
 
@@ -265,7 +251,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
       viewData?.target.addListener('change', barBackgroundData.reRunAllTransform);
     }
-    this._barBackgroundViewData = new SeriesData(this._option, barBackgroundData);
+    this._barBackgroundViewData = new CompilableData(this._option, barBackgroundData);
   }
 
   init(option: IModelInitOption): void {
@@ -857,8 +843,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     );
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     const region = this.getRegion();
     // @ts-ignore
     region._bar_series_position_calculated = false;
@@ -867,24 +853,32 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
   }
 
+  onDataUpdate(): void {
+    super.onDataUpdate();
+
+    const region = this.getRegion();
+    // @ts-ignore
+    region._bar_series_position_calculated = false;
+  }
+
   compile(): void {
     super.compile();
 
     if (this._spec.sampling) {
       const { width, height } = this._region.getLayoutRect();
-      const samplingTrans = [];
       const fieldsY = this._fieldY;
       const fieldsX = this._fieldX;
 
-      samplingTrans.push({
-        type: 'sampling',
-        size: this._direction === Direction.horizontal ? height : width,
-        factor: this._spec.samplingFactor,
-        yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
-        groupBy: this._seriesField,
-        mode: this._spec.sampling
-      });
-      this._data.getProduct().transform(samplingTrans);
+      this._data.setTransform([
+        {
+          type: 'sampling',
+          size: this._direction === Direction.horizontal ? height : width,
+          factor: this._spec.samplingFactor,
+          yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
+          groupBy: this._seriesField,
+          mode: this._spec.sampling
+        }
+      ]);
     }
   }
 
@@ -920,7 +914,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 }
 
 export const registerBarSeries = () => {
-  registerSampleTransform();
+  registerDataSamplingTransform();
   registerRectMark();
   registerBarAnimation();
   registerCartesianBandAxis();

@@ -1,7 +1,4 @@
 import { Matrix, isValid, isValidNumber } from '@visactor/vutils';
-/* eslint-disable no-duplicate-imports */
-import type { FeatureData } from '@visactor/vgrammar-core';
-import { registerProjection } from '@visactor/vgrammar-projection';
 import { DataView } from '@visactor/vdataset';
 import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
@@ -15,8 +12,7 @@ import { DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX } from '../../constant/da
 import { AttributeLevel } from '../../constant/attribute';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IMapSeriesSpec } from './interface';
-import { SeriesData } from '../base/series-data';
+import type { FeatureData, IMapSeriesSpec } from './interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
@@ -27,12 +23,15 @@ import { registerGeoCoordinate } from '../../component/geo';
 import type { ILabelMark, IMark, IPathMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
 import { MapSeriesSpecTransformer } from './map-transformer';
+import { CompilableData } from '../../compile/data';
+import { map as mapTheme } from '../../theme/builtin/common/series/map';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
   type = SeriesTypeEnum.map;
 
   static readonly mark: SeriesMarkMap = mapSeriesMark;
+  static readonly builtInTheme = { map: mapTheme };
   static readonly transformerConstructor = MapSeriesSpecTransformer as any;
   readonly transformerConstructor = MapSeriesSpecTransformer;
 
@@ -106,7 +105,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
             if (datum) {
               Object.keys(datum).forEach(key => {
                 if (!(key in feature)) {
-                  feature[key] = datum[key];
+                  (feature as any)[key] = datum[key];
                 }
               });
             }
@@ -114,7 +113,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
         }
       });
     this._data?.getDataView().target.addListener('change', mapData.reRunAllTransform);
-    this._mapViewData = new SeriesData(this._option, mapData);
+    this._mapViewData = new CompilableData(this._option, mapData);
   }
 
   compileData() {
@@ -129,15 +128,15 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       {
         groupKey: this.getDimensionField()[0],
         isSeriesMark: true,
-        skipBeforeLayouted: true,
-        dataView: this._mapViewData.getDataView(),
-        dataProductId: this._mapViewData.getProductId()
+        skipBeforeLayouted: true
       },
       {
         morph: shouldMarkDoMorph(this._spec, MapSeries.mark.area.name),
         morphElementKey: this.getDimensionField()[0]
       }
     ) as IPathMark;
+
+    this._pathMark.setData(this._mapViewData);
   }
 
   initMarkStyle() {
@@ -245,7 +244,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       return;
     }
 
-    const pathGroup = this.getRootMark().getProduct()?.getGroupGraphicItem();
+    const pathGroup = this.getRootMark().getProduct();
     if (pathGroup) {
       if (!pathGroup.attribute.postMatrix) {
         pathGroup.setAttributes({
@@ -254,10 +253,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       }
       pathGroup.scale(scale, scale, scaleCenter);
     }
-    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+    const vgrammarLabel = this._labelMark?.getComponent();
 
     if (vgrammarLabel) {
-      (vgrammarLabel as any).evaluate(null, null);
+      vgrammarLabel.renderInner();
     }
   }
 
@@ -266,7 +265,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     if (delta[0] === 0 && delta[1] === 0) {
       return;
     }
-    const pathGroup = this.getRootMark().getProduct()?.getGroupGraphicItem();
+    const pathGroup = this.getRootMark().getProduct();
     if (pathGroup) {
       if (!pathGroup.attribute.postMatrix) {
         pathGroup.setAttributes({
@@ -275,10 +274,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       }
       pathGroup.translate(delta[0], delta[1]);
     }
-    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+    const vgrammarLabel = this._labelMark?.getComponent();
 
     if (vgrammarLabel) {
-      (vgrammarLabel as any).evaluate(null, null);
+      vgrammarLabel.renderInner();
     }
   }
 
@@ -349,7 +348,6 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
 export const registerMapSeries = () => {
   // 注册语法元素
-  registerProjection();
   registerGeoCoordinate();
   registerPathMark();
   Factory.registerSeries(MapSeries.type, MapSeries);

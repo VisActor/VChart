@@ -24,6 +24,24 @@ Shopping Mall Tenant Layout pictogram displays the distribution of different bus
 ## Code Demo
 
 ```javascript livedemo
+/** --Please add the following code when using in your project-- */
+// For version 1.x, please additionally import and execute registerPictogramChart in your project
+// import { registerPictogramChart } from '@visactor/vchart';
+// registerPictogramChart();
+// For version 2.0.0, please additionally import and execute registerPictogramChart in your project
+// import { registerPictogramChart } from '@visactor/vchart-extension';
+// registerPictogramChart();
+/** --Please add the above code when using in your project-- */
+
+/** --Please remove the following code when using in your project-- */
+if (VCHART_MODULE.registerPictogramChart) {
+  // Execute registration code for version 1.x
+  VCHART_MODULE.registerPictogramChart();
+} else if (VChartExtension.registerPictogramChart) {
+  // Execute registration code for version 2.0.0
+  VChartExtension.registerPictogramChart();
+}
+
 // Use the fetch API to get SVG graphic data
 const response = await fetch('https://cdn.jsdelivr.net/gh/EchoChenGithub/images/mallmap_withoutcolor.svg');
 // Parse the response text content into an SVG graphic

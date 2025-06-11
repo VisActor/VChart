@@ -19,6 +19,7 @@ import type { ICellMark, IMark, ITextMark } from '../../mark/interface';
 import { getGroupAnimationParams } from '../util/utils';
 import { HeatmapSeriesSpecTransformer } from './heatmap-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { heatmap } from '../../theme/builtin/common/series/heatmap';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -27,6 +28,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
   type = SeriesTypeEnum.heatmap;
 
   static readonly mark: SeriesMarkMap = heatmapSeriesMark;
+  static readonly builtInTheme = { heatmap };
   static readonly transformerConstructor = HeatmapSeriesSpecTransformer as any;
   readonly transformerConstructor = HeatmapSeriesSpecTransformer;
 
@@ -47,37 +49,18 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
   }
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
-
     this._cellMark = this._createMark(
       HeatmapSeries.mark.cell,
       {
-        isSeriesMark: true,
-        stateSort: this._spec.cell?.stateSort
+        isSeriesMark: true
       },
       {
-        ...progressive,
-        setCustomizedShape: this._spec.cell?.customShape,
         morph: shouldMarkDoMorph(this._spec, HeatmapSeries.mark.cell.name),
         morphElementKey: this.getDimensionField()[0]
       }
     ) as ICellMark;
 
-    this._backgroundMark = this._createMark(
-      HeatmapSeries.mark.cellBackground,
-      {
-        stateSort: this._spec.cellBackground?.stateSort
-      },
-      {
-        ...progressive,
-        setCustomizedShape: this._spec.cellBackground?.customShape
-      }
-    ) as ICellMark;
+    this._backgroundMark = this._createMark(HeatmapSeries.mark.cellBackground) as ICellMark;
   }
 
   initMarkStyle(): void {
@@ -155,8 +138,8 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     };
   }
 
-  initInteraction(): void {
-    this._parseInteractionConfig(this._cellMark ? [this._cellMark] : []);
+  getInteractionTriggers() {
+    return this._parseInteractionConfig(this._cellMark ? [this._cellMark] : []);
   }
 
   initAnimation() {

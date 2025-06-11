@@ -1,10 +1,9 @@
-import type { Datum } from '@visactor/vgrammar-core';
 import { degreeToRadian, isNil, isValid, isValidNumber, binaryFuzzySearch } from '@visactor/vutils';
 import { SEGMENT_FIELD_START, STACK_FIELD_END, STACK_FIELD_START } from '../../../constant/data';
 import { POLAR_END_RADIAN, POLAR_START_RADIAN } from '../../../constant/polar';
 import { AttributeLevel } from '../../../constant/attribute';
 import type { IGroupMark, IMarkStyle } from '../../../mark/interface';
-import type { ConvertToMarkStyleSpec, ICommonSpec } from '../../../typings';
+import type { ConvertToMarkStyleSpec, Datum, ICommonSpec } from '../../../typings';
 import { valueInScaleRange } from '../../../util/scale';
 import { PolarSeries } from '../polar';
 import type { IContinuousTickData, IProgressLikeSeriesSpec } from './interface';
@@ -92,8 +91,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
           index >= subTickData.length || originValue > subTickData[index].value - step / 2
             ? Math.min(index, subTickData.length - 1)
             : index > 0
-              ? index - 1
-              : undefined;
+            ? index - 1
+            : undefined;
         if (targetIndex !== undefined) {
           pos = this.angleAxisHelper.dataToPosition([
             subTickData[targetIndex].value - step / 2 // 确保占满整个 tick mask
@@ -128,8 +127,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
         index >= subTickData.length || originValue > subTickData[index].value - step / 2
           ? Math.min(index, subTickData.length - 1)
           : index > 0
-            ? index - 1
-            : undefined;
+          ? index - 1
+          : undefined;
       let pos: number;
       if (targetIndex !== undefined) {
         pos = this.angleAxisHelper.dataToPosition([

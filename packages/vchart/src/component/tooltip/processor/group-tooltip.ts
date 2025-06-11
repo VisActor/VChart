@@ -5,6 +5,8 @@ import type { GroupTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
 import { array } from '@visactor/vutils';
 import type { ISeries } from '../../../series/interface';
+import { Factory } from '../../../core/factory';
+import { TooltipType } from '../constant';
 
 export class GroupTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'group';
@@ -68,3 +70,7 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
     return datumList.filter((d: Datum) => d[seriesField] === seriesFieldValue);
   }
 }
+
+export const registerGroupTooltipProcessor = () => {
+  Factory.registerTooltipProcessor(TooltipType.group, GroupTooltipProcessor);
+};

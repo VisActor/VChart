@@ -1,5 +1,4 @@
 import type { ISeriesFilter } from '../../region/interface';
-import type { IAnimate } from '../../animation/interface';
 import type { ILayoutModel, IModelConstructor, IModelOption, IModelSpecInfo } from '../../model/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRegion } from '../../region/interface';
@@ -35,12 +34,10 @@ export interface IComponentOption extends IModelOption {
 
 export interface IComponent extends ILayoutModel {
   readonly name: string;
-  readonly animate?: IAnimate;
 
   // 区域
   getRegions: () => IRegion[];
   getBindSeriesFilter?: () => ISeriesFilter;
-  changeRegions: (regions: IRegion[]) => void;
   getVRenderComponents: () => IGraphic[];
 
   // 清空，用于更新等场景

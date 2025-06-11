@@ -1,6 +1,6 @@
 import { registerSequenceScatterLink } from '../../../../src';
 import { VChart } from '@visactor/vchart';
-import { getSeqScatterChartData, selectEdges } from '../../../../src/charts/sequence-scatter-link/utils';
+import { getSeqScatterChartData, selectEdges } from './utils';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 /**

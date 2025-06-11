@@ -2,18 +2,16 @@ import type { IPointLike } from '@visactor/vutils';
 import type { IExtensionGroupMarkSpec, IExtensionMarkSpec } from '@visactor/vchart';
 import type { IConversionFunnelSpec, IConversionFunnelChartSpecBase, Arrow } from './interface';
 import type { ParsedArrow } from './arrow-data-transform';
-import { FunnelChart } from '@visactor/vchart';
+import { LayoutZIndex, FunnelChartSpecTransformer } from '@visactor/vchart';
 import { isFunction } from '@visactor/vutils';
 import {
   DEFAULT_ARROW_MARK_STYLE,
   DEFAULT_ARROW_SYMBOL_MARK_STYLE,
   DEFAULT_ARROW_TEXT_MARK_STYLE,
   DEFAULT_FUNNEL_BACKGROUND_MARK_STYLE
-} from './conversion-funnel';
+} from './constants';
 
-export class ConversionFunnelChartSpecTransformer extends FunnelChart[
-  'transformerConstructor'
-]<IConversionFunnelChartSpecBase> {
+export class ConversionFunnelChartSpecTransformer extends FunnelChartSpecTransformer<IConversionFunnelChartSpecBase> {
   transformSpec(spec: IConversionFunnelChartSpecBase): void {
     const { conversionArrow, extensionMark = [], funnelBackground } = spec;
     if (conversionArrow && conversionArrow.arrows && conversionArrow.arrows.length) {
@@ -73,6 +71,7 @@ function computeArrows(arrows: Arrow[], style: Omit<IConversionFunnelSpec['conve
 
   const rootGroup: IExtensionGroupMarkSpec = {
     type: 'group' as any,
+    zIndex: LayoutZIndex.Mark + 1,
     children: []
   };
   const lineMark = generateArrowLineSpec(line, margin);

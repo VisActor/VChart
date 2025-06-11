@@ -5,6 +5,7 @@ import { ChartTypeEnum } from '../interface/type';
 import type { IMapChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { MapChartSpecTransformer } from './map-transformer';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class MapChart<T extends IMapChartSpec = IMapChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.map;
@@ -16,6 +17,7 @@ export class MapChart<T extends IMapChartSpec = IMapChartSpec> extends BaseChart
 }
 
 export const registerMapChart = () => {
+  registerMarkTooltipProcessor();
   registerMapSeries();
   Factory.registerChart(MapChart.type, MapChart);
 };

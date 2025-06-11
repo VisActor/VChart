@@ -20,10 +20,12 @@ import { BaseSeries } from '../base';
 import { registerGroupMark } from '../../mark/group';
 import { getShapes } from './util';
 import { createRect, createSymbol } from '@visactor/vrender-core';
+import type { IColor, IGlyph } from '@visactor/vrender-core';
 import { labelSmartInvert } from '@visactor/vrender-components';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import type { DataView } from '@visactor/vdataset';
 import { LiquidSeriesTooltipHelper } from './tooltip-helper';
+import { liquid } from '../../theme/builtin/common/series/liquid';
 
 export type ILiquidMark = IMarkRaw<ILiquidMarkSpec>;
 export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> extends BaseSeries<T> {
@@ -31,6 +33,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
   type = SeriesTypeEnum.liquid;
 
   static readonly mark: SeriesMarkMap = LiquidSeriesMark;
+  static readonly builtInTheme = { liquid };
   static readonly transformerConstructor = LineLikeSeriesSpecTransformer;
   readonly transformerConstructor = LineLikeSeriesSpecTransformer;
   private _liquidGroupMark?: IGroupMark;
@@ -292,8 +295,8 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     this._liquidMark && this._tooltipHelper.activeTriggerSet.mark.add(this._liquidMark);
   }
 
-  initInteraction(): void {
-    this._parseInteractionConfig(this._liquidMark ? [this._liquidMark] : []);
+  getInteractionTriggers() {
+    return this._parseInteractionConfig(this._liquidMark ? [this._liquidMark] : []);
   }
 
   initAnimation() {
@@ -344,8 +347,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
         .forEach((indicatorComponent: any) => {
           // wave item比较特殊,  由wave1、wave2、wave3在x方向上偏移叠加而成
           // 由于在水波图中只需要判断y方向上是否重叠, 所以此处取wave1做y方向上对比
-          const grammarMark = this._liquidMark.getProduct();
-          const waveItem = (grammarMark.elements[0] as any).glyphGraphicItems.wave1;
+          const waveItem = (this._liquidMark.getGraphics()[0] as unknown as IGlyph).getSubGraphic()?.[0];
           let { y1: waveY1, y2: waveY2 } = waveItem.globalAABBBounds;
           waveY1 += this._region.getLayoutStartPoint().y;
           waveY2 += this._region.getLayoutStartPoint().y;
@@ -358,7 +360,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
               if (waveY1 < textY1 && waveY2 > textY2) {
                 const foregroundColor = text.attribute.fill;
                 const backgroundColor = waveItem.attribute.fill;
-                const invertColor = labelSmartInvert(foregroundColor, backgroundColor);
+                const invertColor = labelSmartInvert(foregroundColor, backgroundColor as IColor);
                 text.setAttribute('fill', invertColor);
               }
             });

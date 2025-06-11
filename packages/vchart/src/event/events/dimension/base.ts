@@ -10,8 +10,7 @@ import type {
 } from '../../interface';
 import type { IChart } from '../../../chart/interface';
 import type { IDimensionInfo } from './interface';
-import { getPolarDimensionInfo } from './util/polar';
-import { getCartesianDimensionInfo, getDimensionInfoByValue } from './util/cartesian';
+import { getDimensionInfoByValue } from './util/cartesian';
 import type { IOrientType, Maybe } from '../../../typings';
 import { isDiscrete } from '@visactor/vscale';
 import { isXAxis } from '../../../component/axis/cartesian/util';
@@ -44,15 +43,13 @@ export class DimensionEvent implements IComposedEvent {
   }
 
   protected getTargetDimensionInfo(x: number, y: number): IDimensionInfo[] | null {
-    const cartesianInfo = getCartesianDimensionInfo(this.chart, { x, y }) ?? [];
-    const polarInfo = getPolarDimensionInfo(this.chart, { x, y }) ?? [];
+    const dimensionInfo = this.chart.getModelOption().getDimensionInfo?.(this.chart, { x, y }) ?? [];
 
-    const result = [].concat(cartesianInfo, polarInfo);
-    if (result.length === 0) {
+    if (dimensionInfo.length === 0) {
       return null;
     }
 
-    return result;
+    return dimensionInfo;
   }
 
   dispatch(v: unknown, opt: { filter?: (axis: IAxis) => boolean }) {
@@ -78,12 +75,16 @@ export class DimensionEvent implements IComposedEvent {
           return isXAxis(orient as IOrientType) || orient === 'angle';
         });
     const dimensionInfo: IDimensionInfo[] = [];
-    dimAxes.forEach(a => {
-      const info = getDimensionInfoByValue(a as unknown as any, v);
-      if (info) {
-        dimensionInfo.push(info);
-      }
-    });
+    const getDimensionInfoByValue = this.chart?.getModelOption().getDimensionInfoByValue;
+
+    if (getDimensionInfoByValue) {
+      dimAxes.forEach(a => {
+        const info = getDimensionInfoByValue(a as unknown as any, v);
+        if (info) {
+          dimensionInfo.push(info);
+        }
+      });
+    }
     this._callback.call(null, {
       action: 'enter',
       dimensionInfo

@@ -113,11 +113,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     this.initData();
   }
 
-  /** LifeCycle API**/
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
   /** Update API **/
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
@@ -132,10 +127,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     return result;
   }
 
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
   protected abstract _initLegendData(): DataView;
   protected abstract _initSelectedData(): void;
   protected abstract _getLegendAttributes(rect: ILayoutRect): any;
@@ -145,6 +136,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   private _bindLegendDataChange() {
     this._preSelectedData = this._selectedData.slice();
     this._initSelectedData();
+    this._forceLayout();
   }
 
   protected initData() {
@@ -157,7 +149,9 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       this._regions,
       s => {
         s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
-          this._legendData.getDataView().reRunAllTransform();
+          this._legendData.getDataView().reRunAllTransform({
+            skipEqual: true
+          });
         });
       },
       {
@@ -301,8 +295,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     }
     // 更新数据流
     this.effect.onSelectedDataChange?.();
-    // 需要重新布局
-    this.getChart()?.setLayoutTag(true, null, false);
     this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
   }
 

@@ -3,7 +3,6 @@ import type { DataSet, DataView } from '@visactor/vdataset';
 import type { IEvent, IEventDispatcher } from '../event/interface';
 import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
-import type { IData } from '@visactor/vgrammar-core';
 import type { StringOrNumber } from '../typings/common';
 import type { IGroupMarkSpec, ConvertToMarkStyleSpec, ICommonSpec } from '../typings/visual';
 import type { IRect } from '../typings/space';
@@ -11,7 +10,6 @@ import type { IPoint, CoordinateType } from '../typings/coordinate';
 import type { ITheme } from '../theme/interface';
 import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
-import type { ICompilableData } from '../compile/data/interface';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart, IChartSpecInfo, IChartSpecTransformerOption } from '../chart/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
@@ -22,6 +20,11 @@ import type { SeriesTypeEnum } from '../series/interface';
 import type { ITooltipSpec } from '../component/tooltip/interface';
 import type { TooltipActiveType } from '../typings';
 import type { IVChart } from '../core/interface';
+import type { ICompilableData } from '../compile/data/interface';
+import type { IDimensionData, IDimensionInfo } from '../event/events/dimension/interface';
+import type { IAxis } from '../component/axis';
+import type { CrossHairStateItem } from '../component/crosshair/interface/common';
+import type { RectCrosshairAttrs } from '@visactor/vrender-components';
 
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -68,10 +71,6 @@ export interface IUpdateDataResult {
   reAnimate?: boolean;
 }
 
-export interface IModelProduct {
-  srData: IData;
-}
-
 export interface IModel extends ICompilable {
   readonly modelType: string;
   readonly type: string;
@@ -116,7 +115,6 @@ export interface IModel extends ICompilable {
   beforeRelease: () => void;
 
   onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
-  onRender: (ctx: IModelRenderOption) => void;
   onDataUpdate: () => void;
 
   updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
@@ -125,8 +123,8 @@ export interface IModel extends ICompilable {
   getSpecPath: () => Array<string | number>;
 
   //布局周期
-  onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
-  onLayoutEnd: (ctx: IModelLayoutOption) => void;
+  onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect) => void;
+  onLayoutEnd: () => void;
 
   getColorScheme: () => IThemeColorScheme | undefined;
 
@@ -137,7 +135,7 @@ export interface IModel extends ICompilable {
     level?: number
   ) => void;
 
-  initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
+  initMarkStyleWithSpec: (mark?: IMark, spec?: any) => void;
 
   getSpecInfo: () => IModelSpecInfo;
 }
@@ -169,7 +167,7 @@ export interface IModelOption extends ICompilableInitOption {
   specPath?: Array<string | number>;
   specInfoPath?: Array<string | number>;
 
-  getTheme?: () => ITheme;
+  getTheme?: (...keys: string[]) => any;
   getSpecInfo?: () => IChartSpecInfo;
   getChartLayoutRect: () => IRect;
   getChartViewRect: () => ILayoutRect;
@@ -188,6 +186,9 @@ export interface IModelOption extends ICompilableInitOption {
    * 是否关闭交互效果
    */
   disableTriggerEvent?: boolean;
+  getDimensionInfo?: (chart: IChart | undefined, pos: ILayoutPoint, isTooltip?: boolean) => IDimensionInfo[] | null;
+  getDimensionInfoByValue?: (axis: IAxis, value: any) => IDimensionInfo | null;
+  getRectByDimensionData?: (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => any;
 }
 
 export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
@@ -208,6 +209,7 @@ export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
 }
 
 export interface IModelConstructor {
+  readonly builtInTheme?: any;
   readonly transformerConstructor: new (option: IBaseModelSpecTransformerOption) => IBaseModelSpecTransformer;
 }
 

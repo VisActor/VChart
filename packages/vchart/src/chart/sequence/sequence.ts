@@ -10,6 +10,8 @@ import type { ISeriesConstructor, ISeriesOption } from '../../series/interface';
 import type { IModelSpecInfo } from '../../model/interface';
 import { SequenceChartSpecTransformer } from './sequence-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
+import { registerDimensionTooltipProcessor } from '../../component/tooltip/processor/dimension-tooltip';
 
 export class SequenceChart<T extends ISequenceChartSpec = ISequenceChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sequence;
@@ -59,6 +61,8 @@ export class SequenceChart<T extends ISequenceChartSpec = ISequenceChartSpec> ex
 }
 
 export const registerSequenceChart = () => {
+  registerDimensionTooltipProcessor();
+  registerMarkTooltipProcessor();
   registerDotSeries();
   registerLinkSeries();
   registerCartesianBandAxis();

@@ -1,8 +1,9 @@
-import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar-core';
+import type { IAnimationTypeConfig } from '../../../animation/interface';
 import { AnimationStateEnum } from '../../../animation/interface';
 import type { Datum } from '../../../typings';
 import { Factory } from '../../../core/factory';
 import type { IPieAnimationParams, PieAppearPreset } from '../interface';
+import type { IMarkGraphic } from '../../../core';
 
 /**
  * grow生长option
@@ -13,7 +14,7 @@ import type { IPieAnimationParams, PieAppearPreset } from '../interface';
  * @returns
  */
 export function pieGrowOption(pieParams: IPieAnimationParams, isOverall: boolean, state: AnimationStateEnum) {
-  return (datum: Datum, element: IElement, params: AnimationStateEnum) => {
+  return (datum: Datum, graphic: IMarkGraphic, params: AnimationStateEnum) => {
     if (isOverall) {
       if (pieParams.growField === 'radius') {
         return {
@@ -21,7 +22,7 @@ export function pieGrowOption(pieParams: IPieAnimationParams, isOverall: boolean
         };
       }
       return {
-        overall: pieParams.growFrom(datum, element, state)
+        overall: pieParams.growFrom(datum, graphic, state)
       };
     }
     return {
@@ -99,17 +100,6 @@ export const registerEmptyCircleAnimation = () => {
   Factory.registerAnimation('emptyCircle', (params: IPieAnimationParams, preset: PieAppearPreset) => {
     return {
       appear: piePresetAnimation(params, preset)
-    };
-  });
-};
-
-export const registerPie3dAnimation = () => {
-  Factory.registerAnimation('pie3d', (params: IPieAnimationParams, preset: PieAppearPreset) => {
-    return {
-      appear: piePresetAnimation(params, preset),
-      enter: pieEnter(params),
-      exit: pieExit(params),
-      disappear: pieDisappear(params)
     };
   });
 };

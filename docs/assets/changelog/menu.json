@@ -7,6 +7,13 @@
         "zh": "版本记录",
         "en": "release"
       }
+    },
+    {
+      "path": "v2-upgrade-guide",
+      "title": {
+        "zh": "2.0升级指南",
+        "en": "Migration from v1 to v2"
+      }
     }
   ]
 }

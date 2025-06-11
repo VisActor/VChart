@@ -1,6 +1,5 @@
-import type { Datum } from '@visactor/vgrammar-core';
 import type { IGroupMark, IMarkStyle } from '../../../mark/interface';
-import type { ConvertToMarkStyleSpec, ICommonSpec } from '../../../typings';
+import type { ConvertToMarkStyleSpec, Datum, ICommonSpec } from '../../../typings';
 import { PolarSeries } from '../polar';
 import type { IContinuousTickData, IProgressLikeSeriesSpec } from './interface';
 import type { IPolarAxis } from '../../../component/axis';

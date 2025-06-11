@@ -13,7 +13,6 @@ import type { IBoxPlotSeriesSpec } from './interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
-import { SeriesData } from '../base/series-data';
 import { foldOutlierData } from '../../data/transforms/box-plot';
 import { BOX_PLOT_OUTLIER_VALUE_FIELD } from '../../constant/box-plot';
 import { BoxPlotSeriesTooltipHelper } from './tooltip-helper';
@@ -26,10 +25,14 @@ import { registerBoxPlotMark } from '../../mark/box-plot';
 import { registerSymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import type { IBoxPlotMark, IMark, ISymbolMark } from '../../mark/interface';
+import type { IBoxPlotMark, IGlyphMark, IMark, ISymbolMark } from '../../mark/interface';
 import { merge, isNumber } from '@visactor/vutils';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import type { ICompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data';
+import { registeBoxPlotScaleAnimation } from './animation';
+import { boxPlot } from '../../theme/builtin/common/series/box-plot';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -43,6 +46,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   static readonly type: string = SeriesTypeEnum.boxPlot;
   type = SeriesTypeEnum.boxPlot;
 
+  static readonly builtInTheme = { boxPlot };
   static readonly mark: SeriesMarkMap = boxPlotSeriesMark;
 
   protected _minField: string;
@@ -89,7 +93,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   getOutliersStyle() {
     return this._outliersStyle;
   }
-  protected _outlierDataView: SeriesData;
+  protected _outlierDataView: ICompilableData;
 
   private _autoBoxWidth: number;
 
@@ -122,44 +126,34 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   private _outlierMark?: ISymbolMark;
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
-
-    this._boxPlotMark = this._createMark(
-      BoxPlotSeries.mark.boxPlot,
-      {
-        groupKey: this._seriesField,
-        isSeriesMark: true
-      },
-      progressive
-    ) as IBoxPlotMark;
-    this._outlierMark = this._createMark(
-      BoxPlotSeries.mark.outlier,
-      {
+    this._boxPlotMark = this._createMark(BoxPlotSeries.mark.boxPlot, {
+      groupKey: this._seriesField,
+      isSeriesMark: true
+    }) as IBoxPlotMark;
+    if (this._outliersField) {
+      this._outlierMark = this._createMark(BoxPlotSeries.mark.outlier, {
         key: DEFAULT_DATA_INDEX,
         groupKey: this._seriesField,
         dataView: this._outlierDataView.getDataView(),
         dataProductId: this._outlierDataView.getProductId()
-      },
-      progressive
-    ) as ISymbolMark;
+      }) as ISymbolMark;
+    }
   }
 
   initMarkStyle(): void {
     const boxPlotMark = this._boxPlotMark;
     if (boxPlotMark) {
       const commonBoxplotStyles = {
-        direction: this._direction,
         lineWidth: this._lineWidth,
-        shaftShape: this._shaftShape,
         fill: this._boxFillColor ?? (this._shaftShape === 'line' ? DEFAULT_FILL_COLOR : this.getColorAttribute()),
         minMaxFillOpacity: this._shaftFillOpacity,
         stroke: this._strokeColor ?? (this._shaftShape === 'line' ? this.getColorAttribute() : DEFAULT_STROKE_COLOR)
       };
+
+      (boxPlotMark as IGlyphMark).setGlyphConfig({
+        direction: this._direction,
+        shaftShape: this._shaftShape
+      });
 
       const boxPlotMarkStyles =
         this._direction === Direction.horizontal
@@ -309,7 +303,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       false
     );
 
-    this._outlierDataView = new SeriesData(this._option, outlierDataView);
+    this._outlierDataView = new CompilableData(this._option, outlierDataView);
   }
 
   compileData() {
@@ -338,8 +332,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     return this._autoBoxWidth;
   }
 
-  onLayoutEnd(ctx: any) {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd() {
+    super.onLayoutEnd();
     //每次布局结束，清除自适应宽度缓存
     this._autoBoxWidth = null;
   }
@@ -418,5 +412,6 @@ export const registerBoxplotSeries = () => {
   registerScaleInOutAnimation();
   registerCartesianBandAxis();
   registerCartesianLinearAxis();
+  registeBoxPlotScaleAnimation();
   Factory.registerSeries(BoxPlotSeries.type, BoxPlotSeries);
 };

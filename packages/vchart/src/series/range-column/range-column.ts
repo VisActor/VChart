@@ -26,18 +26,20 @@ import { getGroupAnimationParams } from '../util/utils';
 import { RangeColumnSeriesSpecTransformer } from './range-column-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import type { IRectMark, ITextMark } from '../../mark/interface';
+import { rangeColumn } from '../../theme/builtin/common/series/rangeColumn';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
 export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.rangeColumn;
-  type = SeriesTypeEnum.rangeColumn;
-  protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
+  type: string = SeriesTypeEnum.rangeColumn;
+  protected _barMarkType: string = MarkTypeEnum.rect;
   protected _barName: string = SeriesTypeEnum.bar;
 
   protected declare _spec: T;
 
   static readonly mark: SeriesMarkMap = rangeColumnSeriesMark;
+  static readonly builtInTheme = { rangeColumn };
   static readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
   readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
 
@@ -53,11 +55,9 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       RangeColumnSeries.mark.bar,
       {
         groupKey: this._seriesField,
-        isSeriesMark: true,
-        stateSort: this._spec.bar?.stateSort
+        isSeriesMark: true
       },
       {
-        setCustomizedShape: this._spec.bar?.customShape,
         morph: shouldMarkDoMorph(this._spec, RangeColumnSeries.mark.bar.name),
         morphElementKey: this.getDimensionField()[0]
       }

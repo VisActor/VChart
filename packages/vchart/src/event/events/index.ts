@@ -1,8 +1,9 @@
+import { Factory } from '../../core/factory';
 import { DimensionHoverEvent, DimensionEventEnum, DimensionClickEvent } from './dimension';
 
 export * from './dimension';
 
-export const ComposedEventMapper = {
-  [DimensionEventEnum.dimensionHover]: DimensionHoverEvent,
-  [DimensionEventEnum.dimensionClick]: DimensionClickEvent
+export const registerDimensionEvents = () => {
+  Factory.registerComposedEvent(DimensionEventEnum.dimensionHover, DimensionHoverEvent);
+  Factory.registerComposedEvent(DimensionEventEnum.dimensionClick, DimensionClickEvent);
 };

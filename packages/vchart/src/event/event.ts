@@ -1,7 +1,7 @@
 /*eslint no-dupe-class-members: "off"*/
 
+import { Factory } from '../core/factory';
 import type { RenderMode } from '../typings/spec/common';
-import { ComposedEventMapper } from './events';
 import type {
   EventType,
   EventQuery,
@@ -45,11 +45,9 @@ export class Event implements IEvent {
             callback: callback as EventCallback<EventParamsDefinition[Evt]>
           };
 
-    if (ComposedEventMapper[eType as string]) {
-      const composedEvent = new ComposedEventMapper[eType as string](
-        this._eventDispatcher,
-        this._mode
-      ) as IComposedEvent;
+    const ComposedEventCtor = Factory.getComposedEvent(eType);
+    if (ComposedEventCtor) {
+      const composedEvent = new ComposedEventCtor(this._eventDispatcher, this._mode) as IComposedEvent;
       composedEvent.register(eType, handler);
       this._composedEventMap.set(callback as EventCallback<EventParamsDefinition[Evt]>, {
         eventType: eType,
@@ -70,7 +68,9 @@ export class Event implements IEvent {
     cb?: EventCallback<EventParamsDefinition[Evt]>
   ): this {
     const callback = (cb ?? query) as EventCallback<EventParamsDefinition[Evt]>;
-    if (ComposedEventMapper[eType as string]) {
+    const ComposedEventCtor = Factory.getComposedEvent(eType);
+
+    if (!!ComposedEventCtor) {
       if (callback) {
         this._composedEventMap.get(callback)?.event.unregister();
         this._composedEventMap.delete(callback);

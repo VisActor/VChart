@@ -1,6 +1,8 @@
 import type React from 'react';
-import type { IBar3dChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerBar3dChart, registerLabel, registerTotalLabel } from '@visactor/vchart';
+import type { IVChartConstructor } from '@visactor/vchart';
+import { VChart, registerLabel, registerTotalLabel } from '@visactor/vchart';
+import { registerBar3dChart } from '@visactor/vchart-extension';
+import type { IBar3dChartSpec } from '@visactor/vchart-extension';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
 import { registers } from './registers/cartesian';

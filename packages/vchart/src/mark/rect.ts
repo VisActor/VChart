@@ -4,8 +4,10 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkStyle, IRectMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerRectGraphic } from '@visactor/vgrammar-core';
-import { registerVGrammarRectAnimation } from '../animation/config';
+import { registerRectAnimation } from '../animation/config';
+import { registerRect, registerShadowRoot } from '@visactor/vrender-kits';
+import { registerRectDataLabel } from '@visactor/vrender-components';
+import { createRect } from '@visactor/vrender-core';
 
 export class RectMark extends BaseMark<IRectMarkSpec> implements IRectMark {
   static readonly type = MarkTypeEnum.rect;
@@ -23,7 +25,11 @@ export class RectMark extends BaseMark<IRectMarkSpec> implements IRectMark {
 }
 
 export const registerRectMark = () => {
+  registerShadowRoot();
+  registerRect();
+  registerRectDataLabel();
   Factory.registerMark(RectMark.type, RectMark);
-  registerRectGraphic();
-  registerVGrammarRectAnimation();
+  registerRectAnimation();
+
+  Factory.registerGraphicComponent(MarkTypeEnum.rect, createRect);
 };

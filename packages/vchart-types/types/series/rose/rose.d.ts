@@ -9,6 +9,9 @@ export declare class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> ext
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        rose: import("./interface").IRoseSeriesTheme;
+    };
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof RoseSeriesSpecTransformer;
     private _roseMark;

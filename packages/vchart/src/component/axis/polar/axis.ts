@@ -219,14 +219,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return region ? region.getLayoutStartPoint() : pos;
   };
 
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
-  changeRegions(/** regions: IRegion[] */): void {
-    // do nothing
-  }
-
   protected _tickTransformOption() {
     return {
       ...super._tickTransformOption(),
@@ -461,7 +453,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         text: this._spec.title.text || this._dataFieldText
       },
       items,
-      orient: 'angle'
+      orient: 'angle',
+      scale: this._scale
     };
     if (this._spec.grid.visible) {
       attrs.grid = {
@@ -494,7 +487,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         text: this._spec.title.text || this._dataFieldText
       },
       items,
-      orient: 'radius'
+      orient: 'radius',
+      scale: this._scale.clone()
     };
     if (this._spec.grid?.visible) {
       attrs.grid = {
@@ -580,12 +574,12 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   private _update(attrs: Dict<unknown>) {
     const { grid: gridAttrs, ...axisAttrs } = attrs;
-    const axisProduct = this._axisMark.getProduct(); // 获取语法元素并更新
-    axisProduct.encode(mergeSpec({}, this._axisStyle, axisAttrs));
+    const axisProduct = this._axisMark.getComponent(); // 获取语法元素并更新
+    axisProduct.setAttributes(mergeSpec({}, this._axisStyle, axisAttrs));
 
     if (this._gridMark) {
-      const gridProduct = this._gridMark.getProduct(); // 获取语法元素并更新
-      gridProduct.encode(mergeSpec({}, this._gridStyle, gridAttrs));
+      const gridProduct = this._gridMark.getComponent(); // 获取语法元素并更新
+      gridProduct.setAttributes(mergeSpec({}, this._gridStyle, gridAttrs));
     }
   }
 

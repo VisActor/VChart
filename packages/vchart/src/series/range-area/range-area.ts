@@ -19,16 +19,13 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
   static readonly mark: SeriesMarkMap = rangeAreaSeriesMark;
 
   initMark(): void {
-    const { customShape, stateSort } = this._spec.area ?? {};
     this._areaMark = this._createMark(
       RangeAreaSeries.mark.area,
       {
         groupKey: this._seriesField,
-        isSeriesMark: true,
-        stateSort
+        isSeriesMark: true
       },
       {
-        setCustomizedShape: customShape,
         morphElementKey: this.getDimensionField()[0]
       }
     ) as IAreaMark;

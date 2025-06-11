@@ -5,7 +5,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec } from './interface';
-import type { Maybe } from '../../typings';
+import type { Datum, Maybe } from '../../typings';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { transformIndicatorStyle } from '../../util/style';
 import { getActualNumValue } from '../../util/space';
@@ -23,12 +23,18 @@ import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRichTextCharacter } from '@visactor/vrender-core';
 import { getSpecInfo } from '../util';
+import { getDatumOfGraphic } from '../../util/mark';
+import type { IMarkGraphic } from '../../mark/interface';
+import { indicator } from '../../theme/builtin/common/component/indicator';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;
 
+  static readonly builtInTheme = {
+    indicator
+  };
   static specKey = 'indicator';
   specKey = 'indicator';
 
@@ -69,15 +75,6 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     this._regions = this._option.getRegionsInUserIdOrIndex(array(this._spec.regionId), array(this._spec.regionIndex));
   }
 
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
-  // region
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
   // event
   protected initEvent() {
     if (this._option.disableTriggerEvent) {
@@ -88,31 +85,29 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       return;
     }
 
-    const view = this.getCompiler()?.getVGrammarView();
-
-    if (!view) {
-      return;
-    }
-
     if (this._spec.trigger === 'hover') {
-      view.addEventListener('element-highlight:start', (params: any) => {
-        if (this.isRelativeModel(params.options.regionId)) {
-          this.updateDatum(params.elements[0].getDatum());
+      this.event.on('element-highlight:start', (params: any) => {
+        const g = params.graphics[0];
+
+        if (this.isRelativeModel(g)) {
+          this.updateDatum(getDatumOfGraphic(g) as Datum[]);
         }
       });
-      view.addEventListener('element-highlight:reset', (params: any) => {
-        if (this.isRelativeModel(params.options.regionId)) {
+      this.event.on('element-highlight:reset', (params: any) => {
+        if (this._activeDatum) {
           this.updateDatum(null);
         }
       });
     } else {
-      view.addEventListener('element-select:start', (params: any) => {
-        if (this.isRelativeModel(params.options.regionId)) {
-          this.updateDatum(params.elements[0].getDatum());
+      this.event.on('element-select:start', (params: any) => {
+        const g = params.graphics[0];
+
+        if (this.isRelativeModel(g)) {
+          this.updateDatum(getDatumOfGraphic(g) as Datum[]);
         }
       });
-      view.addEventListener('element-select:reset', (params: any) => {
-        if (this.isRelativeModel(params.options.regionId)) {
+      this.event.on('element-select:reset', (params: any) => {
+        if (this._activeDatum) {
           this.updateDatum(null);
         }
       });
@@ -262,8 +257,8 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     return Math.min(width / 2, height / 2);
   }
 
-  private isRelativeModel(regionId: number) {
-    return this._regions.some(region => region.id === regionId);
+  private isRelativeModel(g: IMarkGraphic) {
+    return this._regions.some(region => !!region.getSeriesInId(g.context.modelId));
   }
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {

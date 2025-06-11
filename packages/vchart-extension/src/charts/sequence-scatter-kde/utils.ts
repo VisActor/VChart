@@ -1,5 +1,5 @@
 import { EXPAND_RATIO } from './constant';
-import { Point } from './interface';
+import type { Point } from './interface';
 
 // KDE 相关的工具函数
 export function gaussKernel(x: number) {
@@ -11,15 +11,12 @@ export function scottBandwidth(data: Point[]) {
   return data.length ** (-1 / 6);
 }
 export function calculateKDE(data: Point[], bins = 100, bandwidth?: number) {
-  const groupedData: { [key: string]: Point[] } = data.reduce(
-    (groups, point) => {
-      const label = point.label;
-      groups[label] = groups[label] || [];
-      groups[label].push(point);
-      return groups;
-    },
-    {} as { [key: string]: Point[] }
-  );
+  const groupedData: { [key: string]: Point[] } = data.reduce((groups, point) => {
+    const label = point.label;
+    groups[label] = groups[label] || [];
+    groups[label].push(point);
+    return groups;
+  }, {} as { [key: string]: Point[] });
 
   const kdeResult: Array<{ x: number; y: number; kde: number; label: string }> = [];
 

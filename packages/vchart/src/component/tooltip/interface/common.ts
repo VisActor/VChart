@@ -1,6 +1,6 @@
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { DimensionTooltipInfo, GroupTooltipInfo, MarkTooltipInfo } from '../processor/interface';
-import type { Datum, IShowTooltipOption, ITooltipActual } from '../../../typings';
+import type { Datum, IShowTooltipOption, ITooltipActual, ITooltipHandler } from '../../../typings';
 import type { IComponent } from '../../interface';
 import type { ITooltipSpec } from './spec';
 
@@ -46,6 +46,7 @@ export const enum TooltipResult {
 }
 
 export interface ITooltip extends IComponent {
+  tooltipHandler?: ITooltipHandler;
   getVisible: () => boolean;
   showTooltip: (datum: Datum, options: IShowTooltipOption) => void;
 }

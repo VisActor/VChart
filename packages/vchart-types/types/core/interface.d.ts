@@ -2,14 +2,14 @@ import type { DataSet, IParserOptions } from '@visactor/vdataset';
 import type { Datum, IDataValues, IInitOption, IMarkStateSpec, IPoint, IRegionQuerier, IShowTooltipOption, ISpec, ITooltipHandler, Maybe, MaybeArray, StringOrNumber } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
-import type { IMark } from '../mark/interface';
+import type { EventCallback, EventQuery, EventType, ExtendEventParam } from '../event/interface';
+import type { IMark, IMarkDataTransform } from '../mark/interface';
 import type { ISeries } from '../series/interface/series';
 import type { ITheme } from '../theme/interface';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { DimensionIndexOption, IChart, IChartSpecInfo } from '../chart/interface';
-import type { IStage } from '@visactor/vrender-core';
+import type { IEventTarget, IStage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IUpdateSpecResult } from '../model/interface';
@@ -53,8 +53,8 @@ export interface IVChart {
     updateViewBox: (viewBox: IBoundsLike, reRender?: boolean) => IVChart;
     resize: (width: number, height: number) => Promise<IVChart>;
     release: () => void;
-    on: ((eType: EventType, handler: EventCallback<EventParams>) => void) & ((eType: EventType, query: EventQuery, handler: EventCallback<EventParams>) => void);
-    off: (eType: EventType, handler?: EventCallback<EventParams>) => void;
+    on: ((eType: EventType, handler: EventCallback<ExtendEventParam>) => void) & ((eType: EventType, query: EventQuery, handler: EventCallback<ExtendEventParam>) => void);
+    off: (eType: EventType, handler?: EventCallback<ExtendEventParam>) => void;
     updateState: (state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean) => void;
     setSelected: (datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
     setHovered: (datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
@@ -123,3 +123,17 @@ export interface IVChartRenderOption {
     actionSource?: VChartRenderActionSource;
 }
 export type VChartRenderActionSource = 'render' | 'updateSpec' | 'updateModelSpec' | 'setCurrentTheme' | 'updateSpecAndRecompile';
+export interface VRenderComponentOptions {
+    skipDefault?: boolean;
+    mode?: '2d' | '3d';
+}
+export interface IStageEventPlugin<T> {
+    new (taget: IEventTarget, cfg?: T): {
+        release: () => void;
+    };
+}
+export interface GrammarTransformOption {
+    canProgressive?: boolean;
+    transform: IMarkDataTransform;
+    runType?: 'beforeJoin' | 'afterEncode';
+}

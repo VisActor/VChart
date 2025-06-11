@@ -13,9 +13,7 @@ import type { ContainerProps } from '../containers/withContainer';
 import withContainer from '../containers/withContainer';
 import type { ChartContextType } from '../context/chart';
 import RootChartContext from '../context/chart';
-import type { IView } from '@visactor/vgrammar-core';
 import { isEqual, isNil, isValid, pickWithout } from '@visactor/vutils';
-import ViewContext from '../context/view';
 import { toArray } from '../util';
 import { REACT_PRIVATE_PROPS } from '../constants';
 import type {
@@ -146,7 +144,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const chartContext = useRef<ChartContextType>({});
   useImperativeHandle(ref, () => chartContext.current?.chart);
   const hasSpec = !!props.spec;
-  const [view, setView] = useState<IView>(null);
   const isUnmount = useRef<boolean>(false);
   const prevSpec = useRef(pickWithout(props, notSpecKeys));
   const specFromChildren = useRef<Omit<ISpec, 'type' | 'data' | 'width' | 'height'>>(null);
@@ -202,13 +199,10 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
         bindEventsToChart(chartContext.current.chart, props, eventsBinded.current, CHART_EVENTS);
       }
 
-      const newView = chartContext.current.chart.getCompiler().getVGrammarView();
-
       setUpdateId(updateId + 1);
       if (props.onReady) {
         props.onReady(chartContext.current.chart, updateId === 0);
       }
-      setView(newView);
     }
   };
 
@@ -281,25 +275,23 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
   return (
     <RootChartContext.Provider value={chartContext.current}>
-      <ViewContext.Provider value={view}>
-        {toArray(props.children).map((child, index) => {
-          if (typeof child === 'string') {
-            return null;
-          }
+      {toArray(props.children).map((child, index) => {
+        if (typeof child === 'string') {
+          return null;
+        }
 
-          const childId = getComponentId(child, index);
+        const childId = getComponentId(child, index);
 
-          return (
-            <React.Fragment key={childId}>
-              {React.cloneElement(child as React.ReactElement<any, React.JSXElementConstructor<any>>, {
-                updateId: updateId,
-                componentId: childId
-              })}
-            </React.Fragment>
-          );
-        })}
-        {tooltipNode}
-      </ViewContext.Provider>
+        return (
+          <React.Fragment key={childId}>
+            {React.cloneElement(child as React.ReactElement<any, React.JSXElementConstructor<any>>, {
+              updateId: updateId,
+              componentId: childId
+            })}
+          </React.Fragment>
+        );
+      })}
+      {tooltipNode}
     </RootChartContext.Provider>
   );
 });
@@ -313,7 +305,7 @@ export const createChart = <T extends Props>(
     defaultProps.vchartConstructor.useRegisters(registers);
   }
 
-  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
+  const Com = withContainer<T>(BaseChart as any, componentName, (props: T) => {
     if (defaultProps) {
       return Object.assign(props, defaultProps);
     }

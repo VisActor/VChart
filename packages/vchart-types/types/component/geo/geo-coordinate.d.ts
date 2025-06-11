@@ -1,13 +1,12 @@
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IEffect, IModelSpecInfo } from '../../model/interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
-import type { IGeoRegionSpec, IRegion } from '../../region/interface';
+import type { IGeoRegionSpec } from '../../region/interface';
 import type { IGeoCoordinate, IGeoCoordinateSpec, IProjectionSpec } from './interface';
 import type { StringOrNumber } from '../../typings';
 import type { Maybe } from '@visactor/vutils';
-import type { IGraphic } from '@visactor/vrender-core';
 export declare function projectionName(key: string, id: number): string;
 export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeoCoordinate {
     static type: ComponentTypeEnum;
@@ -42,10 +41,7 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
     initEvent(): void;
     initProjection(): void;
     coordinateHelper(): void;
-    onLayoutEnd(ctx: IModelLayoutOption): void;
-    onRender(ctx: IModelRenderOption): void;
-    changeRegions(regions: IRegion[]): void;
-    protected _getNeedClearVRenderComponents(): IGraphic[];
+    onLayoutEnd(): void;
     protected collectFeatures(): any[];
     dataToPosition(values?: number[]): IPoint;
     dataToLatitude(lat: number): number;

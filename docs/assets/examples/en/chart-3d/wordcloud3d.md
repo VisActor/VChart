@@ -24,6 +24,20 @@ The configuration of 3D word clouds mainly inherits the configuration of ordinar
 ## Demo source
 
 ```javascript livedemo
+/**
+ * Since version 2.0.0, 3D charts are imported from vchart-extension.
+ *
+ * import { registerWordCloud3dChart } from '@visactor/vchart-extension';
+ *
+ * registerWordCloud3dChart();
+ */
+
+/** --Remove the following code when using in production-- */
+if (VChartExtension.registerWordCloud3dChart) {
+  VChartExtension.registerWordCloud3dChart();
+}
+/** --Remove the above code when using in production-- */
+
 const spec = {
   type: 'wordCloud3d',
   maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/log.jpeg`,

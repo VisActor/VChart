@@ -10,6 +10,9 @@ export declare class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeries
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        scatter: import("./interface").IScatterSeriesTheme;
+    };
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof ScatterSeriesSpecTransformer;
     private _symbolMark;

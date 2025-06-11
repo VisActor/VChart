@@ -4,28 +4,28 @@
  */
 import type { IAreaChartSpec } from './area';
 import { AreaChart, registerAreaChart } from './area';
-import type { IBarChartSpec, IBar3dChartSpec } from './bar';
-import { BarChart, Bar3dChart, registerBarChart, registerBar3dChart } from './bar';
+import type { IBarChartSpec } from './bar';
+import { BarChart, registerBarChart, BarChartSpecTransformer } from './bar';
 import type { IBoxPlotChartSpec } from './box-plot';
 import { BoxPlotChart, registerBoxplotChart } from './box-plot';
 import type { ICirclePackingChartSpec } from './circle-packing';
 import { CirclePackingChart, registerCirclePackingChart } from './circle-packing';
 import type { ICommonChartSpec } from './common';
 import { CommonChart, registerCommonChart } from './common';
-import type { IFunnelChartSpec, IFunnel3dChartSpec } from './funnel';
-import { FunnelChart, Funnel3dChart, registerFunnelChart, registerFunnel3dChart } from './funnel';
+import type { IFunnelChartSpec } from './funnel';
+import { FunnelChart, registerFunnelChart, FunnelChartSpecTransformer } from './funnel';
 import type { IGaugeChartSpec } from './gauge';
 import { GaugeChart, registerGaugeChart } from './gauge';
 import type { IHeatmapChartSpec } from './heatmap';
 import { HeatmapChart, registerHeatmapChart } from './heatmap';
-import type { IHistogramChartSpec, IHistogram3dChartSpec } from './histogram';
-import { HistogramChart, Histogram3dChart, registerHistogramChart, registerHistogram3dChart } from './histogram';
+import type { IHistogramChartSpec } from './histogram';
+import { HistogramChartSpecTransformer, HistogramChart, registerHistogramChart } from './histogram';
 import type { ILineChartSpec } from './line';
 import { LineChart, registerLineChart } from './line';
 import type { IMapChartSpec } from './map';
 import { MapChart, registerMapChart } from './map';
-import type { IPieChartSpec, IPie3dChartSpec } from './pie';
-import { PieChart, Pie3dChart, registerPieChart, registerPie3dChart } from './pie';
+import type { IPieChartSpec } from './pie';
+import { BasePieChart, BasePieChartSpecTransformer, PieChart, registerPieChart } from './pie';
 import type { ICircularProgressChartSpec } from './progress/circular';
 import { CircularProgressChart, registerCircularProgressChart } from './progress/circular';
 import type { ILinearProgressChartSpec } from './progress/linear';
@@ -34,13 +34,8 @@ import type { IRadarChartSpec } from './radar';
 import { RadarChart, registerRadarChart } from './radar';
 import type { IRangeAreaChartSpec } from './range-area';
 import { RangeAreaChart, registerRangeAreaChart } from './range-area';
-import type { IRangeColumnChartSpec, IRangeColumn3dChartSpec } from './range-column';
-import {
-  RangeColumnChart,
-  RangeColumn3dChart,
-  registerRangeColumnChart,
-  registerRangeColumn3dChart
-} from './range-column';
+import type { IRangeColumnChartSpec } from './range-column';
+import { RangeColumnChart, registerRangeColumnChart } from './range-column';
 import type { IRoseChartSpec } from './rose';
 import { RoseChart, registerRoseChart } from './rose';
 import type { ISankeyChartSpec } from './sankey';
@@ -59,14 +54,8 @@ import type { ICorrelationChartSpec } from './correlation';
 import { CorrelationChart, registerCorrelationChart } from './correlation';
 import type { ILiquidChartSpec } from './liquid';
 import { LiquidChart, registerLiquidChart } from './liquid';
-import type { IWordCloudChartSpec, IWordCloud3dChartSpec } from './word-cloud';
-import {
-  WordCloudChart,
-  WordCloud3dChart,
-  registerWordCloudChart,
-  registerWordCloudShapeChart,
-  registerWordCloud3dChart
-} from './word-cloud';
+import type { IWordCloudChartSpec } from './word-cloud';
+import { WordCloudChart, registerWordCloudChart, registerWordCloudShapeChart } from './word-cloud';
 import { BaseChart } from './base/base-chart';
 import type { ICartesianChartSpec } from './cartesian';
 import type { IPolarChartSpec } from './polar';
@@ -74,30 +63,34 @@ import type { IVennChartSpec } from './venn';
 import { VennChart, registerVennChart } from './venn';
 import type { IMosaicChartSpec } from './mosaic';
 import { MosaicChart, registerMosaicChart } from './mosaic';
-import type { IPictogramChartSpec } from './pictogram/interface';
-import { PictogramChart, registerPictogramChart } from './pictogram/pictogram';
+import type { IChart } from './interface/chart';
+import { BaseWordCloudChart } from './word-cloud/base/base';
+import { BaseWordCloudChartSpecTransformer } from './word-cloud/base/word-cloud-base-transformer';
+import { BaseHistogramChart } from './histogram/base/base';
+
 export {
   AreaChart,
   BarChart,
-  Bar3dChart,
+  BarChartSpecTransformer,
   BoxPlotChart,
   CirclePackingChart,
   CommonChart,
+  FunnelChartSpecTransformer,
   FunnelChart,
-  Funnel3dChart,
   GaugeChart,
   HeatmapChart,
+  HistogramChartSpecTransformer,
+  BaseHistogramChart,
   HistogramChart,
-  Histogram3dChart,
   LineChart,
   MapChart,
+  BasePieChartSpecTransformer,
+  BasePieChart,
   PieChart,
-  Pie3dChart,
   CircularProgressChart,
   LinearProgressChart,
   RadarChart,
   RangeColumnChart,
-  RangeColumn3dChart,
   RangeAreaChart,
   RoseChart,
   SankeyChart,
@@ -107,37 +100,32 @@ export {
   WaterfallChart,
   CorrelationChart,
   LiquidChart,
+  BaseWordCloudChartSpecTransformer,
+  BaseWordCloudChart,
   WordCloudChart,
-  WordCloud3dChart,
   TreemapChart,
   VennChart,
   BaseChart,
-  MosaicChart,
-  PictogramChart
+  MosaicChart
 };
 
 export {
   registerLineChart,
   registerAreaChart,
   registerBarChart,
-  registerBar3dChart,
   registerBoxplotChart,
   registerCirclePackingChart,
   registerCircularProgressChart,
   registerCommonChart,
   registerFunnelChart,
-  registerFunnel3dChart,
   registerGaugeChart,
   registerHeatmapChart,
   registerHistogramChart,
-  registerHistogram3dChart,
   registerLinearProgressChart,
   registerMapChart,
-  registerPie3dChart,
   registerPieChart,
   registerRadarChart,
   registerRangeAreaChart,
-  registerRangeColumn3dChart,
   registerRangeColumnChart,
   registerRoseChart,
   registerSankeyChart,
@@ -146,38 +134,32 @@ export {
   registerSunburstChart,
   registerTreemapChart,
   registerWaterfallChart,
-  registerWordCloud3dChart,
   registerWordCloudChart,
   registerCorrelationChart,
   registerLiquidChart,
   registerWordCloudShapeChart,
   registerVennChart,
-  registerMosaicChart,
-  registerPictogramChart
+  registerMosaicChart
 };
 
 export type {
+  IChart,
   IAreaChartSpec,
   IBarChartSpec,
-  IBar3dChartSpec,
   IBoxPlotChartSpec,
   ICirclePackingChartSpec,
   ICommonChartSpec,
   IFunnelChartSpec,
-  IFunnel3dChartSpec,
   IGaugeChartSpec,
   IHeatmapChartSpec,
   IHistogramChartSpec,
-  IHistogram3dChartSpec,
   ILineChartSpec,
   IMapChartSpec,
   IPieChartSpec,
-  IPie3dChartSpec,
   ICircularProgressChartSpec,
   ILinearProgressChartSpec,
   IRadarChartSpec,
   IRangeColumnChartSpec,
-  IRangeColumn3dChartSpec,
   IRangeAreaChartSpec,
   IRoseChartSpec,
   IScatterChartSpec,
@@ -188,11 +170,9 @@ export type {
   IWaterfallChartSpec,
   ICorrelationChartSpec,
   ILiquidChartSpec,
-  IWordCloud3dChartSpec,
   IWordCloudChartSpec,
   IPolarChartSpec,
   ICartesianChartSpec,
   IVennChartSpec,
-  IMosaicChartSpec,
-  IPictogramChartSpec
+  IMosaicChartSpec
 };

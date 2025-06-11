@@ -18,12 +18,14 @@ import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { AttributeLevel } from '../../constant/attribute';
+import { link } from '../../theme/builtin/common/series/link';
 
 export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;
   type = SeriesTypeEnum.link;
 
   static readonly mark: SeriesMarkMap = linkSeriesMark;
+  static readonly builtInTheme = { link };
 
   protected _fromField?: string;
   getFromField() {
@@ -326,7 +328,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     };
   }
 
-  initInteraction(): void {
+  getInteractionTriggers() {
     const marks: IMark[] = [];
 
     if (this._linkMark) {
@@ -336,7 +338,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     if (this._arrowMark) {
       marks.push(this._arrowMark);
     }
-    this._parseInteractionConfig(marks);
+    return this._parseInteractionConfig(marks);
   }
 
   protected initTooltip() {
@@ -347,11 +349,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 
   protected onMarkTreePositionUpdate(marks: IMark[]): void {
     marks.forEach(m => {
-      if (m.type === 'group') {
-        this.onMarkTreePositionUpdate((m as IGroupMark).getMarks());
-      } else {
-        m.updateLayoutState();
-      }
+      m.commit(false, true);
     });
   }
 

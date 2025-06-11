@@ -5,6 +5,7 @@ import { ChartTypeEnum } from '../interface/type';
 import type { ISunburstChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { SunburstChartSpecTransformer } from './sunburst-transformer';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class SunburstChart<T extends ISunburstChartSpec = ISunburstChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sunburst;
@@ -16,6 +17,7 @@ export class SunburstChart<T extends ISunburstChartSpec = ISunburstChartSpec> ex
 }
 
 export const registerSunburstChart = () => {
+  registerMarkTooltipProcessor();
   registerSunBurstSeries();
   Factory.registerChart(SunburstChart.type, SunburstChart);
 };

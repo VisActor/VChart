@@ -1,40 +1,43 @@
 /* eslint-disable no-duplicate-imports */
-import { TagPointsUpdate, ClipDirectionAnimate } from '@visactor/vrender-core';
-import type { IElement } from '@visactor/vgrammar-core';
+import type { IGraphic } from '@visactor/vrender-core';
+import {
+  TagPointsUpdate,
+  ClipDirectionAnimate,
+  AnimateExecutor,
+  ScaleIn,
+  ScaleOut,
+  FadeIn,
+  FadeOut,
+  MoveIn,
+  MoveOut,
+  RotateIn,
+  RotateOut,
+  Update,
+  State,
+  GrowHeightIn,
+  GrowHeightOut,
+  GrowWidthIn,
+  GrowWidthOut,
+  GrowCenterIn,
+  GrowCenterOut,
+  GrowRadiusIn,
+  GrowRadiusOut,
+  GrowAngleIn,
+  GrowAngleOut,
+  GrowPointsIn,
+  GrowPointsOut,
+  GrowPointsXIn,
+  GrowPointsXOut,
+  GrowPointsYIn,
+  GrowPointsYOut,
+  ClipIn,
+  ClipOut,
+  FromTo
+} from '@visactor/vrender-animate';
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
 import { Factory } from '../core/factory';
-import {
-  View,
-  registerScaleInAnimation,
-  registerScaleOutAnimation,
-  registerFadeInAnimation,
-  registerFadeOutAnimation,
-  registerClipInAnimation,
-  registerClipOutAnimation,
-  registerGrowAngleInAnimation,
-  registerGrowAngleOutAnimation,
-  registerGrowCenterInAnimation,
-  registerGrowCenterOutAnimation,
-  registerGrowHeightInAnimation,
-  registerGrowHeightOutAnimation,
-  registerGrowPointsInAnimation,
-  registerGrowPointsOutAnimation,
-  registerGrowPointsXInAnimation,
-  registerGrowPointsXOutAnimation,
-  registerGrowPointsYInAnimation,
-  registerGrowPointsYOutAnimation,
-  registerGrowRadiusInAnimation,
-  registerGrowRadiusOutAnimation,
-  registerGrowWidthInAnimation,
-  registerGrowWidthOutAnimation,
-  registerMoveInAnimation,
-  registerMoveOutAnimation,
-  registerRotateInAnimation,
-  registerRotateOutAnimation,
-  registerUpdateAnimation
-} from '@visactor/vgrammar-core';
 import { Direction } from '../typings/space';
 
 export const DEFAULT_ANIMATION_CONFIG = {
@@ -92,10 +95,10 @@ export const registerCartesianGroupClipAnimation = () => {
     return {
       appear: {
         custom: ClipDirectionAnimate,
-        customParameters: (datum: any, element: IElement) => {
+        customParameters: (datum: any, g: IGraphic) => {
           return {
             animationType: 'in',
-            group: element.getGraphicItem(),
+            group: g,
             direction: params.direction(),
             width: params.width(),
             height: params.height(),
@@ -105,10 +108,10 @@ export const registerCartesianGroupClipAnimation = () => {
       },
       disappear: {
         custom: ClipDirectionAnimate,
-        customParameters: (datum: any, element: IElement) => {
+        customParameters: (datum: any, g: IGraphic) => {
           return {
             animationType: 'out',
-            group: element.getGraphicItem(),
+            group: g,
             direction: params.direction(),
             width: params.width(),
             height: params.height(),
@@ -152,53 +155,47 @@ export const registerAreaAnimation = () => {
   Factory.registerAnimation('area', lineOrAreaAnimation);
 };
 
-export const registerVGrammarCommonAnimation = () => {
-  View.useRegisters([
-    registerScaleInAnimation,
-    registerScaleOutAnimation,
-    registerFadeInAnimation,
-    registerFadeOutAnimation,
-    registerMoveInAnimation,
-    registerMoveOutAnimation,
-    registerRotateInAnimation,
-    registerRotateOutAnimation,
-    registerUpdateAnimation
-  ]);
+export const registerBuiltInAnimation = () => {
+  AnimateExecutor.registerBuiltInAnimate('scaleIn', ScaleIn);
+  AnimateExecutor.registerBuiltInAnimate('scaleOut', ScaleOut);
+  AnimateExecutor.registerBuiltInAnimate('fadeIn', FadeIn);
+  AnimateExecutor.registerBuiltInAnimate('fadeOut', FadeOut);
+  AnimateExecutor.registerBuiltInAnimate('moveIn', MoveIn);
+  AnimateExecutor.registerBuiltInAnimate('moveOut', MoveOut);
+  AnimateExecutor.registerBuiltInAnimate('rotateIn', RotateIn);
+  AnimateExecutor.registerBuiltInAnimate('rotateOut', RotateOut);
+  AnimateExecutor.registerBuiltInAnimate('update', Update);
+  AnimateExecutor.registerBuiltInAnimate('state', State);
+  AnimateExecutor.registerBuiltInAnimate('fromTo', FromTo);
 };
 
-export const registerVGrammarRectAnimation = () => {
-  View.useRegisters([
-    registerGrowHeightInAnimation,
-    registerGrowHeightOutAnimation,
-    registerGrowWidthInAnimation,
-    registerGrowWidthOutAnimation,
-    registerGrowCenterInAnimation,
-    registerGrowCenterOutAnimation
-  ]);
+export const registerRectAnimation = () => {
+  AnimateExecutor.registerBuiltInAnimate('growHeightIn', GrowHeightIn);
+  AnimateExecutor.registerBuiltInAnimate('growHeightOut', GrowHeightOut);
+  AnimateExecutor.registerBuiltInAnimate('growWidthIn', GrowWidthIn);
+  AnimateExecutor.registerBuiltInAnimate('growWidthOut', GrowWidthOut);
+  AnimateExecutor.registerBuiltInAnimate('growCenterIn', GrowCenterIn);
+  AnimateExecutor.registerBuiltInAnimate('growCenterOut', GrowCenterOut);
 };
 
-export const registerVGrammarArcAnimation = () => {
-  View.useRegisters([
-    registerGrowRadiusInAnimation,
-    registerGrowRadiusOutAnimation,
-    registerGrowAngleInAnimation,
-    registerGrowAngleOutAnimation
-  ]);
+export const registerArcAnimation = () => {
+  AnimateExecutor.registerBuiltInAnimate('growRadiusIn', GrowRadiusIn);
+  AnimateExecutor.registerBuiltInAnimate('growRadiusOut', GrowRadiusOut);
+  AnimateExecutor.registerBuiltInAnimate('growAngleIn', GrowAngleIn);
+  AnimateExecutor.registerBuiltInAnimate('growAngleOut', GrowAngleOut);
 };
 
-export const registerVGrammarLineOrAreaAnimation = () => {
-  View.useRegisters([
-    registerGrowPointsInAnimation,
-    registerGrowPointsOutAnimation,
-    registerGrowPointsXInAnimation,
-    registerGrowPointsXOutAnimation,
-    registerGrowPointsYInAnimation,
-    registerGrowPointsYOutAnimation,
-    registerClipInAnimation,
-    registerClipOutAnimation
-  ]);
+export const registerLineOrAreaAnimation = () => {
+  AnimateExecutor.registerBuiltInAnimate('growPointsIn', GrowPointsIn);
+  AnimateExecutor.registerBuiltInAnimate('growPointsOut', GrowPointsOut);
+  AnimateExecutor.registerBuiltInAnimate('growPointsXIn', GrowPointsXIn);
+  AnimateExecutor.registerBuiltInAnimate('growPointsXOut', GrowPointsXOut);
+  AnimateExecutor.registerBuiltInAnimate('growPointsYIn', GrowPointsYIn);
+  AnimateExecutor.registerBuiltInAnimate('growPointsYOut', GrowPointsYOut);
+  AnimateExecutor.registerBuiltInAnimate('clipIn', ClipIn);
+  AnimateExecutor.registerBuiltInAnimate('clipOut', ClipOut);
 };
 
-export const registerVGrammarPolygonAnimation = () => {
-  View.useRegisters([registerGrowPointsInAnimation, registerGrowPointsOutAnimation]);
+export const registerPolygonAnimation = () => {
+  AnimateExecutor.registerBuiltInAnimate('growPointsOut', GrowPointsOut);
 };

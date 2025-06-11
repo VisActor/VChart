@@ -225,12 +225,6 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
       this._relativeSeries.event.on('scroll', this._markerLayout.bind(this));
     }
   }
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing
-  }
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
 
   clear(): void {
     super.clear();
@@ -254,7 +248,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     return [this._markerComponent] as unknown as IGroup[];
   }
 
-  onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect, ctx: any): void {
+  onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect): void {
     // offset
     if (!isNil(this._spec.offsetX)) {
       this._layoutOffsetX = calcLayoutNumber(this._spec.offsetX, chartViewRect.width, chartViewRect);
@@ -262,7 +256,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     if (!isNil(this._spec.offsetY)) {
       this._layoutOffsetY = calcLayoutNumber(this._spec.offsetY, chartViewRect.height, chartViewRect);
     }
-    super.onLayoutStart(layoutRect, chartViewRect, ctx);
+    super.onLayoutStart(layoutRect, chartViewRect);
   }
 
   _compareSpec(spec: T, prevSpec: T) {

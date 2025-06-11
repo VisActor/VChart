@@ -16,7 +16,8 @@ export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> ex
       'sampling',
       'samplingFactor',
       'barBackground',
-      'stackCornerRadius'
+      'stackCornerRadius',
+      'useSequentialAnimation'
     ]) as IBarSeriesSpec;
   }
 

@@ -1,5 +1,5 @@
-import type { Datum } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
+import type { Datum } from '../../typings/common';
 
 export interface IDimensionTreeOpt {
   fields: string[];

@@ -1,7 +1,7 @@
-import { flattenNodes } from '@visactor/vgrammar-hierarchy';
+import { flattenNodes } from '@visactor/vlayouts';
 import type { Datum } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import type { TreemapNodeElement, SunburstNodeElement } from '@visactor/vgrammar-hierarchy';
+import type { TreemapNodeElement, SunburstNodeElement } from '@visactor/vlayouts';
 
 export type FlattenNodeElement = TreemapNodeElement | SunburstNodeElement;
 

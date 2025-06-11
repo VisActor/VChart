@@ -19,6 +19,9 @@
   "references": [
     {
       "path": "../vchart"
+    },
+    {
+      "path": "../vchart-extension"
     }
   ],
   "include": ["src"]

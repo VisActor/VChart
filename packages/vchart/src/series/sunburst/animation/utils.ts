@@ -1,7 +1,6 @@
-import type { IElement } from '@visactor/vgrammar-core';
-// eslint-disable-next-line no-duplicate-imports
-import { DiffState } from '@visactor/vgrammar-core';
 import { minInArray } from '@visactor/vutils';
+import { DiffState } from '../../../mark/interface/enum';
+import type { IMarkGraphic } from '../../../mark/interface/common';
 
 /**
  * 计算角度对于起点的比例
@@ -25,11 +24,11 @@ export const computeRatio = (angle: number, range: [number, number]) => {
 /**
  * 得到最内层的Elements
  */
-export const getInnerMostElements = (element: IElement) => {
+export const getInnerMostElements = (graphics: IMarkGraphic[]) => {
   // 所有待更新的marks
-  const updateElements = element.mark.elements.filter(e => e.diffState === DiffState.update);
+  const updateElements = graphics.filter(g => g.context.diffState === DiffState.update);
   // 得到最内层级
-  const minDepth = minInArray(updateElements.map(e => e?.data?.[0].depth));
+  const minDepth = minInArray(updateElements.map(g => g?.context?.data?.[0].depth));
   // 内层的Marks
-  return updateElements.filter(e => e?.data?.[0].depth === minDepth);
+  return updateElements.filter(g => g?.context?.data?.[0].depth === minDepth);
 };

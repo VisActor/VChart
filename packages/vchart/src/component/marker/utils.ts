@@ -27,6 +27,8 @@ import { AGGR_TYPE } from '../../constant/marker';
 import type { IRegion } from '../../region/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { OffsetPoint } from './interface';
+import type { IAxisHelper, IPolarAxisHelper } from '../axis';
+import { isContinuous } from '@visactor/vscale';
 
 function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean) {
   if (!autoRange) {
@@ -57,7 +59,9 @@ function getXValue(
   if (isPercent(datum.x)) {
     x = convertPercentToValue(datum.x, regionWidth) + regionStartLayoutStartPoint.x;
   } else {
-    x = (relativeSeries as ICartesianSeries).getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
+    x =
+      convertDatumToValue((relativeSeries as ICartesianSeries).getXAxisHelper(), [datum.x]) +
+      regionStartLayoutStartPoint.x;
   }
 
   return x;
@@ -80,7 +84,9 @@ function getYValue(
   if (isPercent(datum.y)) {
     y = convertPercentToValue(datum.y, regionHeight) + regionStartLayoutStartPoint.y;
   } else {
-    y = (relativeSeries as ICartesianSeries).getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
+    y =
+      convertDatumToValue((relativeSeries as ICartesianSeries).getYAxisHelper(), [datum.y]) +
+      regionStartLayoutStartPoint.y;
   }
 
   return y;
@@ -97,7 +103,7 @@ function getAngleValue(
     isNeedExtendDomain(angleDomain, datum.angle, autoRange) &&
     (relativeSeries as IPolarSeries).angleAxisHelper?.setExtendDomain?.('marker_angleAxis_extend', datum.angle);
 
-  return (relativeSeries as IPolarSeries).angleAxisHelper.dataToPosition([datum.angle]);
+  return convertDatumToValue((relativeSeries as IPolarSeries).angleAxisHelper, [datum.angle]);
 }
 
 function getRadiusValue(
@@ -111,11 +117,19 @@ function getRadiusValue(
     isNeedExtendDomain(radiusDomain, datum.radius, autoRange) &&
     (relativeSeries as IPolarSeries).radiusAxisHelper?.setExtendDomain?.('marker_radiusAxis_extend', datum.radius);
 
-  return (relativeSeries as IPolarSeries).radiusAxisHelper.dataToPosition([datum.radius]);
+  return convertDatumToValue((relativeSeries as IPolarSeries).radiusAxisHelper, [datum.radius]);
 }
 
 function convertPercentToValue(percent: string, relativeLength: number) {
   return (Number(percent.substring(0, percent.length - 1)) * relativeLength) / 100;
+}
+
+function convertDatumToValue(axisHelper: IAxisHelper | IPolarAxisHelper, datum: (number | string)[]) {
+  const scale = axisHelper.getScale(0);
+  if (isContinuous(scale.type) && scale.domain()[0] === scale.domain()[1] && datum[0] !== scale.domain()[0]) {
+    return NaN;
+  }
+  return axisHelper.dataToPosition(datum);
 }
 
 export function isAggrSpec(spec: IDataPos) {
@@ -345,8 +359,8 @@ export function cartesianCoordinateLayout(
         isNeedExtendDomain(yDomain, yValue[0], autoRange) &&
         refRelativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', yValue[0] as number);
       points.push({
-        x: refRelativeSeries.getXAxisHelper().dataToPosition(xValue) + regionStartLayoutStartPoint.x + offsetX,
-        y: refRelativeSeries.getYAxisHelper().dataToPosition(yValue) + regionStartLayoutStartPoint.y + offsetY
+        x: convertDatumToValue(refRelativeSeries.getXAxisHelper(), xValue) + regionStartLayoutStartPoint.x + offsetX,
+        y: convertDatumToValue(refRelativeSeries.getYAxisHelper(), yValue) + regionStartLayoutStartPoint.y + offsetY
       });
     }
   );
@@ -382,8 +396,8 @@ export function polarCoordinateLayout(data: DataView, relativeSeries: IMarkerSup
         isNeedExtendDomain(radiusDomain, radiusValue[0], autoRange) &&
         refRelativeSeries.radiusAxisHelper?.setExtendDomain?.('marker_yAxis_extend', radiusValue[0] as number);
       points.push({
-        angle: refRelativeSeries.angleAxisHelper.dataToPosition(angleValue),
-        radius: refRelativeSeries.radiusAxisHelper.dataToPosition(radiusValue)
+        angle: convertDatumToValue(refRelativeSeries.angleAxisHelper, angleValue),
+        radius: convertDatumToValue(refRelativeSeries.radiusAxisHelper, radiusValue)
       });
     }
   );

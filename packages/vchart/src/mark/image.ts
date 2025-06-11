@@ -1,10 +1,11 @@
 import { Factory } from './../core/factory';
 import type { IImageMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IImageMark, IMarkStyle } from './interface';
+import type { IImageMark, IMarkStyle, MarkConstructor } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerImageGraphic } from '@visactor/vgrammar-core';
+import { registerImage, registerShadowRoot } from '@visactor/vrender-kits';
+import { createImage } from '@visactor/vrender-core';
 
 export class ImageMark extends BaseMark<IImageMarkSpec> implements IImageMark {
   static readonly type = MarkTypeEnum.image;
@@ -22,6 +23,9 @@ export class ImageMark extends BaseMark<IImageMarkSpec> implements IImageMark {
 }
 
 export const registerImageMark = () => {
-  Factory.registerMark(ImageMark.type, ImageMark);
-  registerImageGraphic();
+  Factory.registerMark(ImageMark.type, ImageMark as unknown as MarkConstructor);
+  registerShadowRoot();
+  registerImage();
+
+  Factory.registerGraphicComponent(MarkTypeEnum.image, createImage);
 };

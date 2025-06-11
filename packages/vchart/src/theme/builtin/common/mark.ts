@@ -51,23 +51,6 @@ export const markByName: IGlobalMarkThemeByName = {
       fontSize: null
     }
   },
-  sunburst: {
-    style: {
-      lineWidth: 1,
-      stroke: { type: 'palette', key: 'backgroundColor' }
-    }
-  },
-  circlePacking: {
-    style: {
-      lineWidth: 1,
-      stroke: { type: 'palette', key: 'backgroundColor' }
-    }
-  },
-  funnel3d: {
-    style: {
-      stroke: false
-    }
-  },
   barBackground: {
     visible: false,
     style: {

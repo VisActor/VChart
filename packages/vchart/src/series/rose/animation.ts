@@ -1,21 +1,22 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
-import type { Datum } from '../../typings';
 import { Factory } from '../../core/factory';
 import type { IRoseAnimationParams, RoseAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
+
+function growInType(growField: string) {
+  return growField === 'angle' ? 'growAngleIn' : 'growRadiusIn';
+}
+
+function growOutType(growField: string) {
+  return growField === 'angle' ? 'growAngleOut' : 'growRadiusOut';
+}
 
 export const Appear_Grow = (params: IRoseAnimationParams): IAnimationTypeConfig => {
-  const from = params.growField === 'angle' ? 0 : params.innerRadius;
-  //TODO: 待 vgrammar 内置后替换
-  return params.growField === 'angle'
-    ? {
-        type: params.growField === 'angle' ? 'growAngleIn' : 'growRadiusIn'
-      }
-    : {
-        channel: {
-          innerRadius: { from, to: (datum: Datum, element: any) => element.getFinalGraphicAttributes()?.innerRadius },
-          outerRadius: { from, to: (datum: Datum, element: any) => element.getFinalGraphicAttributes()?.outerRadius }
-        }
-      };
+  return {
+    type: growInType(params.growField),
+    options: {
+      overall: true
+    }
+  };
 };
 
 export const Appear_FadeIn: IAnimationTypeConfig = {
@@ -24,21 +25,17 @@ export const Appear_FadeIn: IAnimationTypeConfig = {
 
 export const roseEnter = (params: IRoseAnimationParams): IAnimationTypeConfig => {
   return {
-    type: params.growField === 'angle' ? 'growAngleIn' : 'growRadiusIn'
+    type: growInType(params.growField)
   };
 };
 
 export const roseExit = (params: IRoseAnimationParams): IAnimationTypeConfig => {
   return {
-    type: params.growField === 'angle' ? 'growAngleOut' : 'growRadiusOut'
+    type: growOutType(params.growField)
   };
 };
 
-export const roseDisappear = (params: IRoseAnimationParams): IAnimationTypeConfig => {
-  return {
-    type: params.growField === 'angle' ? 'growAngleOut' : 'growRadiusOut'
-  };
-};
+export const roseDisappear = roseExit;
 
 export function rosePresetAnimation(
   params: IRoseAnimationParams,

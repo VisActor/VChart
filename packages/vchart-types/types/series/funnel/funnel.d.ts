@@ -1,21 +1,19 @@
 import type { IFunnelSeries, SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum } from '../interface/type';
 import type { IOrientType, Datum, StringOrNumber } from '../../typings';
-import { SeriesTypeEnum } from '../interface/type';
 import { BaseSeries } from '../base/base-series';
 import type { ILabelMark, IMark, IPolygonMark, IRuleMark, ITextMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface/type';
-import type { IFunnelSeriesSpec } from './interface';
-import { SeriesData } from '../base/series-data';
+import type { IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
 import { FunnelSeriesSpecTransformer } from './funnel-transformer';
+import type { ICompilableData } from '../../compile/data';
 export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec> extends BaseSeries<T> implements IFunnelSeries {
     static readonly type: string;
-    type: SeriesTypeEnum;
-    protected _funnelMarkName: SeriesMarkNameEnum;
-    protected _funnelMarkType: MarkTypeEnum;
-    protected _transformMarkName: SeriesMarkNameEnum;
-    protected _transformMarkType: MarkTypeEnum;
+    type: string;
+    protected _funnelMarkName: string;
+    protected _funnelMarkType: string;
+    protected _transformMarkName: string;
+    protected _transformMarkType: string;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: Record<string, IFunnelSeriesTheme>;
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof FunnelSeriesSpecTransformer;
     protected _categoryField: string;
@@ -24,7 +22,7 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
     protected _valueField: string;
     getValueField(): string;
     setValueField(f: string): string;
-    protected _viewDataTransform: SeriesData;
+    protected _viewDataTransform: ICompilableData;
     protected _funnelAlign: 'left' | 'center' | 'right' | 'top' | 'bottom';
     protected _funnelOrient: IOrientType;
     protected _shape: 'rect' | 'trapezoid';
@@ -39,6 +37,7 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
     protected _minLabelLineWidth: number;
     setAttrFromSpec(): void;
     initData(): void;
+    compile(): void;
     compileData(): void;
     getStatisticFields(): {
         key: string;

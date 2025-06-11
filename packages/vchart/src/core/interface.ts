@@ -15,14 +15,14 @@ import type {
 } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
-import type { IMark } from '../mark/interface';
+import type { EventCallback, EventQuery, EventType, ExtendEventParam } from '../event/interface';
+import type { IMark, IMarkDataTransform } from '../mark/interface';
 import type { ISeries } from '../series/interface/series';
 import type { ITheme } from '../theme/interface';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { DimensionIndexOption, IChart, IChartSpecInfo } from '../chart/interface';
-import type { IStage } from '@visactor/vrender-core';
+import type { IEventTarget, IStage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IUpdateSpecResult } from '../model/interface';
@@ -205,9 +205,9 @@ export interface IVChart {
   /**
    * 事件监听
    */
-  on: ((eType: EventType, handler: EventCallback<EventParams>) => void) &
-    ((eType: EventType, query: EventQuery, handler: EventCallback<EventParams>) => void);
-  off: (eType: EventType, handler?: EventCallback<EventParams>) => void;
+  on: ((eType: EventType, handler: EventCallback<ExtendEventParam>) => void) &
+    ((eType: EventType, query: EventQuery, handler: EventCallback<ExtendEventParam>) => void);
+  off: (eType: EventType, handler?: EventCallback<ExtendEventParam>) => void;
 
   /**
    * 更新或设置图元状态。
@@ -575,3 +575,21 @@ export type VChartRenderActionSource =
   | 'updateModelSpec'
   | 'setCurrentTheme'
   | 'updateSpecAndRecompile';
+
+export interface VRenderComponentOptions {
+  skipDefault?: boolean;
+  mode?: '2d' | '3d';
+}
+
+export interface IStageEventPlugin<T> {
+  new (taget: IEventTarget, cfg?: T): {
+    release: () => void;
+  };
+}
+
+export interface GrammarTransformOption {
+  /** 是否支持渐进流程 */
+  canProgressive?: boolean;
+  transform: IMarkDataTransform;
+  runType?: 'beforeJoin' | 'afterEncode';
+}

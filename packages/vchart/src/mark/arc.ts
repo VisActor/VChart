@@ -7,12 +7,14 @@ import { BaseMark } from './base/base-mark';
 import type { IArcMark, IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerArcGraphic } from '@visactor/vgrammar-core';
-import { registerVGrammarArcAnimation } from '../animation/config';
+import { registerArcAnimation } from '../animation/config';
 import { polarToCartesian } from '@visactor/vutils';
+import { createArc } from '@visactor/vrender-core';
+import { registerArcDataLabel } from '@visactor/vrender-components';
+import { registerArc, registerShadowRoot } from '@visactor/vrender-kits';
 
 export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements IMarkRaw<T> {
-  readonly type: MarkTypeEnum = ArcMark.type;
+  readonly type: string = ArcMark.type;
 
   _unCompileChannel = { centerOffset: true, radiusOffset: true };
 
@@ -47,24 +49,17 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
     key: string,
     datum: Datum,
     states: StateValueType = 'normal',
-    opt: any,
     superValue: number
   ): number => {
-    const offset = (this.getAttribute('radiusOffset', datum, states, opt) as number) ?? 0;
+    const offset = (this.getAttribute('radiusOffset', datum, states) as number) ?? 0;
     return superValue + offset;
   };
 
-  protected computeCenter = (
-    key: 'x' | 'y',
-    datum: Datum,
-    states: StateValueType = 'normal',
-    opt: any,
-    center: number
-  ) => {
+  protected computeCenter = (key: 'x' | 'y', datum: Datum, states: StateValueType = 'normal', center: number) => {
     return (
       polarToCartesian(
         { x: 0, y: 0 },
-        this.getAttribute('centerOffset', datum, states, opt) as number,
+        this.getAttribute('centerOffset', datum, states) as number,
         datum[ARC_MIDDLE_ANGLE]
       )[key] + center
     );
@@ -77,7 +72,10 @@ export class ArcMark extends BaseArcMark<IArcMarkSpec> implements IArcMark {
 }
 
 export const registerArcMark = () => {
-  registerArcGraphic();
-  registerVGrammarArcAnimation();
+  registerShadowRoot();
+  registerArc();
+  registerArcDataLabel();
+  registerArcAnimation();
+  Factory.registerGraphicComponent(MarkTypeEnum.arc, createArc);
   Factory.registerMark(ArcMark.type, ArcMark);
 };

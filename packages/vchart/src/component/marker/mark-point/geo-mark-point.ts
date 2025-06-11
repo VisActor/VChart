@@ -4,6 +4,7 @@ import { registerMarkPointAnimate } from '@visactor/vrender-components';
 import { Factory } from '../../../core/factory';
 import { BaseMarkPoint } from './base-mark-point';
 import type { CoordinateType } from '../../../typings';
+import { markPoint } from '../../../theme/builtin/common/component/mark-point';
 
 export class GeoMarkPoint extends BaseMarkPoint {
   static type = ComponentTypeEnum.geoMarkPoint;
@@ -11,6 +12,10 @@ export class GeoMarkPoint extends BaseMarkPoint {
   name: string = ComponentTypeEnum.geoMarkPoint;
   static coordinateType: string = 'geo';
   coordinateType = 'geo' as CoordinateType;
+
+  static readonly builtInTheme = {
+    geoMarkPoint: markPoint
+  };
 
   protected _computePointsAttr() {
     const data = this._markerData;

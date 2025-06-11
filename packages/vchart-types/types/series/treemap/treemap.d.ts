@@ -11,6 +11,9 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        treemap: import("./interface").ITreemapSeriesTheme;
+    };
     static readonly transformerConstructor: typeof TreemapSeriesSpecTransformer;
     readonly transformerConstructor: typeof TreemapSeriesSpecTransformer;
     private _leafMark;
@@ -30,7 +33,6 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     private _enableAnimationHook;
     setAttrFromSpec(): void;
     initData(): void;
-    compile(): void;
     protected _runTreemapTransform(render?: boolean): void;
     protected _addDataIndexAndKey(): void;
     getRawDataStatisticsByField(field: string, isNumeric?: boolean): {
@@ -59,7 +61,7 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     handleZoom(event: ZoomEventParam): void;
     getDimensionField(): string[];
     getMeasureField(): string[];
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     protected enableMarkAnimation(): void;
     protected disableMarkAnimation(): void;
     getDefaultShapeType(): string;

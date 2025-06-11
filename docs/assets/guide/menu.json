@@ -919,6 +919,13 @@
                 "zh": "转化率漏斗图",
                 "en": "Conversion Funnel"
               }
+            },
+            {
+              "path": "map_label",
+              "title": {
+                "zh": "地图标签组件",
+                "en": "Map Label"
+              }
             }
           ]
         }

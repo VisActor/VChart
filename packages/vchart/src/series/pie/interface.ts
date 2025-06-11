@@ -1,6 +1,6 @@
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { IArcMarkSpec, ITextMarkSpec, IArc3dMarkSpec, ILineMarkSpec } from '../../typings/visual';
+import type { IArcMarkSpec, ITextMarkSpec, ILineMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { ILabelSpec, IMultiLabelSpec } from '../../component/label/interface';
@@ -8,12 +8,12 @@ import type { ICustomPath2D, ILineGraphicAttribute, ITextGraphicAttribute } from
 import type { ILayoutRect, IPercent } from '../../typings/layout';
 import type { IPointLike } from '@visactor/vutils';
 import type { AnimationStateEnum } from '../../animation/interface';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { Datum } from '../../typings/common';
+import type { IMarkGraphic } from '../../mark/interface';
 
 export interface IPieAnimationParams {
   growField?: 'angle' | 'radius';
-  growFrom: (datum: Datum, element: IElement, state: AnimationStateEnum) => number;
+  growFrom: (datum: Datum, g: IMarkGraphic, state: AnimationStateEnum) => number;
 }
 
 export type PieAppearPreset = 'growAngle' | 'growRadius' | 'fadeIn';
@@ -136,28 +136,6 @@ export interface IPieSeriesTheme extends IPolarSeriesTheme {
    * @since 1.12.0
    */
   emptyCircle?: Partial<IMarkTheme<IArcMarkSpec>>;
-}
-
-export type IPie3dSeriesSpec = {
-  type: 'pie3d';
-  // 饼图整体绕x轴的旋转角度
-  angle3d?: number;
-} & Omit<IPieSeriesSpec, 'type'>;
-
-export interface IPie3dSeriesTheme extends IPolarSeriesTheme {
-  [SeriesMarkNameEnum.pie3d]?: Partial<IMarkTheme<IArc3dMarkSpec>>;
-  /** 标签配置 */
-  [SeriesMarkNameEnum.label]?: IArcLabelSpec;
-  /**
-   * 内标签配置
-   * @since 1.5.1
-   */
-  innerLabel?: IArcLabelSpec;
-  /**
-   * 外标签配置
-   * @since 1.5.1
-   */
-  outerLabel?: IArcLabelSpec;
 }
 
 export interface IArcLabelLineSpec extends Omit<IMarkSpec<ILineMarkSpec>, 'customShape'> {

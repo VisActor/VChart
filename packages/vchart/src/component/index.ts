@@ -10,15 +10,14 @@ import { DataZoom, registerDataZoom } from './data-zoom/data-zoom/data-zoom';
 import { CustomMark, registerCustomMark } from './custom-mark/custom-mark';
 import type { IBrushSpec, IBrushTheme } from './brush';
 import { Brush, registerBrush } from './brush/brush';
-import type { IMapLabelSpec, IMapLabelTheme } from './map-label';
-import { MapLabelComponent, registerMapLabel } from './map-label/component';
 import type {
   ICartesianLinearAxisSpec,
   ICartesianBandAxisSpec,
   ICartesianTimeAxisSpec,
   ICartesianAxisSpec,
   ICartesianLogAxisSpec,
-  ICartesianAxisCommonTheme
+  ICartesianAxisCommonTheme,
+  ICartesianSymlogAxisSpec
 } from './axis/cartesian/index';
 import {
   CartesianAxis,
@@ -80,15 +79,22 @@ import { Label, registerLabel } from './label';
 import { TotalLabel, registerTotalLabel } from './label/total-label';
 import { registerPoptip } from './poptip/index';
 import type { IComponentTheme } from './interface';
-import type { IAxisCommonTheme, IAxisItemTheme, IBandAxisTheme } from './axis/interface';
+import type { IAxis, IAxisCommonTheme, IAxisItemTheme, IBandAxisTheme } from './axis/interface';
 import type { IPoptipTheme } from './poptip/interface';
+import { registerDimensionTooltipProcessor } from './tooltip/processor/dimension-tooltip';
+import { registerMarkTooltipProcessor } from './tooltip/processor/mark-tooltip';
+import { getCartesianCrosshairRect } from './crosshair/utils/cartesian';
+import { registerGroupTooltipProcessor } from './tooltip/processor/group-tooltip';
+import { BandAxisMixin } from './axis/mixin/band-axis-mixin';
+import { LinearAxisMixin } from './axis/mixin/linear-axis-mixin';
 
 export {
   ScrollBar,
   DataZoom,
   CustomMark,
   Brush,
-  MapLabelComponent,
+  BandAxisMixin,
+  LinearAxisMixin,
   CartesianAxis,
   CartesianBandAxis,
   CartesianLinearAxis,
@@ -118,10 +124,15 @@ export {
   TotalLabel
 };
 
+export { getCartesianCrosshairRect };
+
 export {
   registerBrush,
   registerScrollBar,
   registerTitle,
+  registerMarkTooltipProcessor,
+  registerDimensionTooltipProcessor,
+  registerGroupTooltipProcessor,
   registerTooltip,
   registerCartesianBandAxis,
   registerCartesianCrossHair,
@@ -137,7 +148,6 @@ export {
   registerIndicator,
   registerLabel,
   registerTotalLabel,
-  registerMapLabel,
   registerMarkLine,
   registerMarkArea,
   registerMarkPoint,
@@ -153,6 +163,7 @@ export {
 };
 
 export type {
+  IAxis,
   IComponent,
   IScrollBarSpec,
   IBrushSpec,
@@ -162,6 +173,7 @@ export type {
   ICartesianLinearAxisSpec,
   ICartesianTimeAxisSpec,
   ICartesianLogAxisSpec,
+  ICartesianSymlogAxisSpec,
   IContinuousLegendSpec,
   IDataZoomSpec,
   IDiscreteLegendSpec,
@@ -169,7 +181,6 @@ export type {
   IIndicatorSpec,
   ILabelSpec,
   ITotalLabelSpec,
-  IMapLabelSpec,
   IMarkAreaSpec,
   IMarkLineSpec,
   IStepMarkLineSpec,
@@ -195,7 +206,6 @@ export type {
   IDataZoomTheme,
   IScrollBarTheme,
   IIndicatorTheme,
-  IMapLabelTheme,
   ITotalLabelTheme,
   ISizeLegendTheme,
   IColorLegendTheme,
@@ -212,3 +222,7 @@ export type {
 
 // tooltip
 export * from './tooltip/interface';
+
+// utils
+
+export { isXAxis, isYAxis, isZAxis } from './axis/cartesian/util';

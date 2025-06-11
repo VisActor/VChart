@@ -8,6 +8,9 @@ export declare class CartesianMarkPoint extends BaseMarkPoint {
     name: string;
     static coordinateType: string;
     coordinateType: CoordinateType;
+    static readonly builtInTheme: {
+        markPoint: import("./interface").IMarkPointTheme<Partial<import("../interface").IMarkerSymbol>>;
+    };
     protected _computePointsAttr(): {
         point: IPoint;
     };

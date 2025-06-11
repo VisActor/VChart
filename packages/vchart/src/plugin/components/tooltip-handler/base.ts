@@ -19,7 +19,6 @@ import type { TooltipFixedPosition } from '../../../typings/tooltip';
 import { getScale } from './utils/common';
 import {
   getActualTooltipPositionValue,
-  getCartesianCrosshairRect,
   getPositionType,
   isFixedTooltipPositionPattern,
   isGlobalTooltipPositionPattern
@@ -28,7 +27,6 @@ import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNumber, isObject, isValidNumber, isValid, isFunction } from '@visactor/vutils';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { ILayoutModel } from '../../../model/interface';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IChartOption } from '../../../chart/interface';
@@ -173,7 +171,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   }
 
   release(): void {
-    const spec = this._component.getSpec() ?? {};
+    const spec = this._component?.getSpec() ?? {};
     /** 用户自定义逻辑 */
     if (spec.handler) {
       spec.handler.release?.();
@@ -183,6 +181,8 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     this._removeTooltip();
 
     this._isReleased = true;
+    this._chartOption = null;
+    this._component = null;
   }
 
   /* -----需要子类继承的方法开始----- */
@@ -215,6 +215,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     params: TooltipHandlerParams,
     tooltipBoxSize: IContainerSize | undefined
   ): ITooltipPositionActual => {
+    const getCartesianCrosshairRect = this._chartOption.getRectByDimensionData;
     const { tooltipSpec } = params;
     const invalidPosition = {
       x: Infinity,
@@ -293,13 +294,14 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
       if (mode === 'mark') {
         isFixedPosition = true;
-        const element = params.item as IElement;
-        const bounds = element?.getBounds() as AABBBounds;
+        const markGraphic = params.item;
+        const bounds = markGraphic?.AABBBounds as AABBBounds;
         if (bounds && startPoint) {
           dim1 = (dim === 'x' ? bounds.x1 : bounds.y1) + startPoint[dim];
           dim2 = (dim === 'x' ? bounds.x2 : bounds.y2) + startPoint[dim];
         }
       } else if (
+        getCartesianCrosshairRect &&
         mode === 'crosshair' &&
         firstDim?.series?.coordinate === 'cartesian' &&
         firstDim.datum &&
