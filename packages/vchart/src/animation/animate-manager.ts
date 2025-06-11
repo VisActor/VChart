@@ -1,74 +1,65 @@
-import type { IElement } from '@visactor/vgrammar-core';
-import { StateManager } from '../compile/signal/state-manager';
-import type { StateValueMap } from '../compile/signal/interface';
-import { PREFIX } from '../constant/base';
-import { createID } from '../util/id';
-import type { IAnimate, IAnimateState } from './interface';
-// eslint-disable-next-line no-duplicate-imports
-import { AnimationStateEnum } from './interface';
+// import { StateManager } from '../compile/state-manager';
+// import { createID } from '../util/id';
+// import type { IAnimate, IAnimateState } from './interface';
+// // eslint-disable-next-line no-duplicate-imports
+// import { AnimationStateEnum } from './interface';
+// import type { StateValueMap } from '../compile/interface/compilable-item';
+// import type { IMarkGraphic } from '../mark/interface/common';
 
-export class AnimateManager extends StateManager implements IAnimate {
-  protected declare _stateMap: IAnimateState & StateValueMap;
+// export class AnimateManager extends StateManager implements IAnimate {
+//   protected declare _stateMap: IAnimateState & StateValueMap;
 
-  readonly id: number = createID();
+//   readonly id: number = createID();
 
-  protected stateKeyToSignalName = (key: string) => {
-    return `${PREFIX}_animate_${this.id}_${key}`;
-  };
+//   updateAnimateState(state: AnimationStateEnum, noRender?: boolean) {
+//     // when animation state is 'update', do animations by element diffState(enter & update & exit)
+//     if (state === AnimationStateEnum.update) {
+//       this.updateState(
+//         {
+//           animationState: {
+//             callback: (datum: any, g: IMarkGraphic) => g.context.diffState
+//           }
+//         },
+//         noRender
+//       );
+//     }
+//     // when animation state is 'appear', all valid elements would do appear animation except from exit elements
+//     else if (state === AnimationStateEnum.appear) {
+//       this.updateState(
+//         {
+//           animationState: {
+//             callback: (datum: any, g: IMarkGraphic) => {
+//               return g.context.diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
+//             }
+//           }
+//         },
+//         noRender
+//       );
+//     }
+//     // when animation state is other types, all elements would do animation by state
+//     else {
+//       this.updateState(
+//         {
+//           animationState: {
+//             callback: (datum: any, g: IMarkGraphic) => state
+//           }
+//         },
+//         noRender
+//       );
+//     }
+//   }
 
-  getAnimationStateSignalName() {
-    return this.stateKeyToSignalName('animationState');
-  }
-
-  updateAnimateState(state: AnimationStateEnum, noRender?: boolean) {
-    // when animation state is 'update', do animations by element diffState(enter & update & exit)
-    if (state === AnimationStateEnum.update) {
-      this.updateState(
-        {
-          animationState: {
-            callback: (datum: any, element: IElement) => element.diffState
-          }
-        },
-        noRender
-      );
-    }
-    // when animation state is 'appear', all valid elements would do appear animation except from exit elements
-    else if (state === AnimationStateEnum.appear) {
-      this.updateState(
-        {
-          animationState: {
-            callback: (datum: any, element: IElement) => {
-              return element.diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
-            }
-          }
-        },
-        noRender
-      );
-    }
-    // when animation state is other types, all elements would do animation by state
-    else {
-      this.updateState(
-        {
-          animationState: {
-            callback: (datum: any, element: IElement) => state
-          }
-        },
-        noRender
-      );
-    }
-  }
-
-  protected _getDefaultStateMap(): IAnimateState & StateValueMap {
-    return {
-      animationState: {
-        callback: (datum: any, element: IElement) => {
-          return element.diffState === 'exit'
-            ? AnimationStateEnum.exit
-            : element.diffState === 'update'
-            ? AnimationStateEnum.update
-            : AnimationStateEnum.appear;
-        }
-      }
-    };
-  }
-}
+//   protected _getDefaultStateMap(): IAnimateState & StateValueMap {
+//     return {
+//       animationState: {
+//         callback: (datum: any, g: IMarkGraphic) => {
+//           return g.context.diffState === 'exit'
+//             ? AnimationStateEnum.exit
+//             : g.context.diffState === 'update'
+//             ? AnimationStateEnum.update
+//             : AnimationStateEnum.appear;
+//         }
+//       }
+//     };
+//   }
+// }

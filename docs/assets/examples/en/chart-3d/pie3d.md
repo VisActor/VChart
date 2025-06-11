@@ -26,6 +26,20 @@ The configuration of the 3D pie chart inherits most of the configuration of the 
 ## Demo source
 
 ```javascript livedemo
+/**
+ * Since version 2.0.0, 3D charts are imported from vchart-extension.
+ *
+ * import { registerPie3dChart } from '@visactor/vchart-extension';
+ *
+ * registerPie3dChart();
+ */
+
+/** --Remove the following code when using in production-- */
+if (VChartExtension.registerPie3dChart) {
+  VChartExtension.registerPie3dChart();
+}
+/** --Remove the above code when using in production-- */
+
 const spec = {
   type: 'pie3d',
   data: [

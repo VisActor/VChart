@@ -1,8 +1,8 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
 import { Factory } from '../../../core/factory';
 import type { ILinearProgressAnimationParams, LinearProgressAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../../animation/interface';
 
 function LinearProgressGrowOption(params: ILinearProgressAnimationParams) {
   return () => {
@@ -37,7 +37,7 @@ export const Appear_FadeIn: IAnimationTypeConfig = {
 
 export function linearProgressPresetAnimation(
   params: ILinearProgressAnimationParams,
-  preset: LinearProgressAppearPreset | boolean
+  preset: LinearProgressAppearPreset | boolean = 'grow'
 ) {
   if (preset === false) {
     return {};
@@ -56,7 +56,7 @@ export const registerLinearProgressAnimation = () => {
     (params: ILinearProgressAnimationParams, preset: LinearProgressAppearPreset) => {
       return {
         appear: linearProgressPresetAnimation(params, preset),
-        enter: { type: 'grow' },
+        enter: linearProgressPresetAnimation(params),
         disappear: linearProgressDisappear(params)
       };
     }

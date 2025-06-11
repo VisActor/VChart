@@ -1,4 +1,4 @@
-import type { IBarSeriesSpec, IBar3dSeriesSpec } from '../../series/bar/interface';
+import type { IBarSeriesSpec } from '../../series/bar/interface';
 import type { IChartExtendsSeriesSpec } from '../../typings/spec/common';
 import type { ICartesianChartSpec } from '../cartesian/interface';
 
@@ -16,10 +16,4 @@ export interface IBarChartSpec extends ICartesianChartSpec, IChartExtendsSeriesS
         /** 设置 bandSize 的在自动计算结果基础上的扩增值，单位为 px */
         extend: number;
       };
-}
-
-export interface IBar3dChartSpec extends ICartesianChartSpec, IChartExtendsSeriesSpec<IBar3dSeriesSpec> {
-  type: 'bar3d';
-  /** 系列配置 */
-  series?: IBar3dSeriesSpec[];
 }

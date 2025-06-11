@@ -1,6 +1,5 @@
 /* eslint-disable no-duplicate-imports */
 import { PREFIX } from '../../constant/base';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import type { Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
 import type { IScatterSeriesSpec, ScatterAppearPreset } from './interface';
@@ -24,16 +23,18 @@ import { registerScatterAnimation } from './animation';
 import { registerSymbolMark } from '../../mark/symbol';
 import { scatterSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import type { ILabelMark, IMark, ISymbolMark } from '../../mark/interface';
+import type { ILabelMark, IMark, IMarkGraphic, ISymbolMark } from '../../mark/interface';
 import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { scatter } from '../../theme/builtin/common/series/scatter';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
   type = SeriesTypeEnum.scatter;
 
   static readonly mark: SeriesMarkMap = scatterSeriesMark;
+  static readonly builtInTheme = { scatter };
   static readonly transformerConstructor = ScatterSeriesSpecTransformer as any;
   readonly transformerConstructor = ScatterSeriesSpecTransformer;
 
@@ -204,17 +205,11 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       ScatterSeries.mark.point,
       {
         groupKey: this._seriesField,
-        isSeriesMark: true,
-        stateSort: this._spec.point?.stateSort
+        isSeriesMark: true
       },
       {
-        progressiveStep: this._spec.progressiveStep,
-        progressiveThreshold: this._spec.progressiveThreshold,
-        large: this._spec.large,
-        largeThreshold: this._spec.largeThreshold,
         morph: shouldMarkDoMorph(this._spec, ScatterSeries.mark.point.name),
-        morphElementKey: this.getDimensionField()[0],
-        setCustomizedShape: this._spec.point?.customShape
+        morphElementKey: this.getDimensionField()[0]
       }
     ) as ISymbolMark;
   }
@@ -357,16 +352,17 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
    */
   handleZoom(e: any) {
     this.getMarksWithoutRoot().forEach(mark => {
-      const vGrammarMark = mark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+      if (!mark) {
         return;
       }
-      const elements = vGrammarMark.elements;
+      const graphics = mark.getGraphics();
 
-      elements.forEach((el: IElement, i: number) => {
-        const graphicItem = el.getGraphicItem();
-        const datum = el.getDatum();
+      if (!graphics || !graphics.length) {
+        return;
+      }
+
+      graphics.forEach((graphicItem: IMarkGraphic, i: number) => {
+        const datum = graphicItem?.context?.data?.[0];
         const newPosition = this.dataToPosition(datum);
         if (newPosition && graphicItem) {
           graphicItem.translateTo(newPosition.x, newPosition.y);

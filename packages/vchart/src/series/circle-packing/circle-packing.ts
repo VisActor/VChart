@@ -20,7 +20,7 @@ import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DEFAULT_DATA_KEY } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
 import { DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
-import type { CirclePackingNodeElement } from '@visactor/vgrammar-hierarchy';
+import type { CirclePackingNodeElement } from '@visactor/vlayouts';
 import { flatten } from '../../data/transforms/flatten';
 import { CirclePackingTooltipHelper } from './tooltip-helper';
 import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
@@ -35,6 +35,7 @@ import { registerArcMark } from '../../mark/arc';
 import { registerTextMark } from '../../mark/text';
 import { circlePackingSeriesMark } from './constant';
 import { appendHierarchyFields } from '../util/hierarchy';
+import { circlePacking } from '../../theme/builtin/common/series/circle-packing';
 
 export class CirclePackingSeries<
   T extends ICirclePackingSeriesSpec = ICirclePackingSeriesSpec
@@ -43,6 +44,7 @@ export class CirclePackingSeries<
   type = SeriesTypeEnum.circlePacking;
 
   static readonly mark: SeriesMarkMap = circlePackingSeriesMark;
+  static readonly builtInTheme = { circlePacking };
 
   // 映射字段
   protected _categoryField!: string;
@@ -184,15 +186,9 @@ export class CirclePackingSeries<
       return;
     }
 
-    const circlePacking = this._createMark(
-      CirclePackingSeries.mark.circlePacking,
-      {
-        isSeriesMark: true
-      },
-      {
-        setCustomizedShape: this._spec.circlePacking?.customShape
-      }
-    ) as IArcMark;
+    const circlePacking = this._createMark(CirclePackingSeries.mark.circlePacking, {
+      isSeriesMark: true
+    }) as IArcMark;
 
     this._circlePackingMark = circlePacking;
   }
@@ -290,8 +286,8 @@ export class CirclePackingSeries<
     }
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._rawData.reRunAllTransform();
   }
 

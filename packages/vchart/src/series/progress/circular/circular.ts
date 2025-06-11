@@ -18,6 +18,7 @@ import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IArcMark, IMark } from '../../../mark/interface';
 import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
 import { registerPolarLinearAxis, registerPolarBandAxis } from '../../../component/axis/polar';
+import { circularProgress } from '../../../theme/builtin/common/series/circular-progress';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
@@ -26,6 +27,7 @@ export class CircularProgressSeries<
   type = SeriesTypeEnum.circularProgress;
 
   static readonly mark: SeriesMarkMap = circularProgressSeriesMark;
+  static readonly builtInTheme = { circularProgress };
   static readonly transformerConstructor = CircularProgressSeriesSpecTransformer as any;
   readonly transformerConstructor = CircularProgressSeriesSpecTransformer;
 
@@ -57,12 +59,10 @@ export class CircularProgressSeries<
       CircularProgressSeries.mark.progress,
       {
         parent: this._arcGroupMark,
-        isSeriesMark: true,
-        stateSort: this._spec.progress?.stateSort
+        isSeriesMark: true
       },
       {
-        morph: shouldMarkDoMorph(this._spec, SeriesMarkNameEnum.progress),
-        setCustomizedShape: this._spec.progress?.customShape
+        morph: shouldMarkDoMorph(this._spec, SeriesMarkNameEnum.progress)
       }
     ) as IArcMark;
     return this._progressMark;
@@ -96,7 +96,7 @@ export class CircularProgressSeries<
     }
   }
 
-  initInteraction(): void {
+  getInteractionTriggers() {
     const marks: IMark[] = [];
 
     if (this._trackMark) {
@@ -106,7 +106,7 @@ export class CircularProgressSeries<
     if (this._progressMark) {
       marks.push(this._progressMark);
     }
-    this._parseInteractionConfig(marks);
+    return this._parseInteractionConfig(marks);
   }
 
   protected initTooltip() {
@@ -116,16 +116,9 @@ export class CircularProgressSeries<
   }
 
   private _initTrackMark() {
-    this._trackMark = this._createMark(
-      CircularProgressSeries.mark.track,
-      {
-        parent: this._arcGroupMark,
-        stateSort: this._spec.track?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.track?.customShape
-      }
-    ) as IArcMark;
+    this._trackMark = this._createMark(CircularProgressSeries.mark.track, {
+      parent: this._arcGroupMark
+    }) as IArcMark;
 
     // 背景条不参与morphing 动画
     this._trackMark.setMarkConfig({

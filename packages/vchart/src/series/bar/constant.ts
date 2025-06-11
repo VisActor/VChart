@@ -8,8 +8,3 @@ export const barSeriesMark: SeriesMarkMap = {
   [SeriesMarkNameEnum.bar]: { name: SeriesMarkNameEnum.bar, type: MarkTypeEnum.rect },
   [SeriesMarkNameEnum.barBackground]: { name: SeriesMarkNameEnum.barBackground, type: MarkTypeEnum.rect }
 };
-
-export const bar3dSeriesMark: SeriesMarkMap = {
-  ...baseSeriesMark,
-  [SeriesMarkNameEnum.bar3d]: { name: SeriesMarkNameEnum.bar3d, type: MarkTypeEnum.rect3d }
-};

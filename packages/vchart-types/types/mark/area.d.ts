@@ -6,6 +6,8 @@ export declare class AreaMark extends BaseLineMark<IAreaMarkSpec> implements IAr
     static readonly type = MarkTypeEnum.area;
     readonly type = MarkTypeEnum.area;
     protected _getDefaultStyle(): IMarkStyle<IAreaMarkSpec>;
+    protected _getSegmentAttributes(): string[];
     protected _getIgnoreAttributes(): string[];
+    _isValidPointChannel: (channel: string) => boolean;
 }
 export declare const registerAreaMark: () => void;

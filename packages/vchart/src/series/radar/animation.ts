@@ -1,10 +1,12 @@
-import type { Datum, IAnimationTypeConfig, IElement, MarkAnimationSpec } from '@visactor/vgrammar-core';
-import { ClipAngleAnimate } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender-core';
+import { ClipAngleAnimate, AnimateExecutor } from '@visactor/vrender-animate';
 import { Factory } from '../../core/factory';
 import { PolarPointUpdate, PolarTagPointsUpdate } from '../polar/animation';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { registerArc } from '@visactor/vrender-kits';
 import type { IRadarAnimationParams, RadarAppearPreset } from './interface';
+import type { IAnimationTypeConfig, MarkAnimationSpec } from '../../animation/interface';
+import type { Datum } from '../../typings/common';
 
 export const radarFadeAnimation = (animationType: 'in' | 'out') => ({
   type: animationType === 'in' ? 'fadeIn' : 'fadeOut'
@@ -34,9 +36,9 @@ export function radarPresetAnimation(
 
 export const radarSymbolMoveAnimation = (params: IRadarAnimationParams, animationType: 'in' | 'out') => {
   const xFrom = () => params.center()?.x;
-  const xTo = (datum: Datum, element: IElement) => element.getGraphicAttribute('x');
+  const xTo = (datum: Datum, element: IGraphic) => element.getGraphicAttribute('x');
   const yFrom = () => params.center()?.y;
-  const yTo = (datum: Datum, element: IElement) => element.getGraphicAttribute('y');
+  const yTo = (datum: Datum, element: IGraphic) => element.getGraphicAttribute('y');
   if (animationType === 'in') {
     return {
       channel: {
@@ -74,9 +76,9 @@ export const radarGroupClipAnimation = (
 ): IAnimationTypeConfig => {
   return {
     custom: ClipAngleAnimate,
-    customParameters: (datum: any, element: IElement) => {
+    customParameters: (datum: any, graphic: IGraphic) => {
       return {
-        group: element.getGraphicItem(),
+        group: graphic,
         startAngle: params.startAngle ?? Math.PI / 2,
         orient: 'clockwise',
         center: params.center(),
@@ -96,14 +98,15 @@ export const registerRadarAnimation = () => {
       disappear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'out'),
       update: [
         {
-          options: { excludeChannels: ['points', 'defined', 'center'] }
-        },
-        {
           channel: ['points', 'center'],
           custom: PolarTagPointsUpdate,
           customParameters: params,
           duration: DEFAULT_ANIMATION_CONFIG.update.duration,
           easing: DEFAULT_ANIMATION_CONFIG.update.easing
+        },
+        {
+          type: 'update',
+          options: { excludeChannels: ['points', 'defined', 'center'] }
         }
       ]
     } as MarkAnimationSpec;

@@ -10,6 +10,9 @@ export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeries
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        heatmap: import("./interface").IHeatmapSeriesTheme;
+    };
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof HeatmapSeriesSpecTransformer;
     protected _cellMark: ICellMark;
@@ -27,7 +30,10 @@ export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeries
         scale: any;
         field: any;
     };
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     initAnimation(): void;
     protected getCellSize(axisHelper: IAxisHelper): number;
     protected initTooltip(): void;

@@ -1,10 +1,17 @@
 import type { utilFunctionCtx } from '../typings/params';
 import type { IChart } from '../chart/interface/chart';
-import type { IBoundsLike } from '@visactor/vutils';
+import { isEqual, type IBoundsLike } from '@visactor/vutils';
 import type { IBaseLayout, ILayoutItem } from './interface';
 import type { IOrientType, IPadding, IRect } from '../typings/space';
 import { error } from '../util/debug';
-import { layoutBottomInlineItems, layoutLeftInlineItems, layoutRightInlineItems, layoutTopInlineItems } from './util';
+import type { IRecompute } from './util';
+import {
+  getItemLayoutWithTag,
+  layoutBottomInlineItems,
+  layoutLeftInlineItems,
+  layoutRightInlineItems,
+  layoutTopInlineItems
+} from './util';
 import type { ILayoutRect } from '../typings/layout';
 
 export type LayoutSideType = {
@@ -37,6 +44,9 @@ export class Layout implements IBaseLayout {
   _chartLayoutRect!: IRect;
   _chartViewBox!: IBoundsLike;
 
+  recomputeWidth: boolean = false;
+  recomputeHeight: boolean = false;
+
   protected _onError: (msg: string) => void;
 
   constructor(_spec?: unknown, ctx?: utilFunctionCtx) {
@@ -50,14 +60,22 @@ export class Layout implements IBaseLayout {
     this.topCurrent = chartLayoutRect.y;
     this.rightCurrent = chartLayoutRect.x + chartLayoutRect.width;
     this.bottomCurrent = chartLayoutRect.height + chartLayoutRect.y;
+    this.recomputeWidth = false;
+    this.recomputeHeight = false;
 
     // 越大越先处理，进行排序调整，利用原地排序特性，排序会受 level 和传进来的数组顺序共同影响
     items.sort((a, b) => b.layoutLevel - a.layoutLevel);
   }
 
-  protected _layoutNormalItems(items: ILayoutItem[]) {
-    this.layoutNormalInlineItems(items.filter(x => x.layoutType === 'normal-inline'));
-    this.layoutNormalItems(items.filter(x => x.layoutType === 'normal'));
+  protected _layoutNormalItems(items: ILayoutItem[], recompute: IRecompute) {
+    this.layoutNormalInlineItems(
+      items.filter(x => x.layoutType === 'normal-inline'),
+      recompute
+    );
+    this.layoutNormalItems(
+      items.filter(x => x.layoutType === 'normal'),
+      recompute
+    );
   }
 
   protected _groupItems(items: ILayoutItem[]) {
@@ -91,10 +109,14 @@ export class Layout implements IBaseLayout {
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
     // 布局初始化
     this._layoutInit(_chart, items, chartLayoutRect, chartViewBox);
+    const recompute = {
+      recomputeWidth: this.recomputeWidth,
+      recomputeHeight: this.recomputeHeight
+    };
     // 先布局 normal 类型的元素
-    this._layoutNormalItems(items);
+    this._layoutNormalItems(items, recompute);
     // 开始布局 region 相关元素
-    // 为了锁紧先保存一下当前的布局空间
+    // 为了缩进先保存一下当前的布局空间
     const layoutTemp: LayoutSideType = {
       left: this.leftCurrent,
       top: this.topCurrent,
@@ -105,11 +127,24 @@ export class Layout implements IBaseLayout {
     // 有元素开启了自动缩进
     // TODO:目前只有普通占位布局下的 region-relative 元素支持
     // 主要考虑常规元素超出画布一般为用户个性设置，而且可以设置padding规避裁剪,不需要使用自动缩进
-    this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems);
+    this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems, recompute);
     // 缩进
-    this._processAutoIndent(regionItems, relativeItems, relativeOverlapItems, overlapItems, allRelatives, layoutTemp);
+    this._processAutoIndent(
+      regionItems,
+      relativeItems,
+      relativeOverlapItems,
+      overlapItems,
+      allRelatives,
+      layoutTemp,
+      recompute
+    );
 
     this.layoutAbsoluteItems(items.filter(x => x.layoutType === 'absolute'));
+
+    items.forEach(item => {
+      // 布局完成 ，清除标记
+      item.clearWillLayoutTag();
+    });
   }
 
   protected _processAutoIndent(
@@ -126,7 +161,8 @@ export class Layout implements IBaseLayout {
       z: { items: [], rect: { width: 0, height: 0 } }
     },
     allRelatives: ILayoutItem[],
-    layoutTemp: LayoutSideType
+    layoutTemp: LayoutSideType,
+    recompute: IRecompute
   ): void {
     // 如果有缩进
     if (allRelatives.some(i => i.autoIndent)) {
@@ -140,17 +176,17 @@ export class Layout implements IBaseLayout {
         this.leftCurrent = layoutTemp.left + left;
         this.rightCurrent = layoutTemp.right - right;
         // reLayout
-        this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems);
+        this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems, recompute);
       }
     }
   }
 
-  protected layoutNormalItems(normalItems: ILayoutItem[]): void {
+  protected layoutNormalItems(normalItems: ILayoutItem[], recompute: IRecompute): void {
     normalItems.forEach(item => {
-      const layoutRect = this.getItemComputeLayoutRect(item);
-      const rect = item.computeBoundsInRect(layoutRect);
-      item.setLayoutRect(rect);
-
+      // const layoutRect = this.getItemComputeLayoutRect(item);
+      // const rect = item.computeBoundsInRect(layoutRect);
+      // item.setLayoutRect(rect);
+      const { rect } = getItemLayoutWithTag(item, this, recompute);
       if (item.layoutOrient === 'left') {
         item.setLayoutStartPosition({
           x: this.leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft,
@@ -179,7 +215,7 @@ export class Layout implements IBaseLayout {
     });
   }
 
-  protected layoutNormalInlineItems(normalItems: ILayoutItem[]): void {
+  protected layoutNormalInlineItems(normalItems: ILayoutItem[], recompute: IRecompute): boolean {
     const leftItems = normalItems.filter(item => item.layoutOrient === 'left');
     const rightItems = normalItems.filter(item => item.layoutOrient === 'right');
     const topItems = normalItems.filter(item => item.layoutOrient === 'top');
@@ -190,24 +226,26 @@ export class Layout implements IBaseLayout {
 
     // 同 normal，按照 left、top、right、bottom 的顺序进行布局
     // 各个方向上再按照 position 进行分组布局，顺序为 start middle end
-    leftItems.length && layoutLeftInlineItems(leftItems, this, limitHeight);
-    topItems.length && layoutTopInlineItems(topItems, this, limitWidth);
-    rightItems.length && layoutRightInlineItems(rightItems, this, limitHeight);
-    bottomItems.length && layoutBottomInlineItems(bottomItems, this, limitWidth);
+    leftItems.length && layoutLeftInlineItems(leftItems, this, limitHeight, recompute);
+    topItems.length && layoutTopInlineItems(topItems, this, limitWidth, recompute);
+    rightItems.length && layoutRightInlineItems(rightItems, this, limitHeight, recompute);
+    bottomItems.length && layoutBottomInlineItems(bottomItems, this, limitWidth, recompute);
+    return true;
   }
 
-  protected _layoutRelativeOverlap(orient: IOrientType, info: overlapInfo) {
+  protected _layoutRelativeOverlap(orient: IOrientType, info: overlapInfo, recompute: IRecompute) {
     // 得到 max rect
     info.items.forEach((item: ILayoutItem) => {
-      const layoutRect = this.getItemComputeLayoutRect(item);
-      const rect = item.computeBoundsInRect(layoutRect);
+      const { rect } = getItemLayoutWithTag(item, this, recompute);
       info.rect.width = Math.max(rect.width + item.layoutPaddingLeft + item.layoutPaddingRight, info.rect.width);
       info.rect.height = Math.max(rect.height + item.layoutPaddingTop + item.layoutPaddingBottom, info.rect.height);
     });
 
     // 统一设置rect和pos
     info.items.forEach((item: ILayoutItem) => {
-      item.setLayoutRect(info.rect);
+      if (!isEqual(item.getLayoutRect(), info.rect)) {
+        item.setLayoutRect(info.rect);
+      }
       if (orient === 'left') {
         item.setLayoutStartPosition({
           x: this.leftCurrent + item.layoutOffsetX
@@ -238,8 +276,8 @@ export class Layout implements IBaseLayout {
     }
   }
 
-  protected _layoutRelativeItem(item: ILayoutItem, layoutRect: ILayoutRect) {
-    const rect = item.computeBoundsInRect(layoutRect);
+  protected _layoutRelativeItem(item: ILayoutItem, recompute: IRecompute) {
+    const { rect } = getItemLayoutWithTag(item, this, recompute, false);
     if (item.layoutOrient === 'left' || item.layoutOrient === 'right') {
       item.setLayoutRect({ width: rect.width });
     } else {
@@ -323,7 +361,8 @@ export class Layout implements IBaseLayout {
       top: { items: [], rect: { width: 0, height: 0 } },
       bottom: { items: [], rect: { width: 0, height: 0 } },
       z: { items: [], rect: { width: 0, height: 0 } }
-    }
+    },
+    recompute: IRecompute
   ): void {
     let regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
     let regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
@@ -331,22 +370,22 @@ export class Layout implements IBaseLayout {
     regionRelativeItems
       .filter(x => x.layoutOrient === 'left' || x.layoutOrient === 'right')
       .forEach(item => {
-        this._layoutRelativeItem(item, this.getItemComputeLayoutRect(item));
+        this._layoutRelativeItem(item, recompute);
       });
 
-    this._layoutRelativeOverlap('left', overlapItems.left);
-    this._layoutRelativeOverlap('right', overlapItems.right);
+    this._layoutRelativeOverlap('left', overlapItems.left, recompute);
+    this._layoutRelativeOverlap('right', overlapItems.right, recompute);
 
     regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
 
     regionRelativeItems
       .filter(x => x.layoutOrient === 'top' || x.layoutOrient === 'bottom')
       .forEach(item => {
-        this._layoutRelativeItem(item, this.getItemComputeLayoutRect(item));
+        this._layoutRelativeItem(item, recompute);
       });
 
-    this._layoutRelativeOverlap('top', overlapItems.top);
-    this._layoutRelativeOverlap('bottom', overlapItems.bottom);
+    this._layoutRelativeOverlap('top', overlapItems.top, recompute);
+    this._layoutRelativeOverlap('bottom', overlapItems.bottom, recompute);
 
     // 此时得到height
     regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
@@ -404,8 +443,10 @@ export class Layout implements IBaseLayout {
    */
   protected layoutAbsoluteItems(absoluteItems: ILayoutItem[]) {
     absoluteItems.forEach(item => {
-      // 设置盒子
-      item.absoluteLayoutInRect(this._chartLayoutRect);
+      if (item.willLayoutTag) {
+        // 设置盒子
+        item.absoluteLayoutInRect(this._chartLayoutRect);
+      }
     });
   }
 

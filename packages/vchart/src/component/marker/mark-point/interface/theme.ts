@@ -1,16 +1,21 @@
 import type { IImageGraphicAttribute, IRichTextGraphicAttribute, IGroupGraphicAttribute } from '@visactor/vrender-core';
 import type { IMarkPointItemPosition } from '@visactor/vrender-components';
 import type { ILineMarkSpec, ISymbolMarkSpec } from '../../../../typings';
-import type { IMarkerLabelSpec, IMarkerRef, IMarkerState, IMarkerSymbol } from '../../interface';
+import type {
+  IMarkerLabelSpec,
+  IMarkerRef,
+  IMarkerState,
+  IMarkerSymbol,
+  MarkerStateCallback,
+  MarkerStateValue,
+  MarkerStyleCallback
+} from '../../interface';
 import type { IRegion } from '../../../../region/interface';
 
 export type IOffsetCallback = (region: IRegion) => number;
 
+export type IItemContentStyle = ISymbolMarkSpec | IImageGraphicAttribute | IGroupGraphicAttribute;
 export interface IItemContent extends IMarkerRef {
-  /**
-   * 标注类型
-   */
-  type?: 'symbol' | 'text' | 'image' | 'richText';
   /**
    * 标注内容相对于定位点的位置
    */
@@ -29,6 +34,23 @@ export interface IItemContent extends IMarkerRef {
    * @since 1.8.7
    */
   confine?: boolean;
+
+  /**
+   * 标注类型
+   */
+  // richText 和 text + rich的功能有重叠, 所以去掉richText的配置
+  // 为了兼容老配置, 会把用户配的richText转化成text + rich的形式
+  // type?: 'symbol' | 'text' | 'image' | 'richText';
+  type?: 'symbol' | 'text' | 'image' | 'custom';
+
+  /**
+   * 标注内容的样式及状态 等价于 symbol | image | text | richText | customMark
+   * @since 2.0.0
+   */
+  style?: IItemContentStyle | MarkerStyleCallback<IItemContentStyle> | IMarkerLabelSpec;
+  state?: Record<MarkerStateValue, IItemContentStyle | MarkerStateCallback<IItemContentStyle>>;
+
+  // 老写法, 先保留
   /**
    * type为symbol时, symbol的样式
    */

@@ -1,7 +1,6 @@
 import type { IVChart } from './../../core/interface';
-import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
+import type { IImageMarkSpec } from '../visual';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type {
   DataSet,
   DataView,
@@ -12,7 +11,7 @@ import type {
   IDsvParserOptions
 } from '@visactor/vdataset';
 import type { RegionSpec } from '../../region/interface';
-import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface/spec';
 import type { IRenderOption } from '../../compile/interface';
 import type { ISeriesTooltipSpec, ITooltipSpec } from '../../component/tooltip/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -20,7 +19,6 @@ import type { ILayoutSpec } from '../../layout/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type {
   ConvertToMarkStyleSpec,
-  IArc3dMarkSpec,
   IArcMarkSpec,
   IAreaMarkSpec,
   IBoxPlotMarkSpec,
@@ -30,8 +28,6 @@ import type {
   ILinkPathMarkSpec,
   IPathMarkSpec,
   IPolygonMarkSpec,
-  IPyramid3dMarkSpec,
-  IRect3dMarkSpec,
   IRectMarkSpec,
   IRuleMarkSpec,
   ISymbolMarkSpec,
@@ -45,7 +41,7 @@ import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IAnimationSpec, IMorphSeriesSpec } from '../../animation/spec';
 import type { IPlayer } from '../../component/player/interface';
-import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
+import type { IMark, IMarkProgressiveConfig, IMarkRaw, MarkTypeEnum } from '../../mark/interface';
 import type { IDataZoomSpec } from '../../component/data-zoom/data-zoom/interface';
 import type { IScrollBarSpec } from '../../component/data-zoom/scroll-bar/interface';
 import type { ICrosshairSpec } from '../../component/crosshair/interface';
@@ -55,7 +51,7 @@ import type { IBrushSpec } from '../../component/brush/interface';
 import type { ITotalLabelSpec } from '../../component/label/interface';
 import type { ILegendSpec } from '../../component/legend/interface';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { IColor, ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
+import type { IColor, ICustomPath2D, IGraphic, IOption3D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis/interface';
 import type { IMediaQuerySpec } from './media-query';
 import type { IModelSpec } from '../../model/interface';
@@ -79,17 +75,9 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
   /** 是否自适应容器大小 */
   autoFit?: boolean;
   /**
-   * 性能测试钩子
-   */
-  performanceHook?: IPerformanceHook;
-  /**
    * 是否开启动画
    */
   animation?: boolean;
-  /**
-   * 3d配置
-   */
-  options3d?: srIOption3DType;
 
   /**
    * 自定义布局函数
@@ -297,6 +285,13 @@ export interface IFieldsMeta {
   sortIndex?: number;
   /** 排序时是否反转 默认为 false */
   sortReverse?: boolean;
+  /**
+   * 排序简易配置
+   * 当配置了 sort 时，sortIndex 默认为 0 ，sortReverse 跟随 sort 的值，'desc' 时为 true，'asc' 时为 false
+   * 当配置了 sortIndex 和 sortReverser 时，优先级会高于 sort 的默认效果
+   * @support since 2.0.0
+   */
+  sort?: 'desc' | 'asc';
 }
 
 export interface SheetParseOptions extends CommonParseOptions {
@@ -570,10 +565,17 @@ export type IMarkStateFilter =
     }
   | {
       /** 筛选 item */
-      items: IElement[];
+      items: IGraphic[];
     }
   /** 筛选函数 */
-  | ((datum: Datum, options: Record<string, any>) => boolean);
+  | ((
+      datum: Datum,
+      options: {
+        mark?: IMark;
+        type?: string;
+        renderNode?: IGraphic;
+      }
+    ) => boolean);
 
 export interface IMarkStateSpec<T> {
   /** 筛选器 */
@@ -648,58 +650,58 @@ export interface IPerformanceHook {
   afterInitializeChart?: (vchart?: IVChart) => void;
 
   // 编译
-  beforeCompileToVGrammar?: () => void;
-  afterCompileToVGrammar?: () => void;
+  beforeCompileToVGrammar?: (vchart?: IVChart) => void;
+  afterCompileToVGrammar?: (vchart?: IVChart) => void;
   // 各个图表模块编译
-  beforeRegionCompile?: () => void;
-  afterRegionCompile?: () => void;
-  beforeSeriesCompile?: () => void;
-  afterSeriesCompile?: () => void;
-  beforeComponentCompile?: () => void;
-  afterComponentCompile?: () => void;
+  beforeRegionCompile?: (vchart?: IVChart) => void;
+  afterRegionCompile?: (vchart?: IVChart) => void;
+  beforeSeriesCompile?: (vchart?: IVChart) => void;
+  afterSeriesCompile?: (vchart?: IVChart) => void;
+  beforeComponentCompile?: (vchart?: IVChart) => void;
+  afterComponentCompile?: (vchart?: IVChart) => void;
 
   // resize的时候的钩子
-  beforeResizeWithUpdate?: () => void;
-  afterResizeWithUpdate?: () => void;
+  beforeResizeWithUpdate?: (vchart?: IVChart) => void;
+  afterResizeWithUpdate?: (vchart?: IVChart) => void;
 
   // LayoutWithSceneGraph 二次布局
-  beforeLayoutWithSceneGraph?: () => void;
-  afterLayoutWithSceneGraph?: () => void;
+  beforeLayoutWithSceneGraph?: (vchart?: IVChart) => void;
+  afterLayoutWithSceneGraph?: (vchart?: IVChart) => void;
 
   // VGrammar 解析spec
-  beforeParseView?: () => void;
-  afterParseView?: () => void;
+  beforeParseView?: (vchart?: IVChart) => void;
+  afterParseView?: (vchart?: IVChart) => void;
 
   // 初始化runtime
-  beforeCreateRuntime?: () => void;
-  afterCreateRuntime?: () => void;
+  beforeCreateRuntime?: (vchart?: IVChart) => void;
+  afterCreateRuntime?: (vchart?: IVChart) => void;
 
   // VGrammar EvaluateAsync 时间
-  beforeSrViewEvaluateAsync?: () => void;
-  afterSrViewEvaluateAsync?: () => void;
+  beforeSrViewEvaluateAsync?: (vchart?: IVChart) => void;
+  afterSrViewEvaluateAsync?: (vchart?: IVChart) => void;
 
   // VGrammar RunAsync 时间
-  beforeSrViewRunAsync?: () => void;
-  afterSrViewRunAsync?: () => void;
+  beforeSrViewRunAsync?: (vchart?: IVChart) => void;
+  afterSrViewRunAsync?: (vchart?: IVChart) => void;
 
   // transform测量
-  beforeTransform?: (name: string) => void;
-  afterTransform?: (name: string) => void;
+  beforeTransform?: (name: string, vchart?: IVChart) => void;
+  afterTransform?: (name: string, vchart?: IVChart) => void;
 
   // Create VRender Stage 时间
-  beforeCreateVRenderStage?: () => void;
-  afterCreateVRenderStage?: () => void;
+  beforeCreateVRenderStage?: (vchart?: IVChart) => void;
+  afterCreateVRenderStage?: (vchart?: IVChart) => void;
 
   // Create VRender Mark 时间
-  beforeCreateVRenderMark?: () => void;
-  afterCreateVRenderMark?: () => void;
+  beforeCreateVRenderMark?: (vchart?: IVChart) => void;
+  afterCreateVRenderMark?: (vchart?: IVChart) => void;
 
   // VGrammar 创建元素完成，vrender 绘图之前
   beforeDoRender?: (vchart?: IVChart) => void;
 
   // VRender Draw 时间
-  beforeVRenderDraw?: () => void;
-  afterVRenderDraw?: () => void;
+  beforeVRenderDraw?: (vchart?: IVChart) => void;
+  afterVRenderDraw?: (vchart?: IVChart) => void;
 }
 
 export type IBuildinMarkSpec = {
@@ -709,14 +711,11 @@ export type IBuildinMarkSpec = {
   line: ILineMarkSpec;
   text: ITextMarkSpec;
   rect: IRectMarkSpec;
-  rect3d: IRect3dMarkSpec;
   image: IImageMarkSpec;
   path: IPathMarkSpec;
   area: IAreaMarkSpec;
   arc: IArcMarkSpec;
-  arc3d: IArc3dMarkSpec;
   polygon: IPolygonMarkSpec;
-  pyramid3d: IPyramid3dMarkSpec;
   boxPlot: IBoxPlotMarkSpec;
   linkPath: ILinkPathMarkSpec;
   ripple: IRippleMarkSpec;

@@ -14,10 +14,12 @@ import { registerLineMark } from '../../mark/line';
 import { registerSymbolMark } from '../../mark/symbol';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
-import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { registerSymbolOverlapTransform } from '../../mark/transform/symbol-overlap';
+import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
+import { line } from '../../theme/builtin/common/series/line';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -40,6 +42,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   type = SeriesTypeEnum.line;
 
   static readonly mark: SeriesMarkMap = lineSeriesMark;
+  static readonly builtInTheme = { line };
   static readonly transformerConstructor = LineLikeSeriesSpecTransformer;
   readonly transformerConstructor = LineLikeSeriesSpecTransformer;
 
@@ -52,15 +55,9 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   }
 
   initMark(): void {
-    const progressive = {
-      progressiveStep: this._spec.progressiveStep,
-      progressiveThreshold: this._spec.progressiveThreshold,
-      large: this._spec.large,
-      largeThreshold: this._spec.largeThreshold
-    };
     const seriesMark = this._spec.seriesMark ?? 'line';
-    this.initLineMark(progressive, seriesMark === 'line');
-    this.initSymbolMark(progressive, seriesMark === 'point');
+    this.initLineMark(seriesMark === 'line');
+    this.initSymbolMark(seriesMark === 'point');
   }
 
   protected initTooltip() {
@@ -102,8 +99,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     }
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this.reCompileSampling();
   }
 
@@ -130,8 +127,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 mixin(LineSeries, LineLikeSeriesMixin);
 
 export const registerLineSeries = () => {
-  registerSampleTransform();
-  registerMarkOverlapTransform();
+  registerDataSamplingTransform();
+  registerSymbolOverlapTransform();
   registerLineMark();
   registerSymbolMark();
   registerLineAnimation();

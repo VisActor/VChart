@@ -133,9 +133,9 @@ export function queryColorFromColorScheme(
 }
 
 /** 查询语义化颜色 */
-export const getActualColor = (value: any, colorScheme?: IThemeColorScheme, seriesSpec?: ISeriesSpec) => {
+export const getActualColor = (value: any, colorScheme?: IThemeColorScheme) => {
   if (colorScheme && isColorKey(value)) {
-    const color = queryColorFromColorScheme(colorScheme, value, seriesSpec);
+    const color = queryColorFromColorScheme(colorScheme, value);
     if (color) {
       return color;
     }

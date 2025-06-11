@@ -1,11 +1,10 @@
-import type { TreemapOptions } from '@visactor/vgrammar-hierarchy';
-import type { Datum } from '../../typings';
-export interface ITreemapOpt extends TreemapOptions {
-    range: () => {
+import type { TreemapNodeElement, TreemapOptions } from '@visactor/vlayouts';
+export declare const treemapLayout: (data: Array<any>, op: TreemapOptions & {
+    getViewBox: () => {
         x0: number;
         x1: number;
         y0: number;
         y1: number;
     };
-}
-export declare const treemap: (data: Array<Datum>, op: ITreemapOpt) => Datum[];
+    nameField: string;
+}) => TreemapNodeElement[];

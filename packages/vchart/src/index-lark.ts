@@ -52,13 +52,12 @@ import { registerTotalLabel } from './component/label/total-label';
 import { registerMarkPoint, registerPolarMarkPoint, registerGeoMarkPoint } from './component/marker/mark-point';
 import { registerBrush } from './component/brush';
 import { registerCustomMark } from './component/custom-mark';
-import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
 import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
 import { registerFormatPlugin } from './plugin/chart/formatter';
-
-import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
+import { registerElementHighlight } from './interaction/triggers/element-highlight';
+import { registerElementSelect } from './interaction/triggers/element-select';
 
 VChart.useRegisters([
   // charts
@@ -126,7 +125,6 @@ VChart.useRegisters([
   registerTotalLabel,
   registerBrush,
   registerCustomMark,
-  registerMapLabel,
   registerPoptip,
 
   // layout
@@ -136,7 +134,7 @@ VChart.useRegisters([
   registerCanvasTooltipHandler,
   registerFormatPlugin,
 
-  // vgrammar interactions,
+  // interactions,
   registerElementHighlight,
   registerElementSelect
 ]);

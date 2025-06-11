@@ -22,11 +22,9 @@ import { GlobalScale } from '../../scale/global-scale';
 import type { ILayoutModelState, IModel, IModelOption, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
 import type {
   IChart,
-  IChartLayoutOption,
   IChartRenderOption,
   IChartOption,
   IChartEvaluateOption,
-  ILayoutParams,
   DimensionIndexOption,
   IChartSpecTransformerOption,
   IChartSpecTransformer
@@ -37,7 +35,7 @@ import type { IRegion } from '../../region/interface';
 import { ComponentTypeEnum } from '../../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent, IComponentConstructor } from '../../component/interface';
-import type { IMark, IRectMark } from '../../mark/interface';
+import type { IMark, IMarkGraphic, IRectMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
@@ -46,7 +44,16 @@ import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
-import { isArray, isValid, createID, calcPadding, normalizeLayoutPaddingSpec, array } from '../../util';
+import {
+  isArray,
+  isValid,
+  createID,
+  calcPadding,
+  normalizeLayoutPaddingSpec,
+  array,
+  isCollectionMark,
+  getDatumOfGraphic
+} from '../../util';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
@@ -56,26 +63,28 @@ import type { IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isFunction, isEmpty, isNil, isString, isEqual, pickWithout } from '@visactor/vutils';
 import { getDataScheme } from '../../theme/color-scheme/util';
-import type { IElement, IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IStateInfo } from '../../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../../constant/event';
+import { ChartEvent, HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
-import { DimensionEventEnum } from '../../event/events/dimension';
+import { DimensionEventEnum } from '../../event/events/dimension/interface';
 import type { ITooltip } from '../../component/tooltip/interface';
 import { calculateChartSize, mergeUpdateResult } from '../util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
 import { LayoutZIndex } from '../../constant/layout';
 import type { IAxis } from '../../component/axis/interface/common';
+import type { IMorphConfig } from '../../animation/spec';
+import { Interaction } from '../../interaction/interaction';
+import type { IInteraction } from '../../interaction/interface/common';
+import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
   readonly seriesType: string;
   readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
-
   readonly id: number = createID();
 
   //FIXME: 转换后的 spec 需要声明 ITransformedChartSpec
@@ -131,15 +140,23 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._layoutTag = tag;
     const compiler = this.getCompiler();
 
-    if (compiler?.getVGrammarView()) {
-      compiler.getVGrammarView().updateLayoutTag();
+    if (compiler) {
+      compiler.updateLayoutTag();
       tag && renderNextTick && compiler.renderNextTick(morphConfig);
     }
     return this._layoutTag;
   }
 
+  resetLayoutItemTag() {
+    this.getLayoutElements().forEach(element => element.setWillLayoutTag());
+  }
+
   // 模块参数
   protected _modelOption: IModelOption;
+
+  getModelOption() {
+    return this._modelOption;
+  }
 
   // 全局通道
   // protected _globalScale: { [key: string]: IBaseScale } = {};
@@ -181,9 +198,15 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // background
   protected _backgroundMark: IRectMark;
 
+  protected _interaction: IInteraction;
+
+  protected _setModelOption(): void {
+    // implement in subclass
+  }
+
   constructor(spec: T, option: IChartOption) {
     super(option);
-    this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme().padding);
+    this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme('padding'));
 
     this._event = new Event(option.eventDispatcher, option.mode);
     this._dataSet = option.dataSet;
@@ -200,6 +223,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       disableTriggerEvent: this._option?.disableTriggerEvent === true,
       getSeriesData: this._chartData.getSeriesData.bind(this._chartData)
     };
+
+    if ((this as any)._setModelOption) {
+      (this as any)._setModelOption();
+    }
 
     this._spec = spec;
   }
@@ -221,6 +248,52 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // components
     transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
   }
+  _initInteractions() {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
+
+    // 创建交互
+    this._interaction = new Interaction();
+
+    const series = this.getAllSeries();
+    const mergedTriggers: Partial<IBaseTriggerOptions>[] = [];
+    const mergedTriggersMarks: Record<string, Partial<IBaseTriggerOptions>> = {};
+
+    series.forEach(s => {
+      const triggers = s.getInteractionTriggers();
+
+      if (triggers && triggers.length) {
+        const regionId = s.getRegion().id;
+
+        triggers.forEach(({ trigger, marks }) => {
+          const interactionId = `${regionId}-${trigger.type}`;
+
+          if (mergedTriggersMarks[interactionId]) {
+            marks.forEach(m => {
+              mergedTriggersMarks[interactionId].marks.push(m);
+            });
+          } else {
+            mergedTriggersMarks[interactionId] = { ...trigger, marks };
+            mergedTriggers.push(mergedTriggersMarks[interactionId]);
+          }
+        });
+      }
+    });
+
+    mergedTriggers.forEach(trigger => {
+      const triggerInstance = Factory.createInteractionTrigger((trigger as any).type, {
+        ...trigger,
+        event: this._event,
+        interaction: this._interaction
+      });
+
+      if (triggerInstance) {
+        triggerInstance.init();
+        this._interaction.addTrigger(triggerInstance);
+      }
+    });
+  }
 
   init() {
     (this as any)._beforeInit?.();
@@ -236,6 +309,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     // data flow start
     this.reDataFlow();
+
+    this._initInteractions();
   }
 
   reDataFlow() {
@@ -251,12 +326,14 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     };
     this._canvasRect = canvasRect;
     this._updateLayoutRect(this._option.viewBox);
+    this.resetLayoutItemTag();
     this.setLayoutTag(true, null, reRender);
   }
 
   updateViewBox(viewBox: IBoundsLike, reLayout: boolean) {
     this._option.viewBox = viewBox;
     this._updateLayoutRect(viewBox);
+    this.resetLayoutItemTag();
     this.setLayoutTag(true, null, reLayout);
   }
 
@@ -285,6 +362,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._backgroundMark.setMarkConfig({
       zIndex: LayoutZIndex.SeriesGroup - 2
     });
+
+    this.getCompiler().addRootMark(this._backgroundMark);
   }
 
   protected _createRegion(constructor: IRegionConstructor, specInfo: IModelSpecInfo) {
@@ -411,13 +490,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   private _initLayoutFunc() {
     this._layoutFunc = this._option.layout;
     if (!this._layoutFunc) {
-      // 判断是否使用3d的layout
-      let use3dLayout = false;
-      // 查找是否需要使用3d布局模块
-      if ((this._spec as any).zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
-        use3dLayout = true;
-      }
-      const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base'));
+      const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? 'base');
       if (constructor) {
         const layout = new constructor(this._spec.layout, {
           onError: this._option?.onError
@@ -427,36 +500,36 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
-  layout(params: ILayoutParams): void {
-    this._option.performanceHook?.beforeLayoutWithSceneGraph?.();
+  layout(): void {
+    this._option.performanceHook?.beforeLayoutWithSceneGraph?.(this._option.globalInstance);
     if (this.getLayoutTag()) {
       this._event.emit(ChartEvent.layoutStart, { chart: this, vchart: this._option.globalInstance });
 
-      this.onLayoutStart(params);
+      this.onLayoutStart();
       const elements = this.getLayoutElements();
       this._layoutFunc(this, elements, this._layoutRect, this._viewBox);
       this._event.emit(ChartEvent.afterLayout, { elements, chart: this });
       this.setLayoutTag(false);
-      this.onLayoutEnd(params);
+      this.onLayoutEnd();
 
       this._event.emit(ChartEvent.layoutEnd, { chart: this, vchart: this._option.globalInstance });
     }
-    this._option.performanceHook?.afterLayoutWithSceneGraph?.();
+    this._option.performanceHook?.afterLayoutWithSceneGraph?.(this._option.globalInstance);
   }
 
   // 通知所有需要通知的元素 onLayout 钩子
-  onLayoutStart(option: IChartLayoutOption) {
+  onLayoutStart() {
     const elements = this.getAllModels();
-    elements.forEach(element => element.onLayoutStart(this._layoutRect, this._viewRect, option));
+    elements.forEach(element => element.onLayoutStart(this._layoutRect, this._viewRect));
   }
 
   // 通知所有需要通知的元素 onLayoutEnd 钩子
-  onLayoutEnd(option: IChartLayoutOption) {
+  onLayoutEnd() {
     const elements = this.getAllModels();
     elements.forEach(element => {
       // series.onLayoutEnd will be called by region model
       if (element.modelType !== 'series') {
-        element.onLayoutEnd(option);
+        element.onLayoutEnd();
       }
     });
   }
@@ -659,10 +732,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this.getAllModels().forEach(model => model.onDataUpdate());
   }
 
-  onRender(option: IChartRenderOption) {
-    // do nothing
-  }
-
   setCanvasRect(width: number, height: number) {
     this._canvasRect = { width, height };
   }
@@ -839,7 +908,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec) {
     // padding;
-    this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.padding ?? this._option?.getTheme().padding);
+    this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.padding ?? this._option?.getTheme('padding'));
 
     // re compute padding & layout
     this._updateLayoutRect(this._viewBox);
@@ -877,7 +946,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     const checkVisibleComponents: Record<string, boolean> = {
       [ComponentTypeEnum.title]: true,
       [ComponentTypeEnum.brush]: true,
-      [ComponentTypeEnum.mapLabel]: true,
       [ComponentTypeEnum.indicator]: true
     };
 
@@ -974,6 +1042,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this.updateChartConfig({ change: true, reMake: false }, this._spec);
 
     // 需要重新布局
+    this.resetLayoutItemTag();
     this.setLayoutTag(true, null, false);
 
     // 设置色板，只设置 colorScale 的 range
@@ -1026,34 +1095,31 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (!this._backgroundMark) {
       return;
     }
-    this._backgroundMark.compile({ context: { model: this } });
-    this._backgroundMark.getProduct()?.layout(() => {
-      // console.log('region mark layout');
-    });
+    this._backgroundMark.compile();
   }
 
   compileRegions() {
-    this._option.performanceHook?.beforeRegionCompile?.();
+    this._option.performanceHook?.beforeRegionCompile?.(this._option.globalInstance);
     this.getAllRegions().forEach(r => {
       r.compile();
     });
-    this._option.performanceHook?.afterRegionCompile?.();
+    this._option.performanceHook?.afterRegionCompile?.(this._option.globalInstance);
   }
 
   compileSeries() {
-    this._option.performanceHook?.beforeSeriesCompile?.();
+    this._option.performanceHook?.beforeSeriesCompile?.(this._option.globalInstance);
     this.getAllSeries().forEach(s => {
       s.compile();
     });
-    this._option.performanceHook?.afterSeriesCompile?.();
+    this._option.performanceHook?.afterSeriesCompile?.(this._option.globalInstance);
   }
 
   compileComponents() {
-    this._option.performanceHook?.beforeComponentCompile?.();
+    this._option.performanceHook?.beforeComponentCompile?.(this._option.globalInstance);
     this.getAllComponents().forEach(c => {
       c.compile();
     });
-    this._option.performanceHook?.afterComponentCompile?.();
+    this._option.performanceHook?.afterComponentCompile?.(this._option.globalInstance);
   }
 
   release() {
@@ -1078,9 +1144,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._idMap.clear();
   }
 
-  onLayout(srView: IView) {
-    const root = srView.rootMark;
-    this.layout({ group: root, srView });
+  onLayout() {
+    this.layout();
   }
 
   /**
@@ -1132,7 +1197,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ): void {
-    this._setStateInDatum(STATE_VALUE_ENUM.STATE_SELECTED, true, datum, filter, region);
+    this._setStateInDatum(STATE_VALUE_ENUM.STATE_SELECTED, datum, filter, region);
   }
 
   /**
@@ -1146,7 +1211,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ): void {
-    this._setStateInDatum(STATE_VALUE_ENUM.STATE_HOVER, true, datum, filter, region);
+    this._setStateInDatum(STATE_VALUE_ENUM.STATE_HOVER, datum, filter, region);
   }
 
   /**
@@ -1155,11 +1220,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
    * @since 1.11.0
    */
   clearState(state: string) {
-    this.getAllRegions().forEach(r => {
-      r.interaction.clearEventElement(state, true);
-      r.interaction.resetInteraction(state, null);
-      return;
-    });
+    this._interaction.clearByState(state);
   }
 
   /**
@@ -1168,11 +1229,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
    * @since 1.12.4
    */
   clearAllStates() {
-    this.getAllRegions().forEach(r => {
-      r.interaction.clearAllEventElement();
-      r.interaction.resetAllInteraction();
-      return;
-    });
+    this._interaction.clearAllStates();
   }
 
   /**
@@ -1199,9 +1256,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         this._disableMarkAnimation(['exit', 'update']);
         const enableMarkAnimate = () => {
           this._enableMarkAnimation(['exit', 'update']);
-          this._event.off(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
+          this._event.off(HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
         };
-        this._event.on(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
+        this._event.on(HOOK_EVENT.AFTER_MARK_RENDER_END, enableMarkAnimate);
       });
     });
   }
@@ -1211,7 +1268,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     marks.forEach(mark => {
       const product = mark.getProduct();
       if (product && product.animate) {
-        product.animate.enableAnimationState(states);
+        // product.animate.enableAnimationState(states);
       }
     });
   }
@@ -1221,7 +1278,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     marks.forEach(mark => {
       const product = mark.getProduct();
       if (product && product.animate) {
-        product.animate.disableAnimationState(states);
+        // product.animate.disableAnimationState(states);
       }
     });
   }
@@ -1231,29 +1288,30 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     opt: {
       filter?: (series: ISeries, mark: IMark) => boolean;
       region?: IRegionQuerier;
-      getDatum?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => Datum;
-      callback?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => void;
-      regionCallback?: (pickElements: IElement[], r: IRegion) => void;
+      getDatum?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => Datum;
+      callback?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => void;
+      regionCallback?: (pickElements: IMarkGraphic[], r: IRegion) => void;
     } = {}
   ) {
     datum = datum ? array(datum) : null;
     const keys = !datum ? null : Object.keys((datum as Datum[])[0]);
-    const allElements = [] as IElement[];
-    const getDatumOfElement = opt.getDatum ?? ((el: IElement) => el.getDatum());
+    const allElements = [] as IMarkGraphic[];
+    const getDatumOfElement = opt.getDatum ?? getDatumOfGraphic;
 
     this.getRegionsInQuerier(opt.region).forEach(r => {
-      const pickElements = [] as IElement[];
+      const pickElements = [] as IMarkGraphic[];
       datum &&
         r.getSeries().forEach(s => {
           s.getMarks().forEach(m => {
-            if (!m.getProduct()) {
+            const graphics = m.getGraphics();
+            if (!graphics || !graphics.length) {
               return;
             }
             if (!opt.filter || (isFunction(opt.filter) && opt.filter(s, m))) {
-              const isCollect = m.getProduct().isCollectionMark();
-              const elements = m.getProduct().elements;
+              const isCollect = isCollectionMark(m.type);
+
               if (isCollect) {
-                elements.filter(e => {
+                graphics.filter(e => {
                   const elDatum = getDatumOfElement(e, m, s, r);
                   const isPick =
                     // eslint-disable-next-line max-nested-callbacks, eqeqeq
@@ -1269,7 +1327,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                 if (datum.length > 1) {
                   const datumTemp = (datum as Datum[]).slice();
 
-                  elements.forEach(e => {
+                  graphics.forEach(e => {
                     const elDatum = getDatumOfElement(e, m, s, r);
                     // eslint-disable-next-line max-nested-callbacks, eqeqeq
                     const index = elDatum && datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
@@ -1282,7 +1340,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                     }
                   });
                 } else {
-                  const el = elements.find(e => {
+                  const el = graphics.find(e => {
                     const elDatum = getDatumOfElement(e, m, s, r);
                     // eslint-disable-next-line eqeqeq
                     return elDatum && keys.every(k => (datum as Datum[])[0][k] == elDatum[k]);
@@ -1307,28 +1365,20 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   protected _setStateInDatum(
     stateKey: string,
-    checkReverse: boolean,
-    datum: MaybeArray<Datum> | null,
+    d: MaybeArray<Datum> | null,
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ) {
-    this.filterGraphicsByDatum(datum, {
-      filter,
-      region,
-      regionCallback: (elements, r) => {
-        if (!datum) {
-          r.interaction.clearEventElement(stateKey, true);
-        } else if (elements.length) {
-          elements.forEach(e => {
-            r.interaction.startInteraction(stateKey, e);
-          });
+    if (!d) {
+      this._interaction.clearByState(stateKey);
+      return;
+    }
 
-          if (checkReverse) {
-            r.interaction.reverseEventElement(stateKey);
-          }
-        }
-      }
+    const pickGraphics = this.filterGraphicsByDatum(d, {
+      filter,
+      region
     });
+    this._interaction.updateStateOfGraphics(stateKey, pickGraphics);
   }
 
   /**
@@ -1358,7 +1408,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         if (isUnableValue) {
           (<any>tooltip).hideTooltip?.();
         } else {
-          const dataFilter = {};
+          const dataFilter: { [key: string]: any } = {};
           dimensionInfo.forEach((d: IDimensionInfo) => {
             const { axis, value, data } = d;
             const isY = axis.getOrient() === 'left' || axis.getOrient() === 'right';
@@ -1386,6 +1436,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   getColorScheme() {
-    return this._option.getTheme?.().colorScheme;
+    return this._option.getTheme?.('colorScheme');
   }
 }

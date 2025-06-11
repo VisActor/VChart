@@ -1,6 +1,6 @@
-import type { SunburstOptions } from '@visactor/vgrammar-hierarchy';
+import type { SunburstOptions } from '@visactor/vlayouts';
 // eslint-disable-next-line no-duplicate-imports
-import { SunburstLayout } from '@visactor/vgrammar-hierarchy';
+import { SunburstLayout } from '@visactor/vlayouts';
 import type { Datum } from '../../typings';
 
 export interface ISunburstOpt extends SunburstOptions {

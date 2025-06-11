@@ -45,8 +45,6 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     effect: IEffect;
     setAttrFromSpec(): void;
     _transformLayoutPosition: (pos: Partial<IPoint>) => Partial<IPoint>;
-    onRender(ctx: any): void;
-    changeRegions(): void;
     protected _tickTransformOption(): IPolarTickDataOpt;
     protected updateScaleRange(): boolean;
     protected collectSeriesField(depth: number, series: IPolarSeries): string | string[];

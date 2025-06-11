@@ -86,7 +86,7 @@ export class Zoomable implements IZoomable {
   initZoomable(evt: IEvent, mode: RenderMode = RenderModeEnum['desktop-browser']) {
     this._eventObj = evt;
     this._renderMode = mode;
-    this._gestureController = (this._option.getChart().getVGrammarView().renderer as any)._gestureController;
+    this._gestureController = (this._option.getCompiler() as any)._gestureController;
     this._isGestureListener = isMobileLikeMode(this._renderMode) || isMiniAppLikeMode(this._renderMode);
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景

@@ -13,7 +13,7 @@ import type {
   IModelSpecInfo
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { ICompileMarkConfig, IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
+import type { ICompileMarkConfig, IMark, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
 import type {
   Datum,
   StateValueType,
@@ -23,8 +23,6 @@ import type {
   IRect,
   ILayoutRect
 } from '../typings';
-import type { CompilableData } from '../compile/data/compilable-data';
-import type { IGroupMark } from '@visactor/vgrammar-core';
 import { isValid } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import { MarkSet } from '../mark/mark-set';
@@ -33,6 +31,8 @@ import { CompilableBase } from '../compile/compilable-base';
 import { PREFIX } from '../constant/base';
 import { BaseModelSpecTransformer } from './base-model-transformer';
 import { getProperty } from '@visactor/vutils-extension';
+import type { IGroup } from '@visactor/vrender-core';
+import type { ICompilableData } from '../compile/data/interface';
 
 export abstract class BaseModel<T extends IModelSpec> extends CompilableBase implements IModel {
   readonly transformerConstructor = BaseModelSpecTransformer;
@@ -66,7 +66,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   readonly effect: IEffect;
 
   // 数据
-  protected _data: CompilableData = null;
+  protected _data: ICompilableData = null;
   getData() {
     return this._data;
   }
@@ -137,19 +137,18 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return (this._spec as unknown as any)?.visible !== false;
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void {
     // do nothing
-    this._layout?.onLayoutStart(layoutRect, viewRect, ctx);
+    this._layout?.onLayoutStart(layoutRect, viewRect);
   }
-  onLayoutEnd(ctx: any): void {
-    this._layout?.onLayoutEnd(ctx);
-    this.getMarks().forEach(m => m.updateLayoutState(true, true));
+  onLayoutEnd(): void {
+    this._layout?.onLayoutEnd();
+    this.getMarks().forEach(m => m.commit(false, true));
   }
 
   onEvaluateEnd(ctx: IModelEvaluateOption) {
     // do nothing
   }
-  abstract onRender(ctx: IModelRenderOption): void;
 
   onDataUpdate() {
     // do nothing
@@ -175,6 +174,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   updateSpec(spec: T) {
     const result = this._compareSpec(spec, this._spec);
+    // 如果发现需要改变
+    if (result.reRender || result.reMake || result.reCompile) {
+      this._layout?.setWillLayoutTag();
+    }
     this._spec = spec;
 
     return result;
@@ -210,8 +213,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   protected _convertMarkStyle<T extends ICommonSpec = ICommonSpec>(
     style: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>
   ): Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>> {
-    const newStyle: any = { ...style };
-    return newStyle;
+    return { ...style };
   }
 
   setMarkStyle<T extends ICommonSpec>(
@@ -226,7 +228,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     mark.setStyle(this._convertMarkStyle(style), state, level);
   }
 
-  initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string) {
+  initMarkStyleWithSpec(mark?: IMark, spec?: any) {
     if (!isValid(mark) || !isValid(spec)) {
       return;
     }
@@ -242,7 +244,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
         newSpec.state[key] = this._convertMarkStyle(state[key]);
       });
     }
-    mark.initStyleWithSpec(newSpec, key);
+    mark.initStyleWithSpec(newSpec);
   }
 
   protected stateKeyToSignalName(key: string, opt?: string) {
@@ -255,7 +257,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     this._data?.compile();
   }
 
-  compileMarks(group?: string | IGroupMark) {
+  compileMarks(group?: IGroup) {
     this.getMarks().forEach(m => {
       m.compile({ group });
     });
@@ -267,13 +269,20 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     config?: ICompileMarkConfig
   ): T {
     const { type, name } = markInfo;
+    const { parent, ...others } = option;
     const m = Factory.createMark(type as any, name, {
       model: this,
       map: this._option.map,
       getCompiler: this.getCompiler,
       globalScale: this._option.globalScale,
-      ...option
+      ...others
     }) as T;
+
+    if (parent) {
+      parent.addMark(m);
+    } else {
+      this.getCompiler().addRootMark(m);
+    }
 
     if (m) {
       m.created();
@@ -292,7 +301,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   }
 
   getColorScheme() {
-    return this._option.getTheme?.().colorScheme;
+    return this._option.getTheme?.('colorScheme');
   }
 
   getSpecInfo() {

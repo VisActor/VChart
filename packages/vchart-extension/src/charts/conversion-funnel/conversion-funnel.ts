@@ -1,5 +1,6 @@
 import type { IConversionFunnelChartSpecBase, IConversionFunnelSeriesSpecBase } from './interface';
-import { VChart, FunnelChart, PREFIX, FunnelSeries, GroupMark } from '@visactor/vchart';
+import type { GroupMark } from '@visactor/vchart';
+import { VChart, FunnelChart, PREFIX, FunnelSeries, registerMarkFilterTransform } from '@visactor/vchart';
 import { DataView } from '@visactor/vdataset';
 import { ConversionFunnelChartSpecTransformer } from './conversion-funnel-transformer';
 import { conversionArrowTransform } from './arrow-data-transform';
@@ -42,10 +43,10 @@ export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeries
       rightGroup.getMarks().forEach(mark => {
         mark.setDataView(this._arrowData);
         mark.compileData();
-        mark.getProduct().transform([
+        mark.setTransform([
           {
             type: 'filter',
-            callback: datum => datum.position === 'right'
+            callback: (datum: any) => datum.position === 'right'
           }
         ]);
       });
@@ -55,10 +56,10 @@ export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeries
       leftGroup.getMarks().forEach(mark => {
         mark.setDataView(this._arrowData);
         mark.compileData();
-        mark.getProduct().transform([
+        mark.setTransform([
           {
             type: 'filter',
-            callback: datum => datum.position === 'left'
+            callback: (datum: any) => datum.position === 'left'
           }
         ]);
       });
@@ -67,34 +68,11 @@ export class ConversionFunnelSeries extends FunnelSeries<IConversionFunnelSeries
 }
 
 export const registerConversionFunnelChart = (option?: { VChart?: typeof VChart }) => {
+  registerMarkFilterTransform();
+
   const vchartConstructor = option?.VChart || VChart;
   if (vchartConstructor) {
     vchartConstructor.useChart([ConversionFunnelChart]);
     vchartConstructor.useSeries([ConversionFunnelSeries]);
   }
-};
-
-export const DEFAULT_ARROW_MARK_STYLE = {
-  cornerRadius: 4,
-  stroke: 'black',
-  strokeOpacity: 1,
-  lineWidth: 1,
-  closePath: false,
-  pickable: false
-};
-
-export const DEFAULT_ARROW_SYMBOL_MARK_STYLE = {
-  symbolType: 'triangle',
-  size: 8,
-  scaleX: 0.7,
-  fill: 'black'
-};
-
-export const DEFAULT_ARROW_TEXT_MARK_STYLE = {
-  fill: '#606773',
-  fontSize: 12
-};
-
-export const DEFAULT_FUNNEL_BACKGROUND_MARK_STYLE = {
-  fill: '#eff1f9'
 };

@@ -2,7 +2,7 @@ import trainingData1 from '../../../__tests__/runtime/browser/data/sequence-scat
 import trainingInfo1 from '../../../__tests__/runtime/browser/data/sequence-scatter/Training_process1/info.json';
 import trainingData2 from '../../../__tests__/runtime/browser/data/sequence-scatter/Training_process2/data.json';
 import trainingInfo2 from '../../../__tests__/runtime/browser/data/sequence-scatter/Training_process2/info.json';
-import { ISequenceScatterLinkData, OriginalData, TrainingInfo, Endpoint } from './interface';
+import type { ISequenceScatterLinkData, OriginalData, TrainingInfo, Endpoint } from './interface';
 
 export function getSeqScatterChartData(task_type: string) {
   // get basic settings
@@ -21,9 +21,9 @@ function getBasicSettings(task_type: string) {
   const training_info: TrainingInfo = task_type === 'neighborhood' ? trainingInfo1 : trainingInfo2;
   const scope = task_type === 'neighborhood' ? [-9, -9, 6, 6] : [-8, -8, 8, 8];
 
-  const label_index = training_info['label_index'];
-  const label_text = training_info['label_text'];
-  const label_color_list = training_info['label_color'];
+  const label_index = training_info.label_index;
+  const label_text = training_info.label_text;
+  const label_color_list = training_info.label_color;
   const label_color_dict: { [key: string]: string } = {}; // text -> rgb
 
   for (let i = 0; i < label_color_list.length; i++) {
@@ -72,7 +72,8 @@ function constructChartData(
     });
 
     // fill in edges
-    let intra_similarity: number[][], inter_similarity: number[][];
+    let intra_similarity: number[][];
+    let inter_similarity: number[][];
     if (task_type === 'neighborhood') {
       intra_similarity = original_data[epoch].intra_similarity;
       inter_similarity = original_data[epoch].inter_similarity;

@@ -25,6 +25,20 @@ option: bar3dChart
 ## 代码演示
 
 ```javascript livedemo
+/**
+ * 自2.0.0版本后，3d图表从vchart-extension中引入
+ *
+ * import { registerBar3dChart } from '@visactor/vchart-extension';
+ *
+ * registerBar3dChart();
+ */
+
+/** --Remove the following code when using in business-- */
+if (VChartExtension.registerBar3dChart) {
+  VChartExtension.registerBar3dChart();
+}
+/** --Remove the above code when using in business-- */
+
 const spec = {
   type: 'bar3d',
   data: [

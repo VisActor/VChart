@@ -4,14 +4,14 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { IWordCloudChartSpec } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
-import { ThemeManager, default as VChart } from '../../../src';
+import { default as VChart } from '../../../src';
 import { DataSet, csvParser } from '@visactor/vdataset';
 import { WordCloudChart } from '../../../src/chart/word-cloud/word-cloud';
 import type { WordCloudSeries } from '../../../src/series/word-cloud/word-cloud';
 import { dataWordCloud } from '../../data/data-wordcloud';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
-import { initChartDataSet } from '../../util/context';
+import { getTheme, initChartDataSet } from '../../util/context';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
@@ -62,7 +62,7 @@ describe('wordCloud chart test', () => {
     const transformer = new WordCloudChart.transformerConstructor({
       type: 'wordCloud',
       seriesType: 'wordCloud',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec);
@@ -81,7 +81,7 @@ describe('wordCloud chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       getSpecInfo: () => info
     } as any);
     chart.created(transformer);
@@ -197,6 +197,6 @@ describe('wordCloud chart test', () => {
 
     const marks = series.getMarks();
     const wordMark = marks[1];
-    expect(wordMark.getProduct()?.elements[0].getGraphicAttribute('fill')).toBe('#1664FF');
+    expect(wordMark.getGraphics()[0].attribute.fill).toBe('#1664FF');
   });
 });

@@ -219,26 +219,26 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (reverse) {
       switch (tag) {
         case 'startHandler':
-          axisScale.rangeFactorEnd(newRangeFactor[1]);
+          axis.scaleRangeFactorEnd(newRangeFactor[1]);
           break;
         case 'endHandler':
-          axisScale.rangeFactorStart(newRangeFactor[0]);
+          axis.scaleRangeFactorStart(newRangeFactor[0]);
           break;
         default:
-          axisScale.rangeFactorStart(newRangeFactor[0], true);
-          axisScale.rangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
+          axis.scaleRangeFactorStart(newRangeFactor[0], true);
+          axis.scaleRangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
       }
     } else {
       switch (tag) {
         case 'startHandler':
-          axisScale.rangeFactorStart(newRangeFactor[0]);
+          axis.scaleRangeFactorStart(newRangeFactor[0]);
           break;
         case 'endHandler':
-          axisScale.rangeFactorEnd(newRangeFactor[1]);
+          axis.scaleRangeFactorEnd(newRangeFactor[1]);
           break;
         default:
-          axisScale.rangeFactorEnd(newRangeFactor[1], true);
-          axisScale.rangeFactorStart(newRangeFactor[0]); // start 保证为准确值
+          axis.scaleRangeFactorEnd(newRangeFactor[1], true);
+          axis.scaleRangeFactorStart(newRangeFactor[0]); // start 保证为准确值
       }
     }
 
@@ -548,6 +548,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       false
     );
 
+    // todo 似乎没必要创建
     this._data = new CompilableData(this._option, data);
     data.reRunAllTransform();
     dataSet.multipleDataViewAddListener(dataCollection, 'change', this._handleDataCollectionChange.bind(this));
@@ -754,11 +755,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
   }
 
-  /** LifeCycle API**/
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
   /**
    * updateSpec
    */
@@ -777,19 +773,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     this._marks.forEach(g => {
       (<IGroupMark>g).getMarks().forEach(m => {
-        this.initMarkStyleWithSpec(m, this._spec[m.name]);
+        this.initMarkStyleWithSpec(m, (this._spec as any)[m.name]);
       });
     });
-  }
-
-  changeRegions() {
-    // do nothing
-  }
-  protected update(ctx: IComponentOption) {
-    // do nothing
-  }
-  protected resize(ctx: IComponentOption) {
-    // do nothing
   }
 
   protected _parseDomainFromState(startValue: number | string, endValue: number | string) {
@@ -942,18 +928,18 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     );
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
-    super.onLayoutStart(layoutRect, viewRect, ctx);
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void {
+    super.onLayoutStart(layoutRect, viewRect);
     const isShown = this._autoUpdate(layoutRect);
     this._autoVisible(isShown);
     this._dataUpdating = false;
   }
 
-  onLayoutEnd(ctx: any): void {
+  onLayoutEnd(): void {
     // 布局结束后, start和end会发生变化, 因此需要再次更新visible
     const isShown = !(this._start === 0 && this._end === 1);
     this._autoVisible(isShown);
-    super.onLayoutEnd(ctx);
+    super.onLayoutEnd();
   }
 
   /**

@@ -111,7 +111,7 @@
 //   // plugin
 //   // registerCanvasTooltipHandler,
 
-//   // vgrammar interactions,
+//   // interactions,
 //   // registerElementHighlight,
 //   // registerElementSelect
 // ]);

@@ -96,14 +96,8 @@ export interface ISeriesMarkInitOption extends Partial<IMarkOption> {
   /** 是否在编译时更新实际数据 */
   skipBeforeLayouted?: boolean;
 
-  /** 父级 mark（如果是 undefined 则默认是系列的 root mark，如果是 false 则不配置父级 mark） */
-  parent?: IGroupMark | false;
-
   /** 是否是 series field 所作用的 mark（用于 tooltip shape 取色等） */
   isSeriesMark?: boolean;
-
-  /** 该 mark 依赖于哪些语法元素 */
-  depend?: IGrammarItem | IGrammarItem[];
 
   /** 数据 key 值 */
   key?: string | ((datum: any) => string);

@@ -17,7 +17,8 @@ export class AreaChartSpecTransformer<
       'pointDis',
       'pointDisMul',
       'markOverlap',
-      'areaLabel'
+      'areaLabel',
+      'useSequentialAnimation'
     ]);
   }
 

@@ -1,8 +1,9 @@
+import type { IText } from '@visactor/vrender-core';
 import type { BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous, isDiscrete } from '@visactor/vscale';
 import type { ICartesianSeries } from '../../../series';
-import type { ILayoutPoint, StringOrNumber } from '../../../typings';
+import { Direction, type ILayoutPoint, type StringOrNumber } from '../../../typings';
 import type {
   AxisCurrentValueMap,
   CrossHairStateByField,
@@ -17,6 +18,7 @@ import { getAxisLabelOffset } from '../../axis/util';
 import { isValid } from '@visactor/vutils';
 import type { IAxis, ILinearAxis } from '../../axis';
 import { getFormatFunction } from '../../util';
+import type { IDimensionData } from '../../../event/events/dimension/interface';
 
 export const layoutByValue = (
   stateByField: CrossHairStateByField,
@@ -32,7 +34,7 @@ export const layoutByValue = (
     const { currentValue, cacheInfo, labelsComp, attributes, coordKey } = stateByField[field];
     let axis = null;
     let coord = 0;
-
+    let axisLabel: IText = null;
     if (currentValue.size) {
       const item = Array.from(currentValue.values())[0];
       coord =
@@ -40,6 +42,10 @@ export const layoutByValue = (
         item.axis.getLayoutStartPoint()[coordKey as 'x' | 'y'] -
         layoutStartPoint[coordKey as 'x' | 'y'];
       axis = item.axis;
+      axisLabel = axis
+        .getVRenderComponents()[0]
+        ?.children[0]?.children[0]?.getChildByName('axis-label-container')
+        ?.getChildByName('axis-label-container-layer-0')?.children[0];
     }
     const isVisible = !!currentValue.size && Number.isFinite(coord) && !Number.isNaN(coord);
     const useCache = enableRemain && !isVisible && isValid(cacheInfo);
@@ -58,7 +64,8 @@ export const layoutByValue = (
               }, {})
             : null,
           visible: isVisible,
-          axis
+          axis,
+          axisLabel: axisLabel
         };
     if (newCacheInfo) {
       newCacheInfo._isCache = useCache;
@@ -98,34 +105,34 @@ export const layoutByValue = (
         if (newCacheInfo && attributes.label?.visible && !useCache) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
           const axisOrient = axis.getOrient();
-
+          const syncAxisLabelAngle = attributes.label?.syncAxisLabelAngle;
           if (newCacheInfo.labels[axisOrient]) {
             newCacheInfo.labels[axisOrient].visible = true;
             newCacheInfo.labels[axisOrient].text = value;
             if (axisOrient === 'left') {
               newCacheInfo.labels[axisOrient].dx = -labelOffset;
               newCacheInfo.labelsTextStyle[axisOrient] = {
-                textAlign: 'right',
-                textBaseline: 'middle'
+                textAlign: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textAlign ?? 'right' : 'right',
+                textBaseline: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textBaseline ?? 'middle' : 'middle'
               };
             } else if (axisOrient === 'right') {
               newCacheInfo.labels[axisOrient].dx = labelOffset;
               newCacheInfo.labelsTextStyle[axisOrient] = {
-                textAlign: 'left',
-                textBaseline: 'middle'
+                textAlign: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textAlign ?? 'left' : 'left',
+                textBaseline: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textBaseline ?? 'middle' : 'middle'
               };
             } else if (axisOrient === 'top') {
               newCacheInfo.labels[axisOrient].y = 0;
               newCacheInfo.labels[axisOrient].dy = -labelOffset;
               newCacheInfo.labelsTextStyle[axisOrient] = {
-                textAlign: 'center',
-                textBaseline: 'bottom'
+                textAlign: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textAlign ?? 'center' : 'center',
+                textBaseline: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textBaseline ?? 'bottom' : 'bottom'
               };
             } else if (axisOrient === 'bottom') {
               newCacheInfo.labels[axisOrient].dy = labelOffset;
               newCacheInfo.labelsTextStyle[axisOrient] = {
-                textAlign: 'center',
-                textBaseline: 'top'
+                textAlign: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textAlign ?? 'center' : 'center',
+                textBaseline: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textBaseline ?? 'top' : 'top'
               };
             }
             newCacheInfo.labels[axisOrient].defaultFormatter = niceLabelFormatter;
@@ -257,4 +264,58 @@ const getRectSize = (hair: IHair, bandSize: number, offsetSize: number, axis: IA
   }
 
   return bandSize === 0 ? [-size / 2, size / 2] : [bandSize / 2 - size / 2, size / 2 + bandSize / 2];
+};
+
+export const getCartesianCrosshairRect = (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => {
+  const currValueX: AxisCurrentValueMap = new Map();
+  const currValueY: AxisCurrentValueMap = new Map();
+  const { series, datum } = dimensionData;
+  const isHorizontal = (series as ICartesianSeries).direction === Direction.horizontal;
+  const axisHelper = isHorizontal
+    ? (series as ICartesianSeries).getYAxisHelper()
+    : (series as ICartesianSeries).getXAxisHelper();
+  const axisId = axisHelper.getAxisId();
+  const axis = series
+    .getChart()
+    .getComponentsByKey('axes')
+    .find(axis => axis.id === axisId) as IAxis;
+
+  if (!axis) {
+    return undefined;
+  }
+  (isHorizontal ? currValueY : currValueX).set(axis.getSpecIndex(), {
+    datum: series.getDatumPositionValues(datum[0], series.getDimensionField())?.[0],
+    axis
+  });
+
+  const state: CrossHairStateByField = {
+    xField: {
+      coordKey: 'x',
+      anotherAxisKey: 'y',
+      currentValue: currValueX,
+      attributes: {
+        visible: !!currValueX.size,
+        type: 'rect'
+      }
+    },
+    yField: {
+      coordKey: 'y',
+      anotherAxisKey: 'x',
+      currentValue: currValueY,
+      attributes: {
+        visible: !!currValueY.size,
+        type: 'rect'
+      }
+    }
+  };
+
+  layoutByValue(state, series as ICartesianSeries, layoutStartPoint);
+
+  if (state.xField.cacheInfo) {
+    return layoutCrosshair(state.xField);
+  }
+  if (state.yField.cacheInfo) {
+    return layoutCrosshair(state.yField);
+  }
+  return undefined;
 };

@@ -31,12 +31,16 @@ import { TestRegion } from './region';
 import { TestSeries } from './series';
 import { DataSet } from '@visactor/vdataset';
 import { getTestCompiler } from './compiler';
-import type { IView, IGroupMark } from '@visactor/vgrammar-core';
+// import type { IView, IGroupMark } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ITheme } from '../../../src/theme';
 import type { LayoutCallBack } from '../../../src/layout/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRegionQuerier } from '../../../src/typings';
+
+type IView = any;
+type IGroupMark = any;
+
 export class TestChart implements IChart {
   protected _spec: any;
 
@@ -274,5 +278,9 @@ export class TestChart implements IChart {
 
   getMarkById(id: number): IMark | undefined {
     return undefined;
+  }
+
+  getOption() {
+    return {} as any;
   }
 }

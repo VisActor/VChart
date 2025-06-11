@@ -5,8 +5,11 @@ import { BaseLineMark } from './base/base-line';
 import type { ILineMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerLineGraphic } from '@visactor/vgrammar-core';
-import { registerVGrammarLineOrAreaAnimation } from '../animation/config';
+import { registerLineOrAreaAnimation } from '../animation/config';
+import type { IGraphic, ILineGraphicAttribute } from '@visactor/vrender-core';
+import { createLine } from '@visactor/vrender-core';
+import { registerLine, registerShadowRoot } from '@visactor/vrender-kits';
+import { registerLineDataLabel, registerSymbolDataLabel } from '@visactor/vrender-components';
 
 export class LineMark extends BaseLineMark<ILineMarkSpec> implements ILineMark {
   static readonly type = MarkTypeEnum.line;
@@ -35,6 +38,11 @@ export class LineMark extends BaseLineMark<ILineMarkSpec> implements ILineMark {
 
 export const registerLineMark = () => {
   Factory.registerMark(LineMark.type, LineMark);
-  registerLineGraphic();
-  registerVGrammarLineOrAreaAnimation();
+  registerShadowRoot();
+  registerLine();
+  registerLineDataLabel();
+  registerSymbolDataLabel();
+  registerLineOrAreaAnimation();
+
+  Factory.registerGraphicComponent(MarkTypeEnum.line, createLine);
 };

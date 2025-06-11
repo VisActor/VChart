@@ -5,6 +5,7 @@ import type { ICirclePackingChartSpec } from './interface';
 import { registerCirclePackingSeries } from '../../series/circle-packing/circle-packing';
 import { Factory } from '../../core/factory';
 import { CirclePackingChartSpecTransformer } from './circle-packing-transformer';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class CirclePackingChart<T extends ICirclePackingChartSpec = ICirclePackingChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.circlePacking;
@@ -16,6 +17,7 @@ export class CirclePackingChart<T extends ICirclePackingChartSpec = ICirclePacki
 }
 
 export const registerCirclePackingChart = () => {
+  registerMarkTooltipProcessor();
   registerCirclePackingSeries();
   Factory.registerChart(CirclePackingChart.type, CirclePackingChart);
 };

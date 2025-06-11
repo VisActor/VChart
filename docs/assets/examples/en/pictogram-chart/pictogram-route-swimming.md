@@ -24,6 +24,24 @@ This is a animation of people competing in a swimming pool.
 ## Code Demo
 
 ```javascript livedemo
+/** --Please add the following code when using in your project-- */
+// For version 1.x, please additionally import and execute registerPictogramChart in your project
+// import { registerPictogramChart } from '@visactor/vchart';
+// registerPictogramChart();
+// For version 2.0.0, please additionally import and execute registerPictogramChart in your project
+// import { registerPictogramChart } from '@visactor/vchart-extension';
+// registerPictogramChart();
+/** --Please add the above code when using in your project-- */
+
+/** --Please remove the following code when using in your project-- */
+if (VCHART_MODULE.registerPictogramChart) {
+  // Execute registration code for version 1.x
+  VCHART_MODULE.registerPictogramChart();
+} else if (VChartExtension.registerPictogramChart) {
+  // Execute registration code for version 2.0.0
+  VChartExtension.registerPictogramChart();
+}
+
 const response = await fetch('https://lf3-static.bytednsdoc.com/obj/eden-cn/oqeh7nuvonuhpqnuhog/swimmingPool.svg');
 const routeSVG = await response.text();
 

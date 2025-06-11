@@ -83,3 +83,15 @@ export interface IMapSeriesTheme {
    */
   area?: Partial<IMarkTheme<Omit<IPathMarkSpec, 'smoothScale'>>>;
 }
+
+export interface GeometryData {
+  type: 'Point' | 'MultiPoint' | 'LineString' | 'MultiLineString' | 'Polygon' | 'MultiPolygon' | 'GeometryCollection';
+  coordinates?: [number, number] | [number, number][] | [number, number][][] | [number, number][][][];
+  arcs?: number[][];
+}
+
+export interface FeatureData {
+  type: 'Feature';
+  geometry: GeometryData;
+  properties?: Record<string, any>;
+}

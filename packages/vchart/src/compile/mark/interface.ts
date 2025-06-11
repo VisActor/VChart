@@ -1,21 +1,62 @@
-import type { IMarkStateStyle, MarkType } from '../../mark/interface';
+import type { IMark, IMarkGraphic, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
-import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem } from '../interface';
+import type { GrammarItemCompileOption, GrammarItemInitOption, IGrammarItem, StateValueMap } from '../interface';
 import type { DataView } from '@visactor/vdataset';
-import type {
-  IAnimate,
-  IAnimateArranger,
-  IElement,
-  IGroupMark,
-  IMark,
-  IMarkConfig,
-  MarkAnimationSpec,
-  Nil,
-  TransformSpec
-} from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { IRegion } from '../../region/interface';
 import type { ICompilableData } from '../data/interface';
+import type { ICustomPath2D, IGraphic, IGroup } from '@visactor/vrender-core';
+import type { MarkAnimationSpec } from '../../animation/interface';
+
+export interface IMarkConfig {
+  clipPath?: IGraphic[] | ((graphics: IGraphic[]) => IGraphic[]);
+  clip?: boolean;
+  zIndex?: number;
+  interactive?: boolean;
+  /**
+   * set customized shape
+   */
+  setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+  /** 是否开启大数据渲染模式 */
+  large?: boolean;
+  /** 开启大数据渲染优化的阀值，对应的是data的长度 */
+  largeThreshold?: number;
+  /** 分片长度 */
+  progressiveStep?: number;
+  /** 开启分片渲染的阀值，对应的是单系列data的长度 */
+  progressiveThreshold?: number;
+  /**
+   * use 'sequential' for symbol chart
+   * use 'mod' for bar/line chart
+   */
+  // largeChunkMode?: 'sequential' | 'mod';
+  support3d?: boolean;
+  /**
+   * 象形图，给图形设置名称
+   */
+  graphicName?: string | ((g: IMarkConfig) => string);
+  /**
+   * enable global morphing animation of the mark
+   */
+  morph?: boolean;
+  /**
+   * this key will be used to match the mark to morph
+   */
+  morphKey?: string;
+  /**
+   * this key will be used to match the element of two marks to morph
+   * If not specified, we'll use the "key" of the mark by default
+   */
+  morphElementKey?: string;
+
+  overflow?: 'scroll' | 'hidden' | 'scroll-x' | 'scroll-y';
+  skipTheme?: boolean;
+
+  /**
+   * 是否开启序列动画能力，默认关闭
+   */
+  useSequentialAnimation?: boolean;
+}
 
 export interface IMarkStateManager {
   getStateInfoList: () => IStateInfo[];
@@ -23,14 +64,11 @@ export interface IMarkStateManager {
   addStateInfo: (stateInfo: IStateInfo) => void;
   changeStateInfo: (stateInfo: Partial<IStateInfo>) => void;
   clearStateInfo: (stateValues: StateValue[]) => void;
-  checkOneState: (
-    renderNode: IElement,
-    datum: Datum | Datum[],
-    state: IStateInfo,
-    isMultiMark?: boolean
-  ) => 'in' | 'out' | 'skip';
-  checkState: (renderNode: IElement, datum: Datum | Datum[]) => StateValue[];
-  updateLayoutState: (noRender?: boolean) => void;
+  checkOneState: (renderNode: IMarkGraphic, datum: Datum[], state: IStateInfo) => 'in' | 'out' | 'skip';
+  checkState: (renderNode: IMarkGraphic, datum: Datum[]) => StateValue[];
+  getStateMap: () => StateValueMap;
+  updateState: (newState: Partial<StateValueMap>, noRender?: boolean) => void;
+  release: () => void;
 }
 
 export interface IMarkData extends ICompilableData {
@@ -63,11 +101,18 @@ export interface ICompilableMark extends IGrammarItem {
   // parent model
   readonly model: IModel;
 
+  /**
+   * 上报发生了变更，需要更新
+   */
+  commit: (render?: boolean, recursion?: boolean) => void;
+  uncommit: () => void;
+  isCommited: () => boolean;
+
   // 数据 可以没有
-  getData: () => IMarkData | undefined;
-  setData: (d: IMarkData) => void;
+  getData: () => ICompilableData | undefined;
+  setData: (d: ICompilableData) => void;
   getDataView: () => DataView | undefined;
-  setDataView: (d?: DataView, productId?: string) => void;
+  setDataView: (d: DataView) => void;
 
   // 状态
   state: IMarkStateManager;
@@ -75,17 +120,8 @@ export interface ICompilableMark extends IGrammarItem {
   hasState: (state: string) => boolean;
   getState: (state: string) => any;
   updateState: (newState: Record<string, unknown>) => void;
-  /** 更新group | enter中的静态样式 */
-  updateStaticEncode: () => void;
   /** 更新 mark 样式 */
   compileEncode: () => void;
-  /** 更新encode中的样式 */
-  updateLayoutState: (noRender?: boolean, recursion?: boolean) => void;
-  /** 更新某一个状态 */
-  updateMarkState: (key: string) => void;
-
-  // transform
-  setTransform: (transform: TransformSpec[] | Nil) => void;
 
   // 动画配置
   setAnimationConfig: (config: Partial<MarkAnimationSpec>) => void;
@@ -96,7 +132,6 @@ export interface ICompilableMark extends IGrammarItem {
   setVisible: (visible: boolean) => void;
 
   // groupKey 配置
-  getGroupKey: () => string | undefined;
   setGroupKey: (groupKey: string) => void;
 
   // 用户 id
@@ -105,38 +140,34 @@ export interface ICompilableMark extends IGrammarItem {
 
   compile: (option?: IMarkCompileOption) => void;
 
-  getProduct: () => Maybe<IMark>;
-  getProductElements: () => Maybe<IMark['elements']>;
+  getProduct: () => Maybe<IGroup>;
 
   /** 获取子mark */
   getMarks: () => ICompilableMark[];
 
   /** 是否跳过布局阶段 */
   setSkipBeforeLayouted: (skip: boolean) => void;
-  getSkipBeforeLayouted: () => boolean;
-
-  setStateSortCallback: (stateSort: (stateA: string, stateB: string) => number) => void;
 
   getMarkConfig: () => IMarkConfig;
   setMarkConfig: (config: IMarkConfig) => void;
 
-  /** 开始状态动画 */
-  runAnimationByState: (animationState?: string) => IAnimateArranger;
-  /** 停止状态动画*/
-  stopAnimationByState: (animationState?: string) => IAnimate;
-  /** 暂停状态动画*/
-  pauseAnimationByState: (animationState: string) => IAnimate;
-  /** 恢复状态动画*/
-  resumeAnimationByState: (animationState: string) => IAnimate;
-}
+  getContext: () => any;
 
-export interface IMarkDataInitOption extends ICompilableMarkOption {
-  mark: ICompilableMark;
+  /** 开始状态动画 */
+  // runAnimationByState: (animationState?: string) => IAnimateArranger;
+  // /** 停止状态动画*/
+  // stopAnimationByState: (animationState?: string) => IAnimate;
+  // /** 暂停状态动画*/
+  // pauseAnimationByState: (animationState: string) => IAnimate;
+  // /** 恢复状态动画*/
+  // resumeAnimationByState: (animationState: string) => IAnimate;
+
+  layout: (layoutCallback: () => void) => void;
+  setDataLabelType?: () => string;
 }
 
 export interface IMarkCompileOption extends GrammarItemCompileOption {
-  group?: string | IGroupMark;
-  ignoreChildren?: boolean;
+  group?: IGroup;
   context?: any;
 }
 
@@ -153,7 +184,17 @@ export interface IStateInfo {
   /** 筛选 item */
   items?: any[] | null | undefined;
   /** 筛选函数 */
-  filter?: ((datum: any, options: Record<string, any>) => boolean) | null | undefined;
+  filter?:
+    | ((
+        datum: any,
+        options: {
+          mark?: IMark;
+          type?: string;
+          renderNode?: IGraphic;
+        }
+      ) => boolean)
+    | null
+    | undefined;
   cache?: {
     [key: string]: {
       [key: string]: boolean;
@@ -210,7 +251,12 @@ export enum STATE_VALUE_ENUM {
 
   // todo: 2.0考虑优化
   STATE_SANKEY_EMPHASIS = 'selected',
-  STATE_SANKEY_EMPHASIS_REVERSE = 'blur'
+  STATE_SANKEY_EMPHASIS_REVERSE = 'blur',
+
+  STATE_HIGHLIGHT = 'highlight',
+  STATE_BLUR = 'blur',
+
+  STATE_ACTIVE = 'active'
 }
 
 export enum STATE_VALUE_ENUM_REVERSE {
@@ -229,12 +275,6 @@ export type STATE_CUSTOM = string;
 export type StateValueNot = STATE_HOVER_REVERSE | STATE_CUSTOM;
 export type StateValue = STATE_NORMAL | STATE_HOVER | STATE_CUSTOM;
 export type StateValueType = StateValue | StateValueNot;
-
-export interface IAttributeOpt {
-  element: IElement;
-  mark: IElement['mark'];
-  parent: IElement['mark']['group'];
-}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IModelMarkAttributeContext {

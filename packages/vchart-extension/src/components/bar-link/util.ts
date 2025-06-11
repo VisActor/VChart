@@ -1,16 +1,15 @@
-import type { IElement } from '@visactor/vgrammar-core';
 import type { Dict, IPointLike } from '@visactor/vutils';
 import type { BarLinkAttrs, BarLinkDatum } from './type';
-import type { ICartesianSeries, ISpec } from '@visactor/vchart';
-import { STACK_FIELD_END } from '@visactor/vchart';
+import type { Datum, ICartesianSeries, IMarkGraphic, ISpec } from '@visactor/vchart';
+import { getDatumOfGraphic, STACK_FIELD_END } from '@visactor/vchart';
 import { array } from '@visactor/vutils';
 import { BAR_LINK } from './constant';
 
-export function groupBarsByFields(elements: IElement[], groupFields: string[]) {
-  const result: Dict<IElement[]> = {};
+export function groupBarsByFields(elements: IMarkGraphic[], groupFields: string[]) {
+  const result: Dict<IMarkGraphic[]> = {};
   for (let i = 0; i < elements.length; i++) {
     const item = elements[i];
-    const itemData = item.data?.[0];
+    const itemData = getDatumOfGraphic(item) as Datum;
     const groupKey = groupFields.map(field => itemData[field]).join('-');
     if (!result[groupKey]) {
       result[groupKey] = [];
@@ -21,8 +20,8 @@ export function groupBarsByFields(elements: IElement[], groupFields: string[]) {
 }
 
 export function getLinkData(
-  currentElement: IElement,
-  nextElement: IElement,
+  currentElement: IMarkGraphic,
+  nextElement: IMarkGraphic,
   config: {
     isHorizontal: boolean;
     isXAxisInverse: boolean;
@@ -34,10 +33,9 @@ export function getLinkData(
   }
 ): BarLinkDatum {
   const { isHorizontal, isXAxisInverse, isYAxisInverse, linkType, doFill, regionStartX, regionStartY } = config;
-  const currentBarGraphic = currentElement.getGraphicItem();
-  const nextBarGraphic = nextElement.getGraphicItem();
-  const currentBarBounds = currentBarGraphic.AABBBounds;
-  const nextBarBounds = nextBarGraphic.AABBBounds;
+
+  const currentBarBounds = currentElement.AABBBounds;
+  const nextBarBounds = nextElement.AABBBounds;
 
   let linePoints: [IPointLike, IPointLike];
   let areaPoints: [IPointLike, IPointLike];
@@ -183,8 +181,8 @@ export function getLinkData(
     // points,
     areaPoints,
     linePoints,
-    data: [currentElement.data[0], nextElement.data[0]],
-    color: currentBarGraphic.attribute.fill as string
+    data: [getDatumOfGraphic(currentElement) as Datum, getDatumOfGraphic(nextElement) as Datum],
+    color: currentElement.attribute.fill as string
   };
 }
 
@@ -211,9 +209,10 @@ export function getBarLinkConfig(
           const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
           if (barSeriesArr.length) {
             const groupFields = barSeriesArr[0].getGroupFields();
-            const allBarElements: IElement[] = [];
+            const allBarElements: IMarkGraphic[] = [];
             barSeriesArr.forEach(barSeries => {
-              const barGraphicElements = barSeries.getMarkInName('bar')?.getProduct()?.elements;
+              const barGraphicElements = barSeries.getMarkInName('bar')?.getGraphics();
+
               barGraphicElements.forEach(barElement => {
                 allBarElements.push(barElement);
               });
@@ -222,9 +221,12 @@ export function getBarLinkConfig(
             const groupData = groupBarsByFields(allBarElements, groupFields);
 
             // 对同组内的图形进行排序
-            Object.values(groupData).forEach((groupedValues: IElement[]) => {
-              groupedValues.sort((prev: IElement, curr: IElement) => {
-                return prev.data[0][STACK_FIELD_END] - curr.data[0][STACK_FIELD_END];
+            Object.values(groupData).forEach((groupedValues: IMarkGraphic[]) => {
+              groupedValues.sort((prev: IMarkGraphic, curr: IMarkGraphic) => {
+                return (
+                  (getDatumOfGraphic(prev) as Datum)[STACK_FIELD_END] -
+                  (getDatumOfGraphic(curr) as Datum)[STACK_FIELD_END]
+                );
               });
             });
 
@@ -233,21 +235,21 @@ export function getBarLinkConfig(
             const isYAxisInverse = barSeries.getYAxisHelper().isInverse();
             const isXAxisInverse = barSeries.getXAxisHelper().isInverse();
 
-            const groupValues: IElement[][] = Object.values(groupData);
+            const groupValues: IMarkGraphic[][] = Object.values(groupData);
 
             // 根据每组图形：
             // 1. 水平，每组图形的 y1 进行由小到大排序，保证图形顺序
             // 2. 垂直，每组图形的 x1 进行由小到大排序，保证图形顺序
             if (groupValues.length) {
               if (isHorizontal) {
-                const firstElementPosY = groupValues[0][0].getGraphicItem().AABBBounds.y1;
-                const lastElementPosY = groupValues[groupValues.length - 1][0].getGraphicItem().AABBBounds.y1;
+                const firstElementPosY = groupValues[0][0].AABBBounds.y1;
+                const lastElementPosY = groupValues[groupValues.length - 1][0].AABBBounds.y1;
                 if (firstElementPosY < lastElementPosY) {
                   groupValues.reverse();
                 }
               } else {
-                const firstElementPosX = groupValues[0][0].getGraphicItem().AABBBounds.x1;
-                const lastElementPosX = groupValues[groupValues.length - 1][0].getGraphicItem().AABBBounds.x1;
+                const firstElementPosX = groupValues[0][0].AABBBounds.x1;
+                const lastElementPosX = groupValues[groupValues.length - 1][0].AABBBounds.x1;
                 if (firstElementPosX > lastElementPosX) {
                   groupValues.reverse();
                 }
@@ -255,8 +257,8 @@ export function getBarLinkConfig(
             }
 
             for (let index = 0; index < groupValues.length - 1; index++) {
-              const currentValues: IElement[] = groupValues[index];
-              const nextValues: IElement[] = groupValues[index + 1];
+              const currentValues: IMarkGraphic[] = groupValues[index];
+              const nextValues: IMarkGraphic[] = groupValues[index + 1];
 
               currentValues.forEach((element, elementIndex) => {
                 const nextElement = nextValues[elementIndex] ?? nextValues[nextValues.length - 1];

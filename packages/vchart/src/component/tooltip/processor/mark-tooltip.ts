@@ -7,6 +7,9 @@ import type { ISeries } from '../../../series/interface';
 import { IContainPointMode } from '@visactor/vrender-core';
 import type { IDimensionData } from '../../../event/events/dimension/interface';
 import type { Label } from '../../label';
+import { getDatumOfGraphic } from '../../../util/mark';
+import { Factory } from '../../../core/factory';
+import { TooltipType } from '../constant';
 
 export class MarkTooltipProcessor extends BaseTooltipProcessor {
   activeType: TooltipActiveType = 'mark';
@@ -33,15 +36,13 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
         layer.globalTransMatrix.transformPoint({ x: params.event.viewX, y: params.event.viewY }, point);
 
         activeTriggers.forEach(mark => {
-          mark.getProductElements().forEach(el => {
-            const graphic = el.getGraphicItem();
-
+          mark.getGraphics().forEach(g => {
             if (
-              el !== params.item &&
-              graphic &&
-              graphic.containsPoint(point.x, point.y, IContainPointMode.GLOBAL, graphic.stage.getPickerService())
+              g !== params.node &&
+              g &&
+              g.containsPoint(point.x, point.y, IContainPointMode.GLOBAL, g.stage.getPickerService())
             ) {
-              tooltipData[0].datum.push(el.getDatum());
+              tooltipData[0].datum.push(getDatumOfGraphic(g));
             }
           });
         });
@@ -116,3 +117,7 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
     };
   }
 }
+
+export const registerMarkTooltipProcessor = () => {
+  Factory.registerTooltipProcessor(TooltipType.mark, MarkTooltipProcessor);
+};

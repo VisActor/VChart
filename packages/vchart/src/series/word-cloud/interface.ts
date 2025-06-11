@@ -1,14 +1,8 @@
 import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod, IRectMarkSpec } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { shapes } from '@visactor/vgrammar-wordcloud';
-import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
-
-export interface IWordcloud3dAnimationParams {
-  radius: number;
-  depth_3d: number;
-}
+import type { shapes, GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 export interface IWordcloudAnimationParams {
   animationConfig: () => IAnimationTypeConfig;
@@ -319,21 +313,6 @@ export interface IWordCloudSeriesSpec extends IWordCloudSeriesBaseSpec {
   type: 'wordCloud';
 }
 export interface IWordCloudSeriesTheme {
-  [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
-    padding?: number;
-  };
-  [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
-    padding?: number;
-  };
-}
-
-export interface IWordCloud3dSeriesSpec extends IWordCloudSeriesBaseSpec {
-  type: 'wordCloud3d';
-  depth_3d?: number; // 词云的半径深度
-  postProjection?: 'StereographicProjection'; // 词云投影的算法
-}
-
-export interface IWordCloud3dSeriesTheme {
   [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
   };

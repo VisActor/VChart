@@ -8,14 +8,11 @@ export const enum MarkTypeEnum {
   line = 'line',
   text = 'text',
   rect = 'rect',
-  rect3d = 'rect3d',
   image = 'image',
   path = 'path',
   area = 'area',
   arc = 'arc',
-  arc3d = 'arc3d',
   polygon = 'polygon',
-  pyramid3d = 'pyramid3d',
   boxPlot = 'boxPlot',
   linkPath = 'linkPath',
   cell = 'cell',
@@ -23,6 +20,7 @@ export const enum MarkTypeEnum {
   liquid = 'liquid',
 
   component = 'component',
+  dataLabel = 'dataLabel',
   label = 'label',
 
   pictogram = 'pictogram'

@@ -1,13 +1,11 @@
-import { LineChart } from '../../../src/chart/line/line';
+import { LineChart, registerLineChart } from '../../../src/chart/line/line';
 import { DataSet } from '@visactor/vdataset';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import * as bt from '../../../src/vchart-all';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
-import { initChartDataSet } from '../../util/context';
-import { ThemeManager } from '../../../src';
-bt;
+import { getTheme, initChartDataSet } from '../../util/context';
 
+registerLineChart();
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
 describe('data fields test', () => {
@@ -56,7 +54,7 @@ describe('data fields test', () => {
     const transformer = new LineChart.transformerConstructor({
       type: 'line',
       seriesType: 'line',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
@@ -75,7 +73,7 @@ describe('data fields test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       getSpecInfo: () => info
     } as any);
     chart.created(transformer);
@@ -137,7 +135,7 @@ describe('data fields test', () => {
     const transformer = new LineChart.transformerConstructor({
       type: 'line',
       seriesType: 'line',
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
@@ -156,7 +154,7 @@ describe('data fields test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(true),
+      getTheme: getTheme,
       getSpecInfo: () => info
     } as any);
     chart.created(transformer);

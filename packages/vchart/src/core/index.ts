@@ -15,19 +15,28 @@ export type { IVChart } from './interface';
 export type { IStateSpec, StateValueType } from '../compile/mark';
 export type { IRegion } from '../region/interface';
 
-export * from '../typings/spec/common';
 export * from '../event/interface';
 export * from '../theme/interface';
+export * from '../model/interface';
+
 export * from './interface';
+export * from '../typings';
+export type { IMarkGraphic, IGraphicContext } from '../mark/interface/';
 
 // some constants
 export * from '../constant/base';
 export * from '../constant/data';
+export * from '../constant/layout';
+export { AttributeLevel } from '../constant/attribute';
+export { TransformLevel } from '../data/initialize';
+export { STATE_VALUE_ENUM } from '../compile/mark/interface';
+export { ChartEvent } from '../constant/event';
 
 /**
  * spec
  */
 export * from '../typings/spec/index';
+export * from '../typings/visual';
 
 // tooltip
 export * from '../typings/tooltip';
@@ -49,3 +58,13 @@ export {
   ManualTicker,
   StreamLight
 } from '@visactor/vrender-core';
+export { ManualTicker, StreamLight } from '@visactor/vrender-animate';
+
+// utils
+export * from '../util/space';
+export { transformToGraphic } from '../util/style';
+export { getSpecInfo } from '../component/util';
+export { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
+export { lookup } from '../data/transforms/lookup';
+export { warn } from '../util/debug';
+export { measureText } from '../util/text';

@@ -1,10 +1,9 @@
 import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IElement, IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { IModel, IModelConstructor, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
+import type { IModel, IModelConstructor, IModelOption, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
 import type { IRegion, IRegionConstructor } from '../../region/interface';
 import type { ISeries, ISeriesConstructor } from '../../series/interface';
 import type {
@@ -13,8 +12,7 @@ import type {
   IChartOption,
   IChartRenderOption,
   IChartSpecInfo,
-  IChartSpecTransformerOption,
-  ILayoutParams
+  IChartSpecTransformerOption
 } from './common';
 import type { IBoundsLike, IPadding, Maybe } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
@@ -33,6 +31,7 @@ import type {
 import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../../scale/interface';
 import type { IMorphConfig } from '../../animation/spec';
+import type { IMarkGraphic } from '../../mark/interface/common';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -66,6 +65,12 @@ export interface IChart extends ICompilable {
 
   getOption: () => IChartOption;
 
+  getModelOption: () => IModelOption;
+  /**
+   * 图表更新的时候按需调用
+   * @since 1.11.0
+   */
+
   /** event */
   getEvent: () => IEvent;
 
@@ -76,9 +81,10 @@ export interface IChart extends ICompilable {
 
   /** layout */
   setLayout: (layout: LayoutCallBack) => void;
-  layout: (context: ILayoutParams) => void;
+  layout: () => void;
   getLayoutTag: () => boolean;
   setLayoutTag: (tag: boolean, morphConfig?: IMorphConfig, renderNextTick?: boolean) => boolean;
+  resetLayoutItemTag: () => void;
 
   // 使用parse前的原始数据结构更新数据
   updateData: (id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions) => void;
@@ -92,9 +98,8 @@ export interface IChart extends ICompilable {
   onLayoutStart: (ctx: IChartLayoutOption) => void;
   onLayoutEnd: (ctx: IChartLayoutOption) => void;
   onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
-  onRender: (ctx: IChartRenderOption) => void;
   onResize: (width: number, height: number, reRender: boolean) => void;
-  onLayout: (view: IView) => void;
+  onLayout: () => void;
   /**
    * 图表更新的时候按需调用
    * @since 1.11.0
@@ -219,11 +224,11 @@ export interface IChart extends ICompilable {
     opt?: {
       filter?: (series: ISeries, mark: IMark) => boolean;
       region?: IRegionQuerier;
-      getDatum?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => Datum;
-      callback?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => void;
-      regionCallback?: (pickElements: IElement[], r: IRegion) => void;
+      getDatum?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => Datum;
+      callback?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => void;
+      regionCallback?: (pickElements: IMarkGraphic[], r: IRegion) => void;
     }
-  ) => IElement[];
+  ) => IMarkGraphic[];
 }
 
 export interface IChartSpecTransformer {

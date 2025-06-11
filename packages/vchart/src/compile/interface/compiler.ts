@@ -1,8 +1,15 @@
-import type { Hooks } from '@visactor/vgrammar-core';
-import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
-import type { RenderMode } from '../../typings/spec/common';
+import type { IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
+import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
+
+/** 布局阶段 */
+export enum LayoutState {
+  before = 'before',
+  layouting = 'layouting',
+  reevaluate = 'reevaluate',
+  after = 'after'
+}
 
 export interface IRenderContainer {
   dom?: HTMLElement | 'none';
@@ -149,6 +156,10 @@ export interface IRenderOption {
    */
   pluginList?: string[];
   /**
+   * vrender 的 ticker
+   */
+  ticker?: ITicker;
+  /**
    * @since 1.8.0
    */
   optimize?: IOptimizeType;
@@ -188,5 +199,14 @@ export interface IRenderOption {
    * @deprecated
    * 请使用 hooks 代替
    */
-  performanceHook?: Hooks;
+  performanceHook?: IPerformanceHook;
+
+  /**
+   * 3d配置
+   */
+  options3d?: {
+    enable?: boolean;
+    /* 是否支持3d视角变换 */
+    enableView3dTranform?: boolean;
+  } & IOption3D;
 }

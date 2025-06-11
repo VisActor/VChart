@@ -8,6 +8,7 @@ import type { CoordinateType, IPoint } from '../../../typings';
 import { BaseMarkPoint } from './base-mark-point';
 import type { IMarkProcessOptions } from '../interface';
 import type { IOptionAggr, IOptionWithCoordinates } from '../../../data/transforms/interface';
+import { markPoint } from '../../../theme/builtin/common/component/mark-point';
 
 export class CartesianMarkPoint extends BaseMarkPoint {
   static type = ComponentTypeEnum.markPoint;
@@ -15,6 +16,10 @@ export class CartesianMarkPoint extends BaseMarkPoint {
   name: string = ComponentTypeEnum.markPoint;
   static coordinateType = 'cartesian';
   coordinateType = 'cartesian' as CoordinateType;
+
+  static readonly builtInTheme = {
+    markPoint: markPoint
+  };
 
   protected _computePointsAttr() {
     const spec = this._spec as any;

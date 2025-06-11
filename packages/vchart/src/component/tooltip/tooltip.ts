@@ -1,5 +1,5 @@
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
@@ -18,9 +18,13 @@ import { showTooltip } from './utils/show-tooltip';
 import { isEmptyPos } from './utils/common';
 import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
 import { ChartEvent, Event_Source_Type } from '../../constant/event';
-import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
-// eslint-disable-next-line no-duplicate-imports
-import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
+import type {
+  DimensionTooltipInfo,
+  GroupTooltipInfo,
+  ITooltipProcessor,
+  MarkTooltipInfo,
+  TooltipInfo
+} from './processor/interface';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
 // eslint-disable-next-line no-duplicate-imports
 import { isValid, isNil, array, isNumber, throttle, isObject } from '@visactor/vutils';
@@ -30,7 +34,8 @@ import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
 import { error } from '../../util';
-import { DEFAULT_SHOW_DELAY, TOOLTIP_TYPES, TooltipHandlerType } from './constant';
+import { DEFAULT_SHOW_DELAY, TooltipHandlerType, TooltipType } from './constant';
+import { tooltip } from '../../theme/builtin/common/component/tooltip';
 
 type EventHandlerList = {
   eventType: EventType;
@@ -44,6 +49,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
   readonly transformerConstructor = TooltipSpecTransformer;
+
+  static readonly builtInTheme = {
+    tooltip
+  };
 
   static specKey = 'tooltip';
   specKey = 'tooltip';
@@ -63,7 +72,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   tooltipHandler?: ITooltipHandler;
 
-  processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor, GroupTooltipProcessor>;
+  processor: ITooltipActiveTypeAsKeys<
+    ITooltipProcessor<MarkTooltipInfo>,
+    ITooltipProcessor<DimensionTooltipInfo>,
+    ITooltipProcessor<GroupTooltipInfo>
+  >;
 
   private _alwaysShow: boolean = false;
 
@@ -84,25 +97,13 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     return this._isTooltipShown;
   }
 
-  changeRegions(regions: IRegion[]) {
-    /* do nothing */
-  }
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [];
-  }
   protected _registerEvent() {
     /* do nothing */
   }
   protected _releaseEvent() {
     /* do nothing */
   }
-  onLayout(ctx: IModelLayoutOption) {
-    /* do nothing */
-  }
-  onLayoutEnd(ctx: IModelLayoutOption) {
-    /* do nothing */
-  }
-  onRender(ctx: IModelRenderOption) {
+  onLayoutEnd() {
     /* do nothing */
   }
 
@@ -236,17 +237,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     this.processor = {};
 
-    if (activeType.includes('dimension')) {
-      this.processor.dimension = new DimensionTooltipProcessor(this);
-    }
-
-    if (activeType.includes('group')) {
-      this.processor.group = new GroupTooltipProcessor(this);
-    }
-
-    if (activeType.includes('mark')) {
-      this.processor.mark = new MarkTooltipProcessor(this);
-    }
+    (activeType as TooltipActiveType[]).forEach(type => {
+      (this.processor as any)[type] = Factory.createTooltipProcessor(type, this);
+    });
   }
 
   protected _initEvent() {
@@ -438,8 +431,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       group: false
     };
 
-    for (let i = 0, len = TOOLTIP_TYPES.length; i < len; i++) {
-      const type = TOOLTIP_TYPES[i];
+    const supportedTooltip = [TooltipType.group, TooltipType.mark, TooltipType.dimension];
+
+    for (let i = 0, len = supportedTooltip.length; i < len; i++) {
+      const type = supportedTooltip[i];
       const res = this.processor[type] ? this._showTooltipByMouseEvent(type, mouseEventData, params, isClick) : false;
 
       if (res) {
@@ -556,7 +551,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     });
 
     // 删除缓存
-    Object.values(this.processor).forEach((processor: BaseTooltipProcessor) => {
+    Object.values(this.processor).forEach((processor: ITooltipProcessor<TooltipInfo>) => {
       processor.clearCache();
     });
 

@@ -6,6 +6,7 @@ import { registerVennSeries } from '../../series/venn/venn';
 import { Factory } from '../../core/factory';
 import type { AdaptiveSpec } from '../../typings';
 import { VennChartSpecTransformer } from './venn-transformer';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 
 export class VennChart<T extends IVennChartSpec = IVennChartSpec> extends BaseChart<
   AdaptiveSpec<T, 'data' | 'series'>
@@ -19,6 +20,7 @@ export class VennChart<T extends IVennChartSpec = IVennChartSpec> extends BaseCh
 }
 
 export const registerVennChart = () => {
+  registerMarkTooltipProcessor();
   registerVennSeries();
   Factory.registerChart(VennChart.type, VennChart);
 };

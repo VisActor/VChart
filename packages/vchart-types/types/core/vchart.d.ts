@@ -5,7 +5,7 @@ import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
 import { type DimensionIndexOption, type IChart, type IChartConstructor, type IChartOption, type IChartSpecInfo } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
-import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
+import type { EventCallback, EventQuery, EventType, ExtendEventParam } from '../event/interface';
 import type { IParserOptions, Transform } from '@visactor/vdataset';
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IStage } from '@visactor/vrender-core';
@@ -40,7 +40,6 @@ export declare class VChart implements IVChart {
     static getMap(key: string): GeoSourceType;
     static registerSVG(key: string, source: GeoSourceType, option?: GeoSourceOption): void;
     static unregisterSVG(key: string): void;
-    static getSVG(key: string): any;
     static hideTooltip(excludeId?: MaybeArray<number>): void;
     static getLogger(): ILogger;
     static readonly InstanceManager: typeof InstanceManager;
@@ -73,6 +72,7 @@ export declare class VChart implements IVChart {
     private _observer;
     private _currentThemeName;
     private _currentTheme;
+    private _cachedProcessedTheme;
     private _onError?;
     private _context;
     private _isReleased;
@@ -85,7 +85,7 @@ export declare class VChart implements IVChart {
     private _updateSpecInfo;
     private _initChart;
     private _releaseData;
-    private _bindVGrammarViewEvent;
+    private _bindViewEvent;
     private _bindResizeEvent;
     private _unBindResizeEvent;
     getCurrentSize(): {
@@ -133,9 +133,9 @@ export declare class VChart implements IVChart {
     protected _beforeResize(width: number, height: number): boolean;
     protected _afterResize(): IVChart;
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean, reLayout?: boolean): IVChart;
-    on(eType: EventType, handler: EventCallback<EventParams>): void;
-    on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;
-    off(eType: EventType, handler?: EventCallback<EventParams>): void;
+    on(eType: EventType, handler: EventCallback<ExtendEventParam>): void;
+    on(eType: EventType, query: EventQuery, handler: EventCallback<ExtendEventParam>): void;
+    off(eType: EventType, handler?: EventCallback<ExtendEventParam>): void;
     updateState(state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean): void;
     setSelected(datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
     setHovered(datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
@@ -205,7 +205,8 @@ export declare class VChart implements IVChart {
     }): void;
     private _initChartPlugin;
     private _chartPluginApply;
-    protected _getMode(): "node" | (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
+    protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
+    protected getTheme: (...keys: string[]) => any;
     protected _getChartOption(type: string): IChartOption;
 }
 export declare const registerVChartCore: () => void;

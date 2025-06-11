@@ -2,7 +2,6 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
 import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, IComposedTextMarkSpec, StringOrNumber } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
@@ -16,14 +15,12 @@ import { DataView } from '@visactor/vdataset';
 import { LayoutZIndex } from '../../constant/layout';
 import { AttributeLevel } from '../../constant/attribute';
 import { Event_Bubble_Level } from '../../constant/event';
-import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds, array, isNil, isValid, isNumber, isArray } from '@visactor/vutils';
 import { registerSankeyAnimation } from './animation';
 import type { ISankeySeriesSpec, SankeyLinkElement, ISankeyLabelSpec, ISankeyAnimationParams } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
-import type { IElement, IGlyphElement, IMark as IVgrammarMark } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { registerRectMark } from '../../mark/rect';
@@ -31,15 +28,18 @@ import { registerTextMark } from '../../mark/text';
 import { registerLinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
-import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
+import type { SankeyNodeElement } from '@visactor/vlayouts';
 import { Factory } from '../../core/factory';
-import type { ILinkPathMark, IMark, IRectMark, ITextMark } from '../../mark/interface';
+import type { IGlyphMark, ILinkPathMark, IMark, IMarkGraphic, IRectMark, ITextMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
 import type { IBaseScale } from '@visactor/vscale';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { SankeySeriesSpecTransformer } from './sankey-transformer';
 import { getFormatFunction } from '../../component/util';
 import type { ILabelSpec } from '../../component';
+import { getDatumOfGraphic } from '../../util';
+import { addRuntimeState } from '../../mark/utils/glyph';
+import { sankey } from '../../theme/builtin/common/series/sankey';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -49,6 +49,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   readonly transformerConstructor = SankeySeriesSpecTransformer;
 
   static readonly mark: SeriesMarkMap = sankeySeriesMark;
+  static readonly builtInTheme = { sankey };
 
   private _nodeMark: IRectMark;
   private _linkMark: ILinkPathMark;
@@ -56,8 +57,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   private _nodeLayoutZIndex = LayoutZIndex.Node;
   private _labelLayoutZIndex = LayoutZIndex.Label;
 
-  protected _nodesSeriesData?: SeriesData;
-  protected _linksSeriesData?: SeriesData;
+  protected _nodesSeriesData?: DataView;
+  protected _linksSeriesData?: DataView;
 
   private _viewBox: IBounds = new Bounds();
 
@@ -189,7 +190,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         false
       );
 
-      this._nodesSeriesData = new SeriesData(this._option, nodesDataView);
+      this._nodesSeriesData = nodesDataView;
 
       registerDataSetInstanceTransform(dataSet, 'sankeyLinks', sankeyLinks);
       const linksDataView = new DataView(dataSet, { name: `sankey-link-${this.id}-data` });
@@ -210,14 +211,15 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         },
         false
       );
-      this._linksSeriesData = new SeriesData(this._option, linksDataView);
+      this._linksSeriesData = linksDataView;
     }
   }
 
   compileData() {
     super.compileData();
-    this._linksSeriesData?.compile();
-    this._nodesSeriesData?.compile();
+
+    this._linkMark?.compileData();
+    this._nodeMark?.compileData();
   }
 
   initMark(): void {
@@ -226,34 +228,18 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       overflow: this._spec.overflow,
       interactive: !!this._spec.overflow
     });
-    const nodeMark = this._createMark(
-      SankeySeries.mark.node,
-      {
-        isSeriesMark: true,
-        dataView: this._nodesSeriesData.getDataView(),
-        dataProductId: this._nodesSeriesData.getProductId(),
-        stateSort: this._spec.node?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.node?.customShape
-      }
-    ) as IRectMark;
+    const nodeMark = this._createMark(SankeySeries.mark.node, {
+      isSeriesMark: true,
+      dataView: this._nodesSeriesData
+    }) as IRectMark;
     if (nodeMark) {
       nodeMark.setMarkConfig({ zIndex: this._nodeLayoutZIndex });
       this._nodeMark = nodeMark;
     }
 
-    const linkMark = this._createMark(
-      SankeySeries.mark.link,
-      {
-        dataView: this._linksSeriesData.getDataView(),
-        dataProductId: this._linksSeriesData.getProductId(),
-        stateSort: this._spec.link?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.link?.customShape
-      }
-    ) as ILinkPathMark;
+    const linkMark = this._createMark(SankeySeries.mark.link, {
+      dataView: this._linksSeriesData
+    }) as ILinkPathMark;
     if (linkMark) {
       this._linkMark = linkMark;
     }
@@ -267,13 +253,13 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   valueToNode(value: StringOrNumber | StringOrNumber[]) {
-    const nodes = this._nodesSeriesData.getLatestData();
+    const nodes = this._nodesSeriesData.latestData;
     const specifyValue = array(value)[0];
     return nodes && nodes.find((node: SankeyNodeElement) => node.key === specifyValue);
   }
 
   valueToLink(value: StringOrNumber | StringOrNumber[]) {
-    const links = this._linksSeriesData.getLatestData();
+    const links = this._linksSeriesData.latestData;
     const specifyValue = array(value);
 
     return (
@@ -355,7 +341,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (fill) {
       return fill;
     } else if (isValid(this._spec.seriesField)) {
-      const sourceNode = this._nodesSeriesData?.getLatestData()?.find((entry: any) => datum.source === entry.key);
+      const sourceNode = this._nodesSeriesData.latestData?.find((entry: any) => datum.source === entry.key);
       const nodeDatum = sourceNode?.datum;
       const colorScale = this._option?.globalScale?.getScale('color');
 
@@ -372,6 +358,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return;
     }
 
+    (linkMark as IGlyphMark).setGlyphConfig({
+      direction: this.direction
+    });
+
     this.setMarkStyle<ILinkPathMarkSpec>(
       linkMark,
       {
@@ -379,8 +369,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         x1: (datum: Datum) => datum.x1,
         y0: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
-        thickness: (datum: Datum) => datum.thickness,
-        direction: this.direction
+        thickness: (datum: Datum) => datum.thickness
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
@@ -463,8 +452,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected initEvent(): void {
     super.initEvent();
 
-    this._nodesSeriesData.getDataView()?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
-    this._linksSeriesData.getDataView()?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
+    this._nodesSeriesData?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
+    this._linksSeriesData?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
     const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
     // 没有关闭交互时，才增加这些交互事件
     if (this._option.disableTriggerEvent !== true) {
@@ -477,34 +466,34 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   private nodesSeriesDataUpdate() {
-    this._nodesSeriesData.updateData();
+    this._nodeMark.getData().updateData();
 
     this._nodeList = null;
     this._setNodeOrdinalColorScale();
   }
 
   private linksSeriesDataUpdate() {
-    this._linksSeriesData.updateData();
+    this._linkMark.getData().updateData();
   }
 
   protected _handleEmphasisElement = (params: ExtendEventParam) => {
     const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
 
-    const element = params.item;
+    const graphic = params.item;
 
     if (emphasisSpec.effect === 'adjacency') {
-      if (element && element.mark === this._nodeMark?.getProduct()) {
-        this._handleNodeAdjacencyClick(element);
-      } else if (element && element.mark === this._linkMark?.getProduct()) {
-        this._handleLinkAdjacencyClick(element);
+      if (graphic && params.mark === this._nodeMark) {
+        this._handleNodeAdjacencyClick(graphic);
+      } else if (graphic && params.mark === this._linkMark) {
+        this._handleLinkAdjacencyClick(graphic);
       } else {
         this._handleClearEmpty();
       }
     } else if (emphasisSpec.effect === 'related') {
-      if (element && element.mark === this._nodeMark?.getProduct()) {
-        this._handleNodeRelatedClick(element);
-      } else if (element && element.mark === this._linkMark?.getProduct()) {
-        this._handleLinkRelatedClick(element);
+      if (graphic && params.mark === this._nodeMark) {
+        this._handleNodeRelatedClick(graphic);
+      } else if (graphic && params.mark === this._linkMark) {
+        this._handleLinkRelatedClick(graphic);
       } else {
         this._handleClearEmpty();
       }
@@ -516,43 +505,45 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return;
     }
 
-    const allNodeElements = this._nodeMark?.getProductElements();
+    const allNodeElements = this._nodeMark?.getGraphics();
 
     if (!allNodeElements || !allNodeElements.length) {
       return;
     }
 
-    const allLinkElements = this._linkMark?.getProductElements();
+    const allLinkElements = this._linkMark?.getGraphics();
 
     if (!allLinkElements || !allLinkElements.length) {
       return;
     }
 
-    const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
+    // const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
 
     allNodeElements.forEach(el => {
-      el.removeState(states);
+      el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+      el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
     });
     allLinkElements.forEach(el => {
-      el.removeState(states);
+      el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+      el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
     });
 
     this._needClear = false;
   };
 
-  protected _handleNodeAdjacencyClick = (element: IElement) => {
-    const nodeDatum = element.getDatum();
+  protected _handleNodeAdjacencyClick = (graphic: IMarkGraphic) => {
+    const nodeDatum = getDatumOfGraphic(graphic) as Datum;
     const highlightNodes: string[] = [nodeDatum.key];
 
     if (this._linkMark) {
-      const allLinkElements = this._linkMark.getProductElements();
+      const allLinkElements = this._linkMark.getGraphics();
 
       if (!allLinkElements || !allLinkElements.length) {
         return;
       }
 
-      allLinkElements.forEach((linkEl: IElement, i: number) => {
-        const linkDatum = linkEl.getDatum();
+      allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
+        const linkDatum = getDatumOfGraphic(linkEl) as Datum;
 
         if (linkDatum.source === nodeDatum.key) {
           // 下游link
@@ -561,7 +552,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true); // 设置上用户配置选中状态
         } else if (linkDatum.target === nodeDatum.key) {
           // 上游link
           if (!highlightNodes.includes(linkDatum.source)) {
@@ -569,71 +560,72 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true); // 设置上用户配置选中状态
         } else {
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
         }
       });
     }
 
     if (this._nodeMark) {
-      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+      this._highLightElements(this._nodeMark.getGraphics(), highlightNodes);
     }
 
     this._needClear = true;
   };
 
-  protected _handleLinkAdjacencyClick = (element: IGlyphElement) => {
-    const curLinkDatum = element.getDatum();
+  protected _handleLinkAdjacencyClick = (graphic: IMarkGraphic) => {
+    const curLinkDatum = getDatumOfGraphic(graphic) as Datum;
     const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
 
     if (this._linkMark) {
-      const allLinkElements = this._linkMark.getProductElements();
+      const allLinkElements = this._linkMark.getGraphics();
       if (!allLinkElements || !allLinkElements.length) {
         return;
       }
       allLinkElements.forEach(linkEl => {
-        if (linkEl === element) {
+        if (linkEl === graphic) {
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
         } else {
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
         }
       });
     }
 
     if (this._nodeMark) {
-      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+      this._highLightElements(this._nodeMark.getGraphics(), highlightNodes);
     }
 
     this._needClear = true;
   };
 
-  protected _handleNodeRelatedClick = (element: IElement) => {
-    const nodeDatum = element.getDatum();
-    const allNodeElements = this._nodeMark.getProductElements();
+  protected _handleNodeRelatedClick = (graphic: IMarkGraphic) => {
+    const nodeDatum = getDatumOfGraphic(graphic) as Datum;
+    const allNodeElements = this._nodeMark.getGraphics();
 
     if (!allNodeElements || !allNodeElements.length) {
       return;
     }
 
-    const allLinkElements = this._linkMark.getProductElements();
+    const allLinkElements = this._linkMark.getGraphics();
 
     if (!allLinkElements || !allLinkElements.length) {
       return;
     }
 
-    const father = allLinkElements[0].getDatum()?.parents ? 'parents' : 'source';
+    const father = (getDatumOfGraphic(allLinkElements[0]) as Datum)?.parents ? 'parents' : 'source';
 
     if (father === 'source') {
       // node-link 型数据
       const highlightNodes: string[] = [nodeDatum.key];
       const highlightLinks: string[] = [];
 
-      allLinkElements.forEach((linkEl: IElement, i: number) => {
-        const linkDatum = linkEl.getDatum();
+      allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
+        const linkDatum = getDatumOfGraphic(linkEl) as Datum;
         const father = linkDatum?.parents ? 'parents' : 'source';
 
         if (array(linkDatum[father]).includes(nodeDatum.key)) {
@@ -715,25 +707,27 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       if (this._linkMark) {
-        const allLinkElements = this._linkMark.getProductElements();
+        const allLinkElements = this._linkMark.getGraphics();
 
         if (!allLinkElements || !allLinkElements.length) {
           return;
         }
 
-        allLinkElements.forEach((linkEl: IElement, i: number) => {
-          if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
+        allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
+          const linkDatum = getDatumOfGraphic(linkEl) as Datum;
+
+          if (highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
             linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true);
           } else {
             linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
           }
         });
       }
 
       if (this._nodeMark) {
-        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+        this._highLightElements(this._nodeMark.getGraphics(), highlightNodes);
       }
     } else {
       // 层级型数据
@@ -766,8 +760,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         return res;
       }, []);
 
-      allLinkElements.forEach((linkEl: IElement, i: number) => {
-        const linkDatum = linkEl.getDatum();
+      allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
+        const linkDatum = getDatumOfGraphic(linkEl) as Datum;
         const originalDatum = linkDatum.datum;
         const selectedDatum = originalDatum
           ? originalDatum.filter((entry: any) => entry[father].some((par: any) => par.key === nodeDatum.key))
@@ -793,7 +787,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           const ratio = val / linkDatum.value;
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio });
 
           return;
         }
@@ -809,53 +804,60 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, {
+            ratio: upSelectedLink.value / linkDatum.value
+          }); // 设置默认的部分高亮
 
           return;
         }
 
         linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
 
         return;
       });
 
       if (this._nodeMark) {
-        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+        this._highLightElements(this._nodeMark.getGraphics(), highlightNodes);
       }
     }
 
     this._needClear = true;
   };
 
-  protected _handleLinkRelatedClick = (element: IGlyphElement) => {
-    const allNodeElements = this._nodeMark.getProductElements();
+  protected _handleLinkRelatedClick = (graphic: IMarkGraphic) => {
+    const allNodeElements = this._nodeMark.getGraphics();
 
     if (!allNodeElements || !allNodeElements.length) {
       return;
     }
-    const allLinkElements = this._linkMark.getProductElements();
+    const allLinkElements = this._linkMark.getGraphics();
 
     if (!allLinkElements || !allLinkElements.length) {
       return;
     }
 
-    const father = element.getDatum()?.parents ? 'parents' : 'source';
+    const father = (getDatumOfGraphic(graphic) as Datum) ? 'parents' : 'source';
     if (father === 'source') {
-      const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
+      // const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
       if (this._linkMark) {
         allLinkElements.forEach(linkEl => {
-          linkEl.removeState(states);
+          // linkEl.removeState(states);
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
         });
       }
 
       if (this._nodeMark) {
         allNodeElements.forEach(el => {
-          el.removeState(states);
+          // el.removeState(states);
+          el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+          el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
         });
       }
     } else {
-      const curLinkDatum = element.getDatum();
+      const curLinkDatum = getDatumOfGraphic(graphic) as Datum;
       const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
       const upstreamLinks: Array<{ source: string; target: string; value: number }> = [];
 
@@ -888,13 +890,14 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       allLinkElements.forEach(linkEl => {
-        const linkDatum = linkEl.getDatum();
+        const linkDatum = getDatumOfGraphic(linkEl) as Datum;
         const originalDatum = linkDatum.datum;
 
         if (linkDatum.source === curLinkDatum.source && linkDatum.target === curLinkDatum.target) {
           // 自身
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
+
           return;
         }
 
@@ -927,7 +930,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           const ratio = val / linkDatum.value;
 
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
 
           return;
         }
@@ -945,12 +949,15 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             highlightNodes.push(linkDatum.target);
           }
           linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
+
+          addRuntimeState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, {
+            ratio: upSelectedLink.value / (linkDatum as Datum).value
+          }); // 设置默认的部分高亮
 
           return;
         }
         linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
 
         return;
       });
@@ -961,18 +968,18 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._needClear = true;
   };
 
-  protected _highLightElements(vGrammarElements: IVgrammarMark['elements'], highlightNodes: string[]) {
-    if (!vGrammarElements || !vGrammarElements.length) {
+  protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: string[]) {
+    if (!graphics || !graphics.length) {
       return;
     }
 
-    vGrammarElements.forEach(el => {
-      el.removeState([STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]);
+    graphics.forEach(g => {
+      g.removeState([STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]);
 
-      if (highlightNodes.includes(el.getDatum().key)) {
-        el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+      if (highlightNodes.includes((getDatumOfGraphic(g) as Datum).key)) {
+        g.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true);
       } else {
-        el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        g.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true);
       }
     });
   }
@@ -1138,8 +1145,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     return keyArray;
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._viewBox.set(0, 0, this._region.getLayoutRect().width, this._region.getLayoutRect().height);
 
     // calculate the sankeyLayout
@@ -1171,7 +1178,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 }
 
 export const registerSankeySeries = () => {
-  registerSankeyTransforms();
   registerRectMark();
   registerLinkPathMark();
   registerTextMark();

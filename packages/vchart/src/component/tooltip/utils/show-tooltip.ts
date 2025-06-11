@@ -1,8 +1,7 @@
-import { Direction, type Datum, type IPoint, type IShowTooltipOption, type TooltipActiveType } from '../../../typings';
+import { type Datum, type IPoint, type IShowTooltipOption, type TooltipActiveType } from '../../../typings';
 import type { ICartesianSeries, IPolarSeries, ISeries } from '../../../series/interface';
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import type { PieSeries } from '../../../series/pie/pie';
-import type { TooltipHandlerParams } from '../interface';
 import { Event_Source_Type } from '../../../constant/event';
 import { getElementAbsolutePosition, isArray, isValid, isNil } from '@visactor/vutils';
 import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension/interface';
@@ -11,6 +10,7 @@ import type { IRegion } from '../../../region';
 import type { Tooltip } from '../tooltip';
 import type { IComponentOption } from '../../interface';
 import { isDiscrete } from '@visactor/vscale';
+import type { TooltipHandlerParams } from '../interface/common';
 
 const getDataArrayFromFieldArray = (fields: string[], datum?: Datum) =>
   isValid(datum) ? fields.map(f => datum[f]) : undefined;
@@ -145,8 +145,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
         x: markInfoList.reduce((sum, info) => sum + info.pos.x, 0) / markInfoList.length,
         y: markInfoList.reduce((sum, info) => sum + info.pos.y, 0) / markInfoList.length // 位置求平均
       }),
-      item: undefined,
-      itemMap: new Map<string, any>()
+      item: undefined
     };
 
     component.processor.dimension.showTooltip(mockDimensionInfo, mockParams, false);
@@ -189,8 +188,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
       model: info.series,
       source: Event_Source_Type.chart,
       event: getMockEvent(info.pos),
-      item: undefined,
-      itemMap: new Map<string, any>()
+      item: undefined
     } as any;
 
     component.processor.mark.showTooltip(

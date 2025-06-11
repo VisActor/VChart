@@ -1,11 +1,24 @@
 import { Factory } from './../core/factory';
 import type { IAreaMarkSpec } from '../typings/visual';
-import { BaseLineMark } from './base/base-line';
+import { BaseLineMark, LINE_SEGMENT_ATTRIBUTES } from './base/base-line';
 import type { IAreaMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerAreaGraphic } from '@visactor/vgrammar-core';
-import { registerVGrammarLineOrAreaAnimation } from '../animation/config';
+import { registerLineOrAreaAnimation } from '../animation/config';
+import { registerArea, registerShadowRoot } from '@visactor/vrender-kits';
+import { registerLineDataLabel, registerSymbolDataLabel } from '@visactor/vrender-components';
+import { createArea } from '@visactor/vrender-core';
+
+const AREA_SEGMENT_ATTRIBUTES = [
+  ...LINE_SEGMENT_ATTRIBUTES,
+  'fill',
+  'fillOpacity',
+  'background',
+  'texture',
+  'texturePadding',
+  'textureSize',
+  'textureColor'
+];
 
 export class AreaMark extends BaseLineMark<IAreaMarkSpec> implements IAreaMark {
   static readonly type = MarkTypeEnum.area;
@@ -19,13 +32,25 @@ export class AreaMark extends BaseLineMark<IAreaMarkSpec> implements IAreaMark {
     return defaultStyle;
   }
 
+  protected _getSegmentAttributes() {
+    return AREA_SEGMENT_ATTRIBUTES;
+  }
+
   protected _getIgnoreAttributes(): string[] {
     return [];
   }
+
+  _isValidPointChannel = (channel: string) => {
+    return ['x', 'y', 'x1', 'y1', 'defined'].includes(channel);
+  };
 }
 
 export const registerAreaMark = () => {
   Factory.registerMark(AreaMark.type, AreaMark);
-  registerAreaGraphic();
-  registerVGrammarLineOrAreaAnimation();
+  registerShadowRoot();
+  registerArea();
+  registerLineDataLabel();
+  registerSymbolDataLabel();
+  registerLineOrAreaAnimation();
+  Factory.registerGraphicComponent(MarkTypeEnum.area, createArea);
 };

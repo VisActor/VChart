@@ -17,5 +17,6 @@ export declare class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> 
     handleAfterStackRegion: (region: IRegion, stackValueGroup: {
         [key: string]: IStackCacheRoot;
     }) => void;
+    protected _setModelOption(): void;
 }
 export declare const registerMosaicChart: () => void;

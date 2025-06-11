@@ -24,6 +24,20 @@ The configuration of the 3D bar chart inherits most of the configuration of a re
 ## Demo source
 
 ```javascript livedemo
+/**
+ * Since version 2.0.0, 3D charts are imported from vchart-extension.
+ *
+ * import { registerBar3dChart } from '@visactor/vchart-extension';
+ *
+ * registerBar3dChart();
+ */
+
+/** --Remove the following code when using in production-- */
+if (VChartExtension.registerBar3dChart) {
+  VChartExtension.registerBar3dChart();
+}
+/** --Remove the above code when using in production-- */
+
 const spec = {
   type: 'bar3d',
   data: [

@@ -20,3 +20,4 @@ export declare const MOSAIC_CAT_START_PERCENT: string;
 export declare const MOSAIC_CAT_END_PERCENT: string;
 export declare const SEGMENT_FIELD_START: string;
 export declare const SEGMENT_FIELD_END: string;
+export declare const DEFAULT_KEY: string;

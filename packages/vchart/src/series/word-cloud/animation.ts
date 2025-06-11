@@ -1,18 +1,7 @@
-import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
-import { RotateBySphereAnimate } from '@visactor/vrender-core';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { Factory } from '../../core/factory';
-import type { IWordcloud3dAnimationParams, IWordcloudAnimationParams, WordcloudAppearPreset } from './interface';
-
-export const WordCloud3dAnimation = (params: IWordcloud3dAnimationParams | (() => any)): IAnimationTypeConfig => {
-  return {
-    custom: RotateBySphereAnimate,
-    customParameters: (datum: any, element: IElement) => params,
-    easing: 'linear',
-    loop: Infinity,
-    duration: 6000
-  };
-};
+import type { IWordcloudAnimationParams, WordcloudAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 
 function computeWordDelay(duration: number, totalTime: number, wordCount: number) {
   if (duration * wordCount < totalTime) {
@@ -23,18 +12,14 @@ function computeWordDelay(duration: number, totalTime: number, wordCount: number
 
 export const WordCloudScaleInAnimation = (params: IWordcloudAnimationParams): IAnimationTypeConfig => {
   return {
-    channel: {
-      fontSize: {
-        from: 0
-      }
-    },
+    type: 'scaleIn',
     duration: 200,
-    delay: (datum, element, vgrammarParams) => {
+    delay: (datum, graphic) => {
       const animationConfig = params.animationConfig();
       const duration = animationConfig?.duration || 200;
       const totalTime = animationConfig?.totalTime || DEFAULT_ANIMATION_CONFIG.appear.duration;
-      const count = vgrammarParams.VGRAMMAR_ANIMATION_PARAMETERS.elementCount;
-      const index = vgrammarParams.VGRAMMAR_ANIMATION_PARAMETERS.elementIndex;
+      const count = graphic.context.graphicCount;
+      const index = graphic.context.graphicIndex;
       return index * computeWordDelay(duration as number, totalTime as number, count);
     }
   };
@@ -62,11 +47,5 @@ export const registerWordCloudAnimation = () => {
     enter: { type: 'fadeIn' },
     exit: { type: 'fadeOut' },
     disappear: { type: 'fadeOut' }
-  }));
-};
-
-export const registerWordCloud3dAnimation = () => {
-  Factory.registerAnimation('wordCloud3d', (params: IWordcloud3dAnimationParams) => ({
-    enter: WordCloud3dAnimation(params)
   }));
 };

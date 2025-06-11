@@ -11,6 +11,14 @@ import type { IStackCacheNode, IStackCacheRoot } from '../../util/data';
 import { stackMosaic, stackMosaicTotal } from '../../util/data';
 import { stackSplit } from '../../data/transforms/stack-split';
 import { registerDataSetInstanceTransform } from '../../data/register';
+import { registerDimensionHover } from '../../interaction/triggers/dimension-hover';
+import { registerDimensionEvents } from '../../event/events';
+import { getCartesianDimensionInfo, getDimensionInfoByValue } from '../../event/events/dimension/util/cartesian';
+import { getCartesianCrosshairRect } from '../../component/crosshair/utils/cartesian';
+import { TooltipType } from '../../component/tooltip/constant';
+import { registerDimensionTooltipProcessor } from '../../component/tooltip/processor/dimension-tooltip';
+import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
+import { registerGroupTooltipProcessor } from '../../component/tooltip/processor/group-tooltip';
 
 export class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.mosaic;
@@ -45,9 +53,21 @@ export class MosaicChart<T extends IMosaicChartSpec = IMosaicChartSpec> extends 
       }
     });
   };
+
+  protected _setModelOption() {
+    this._modelOption.getDimensionInfo = getCartesianDimensionInfo;
+
+    this._modelOption.getDimensionInfoByValue = getDimensionInfoByValue;
+    this._modelOption.getRectByDimensionData = getCartesianCrosshairRect;
+  }
 }
 
 export const registerMosaicChart = () => {
+  registerDimensionTooltipProcessor();
+  registerMarkTooltipProcessor();
+  registerGroupTooltipProcessor();
+  registerDimensionEvents();
+  registerDimensionHover();
   registerMosaicSeries();
   Factory.registerChart(MosaicChart.type, MosaicChart);
 };

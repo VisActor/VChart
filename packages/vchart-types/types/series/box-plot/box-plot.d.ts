@@ -4,13 +4,16 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IBoxPlotSeriesSpec } from './interface';
-import { SeriesData } from '../base/series-data';
 import type { IMark } from '../../mark/interface';
+import type { ICompilableData } from '../../compile/data';
 export declare const DEFAULT_FILL_COLOR = "#FFF";
 export declare const DEFAULT_STROKE_COLOR = "#000";
 export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
+    static readonly builtInTheme: {
+        boxPlot: import("./interface").IBoxPlotSeriesTheme;
+    };
     static readonly mark: SeriesMarkMap;
     protected _minField: string;
     getMinField(): string;
@@ -36,7 +39,7 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
     protected _shaftFillOpacity: number;
     protected _outliersStyle: IOutlierMarkSpec;
     getOutliersStyle(): IOutlierMarkSpec;
-    protected _outlierDataView: SeriesData;
+    protected _outlierDataView: ICompilableData;
     private _autoBoxWidth;
     setAttrFromSpec(): void;
     private _boxPlotMark?;
@@ -48,7 +51,7 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
     compileData(): void;
     init(option: IModelInitOption): void;
     private _getMarkWidth;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     private _initAnimationSpec;
     initAnimation(): void;
     protected initTooltip(): void;

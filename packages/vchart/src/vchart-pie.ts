@@ -7,7 +7,7 @@ import { registerPieChart } from './chart/pie/pie';
 import { registerLabel } from './component/label/label';
 import { registerTooltip } from './component/tooltip/tooltip';
 import { registerDiscreteLegend } from './component/legend/discrete/legend';
-import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin/components';
+import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin/components/tooltip-handler';
 
 export * from './core';
 

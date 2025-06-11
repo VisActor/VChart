@@ -1,16 +1,18 @@
 import { Factory } from './../core/factory';
 import type { Maybe } from '../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { warn } from '../util/debug';
+import { log, warn } from '../util/debug';
 import type { IGroupMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IGroupMark, IMark, IMarkStyle, MarkType } from './interface';
+import type { AnimationStateValues, IGroupMark, IMark, IMarkGraphic, MarkType } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import type { IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
-// eslint-disable-next-line no-duplicate-imports
-import { registerGroupGraphic } from '@visactor/vgrammar-core';
-import type { IMarkCompileOption } from '../compile/mark';
+import { type IMarkCompileOption } from '../compile/mark';
+import type { IGroup, IGroupGraphicAttribute } from '@visactor/vrender-core';
+import { registerGroup, registerShadowRoot } from '@visactor/vrender-kits';
+import { isNil } from '@visactor/vutils';
+import { traverseGroupMark } from '../compile/util';
+import { LayoutState } from '../compile/interface';
 
 export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
   static readonly type = MarkTypeEnum.group;
@@ -20,16 +22,8 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     return this._marks;
   }
 
-  protected declare _product: Maybe<IVGrammarGroupMark>;
-  declare getProduct: () => Maybe<IVGrammarGroupMark>;
-
-  protected _getDefaultStyle() {
-    const defaultStyle: IMarkStyle<IGroupMarkSpec> = {
-      ...super._getDefaultStyle()
-      // clip: false
-    };
-    return defaultStyle;
-  }
+  protected declare _product: Maybe<IGroup>;
+  declare getProduct: () => Maybe<IGroup>;
 
   protected isMarkExist(mark: IMark): boolean {
     return this._marks.find(m => m.id === mark.id) !== undefined;
@@ -65,23 +59,15 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
   getMarkInUserId(id: string | number) {
     let result: IMark | undefined;
-    this._marks.forEach(m => {
-      if (m.getUserId() === id) {
+    traverseGroupMark(
+      this,
+      m => {
         result = m;
-      }
-    });
-
-    if (!result) {
-      for (let i = 0; i < this._marks.length; i++) {
-        const mark = this._marks[i];
-        if (mark.type === 'group') {
-          result = (mark as GroupMark).getMarkInUserId(id);
-        }
-        if (result) {
-          break;
-        }
-      }
-    }
+      },
+      m => m.getUserId() === id,
+      null,
+      true
+    );
 
     return result;
   }
@@ -95,24 +81,72 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     super._compileProduct(option);
 
     // 设置zIndex
-    this._product.configure({
-      zIndex: this._markConfig.zIndex
-    });
+    // this._product.configure({
+    //   zIndex: this._markConfig.zIndex
+    // });
 
     // 编译子元素
-    if (!option?.ignoreChildren) {
-      this.getMarks().forEach(mark => {
-        // TODO: 如果语法元素已创建，先删除再重新指定父结点生成。vgrammar 是否可以动态指定 mark 父结点？
-        if (mark.getProduct()) {
-          mark.removeProduct();
-        }
-        mark.compile({ group: this._product });
-      });
+    this.getMarks().forEach(mark => {
+      mark.compile({ group: this._product });
+    });
+  }
+
+  protected _getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}) {
+    const configAttrs = super._getAttrsFromConfig(attrs);
+
+    if (!isNil(this._markConfig.interactive)) {
+      configAttrs.pickable = this._markConfig.interactive;
     }
+    return attrs;
+  }
+
+  getGraphics(): IMarkGraphic[] {
+    return [this._product as unknown as IMarkGraphic];
+  }
+
+  renderInner() {
+    if (!this._product) {
+      return;
+    }
+
+    const style = this._simpleStyle ?? this.getAttributesOfState({});
+
+    this._product.context = { ...this._product.context, ...this._getCommonContext() };
+    this._product.setAttributes(this._getAttrsFromConfig(style));
+    this.needClear = true;
+  }
+
+  render(): void {
+    if (this._isCommited) {
+      log(`render mark: ${this.getProductId()}, type is ${this.type}`);
+      this.renderInner();
+      this.uncommit();
+    }
+
+    this.getMarks().forEach(mark => {
+      mark.render();
+    });
+  }
+
+  updateAnimationState(callback: (g: IMarkGraphic) => AnimationStateValues) {
+    this.getGraphics().forEach(g => {
+      if (g) {
+        g.context = { ...g.context, animationState: callback(g) };
+      }
+    });
+    this.getMarks().forEach(mark => {
+      mark.updateAnimationState(callback);
+    });
+  }
+
+  release() {
+    super.release();
+    this.removeProduct();
   }
 }
 
 export const registerGroupMark = () => {
-  registerGroupGraphic();
+  registerShadowRoot();
+  registerGroup();
   Factory.registerMark(GroupMark.type, GroupMark);
 };

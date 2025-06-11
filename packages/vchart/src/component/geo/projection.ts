@@ -1,4 +1,4 @@
-import { projection } from '@visactor/vgrammar-projection';
+import { createProjection } from '@visactor/vdataset';
 import type { IProjectionSpec } from './interface';
 
 // TODO: 待 vgrammar 补充上后修改回去
@@ -10,7 +10,7 @@ export class Projection {
     // TODO: vgrammar 类型问题
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    this.projection = projection(projectionSpec.type)();
+    this.projection = createProjection(projectionSpec.type)();
   }
 
   fit(start: number[], size: number[], features: GeoJsonFeatureSpec[]) {

@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import type { SunburstLabelConfig, SunburstNodeElement } from '@visactor/vgrammar-hierarchy';
+import type { SunburstLabelConfig, SunburstNodeElement } from '@visactor/vlayouts';
 import { array, isArray, isNil, isValid, isObject, degreeToRadian, mixin } from '@visactor/vutils';
 
 import type { IMarkSpec } from '../../typings/spec';
@@ -39,6 +39,7 @@ import { registerTextMark } from '../../mark/text';
 import { sunburstSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { appendHierarchyFields } from '../util/hierarchy';
+import { sunburst } from '../../theme/builtin/common/series/sunburst';
 
 export class SunburstSeries extends PolarSeries<any> {
   protected declare _spec: ISunburstSeriesSpec;
@@ -47,6 +48,7 @@ export class SunburstSeries extends PolarSeries<any> {
   type = SeriesTypeEnum.sunburst;
 
   static readonly mark: SeriesMarkMap = sunburstSeriesMark;
+  static readonly builtInTheme = { sunburst };
 
   private _sunburstMark: IArcMark;
   private _labelMark: ITextMark;
@@ -237,16 +239,9 @@ export class SunburstSeries extends PolarSeries<any> {
       return;
     }
     // SunburstMark
-    const sunburstMark = this._createMark(
-      SunburstSeries.mark.sunburst,
-      {
-        isSeriesMark: true,
-        stateSort: this._spec.sunburst?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.sunburst?.customShape
-      }
-    ) as IArcMark;
+    const sunburstMark = this._createMark(SunburstSeries.mark.sunburst, {
+      isSeriesMark: true
+    }) as IArcMark;
     this._sunburstMark = sunburstMark;
   }
 
@@ -360,8 +355,8 @@ export class SunburstSeries extends PolarSeries<any> {
     }
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._rawData.reRunAllTransform();
   }
 

@@ -6,7 +6,6 @@ import type { IScrollBarTheme } from '../data-zoom/scroll-bar/interface';
 import type { IIndicatorTheme } from '../indicator/interface';
 import type { IDiscreteLegendTheme } from '../legend/discrete/interface';
 import type { IColorLegendTheme, ISizeLegendTheme } from '../legend/continuous/interface';
-import type { IMapLabelTheme } from '../map-label/interface';
 import type { IMarkAreaTheme } from '../marker/mark-area/interface';
 import type { IMarkLineTheme } from '../marker/mark-line/interface';
 import type { IMarkPointTheme } from '../marker/mark-point/interface';
@@ -42,10 +41,6 @@ export interface IComponentTheme {
    * 笛卡尔坐标系下 y 轴配置
    */
   axisY?: ICartesianAxisCommonTheme;
-  /**
-   * 笛卡尔坐标系下 z 轴配置
-   */
-  axisZ?: ICartesianAxisCommonTheme;
   /**
    * 极坐标系下半径轴配置
    */
@@ -115,10 +110,6 @@ export interface IComponentTheme {
    */
   [ComponentTypeEnum.title]?: ITitleTheme;
   /**
-   * 地图标签配置
-   */
-  [ComponentTypeEnum.mapLabel]?: IMapLabelTheme;
-  /**
    * 省略文本配置
    */
   [ComponentTypeEnum.poptip]?: IPoptipTheme;
@@ -127,6 +118,7 @@ export interface IComponentTheme {
    * @since 1.3.0
    */
   [ComponentTypeEnum.totalLabel]?: ITotalLabelTheme;
+  [key: string]: any;
 }
 
 /** 区分方向的组件主题类型 */

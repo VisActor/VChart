@@ -25,12 +25,15 @@ import { dotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
 import { AttributeLevel } from '../../constant/attribute';
+import { dot } from '../../theme/builtin/common/series/dot';
 
 export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;
   type = SeriesTypeEnum.dot;
 
   static readonly mark: SeriesMarkMap = dotSeriesMark;
+
+  static readonly builtInTheme = { dot };
 
   private _xDimensionStatisticsDomain: any[];
 
@@ -255,6 +258,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
           x: this.dataToPositionX.bind(this),
           y: this.dataToPositionY.bind(this),
           fill: this.getDotColorAttribute(),
+          stroke: this.getDotColorAttribute(),
           fillOpacity: this.dataToOpacity.bind(this)
         },
         'normal',
@@ -365,8 +369,8 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     return 0;
   }
 
-  onLayoutEnd(ctx: any) {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd() {
+    super.onLayoutEnd();
     const layoutOffsetX = this._spec?.leftAppendPadding ?? 0;
     this.setMarkStyle(
       this._clipMark,
@@ -442,11 +446,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
 
   protected onMarkTreePositionUpdate(marks: IMark[]): void {
     marks.forEach(m => {
-      if (m.type === 'group') {
-        this.onMarkTreePositionUpdate((m as IGroupMark).getMarks());
-      } else {
-        m.updateLayoutState();
-      }
+      m.commit(false, true);
     });
   }
 

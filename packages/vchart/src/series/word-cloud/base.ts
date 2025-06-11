@@ -21,6 +21,7 @@ import {
 } from './config';
 import type {
   IWordCloudSeriesSpec,
+  IWordCloudSeriesTheme,
   WordCloudConfigType,
   WordCloudShapeConfigType,
   WordCloudShapeType
@@ -28,7 +29,6 @@ import type {
 import type { Datum, IMarkSpec, IPoint, ITextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { WORD_CLOUD_TEXT } from '../../constant/word-cloud';
-import type { ICompilableMark } from '../../compile/mark';
 import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { wordCloudSeriesMark } from './constant';
@@ -36,12 +36,17 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import { Factory } from '../../core/factory';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { LinearScale } from '@visactor/vscale';
-import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
+import type { GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
+import type { ITransformSpec } from '../../compile/interface';
+import { vglobal, getTextBounds, createImage } from '@visactor/vrender-core';
+import { wordCloud } from '../../theme/builtin/common/series/word-cloud';
+import { LayoutZIndex } from '../../constant/layout';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
 export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSeriesSpec> extends BaseSeries<T> {
   static readonly mark: SeriesMarkMap = wordCloudSeriesMark;
+  static readonly builtInTheme: Record<string, IWordCloudSeriesTheme> = { wordCloud };
 
   protected _nameField: string;
   protected _valueField?: string;
@@ -126,7 +131,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     this._isWordCloudShape =
       !SHAPE_TYPE.includes(this._maskShape as string) &&
       !['fast', 'grid', 'cloud'].includes(this._wordCloudConfig.layoutMode);
-    this._defaultFontFamily = this._option.getTheme().fontFamily as string;
+    this._defaultFontFamily = this._option.getTheme('fontFamily') as string;
   }
 
   /**
@@ -144,10 +149,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _wordMark: ITextMark;
 
   initMark(): void {
-    if (this._spec.wordMask?.visible) {
-      this._maskMark = this._createMark(BaseWordCloudSeries.mark.wordMask, { dataView: false }) as IRectMark;
-    }
-
     this._wordMark = this._createMark(
       BaseWordCloudSeries.mark.word,
       {
@@ -159,6 +160,13 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         morphElementKey: this._seriesField
       }
     ) as ITextMark;
+    if (this._spec.wordMask?.visible) {
+      this._maskMark = this._createMark(BaseWordCloudSeries.mark.wordMask, { dataView: false }) as IRectMark;
+
+      this._maskMark.setMarkConfig({
+        zIndex: LayoutZIndex.Mark - 1
+      });
+    }
   }
 
   initMarkStyle() {
@@ -336,30 +344,26 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       return;
     }
 
-    const product = (this._wordMark as ICompilableMark).getProduct();
+    const wordCloudTransforms: ITransformSpec[] = [];
 
-    if (product) {
-      const wordCloudTransforms: any[] = [];
-
-      // 词云 transform
-      if (!this._isWordCloudShape) {
-        wordCloudTransforms.push({
-          type: 'wordcloud',
-          ...this._wordCloudTransformOption()
-        });
-      }
-      // 形状词云 transform
-      else {
-        wordCloudTransforms.push({
-          type: 'wordcloudShape',
-          // 形状词云中必须要传入dataIndexKey, 否则填充词无法绘制
-          ...this._wordCloudShapeTransformOption()
-        });
-      }
-
-      // 挂到mark的transform上
-      product.transform(wordCloudTransforms);
+    // 词云 transform
+    if (!this._isWordCloudShape) {
+      wordCloudTransforms.push({
+        type: 'wordcloud',
+        ...this._wordCloudTransformOption()
+      });
     }
+    // 形状词云 transform
+    else {
+      wordCloudTransforms.push({
+        type: 'wordcloudShape',
+        // 形状词云中必须要传入dataIndexKey, 否则填充词无法绘制
+        ...this._wordCloudShapeTransformOption()
+      });
+    }
+
+    // 挂到mark的transform上
+    this._wordMark.setTransform(wordCloudTransforms);
   }
 
   protected _getCommonTransformOptions(): any {
@@ -374,7 +378,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         (this._maskShape as TextShapeMask).type === 'text' &&
         isNil((this._maskShape as TextShapeMask).fontFamily)
           ? {
-              fontFamily: this._option.getTheme()?.fontFamily,
+              fontFamily: this._option.getTheme('fontFamily'),
               ...this._maskShape
             }
           : this._maskShape,
@@ -400,7 +404,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         : isValid(this._valueField)
         ? this._calculateFontWeight
         : 'normal',
-      fontStyle: isValid(this._spec.fontStyleField) ? { field: this._spec.fontStyleField } : wordStyleSpec.fontStyle
+      fontStyle: isValid(this._spec.fontStyleField) ? { field: this._spec.fontStyleField } : wordStyleSpec.fontStyle,
+      createCanvas: vglobal.createCanvas.bind(vglobal),
+      getTextBounds
     };
   }
 
@@ -433,6 +439,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     return {
       ...wordCloudShapeConfig,
       ...this._getCommonTransformOptions(),
+      createImage,
 
       rotateList: this._rotateAngles,
       fillingRotateList: wordCloudShapeConfig.fillingRotateAngles,
@@ -490,8 +497,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     return '';
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this.compile();
     this._dataChange = false;
   }

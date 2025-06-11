@@ -2,7 +2,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual, merge } from '@visactor/vutils';
 import type { ILayoutItem } from '../layout/interface';
-import type { IOrientType, IPolarOrientType, IRect } from '../typings/space';
+import type { IOrientType, IPadding, IPolarOrientType, IRect } from '../typings/space';
 import { BaseModel } from './base-model';
 import type { IModelSpec } from './interface';
 import { LayoutItem } from '../layout/layout-item';
@@ -42,19 +42,20 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
       layoutLevel: this.layoutLevel,
       layoutOrient: this._orient as IOrientType,
       transformLayoutRect: this._transformLayoutRect,
-      transformLayoutPosition: this._transformLayoutPosition
+      transformLayoutPosition: this._transformLayoutPosition,
+      transformLayoutPadding: this._transformLayoutPadding
     });
     if (this._orient && this._orient !== 'radius' && this._orient !== 'angle' && this._layout) {
       this._layout.layoutOrient = this._orient;
     }
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void {
     this._isLayout = true;
-    super.onLayoutStart(layoutRect, viewRect, ctx);
+    super.onLayoutStart(layoutRect, viewRect);
   }
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     // diff layoutRect
     this.updateLayoutAttribute();
     const layoutRect = this.getLayoutRect();
@@ -73,6 +74,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
     if (this._isLayout) {
       return;
     }
+    this._layout?.setWillLayoutTag();
     this._forceLayoutTag = true;
     this._option.globalInstance.getChart()?.setLayoutTag(true);
   }
@@ -122,4 +124,5 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
 
   protected _transformLayoutRect: (rect: ILayoutRect) => ILayoutRect = null;
   protected _transformLayoutPosition: (rect: Partial<IPoint>) => Partial<IPoint> = null;
+  protected _transformLayoutPadding: (padding: IPadding) => IPadding = null;
 }

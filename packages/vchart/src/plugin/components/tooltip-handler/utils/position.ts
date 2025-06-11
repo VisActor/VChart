@@ -1,10 +1,3 @@
-import type { IAxis } from '../../../../component/axis';
-import type { AxisCurrentValueMap, CrossHairStateByField } from '../../../../component/crosshair';
-
-import { layoutByValue, layoutCrosshair } from '../../../../component/crosshair/utils/cartesian';
-import type { IDimensionData } from '../../../../event';
-import type { ICartesianSeries } from '../../../../series';
-import { Direction, type ILayoutPoint } from '../../../../typings';
 import type {
   IFixedTooltipPositionPattern,
   IGlobalTooltipPositionPattern,
@@ -74,60 +67,6 @@ export const getPositionType = (
   dim: 'x' | 'y',
   defaultCase: TooltipPositionType = 2
 ): TooltipPositionType => positionType[position]?.[dim === 'x' ? 0 : 1] ?? defaultCase;
-
-export const getCartesianCrosshairRect = (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => {
-  const currValueX: AxisCurrentValueMap = new Map();
-  const currValueY: AxisCurrentValueMap = new Map();
-  const { series, datum } = dimensionData;
-  const isHorizontal = (series as ICartesianSeries).direction === Direction.horizontal;
-  const axisHelper = isHorizontal
-    ? (series as ICartesianSeries).getYAxisHelper()
-    : (series as ICartesianSeries).getXAxisHelper();
-  const axisId = axisHelper.getAxisId();
-  const axis = series
-    .getChart()
-    .getComponentsByKey('axes')
-    .find(axis => axis.id === axisId) as IAxis;
-
-  if (!axis) {
-    return undefined;
-  }
-  (isHorizontal ? currValueY : currValueX).set(axis.getSpecIndex(), {
-    datum: series.getDatumPositionValues(datum[0], series.getDimensionField())?.[0],
-    axis
-  });
-
-  const state: CrossHairStateByField = {
-    xField: {
-      coordKey: 'x',
-      anotherAxisKey: 'y',
-      currentValue: currValueX,
-      attributes: {
-        visible: !!currValueX.size,
-        type: 'rect'
-      }
-    },
-    yField: {
-      coordKey: 'y',
-      anotherAxisKey: 'x',
-      currentValue: currValueY,
-      attributes: {
-        visible: !!currValueY.size,
-        type: 'rect'
-      }
-    }
-  };
-
-  layoutByValue(state, series as ICartesianSeries, layoutStartPoint);
-
-  if (state.xField.cacheInfo) {
-    return layoutCrosshair(state.xField);
-  }
-  if (state.yField.cacheInfo) {
-    return layoutCrosshair(state.yField);
-  }
-  return undefined;
-};
 
 export const isGlobalTooltipPositionPattern = (obj: any): obj is IGlobalTooltipPositionPattern => {
   return (

@@ -27,6 +27,8 @@ import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 import type { ILayoutRect } from '../../../typings/layout';
 import { getSpecInfo } from '../../util';
+import { colorLegend } from '../../../theme/builtin/common/component/legend/color-legend';
+import { sizeLegend } from '../../../theme/builtin/common/component/legend/size-legend';
 
 const SINGLE_SEQUENCE = ['#C4E7FF', '#98CAFF', '#75ACFF', '#518FF9', '#2775DC', '#005CBE', '#00429F', '#00287E'];
 const SIZE = [2, 10];
@@ -36,6 +38,10 @@ export class ContinuousLegend<
 > extends BaseLegend<T> {
   static specKey = 'legends';
 
+  static readonly builtInTheme = {
+    colorLegend,
+    sizeLegend
+  };
   static type = ComponentTypeEnum.continuousLegend;
   type = ComponentTypeEnum.colorLegend;
   name: string = ComponentTypeEnum.colorLegend;
@@ -206,7 +212,7 @@ export class ContinuousLegend<
   }
 
   protected _getLegendConstructor() {
-    return ContinuousLegendMap[this._legendType];
+    return (ContinuousLegendMap as any)[this._legendType];
   }
 
   protected _initEvent() {

@@ -7,10 +7,9 @@
  */
 import type { ITheme } from '../../interface';
 import { colorScheme } from './color-scheme';
-import { series } from '../common/series';
 import { markByName, markByType } from '../common/mark';
-import { component } from '../common/component';
 import { token } from '../../token';
+import { poptip } from '../common/component/poptip';
 
 export const lightTheme: ITheme = {
   name: 'light',
@@ -19,9 +18,10 @@ export const lightTheme: ITheme = {
   fontFamily: { type: 'token', key: 'fontFamily' },
   colorScheme,
   token,
+  component: {
+    poptip
+  },
   mark: markByType,
   markByName,
-  series,
-  component,
   animationThreshold: 2000
 };

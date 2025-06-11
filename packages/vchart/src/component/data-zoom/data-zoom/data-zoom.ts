@@ -33,6 +33,7 @@ import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
 import { getFormatFunction } from '../../util';
+import { dataZoom } from '../../../theme/builtin/common/component/data-zoom';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -41,6 +42,9 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   name: string = ComponentTypeEnum.dataZoom;
   readonly transformerConstructor = DataZoomSpecTransformer;
 
+  static readonly builtInTheme = {
+    dataZoom
+  };
   static specKey = 'dataZoom';
   specKey = 'dataZoom';
 
@@ -108,7 +112,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   }
 
   /** LifeCycle API**/
-  onLayoutEnd(ctx: any): void {
+  onLayoutEnd(): void {
     this._updateScaleRange();
     // 初始时reverse判断并不准确，导致start和end颠倒, 保险起见在layoutend之后触发该逻辑
     // FIXME: 牺牲了一定性能，有待优化
@@ -117,7 +121,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       this.effect.onZoomChange();
     }
     if (this._cacheVisibility !== false) {
-      super.onLayoutEnd(ctx);
+      super.onLayoutEnd();
     }
   }
 

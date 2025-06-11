@@ -8,6 +8,7 @@ import { isNil } from '@visactor/vutils';
 import { isXAxis, isYAxis } from '../../../../component/axis/cartesian/util/common';
 import { Direction } from '../../../../typings/space';
 import type { ILayoutPoint } from '../../../../typings/layout';
+import type { IAxis } from '../../../../component/axis';
 
 const discreteXAxisGetDimensionField = (series: ICartesianSeries) => series.fieldX[0];
 const discreteYAxisGetDimensionField = (series: ICartesianSeries) => series.fieldY[0];
@@ -122,7 +123,7 @@ export const getDimensionInfoByPosition = (
 };
 
 export const getDimensionInfoByValue = (
-  axis: CartesianAxis,
+  axis: IAxis,
   value: any,
   getDimensionField?: (series: ICartesianSeries) => string | string[]
 ): IDimensionInfo | null => {
@@ -139,9 +140,10 @@ export const getDimensionInfoByValue = (
 
   const data = getDimensionData(
     value,
-    axis,
+    axis as CartesianAxis,
     'cartesian',
-    getDimensionField ?? (isXAxis(axis.getOrient()) ? discreteXAxisGetDimensionField : discreteYAxisGetDimensionField)
+    getDimensionField ??
+      (isXAxis((axis as CartesianAxis).getOrient()) ? discreteXAxisGetDimensionField : discreteYAxisGetDimensionField)
   );
   return { index, value, position: scale.scale(value), axis, data };
 };

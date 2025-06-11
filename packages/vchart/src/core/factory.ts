@@ -16,14 +16,27 @@ import type { Transform, Parser } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { fields, filter, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
-import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
 import type { IComponentPluginConstructor } from '../plugin/components/interface';
+import type { IGraphic } from '@visactor/vrender-core';
+import type { GrammarTransformOption, IStageEventPlugin, VRenderComponentOptions } from './interface';
+import type { MarkAnimationSpec } from '../animation/interface';
+import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/interface/trigger';
+import type { IComposedEventConstructor } from '../index-harmony-simple';
+import type { ITooltipProcessorConstructor } from '../component/tooltip/processor/interface';
+import type { ITooltip } from '../component';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
   private static _series: { [key: string]: ISeriesConstructor } = {};
-  private static _components: { [key: string]: { cmp: IComponentConstructor; alwaysCheck?: boolean } } = {};
+  private static _components: {
+    [key: string]: {
+      cmp: IComponentConstructor;
+      alwaysCheck?: boolean;
+      createOrder: number;
+    };
+  } = {};
+  private static _graphicComponents: Record<string, (attrs: any, options?: VRenderComponentOptions) => IGraphic> = {};
   private static _marks: { [key: string]: MarkConstructor } = {};
   private static _regions: { [key: string]: IRegionConstructor } = {};
   private static _animations: { [key: string]: (params?: any, preset?: any) => MarkAnimationSpec } = {};
@@ -56,8 +69,22 @@ export class Factory {
   static registerSeries(key: string, series: ISeriesConstructor) {
     Factory._series[key] = series;
   }
-  static registerComponent(key: string, cmp: IComponentConstructor, alwaysCheck?: boolean) {
-    Factory._components[key] = { cmp, alwaysCheck };
+  static registerComponent(key: string, cmp: IComponentConstructor, alwaysCheck?: boolean, createOrder?: number) {
+    Factory._components[key] = { cmp, alwaysCheck, createOrder: createOrder ?? 0 };
+  }
+
+  static registerGraphicComponent(key: string, creator: (attrs: any, options?: VRenderComponentOptions) => IGraphic) {
+    Factory._graphicComponents[key] = creator;
+  }
+
+  static createGraphicComponent(componentType: string, attrs: any, options?: VRenderComponentOptions) {
+    const compCreator = Factory._graphicComponents[componentType];
+
+    if (!compCreator) {
+      return null;
+    }
+
+    return compCreator(attrs, options);
   }
   static registerMark(key: string, mark: MarkConstructor) {
     Factory._marks[key] = mark;
@@ -67,6 +94,16 @@ export class Factory {
   }
   static registerTransform(key: string, transform: Transform) {
     Factory.transforms[key] = transform;
+  }
+
+  private static _grammarTransforms: Record<string, GrammarTransformOption> = {};
+
+  static registerGrammarTransform(type: string, transform: GrammarTransformOption) {
+    Factory._grammarTransforms[type] = transform;
+  }
+
+  static getGrammarTransform(type: string) {
+    return Factory._grammarTransforms[type];
   }
   static registerLayout(key: string, layout: ILayoutConstructor) {
     Factory._layout[key] = layout;
@@ -90,6 +127,10 @@ export class Factory {
     }
     const ChartConstructor = Factory._charts[chartType];
     return new ChartConstructor(spec, options);
+  }
+
+  static getChart(chartType: string) {
+    return Factory._charts[chartType];
   }
 
   static createChartSpecTransformer(
@@ -203,6 +244,27 @@ export class Factory {
     return Factory._series[seriesType].mark;
   }
 
+  static getSeriesBuiltInTheme(themeKey: string): Record<string, any> {
+    for (const key in Factory._series) {
+      const item = Factory._series[key];
+      if (item && item.builtInTheme && item.builtInTheme[themeKey]) {
+        return item.builtInTheme[themeKey];
+      }
+    }
+
+    return null;
+  }
+
+  static getComponentBuiltInTheme(themeKey: string): Record<string, any> {
+    for (const key in Factory._components) {
+      const item = Factory._components[key];
+      if (item && item.cmp && item.cmp.builtInTheme && item.cmp.builtInTheme[themeKey]) {
+        return item.cmp.builtInTheme[themeKey];
+      }
+    }
+    return null;
+  }
+
   static getChartPlugins() {
     return Object.values(Factory._chartPlugin);
   }
@@ -222,4 +284,55 @@ export class Factory {
   static getFormatter() {
     return this._formatter;
   }
+
+  private static _stageEventPlugins: Record<string, IStageEventPlugin<any>> = {};
+
+  static registerStageEventPlugin = (type: string, Plugin: IStageEventPlugin<any>) => {
+    Factory._stageEventPlugins[type] = Plugin;
+  };
+
+  static getStageEventPlugin = (type: string) => {
+    return Factory._stageEventPlugins[type];
+  };
+
+  private static _interactionTriggers: Record<string, ITriggerConstructor> = {};
+
+  static registerInteractionTrigger = (interactionType: string, interaction: ITriggerConstructor) => {
+    Factory._interactionTriggers[interactionType] = interaction;
+  };
+
+  static createInteractionTrigger(interactionType: string, options?: IBaseTriggerOptions) {
+    const Ctor = Factory._interactionTriggers[interactionType];
+    if (!Ctor) {
+      return null;
+    }
+
+    return new Ctor(options);
+  }
+
+  static hasInteractionTrigger(interactionType: string) {
+    return !!Factory._interactionTriggers[interactionType];
+  }
+
+  private static _composedEventMap: Record<string, IComposedEventConstructor> = {};
+
+  static registerComposedEvent = (eType: string, composedEvent: IComposedEventConstructor) => {
+    Factory._composedEventMap[eType] = composedEvent;
+  };
+
+  static getComposedEvent(eType: string) {
+    return Factory._composedEventMap[eType];
+  }
+
+  private static _tooltipProcessors: Record<string, ITooltipProcessorConstructor> = {};
+  static registerTooltipProcessor = (type: string, processor: ITooltipProcessorConstructor) => {
+    Factory._tooltipProcessors[type] = processor;
+  };
+  static createTooltipProcessor = (type: string, tooltip: ITooltip) => {
+    const Cror = Factory._tooltipProcessors[type];
+    if (!Cror) {
+      return null;
+    }
+    return new Cror(tooltip);
+  };
 }

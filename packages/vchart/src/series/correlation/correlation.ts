@@ -13,7 +13,6 @@ import type { IBounds } from '@visactor/vutils';
 import { Bounds, isValid } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { registerSymbolMark } from '../../mark/symbol';
-import { SeriesData } from '../base/series-data';
 import type { Datum, ISymbolMarkSpec, IRippleMarkSpec, AdaptiveSpec } from '../../typings';
 import { DEFAULT_DATA_INDEX } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
@@ -31,6 +30,8 @@ import { registerCorrelationAnimation } from './animation';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ILabelMark, IMark, IRippleMark, ISymbolMark } from '../../mark/interface';
 import { CorrelationSeriesSpecTransformer } from './correlation-transformer';
+import { CompilableData, type ICompilableData } from '../../compile/data';
+import { correlation as correlationTheme } from '../../theme/builtin/common/series/correlation';
 
 export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<
   AdaptiveSpec<T, 'outerRadius' | 'innerRadius'>
@@ -39,10 +40,11 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
   type = SeriesTypeEnum.correlation;
 
   static readonly mark: SeriesMarkMap = correlationSeriesMark;
+  static readonly builtInTheme = { correlation: correlationTheme };
   static readonly transformerConstructor = CorrelationSeriesSpecTransformer as any;
   readonly transformerConstructor = CorrelationSeriesSpecTransformer;
 
-  protected _centerSeriesData: SeriesData;
+  protected _centerSeriesData: ICompilableData;
 
   private _nodePointMark: ISymbolMark;
   private _ripplePointMark: IRippleMark;
@@ -98,8 +100,6 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
     }
   }
 
-  protected _viewDataTransform!: SeriesData;
-
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
@@ -135,7 +135,7 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       }
     });
 
-    this._centerSeriesData = new SeriesData(this._option, centerDataView);
+    this._centerSeriesData = new CompilableData(this._option, centerDataView);
   }
 
   compileData() {
@@ -169,18 +169,11 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
   }
 
   initMark(): void {
-    const nodePointMark = this._createMark(
-      CorrelationSeries.mark.nodePoint,
-      {
-        groupKey: this._seriesField,
-        isSeriesMark: true,
-        key: DEFAULT_DATA_INDEX,
-        stateSort: this._spec.nodePoint?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.nodePoint?.customShape
-      }
-    ) as ISymbolMark;
+    const nodePointMark = this._createMark(CorrelationSeries.mark.nodePoint, {
+      groupKey: this._seriesField,
+      isSeriesMark: true,
+      key: DEFAULT_DATA_INDEX
+    }) as ISymbolMark;
     if (nodePointMark) {
       nodePointMark.setMarkConfig({ zIndex: LayoutZIndex.Node });
       this._nodePointMark = nodePointMark;
@@ -195,18 +188,11 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       this._ripplePointMark = ripplePointMark;
     }
 
-    const centerPointMark = this._createMark(
-      CorrelationSeries.mark.centerPoint,
-      {
-        key: DEFAULT_DATA_INDEX,
-        dataView: this._centerSeriesData.getDataView(),
-        dataProductId: this._centerSeriesData.getProductId(),
-        stateSort: this._spec.centerPoint?.stateSort
-      },
-      {
-        setCustomizedShape: this._spec.centerPoint?.customShape
-      }
-    ) as ISymbolMark;
+    const centerPointMark = this._createMark(CorrelationSeries.mark.centerPoint, {
+      key: DEFAULT_DATA_INDEX,
+      dataView: this._centerSeriesData.getDataView(),
+      dataProductId: this._centerSeriesData.getProductId()
+    }) as ISymbolMark;
     if (centerPointMark) {
       centerPointMark.setMarkConfig({ zIndex: LayoutZIndex.Node });
       this._centerPointMark = centerPointMark;
@@ -350,8 +336,8 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
     return [this._valueField];
   }
 
-  onLayoutEnd(ctx: any): void {
-    super.onLayoutEnd(ctx);
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
     this._viewBox.set(0, 0, this._region.getLayoutRect().width, this._region.getLayoutRect().height);
     this._rawData.reRunAllTransform();
     this.getViewData().reRunAllTransform();

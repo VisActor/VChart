@@ -1,5 +1,5 @@
 import type { Datum } from '../../typings';
-import type { CirclePackingOptions } from '@visactor/vgrammar-hierarchy';
+import type { CirclePackingOptions } from '@visactor/vlayouts';
 export interface ICirclePackingOpt extends CirclePackingOptions {
     width: number;
     height: number;

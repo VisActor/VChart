@@ -20,13 +20,28 @@ Configure the zField on the basis of the 2D area map, it can be recognized as a 
 
 ```javascript livedemo
 /**
- * 自1.12.0后，普通图表开启3d渲染的功能，需要手动加载3d插件，
+ * Since v1.12.0, to enable 3D rendering for standard charts, you need to manually load the 3D plugin:
  *
  * import { register3DPlugin } from '@visactor/vchart';
  *
  * register3DPlugin();
+ *
+ * Since v2.0.0, 3D charts are imported from vchart-extension:
+ *
+ * import { registerAxis3dPlugin } from '@visactor/vchart-extension';
+ *
+ * registerAxis3dPlugin();
  */
-VCHART_MODULE.register3DPlugin();
+
+/** --Remove the following code when using in production-- */
+if (VCHART_MODULE.register3DPlugin) {
+  VCHART_MODULE.register3DPlugin();
+} else if (VChartExtension.registerAxis3dPlugin) {
+  // For compatibility with versions before 1.12.0
+  VChartExtension.registerAxis3dPlugin();
+}
+/** --Remove the above code when using in production-- */
+
 const spec = {
   type: 'area',
   data: {

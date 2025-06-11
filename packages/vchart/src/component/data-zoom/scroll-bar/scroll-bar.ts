@@ -16,6 +16,7 @@ import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { ILayoutType } from '../../../typings/layout';
 import { isClose } from '../../../util';
+import { scrollBar } from '../../../theme/builtin/common/component/scroll-bar';
 // import { SCROLLBAR_EVENT, SCROLLBAR_END_EVENT } from '@visactor/vrender-components/es/constant';
 
 // 由vrender透出, 接入新版本后需修改
@@ -27,6 +28,9 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   type = ComponentTypeEnum.scrollBar;
   name: string = ComponentTypeEnum.scrollBar;
 
+  static readonly builtInTheme = {
+    scrollBar
+  };
   static specKey = 'scrollBar';
   specKey = 'scrollBar';
 
@@ -56,10 +60,10 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   }
 
   /** LifeCycle API**/
-  onLayoutEnd(ctx: any): void {
+  onLayoutEnd(): void {
     this._updateScaleRange();
     this.effect.onZoomChange?.();
-    super.onLayoutEnd(ctx);
+    super.onLayoutEnd();
   }
 
   protected _updateScaleRange() {

@@ -1,6 +1,5 @@
-import type { ValueOf } from '@visactor/vgrammar-core';
 import type { EventHandler, EventParamsDefinition, EventType, IComposedEvent, IEventDispatcher } from '../interface';
-import type { Maybe, RenderMode } from '../../typings';
+import type { Maybe, RenderMode, ValueOf } from '../../typings';
 import type { IChart } from '../../chart/interface';
 
 export abstract class ComposedEvent implements IComposedEvent {
