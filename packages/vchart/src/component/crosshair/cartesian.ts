@@ -193,6 +193,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             [coordKey]: coord + bandSize / 2,
             ...labels[labelKey],
             ...attributes.label,
+            angle: attributes.label.syncAxisLabelAngle ? (cacheInfo.axisLabel?.attribute.angle ?? 0) : 0,
             textStyle: {
               ...attributes.label?.textStyle,
               ...labelsTextStyle[labelKey]
