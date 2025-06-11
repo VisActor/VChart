@@ -7,7 +7,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
 import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, polygonIntersectPolygon, isValid, last } from '@visactor/vutils';
+import { array, polygonIntersectPolygon, isValid, last, cloneDeep } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic, IGroup, INode, IPolygon } from '@visactor/vrender-core';
