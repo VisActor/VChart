@@ -111,27 +111,30 @@ export const layoutByValue = (
             if (axisOrient === 'left') {
               newCacheInfo.labels[axisOrient].dx = -labelOffset;
               newCacheInfo.labelsTextStyle[axisOrient] = {
-                textAlign: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textAlign ?? 'right' : 'right',
-                textBaseline: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textBaseline ?? 'middle' : 'middle'
+                textAlign: syncAxisLabelAngle && axisLabel ? (axisLabel.attribute.textAlign ?? 'right') : 'right',
+                textBaseline:
+                  syncAxisLabelAngle && axisLabel ? (axisLabel.attribute.textBaseline ?? 'middle') : 'middle'
               };
             } else if (axisOrient === 'right') {
               newCacheInfo.labels[axisOrient].dx = labelOffset;
               newCacheInfo.labelsTextStyle[axisOrient] = {
-                textAlign: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textAlign ?? 'left' : 'left',
-                textBaseline: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textBaseline ?? 'middle' : 'middle'
+                textAlign: syncAxisLabelAngle && axisLabel ? (axisLabel.attribute.textAlign ?? 'left') : 'left',
+                textBaseline:
+                  syncAxisLabelAngle && axisLabel ? (axisLabel.attribute.textBaseline ?? 'middle') : 'middle'
               };
             } else if (axisOrient === 'top') {
               newCacheInfo.labels[axisOrient].y = 0;
               newCacheInfo.labels[axisOrient].dy = -labelOffset;
               newCacheInfo.labelsTextStyle[axisOrient] = {
-                textAlign: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textAlign ?? 'center' : 'center',
-                textBaseline: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textBaseline ?? 'bottom' : 'bottom'
+                textAlign: syncAxisLabelAngle && axisLabel ? (axisLabel.attribute.textAlign ?? 'center') : 'center',
+                textBaseline:
+                  syncAxisLabelAngle && axisLabel ? (axisLabel.attribute.textBaseline ?? 'bottom') : 'bottom'
               };
             } else if (axisOrient === 'bottom') {
               newCacheInfo.labels[axisOrient].dy = labelOffset;
               newCacheInfo.labelsTextStyle[axisOrient] = {
-                textAlign: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textAlign ?? 'center' : 'center',
-                textBaseline: syncAxisLabelAngle && axisLabel ? axisLabel.attribute.textBaseline ?? 'top' : 'top'
+                textAlign: syncAxisLabelAngle && axisLabel ? (axisLabel.attribute.textAlign ?? 'center') : 'center',
+                textBaseline: syncAxisLabelAngle && axisLabel ? (axisLabel.attribute.textBaseline ?? 'top') : 'top'
               };
             }
             newCacheInfo.labels[axisOrient].defaultFormatter = niceLabelFormatter;

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: mark interactive problem when brush. fix visactor/vchart#4017",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

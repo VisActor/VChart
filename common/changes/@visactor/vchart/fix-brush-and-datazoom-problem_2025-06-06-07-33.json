@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: markLine position error when domain is a same array. fix#4016",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
