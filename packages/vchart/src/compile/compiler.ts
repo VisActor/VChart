@@ -115,6 +115,7 @@ export class Compiler implements ICompiler {
       interactive,
       clickInterval,
       autoPreventDefault,
+      afterRender,
       ...restOption
     } = this._option;
     this._view = new View({
@@ -138,7 +139,11 @@ export class Compiler implements ICompiler {
         this._compileChart?.onLayout(this._view);
       },
       logger: logger,
-      logLevel: logger.level()
+      logLevel: logger.level(),
+      afterRender: (stage: IStage) => {
+        this._compileChart?.onAfterRender(this._view);
+        afterRender?.(stage);
+      }
     });
     this._setCanvasStyle();
 
