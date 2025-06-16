@@ -65,6 +65,7 @@ export interface ICrosshairLabelSpec {
     formatter?: string | string[];
     style?: Partial<ITextMarkSpec>;
     labelBackground?: ICrosshairLabelBackgroundSpec;
+    syncAxisLabelAngle?: boolean;
 }
 export interface ICrosshairLabelBackgroundSpec {
     visible?: boolean;
