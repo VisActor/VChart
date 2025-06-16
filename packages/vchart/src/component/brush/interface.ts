@@ -138,6 +138,12 @@ export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
    * @default true
    */
   visible?: boolean;
+  /**
+   * 是否更新图元状态
+   * 关闭时, brush 事件不会触发图元状态更新, 优化缩放场景下的性能
+   * @default true
+   */
+  updateElementsState?: boolean;
 }
 
 export type IBrushType = 'x' | 'y' | 'rect' | 'polygon';
