@@ -151,7 +151,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   }
   abstract onRender(ctx: IModelRenderOption): void;
 
-  onAfterRender() {
+  onBeforeRender() {
     // do nothing
   }
 
