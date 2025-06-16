@@ -43,8 +43,9 @@ export const layoutByValue = (
         layoutStartPoint[coordKey as 'x' | 'y'];
       axis = item.axis;
       axisLabel = axis
-        .getVRenderComponents()[0]
-        ?.children[0]?.children[0]?.getChildByName('axis-label-container')
+        .getAxisMark()
+        ?.getProduct()
+        ?.children[0]?.children[0]?.children[0]?.getChildByName('axis-label-container')
         ?.getChildByName('axis-label-container-layer-0')?.children[0];
     }
     const isVisible = !!currentValue.size && Number.isFinite(coord) && !Number.isNaN(coord);

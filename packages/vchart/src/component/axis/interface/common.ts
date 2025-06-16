@@ -3,6 +3,7 @@ import type { CoordinateType, Datum, IPolarOrientType, StringOrNumber } from '..
 import type { IComponent } from '../../interface/common';
 import type { ICartesianAxisSpec } from '../cartesian/interface';
 import type { ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { IComponentMark } from '../../../mark/interface';
 
 export interface StatisticsDomain {
   domain: any[];
@@ -16,6 +17,7 @@ export interface IAxis extends IComponent {
   getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
   getInverse: () => boolean;
   getCoordinateType: () => CoordinateType;
+  getAxisMark: () => IComponentMark;
   visible: boolean;
   // 标记轴的方向，左到右，右到左，上到下，下到上
   directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';

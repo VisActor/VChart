@@ -130,7 +130,10 @@ export class Compiler implements ICompiler {
         dpr,
         viewBox: this._option.viewBox,
         canvasControled: this._option.canvasControled,
-        beforeRender: this._option.beforeRender,
+        beforeRender: (stage: IStage) => {
+          this._compileChart?.onBeforeRender();
+          this._option.beforeRender?.(stage);
+        },
         afterRender: this._option.afterRender,
         disableDirtyBounds: true,
         autoRender: true,

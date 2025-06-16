@@ -120,6 +120,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _dataFieldText: string;
   protected _axisMark: IComponentMark;
+  getAxisMark() {
+    return this._axisMark;
+  }
+
   protected _gridMark: IComponentMark;
 
   protected _coordinateType: CoordinateType;
