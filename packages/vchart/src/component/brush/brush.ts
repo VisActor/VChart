@@ -226,9 +226,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needInitOutState = true;
       this._needDisablePickable = false;
       const { operateMask } = e.detail as any;
+      const { updateElementsState = true } = this._spec;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
       const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
-      if (!this._spec.zoomWhenEmpty && inBrushData.length > 0) {
+      if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || !updateElementsState) {
         this._setAxisAndDataZoom(operateMask, region);
       }
       this._emitEvent(ChartEvent.brushEnd, region);
@@ -236,9 +237,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
       const { operateMask } = e.detail as any;
+      const { updateElementsState = true } = this._spec;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
       const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
-      if (!this._spec.zoomWhenEmpty && inBrushData.length > 0) {
+      if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || !updateElementsState) {
         this._setAxisAndDataZoom(operateMask, region);
       }
       this._emitEvent(ChartEvent.brushEnd, region);
@@ -247,8 +249,11 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
   private _handleBrushChange(eventType: string, region: IRegion, e: any) {
     const { operateMask } = e.detail as any;
-    this._reconfigItem(operateMask, region);
-    this._reconfigLinkedItem(operateMask, region);
+    const { updateElementsState = true } = this._spec;
+    if (updateElementsState) {
+      this._reconfigItem(operateMask, region);
+      this._reconfigLinkedItem(operateMask, region);
+    }
   }
 
   private _emitEvent(eventType: string, region: IRegion) {
