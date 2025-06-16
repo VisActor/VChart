@@ -1177,6 +1177,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     if (!this._animationConfig || graphics.length === 0) {
       return;
     }
+
     if (this.tryRunMorphing(graphics)) {
       return;
     }
@@ -1262,6 +1263,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   }
 
+  private _setAnimationState(g: IMarkGraphic) {
+    const customizedState = this._aniamtionStateCallback ? this._aniamtionStateCallback(g) : undefined;
+
+    g.context.animationState = customizedState ?? g.context.diffState;
+  }
+
   protected _runJoin(data: Datum[]) {
     const newGroupedData = this._getDataByKey(data);
     const prevGroupedData = this._prevDataByKey;
@@ -1328,7 +1335,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           fieldX: g.context?.fieldX,
           // 从旧context中继承
           fieldY: g.context?.fieldY,
-          animationState: diffState,
           // TODO 如果newData为空，则使用旧的data，避免exit图元找不到data
           data: newData ?? g.context?.data,
           uniqueKey: key,
@@ -1338,7 +1344,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           indexKey: '__VCHART_DEFAULT_DATA_INDEX',
           stateAnimateConfig: this.getAnimationConfig()?.state
         };
-        enterGraphics.delete(g);
+        this._setAnimationState(g);
       }
       return g;
     };
@@ -1363,6 +1369,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         const g = callback(key, newGroupedData.data.get(key), null);
         if (g) {
           g.context.animationState = AnimationStateEnum.appear;
+          // this._setAnimationState(g);
         }
       });
     } else if (prevGroupedData) {
@@ -1370,6 +1377,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         // disappear
         const g = callback(key, null, prevGroupedData.data.get(key));
         g.context.animationState = AnimationStateEnum.disappear;
+        // this._setAnimationState(g);
       });
     }
 
@@ -1966,12 +1974,10 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   }
 
+  protected _aniamtionStateCallback: (g: IMarkGraphic) => AnimationStateValues;
+
   updateAnimationState(callback: (graphic: IMarkGraphic) => AnimationStateValues) {
-    if (this._graphics && this._graphics.length) {
-      this._graphics.forEach(g => {
-        g.context.animationState = callback(g);
-      });
-    }
+    this._aniamtionStateCallback = callback;
   }
 
   hasAnimationByState(state: keyof MarkAnimationSpec) {

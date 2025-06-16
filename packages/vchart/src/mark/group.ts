@@ -129,11 +129,8 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
   }
 
   updateAnimationState(callback: (g: IMarkGraphic) => AnimationStateValues) {
-    this.getGraphics().forEach(g => {
-      if (g) {
-        g.context = { ...g.context, animationState: callback(g) };
-      }
-    });
+    super.updateAnimationState(callback);
+
     this.getMarks().forEach(mark => {
       mark.updateAnimationState(callback);
     });
