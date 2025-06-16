@@ -299,6 +299,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
       this._needDisablePickable = false;
       const { operateMask } = e.detail as any;
+      const { updateElementsState = true } = this._spec;
       if (this._spec?.onBrushEnd) {
         // 如果onBrushEnd返回true，则清空brush， 并抛出clear事件
         if (this._spec.onBrushEnd(e) === true) {
@@ -312,7 +313,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         }
       } else {
         const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
-        if (!this._spec.zoomWhenEmpty && inBrushData.length > 0) {
+        if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || !updateElementsState) {
           this._setAxisAndDataZoom(operateMask, region);
         }
         this._emitEvent(ChartEvent.brushEnd, region);
@@ -321,8 +322,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
       const { operateMask } = e.detail as any;
+      const { updateElementsState = true } = this._spec;
       const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
-      if (!this._spec.zoomWhenEmpty && inBrushData.length > 0) {
+      if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || updateElementsState) {
         this._setAxisAndDataZoom(operateMask, region);
       }
       this._emitEvent(ChartEvent.brushEnd, region);
@@ -372,8 +374,11 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   /*** start: event dispatch ***/
   private _handleBrushChange(region: IRegion, e: any) {
     const { operateMask } = e.detail as any;
-    this._reconfigItem(operateMask, region);
-    this._reconfigLinkedItem(operateMask, region);
+    const { updateElementsState = true } = this._spec;
+    if (updateElementsState) {
+      this._reconfigItem(operateMask, region);
+      this._reconfigLinkedItem(operateMask, region);
+    }
   }
 
   protected _extendDataInBrush(elementsMap: { [brushName: string]: { [elementKey: string]: IMarkGraphic } }) {
