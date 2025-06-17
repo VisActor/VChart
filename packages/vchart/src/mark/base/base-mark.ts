@@ -1272,7 +1272,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   protected _runJoin(data: Datum[]) {
     const newGroupedData = this._getDataByKey(data);
     const prevGroupedData = this._prevDataByKey;
-    const newGraphics: IMarkGraphic[] = [];
+    const allGraphics: IMarkGraphic[] = [];
 
     const enterGraphics = new Set<IMarkGraphic>(this._graphics.filter(g => g.context.diffState === DiffState.enter));
 
@@ -1310,18 +1310,19 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         }
 
         this._graphicMap.set(key, g as IMarkGraphic);
-        newGraphics.push(g as IMarkGraphic);
+        allGraphics.push(g as IMarkGraphic);
       } else {
         // update
         g = this._graphicMap.get(key);
 
         if (g) {
           diffState = DiffState.update;
-          newGraphics.push(g as IMarkGraphic);
+          allGraphics.push(g);
         }
       }
 
       if (g) {
+        enterGraphics.delete(g);
         g.context = {
           ...this._getCommonContext(),
           diffState,
@@ -1391,13 +1392,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
       (g as IMarkGraphic).release();
     });
-    const graphicCount = newGraphics.length;
-    newGraphics.forEach((g, index) => {
+    const graphicCount = allGraphics.length;
+    allGraphics.forEach((g, index) => {
       g.context.graphicCount = graphicCount;
       g.context.graphicIndex = index;
     });
     this._dataByKey = newGroupedData;
-    this._graphics = newGraphics;
+    this._graphics = allGraphics;
     this.needClear = true;
   }
 
