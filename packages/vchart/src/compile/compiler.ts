@@ -24,7 +24,7 @@ import { type IGraphicContext, type IMark, type IMarkGraphic } from '../mark/int
 import { Factory } from '../core/factory';
 import type { Gesture } from '@visactor/vrender-kits';
 import { findMarkGraphic, getDatumOfGraphic } from '../util/mark';
-import { diffMarks, findSimpleMarks, traverseGroupMark } from './util';
+import { diffMarks, findSimpleMarks, toRenderMode, traverseGroupMark } from './util';
 import { log } from '../util/debug';
 
 type EventListener = {
@@ -107,8 +107,18 @@ export class Compiler implements ICompiler {
       return;
     }
 
-    const { autoRefreshDpr, dpr, mode, gestureConfig, interactive, clickInterval, autoPreventDefault, background } =
-      this._option;
+    const {
+      autoRefreshDpr,
+      dpr,
+      mode,
+      modeParams,
+      gestureConfig,
+      interactive,
+      clickInterval,
+      autoPreventDefault,
+      background
+    } = this._option;
+    vglobal.setEnv(toRenderMode(mode), modeParams ?? {});
     this._stage =
       this._option.stage ??
       (new Stage({
