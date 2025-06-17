@@ -32,3 +32,16 @@ export const findMarkGraphic = (rootGroup: IGraphic, target: IGraphic) => {
 
   return null;
 };
+
+export const getDiffAttributesOfGraphic = (g: IMarkGraphic, newAttrs: any) => {
+  // diff一下，获取差异的属性
+  const prevAttrs: Record<string, any> = g.getAttributes(true);
+  const diffAttrs: Record<string, any> = {};
+  Object.keys(newAttrs).forEach(key => {
+    if (prevAttrs[key] !== newAttrs[key]) {
+      diffAttrs[key] = newAttrs[key];
+    }
+  });
+
+  return diffAttrs;
+};
