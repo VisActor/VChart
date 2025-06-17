@@ -1,6 +1,14 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 29 May 2025 09:26:04 GMT and should not be manually modified.
+This log was last generated on Fri, 13 Jun 2025 06:36:53 GMT and should not be manually modified.
+
+## 1.13.12
+Fri, 13 Jun 2025 06:36:53 GMT
+
+### Updates
+
+- fix: mark interactive problem when brush. fix visactor/vchart#4017
+- fix: markLine position error when domain is a same array. fix#4016
 
 ## 1.13.11
 Thu, 29 May 2025 09:26:04 GMT

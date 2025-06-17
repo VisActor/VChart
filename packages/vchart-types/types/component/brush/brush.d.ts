@@ -38,7 +38,6 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
         [elementKey: string]: IElement;
     };
     private _cacheInteractiveRangeAttrs;
-    private _needDisablePickable;
     private _releatedAxes;
     private _regionAxisMap;
     private _axisDataZoomMap;
@@ -80,6 +79,7 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     private _reconfigLinkedItem;
     private _isBrushContainItem;
     protected _initMarkBrushState(componentIndex: number, stateName: string): void;
+    private _setRegionMarkPickable;
     private _stateClamp;
     private _setAxisAndDataZoom;
     protected _getNeedClearVRenderComponents(): IGraphic[];

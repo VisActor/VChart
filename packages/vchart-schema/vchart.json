@@ -32944,6 +32944,11 @@
           "$ref": "#/definitions/Partial<ITextMarkSpec>",
           "description": "文本样式配置"
         },
+        "syncAxisLabelAngle": {
+          "description": "文本是否跟随轴标签的角度旋转，目前只在直角坐标系下支持",
+          "since": "1.13.12",
+          "type": "boolean"
+        },
         "visible": {
           "description": "十字准星辅助标签是否展示",
           "type": "boolean"
@@ -69311,6 +69316,9 @@
         "prepareRenderList": {
           "typeof": "function"
         },
+        "reInit": {
+          "typeof": "function"
+        },
         "render": {
           "typeof": "function"
         },
@@ -69335,6 +69343,7 @@
         "drawParams",
         "prepare",
         "prepareRenderList",
+        "reInit",
         "render",
         "renderLists",
         "renderTreeRoots"
@@ -85225,6 +85234,9 @@
         "setDpr": {
           "typeof": "function"
         },
+        "setEventListenerTransformer": {
+          "typeof": "function"
+        },
         "setViewBox": {
           "typeof": "function"
         },
@@ -85287,6 +85299,7 @@
         "resizable",
         "resize",
         "setDpr",
+        "setEventListenerTransformer",
         "setViewBox",
         "setViewBoxTransform",
         "setWindowHandler",
@@ -87443,7 +87456,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13592": {
+        "__@toStringTag@13602": {
           "type": "string"
         },
         "size": {
@@ -87451,14 +87464,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13592",
+        "__@toStringTag@13602",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13592": {
+        "__@toStringTag@13602": {
           "type": "string"
         },
         "size": {
@@ -87466,14 +87479,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13592",
+        "__@toStringTag@13602",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13592": {
+        "__@toStringTag@13602": {
           "type": "string"
         },
         "size": {
@@ -87481,14 +87494,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13592",
+        "__@toStringTag@13602",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13592": {
+        "__@toStringTag@13602": {
           "type": "string"
         },
         "size": {
@@ -87496,14 +87509,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13592",
+        "__@toStringTag@13602",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13592": {
+        "__@toStringTag@13602": {
           "type": "string"
         },
         "size": {
@@ -87511,14 +87524,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13592",
+        "__@toStringTag@13602",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13592": {
+        "__@toStringTag@13602": {
           "type": "string"
         },
         "size": {
@@ -87526,7 +87539,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13592",
+        "__@toStringTag@13602",
         "size"
       ],
       "type": "object"
@@ -110201,34 +110214,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13592": {
+        "__@toStringTag@13602": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13592"
+        "__@toStringTag@13602"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13592": {
+        "__@toStringTag@13602": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13592"
+        "__@toStringTag@13602"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13592": {
+        "__@toStringTag@13602": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13592"
+        "__@toStringTag@13602"
       ],
       "type": "object"
     },
