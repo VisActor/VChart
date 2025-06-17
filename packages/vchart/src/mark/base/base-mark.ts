@@ -51,7 +51,7 @@ import type {
   IMarkStateManager,
   StateValueType
 } from '../../compile/mark/interface';
-import { array, degreeToRadian, has, isArray, isBoolean, isFunction, isNil, isObject, isValid } from '@visactor/vutils';
+import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isObject, isValid } from '@visactor/vutils';
 import { curveTypeTransform, groupData, runEncoder } from '../utils/common';
 import type { ICompilableInitOption } from '../../compile/interface';
 import { LayoutState } from '../../compile/interface';
@@ -67,7 +67,8 @@ import type { ICompilableData } from '../../compile/data/interface';
 import type { IAnimationConfig } from '../../animation/interface';
 import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
-import { log } from '../../util';
+import { getDiffAttributesOfGraphic } from '../../util/mark';
+import { log } from '../../util/debug';
 import { morph as runMorph } from '../../compile/morph';
 
 export type ExChannelCall = (
@@ -1263,7 +1264,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   }
 
-  private _setAnimationState(g: IMarkGraphic) {
+  protected _setAnimationState(g: IMarkGraphic) {
     const customizedState = this._aniamtionStateCallback ? this._aniamtionStateCallback(g) : undefined;
 
     g.context.animationState = customizedState ?? g.context.diffState;
@@ -1552,14 +1553,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           this._graphicMap.set(g.context.uniqueKey, g);
         }
       } else {
-        // diff一下，获取差异的属性
-        const prevAttrs: Record<string, any> = g.getAttributes(true);
-        const diffAttrs: Record<string, any> = {};
-        Object.keys(finalAttrs).forEach(key => {
-          if (prevAttrs[key] !== finalAttrs[key]) {
-            diffAttrs[key] = finalAttrs[key];
-          }
-        });
+        const diffAttrs = getDiffAttributesOfGraphic(g, finalAttrs);
         g.context.diffAttrs = diffAttrs;
         if (g.context.reusing) {
           // 表示正在被复用，需要重设属性的
@@ -1982,11 +1976,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._aniamtionStateCallback = callback;
   }
 
-  hasAnimationByState(state: keyof MarkAnimationSpec) {
-    if (!state || !this._animationConfig || !this._animationConfig[state]) {
+  hasAnimationByState(state: AnimationStateValues) {
+    if (!state || !this._animationConfig || !(this._animationConfig as any)[state]) {
       return false;
     }
-    const stateAnimationConfig = this._animationConfig[state];
+    const stateAnimationConfig = (this._animationConfig as any)[state];
     return (stateAnimationConfig as IAnimationConfig[]).length > 0 || isObject(stateAnimationConfig);
   }
 
