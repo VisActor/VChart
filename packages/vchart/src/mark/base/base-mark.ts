@@ -1267,6 +1267,19 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     const customizedState = this._aniamtionStateCallback ? this._aniamtionStateCallback(g) : undefined;
 
     g.context.animationState = customizedState ?? g.context.diffState;
+
+    // 复用exit的图元，需要设置属性为最初的属性
+    if (g.context.animationState === DiffState.exit) {
+      // 表示正在被复用，后续需要重设属性的
+      g.context.reusing = true;
+      // 停止所有动画，
+      // TODO：属性可能回不去了（如果enter和exit不是一个动画），所以在encode阶段要获取finalAttribute，设置上去
+      (g as any).animates && (g as any).animates.forEach((a: any) => a.stop());
+      // force element to stop exit animation if it is reentered
+      // todo animaiton
+      // const animators = this.animate?.getElementAnimators(element, DiffState.exit);
+      // animators && animators.forEach(animator => animator.stop('start'));
+    }
   }
 
   protected _runJoin(data: Datum[]) {
@@ -1295,19 +1308,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         }
         diffState = DiffState.enter;
         g.isExiting = false;
-
-        // 复用exit的图元，需要设置属性为最初的属性
-        if (g.context?.diffState === DiffState.exit) {
-          // 表示正在被复用，后续需要重设属性的
-          g.context.reusing = true;
-          // 停止所有动画，
-          // TODO：属性可能回不去了（如果enter和exit不是一个动画），所以在encode阶段要获取finalAttribute，设置上去
-          (g as any).animates && (g as any).animates.forEach((a: any) => a.stop());
-          // force element to stop exit animation if it is reentered
-          // todo animaiton
-          // const animators = this.animate?.getElementAnimators(element, DiffState.exit);
-          // animators && animators.forEach(animator => animator.stop('start'));
-        }
 
         this._graphicMap.set(key, g as IMarkGraphic);
         allGraphics.push(g as IMarkGraphic);
@@ -1768,29 +1768,30 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
     };
     this._graphicMap.forEach((g, key) => {
+      if (g.context.diffState !== DiffState.exit || g.isExiting) {
+        return;
+      }
       // 避免重复执行退场动画
-      if (g.context.diffState === DiffState.exit && !g.isExiting) {
-        if (this.hasAnimationByState('exit')) {
-          g.isExiting = true;
-          // 执行exit动画
-          const animationConfig = this.getAnimationConfig();
-          if ((animationConfig as any).exit && (animationConfig as any).exit.length) {
-            const exitConfigList = (animationConfig as any).exit.map((item: any, index: number) => ({
-              name: `exit_${index}`,
-              animation: {
-                ...item,
-                customParameters: g.context
-              }
-            }));
-            g.applyAnimationState(['exit'], [exitConfigList.length === 1 ? exitConfigList[0] : exitConfigList], () => {
-              // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
-              // TODO 这里如果频繁执行的话，可能会误判
-              doRemove(g, key);
-            });
-          }
-        } else {
-          doRemove(g, key);
+      if (g.context.animationState === DiffState.exit && this.hasAnimationByState('exit')) {
+        g.isExiting = true;
+        // 执行exit动画
+        const animationConfig = this.getAnimationConfig();
+        if ((animationConfig as any).exit && (animationConfig as any).exit.length) {
+          const exitConfigList = (animationConfig as any).exit.map((item: any, index: number) => ({
+            name: `exit_${index}`,
+            animation: {
+              ...item,
+              customParameters: g.context
+            }
+          }));
+          g.applyAnimationState(['exit'], [exitConfigList.length === 1 ? exitConfigList[0] : exitConfigList], () => {
+            // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
+            // TODO 这里如果频繁执行的话，可能会误判
+            doRemove(g, key);
+          });
         }
+      } else {
+        doRemove(g, key);
       }
     });
   }
