@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix issue with feishu block and call setenv when create vchart",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
