@@ -266,7 +266,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     }
   }
 
-  updateLayoutAttribute() {
+  onBeforeRender(): void {
     this._limitBounds = null;
     this._showDefaultCrosshair();
   }

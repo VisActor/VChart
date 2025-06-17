@@ -466,6 +466,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     elements.forEach(element => element.onEvaluateEnd(option));
   }
 
+  onBeforeRender(view: IView) {
+    const elements = [...this._components, ...this._regions, ...this._series];
+    elements.forEach(element => element.onBeforeRender());
+  }
+
   getLayoutElements(): ILayoutItem[] {
     return this.getAllModels()
       .map(i => i.layout)
