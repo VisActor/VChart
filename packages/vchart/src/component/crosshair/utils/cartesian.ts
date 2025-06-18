@@ -43,8 +43,7 @@ export const layoutByValue = (
         layoutStartPoint[coordKey as 'x' | 'y'];
       axis = item.axis;
       axisLabel = axis
-        .getAxisMark()
-        ?.getProduct()
+        .getVRenderComponents()[0]
         ?.children[0]?.children[0]?.children[0]?.getChildByName('axis-label-container')
         ?.getChildByName('axis-label-container-layer-0')?.children[0];
     }
