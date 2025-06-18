@@ -65,12 +65,18 @@ export const getDimensionData = (
   for (const series of seriesList) {
     if (series.coordinate === coordinate) {
       const dimensionField = array(getDimensionField(series));
-      const viewData = series.getViewData()?.latestData;
+      const viewData = series.getViewData()?.latestData as Datum[];
+
       if (dimensionField && viewData) {
+        const spec = axis.getSpec() as ICartesianLinearAxisSpec;
+        const filteredViewData = spec.dimensionDataFilter
+          ? spec.dimensionDataFilter(viewData, dimensionField, value)
+          : viewData;
+
         if (isDiscreteAxis) {
           const datums: Datum[] = [];
           const datumIdList: number[] = [];
-          viewData.forEach((datum: any, i: number) => {
+          filteredViewData.forEach((datum: any, i: number) => {
             if (datum[dimensionField[0]]?.toString() === value?.toString()) {
               datums.push(datum); // 获取该维度项所对应的数据
               datumIdList.push(i);
@@ -87,7 +93,7 @@ export const getDimensionData = (
             // 直方图情况，根据范围取 datum
             const datums: Datum[] = [];
             const datumIdList: number[] = [];
-            viewData.forEach((datum: any, i: number) => {
+            filteredViewData.forEach((datum: any, i: number) => {
               if (
                 datum[dimensionField[0]]?.toString() === value?.toString() ||
                 (isValid(datum[dimensionField[0]]) &&
@@ -106,13 +112,12 @@ export const getDimensionData = (
             });
           } else {
             // 散点图情况，依据轴上的配置判断
-            const spec = axis.getSpec() as ICartesianLinearAxisSpec;
             const rangeArr = resolveTooltipFilterRange(spec, scale);
             let datums: Datum[] = [];
             let datumIdList: number[] = [];
             if (rangeArr) {
               // 根据范围取 datum
-              viewData.forEach((datum: Datum, i: number) => {
+              filteredViewData.forEach((datum: Datum, i: number) => {
                 if (isValid(datum[dimensionField[0]])) {
                   const delta = datum[dimensionField[0]] - value;
                   if (delta >= rangeArr[0] && delta <= rangeArr[1]) {
@@ -125,7 +130,7 @@ export const getDimensionData = (
               // 根据最近距离取 datum
               let minDelta = Infinity;
               let deltaSign = 0;
-              viewData.forEach((datum: any, i: number) => {
+              filteredViewData.forEach((datum: any, i: number) => {
                 if (isValid(datum[dimensionField[0]])) {
                   const delta = Math.abs(datum[dimensionField[0]] - value);
                   const sign = Math.sign(datum[dimensionField[0]] - value);
