@@ -222,7 +222,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         },
         {
           themeSpec: this._theme?.transform,
-          skipBeforeLayouted: true,
           noSeparateStyle: true
         }
       );
@@ -238,7 +237,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       this._funnelOuterLabelMark.label = this._createMark(FunnelSeries.mark.outerLabel, {
         themeSpec: this._theme?.outerLabel,
         markSpec: this._spec.outerLabel,
-        skipBeforeLayouted: true,
         noSeparateStyle: true,
         parent: false
       }) as ITextMark;
