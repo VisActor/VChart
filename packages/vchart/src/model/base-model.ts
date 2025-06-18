@@ -150,6 +150,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     // do nothing
   }
 
+  onBeforeRender() {
+    // do nothing
+  }
+
   onDataUpdate() {
     // do nothing
   }

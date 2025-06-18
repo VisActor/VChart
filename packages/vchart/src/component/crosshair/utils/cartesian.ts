@@ -44,7 +44,7 @@ export const layoutByValue = (
       axis = item.axis;
       axisLabel = axis
         .getVRenderComponents()[0]
-        ?.children[0]?.children[0]?.getChildByName('axis-label-container')
+        ?.children[0]?.children[0]?.children[0]?.getChildByName('axis-label-container')
         ?.getChildByName('axis-label-container-layer-0')?.children[0];
     }
     const isVisible = !!currentValue.size && Number.isFinite(coord) && !Number.isNaN(coord);

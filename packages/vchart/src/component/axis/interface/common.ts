@@ -3,6 +3,7 @@ import type { CoordinateType, Datum, IPolarOrientType, StringOrNumber } from '..
 import type { IComponent } from '../../interface/common';
 import type { ICartesianAxisSpec } from '../cartesian/interface';
 import type { ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { IComponentMark } from '../../../mark/interface';
 
 export interface StatisticsDomain {
   domain: any[];
