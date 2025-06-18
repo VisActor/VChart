@@ -138,6 +138,7 @@ export declare class BaseMark<T extends ICommonSpec> extends GrammarItem impleme
     protected createAnimationStateList(type: string, animationConfig: Partial<MarkAnimationSpec>): any;
     protected tryRunMorphing(graphics: IMarkGraphic[]): boolean;
     protected _runStateAnimation(graphics: IMarkGraphic[]): void;
+    protected _setAnimationState(g: IMarkGraphic): void;
     protected _runJoin(data: Datum[]): void;
     _runEncoderOfGraphic(styles: Record<string, (datum: Datum) => any>, g: IMarkGraphic, attrs?: any): any;
     _runGroupEncoder(groupStyles: Record<string, (datum: Datum) => any>): any;
@@ -179,8 +180,9 @@ export declare class BaseMark<T extends ICommonSpec> extends GrammarItem impleme
     protected _runProgressiveApplyGraphic(graphics: IMarkGraphic[]): void;
     protected _runProgressiveStep(): void;
     renderProgressive(): void;
+    protected _aniamtionStateCallback: (g: IMarkGraphic) => AnimationStateValues;
     updateAnimationState(callback: (graphic: IMarkGraphic) => AnimationStateValues): void;
-    hasAnimationByState(state: keyof MarkAnimationSpec): boolean;
+    hasAnimationByState(state: AnimationStateValues): boolean;
     hasAnimation(): boolean;
     runAnimation(): void;
 }
