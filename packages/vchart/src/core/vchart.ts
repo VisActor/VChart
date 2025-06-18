@@ -793,7 +793,6 @@ export class VChart implements IVChart {
     if (!this._beforeRender(option)) {
       return self;
     }
-    this._updateAnimateState(true);
     // 填充数据绘图
     this._compiler?.render(option.morphConfig);
     this._updateAnimateState(false);
