@@ -45,6 +45,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
     onLayoutEnd(): void;
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
+    onBeforeRender(): void;
     onDataUpdate(): void;
     beforeRelease(): void;
     clear(): void;

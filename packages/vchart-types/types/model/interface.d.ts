@@ -76,6 +76,7 @@ export interface IModel extends ICompilable {
     beforeRelease: () => void;
     onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
     onDataUpdate: () => void;
+    onBeforeRender: () => void;
     updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
     getSpec?: () => any;
     getSpecIndex: () => number;

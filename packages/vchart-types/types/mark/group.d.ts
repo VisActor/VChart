@@ -1,7 +1,7 @@
 import type { Maybe } from '../typings';
 import type { IGroupMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { AnimationStateValues, IGroupMark, IMark, IMarkGraphic, MarkType } from './interface';
+import { type AnimationStateValues, type IGroupMark, type IMark, type IMarkGraphic, type MarkType } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { type IMarkCompileOption } from '../compile/mark';
 import type { IGroup, IGroupGraphicAttribute } from '@visactor/vrender-core';

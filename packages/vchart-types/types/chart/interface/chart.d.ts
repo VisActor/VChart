@@ -55,6 +55,7 @@ export interface IChart extends ICompilable {
     onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
     onResize: (width: number, height: number, reRender: boolean) => void;
     onLayout: () => void;
+    onBeforeRender: () => void;
     reInit: () => void;
     getAllSeries: () => ISeries[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
