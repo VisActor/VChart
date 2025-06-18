@@ -31,6 +31,7 @@ export interface IBrushTheme {
 export interface IBrushSpec extends IBrushTheme, IBrushDataBindSpec {
     id?: string;
     visible?: boolean;
+    updateElementsState?: boolean;
 }
 export type IBrushType = 'x' | 'y' | 'rect' | 'polygon';
 export type IBrushMode = 'single' | 'multiple';

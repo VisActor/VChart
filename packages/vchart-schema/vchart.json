@@ -25407,6 +25407,11 @@
           "$ref": "#/definitions/Partial<IPolygonMarkSpec>",
           "description": "brush 的框选样式"
         },
+        "updateElementsState": {
+          "default": true,
+          "description": "是否更新图元状态\n关闭时, brush 事件不会触发图元状态更新, 优化缩放场景下的性能",
+          "type": "boolean"
+        },
         "visible": {
           "default": true,
           "description": "组件可见性",
