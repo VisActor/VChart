@@ -1151,7 +1151,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         priority: item.priority ?? Infinity
       }));
     }
-    return config;
+    return config
+      ? {
+          ...config,
+          // 循环动画的优先级定为最高，不会被屏蔽掉
+          priority: type === 'normal' ? config.priority ?? Infinity : config.priority
+        }
+      : config;
   }
 
   /**
