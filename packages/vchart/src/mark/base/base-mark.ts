@@ -1075,6 +1075,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._dataByKey = (mark as any)._dataByKey;
     this._prevDataByKey = (mark as any)._prevDataByKey;
     this.needClear = (mark as any).needClear;
+    this._aniamtionStateCallback = (mark as any)._aniamtionStateCallback;
   }
 
   private _parseProgressiveContext(data: Datum[]) {
@@ -1146,7 +1147,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     // TODO 因为数据的覆盖特点，无动画的时候新的更新一定会覆盖前一次的旧值，所以默认都是后面的动画覆盖前面的动画
     // TODO 但是如果用户定义了一个动画数组，他的预期是动画不会覆盖，通过priority为INfinity来控制不覆盖
     if (Array.isArray(config)) {
-      config = config.map((item: any, index: number) => ({
+      return config.map((item: any, index: number) => ({
         ...item,
         priority: item.priority ?? Infinity
       }));
