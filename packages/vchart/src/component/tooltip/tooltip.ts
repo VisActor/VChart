@@ -238,7 +238,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     this.processor = {};
 
     (activeType as TooltipActiveType[]).forEach(type => {
-      (this.processor as any)[type] = Factory.createTooltipProcessor(type, this);
+      const instance = Factory.createTooltipProcessor(type, this);
+
+      if (instance) {
+        (this.processor as any)[type] = instance;
+      }
     });
   }
 
