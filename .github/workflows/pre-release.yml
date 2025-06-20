@@ -44,10 +44,37 @@ jobs:
       - name: Apply prereleaseName
         run: node common/scripts/apply-release-version.js ${{ steps.semver_parser.outputs.pre_release_name }} ${{ steps.semver_parser.outputs.main }}
 
-      - name: Build packages
+      - name: Build vutils-extension && vchart
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build --only tag:package
+        run: node common/scripts/install-run-rush.js build --to @visactor/vchart
+
+      # run bugserver after the build of main packages
+      # - name: Run Bugserver
+      #   working-directory: ./packages/vchart
+      #   env:
+      #     BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
+      #   run: node ../../common/scripts/install-run-rushx.js ci
+
+      - name: Build vchart-extension
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node common/scripts/install-run-rush.js build --only @visactor/vchart-extension
+
+      - name: Build react-vchart
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node common/scripts/install-run-rush.js build --only @visactor/react-vchart
+
+      - name: Build openinula-vchart
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node common/scripts/install-run-rush.js build --only @visactor/openinula-vchart
+
+      - name: Build taro-vchart
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node common/scripts/install-run-rush.js build --only @visactor/taro-vchart
 
       - name: Build lark-vchart
         env:
