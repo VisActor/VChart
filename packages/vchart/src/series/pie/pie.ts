@@ -191,7 +191,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       {
         key: DEFAULT_DATA_KEY,
         groupKey: this._seriesField,
-        skipBeforeLayouted: true,
         isSeriesMark: true
       },
       {

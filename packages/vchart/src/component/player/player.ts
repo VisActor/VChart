@@ -330,6 +330,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     // 自动播放
     this._option.globalInstance.on(ChartEvent.rendered, () => {
       if (this._spec?.auto) {
+        this._playerComponent.pause();
         this._playerComponent.play();
       }
     });

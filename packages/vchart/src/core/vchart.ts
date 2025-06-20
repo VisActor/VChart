@@ -793,7 +793,6 @@ export class VChart implements IVChart {
     if (!this._beforeRender(option)) {
       return self;
     }
-    this._updateAnimateState(true);
     // 填充数据绘图
     this._compiler?.render(option.morphConfig);
     this._updateAnimateState(false);
@@ -811,7 +810,7 @@ export class VChart implements IVChart {
       const updateGraphicAnimationState = (graphic: IMarkGraphic) => {
         const diffState = graphic.context?.diffState;
         if (initial) {
-          return diffState === 'exit' ? undefined : AnimationStateEnum.appear;
+          return diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
         }
         return diffState;
       };
@@ -939,13 +938,12 @@ export class VChart implements IVChart {
     if (this._chart) {
       this._chart.updateData(id, data, true, parserOptions);
 
-      // after layout
-      this._compiler.render();
-
       if (userUpdateOptions?.reAnimate) {
         this.stopAnimation();
         this._updateAnimateState(true);
       }
+      this._compiler.render();
+
       return this as unknown as IVChart;
     }
     this._spec.data = array(this._spec.data);
@@ -968,11 +966,12 @@ export class VChart implements IVChart {
     if (this._chart) {
       this._chart.updateFullData(data);
       if (reRender) {
-        this._compiler.render();
         if (userUpdateOptions?.reAnimate) {
           this.stopAnimation();
           this._updateAnimateState(true);
         }
+
+        this._compiler.render();
       }
       return this as unknown as IVChart;
     }
