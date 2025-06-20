@@ -23979,6 +23979,12 @@
           "$ref": "#/definitions/Partial<IPolygonMarkSpec>",
           "description": "brush 的框选样式"
         },
+        "updateElementsState": {
+          "default": true,
+          "description": "是否更新图元状态\n关闭时, brush 事件不会触发图元状态更新, 优化缩放场景下的性能",
+          "since": "1.13.13",
+          "type": "boolean"
+        },
         "visible": {
           "default": true,
           "description": "组件可见性",
@@ -78908,7 +78914,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         },
         "size": {
@@ -78916,14 +78922,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12764",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         },
         "size": {
@@ -78931,14 +78937,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12764",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         },
         "size": {
@@ -78946,14 +78952,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12764",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         },
         "size": {
@@ -78961,14 +78967,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12764",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         },
         "size": {
@@ -78976,14 +78982,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12764",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         },
         "size": {
@@ -78991,14 +78997,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12764",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         },
         "size": {
@@ -79006,7 +79012,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12764",
         "size"
       ],
       "type": "object"
@@ -100484,34 +100490,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12762"
+        "__@toStringTag@12764"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12762"
+        "__@toStringTag@12764"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12764": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12762"
+        "__@toStringTag@12764"
       ],
       "type": "object"
     },

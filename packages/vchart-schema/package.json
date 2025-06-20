@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-schema",
-  "version": "2.0.0",
+  "version": "2.0.1-alpha.2",
   "description": "The VChart JSON schema file.",
   "sideEffects": false,
   "main": "vchart.json",
