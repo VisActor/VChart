@@ -46,7 +46,6 @@ if (VCHART_MODULE.register3DPlugin) {
 }
 /** --Remove the above code when using in business-- */
 
-VCHART_MODULE.register3DPlugin();
 const data = [
   { continent: 'Americas', Country: 'Argentina', LifeExpectancy: 75.32, GDP: 12779.37964, Population: 40301927 },
   { continent: 'Americas', Country: 'Brazil', LifeExpectancy: 72.39, GDP: 9065.800825, Population: 190010647 },
