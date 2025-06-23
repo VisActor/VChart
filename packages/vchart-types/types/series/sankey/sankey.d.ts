@@ -50,6 +50,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     private _createText;
     initAnimation(): void;
     protected initEvent(): void;
+    protected _initEmphasisEvent(): void;
     private nodesSeriesDataUpdate;
     private linksSeriesDataUpdate;
     protected _handleEmphasisElement: (params: ExtendEventParam) => void;
