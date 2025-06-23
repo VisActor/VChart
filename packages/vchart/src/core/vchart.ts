@@ -814,8 +814,12 @@ export class VChart implements IVChart {
         }
         return diffState;
       };
-      this._compiler.getRootMarks().forEach(mark => {
-        mark.updateAnimationState(updateGraphicAnimationState);
+
+      this._chart?.getAllRegions().forEach(region => {
+        region.updateAnimateStateCallback(updateGraphicAnimationState);
+      });
+      this._chart?.getAllComponents().forEach(component => {
+        component.updateAnimateStateCallback(updateGraphicAnimationState);
       });
     }
   }

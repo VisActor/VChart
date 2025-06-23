@@ -6,14 +6,21 @@ import type {
   IModel,
   IModelInitOption,
   IModelOption,
-  IModelRenderOption,
   IModelEvaluateOption,
   IModelSpec,
   IModelMarkInfo,
   IModelSpecInfo
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { ICompileMarkConfig, IMark, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
+import type {
+  AnimationStateValues,
+  ICompileMarkConfig,
+  IMark,
+  IMarkGraphic,
+  IMarkOption,
+  IMarkRaw,
+  IMarkStyle
+} from '../mark/interface';
 import type {
   Datum,
   StateValueType,
@@ -323,5 +330,15 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
       return 0;
     }
     return index;
+  }
+
+  private _aniamtionStateCallback: (graphic: IMarkGraphic) => AnimationStateValues;
+
+  updateAnimateStateCallback(callback: (graphic: IMarkGraphic) => AnimationStateValues) {
+    this._aniamtionStateCallback = callback;
+  }
+
+  getAnimationStateCallback() {
+    return this._aniamtionStateCallback;
   }
 }
