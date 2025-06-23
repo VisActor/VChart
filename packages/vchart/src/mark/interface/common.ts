@@ -59,7 +59,7 @@ export type IMarkStyle<T extends ICommonSpec> = {
 
 export type DiffStateValues = 'update' | 'enter' | 'exit';
 
-export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear';
+export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear' | 'none' | 'state';
 
 export interface IGraphicContext {
   markType: MarkTypeEnum;

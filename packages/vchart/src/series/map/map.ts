@@ -127,8 +127,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       MapSeries.mark.area,
       {
         groupKey: this.getDimensionField()[0],
-        isSeriesMark: true,
-        skipBeforeLayouted: true
+        isSeriesMark: true
       },
       {
         morph: shouldMarkDoMorph(this._spec, MapSeries.mark.area.name),
