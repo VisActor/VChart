@@ -1977,7 +1977,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   }
 
-  protected _aniamtionStateCallback: (g: IMarkGraphic) => AnimationStateValues;
+  protected _aniamtionStateCallback: (g: IMarkGraphic) => AnimationStateValues = (graphic: IMarkGraphic) => {
+    const diffState = graphic.context?.diffState;
+    return diffState === AnimationStateEnum.exit
+      ? AnimationStateEnum.exit
+      : diffState === AnimationStateEnum.update
+      ? AnimationStateEnum.update
+      : AnimationStateEnum.appear;
+  };
 
   updateAnimationState(callback: (graphic: IMarkGraphic) => AnimationStateValues) {
     this._aniamtionStateCallback = callback;

@@ -29,6 +29,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     return this._marks;
   }
 
+  protected _diffState = DiffState.enter;
   protected declare _product: Maybe<IGroup>;
   declare getProduct: () => Maybe<IGroup>;
 
@@ -117,12 +118,11 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     }
 
     const style = this._simpleStyle ?? this.getAttributesOfState({});
-    const prevState = this._product.context?.diffState;
 
     this._product.context = {
       ...this._product.context,
       ...this._getCommonContext(),
-      diffState: prevState ? DiffState.update : DiffState.enter
+      diffState: this._diffState
     };
     this._setAnimationState(this._product as unknown as IMarkGraphic);
     const newAttrs = this._getAttrsFromConfig(style);
@@ -145,6 +145,11 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     }
 
     this.needClear = true;
+  }
+
+  clearExitGraphics() {
+    // group 暂时不需要clear元素，完成首次渲染后 将状态设置为update
+    this._diffState = DiffState.update;
   }
 
   render(): void {
