@@ -67,7 +67,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   private _needClear: boolean;
 
   get direction() {
-    return this._spec.direction ?? 'horizontal';
+    return this._spec?.direction ?? 'horizontal';
   }
   getCategoryField() {
     return this._categoryField;
@@ -465,6 +465,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     this._nodesSeriesData.getDataView()?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
     this._linksSeriesData.getDataView()?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
+    this._initEmphasisEvent();
+  }
+
+  protected _initEmphasisEvent(): void {
     const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
     // 没有关闭交互时，才增加这些交互事件
     if (this._option.disableTriggerEvent !== true) {
