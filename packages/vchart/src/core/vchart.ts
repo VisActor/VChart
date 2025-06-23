@@ -814,8 +814,12 @@ export class VChart implements IVChart {
         }
         return diffState;
       };
-      this._compiler.getRootMarks().forEach(mark => {
-        mark.updateAnimationState(updateGraphicAnimationState);
+
+      this._chart?.getAllRegions().forEach(region => {
+        region.updateAnimateStateCallback(updateGraphicAnimationState);
+      });
+      this._chart?.getAllComponents().forEach(component => {
+        component.updateAnimateStateCallback(updateGraphicAnimationState);
       });
     }
   }
@@ -1901,16 +1905,22 @@ export class VChart implements IVChart {
 
   /** 停止正在进行的所有动画 */
   stopAnimation() {
-    // this._compiler?.getVGrammarView()?.animate?.stop();
+    this.getStage()?.stopAnimation(true);
+  }
+
+  reRunNormalAnimation() {
+    this.getStage()?.reApplyAnimationState('normal', true);
   }
 
   /** 暂停正在进行的所有动画 */
   pauseAnimation() {
+    this.getStage()?.pauseAnimation(true);
     // this._compiler?.getVGrammarView()?.animate?.pause();
   }
 
   /** 恢复暂停时正在进行的所有动画 */
   resumeAnimation() {
+    this.getStage()?.resumeAnimation(true);
     // this._compiler?.getVGrammarView()?.animate?.resume();
   }
 

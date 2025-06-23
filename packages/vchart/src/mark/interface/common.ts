@@ -228,8 +228,6 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   renderProgressive: () => void;
   /** 增量流程后，是否执行动画 */
   canAnimateAfterProgressive: () => boolean;
-  /** 更新图元动画状态 */
-  updateAnimationState: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
   /** 执行动画 */
   runAnimation: () => void;
   /** 是否需要清除旧的数据 */

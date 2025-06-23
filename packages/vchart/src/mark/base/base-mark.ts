@@ -1075,7 +1075,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._dataByKey = (mark as any)._dataByKey;
     this._prevDataByKey = (mark as any)._prevDataByKey;
     this.needClear = (mark as any).needClear;
-    this._aniamtionStateCallback = (mark as any)._aniamtionStateCallback;
   }
 
   private _parseProgressiveContext(data: Datum[]) {
@@ -1272,7 +1271,19 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   protected _setAnimationState(g: IMarkGraphic) {
-    const customizedState = this._aniamtionStateCallback ? this._aniamtionStateCallback(g) : undefined;
+    const callback =
+      (this.type === MarkTypeEnum.component
+        ? this.model.getAnimationStateCallback()
+        : (this.model as ISeries).getRegion?.()?.getAnimationStateCallback()) ||
+      ((g: IMarkGraphic) => {
+        const diffState = g.context?.diffState;
+        return diffState === AnimationStateEnum.exit
+          ? AnimationStateEnum.exit
+          : diffState === AnimationStateEnum.update
+          ? AnimationStateEnum.update
+          : AnimationStateEnum.appear;
+      });
+    const customizedState = callback(g);
 
     g.context.animationState = customizedState ?? g.context.diffState;
 
@@ -1975,12 +1986,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     } else if (this.renderContext.progressive) {
       this._runProgressiveStep();
     }
-  }
-
-  protected _aniamtionStateCallback: (g: IMarkGraphic) => AnimationStateValues;
-
-  updateAnimationState(callback: (graphic: IMarkGraphic) => AnimationStateValues) {
-    this._aniamtionStateCallback = callback;
   }
 
   hasAnimationByState(state: AnimationStateValues) {
