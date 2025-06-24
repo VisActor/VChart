@@ -1905,23 +1905,21 @@ export class VChart implements IVChart {
 
   /** 停止正在进行的所有动画 */
   stopAnimation() {
-    this.getStage()?.stopAnimation(true);
+    (this.getStage() as any)?.stopAnimation(true);
   }
 
   reRunNormalAnimation() {
-    this.getStage()?.reApplyAnimationState('normal', true);
+    (this.getStage() as any)?.reApplyAnimationState('normal', true);
   }
 
   /** 暂停正在进行的所有动画 */
   pauseAnimation() {
-    this.getStage()?.pauseAnimation(true);
-    // this._compiler?.getVGrammarView()?.animate?.pause();
+    (this.getStage() as any)?.pauseAnimation(true);
   }
 
   /** 恢复暂停时正在进行的所有动画 */
   resumeAnimation() {
-    this.getStage()?.resumeAnimation(true);
-    // this._compiler?.getVGrammarView()?.animate?.resume();
+    (this.getStage() as any)?.resumeAnimation(true);
   }
 
   // TODO: 后续需要考虑滚动场景
