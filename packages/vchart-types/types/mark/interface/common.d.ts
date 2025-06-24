@@ -35,7 +35,7 @@ export type IMarkStyle<T extends ICommonSpec> = {
     [key in keyof T]: MarkInputStyle<T[key]>;
 };
 export type DiffStateValues = 'update' | 'enter' | 'exit';
-export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear';
+export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear' | 'none' | 'state';
 export interface IGraphicContext {
     markType: MarkTypeEnum;
     markId: number;
@@ -92,7 +92,6 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     restartProgressive: () => void;
     renderProgressive: () => void;
     canAnimateAfterProgressive: () => boolean;
-    updateAnimationState: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
     runAnimation: () => void;
     needClear?: boolean;
 }
