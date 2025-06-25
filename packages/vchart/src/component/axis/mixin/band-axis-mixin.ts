@@ -198,7 +198,8 @@ export class BandAxisMixin {
     const labelItems: Dict<any>[][] = [];
     let preData: any[] = [];
 
-    this._scales.forEach((scale, index) => {
+    // 只有需要展示多层标签的时候，才需要计算，否则不需要计算
+    (this._spec.showAllGroupLayers ? this._scales : [this._scales[0]]).forEach((scale, index) => {
       const tickData = this._tickDataMap[index];
 
       // 因为多层级标签会依赖上一层标签的分组值定位，所以如果上一层标签没有内容，那么就直接获取 bandScale 的 domain()
