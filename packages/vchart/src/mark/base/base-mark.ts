@@ -224,6 +224,18 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._animationConfig = animationConfig;
   }
 
+  protected _disabledAnimationStates?: string[] = [];
+
+  disableAnimationByState(state: string | string[]) {
+    const states = array(state);
+    this._disabledAnimationStates = [...new Set([...this._disabledAnimationStates, ...states])];
+  }
+
+  enableAnimationByState(state: string | string[]) {
+    const states = array(state);
+    this._disabledAnimationStates = this._disabledAnimationStates.filter(s => !states.includes(s));
+  }
+
   /** 布局标记 */
   private _skipBeforeLayouted = false;
 
@@ -1989,7 +2001,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   hasAnimationByState(state: AnimationStateValues) {
-    if (!state || !this._animationConfig || !(this._animationConfig as any)[state]) {
+    if (
+      !state ||
+      !this._animationConfig ||
+      !(this._animationConfig as any)[state] ||
+      this._disabledAnimationStates.includes(state)
+    ) {
       return false;
     }
     const stateAnimationConfig = (this._animationConfig as any)[state];

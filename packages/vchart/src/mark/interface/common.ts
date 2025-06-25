@@ -232,6 +232,10 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   runAnimation: () => void;
   /** 是否需要清除旧的数据 */
   needClear?: boolean;
+  /** 禁用状态动画 */
+  disableAnimationByState: (state: string | string[]) => void;
+  /** 启用状态动画 */
+  enableAnimationByState: (state: string | string[]) => void;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;
