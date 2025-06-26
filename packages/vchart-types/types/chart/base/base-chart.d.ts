@@ -77,6 +77,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     onLayoutStart(option: IChartLayoutOption): void;
     onLayoutEnd(option: IChartLayoutOption): void;
     onEvaluateEnd(option: IChartEvaluateOption): void;
+    onBeforeRender(view: IView): void;
     getLayoutElements(): ILayoutItem[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
     getAllRegions: () => IRegion[];
