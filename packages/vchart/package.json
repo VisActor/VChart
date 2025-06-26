@@ -118,9 +118,9 @@
     "cross-env": "^7.0.3"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.19.5",
-    "@visactor/vdataset": "~0.19.5",
-    "@visactor/vscale": "~0.19.5",
+    "@visactor/vutils": "~0.19.7",
+    "@visactor/vdataset": "~0.19.7",
+    "@visactor/vscale": "~0.19.7",
     "@visactor/vrender-core": "0.22.14",
     "@visactor/vrender-kits": "0.22.14",
     "@visactor/vrender-components": "0.22.14",
