@@ -171,6 +171,18 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
      * adjacency: 高亮当前节点上下游节点和关联的边，淡化其它图形元素。
      * related： 高亮与当前节点相关的整条路径上的节点和边，淡化其它图形元素。 */
     effect: 'self' | 'adjacency' | 'related';
+    /**
+     * 高亮状态
+     * @default 'selected'
+     * @since 1.13.13
+     */
+    highlightState?: string;
+    /**
+     * 失焦状态
+     * @default 'blur'
+     * @since 1.13.13
+     */
+    blurState?: string;
   };
 
   /** 标签配置 */
