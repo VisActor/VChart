@@ -493,29 +493,31 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   protected _handleEmphasisElement = (params: ExtendEventParam) => {
     const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
+    const highlightState = emphasisSpec.highlightState ?? STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS;
+    const blurState = emphasisSpec.blurState ?? STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE;
 
     const element = params.item;
 
     if (emphasisSpec.effect === 'adjacency') {
       if (element && element.mark === this._nodeMark?.getProduct()) {
-        this._handleNodeAdjacencyClick(element);
+        this._handleNodeAdjacencyClick(element, highlightState, blurState);
       } else if (element && element.mark === this._linkMark?.getProduct()) {
-        this._handleLinkAdjacencyClick(element);
+        this._handleLinkAdjacencyClick(element, highlightState, blurState);
       } else {
-        this._handleClearEmpty();
+        this._handleClearEmpty(highlightState, blurState);
       }
     } else if (emphasisSpec.effect === 'related') {
       if (element && element.mark === this._nodeMark?.getProduct()) {
-        this._handleNodeRelatedClick(element);
+        this._handleNodeRelatedClick(element, highlightState, blurState);
       } else if (element && element.mark === this._linkMark?.getProduct()) {
-        this._handleLinkRelatedClick(element);
+        this._handleLinkRelatedClick(element, highlightState, blurState);
       } else {
-        this._handleClearEmpty();
+        this._handleClearEmpty(highlightState, blurState);
       }
     }
   };
 
-  protected _handleClearEmpty = () => {
+  protected _handleClearEmpty = (highlightState: string, blurState: string) => {
     if (!this._needClear) {
       return;
     }
@@ -532,7 +534,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return;
     }
 
-    const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
+    const states = [highlightState, blurState];
 
     allNodeElements.forEach(el => {
       el.removeState(states);
@@ -544,7 +546,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._needClear = false;
   };
 
-  protected _handleNodeAdjacencyClick = (element: IElement) => {
+  protected _handleNodeAdjacencyClick = (element: IElement, highlightState: string, blurState: string) => {
     const nodeDatum = element.getDatum();
     const highlightNodes: string[] = [nodeDatum.key];
 
@@ -564,31 +566,31 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             highlightNodes.push(linkDatum.target);
           }
 
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.removeState(blurState);
+          linkEl.addState(highlightState); // 设置上用户配置选中状态
         } else if (linkDatum.target === nodeDatum.key) {
           // 上游link
           if (!highlightNodes.includes(linkDatum.source)) {
             highlightNodes.push(linkDatum.source);
           }
 
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS); // 设置上用户配置选中状态
+          linkEl.removeState(blurState);
+          linkEl.addState(highlightState); // 设置上用户配置选中状态
         } else {
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.removeState(highlightState);
+          linkEl.addState(blurState);
         }
       });
     }
 
     if (this._nodeMark) {
-      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes, highlightState, blurState);
     }
 
     this._needClear = true;
   };
 
-  protected _handleLinkAdjacencyClick = (element: IGlyphElement) => {
+  protected _handleLinkAdjacencyClick = (element: IGlyphElement, highlightState: string, blurState: string) => {
     const curLinkDatum = element.getDatum();
     const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
 
@@ -599,23 +601,23 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       }
       allLinkElements.forEach(linkEl => {
         if (linkEl === element) {
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
+          linkEl.removeState(blurState);
+          linkEl.addState(highlightState, { ratio: 1 });
         } else {
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.removeState(highlightState);
+          linkEl.addState(blurState, { ratio: 1 });
         }
       });
     }
 
     if (this._nodeMark) {
-      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes, highlightState, blurState);
     }
 
     this._needClear = true;
   };
 
-  protected _handleNodeRelatedClick = (element: IElement) => {
+  protected _handleNodeRelatedClick = (element: IElement, highlightState: string, blurState: string) => {
     const nodeDatum = element.getDatum();
     const allNodeElements = this._nodeMark.getProductElements();
 
@@ -727,17 +729,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
         allLinkElements.forEach((linkEl: IElement, i: number) => {
           if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
-            linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+            linkEl.removeState(blurState);
+            linkEl.addState(highlightState);
           } else {
-            linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+            linkEl.removeState(highlightState);
+            linkEl.addState(blurState);
           }
         });
       }
 
       if (this._nodeMark) {
-        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes, highlightState, blurState);
       }
     } else {
       // 层级型数据
@@ -796,8 +798,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }, 0);
           const ratio = val / linkDatum.value;
 
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
+          linkEl.removeState(blurState);
+          linkEl.addState(highlightState, { ratio }); // 设置默认的部分高亮
 
           return;
         }
@@ -812,27 +814,27 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             highlightNodes.push(linkDatum.target);
           }
 
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
+          linkEl.removeState(blurState);
+          linkEl.addState(highlightState, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
 
           return;
         }
 
-        linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        linkEl.removeState(highlightState);
+        linkEl.addState(blurState);
 
         return;
       });
 
       if (this._nodeMark) {
-        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
+        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes, highlightState, blurState);
       }
     }
 
     this._needClear = true;
   };
 
-  protected _handleLinkRelatedClick = (element: IGlyphElement) => {
+  protected _handleLinkRelatedClick = (element: IGlyphElement, highlightState: string, blurState: string) => {
     const allNodeElements = this._nodeMark.getProductElements();
 
     if (!allNodeElements || !allNodeElements.length) {
@@ -846,7 +848,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     const father = element.getDatum()?.parents ? 'parents' : 'source';
     if (father === 'source') {
-      const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
+      const states = [highlightState, blurState];
       if (this._linkMark) {
         allLinkElements.forEach(linkEl => {
           linkEl.removeState(states);
@@ -897,8 +899,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
         if (linkDatum.source === curLinkDatum.source && linkDatum.target === curLinkDatum.target) {
           // 自身
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
+          linkEl.removeState(blurState);
+          linkEl.addState(highlightState, { ratio: 1 });
           return;
         }
 
@@ -930,8 +932,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             }, 0);
           const ratio = val / linkDatum.value;
 
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio }); // 设置默认的部分高亮
+          linkEl.removeState(blurState);
+          linkEl.addState(highlightState, { ratio }); // 设置默认的部分高亮
 
           return;
         }
@@ -948,35 +950,40 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           if (!highlightNodes.includes(linkDatum.target)) {
             highlightNodes.push(linkDatum.target);
           }
-          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
+          linkEl.removeState(blurState);
+          linkEl.addState(highlightState, { ratio: upSelectedLink.value / linkDatum.value }); // 设置默认的部分高亮
 
           return;
         }
-        linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        linkEl.removeState(highlightState);
+        linkEl.addState(blurState);
 
         return;
       });
 
-      this._highLightElements(allNodeElements, highlightNodes);
+      this._highLightElements(allNodeElements, highlightNodes, highlightState, blurState);
     }
 
     this._needClear = true;
   };
 
-  protected _highLightElements(vGrammarElements: IVgrammarMark['elements'], highlightNodes: string[]) {
+  protected _highLightElements(
+    vGrammarElements: IVgrammarMark['elements'],
+    highlightNodes: string[],
+    highlightState: string,
+    blurState: string
+  ) {
     if (!vGrammarElements || !vGrammarElements.length) {
       return;
     }
 
     vGrammarElements.forEach(el => {
-      el.removeState([STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]);
+      el.removeState([blurState, highlightState]);
 
       if (highlightNodes.includes(el.getDatum().key)) {
-        el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+        el.addState(highlightState);
       } else {
-        el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        el.addState(blurState);
       }
     });
   }
