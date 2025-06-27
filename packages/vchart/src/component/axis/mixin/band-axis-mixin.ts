@@ -31,6 +31,7 @@ export interface BandAxisMixin {
   _forceLayout: () => void;
   _getNormalizedValue: (values: any[], length: number) => number;
   _onTickDataChange: (compilableData: CompilableData) => void;
+  registerTicksTransform: () => string;
 }
 
 export class BandAxisMixin {
@@ -73,6 +74,30 @@ export class BandAxisMixin {
       };
     }
   }
+
+  protected _updateData() {
+    const tickTransformType = this.registerTicksTransform();
+
+    if (this._spec.showAllGroupLayers && this._scales.length > 1) {
+      const layers = this._spec.layers ?? [];
+      Object.keys(this._tickDataMap).forEach(layer => {
+        const layerConfig = layers[this._scales.length - 1 - +layer] || {};
+        const tickData = this._tickDataMap[layer];
+        const tickTransform = tickData?.getDataView().transformsArr.find((t: any) => t.type === tickTransformType);
+
+        tickTransform &&
+          (tickTransform.options = {
+            ...this._tickTransformOption(),
+            ...layerConfig
+          });
+      });
+    } else {
+      const tickTransform = this._tickData?.[0]?.getDataView().transformsArr.find(t => t.type === tickTransformType);
+
+      tickTransform && (tickTransform.options = this._tickTransformOption());
+    }
+  }
+
   protected _rawDomainIndex: { [key: string | number | symbol]: number }[] = [];
 
   dataToPosition(values: any[], cfg: IAxisLocationCfg = {}): number {
