@@ -30,6 +30,7 @@ export interface BandAxisMixin {
   _tickTransformOption: () => any;
   _forceLayout: () => void;
   _getNormalizedValue: (values: any[], length: number) => number;
+  registerTicksTransform: () => string;
 }
 
 export class BandAxisMixin {
@@ -68,6 +69,30 @@ export class BandAxisMixin {
       };
     }
   }
+
+  protected _updateData() {
+    const tickTransformType = this.registerTicksTransform();
+
+    if (this._spec.showAllGroupLayers && this._scales.length > 1) {
+      const layers = this._spec.layers ?? [];
+      Object.keys(this._tickDataMap).forEach(layer => {
+        const layerConfig = layers[this._scales.length - 1 - +layer] || {};
+        const tickData = this._tickDataMap[layer];
+        const tickTransform = tickData?.getDataView().transformsArr.find((t: any) => t.type === tickTransformType);
+
+        tickTransform &&
+          (tickTransform.options = {
+            ...this._tickTransformOption(),
+            ...layerConfig
+          });
+      });
+    } else {
+      const tickTransform = this._tickData?.[0]?.getDataView().transformsArr.find(t => t.type === tickTransformType);
+
+      tickTransform && (tickTransform.options = this._tickTransformOption());
+    }
+  }
+
   protected _rawDomainIndex: { [key: string | number | symbol]: number }[] = [];
 
   dataToPosition(values: any[], cfg: IAxisLocationCfg = {}): number {
@@ -173,7 +198,8 @@ export class BandAxisMixin {
     const labelItems: Dict<any>[][] = [];
     let preData: any[] = [];
 
-    this._scales.forEach((scale, index) => {
+    // 只有需要展示多层标签的时候，才需要计算，否则不需要计算
+    (this._spec.showAllGroupLayers ? this._scales : [this._scales[0]]).forEach((scale, index) => {
       const tickData = this._tickDataMap[index];
 
       // 因为多层级标签会依赖上一层标签的分组值定位，所以如果上一层标签没有内容，那么就直接获取 bandScale 的 domain()
