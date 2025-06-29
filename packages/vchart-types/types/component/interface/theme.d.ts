@@ -6,7 +6,6 @@ import type { IScrollBarTheme } from '../data-zoom/scroll-bar/interface';
 import type { IIndicatorTheme } from '../indicator/interface';
 import type { IDiscreteLegendTheme } from '../legend/discrete/interface';
 import type { IColorLegendTheme, ISizeLegendTheme } from '../legend/continuous/interface';
-import type { IMapLabelTheme } from '../map-label/interface';
 import type { IMarkAreaTheme } from '../marker/mark-area/interface';
 import type { IMarkLineTheme } from '../marker/mark-line/interface';
 import type { IMarkPointTheme } from '../marker/mark-point/interface';
@@ -26,7 +25,6 @@ export interface IComponentTheme {
     axisLinear?: IAxisCommonTheme;
     axisX?: ICartesianAxisCommonTheme;
     axisY?: ICartesianAxisCommonTheme;
-    axisZ?: ICartesianAxisCommonTheme;
     axisRadius?: IPolarAxisCommonTheme;
     axisAngle?: IPolarAxisCommonTheme;
     [ComponentTypeEnum.discreteLegend]?: IDiscreteLegendTheme;
@@ -47,9 +45,9 @@ export interface IComponentTheme {
     [ComponentTypeEnum.player]?: IPlayerTheme;
     [ComponentTypeEnum.brush]?: IBrushTheme;
     [ComponentTypeEnum.title]?: ITitleTheme;
-    [ComponentTypeEnum.mapLabel]?: IMapLabelTheme;
     [ComponentTypeEnum.poptip]?: IPoptipTheme;
     [ComponentTypeEnum.totalLabel]?: ITotalLabelTheme;
+    [key: string]: any;
 }
 export type ComponentThemeWithDirection<T extends {
     orient?: IOrientType;

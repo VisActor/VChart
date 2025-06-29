@@ -98,9 +98,10 @@ export interface IChart extends ICompilable {
   onLayoutStart: (ctx: IChartLayoutOption) => void;
   onLayoutEnd: (ctx: IChartLayoutOption) => void;
   onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
-  onRender: (ctx: IChartRenderOption) => void;
   onResize: (width: number, height: number, reRender: boolean) => void;
   onLayout: () => void;
+  onBeforeRender: () => void;
+
   /**
    * 图表更新的时候按需调用
    * @since 1.11.0

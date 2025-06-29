@@ -436,6 +436,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const dataCollection: any[] = [];
     const stateFields: string[] = [];
     const valueFields: string[] = [];
+    let isCategoryState: boolean;
 
     if (this._relatedAxisComponent) {
       const originalStateFields = {};
@@ -467,8 +468,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
               ? xAxisHelper
               : yAxisHelper;
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
-          const isValidateValueAxis = isContinuous(valueAxisHelper.getScale(0).type);
-          const isValidateStateAxis = isContinuous(stateAxisHelper.getScale(0).type);
 
           dataCollection.push(s.getRawData());
           // 这里获取原始的spec中的xField和yField，而非经过stack处理后的fieldX和fieldY，原因如下：
@@ -488,7 +487,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           originalStateFields[s.id] =
             s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
 
-          if (isValidateStateAxis) {
+          if (isContinuous(stateAxisHelper.getScale(0).type)) {
+            isCategoryState = false;
             stateFields.push(originalStateFields[s.id]);
           } else {
             stateFields.push(originalStateFields[s.id][0]);
@@ -496,7 +496,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
           if (this._valueField) {
             const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
-            if (isValidateValueAxis) {
+            if (isContinuous(valueAxisHelper.getScale(0).type)) {
               valueFields.push(...valueField);
             }
           }
@@ -536,7 +536,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           input: {
             dataCollection: dataCollection,
             stateFields,
-            valueFields
+            valueFields,
+            isCategoryState
           },
           output: {
             stateField: this._stateField,
@@ -754,11 +755,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
   }
 
-  /** LifeCycle API**/
-  onRender(ctx: any): void {
-    // do nothing
-  }
-
   /**
    * updateSpec
    */
@@ -780,16 +776,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         this.initMarkStyleWithSpec(m, (this._spec as any)[m.name]);
       });
     });
-  }
-
-  changeRegions() {
-    // do nothing
-  }
-  protected update(ctx: IComponentOption) {
-    // do nothing
-  }
-  protected resize(ctx: IComponentOption) {
-    // do nothing
   }
 
   protected _parseDomainFromState(startValue: number | string, endValue: number | string) {

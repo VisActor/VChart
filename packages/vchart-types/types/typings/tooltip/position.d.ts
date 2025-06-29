@@ -6,7 +6,7 @@ export interface ITooltipPositionFixedValue {
     offset?: number;
 }
 export type TooltipPositionPatternItem = TooltipPositionValue | ITooltipPositionFixedValue;
-export type TooltipFixedPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'lt' | 'tr' | 'rt' | 'bl' | 'lb' | 'br' | 'rb' | 'center' | 'centerTop' | 'centerBottom' | 'centerLeft' | 'centerRight' | 'inside';
+export type TooltipFixedPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'lt' | 'tr' | 'rt' | 'bl' | 'lb' | 'br' | 'rb' | 'center' | 'centerTop' | 'centerBottom' | 'centerLeft' | 'centerRight' | 'inside' | 'insideTop' | 'insideBottom' | 'insideLeft' | 'insideRight' | 'insideTopLeft' | 'insideTopRight' | 'insideBottomLeft' | 'insideBottomRight';
 export type TooltipPositionMode = 'pointer' | 'mark' | 'crosshair';
 export interface IGlobalTooltipPositionPattern {
     left?: TooltipPositionValue;

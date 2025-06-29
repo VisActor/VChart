@@ -86,6 +86,25 @@
 - "break-word": 不允许 CJK（中文/日文/韩文）文本中的单词换行，只能在半角空格或连字符处换行。
 - "keep-all": CJK（中文/日文/韩文）文本不断行。非 CJK 文本单词不断行。（从 1.12.8 版本开始支持）
 
+#${prefix} whiteSpace(string) = 'no-wrap'
+
+是否折行
+
+可选值：
+
+- "no-wrap": 不允许折行
+- "normal": 允许折行
+
+#${prefix} suffixPosition(string) = 'end'
+
+如果显示后缀的话，后缀显示的位置
+
+可选值：
+
+- "start": 在文本的开头
+- "middle": 在文本的中间
+- "end": 在文本的结尾
+
 #${prefix} keepDirIn3d(boolean)
 
 是否在 3d 模式中始终保持方向朝向窗口（配置为 false 则会随着视角旋转而旋转，配置为 true，那么方向始终朝向窗口）

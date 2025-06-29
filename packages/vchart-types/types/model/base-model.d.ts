@@ -1,14 +1,14 @@
 import type { IEvent } from '../event/interface';
-import type { IEffect, IModel, IModelInitOption, IModelOption, IModelRenderOption, IModelEvaluateOption, IModelSpec, IModelMarkInfo, IModelSpecInfo } from './interface';
+import type { IEffect, IModel, IModelInitOption, IModelOption, IModelEvaluateOption, IModelSpec, IModelMarkInfo, IModelSpecInfo } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { ICompileMarkConfig, IMark, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect, ILayoutRect } from '../typings';
-import type { CompilableData } from '../compile/data/compilable-data';
-import type { IGroupMark } from '@visactor/vgrammar-core';
 import { MarkSet } from '../mark/mark-set';
 import type { ILayoutItem } from '../layout/interface';
 import { CompilableBase } from '../compile/compilable-base';
 import { BaseModelSpecTransformer } from './base-model-transformer';
+import type { IGroup } from '@visactor/vrender-core';
+import type { ICompilableData } from '../compile/data/interface';
 export declare abstract class BaseModel<T extends IModelSpec> extends CompilableBase implements IModel {
     readonly transformerConstructor: typeof BaseModelSpecTransformer;
     protected _spec: T;
@@ -21,8 +21,8 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     userId: StringOrNumber | undefined;
     readonly event: IEvent;
     readonly effect: IEffect;
-    protected _data: CompilableData;
-    getData(): CompilableData;
+    protected _data: ICompilableData;
+    getData(): ICompilableData;
     protected _layout?: ILayoutItem;
     get layout(): ILayoutItem;
     readonly specKey: string;
@@ -32,7 +32,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     getMarks(): IMark[];
     getMarkNameMap(): Record<string, IMark>;
     getMarkSet(): MarkSet;
-    getChart(): import("../chart/interface").IChart;
+    getChart(): import("..").IChart;
     protected get _theme(): any;
     protected _lastLayoutRect: ILayoutRect;
     constructor(spec: T, option: IModelOption);
@@ -42,10 +42,9 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     init(option: IModelInitOption): void;
     afterInit(): void;
     getVisible(): boolean;
-    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
+    onLayoutEnd(): void;
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
-    abstract onRender(ctx: IModelRenderOption): void;
     onDataUpdate(): void;
     beforeRelease(): void;
     clear(): void;
@@ -69,13 +68,13 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     setAttrFromSpec(): void;
     protected _convertMarkStyle<T extends ICommonSpec = ICommonSpec>(style: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>): Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>;
     setMarkStyle<T extends ICommonSpec>(mark: IMarkRaw<T>, style?: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>, state?: StateValueType, level?: number): void;
-    initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void;
+    initMarkStyleWithSpec(mark?: IMark, spec?: any): void;
     protected stateKeyToSignalName(key: string, opt?: string): string;
     compileData(): void;
-    compileMarks(group?: string | IGroupMark): void;
+    compileMarks(group?: IGroup): void;
     protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option?: Partial<IMarkOption>, config?: ICompileMarkConfig): T;
     protected _getDataIdKey(): string | ((datum: Datum) => string) | undefined;
-    getColorScheme(): import("..").IThemeColorScheme;
+    getColorScheme(): any;
     getSpecInfo(): IModelSpecInfo<any>;
     getSpecIndex(): number;
 }

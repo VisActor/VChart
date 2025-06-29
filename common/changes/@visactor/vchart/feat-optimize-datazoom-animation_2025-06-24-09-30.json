@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: remove marker type. close #3782",
+      "comment": "feat: optimize datazoom animation effect",
       "type": "none"
     }
   ],

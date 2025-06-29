@@ -6,6 +6,8 @@ export interface ITooltipHandler extends ITooltipHandlerSpec {
   getTooltipContainer?: () => any;
   /** 可选，更新 tooltip spec 或主题后执行的回调 */
   reInit?: () => any;
+  /** dom tooltip 支持改api */
+  getRootDom?: () => any;
 }
 
 export type TooltipData = IDimensionInfo[] | IDimensionData[];

@@ -15,6 +15,6 @@ export const WordCloud3dAnimation = (params: IWordcloud3dAnimationParams | (() =
 
 export const registerWordCloud3dAnimation = () => {
   Factory.registerAnimation('wordCloud3d', (params: IWordcloud3dAnimationParams) => ({
-    enter: WordCloud3dAnimation(params)
+    appear: WordCloud3dAnimation(params)
   }));
 };

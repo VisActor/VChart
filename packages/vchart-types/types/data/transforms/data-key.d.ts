@@ -7,7 +7,7 @@ export declare function initKeyMap(this: BaseSeries<any>): {
     keyMap: Map<any, any>;
     needDefaultSeriesField: boolean;
     defaultSeriesField: string;
-    getKey: (datum: import("../../typings").Datum, index: number, context: AddVChartPropertyContext) => unknown;
+    getKey: (datum: import("../..").Datum, index: number, context: AddVChartPropertyContext) => unknown;
 };
 export declare function addDataKey(d: any, i: number, context: AddVChartPropertyContext): void;
 export declare function initHierarchyKeyMap(this: TreemapSeries | SunburstSeries | CirclePackingSeries): {

@@ -1,6 +1,4 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IModelRenderOption } from '../../model/interface';
-import type { IRegion } from '../../region/interface';
 import type { IPlayer } from './interface';
 import type { IComponent } from '../interface';
 import type { IPoint, IOrientType, ILayoutRect } from '../../typings';
@@ -9,6 +7,9 @@ import { BaseComponent } from '../base/base-component';
 export declare class Player extends BaseComponent<IPlayer> implements IComponent {
     layoutZIndex: number;
     layoutLevel: number;
+    static readonly builtInTheme: {
+        player: import("./interface").IPlayerTheme;
+    };
     static specKey: string;
     specKey: string;
     static type: ComponentTypeEnum;
@@ -35,8 +36,6 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
         y1: number;
         y2: number;
     };
-    changeRegions(regions: IRegion[]): void;
-    onRender(ctx: IModelRenderOption): void;
     protected _getNeedClearVRenderComponents(): IGraphic[];
     private _getPlayerAttrs;
     private _createOrUpdatePlayerComponent;

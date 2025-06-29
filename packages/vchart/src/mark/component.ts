@@ -113,6 +113,7 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
       mark: this,
       model: this.model
     });
+    this.needClear = true;
   }
 
   release() {

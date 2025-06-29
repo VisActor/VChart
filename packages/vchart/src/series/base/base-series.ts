@@ -1131,9 +1131,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   onEvaluateEnd(ctx: IModelEvaluateOption): void {
     this._data.updateData();
   }
-  onRender(ctx: IModelRenderOption): void {
-    return;
-  }
+
   release(): void {
     super.release();
     this._viewDataMap.clear();
@@ -1294,14 +1292,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       if (isNil(dataView)) {
         m.setData(this._data);
-        m.setSkipBeforeLayouted(true);
       } else if (dataView !== false) {
         m.setDataView(dataView);
       }
 
-      if (isBoolean(skipBeforeLayouted)) {
-        m.setSkipBeforeLayouted(skipBeforeLayouted);
-      }
+      m.setSkipBeforeLayouted(skipBeforeLayouted !== false);
 
       if (!isNil(groupKey)) {
         m.setGroupKey(groupKey);

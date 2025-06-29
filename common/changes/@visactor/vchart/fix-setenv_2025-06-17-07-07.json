@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "refactor: migrate mapLabel component into vchart-extension package",
+      "comment": "fix: fix issue with feishu block and call setenv when create vchart",
       "type": "none"
     }
   ],

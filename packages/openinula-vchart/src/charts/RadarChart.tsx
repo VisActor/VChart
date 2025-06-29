@@ -9,5 +9,5 @@ export interface RadarChartProps
 
 export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps> & { type: 'radar' }>('RadarChart', {
   type: 'radar',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

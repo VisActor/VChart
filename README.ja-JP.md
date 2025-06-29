@@ -134,13 +134,20 @@ $ rush react
 $ rush docs
 ```
 
-## 📖 ドキュメント
+# 📖 ドキュメント
 
-インストールとクローンと更新後、ローカルでドキュメントをプレビューするために docs を実行します。
+インストール、クローン、更新が完了したら、`docs` を実行してVTableのドキュメントをローカルでプレビューできます。
 
 ```bash
-# vchartドキュメントサーバーを開始
+# vtableのドキュメントサーバーを起動します。実行パス: ./
+$ rush update
+$ rush build
 $ rush docs
+```
+# If you meet dependency problems
+```bash
+$ rush purge
+$ rush update
 ```
 
 ## 🔗 関連リンク

@@ -405,7 +405,7 @@ export class VChart implements IVChart {
     this._currentSize = this.getCurrentSize();
     const pluginList: string[] = [];
 
-    if (!poptip !== false) {
+    if (poptip !== false) {
       pluginList.push('poptipForText');
     }
 
@@ -793,7 +793,6 @@ export class VChart implements IVChart {
     if (!this._beforeRender(option)) {
       return self;
     }
-    this._updateAnimateState(true);
     // 填充数据绘图
     this._compiler?.render(option.morphConfig);
     this._updateAnimateState(false);
@@ -811,12 +810,16 @@ export class VChart implements IVChart {
       const updateGraphicAnimationState = (graphic: IMarkGraphic) => {
         const diffState = graphic.context?.diffState;
         if (initial) {
-          return diffState === 'exit' ? undefined : AnimationStateEnum.appear;
+          return diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
         }
         return diffState;
       };
-      this._compiler.getRootMarks().forEach(mark => {
-        mark.updateAnimationState(updateGraphicAnimationState);
+
+      this._chart?.getAllRegions().forEach(region => {
+        region.updateAnimateStateCallback(updateGraphicAnimationState);
+      });
+      this._chart?.getAllComponents().forEach(component => {
+        component.updateAnimateStateCallback(updateGraphicAnimationState);
       });
     }
   }
@@ -939,13 +942,12 @@ export class VChart implements IVChart {
     if (this._chart) {
       this._chart.updateData(id, data, true, parserOptions);
 
-      // after layout
-      this._compiler.render();
-
       if (userUpdateOptions?.reAnimate) {
         this.stopAnimation();
         this._updateAnimateState(true);
       }
+      this._compiler.render();
+
       return this as unknown as IVChart;
     }
     this._spec.data = array(this._spec.data);
@@ -968,11 +970,12 @@ export class VChart implements IVChart {
     if (this._chart) {
       this._chart.updateFullData(data);
       if (reRender) {
-        this._compiler.render();
         if (userUpdateOptions?.reAnimate) {
           this.stopAnimation();
           this._updateAnimateState(true);
         }
+
+        this._compiler.render();
       }
       return this as unknown as IVChart;
     }
@@ -1902,16 +1905,22 @@ export class VChart implements IVChart {
 
   /** 停止正在进行的所有动画 */
   stopAnimation() {
-    // this._compiler?.getVGrammarView()?.animate?.stop();
+    this.getStage()?.stopAnimation(true);
+  }
+
+  reRunNormalAnimation() {
+    this.getStage()?.reApplyAnimationState('normal', true);
   }
 
   /** 暂停正在进行的所有动画 */
   pauseAnimation() {
+    this.getStage()?.pauseAnimation(true);
     // this._compiler?.getVGrammarView()?.animate?.pause();
   }
 
   /** 恢复暂停时正在进行的所有动画 */
   resumeAnimation() {
+    this.getStage()?.resumeAnimation(true);
     // this._compiler?.getVGrammarView()?.animate?.resume();
   }
 

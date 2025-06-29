@@ -266,7 +266,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     }
   }
 
-  updateLayoutAttribute() {
+  onBeforeRender(): void {
     this._limitBounds = null;
     this._showDefaultCrosshair();
   }
@@ -453,20 +453,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     return map;
   }
 
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
   onLayoutEnd(): void {
     const region = this._regions[0];
     this.setLayoutRect(region.getLayoutRect());
     this.setLayoutStartPosition(region.getLayoutStartPoint());
 
     super.onLayoutEnd();
-  }
-
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing
   }
 
   protected _releaseEvent(): void {
@@ -567,6 +559,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
     if (!!label.visible) {
       const labelBackground = label.labelBackground || {};
+      const syncAxisLabelAngle = label.syncAxisLabelAngle ?? false;
       const labelStyle = label.style || {};
       const {
         fill: rectFill = 'rgba(47, 59, 82, 0.9)',
@@ -581,6 +574,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         minWidth: labelBackground.minWidth,
         maxWidth: labelBackground.maxWidth,
         padding: labelBackground.padding,
+        syncAxisLabelAngle,
         textStyle: {
           fontSize: 14,
           pickable: false,

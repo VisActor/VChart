@@ -1,4 +1,4 @@
-import { isArray, isValid, isValidNumber, normalizePadding } from '@visactor/vutils';
+import { isArray, isNil, isValid, isValidNumber, normalizePadding } from '@visactor/vutils';
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
 import { calcLayoutNumber } from '../../../../util/space';
 import type { ILayoutNumber } from '../../../../typings/layout';
@@ -92,13 +92,15 @@ export const getDomStyle = (spec: ITooltipSpec = {}) => {
   if (align === 'right') {
     // rtl
     panelStyle.direction = 'rtl';
-    titleStyle.textAlign = 'right';
-    keyStyle.textAlign = 'right';
-    valueStyle.textAlign = 'left';
-  } else {
-    titleStyle.textAlign = 'left';
-    keyStyle.textAlign = 'left';
-    valueStyle.textAlign = 'right';
+  }
+  if (isNil(titleStyle.textAlign)) {
+    titleStyle.textAlign = align === 'right' ? 'right' : 'left';
+  }
+  if (isNil(keyStyle.textAlign)) {
+    keyStyle.textAlign = align === 'right' ? 'right' : 'left';
+  }
+  if (isNil(valueStyle.textAlign)) {
+    valueStyle.textAlign = align === 'right' ? 'left' : 'right';
   }
   shapeStyle[marginKey] = getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING);
   keyStyle[marginKey] = getPixelPropertyStr(keyLabel.spacing ?? DEFAULT_KEY_SPACING);

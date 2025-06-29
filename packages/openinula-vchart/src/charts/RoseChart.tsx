@@ -9,5 +9,5 @@ export interface RoseChartProps
 
 export const RoseChart = createChart<React.PropsWithChildren<RoseChartProps> & { type: 'rose' }>('RoseChart', {
   type: 'rose',
-  vchartConstrouctor: VChart
+  vchartConstructor: VChart
 });

@@ -32,17 +32,12 @@ export declare const funnel: (originData: Array<DataView>, op: IFunnelOpt) => {
     historyData: any[];
     parserData: any;
     latestData: any;
-    _diffMap: Map<string, any>;
-    _diffRank: number;
     latestDataAUD: {
         add: any;
         update: any;
         del: any;
     };
-    reRunAllTransform: (opt?: {
-        pushHistory: boolean;
-        emitMessage: boolean;
-    }) => DataView;
+    reRunAllTransform: (opt?: import("@visactor/vdataset/es/data-view").DataViewTransformOptions) => DataView;
     markRunning: () => void;
 }[];
 export interface IFunnelTransformOpt {

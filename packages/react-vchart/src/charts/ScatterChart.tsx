@@ -13,7 +13,7 @@ export const ScatterChart = createChart<React.PropsWithChildren<ScatterChartProp
   'ScatterChart',
   {
     type: 'scatter',
-    vchartConstrouctor: VChart as IVChartConstructor
+    vchartConstructor: VChart as IVChartConstructor
   },
   [registerScatterChart, registerLabel, ...registers]
 );

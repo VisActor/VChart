@@ -1,5 +1,5 @@
 import { EXPAND_RATIO } from './constant';
-import { Point } from './interface';
+import type { Point } from './interface';
 
 // KDE 相关的工具函数
 export function gaussKernel(x: number) {

@@ -24,6 +24,7 @@ export declare class DomTooltipHandler extends BaseTooltipHandler {
     protected _cacheCustomTooltipPosition: ILayoutPoint;
     getVisibility(): boolean;
     setVisibility(_value: boolean): void;
+    getRootDom(): HTMLElement;
     constructor();
     onAdd(service: IComponentPluginService<any>): void;
     initEl(): void;

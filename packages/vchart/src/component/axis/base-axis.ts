@@ -120,6 +120,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _dataFieldText: string;
   protected _axisMark: IComponentMark;
+
   protected _gridMark: IComponentMark;
 
   protected _coordinateType: CoordinateType;
@@ -131,10 +132,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     super(spec, options);
     this._visible = spec.visible ?? true;
     this._coordinateType = 'none';
-  }
-
-  protected _getNeedClearVRenderComponents(): IGraphic[] {
-    return [];
   }
 
   getVRenderComponents() {

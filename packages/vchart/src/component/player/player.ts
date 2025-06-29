@@ -109,14 +109,6 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     return bounds;
   }
 
-  changeRegions(regions: IRegion[]): void {
-    // do nothing
-  }
-
-  onRender(ctx: IModelRenderOption): void {
-    // do nothing
-  }
-
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._playerComponent] as unknown as IGroup[];
   }
@@ -315,9 +307,9 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
 
   changePlayerIndex(index: number) {
     const spec = this._specs[index];
-    (array(spec.data) as IDataValues[]).forEach(data => {
-      this._option?.globalInstance?.updateData(data.id, data.values);
-    });
+
+    this._option.globalInstance.updateFullData((spec as any).data);
+
     this.event.emit(ChartEvent.playerChange, {
       model: this,
       value: {
@@ -338,6 +330,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     // 自动播放
     this._option.globalInstance.on(ChartEvent.rendered, () => {
       if (this._spec?.auto) {
+        this._playerComponent.pause();
         this._playerComponent.play();
       }
     });

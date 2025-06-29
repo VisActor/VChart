@@ -122,9 +122,6 @@ export class TotalLabel extends BaseLabelComponent {
     super.updateLayoutAttribute();
     const series = this._getSeries();
     this._marks.forEach((componentMark, index) => {
-      // label组件比较特殊，不清楚老的节点会存在属性覆盖的问题
-      (componentMark as IComponentMark).clearComponent();
-
       componentMark.setMarkConfig({
         interactive: false
       });
@@ -187,17 +184,6 @@ export class TotalLabel extends BaseLabelComponent {
       const group = this._regions[0].getGroupMark().getProduct() as IGroup;
       m.compile({ group, context: { model: this } });
     });
-  }
-
-  getVRenderComponents() {
-    const labels: any[] = [];
-    this.getMarks().forEach(m => {
-      const graphicItem = (m as IComponentMark).getComponent();
-      if (graphicItem) {
-        labels.push(graphicItem);
-      }
-    });
-    return labels;
   }
 
   protected _getSeries() {

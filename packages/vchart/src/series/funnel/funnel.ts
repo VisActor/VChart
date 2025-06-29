@@ -222,7 +222,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         },
         {
           themeSpec: this._theme?.transform,
-          skipBeforeLayouted: true,
           noSeparateStyle: true
         }
       );
@@ -238,7 +237,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       this._funnelOuterLabelMark.label = this._createMark(FunnelSeries.mark.outerLabel, {
         themeSpec: this._theme?.outerLabel,
         markSpec: this._spec.outerLabel,
-        skipBeforeLayouted: true,
         noSeparateStyle: true,
         parent: false
       }) as ITextMark;
@@ -407,9 +405,19 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
               {
                 direction: () => (this._isHorizontal() ? 'x' : 'y'),
                 width: () => {
+                  const rootMark = this.getRootMark().getProduct();
+                  if (rootMark) {
+                    const { x1, x2 } = rootMark.AABBBounds;
+                    return Math.max(x1, x2); // rootMark.x === 0, so need to find largest bound x instead of bounds width
+                  }
                   return this.getLayoutRect().width;
                 },
                 height: () => {
+                  const rootMark = this.getRootMark().getProduct();
+                  if (rootMark) {
+                    const { y1, y2 } = rootMark.AABBBounds;
+                    return Math.max(y1, y2);
+                  }
                   return this.getLayoutRect().height;
                 },
                 orient: () => (this._isReverse() ? 'negative' : 'positive')

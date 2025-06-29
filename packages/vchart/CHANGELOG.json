@@ -2,6 +2,87 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.0",
+      "tag": "@visactor/vchart_v2.0.0",
+      "date": "Tue, 10 Jun 2025 13:40:24 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: remove marker type. close #3782"
+          },
+          {
+            "comment": "fix: mark interactive problem when brush. fix visactor/vchart#4017"
+          },
+          {
+            "comment": "fix: markLine position error when domain is a same array. fix#4016"
+          },
+          {
+            "comment": "refactor: migrate mapLabel component into vchart-extension package"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.13.11",
+      "tag": "@visactor/vchart_v1.13.11",
+      "date": "Thu, 29 May 2025 09:26:04 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add `barGap` option for histogram chart"
+          },
+          {
+            "comment": "feat: support tooltip.trigger and crosshair.trigger in theme"
+          },
+          {
+            "comment": "fix: fix data-zoom domain when the label of band size is number-like string, fix #3982\n\n"
+          },
+          {
+            "comment": "fix: fix the order of title in mark tooltip when dimension tooltip has no title, fix #3991\n\n"
+          },
+          {
+            "comment": "fix: option `{ poptip: true } should load `poptipForText`\n\n"
+          },
+          {
+            "comment": "fix(react-vchart): when use children to render customized tooltip, react-vchart should update\n\n"
+          },
+          {
+            "comment": "fix: customized render of tooltip should be render in react 17 and react 18\n\n"
+          },
+          {
+            "comment": "fix:Replace all the vchartConstrouctor to vchartConstructor,and ensure backward compatibility with older versions."
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.13.10",
+      "tag": "@visactor/vchart_v1.13.10",
+      "date": "Thu, 15 May 2025 12:13:18 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: tooltip support inside position\n\n"
+          },
+          {
+            "comment": "feat: mosaic chart supports bandWidthField and percent config, closed #3945"
+          },
+          {
+            "comment": "fix: export ManualTicker & StreamLight\n\n"
+          },
+          {
+            "comment": "fix: tooltip should hide when enterable, fix #3965, fix #3922\n\n"
+          },
+          {
+            "comment": "fix: fix error of enterable tooltip when multiple charts in a page, fix #3940\n\n"
+          },
+          {
+            "comment": "fix: upgrade vgrammar to 0.16.7, fix #3965\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.9",
       "tag": "@visactor/vchart_v1.13.9",
       "date": "Mon, 21 Apr 2025 08:22:38 GMT",

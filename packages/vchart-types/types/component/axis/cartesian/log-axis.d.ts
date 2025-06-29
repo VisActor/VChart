@@ -9,6 +9,12 @@ export declare class CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesi
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     static specKey: string;
+    static readonly builtInTheme: {
+        axis: import("../interface").IAxisCommonTheme;
+        axisLinear: import("../interface").IAxisCommonTheme;
+        axisX: import("./interface").ICartesianAxisCommonTheme;
+        axisY: import("./interface").ICartesianAxisCommonTheme;
+    };
     protected _zero: boolean;
     protected _scale: LogScale;
     protected _scales: LogScale[];

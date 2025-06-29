@@ -89,6 +89,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     super.created();
     const clip = this._spec.clip ?? this._getClipDefaultValue();
     this._groupMark = this._createGroupMark('regionGroup', this.userId, this.layoutZIndex);
+
     if ((this._spec as IGeoRegionSpec).roam) {
       this._groupMark.setMarkConfig({ interactive: true });
     }
@@ -288,10 +289,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   }
   getSeriesInDataName(dataName: string): ISeries[] {
     return this.getSeries({ dataName });
-  }
-
-  onRender(ctx: any): void {
-    // do nothing
   }
 
   initSeriesDataflow() {

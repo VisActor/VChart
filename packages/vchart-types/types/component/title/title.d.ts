@@ -1,5 +1,4 @@
 import type { IModelSpecInfo } from '../../model/interface';
-import type { IRegion } from '../../region/interface';
 import type { IPoint, IOrientType, ILayoutType, ILayoutRect } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
@@ -15,6 +14,9 @@ export declare class Title<T extends ITitleSpec = ITitleSpec> extends BaseCompon
     layoutType: ILayoutType;
     layoutZIndex: number;
     layoutLevel: number;
+    static readonly builtInTheme: {
+        title: import("./interface").ITitleTheme;
+    };
     protected _orient: IOrientType;
     private _titleComponent;
     private _cacheAttrs;
@@ -22,7 +24,6 @@ export declare class Title<T extends ITitleSpec = ITitleSpec> extends BaseCompon
     constructor(spec: T, options: IComponentOption);
     initLayout(): void;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
-    onRender(ctx: any): void;
     _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
@@ -30,9 +31,6 @@ export declare class Title<T extends ITitleSpec = ITitleSpec> extends BaseCompon
         reSize: boolean;
         reCompile: boolean;
     };
-    changeRegions(regions: IRegion[]): void;
-    update(ctx: IComponentOption): void;
-    resize(ctx: IComponentOption): void;
     afterSetLayoutStartPoint(pos: IPoint): void;
     getBoundsInRect(rect: ILayoutRect): {
         x1: number;

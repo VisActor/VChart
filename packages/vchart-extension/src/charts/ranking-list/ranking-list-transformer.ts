@@ -5,7 +5,6 @@ import { CommonChartSpecTransformer } from '@visactor/vchart';
 import { cloneDeep, TextMeasure } from '@visactor/vutils';
 import { defaultSpec } from './constant';
 import { applyVisible, computeDataRange, mergeObjects } from './utils';
-import { IGradientColor } from '@visactor/vrender-core';
 
 const DATA_KEY = 'dataKey';
 const ORDER_KEY = 'VCHART_ORDER';
@@ -592,7 +591,9 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       type: 'moveOut',
       options: {
         direction: 'y',
+
         orient: 'negative',
+        excludeChannels: ['x'],
         point: (datum: Datum, graphic: IMarkGraphic) => {
           const channelAttr = graphic.getGraphicAttribute('y');
           const barSpace = spec.height / (spec.pageSize + 1);
@@ -613,7 +614,7 @@ export class RankingListChartSpecTransformer extends CommonChartSpecTransformer 
       options: {
         direction: 'y',
         orient: 'negative',
-        excludeChannels: ['y'],
+        excludeChannels: ['x'],
         point: (datum: Datum, graphic: IMarkGraphic) => {
           const channelAttr = graphic.getGraphicAttribute('y');
           return { y: channelAttr + (spec.height / (spec.pageSize + 1)) * Math.min(spec.scrollSize, spec.pageSize) };

@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: tooltip support inside position\n\n",
+      "comment": "fix: fix `textAlign` not works in tooltip.style.titleLabel, fix #4043\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

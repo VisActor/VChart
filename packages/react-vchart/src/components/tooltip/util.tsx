@@ -1,8 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import React from 'react';
 import type { BaseChartProps } from '../../charts/BaseChart';
-import { TooltipProps, TooltipRender } from './interface';
-import { isObject } from '@visactor/vutils';
-import { ITooltipSpec } from '@visactor/vchart';
+import type { TooltipProps, TooltipRender } from './interface';
+import type { ITooltipSpec } from '@visactor/vchart';
 import { REACT_TOOLTIP_ClASS_NAME } from './constant';
 import { createPortal } from 'react-dom';
 
@@ -12,27 +12,16 @@ export const initCustomTooltip = (
   props: BaseChartProps,
   spec?: TooltipProps
 ) => {
-  let render: TooltipRender = undefined;
+  let render: TooltipRender;
   if (spec?.tooltipRender) {
     render = spec.tooltipRender;
     delete spec.tooltipRender;
-  } else if (spec?.children) {
-    render = (tooltipElement, actualTooltip, params) =>
-      React.Children.map(spec.children, child =>
-        isObject(child)
-          ? React.cloneElement(child as React.ReactElement<any, React.JSXElementConstructor<any>>, {
-              tooltipElement,
-              actualTooltip,
-              params
-            })
-          : child
-      );
   } else if (props.tooltipRender) {
     render = props.tooltipRender;
   }
 
   if (render) {
-    let reserve: boolean = undefined;
+    let reserve: boolean;
     if (spec?.reserveDefaultTooltip) {
       reserve = spec.reserveDefaultTooltip;
       delete spec.reserveDefaultTooltip;
@@ -58,6 +47,7 @@ export const initCustomTooltip = (
             }
           }
         }
+
         setTooltipNode(
           createPortal(<div className={REACT_TOOLTIP_ClASS_NAME}>{render(el, actualTooltip, params)}</div>, el)
         );
