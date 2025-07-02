@@ -11,18 +11,15 @@ import { RectMark, registerRectMark } from './rect';
 import { PathMark, registerPathMark } from './path';
 import { ArcMark, BaseArcMark, registerArcMark } from './arc';
 import { ComponentMark, registerComponentMark } from './component';
-import { LinkPathMark, registerLinkPathMark } from './link-path';
 import { RippleMark, registerRippleMark } from './ripple';
-import { CellMark, registerCellMark } from './cell';
 import { BaseMark } from './base';
 import { PolygonMark, registerPolygonMark } from './polygon/polygon';
 import { ImageMark, registerImageMark } from './image';
-import { LiquidMark, registerLiquidMark } from './liquid';
-import { BoxPlotMark, registerBoxPlotMark } from './box-plot';
 import { registerMarkFilterTransform } from './transform/filter';
 import { registerMarkMapTransform } from './transform/map';
 import { BasePolygonMark } from './polygon/base-polygon';
 import { MarkTypeEnum } from './interface/type';
+import { GlyphMark, registerGlyphMark } from './glyph';
 
 export type {
   IBoxPlotMarkSpec,
@@ -64,7 +61,8 @@ export {
   PolygonMark,
   RippleMark,
   ImageMark,
-  BaseMark
+  BaseMark,
+  GlyphMark
 };
 
 export {
@@ -81,6 +79,7 @@ export {
   registerRippleMark,
   registerImageMark,
   registerComponentMark,
+  registerGlyphMark,
   registerMarkMapTransform,
   registerMarkFilterTransform
 };
@@ -99,4 +98,5 @@ export const registerAllMarks = () => {
   registerImageMark();
   registerRippleMark();
   registerComponentMark();
+  registerGlyphMark();
 };
