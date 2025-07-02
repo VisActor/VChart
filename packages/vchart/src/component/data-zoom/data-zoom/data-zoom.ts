@@ -67,8 +67,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
         this._start = start;
         this._end = end;
-        const startValue = statePointToData(start, this._stateScale, isReverse(axis));
-        const endValue = statePointToData(end, this._stateScale, isReverse(axis));
+        const startValue = statePointToData(start, this._stateScale, isReverse(axis, this._isHorizontal));
+        const endValue = statePointToData(end, this._stateScale, isReverse(axis, this._isHorizontal));
         const hasChange = isFunction(this._spec.updateDataAfterChange)
           ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
           : this._handleStateChange(startValue, endValue, tag);
@@ -124,8 +124,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const axis = this._relatedAxisComponent as CartesianAxis<any>;
     // 初始时reverse判断并不准确，导致start和end颠倒, 保险起见在layoutend之后触发该逻辑
     // FIXME: 牺牲了一定性能，有待优化
-    if (isReverse(axis) && !this._isReverseCache) {
-      this._isReverseCache = isReverse(axis);
+    if (isReverse(axis, this._isHorizontal) && !this._isReverseCache) {
+      this._isReverseCache = isReverse(axis, this._isHorizontal);
       this.effect.onZoomChange();
     }
   }
@@ -382,7 +382,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         }
         const axis = this._relatedAxisComponent as CartesianAxis<any>;
         this._component.setStatePointToData((state: number) =>
-          statePointToData(state, this._stateScale, isReverse(axis))
+          statePointToData(state, this._stateScale, isReverse(axis, this._isHorizontal))
         );
 
         this._component.addEventListener('dataZoomChange', (e: any) => {
