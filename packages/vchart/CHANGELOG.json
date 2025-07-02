@@ -2,6 +2,24 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.13",
+      "tag": "@visactor/vchart_v1.13.13",
+      "date": "Wed, 02 Jul 2025 11:21:17 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add config to avoid brush state update. close #4035"
+          },
+          {
+            "comment": "fix: fix `textAlign` not works in tooltip.style.titleLabel, fix #4043\n\n"
+          },
+          {
+            "comment": "fix: upgrade vrender to 0.19.7\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.12",
       "tag": "@visactor/vchart_v1.13.12",
       "date": "Fri, 13 Jun 2025 06:36:53 GMT",

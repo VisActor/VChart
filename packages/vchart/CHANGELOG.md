@@ -1,6 +1,19 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 13 Jun 2025 06:36:53 GMT and should not be manually modified.
+This log was last generated on Wed, 02 Jul 2025 11:21:17 GMT and should not be manually modified.
+
+## 1.13.13
+Wed, 02 Jul 2025 11:21:17 GMT
+
+### Updates
+
+- feat: add config to avoid brush state update. close #4035
+- fix: fix `textAlign` not works in tooltip.style.titleLabel, fix #4043
+
+
+- fix: upgrade vrender to 0.19.7
+
+
 
 ## 1.13.12
 Fri, 13 Jun 2025 06:36:53 GMT
