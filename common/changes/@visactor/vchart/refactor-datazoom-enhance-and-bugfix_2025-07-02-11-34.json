@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: update perview when update data. fix #3331",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
