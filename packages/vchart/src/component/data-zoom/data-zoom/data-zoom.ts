@@ -1,4 +1,14 @@
-import { isFunction, isNil, isNumber, isValid, last, maxInArray, minInArray, uniqArray } from '@visactor/vutils';
+import {
+  isFunction,
+  isNil,
+  isNumber,
+  isValid,
+  last,
+  maxInArray,
+  minInArray,
+  uniqArray,
+  type IBoundsLike
+} from '@visactor/vutils';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { ComponentTypeEnum, type IComponentOption } from '../../interface';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
@@ -143,6 +153,27 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     super.clear();
   }
 
+  getBoundsInRect(rect: ILayoutRect): IBoundsLike {
+    const result: IBoundsLike = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
+    const startHandlerScaleXSize = this._startHandlerSize * (this._spec.startHandler.style.scaleX ?? 1);
+    const startHandlerScaleYSize = this._startHandlerSize * (this._spec.startHandler.style.scaleY ?? 1);
+    const endHandlerScaleXSize = this._endHandlerSize * (this._spec.endHandler.style.scaleX ?? 1);
+    const endHandlerScaleYSize = this._endHandlerSize * (this._spec.endHandler.style.scaleY ?? 1);
+    const extendWidth = this._isHorizontal
+      ? (startHandlerScaleXSize - this._startHandlerSize) / 2 + (endHandlerScaleXSize - this._endHandlerSize) / 2
+      : (Math.max(startHandlerScaleXSize, endHandlerScaleXSize) - this._width) / 2;
+    const extendHeight = this._isHorizontal
+      ? (Math.max(startHandlerScaleYSize, endHandlerScaleYSize) - this._height) / 2
+      : (startHandlerScaleYSize - this._startHandlerSize) / 2 + (endHandlerScaleYSize - this._endHandlerSize) / 2;
+    if (this._isHorizontal) {
+      result.y2 = result.y1 + this._height + extendHeight;
+      result.x2 = result.x1 + rect.width + extendWidth;
+    } else {
+      result.x2 = result.x1 + this._width + extendWidth;
+      result.y2 = result.y1 + rect.height + extendHeight;
+    }
+    return result;
+  }
   /*** end: component lifecycle ***/
 
   /*** start: set attributes & bind related axis and region ***/
@@ -152,18 +183,12 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     // size相关
     this._backgroundSize = this._spec.background?.size ?? 30;
     this._middleHandlerSize = this._computeMiddleHandlerSize();
-    this._width = this._computeWidth();
-    this._height = this._computeHeight();
     // startHandler和endHandler size如果没有配置，则默认跟随background宽 or 高
     if (isNil(this._spec?.startHandler?.style?.size)) {
-      this._spec.startHandler.style.size = this._isHorizontal
-        ? this._height - this._middleHandlerSize
-        : this._width - this._middleHandlerSize;
+      this._spec.startHandler.style.size = this._backgroundSize;
     }
     if (isNil(this._spec?.endHandler?.style?.size)) {
-      this._spec.endHandler.style.size = this._isHorizontal
-        ? this._height - this._middleHandlerSize
-        : this._width - this._middleHandlerSize;
+      this._spec.endHandler.style.size = this._backgroundSize;
     }
     const startHandlerVisble = this._spec.startHandler.style.visible ?? true;
     const endHandlerVisble = this._spec.endHandler.style.visible ?? true;
