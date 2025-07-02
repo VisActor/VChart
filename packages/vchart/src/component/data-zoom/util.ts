@@ -196,13 +196,13 @@ export const dataToStatePoint = (data: number | string, scale: IBaseScale, isHor
   return (pos - range[0]) / (last(range) - range[0]);
 };
 
-export const isReverse = (axisComponent: CartesianAxis<any>) => {
+export const isReverse = (axisComponent: CartesianAxis<any>, isHorizontal: boolean) => {
   const axis = axisComponent;
   if (!axis) {
     return false;
   }
   const axisScale = axis.getScale() as IBandLikeScale;
-  return axisScale.range()[0] > axisScale.range()[1] && (!axis.getInverse() || this._isHorizontal);
+  return axisScale.range()[0] > axisScale.range()[1] && (!axis.getInverse() || isHorizontal);
 };
 
 export const getAxisBandSize = (axisSpec?: ICartesianBandAxisSpec) => {

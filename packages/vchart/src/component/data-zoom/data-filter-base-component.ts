@@ -187,7 +187,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     // 轴在inverse时，也要做转置处理
     const axis = this._relatedAxisComponent as CartesianAxis<any>;
     const axisScale = axis.getScale() as IBandLikeScale;
-    const reverse = isReverse(axis);
+    const reverse = isReverse(axis, this._isHorizontal);
     const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
 
     if (reverse) {
@@ -685,8 +685,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           : 1;
     }
     const axis = this._relatedAxisComponent as CartesianAxis<any>;
-    this._startValue = statePointToData(start, this._stateScale, isReverse(axis));
-    this._endValue = statePointToData(end, this._stateScale, isReverse(axis));
+    this._startValue = statePointToData(start, this._stateScale, isReverse(axis, this._isHorizontal));
+    this._endValue = statePointToData(end, this._stateScale, isReverse(axis, this._isHorizontal));
     this._start = start;
     this._end = end;
     this._minSpan = this._spec.minSpan ?? 0;
