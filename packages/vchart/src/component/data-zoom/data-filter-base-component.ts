@@ -254,6 +254,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
         this._updateRangeFactor(tag);
         if (this._auto) {
+          // tag
           this._handleChange(this._start, this._end, true);
         }
 
@@ -360,14 +361,28 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   updateLayoutAttribute(): void {
-    // create or update component
     if (this._visible) {
+      this._updateScaleRange();
       this._createOrUpdateComponent();
+
+      // 第一次渲染, 根据配置强制触发start和end变更
+      if (!this._hasInitStateScale) {
+        if (this._start !== 0 || this._end !== 1) {
+          this._newDomain = parseDomainFromState(this._startValue, this._endValue, this._stateScale);
+          this.effect.onZoomChange();
+        }
+        this._hasInitStateScale = true;
+      }
     }
-    super.updateLayoutAttribute();
   }
 
   onLayoutEnd(): void {
+    if (this._visible) {
+      if (!this._hasInitStateScale) {
+        this._initStateScale();
+        this._setStateFromSpec();
+      }
+    }
     // 布局结束后, start和end会发生变化, 因此需要再次更新visible
     const isShown = !(this._start === 0 && this._end === 1);
     this._autoVisible(isShown);
@@ -714,21 +729,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
   protected _initStateScale() {
     const defaultRange = [0, 1];
-
     if (this._relatedAxisComponent) {
       const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
-      const isContinuousScale = isContinuous(scale.type);
-      const domain = this._computeDomainOfStateScale(isContinuousScale);
-
-      this._stateScale = scale.clone();
-      if (isContinuousScale) {
-        const domainNum = domain.map((n: any) => n * 1);
-        this._stateScale
-          .domain(domain.length ? [minInArray(domainNum), maxInArray(domainNum)] : [0, 1], true)
-          .range(defaultRange);
-      } else {
-        this._stateScale.domain(domain, true).range(defaultRange);
-      }
+      this._stateScale = scale.clone().range(defaultRange);
     } else {
       this._stateScale = new BandScale();
       this._stateScale.domain(this._computeDomainOfStateScale(), true).range(defaultRange);

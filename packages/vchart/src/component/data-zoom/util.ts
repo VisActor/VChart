@@ -4,7 +4,6 @@ import type { DataView } from '@visactor/vdataset';
 import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
-
 export interface IDataFilterWithNewDomainOption {
   getNewDomain: () => any[];
   isContinuous: () => boolean;
