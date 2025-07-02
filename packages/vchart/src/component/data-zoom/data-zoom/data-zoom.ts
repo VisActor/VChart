@@ -1,39 +1,21 @@
-// eslint-disable-next-line no-duplicate-imports
-import {
-  isBoolean,
-  isFunction,
-  isNil,
-  isNumber,
-  isValid,
-  last,
-  maxInArray,
-  minInArray,
-  uniqArray
-} from '@visactor/vutils';
+import { isFunction, isNil, isNumber, isValid, last, maxInArray, minInArray, uniqArray } from '@visactor/vutils';
 import { mergeSpec } from '@visactor/vutils-extension';
-import type { IComponentOption } from '../../interface';
-// eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface/type';
+import { ComponentTypeEnum, type IComponentOption } from '../../interface';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
-// eslint-disable-next-line no-duplicate-imports
-import type { DataZoomAttributes } from '@visactor/vrender-components';
-// eslint-disable-next-line no-duplicate-imports
-import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
+import { DataZoom as DataZoomComponent, type DataZoomAttributes } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
-import type { Datum, ILayoutType } from '../../../typings';
-import type { ILinearScale, IBaseScale } from '@visactor/vscale';
-// eslint-disable-next-line no-duplicate-imports
-import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
+import type { Datum, ILayoutRect, ILayoutType } from '../../../typings';
+import { LinearScale, isContinuous, isDiscrete, type ILinearScale, type IBaseScale } from '@visactor/vscale';
 import { LayoutLevel, LayoutZIndex } from '../../../constant/layout';
 import { ChartEvent } from '../../../constant/event';
 import type { IDataZoomSpec } from './interface';
 import { Factory } from '../../../core/factory';
-import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
 import { getFormatFunction } from '../../util';
 import { dataZoom } from '../../../theme/builtin/common/component/data-zoom';
+import { isReverse, statePointToData } from '../util';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -64,6 +46,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   protected _isReverseCache: boolean = false;
 
+  protected _cacheRect?: ILayoutRect;
+
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
 
@@ -71,23 +55,99 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     this._filterMode = spec.filterMode ?? 'filter';
   }
 
+  /*** start: init event and event dispatch ***/
+  protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string) {
+    super._handleChange(start, end, updateComponent);
+
+    if (this._shouldChange) {
+      if (updateComponent && this._component) {
+        this._component.setStartAndEnd(start, end);
+      } else {
+        const axis = this._relatedAxisComponent as CartesianAxis<any>;
+
+        this._start = start;
+        this._end = end;
+        const startValue = statePointToData(start, this._stateScale, isReverse(axis));
+        const endValue = statePointToData(end, this._stateScale, isReverse(axis));
+        const hasChange = isFunction(this._spec.updateDataAfterChange)
+          ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
+          : this._handleStateChange(startValue, endValue, tag);
+        if (hasChange) {
+          this.event.emit(ChartEvent.dataZoomChange, {
+            model: this,
+            value: {
+              filterData: this._filterMode !== 'axis',
+              start,
+              end,
+              startValue: this._startValue,
+              endValue: this._endValue,
+              newDomain: this._newDomain
+            }
+          });
+        }
+      }
+    }
+  }
+
+  protected _handleDataCollectionChange() {
+    const data = this._data.getDataView();
+    data.reRunAllTransform();
+
+    const domain = this._computeDomainOfValueScale();
+
+    if (domain) {
+      if (!this._valueScale) {
+        this._valueScale = new LinearScale();
+      }
+      this._valueScale.domain(domain);
+      if (this._component) {
+        this._createOrUpdateComponent(true);
+      }
+    }
+  }
+  /*** end: init event and event dispatch ***/
+
+  /*** start: component lifecycle ***/
   created() {
     super.created();
     this._initValueScale();
   }
 
+  updateLayoutAttribute(): void {
+    if (this._cacheVisibility !== false) {
+      super.updateLayoutAttribute();
+    }
+  }
+
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
+    const axis = this._relatedAxisComponent as CartesianAxis<any>;
+    // 初始时reverse判断并不准确，导致start和end颠倒, 保险起见在layoutend之后触发该逻辑
+    // FIXME: 牺牲了一定性能，有待优化
+    if (isReverse(axis) && !this._isReverseCache) {
+      this._isReverseCache = isReverse(axis);
+      this.effect.onZoomChange();
+    }
+  }
+
+  clear(): void {
+    if (this._component) {
+      const container = this.getContainer();
+      this._component.removeAllChild();
+      if (container) {
+        container.removeChild(this._component as unknown as INode);
+      }
+
+      this._component = null;
+    }
+    super.clear();
+  }
+
+  /*** end: component lifecycle ***/
+
+  /*** start: set attributes & bind related axis and region ***/
   setAttrFromSpec() {
     super.setAttrFromSpec();
-
-    if (isBoolean((this._spec as any).roam)) {
-      this._zoomAttr.enable = (this._spec as any).roam;
-      this._dragAttr.enable = (this._spec as any).roam;
-      this._scrollAttr.enable = (this._spec as any).roam;
-    }
-
-    if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
-      (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
-    }
 
     // size相关
     this._backgroundSize = this._spec.background?.size ?? 30;
@@ -109,22 +169,12 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const endHandlerVisble = this._spec.endHandler.style.visible ?? true;
     this._startHandlerSize = startHandlerVisble ? this._spec.startHandler.style.size : 0;
     this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
+    this._width = this._computeWidth();
+    this._height = this._computeHeight();
   }
+  /*** end: set attributes & bind related axis and region ***/
 
-  /** LifeCycle API**/
-  onLayoutEnd(): void {
-    this._updateScaleRange();
-    // 初始时reverse判断并不准确，导致start和end颠倒, 保险起见在layoutend之后触发该逻辑
-    // FIXME: 牺牲了一定性能，有待优化
-    if (this._isReverse() && !this._isReverseCache) {
-      this._isReverseCache = this._isReverse();
-      this.effect.onZoomChange();
-    }
-    if (this._cacheVisibility !== false) {
-      super.onLayoutEnd();
-    }
-  }
-
+  /*** start: scale of background chart ***/
   protected _initValueScale() {
     const domain = this._computeDomainOfValueScale();
 
@@ -174,18 +224,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._valueScale.range([0, compWidth - this._middleHandlerSize]);
       }
     }
-    if (this._component && this._cacheVisibility !== false) {
-      this._component.setAttributes({
-        size: {
-          width: compWidth,
-          height: compHeight
-        },
-        position: {
-          x: this.getLayoutStartPoint().x,
-          y: this.getLayoutStartPoint().y
-        }
-      });
-    }
   }
 
   protected _computeDomainOfValueScale() {
@@ -193,47 +231,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
     const domainNum = domain.map((n: any) => n * 1);
     return domain.length ? [minInArray(domainNum), maxInArray(domainNum)] : null;
-  }
-
-  protected _computeMiddleHandlerSize(): number {
-    let size = 0;
-    if (this._spec?.middleHandler?.visible) {
-      const middleHandlerIconSize = this._spec.middleHandler.icon.style.size ?? 8;
-      const middleHandlerBackSize = this._spec.middleHandler.background.size ?? 40;
-      size += Math.max(middleHandlerIconSize as number, middleHandlerBackSize);
-    }
-    return size;
-  }
-
-  protected _computeWidth(): number {
-    if (this._visible === false) {
-      return 0;
-    }
-
-    if (isNumber(this._spec.width)) {
-      return this._spec.width;
-    }
-
-    if (this._isHorizontal) {
-      return this.getLayoutRect().width;
-    }
-
-    return this._backgroundSize + this._middleHandlerSize;
-  }
-
-  protected _computeHeight(): number {
-    if (this._visible === false) {
-      return 0;
-    }
-
-    if (isNumber(this._spec.height)) {
-      return this._spec.height;
-    }
-
-    if (this._isHorizontal) {
-      return this._backgroundSize + this._middleHandlerSize;
-    }
-    return this.getLayoutRect().height;
   }
 
   protected _isScaleValid(scale: IBaseScale | ILinearScale) {
@@ -281,7 +278,58 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const min = yScale.domain()[0];
     return yScale.scale(min) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
   };
+  /*** end: scale of background chart ***/
 
+  /** start: component layout attr ***/
+  protected _computeMiddleHandlerSize(): number {
+    let size = 0;
+    if (this._spec?.middleHandler?.visible) {
+      const middleHandlerIconSize = this._spec.middleHandler.icon.style.size ?? 8;
+      const middleHandlerBackSize = this._spec.middleHandler.background.size ?? 40;
+      size += Math.max(middleHandlerIconSize as number, middleHandlerBackSize);
+    }
+    return size;
+  }
+
+  protected _computeWidth(): number {
+    if (this._visible === false) {
+      return 0;
+    }
+
+    if (isNumber(this._spec.width)) {
+      return this._spec.width;
+    }
+
+    if (this._isHorizontal) {
+      return this.getLayoutRect().width;
+    }
+
+    return (
+      Math.max(this._startHandlerSize || 0, this._endHandlerSize || 0, this._backgroundSize || 0) +
+      this._middleHandlerSize
+    );
+  }
+
+  protected _computeHeight(): number {
+    if (this._visible === false) {
+      return 0;
+    }
+
+    if (isNumber(this._spec.height)) {
+      return this._spec.height;
+    }
+
+    if (this._isHorizontal) {
+      return (
+        Math.max(this._startHandlerSize || 0, this._endHandlerSize || 0, this._backgroundSize || 0) +
+        this._middleHandlerSize
+      );
+    }
+    return this.getLayoutRect().height;
+  }
+  /** end: component layout attr ***/
+
+  /** start: datazoom component attr ***/
   private _getAttrs(isNeedPreview: boolean) {
     const spec = this._spec ?? ({} as T);
     return {
@@ -303,7 +351,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
       delayType: spec.delayType,
-      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
+      delayTime: isValid(spec.delayType) ? (spec.delayTime ?? 30) : 0,
       realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,
@@ -313,7 +361,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     } as DataZoomAttributes;
   }
 
-  protected _createOrUpdateComponent() {
+  protected _createOrUpdateComponent(changeData?: boolean) {
     if (this._visible) {
       const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
       const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
@@ -334,58 +382,13 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         }
         this._component.setStatePointToData((state: number) => this.statePointToData(state));
 
-        this._component.addEventListener('change', (e: any) => {
+        this._component.addEventListener('dataZoomChange', (e: any) => {
           const { start, end, tag } = e.detail;
           this._handleChange(start, end, undefined, tag);
         });
         container.add(this._component as unknown as INode);
 
         this._updateScaleRange();
-      }
-    }
-  }
-
-  protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string) {
-    super._handleChange(start, end, updateComponent);
-
-    if (this._shouldChange) {
-      if (updateComponent && this._component) {
-        this._component.setStartAndEnd(start, end);
-      }
-
-      this._start = start;
-      this._end = end;
-      const startValue = this.statePointToData(start);
-      const endValue = this.statePointToData(end);
-      const hasChange = isFunction(this._spec.updateDataAfterChange)
-        ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
-        : this._handleStateChange(startValue, endValue, tag);
-      if (hasChange) {
-        this.event.emit(ChartEvent.dataZoomChange, {
-          model: this,
-          value: {
-            filterData: this._filterMode !== 'axis',
-            start,
-            end,
-            startValue: this._startValue,
-            endValue: this._endValue,
-            newDomain: this._newDomain
-          }
-        });
-      }
-    }
-  }
-
-  protected _handleDataCollectionChange() {
-    const data = this._data.getDataView();
-    data.reRunAllTransform();
-    this._component?.setPreviewData(data.latestData);
-
-    if (this._valueScale) {
-      const domain = this._computeDomainOfValueScale();
-
-      if (domain) {
-        this._valueScale.domain(domain);
       }
     }
   }
@@ -461,22 +464,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const { formatFunc } = getFormatFunction(formatMethod, formatter);
     return formatFunc ? (text: any) => formatFunc(text, { label: text }, formatter) : undefined;
   }
+  /** end: datazoom component attr ***/
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
-  }
-
-  clear(): void {
-    if (this._component) {
-      const container = this.getContainer();
-      this._component.removeAllChild();
-      if (container) {
-        container.removeChild(this._component as unknown as INode);
-      }
-
-      this._component = null;
-    }
-    super.clear();
   }
 }
 
