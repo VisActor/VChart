@@ -7,7 +7,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
 import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, polygonIntersectPolygon, isValid, last, cloneDeep } from '@visactor/vutils';
+import { array, polygonIntersectPolygon, isValid, last } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic, IGroup, INode, IPolygon } from '@visactor/vrender-core';
@@ -22,6 +22,8 @@ import type { DataZoom } from '../data-zoom';
 import type { AxisComponent } from '../axis/base-axis';
 import { getSpecInfo } from '../util';
 import { brush } from '../../theme/builtin/common/component/brush';
+import { isReverse, statePointToData } from '../data-zoom/util';
+import type { CartesianAxis } from '../axis/cartesian';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -669,18 +671,16 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         const axisRangeExpand = this._spec.axisRangeExpand ?? 0;
         const { x1, x2, y1, y2 } = operateMaskBounds;
         const regionStartAttr = isHorizontal ? 'x' : 'y';
+        const regionSizeAttr = isHorizontal ? 'width' : 'height';
         const boundsStart = isHorizontal ? x1 : y1;
         const boundsEnd = isHorizontal ? x2 : y2;
 
         if (this._axisDataZoomMap[axis.id]) {
           const dataZoom = this._axisDataZoomMap[axis.id];
-          const releatedAxis = dataZoom.relatedAxisComponent as AxisComponent;
-          const startValue = releatedAxis
-            .getScale()
-            .invert(boundsStart - region.getLayoutStartPoint()[regionStartAttr]);
-          const endValue = releatedAxis.getScale().invert(boundsEnd - region.getLayoutStartPoint()[regionStartAttr]);
-          const startPercent = dataZoom.dataToStatePoint(startValue);
-          const endPercent = dataZoom.dataToStatePoint(endValue);
+          const startPercent =
+            (boundsStart - region.getLayoutStartPoint()[regionStartAttr]) / region.getLayoutRect()[regionSizeAttr];
+          const endPercent =
+            (boundsEnd - region.getLayoutStartPoint()[regionStartAttr]) / region.getLayoutRect()[regionSizeAttr];
           const newStartPercent = this._stateClamp(startPercent - axisRangeExpand);
           const newEndPercent = this._stateClamp(endPercent + axisRangeExpand);
           dataZoom.setStartAndEnd(Math.min(newStartPercent, newEndPercent), Math.max(newStartPercent, newEndPercent), [
@@ -692,8 +692,16 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
             operateComponent: dataZoom,
             start: newStartPercent,
             end: newEndPercent,
-            startValue: dataZoom.statePointToData(newStartPercent),
-            endValue: dataZoom.statePointToData(newEndPercent)
+            startValue: statePointToData(
+              newStartPercent,
+              dataZoom.stateScale,
+              isReverse(dataZoom.relatedAxisComponent as CartesianAxis<any>, dataZoom.isHorizontal)
+            ),
+            endValue: statePointToData(
+              newEndPercent,
+              dataZoom.stateScale,
+              isReverse(dataZoom.relatedAxisComponent as CartesianAxis<any>, dataZoom.isHorizontal)
+            )
           });
         } else {
           const range = axis.getScale().range();
