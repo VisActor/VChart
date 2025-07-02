@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: domain will follow axis. fix #2770",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
