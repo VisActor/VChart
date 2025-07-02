@@ -1,6 +1,9 @@
-import { isArray, last } from '@visactor/vutils';
+import { isArray, isValid, last } from '@visactor/vutils';
 import { array, isNil } from '../../util';
 import type { DataView } from '@visactor/vdataset';
+import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
+import { isContinuous } from '@visactor/vscale';
+import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 
 export interface IDataFilterWithNewDomainOption {
   getNewDomain: () => any[];
@@ -160,4 +163,71 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
   });
 
   return resultData;
+};
+
+export const statePointToData = (state: number, scale: IBaseScale, reverse: boolean) => {
+  const domain = scale.domain();
+
+  // continuous scale: 本来可以用scale invert，但scale invert在大数据场景下性能不太好，所以这里自行计算
+  if (isContinuous(scale.type)) {
+    if (reverse) {
+      return domain[0] + (last(domain) - domain[0]) * (1 - state);
+    }
+    return domain[0] + (last(domain) - domain[0]) * state;
+  }
+
+  // discete scale: 根据bandSize计算不准确, bandSize不是最新的, 导致index计算错误, 所以仍然使用invert
+  let range = scale.range();
+  if (reverse) {
+    range = range.slice().reverse();
+  }
+  const posInRange: number = range[0] + (last(range) - range[0]) * state;
+  return scale.invert(posInRange);
+};
+
+export const dataToStatePoint = (data: number | string, scale: IBaseScale, isHorizontal: boolean) => {
+  const pos = scale.scale(data);
+  let range = scale.range();
+
+  if (!isHorizontal && isContinuous(scale.type)) {
+    range = range.slice().reverse();
+  }
+
+  return (pos - range[0]) / (last(range) - range[0]);
+};
+
+export const isReverse = (axisComponent: CartesianAxis<any>) => {
+  const axis = axisComponent;
+  if (!axis) {
+    return false;
+  }
+  const axisScale = axis.getScale() as IBandLikeScale;
+  return axisScale.range()[0] > axisScale.range()[1] && (!axis.getInverse() || this._isHorizontal);
+};
+
+export const getAxisBandSize = (axisSpec?: ICartesianBandAxisSpec) => {
+  const bandSize = axisSpec?.bandSize;
+  const maxBandSize = axisSpec?.maxBandSize;
+  const minBandSize = axisSpec?.minBandSize;
+  if (bandSize || minBandSize || maxBandSize) {
+    return { bandSize, maxBandSize, minBandSize };
+  }
+  return undefined;
+};
+
+export const modeCheck = (statePoint: 'start' | 'end', mode: string, spec: any): any => {
+  if (statePoint === 'start') {
+    return (mode === 'percent' && isValid(spec.start)) || (mode === 'value' && isValid(spec.startValue));
+  }
+  return (mode === 'percent' && isValid(spec.end)) || (mode === 'value' && isValid(spec.endValue));
+};
+
+export const parseDomainFromState = (startValue: number | string, endValue: number | string, scale: IBaseScale) => {
+  if (isContinuous(scale.type)) {
+    return [Math.min(endValue as number, startValue as number), Math.max(endValue as number, startValue as number)];
+  }
+  const allDomain = scale.domain();
+  const startIndex = allDomain.indexOf(startValue);
+  const endIndex = allDomain.indexOf(endValue);
+  return allDomain.slice(Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
 };
