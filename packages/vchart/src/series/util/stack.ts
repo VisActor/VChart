@@ -83,7 +83,9 @@ function computeOneDatumY(
   }
 
   let height = Math.abs(y1 - y);
-  if (height < barMinHeight) {
+  if (height <= 0) {
+    height = 0;
+  } else if (height < barMinHeight) {
     height = barMinHeight;
   }
 

@@ -334,7 +334,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const y = valueInScaleRange(this[endMethod](datum), seriesScale, useWholeRange);
 
     let height = Math.abs(y1 - y);
-    if (height < barMinHeight) {
+    if (height <= 0) {
+      height = 0;
+    } else if (height < barMinHeight) {
       height = barMinHeight;
     }
 
