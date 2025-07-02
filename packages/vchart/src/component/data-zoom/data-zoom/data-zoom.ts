@@ -380,7 +380,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         } else {
           isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
         }
-        this._component.setStatePointToData((state: number) => this.statePointToData(state));
+        const axis = this._relatedAxisComponent as CartesianAxis<any>;
+        this._component.setStatePointToData((state: number) =>
+          statePointToData(state, this._stateScale, isReverse(axis))
+        );
 
         this._component.addEventListener('dataZoomChange', (e: any) => {
           const { start, end, tag } = e.detail;
