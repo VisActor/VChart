@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: datazoom layout when set scale. fix #2574 & #2535",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
