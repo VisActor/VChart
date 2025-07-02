@@ -37,7 +37,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
 
   private _xDimensionStatisticsDomain: any[];
 
-  // csj-Q: 是否需要把这些属性写成接口？
   protected _seriesGroupField?: string;
   getSeriesGroupField() {
     return this._seriesField;
@@ -192,11 +191,11 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
       this.setMarkStyle(
         clipMark,
         {
-          x: -this._spec.leftAppendPadding,
+          x: -(this._spec.leftAppendPadding ?? 0),
           y: 0,
           // 本应使用this.getLayoutRect().width, 但这该返回值为0。考虑到横向不需要裁剪，故先采用一个较大值
           width: 10000,
-          height: this._spec.clipHeight
+          height: () => this._spec.clipHeight ?? this._region.getLayoutRect().height
         },
         'normal',
         AttributeLevel.Series
@@ -390,8 +389,8 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     return this._seriesGroupField
       ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
       : this._seriesField
-      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-      : [];
+        ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+        : [];
   }
 
   /**
@@ -413,10 +412,10 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     const colorDomain = this._dotTypeField
       ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesGroupField
-      ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
-      : this._seriesField
-      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-      : [];
+        ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
+        : this._seriesField
+          ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+          : [];
     const colorRange = this._getDataScheme();
     return new ColorOrdinalScale().domain(colorDomain).range(colorRange);
   }

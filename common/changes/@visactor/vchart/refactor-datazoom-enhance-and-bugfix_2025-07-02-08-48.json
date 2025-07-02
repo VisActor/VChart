@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: dot series display bug. fix #3282",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
