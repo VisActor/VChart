@@ -407,10 +407,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
 
     // 如果用户没有配置关联轴 或 用户配置的关联轴和datazoom方向不一致
-    // 则 使用与datazoom的orient相同的第一个axis作为关联轴
+    // 则 使用与datazoom的方向相同的第一个axis作为关联轴
     if (isNil(this._spec.field) && !this._relatedAxisComponent) {
       const axes = this._option.getComponentsByKey('axes');
-      const sameOrientAxis = axes.find((cm: any) => (cm as any)._orient === this._orient);
+      const sameOrientAxis = axes.find(
+        (cm: any) => getDirectionByOrient((cm as any)._orient) === getDirectionByOrient(this._orient)
+      );
 
       if (sameOrientAxis) {
         this._relatedAxisComponent = sameOrientAxis;
