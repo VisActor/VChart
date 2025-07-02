@@ -62,6 +62,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _orient: IOrientType = 'left';
   protected _isHorizontal: boolean;
+  get isHorizontal() {
+    return this._isHorizontal;
+  }
 
   // 是否为自动模式
   protected _auto?: boolean;
@@ -73,6 +76,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   // 数据
   protected _stateScale: IBaseScale;
+  get stateScale() {
+    return this._stateScale;
+  }
   protected _hasInitStateScale: boolean = false;
 
   // 与系列的关联关系
@@ -84,6 +90,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _regionIndex!: number[];
   protected _newDomain: any[];
   protected _relatedAxisComponent!: IComponent;
+  get relatedAxisComponent() {
+    return this._relatedAxisComponent;
+  }
   protected _originalStateFields: Record<number, string | number>;
 
   // 起点数据
@@ -112,10 +121,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _height!: number;
 
   protected _filterMode!: IFilterMode;
-
-  get relatedAxisComponent() {
-    return this._relatedAxisComponent;
-  }
 
   /*** start: public function ***/
   /**
