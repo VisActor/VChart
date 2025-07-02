@@ -394,18 +394,33 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._isScaleValid(xScale) && this._isScaleValid(yScale) && this._spec.showBackgroundChart !== false;
       const attrs = this._getAttrs(isNeedPreview);
 
+      const axis = this._relatedAxisComponent as CartesianAxis<any>;
+
       if (this._component) {
-        this._component.setAttributes(attrs);
+        // this._component.setAttributes(attrs);
+        if (changeData) {
+          this._component.setPreviewData(this._data.getDataView().latestData);
+          if (isNeedPreview) {
+            if (this._isHorizontal) {
+              this._component.setPreviewPointsY1(this._dataToPositionY2);
+            } else {
+              this._component.setPreviewPointsX1(this._dataToPositionX2);
+            }
+            this._component.setStatePointToData((state: number) =>
+              statePointToData(state, this._stateScale, isReverse(axis, this._isHorizontal))
+            );
+          }
+        }
       } else {
         const container = this.getContainer();
         this._component = new DataZoomComponent(attrs);
+        this._component.setPreviewData(this._data.getDataView().latestData);
 
         if (this._isHorizontal) {
           isNeedPreview && this._component.setPreviewPointsY1(this._dataToPositionY2);
         } else {
           isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
         }
-        const axis = this._relatedAxisComponent as CartesianAxis<any>;
         this._component.setStatePointToData((state: number) =>
           statePointToData(state, this._stateScale, isReverse(axis, this._isHorizontal))
         );
@@ -415,8 +430,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
           this._handleChange(start, end, undefined, tag);
         });
         container.add(this._component as unknown as INode);
-
-        this._updateScaleRange();
       }
     }
   }
