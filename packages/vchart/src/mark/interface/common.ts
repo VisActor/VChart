@@ -230,6 +230,8 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   canAnimateAfterProgressive: () => boolean;
   /** 执行动画 */
   runAnimation: () => void;
+  /** 获取动画状态 */
+  getAnimationState: () => AnimationStateValues;
   /** 是否需要清除旧的数据 */
   needClear?: boolean;
   /** 禁用状态动画 */

@@ -1150,6 +1150,16 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._dataByGroup = groupData(data, this._groupKeyGetter);
   }
 
+  getAnimationState() {
+    const graphicsAnimationStates = this._graphics.map(g => g.context.animationState);
+    const animationState = graphicsAnimationStates.every(state => state === AnimationStateEnum.appear)
+      ? AnimationStateEnum.appear
+      : graphicsAnimationStates.every(state => state === AnimationStateEnum.disappear)
+      ? AnimationStateEnum.disappear
+      : graphicsAnimationStates[0];
+    return animationState ?? AnimationStateEnum.none;
+  }
+
   protected createAnimationStateList(type: string, animationConfig: Partial<MarkAnimationSpec>) {
     let config = (animationConfig as any)[type];
     if (config && Array.isArray(config)) {
