@@ -133,8 +133,10 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
   /**
    * set the height of node
    * @since 1.11.0
+   * @description add columns information since 1.16.11
+   *
    */
-  nodeHeight?: number | ((node: SankeyNodeElement) => number);
+  nodeHeight?: number | ((node: SankeyNodeElement, columns?: SankeyNodeElement[][]) => number);
   /**
    * set the height of link
    * @since 1.11.0
