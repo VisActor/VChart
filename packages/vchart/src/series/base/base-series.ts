@@ -884,7 +884,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   initStageAnimation() {
-    this._option.getCompiler().setStageAnimationConfig(
+    const compiler = this._option.getCompiler();
+    if (!compiler?.setStageAnimationConfig) {
+      return;
+    }
+    compiler.setStageAnimationConfig(
       animationConfig(
         {}, // Factory.getAnimationInKey('stage')?.({}, null),
         userAnimationConfig('stage', this._spec as any, this._markAttributeContext),
