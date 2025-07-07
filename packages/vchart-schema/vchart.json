@@ -71173,7 +71173,7 @@
               "type": "number"
             }
           ],
-          "description": "set the height of node",
+          "description": "add columns information since 1.16.11",
           "since": "1.11.0"
         },
         "nodeKey": {
@@ -71691,7 +71691,7 @@
               "type": "number"
             }
           ],
-          "description": "set the height of node",
+          "description": "add columns information since 1.16.11",
           "since": "1.11.0"
         },
         "nodeKey": {

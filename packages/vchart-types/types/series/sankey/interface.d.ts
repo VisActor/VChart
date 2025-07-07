@@ -38,7 +38,7 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
     nodeSortBy?: (a: SankeyNodeElement, b: SankeyNodeElement) => number;
     setNodeLayer?: (datum: SankeyNodeDatum) => number;
     dropIsolatedNode?: boolean;
-    nodeHeight?: number | ((node: SankeyNodeElement) => number);
+    nodeHeight?: number | ((node: SankeyNodeElement, columns?: SankeyNodeElement[][]) => number);
     linkHeight?: number | ((link: SankeyLinkElement, sourceNode: SankeyNodeElement, sourceNodeHeight: number) => number);
     equalNodeHeight?: boolean;
     linkOverlap?: 'start' | 'center' | 'end';
