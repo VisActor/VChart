@@ -7,6 +7,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType, EventType } from '../../event/interface';
 import type { IMark, IMarkGraphic } from '../../mark/interface';
 import type { LayoutState } from '../interface/compiler';
+import type { MarkAnimationSpec } from '../../animation/interface';
 
 export type CompilerListenerParameters = {
   type: EventType;
@@ -40,6 +41,7 @@ export interface ICompiler {
   clear: (ctx: { chart: IChart; vChart: IVChart }, removeGraphicItems?: boolean) => void;
   renderNextTick: (morphConfig?: IMorphConfig) => void;
   render: (morphConfig?: IMorphConfig) => void;
+  setStageAnimationConfig: (config: Partial<MarkAnimationSpec>) => void;
   updateViewBox: (viewBox: IBoundsLike, reRender?: boolean) => void;
   resize: (width: number, height: number, reRender?: boolean) => void;
   setBackground: (color: IColor) => void;

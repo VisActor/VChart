@@ -1,31 +1,27 @@
 import { ChartEvent, Event_Source_Type } from './../constant/event';
-import type {
-  CompilerListenerParameters,
-  ICompiler,
-  ICompilerModel,
-  IRenderContainer,
-  IRenderOption
-} from './interface';
+import type { CompilerListenerParameters, ICompiler, IRenderContainer, IRenderOption } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { LayoutState } from './interface';
-import { GrammarType } from './interface/compilable-item';
 import { isMobileLikeMode, isTrueBrowser } from '../util/env';
 import { isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isObject, isValid } from '@visactor/vutils';
+import { array, isArray, isObject, isValid } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import { createGroup, Stage, vglobal, waitForAllSubLayers } from '@visactor/vrender-core';
 import type { IColor, IEventTarget, IGroup, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart, IVChartRenderOption } from '../core/interface';
+import type { AnimationStateValues } from '../mark/interface';
 import { type IGraphicContext, type IMark, type IMarkGraphic } from '../mark/interface';
 import { Factory } from '../core/factory';
 import type { Gesture } from '@visactor/vrender-kits';
 import { findMarkGraphic, getDatumOfGraphic } from '../util/mark';
 import { diffMarks, findSimpleMarks, toRenderMode, traverseGroupMark } from './util';
 import { log } from '../util/debug';
+import type { MarkAnimationSpec, TypeAnimationConfig } from '../animation/interface';
+import { AnimationStateEnum } from '../animation/interface';
 
 type EventListener = {
   type: string;
@@ -49,6 +45,8 @@ export class Compiler implements ICompiler {
   protected _rootMarks: IMark[] = [];
 
   protected _stage: IStage;
+
+  protected _stateAnimationConfig: Partial<MarkAnimationSpec>;
 
   protected _rootGroup: IGroup;
 
@@ -314,6 +312,7 @@ export class Compiler implements ICompiler {
   private _doRender(immediately: boolean) {
     this._option.performanceHook?.beforeDoRender?.(this._compileChart.getOption().globalInstance);
     if (this._stage) {
+      this.runStageAnimation();
       this._rootMarks.forEach(g => {
         traverseGroupMark(
           g,
@@ -374,6 +373,9 @@ export class Compiler implements ICompiler {
 
     this.findProgressiveMarks();
 
+    // update stage animation state
+    this.updateStateAnimation();
+
     this._doRender(true);
     this.doPreProgressive();
 
@@ -433,6 +435,83 @@ export class Compiler implements ICompiler {
     if (this.clearNextRender()) {
       this.renderMarks();
     }
+  }
+
+  setStageAnimationConfig(config: Partial<MarkAnimationSpec>) {
+    // 封装options，批量添加一些默认参数
+    const animationConfig: Partial<MarkAnimationSpec> = {};
+
+    Object.keys(config).forEach(key => {
+      const value = (config as any)[key];
+      if (isArray(value)) {
+        (animationConfig as any)[key] = value.map(item => {
+          const options = item!.options ?? {};
+
+          return {
+            ...item,
+            options: (...args: any[]) => {
+              const _options = typeof options === 'function' ? options(...args) : options;
+              return {
+                ..._options
+              };
+            }
+          };
+        });
+      } else {
+        (animationConfig as any)[key] = {
+          ...(config as any)[key]
+        };
+      }
+    });
+    this._stateAnimationConfig = animationConfig;
+  }
+
+  updateStateAnimation() {
+    const allMarks: IMark[] = [];
+    this._rootMarks.forEach(mark => {
+      traverseGroupMark(mark, m => {
+        allMarks.push(m);
+      });
+    });
+    const markAnimationStates = allMarks.map(mark => mark.getAnimationState());
+    const animationState = markAnimationStates.every(state => state === AnimationStateEnum.appear)
+      ? AnimationStateEnum.appear
+      : markAnimationStates.every(state => state === AnimationStateEnum.disappear)
+      ? AnimationStateEnum.disappear
+      : AnimationStateEnum.none;
+    if (!this._stage.context) {
+      this._stage.context = {};
+    }
+    this._stage.context.animationState = animationState;
+  }
+
+  runStageAnimation() {
+    const animationState: AnimationStateValues = this._stage.context?.animationState;
+    if (!this._stateAnimationConfig || animationState === AnimationStateEnum.none) {
+      return;
+    }
+    const animationConfigs = array(this._stateAnimationConfig[animationState]).filter(
+      config => (config as TypeAnimationConfig).type
+    );
+    if (!animationConfigs.length) {
+      return;
+    }
+    // clear last animation
+    if (animationState === AnimationStateEnum.appear) {
+      this._stage.stopAnimationState(AnimationStateEnum.disappear);
+    } else if (animationState === AnimationStateEnum.disappear) {
+      this._stage.stopAnimationState(AnimationStateEnum.appear);
+    }
+    // apply current animation
+    this._stage.applyAnimationState(
+      [animationState],
+      [
+        {
+          name: animationState,
+          animation: animationConfigs
+        }
+      ]
+    );
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {

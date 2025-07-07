@@ -6,11 +6,36 @@ import {
   registerMediaQuery,
   registerAnimate,
   registerCustomAnimate,
-  registerStateTransition
+  registerStateTransition,
+  vglobal
 } from '../../../../src/index';
+import { AnimateExecutor, AStageAnimate } from '@visactor/vrender-animate';
 registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
+
+class TestStageAnimate extends AStageAnimate<any> {
+  protected afterStageRender(stage: any, canvas: HTMLCanvasElement): HTMLCanvasElement | void | null | false {
+    const c = vglobal.createCanvas({
+      width: canvas.width,
+      height: canvas.height,
+      dpr: vglobal.devicePixelRatio
+    });
+    const ctx = c.getContext('2d');
+    if (!ctx) {
+      return false;
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(canvas, 0, 0);
+    ctx.fillStyle = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(
+      Math.random() * 255
+    )}, 0.2)`;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    return c;
+  }
+}
+
+AnimateExecutor.registerBuiltInAnimate('stageTest', TestStageAnimate);
 
 let dataArray = [
   { type: 'Nail polish', country: 'Africa', value: 4229 },
@@ -75,8 +100,15 @@ let spec = {
     xField: { visible: true, label: { visible: true } },
     yField: { visible: true, label: { visible: true } }
   },
+  // animationAppear: {
+  //   duration: 300
+  // },
   animationAppear: {
-    duration: 300
+    stage: {
+      type: 'stageTest',
+      duration: 1000,
+      easing: 'linear'
+    }
   },
   animationUpdate: {
     duration: 300
