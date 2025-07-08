@@ -82,6 +82,9 @@ export class Compiler implements ICompiler {
     this._option = option;
   }
 
+  getChart() {
+    return this._compileChart;
+  }
   /**
    * 获取 canvas dom
    * @returns HTMLCanvasElement | undefined

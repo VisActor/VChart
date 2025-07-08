@@ -694,23 +694,19 @@ export class VChart implements IVChart {
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
       this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
+    } else if (updateResult.reCompile) {
+      // recompile
+      // 清除之前的所有 compile 内容
+      this._compiler?.clear({ chart: this._chart, vChart: this });
+      // 重新compile
+      this._compiler?.compile({ chart: this._chart, vChart: this });
+    }
+    if (updateResult.reSize) {
+      const { width, height } = this.getCurrentSize();
 
-      if (updateResult.reSize) {
-        this._doResize();
-      }
-    } else {
-      if (updateResult.reCompile) {
-        // recompile
-        // 清除之前的所有 compile 内容
-        this._compiler?.clear({ chart: this._chart, vChart: this });
-        // 重新compile
-        this._compiler?.compile({ chart: this._chart, vChart: this });
-      }
-      if (updateResult.reSize) {
-        const { width, height } = this.getCurrentSize();
-        this._chart.onResize(width, height, false);
-        this._compiler.resize(width, height, false);
-      }
+      this._currentSize = { width, height };
+      this._chart?.onResize(width, height, false);
+      this._compiler?.resize(width, height, false);
     }
   }
 
