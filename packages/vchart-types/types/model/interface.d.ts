@@ -1,7 +1,7 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { DataSet, DataView } from '@visactor/vdataset';
 import type { IEvent, IEventDispatcher } from '../event/interface';
-import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
+import type { AnimationStateValues, IMark, IMarkGraphic, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { StringOrNumber } from '../typings/common';
 import type { IGroupMarkSpec, ConvertToMarkStyleSpec, ICommonSpec } from '../typings/visual';
@@ -76,6 +76,7 @@ export interface IModel extends ICompilable {
     beforeRelease: () => void;
     onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
     onDataUpdate: () => void;
+    onBeforeRender: () => void;
     updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
     getSpec?: () => any;
     getSpecIndex: () => number;
@@ -86,6 +87,8 @@ export interface IModel extends ICompilable {
     setMarkStyle: <T extends ICommonSpec>(mark?: IMarkRaw<T>, style?: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>, state?: StateValueType, level?: number) => void;
     initMarkStyleWithSpec: (mark?: IMark, spec?: any) => void;
     getSpecInfo: () => IModelSpecInfo;
+    updateAnimateStateCallback: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
+    getAnimationStateCallback: () => (graphic: IMarkGraphic) => AnimationStateValues;
 }
 export interface ILayoutModel extends IModel {
     getLayoutStartPoint: () => IPoint;

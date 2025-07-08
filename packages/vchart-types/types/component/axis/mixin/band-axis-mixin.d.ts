@@ -33,10 +33,12 @@ export interface BandAxisMixin {
     _forceLayout: () => void;
     _getNormalizedValue: (values: any[], length: number) => number;
     _onTickDataChange: (compilableData: CompilableData) => void;
+    registerTicksTransform: () => string;
 }
 export declare class BandAxisMixin {
     private _tickDataMap;
     protected _initData(): void;
+    protected _updateData(): void;
     protected _rawDomainIndex: {
         [key: string | number | symbol]: number;
     }[];
