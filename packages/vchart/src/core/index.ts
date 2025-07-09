@@ -18,6 +18,7 @@ export type { IRegion } from '../region/interface';
 export * from '../typings/spec/common';
 export * from '../event/interface';
 export * from '../theme/interface';
+export * from '../compile/mark/interface';
 export * from './interface';
 
 // some constants
