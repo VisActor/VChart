@@ -14,6 +14,7 @@ import type { Datum, StringOrNumber } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
 import type { IAnimationConfig } from '../../animation/interface';
+import type { ICompiler } from '../../compile/interface';
 
 export interface VisualScaleType {
   scale: IBaseScale;
@@ -62,6 +63,13 @@ export type DiffStateValues = 'update' | 'enter' | 'exit';
 export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear' | 'none' | 'state';
 
 export interface IGraphicContext {
+  /**
+   * 编译器
+   */
+  compiler: ICompiler;
+  /**
+   * mark的类型
+   */
   markType: MarkTypeEnum;
   /**
    * 图形所属mark对应的id，自增id

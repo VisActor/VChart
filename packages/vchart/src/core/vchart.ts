@@ -694,23 +694,19 @@ export class VChart implements IVChart {
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
       this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
+    } else if (updateResult.reCompile) {
+      // recompile
+      // 清除之前的所有 compile 内容
+      this._compiler?.clear({ chart: this._chart, vChart: this });
+      // 重新compile
+      this._compiler?.compile({ chart: this._chart, vChart: this });
+    }
+    if (updateResult.reSize) {
+      const { width, height } = this.getCurrentSize();
 
-      if (updateResult.reSize) {
-        this._doResize();
-      }
-    } else {
-      if (updateResult.reCompile) {
-        // recompile
-        // 清除之前的所有 compile 内容
-        this._compiler?.clear({ chart: this._chart, vChart: this });
-        // 重新compile
-        this._compiler?.compile({ chart: this._chart, vChart: this });
-      }
-      if (updateResult.reSize) {
-        const { width, height } = this.getCurrentSize();
-        this._chart.onResize(width, height, false);
-        this._compiler.resize(width, height, false);
-      }
+      this._currentSize = { width, height };
+      this._chart?.onResize(width, height, false);
+      this._compiler?.resize(width, height, false);
     }
   }
 
@@ -1905,23 +1901,21 @@ export class VChart implements IVChart {
 
   /** 停止正在进行的所有动画 */
   stopAnimation() {
-    this.getStage()?.stopAnimation(true);
+    (this.getStage() as any)?.stopAnimation(true);
   }
 
   reRunNormalAnimation() {
-    this.getStage()?.reApplyAnimationState('normal', true);
+    (this.getStage() as any)?.reApplyAnimationState('normal', true);
   }
 
   /** 暂停正在进行的所有动画 */
   pauseAnimation() {
-    this.getStage()?.pauseAnimation(true);
-    // this._compiler?.getVGrammarView()?.animate?.pause();
+    (this.getStage() as any)?.pauseAnimation(true);
   }
 
   /** 恢复暂停时正在进行的所有动画 */
   resumeAnimation() {
-    this.getStage()?.resumeAnimation(true);
-    // this._compiler?.getVGrammarView()?.animate?.resume();
+    (this.getStage() as any)?.resumeAnimation(true);
   }
 
   // TODO: 后续需要考虑滚动场景

@@ -189,9 +189,34 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   getAnimationConfig() {
     return this._animationConfig;
   }
+
   setAnimationConfig(config: Partial<MarkAnimationSpec>) {
     // group mark 动画默认只挂到自己
     const defaultPrams = this.type === 'group' ? { selfOnly: true } : {};
+    const formatAnimationCfg = (cfg: IAnimationConfig) => {
+      const options = (cfg as any)!.options ?? {};
+
+      return {
+        ...defaultPrams,
+        ...cfg,
+        options: (datum: any, graphic: IMarkGraphic, customParams: any) => {
+          const _options = typeof options === 'function' ? options(datum, graphic, customParams) : options;
+
+          if (graphic && graphic.context && graphic.context.compiler && isValid(graphic.context.modelId)) {
+            const model = graphic.context.compiler.getChart()?.getModelById(graphic.context.modelId);
+
+            return {
+              ..._options,
+              layoutRect: (model as any)?.getLayoutRect?.()
+            };
+          }
+
+          return {
+            ..._options
+          };
+        }
+      };
+    };
 
     // 封装options，批量添加一些默认参数
     const animationConfig: Partial<MarkAnimationSpec> = {};
@@ -199,26 +224,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     Object.keys(config).forEach(key => {
       const value = (config as any)[key];
       if (isArray(value)) {
-        (animationConfig as any)[key] = value.map(item => {
-          const options = item!.options ?? {};
-
-          return {
-            ...defaultPrams,
-            ...item,
-            options: (...args: any[]) => {
-              const _options = typeof options === 'function' ? options(...args) : options;
-              return {
-                ..._options,
-                layoutRect: (this.model as any).getLayoutRect?.()
-              };
-            }
-          };
-        });
-      } else {
-        (animationConfig as any)[key] = {
-          ...defaultPrams,
-          ...(config as any)[key]
-        };
+        (animationConfig as any)[key] = value.map(formatAnimationCfg);
+      } else if (isValid(value)) {
+        (animationConfig as any)[key] = formatAnimationCfg(value);
       }
     });
     this._animationConfig = animationConfig;
@@ -1061,6 +1069,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _getCommonContext() {
     return {
+      compiler: this.getCompiler(),
       markType: this.type as MarkTypeEnum,
       markId: this.id,
       modelId: this.model.id,
