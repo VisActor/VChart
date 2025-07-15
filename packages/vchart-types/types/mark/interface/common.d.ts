@@ -8,6 +8,7 @@ import type { Datum, StringOrNumber } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
 import type { IAnimationConfig } from '../../animation/interface';
+import type { ICompiler } from '../../compile/interface';
 export interface VisualScaleType {
     scale: IBaseScale;
     field: StringOrNumber;
@@ -35,8 +36,9 @@ export type IMarkStyle<T extends ICommonSpec> = {
     [key in keyof T]: MarkInputStyle<T[key]>;
 };
 export type DiffStateValues = 'update' | 'enter' | 'exit';
-export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear';
+export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear' | 'none' | 'state';
 export interface IGraphicContext {
+    compiler: ICompiler;
     markType: MarkTypeEnum;
     markId: number;
     modelId: number;
@@ -92,9 +94,10 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     restartProgressive: () => void;
     renderProgressive: () => void;
     canAnimateAfterProgressive: () => boolean;
-    updateAnimationState: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
     runAnimation: () => void;
     needClear?: boolean;
+    disableAnimationByState: (state: string | string[]) => void;
+    enableAnimationByState: (state: string | string[]) => void;
 }
 export type IMark = IMarkRaw<ICommonSpec>;
 export interface ICompileMarkConfig extends IMarkConfig {

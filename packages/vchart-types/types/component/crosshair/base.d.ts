@@ -51,7 +51,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     protected _initEvent(): void;
     private _registerEvent;
     private _eventOff;
-    updateLayoutAttribute(): void;
+    onBeforeRender(): void;
     protected calculateTriggerPoint(params: any): {
         x: number;
         y: number;
