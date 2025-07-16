@@ -1,1 +1,0 @@
-export { ICandlestickMarkSpec } from './interface';

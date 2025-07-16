@@ -5,6 +5,7 @@ export {
   registerPolygonAnimation,
   registerRectAnimation,
   registerArcAnimation,
+  registerScaleInOutAnimation,
   DEFAULT_ANIMATION_CONFIG
 } from './config';
 export { animationConfig, userAnimationConfig, shouldMarkDoMorph } from './utils';

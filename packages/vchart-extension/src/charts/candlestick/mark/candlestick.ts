@@ -4,7 +4,6 @@ import { createLine, createRect, type IGlyph, type ILineGraphicAttribute } from 
 import { Factory, Datum } from '@visactor/vchart';
 import type { ICandlestickMarkSpec } from './interface';
 
-export type CandlestickShaftShape = 'line' | 'bar';
 export type ICandlestickMark = IMarkRaw<ICandlestickMarkSpec>;
 export const CANDLESTICK_MARK_TYPE = 'candlestick';
 
@@ -80,8 +79,7 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
     const defaultStyle: IMarkStyle<ICandlestickMarkSpec> = {
       ...super._getDefaultStyle(),
       lineWidth: 2,
-      boxWidth: 30,
-      shaftWidth: 20
+      boxWidth: 30
     };
     return defaultStyle;
   }
