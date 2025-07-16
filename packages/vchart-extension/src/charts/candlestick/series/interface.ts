@@ -1,43 +1,12 @@
-// candlestick/series/interface.ts
 import type {
   IAnimationSpec,
-  ICommonSpec,
   IMarkSpec,
   ICartesianSeriesSpec,
   SeriesMarkNameEnum,
-  Datum
+  IMarkTheme,
+  ICartesianSeriesTheme
 } from '@visactor/vchart';
-
-export interface ICandlestickMarkSpec extends ICommonSpec {
-  /**
-   * box描边宽度
-   */
-  lineWidth?: number;
-  /**
-   * box宽度
-   */
-  boxWidth?: number;
-  /**
-   * 盒子填充颜色，为空则不填充
-   */
-  boxFill?: string | ((datum: Datum) => string);
-  /**
-   * 最低价
-   */
-  low?: (datum: Datum) => number;
-  /**
-   * 收盘价
-   */
-  close?: (datum: Datum) => number;
-  /**
-   * 开盘价
-   */
-  open?: (datum: Datum) => number;
-  /**
-   * 最高价
-   */
-  high?: (datum: Datum) => number;
-}
+import type { ICandlestickMarkSpec } from '../mark';
 
 export type candlestickColorConfig = {
   /**
@@ -61,7 +30,7 @@ export interface ICandlestickSeriesSpec
   /**
    * 时间轴字段
    */
-  xField: string;
+  xField: string | string[];
   /**
    * 开盘价字段
    */
@@ -86,4 +55,8 @@ export interface ICandlestickSeriesSpec
    * 蜡烛图标记配置
    */
   candlestick?: IMarkSpec<ICandlestickMarkSpec>;
+}
+
+export interface ICandlestickSeriesTheme extends ICartesianSeriesTheme {
+  candlestick?: Partial<IMarkTheme<ICandlestickMarkSpec>>;
 }
