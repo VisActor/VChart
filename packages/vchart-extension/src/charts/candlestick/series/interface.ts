@@ -6,7 +6,7 @@ import type {
   IMarkTheme,
   ICartesianSeriesTheme
 } from '@visactor/vchart';
-import type { ICandlestickMarkSpec } from '../mark';
+import type { ICandlestickMarkSpec } from '../mark/interface';
 
 export type candlestickColorConfig = {
   /**

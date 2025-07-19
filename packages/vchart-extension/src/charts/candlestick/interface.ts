@@ -1,7 +1,7 @@
-import type { IChartExtendsSeriesSpec, IChartSpec } from '@visactor/vchart';
+import type { IChartExtendsSeriesSpec, ICartesianChartSpec } from '@visactor/vchart';
 import type { ICandlestickSeriesSpec } from './series/interface';
 
-export interface ICandlestickChartSpec extends IChartSpec, IChartExtendsSeriesSpec<any> {
+export interface ICandlestickChartSpec extends ICartesianChartSpec, IChartExtendsSeriesSpec<ICandlestickSeriesSpec> {
   type: 'candlestick';
   /** 系列配置 */
   series?: ICandlestickSeriesSpec[];

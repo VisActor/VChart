@@ -34,7 +34,7 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
   }
 }
 
-export const registerBoxplotSeries = () => {
+export const registerCandlestickSeries = () => {
   registerCandlestickMark();
   registerSymbolMark();
   registerScaleInOutAnimation();
