@@ -14,15 +14,13 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
   setGlyphConfig(): void {
     this._subMarks = {
       body: { type: 'rect' },
-      upperWick: { type: 'line', defaultAttributes: { x: 0, y: 0 } },
-      lowerWick: { type: 'line', defaultAttributes: { x: 0, y: 0 } }
+      wick: { type: 'line', defaultAttributes: { x: 0, y: 0 } }
     };
     this._channelEncoder = null;
     this._positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
       const {
         x = g.attribute.x,
         boxWidth = (g.attribute as any).boxWidth,
-        ruleWidth = (g.attribute as any).ruleWidth,
         open = (g.attribute as any).open,
         close = (g.attribute as any).close,
         low = (g.attribute as any).low,
@@ -32,34 +30,10 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
       attributes.box = {
         x: x - boxWidth / 2,
         x1: x + boxWidth / 2,
-        y: open,
-        y1: close
+        y: Math.min(open, close),
+        y1: Math.max(open, close)
       };
-      attributes.high = {
-        points: [
-          {
-            x: x - ruleWidth / 2,
-            y: high
-          },
-          {
-            x: x + ruleWidth / 2,
-            y: high
-          }
-        ]
-      };
-      attributes.low = {
-        points: [
-          {
-            x: x - ruleWidth / 2,
-            y: low
-          },
-          {
-            x: x + ruleWidth / 2,
-            y: low
-          }
-        ]
-      };
-      attributes.shaft = {
+      attributes.wick = {
         points: [
           {
             x: x,
