@@ -11,11 +11,13 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
   static readonly type = CANDLESTICK_MARK_TYPE;
   readonly type = CandlestickMark.type;
 
-  setGlyphConfig(): void {
+  setGlyphConfig(cfg: any): void {
+    super.setGlyphConfig(cfg);
     this._subMarks = {
-      body: { type: 'rect' },
+      box: { type: 'rect' },
       wick: { type: 'line', defaultAttributes: { x: 0, y: 0 } }
     };
+    this._positionChannels = ['x', 'boxWidth', 'open', 'close', 'high', 'low'];
     this._channelEncoder = null;
     this._positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
       const {
