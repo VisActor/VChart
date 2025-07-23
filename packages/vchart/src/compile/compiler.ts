@@ -138,6 +138,7 @@ export class Compiler implements ICompiler {
           this._option.beforeRender?.(stage);
         },
         afterRender: this._option.afterRender,
+        afterClearScreen: this._option.afterClearScreen,
         disableDirtyBounds: true,
         autoRender: true,
         ticker: this._option.ticker,
