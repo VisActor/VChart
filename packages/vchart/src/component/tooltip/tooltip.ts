@@ -205,6 +205,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         }
         this._isEnterTooltip = false;
 
+        if (this._spec.triggerOff === 'none') {
+          return;
+        }
+
         if (this._cacheEnterableRect) {
           const newRect = container.getBoundingClientRect?.();
 
@@ -238,7 +242,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     this.processor = {};
 
     (activeType as TooltipActiveType[]).forEach(type => {
-      (this.processor as any)[type] = Factory.createTooltipProcessor(type, this);
+      const instance = Factory.createTooltipProcessor(type, this);
+
+      if (instance) {
+        (this.processor as any)[type] = instance;
+      }
     });
   }
 
@@ -314,6 +322,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this._handleChartMouseOut(params);
       this._clickLock = false;
     } else {
+      if (!this._isTooltipShown && !this.tooltipHandler?.isTooltipShown?.()) {
+        return;
+      }
       this._clickLock = true;
     }
   };

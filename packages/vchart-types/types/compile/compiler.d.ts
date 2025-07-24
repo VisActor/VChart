@@ -34,6 +34,7 @@ export declare class Compiler implements ICompiler {
     private _layoutState?;
     private _compileChart;
     constructor(container: IRenderContainer, option: IRenderOption);
+    getChart(): IChart;
     getCanvas(): HTMLCanvasElement | undefined;
     _gestureController?: Gesture;
     getStage(): IStage | undefined;

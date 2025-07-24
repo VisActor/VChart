@@ -539,6 +539,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     elements.forEach(element => element.onEvaluateEnd(option));
   }
 
+  onBeforeRender() {
+    const elements = [...this._components, ...this._regions, ...this._series];
+    elements.forEach(element => element.onBeforeRender());
+  }
+
   getLayoutElements(): ILayoutItem[] {
     return this.getAllModels()
       .map(i => i.layout)
@@ -1265,22 +1270,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   protected _enableMarkAnimation(states: string | string[]) {
     const marks = this.getAllMarks();
-    marks.forEach(mark => {
-      const product = mark.getProduct();
-      if (product && product.animate) {
-        // product.animate.enableAnimationState(states);
-      }
-    });
+    marks.forEach(mark => mark.enableAnimationByState(states));
   }
 
   protected _disableMarkAnimation(states: string | string[]) {
     const marks = this.getAllMarks();
-    marks.forEach(mark => {
-      const product = mark.getProduct();
-      if (product && product.animate) {
-        // product.animate.disableAnimationState(states);
-      }
-    });
+    marks.forEach(mark => mark.disableAnimationByState(states));
   }
 
   filterGraphicsByDatum(

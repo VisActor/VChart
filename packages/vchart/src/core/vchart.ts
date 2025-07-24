@@ -694,23 +694,19 @@ export class VChart implements IVChart {
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
       this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
+    } else if (updateResult.reCompile) {
+      // recompile
+      // 清除之前的所有 compile 内容
+      this._compiler?.clear({ chart: this._chart, vChart: this });
+      // 重新compile
+      this._compiler?.compile({ chart: this._chart, vChart: this });
+    }
+    if (updateResult.reSize) {
+      const { width, height } = this.getCurrentSize();
 
-      if (updateResult.reSize) {
-        this._doResize();
-      }
-    } else {
-      if (updateResult.reCompile) {
-        // recompile
-        // 清除之前的所有 compile 内容
-        this._compiler?.clear({ chart: this._chart, vChart: this });
-        // 重新compile
-        this._compiler?.compile({ chart: this._chart, vChart: this });
-      }
-      if (updateResult.reSize) {
-        const { width, height } = this.getCurrentSize();
-        this._chart.onResize(width, height, false);
-        this._compiler.resize(width, height, false);
-      }
+      this._currentSize = { width, height };
+      this._chart?.onResize(width, height, false);
+      this._compiler?.resize(width, height, false);
     }
   }
 
@@ -793,7 +789,6 @@ export class VChart implements IVChart {
     if (!this._beforeRender(option)) {
       return self;
     }
-    this._updateAnimateState(true);
     // 填充数据绘图
     this._compiler?.render(option.morphConfig);
     this._updateAnimateState(false);
@@ -811,12 +806,16 @@ export class VChart implements IVChart {
       const updateGraphicAnimationState = (graphic: IMarkGraphic) => {
         const diffState = graphic.context?.diffState;
         if (initial) {
-          return diffState === 'exit' ? undefined : AnimationStateEnum.appear;
+          return diffState === 'exit' ? AnimationStateEnum.none : AnimationStateEnum.appear;
         }
         return diffState;
       };
-      this._compiler.getRootMarks().forEach(mark => {
-        mark.updateAnimationState(updateGraphicAnimationState);
+
+      this._chart?.getAllRegions().forEach(region => {
+        region.updateAnimateStateCallback(updateGraphicAnimationState);
+      });
+      this._chart?.getAllComponents().forEach(component => {
+        component.updateAnimateStateCallback(updateGraphicAnimationState);
       });
     }
   }
@@ -939,13 +938,12 @@ export class VChart implements IVChart {
     if (this._chart) {
       this._chart.updateData(id, data, true, parserOptions);
 
-      // after layout
-      this._compiler.render();
-
       if (userUpdateOptions?.reAnimate) {
         this.stopAnimation();
         this._updateAnimateState(true);
       }
+      this._compiler.render();
+
       return this as unknown as IVChart;
     }
     this._spec.data = array(this._spec.data);
@@ -968,11 +966,12 @@ export class VChart implements IVChart {
     if (this._chart) {
       this._chart.updateFullData(data);
       if (reRender) {
-        this._compiler.render();
         if (userUpdateOptions?.reAnimate) {
           this.stopAnimation();
           this._updateAnimateState(true);
         }
+
+        this._compiler.render();
       }
       return this as unknown as IVChart;
     }
@@ -1902,17 +1901,21 @@ export class VChart implements IVChart {
 
   /** 停止正在进行的所有动画 */
   stopAnimation() {
-    // this._compiler?.getVGrammarView()?.animate?.stop();
+    (this.getStage() as any)?.stopAnimation(true);
+  }
+
+  reRunNormalAnimation() {
+    (this.getStage() as any)?.reApplyAnimationState('normal', true);
   }
 
   /** 暂停正在进行的所有动画 */
   pauseAnimation() {
-    // this._compiler?.getVGrammarView()?.animate?.pause();
+    (this.getStage() as any)?.pauseAnimation(true);
   }
 
   /** 恢复暂停时正在进行的所有动画 */
   resumeAnimation() {
-    // this._compiler?.getVGrammarView()?.animate?.resume();
+    (this.getStage() as any)?.resumeAnimation(true);
   }
 
   // TODO: 后续需要考虑滚动场景

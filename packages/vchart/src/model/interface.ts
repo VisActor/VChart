@@ -1,13 +1,12 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { DataSet, DataView } from '@visactor/vdataset';
 import type { IEvent, IEventDispatcher } from '../event/interface';
-import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
+import type { AnimationStateValues, IMark, IMarkGraphic, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { StringOrNumber } from '../typings/common';
 import type { IGroupMarkSpec, ConvertToMarkStyleSpec, ICommonSpec } from '../typings/visual';
 import type { IRect } from '../typings/space';
 import type { IPoint, CoordinateType } from '../typings/coordinate';
-import type { ITheme } from '../theme/interface';
 import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { IGlobalScale } from '../scale/interface';
@@ -23,9 +22,6 @@ import type { IVChart } from '../core/interface';
 import type { ICompilableData } from '../compile/data/interface';
 import type { IDimensionData, IDimensionInfo } from '../event/events/dimension/interface';
 import type { IAxis } from '../component/axis';
-import type { CrossHairStateItem } from '../component/crosshair/interface/common';
-import type { RectCrosshairAttrs } from '@visactor/vrender-components';
-
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IModelInitOption {}
@@ -116,6 +112,7 @@ export interface IModel extends ICompilable {
 
   onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
   onDataUpdate: () => void;
+  onBeforeRender: () => void;
 
   updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
   getSpec?: () => any;
@@ -138,6 +135,9 @@ export interface IModel extends ICompilable {
   initMarkStyleWithSpec: (mark?: IMark, spec?: any) => void;
 
   getSpecInfo: () => IModelSpecInfo;
+
+  updateAnimateStateCallback: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
+  getAnimationStateCallback: () => (graphic: IMarkGraphic) => AnimationStateValues;
 }
 
 export interface ILayoutModel extends IModel {

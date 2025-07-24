@@ -130,6 +130,12 @@ export interface IRenderOption {
    * 绘制之后的钩子函数
    */
   afterRender?: IStageParams['afterRender'];
+
+  /**
+   * 渲染层清除屏幕之后的钩子函数，这个钩子在实际渲染之前
+   * @since 2.0.1
+   */
+  afterClearScreen?: IStageParams['afterClearScreen'];
   /**
    * 绘图区域背景色设置
    */

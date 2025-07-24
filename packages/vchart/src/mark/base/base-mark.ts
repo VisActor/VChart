@@ -51,7 +51,7 @@ import type {
   IMarkStateManager,
   StateValueType
 } from '../../compile/mark/interface';
-import { array, degreeToRadian, has, isArray, isBoolean, isFunction, isNil, isObject, isValid } from '@visactor/vutils';
+import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isObject, isValid } from '@visactor/vutils';
 import { curveTypeTransform, groupData, runEncoder } from '../utils/common';
 import type { ICompilableInitOption } from '../../compile/interface';
 import { LayoutState } from '../../compile/interface';
@@ -67,7 +67,8 @@ import type { ICompilableData } from '../../compile/data/interface';
 import type { IAnimationConfig } from '../../animation/interface';
 import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
 import { CompilableData } from '../../compile/data/compilable-data';
-import { log } from '../../util';
+import { getDiffAttributesOfGraphic } from '../../util/mark';
+import { log } from '../../util/debug';
 import { morph as runMorph } from '../../compile/morph';
 
 export type ExChannelCall = (
@@ -188,9 +189,34 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   getAnimationConfig() {
     return this._animationConfig;
   }
+
   setAnimationConfig(config: Partial<MarkAnimationSpec>) {
     // group mark 动画默认只挂到自己
     const defaultPrams = this.type === 'group' ? { selfOnly: true } : {};
+    const formatAnimationCfg = (cfg: IAnimationConfig) => {
+      const options = (cfg as any)!.options ?? {};
+
+      return {
+        ...defaultPrams,
+        ...cfg,
+        options: (datum: any, graphic: IMarkGraphic, customParams: any) => {
+          const _options = typeof options === 'function' ? options(datum, graphic, customParams) : options;
+
+          if (graphic && graphic.context && graphic.context.compiler && isValid(graphic.context.modelId)) {
+            const model = graphic.context.compiler.getChart()?.getModelById(graphic.context.modelId);
+
+            return {
+              ..._options,
+              layoutRect: (model as any)?.getLayoutRect?.()
+            };
+          }
+
+          return {
+            ..._options
+          };
+        }
+      };
+    };
 
     // 封装options，批量添加一些默认参数
     const animationConfig: Partial<MarkAnimationSpec> = {};
@@ -198,29 +224,24 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     Object.keys(config).forEach(key => {
       const value = (config as any)[key];
       if (isArray(value)) {
-        (animationConfig as any)[key] = value.map(item => {
-          const options = item!.options ?? {};
-
-          return {
-            ...defaultPrams,
-            ...item,
-            options: (...args: any[]) => {
-              const _options = typeof options === 'function' ? options(...args) : options;
-              return {
-                ..._options,
-                layoutRect: (this.model as any).getLayoutRect?.()
-              };
-            }
-          };
-        });
-      } else {
-        (animationConfig as any)[key] = {
-          ...defaultPrams,
-          ...(config as any)[key]
-        };
+        (animationConfig as any)[key] = value.map(formatAnimationCfg);
+      } else if (isValid(value)) {
+        (animationConfig as any)[key] = formatAnimationCfg(value);
       }
     });
     this._animationConfig = animationConfig;
+  }
+
+  protected _disabledAnimationStates?: string[] = [];
+
+  disableAnimationByState(state: string | string[]) {
+    const states = array(state);
+    this._disabledAnimationStates = [...new Set([...this._disabledAnimationStates, ...states])];
+  }
+
+  enableAnimationByState(state: string | string[]) {
+    const states = array(state);
+    this._disabledAnimationStates = this._disabledAnimationStates.filter(s => !states.includes(s));
   }
 
   /** 布局标记 */
@@ -1048,6 +1069,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _getCommonContext() {
     return {
+      compiler: this.getCompiler(),
       markType: this.type as MarkTypeEnum,
       markId: this.id,
       modelId: this.model.id,
@@ -1145,12 +1167,18 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     // TODO 因为数据的覆盖特点，无动画的时候新的更新一定会覆盖前一次的旧值，所以默认都是后面的动画覆盖前面的动画
     // TODO 但是如果用户定义了一个动画数组，他的预期是动画不会覆盖，通过priority为INfinity来控制不覆盖
     if (Array.isArray(config)) {
-      config = config.map((item: any, index: number) => ({
+      return config.map((item: any, index: number) => ({
         ...item,
         priority: item.priority ?? Infinity
       }));
     }
-    return config;
+    return config
+      ? {
+          ...config,
+          // 循环动画的优先级定为最高，不会被屏蔽掉
+          priority: type === 'normal' ? config.priority ?? Infinity : config.priority
+        }
+      : config;
   }
 
   /**
@@ -1177,6 +1205,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     if (!this._animationConfig || graphics.length === 0) {
       return;
     }
+
     if (this.tryRunMorphing(graphics)) {
       return;
     }
@@ -1262,10 +1291,41 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   }
 
+  protected _setAnimationState(g: IMarkGraphic) {
+    const callback =
+      (this.type === MarkTypeEnum.component
+        ? this.model.getAnimationStateCallback()
+        : (this.model as ISeries).getRegion?.()?.getAnimationStateCallback()) ||
+      ((g: IMarkGraphic) => {
+        const diffState = g.context?.diffState;
+        return diffState === AnimationStateEnum.exit
+          ? AnimationStateEnum.exit
+          : diffState === AnimationStateEnum.update
+          ? AnimationStateEnum.update
+          : AnimationStateEnum.appear;
+      });
+    const customizedState = callback(g);
+
+    g.context.animationState = customizedState ?? g.context.diffState;
+
+    // 复用exit的图元，需要设置属性为最初的属性
+    if (g.context.animationState === DiffState.exit) {
+      // 表示正在被复用，后续需要重设属性的
+      g.context.reusing = true;
+      // 停止所有动画，
+      // TODO：属性可能回不去了（如果enter和exit不是一个动画），所以在encode阶段要获取finalAttribute，设置上去
+      (g as any).animates && (g as any).animates.forEach((a: any) => a.stop());
+      // force element to stop exit animation if it is reentered
+      // todo animaiton
+      // const animators = this.animate?.getElementAnimators(element, DiffState.exit);
+      // animators && animators.forEach(animator => animator.stop('start'));
+    }
+  }
+
   protected _runJoin(data: Datum[]) {
     const newGroupedData = this._getDataByKey(data);
     const prevGroupedData = this._prevDataByKey;
-    const newGraphics: IMarkGraphic[] = [];
+    const allGraphics: IMarkGraphic[] = [];
 
     const enterGraphics = new Set<IMarkGraphic>(this._graphics.filter(g => g.context.diffState === DiffState.enter));
 
@@ -1289,32 +1349,20 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         diffState = DiffState.enter;
         g.isExiting = false;
 
-        // 复用exit的图元，需要设置属性为最初的属性
-        if (g.context?.diffState === DiffState.exit) {
-          // 表示正在被复用，后续需要重设属性的
-          g.context.reusing = true;
-          // 停止所有动画，
-          // TODO：属性可能回不去了（如果enter和exit不是一个动画），所以在encode阶段要获取finalAttribute，设置上去
-          (g as any).animates && (g as any).animates.forEach((a: any) => a.stop());
-          // force element to stop exit animation if it is reentered
-          // todo animaiton
-          // const animators = this.animate?.getElementAnimators(element, DiffState.exit);
-          // animators && animators.forEach(animator => animator.stop('start'));
-        }
-
         this._graphicMap.set(key, g as IMarkGraphic);
-        newGraphics.push(g as IMarkGraphic);
+        allGraphics.push(g as IMarkGraphic);
       } else {
         // update
         g = this._graphicMap.get(key);
 
         if (g) {
           diffState = DiffState.update;
-          newGraphics.push(g as IMarkGraphic);
+          allGraphics.push(g);
         }
       }
 
       if (g) {
+        enterGraphics.delete(g);
         g.context = {
           ...this._getCommonContext(),
           diffState,
@@ -1328,7 +1376,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           fieldX: g.context?.fieldX,
           // 从旧context中继承
           fieldY: g.context?.fieldY,
-          animationState: diffState,
           // TODO 如果newData为空，则使用旧的data，避免exit图元找不到data
           data: newData ?? g.context?.data,
           uniqueKey: key,
@@ -1338,7 +1385,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           indexKey: '__VCHART_DEFAULT_DATA_INDEX',
           stateAnimateConfig: this.getAnimationConfig()?.state
         };
-        enterGraphics.delete(g);
+        this._setAnimationState(g);
       }
       return g;
     };
@@ -1363,6 +1410,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         const g = callback(key, newGroupedData.data.get(key), null);
         if (g) {
           g.context.animationState = AnimationStateEnum.appear;
+          // this._setAnimationState(g);
         }
       });
     } else if (prevGroupedData) {
@@ -1370,6 +1418,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         // disappear
         const g = callback(key, null, prevGroupedData.data.get(key));
         g.context.animationState = AnimationStateEnum.disappear;
+        // this._setAnimationState(g);
       });
     }
 
@@ -1383,13 +1432,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
       (g as IMarkGraphic).release();
     });
-    const graphicCount = newGraphics.length;
-    newGraphics.forEach((g, index) => {
+    const graphicCount = allGraphics.length;
+    allGraphics.forEach((g, index) => {
       g.context.graphicCount = graphicCount;
       g.context.graphicIndex = index;
     });
     this._dataByKey = newGroupedData;
-    this._graphics = newGraphics;
+    this._graphics = allGraphics;
     this.needClear = true;
   }
 
@@ -1543,14 +1592,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           this._graphicMap.set(g.context.uniqueKey, g);
         }
       } else {
-        // diff一下，获取差异的属性
-        const prevAttrs: Record<string, any> = g.getAttributes(true);
-        const diffAttrs: Record<string, any> = {};
-        Object.keys(finalAttrs).forEach(key => {
-          if (prevAttrs[key] !== finalAttrs[key]) {
-            diffAttrs[key] = finalAttrs[key];
-          }
-        });
+        const diffAttrs = getDiffAttributesOfGraphic(g, finalAttrs);
         g.context.diffAttrs = diffAttrs;
         if (g.context.reusing) {
           // 表示正在被复用，需要重设属性的
@@ -1759,29 +1801,30 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
     };
     this._graphicMap.forEach((g, key) => {
+      if (g.context.diffState !== DiffState.exit || g.isExiting) {
+        return;
+      }
       // 避免重复执行退场动画
-      if (g.context.diffState === DiffState.exit && !g.isExiting) {
-        if (this.hasAnimationByState('exit')) {
-          g.isExiting = true;
-          // 执行exit动画
-          const animationConfig = this.getAnimationConfig();
-          if ((animationConfig as any).exit && (animationConfig as any).exit.length) {
-            const exitConfigList = (animationConfig as any).exit.map((item: any, index: number) => ({
-              name: `exit_${index}`,
-              animation: {
-                ...item,
-                customParameters: g.context
-              }
-            }));
-            g.applyAnimationState(['exit'], [exitConfigList.length === 1 ? exitConfigList[0] : exitConfigList], () => {
-              // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
-              // TODO 这里如果频繁执行的话，可能会误判
-              doRemove(g, key);
-            });
-          }
-        } else {
-          doRemove(g, key);
+      if (g.context.animationState === DiffState.exit && this.hasAnimationByState('exit')) {
+        g.isExiting = true;
+        // 执行exit动画
+        const animationConfig = this.getAnimationConfig();
+        if ((animationConfig as any).exit && (animationConfig as any).exit.length) {
+          const exitConfigList = (animationConfig as any).exit.map((item: any, index: number) => ({
+            name: `exit_${index}`,
+            animation: {
+              ...item,
+              customParameters: g.context
+            }
+          }));
+          g.applyAnimationState(['exit'], [exitConfigList.length === 1 ? exitConfigList[0] : exitConfigList], () => {
+            // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
+            // TODO 这里如果频繁执行的话，可能会误判
+            doRemove(g, key);
+          });
         }
+      } else {
+        doRemove(g, key);
       }
     });
   }
@@ -1966,19 +2009,16 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   }
 
-  updateAnimationState(callback: (graphic: IMarkGraphic) => AnimationStateValues) {
-    if (this._graphics && this._graphics.length) {
-      this._graphics.forEach(g => {
-        g.context.animationState = callback(g);
-      });
-    }
-  }
-
-  hasAnimationByState(state: keyof MarkAnimationSpec) {
-    if (!state || !this._animationConfig || !this._animationConfig[state]) {
+  hasAnimationByState(state: AnimationStateValues) {
+    if (
+      !state ||
+      !this._animationConfig ||
+      !(this._animationConfig as any)[state] ||
+      this._disabledAnimationStates.includes(state)
+    ) {
       return false;
     }
-    const stateAnimationConfig = this._animationConfig[state];
+    const stateAnimationConfig = (this._animationConfig as any)[state];
     return (stateAnimationConfig as IAnimationConfig[]).length > 0 || isObject(stateAnimationConfig);
   }
 

@@ -4,7 +4,14 @@ import type { Maybe } from '../typings';
 import { log, warn } from '../util/debug';
 import type { IGroupMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { AnimationStateValues, IGroupMark, IMark, IMarkGraphic, MarkType } from './interface';
+import {
+  DiffState,
+  type AnimationStateValues,
+  type IGroupMark,
+  type IMark,
+  type IMarkGraphic,
+  type MarkType
+} from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { type IMarkCompileOption } from '../compile/mark';
@@ -12,7 +19,7 @@ import type { IGroup, IGroupGraphicAttribute } from '@visactor/vrender-core';
 import { registerGroup, registerShadowRoot } from '@visactor/vrender-kits';
 import { isNil } from '@visactor/vutils';
 import { traverseGroupMark } from '../compile/util';
-import { LayoutState } from '../compile/interface';
+import { getDiffAttributesOfGraphic } from '../util/mark';
 
 export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
   static readonly type = MarkTypeEnum.group;
@@ -22,6 +29,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     return this._marks;
   }
 
+  protected _diffState = DiffState.enter;
   protected declare _product: Maybe<IGroup>;
   declare getProduct: () => Maybe<IGroup>;
 
@@ -111,9 +119,37 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
     const style = this._simpleStyle ?? this.getAttributesOfState({});
 
-    this._product.context = { ...this._product.context, ...this._getCommonContext() };
-    this._product.setAttributes(this._getAttrsFromConfig(style));
+    this._product.context = {
+      ...this._product.context,
+      ...this._getCommonContext(),
+      diffState: this._diffState
+    };
+    this._setAnimationState(this._product as unknown as IMarkGraphic);
+    const newAttrs = this._getAttrsFromConfig(style);
+
+    // TODO: 需要优化，现在group mark 走了一些特殊逻辑
+    if (this._product.context.diffState === DiffState.update) {
+      const hasAnimation = this.hasAnimation();
+      const diffAttrs = getDiffAttributesOfGraphic(this._product as unknown as IMarkGraphic, newAttrs);
+      this._product.context.diffAttrs = diffAttrs;
+
+      if (!this.hasAnimationByState(this._product.context.animationState)) {
+        hasAnimation ? this._product.setAttributesAndPreventAnimate(diffAttrs) : this._product.setAttributes(diffAttrs);
+      }
+
+      if (hasAnimation) {
+        this._product.setFinalAttributes(newAttrs);
+      }
+    } else {
+      this._product.setAttributes(newAttrs);
+    }
+
     this.needClear = true;
+  }
+
+  clearExitGraphics() {
+    // group 暂时不需要clear元素，完成首次渲染后 将状态设置为update
+    this._diffState = DiffState.update;
   }
 
   render(): void {
@@ -125,17 +161,6 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
     this.getMarks().forEach(mark => {
       mark.render();
-    });
-  }
-
-  updateAnimationState(callback: (g: IMarkGraphic) => AnimationStateValues) {
-    this.getGraphics().forEach(g => {
-      if (g) {
-        g.context = { ...g.context, animationState: callback(g) };
-      }
-    });
-    this.getMarks().forEach(mark => {
-      mark.updateAnimationState(callback);
     });
   }
 

@@ -18364,7 +18364,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -19764,7 +19764,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -20555,7 +20555,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -21632,7 +21632,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -22316,7 +22316,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -23557,7 +23557,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -23978,6 +23978,12 @@
         "style": {
           "$ref": "#/definitions/Partial<IPolygonMarkSpec>",
           "description": "brush 的框选样式"
+        },
+        "updateElementsState": {
+          "default": true,
+          "description": "是否更新图元状态\n关闭时, brush 事件不会触发图元状态更新, 优化缩放场景下的性能",
+          "since": "1.13.13",
+          "type": "boolean"
         },
         "visible": {
           "default": true,
@@ -25248,7 +25254,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -25632,7 +25638,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -26080,7 +26086,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -26565,7 +26571,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -27969,9 +27975,6 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IAreaSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IBarSeriesSpec"
               },
               {
@@ -29235,7 +29238,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -29687,7 +29690,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -30505,6 +30508,7 @@
         "arc",
         "area",
         "boxPlot",
+        "group",
         "image",
         "line",
         "linkPath",
@@ -30523,7 +30527,6 @@
         "arc",
         "area",
         "boxPlot",
-        "group",
         "image",
         "line",
         "linkPath",
@@ -30786,7 +30789,7 @@
           "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "type": {
-          "$ref": "#/definitions/ICustomMarkSpec.T_1"
+          "$ref": "#/definitions/ICustomMarkSpec.T"
         },
         "visible": {
           "description": "mark 层 是否显示配置",
@@ -32823,7 +32826,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -33762,7 +33765,7 @@
           "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "type": {
-          "$ref": "#/definitions/ICustomMarkSpec.T"
+          "$ref": "#/definitions/ICustomMarkSpec.T_1"
         },
         "visible": {
           "description": "mark 层 是否显示配置",
@@ -34121,7 +34124,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -34871,7 +34874,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -35382,7 +35385,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -35944,7 +35947,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -36433,7 +36436,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -37406,6 +37409,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -37440,6 +37449,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -37499,6 +37511,9 @@
           "$ref": "#/definitions/Record<string,Partial<IGlyphGraphicAttribute>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "toCustomPath": {
@@ -37969,6 +37984,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -38003,6 +38024,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -38062,6 +38086,9 @@
           "$ref": "#/definitions/Record<string,Partial<Partial<IGraphicAttribute>>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "toCustomPath": {
@@ -38532,6 +38559,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -38566,6 +38599,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -38625,6 +38661,9 @@
           "$ref": "#/definitions/Record<string,Partial<any>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "toCustomPath": {
@@ -39274,6 +39313,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -39308,6 +39353,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -39373,6 +39421,9 @@
           "$ref": "#/definitions/Record<string,Partial<IGroupGraphicAttribute>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "theme": {
@@ -39828,7 +39879,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -40820,7 +40871,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -41373,7 +41424,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -43772,6 +43823,9 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
         "pick": {
           "typeof": "function"
         },
@@ -43779,6 +43833,9 @@
           "type": "boolean"
         },
         "prepare": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
           "typeof": "function"
         },
         "release": {
@@ -43827,6 +43884,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -43901,6 +43961,9 @@
           "$ref": "#/definitions/Record<string,Partial<IGroupGraphicAttribute>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "subLayers": {
@@ -44515,7 +44578,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -45876,7 +45939,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -46476,7 +46539,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -46885,7 +46948,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -47127,7 +47190,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -48893,7 +48956,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -49279,7 +49342,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -51999,7 +52062,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52007,7 +52070,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52027,7 +52090,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52035,11 +52098,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52047,7 +52110,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52063,7 +52126,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52071,7 +52134,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52091,7 +52154,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52099,11 +52162,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52111,7 +52174,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52127,7 +52190,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52135,7 +52198,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52155,7 +52218,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52163,11 +52226,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52175,7 +52238,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52191,7 +52254,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52199,7 +52262,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52219,7 +52282,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52227,11 +52290,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52239,7 +52302,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52255,7 +52318,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52263,7 +52326,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52283,7 +52346,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52291,11 +52354,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52303,7 +52366,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
               "description": "style格式转换"
             },
             {
@@ -52324,7 +52387,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52332,7 +52395,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52348,7 +52411,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52356,11 +52419,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52368,7 +52431,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52384,7 +52447,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52392,7 +52455,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52408,7 +52471,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52416,11 +52479,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52428,7 +52491,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52444,7 +52507,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52452,7 +52515,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52468,7 +52531,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52476,11 +52539,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52488,7 +52551,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52504,7 +52567,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52512,7 +52575,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52528,7 +52591,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52536,11 +52599,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52548,7 +52611,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52564,7 +52627,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52572,7 +52635,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52588,7 +52651,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52596,11 +52659,11 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -52608,7 +52671,7 @@
               "description": "style格式转换"
             },
             {
-              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+              "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
               "description": "style格式转换"
             },
             {
@@ -53499,6 +53562,7 @@
       ]
     },
     "INode": {
+      "additionalProperties": {},
       "properties": {
         "_next": {
           "$ref": "#/definitions/INode"
@@ -54496,7 +54560,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -55001,7 +55065,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -57384,7 +57448,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -57918,7 +57982,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -58443,7 +58507,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -59493,7 +59557,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -60011,7 +60075,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -61104,7 +61168,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -62239,7 +62303,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -62717,7 +62781,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -63460,7 +63524,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -64011,7 +64075,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -64509,7 +64573,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -65534,7 +65598,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -66702,7 +66766,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -67456,6 +67520,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -67490,6 +67560,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -67558,6 +67631,9 @@
           "$ref": "#/definitions/Record<string,Partial<IGroupGraphicAttribute>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "theme": {
@@ -67998,6 +68074,9 @@
         "parent": {
           "$ref": "#/definitions/IStage"
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
         "pauseRender": {
           "typeof": "function"
         },
@@ -68009,6 +68088,9 @@
         },
         "pluginService": {
           "$ref": "#/definitions/IPluginService"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
         },
         "release": {
           "typeof": "function"
@@ -68069,6 +68151,9 @@
         "resizeWindow": {
           "typeof": "function"
         },
+        "resumeAnimation": {
+          "typeof": "function"
+        },
         "resumeRender": {
           "typeof": "function"
         },
@@ -68122,6 +68207,9 @@
           "$ref": "#/definitions/IStage"
         },
         "startAnimate": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "ticker": {
@@ -69148,7 +69236,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -69605,7 +69693,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -72556,7 +72644,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -73050,7 +73138,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -76077,7 +76165,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -77199,7 +77287,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -77992,7 +78080,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -78487,7 +78575,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -78911,7 +78999,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78919,14 +79007,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78934,14 +79022,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78949,14 +79037,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78964,14 +79052,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78979,14 +79067,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78994,14 +79082,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -79009,7 +79097,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
@@ -80647,7 +80735,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -81485,7 +81573,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"ripple\">"
+                "$ref": "#/definitions/IExtensionGroupMarkSpec"
               },
               {
                 "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
@@ -93774,6 +93862,9 @@
     "Partial<IStageParams>": {
       "properties": {
         "ReactDOM": {},
+        "afterClearScreen": {
+          "typeof": "function"
+        },
         "afterRender": {
           "typeof": "function"
         },
@@ -100487,34 +100578,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12762"
+        "__@toStringTag@12766"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12762"
+        "__@toStringTag@12766"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12762"
+        "__@toStringTag@12766"
       ],
       "type": "object"
     },
@@ -116667,3 +116758,4 @@
     }
   }
 }
+

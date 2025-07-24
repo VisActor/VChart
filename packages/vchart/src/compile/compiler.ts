@@ -24,7 +24,7 @@ import { type IGraphicContext, type IMark, type IMarkGraphic } from '../mark/int
 import { Factory } from '../core/factory';
 import type { Gesture } from '@visactor/vrender-kits';
 import { findMarkGraphic, getDatumOfGraphic } from '../util/mark';
-import { diffMarks, findSimpleMarks, traverseGroupMark } from './util';
+import { diffMarks, findSimpleMarks, toRenderMode, traverseGroupMark } from './util';
 import { log } from '../util/debug';
 
 type EventListener = {
@@ -82,6 +82,9 @@ export class Compiler implements ICompiler {
     this._option = option;
   }
 
+  getChart() {
+    return this._compileChart;
+  }
   /**
    * 获取 canvas dom
    * @returns HTMLCanvasElement | undefined
@@ -107,8 +110,18 @@ export class Compiler implements ICompiler {
       return;
     }
 
-    const { autoRefreshDpr, dpr, mode, gestureConfig, interactive, clickInterval, autoPreventDefault, background } =
-      this._option;
+    const {
+      autoRefreshDpr,
+      dpr,
+      mode,
+      modeParams,
+      gestureConfig,
+      interactive,
+      clickInterval,
+      autoPreventDefault,
+      background
+    } = this._option;
+    vglobal.setEnv(toRenderMode(mode), modeParams ?? {});
     this._stage =
       this._option.stage ??
       (new Stage({
@@ -120,8 +133,12 @@ export class Compiler implements ICompiler {
         dpr,
         viewBox: this._option.viewBox,
         canvasControled: this._option.canvasControled,
-        beforeRender: this._option.beforeRender,
+        beforeRender: (stage: IStage) => {
+          this._compileChart?.onBeforeRender();
+          this._option.beforeRender?.(stage);
+        },
         afterRender: this._option.afterRender,
+        afterClearScreen: this._option.afterClearScreen,
         disableDirtyBounds: true,
         autoRender: true,
         ticker: this._option.ticker,

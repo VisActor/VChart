@@ -1,6 +1,37 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 10 Jun 2025 13:40:24 GMT and should not be manually modified.
+This log was last generated on Thu, 24 Jul 2025 02:07:41 GMT and should not be manually modified.
+
+## 2.0.1
+Thu, 24 Jul 2025 02:07:41 GMT
+
+### Updates
+
+- feat: add config to avoid brush state update. close #4035
+- feat: optimize datazoom animation effect
+- feat: add the afterClearScreen hook of render
+
+
+- fix: fix issue with 3d chart grid
+- fix: tickData of axis should update when `sampling` is changed, fix #4059
+
+
+- fix: only calculate multi layer label items when need, fix #4056
+
+
+- fix: fix resize error when remake, and re-normal aniamtion bug, fix #4070
+
+
+- fix: fix issue with feishu block and call setenv when create vchart
+- fix: fix bug of tooltip triggerOff & tooltip lock
+
+
+- fix: fix tooltip throw error when some tooltip processor is undefined, fix #4044
+
+
+- fix: fix `textAlign` not works in tooltip.style.titleLabel, fix #4043
+
+
 
 ## 2.0.0
 Tue, 10 Jun 2025 13:40:24 GMT

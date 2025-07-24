@@ -54,9 +54,7 @@ export {
   createArea,
   createRect,
   createLine,
-  createSymbol,
-  ManualTicker,
-  StreamLight
+  createSymbol
 } from '@visactor/vrender-core';
 export { ManualTicker, StreamLight } from '@visactor/vrender-animate';
 
