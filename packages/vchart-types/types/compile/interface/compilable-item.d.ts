@@ -54,6 +54,7 @@ export interface ICompiler {
     updateLayoutTag: () => void;
     getLayoutState: () => LayoutState;
     getRootGroup: () => IGroup;
+    getChart: () => IChart;
 }
 export interface ICompilable {
     getCompiler: () => ICompiler;

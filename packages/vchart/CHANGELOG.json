@@ -2,6 +2,48 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.1",
+      "tag": "@visactor/vchart_v2.0.1",
+      "date": "Thu, 24 Jul 2025 02:07:41 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add config to avoid brush state update. close #4035"
+          },
+          {
+            "comment": "feat: optimize datazoom animation effect"
+          },
+          {
+            "comment": "feat: add the afterClearScreen hook of render\n\n"
+          },
+          {
+            "comment": "fix: fix issue with 3d chart grid"
+          },
+          {
+            "comment": "fix: tickData of axis should update when `sampling` is changed, fix #4059\n\n"
+          },
+          {
+            "comment": "fix: only calculate multi layer label items when need, fix #4056\n\n"
+          },
+          {
+            "comment": "fix: fix resize error when remake, and re-normal aniamtion bug, fix #4070\n\n"
+          },
+          {
+            "comment": "fix: fix issue with feishu block and call setenv when create vchart"
+          },
+          {
+            "comment": "fix: fix bug of tooltip triggerOff & tooltip lock\n\n"
+          },
+          {
+            "comment": "fix: fix tooltip throw error when some tooltip processor is undefined, fix #4044\n\n"
+          },
+          {
+            "comment": "fix: fix `textAlign` not works in tooltip.style.titleLabel, fix #4043\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.0",
       "tag": "@visactor/vchart_v2.0.0",
       "date": "Tue, 10 Jun 2025 13:40:24 GMT",
