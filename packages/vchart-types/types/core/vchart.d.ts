@@ -179,6 +179,7 @@ export declare class VChart implements IVChart {
     getScale(scaleId: string): import("@visactor/vscale").IBaseScale;
     setDimensionIndex(value: StringOrNumber, opt?: DimensionIndexOption): void;
     stopAnimation(): void;
+    reRunNormalAnimation(): void;
     pauseAnimation(): void;
     resumeAnimation(): void;
     convertDatumToPosition(datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean, checkInViewData?: boolean): IPoint | null;

@@ -23979,6 +23979,12 @@
           "$ref": "#/definitions/Partial<IPolygonMarkSpec>",
           "description": "brush 的框选样式"
         },
+        "updateElementsState": {
+          "default": true,
+          "description": "是否更新图元状态\n关闭时, brush 事件不会触发图元状态更新, 优化缩放场景下的性能",
+          "since": "1.13.13",
+          "type": "boolean"
+        },
         "visible": {
           "default": true,
           "description": "组件可见性",
@@ -37403,6 +37409,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -37437,6 +37449,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -37496,6 +37511,9 @@
           "$ref": "#/definitions/Record<string,Partial<IGlyphGraphicAttribute>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "toCustomPath": {
@@ -37966,6 +37984,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -38000,6 +38024,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -38059,6 +38086,9 @@
           "$ref": "#/definitions/Record<string,Partial<Partial<IGraphicAttribute>>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "toCustomPath": {
@@ -38529,6 +38559,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -38563,6 +38599,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -38622,6 +38661,9 @@
           "$ref": "#/definitions/Record<string,Partial<any>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "toCustomPath": {
@@ -39271,6 +39313,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -39305,6 +39353,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -39370,6 +39421,9 @@
           "$ref": "#/definitions/Record<string,Partial<IGroupGraphicAttribute>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "theme": {
@@ -43769,6 +43823,9 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
         "pick": {
           "typeof": "function"
         },
@@ -43776,6 +43833,9 @@
           "type": "boolean"
         },
         "prepare": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
           "typeof": "function"
         },
         "release": {
@@ -43824,6 +43884,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -43898,6 +43961,9 @@
           "$ref": "#/definitions/Record<string,Partial<IGroupGraphicAttribute>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "subLayers": {
@@ -53496,6 +53562,7 @@
       ]
     },
     "INode": {
+      "additionalProperties": {},
       "properties": {
         "_next": {
           "$ref": "#/definitions/INode"
@@ -67453,6 +67520,12 @@
             }
           ]
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -67487,6 +67560,9 @@
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "resumeAnimation": {
+          "typeof": "function"
         },
         "rotate": {
           "typeof": "function"
@@ -67555,6 +67631,9 @@
           "$ref": "#/definitions/Record<string,Partial<IGroupGraphicAttribute>>"
         },
         "stopAnimates": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "theme": {
@@ -67995,6 +68074,9 @@
         "parent": {
           "$ref": "#/definitions/IStage"
         },
+        "pauseAnimation": {
+          "typeof": "function"
+        },
         "pauseRender": {
           "typeof": "function"
         },
@@ -68006,6 +68088,9 @@
         },
         "pluginService": {
           "$ref": "#/definitions/IPluginService"
+        },
+        "reApplyAnimationState": {
+          "typeof": "function"
         },
         "release": {
           "typeof": "function"
@@ -68066,6 +68151,9 @@
         "resizeWindow": {
           "typeof": "function"
         },
+        "resumeAnimation": {
+          "typeof": "function"
+        },
         "resumeRender": {
           "typeof": "function"
         },
@@ -68119,6 +68207,9 @@
           "$ref": "#/definitions/IStage"
         },
         "startAnimate": {
+          "typeof": "function"
+        },
+        "stopAnimation": {
           "typeof": "function"
         },
         "ticker": {
@@ -78908,7 +78999,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78916,14 +79007,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78931,14 +79022,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78946,14 +79037,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78961,14 +79052,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78976,14 +79067,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -78991,14 +79082,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         },
         "size": {
@@ -79006,7 +79097,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12762",
+        "__@toStringTag@12766",
         "size"
       ],
       "type": "object"
@@ -93771,6 +93862,9 @@
     "Partial<IStageParams>": {
       "properties": {
         "ReactDOM": {},
+        "afterClearScreen": {
+          "typeof": "function"
+        },
         "afterRender": {
           "typeof": "function"
         },
@@ -100484,34 +100578,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12762"
+        "__@toStringTag@12766"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12762"
+        "__@toStringTag@12766"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12762": {
+        "__@toStringTag@12766": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12762"
+        "__@toStringTag@12766"
       ],
       "type": "object"
     },

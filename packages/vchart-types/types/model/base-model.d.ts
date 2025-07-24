@@ -1,7 +1,7 @@
 import type { IEvent } from '../event/interface';
 import type { IEffect, IModel, IModelInitOption, IModelOption, IModelEvaluateOption, IModelSpec, IModelMarkInfo, IModelSpecInfo } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { ICompileMarkConfig, IMark, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
+import type { AnimationStateValues, ICompileMarkConfig, IMark, IMarkGraphic, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect, ILayoutRect } from '../typings';
 import { MarkSet } from '../mark/mark-set';
 import type { ILayoutItem } from '../layout/interface';
@@ -45,6 +45,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
     onLayoutEnd(): void;
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
+    onBeforeRender(): void;
     onDataUpdate(): void;
     beforeRelease(): void;
     clear(): void;
@@ -77,4 +78,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     getColorScheme(): any;
     getSpecInfo(): IModelSpecInfo<any>;
     getSpecIndex(): number;
+    private _aniamtionStateCallback;
+    updateAnimateStateCallback(callback: (graphic: IMarkGraphic) => AnimationStateValues): void;
+    getAnimationStateCallback(): (graphic: IMarkGraphic) => AnimationStateValues;
 }
