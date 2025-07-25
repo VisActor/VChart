@@ -145,6 +145,7 @@ export enum ChartEvent {
   /** series end */
   // scale
   scaleDomainUpdate = 'scaleDomainUpdate',
+  scaleRawDomainUpdate = 'scaleRawDomainUpdate',
   scaleUpdate = 'scaleUpdate',
   // datazoom
   dataZoomChange = 'dataZoomChange',
