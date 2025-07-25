@@ -10,6 +10,7 @@ import type { IOrientType } from '../../../typings/space';
 import type { IComponentOption } from '../../interface/common';
 import type { StringOrNumber } from '../../../typings';
 import { breakData } from './util/break-data';
+import type { IModel } from '../../../model/interface';
 
 export const e10 = Math.sqrt(50);
 export const e5 = Math.sqrt(10);
@@ -37,7 +38,7 @@ export interface LinearAxisMixin {
   _tick: ITick | undefined;
   isSeriesDataEnable: any;
   computeDomain: any;
-  collectData: (depth?: number) => { min: number; max: number; values: any[] }[];
+  collectData: (depth?: number, rawData?: boolean) => { min: number; max: number; values: any[] }[];
   /**
    * 这个变量在其他break相关组件和扩展中都有使用
    */
@@ -55,6 +56,10 @@ export interface LinearAxisMixin {
 
 export class LinearAxisMixin {
   protected _extend: { [key: string]: number } = {};
+  protected _rawDomain: StringOrNumber[] = [];
+  getRawDomain() {
+    return this._rawDomain;
+  }
 
   niceLabelFormatter: (value: StringOrNumber) => StringOrNumber = null;
 
@@ -367,6 +372,9 @@ export class LinearAxisMixin {
     if (!this.isSeriesDataEnable()) {
       return;
     }
+    if (!this._rawDomain?.length && this._scale) {
+      this._updateRawDomain();
+    }
     const data = this.collectData();
     const domain: number[] = this.computeLinearDomain(data) as number[];
     this.updateScaleDomainByModel(domain);
@@ -414,5 +422,16 @@ export class LinearAxisMixin {
       }
       return value;
     };
+  }
+
+  protected _updateRawDomain() {
+    const data = this.collectData(0, true);
+    const domain: number[] = this.computeLinearDomain(data) as number[];
+    this._rawDomain = domain;
+    this.event.emit(ChartEvent.scaleRawDomainUpdate, { model: this as unknown as IModel });
+  }
+
+  protected _clearRawDomain() {
+    this._rawDomain = [];
   }
 }
