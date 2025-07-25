@@ -138,7 +138,6 @@ export class Compiler implements ICompiler {
           this._option.beforeRender?.(stage);
         },
         afterRender: this._option.afterRender,
-        afterClearScreen: this._option.afterClearScreen,
         disableDirtyBounds: true,
         autoRender: true,
         ticker: this._option.ticker,
@@ -152,7 +151,8 @@ export class Compiler implements ICompiler {
           autoPreventDefault: autoPreventDefault
         },
         ReactDOM: this._option.ReactDOM,
-        autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr)
+        autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
+        ...(this._option.renderHooks ?? {})
       }) as unknown as IStage);
 
     this._stage.enableIncrementalAutoRender();
