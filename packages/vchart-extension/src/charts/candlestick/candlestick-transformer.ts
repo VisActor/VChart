@@ -14,6 +14,7 @@ export class CandlestickChartSpecTransformer<
       'closeField',
       'candlestickColor'
     ]);
+    seriesSpec.yField = dataFields;
     return seriesSpec;
   }
 

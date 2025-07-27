@@ -20,7 +20,7 @@ export type candlestickColorConfig = {
   /**
    * 平盘蜡烛图颜色
    */
-  doji: string;
+  doji?: string;
 };
 
 export interface ICandlestickSeriesSpec

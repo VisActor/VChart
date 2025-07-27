@@ -12,14 +12,15 @@ import {
   Datum,
   IModelInitOption
 } from '@visactor/vchart';
-import { valueInScaleRange } from '@visactor/vchart/src/util';
+import { valueInScaleRange } from '@visactor/vchart';
 import { IGlyphMark } from '@visactor/vchart';
 import type { ICandlestickSeriesSpec } from './interface';
 import { CANDLESTICK_SERIES_TYPE, CandlestickSeriesMark } from './constant';
 
 const DEFAULT_STROKE_WIDTH = 2;
-export const DEFAULT_FILL_COLOR = '#FFF';
 export const DEFAULT_STROKE_COLOR = '#000';
+export const DEFAULT_RISE_COLOR = '#FF0000';
+export const DEFAULT_FALL_COLOR = '#00AA00';
 
 export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = CANDLESTICK_SERIES_TYPE;
@@ -44,14 +45,23 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
   }
   protected _lineWidth: number;
   protected _boxWidth: number;
-  protected _boxFill: string | ((datum: Datum) => string);
+  protected _boxFillColor: string | ((datum: Datum) => string);
   getBoxFillColor(): string | ((datum: Datum) => string) {
-    return this._boxFill;
+    return this._boxFillColor;
   }
   protected _strokeColor: string;
   getStrokeColor(): string {
     return this._strokeColor;
   }
+  protected _riseColor: string;
+  getRiseColor(): string {
+    return this._riseColor;
+  }
+  protected _fallColor: string;
+  getFallColor(): string {
+    return this._fallColor;
+  }
+  private _autoBoxWidth: number;
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -61,10 +71,12 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     this._highField = spec.highField;
     this._lowField = spec.lowField;
     this._closeField = spec.closeField;
+    this._riseColor = spec.candlestickColor.rising ?? DEFAULT_RISE_COLOR;
+    this._fallColor = spec.candlestickColor.falling ?? DEFAULT_FALL_COLOR;
     this._lineWidth = CandlestickStyle.lineWidth ?? DEFAULT_STROKE_WIDTH;
-    this._boxWidth = CandlestickStyle.boxWidth ?? 10;
-    this._boxFill = CandlestickStyle.boxFill ?? DEFAULT_FILL_COLOR;
-    this._strokeColor = CandlestickStyle.strokeColor ?? DEFAULT_STROKE_COLOR;
+    this._boxWidth = CandlestickStyle.boxWidth;
+    this._boxFillColor = CandlestickStyle.boxFill;
+    this._strokeColor = CandlestickStyle.strokeColor;
   }
 
   private _candlestickMark?: ICandlestickMark;
@@ -79,15 +91,14 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
   initMarkStyle(): void {
     const candlestickMark = this._candlestickMark;
     if (candlestickMark) {
-      const commonCandlestickStyles = {
-        lineWidth: this._lineWidth,
+      const CandlestickStyles = {
         boxWidth: this._boxWidth,
-        fill: this._boxFill,
-        stroke: this._strokeColor ?? DEFAULT_STROKE_COLOR,
+        fill: this._boxFillColor ?? this.getCandlestickColorAttribute.bind(this),
+        stroke: this._strokeColor ?? this.getCandlestickColorAttribute.bind(this),
         x: this.dataToPositionX.bind(this)
       };
       (candlestickMark as IGlyphMark).setGlyphConfig({});
-      this.setMarkStyle(candlestickMark, commonCandlestickStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
+      this.setMarkStyle(candlestickMark, CandlestickStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
     }
   }
 
@@ -139,6 +150,17 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     super.init(option);
     //init在axis初始化之后才被执行，此时axisHelper不为空
     this.initCandlestickMarkStyle();
+  }
+
+  getCandlestickColorAttribute(datum: Datum): string {
+    const open = this.getDatumPositionValues(datum, this._openField);
+    const close = this.getDatumPositionValues(datum, this._closeField);
+    if (open < close) {
+      return this._riseColor;
+    } else if (open > close) {
+      return this._fallColor;
+    }
+    return this._strokeColor ?? DEFAULT_STROKE_COLOR;
   }
 
   getActiveMarks(): IMark[] {

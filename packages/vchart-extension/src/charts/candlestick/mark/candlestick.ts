@@ -14,8 +14,8 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
   setGlyphConfig(cfg: any): void {
     super.setGlyphConfig(cfg);
     this._subMarks = {
-      box: { type: 'rect' },
-      wick: { type: 'line', defaultAttributes: { x: 0, y: 0 } }
+      line: { type: 'line', defaultAttributes: { x: 0, y: 0 } },
+      box: { type: 'rect' }
     };
     this._positionChannels = ['x', 'boxWidth', 'open', 'close', 'high', 'low'];
     this._channelEncoder = null;
@@ -29,13 +29,7 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
         high = (g.attribute as any).high
       } = glyphAttrs;
       const attributes: any = {};
-      attributes.box = {
-        x: x - boxWidth / 2,
-        x1: x + boxWidth / 2,
-        y: Math.min(open, close),
-        y1: Math.max(open, close)
-      };
-      attributes.wick = {
+      attributes.line = {
         points: [
           {
             x: x,
@@ -47,6 +41,12 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
           }
         ]
       };
+      attributes.box = {
+        x: x - boxWidth / 2,
+        x1: x + boxWidth / 2,
+        y: Math.min(open, close),
+        y1: Math.max(open, close)
+      };
       return attributes;
     };
   }
@@ -54,8 +54,7 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<ICandlestickMarkSpec> = {
       ...super._getDefaultStyle(),
-      lineWidth: 2,
-      boxWidth: 30
+      boxWidth: 40
     };
     return defaultStyle;
   }

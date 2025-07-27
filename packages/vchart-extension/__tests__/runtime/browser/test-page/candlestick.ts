@@ -1,12 +1,16 @@
 import { ICandlestickChartSpec } from '../../../../src/charts/candlestick/interface';
 import { registerCandlestickChart } from '../../../../src/charts/candlestick/candlestick';
-import { VChart } from '@visactor/vchart';
+import VChart from '@visactor/vchart';
 
 const data = [
-  { time: '2024-07-01', open: 100, close: 110, high: 115, low: 95 },
-  { time: '2024-07-02', open: 110, close: 105, high: 112, low: 102 },
-  { time: '2024-07-03', open: 105, close: 120, high: 125, low: 104 },
-  { time: '2024-07-04', open: 120, close: 115, high: 122, low: 110 }
+  { time: '2024-07-01', open: 100, close: 130, high: 135, low: 90 },
+  { time: '2024-07-02', open: 130, close: 80, high: 140, low: 75 },
+  { time: '2024-07-03', open: 80, close: 150, high: 155, low: 70 },
+  { time: '2024-07-04', open: 150, close: 120, high: 160, low: 110 },
+  { time: '2024-07-05', open: 120, close: 170, high: 180, low: 115 },
+  { time: '2024-07-06', open: 170, close: 170, high: 175, low: 95 },
+  { time: '2024-07-07', open: 170, close: 100, high: 175, low: 95 },
+  { time: '2024-07-08', open: 100, close: 200, high: 210, low: 90 }
 ];
 
 const spec: ICandlestickChartSpec = {
@@ -18,7 +22,6 @@ const spec: ICandlestickChartSpec = {
   lowField: 'low',
   data: [
     {
-      id: 'main',
       values: data
     }
   ]
