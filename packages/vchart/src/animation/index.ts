@@ -10,4 +10,4 @@ export {
 } from './config';
 export { animationConfig, userAnimationConfig, shouldMarkDoMorph } from './utils';
 export type { IAnimationSpec } from './spec';
-export type { IAnimationTypeConfig, IAnimationConfig } from './interface';
+export type { IAnimationTypeConfig, IAnimationConfig, IAnimationParameters } from './interface';

@@ -10,11 +10,16 @@ import {
   STATE_VALUE_ENUM,
   AttributeLevel,
   Datum,
-  IModelInitOption
+  IModelInitOption,
+  getGroupAnimationParams,
+  animationConfig,
+  userAnimationConfig
 } from '@visactor/vchart';
 import { valueInScaleRange } from '@visactor/vchart';
 import { IGlyphMark } from '@visactor/vchart';
+import { merge } from '@visactor/vutils';
 import type { ICandlestickSeriesSpec } from './interface';
+import { registerCandlestickScaleAnimation } from './animation';
 import { CANDLESTICK_SERIES_TYPE, CandlestickSeriesMark } from './constant';
 
 const DEFAULT_STROKE_WIDTH = 2;
@@ -71,8 +76,8 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     this._highField = spec.highField;
     this._lowField = spec.lowField;
     this._closeField = spec.closeField;
-    this._riseColor = spec.candlestickColor.rising ?? DEFAULT_RISE_COLOR;
-    this._fallColor = spec.candlestickColor.falling ?? DEFAULT_FALL_COLOR;
+    this._riseColor = spec.candlestickColor?.rising ?? DEFAULT_RISE_COLOR;
+    this._fallColor = spec.candlestickColor?.falling ?? DEFAULT_FALL_COLOR;
     this._lineWidth = CandlestickStyle.lineWidth ?? DEFAULT_STROKE_WIDTH;
     this._boxWidth = CandlestickStyle.boxWidth;
     this._boxFillColor = CandlestickStyle.boxFill;
@@ -152,6 +157,30 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     this.initCandlestickMarkStyle();
   }
 
+  private _initAnimationSpec(config: any = {}) {
+    const newConfig = merge({}, config);
+    ['appear', 'enter', 'update', 'exit', 'disappear'].forEach(state => {
+      if (newConfig[state] && newConfig[state].type === 'scaleIn') {
+        newConfig[state].type = 'candlestickScaleIn';
+      } else if (newConfig[state] && newConfig[state].type === 'scaleOut') {
+        newConfig[state].type = 'candlestickScaleOut';
+      }
+    });
+    return newConfig;
+  }
+
+  initAnimation() {
+    const animationParams = getGroupAnimationParams(this);
+
+    if (this._candlestickMark) {
+      const newDefaultConfig = this._initAnimationSpec(Factory.getAnimationInKey('scaleInOut')?.());
+      const newConfig = this._initAnimationSpec(
+        userAnimationConfig(CANDLESTICK_SERIES_TYPE, this._spec, this._markAttributeContext)
+      );
+      this._candlestickMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, animationParams));
+    }
+  }
+
   getCandlestickColorAttribute(datum: Datum): string {
     const open = this.getDatumPositionValues(datum, this._openField);
     const close = this.getDatumPositionValues(datum, this._closeField);
@@ -174,6 +203,6 @@ export const registerCandlestickSeries = () => {
   registerScaleInOutAnimation();
   registerCartesianBandAxis();
   registerCartesianLinearAxis();
-  //registerCandlestickScaleAnimation();
+  registerCandlestickScaleAnimation();
   Factory.registerSeries(CandlestickSeries.type, CandlestickSeries);
 };
