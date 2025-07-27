@@ -1,4 +1,4 @@
-import { CartesianChartSpecTransformer } from '@visactor/vchart';
+import { CartesianChartSpecTransformer, setDefaultCrosshairForCartesianChart } from '@visactor/vchart';
 import type { ICandlestickChartSpec } from './interface';
 
 export class CandlestickChartSpecTransformer<
@@ -30,6 +30,6 @@ export class CandlestickChartSpecTransformer<
         }
       ];
     }
-    //setDefaultCrosshairForCartesianChart(spec);
+    setDefaultCrosshairForCartesianChart(spec);
   }
 }

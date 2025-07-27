@@ -21,6 +21,7 @@ import { merge } from '@visactor/vutils';
 import type { ICandlestickSeriesSpec } from './interface';
 import { registerCandlestickScaleAnimation } from './animation';
 import { CANDLESTICK_SERIES_TYPE, CandlestickSeriesMark } from './constant';
+import { CandlestickSeriesTooltipHelper } from './tooltip-helper';
 
 const DEFAULT_STROKE_WIDTH = 2;
 export const DEFAULT_STROKE_COLOR = '#000';
@@ -179,6 +180,11 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
       );
       this._candlestickMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, animationParams));
     }
+  }
+
+  protected initTooltip() {
+    this._tooltipHelper = new CandlestickSeriesTooltipHelper(this);
+    this._candlestickMark && this._tooltipHelper.activeTriggerSet.mark.add(this._candlestickMark);
   }
 
   getCandlestickColorAttribute(datum: Datum): string {
