@@ -128,7 +128,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       this._updateDomStringByCol(actualTooltip);
     }
 
-    this._updateDomStyle('height');
+    this._updateDomStyle('height', changePositionOnly);
 
     const rect = this._rootDom?.getBoundingClientRect();
 
@@ -312,7 +312,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       contentDom.parentNode.removeChild(contentDom);
     }
   }
-  protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width') {
+  protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width', refreshSize: boolean) {
     const rootDom = this._rootDom;
     const contentDom = [...(rootDom.children as any)].find(child =>
       child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)
@@ -372,6 +372,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
           const cols = row.children ?? ([] as HTMLElement[]);
 
           for (let j = 0; j < cols.length; j++) {
+            if (refreshSize) {
+              // 每次更新，需要更新单元格的高度，防止同步高度的时候没有更新
+              cols[j].style[sizeKey] = 'initial';
+            }
+
             const width = cols[j].getBoundingClientRect()[sizeKey];
             if (widthByCol[j] === undefined || widthByCol[j] < width) {
               widthByCol[j] = width;
@@ -408,7 +413,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
     if (this.getVisibility()) {
       this._updateDomStringByCol(this._tooltipActual);
-      this._updateDomStyle('height');
+      this._updateDomStyle('height', false);
     }
   }
 
