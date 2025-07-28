@@ -1,3 +1,16 @@
+# v2.0.2
+
+2025-07-28
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: add the afterClearRect hook of render
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.1...v2.0.2
+
+[更多详情请查看 v2.0.2](https://github.com/VisActor/VChart/releases/tag/v2.0.2)
+
 # v2.0.1
 
 2025-07-24
