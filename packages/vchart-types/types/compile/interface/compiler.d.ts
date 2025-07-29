@@ -45,7 +45,11 @@ export interface IRenderOption {
     layer?: ILayer;
     beforeRender?: IStageParams['beforeRender'];
     afterRender?: IStageParams['afterRender'];
-    afterClearScreen?: IStageParams['afterClearScreen'];
+    renderHooks?: {
+        afterClearScreen?: IStageParams['afterClearScreen'];
+        afterClearRect?: IStageParams['afterClearRect'];
+        [key: string]: any;
+    };
     background?: IColor;
     logLevel?: number;
     onError?: (...args: any[]) => void;

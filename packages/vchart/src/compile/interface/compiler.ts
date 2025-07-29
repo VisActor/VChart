@@ -131,11 +131,23 @@ export interface IRenderOption {
    */
   afterRender?: IStageParams['afterRender'];
 
-  /**
-   * 渲染层清除屏幕之后的钩子函数，这个钩子在实际渲染之前
-   * @since 2.0.1
-   */
-  afterClearScreen?: IStageParams['afterClearScreen'];
+  renderHooks?: {
+    /**
+     * 渲染层清除屏幕之后的钩子函数，这个钩子在实际渲染之前
+     * @since 2.0.1
+     */
+    afterClearScreen?: IStageParams['afterClearScreen'];
+    /**
+     * 渲染层清除屏幕之后的钩子函数，这个钩子在实际渲染之前
+     * @since 2.0.2
+     */
+    afterClearRect?: IStageParams['afterClearRect'];
+    /**
+     * 渲染层钩子 直接透传
+     * @since 2.0.2
+     */
+    [key: string]: any;
+  };
   /**
    * 绘图区域背景色设置
    */

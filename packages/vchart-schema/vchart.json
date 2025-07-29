@@ -93862,6 +93862,9 @@
     "Partial<IStageParams>": {
       "properties": {
         "ReactDOM": {},
+        "afterClearRect": {
+          "typeof": "function"
+        },
         "afterClearScreen": {
           "typeof": "function"
         },
