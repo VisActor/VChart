@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: animtion should be run after `spec.animation` is updated, fix #4104\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
