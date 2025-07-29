@@ -50,6 +50,7 @@ const ctx: IComponentOption = {
   map: new Map(),
   mode: 'desktop-browser',
   globalInstance: {
+    isAnimationEnable: () => true,
     getContainer: () => ({}),
     getTooltipHandlerByUser: (() => undefined) as () => undefined
   } as any,
