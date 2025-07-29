@@ -194,7 +194,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画
       if (
-        this._option.animation !== false &&
+        this._option.globalInstance?.isAnimationEnable() &&
         get(this._option.getChart().getSpec(), 'animation') !== false &&
         this._spec.animation === true
       ) {
