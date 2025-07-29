@@ -362,7 +362,6 @@ export class VChart implements IVChart {
   constructor(spec: ISpec, options: IInitOption) {
     this._option = {
       ...this._option,
-      animation: (spec as any).animation !== false,
       ...options
     };
     if (options?.optimize) {
@@ -802,7 +801,7 @@ export class VChart implements IVChart {
   }
 
   private _updateAnimateState(initial?: boolean) {
-    if (this._option.animation) {
+    if (this.isAnimationEnable()) {
       const updateGraphicAnimationState = (graphic: IMarkGraphic) => {
         const diffState = graphic.context?.diffState;
         if (initial) {
@@ -1118,6 +1117,7 @@ export class VChart implements IVChart {
       result.changeTheme = true; // 支持了根据图表类型 merge 当前主题。当 type 变了后，需要更新主题
       return result;
     }
+
     // 再次处理 spec 并得到 specInfo
     this._initChartSpec(this._spec, 'updateSpec');
 
@@ -2200,6 +2200,14 @@ export class VChart implements IVChart {
     return theme;
   };
 
+  isAnimationEnable() {
+    if ('animation' in this._option) {
+      return !!this._option.animation;
+    }
+
+    return this._spec.animation !== false;
+  }
+
   protected _getChartOption(type: string): IChartOption {
     return {
       type,
@@ -2213,7 +2221,6 @@ export class VChart implements IVChart {
       modeParams: this._option.modeParams,
       getCompiler: () => this._compiler,
       viewBox: this._viewBox,
-      animation: this._option.animation,
       getTheme: this.getTheme,
       getSpecInfo: () => this._specInfo ?? {},
 
