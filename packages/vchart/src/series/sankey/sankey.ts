@@ -51,8 +51,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   static readonly mark: SeriesMarkMap = sankeySeriesMark;
   static readonly builtInTheme = { sankey };
 
-  private _nodeMark: IRectMark;
-  private _linkMark: ILinkPathMark;
+  protected _nodeMark: IRectMark;
+  protected _linkMark: ILinkPathMark;
 
   private _nodeLayoutZIndex = LayoutZIndex.Node;
   private _labelLayoutZIndex = LayoutZIndex.Label;
@@ -65,7 +65,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected _categoryField!: string;
   private _colorScale: IBaseScale;
   private _nodeList: (string | number)[];
-  private _needClear: boolean;
+  protected _needClear: boolean;
 
   get direction() {
     return this._spec.direction ?? 'horizontal';
@@ -500,7 +500,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
   };
 
-  protected _handleClearEmpty = () => {
+  protected _handleClearEmpty() {
     if (!this._needClear) {
       return;
     }
@@ -529,9 +529,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     });
 
     this._needClear = false;
-  };
+  }
 
-  protected _handleNodeAdjacencyClick = (graphic: IMarkGraphic) => {
+  protected _handleNodeAdjacencyClick(graphic: IMarkGraphic) {
     const nodeDatum = getDatumOfGraphic(graphic) as Datum;
     const highlightNodes: string[] = [nodeDatum.key];
 
@@ -573,9 +573,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     this._needClear = true;
-  };
+  }
 
-  protected _handleLinkAdjacencyClick = (graphic: IMarkGraphic) => {
+  protected _handleLinkAdjacencyClick(graphic: IMarkGraphic) {
     const curLinkDatum = getDatumOfGraphic(graphic) as Datum;
     const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
 
@@ -601,9 +601,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     this._needClear = true;
-  };
+  }
 
-  protected _handleNodeRelatedClick = (graphic: IMarkGraphic) => {
+  protected _handleNodeRelatedClick(graphic: IMarkGraphic) {
     const nodeDatum = getDatumOfGraphic(graphic) as Datum;
     const allNodeElements = this._nodeMark.getGraphics();
 
@@ -824,9 +824,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     this._needClear = true;
-  };
+  }
 
-  protected _handleLinkRelatedClick = (graphic: IMarkGraphic) => {
+  protected _handleLinkRelatedClick(graphic: IMarkGraphic) {
     const allNodeElements = this._nodeMark.getGraphics();
 
     if (!allNodeElements || !allNodeElements.length) {
@@ -966,9 +966,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     this._needClear = true;
-  };
+  }
 
-  protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: string[]) {
+  protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: (string | number)[]) {
     if (!graphics || !graphics.length) {
       return;
     }

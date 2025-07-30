@@ -16,19 +16,19 @@ importers:
       '@types/markdown-it': ^13.0.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@visactor/openinula-vchart': workspace:2.0.4
-      '@visactor/react-vchart': workspace:2.0.4
-      '@visactor/vchart': workspace:2.0.4
-      '@visactor/vchart-extension': workspace:2.0.4
+      '@visactor/openinula-vchart': workspace:2.0.1
+      '@visactor/react-vchart': workspace:2.0.1
+      '@visactor/vchart': workspace:2.0.1
+      '@visactor/vchart-extension': workspace:2.0.1
       '@visactor/vchart-theme': ~1.6.6
       '@visactor/vmind': 1.2.4-alpha.5
-      '@visactor/vrender': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
+      '@visactor/vrender': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
       '@visactor/vtable': 1.19.0-alpha.0
       '@visactor/vtable-calendar': 1.19.0-alpha.0
       '@visactor/vtable-editors': 1.19.0-alpha.0
       '@visactor/vtable-gantt': 1.19.0-alpha.0
-      '@visactor/vutils': ~1.0.6
+      '@visactor/vutils': ~1.0.9
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
       buble: ^0.20.0
@@ -59,13 +59,13 @@ importers:
       '@visactor/vchart-extension': link:../packages/vchart-extension
       '@visactor/vchart-theme': 1.6.9
       '@visactor/vmind': 1.2.4-alpha.5
-      '@visactor/vrender': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
+      '@visactor/vrender': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
       '@visactor/vtable': 1.19.0-alpha.0
       '@visactor/vtable-calendar': 1.19.0-alpha.0
       '@visactor/vtable-editors': 1.19.0-alpha.0
       '@visactor/vtable-gantt': 1.19.0-alpha.0
-      '@visactor/vutils': 1.0.6
+      '@visactor/vutils': 1.0.9
       axios: 1.9.0
       buble: 0.20.0
       highlight.js: 11.11.1
@@ -143,10 +143,10 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:2.0.4
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vutils': ~1.0.6
+      '@visactor/vchart': workspace:2.0.1
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vutils': ~1.0.9
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
@@ -164,9 +164,9 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vutils': 1.0.6
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vutils': 1.0.9
       react-is: 18.3.1
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
@@ -206,11 +206,11 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:2.0.4
-      '@visactor/vchart-extension': workspace:2.0.4
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vutils': ~1.0.6
+      '@visactor/vchart': workspace:2.0.1
+      '@visactor/vchart-extension': workspace:2.0.1
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vutils': ~1.0.9
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
@@ -230,9 +230,9 @@ importers:
     dependencies:
       '@visactor/vchart': link:../vchart
       '@visactor/vchart-extension': link:../vchart-extension
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vutils': 1.0.6
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vutils': 1.0.9
       react-is: 18.3.1
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
@@ -289,8 +289,8 @@ importers:
       '@types/webpack-env': ^1.13.6
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:2.0.4
-      '@visactor/vchart-extension': workspace:2.0.4
+      '@visactor/vchart': workspace:2.0.1
+      '@visactor/vchart-extension': workspace:2.0.1
       '@vitejs/plugin-react': 3.1.0
       babel-preset-taro: 3.3.17
       eslint: ~8.18.0
@@ -369,15 +369,15 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vdataset': ~1.0.6
-      '@visactor/vlayouts': ~1.0.6
-      '@visactor/vrender-animate': 1.0.13
-      '@visactor/vrender-components': 1.0.13
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vscale': ~1.0.6
-      '@visactor/vutils': ~1.0.6
-      '@visactor/vutils-extension': workspace:2.0.4
+      '@visactor/vdataset': ~1.0.9
+      '@visactor/vlayouts': ~1.0.9
+      '@visactor/vrender-animate': 1.0.9
+      '@visactor/vrender-components': 1.0.9
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vscale': ~1.0.9
+      '@visactor/vutils': ~1.0.9
+      '@visactor/vutils-extension': workspace:2.0.1
       canvas: 2.11.2
       cross-env: ^7.0.3
       d3-array: ^1.2.4
@@ -411,14 +411,14 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vdataset': 1.0.6
-      '@visactor/vlayouts': 1.0.6
-      '@visactor/vrender-animate': 1.0.13
-      '@visactor/vrender-components': 1.0.13
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vscale': 1.0.6
-      '@visactor/vutils': 1.0.6
+      '@visactor/vdataset': 1.0.9
+      '@visactor/vlayouts': 1.0.9
+      '@visactor/vrender-animate': 1.0.9
+      '@visactor/vrender-components': 1.0.9
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vscale': 1.0.9
+      '@visactor/vutils': 1.0.9
       '@visactor/vutils-extension': link:../vutils-extension
     devDependencies:
       '@esbuild-plugins/node-globals-polyfill': 0.1.1
@@ -475,14 +475,14 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@visactor/vchart': workspace:2.0.4
-      '@visactor/vdataset': ~1.0.6
-      '@visactor/vlayouts': ~1.0.6
-      '@visactor/vrender-animate': 1.0.13
-      '@visactor/vrender-components': 1.0.13
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vutils': ~1.0.6
+      '@visactor/vchart': workspace:2.0.1
+      '@visactor/vdataset': ~1.0.9
+      '@visactor/vlayouts': ~1.0.9
+      '@visactor/vrender-animate': 1.0.9
+      '@visactor/vrender-components': 1.0.9
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vutils': ~1.0.9
       '@vitejs/plugin-react': 3.1.0
       canvas: 2.11.2
       eslint: ~8.18.0
@@ -501,13 +501,13 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vdataset': 1.0.6
-      '@visactor/vlayouts': 1.0.6
-      '@visactor/vrender-animate': 1.0.13
-      '@visactor/vrender-components': 1.0.13
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vutils': 1.0.6
+      '@visactor/vdataset': 1.0.9
+      '@visactor/vlayouts': 1.0.9
+      '@visactor/vrender-animate': 1.0.9
+      '@visactor/vrender-components': 1.0.9
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vutils': 1.0.9
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -581,8 +581,8 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vdataset': ~1.0.6
-      '@visactor/vutils': ~1.0.6
+      '@visactor/vdataset': ~1.0.9
+      '@visactor/vutils': ~1.0.9
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -599,8 +599,8 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6
     dependencies:
-      '@visactor/vdataset': 1.0.6
-      '@visactor/vutils': 1.0.6
+      '@visactor/vdataset': 1.0.9
+      '@visactor/vutils': 1.0.9
     devDependencies:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -693,8 +693,8 @@ importers:
       '@rushstack/eslint-patch': ~1.1.4
       '@types/node': '*'
       '@types/node-fetch': 2.6.4
-      '@visactor/vchart': workspace:2.0.4
-      '@visactor/vchart-extension': workspace:2.0.4
+      '@visactor/vchart': workspace:2.0.1
+      '@visactor/vchart-extension': workspace:2.0.1
       cross-env: ^7.0.3
       eslint: ~8.18.0
       form-data: ~4.0.0
@@ -877,11 +877,11 @@ importers:
       '@types/node': '*'
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:2.0.4
-      '@visactor/vrender': 1.0.13
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vutils': ~1.0.6
+      '@visactor/vchart': workspace:2.0.1
+      '@visactor/vrender': 1.0.9
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vutils': ~1.0.9
       cross-env: ^7.0.3
       eslint: ~8.18.0
       jest: ^26.0.0
@@ -893,10 +893,10 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../../packages/vchart
-      '@visactor/vrender': 1.0.13
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
-      '@visactor/vutils': 1.0.6
+      '@visactor/vrender': 1.0.9
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
+      '@visactor/vutils': 1.0.9
     devDependencies:
       '@internal/bundler': link:../bundler
       '@internal/eslint-config': link:../../share/eslint-config
@@ -4827,13 +4827,13 @@ packages:
       topojson-client: 3.1.0
     dev: false
 
-  /@visactor/vdataset/1.0.6:
-    resolution: {integrity: sha512-RhsC1JcrWGOOysBwGTHevn+VmOIDgaohFWNLkAAv4Qvd0Psdg8jH7VCP/Lp3HjV/vGBAg4ToL9ADfAjqT5SzcA==}
+  /@visactor/vdataset/1.0.9:
+    resolution: {integrity: sha512-8OJWm8rZ1ss46r7BgO7L7se0qb28Ygk1yd999tV5SsN7R06sgB08l6ZP8dbvAXlYW08FWLYXc5RmCTRVG8mL2Q==}
     dependencies:
       '@turf/flatten': 6.5.0
       '@turf/helpers': 6.5.0
       '@turf/rewind': 6.5.0
-      '@visactor/vutils': 1.0.6
+      '@visactor/vutils': 1.0.9
       d3-dsv: 2.0.0
       d3-geo: 1.12.1
       d3-hexbin: 0.2.2
@@ -4849,13 +4849,13 @@ packages:
       topojson-client: 3.1.0
     dev: false
 
-  /@visactor/vlayouts/1.0.6:
-    resolution: {integrity: sha512-0HUoNos83LjOSXuJWscerFF6I0teLYDvDW6FIrm5w/b/q9CXvfeujQNm4pRR4AJgbND/bsJy5FAkPG2ne/rdvg==}
+  /@visactor/vlayouts/1.0.9:
+    resolution: {integrity: sha512-85oR9zRfxidq2TCScSAfPWUYeqxIcH4LSKNQPKBmXc1f+nqw7SV3NKT/oiYfrqrbdNxF29jn06R2eaGlo3LaDg==}
     dependencies:
       '@turf/helpers': 6.5.0
       '@turf/invariant': 6.5.0
-      '@visactor/vscale': 1.0.6
-      '@visactor/vutils': 1.0.6
+      '@visactor/vscale': 1.0.9
+      '@visactor/vutils': 1.0.9
       eventemitter3: 4.0.7
     dev: false
 
@@ -4884,10 +4884,10 @@ packages:
       '@visactor/vutils': 1.0.4
     dev: false
 
-  /@visactor/vrender-animate/1.0.13:
-    resolution: {integrity: sha512-UDCa/ZYHIATukkHHxYdVIPhPnNsWE/mBvRatnUGdTKoIW+gtWZkQ5SsjhSWLXWeZ5lzwXf5afjsg6Vc8Y7HqIg==}
+  /@visactor/vrender-animate/1.0.9:
+    resolution: {integrity: sha512-9gkzQuVx2SP5YmdHslRdZK3dH8q0sZRqEi7XlmB7fL++pvDuJy5EGWTIUXPvAL/67hLpQKJy/Oe3C+4RxPpQ1A==}
     dependencies:
-      '@visactor/vrender-core': 1.0.13
+      '@visactor/vrender-core': 1.0.9
       '@visactor/vutils': 1.0.6
     dev: false
 
@@ -4901,12 +4901,12 @@ packages:
       '@visactor/vutils': 1.0.4
     dev: false
 
-  /@visactor/vrender-components/1.0.13:
-    resolution: {integrity: sha512-lclrDROH1FRnPhT05NStch759MtllVhGj/59R9rqSbflSt7FKKJ4bMhvwi6Ugh2HBsHVo9HjYUFCiW1oGNFG9w==}
+  /@visactor/vrender-components/1.0.9:
+    resolution: {integrity: sha512-3NDFyKOlPjHICgrig14E1IrXXkLFQWOicX3jNH9/QqPjgRF4o6orp3ZeJs3Qy451qXTum4/2GUgsNq2sC8IHyg==}
     dependencies:
-      '@visactor/vrender-animate': 1.0.13
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
+      '@visactor/vrender-animate': 1.0.9
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
       '@visactor/vscale': 1.0.6
       '@visactor/vutils': 1.0.6
     dev: false
@@ -4918,8 +4918,8 @@ packages:
       color-convert: 2.0.1
     dev: false
 
-  /@visactor/vrender-core/1.0.13:
-    resolution: {integrity: sha512-YMEUc1zuleTgyUJoMovUFeb4HK0mEMEdvkH+n8/+oexcB+0KCIHXfM/wtOhnMoJ08HAOOXcB+gGMZRig7TrE1Q==}
+  /@visactor/vrender-core/1.0.9:
+    resolution: {integrity: sha512-r33hSBIPvbMJuLhJ8LLBlwkKLqwDg+nl2MRoQfyy4f4VrGg1yBmF576lbj7TCifLN8mtfhrWHZ+Hb0Q65Alghg==}
     dependencies:
       '@visactor/vutils': 1.0.6
       color-convert: 2.0.1
@@ -4936,23 +4936,23 @@ packages:
       roughjs: 4.5.2
     dev: false
 
-  /@visactor/vrender-kits/1.0.13:
-    resolution: {integrity: sha512-qvekmEb8s7oarV5TEXX9Soy71crpi/YkECnRy9ELds21BqHUGi1XLl21Bc50Lsss183c9Bry/bBChw/KjxA9qA==}
+  /@visactor/vrender-kits/1.0.9:
+    resolution: {integrity: sha512-X5CCWEJt4AcfIcbkdScKJjr7tRBCta7SrltsjeMH+RDmNEzPxNJhvxgzpxePAOaWmJVR8TEKgT3cyx3bOU+EHg==}
     dependencies:
       '@resvg/resvg-js': 2.4.1
-      '@visactor/vrender-core': 1.0.13
+      '@visactor/vrender-core': 1.0.9
       '@visactor/vutils': 1.0.6
       gifuct-js: 2.1.2
       lottie-web: 5.13.0
       roughjs: 4.5.2
     dev: false
 
-  /@visactor/vrender/1.0.13:
-    resolution: {integrity: sha512-K/Xo65h4lq1rBMkaXrWK9W2KPWsnaZeEt9I4RdZu1OuJ5jEVkpjiKkE+9BDhBYuz/BOx/mSnYxl2x6LXIqjg6w==}
+  /@visactor/vrender/1.0.9:
+    resolution: {integrity: sha512-3hYf4k3Tk1WmOsLb0Ll3MMFR6EOmZ5Lx+ElsAvOeZZFm/an17pArI7YyORAEyKG/ZIdaV0M1INHAxSXQUu5d0g==}
     dependencies:
-      '@visactor/vrender-animate': 1.0.13
-      '@visactor/vrender-core': 1.0.13
-      '@visactor/vrender-kits': 1.0.13
+      '@visactor/vrender-animate': 1.0.9
+      '@visactor/vrender-core': 1.0.9
+      '@visactor/vrender-kits': 1.0.9
     dev: false
 
   /@visactor/vscale/0.18.18:
@@ -4971,6 +4971,12 @@ packages:
     resolution: {integrity: sha512-E6ySrzOIyL85luy5dKPpKzaCjf/hkLFF/mAn37Lv8XJWhyxWjYO29GM7cIlqDNCKAY0qsONPnfmgdGX+Hoe5vg==}
     dependencies:
       '@visactor/vutils': 1.0.6
+    dev: false
+
+  /@visactor/vscale/1.0.9:
+    resolution: {integrity: sha512-8u7ousY+Yo9smgcPyFePYl45sD4VXciQf9JOAc2jncNFIyZch7/2Li2CvqL3HPrdenjrl1twAVc5C5IPbyEUyQ==}
+    dependencies:
+      '@visactor/vutils': 1.0.9
     dev: false
 
   /@visactor/vtable-calendar/1.19.0-alpha.0:
@@ -5060,6 +5066,14 @@ packages:
       eventemitter3: 4.0.7
     dev: false
 
+  /@visactor/vutils/1.0.9:
+    resolution: {integrity: sha512-78Y7ZbpViscZuGIfsUAahilBHnMpAjIhbTvS4g04H4DOu/a5kNyvF6J2a4u4JFGMbazdzY9L1lDQ9koNdpviGQ==}
+    dependencies:
+      '@turf/helpers': 6.5.0
+      '@turf/invariant': 6.5.0
+      eventemitter3: 4.0.7
+    dev: false
+
   /@vitejs/plugin-react/3.1.0_vite@3.2.6:
     resolution: {integrity: sha512-AfgcRL8ZBhAlc3BFdigClmTUMISmmzHn7sB2h9U1odvc5U/MjWXsAaz18b/WoppUTDBzxOJwo2VdClfUcItu9g==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -5071,7 +5085,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.27.1_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.2
-      vite: 3.2.6_@types+node@22.15.30
+      vite: 3.2.6
     transitivePeerDependencies:
       - supports-color
     dev: true
