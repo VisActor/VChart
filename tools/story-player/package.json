@@ -60,6 +60,6 @@
     "@visactor/vrender-kits": "1.0.9",
     "@visactor/vchart": "workspace:2.0.1",
     "@visactor/vrender": "1.0.9",
-    "@visactor/vutils": "~1.0.6"
+    "@visactor/vutils": "~1.0.9"
   }
 }
