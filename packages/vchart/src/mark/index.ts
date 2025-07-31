@@ -23,6 +23,7 @@ import { registerMarkFilterTransform } from './transform/filter';
 import { registerMarkMapTransform } from './transform/map';
 import { BasePolygonMark } from './polygon/base-polygon';
 import { MarkTypeEnum } from './interface/type';
+import { GlyphMark, registerGlyphMark } from './glyph';
 
 export type {
   IBoxPlotMarkSpec,
@@ -64,7 +65,8 @@ export {
   PolygonMark,
   RippleMark,
   ImageMark,
-  BaseMark
+  BaseMark,
+  GlyphMark
 };
 
 export {
@@ -82,7 +84,8 @@ export {
   registerImageMark,
   registerComponentMark,
   registerMarkMapTransform,
-  registerMarkFilterTransform
+  registerMarkFilterTransform,
+  registerGlyphMark
 };
 
 export const registerAllMarks = () => {

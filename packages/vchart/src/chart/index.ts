@@ -58,6 +58,7 @@ import type { IWordCloudChartSpec } from './word-cloud';
 import { WordCloudChart, registerWordCloudChart, registerWordCloudShapeChart } from './word-cloud';
 import { BaseChart } from './base/base-chart';
 import type { ICartesianChartSpec } from './cartesian';
+import { CartesianChartSpecTransformer } from './cartesian';
 import type { IPolarChartSpec } from './polar';
 import type { IVennChartSpec } from './venn';
 import { VennChart, registerVennChart } from './venn';
@@ -69,6 +70,7 @@ import { BaseWordCloudChartSpecTransformer } from './word-cloud/base/word-cloud-
 import { BaseHistogramChart } from './histogram/base/base';
 
 export {
+  CartesianChartSpecTransformer,
   AreaChart,
   BarChart,
   BarChartSpecTransformer,
