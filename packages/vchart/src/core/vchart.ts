@@ -32,7 +32,7 @@ import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { IStage, Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender-core';
-import { isString, isValid, isNil, array, specTransform, functionTransform } from '../util';
+import { isString, isValid, isNil, array, specTransform, functionTransform, removeUndefined } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
 import { isTrueBrowser } from '../util/env';
@@ -360,6 +360,7 @@ export class VChart implements IVChart {
   private _onResize?: () => void;
 
   constructor(spec: ISpec, options: IInitOption) {
+    removeUndefined(options);
     this._option = {
       ...this._option,
       ...options
