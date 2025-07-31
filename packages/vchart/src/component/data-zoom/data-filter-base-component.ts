@@ -903,8 +903,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     if ((this._spec.roamDrag as IRoamDragSpec)?.autoVisible) {
       const dragEnd = 'panend';
+      let hideTimer: any;
       this.event.on(dragEnd, () => {
-        setTimeout(() => {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => {
           this.hide();
         }, 300);
       });
