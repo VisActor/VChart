@@ -28,7 +28,8 @@ import {
   minInArray,
   maxInArray,
   abs,
-  last
+  last,
+  throttle
 } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IFilterMode } from './interface';
@@ -903,10 +904,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     if ((this._spec.roamDrag as IRoamDragSpec)?.autoVisible) {
       const dragEnd = 'panend';
-      let hideTimer: any;
       this.event.on(dragEnd, () => {
-        clearTimeout(hideTimer);
-        hideTimer = setTimeout(() => {
+        throttle(() => {
           this.hide();
         }, 300);
       });
