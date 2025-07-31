@@ -68,6 +68,14 @@ export class CandlestickSeriesTooltipHelper extends BaseSeriesTooltipHelper impl
     return null;
   };
   shapeColorCallback = (datum: Datum) => {
-    return this.series.getMarkAttributeContext().seriesColor(datum[this.series.getSeriesField()]);
+    const seriesField = (this.series as CandlestickSeries).getSeriesField();
+    if (seriesField) {
+      return this.series.getMarkAttributeContext().seriesColor(datum[seriesField]);
+    }
+    return (
+      (this.series as CandlestickSeries).datumStyle(datum, 'bodyFill') ??
+      (this.series as CandlestickSeries).datumStyle(datum, 'bodyStroke') ??
+      (this.series as CandlestickSeries).datumStyle(datum, 'shadowStroke')
+    );
   };
 }
