@@ -23,6 +23,10 @@ import { CandlestickSeriesTooltipHelper } from './candlestick-tooltip-helper';
 import { CANDLESTICK_STYLE_LIST, VCHART_CANDLESTICK_STATE } from './constants';
 import { candlestickStateTransform } from './candlestice-state-transform';
 
+/**
+ * 蜡烛图图表类
+ * 继承自基础图表，实现蜡烛图的核心功能
+ */
 export class CandlestickChart<T extends ICandlestickChartSpecBase = ICandlestickChartSpecBase> extends BaseChart<T> {
   static readonly type: string = 'candlestick';
   static readonly seriesType: string = 'candlestick';
@@ -38,6 +42,10 @@ export class CandlestickChart<T extends ICandlestickChartSpecBase = ICandlestick
   }
 }
 
+/**
+ * 蜡烛图系列类
+ * 处理蜡烛图数据、样式和标记的核心逻辑
+ */
 export class CandlestickSeries extends CartesianSeries<ICandlestickSeriesSpecBase> {
   static readonly type: string = 'candlestick';
   // @ts-ignore
@@ -46,6 +54,7 @@ export class CandlestickSeries extends CartesianSeries<ICandlestickSeriesSpecBas
   private _candlestickMark?: CandlestickMark;
 
   protected _highField?: string;
+  /** 获取最高价数据字段 */
   get highField() {
     return this._highField;
   }
@@ -85,15 +94,32 @@ export class CandlestickSeries extends CartesianSeries<ICandlestickSeriesSpecBas
     }
   }
 
+  /**
+   * 初始化标记
+   * 创建蜡烛图的主标记对象
+   */
   initMark() {
     this._candlestickMark = this._createMark(
       { name: 'candlestick', type: CandlestickMark.type },
-      {
-        groupKey: this._seriesField,
-        isSeriesMark: true
-      }
+      { groupKey: this._seriesField, isSeriesMark: true }
     ) as CandlestickMark;
   }
+
+  /**
+   * 计算数据点状态
+   * 根据开盘价和收盘价比较结果返回'up'|'down'|'noChange'
+   * @param datum 数据点
+   * @returns 状态字符串
+   */
+  datumState = (datum: Datum) => {
+    if (datum[this._openField] - datum[this._closeField] > 0) {
+      return 'up';
+    }
+    if (datum[this._openField] - datum[this._closeField] < 0) {
+      return 'down';
+    }
+    return 'noChange';
+  };
 
   initMarkStyle() {
     if (!this._candlestickMark) {
@@ -119,21 +145,6 @@ export class CandlestickSeries extends CartesianSeries<ICandlestickSeriesSpecBas
       AttributeLevel.Series
     );
   }
-
-  /**
-   * 计算数据点的状态
-   * @param datum
-   * @returns
-   */
-  datumState = (datum: Datum) => {
-    if (datum[this._openField] - datum[this._closeField] > 0) {
-      return 'up';
-    }
-    if (datum[this._openField] - datum[this._closeField] < 0) {
-      return 'down';
-    }
-    return 'noChange';
-  };
 
   stateStyle(state: string) {
     switch (state) {
