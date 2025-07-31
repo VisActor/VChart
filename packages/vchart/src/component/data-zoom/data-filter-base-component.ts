@@ -448,14 +448,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getXAxisHelper()
               : s.coordinate === 'polar'
-              ? (s as IPolarSeries).angleAxisHelper
-              : null;
+                ? (s as IPolarSeries).angleAxisHelper
+                : null;
           const yAxisHelper =
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getYAxisHelper()
               : s.coordinate === 'polar'
-              ? (s as IPolarSeries).radiusAxisHelper
-              : null;
+                ? (s as IPolarSeries).radiusAxisHelper
+                : null;
           if (!xAxisHelper || !yAxisHelper) {
             return;
           }
@@ -463,10 +463,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             xAxisHelper.getAxisId() === this._relatedAxisComponent.id
               ? xAxisHelper
               : yAxisHelper.getAxisId() === this._relatedAxisComponent.id
-              ? yAxisHelper
-              : this._isHorizontal
-              ? xAxisHelper
-              : yAxisHelper;
+                ? yAxisHelper
+                : this._isHorizontal
+                  ? xAxisHelper
+                  : yAxisHelper;
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
 
           dataCollection.push(s.getRawData());
@@ -642,8 +642,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       start = this._spec.start
         ? this._spec.start
         : this._spec.startValue
-        ? this.dataToStatePoint(this._spec.startValue)
-        : 0;
+          ? this.dataToStatePoint(this._spec.startValue)
+          : 0;
       end = this._spec.end ? this._spec.end : this._spec.endValue ? this.dataToStatePoint(this._spec.endValue) : 1;
     }
     this._startValue = this.statePointToData(start);
@@ -862,6 +862,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (!this._activeRoam || (this._dragAttr.filter && !this._dragAttr.filter(delta, e))) {
       return;
     }
+    if ((this._spec.roamDrag as IRoamDragSpec)?.autoVisible) {
+      this.show();
+    }
     const [dx, dy] = delta;
     let value = this._isHorizontal ? dx : dy;
     if (this._dragAttr.reverse) {
@@ -886,7 +889,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _initCommonEvent() {
     const delayType: IDelayType = this._spec?.delayType ?? 'throttle';
-    const delayTime = isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0;
+    const delayTime = isValid(this._spec?.delayType) ? (this._spec?.delayTime ?? 30) : 0;
     const realTime = this._spec?.realTime ?? true;
     const option = { delayType, delayTime, realTime, allowComponentZoom: true };
     if (this._zoomAttr.enable) {
@@ -897,6 +900,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     if (this._dragAttr.enable) {
       (this as unknown as IZoomable).initDragEventOfRegions(this._regions, null, this._handleChartDrag, option);
+    }
+    if ((this._spec.roamDrag as IRoamDragSpec)?.autoVisible) {
+      const dragEnd = 'panend';
+      this.event.on(dragEnd, () => {
+        setTimeout(() => {
+          this.hide();
+        }, 300);
+      });
     }
   }
 
