@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: scrollbar support auto visible. close #3972",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
