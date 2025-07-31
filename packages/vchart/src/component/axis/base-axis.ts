@@ -11,15 +11,13 @@ import type {
   Datum,
   StringOrNumber,
   IGroup as ISeriesGroup,
-  CoordinateType,
-  IRect,
-  ILayoutRect
+  CoordinateType
 } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
 import { AxisEnum, GridEnum, type IAxis, type ICommonAxisSpec, type ITick } from './interface';
 import { ComponentTypeEnum, type IComponentOption } from '../interface';
-import { eachSeries, getSeries } from '../../util/model';
+import { getSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
 import { mergeSpec } from '@visactor/vutils-extension';
 import type { ISeries } from '../../series/interface';
@@ -48,9 +46,8 @@ import { DataView } from '@visactor/vdataset';
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
-import { AXIS_ELEMENT_NAME, GroupTransition } from '@visactor/vrender-components';
+import { AXIS_ELEMENT_NAME } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-animate';
 import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';
@@ -84,14 +81,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   getTickData(index = 0) {
     return this._tickData[index];
   }
-
-  // 与系列的关联关系
-  // 优先级：id > index
-  // 最终结果：series & region取交集
-  protected _seriesUserId?: StringOrNumber[];
-  protected _seriesIndex?: number[];
-  protected _regionUserId?: StringOrNumber[];
-  protected _regionIndex?: number[];
 
   /**
    * if axis will be shown
@@ -140,8 +129,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   created() {
     super.created();
-    //series and regions
-    this.setSeriesAndRegionsFromSpec();
     // event
     this.initEvent();
     // scales
@@ -164,11 +151,13 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       );
       this._updateTickDataMarks(axisMark);
       this._axisMark = axisMark as IComponentMark;
-      axisMark.setMarkConfig({ zIndex: this.layoutZIndex });
       if (isValid(this._spec.id)) {
         axisMark.setUserId(this._spec.id);
       }
-      axisMark.setMarkConfig({ interactive: this._spec.interactive ?? this.getDefaultInteractive() });
+      axisMark.setMarkConfig({
+        zIndex: this.layoutZIndex,
+        interactive: this._spec.interactive ?? this.getDefaultInteractive()
+      });
       this._marks.addMark(axisMark);
 
       if (this._spec.grid?.visible) {
@@ -221,10 +210,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
             get(this._option.getChart().getSpec(), 'animationUpdate')
         });
         // 因为坐标轴的更新动画中处理了 enter，所以需要将 enter 的参数传入
-        if (axisAnimateConfig.enter) {
-          axisAnimateConfig.update[0].customParameters = {
-            enter: axisAnimateConfig.enter[0]
-          };
+        if (axisAnimateConfig.enter && isArray(axisAnimateConfig.update)) {
+          // @ts-expect-error
+          axisAnimateConfig.update[0].customParameters = { enter: axisAnimateConfig.enter[0] };
         }
         this._marks.forEach(m => m.setAnimationConfig(axisAnimateConfig));
       }
@@ -253,73 +241,53 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected collectData(depth: number, rawData?: boolean) {
     const data: { min: number; max: number; values: any[] }[] = [];
-    eachSeries(
-      this._regions,
-      s => {
-        let field = this.collectSeriesField(depth, s);
-        field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
-        if (!depth) {
-          this._dataFieldText = s.getFieldAlias(field[0]);
-        }
-
-        if (field) {
-          const viewData = s.getViewData();
-          if (rawData) {
-            field.forEach(f => {
-              data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
-            });
-          } else if (viewData && viewData.latestData && viewData.latestData.length) {
-            const seriesData = s.getViewDataStatistics?.();
-            const userSetBreaks =
-              this.type === ComponentTypeEnum.cartesianLinearAxis && this._spec.breaks && this._spec.breaks.length;
-
-            field.forEach(f => {
-              if (seriesData?.latestData?.[f]) {
-                if (userSetBreaks) {
-                  data.push({
-                    ...seriesData.latestData[f],
-                    values: viewData.latestData.map((obj: Datum) => obj[f])
-                  });
-                } else {
-                  data.push(seriesData.latestData[f]);
-                }
-              }
-            });
-          }
-        }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
+    this.eachSeries(s => {
+      let field = this.collectSeriesField(depth, s);
+      field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
+      if (!depth) {
+        this._dataFieldText = s.getFieldAlias(field[0]);
       }
-    );
+
+      if (field) {
+        const viewData = s.getViewData();
+        if (rawData) {
+          field.forEach(f => {
+            data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
+          });
+        } else if (viewData && viewData.latestData && viewData.latestData.length) {
+          const seriesData = s.getViewDataStatistics?.();
+          const userSetBreaks =
+            this.type === ComponentTypeEnum.cartesianLinearAxis && this._spec.breaks && this._spec.breaks.length;
+
+          field.forEach(f => {
+            if (seriesData?.latestData?.[f]) {
+              if (userSetBreaks) {
+                data.push({
+                  ...seriesData.latestData[f],
+                  values: viewData.latestData.map((obj: Datum) => obj[f])
+                });
+              } else {
+                data.push(seriesData.latestData[f]);
+              }
+            }
+          });
+        }
+      }
+    });
     return data;
   }
 
   protected isSeriesDataEnable() {
     let enable = true;
-    eachSeries(
-      this._regions,
-      s => {
-        if (isArray(s.getViewDataStatistics()?.latestData)) {
-          enable = false;
-        }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
+    this.eachSeries(s => {
+      if (isArray(s.getViewDataStatistics()?.latestData)) {
+        enable = false;
       }
-    );
+    });
     return enable;
   }
 
   protected setSeriesAndRegionsFromSpec() {
-    const { seriesId, seriesIndex, regionId, regionIndex } = this._spec;
-    isValid(seriesId) && (this._seriesUserId = array(seriesId));
-    isValid(regionId) && (this._regionUserId = array(regionId));
-    isValid(seriesIndex) && (this._seriesIndex = array(seriesIndex));
-    isValid(regionIndex) && (this._regionIndex = array(regionIndex));
-    this._regions = this._option.getRegionsInUserIdOrIndex(this._regionUserId as string[], this._regionIndex);
     // _regions 被更新了，layoutBindRegionID 也要更新
     this.layout.layoutBindRegionID = this._regions.map(x => x.id);
   }
@@ -353,20 +321,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         this.updateScaleDomain();
       });
     }
-
-    eachSeries(
-      this._regions,
-      s => {
-        s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
-          // 只清除，不更新，在需要时，更新一次。避免多系列下多次更新
-          this._clearRawDomain();
-        });
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
+    this.eachSeries(s => {
+      s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
+        // 只清除，不更新，在需要时，更新一次。避免多系列下多次更新
+        this._clearRawDomain();
+      });
+    });
   }
 
   protected updateScaleDomain() {
@@ -392,16 +352,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // 1. 其他逻辑没有使用force更新, 所以不会带来额外影响
     // 2. force更新时, 如果有tickData仍然走老逻辑, 这里只考虑force && 无tickData的情况
     if (updateType === 'force' && (!this._tickData || !this._tickData.length)) {
-      eachSeries(
-        this._regions,
-        s => {
-          s.getViewData()?.reRunAllTransform();
-        },
-        {
-          userId: this._seriesUserId,
-          specIndex: this._seriesIndex
-        }
-      );
+      this.eachSeries(s => {
+        s.getViewData()?.reRunAllTransform();
+      });
     } else if (
       this._tickData &&
       this._tickData.length &&
@@ -426,17 +379,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected initScales() {
     this._scales = [this._scale];
     const groups: ISeriesGroup[] = [];
-    eachSeries(
-      this._regions,
-      s => {
-        const g = s.getGroups();
-        g && groups.push(g);
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
+    this.eachSeries(s => {
+      const g = s.getGroups();
+      g && groups.push(g);
+    });
     if (groups.length !== 0) {
       const depth = maxInArray(groups.map(g => g.fields.length));
       for (let i = 1; i < depth; i++) {

@@ -11,7 +11,6 @@ import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import { getLegendAttributes } from './util';
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { eachSeries } from '../../../util/model';
 import { getFieldAlias } from '../../../util/data';
 import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
@@ -51,26 +50,19 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
   init(option: IModelInitOption): void {
     super.init(option);
-    eachSeries(
-      this._regions,
-      s => {
-        s.addViewDataFilter({
-          type: 'discreteLegendFilter',
-          options: {
-            series: s,
-            selected: () => this._selectedData,
-            field: () => this._getSeriesLegendField(s),
-            data: () => this.getLegendDefaultData(),
-            customFilter: this._spec.customFilter
-          },
-          level: TransformLevel.legendFilter
-        });
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
+    this.eachSeries(s => {
+      s.addViewDataFilter({
+        type: 'discreteLegendFilter',
+        options: {
+          series: s,
+          selected: () => this._selectedData,
+          field: () => this._getSeriesLegendField(s),
+          data: () => this.getLegendDefaultData(),
+          customFilter: this._spec.customFilter
+        },
+        level: TransformLevel.legendFilter
+      });
+    });
   }
 
   protected _initLegendData(): DataView {
@@ -82,16 +74,9 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       options: {
         series: () => {
           const result: ISeries[] = [];
-          eachSeries(
-            this._regions,
-            s => {
-              result.push(s);
-            },
-            {
-              specIndex: this._spec.seriesIndex,
-              userId: this._spec.seriesId
-            }
-          );
+          this.eachSeries(s => {
+            result.push(s);
+          });
           return result;
         },
         seriesField: (s: ISeries) => this._getSeriesLegendField(s)

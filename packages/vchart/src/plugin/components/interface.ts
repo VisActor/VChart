@@ -5,14 +5,7 @@ interface IContext {
   skipLayout: boolean;
 }
 
-export interface IComponentPlugin<T extends IComponentPluginService = any> extends IBasePlugin<T> {
-  onWillLayout?: (service: T, ...params: any) => MaybePromise<void>;
-  onDidLayout?: (service: T, ...params: any) => MaybePromise<void>;
-  onWillLayoutVertical?: (service: T, context: IContext, ...params: any) => MaybePromise<void>;
-  onWillLayoutHorizontal?: (service: T, context: IContext, ...params: any) => MaybePromise<void>;
-  onDidLayoutVertical?: (service: T, ...params: any) => MaybePromise<void>;
-  onDidLayoutHorizontal?: (service: T, ...params: any) => MaybePromise<void>;
-}
+export type IComponentPlugin<T extends IComponentPluginService = any> = IBasePlugin<T>;
 
 export interface IComponentPluginConstructor {
   readonly pluginType: 'component';

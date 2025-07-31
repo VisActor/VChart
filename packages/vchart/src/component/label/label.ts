@@ -11,7 +11,6 @@ import type { IMark } from '../../mark/interface';
 import { type IComponentMark, type ILabelMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import { mergeSpec } from '@visactor/vutils-extension';
-import { eachSeries } from '../../util/model';
 import type { ISeries, SeriesMarkNameEnum } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { defaultLabelConfig, textAttribute } from './util';
@@ -139,7 +138,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     if (!this._labelComponentMap) {
       this._labelComponentMap = new Map();
     }
-    eachSeries(this._regions, (series: ISeries) => {
+    this.eachSeries((series: ISeries) => {
       const { markLabelSpec = {} } = series.getSpecInfo();
       const markNames = Object.keys(markLabelSpec);
       const region = series.getRegion();

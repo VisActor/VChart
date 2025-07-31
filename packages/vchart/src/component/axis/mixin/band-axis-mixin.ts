@@ -268,6 +268,7 @@ export class BandAxisMixin {
         domain.forEach((d, _i) => (this._rawDomainIndex[i][d] = _i));
       }
     }
+    this.event.emit(ChartEvent.scaleRawDomainUpdate, { model: this as unknown as IModel });
   }
 
   protected _clearRawDomain() {

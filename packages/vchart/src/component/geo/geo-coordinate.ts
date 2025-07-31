@@ -6,7 +6,6 @@ import type { IEffect, IModelRenderOption, IModelSpecInfo } from '../../model/in
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IGeoRegionSpec, IRegion, RegionSpec } from '../../region/interface';
-import { eachSeries } from '../../util/model';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { ChartEvent } from '../../constant/event';
 import { PREFIX } from '../../constant/base';
@@ -278,7 +277,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     translate && this._projection.translate(translate);
     scale && this._projection.scale(scale);
     center && this._projection.center(center);
-    eachSeries(this._regions, s => {
+    this.eachSeries(s => {
       if (s.type === SeriesTypeEnum.map || s.type === SeriesTypeEnum.pictogram) {
         (s as MapSeries).areaPath?.clear();
         const pathGroup = s.getRootMark().getProduct();

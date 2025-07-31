@@ -7,7 +7,6 @@ import type { IEffect } from '../../model/interface';
 import type { ILayoutRect, ILayoutType, IOrientType, IPoint, StringOrNumber } from '../../typings';
 import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { ChartEvent } from '../../constant/event';
-import { eachSeries } from '../../util/model';
 import { isValidOrient } from '../../util/space';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { CompilableData } from '../../compile/data/compilable-data';
@@ -61,26 +60,12 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
 
   effect: IEffect = {
     onSelectedDataChange: () => {
-      eachSeries(
-        this._regions,
-        s => {
-          s.getViewData()?.markRunning();
-        },
-        {
-          userId: this._seriesUserId,
-          specIndex: this._seriesIndex
-        }
-      );
-      eachSeries(
-        this._regions,
-        s => {
-          s.reFilterViewData();
-        },
-        {
-          userId: this._seriesUserId,
-          specIndex: this._seriesIndex
-        }
-      );
+      this.eachSeries(s => {
+        s.getViewData()?.markRunning();
+      });
+      this.eachSeries(s => {
+        s.reFilterViewData();
+      });
     }
   };
   // 与系列的关联关系
@@ -97,14 +82,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     this._orient = isValidOrient(this._spec.orient) ? this._spec.orient : 'left';
     this._position = this._spec.position ?? 'middle';
     this._visible = this._spec.visible !== false;
-
-    const { regionId, regionIndex, seriesId, seriesIndex } = this._spec;
-
-    isValid(seriesId) && (this._seriesUserId = array(seriesId));
-    isValid(regionId) && (this._regionUserId = array(regionId));
-    isValid(seriesIndex) && (this._seriesIndex = array(seriesIndex));
-    isValid(regionIndex) && (this._regionUserIndex = array(regionIndex));
-    this._regions = this._option.getRegionsInUserIdOrIndex(this._regionUserId, this._regionUserIndex);
   }
 
   created() {
@@ -145,20 +122,13 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     this._legendData = new CompilableData(this._option, legendData);
 
     this._initSelectedData();
-    eachSeries(
-      this._regions,
-      s => {
-        s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
-          this._legendData.getDataView().reRunAllTransform({
-            skipEqual: true
-          });
+    this.eachSeries(s => {
+      s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
+        this._legendData.getDataView().reRunAllTransform({
+          skipEqual: true
         });
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
+      });
+    });
   }
 
   setSelectedData(selectedData: StringOrNumber[]) {
@@ -168,18 +138,11 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     }
 
     // 更新图例筛选
-    eachSeries(
-      this._regions,
-      s => {
-        if (s.legendSelectedFilter) {
-          selectedData = s.legendSelectedFilter(this, selectedData);
-        }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
+    this.eachSeries(s => {
+      if (s.legendSelectedFilter) {
+        selectedData = s.legendSelectedFilter(this, selectedData);
       }
-    );
+    });
 
     this._selectedData = [...selectedData];
     // 更新数据

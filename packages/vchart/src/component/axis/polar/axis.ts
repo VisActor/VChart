@@ -8,7 +8,6 @@ import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 import { Factory } from '../../../core/factory';
-import { eachSeries } from '../../../util/model';
 import type { IPolarTickDataOpt } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPolarSeries } from '../../../series/interface';
@@ -165,36 +164,29 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   effect: IEffect = {
     scaleUpdate: param => {
       this.computeData(param?.value);
-      eachSeries(
-        this._regions,
-        s => {
-          if (this.getOrient() === 'radius') {
-            if (
-              shouldUpdateAxis(
-                (s as IPolarSeries).radiusAxisHelper,
-                this.axisHelper(),
-                isValid(this._seriesUserId) || isValid(this._seriesIndex)
-              )
-            ) {
-              (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
-            }
-          } else {
-            if (
-              shouldUpdateAxis(
-                (s as IPolarSeries).angleAxisHelper,
-                this.axisHelper(),
-                isValid(this._seriesUserId) || isValid(this._seriesIndex)
-              )
-            ) {
-              (s as IPolarSeries).angleAxisHelper = this.axisHelper();
-            }
+      this.eachSeries(s => {
+        if (this.getOrient() === 'radius') {
+          if (
+            shouldUpdateAxis(
+              (s as IPolarSeries).radiusAxisHelper,
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
           }
-        },
-        {
-          userId: this._seriesUserId,
-          specIndex: this._seriesIndex
+        } else {
+          if (
+            shouldUpdateAxis(
+              (s as IPolarSeries).angleAxisHelper,
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as IPolarSeries).angleAxisHelper = this.axisHelper();
+          }
         }
-      );
+      });
     }
   };
 
@@ -265,38 +257,31 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   protected abstract computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[];
 
   protected updateSeriesScale(): void {
-    eachSeries(
-      this._regions,
-      s => {
-        if (this.getOrient() === 'radius') {
-          if (
-            shouldUpdateAxis(
-              (s as IPolarSeries).radiusAxisHelper,
-              this.axisHelper(),
-              isValid(this._seriesUserId) || isValid(this._seriesIndex)
-            )
-          ) {
-            (s as IPolarSeries).setRadiusScale(this._scale);
-            (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
-          }
-        } else {
-          if (
-            shouldUpdateAxis(
-              (s as IPolarSeries).angleAxisHelper,
-              this.axisHelper(),
-              isValid(this._seriesUserId) || isValid(this._seriesIndex)
-            )
-          ) {
-            (s as IPolarSeries).setAngleScale(this._scale);
-            (s as IPolarSeries).angleAxisHelper = this.axisHelper();
-          }
+    this.eachSeries(s => {
+      if (this.getOrient() === 'radius') {
+        if (
+          shouldUpdateAxis(
+            (s as IPolarSeries).radiusAxisHelper,
+            this.axisHelper(),
+            isValid(this._seriesUserId) || isValid(this._seriesIndex)
+          )
+        ) {
+          (s as IPolarSeries).setRadiusScale(this._scale);
+          (s as IPolarSeries).radiusAxisHelper = this.axisHelper();
         }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
+      } else {
+        if (
+          shouldUpdateAxis(
+            (s as IPolarSeries).angleAxisHelper,
+            this.axisHelper(),
+            isValid(this._seriesUserId) || isValid(this._seriesIndex)
+          )
+        ) {
+          (s as IPolarSeries).setAngleScale(this._scale);
+          (s as IPolarSeries).angleAxisHelper = this.axisHelper();
+        }
       }
-    );
+    });
   }
 
   protected getSeriesStatisticsField(s: IPolarSeries) {
@@ -547,28 +532,21 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     let innerRadius: number = 0;
     const chartSpec = this.getChart().getSpec() as any;
     // FIXME: 为了保证 common 图表能够应用系列的 radius 配置，当前从相应的 region 中取到 radius 信息
-    eachSeries(
-      this.getRegions(),
-      s => {
-        const series = s as IPolarSeries;
-        if (isPolarAxisSeries(series.type)) {
-          const {
-            outerRadius: seriesRadius = chartSpec.outerRadius,
-            innerRadius: seriesInnerRadius = chartSpec.innerRadius
-          } = series;
-          if (isValidNumber(seriesRadius)) {
-            outerRadius = seriesRadius;
-          }
-          if (isValidNumber(seriesInnerRadius)) {
-            innerRadius = seriesInnerRadius;
-          }
+    this.eachSeries(s => {
+      const series = s as IPolarSeries;
+      if (isPolarAxisSeries(series.type)) {
+        const {
+          outerRadius: seriesRadius = chartSpec.outerRadius,
+          innerRadius: seriesInnerRadius = chartSpec.innerRadius
+        } = series;
+        if (isValidNumber(seriesRadius)) {
+          outerRadius = seriesRadius;
         }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
+        if (isValidNumber(seriesInnerRadius)) {
+          innerRadius = seriesInnerRadius;
+        }
       }
-    );
+    });
     return { outerRadius, innerRadius };
   }
 

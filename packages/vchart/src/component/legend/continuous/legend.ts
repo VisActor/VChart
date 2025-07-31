@@ -12,7 +12,7 @@ import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { eachSeries, getSeries } from '../../../util/model';
+import { getSeries } from '../../../util/model';
 import { getFieldAlias } from '../../../util/data';
 import { isDataDomainSpec } from '../../../util/type';
 import type { IColorLegendSpec, ISizeLegendSpec } from './interface';
@@ -85,26 +85,19 @@ export class ContinuousLegend<
 
   init(option: IModelInitOption): void {
     super.init(option);
-    eachSeries(
-      this._regions,
-      s => {
-        s.addViewDataFilter({
-          type: 'continuousLegendFilter',
-          options: {
-            selected: () => this._selectedData,
-            field: () => this._field,
-            data: () => this._legendData.getLatestData(),
-            isHierarchyData: s.isHierarchyData,
-            customFilter: this._spec.customFilter
-          },
-          level: TransformLevel.legendFilter
-        });
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
+    this.eachSeries(s => {
+      s.addViewDataFilter({
+        type: 'continuousLegendFilter',
+        options: {
+          selected: () => this._selectedData,
+          field: () => this._field,
+          data: () => this._legendData.getLatestData(),
+          isHierarchyData: s.isHierarchyData,
+          customFilter: this._spec.customFilter
+        },
+        level: TransformLevel.legendFilter
+      });
+    });
   }
 
   private _getScaleInGlobal() {

@@ -1,6 +1,5 @@
 import type { ICartesianSeries, IPolarSeries, ISeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { eachSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
@@ -275,26 +274,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           value: 'force'
         });
       } else {
-        eachSeries(
-          this._regions,
-          s => {
-            s.getViewData()?.markRunning();
-          },
-          {
-            userId: this._seriesUserId,
-            specIndex: this._seriesIndex
-          }
-        );
-        eachSeries(
-          this._regions,
-          s => {
-            s.reFilterViewData();
-          },
-          {
-            userId: this._seriesUserId,
-            specIndex: this._seriesIndex
-          }
-        );
+        this.eachSeries(s => {
+          s.getViewData()?.markRunning();
+        });
+        this.eachSeries(s => {
+          s.reFilterViewData();
+        });
       }
     }
   };
@@ -361,41 +346,20 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _setRegionsFromSpec() {
     // 从axis中获取关联的regions
-    this._regions = this._relatedAxisComponent ? this._relatedAxisComponent.getRegions() : this._option.getAllRegions();
+    const regions = this._relatedAxisComponent ? this._relatedAxisComponent.getRegions() : this._option.getAllRegions();
+    // 如果用户配置了region就取 axis关联 和 用户配置 的交集
+    this._regions = regions.filter(r => this._regions.includes(r));
     // 默认使用关联轴的系列绑定关系
     const bindSeriesFilter = this._relatedAxisComponent ? this._relatedAxisComponent.getBindSeriesFilter?.() : null;
     if (isValid(bindSeriesFilter)) {
-      isValid(bindSeriesFilter.userId) && (this._seriesUserId = array(bindSeriesFilter.userId));
-      isValid(bindSeriesFilter.specIndex) && (this._seriesIndex = array(bindSeriesFilter.specIndex));
-    }
-    // spec中的系列绑定关系 取交集
-    if (isValid(this._spec.seriesId)) {
-      const specSeriesId = array(this._spec.seriesId);
-      if (this._seriesUserId) {
-        this._seriesUserId = this._seriesUserId.filter(s => specSeriesId.includes(s));
-      } else {
-        this._seriesUserId = specSeriesId;
+      if (isValid(bindSeriesFilter.userId)) {
+        // 关联轴的系列绑定关系 取交集
+        this._seriesUserId = array(bindSeriesFilter.userId).filter(userId => this._seriesUserId.includes(userId));
       }
-    }
-    if (isValid(this._spec.seriesIndex)) {
-      const specSeriesIndex = array(this._spec.seriesIndex);
-      if (this._seriesIndex) {
-        this._seriesIndex = this._seriesIndex.filter(s => specSeriesIndex.includes(s));
-      } else {
-        this._seriesIndex = specSeriesIndex;
+      if (isValid(bindSeriesFilter.specIndex)) {
+        // 用户配置的系列绑定关系 取交集
+        this._seriesIndex = array(bindSeriesFilter.specIndex).filter(index => this._seriesIndex.includes(index));
       }
-    }
-    if (isValid(this._spec.regionIndex)) {
-      const regionsFromSpec = this._option.getRegionsInIndex(array(this._spec.regionIndex));
-      // 如果用户配置了region就取 axis关联 和 用户配置 的交集
-      this._regions = this._regions.filter(r => regionsFromSpec.includes(r));
-      return;
-    }
-    if (isValid(this._spec.regionId)) {
-      const ids = array(this._spec.regionId);
-      // 如果用户配置了region就取 axis关联 和 用户配置 的交集
-      this._regions = ids.length ? this._regions.filter(r => ids.includes(r.id)) : [];
-      return;
     }
     return;
   }
@@ -440,90 +404,76 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     if (this._relatedAxisComponent) {
       const originalStateFields = {};
-      eachSeries(
-        this._regions,
-        s => {
-          // 如果副轴的类型是time或band，则无法进行数据统计
-          const xAxisHelper =
-            s.coordinate === 'cartesian'
-              ? (s as ICartesianSeries).getXAxisHelper()
-              : s.coordinate === 'polar'
-              ? (s as IPolarSeries).angleAxisHelper
-              : null;
-          const yAxisHelper =
-            s.coordinate === 'cartesian'
-              ? (s as ICartesianSeries).getYAxisHelper()
-              : s.coordinate === 'polar'
-              ? (s as IPolarSeries).radiusAxisHelper
-              : null;
-          if (!xAxisHelper || !yAxisHelper) {
-            return;
-          }
-          const stateAxisHelper =
-            xAxisHelper.getAxisId() === this._relatedAxisComponent.id
-              ? xAxisHelper
-              : yAxisHelper.getAxisId() === this._relatedAxisComponent.id
-              ? yAxisHelper
-              : this._isHorizontal
-              ? xAxisHelper
-              : yAxisHelper;
-          const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
-
-          dataCollection.push(s.getRawData());
-          // 这里获取原始的spec中的xField和yField，而非经过stack处理后的fieldX和fieldY，原因如下：
-          // 1. dataFilterComputeDomain处理时拿到的viewData中没有__VCHART_STACK_START等属性，也就是还没处理
-          // 2. datazoom计算的是原始的value值，如果要根据stack后的数据来算，则需要__VCHART_STACK_END - __VCHART_STACK_START
-          const seriesSpec = s.getSpec();
-
-          const xField =
-            s.coordinate === 'cartesian'
-              ? array(seriesSpec.xField)
-              : array(seriesSpec.angleField ?? seriesSpec.categoryField);
-          const yField =
-            s.coordinate === 'cartesian'
-              ? array(seriesSpec.yField)
-              : array(seriesSpec.radiusField ?? seriesSpec.valueField);
-
-          originalStateFields[s.id] =
-            s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
-
-          if (isContinuous(stateAxisHelper.getScale(0).type)) {
-            isCategoryState = false;
-            stateFields.push(originalStateFields[s.id]);
-          } else {
-            stateFields.push(originalStateFields[s.id][0]);
-          }
-
-          if (this._valueField) {
-            const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
-            if (isContinuous(valueAxisHelper.getScale(0).type)) {
-              valueFields.push(...valueField);
-            }
-          }
-        },
-        {
-          userId: this._seriesUserId,
-          specIndex: this._seriesIndex
+      this.eachSeries(s => {
+        // 如果副轴的类型是time或band，则无法进行数据统计
+        const xAxisHelper =
+          s.coordinate === 'cartesian'
+            ? (s as ICartesianSeries).getXAxisHelper()
+            : s.coordinate === 'polar'
+            ? (s as IPolarSeries).angleAxisHelper
+            : null;
+        const yAxisHelper =
+          s.coordinate === 'cartesian'
+            ? (s as ICartesianSeries).getYAxisHelper()
+            : s.coordinate === 'polar'
+            ? (s as IPolarSeries).radiusAxisHelper
+            : null;
+        if (!xAxisHelper || !yAxisHelper) {
+          return;
         }
-      );
+        const stateAxisHelper =
+          xAxisHelper.getAxisId() === this._relatedAxisComponent.id
+            ? xAxisHelper
+            : yAxisHelper.getAxisId() === this._relatedAxisComponent.id
+            ? yAxisHelper
+            : this._isHorizontal
+            ? xAxisHelper
+            : yAxisHelper;
+        const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
+
+        dataCollection.push(s.getRawData());
+        // 这里获取原始的spec中的xField和yField，而非经过stack处理后的fieldX和fieldY，原因如下：
+        // 1. dataFilterComputeDomain处理时拿到的viewData中没有__VCHART_STACK_START等属性，也就是还没处理
+        // 2. datazoom计算的是原始的value值，如果要根据stack后的数据来算，则需要__VCHART_STACK_END - __VCHART_STACK_START
+        const seriesSpec = s.getSpec();
+
+        const xField =
+          s.coordinate === 'cartesian'
+            ? array(seriesSpec.xField)
+            : array(seriesSpec.angleField ?? seriesSpec.categoryField);
+        const yField =
+          s.coordinate === 'cartesian'
+            ? array(seriesSpec.yField)
+            : array(seriesSpec.radiusField ?? seriesSpec.valueField);
+
+        originalStateFields[s.id] =
+          s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
+
+        if (isContinuous(stateAxisHelper.getScale(0).type)) {
+          isCategoryState = false;
+          stateFields.push(originalStateFields[s.id]);
+        } else {
+          stateFields.push(originalStateFields[s.id][0]);
+        }
+
+        if (this._valueField) {
+          const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
+          if (isContinuous(valueAxisHelper.getScale(0).type)) {
+            valueFields.push(...valueField);
+          }
+        }
+      });
 
       this._originalStateFields = originalStateFields;
     } else {
-      eachSeries(
-        this._regions,
-        s => {
-          dataCollection.push(s.getRawData());
+      this.eachSeries(s => {
+        dataCollection.push(s.getRawData());
 
-          stateFields.push(this._field);
-          if (this._valueField) {
-            valueFields.push(this._spec.valueField);
-          }
-        },
-        {
-          userId: this._seriesUserId,
-          specIndex: this._seriesIndex
+        stateFields.push(this._field);
+        if (this._valueField) {
+          valueFields.push(this._spec.valueField);
         }
-      );
+      });
     }
     const { dataSet } = this._option;
     registerDataSetInstanceParser(dataSet, 'dataview', dataViewParser);
@@ -714,44 +664,37 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       registerDataSetInstanceTransform(this._option.dataSet, 'dataFilterWithNewDomain', dataFilterWithNewDomain);
       registerDataSetInstanceTransform(this._option.dataSet, 'lockStatisticsFilter', lockStatisticsFilter);
 
-      eachSeries(
-        this._regions,
-        s => {
-          s.getViewDataStatistics().transform(
-            {
-              type: 'lockStatisticsFilter',
-              options: {
-                originalFields: () => {
-                  return s.getViewDataStatistics().getFields();
-                },
-                getNewDomain: () => this._newDomain,
-                field: () => {
-                  return this._field ?? this._parseFieldOfSeries(s);
-                },
-                isContinuous: () => isContinuous(this._stateScale.type)
-              },
-              level: 1
-            },
-            false
-          );
-
-          s.addViewDataFilter({
-            type: 'dataFilterWithNewDomain',
+      this.eachSeries(s => {
+        s.getViewDataStatistics().transform(
+          {
+            type: 'lockStatisticsFilter',
             options: {
+              originalFields: () => {
+                return s.getViewDataStatistics().getFields();
+              },
               getNewDomain: () => this._newDomain,
               field: () => {
                 return this._field ?? this._parseFieldOfSeries(s);
               },
               isContinuous: () => isContinuous(this._stateScale.type)
             },
-            level: TransformLevel.dataZoomFilter
-          });
-        },
-        {
-          userId: this._seriesUserId,
-          specIndex: this._seriesIndex
-        }
-      );
+            level: 1
+          },
+          false
+        );
+
+        s.addViewDataFilter({
+          type: 'dataFilterWithNewDomain',
+          options: {
+            getNewDomain: () => this._newDomain,
+            field: () => {
+              return this._field ?? this._parseFieldOfSeries(s);
+            },
+            isContinuous: () => isContinuous(this._stateScale.type)
+          },
+          level: TransformLevel.dataZoomFilter
+        });
+      });
     }
   }
 

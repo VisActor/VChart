@@ -2,7 +2,6 @@ import type { IEffect } from '../../../model/interface';
 import { DataView } from '@visactor/vdataset';
 import { isXAxis } from './util/common';
 import { isValid, TimeUtil } from '@visactor/vutils';
-import { eachSeries } from '../../../util/model';
 import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
 import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
@@ -48,36 +47,29 @@ export class CartesianTimeAxis<
   effect: IEffect = {
     scaleUpdate: params => {
       this.computeData(params?.value);
-      eachSeries(
-        this._regions,
-        s => {
-          if (isXAxis(this.getOrient())) {
-            if (
-              shouldUpdateAxis(
-                (s as ICartesianSeries).getXAxisHelper(),
-                this.axisHelper(),
-                isValid(this._seriesUserId) || isValid(this._seriesIndex)
-              )
-            ) {
-              (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-            }
-          } else {
-            if (
-              shouldUpdateAxis(
-                (s as ICartesianSeries).getYAxisHelper(),
-                this.axisHelper(),
-                isValid(this._seriesUserId) || isValid(this._seriesIndex)
-              )
-            ) {
-              (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
-            }
+      this.eachSeries(s => {
+        if (isXAxis(this.getOrient())) {
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getXAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
           }
-        },
-        {
-          userId: this._seriesUserId,
-          specIndex: this._seriesIndex
+        } else {
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getYAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+          }
         }
-      );
+      });
     }
   };
 

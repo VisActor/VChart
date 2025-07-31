@@ -3,14 +3,12 @@ import { Bounds, last, type IBounds, type IBoundsLike, type Maybe } from '@visac
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
-import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianVertical } from './interface';
 import { mergeSpec } from '@visactor/vutils-extension';
 import {
   isArray,
   isValid,
   isValidNumber,
-  eachSeries,
   isNil,
   isUndefined,
   calcLayoutNumber,
@@ -117,6 +115,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     right: 0
   };
 
+  get isXAxis() {
+    return isXAxis(this._orient);
+  }
+
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._orient = getOrient(spec, ['z']);
@@ -204,47 +206,40 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   effect: IEffect = {
     scaleUpdate: params => {
       this.computeData(params?.value);
-      eachSeries(
-        this._regions,
-        s => {
-          const orient = this.getOrient();
-          if (isXAxis(orient)) {
-            if (
-              shouldUpdateAxis(
-                (s as ICartesianSeries).getXAxisHelper(),
-                this.axisHelper(),
-                isValid(this._seriesUserId) || isValid(this._seriesIndex)
-              )
-            ) {
-              (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-            }
-          } else if (isYAxis(orient)) {
-            if (
-              shouldUpdateAxis(
-                (s as ICartesianSeries).getYAxisHelper(),
-                this.axisHelper(),
-                isValid(this._seriesUserId) || isValid(this._seriesIndex)
-              )
-            ) {
-              (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
-            }
-          } else if (isZAxis(orient)) {
-            if (
-              shouldUpdateAxis(
-                (s as ICartesianSeries).getZAxisHelper(),
-                this.axisHelper(),
-                isValid(this._seriesUserId) || isValid(this._seriesIndex)
-              )
-            ) {
-              (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
-            }
+      this.eachSeries(s => {
+        const orient = this.getOrient();
+        if (isXAxis(orient)) {
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getXAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
           }
-        },
-        {
-          userId: this._seriesUserId,
-          specIndex: this._seriesIndex
+        } else if (isYAxis(orient)) {
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getYAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+          }
+        } else if (isZAxis(orient)) {
+          if (
+            shouldUpdateAxis(
+              (s as ICartesianSeries).getZAxisHelper(),
+              this.axisHelper(),
+              isValid(this._seriesUserId) || isValid(this._seriesIndex)
+            )
+          ) {
+            (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
+          }
         }
-      );
+      });
     }
   };
 
@@ -255,7 +250,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     const { width, height } = this.getLayoutRect();
     const { left, right, top, bottom } = this._innerOffset;
     let newRange: number[] = [];
-    if (isXAxis(this.getOrient())) {
+    if (this.isXAxis) {
       if (isValidNumber(width)) {
         newRange = this._inverse ? [width - right, left] : [left, width - right];
       }
@@ -300,7 +295,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     super.setAttrFromSpec();
 
     if (this.visible) {
-      const isX = isXAxis(this.getOrient());
+      const isX = this.isXAxis;
       if (isX) {
         if (isUndefined(this._spec.maxHeight)) {
           this._spec.maxHeight = '30%';
@@ -346,7 +341,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   protected getSeriesStatisticsField(s: ICartesianSeries) {
     let f: string[];
-    if (isXAxis(this.getOrient())) {
+    if (this.isXAxis) {
       f = s.fieldX;
     } else if (isZAxis(this.getOrient())) {
       f = s.fieldZ;
@@ -393,20 +388,20 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         if (mark === this._axisMark) {
           if (this._isLayout === false) {
             // 布局结束之后再进行插件的调用
-            // 插件在布局后
-            if (isXAxis(this.getOrient())) {
-              this.callPlugin(plugin => {
-                this.pluginService &&
-                  plugin.onDidLayoutHorizontal &&
-                  plugin.onDidLayoutHorizontal(this.pluginService, this);
-              });
-            } else {
-              this.callPlugin(plugin => {
-                this.pluginService &&
-                  plugin.onDidLayoutVertical &&
-                  plugin.onDidLayoutVertical(this.pluginService, this);
-              });
-            }
+            // 插件在布局后， 当前没有这类插件
+            // if (this.isXAxis) {
+            //   this.callPlugin(plugin => {
+            //     this.pluginService &&
+            //       plugin.onDidLayoutHorizontal &&
+            //       plugin.onDidLayoutHorizontal(this.pluginService, this);
+            //   });
+            // } else {
+            //   this.callPlugin(plugin => {
+            //     this.pluginService &&
+            //       plugin.onDidLayoutVertical &&
+            //       plugin.onDidLayoutVertical(this.pluginService, this);
+            //   });
+            // }
 
             // 更新单位的显示位置
             if (this._unitText) {
@@ -434,20 +429,13 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   protected collectScale() {
     const scales: IBaseScale[] = [];
-    eachSeries(
-      this._regions,
-      s => {
-        scales.push(
-          this.getOrient() === 'left' || this.getOrient() === 'right'
-            ? (s as ICartesianSeries).scaleY
-            : (s as ICartesianSeries).scaleX
-        );
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
+    this.eachSeries(s => {
+      scales.push(
+        this.getOrient() === 'left' || this.getOrient() === 'right'
+          ? (s as ICartesianSeries).scaleY
+          : (s as ICartesianSeries).scaleX
+      );
+    });
     return scales;
   }
 
@@ -456,7 +444,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (depth > 0) {
       field = series.getGroups()?.fields?.[depth];
     } else {
-      if (isXAxis(this.getOrient())) {
+      if (this.isXAxis) {
         field = series.getSpec().x2Field ? [...series.fieldX, series.fieldX2] : series.fieldX;
       } else if (isZAxis(this.getOrient())) {
         field = series.fieldZ;
@@ -469,49 +457,42 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   protected updateSeriesScale() {
     const orient = this.getOrient();
-    eachSeries(
-      this._regions,
-      s => {
-        if (isXAxis(orient)) {
-          if (
-            shouldUpdateAxis(
-              (s as ICartesianSeries).getXAxisHelper(),
-              this.axisHelper(),
-              isValid(this._seriesUserId) || isValid(this._seriesIndex)
-            )
-          ) {
-            (s as ICartesianSeries).setScaleX(this._scale);
-            (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-          }
-        } else if (isYAxis(orient)) {
-          if (
-            shouldUpdateAxis(
-              (s as ICartesianSeries).getYAxisHelper(),
-              this.axisHelper(),
-              isValid(this._seriesUserId) || isValid(this._seriesIndex)
-            )
-          ) {
-            (s as ICartesianSeries).setScaleY(this._scale);
-            (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
-          }
-        } else if (isZAxis(orient)) {
-          if (
-            shouldUpdateAxis(
-              (s as ICartesianSeries).getZAxisHelper(),
-              this.axisHelper(),
-              isValid(this._seriesUserId) || isValid(this._seriesIndex)
-            )
-          ) {
-            (s as ICartesianSeries).setScaleZ(this._scale);
-            (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
-          }
+    this.eachSeries(s => {
+      if (isXAxis(orient)) {
+        if (
+          shouldUpdateAxis(
+            (s as ICartesianSeries).getXAxisHelper(),
+            this.axisHelper(),
+            isValid(this._seriesUserId) || isValid(this._seriesIndex)
+          )
+        ) {
+          (s as ICartesianSeries).setScaleX(this._scale);
+          (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
         }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
+      } else if (isYAxis(orient)) {
+        if (
+          shouldUpdateAxis(
+            (s as ICartesianSeries).getYAxisHelper(),
+            this.axisHelper(),
+            isValid(this._seriesUserId) || isValid(this._seriesIndex)
+          )
+        ) {
+          (s as ICartesianSeries).setScaleY(this._scale);
+          (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
+        }
+      } else if (isZAxis(orient)) {
+        if (
+          shouldUpdateAxis(
+            (s as ICartesianSeries).getZAxisHelper(),
+            this.axisHelper(),
+            isValid(this._seriesUserId) || isValid(this._seriesIndex)
+          )
+        ) {
+          (s as ICartesianSeries).setScaleZ(this._scale);
+          (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
+        }
       }
-    );
+    });
   }
 
   // protected _seriesUpdateAfterScaleChange(updateInfo: { domain?: boolean; range?: boolean; type?: boolean }) {
@@ -600,7 +581,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (!this._visible) {
       return result;
     }
-    this._verticalLimitSize = isXAxis(this.getOrient()) ? rect.height : rect.width;
+    this._verticalLimitSize = this.isXAxis ? rect.height : rect.width;
 
     this.setLayoutRect(rect);
     const isChanged = this.updateScaleRange();
@@ -609,16 +590,17 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this.computeData('range');
     }
     const context = { skipLayout: false };
-    const isX = isXAxis(this.getOrient());
-    if (this.pluginService) {
-      isX
-        ? this.callPlugin(plugin => {
-            plugin.onWillLayoutHorizontal && plugin.onWillLayoutHorizontal(this.pluginService, context, this);
-          })
-        : this.callPlugin(plugin => {
-            plugin.onWillLayoutVertical && plugin.onWillLayoutVertical(this.pluginService, context, this);
-          });
-    }
+    const isX = this.isXAxis;
+    // 当前没有使用这个接口的插件
+    // if (this.pluginService) {
+    //   isX
+    //     ? this.callPlugin(plugin => {
+    //         plugin.onWillLayoutHorizontal && plugin.onWillLayoutHorizontal(this.pluginService, context, this);
+    //       })
+    //     : this.callPlugin(plugin => {
+    //         plugin.onWillLayoutVertical && plugin.onWillLayoutVertical(this.pluginService, context, this);
+    //       });
+    // }
     const product = this._axisMark.getProduct();
     let hasBounds = false;
 
@@ -648,7 +630,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   positionToData(pos: number, isViewPos?: boolean) {
-    const isX = isXAxis(this.getOrient());
+    const isX = this.isXAxis;
     if (isViewPos) {
       pos -= isX ? this.getLayoutStartPoint().x : this.getLayoutStartPoint().y;
     }
@@ -700,15 +682,15 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     }
 
     const { width, height } = this.getLayoutRect();
-    const isX = isXAxis(this._orient);
-    const isY = isYAxis(this._orient);
+    const isX = this.isXAxis;
+    const isY = !isX;
     let end = { x: 0, y: 0 };
     let gridLength = regionHeight;
     let axisLength = width;
 
     if (isX) {
       end = { x: width, y: 0 };
-    } else if (isY) {
+    } else {
       end = { x: 0, y: height };
       gridLength = regionWidth;
       axisLength = height;
@@ -829,12 +811,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (this.visible && onZero && visible !== false) {
       const { onZeroAxisId, onZeroAxisIndex } = this._spec.domainLine;
       const axesComponents = this._option.getComponentsByKey('axes') as IAxis[];
-      const isX = isXAxis(this.getOrient());
-
+      const isX = this.isXAxis;
       // 判断坐标轴是否可用
       const isValidAxis = (item: any) => {
         return (
-          (isX ? !isXAxis(item.getOrient()) : isXAxis(item.getOrient())) &&
+          isXAxis(item.getOrient()) !== isX &&
           isContinuous(item.getScale().type) &&
           (item.getTickData()
             ? item

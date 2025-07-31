@@ -5,14 +5,16 @@ import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEqual } from '@visactor/vutils';
+import { array, isEqual, isValid } from '@visactor/vutils';
 import { Event_Source_Type } from '../../constant/event';
 // import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
-import type { Datum, ILayoutRect } from '../../typings';
+import type { Datum, ILayoutRect, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
 import { BaseComponentSpecTransformer } from './base-component-transformer';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import { eachSeries } from '../../util/model';
+import { ISeries } from '../../series/interface';
 
 export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {
   static transformerConstructor = BaseComponentSpecTransformer;
@@ -35,13 +37,28 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
   getRegions() {
     return this._regions;
   }
+  // 最终结果：series & region取交集
+  protected _seriesUserId?: StringOrNumber[];
+  protected _seriesIndex?: number[];
+  protected _regionUserId?: StringOrNumber[];
+  protected _regionIndex?: number[];
 
   protected _container: IGroup;
 
   created() {
     super.created();
+    this.setSeriesAndRegionsFromSpec();
     this.initLayout();
     this.pluginService = new ComponentPluginService(this);
+  }
+
+  protected setSeriesAndRegionsFromSpec() {
+    const { seriesId, seriesIndex, regionId, regionIndex } = this._spec;
+    isValid(seriesId) && (this._seriesUserId = array(seriesId));
+    isValid(regionId) && (this._regionUserId = array(regionId));
+    isValid(seriesIndex) && (this._seriesIndex = array(seriesIndex));
+    isValid(regionIndex) && (this._regionIndex = array(regionIndex));
+    this._regions = this._option.getRegionsInUserIdOrIndex(this._regionUserId as string[], this._regionIndex);
   }
 
   initLayout(): void {
@@ -59,6 +76,13 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
 
   getVRenderComponents() {
     return this._getNeedClearVRenderComponents();
+  }
+
+  protected eachSeries(cb: (series: ISeries) => void) {
+    eachSeries(this._regions, s => cb(s), {
+      userId: this._seriesUserId,
+      specIndex: this._seriesIndex
+    });
   }
 
   protected callPlugin(cb: (plugin: IComponentPlugin) => void) {
