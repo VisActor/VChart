@@ -10,19 +10,34 @@ import {
   vglobal
 } from '../../../../src/index';
 import { AnimateExecutor, AStageAnimate } from '@visactor/vrender-animate';
+import { EasingType } from '@visactor/vrender-core';
 registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
 
-// 全局变量控制故障效果
-let globalGlitchIntensity = 0.5; // 故障强度 0-1
-let useOptimizedGlitch = true; // 是否使用优化版本
-let glitchType = 'rgb-shift'; // 故障类型: 'rgb-shift', 'digital-distortion', 'scan-lines', 'pixelation', 'data-corruption'
+// 故障效果配置接口
+interface GlitchConfig {
+  effectType?: 'rgb-shift' | 'digital-distortion' | 'scan-lines' | 'data-corruption'; // 故障效果类型
+  intensity?: number; // 故障强度 0-1
+}
 
 class TestStageAnimate extends AStageAnimate<any> {
   private frameCount = 0; // 帧计数器，用于动态效果
 
-  // 优化版本1: RGB通道偏移故障效果 (TOP1 - 性能最好)
+  // 故障效果配置
+  private glitchConfig: Required<GlitchConfig>;
+
+  constructor(from: null, to: null, duration: number, easing: EasingType, params: any) {
+    super(from, to, duration, easing, params);
+
+    // 初始化故障效果配置，使用传入的参数或默认值
+    this.glitchConfig = {
+      effectType: params?.options?.effectType || 'rgb-shift',
+      intensity: params?.options?.intensity || 0.5
+    };
+  }
+
+  // RGB通道偏移故障效果
   private applyRGBShiftGlitch(canvas: HTMLCanvasElement, intensity: number): HTMLCanvasElement {
     const c = vglobal.createCanvas({
       width: canvas.width,
@@ -114,73 +129,7 @@ class TestStageAnimate extends AStageAnimate<any> {
     return new ImageData(channelData, width, height);
   }
 
-  // 像素级精确RGB通道偏移实现
-  private applyPixelRGBShiftGlitch(imageData: ImageData, intensity: number): ImageData {
-    const { data, width, height } = imageData;
-    const result = new Uint8ClampedArray(data.length);
-
-    // 计算偏移量 - 加强色散效果
-    const maxOffset = Math.floor(intensity * 25);
-    const redOffsetX = Math.floor((Math.random() - 0.5) * maxOffset);
-    const redOffsetY = Math.floor((Math.random() - 0.5) * maxOffset * 0.4);
-    const blueOffsetX = Math.floor(-(Math.random() - 0.5) * maxOffset); // 蓝色相反方向
-    const blueOffsetY = Math.floor((Math.random() - 0.5) * maxOffset * 0.4);
-    const greenOffsetX = Math.floor((Math.random() - 0.5) * maxOffset * 0.3); // 绿色轻微偏移
-    const greenOffsetY = Math.floor((Math.random() - 0.5) * maxOffset * 0.2);
-
-    // 初始化结果数组 (全部设为黑色，保持Alpha)
-    for (let i = 0; i < data.length; i += 4) {
-      result[i] = 0; // R
-      result[i + 1] = 0; // G
-      result[i + 2] = 0; // B
-      result[i + 3] = data[i + 3]; // A
-    }
-
-    // 复制红色通道 (带偏移)
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const sourceX = x - redOffsetX;
-        const sourceY = y - redOffsetY;
-
-        if (sourceX >= 0 && sourceX < width && sourceY >= 0 && sourceY < height) {
-          const sourceIndex = (sourceY * width + sourceX) * 4;
-          const targetIndex = (y * width + x) * 4;
-          // 使用加法混合来叠加颜色通道
-          result[targetIndex] = Math.min(255, result[targetIndex] + data[sourceIndex]);
-        }
-      }
-    }
-
-    // 复制绿色通道 (轻微偏移)
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const sourceX = x - greenOffsetX;
-        const sourceY = y - greenOffsetY;
-
-        if (sourceX >= 0 && sourceX < width && sourceY >= 0 && sourceY < height) {
-          const sourceIndex = (sourceY * width + sourceX) * 4;
-          const targetIndex = (y * width + x) * 4;
-          result[targetIndex + 1] = Math.min(255, result[targetIndex + 1] + data[sourceIndex + 1]);
-        }
-      }
-    }
-
-    // 复制蓝色通道 (相反方向偏移)
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const sourceX = x - blueOffsetX;
-        const sourceY = y - blueOffsetY;
-
-        if (sourceX >= 0 && sourceX < width && sourceY >= 0 && sourceY < height) {
-          const sourceIndex = (sourceY * width + sourceX) * 4;
-          const targetIndex = (y * width + x) * 4;
-          result[targetIndex + 2] = Math.min(255, result[targetIndex + 2] + data[sourceIndex + 2]);
-        }
-      }
-    }
-
-    return new ImageData(result, width, height);
-  }
+  // 优化版本2: 数字扭曲故障效果
   private applyDigitalDistortionGlitch(imageData: ImageData, intensity: number): ImageData {
     const { data, width, height } = imageData;
     const result = new Uint8ClampedArray(data);
@@ -351,79 +300,70 @@ class TestStageAnimate extends AStageAnimate<any> {
     this.frameCount++;
 
     // 如果强度为0，直接返回原图
-    if (globalGlitchIntensity <= 0) {
+    if (this.glitchConfig.intensity <= 0) {
       return canvas;
     }
 
     let result: HTMLCanvasElement;
 
-    if (useOptimizedGlitch) {
-      // 使用优化的Canvas技术
-      switch (glitchType) {
-        case 'rgb-shift':
-          result = this.applyRGBShiftGlitch(canvas, globalGlitchIntensity);
-          break;
-        case 'scan-lines':
-          result = this.applyScanLineGlitch(canvas, globalGlitchIntensity);
-          break;
-        default:
-          result = this.applyRGBShiftGlitch(canvas, globalGlitchIntensity);
-      }
-    } else {
-      // 使用像素级处理
-      const c = vglobal.createCanvas({
-        width: canvas.width,
-        height: canvas.height,
-        dpr: vglobal.devicePixelRatio
-      });
-      const ctx = c.getContext('2d');
-      if (!ctx) {
-        return false;
-      }
-
-      // 清空画布并绘制原始图像
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(canvas, 0, 0);
-
-      // 获取图像数据
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-      // 根据故障类型选择不同的算法
-      let glitchedImageData: ImageData;
-      switch (glitchType) {
-        case 'rgb-shift':
-          console.log('使用像素级RGB通道偏移');
-          glitchedImageData = this.applyPixelRGBShiftGlitch(imageData, globalGlitchIntensity);
-          break;
-        case 'digital-distortion':
-          console.log('使用数字扭曲故障效果');
-          glitchedImageData = this.applyDigitalDistortionGlitch(imageData, globalGlitchIntensity);
-          break;
-        case 'data-corruption':
-          console.log('使用数据损坏故障效果');
-          glitchedImageData = this.applyDataCorruptionGlitch(imageData, globalGlitchIntensity);
-          break;
-        default:
-          console.log('使用像素级RGB通道偏移');
-          glitchedImageData = this.applyPixelRGBShiftGlitch(imageData, globalGlitchIntensity);
-      }
-
-      // 将处理后的图像数据绘制到画布上
-      ctx.putImageData(glitchedImageData, 0, 0);
-
-      result = c;
+    // 统一处理所有故障效果
+    switch (this.glitchConfig.effectType) {
+      case 'rgb-shift':
+        result = this.applyRGBShiftGlitch(canvas, this.glitchConfig.intensity);
+        break;
+      case 'scan-lines':
+        result = this.applyScanLineGlitch(canvas, this.glitchConfig.intensity);
+        break;
+      case 'digital-distortion':
+        // 数字扭曲需要像素级处理
+        const distortionCanvas = vglobal.createCanvas({
+          width: canvas.width,
+          height: canvas.height,
+          dpr: vglobal.devicePixelRatio
+        });
+        const distortionCtx = distortionCanvas.getContext('2d');
+        if (distortionCtx) {
+          distortionCtx.drawImage(canvas, 0, 0);
+          const imageData = distortionCtx.getImageData(0, 0, canvas.width, canvas.height);
+          const glitchedImageData = this.applyDigitalDistortionGlitch(imageData, this.glitchConfig.intensity);
+          distortionCtx.putImageData(glitchedImageData, 0, 0);
+          result = distortionCanvas;
+        } else {
+          result = canvas;
+        }
+        break;
+      case 'data-corruption':
+        // 数据损坏需要像素级处理
+        const corruptionCanvas = vglobal.createCanvas({
+          width: canvas.width,
+          height: canvas.height,
+          dpr: vglobal.devicePixelRatio
+        });
+        const corruptionCtx = corruptionCanvas.getContext('2d');
+        if (corruptionCtx) {
+          corruptionCtx.drawImage(canvas, 0, 0);
+          const imageData = corruptionCtx.getImageData(0, 0, canvas.width, canvas.height);
+          const glitchedImageData = this.applyDataCorruptionGlitch(imageData, this.glitchConfig.intensity);
+          corruptionCtx.putImageData(glitchedImageData, 0, 0);
+          result = corruptionCanvas;
+        } else {
+          result = canvas;
+        }
+        break;
+      default:
+        result = this.applyRGBShiftGlitch(canvas, this.glitchConfig.intensity);
     }
 
     // 添加动态闪烁效果
-    if (this.frameCount % 30 === 0 && Math.random() < globalGlitchIntensity) {
-      const ctx = result.getContext('2d');
-      if (ctx) {
-        ctx.globalCompositeOperation = 'difference';
-        ctx.fillStyle = `rgba(255, 0, 255, ${globalGlitchIntensity * 0.3})`;
-        ctx.fillRect(0, 0, result.width, result.height);
-        ctx.globalCompositeOperation = 'source-over';
-      }
-    }
+    // if (this.frameCount % 30 === 0 && Math.random() < this.glitchConfig.intensity) {
+    //   const ctx = result.getContext('2d');
+    //   if (ctx) {
+    //     ctx.globalCompositeOperation = 'difference';
+    //     ctx.fillStyle = `rgba(255, 0, 255, ${this.glitchConfig.intensity * 0.3})`;
+    //     ctx.fillRect(0, 0, result.width, result.height);
+    //     ctx.globalCompositeOperation = 'source-over';
+    //   }
+    // }
 
     console.timeEnd('GlitchEffect'); // 输出性能数据
     return result;
@@ -431,6 +371,42 @@ class TestStageAnimate extends AStageAnimate<any> {
 }
 
 AnimateExecutor.registerBuiltInAnimate('stageTest', TestStageAnimate);
+
+// 用于演示UI控制的全局变量（不影响类内部实现）
+let currentGlitchIntensity = 0.5;
+let currentGlitchType = 'rgb-shift';
+
+/*
+使用示例：
+1. 通过spec配置：
+animationAppear: {
+  stage: {
+    type: 'stageTest',
+    duration: 1000,
+    easing: 'linear',
+    options: {
+      effectType: 'rgb-shift',  // 'rgb-shift' | 'digital-distortion' | 'scan-lines' | 'data-corruption'
+      intensity: 0.5           // 0.0 - 1.0
+    }
+  }
+}
+
+2. 支持的故障效果：
+- 'rgb-shift': RGB通道偏移 - 真正的红绿蓝颜色通道分离偏移，模拟色差aberration效果
+- 'digital-distortion': 数字扭曲 - 水平切片偏移 + 随机像素噪声，模拟信号干扰
+- 'scan-lines': 扫描线故障 - 添加水平扫描线和亮线，模拟CRT显示器故障
+- 'data-corruption': 数据损坏 - 垂直条纹 + 块状损坏，模拟数据传输错误
+
+3. 参数说明：
+- effectType: 故障效果类型
+- intensity: 故障强度 (0.0-1.0)
+
+4. 技术特点：
+- 所有效果都针对不同的故障类型使用最优的处理方式
+- RGB通道偏移使用真正的颜色通道分离技术
+- 支持动态闪烁效果增强视觉冲击
+- 每次效果处理都有性能监控
+*/
 
 let dataArray = [
   { type: 'Nail polish', country: 'Africa', value: 4229 },
@@ -501,8 +477,12 @@ let spec = {
   animationAppear: {
     stage: {
       type: 'stageTest',
-      duration: 1000,
-      easing: 'linear'
+      duration: 2000,
+      easing: 'linear',
+      options: {
+        effectType: 'data-corruption', // 'rgb-shift' | 'digital-distortion' | 'scan-lines' | 'data-corruption'
+        intensity: 0.5
+      }
     }
   },
   animationUpdate: {
@@ -700,7 +680,7 @@ const run = () => {
   });
   document.body.appendChild(button7);
 
-  // 添加第三种退场动画按钮 - 通过更新spec来触发
+  // 添加退场动画按钮 - 通过更新spec来触发
   const button9 = document.createElement('button');
   button9.innerHTML = 'Spec退场动画';
   button9.addEventListener('click', () => {
@@ -721,7 +701,7 @@ const run = () => {
     // 更新spec，这会触发退场动画
     cs.updateSpec(emptySpec as any);
 
-    // 3秒后恢复原始spec
+    // 恢复原始spec
     setTimeout(() => {
       console.log('恢复原始spec...');
       cs.updateSpec(originalSpec as any);
@@ -755,7 +735,7 @@ const run = () => {
     // 更新spec，触发自定义退场动画
     cs.updateSpec(customExitSpec as any);
 
-    // 2秒后恢复原始spec
+    // 恢复原始spec
     setTimeout(() => {
       console.log('恢复原始spec...');
       cs.updateSpec(originalSpec as any);
@@ -771,7 +751,7 @@ const run = () => {
 
     // 随机调整故障强度
     const newIntensity = Math.random();
-    globalGlitchIntensity = newIntensity;
+    currentGlitchIntensity = newIntensity;
     console.log(`设置故障强度为: ${newIntensity.toFixed(2)}`);
 
     // 触发图表重新渲染以应用新的故障效果
@@ -798,7 +778,7 @@ const run = () => {
     glitchLabel.innerHTML = `故障强度: ${value.toFixed(1)}`;
 
     // 直接修改全局变量
-    globalGlitchIntensity = value;
+    currentGlitchIntensity = value;
     console.log(`设置故障强度为: ${value}`);
 
     // 触发图表重新渲染
@@ -828,15 +808,15 @@ const run = () => {
     const option = document.createElement('option');
     option.value = type.value;
     option.textContent = type.label;
-    if (type.value === glitchType) {
+    if (type.value === currentGlitchType) {
       option.selected = true;
     }
     glitchTypeSelect.appendChild(option);
   });
 
   glitchTypeSelect.addEventListener('change', e => {
-    glitchType = (e.target as HTMLSelectElement).value;
-    console.log(`切换故障类型为: ${glitchType}`);
+    currentGlitchType = (e.target as HTMLSelectElement).value;
+    console.log(`切换故障类型为: ${currentGlitchType}`);
 
     // 重新渲染图表以应用新的故障类型
     cs.renderAsync();
@@ -852,25 +832,6 @@ const run = () => {
   glitchTypeControl.appendChild(glitchTypeSelect);
   document.body.appendChild(glitchTypeControl);
 
-  // 添加性能模式切换按钮
-  const performanceButton = document.createElement('button');
-  performanceButton.innerHTML = useOptimizedGlitch ? '当前：高性能模式' : '当前：高质量模式';
-  performanceButton.style.backgroundColor = useOptimizedGlitch ? '#4CAF50' : '#FF9800';
-  performanceButton.style.color = 'white';
-  performanceButton.style.margin = '10px';
-  performanceButton.style.padding = '10px';
-  performanceButton.addEventListener('click', () => {
-    useOptimizedGlitch = !useOptimizedGlitch;
-    performanceButton.innerHTML = useOptimizedGlitch ? '当前：高性能模式' : '当前：高质量模式';
-    performanceButton.style.backgroundColor = useOptimizedGlitch ? '#4CAF50' : '#FF9800';
-
-    console.log(`切换到${useOptimizedGlitch ? '高性能' : '高质量'}模式`);
-
-    // 重新渲染图表以应用新的故障模式
-    cs.renderAsync();
-  });
-  document.body.appendChild(performanceButton);
-
   // 添加随机故障效果按钮
   const randomGlitchButton = document.createElement('button');
   randomGlitchButton.innerHTML = '随机故障效果';
@@ -880,27 +841,54 @@ const run = () => {
   randomGlitchButton.style.padding = '10px';
   randomGlitchButton.addEventListener('click', () => {
     // 随机设置故障参数
-    globalGlitchIntensity = Math.random();
-    glitchType = glitchTypes[Math.floor(Math.random() * glitchTypes.length)].value;
-    useOptimizedGlitch = Math.random() < 0.5;
+    currentGlitchIntensity = Math.random();
+    currentGlitchType = glitchTypes[Math.floor(Math.random() * glitchTypes.length)].value;
 
     // 更新UI显示
-    glitchSlider.value = globalGlitchIntensity.toString();
-    glitchLabel.innerHTML = `故障强度: ${globalGlitchIntensity.toFixed(1)}`;
-    glitchTypeSelect.value = glitchType;
-    performanceButton.innerHTML = useOptimizedGlitch ? '当前：高性能模式' : '当前：高质量模式';
-    performanceButton.style.backgroundColor = useOptimizedGlitch ? '#4CAF50' : '#FF9800';
+    glitchSlider.value = currentGlitchIntensity.toString();
+    glitchLabel.innerHTML = `故障强度: ${currentGlitchIntensity.toFixed(1)}`;
+    glitchTypeSelect.value = currentGlitchType;
 
-    console.log(
-      `随机故障设置 - 强度: ${globalGlitchIntensity.toFixed(2)}, 类型: ${glitchType}, 性能模式: ${
-        useOptimizedGlitch ? '高性能' : '高质量'
-      }`
-    );
+    console.log(`随机故障设置 - 强度: ${currentGlitchIntensity.toFixed(2)}, 类型: ${currentGlitchType}`);
 
     // 重新渲染图表
     cs.renderAsync();
   });
   document.body.appendChild(randomGlitchButton);
+
+  // 添加应用当前UI配置的按钮
+  const applyUIConfigButton = document.createElement('button');
+  applyUIConfigButton.innerHTML = '应用UI配置到动画';
+  applyUIConfigButton.style.backgroundColor = '#4CAF50';
+  applyUIConfigButton.style.color = 'white';
+  applyUIConfigButton.style.margin = '10px';
+  applyUIConfigButton.style.padding = '10px';
+  applyUIConfigButton.addEventListener('click', () => {
+    console.log('应用UI配置到动画...');
+
+    // 更新spec配置
+    const newSpec = {
+      ...spec,
+      animationAppear: {
+        stage: {
+          type: 'stageTest',
+          duration: 1000,
+          easing: 'linear',
+          options: {
+            effectType: currentGlitchType,
+            intensity: currentGlitchIntensity
+          }
+        }
+      }
+    };
+
+    console.log(`应用配置 - 类型: ${currentGlitchType}, 强度: ${currentGlitchIntensity.toFixed(2)}`);
+
+    // 更新spec并重新渲染
+    spec = newSpec;
+    cs.updateSpec(newSpec as any);
+  });
+  document.body.appendChild(applyUIConfigButton);
 
   // 添加故障效果信息显示
   const glitchInfo = document.createElement('div');
@@ -911,13 +899,26 @@ const run = () => {
   glitchInfo.innerHTML = `
     <h4>故障效果 (Glitch Effect) 说明：</h4>
     <ul>
-      <li><strong>RGB通道偏移</strong>：使用CSS滤镜实现红绿蓝通道偏移，性能最佳</li>
+      <li><strong>RGB通道偏移</strong>：真正的红绿蓝颜色通道分离偏移，模拟色差aberration效果</li>
       <li><strong>数字扭曲</strong>：水平切片偏移 + 随机像素噪声，模拟信号干扰</li>
       <li><strong>扫描线故障</strong>：添加水平扫描线和亮线，模拟CRT显示器故障</li>
-      <li><strong>像素化</strong>：随机区域像素化处理，模拟分辨率降低</li>
       <li><strong>数据损坏</strong>：垂直条纹 + 块状损坏，模拟数据传输错误</li>
-      <li>高性能模式使用Canvas 2D优化技术，高质量模式使用像素级处理</li>
+      <li>所有效果都针对不同的故障类型使用最优的处理方式</li>
       <li>查看控制台可以看到每次故障效果的处理耗时</li>
+    </ul>
+    <h4>配置说明：</h4>
+    <ul>
+      <li>✅ <strong>新架构</strong>：故障效果配置通过 params.options 传入动画类</li>
+      <li>✅ <strong>配置驱动</strong>：effectType 和 intensity 都由 spec 配置控制</li>
+      <li>⚠️ <strong>UI控制</strong>：当前UI控制仅用于演示，不会影响实际动画效果</li>
+      <li>🔧 <strong>实际使用</strong>：通过更新 spec.animationAppear.stage.options 来控制效果</li>
+    </ul>
+    <h4>推荐配置示例：</h4>
+    <ul>
+      <li><code>{ effectType: 'rgb-shift', intensity: 0.7 }</code> - 强RGB色散效果</li>
+      <li><code>{ effectType: 'digital-distortion', intensity: 0.5 }</code> - 中等数字故障</li>
+      <li><code>{ effectType: 'scan-lines', intensity: 0.8 }</code> - 强扫描线效果</li>
+      <li><code>{ effectType: 'data-corruption', intensity: 0.3 }</code> - 轻微数据损坏</li>
     </ul>
   `;
   document.body.appendChild(glitchInfo);
