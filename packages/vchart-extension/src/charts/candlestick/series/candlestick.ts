@@ -67,7 +67,10 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
   getFallColor(): string {
     return this._fallColor;
   }
-  private _autoBoxWidth: number;
+  protected _dojiColor: string;
+  getDojiColor(): string {
+    return this._dojiColor;
+  }
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -79,6 +82,7 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     this._closeField = spec.closeField;
     this._riseColor = spec.candlestickColor?.rising ?? DEFAULT_RISE_COLOR;
     this._fallColor = spec.candlestickColor?.falling ?? DEFAULT_FALL_COLOR;
+    this._dojiColor = spec.candlestickColor?.doji ?? DEFAULT_STROKE_COLOR;
     this._lineWidth = CandlestickStyle.lineWidth ?? DEFAULT_STROKE_WIDTH;
     this._boxWidth = CandlestickStyle.boxWidth;
     this._boxFillColor = CandlestickStyle.boxFill;
@@ -188,8 +192,10 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
   }
 
   getCandlestickColorAttribute(datum: Datum): string {
-    const open = this.getDatumPositionValues(datum, this._openField);
-    const close = this.getDatumPositionValues(datum, this._closeField);
+    const openArr = this.getDatumPositionValues(datum, this._openField);
+    const closeArr = this.getDatumPositionValues(datum, this._closeField);
+    const open = openArr[0];
+    const close = closeArr[0];
     if (open < close) {
       return this._riseColor;
     } else if (open > close) {

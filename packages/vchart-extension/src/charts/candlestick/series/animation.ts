@@ -25,21 +25,26 @@ const scaleIn = (
     }
     const { x, y, open, high, low, close } = finalAttribute;
     const animateAttributes: any = { from: { x, y }, to: { x, y } };
-    if (isValidNumber(open)) {
-      animateAttributes.from.open = center;
-      animateAttributes.to.open = open;
-    }
-    if (isValidNumber(high)) {
-      animateAttributes.from.high = center;
-      animateAttributes.to.high = high;
-    }
-    if (isValidNumber(low)) {
-      animateAttributes.from.low = center;
-      animateAttributes.to.low = low;
-    }
-    if (isValidNumber(close)) {
-      animateAttributes.from.close = center;
-      animateAttributes.to.close = close;
+    if (isValidNumber(open) && isValidNumber(close)) {
+      if (open > close) {
+        animateAttributes.from.open = low;
+        animateAttributes.to.open = open;
+        animateAttributes.from.close = low;
+        animateAttributes.to.close = close;
+        if (isValidNumber(high)) {
+          animateAttributes.from.high = low;
+          animateAttributes.to.high = high;
+        }
+      } else {
+        animateAttributes.from.open = high;
+        animateAttributes.to.open = open;
+        animateAttributes.from.close = high;
+        animateAttributes.to.close = close;
+        if (isValidNumber(low)) {
+          animateAttributes.from.low = high;
+          animateAttributes.to.low = low;
+        }
+      }
     }
     return animateAttributes;
   };
@@ -57,21 +62,26 @@ const scaleOut = (
     const { x, y, open, high, low, close } = finalAttribute;
 
     const animateAttributes: any = { from: { x, y }, to: { x, y } };
-    if (isValidNumber(open)) {
-      animateAttributes.to.open = center;
-      animateAttributes.from.open = open;
-    }
-    if (isValidNumber(high)) {
-      animateAttributes.to.high = center;
-      animateAttributes.from.high = high;
-    }
-    if (isValidNumber(low)) {
-      animateAttributes.to.low = center;
-      animateAttributes.from.low = low;
-    }
-    if (isValidNumber(close)) {
-      animateAttributes.to.close = center;
-      animateAttributes.from.close = close;
+    if (isValidNumber(open) && isValidNumber(close)) {
+      if (open > close) {
+        animateAttributes.from.open = open;
+        animateAttributes.to.open = low;
+        animateAttributes.from.close = close;
+        animateAttributes.to.close = low;
+        if (isValidNumber(high)) {
+          animateAttributes.from.high = high;
+          animateAttributes.to.high = low;
+        }
+      } else {
+        animateAttributes.from.open = open;
+        animateAttributes.to.open = high;
+        animateAttributes.from.close = close;
+        animateAttributes.to.close = high;
+        if (isValidNumber(low)) {
+          animateAttributes.from.low = low;
+          animateAttributes.to.low = high;
+        }
+      }
     }
     return animateAttributes;
   };
