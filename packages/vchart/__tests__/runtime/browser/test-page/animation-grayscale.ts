@@ -15,10 +15,12 @@ registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
 
-// 全局变量控制颜色效果
-let globalColorEffectType = 'grayscale'; // grayscale, sepia
-let globalEffectStrength = 1.0; // 0.0 - 1.0
-let useWebGLColorEffect = true; // 是否使用WebGL实现
+// 颜色效果配置接口
+interface ColorEffectConfig {
+  effectType: 'grayscale' | 'sepia';
+  strength: number;
+  useWebGL: boolean;
+}
 
 class TestStageAnimate extends AStageAnimate<any> {
   private webglCanvas: HTMLCanvasElement | null = null;
@@ -27,10 +29,20 @@ class TestStageAnimate extends AStageAnimate<any> {
   private currentAnimationRatio = 0; // 当前动画进度比例 0-1
   private animationTime = 0; // 基于动画进度的时间值
 
+  // 颜色效果配置
+  private colorConfig: ColorEffectConfig;
+
   constructor(from: null, to: null, duration: number, easing: EasingType, params: any) {
     // 调用父类构造函数，传递必要的参数
     super(from, to, duration, easing, params);
-    // 父类constructor会设置duration等属性
+
+    console.log(this);
+    // 初始化颜色效果配置，使用传入的参数或默认值
+    this.colorConfig = {
+      effectType: params?.options?.effectType || 'grayscale', // 'grayscale' | 'sepia'
+      strength: params?.options?.strength || 1.0, // 0.0 - 1.0
+      useWebGL: params?.options?.useWebGL !== undefined ? params.options.useWebGL : true // 是否使用WebGL实现
+    };
   }
 
   // 重写onUpdate方法，接收动画进度
@@ -282,14 +294,14 @@ class TestStageAnimate extends AStageAnimate<any> {
     const controlledTime = this.getAnimationTime();
 
     gl.uniform1f(timeLocation, controlledTime);
-    gl.uniform1f(strengthLocation, globalEffectStrength);
+    gl.uniform1f(strengthLocation, this.colorConfig.strength);
     gl.uniform2f(resolutionLocation, this.webglCanvas.width, this.webglCanvas.height);
 
     const effectTypeMap: { [key: string]: number } = {
       grayscale: 0,
       sepia: 1
     };
-    gl.uniform1i(effectTypeLocation, effectTypeMap[globalColorEffectType] || 0);
+    gl.uniform1i(effectTypeLocation, effectTypeMap[this.colorConfig.effectType] || 0);
 
     // 绘制
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -359,7 +371,6 @@ class TestStageAnimate extends AStageAnimate<any> {
   protected afterStageRender(stage: any, canvas: HTMLCanvasElement): HTMLCanvasElement | void | null | false {
     console.time('ColorEffect');
 
-    console.log(this.duration, this.easing, this.animate);
     // 检查是否使用原生filter API
     if ((window as any).useFilterAPI) {
       console.log('使用Canvas Filter API');
@@ -383,20 +394,20 @@ class TestStageAnimate extends AStageAnimate<any> {
     }
 
     // 如果强度为0，直接返回原图
-    if (globalEffectStrength <= 0) {
+    if (this.colorConfig.strength <= 0) {
       return canvas;
     }
 
     let result: HTMLCanvasElement;
 
-    if (useWebGLColorEffect) {
+    if (this.colorConfig.useWebGL) {
       // 使用WebGL实现
       if (!this.gl && !this.initWebGL(canvas)) {
-        useWebGLColorEffect = false;
+        this.colorConfig.useWebGL = false;
       }
 
       if (this.gl) {
-        console.log(`使用WebGL ${globalColorEffectType}效果`);
+        console.log(`使用WebGL ${this.colorConfig.effectType}效果`);
         result = this.applyWebGLColorEffect(canvas);
       } else {
         result = canvas;
@@ -422,14 +433,14 @@ class TestStageAnimate extends AStageAnimate<any> {
 
       let processedImageData: ImageData;
 
-      switch (globalColorEffectType) {
+      switch (this.colorConfig.effectType) {
         case 'grayscale':
           console.log('使用Canvas2D灰度效果（动态）');
-          processedImageData = this.applyGrayscaleEffect(imageData, globalEffectStrength, controlledTime);
+          processedImageData = this.applyGrayscaleEffect(imageData, this.colorConfig.strength, controlledTime);
           break;
         case 'sepia':
           console.log('使用Canvas2D褐色调效果（动态）');
-          processedImageData = this.applySepiaEffect(imageData, globalEffectStrength, controlledTime);
+          processedImageData = this.applySepiaEffect(imageData, this.colorConfig.strength, controlledTime);
           break;
         default:
           processedImageData = imageData;
@@ -445,6 +456,43 @@ class TestStageAnimate extends AStageAnimate<any> {
 }
 
 AnimateExecutor.registerBuiltInAnimate('stageTest', TestStageAnimate);
+
+// 用于演示UI控制的全局变量（不影响类内部实现）
+let currentColorEffectType = 'grayscale';
+let currentEffectStrength = 1.0;
+let currentUseWebGL = true;
+
+/*
+使用示例：
+1. 通过spec配置：
+animationAppear: {
+  stage: {
+    type: 'stageTest',
+    duration: 2000,
+    easing: 'linear',
+    options: {
+      effectType: 'grayscale', // 'grayscale' | 'sepia'
+      strength: 1.0,           // 0.0 - 1.0
+      useWebGL: true           // true: WebGL实现, false: Canvas2D实现
+    }
+  }
+}
+
+2. 支持的颜色效果：
+- 'grayscale': 灰度效果 - 使用标准亮度公式将图像转为黑白，添加线性增长的动态强度变化
+- 'sepia': 褐色调效果 - 应用怀旧风格的褐色滤镜，添加线性增长的动态强度变化
+
+3. 参数说明：
+- effectType: 颜色效果类型 ('grayscale' | 'sepia')
+- strength: 效果强度 (0.0-1.0)
+- useWebGL: 是否使用WebGL实现 (true: GPU加速, false: CPU处理)
+
+4. 技术特点：
+- WebGL模式：使用GPU着色器，性能最佳，支持实时动画
+- Canvas2D模式：使用CPU像素操作，效果精确但性能较低
+- 动态效果：所有效果都支持线性增长的动态强度变化
+- 时间控制：基于父类动画系统的时间和easing控制
+*/
 
 let dataArray = [
   { type: 'Nail polish', country: 'Africa', value: 4229 },
@@ -514,7 +562,12 @@ let spec = {
     stage: {
       type: 'stageTest',
       duration: 2000,
-      easing: 'linear'
+      easing: 'linear',
+      options: {
+        effectType: 'grayscale',
+        strength: 1.0,
+        useWebGL: true
+      }
     }
   },
   animationUpdate: {
@@ -524,8 +577,8 @@ let spec = {
     duration: 300
   },
   animationExit: {
-    type: 'fadeOut',
-    duration: 5000,
+    type: 'state',
+    duration: 2000,
     easing: 'linear'
   },
   animationNormal: {
@@ -672,24 +725,6 @@ const run = () => {
   });
   document.body.appendChild(button5);
 
-  // 添加退场动画按钮
-  const button6 = document.createElement('button');
-  button6.innerHTML = '触发退场动画';
-  button6.addEventListener('click', () => {
-    console.log('触发退场动画...');
-
-    const originalData = [...dataArray];
-
-    cs.updateData('data0', []);
-
-    // 3秒后恢复数据，重新显示图表
-    setTimeout(() => {
-      console.log('恢复数据，重新显示图表...');
-      cs.updateData('data0', originalData);
-    }, 3000);
-  });
-  document.body.appendChild(button6);
-
   const button7 = document.createElement('button');
   button7.innerHTML = 'Spec退场动画';
   button7.addEventListener('click', () => {
@@ -710,7 +745,7 @@ const run = () => {
     // 更新spec，这会触发退场动画
     cs.updateSpec(emptySpec as any);
 
-    // 3秒后恢复原始spec
+    // 5秒后恢复原始spec
     setTimeout(() => {
       console.log('恢复原始spec...');
       cs.updateSpec(originalSpec as any);
@@ -731,7 +766,7 @@ const run = () => {
     const customExitSpec = {
       ...spec,
       animationExit: {
-        duration: 2000, // 1秒退场动画
+        duration: 2000, // 2秒退场动画
         type: 'fadeOut', // 淡出效果
         easing: 'easeInOut' // 缓动函数
       },
@@ -748,26 +783,26 @@ const run = () => {
     setTimeout(() => {
       console.log('恢复原始spec...');
       cs.updateSpec(originalSpec as any);
-    }, 2000);
+    }, 3000);
   });
   document.body.appendChild(button8);
 
   // 添加颜色效果控制按钮
   // 1. 效果类型选择按钮
   const effectTypeButton = document.createElement('button');
-  effectTypeButton.innerHTML = `效果类型: ${globalColorEffectType}`;
+  effectTypeButton.innerHTML = `效果类型: ${currentColorEffectType}`;
   effectTypeButton.style.backgroundColor = '#2196F3';
   effectTypeButton.style.color = 'white';
   effectTypeButton.style.margin = '10px';
   effectTypeButton.style.padding = '10px';
   effectTypeButton.addEventListener('click', () => {
     const types = ['grayscale', 'sepia'];
-    const currentIndex = types.indexOf(globalColorEffectType);
+    const currentIndex = types.indexOf(currentColorEffectType);
     const nextIndex = (currentIndex + 1) % types.length;
-    globalColorEffectType = types[nextIndex];
-    effectTypeButton.innerHTML = `效果类型: ${globalColorEffectType}`;
+    currentColorEffectType = types[nextIndex];
+    effectTypeButton.innerHTML = `效果类型: ${currentColorEffectType}`;
 
-    console.log(`切换颜色效果为: ${globalColorEffectType}`);
+    console.log(`切换颜色效果为: ${currentColorEffectType}`);
     cs.renderAsync();
   });
   document.body.appendChild(effectTypeButton);
@@ -800,17 +835,17 @@ const run = () => {
   });
   document.body.appendChild(animationInfoButton); // 2. WebGL/Canvas2D 切换按钮
   const renderModeButton = document.createElement('button');
-  renderModeButton.innerHTML = useWebGLColorEffect ? '当前：WebGL模式' : '当前：Canvas2D模式';
-  renderModeButton.style.backgroundColor = useWebGLColorEffect ? '#4CAF50' : '#FF9800';
+  renderModeButton.innerHTML = currentUseWebGL ? '当前：WebGL模式' : '当前：Canvas2D模式';
+  renderModeButton.style.backgroundColor = currentUseWebGL ? '#4CAF50' : '#FF9800';
   renderModeButton.style.color = 'white';
   renderModeButton.style.margin = '10px';
   renderModeButton.style.padding = '10px';
   renderModeButton.addEventListener('click', () => {
-    useWebGLColorEffect = !useWebGLColorEffect;
-    renderModeButton.innerHTML = useWebGLColorEffect ? '当前：WebGL模式' : '当前：Canvas2D模式';
-    renderModeButton.style.backgroundColor = useWebGLColorEffect ? '#4CAF50' : '#FF9800';
+    currentUseWebGL = !currentUseWebGL;
+    renderModeButton.innerHTML = currentUseWebGL ? '当前：WebGL模式' : '当前：Canvas2D模式';
+    renderModeButton.style.backgroundColor = currentUseWebGL ? '#4CAF50' : '#FF9800';
 
-    console.log(`切换到${useWebGLColorEffect ? 'WebGL' : 'Canvas2D'}模式`);
+    console.log(`切换到${currentUseWebGL ? 'WebGL' : 'Canvas2D'}模式`);
     cs.renderAsync();
   });
   document.body.appendChild(renderModeButton);
@@ -821,18 +856,18 @@ const run = () => {
   effectSlider.min = '0';
   effectSlider.max = '1';
   effectSlider.step = '0.1';
-  effectSlider.value = globalEffectStrength.toString();
+  effectSlider.value = currentEffectStrength.toString();
   effectSlider.style.width = '200px';
   effectSlider.style.margin = '10px';
 
   const effectLabel = document.createElement('label');
-  effectLabel.innerHTML = `效果强度: ${globalEffectStrength.toFixed(1)}`;
+  effectLabel.innerHTML = `效果强度: ${currentEffectStrength.toFixed(1)}`;
   effectLabel.style.marginRight = '10px';
 
   effectSlider.addEventListener('input', e => {
     const value = parseFloat((e.target as HTMLInputElement).value);
     effectLabel.innerHTML = `效果强度: ${value.toFixed(1)}`;
-    globalEffectStrength = value;
+    currentEffectStrength = value;
     console.log(`设置效果强度为: ${value}`);
     cs.renderAsync();
   });
@@ -866,13 +901,13 @@ const run = () => {
     testButton.style.border = 'none';
     testButton.style.borderRadius = '4px';
     testButton.addEventListener('click', () => {
-      globalColorEffectType = config.type;
-      globalEffectStrength = config.strength;
+      currentColorEffectType = config.type;
+      currentEffectStrength = config.strength;
 
       // 更新UI显示
-      effectTypeButton.innerHTML = `效果类型: ${globalColorEffectType}`;
-      effectLabel.innerHTML = `效果强度: ${globalEffectStrength.toFixed(1)}`;
-      effectSlider.value = globalEffectStrength.toString();
+      effectTypeButton.innerHTML = `效果类型: ${currentColorEffectType}`;
+      effectLabel.innerHTML = `效果强度: ${currentEffectStrength.toFixed(1)}`;
+      effectSlider.value = currentEffectStrength.toString();
 
       console.log(`应用预设效果: ${config.label} (${config.type}, 强度: ${config.strength})`);
       cs.renderAsync();
@@ -880,6 +915,47 @@ const run = () => {
     testButtonsContainer.appendChild(testButton);
   });
   document.body.appendChild(testButtonsContainer);
+
+  // 6. 应用配置按钮
+  const applyConfigButton = document.createElement('button');
+  applyConfigButton.innerHTML = '应用配置';
+  applyConfigButton.style.backgroundColor = '#3F51B5';
+  applyConfigButton.style.color = 'white';
+  applyConfigButton.style.margin = '10px';
+  applyConfigButton.style.padding = '10px';
+  applyConfigButton.addEventListener('click', () => {
+    console.log('应用配置...');
+
+    const originalSpec = { ...spec };
+
+    // 触发新的粒子动画，传入当前参数
+    const newSpec = {
+      ...spec,
+      animationAppear: {
+        stage: {
+          type: 'stageTest',
+          duration: 3000,
+          easing: 'linear',
+          options: {
+            effectType: currentColorEffectType,
+            strength: currentEffectStrength,
+            useWebGL: currentUseWebGL
+          }
+        }
+      },
+      data: {
+        id: 'data0',
+        values: [] // 空数据触发退场
+      }
+    };
+    cs.updateSpec(newSpec as any);
+
+    setTimeout(() => {
+      console.log('恢复原始spec...');
+      cs.updateSpec(originalSpec as any);
+    }, 3500);
+  });
+  document.body.appendChild(applyConfigButton);
 
   // 7. 性能信息和说明
   const performanceInfo = document.createElement('div');

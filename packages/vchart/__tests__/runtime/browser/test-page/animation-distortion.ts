@@ -14,17 +14,32 @@ registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
 
-// 全局变量控制扭曲效果
-let globalDistortionType = 'wave'; // wave, ripple, swirl
-let globalDistortionStrength = 0.3;
-let globalAnimationTime = 0;
-let useWebGLDistortion = true; // 是否使用WebGL实现
+// 扭曲效果配置接口
+interface DistortionConfig {
+  distortionType?: 'wave' | 'ripple' | 'swirl'; // 扭曲效果类型
+  strength?: number; // 扭曲强度
+  useWebGL?: boolean; // 是否使用WebGL实现
+}
 
 class TestStageAnimate extends AStageAnimate<any> {
   private webglCanvas: HTMLCanvasElement | null = null;
   private gl: WebGLRenderingContext | null = null;
   private program: WebGLProgram | null = null;
   private animationStartTime = Date.now();
+
+  // 扭曲配置
+  private distortionConfig: Required<DistortionConfig>;
+
+  constructor(from: null, to: null, duration: number, easing: any, params: any) {
+    super(from, to, duration, easing, params);
+
+    // 初始化扭曲配置，使用传入的参数或默认值
+    this.distortionConfig = {
+      distortionType: params?.options?.distortionType || 'wave',
+      strength: params?.options?.strength || 0.3,
+      useWebGL: params?.options?.useWebGL !== undefined ? params.options.useWebGL : true
+    };
+  }
 
   // WebGL 着色器实现 (性能最佳)
   private initWebGL(canvas: HTMLCanvasElement): boolean {
@@ -174,7 +189,6 @@ class TestStageAnimate extends AStageAnimate<any> {
 
     return program;
   }
-
   private createShader(type: number, source: string): WebGLShader | null {
     if (!this.gl) {
       return null;
@@ -196,7 +210,6 @@ class TestStageAnimate extends AStageAnimate<any> {
 
     return shader;
   }
-
   private applyWebGLDistortion(canvas: HTMLCanvasElement): HTMLCanvasElement {
     if (!this.gl || !this.program || !this.webglCanvas) {
       return canvas;
@@ -273,10 +286,10 @@ class TestStageAnimate extends AStageAnimate<any> {
     const resolutionLocation = gl.getUniformLocation(this.program, 'u_resolution');
 
     const currentTime = (Date.now() - this.animationStartTime) / 1000.0;
-    globalAnimationTime = currentTime;
+    // globalAnimationTime = currentTime;
 
     gl.uniform1f(timeLocation, currentTime);
-    gl.uniform1f(strengthLocation, globalDistortionStrength);
+    gl.uniform1f(strengthLocation, this.distortionConfig.strength);
     gl.uniform2f(resolutionLocation, this.webglCanvas.width, this.webglCanvas.height);
 
     const distortionTypeMap: { [key: string]: number } = {
@@ -284,7 +297,7 @@ class TestStageAnimate extends AStageAnimate<any> {
       ripple: 1,
       swirl: 2
     };
-    gl.uniform1i(distortionTypeLocation, distortionTypeMap[globalDistortionType] || 0);
+    gl.uniform1i(distortionTypeLocation, distortionTypeMap[this.distortionConfig.distortionType] || 0);
 
     // 绘制
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -402,17 +415,17 @@ class TestStageAnimate extends AStageAnimate<any> {
     console.time('DistortionEffect');
 
     // 如果强度为0，直接返回原图
-    if (globalDistortionStrength <= 0) {
+    if (this.distortionConfig.strength <= 0) {
       return canvas;
     }
 
     let result: HTMLCanvasElement;
 
-    if (useWebGLDistortion) {
+    if (this.distortionConfig.useWebGL) {
       // 使用WebGL实现（性能最佳）
       if (!this.gl && !this.initWebGL(canvas)) {
         // WebGL初始化失败，回退到Canvas 2D
-        useWebGLDistortion = false;
+        this.distortionConfig.useWebGL = false;
       }
 
       if (this.gl) {
@@ -438,22 +451,22 @@ class TestStageAnimate extends AStageAnimate<any> {
 
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const currentTime = (Date.now() - this.animationStartTime) / 1000.0;
-      globalAnimationTime = currentTime;
+      // globalAnimationTime = currentTime;
 
       let distortedImageData: ImageData;
 
-      switch (globalDistortionType) {
+      switch (this.distortionConfig.distortionType) {
         case 'wave':
           console.log('使用波浪扭曲');
-          distortedImageData = this.applyWaveDistortion(imageData, globalDistortionStrength, currentTime);
+          distortedImageData = this.applyWaveDistortion(imageData, this.distortionConfig.strength, currentTime);
           break;
         case 'ripple':
           console.log('使用涟漪扭曲');
-          distortedImageData = this.applyRippleDistortion(imageData, globalDistortionStrength, currentTime);
+          distortedImageData = this.applyRippleDistortion(imageData, this.distortionConfig.strength, currentTime);
           break;
         case 'swirl':
           console.log('使用漩涡扭曲');
-          distortedImageData = this.applySwirlDistortion(imageData, globalDistortionStrength, currentTime);
+          distortedImageData = this.applySwirlDistortion(imageData, this.distortionConfig.strength, currentTime);
           break;
         default:
           distortedImageData = imageData;
@@ -466,29 +479,45 @@ class TestStageAnimate extends AStageAnimate<any> {
     console.timeEnd('DistortionEffect');
     return result;
   }
-
-  // 原版代码（保留作为参考）
-  // protected afterStageRender(stage: any, canvas: HTMLCanvasElement): HTMLCanvasElement | void | null | false {
-  //   const c = vglobal.createCanvas({
-  //     width: canvas.width,
-  //     height: canvas.height,
-  //     dpr: vglobal.devicePixelRatio
-  //   });
-  //   const ctx = c.getContext('2d');
-  //   if (!ctx) {
-  //     return false;
-  //   }
-  //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //   ctx.drawImage(canvas, 0, 0);
-  //   ctx.fillStyle = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(
-  //     Math.random() * 255
-  //   )}, 0.2)`;
-  //   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  //   return c;
-  // }
 }
 
 AnimateExecutor.registerBuiltInAnimate('stageTest', TestStageAnimate);
+
+/*
+使用示例：
+1. 通过spec配置：
+animationAppear: {
+  stage: {
+    type: 'stageTest',
+    duration: 3000,
+    easing: 'linear',
+    options: {
+      distortionType: 'wave',
+      strength: 0.8,
+      useWebGL: true
+    }
+  }
+}
+
+2. 支持的扭曲效果：
+- 'wave': 波浪扭曲 - 正弦波形扭曲，产生波浪效果
+- 'ripple': 涟漪扭曲 - 从中心点扩散的圆形波纹
+- 'swirl': 漩涡扭曲 - 围绕中心点的旋转扭曲
+
+3. 参数说明：
+- distortionType: 扭曲效果类型
+- strength: 扭曲强度 (0.0-2.0)
+- useWebGL: 是否使用WebGL实现 (true: GPU加速, false: CPU计算)
+
+4. 性能特点：
+- WebGL模式：GPU并行计算，性能最佳，适合实时动画
+- Canvas2D模式：CPU串行计算，效果精确但性能较低
+
+5. 推荐配置：
+- 轻度扭曲: { distortionType: 'wave', strength: 0.3, useWebGL: true }
+- 中度扭曲: { distortionType: 'ripple', strength: 0.8, useWebGL: true }
+- 强烈扭曲: { distortionType: 'swirl', strength: 1.2, useWebGL: true }
+*/
 
 let dataArray = [
   { type: 'Nail polish', country: 'Africa', value: 4229 },
@@ -553,25 +582,27 @@ let spec = {
     xField: { visible: true, label: { visible: true } },
     yField: { visible: true, label: { visible: true } }
   },
-  // animationAppear: {
-  //   duration: 300
-  // },
   animationAppear: {
     stage: {
       type: 'stageTest',
-      duration: 1000,
-      easing: 'linear'
+      duration: 3000,
+      easing: 'linear',
+      options: {
+        distortionType: 'ripple', // 可选值：'wave', 'ripple', 'swirl'
+        strength: 0.3,
+        useWebGL: true
+      }
     }
   },
   animationUpdate: {
-    duration: 300
+    duration: 1000
   },
   animationEnter: {
     duration: 300
   },
   animationExit: {
-    duration: 2000,
-    type: 'fadeOut'
+    duration: 3000,
+    type: 'update'
   },
   animationNormal: {
     point: [
@@ -707,67 +738,24 @@ const run = () => {
   document.body.appendChild(button4);
 
   const button5 = document.createElement('button');
-  button5.innerHTML = 'stack<->group remove';
+  button5.innerHTML = 'direction';
   button5.addEventListener('click', () => {
-    const nextSpec: any = { ...spec };
-    const fieldKey = direction === 'horizontal' ? 'yField' : 'xField';
-    if (typeof nextSpec[fieldKey] === 'string') {
-      (nextSpec as any)[fieldKey] = ['type', 'country'];
-    } else {
-      (nextSpec as any)[fieldKey] = 'type';
-    }
-    removeData();
-    nextSpec.data = {
-      id: 'data0',
-      values: dataArray
-    };
-    spec = nextSpec;
-    cs.updateSpec(spec as any);
-  });
-  document.body.appendChild(button5);
-
-  const button6 = document.createElement('button');
-  button6.innerHTML = 'direction';
-  button6.addEventListener('click', () => {
     const nextSpec: any = { ...spec };
     nextSpec.direction = nextSpec.direction === 'horizontal' ? 'vertical' : 'horizontal';
     [nextSpec.xField, nextSpec.yField] = [nextSpec.yField, nextSpec.xField];
     spec = nextSpec;
     cs.updateSpec(spec as any);
   });
-  document.body.appendChild(button6);
+  document.body.appendChild(button5);
 
-  // 添加退场动画按钮
   const button7 = document.createElement('button');
-  button7.innerHTML = '触发退场动画';
+  button7.innerHTML = 'Spec退场动画';
   button7.addEventListener('click', () => {
-    console.log('触发退场动画...');
-
-    // 方法1: 通过移除数据来触发退场动画
-    // 先保存原始数据
-    const originalData = [...dataArray];
-
-    // 清空数据，这会触发所有元素的退场动画
-    cs.updateData('data0', []);
-
-    // 3秒后恢复数据，重新显示图表
-    setTimeout(() => {
-      console.log('恢复数据，重新显示图表...');
-      cs.updateData('data0', originalData);
-    }, 3000);
-  });
-  document.body.appendChild(button7);
-
-  // 添加第三种退场动画按钮 - 通过更新spec来触发
-  const button9 = document.createElement('button');
-  button9.innerHTML = 'Spec退场动画';
-  button9.addEventListener('click', () => {
     console.log('通过更新spec触发退场动画...');
 
     // 保存原始spec
     const originalSpec = { ...spec };
 
-    // 创建一个空的spec来触发退场动画
     const emptySpec = {
       ...spec,
       data: {
@@ -779,18 +767,18 @@ const run = () => {
     // 更新spec，这会触发退场动画
     cs.updateSpec(emptySpec as any);
 
-    // 3秒后恢复原始spec
+    // 恢复原始spec
     setTimeout(() => {
       console.log('恢复原始spec...');
       cs.updateSpec(originalSpec as any);
-    }, 3000);
+    }, 3500);
   });
-  document.body.appendChild(button9);
+  document.body.appendChild(button7);
 
   // 添加自定义退场动画按钮
-  const button10 = document.createElement('button');
-  button10.innerHTML = '自定义退场动画';
-  button10.addEventListener('click', () => {
+  const button8 = document.createElement('button');
+  button8.innerHTML = '自定义退场动画';
+  button8.addEventListener('click', () => {
     console.log('触发自定义退场动画...');
 
     // 保存原始spec
@@ -800,7 +788,7 @@ const run = () => {
     const customExitSpec = {
       ...spec,
       animationExit: {
-        duration: 1000, // 1秒退场动画
+        duration: 3000, // 退场动画
         type: 'fadeOut', // 淡出效果
         easing: 'easeInOut' // 缓动函数
       },
@@ -813,115 +801,13 @@ const run = () => {
     // 更新spec，触发自定义退场动画
     cs.updateSpec(customExitSpec as any);
 
-    // 2秒后恢复原始spec
+    // 恢复原始spec
     setTimeout(() => {
       console.log('恢复原始spec...');
       cs.updateSpec(originalSpec as any);
-    }, 2000);
+    }, 3500);
   });
-  document.body.appendChild(button10);
-
-  // 添加扭曲效果控制按钮
-  // 1. 扭曲类型选择按钮
-  const distortionTypeButton = document.createElement('button');
-  distortionTypeButton.innerHTML = `扭曲类型: ${globalDistortionType}`;
-  distortionTypeButton.style.backgroundColor = '#2196F3';
-  distortionTypeButton.style.color = 'white';
-  distortionTypeButton.style.margin = '10px';
-  distortionTypeButton.style.padding = '10px';
-  distortionTypeButton.addEventListener('click', () => {
-    const types = ['wave', 'ripple', 'swirl'];
-    const currentIndex = types.indexOf(globalDistortionType);
-    const nextIndex = (currentIndex + 1) % types.length;
-    globalDistortionType = types[nextIndex];
-    distortionTypeButton.innerHTML = `扭曲类型: ${globalDistortionType}`;
-
-    console.log(`切换扭曲类型为: ${globalDistortionType}`);
-    cs.renderAsync();
-  });
-  document.body.appendChild(distortionTypeButton);
-
-  // 2. WebGL/Canvas2D 切换按钮
-  const renderModeButton = document.createElement('button');
-  renderModeButton.innerHTML = useWebGLDistortion ? '当前：WebGL模式' : '当前：Canvas2D模式';
-  renderModeButton.style.backgroundColor = useWebGLDistortion ? '#4CAF50' : '#FF9800';
-  renderModeButton.style.color = 'white';
-  renderModeButton.style.margin = '10px';
-  renderModeButton.style.padding = '10px';
-  renderModeButton.addEventListener('click', () => {
-    useWebGLDistortion = !useWebGLDistortion;
-    renderModeButton.innerHTML = useWebGLDistortion ? '当前：WebGL模式' : '当前：Canvas2D模式';
-    renderModeButton.style.backgroundColor = useWebGLDistortion ? '#4CAF50' : '#FF9800';
-
-    console.log(`切换到${useWebGLDistortion ? 'WebGL' : 'Canvas2D'}模式`);
-    cs.renderAsync();
-  });
-  document.body.appendChild(renderModeButton);
-
-  // 3. 扭曲强度滑块控制
-  const distortionSlider = document.createElement('input');
-  distortionSlider.type = 'range';
-  distortionSlider.min = '0';
-  distortionSlider.max = '2';
-  distortionSlider.step = '0.1';
-  distortionSlider.value = globalDistortionStrength.toString();
-  distortionSlider.style.width = '200px';
-  distortionSlider.style.margin = '10px';
-
-  const distortionLabel = document.createElement('label');
-  distortionLabel.innerHTML = `扭曲强度: ${globalDistortionStrength.toFixed(1)}`;
-  distortionLabel.style.marginRight = '10px';
-
-  distortionSlider.addEventListener('input', e => {
-    const value = parseFloat((e.target as HTMLInputElement).value);
-    distortionLabel.innerHTML = `扭曲强度: ${value.toFixed(1)}`;
-    globalDistortionStrength = value;
-    console.log(`设置扭曲强度为: ${value}`);
-    cs.renderAsync();
-  });
-
-  // 创建扭曲控制容器
-  const distortionControl = document.createElement('div');
-  distortionControl.style.margin = '10px';
-  distortionControl.appendChild(distortionLabel);
-  distortionControl.appendChild(distortionSlider);
-  document.body.appendChild(distortionControl);
-
-  // 4. 快速测试按钮组
-  const testButtonsContainer = document.createElement('div');
-  testButtonsContainer.style.margin = '10px';
-  testButtonsContainer.innerHTML = '<h4>快速测试效果：</h4>';
-
-  const testConfigs = [
-    { type: 'wave', strength: 0.5, label: '波浪效果' },
-    { type: 'ripple', strength: 0.8, label: '涟漪效果' },
-    { type: 'swirl', strength: 0.6, label: '漩涡效果' }
-  ];
-
-  testConfigs.forEach(config => {
-    const testButton = document.createElement('button');
-    testButton.innerHTML = config.label;
-    testButton.style.margin = '5px';
-    testButton.style.padding = '8px';
-    testButton.style.backgroundColor = '#607D8B';
-    testButton.style.color = 'white';
-    testButton.style.border = 'none';
-    testButton.style.borderRadius = '4px';
-    testButton.addEventListener('click', () => {
-      globalDistortionType = config.type;
-      globalDistortionStrength = config.strength;
-
-      // 更新UI显示
-      distortionTypeButton.innerHTML = `扭曲类型: ${globalDistortionType}`;
-      distortionLabel.innerHTML = `扭曲强度: ${globalDistortionStrength.toFixed(1)}`;
-      distortionSlider.value = globalDistortionStrength.toString();
-
-      console.log(`应用预设效果: ${config.label} (${config.type}, 强度: ${config.strength})`);
-      cs.renderAsync();
-    });
-    testButtonsContainer.appendChild(testButton);
-  });
-  document.body.appendChild(testButtonsContainer);
+  document.body.appendChild(button8);
 
   // 5. 性能信息显示
   const performanceInfo = document.createElement('div');
@@ -938,15 +824,6 @@ const run = () => {
       <li><strong>涟漪</strong>：从中心点扩散的圆形波纹</li>
       <li><strong>漩涡</strong>：围绕中心点的旋转扭曲</li>
       <li>查看控制台可以看到每次渲染的性能数据</li>
-    </ul>
-    <h4>已修复的问题：</h4>
-    <ul>
-      <li>✅ WebGL渲染位置偏移问题已修复</li>
-      <li>✅ WebGL图像上下颠倒问题已修复</li>
-      <li>✅ 纹理坐标系统统一问题已修复</li>
-      <li>✅ 视口尺寸设置问题已修复</li>
-      <li>✅ DPR兼容性问题已修复</li>
-      <li>✅ 透视和鱼眼效果已移除</li>
     </ul>
   `;
   document.body.appendChild(performanceInfo);

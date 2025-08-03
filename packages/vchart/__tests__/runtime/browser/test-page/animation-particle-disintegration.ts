@@ -17,7 +17,7 @@ registerStateTransition();
 
 // 粒子效果配置接口
 interface ParticleConfig {
-  effect?: 'explode' | 'vortex' | 'gravity'; // 粒子效果类型
+  effectType?: 'explode' | 'vortex' | 'gravity'; // 粒子效果类型
   count?: number; // 粒子数量
   size?: number; // 粒子大小
   strength?: number; // 力场强度
@@ -57,21 +57,13 @@ class TestStageAnimate extends AStageAnimate<any> {
   constructor(from: null, to: null, duration: number, easing: EasingType, params: any) {
     super(from, to, duration, easing, params);
 
-    console.log(this);
-    // 调试日志：检查传入的参数
-    console.log('TestStageAnimate constructor params:', params);
-    console.log('TestStageAnimate constructor this.params:', this.params);
-
     // 初始化粒子配置，使用传入的参数或默认值
     this.particleConfig = {
-      effect: params?.effect || 'gravity', //'explode' | 'vortex' | 'gravity'; // 粒子效果类型
-      count: params?.count || 4000,
-      size: params?.size || 20,
-      strength: params?.strength || 1.5
+      effectType: params?.options?.effectType || 'gravity', //'explode' | 'vortex' | 'gravity'; // 粒子效果类型
+      count: params?.options?.count || 4000,
+      size: params?.options?.size || 20,
+      strength: params?.options?.strength || 1.5
     };
-
-    // 调试日志：确认配置
-    console.log('粒子配置初始化完成:', this.particleConfig);
   }
 
   onUpdate(end: boolean, ratio: number, out: any): void {
@@ -330,7 +322,7 @@ class TestStageAnimate extends AStageAnimate<any> {
       let forceX = 0;
       let forceY = 0;
 
-      switch (this.particleConfig.effect) {
+      switch (this.particleConfig.effectType) {
         case 'explode':
           // 爆炸效果：粒子从中心向外飞散
           // 短动画优化：提高爆炸力度，使用更陡峭的加速曲线
@@ -627,7 +619,7 @@ class TestStageAnimate extends AStageAnimate<any> {
       vortex: 1,
       gravity: 2
     };
-    gl.uniform1i(effectTypeLocation, effectTypeMap[this.particleConfig.effect] || 0);
+    gl.uniform1i(effectTypeLocation, effectTypeMap[this.particleConfig.effectType] || 0);
 
     // 绘制粒子
     gl.drawArrays(gl.POINTS, 0, this.particles.length);
@@ -657,7 +649,7 @@ class TestStageAnimate extends AStageAnimate<any> {
       console.warn('WebGL初始化失败，无法渲染粒子效果');
       result = canvas;
     } else if (this.gl) {
-      console.log(`使用WebGL ${this.particleConfig.effect}粒子效果`);
+      console.log(`使用WebGL ${this.particleConfig.effectType}粒子效果`);
       result = this.renderWebGLParticles(canvas);
     } else {
       result = canvas;
@@ -684,8 +676,8 @@ animationAppear: {
     type: 'stageTest',
     duration: 3000,
     easing: 'easeOutQuart',
-    params: {
-      effect: 'vortex',
+    options: {
+      effectType: 'vortex',
       count: 6000,
       size: 8,
       strength: 2.0
@@ -699,7 +691,7 @@ animationAppear: {
 - 'gravity': 重力效果 - 粒子瓦解下落离开canvas
 
 3. 参数说明：
-- effect: 粒子效果类型
+- effectType: 粒子效果类型
 - count: 粒子数量 (1000-8000)
 - size: 粒子大小 (2-15)
 - strength: 力场强度 (0.1-3.0)
@@ -712,9 +704,9 @@ animationAppear: {
 - 保持粒子可见性和大小
 
 短动画推荐配置：
-- explode: { effect: 'explode', count: 3000, size: 12, strength: 2.0 }
-- vortex: { effect: 'vortex', count: 3000, size: 12, strength: 2.5 }  
-- gravity: { effect: 'gravity', count: 2500, size: 14, strength: 2.0 }
+- explode: { effectType: 'explode', count: 3000, size: 12, strength: 2.0 }
+- vortex: { effectType: 'vortex', count: 3000, size: 12, strength: 2.5 }  
+- gravity: { effectType: 'gravity', count: 2500, size: 14, strength: 2.0 }
 
 短动画时长建议：
 - 最短：800ms (快速效果)
@@ -789,12 +781,12 @@ let spec = {
   animationAppear: {
     stage: {
       type: 'stageTest',
-      duration: 2000, // 测试长动画效果
+      duration: 2000,
       easing: 'easeOutQuart',
-      params: {
-        effect: 'vortex', // 测试优化后的漩涡效果
+      options: {
+        effectType: 'vortex',
         count: 3000,
-        size: 10,
+        size: 12,
         strength: 1.2
       }
     }
@@ -980,6 +972,8 @@ const run = () => {
   regenerateParticlesButton.addEventListener('click', () => {
     console.log('重新生成粒子动画...');
 
+    const originalSpec = { ...spec };
+
     // 触发新的粒子动画，传入当前参数
     const newSpec = {
       ...spec,
@@ -988,16 +982,25 @@ const run = () => {
           type: 'stageTest',
           duration: 3000,
           easing: 'easeOutQuart',
-          params: {
-            effect: currentParticleEffect,
+          options: {
+            effectType: currentParticleEffect,
             count: currentParticleCount,
             size: currentParticleSize,
             strength: currentForceStrength
           }
         }
+      },
+      data: {
+        id: 'data0',
+        values: [] // 空数据触发退场
       }
     };
     cs.updateSpec(newSpec as any);
+
+    setTimeout(() => {
+      console.log('恢复原始spec...');
+      cs.updateSpec(originalSpec as any);
+    }, 3500);
   });
   document.body.appendChild(regenerateParticlesButton);
 
