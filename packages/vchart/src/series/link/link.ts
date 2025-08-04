@@ -2,7 +2,7 @@
 import { DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Datum } from '../../typings';
-import { isValid } from '@visactor/vutils';
+import { array, isValid } from '@visactor/vutils';
 import type { IGroupMark, IImageMark, IMark, IRuleMark, ISymbolMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -254,7 +254,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 
     const imageLabelMark = this._imageLabelMark;
     if (imageLabelMark) {
-      const { style = {} } = this._spec.imageLabel;
+      const { style = {} } = (this._spec as ILinkSeriesSpec).imageLabel;
       const { width = 40, height = 40 } = style;
       this.setMarkStyle(
         imageLabelMark,
@@ -324,7 +324,10 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     return (
       dataToPosition(this.getDatumPositionValues(datum, this._toField + '_xField'), {
         bandPosition: this._bandPosition
-      }) + (allowExtend && (!datum.isExtend || datum.isExtend === 'right') ? (bandSize + dotSize) / 2 : 0)
+      }) +
+      (allowExtend && (!datum.isExtend || datum.isExtend === 'right')
+        ? (array(bandSize)[0] + (dotSize as number)) / 2
+        : 0)
     );
   }
 
@@ -401,8 +404,8 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     return this._dotTypeField
       ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesField
-        ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-        : [];
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+      : [];
   }
 
   /**
