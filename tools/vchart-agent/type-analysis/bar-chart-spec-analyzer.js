@@ -32,11 +32,134 @@ const complexTypeDefinitions = {
   'ICartesianCrosshairSpec': {
     description: '笛卡尔坐标系十字辅助线配置',
     properties: [
-      { name: 'xField', type: 'string', required: false, description: 'x轴字段名' },
-      { name: 'yField', type: 'string', required: false, description: 'y轴字段名' },
-      { name: 'trigger', type: '"hover" | "click" | "none"', required: false, description: '触发方式' },
-      { name: 'line', type: 'ILineMarkSpec', required: false, description: '十字线样式配置' },
-      { name: 'label', type: 'ILabelSpec', required: false, description: '标签配置' }
+      // 从 ICommonCrosshairSpec 继承的属性
+      { name: 'followTooltip', type: 'boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>', required: false, description: '是否和tooltip保持同步', since: '1.11.1' },
+      { name: 'trigger', type: 'CrossHairTrigger', required: false, description: '触发方式', defaultValue: '"hover"' },
+      { name: 'triggerOff', type: 'CrossHairTrigger | "none" | number', required: false, description: '隐藏crosshair的触发方式' },
+      { name: 'lockAfterClick', type: 'boolean', required: false, description: '点击后锁定', since: '1.9.0' },
+      { name: 'labelZIndex', type: 'number', required: false, description: 'crosshair 文本的显示层级' },
+      { name: 'gridZIndex', type: 'number', required: false, description: 'crosshair 辅助图形的显示层级' },
+      // ICartesianCrosshairSpec 特有属性
+      { name: 'xField', type: 'ICrosshairCategoryFieldSpec', required: false, description: '笛卡尔坐标系下 x 轴上 crosshair 配置' },
+      { name: 'yField', type: 'ICrosshairCategoryFieldSpec', required: false, description: '笛卡尔坐标系下 y 轴上 crosshair 配置' }
+    ]
+  },
+  
+  // 添加相关的 crosshair 类型定义
+  'CrossHairTrigger': {
+    description: 'crosshair 触发方式',
+    properties: [
+      { name: 'trigger', type: '"click" | "hover" | ["click", "hover"]', required: true, description: '触发方式' }
+    ]
+  },
+  
+  'ICrosshairCategoryFieldSpec': {
+    description: 'crosshair 分类字段配置',
+    properties: [
+      // 从 ICrosshairDataBindSpec 继承的属性
+      { name: 'bindingAxesIndex', type: 'number[]', required: false, description: '声明 crosshair 绑定的轴索引' },
+      { name: 'defaultSelect', type: 'ICrosshairDefaultSelect', required: false, description: 'crosshair 初始化显示信息' },
+      // ICrosshairCategoryFieldSpec 特有属性
+      { name: 'visible', type: 'boolean', required: true, description: '是否可见' },
+      { name: 'line', type: 'ICrosshairLineSpec | Omit<ICrosshairRectSpec, "width">', required: false, description: 'crosshair 辅助图形配置' },
+      { name: 'label', type: 'ICrosshairLabelSpec', required: false, description: 'crosshair 文本配置' }
+    ]
+  },
+  
+  'ICrosshairDefaultSelect': {
+    description: 'crosshair 默认选择配置',
+    properties: [
+      { name: 'axisIndex', type: 'number', required: true, description: '声明要显示数据的轴索引' },
+      { name: 'datum', type: 'StringOrNumber', required: true, description: '声明显示的数据' }
+    ]
+  },
+  
+  'ICrosshairLineSpec': {
+    description: 'crosshair 线条配置',
+    properties: [
+      { name: 'visible', type: 'boolean', required: false, description: '是否显示辅助图形' },
+      { name: 'type', type: '"line"', required: false, description: '辅助图形的类型设置为line' },
+      { name: 'width', type: 'number', required: false, description: '线宽', defaultValue: '2' },
+      { name: 'smooth', type: 'boolean', required: false, description: '极坐标系下是否平滑' },
+      { name: 'style', type: 'ICrosshairLineStyle', required: false, description: '辅助图形的样式配置' }
+    ]
+  },
+  
+  'ICrosshairRectSpec': {
+    description: 'crosshair 矩形配置',
+    properties: [
+      { name: 'visible', type: 'boolean', required: false, description: '是否显示辅助图形' },
+      { name: 'type', type: '"rect"', required: false, description: '辅助图形的类型设置为rect' },
+      { name: 'width', type: 'number | string | ICrosshairRectWidthCallback', required: false, description: '矩形宽度', defaultValue: '"100%"' },
+      { name: 'style', type: 'ICrosshairRectStyle', required: false, description: '辅助图形的样式配置' }
+    ]
+  },
+  
+  'ICrosshairLineStyle': {
+    description: 'crosshair 线条样式',
+    properties: [
+      { name: 'stroke', type: 'string', required: false, description: '线条颜色' },
+      { name: 'strokeOpacity', type: 'number', required: false, description: '线条透明度' },
+      { name: 'opacity', type: 'number', required: false, description: '整体透明度' },
+      { name: 'lineDash', type: 'number[]', required: false, description: '虚线配置' },
+      { name: 'lineWidth', type: 'number', required: false, description: '线条宽度' }
+    ]
+  },
+  
+  'ICrosshairRectStyle': {
+    description: 'crosshair 矩形样式',
+    properties: [
+      // 继承 ICrosshairLineStyle
+      { name: 'stroke', type: 'string', required: false, description: '边框颜色' },
+      { name: 'strokeOpacity', type: 'number', required: false, description: '边框透明度' },
+      { name: 'opacity', type: 'number', required: false, description: '整体透明度' },
+      { name: 'lineDash', type: 'number[]', required: false, description: '边框虚线配置' },
+      { name: 'lineWidth', type: 'number', required: false, description: '边框宽度' },
+      // 矩形特有样式
+      { name: 'fill', type: 'string', required: false, description: '填充颜色' },
+      { name: 'fillOpacity', type: 'number', required: false, description: '填充透明度' },
+      { name: 'cornerRadius', type: 'number | number[]', required: false, description: '圆角半径' }
+    ]
+  },
+  
+  'ICrosshairLabelSpec': {
+    description: 'crosshair 标签配置',
+    properties: [
+      { name: 'visible', type: 'boolean', required: false, description: '十字准星辅助标签是否展示' },
+      { name: 'formatMethod', type: '(text: StringOrNumber | string[]) => string | string[]', required: false, description: 'label 文本格式化方法' },
+      { name: 'formatter', type: 'string | string[]', required: false, description: '格式化模板', since: '1.10.0' },
+      { name: 'style', type: 'Partial<ITextMarkSpec>', required: false, description: '文本样式配置' },
+      { name: 'labelBackground', type: 'ICrosshairLabelBackgroundSpec', required: false, description: '文本背景相关配置' },
+      { name: 'syncAxisLabelAngle', type: 'boolean', required: false, description: '文本是否跟随轴标签的角度旋转', since: '1.13.12' }
+    ]
+  },
+  
+  'ICrosshairLabelBackgroundSpec': {
+    description: 'crosshair 标签背景配置',
+    properties: [
+      { name: 'visible', type: 'boolean', required: false, description: '是否显示背景', defaultValue: 'true' },
+      { name: 'minWidth', type: 'number', required: false, description: '最小宽度，像素值', defaultValue: '30' },
+      { name: 'maxWidth', type: 'number', required: false, description: '最大宽度，像素值' },
+      { name: 'padding', type: 'IPadding | number | number[]', required: false, description: '内部边距' },
+      { name: 'style', type: 'Partial<IRectMarkSpec>', required: false, description: '标签背景的样式配置' }
+    ]
+  },
+  
+  'ITextMarkSpec': {
+    description: '文本图元样式配置',
+    properties: [
+      { name: 'fontSize', type: 'number', required: false, description: '字体大小' },
+      { name: 'fontFamily', type: 'string', required: false, description: '字体系列' },
+      { name: 'fontWeight', type: 'string | number', required: false, description: '字体粗细' },
+      { name: 'fontStyle', type: '"normal" | "italic" | "oblique"', required: false, description: '字体样式' },
+      { name: 'fill', type: 'string', required: false, description: '文本颜色' },
+      { name: 'stroke', type: 'string', required: false, description: '文本描边颜色' },
+      { name: 'lineWidth', type: 'number', required: false, description: '描边宽度' },
+      { name: 'textAlign', type: '"left" | "center" | "right"', required: false, description: '水平对齐' },
+      { name: 'textBaseline', type: '"top" | "middle" | "bottom"', required: false, description: '垂直对齐' },
+      { name: 'lineHeight', type: 'number', required: false, description: '行高' },
+      { name: 'opacity', type: 'number', required: false, description: '透明度' },
+      { name: 'visible', type: 'boolean', required: false, description: '是否可见' }
     ]
   },
   'IMarkLineSpec': {
@@ -73,6 +196,65 @@ const complexTypeDefinitions = {
       { name: 'title', type: 'ITitleSpec', required: false, description: '坐标轴标题' },
       { name: 'label', type: 'ILabelSpec', required: false, description: '坐标轴标签' },
       { name: 'visible', type: 'boolean', required: false, description: '是否可见', defaultValue: 'true' }
+    ]
+  },
+  
+  // Mark 图元类型定义
+  'ILineMarkSpec': {
+    description: '线条图元样式配置',
+    properties: [
+      { name: 'stroke', type: 'string', required: false, description: '线条颜色' },
+      { name: 'strokeOpacity', type: 'number', required: false, description: '线条透明度' },
+      { name: 'lineWidth', type: 'number', required: false, description: '线条宽度' },
+      { name: 'lineDash', type: 'number[]', required: false, description: '虚线配置' },
+      { name: 'lineCap', type: '"butt" | "round" | "square"', required: false, description: '线条端点样式' },
+      { name: 'lineJoin', type: '"miter" | "round" | "bevel"', required: false, description: '线条连接样式' },
+      { name: 'opacity', type: 'number', required: false, description: '整体透明度' },
+      { name: 'visible', type: 'boolean', required: false, description: '是否可见' }
+    ]
+  },
+  'IAreaMarkSpec': {
+    description: '区域图元样式配置',
+    properties: [
+      { name: 'fill', type: 'string', required: false, description: '填充颜色' },
+      { name: 'fillOpacity', type: 'number', required: false, description: '填充透明度' },
+      { name: 'stroke', type: 'string', required: false, description: '边框颜色' },
+      { name: 'strokeOpacity', type: 'number', required: false, description: '边框透明度' },
+      { name: 'lineWidth', type: 'number', required: false, description: '边框宽度' },
+      { name: 'lineDash', type: 'number[]', required: false, description: '虚线配置' },
+      { name: 'opacity', type: 'number', required: false, description: '整体透明度' },
+      { name: 'visible', type: 'boolean', required: false, description: '是否可见' }
+    ]
+  },
+  'ISymbolMarkSpec': {
+    description: '符号图元样式配置',
+    properties: [
+      { name: 'symbolType', type: '"circle" | "square" | "triangle" | "diamond" | "cross" | "arrow" | "wedge"', required: false, description: '符号类型' },
+      { name: 'size', type: 'number', required: false, description: '符号大小' },
+      { name: 'fill', type: 'string', required: false, description: '填充颜色' },
+      { name: 'fillOpacity', type: 'number', required: false, description: '填充透明度' },
+      { name: 'stroke', type: 'string', required: false, description: '边框颜色' },
+      { name: 'strokeOpacity', type: 'number', required: false, description: '边框透明度' },
+      { name: 'lineWidth', type: 'number', required: false, description: '边框宽度' },
+      { name: 'opacity', type: 'number', required: false, description: '整体透明度' },
+      { name: 'visible', type: 'boolean', required: false, description: '是否可见' }
+    ]
+  },
+  'IMarkSpec': {
+    description: '通用图元配置规范',
+    properties: [
+      { name: 'visible', type: 'boolean', required: false, description: '是否可见' },
+      { name: 'zIndex', type: 'number', required: false, description: '图层层级' },
+      { name: 'interactive', type: 'boolean', required: false, description: '是否可交互' },
+      { name: 'state', type: 'IMarkStateSpec', required: false, description: '图元状态样式' }
+    ]
+  },
+  'IMarkStateSpec': {
+    description: '图元状态样式配置',
+    properties: [
+      { name: 'hover', type: 'any', required: false, description: '悬浮状态样式' },
+      { name: 'selected', type: 'any', required: false, description: '选中状态样式' },
+      { name: 'disabled', type: 'any', required: false, description: '禁用状态样式' }
     ]
   },
   
@@ -513,9 +695,13 @@ function generateComplexTypeDefinitions() {
       return `${expandedBase}[]`;
     }
     
-    // 联合类型处理
+    // 联合类型处理 - 改进对字面量类型的处理
     if (typeName.includes('|')) {
       const parts = typeName.split('|').map(part => part.trim());
+      // 如果是字面量联合类型，直接返回
+      if (parts.every(part => part.startsWith('"') && part.endsWith('"'))) {
+        return typeName;
+      }
       return parts.map(part => deepExpandType(part, visited, depth)).join(' | ');
     }
     
