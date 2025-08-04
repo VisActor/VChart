@@ -3,12 +3,12 @@ import { DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Datum } from '../../typings';
 import { isValid } from '@visactor/vutils';
-import type { IGroupMark, IMark, IRuleMark, ISymbolMark } from '../../mark/interface';
+import type { IGroupMark, IImageMark, IMark, IRuleMark, ISymbolMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IDotSeriesSpec } from '../dot/interface';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
-import type { ILinkSeriesSpec } from './interface';
+import { LinkType, type ILinkSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
 import { registerRuleMark } from '../../mark/rule';
 import { registerSymbolMark } from '../../mark/symbol';
@@ -26,6 +26,9 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 
   static readonly mark: SeriesMarkMap = linkSeriesMark;
   static readonly builtInTheme = { link };
+
+  // 记录起点和终点相同的曲线数量, 便于给不同曲线设置不同曲率
+  private _curveLinkCountMap: Record<string, number> = {};
 
   protected _fromField?: string;
   getFromField() {
@@ -116,14 +119,16 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
   private _containerMark: IGroupMark;
   private _linkMark: IRuleMark;
   private _arrowMark: ISymbolMark;
+  private _imageLabelMark: IImageMark;
   initMark(): void {
+    const { linkType = LinkType.line, imageLabelField } = this._spec;
     this._clipMark = this._createMark(LinkSeries.mark.group) as IGroupMark;
 
     this._containerMark = this._createMark(LinkSeries.mark.group, {
       parent: this._clipMark
     }) as IGroupMark;
 
-    this._linkMark = this._createMark(LinkSeries.mark.link, {
+    this._linkMark = this._createMark(linkType === LinkType.curve ? LinkSeries.mark.curveLink : LinkSeries.mark.link, {
       skipBeforeLayouted: false,
       parent: this._containerMark
     }) as IRuleMark;
@@ -133,6 +138,14 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
       isSeriesMark: true,
       parent: this._containerMark
     }) as ISymbolMark;
+
+    if (imageLabelField) {
+      this._imageLabelMark = this._createMark(LinkSeries.mark.imageLabel, {
+        skipBeforeLayouted: false,
+        isSeriesMark: true,
+        parent: this._containerMark
+      }) as IImageMark;
+    }
   }
 
   initMarkStyle(): void {
@@ -141,11 +154,11 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
       this.setMarkStyle(
         clipMark,
         {
-          x: -this._spec.leftAppendPadding,
+          x: -(this._spec.leftAppendPadding ?? 0),
           y: 0,
           // 本应使用this.getLayoutRect().width, 但这该返回值为0。考虑到横向不需要裁剪，故先采用一个较大值
           width: 10000,
-          height: this._spec.clipHeight
+          height: () => this._spec.clipHeight ?? this._region.getLayoutRect().height
         },
         'normal',
         AttributeLevel.Series
@@ -168,25 +181,60 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     }
 
     const linkMark = this._linkMark;
+    const { linkType = LinkType.line } = this._spec;
     if (linkMark) {
-      this.setMarkStyle(
-        linkMark,
-        {
-          stroke: this.getColorAttribute(),
-          strokeOpacity: this.dataToOpacity.bind(this),
-          x: this.dataToPositionXFrom.bind(this),
-          y: this.dataToPositionYFrom.bind(this),
-          x1: this.dataToPositionXTo.bind(this),
-          y1: this.dataToPositionYTo.bind(this)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
+      if (linkType === LinkType.curve) {
+        this.setMarkStyle(
+          linkMark,
+          {
+            stroke: this._spec.link?.style?.stroke ?? this.getColorAttribute(),
+            strokeOpacity: this.dataToOpacity.bind(this),
+            path: (datum: Datum) => {
+              const fromX = this.dataToPositionXFrom(datum);
+              const fromY = this.dataToPositionYFrom(datum);
+              const toX = this.dataToPositionXTo(datum);
+              const toY = this.dataToPositionYTo(datum);
+
+              // 计算曲率
+              const curveLinkCount = this._curveLinkCountMap[`${fromX}-${fromY}-${toX}-${toY}`] || 1;
+              this._curveLinkCountMap[`${fromX}-${fromY}-${toX}-${toY}`] = curveLinkCount + 1;
+              const curveRatio = 0.5 + curveLinkCount * 0.1;
+
+              // 计算控制点
+              const controlX1 = fromX + (toX - fromX) * 0.7;
+              const controlY1 = fromY;
+              const controlX2 = toX - (toX - fromX) * curveRatio;
+              const controlY2 = toY;
+
+              // 生成三次贝塞尔曲线路径
+              return `M ${fromX} ${fromY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${toX} ${toY}`;
+            },
+            lineWidth: this._spec.link.style?.lineWidth ?? 1
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      } else {
+        this.setMarkStyle(
+          linkMark,
+          {
+            stroke: this.getColorAttribute(),
+            strokeOpacity: this.dataToOpacity.bind(this),
+            x: this.dataToPositionXFrom.bind(this),
+            y: this.dataToPositionYFrom.bind(this),
+            x1: this.dataToPositionXTo.bind(this),
+            y1: this.dataToPositionYTo.bind(this)
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
     }
 
     const arrowMark = this._arrowMark;
     if (arrowMark) {
       const arrowSize = (this._theme?.arrow?.style?.size as number) ?? 10;
+
       this.setMarkStyle(
         arrowMark,
         {
@@ -197,6 +245,30 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
           size: arrowSize,
           symbolType: (datum: Datum) => {
             return this.isPositionYFromHigher(datum) ? 'triangleDown' : 'triangleUp';
+          }
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+
+    const imageLabelMark = this._imageLabelMark;
+    if (imageLabelMark) {
+      const { style = {} } = this._spec.imageLabel;
+      const { width = 40, height = 40 } = style;
+      this.setMarkStyle(
+        imageLabelMark,
+        {
+          x: datum => {
+            return (this.dataToPositionXFrom(datum) + this.dataToPositionXTo(datum)) / 2 - width / 2;
+          },
+          y: datum => {
+            return (this.dataToPositionYFrom(datum) + this.dataToPositionYTo(datum)) / 2 - height / 2;
+          },
+          width,
+          height,
+          image: datum => {
+            return datum[this._spec.imageLabelField];
           }
         },
         'normal',
@@ -217,9 +289,17 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     }
     const { dataToPosition } = this._xAxisHelper;
 
-    return dataToPosition(this.getDatumPositionValues(datum, this._fromField + '_xField'), {
-      bandPosition: this._bandPosition
-    });
+    const allowExtend = this._spec.allowExtend;
+    const bandSize = this._xAxisHelper?.getBandwidth?.(0) ?? 0;
+
+    const { style = {} } = this._dotSeriesSpec.symbol ?? {};
+    const { size: dotSize = 10 } = style;
+
+    return (
+      dataToPosition(this.getDatumPositionValues(datum, this._fromField + '_xField'), {
+        bandPosition: this._bandPosition
+      }) + (allowExtend && (!datum.isExtend || datum.isExtend === 'left') ? -(bandSize + dotSize) / 2 : 0)
+    );
   }
 
   dataToPositionYFrom(datum: Datum): number {
@@ -236,9 +316,16 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
       return Number.NaN;
     }
     const { dataToPosition } = this._xAxisHelper;
-    return dataToPosition(this.getDatumPositionValues(datum, this._toField + '_xField'), {
-      bandPosition: this._bandPosition
-    });
+    const allowExtend = this._spec.allowExtend;
+    const bandSize = this._xAxisHelper?.getBandwidth?.(0) ?? 0;
+    const { style = {} } = this._dotSeriesSpec.symbol ?? {};
+    const { size: dotSize = 10 } = style;
+
+    return (
+      dataToPosition(this.getDatumPositionValues(datum, this._toField + '_xField'), {
+        bandPosition: this._bandPosition
+      }) + (allowExtend && (!datum.isExtend || datum.isExtend === 'right') ? (bandSize + dotSize) / 2 : 0)
+    );
   }
 
   dataToPositionYTo(datum: Datum): number {
@@ -267,9 +354,10 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 
   dataToOpacity(datum: Datum): number {
     if (
-      this.isPositionXOuterRange(datum, this._fromField + '_xField') ||
-      this.isPositionXOuterRange(datum, this._toField + '_xField') ||
-      datum[this._fromField] === datum[this._toField]
+      !this._spec.allowExtend &&
+      (this.isPositionXOuterRange(datum, this._fromField + '_xField') ||
+        this.isPositionXOuterRange(datum, this._toField + '_xField') ||
+        datum[this._fromField] === datum[this._toField])
     ) {
       return 0;
     }
@@ -313,8 +401,8 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     return this._dotTypeField
       ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesField
-      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-      : [];
+        ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+        : [];
   }
 
   /**

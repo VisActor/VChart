@@ -1,6 +1,7 @@
 import { isArray, last } from '@visactor/vutils';
 import { array, isNil } from '../../util';
 import type { DataView } from '@visactor/vdataset';
+import { objFlat } from '../../data/transforms/obj-flat';
 
 export interface IDataFilterWithNewDomainOption {
   getNewDomain: () => any[];
@@ -93,6 +94,7 @@ export interface IDataFilterComputeDomainOption {
     dataCollection: any[];
     stateFields: string[];
     valueFields: string[];
+    seriesTypes: string[];
     isCategoryState?: boolean;
     method: 'sum'; // todo: 也许可以提供多种数据统计方法 @chensiji
   };
@@ -103,7 +105,7 @@ export interface IDataFilterComputeDomainOption {
 }
 
 export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterComputeDomainOption) => {
-  const { stateFields, valueFields, dataCollection, isCategoryState } = op.input;
+  const { stateFields, valueFields, dataCollection, isCategoryState, seriesTypes } = op.input;
   const { stateField, valueField } = op.output;
   const resultObj: any = {};
   const resultData: any[] = [];
@@ -125,7 +127,8 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
         }
       });
     }
-    dv.latestData.forEach((d: any) => {
+    const data = seriesTypes[i] === 'dot' ? objFlat(dv.latestData, 'dots') : dv.latestData;
+    data.forEach((d: any) => {
       // 针对rangeColumn等xField为数组形式的图表，需要将xField的所有value都记录下来
       array(stateFields[i]).forEach(state => {
         if (!isNil(d[state])) {
@@ -146,8 +149,8 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
   const sortedStateValues = hasLockDomain
     ? stateValues
     : isCategoryState === false
-    ? stateValues.sort((a, b) => a - b)
-    : Object.keys(resultObj);
+      ? stateValues.sort((a, b) => a - b)
+      : Object.keys(resultObj);
 
   sortedStateValues.forEach(state => {
     const res = { [stateField]: state };
