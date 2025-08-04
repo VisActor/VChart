@@ -667,11 +667,35 @@ const barChartSpecMeta = {
   }
 };
 
-// 生成复杂类型的 TypeScript 定义（参考 area-chart 的实现方式）
+// 生成复杂类型定义（只包含 inheritanceTree 中依赖的类型，去重）
 function generateComplexTypeDefinitions() {
   const typeDefinitions = {};
   
-  // 深度展开类型定义的辅助函数
+  // 从 inheritanceTree 收集所有依赖的复杂类型
+  const dependentTypes = new Set();
+  
+  function collectDependenciesFromInheritanceTree(tree) {
+    Object.values(tree).forEach(node => {
+      if (node.ownProperties) {
+        node.ownProperties.forEach(prop => {
+          if (prop.dependencies && prop.dependencies.length > 0) {
+            prop.dependencies.forEach(dep => {
+              if (!TypeAnalyzer.isSimpleType(dep)) {
+                dependentTypes.add(dep);
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  
+  // 收集 inheritanceTree 中的依赖
+  collectDependenciesFromInheritanceTree(barChartSpecMeta.inheritanceTree);
+  
+  console.log(`📊 从 inheritanceTree 中收集到 ${dependentTypes.size} 个依赖的复杂类型:`, Array.from(dependentTypes));
+  
+  // 深度展开类型定义的辅助函数（简化版）
   function deepExpandType(typeName, visited = new Set(), depth = 0) {
     // 避免循环引用
     if (visited.has(typeName)) {
@@ -679,7 +703,7 @@ function generateComplexTypeDefinitions() {
     }
     
     // 简单类型直接返回
-    if (simpleTypes.includes(typeName)) {
+    if (TypeAnalyzer.isSimpleType(typeName)) {
       return typeName;
     }
     
@@ -718,7 +742,7 @@ function generateComplexTypeDefinitions() {
     
     // 检查是否是我们定义的复杂类型，进行深度展开
     const definition = complexTypeDefinitions[typeName];
-    if (definition && definition.properties && depth < 3) {
+    if (definition && definition.properties && depth < 2) {
       visited.add(typeName);
       
       const properties = definition.properties.map(prop => {
@@ -733,51 +757,64 @@ function generateComplexTypeDefinitions() {
     }
     
     // 对于未知或不需要展开的类型，返回通用对象类型
-    if (depth > 2 || !definition) {
+    if (depth > 1 || !definition) {
       return '{ [key: string]: any }';
     }
     
     return typeName;
   }
   
-  // 为每个复杂类型生成完整定义
-  Object.keys(complexTypeDefinitions).forEach(typeName => {
+  // 只为 inheritanceTree 中依赖的复杂类型生成定义
+  dependentTypes.forEach(typeName => {
     const definition = complexTypeDefinitions[typeName];
-    
-    // 生成属性列表
-    const properties = definition.properties.map(prop => {
-      const expandedType = deepExpandType(prop.type);
-      return {
-        name: prop.name,
-        type: prop.type,
-        required: prop.required,
-        description: prop.description,
-        expandedType: expandedType,
-        resolvedType: prop.type,
-        isSimple: TypeAnalyzer.isSimpleType(prop.type),
-        dependencies: TypeAnalyzer.extractDependencies(prop.type)
+    if (definition) {
+      // 生成属性列表
+      const properties = definition.properties.map(prop => {
+        const expandedType = deepExpandType(prop.type);
+        return {
+          name: prop.name,
+          type: prop.type,
+          required: prop.required,
+          description: prop.description,
+          expandedType: expandedType,
+          resolvedType: prop.type,
+          isSimple: TypeAnalyzer.isSimpleType(prop.type),
+          dependencies: TypeAnalyzer.extractDependencies(prop.type),
+          ...(prop.category && { category: prop.category }),
+          ...(prop.defaultValue && { defaultValue: prop.defaultValue }),
+          ...(prop.since && { since: prop.since })
+        };
+      });
+      
+      // 生成完整的 TypeScript 接口代码
+      const interfaceProperties = definition.properties.map(prop => {
+        const optional = prop.required ? '' : '?';
+        const expandedType = deepExpandType(prop.type);
+        const comment = prop.description ? `\n  /** ${prop.description} */` : '';
+        return `${comment}\n  ${prop.name}${optional}: ${expandedType};`;
+      }).join('');
+      
+      const typescriptCode = `interface ${typeName} {${interfaceProperties}\n}`;
+      
+      typeDefinitions[typeName] = {
+        description: definition.description,
+        typescriptCode: typescriptCode,
+        properties: properties,
+        note: properties.length > 0 ? 
+          `包含 ${properties.length} 个属性，从 inheritanceTree 依赖中提取` : 
+          '此类型被 inheritanceTree 引用',
+        usageNote: `${typeName} 的完整类型定义，来自 inheritanceTree 依赖分析`
       };
-    });
-    
-    // 生成完整的 TypeScript 接口代码
-    const interfaceProperties = definition.properties.map(prop => {
-      const optional = prop.required ? '' : '?';
-      const expandedType = deepExpandType(prop.type);
-      const comment = prop.description ? `\n  /** ${prop.description} */` : '';
-      return `${comment}\n  ${prop.name}${optional}: ${expandedType};`;
-    }).join('');
-    
-    const typescriptCode = `interface ${typeName} {${interfaceProperties}\n}`;
-    
-    typeDefinitions[typeName] = {
-      description: definition.description,
-      typescriptCode: typescriptCode,
-      properties: properties,
-      note: properties.length > 0 ? 
-        `包含 ${properties.length} 个属性，类型已完全展开` : 
-        '此类型定义需要从源码中进一步解析',
-      usageNote: `${typeName} 的完整类型定义，所有子类型已展开便于大模型理解`
-    };
+    } else {
+      // 对于没有详细定义的类型，创建一个简单的占位符
+      typeDefinitions[typeName] = {
+        description: `${typeName} 类型定义`,
+        typescriptCode: `// ${typeName} 类型需要从源码中进一步解析`,
+        properties: [],
+        note: '此类型定义需要从源码中进一步解析',
+        usageNote: `${typeName} 被 inheritanceTree 引用，但详细定义未提供`
+      };
+    }
   });
   
   return typeDefinitions;

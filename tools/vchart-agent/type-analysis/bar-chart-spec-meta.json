@@ -791,884 +791,22 @@
       ]
     }
   },
-  "timestamp": "2025-08-04T03:20:18.005Z",
+  "timestamp": "2025-08-04T03:29:23.458Z",
   "version": "1.0.0",
   "complexTypeDefinitions": {
-    "ICartesianCrosshairSpec": {
-      "description": "笛卡尔坐标系十字辅助线配置",
-      "typescriptCode": "interface ICartesianCrosshairSpec {\n  /** 是否和tooltip保持同步 */\n  followTooltip?: boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>;\n  /** 触发方式 */\n  trigger?: {\n  /** 触发方式 */\n  trigger: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n};\n  /** 隐藏crosshair的触发方式 */\n  triggerOff?: {\n  /** 触发方式 */\n  trigger: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n} | { [key: string]: any } | number;\n  /** 点击后锁定 */\n  lockAfterClick?: boolean;\n  /** crosshair 文本的显示层级 */\n  labelZIndex?: number;\n  /** crosshair 辅助图形的显示层级 */\n  gridZIndex?: number;\n  /** 笛卡尔坐标系下 x 轴上 crosshair 配置 */\n  xField?: {\n  /** 声明 crosshair 绑定的轴索引 */\n  bindingAxesIndex?: number[];\n  /** crosshair 初始化显示信息 */\n  defaultSelect?: {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: string | number;\n};\n  /** 是否可见 */\n  visible: boolean;\n  /** crosshair 辅助图形配置 */\n  line?: {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条宽度 */\n  lineWidth?: number;\n};\n} | Omit<ICrosshairRectSpec, \"width\">;\n  /** crosshair 文本配置 */\n  label?: {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: {\n  /** 是否显示背景 */\n  visible?: boolean;\n  /** 最小宽度，像素值 */\n  minWidth?: number;\n  /** 最大宽度，像素值 */\n  maxWidth?: number;\n  /** 内部边距 */\n  padding?: { [key: string]: any } | number | number[];\n  /** 标签背景的样式配置 */\n  style?: Partial<IRectMarkSpec>;\n};\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n};\n};\n  /** 笛卡尔坐标系下 y 轴上 crosshair 配置 */\n  yField?: {\n  /** 声明 crosshair 绑定的轴索引 */\n  bindingAxesIndex?: number[];\n  /** crosshair 初始化显示信息 */\n  defaultSelect?: {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: string | number;\n};\n  /** 是否可见 */\n  visible: boolean;\n  /** crosshair 辅助图形配置 */\n  line?: {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条宽度 */\n  lineWidth?: number;\n};\n} | Omit<ICrosshairRectSpec, \"width\">;\n  /** crosshair 文本配置 */\n  label?: {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: {\n  /** 是否显示背景 */\n  visible?: boolean;\n  /** 最小宽度，像素值 */\n  minWidth?: number;\n  /** 最大宽度，像素值 */\n  maxWidth?: number;\n  /** 内部边距 */\n  padding?: { [key: string]: any } | number | number[];\n  /** 标签背景的样式配置 */\n  style?: Partial<IRectMarkSpec>;\n};\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n};\n};\n}",
-      "properties": [
-        {
-          "name": "followTooltip",
-          "type": "boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>",
-          "required": false,
-          "description": "是否和tooltip保持同步",
-          "expandedType": "boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>",
-          "resolvedType": "boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>",
-          "isSimple": false,
-          "dependencies": [
-            "Partial",
-            "ITooltipActiveTypeAsKeys"
-          ]
-        },
-        {
-          "name": "trigger",
-          "type": "CrossHairTrigger",
-          "required": false,
-          "description": "触发方式",
-          "expandedType": "{\n  /** 触发方式 */\n  trigger: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n}",
-          "resolvedType": "CrossHairTrigger",
-          "isSimple": false,
-          "dependencies": [
-            "CrossHairTrigger"
-          ]
-        },
-        {
-          "name": "triggerOff",
-          "type": "CrossHairTrigger | \"none\" | number",
-          "required": false,
-          "description": "隐藏crosshair的触发方式",
-          "expandedType": "{\n  /** 触发方式 */\n  trigger: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n} | { [key: string]: any } | number",
-          "resolvedType": "CrossHairTrigger | \"none\" | number",
-          "isSimple": false,
-          "dependencies": [
-            "CrossHairTrigger"
-          ]
-        },
-        {
-          "name": "lockAfterClick",
-          "type": "boolean",
-          "required": false,
-          "description": "点击后锁定",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "labelZIndex",
-          "type": "number",
-          "required": false,
-          "description": "crosshair 文本的显示层级",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "gridZIndex",
-          "type": "number",
-          "required": false,
-          "description": "crosshair 辅助图形的显示层级",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "xField",
-          "type": "ICrosshairCategoryFieldSpec",
-          "required": false,
-          "description": "笛卡尔坐标系下 x 轴上 crosshair 配置",
-          "expandedType": "{\n  /** 声明 crosshair 绑定的轴索引 */\n  bindingAxesIndex?: number[];\n  /** crosshair 初始化显示信息 */\n  defaultSelect?: {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: string | number;\n};\n  /** 是否可见 */\n  visible: boolean;\n  /** crosshair 辅助图形配置 */\n  line?: {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条宽度 */\n  lineWidth?: number;\n};\n} | Omit<ICrosshairRectSpec, \"width\">;\n  /** crosshair 文本配置 */\n  label?: {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: {\n  /** 是否显示背景 */\n  visible?: boolean;\n  /** 最小宽度，像素值 */\n  minWidth?: number;\n  /** 最大宽度，像素值 */\n  maxWidth?: number;\n  /** 内部边距 */\n  padding?: { [key: string]: any } | number | number[];\n  /** 标签背景的样式配置 */\n  style?: Partial<IRectMarkSpec>;\n};\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n};\n}",
-          "resolvedType": "ICrosshairCategoryFieldSpec",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairCategoryFieldSpec"
-          ]
-        },
-        {
-          "name": "yField",
-          "type": "ICrosshairCategoryFieldSpec",
-          "required": false,
-          "description": "笛卡尔坐标系下 y 轴上 crosshair 配置",
-          "expandedType": "{\n  /** 声明 crosshair 绑定的轴索引 */\n  bindingAxesIndex?: number[];\n  /** crosshair 初始化显示信息 */\n  defaultSelect?: {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: string | number;\n};\n  /** 是否可见 */\n  visible: boolean;\n  /** crosshair 辅助图形配置 */\n  line?: {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条宽度 */\n  lineWidth?: number;\n};\n} | Omit<ICrosshairRectSpec, \"width\">;\n  /** crosshair 文本配置 */\n  label?: {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: {\n  /** 是否显示背景 */\n  visible?: boolean;\n  /** 最小宽度，像素值 */\n  minWidth?: number;\n  /** 最大宽度，像素值 */\n  maxWidth?: number;\n  /** 内部边距 */\n  padding?: { [key: string]: any } | number | number[];\n  /** 标签背景的样式配置 */\n  style?: Partial<IRectMarkSpec>;\n};\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n};\n}",
-          "resolvedType": "ICrosshairCategoryFieldSpec",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairCategoryFieldSpec"
-          ]
-        }
-      ],
-      "note": "包含 8 个属性，类型已完全展开",
-      "usageNote": "ICartesianCrosshairSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+    "IBarSeriesSpec": {
+      "description": "IBarSeriesSpec 类型定义",
+      "typescriptCode": "// IBarSeriesSpec 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "IBarSeriesSpec 被 inheritanceTree 引用，但详细定义未提供"
     },
-    "CrossHairTrigger": {
-      "description": "crosshair 触发方式",
-      "typescriptCode": "interface CrossHairTrigger {\n  /** 触发方式 */\n  trigger: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n}",
-      "properties": [
-        {
-          "name": "trigger",
-          "type": "\"click\" | \"hover\" | [\"click\", \"hover\"]",
-          "required": true,
-          "description": "触发方式",
-          "expandedType": "{ [key: string]: any } | { [key: string]: any } | { [key: string]: any }",
-          "resolvedType": "\"click\" | \"hover\" | [\"click\", \"hover\"]",
-          "isSimple": false,
-          "dependencies": [
-            "[\"click\", \"hover\"]"
-          ]
-        }
-      ],
-      "note": "包含 1 个属性，类型已完全展开",
-      "usageNote": "CrossHairTrigger 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ICrosshairCategoryFieldSpec": {
-      "description": "crosshair 分类字段配置",
-      "typescriptCode": "interface ICrosshairCategoryFieldSpec {\n  /** 声明 crosshair 绑定的轴索引 */\n  bindingAxesIndex?: number[];\n  /** crosshair 初始化显示信息 */\n  defaultSelect?: {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: string | number;\n};\n  /** 是否可见 */\n  visible: boolean;\n  /** crosshair 辅助图形配置 */\n  line?: {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条宽度 */\n  lineWidth?: number;\n};\n} | Omit<ICrosshairRectSpec, \"width\">;\n  /** crosshair 文本配置 */\n  label?: {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: {\n  /** 是否显示背景 */\n  visible?: boolean;\n  /** 最小宽度，像素值 */\n  minWidth?: number;\n  /** 最大宽度，像素值 */\n  maxWidth?: number;\n  /** 内部边距 */\n  padding?: { [key: string]: any } | number | number[];\n  /** 标签背景的样式配置 */\n  style?: Partial<IRectMarkSpec>;\n};\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n};\n}",
-      "properties": [
-        {
-          "name": "bindingAxesIndex",
-          "type": "number[]",
-          "required": false,
-          "description": "声明 crosshair 绑定的轴索引",
-          "expandedType": "number[]",
-          "resolvedType": "number[]",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "defaultSelect",
-          "type": "ICrosshairDefaultSelect",
-          "required": false,
-          "description": "crosshair 初始化显示信息",
-          "expandedType": "{\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: string | number;\n}",
-          "resolvedType": "ICrosshairDefaultSelect",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairDefaultSelect"
-          ]
-        },
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": true,
-          "description": "是否可见",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "line",
-          "type": "ICrosshairLineSpec | Omit<ICrosshairRectSpec, \"width\">",
-          "required": false,
-          "description": "crosshair 辅助图形配置",
-          "expandedType": "{\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条宽度 */\n  lineWidth?: number;\n};\n} | Omit<ICrosshairRectSpec, \"width\">",
-          "resolvedType": "ICrosshairLineSpec | Omit<ICrosshairRectSpec, \"width\">",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairLineSpec",
-            "Omit",
-            "ICrosshairRectSpec"
-          ]
-        },
-        {
-          "name": "label",
-          "type": "ICrosshairLabelSpec",
-          "required": false,
-          "description": "crosshair 文本配置",
-          "expandedType": "{\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: {\n  /** 是否显示背景 */\n  visible?: boolean;\n  /** 最小宽度，像素值 */\n  minWidth?: number;\n  /** 最大宽度，像素值 */\n  maxWidth?: number;\n  /** 内部边距 */\n  padding?: { [key: string]: any } | number | number[];\n  /** 标签背景的样式配置 */\n  style?: Partial<IRectMarkSpec>;\n};\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n}",
-          "resolvedType": "ICrosshairLabelSpec",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairLabelSpec"
-          ]
-        }
-      ],
-      "note": "包含 5 个属性，类型已完全展开",
-      "usageNote": "ICrosshairCategoryFieldSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ICrosshairDefaultSelect": {
-      "description": "crosshair 默认选择配置",
-      "typescriptCode": "interface ICrosshairDefaultSelect {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: string | number;\n}",
-      "properties": [
-        {
-          "name": "axisIndex",
-          "type": "number",
-          "required": true,
-          "description": "声明要显示数据的轴索引",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "datum",
-          "type": "StringOrNumber",
-          "required": true,
-          "description": "声明显示的数据",
-          "expandedType": "string | number",
-          "resolvedType": "StringOrNumber",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 2 个属性，类型已完全展开",
-      "usageNote": "ICrosshairDefaultSelect 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ICrosshairLineSpec": {
-      "description": "crosshair 线条配置",
-      "typescriptCode": "interface ICrosshairLineSpec {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条宽度 */\n  lineWidth?: number;\n};\n}",
-      "properties": [
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": false,
-          "description": "是否显示辅助图形",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "type",
-          "type": "\"line\"",
-          "required": false,
-          "description": "辅助图形的类型设置为line",
-          "expandedType": "{ [key: string]: any }",
-          "resolvedType": "\"line\"",
-          "isSimple": false,
-          "dependencies": []
-        },
-        {
-          "name": "width",
-          "type": "number",
-          "required": false,
-          "description": "线宽",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "smooth",
-          "type": "boolean",
-          "required": false,
-          "description": "极坐标系下是否平滑",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "style",
-          "type": "ICrosshairLineStyle",
-          "required": false,
-          "description": "辅助图形的样式配置",
-          "expandedType": "{\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条宽度 */\n  lineWidth?: number;\n}",
-          "resolvedType": "ICrosshairLineStyle",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairLineStyle"
-          ]
-        }
-      ],
-      "note": "包含 5 个属性，类型已完全展开",
-      "usageNote": "ICrosshairLineSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ICrosshairRectSpec": {
-      "description": "crosshair 矩形配置",
-      "typescriptCode": "interface ICrosshairRectSpec {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为rect */\n  type?: { [key: string]: any };\n  /** 矩形宽度 */\n  width?: number | string | { [key: string]: any };\n  /** 辅助图形的样式配置 */\n  style?: {\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 边框虚线配置 */\n  lineDash?: number[];\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 圆角半径 */\n  cornerRadius?: number | number[];\n};\n}",
-      "properties": [
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": false,
-          "description": "是否显示辅助图形",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "type",
-          "type": "\"rect\"",
-          "required": false,
-          "description": "辅助图形的类型设置为rect",
-          "expandedType": "{ [key: string]: any }",
-          "resolvedType": "\"rect\"",
-          "isSimple": false,
-          "dependencies": []
-        },
-        {
-          "name": "width",
-          "type": "number | string | ICrosshairRectWidthCallback",
-          "required": false,
-          "description": "矩形宽度",
-          "expandedType": "number | string | { [key: string]: any }",
-          "resolvedType": "number | string | ICrosshairRectWidthCallback",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairRectWidthCallback"
-          ]
-        },
-        {
-          "name": "style",
-          "type": "ICrosshairRectStyle",
-          "required": false,
-          "description": "辅助图形的样式配置",
-          "expandedType": "{\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 边框虚线配置 */\n  lineDash?: number[];\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 圆角半径 */\n  cornerRadius?: number | number[];\n}",
-          "resolvedType": "ICrosshairRectStyle",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairRectStyle"
-          ]
-        }
-      ],
-      "note": "包含 4 个属性，类型已完全展开",
-      "usageNote": "ICrosshairRectSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ICrosshairLineStyle": {
-      "description": "crosshair 线条样式",
-      "typescriptCode": "interface ICrosshairLineStyle {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条宽度 */\n  lineWidth?: number;\n}",
-      "properties": [
-        {
-          "name": "stroke",
-          "type": "string",
-          "required": false,
-          "description": "线条颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "strokeOpacity",
-          "type": "number",
-          "required": false,
-          "description": "线条透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "opacity",
-          "type": "number",
-          "required": false,
-          "description": "整体透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineDash",
-          "type": "number[]",
-          "required": false,
-          "description": "虚线配置",
-          "expandedType": "number[]",
-          "resolvedType": "number[]",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineWidth",
-          "type": "number",
-          "required": false,
-          "description": "线条宽度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 5 个属性，类型已完全展开",
-      "usageNote": "ICrosshairLineStyle 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ICrosshairRectStyle": {
-      "description": "crosshair 矩形样式",
-      "typescriptCode": "interface ICrosshairRectStyle {\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 边框虚线配置 */\n  lineDash?: number[];\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 圆角半径 */\n  cornerRadius?: number | number[];\n}",
-      "properties": [
-        {
-          "name": "stroke",
-          "type": "string",
-          "required": false,
-          "description": "边框颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "strokeOpacity",
-          "type": "number",
-          "required": false,
-          "description": "边框透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "opacity",
-          "type": "number",
-          "required": false,
-          "description": "整体透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineDash",
-          "type": "number[]",
-          "required": false,
-          "description": "边框虚线配置",
-          "expandedType": "number[]",
-          "resolvedType": "number[]",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineWidth",
-          "type": "number",
-          "required": false,
-          "description": "边框宽度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fill",
-          "type": "string",
-          "required": false,
-          "description": "填充颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fillOpacity",
-          "type": "number",
-          "required": false,
-          "description": "填充透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "cornerRadius",
-          "type": "number | number[]",
-          "required": false,
-          "description": "圆角半径",
-          "expandedType": "number | number[]",
-          "resolvedType": "number | number[]",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 8 个属性，类型已完全展开",
-      "usageNote": "ICrosshairRectStyle 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ICrosshairLabelSpec": {
-      "description": "crosshair 标签配置",
-      "typescriptCode": "interface ICrosshairLabelSpec {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: {\n  /** 是否显示背景 */\n  visible?: boolean;\n  /** 最小宽度，像素值 */\n  minWidth?: number;\n  /** 最大宽度，像素值 */\n  maxWidth?: number;\n  /** 内部边距 */\n  padding?: { [key: string]: any } | number | number[];\n  /** 标签背景的样式配置 */\n  style?: Partial<IRectMarkSpec>;\n};\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n}",
-      "properties": [
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": false,
-          "description": "十字准星辅助标签是否展示",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "formatMethod",
-          "type": "(text: StringOrNumber | string[]) => string | string[]",
-          "required": false,
-          "description": "label 文本格式化方法",
-          "expandedType": "{ [key: string]: any } | { [key: string]: any } | string[]",
-          "resolvedType": "(text: StringOrNumber | string[]) => string | string[]",
-          "isSimple": false,
-          "dependencies": [
-            "(text: StringOrNumber",
-            "string[]) => string"
-          ]
-        },
-        {
-          "name": "formatter",
-          "type": "string | string[]",
-          "required": false,
-          "description": "格式化模板",
-          "expandedType": "string | string[]",
-          "resolvedType": "string | string[]",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "style",
-          "type": "Partial<ITextMarkSpec>",
-          "required": false,
-          "description": "文本样式配置",
-          "expandedType": "Partial<ITextMarkSpec>",
-          "resolvedType": "Partial<ITextMarkSpec>",
-          "isSimple": false,
-          "dependencies": [
-            "Partial",
-            "ITextMarkSpec"
-          ]
-        },
-        {
-          "name": "labelBackground",
-          "type": "ICrosshairLabelBackgroundSpec",
-          "required": false,
-          "description": "文本背景相关配置",
-          "expandedType": "{\n  /** 是否显示背景 */\n  visible?: boolean;\n  /** 最小宽度，像素值 */\n  minWidth?: number;\n  /** 最大宽度，像素值 */\n  maxWidth?: number;\n  /** 内部边距 */\n  padding?: { [key: string]: any } | number | number[];\n  /** 标签背景的样式配置 */\n  style?: Partial<IRectMarkSpec>;\n}",
-          "resolvedType": "ICrosshairLabelBackgroundSpec",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairLabelBackgroundSpec"
-          ]
-        },
-        {
-          "name": "syncAxisLabelAngle",
-          "type": "boolean",
-          "required": false,
-          "description": "文本是否跟随轴标签的角度旋转",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 6 个属性，类型已完全展开",
-      "usageNote": "ICrosshairLabelSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ICrosshairLabelBackgroundSpec": {
-      "description": "crosshair 标签背景配置",
-      "typescriptCode": "interface ICrosshairLabelBackgroundSpec {\n  /** 是否显示背景 */\n  visible?: boolean;\n  /** 最小宽度，像素值 */\n  minWidth?: number;\n  /** 最大宽度，像素值 */\n  maxWidth?: number;\n  /** 内部边距 */\n  padding?: { [key: string]: any } | number | number[];\n  /** 标签背景的样式配置 */\n  style?: Partial<IRectMarkSpec>;\n}",
-      "properties": [
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": false,
-          "description": "是否显示背景",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "minWidth",
-          "type": "number",
-          "required": false,
-          "description": "最小宽度，像素值",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "maxWidth",
-          "type": "number",
-          "required": false,
-          "description": "最大宽度，像素值",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "padding",
-          "type": "IPadding | number | number[]",
-          "required": false,
-          "description": "内部边距",
-          "expandedType": "{ [key: string]: any } | number | number[]",
-          "resolvedType": "IPadding | number | number[]",
-          "isSimple": false,
-          "dependencies": [
-            "IPadding"
-          ]
-        },
-        {
-          "name": "style",
-          "type": "Partial<IRectMarkSpec>",
-          "required": false,
-          "description": "标签背景的样式配置",
-          "expandedType": "Partial<IRectMarkSpec>",
-          "resolvedType": "Partial<IRectMarkSpec>",
-          "isSimple": false,
-          "dependencies": [
-            "Partial",
-            "IRectMarkSpec"
-          ]
-        }
-      ],
-      "note": "包含 5 个属性，类型已完全展开",
-      "usageNote": "ICrosshairLabelBackgroundSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ITextMarkSpec": {
-      "description": "文本图元样式配置",
-      "typescriptCode": "interface ITextMarkSpec {\n  /** 字体大小 */\n  fontSize?: number;\n  /** 字体系列 */\n  fontFamily?: string;\n  /** 字体粗细 */\n  fontWeight?: string | number;\n  /** 字体样式 */\n  fontStyle?: \"normal\" | \"italic\" | \"oblique\";\n  /** 文本颜色 */\n  fill?: string;\n  /** 文本描边颜色 */\n  stroke?: string;\n  /** 描边宽度 */\n  lineWidth?: number;\n  /** 水平对齐 */\n  textAlign?: \"left\" | \"center\" | \"right\";\n  /** 垂直对齐 */\n  textBaseline?: \"top\" | \"middle\" | \"bottom\";\n  /** 行高 */\n  lineHeight?: number;\n  /** 透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
-      "properties": [
-        {
-          "name": "fontSize",
-          "type": "number",
-          "required": false,
-          "description": "字体大小",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fontFamily",
-          "type": "string",
-          "required": false,
-          "description": "字体系列",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fontWeight",
-          "type": "string | number",
-          "required": false,
-          "description": "字体粗细",
-          "expandedType": "string | number",
-          "resolvedType": "string | number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fontStyle",
-          "type": "\"normal\" | \"italic\" | \"oblique\"",
-          "required": false,
-          "description": "字体样式",
-          "expandedType": "\"normal\" | \"italic\" | \"oblique\"",
-          "resolvedType": "\"normal\" | \"italic\" | \"oblique\"",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fill",
-          "type": "string",
-          "required": false,
-          "description": "文本颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "stroke",
-          "type": "string",
-          "required": false,
-          "description": "文本描边颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineWidth",
-          "type": "number",
-          "required": false,
-          "description": "描边宽度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "textAlign",
-          "type": "\"left\" | \"center\" | \"right\"",
-          "required": false,
-          "description": "水平对齐",
-          "expandedType": "\"left\" | \"center\" | \"right\"",
-          "resolvedType": "\"left\" | \"center\" | \"right\"",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "textBaseline",
-          "type": "\"top\" | \"middle\" | \"bottom\"",
-          "required": false,
-          "description": "垂直对齐",
-          "expandedType": "\"top\" | \"middle\" | \"bottom\"",
-          "resolvedType": "\"top\" | \"middle\" | \"bottom\"",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineHeight",
-          "type": "number",
-          "required": false,
-          "description": "行高",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "opacity",
-          "type": "number",
-          "required": false,
-          "description": "透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": false,
-          "description": "是否可见",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 12 个属性，类型已完全展开",
-      "usageNote": "ITextMarkSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "IMarkLineSpec": {
-      "description": "参考线配置",
-      "typescriptCode": "interface IMarkLineSpec {\n  /** 参考线坐标点 */\n  coordinates?: { [key: string]: any } | { [key: string]: any } | { [key: string]: any }[];\n  /** 线条样式 */\n  line?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n};\n  /** 标签配置 */\n  label?: {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n};\n}",
-      "properties": [
-        {
-          "name": "coordinates",
-          "type": "{ x?: number | string; y?: number | string }[]",
-          "required": false,
-          "description": "参考线坐标点",
-          "expandedType": "{ [key: string]: any } | { [key: string]: any } | { [key: string]: any }[]",
-          "resolvedType": "{ x?: number | string; y?: number | string }[]",
-          "isSimple": false,
-          "dependencies": [
-            "{ x?: number",
-            "string; y?: number",
-            "string }"
-          ]
-        },
-        {
-          "name": "line",
-          "type": "ILineMarkSpec",
-          "required": false,
-          "description": "线条样式",
-          "expandedType": "{\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
-          "resolvedType": "ILineMarkSpec",
-          "isSimple": false,
-          "dependencies": [
-            "ILineMarkSpec"
-          ]
-        },
-        {
-          "name": "label",
-          "type": "ILabelSpec",
-          "required": false,
-          "description": "标签配置",
-          "expandedType": "{\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n}",
-          "resolvedType": "ILabelSpec",
-          "isSimple": false,
-          "dependencies": [
-            "ILabelSpec"
-          ]
-        }
-      ],
-      "note": "包含 3 个属性，类型已完全展开",
-      "usageNote": "IMarkLineSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "IMarkAreaSpec": {
-      "description": "参考区域配置",
-      "typescriptCode": "interface IMarkAreaSpec {\n  /** 区域坐标点 */\n  coordinates?: { [key: string]: any } | { [key: string]: any } | { [key: string]: any }[];\n  /** 区域样式 */\n  area?: {\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n};\n  /** 标签配置 */\n  label?: {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n};\n}",
-      "properties": [
-        {
-          "name": "coordinates",
-          "type": "{ x?: number | string; y?: number | string }[]",
-          "required": false,
-          "description": "区域坐标点",
-          "expandedType": "{ [key: string]: any } | { [key: string]: any } | { [key: string]: any }[]",
-          "resolvedType": "{ x?: number | string; y?: number | string }[]",
-          "isSimple": false,
-          "dependencies": [
-            "{ x?: number",
-            "string; y?: number",
-            "string }"
-          ]
-        },
-        {
-          "name": "area",
-          "type": "IAreaMarkSpec",
-          "required": false,
-          "description": "区域样式",
-          "expandedType": "{\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
-          "resolvedType": "IAreaMarkSpec",
-          "isSimple": false,
-          "dependencies": [
-            "IAreaMarkSpec"
-          ]
-        },
-        {
-          "name": "label",
-          "type": "ILabelSpec",
-          "required": false,
-          "description": "标签配置",
-          "expandedType": "{\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n}",
-          "resolvedType": "ILabelSpec",
-          "isSimple": false,
-          "dependencies": [
-            "ILabelSpec"
-          ]
-        }
-      ],
-      "note": "包含 3 个属性，类型已完全展开",
-      "usageNote": "IMarkAreaSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "IMarkPointSpec": {
-      "description": "参考点配置",
-      "typescriptCode": "interface IMarkPointSpec {\n  /** 参考点坐标 */\n  coordinates?: { [key: string]: any } | { [key: string]: any } | { [key: string]: any }[];\n  /** 点样式 */\n  symbol?: {\n  /** 符号类型 */\n  symbolType?: \"circle\" | \"square\" | \"triangle\" | \"diamond\" | \"cross\" | \"arrow\" | \"wedge\";\n  /** 符号大小 */\n  size?: number;\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n};\n  /** 标签配置 */\n  label?: {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n};\n}",
-      "properties": [
-        {
-          "name": "coordinates",
-          "type": "{ x?: number | string; y?: number | string }[]",
-          "required": false,
-          "description": "参考点坐标",
-          "expandedType": "{ [key: string]: any } | { [key: string]: any } | { [key: string]: any }[]",
-          "resolvedType": "{ x?: number | string; y?: number | string }[]",
-          "isSimple": false,
-          "dependencies": [
-            "{ x?: number",
-            "string; y?: number",
-            "string }"
-          ]
-        },
-        {
-          "name": "symbol",
-          "type": "ISymbolMarkSpec",
-          "required": false,
-          "description": "点样式",
-          "expandedType": "{\n  /** 符号类型 */\n  symbolType?: \"circle\" | \"square\" | \"triangle\" | \"diamond\" | \"cross\" | \"arrow\" | \"wedge\";\n  /** 符号大小 */\n  size?: number;\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
-          "resolvedType": "ISymbolMarkSpec",
-          "isSimple": false,
-          "dependencies": [
-            "ISymbolMarkSpec"
-          ]
-        },
-        {
-          "name": "label",
-          "type": "ILabelSpec",
-          "required": false,
-          "description": "标签配置",
-          "expandedType": "{\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n}",
-          "resolvedType": "ILabelSpec",
-          "isSimple": false,
-          "dependencies": [
-            "ILabelSpec"
-          ]
-        }
-      ],
-      "note": "包含 3 个属性，类型已完全展开",
-      "usageNote": "IMarkPointSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+    "{ extend: number }": {
+      "description": "{ extend: number } 类型定义",
+      "typescriptCode": "// { extend: number } 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "{ extend: number } 被 inheritanceTree 引用，但详细定义未提供"
     },
     "ICartesianAxisSpec": {
       "description": "笛卡尔坐标轴配置",
@@ -1750,285 +888,457 @@
           "expandedType": "boolean",
           "resolvedType": "boolean",
           "isSimple": true,
+          "dependencies": [],
+          "defaultValue": "true"
+        }
+      ],
+      "note": "包含 7 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "ICartesianAxisSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
+    },
+    "ICartesianCrosshairSpec": {
+      "description": "笛卡尔坐标系十字辅助线配置",
+      "typescriptCode": "interface ICartesianCrosshairSpec {\n  /** 是否和tooltip保持同步 */\n  followTooltip?: boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>;\n  /** 触发方式 */\n  trigger?: {\n  /** 触发方式 */\n  trigger: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n};\n  /** 隐藏crosshair的触发方式 */\n  triggerOff?: {\n  /** 触发方式 */\n  trigger: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n} | { [key: string]: any } | number;\n  /** 点击后锁定 */\n  lockAfterClick?: boolean;\n  /** crosshair 文本的显示层级 */\n  labelZIndex?: number;\n  /** crosshair 辅助图形的显示层级 */\n  gridZIndex?: number;\n  /** 笛卡尔坐标系下 x 轴上 crosshair 配置 */\n  xField?: {\n  /** 声明 crosshair 绑定的轴索引 */\n  bindingAxesIndex?: number[];\n  /** crosshair 初始化显示信息 */\n  defaultSelect?: {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: StringOrNumber;\n};\n  /** 是否可见 */\n  visible: boolean;\n  /** crosshair 辅助图形配置 */\n  line?: {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: { [key: string]: any };\n} | Omit<ICrosshairRectSpec, \"width\">;\n  /** crosshair 文本配置 */\n  label?: {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: { [key: string]: any };\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n};\n};\n  /** 笛卡尔坐标系下 y 轴上 crosshair 配置 */\n  yField?: {\n  /** 声明 crosshair 绑定的轴索引 */\n  bindingAxesIndex?: number[];\n  /** crosshair 初始化显示信息 */\n  defaultSelect?: {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: StringOrNumber;\n};\n  /** 是否可见 */\n  visible: boolean;\n  /** crosshair 辅助图形配置 */\n  line?: {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: { [key: string]: any };\n} | Omit<ICrosshairRectSpec, \"width\">;\n  /** crosshair 文本配置 */\n  label?: {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: { [key: string]: any };\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n};\n};\n}",
+      "properties": [
+        {
+          "name": "followTooltip",
+          "type": "boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>",
+          "required": false,
+          "description": "是否和tooltip保持同步",
+          "expandedType": "boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>",
+          "resolvedType": "boolean | Partial<ITooltipActiveTypeAsKeys<boolean, boolean, boolean>>",
+          "isSimple": false,
+          "dependencies": [
+            "Partial",
+            "ITooltipActiveTypeAsKeys"
+          ],
+          "since": "1.11.1"
+        },
+        {
+          "name": "trigger",
+          "type": "CrossHairTrigger",
+          "required": false,
+          "description": "触发方式",
+          "expandedType": "{\n  /** 触发方式 */\n  trigger: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n}",
+          "resolvedType": "CrossHairTrigger",
+          "isSimple": false,
+          "dependencies": [
+            "CrossHairTrigger"
+          ],
+          "defaultValue": "\"hover\""
+        },
+        {
+          "name": "triggerOff",
+          "type": "CrossHairTrigger | \"none\" | number",
+          "required": false,
+          "description": "隐藏crosshair的触发方式",
+          "expandedType": "{\n  /** 触发方式 */\n  trigger: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n} | { [key: string]: any } | number",
+          "resolvedType": "CrossHairTrigger | \"none\" | number",
+          "isSimple": false,
+          "dependencies": [
+            "CrossHairTrigger"
+          ]
+        },
+        {
+          "name": "lockAfterClick",
+          "type": "boolean",
+          "required": false,
+          "description": "点击后锁定",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "since": "1.9.0"
+        },
+        {
+          "name": "labelZIndex",
+          "type": "number",
+          "required": false,
+          "description": "crosshair 文本的显示层级",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "gridZIndex",
+          "type": "number",
+          "required": false,
+          "description": "crosshair 辅助图形的显示层级",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "xField",
+          "type": "ICrosshairCategoryFieldSpec",
+          "required": false,
+          "description": "笛卡尔坐标系下 x 轴上 crosshair 配置",
+          "expandedType": "{\n  /** 声明 crosshair 绑定的轴索引 */\n  bindingAxesIndex?: number[];\n  /** crosshair 初始化显示信息 */\n  defaultSelect?: {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: StringOrNumber;\n};\n  /** 是否可见 */\n  visible: boolean;\n  /** crosshair 辅助图形配置 */\n  line?: {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: { [key: string]: any };\n} | Omit<ICrosshairRectSpec, \"width\">;\n  /** crosshair 文本配置 */\n  label?: {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: { [key: string]: any };\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n};\n}",
+          "resolvedType": "ICrosshairCategoryFieldSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ICrosshairCategoryFieldSpec"
+          ]
+        },
+        {
+          "name": "yField",
+          "type": "ICrosshairCategoryFieldSpec",
+          "required": false,
+          "description": "笛卡尔坐标系下 y 轴上 crosshair 配置",
+          "expandedType": "{\n  /** 声明 crosshair 绑定的轴索引 */\n  bindingAxesIndex?: number[];\n  /** crosshair 初始化显示信息 */\n  defaultSelect?: {\n  /** 声明要显示数据的轴索引 */\n  axisIndex: number;\n  /** 声明显示的数据 */\n  datum: StringOrNumber;\n};\n  /** 是否可见 */\n  visible: boolean;\n  /** crosshair 辅助图形配置 */\n  line?: {\n  /** 是否显示辅助图形 */\n  visible?: boolean;\n  /** 辅助图形的类型设置为line */\n  type?: { [key: string]: any };\n  /** 线宽 */\n  width?: number;\n  /** 极坐标系下是否平滑 */\n  smooth?: boolean;\n  /** 辅助图形的样式配置 */\n  style?: { [key: string]: any };\n} | Omit<ICrosshairRectSpec, \"width\">;\n  /** crosshair 文本配置 */\n  label?: {\n  /** 十字准星辅助标签是否展示 */\n  visible?: boolean;\n  /** label 文本格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any } | string[];\n  /** 格式化模板 */\n  formatter?: string | string[];\n  /** 文本样式配置 */\n  style?: Partial<ITextMarkSpec>;\n  /** 文本背景相关配置 */\n  labelBackground?: { [key: string]: any };\n  /** 文本是否跟随轴标签的角度旋转 */\n  syncAxisLabelAngle?: boolean;\n};\n}",
+          "resolvedType": "ICrosshairCategoryFieldSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ICrosshairCategoryFieldSpec"
+          ]
+        }
+      ],
+      "note": "包含 8 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "ICartesianCrosshairSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
+    },
+    "IMarkLineSpec": {
+      "description": "参考线配置",
+      "typescriptCode": "interface IMarkLineSpec {\n  /** 参考线坐标点 */\n  coordinates?: { [key: string]: any } | { [key: string]: any } | { [key: string]: any }[];\n  /** 线条样式 */\n  line?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n};\n  /** 标签配置 */\n  label?: {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n};\n}",
+      "properties": [
+        {
+          "name": "coordinates",
+          "type": "{ x?: number | string; y?: number | string }[]",
+          "required": false,
+          "description": "参考线坐标点",
+          "expandedType": "{ [key: string]: any } | { [key: string]: any } | { [key: string]: any }[]",
+          "resolvedType": "{ x?: number | string; y?: number | string }[]",
+          "isSimple": false,
+          "dependencies": [
+            "{ x?: number",
+            "string; y?: number",
+            "string }"
+          ]
+        },
+        {
+          "name": "line",
+          "type": "ILineMarkSpec",
+          "required": false,
+          "description": "线条样式",
+          "expandedType": "{\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
+          "resolvedType": "ILineMarkSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ILineMarkSpec"
+          ]
+        },
+        {
+          "name": "label",
+          "type": "ILabelSpec",
+          "required": false,
+          "description": "标签配置",
+          "expandedType": "{\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n}",
+          "resolvedType": "ILabelSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ILabelSpec"
+          ]
+        }
+      ],
+      "note": "包含 3 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "IMarkLineSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
+    },
+    "IMarkAreaSpec": {
+      "description": "参考区域配置",
+      "typescriptCode": "interface IMarkAreaSpec {\n  /** 区域坐标点 */\n  coordinates?: { [key: string]: any } | { [key: string]: any } | { [key: string]: any }[];\n  /** 区域样式 */\n  area?: {\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n};\n  /** 标签配置 */\n  label?: {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n};\n}",
+      "properties": [
+        {
+          "name": "coordinates",
+          "type": "{ x?: number | string; y?: number | string }[]",
+          "required": false,
+          "description": "区域坐标点",
+          "expandedType": "{ [key: string]: any } | { [key: string]: any } | { [key: string]: any }[]",
+          "resolvedType": "{ x?: number | string; y?: number | string }[]",
+          "isSimple": false,
+          "dependencies": [
+            "{ x?: number",
+            "string; y?: number",
+            "string }"
+          ]
+        },
+        {
+          "name": "area",
+          "type": "IAreaMarkSpec",
+          "required": false,
+          "description": "区域样式",
+          "expandedType": "{\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
+          "resolvedType": "IAreaMarkSpec",
+          "isSimple": false,
+          "dependencies": [
+            "IAreaMarkSpec"
+          ]
+        },
+        {
+          "name": "label",
+          "type": "ILabelSpec",
+          "required": false,
+          "description": "标签配置",
+          "expandedType": "{\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n}",
+          "resolvedType": "ILabelSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ILabelSpec"
+          ]
+        }
+      ],
+      "note": "包含 3 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "IMarkAreaSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
+    },
+    "IMarkPointSpec": {
+      "description": "参考点配置",
+      "typescriptCode": "interface IMarkPointSpec {\n  /** 参考点坐标 */\n  coordinates?: { [key: string]: any } | { [key: string]: any } | { [key: string]: any }[];\n  /** 点样式 */\n  symbol?: {\n  /** 符号类型 */\n  symbolType?: \"circle\" | \"square\" | \"triangle\" | \"diamond\" | \"cross\" | \"arrow\" | \"wedge\";\n  /** 符号大小 */\n  size?: number;\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n};\n  /** 标签配置 */\n  label?: {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n};\n}",
+      "properties": [
+        {
+          "name": "coordinates",
+          "type": "{ x?: number | string; y?: number | string }[]",
+          "required": false,
+          "description": "参考点坐标",
+          "expandedType": "{ [key: string]: any } | { [key: string]: any } | { [key: string]: any }[]",
+          "resolvedType": "{ x?: number | string; y?: number | string }[]",
+          "isSimple": false,
+          "dependencies": [
+            "{ x?: number",
+            "string; y?: number",
+            "string }"
+          ]
+        },
+        {
+          "name": "symbol",
+          "type": "ISymbolMarkSpec",
+          "required": false,
+          "description": "点样式",
+          "expandedType": "{\n  /** 符号类型 */\n  symbolType?: \"circle\" | \"square\" | \"triangle\" | \"diamond\" | \"cross\" | \"arrow\" | \"wedge\";\n  /** 符号大小 */\n  size?: number;\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
+          "resolvedType": "ISymbolMarkSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ISymbolMarkSpec"
+          ]
+        },
+        {
+          "name": "label",
+          "type": "ILabelSpec",
+          "required": false,
+          "description": "标签配置",
+          "expandedType": "{\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n}",
+          "resolvedType": "ILabelSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ILabelSpec"
+          ]
+        }
+      ],
+      "note": "包含 3 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "IMarkPointSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
+    },
+    "IData": {
+      "description": "数据配置",
+      "typescriptCode": "interface IData {\n  /** 数据集ID */\n  id?: StringOrNumber;\n  /** 静态数据值 */\n  values?: any[];\n  /** 字段类型定义 */\n  fields?: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n}",
+      "properties": [
+        {
+          "name": "id",
+          "type": "StringOrNumber",
+          "required": false,
+          "description": "数据集ID",
+          "expandedType": "StringOrNumber",
+          "resolvedType": "StringOrNumber",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "values",
+          "type": "any[]",
+          "required": false,
+          "description": "静态数据值",
+          "expandedType": "any[]",
+          "resolvedType": "any[]",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "fields",
+          "type": "{ [key: string]: { type: \"number\" | \"string\" | \"boolean\" } }",
+          "required": false,
+          "description": "字段类型定义",
+          "expandedType": "{ [key: string]: any } | { [key: string]: any } | { [key: string]: any }",
+          "resolvedType": "{ [key: string]: { type: \"number\" | \"string\" | \"boolean\" } }",
+          "isSimple": false,
+          "dependencies": [
+            "{ [key: string]: { type: \"number\""
+          ]
+        }
+      ],
+      "note": "包含 3 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "IData 的完整类型定义，来自 inheritanceTree 依赖分析"
+    },
+    "ILayoutPaddingSpec": {
+      "description": "布局内边距配置",
+      "typescriptCode": "interface ILayoutPaddingSpec {\n  /** 左边距 */\n  left?: number;\n  /** 右边距 */\n  right?: number;\n  /** 上边距 */\n  top?: number;\n  /** 下边距 */\n  bottom?: number;\n}",
+      "properties": [
+        {
+          "name": "left",
+          "type": "number",
+          "required": false,
+          "description": "左边距",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "right",
+          "type": "number",
+          "required": false,
+          "description": "右边距",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "top",
+          "type": "number",
+          "required": false,
+          "description": "上边距",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "bottom",
+          "type": "number",
+          "required": false,
+          "description": "下边距",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
           "dependencies": []
         }
       ],
-      "note": "包含 7 个属性，类型已完全展开",
-      "usageNote": "ICartesianAxisSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+      "note": "包含 4 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "ILayoutPaddingSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
     },
-    "ILineMarkSpec": {
-      "description": "线条图元样式配置",
-      "typescriptCode": "interface ILineMarkSpec {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
+    "ITitleSpec": {
+      "description": "标题配置",
+      "typescriptCode": "interface ITitleSpec {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标题文本 */\n  text?: string;\n  /** 副标题文本 */\n  subtext?: string;\n  /** 对齐方式 */\n  align?: \"left\" | \"center\" | \"right\";\n}",
       "properties": [
-        {
-          "name": "stroke",
-          "type": "string",
-          "required": false,
-          "description": "线条颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "strokeOpacity",
-          "type": "number",
-          "required": false,
-          "description": "线条透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineWidth",
-          "type": "number",
-          "required": false,
-          "description": "线条宽度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineDash",
-          "type": "number[]",
-          "required": false,
-          "description": "虚线配置",
-          "expandedType": "number[]",
-          "resolvedType": "number[]",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineCap",
-          "type": "\"butt\" | \"round\" | \"square\"",
-          "required": false,
-          "description": "线条端点样式",
-          "expandedType": "\"butt\" | \"round\" | \"square\"",
-          "resolvedType": "\"butt\" | \"round\" | \"square\"",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineJoin",
-          "type": "\"miter\" | \"round\" | \"bevel\"",
-          "required": false,
-          "description": "线条连接样式",
-          "expandedType": "\"miter\" | \"round\" | \"bevel\"",
-          "resolvedType": "\"miter\" | \"round\" | \"bevel\"",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "opacity",
-          "type": "number",
-          "required": false,
-          "description": "整体透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
         {
           "name": "visible",
           "type": "boolean",
           "required": false,
-          "description": "是否可见",
+          "description": "是否显示",
           "expandedType": "boolean",
           "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "defaultValue": "true"
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "required": false,
+          "description": "标题文本",
+          "expandedType": "string",
+          "resolvedType": "string",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "subtext",
+          "type": "string",
+          "required": false,
+          "description": "副标题文本",
+          "expandedType": "string",
+          "resolvedType": "string",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "align",
+          "type": "\"left\" | \"center\" | \"right\"",
+          "required": false,
+          "description": "对齐方式",
+          "expandedType": "\"left\" | \"center\" | \"right\"",
+          "resolvedType": "\"left\" | \"center\" | \"right\"",
           "isSimple": true,
           "dependencies": []
         }
       ],
-      "note": "包含 8 个属性，类型已完全展开",
-      "usageNote": "ILineMarkSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+      "note": "包含 4 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "ITitleSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
     },
-    "IAreaMarkSpec": {
-      "description": "区域图元样式配置",
-      "typescriptCode": "interface IAreaMarkSpec {\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
+    "ILegendSpec": {
+      "description": "图例配置",
+      "typescriptCode": "interface ILegendSpec {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 图例位置 */\n  orient?: \"left\" | \"right\" | \"top\" | \"bottom\";\n  /** 图例对齐位置 */\n  position?: \"start\" | \"middle\" | \"end\";\n}",
       "properties": [
-        {
-          "name": "fill",
-          "type": "string",
-          "required": false,
-          "description": "填充颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fillOpacity",
-          "type": "number",
-          "required": false,
-          "description": "填充透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "stroke",
-          "type": "string",
-          "required": false,
-          "description": "边框颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "strokeOpacity",
-          "type": "number",
-          "required": false,
-          "description": "边框透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineWidth",
-          "type": "number",
-          "required": false,
-          "description": "边框宽度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineDash",
-          "type": "number[]",
-          "required": false,
-          "description": "虚线配置",
-          "expandedType": "number[]",
-          "resolvedType": "number[]",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "opacity",
-          "type": "number",
-          "required": false,
-          "description": "整体透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
         {
           "name": "visible",
           "type": "boolean",
           "required": false,
-          "description": "是否可见",
+          "description": "是否显示",
           "expandedType": "boolean",
           "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "defaultValue": "true"
+        },
+        {
+          "name": "orient",
+          "type": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "required": false,
+          "description": "图例位置",
+          "expandedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "resolvedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "isSimple": true,
+          "dependencies": []
+        },
+        {
+          "name": "position",
+          "type": "\"start\" | \"middle\" | \"end\"",
+          "required": false,
+          "description": "图例对齐位置",
+          "expandedType": "\"start\" | \"middle\" | \"end\"",
+          "resolvedType": "\"start\" | \"middle\" | \"end\"",
           "isSimple": true,
           "dependencies": []
         }
       ],
-      "note": "包含 8 个属性，类型已完全展开",
-      "usageNote": "IAreaMarkSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+      "note": "包含 3 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "ILegendSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
     },
-    "ISymbolMarkSpec": {
-      "description": "符号图元样式配置",
-      "typescriptCode": "interface ISymbolMarkSpec {\n  /** 符号类型 */\n  symbolType?: \"circle\" | \"square\" | \"triangle\" | \"diamond\" | \"cross\" | \"arrow\" | \"wedge\";\n  /** 符号大小 */\n  size?: number;\n  /** 填充颜色 */\n  fill?: string;\n  /** 填充透明度 */\n  fillOpacity?: number;\n  /** 边框颜色 */\n  stroke?: string;\n  /** 边框透明度 */\n  strokeOpacity?: number;\n  /** 边框宽度 */\n  lineWidth?: number;\n  /** 整体透明度 */\n  opacity?: number;\n  /** 是否可见 */\n  visible?: boolean;\n}",
+    "ITooltipSpec": {
+      "description": "提示框配置",
+      "typescriptCode": "interface ITooltipSpec {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 触发方式 */\n  trigger?: \"hover\" | \"click\" | \"none\";\n}",
       "properties": [
-        {
-          "name": "symbolType",
-          "type": "\"circle\" | \"square\" | \"triangle\" | \"diamond\" | \"cross\" | \"arrow\" | \"wedge\"",
-          "required": false,
-          "description": "符号类型",
-          "expandedType": "\"circle\" | \"square\" | \"triangle\" | \"diamond\" | \"cross\" | \"arrow\" | \"wedge\"",
-          "resolvedType": "\"circle\" | \"square\" | \"triangle\" | \"diamond\" | \"cross\" | \"arrow\" | \"wedge\"",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "size",
-          "type": "number",
-          "required": false,
-          "description": "符号大小",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fill",
-          "type": "string",
-          "required": false,
-          "description": "填充颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fillOpacity",
-          "type": "number",
-          "required": false,
-          "description": "填充透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "stroke",
-          "type": "string",
-          "required": false,
-          "description": "边框颜色",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "strokeOpacity",
-          "type": "number",
-          "required": false,
-          "description": "边框透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "lineWidth",
-          "type": "number",
-          "required": false,
-          "description": "边框宽度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "opacity",
-          "type": "number",
-          "required": false,
-          "description": "整体透明度",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
         {
           "name": "visible",
           "type": "boolean",
           "required": false,
-          "description": "是否可见",
+          "description": "是否显示",
           "expandedType": "boolean",
           "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "defaultValue": "true"
+        },
+        {
+          "name": "trigger",
+          "type": "\"hover\" | \"click\" | \"none\"",
+          "required": false,
+          "description": "触发方式",
+          "expandedType": "\"hover\" | \"click\" | \"none\"",
+          "resolvedType": "\"hover\" | \"click\" | \"none\"",
           "isSimple": true,
           "dependencies": []
         }
       ],
-      "note": "包含 9 个属性，类型已完全展开",
-      "usageNote": "ISymbolMarkSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+      "note": "包含 2 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "ITooltipSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
     },
     "IMarkSpec": {
       "description": "通用图元配置规范",
@@ -2077,46 +1387,8 @@
           ]
         }
       ],
-      "note": "包含 4 个属性，类型已完全展开",
-      "usageNote": "IMarkSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "IMarkStateSpec": {
-      "description": "图元状态样式配置",
-      "typescriptCode": "interface IMarkStateSpec {\n  /** 悬浮状态样式 */\n  hover?: any;\n  /** 选中状态样式 */\n  selected?: any;\n  /** 禁用状态样式 */\n  disabled?: any;\n}",
-      "properties": [
-        {
-          "name": "hover",
-          "type": "any",
-          "required": false,
-          "description": "悬浮状态样式",
-          "expandedType": "any",
-          "resolvedType": "any",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "selected",
-          "type": "any",
-          "required": false,
-          "description": "选中状态样式",
-          "expandedType": "any",
-          "resolvedType": "any",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "disabled",
-          "type": "any",
-          "required": false,
-          "description": "禁用状态样式",
-          "expandedType": "any",
-          "resolvedType": "any",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 3 个属性，类型已完全展开",
-      "usageNote": "IMarkStateSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+      "note": "包含 4 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "IMarkSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
     },
     "IRectMarkSpec": {
       "description": "矩形图元样式配置，用于柱状图柱体",
@@ -2193,8 +1465,8 @@
           "dependencies": []
         }
       ],
-      "note": "包含 7 个属性，类型已完全展开",
-      "usageNote": "IRectMarkSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+      "note": "包含 7 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "IRectMarkSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
     },
     "IBarBackgroundSpec": {
       "description": "柱状背景图元配置",
@@ -2211,268 +1483,8 @@
           "dependencies": []
         }
       ],
-      "note": "包含 1 个属性，类型已完全展开",
-      "usageNote": "IBarBackgroundSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "IStackCornerRadiusCallback": {
-      "description": "堆叠柱圆角回调函数配置",
-      "typescriptCode": "interface IStackCornerRadiusCallback {\n  /** 圆角回调函数 */\n  callback: { [key: string]: any } | number[];\n}",
-      "properties": [
-        {
-          "name": "callback",
-          "type": "(attr: IRectGraphicAttribute, datum: Datum, ctx: ISeriesMarkAttributeContext) => number | number[]",
-          "required": true,
-          "description": "圆角回调函数",
-          "expandedType": "{ [key: string]: any } | number[]",
-          "resolvedType": "(attr: IRectGraphicAttribute, datum: Datum, ctx: ISeriesMarkAttributeContext) => number | number[]",
-          "isSimple": false,
-          "dependencies": [
-            "(attr: IRectGraphicAttribute, datum: Datum, ctx: ISeriesMarkAttributeContext) => number"
-          ]
-        }
-      ],
-      "note": "包含 1 个属性，类型已完全展开",
-      "usageNote": "IStackCornerRadiusCallback 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "IData": {
-      "description": "数据配置",
-      "typescriptCode": "interface IData {\n  /** 数据集ID */\n  id?: string | number;\n  /** 静态数据值 */\n  values?: any[];\n  /** 字段类型定义 */\n  fields?: { [key: string]: any } | { [key: string]: any } | { [key: string]: any };\n}",
-      "properties": [
-        {
-          "name": "id",
-          "type": "StringOrNumber",
-          "required": false,
-          "description": "数据集ID",
-          "expandedType": "string | number",
-          "resolvedType": "StringOrNumber",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "values",
-          "type": "any[]",
-          "required": false,
-          "description": "静态数据值",
-          "expandedType": "any[]",
-          "resolvedType": "any[]",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "fields",
-          "type": "{ [key: string]: { type: \"number\" | \"string\" | \"boolean\" } }",
-          "required": false,
-          "description": "字段类型定义",
-          "expandedType": "{ [key: string]: any } | { [key: string]: any } | { [key: string]: any }",
-          "resolvedType": "{ [key: string]: { type: \"number\" | \"string\" | \"boolean\" } }",
-          "isSimple": false,
-          "dependencies": [
-            "{ [key: string]: { type: \"number\""
-          ]
-        }
-      ],
-      "note": "包含 3 个属性，类型已完全展开",
-      "usageNote": "IData 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ILayoutPaddingSpec": {
-      "description": "布局内边距配置",
-      "typescriptCode": "interface ILayoutPaddingSpec {\n  /** 左边距 */\n  left?: number;\n  /** 右边距 */\n  right?: number;\n  /** 上边距 */\n  top?: number;\n  /** 下边距 */\n  bottom?: number;\n}",
-      "properties": [
-        {
-          "name": "left",
-          "type": "number",
-          "required": false,
-          "description": "左边距",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "right",
-          "type": "number",
-          "required": false,
-          "description": "右边距",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "top",
-          "type": "number",
-          "required": false,
-          "description": "上边距",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "bottom",
-          "type": "number",
-          "required": false,
-          "description": "下边距",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 4 个属性，类型已完全展开",
-      "usageNote": "ILayoutPaddingSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ITitleSpec": {
-      "description": "标题配置",
-      "typescriptCode": "interface ITitleSpec {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标题文本 */\n  text?: string;\n  /** 副标题文本 */\n  subtext?: string;\n  /** 对齐方式 */\n  align?: \"left\" | \"center\" | \"right\";\n}",
-      "properties": [
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": false,
-          "description": "是否显示",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "required": false,
-          "description": "标题文本",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "subtext",
-          "type": "string",
-          "required": false,
-          "description": "副标题文本",
-          "expandedType": "string",
-          "resolvedType": "string",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "align",
-          "type": "\"left\" | \"center\" | \"right\"",
-          "required": false,
-          "description": "对齐方式",
-          "expandedType": "\"left\" | \"center\" | \"right\"",
-          "resolvedType": "\"left\" | \"center\" | \"right\"",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 4 个属性，类型已完全展开",
-      "usageNote": "ITitleSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ILegendSpec": {
-      "description": "图例配置",
-      "typescriptCode": "interface ILegendSpec {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 图例位置 */\n  orient?: \"left\" | \"right\" | \"top\" | \"bottom\";\n  /** 图例对齐位置 */\n  position?: \"start\" | \"middle\" | \"end\";\n}",
-      "properties": [
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": false,
-          "description": "是否显示",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "orient",
-          "type": "\"left\" | \"right\" | \"top\" | \"bottom\"",
-          "required": false,
-          "description": "图例位置",
-          "expandedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
-          "resolvedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "position",
-          "type": "\"start\" | \"middle\" | \"end\"",
-          "required": false,
-          "description": "图例对齐位置",
-          "expandedType": "\"start\" | \"middle\" | \"end\"",
-          "resolvedType": "\"start\" | \"middle\" | \"end\"",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 3 个属性，类型已完全展开",
-      "usageNote": "ILegendSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ITooltipSpec": {
-      "description": "提示框配置",
-      "typescriptCode": "interface ITooltipSpec {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 触发方式 */\n  trigger?: \"hover\" | \"click\" | \"none\";\n}",
-      "properties": [
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": false,
-          "description": "是否显示",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "trigger",
-          "type": "\"hover\" | \"click\" | \"none\"",
-          "required": false,
-          "description": "触发方式",
-          "expandedType": "\"hover\" | \"click\" | \"none\"",
-          "resolvedType": "\"hover\" | \"click\" | \"none\"",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 2 个属性，类型已完全展开",
-      "usageNote": "ITooltipSpec 的完整类型定义，所有子类型已展开便于大模型理解"
-    },
-    "ILabelSpec": {
-      "description": "标签配置",
-      "typescriptCode": "interface ILabelSpec {\n  /** 是否显示 */\n  visible?: boolean;\n  /** 标签位置 */\n  position?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\";\n  /** 偏移距离 */\n  offset?: number;\n}",
-      "properties": [
-        {
-          "name": "visible",
-          "type": "boolean",
-          "required": false,
-          "description": "是否显示",
-          "expandedType": "boolean",
-          "resolvedType": "boolean",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "position",
-          "type": "\"top\" | \"bottom\" | \"left\" | \"right\" | \"center\"",
-          "required": false,
-          "description": "标签位置",
-          "expandedType": "\"top\" | \"bottom\" | \"left\" | \"right\" | \"center\"",
-          "resolvedType": "\"top\" | \"bottom\" | \"left\" | \"right\" | \"center\"",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "offset",
-          "type": "number",
-          "required": false,
-          "description": "偏移距离",
-          "expandedType": "number",
-          "resolvedType": "number",
-          "isSimple": true,
-          "dependencies": []
-        }
-      ],
-      "note": "包含 3 个属性，类型已完全展开",
-      "usageNote": "ILabelSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+      "note": "包含 1 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "IBarBackgroundSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
     },
     "IMultiLabelSpec": {
       "description": "多标签配置，支持柱图的复杂标签位置",
@@ -2486,7 +1498,8 @@
           "expandedType": "boolean",
           "resolvedType": "boolean",
           "isSimple": true,
-          "dependencies": []
+          "dependencies": [],
+          "defaultValue": "true"
         },
         {
           "name": "position",
@@ -2509,14 +1522,90 @@
           "dependencies": []
         }
       ],
-      "note": "包含 3 个属性，类型已完全展开",
-      "usageNote": "IMultiLabelSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+      "note": "包含 3 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "IMultiLabelSpec 的完整类型定义，来自 inheritanceTree 依赖分析"
+    },
+    "(number": {
+      "description": "(number 类型定义",
+      "typescriptCode": "// (number 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "(number 被 inheritanceTree 引用，但详细定义未提供"
+    },
+    "string)": {
+      "description": "string) 类型定义",
+      "typescriptCode": "// string) 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "string) 被 inheritanceTree 引用，但详细定义未提供"
+    },
+    "IStackCornerRadiusCallback": {
+      "description": "堆叠柱圆角回调函数配置",
+      "typescriptCode": "interface IStackCornerRadiusCallback {\n  /** 圆角回调函数 */\n  callback: { [key: string]: any } | number[];\n}",
+      "properties": [
+        {
+          "name": "callback",
+          "type": "(attr: IRectGraphicAttribute, datum: Datum, ctx: ISeriesMarkAttributeContext) => number | number[]",
+          "required": true,
+          "description": "圆角回调函数",
+          "expandedType": "{ [key: string]: any } | number[]",
+          "resolvedType": "(attr: IRectGraphicAttribute, datum: Datum, ctx: ISeriesMarkAttributeContext) => number | number[]",
+          "isSimple": false,
+          "dependencies": [
+            "(attr: IRectGraphicAttribute, datum: Datum, ctx: ISeriesMarkAttributeContext) => number"
+          ]
+        }
+      ],
+      "note": "包含 1 个属性，从 inheritanceTree 依赖中提取",
+      "usageNote": "IStackCornerRadiusCallback 的完整类型定义，来自 inheritanceTree 依赖分析"
+    },
+    "IDataType": {
+      "description": "IDataType 类型定义",
+      "typescriptCode": "// IDataType 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "IDataType 被 inheritanceTree 引用，但详细定义未提供"
+    },
+    "IHoverSpec": {
+      "description": "IHoverSpec 类型定义",
+      "typescriptCode": "// IHoverSpec 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "IHoverSpec 被 inheritanceTree 引用，但详细定义未提供"
+    },
+    "ISelectSpec": {
+      "description": "ISelectSpec 类型定义",
+      "typescriptCode": "// ISelectSpec 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "ISelectSpec 被 inheritanceTree 引用，但详细定义未提供"
+    },
+    "IStateAnimateSpec": {
+      "description": "IStateAnimateSpec 类型定义",
+      "typescriptCode": "// IStateAnimateSpec 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "IStateAnimateSpec 被 inheritanceTree 引用，但详细定义未提供"
+    },
+    "IMarkAnimateSpec": {
+      "description": "IMarkAnimateSpec 类型定义",
+      "typescriptCode": "// IMarkAnimateSpec 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "IMarkAnimateSpec 被 inheritanceTree 引用，但详细定义未提供"
+    },
+    "ICommonStateAnimateSpec": {
+      "description": "ICommonStateAnimateSpec 类型定义",
+      "typescriptCode": "// ICommonStateAnimateSpec 类型需要从源码中进一步解析",
+      "properties": [],
+      "note": "此类型定义需要从源码中进一步解析",
+      "usageNote": "ICommonStateAnimateSpec 被 inheritanceTree 引用，但详细定义未提供"
     }
   },
   "statistics": {
     "totalInterfaces": 11,
     "totalProperties": 63,
     "simpleTypes": 0,
-    "complexTypes": 30
+    "complexTypes": 25
   }
 }
