@@ -298,7 +298,10 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     return (
       dataToPosition(this.getDatumPositionValues(datum, this._fromField + '_xField'), {
         bandPosition: this._bandPosition
-      }) + (allowExtend && (!datum.isExtend || datum.isExtend === 'left') ? -(bandSize + dotSize) / 2 : 0)
+      }) +
+      (allowExtend && (!datum.isExtend || datum.isExtend === 'left')
+        ? -(array(bandSize)[0] + (dotSize as number)) / 2
+        : 0)
     );
   }
 
