@@ -260,10 +260,10 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
         imageLabelMark,
         {
           x: datum => {
-            return (this.dataToPositionXFrom(datum) + this.dataToPositionXTo(datum)) / 2 - width / 2;
+            return (this.dataToPositionXFrom(datum) + this.dataToPositionXTo(datum)) / 2 - (width as number) / 2;
           },
           y: datum => {
-            return (this.dataToPositionYFrom(datum) + this.dataToPositionYTo(datum)) / 2 - height / 2;
+            return (this.dataToPositionYFrom(datum) + this.dataToPositionYTo(datum)) / 2 - (height as number) / 2;
           },
           width,
           height,
