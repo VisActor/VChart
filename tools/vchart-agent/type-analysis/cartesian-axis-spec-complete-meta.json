@@ -1,0 +1,1389 @@
+{
+  "metadata": {
+    "name": "ICartesianAxisSpec",
+    "description": "笛卡尔坐标轴规范完整分析，包含所有轴类型和复杂类型的详细定义",
+    "version": "1.0.0",
+    "generatedAt": "2025-08-04T03:06:40.644Z",
+    "purpose": "为大模型提供完整的坐标轴类型信息，支持精确的VChart配置代码生成",
+    "features": [
+      "支持5种轴类型：线性轴、带状轴、时间轴、对数轴、双曲正弦轴",
+      "提供完整的属性定义和类型展开",
+      "包含所有复杂类型的详细规范",
+      "支持属性分类和默认值信息"
+    ]
+  },
+  "axisTypes": {
+    "ICartesianLinearAxisSpec": {
+      "description": "线性轴配置，用于连续数值数据",
+      "typescriptCode": "interface ICartesianLinearAxisSpec {\n  /** 轴类型，线性轴为 \"linear\" */\n  type?: \"linear\";\n  /** 坐标轴的位置 */\n  orient: \"left\" | \"right\" | \"top\" | \"bottom\";\n  /** 是否显示坐标轴 */\n  visible?: boolean;\n  /** 是否开启反向坐标轴 */\n  inverse?: boolean;\n  /** 最小值，优先级高于 zero，nice */\n  min?: number;\n  /** 最大值，优先级高于 zero，nice */\n  max?: number;\n  /** 轴的渲染范围 */\n  range?: [number, number];\n  /** 轴的数据范围 */\n  domain?: [number, number];\n  /** 是否包含0值 */\n  zero?: boolean;\n  /** 是否对轴的范围进行友好处理 */\n  nice?: boolean;\n  /** 轴刻度线配置 */\n  tick?: ITickSpec;\n  /** 子刻度线配置 */\n  subTick?: ISubTickSpec;\n  /** 期望的刻度数量 */\n  tickCount?: number;\n  /** 刻度间隔 */\n  tickStep?: number;\n  /** 网格线配置 */\n  grid?: IGridSpec;\n  /** 子网格线配置 */\n  subGrid?: IGridSpec;\n  /** 轴线配置 */\n  domainLine?: IDomainLineSpec;\n  /** 轴标签配置 */\n  label?: ILabelSpec;\n  /** 轴标题配置 */\n  title?: ITitleSpec;\n}",
+      "properties": [
+        {
+          "name": "type",
+          "type": "\"linear\"",
+          "required": false,
+          "description": "轴类型，线性轴为 \"linear\"",
+          "expandedType": "\"linear\"",
+          "resolvedType": "\"linear\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置"
+        },
+        {
+          "name": "orient",
+          "type": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "required": true,
+          "description": "坐标轴的位置",
+          "expandedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "resolvedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置"
+        },
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "description": "是否显示坐标轴",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "inverse",
+          "type": "boolean",
+          "required": false,
+          "description": "是否开启反向坐标轴",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "false"
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false,
+          "description": "最小值，优先级高于 zero，nice",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "数值范围"
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "description": "最大值，优先级高于 zero，nice",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "数值范围"
+        },
+        {
+          "name": "range",
+          "type": "[number, number]",
+          "required": false,
+          "description": "轴的渲染范围",
+          "expandedType": "[number, number]",
+          "resolvedType": "[number, number]",
+          "isSimple": false,
+          "dependencies": [
+            "[number, number]"
+          ],
+          "category": "数值范围"
+        },
+        {
+          "name": "domain",
+          "type": "[number, number]",
+          "required": false,
+          "description": "轴的数据范围",
+          "expandedType": "[number, number]",
+          "resolvedType": "[number, number]",
+          "isSimple": false,
+          "dependencies": [
+            "[number, number]"
+          ],
+          "category": "数值范围"
+        },
+        {
+          "name": "zero",
+          "type": "boolean",
+          "required": false,
+          "description": "是否包含0值",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "数值范围",
+          "defaultValue": "true"
+        },
+        {
+          "name": "nice",
+          "type": "boolean",
+          "required": false,
+          "description": "是否对轴的范围进行友好处理",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "数值范围",
+          "defaultValue": "true"
+        },
+        {
+          "name": "tick",
+          "type": "ITickSpec",
+          "required": false,
+          "description": "轴刻度线配置",
+          "expandedType": "ITickSpec",
+          "resolvedType": "ITickSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ITickSpec"
+          ],
+          "category": "刻度配置"
+        },
+        {
+          "name": "subTick",
+          "type": "ISubTickSpec",
+          "required": false,
+          "description": "子刻度线配置",
+          "expandedType": "ISubTickSpec",
+          "resolvedType": "ISubTickSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ISubTickSpec"
+          ],
+          "category": "刻度配置"
+        },
+        {
+          "name": "tickCount",
+          "type": "number",
+          "required": false,
+          "description": "期望的刻度数量",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "刻度配置"
+        },
+        {
+          "name": "tickStep",
+          "type": "number",
+          "required": false,
+          "description": "刻度间隔",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "刻度配置"
+        },
+        {
+          "name": "grid",
+          "type": "IGridSpec",
+          "required": false,
+          "description": "网格线配置",
+          "expandedType": "IGridSpec",
+          "resolvedType": "IGridSpec",
+          "isSimple": false,
+          "dependencies": [
+            "IGridSpec"
+          ],
+          "category": "网格配置"
+        },
+        {
+          "name": "subGrid",
+          "type": "IGridSpec",
+          "required": false,
+          "description": "子网格线配置",
+          "expandedType": "IGridSpec",
+          "resolvedType": "IGridSpec",
+          "isSimple": false,
+          "dependencies": [
+            "IGridSpec"
+          ],
+          "category": "网格配置"
+        },
+        {
+          "name": "domainLine",
+          "type": "IDomainLineSpec",
+          "required": false,
+          "description": "轴线配置",
+          "expandedType": "IDomainLineSpec",
+          "resolvedType": "IDomainLineSpec",
+          "isSimple": false,
+          "dependencies": [
+            "IDomainLineSpec"
+          ],
+          "category": "轴线配置"
+        },
+        {
+          "name": "label",
+          "type": "ILabelSpec",
+          "required": false,
+          "description": "轴标签配置",
+          "expandedType": "ILabelSpec",
+          "resolvedType": "ILabelSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ILabelSpec"
+          ],
+          "category": "标签配置"
+        },
+        {
+          "name": "title",
+          "type": "ITitleSpec",
+          "required": false,
+          "description": "轴标题配置",
+          "expandedType": "ITitleSpec",
+          "resolvedType": "ITitleSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ITitleSpec"
+          ],
+          "category": "标题配置"
+        }
+      ],
+      "usageNote": "ICartesianLinearAxisSpec 的完整类型定义，支持各种轴配置选项"
+    },
+    "ICartesianBandAxisSpec": {
+      "description": "带状轴配置，用于离散分类数据",
+      "typescriptCode": "interface ICartesianBandAxisSpec {\n  /** 轴类型，带状轴为 \"band\" */\n  type?: \"band\";\n  /** 坐标轴的位置 */\n  orient: \"left\" | \"right\" | \"top\" | \"bottom\";\n  /** 是否显示坐标轴 */\n  visible?: boolean;\n  /** 内边距比例 */\n  paddingInner?: number;\n  /** 外边距比例 */\n  paddingOuter?: number;\n  /** 固定带宽 */\n  bandSize?: number;\n  /** 轴的数据范围 */\n  domain?: string[];\n  /** 轴的渲染范围 */\n  range?: [number, number];\n  /** 轴刻度线配置 */\n  tick?: ITickSpec;\n  /** 网格线配置 */\n  grid?: IGridSpec;\n  /** 轴线配置 */\n  domainLine?: IDomainLineSpec;\n  /** 轴标签配置 */\n  label?: ILabelSpec;\n  /** 轴标题配置 */\n  title?: ITitleSpec;\n}",
+      "properties": [
+        {
+          "name": "type",
+          "type": "\"band\"",
+          "required": false,
+          "description": "轴类型，带状轴为 \"band\"",
+          "expandedType": "\"band\"",
+          "resolvedType": "\"band\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置"
+        },
+        {
+          "name": "orient",
+          "type": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "required": true,
+          "description": "坐标轴的位置",
+          "expandedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "resolvedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置"
+        },
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "description": "是否显示坐标轴",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "paddingInner",
+          "type": "number",
+          "required": false,
+          "description": "内边距比例",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "带状配置",
+          "defaultValue": "0.1"
+        },
+        {
+          "name": "paddingOuter",
+          "type": "number",
+          "required": false,
+          "description": "外边距比例",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "带状配置",
+          "defaultValue": "0.1"
+        },
+        {
+          "name": "bandSize",
+          "type": "number",
+          "required": false,
+          "description": "固定带宽",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "带状配置"
+        },
+        {
+          "name": "domain",
+          "type": "string[]",
+          "required": false,
+          "description": "轴的数据范围",
+          "expandedType": "string[]",
+          "resolvedType": "string[]",
+          "isSimple": false,
+          "dependencies": [],
+          "category": "数据配置"
+        },
+        {
+          "name": "range",
+          "type": "[number, number]",
+          "required": false,
+          "description": "轴的渲染范围",
+          "expandedType": "[number, number]",
+          "resolvedType": "[number, number]",
+          "isSimple": false,
+          "dependencies": [
+            "[number, number]"
+          ],
+          "category": "数据配置"
+        },
+        {
+          "name": "tick",
+          "type": "ITickSpec",
+          "required": false,
+          "description": "轴刻度线配置",
+          "expandedType": "ITickSpec",
+          "resolvedType": "ITickSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ITickSpec"
+          ],
+          "category": "刻度配置"
+        },
+        {
+          "name": "grid",
+          "type": "IGridSpec",
+          "required": false,
+          "description": "网格线配置",
+          "expandedType": "IGridSpec",
+          "resolvedType": "IGridSpec",
+          "isSimple": false,
+          "dependencies": [
+            "IGridSpec"
+          ],
+          "category": "网格配置"
+        },
+        {
+          "name": "domainLine",
+          "type": "IDomainLineSpec",
+          "required": false,
+          "description": "轴线配置",
+          "expandedType": "IDomainLineSpec",
+          "resolvedType": "IDomainLineSpec",
+          "isSimple": false,
+          "dependencies": [
+            "IDomainLineSpec"
+          ],
+          "category": "轴线配置"
+        },
+        {
+          "name": "label",
+          "type": "ILabelSpec",
+          "required": false,
+          "description": "轴标签配置",
+          "expandedType": "ILabelSpec",
+          "resolvedType": "ILabelSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ILabelSpec"
+          ],
+          "category": "标签配置"
+        },
+        {
+          "name": "title",
+          "type": "ITitleSpec",
+          "required": false,
+          "description": "轴标题配置",
+          "expandedType": "ITitleSpec",
+          "resolvedType": "ITitleSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ITitleSpec"
+          ],
+          "category": "标题配置"
+        }
+      ],
+      "usageNote": "ICartesianBandAxisSpec 的完整类型定义，支持各种轴配置选项"
+    },
+    "ICartesianTimeAxisSpec": {
+      "description": "时间轴配置，用于时间序列数据",
+      "typescriptCode": "interface ICartesianTimeAxisSpec {\n  /** 轴类型，时间轴为 \"time\" */\n  type?: \"time\";\n  /** 坐标轴的位置 */\n  orient: \"left\" | \"right\" | \"top\" | \"bottom\";\n  /** 是否显示坐标轴 */\n  visible?: boolean;\n  /** 轴的层级配置 */\n  layers?: ITimeLayerSpec[];\n  /** 期望的刻度数量 */\n  tickCount?: number;\n  /** 轴的数据范围 */\n  domain?: [Date, Date] | [number, number];\n  /** 轴的渲染范围 */\n  range?: [number, number];\n  /** 轴刻度线配置 */\n  tick?: ITickSpec;\n  /** 子刻度线配置 */\n  subTick?: ISubTickSpec;\n  /** 网格线配置 */\n  grid?: IGridSpec;\n  /** 子网格线配置 */\n  subGrid?: IGridSpec;\n  /** 轴线配置 */\n  domainLine?: IDomainLineSpec;\n  /** 轴标签配置 */\n  label?: ILabelSpec;\n  /** 轴标题配置 */\n  title?: ITitleSpec;\n}",
+      "properties": [
+        {
+          "name": "type",
+          "type": "\"time\"",
+          "required": false,
+          "description": "轴类型，时间轴为 \"time\"",
+          "expandedType": "\"time\"",
+          "resolvedType": "\"time\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置"
+        },
+        {
+          "name": "orient",
+          "type": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "required": true,
+          "description": "坐标轴的位置",
+          "expandedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "resolvedType": "\"left\" | \"right\" | \"top\" | \"bottom\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置"
+        },
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "description": "是否显示坐标轴",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "layers",
+          "type": "ITimeLayerSpec[]",
+          "required": false,
+          "description": "轴的层级配置",
+          "expandedType": "ITimeLayerSpec[]",
+          "resolvedType": "ITimeLayerSpec[]",
+          "isSimple": false,
+          "dependencies": [
+            "ITimeLayerSpec",
+            "ITimeLayerSpec"
+          ],
+          "category": "时间配置"
+        },
+        {
+          "name": "tickCount",
+          "type": "number",
+          "required": false,
+          "description": "期望的刻度数量",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "时间配置"
+        },
+        {
+          "name": "domain",
+          "type": "[Date, Date] | [number, number]",
+          "required": false,
+          "description": "轴的数据范围",
+          "expandedType": "[Date, Date] | [number, number]",
+          "resolvedType": "[Date, Date] | [number, number]",
+          "isSimple": false,
+          "dependencies": [
+            "[Date, Date]",
+            "[Date, Date]",
+            "[number, number]",
+            "[number, number]"
+          ],
+          "category": "数据配置"
+        },
+        {
+          "name": "range",
+          "type": "[number, number]",
+          "required": false,
+          "description": "轴的渲染范围",
+          "expandedType": "[number, number]",
+          "resolvedType": "[number, number]",
+          "isSimple": false,
+          "dependencies": [
+            "[number, number]"
+          ],
+          "category": "数据配置"
+        },
+        {
+          "name": "tick",
+          "type": "ITickSpec",
+          "required": false,
+          "description": "轴刻度线配置",
+          "expandedType": "ITickSpec",
+          "resolvedType": "ITickSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ITickSpec"
+          ],
+          "category": "刻度配置"
+        },
+        {
+          "name": "subTick",
+          "type": "ISubTickSpec",
+          "required": false,
+          "description": "子刻度线配置",
+          "expandedType": "ISubTickSpec",
+          "resolvedType": "ISubTickSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ISubTickSpec"
+          ],
+          "category": "刻度配置"
+        },
+        {
+          "name": "grid",
+          "type": "IGridSpec",
+          "required": false,
+          "description": "网格线配置",
+          "expandedType": "IGridSpec",
+          "resolvedType": "IGridSpec",
+          "isSimple": false,
+          "dependencies": [
+            "IGridSpec"
+          ],
+          "category": "网格配置"
+        },
+        {
+          "name": "subGrid",
+          "type": "IGridSpec",
+          "required": false,
+          "description": "子网格线配置",
+          "expandedType": "IGridSpec",
+          "resolvedType": "IGridSpec",
+          "isSimple": false,
+          "dependencies": [
+            "IGridSpec"
+          ],
+          "category": "网格配置"
+        },
+        {
+          "name": "domainLine",
+          "type": "IDomainLineSpec",
+          "required": false,
+          "description": "轴线配置",
+          "expandedType": "IDomainLineSpec",
+          "resolvedType": "IDomainLineSpec",
+          "isSimple": false,
+          "dependencies": [
+            "IDomainLineSpec"
+          ],
+          "category": "轴线配置"
+        },
+        {
+          "name": "label",
+          "type": "ILabelSpec",
+          "required": false,
+          "description": "轴标签配置",
+          "expandedType": "ILabelSpec",
+          "resolvedType": "ILabelSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ILabelSpec"
+          ],
+          "category": "标签配置"
+        },
+        {
+          "name": "title",
+          "type": "ITitleSpec",
+          "required": false,
+          "description": "轴标题配置",
+          "expandedType": "ITitleSpec",
+          "resolvedType": "ITitleSpec",
+          "isSimple": false,
+          "dependencies": [
+            "ITitleSpec"
+          ],
+          "category": "标题配置"
+        }
+      ],
+      "usageNote": "ICartesianTimeAxisSpec 的完整类型定义，支持各种轴配置选项"
+    }
+  },
+  "complexTypeDefinitions": {
+    "ITickSpec": {
+      "description": "刻度线配置",
+      "typescriptCode": "interface ITickSpec {\n  /** 是否显示刻度线 */\n  visible?: boolean;\n  /** 刻度线长度 */\n  length?: number;\n  /** 是否与标签对齐 */\n  alignWithLabel?: boolean;\n  /** 是否向内绘制刻度线 */\n  inside?: boolean;\n  /** 刻度线样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n};\n}",
+      "properties": [
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "description": "是否显示刻度线",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "required": false,
+          "description": "刻度线长度",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置",
+          "defaultValue": "4"
+        },
+        {
+          "name": "alignWithLabel",
+          "type": "boolean",
+          "required": false,
+          "description": "是否与标签对齐",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "inside",
+          "type": "boolean",
+          "required": false,
+          "description": "是否向内绘制刻度线",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置",
+          "defaultValue": "false"
+        },
+        {
+          "name": "style",
+          "type": "ILineStyle",
+          "required": false,
+          "description": "刻度线样式配置",
+          "expandedType": "{\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n}",
+          "resolvedType": "ILineStyle",
+          "isSimple": false,
+          "dependencies": [
+            "ILineStyle"
+          ],
+          "category": "样式配置"
+        }
+      ],
+      "note": "包含 5 个属性，类型已完全展开",
+      "usageNote": "ITickSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+    },
+    "ISubTickSpec": {
+      "description": "子刻度线配置",
+      "typescriptCode": "interface ISubTickSpec {\n  /** 是否显示子刻度线 */\n  visible?: boolean;\n  /** 子刻度数量 */\n  tickCount?: number;\n  /** 子刻度线长度 */\n  length?: number;\n  /** 是否向内绘制子刻度线 */\n  inside?: boolean;\n  /** 子刻度线样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n};\n}",
+      "properties": [
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "description": "是否显示子刻度线",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "false"
+        },
+        {
+          "name": "tickCount",
+          "type": "number",
+          "required": false,
+          "description": "子刻度数量",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "数量配置",
+          "defaultValue": "4"
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "required": false,
+          "description": "子刻度线长度",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置",
+          "defaultValue": "2"
+        },
+        {
+          "name": "inside",
+          "type": "boolean",
+          "required": false,
+          "description": "是否向内绘制子刻度线",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置",
+          "defaultValue": "false"
+        },
+        {
+          "name": "style",
+          "type": "ILineStyle",
+          "required": false,
+          "description": "子刻度线样式配置",
+          "expandedType": "{\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n}",
+          "resolvedType": "ILineStyle",
+          "isSimple": false,
+          "dependencies": [
+            "ILineStyle"
+          ],
+          "category": "样式配置"
+        }
+      ],
+      "note": "包含 5 个属性，类型已完全展开",
+      "usageNote": "ISubTickSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+    },
+    "IGridSpec": {
+      "description": "网格线配置",
+      "typescriptCode": "interface IGridSpec {\n  /** 是否显示网格线 */\n  visible?: boolean;\n  /** 是否平滑网格线 */\n  smooth?: boolean;\n  /** 是否与标签对齐 */\n  alignWithLabel?: boolean;\n  /** 网格线样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n};\n  /** 交替背景色 */\n  alternateColor?: string | string[];\n}",
+      "properties": [
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "description": "是否显示网格线",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "smooth",
+          "type": "boolean",
+          "required": false,
+          "description": "是否平滑网格线",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置",
+          "defaultValue": "false"
+        },
+        {
+          "name": "alignWithLabel",
+          "type": "boolean",
+          "required": false,
+          "description": "是否与标签对齐",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "style",
+          "type": "ILineStyle",
+          "required": false,
+          "description": "网格线样式配置",
+          "expandedType": "{\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n}",
+          "resolvedType": "ILineStyle",
+          "isSimple": false,
+          "dependencies": [
+            "ILineStyle"
+          ],
+          "category": "样式配置"
+        },
+        {
+          "name": "alternateColor",
+          "type": "string | string[]",
+          "required": false,
+          "description": "交替背景色",
+          "expandedType": "string | string[]",
+          "resolvedType": "string | string[]",
+          "isSimple": false,
+          "dependencies": [],
+          "category": "背景配置"
+        }
+      ],
+      "note": "包含 5 个属性，类型已完全展开",
+      "usageNote": "IGridSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+    },
+    "IDomainLineSpec": {
+      "description": "轴线配置",
+      "typescriptCode": "interface IDomainLineSpec {\n  /** 是否显示轴线 */\n  visible?: boolean;\n  /** 轴线样式配置 */\n  style?: {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n};\n}",
+      "properties": [
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "description": "是否显示轴线",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "style",
+          "type": "ILineStyle",
+          "required": false,
+          "description": "轴线样式配置",
+          "expandedType": "{\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n}",
+          "resolvedType": "ILineStyle",
+          "isSimple": false,
+          "dependencies": [
+            "ILineStyle"
+          ],
+          "category": "样式配置"
+        }
+      ],
+      "note": "包含 2 个属性，类型已完全展开",
+      "usageNote": "IDomainLineSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+    },
+    "ILabelSpec": {
+      "description": "轴标签配置",
+      "typescriptCode": "interface ILabelSpec {\n  /** 是否显示标签 */\n  visible?: boolean;\n  /** 是否内部显示标签 */\n  inside?: boolean;\n  /** 标签与轴的间距 */\n  space?: number;\n  /** 标签样式配置 */\n  style?: {\n  /** 字体大小 */\n  fontSize?: number;\n  /** 字体家族 */\n  fontFamily?: string;\n  /** 字体粗细 */\n  fontWeight?: string | number;\n  /** 字体样式 */\n  fontStyle?: \"normal\" | \"italic\" | \"oblique\";\n  /** 文本颜色 */\n  fill?: string;\n  /** 文本描边颜色 */\n  stroke?: string;\n  /** 描边宽度 */\n  lineWidth?: number;\n  /** 水平对齐 */\n  textAlign?: \"left\" | \"center\" | \"right\";\n  /** 垂直对齐 */\n  textBaseline?: \"top\" | \"middle\" | \"bottom\";\n  /** 行高 */\n  lineHeight?: number;\n};\n  /** 标签格式化方法 */\n  formatMethod?: { [key: string]: any } | { [key: string]: any };\n  /** 标签格式化字符串 */\n  formatter?: string;\n  /** 标签旋转角度 */\n  rotate?: number;\n  /** 是否自动旋转 */\n  autoRotate?: boolean;\n  /** 自动旋转角度 */\n  autoRotateAngle?: number[];\n  /** 是否自动限制显示 */\n  autoLimit?: boolean;\n  /** 是否自动隐藏重叠标签 */\n  autoHide?: boolean;\n  /** 自动隐藏方法 */\n  autoHideMethod?: \"parity\" | \"greedy\";\n  /** 边界处理方式 */\n  flush?: boolean;\n}",
+      "properties": [
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "description": "是否显示标签",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "inside",
+          "type": "boolean",
+          "required": false,
+          "description": "是否内部显示标签",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "位置配置",
+          "defaultValue": "false"
+        },
+        {
+          "name": "space",
+          "type": "number",
+          "required": false,
+          "description": "标签与轴的间距",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "位置配置",
+          "defaultValue": "4"
+        },
+        {
+          "name": "style",
+          "type": "ITextStyle",
+          "required": false,
+          "description": "标签样式配置",
+          "expandedType": "{\n  /** 字体大小 */\n  fontSize?: number;\n  /** 字体家族 */\n  fontFamily?: string;\n  /** 字体粗细 */\n  fontWeight?: string | number;\n  /** 字体样式 */\n  fontStyle?: \"normal\" | \"italic\" | \"oblique\";\n  /** 文本颜色 */\n  fill?: string;\n  /** 文本描边颜色 */\n  stroke?: string;\n  /** 描边宽度 */\n  lineWidth?: number;\n  /** 水平对齐 */\n  textAlign?: \"left\" | \"center\" | \"right\";\n  /** 垂直对齐 */\n  textBaseline?: \"top\" | \"middle\" | \"bottom\";\n  /** 行高 */\n  lineHeight?: number;\n}",
+          "resolvedType": "ITextStyle",
+          "isSimple": false,
+          "dependencies": [
+            "ITextStyle"
+          ],
+          "category": "样式配置"
+        },
+        {
+          "name": "formatMethod",
+          "type": "(text: string | number, datum?: any, index?: number) => string",
+          "required": false,
+          "description": "标签格式化方法",
+          "expandedType": "{ [key: string]: any } | { [key: string]: any }",
+          "resolvedType": "(text: string | number, datum?: any, index?: number) => string",
+          "isSimple": false,
+          "dependencies": [
+            "(text: string",
+            "(text: string",
+            "number, datum?: any, index?: number) => string",
+            "number, datum?: any, index?: number) => string"
+          ],
+          "category": "格式化配置"
+        },
+        {
+          "name": "formatter",
+          "type": "string",
+          "required": false,
+          "description": "标签格式化字符串",
+          "expandedType": "string",
+          "resolvedType": "string",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "格式化配置"
+        },
+        {
+          "name": "rotate",
+          "type": "number",
+          "required": false,
+          "description": "标签旋转角度",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置"
+        },
+        {
+          "name": "autoRotate",
+          "type": "boolean",
+          "required": false,
+          "description": "是否自动旋转",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置",
+          "defaultValue": "false"
+        },
+        {
+          "name": "autoRotateAngle",
+          "type": "number[]",
+          "required": false,
+          "description": "自动旋转角度",
+          "expandedType": "number[]",
+          "resolvedType": "number[]",
+          "isSimple": false,
+          "dependencies": [],
+          "category": "样式配置"
+        },
+        {
+          "name": "autoLimit",
+          "type": "boolean",
+          "required": false,
+          "description": "是否自动限制显示",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "显示配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "autoHide",
+          "type": "boolean",
+          "required": false,
+          "description": "是否自动隐藏重叠标签",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "显示配置",
+          "defaultValue": "false"
+        },
+        {
+          "name": "autoHideMethod",
+          "type": "\"parity\" | \"greedy\"",
+          "required": false,
+          "description": "自动隐藏方法",
+          "expandedType": "\"parity\" | \"greedy\"",
+          "resolvedType": "\"parity\" | \"greedy\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "显示配置",
+          "defaultValue": "\"parity\""
+        },
+        {
+          "name": "flush",
+          "type": "boolean",
+          "required": false,
+          "description": "边界处理方式",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "边界配置",
+          "defaultValue": "false"
+        }
+      ],
+      "note": "包含 13 个属性，类型已完全展开",
+      "usageNote": "ILabelSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+    },
+    "ITitleSpec": {
+      "description": "轴标题配置",
+      "typescriptCode": "interface ITitleSpec {\n  /** 是否显示标题 */\n  visible?: boolean;\n  /** 标题文本 */\n  text?: string | string[];\n  /** 标题最大宽度 */\n  maxWidth?: number;\n  /** 标题样式配置 */\n  style?: {\n  /** 字体大小 */\n  fontSize?: number;\n  /** 字体家族 */\n  fontFamily?: string;\n  /** 字体粗细 */\n  fontWeight?: string | number;\n  /** 字体样式 */\n  fontStyle?: \"normal\" | \"italic\" | \"oblique\";\n  /** 文本颜色 */\n  fill?: string;\n  /** 文本描边颜色 */\n  stroke?: string;\n  /** 描边宽度 */\n  lineWidth?: number;\n  /** 水平对齐 */\n  textAlign?: \"left\" | \"center\" | \"right\";\n  /** 垂直对齐 */\n  textBaseline?: \"top\" | \"middle\" | \"bottom\";\n  /** 行高 */\n  lineHeight?: number;\n};\n  /** 标题内边距 */\n  padding?: number | number[];\n  /** 文本类型 */\n  textType?: \"text\" | \"rich\";\n  /** 标题旋转角度 */\n  angle?: number;\n  /** 是否内部显示标题 */\n  inside?: boolean;\n  /** 标题与轴的间距 */\n  space?: number;\n}",
+      "properties": [
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": false,
+          "description": "是否显示标题",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "基础配置",
+          "defaultValue": "true"
+        },
+        {
+          "name": "text",
+          "type": "string | string[]",
+          "required": false,
+          "description": "标题文本",
+          "expandedType": "string | string[]",
+          "resolvedType": "string | string[]",
+          "isSimple": false,
+          "dependencies": [],
+          "category": "文本配置"
+        },
+        {
+          "name": "maxWidth",
+          "type": "number",
+          "required": false,
+          "description": "标题最大宽度",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "布局配置"
+        },
+        {
+          "name": "style",
+          "type": "ITextStyle",
+          "required": false,
+          "description": "标题样式配置",
+          "expandedType": "{\n  /** 字体大小 */\n  fontSize?: number;\n  /** 字体家族 */\n  fontFamily?: string;\n  /** 字体粗细 */\n  fontWeight?: string | number;\n  /** 字体样式 */\n  fontStyle?: \"normal\" | \"italic\" | \"oblique\";\n  /** 文本颜色 */\n  fill?: string;\n  /** 文本描边颜色 */\n  stroke?: string;\n  /** 描边宽度 */\n  lineWidth?: number;\n  /** 水平对齐 */\n  textAlign?: \"left\" | \"center\" | \"right\";\n  /** 垂直对齐 */\n  textBaseline?: \"top\" | \"middle\" | \"bottom\";\n  /** 行高 */\n  lineHeight?: number;\n}",
+          "resolvedType": "ITextStyle",
+          "isSimple": false,
+          "dependencies": [
+            "ITextStyle"
+          ],
+          "category": "样式配置"
+        },
+        {
+          "name": "padding",
+          "type": "number | number[]",
+          "required": false,
+          "description": "标题内边距",
+          "expandedType": "number | number[]",
+          "resolvedType": "number | number[]",
+          "isSimple": false,
+          "dependencies": [],
+          "category": "布局配置"
+        },
+        {
+          "name": "textType",
+          "type": "\"text\" | \"rich\"",
+          "required": false,
+          "description": "文本类型",
+          "expandedType": "\"text\" | \"rich\"",
+          "resolvedType": "\"text\" | \"rich\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "文本配置",
+          "defaultValue": "\"text\""
+        },
+        {
+          "name": "angle",
+          "type": "number",
+          "required": false,
+          "description": "标题旋转角度",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "样式配置"
+        },
+        {
+          "name": "inside",
+          "type": "boolean",
+          "required": false,
+          "description": "是否内部显示标题",
+          "expandedType": "boolean",
+          "resolvedType": "boolean",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "位置配置",
+          "defaultValue": "false"
+        },
+        {
+          "name": "space",
+          "type": "number",
+          "required": false,
+          "description": "标题与轴的间距",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "位置配置"
+        }
+      ],
+      "note": "包含 9 个属性，类型已完全展开",
+      "usageNote": "ITitleSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+    },
+    "ITimeLayerSpec": {
+      "description": "时间轴层级配置",
+      "typescriptCode": "interface ITimeLayerSpec {\n  /** 时间格式 */\n  timeFormat?: string;\n  /** 刻度间隔 */\n  tickStep?: number;\n  /** 时间单位 */\n  unit?: \"year\" | \"month\" | \"day\" | \"hour\" | \"minute\" | \"second\";\n}",
+      "properties": [
+        {
+          "name": "timeFormat",
+          "type": "string",
+          "required": false,
+          "description": "时间格式",
+          "expandedType": "string",
+          "resolvedType": "string",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "格式配置"
+        },
+        {
+          "name": "tickStep",
+          "type": "number",
+          "required": false,
+          "description": "刻度间隔",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "刻度配置"
+        },
+        {
+          "name": "unit",
+          "type": "\"year\" | \"month\" | \"day\" | \"hour\" | \"minute\" | \"second\"",
+          "required": false,
+          "description": "时间单位",
+          "expandedType": "\"year\" | \"month\" | \"day\" | \"hour\" | \"minute\" | \"second\"",
+          "resolvedType": "\"year\" | \"month\" | \"day\" | \"hour\" | \"minute\" | \"second\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "时间配置"
+        }
+      ],
+      "note": "包含 3 个属性，类型已完全展开",
+      "usageNote": "ITimeLayerSpec 的完整类型定义，所有子类型已展开便于大模型理解"
+    },
+    "ILineStyle": {
+      "description": "线条样式配置",
+      "typescriptCode": "interface ILineStyle {\n  /** 线条颜色 */\n  stroke?: string;\n  /** 线条透明度 */\n  strokeOpacity?: number;\n  /** 线条宽度 */\n  lineWidth?: number;\n  /** 虚线配置 */\n  lineDash?: number[];\n  /** 线条端点样式 */\n  lineCap?: \"butt\" | \"round\" | \"square\";\n  /** 线条连接样式 */\n  lineJoin?: \"miter\" | \"round\" | \"bevel\";\n}",
+      "properties": [
+        {
+          "name": "stroke",
+          "type": "string",
+          "required": false,
+          "description": "线条颜色",
+          "expandedType": "string",
+          "resolvedType": "string",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "颜色配置"
+        },
+        {
+          "name": "strokeOpacity",
+          "type": "number",
+          "required": false,
+          "description": "线条透明度",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "颜色配置"
+        },
+        {
+          "name": "lineWidth",
+          "type": "number",
+          "required": false,
+          "description": "线条宽度",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "线条配置"
+        },
+        {
+          "name": "lineDash",
+          "type": "number[]",
+          "required": false,
+          "description": "虚线配置",
+          "expandedType": "number[]",
+          "resolvedType": "number[]",
+          "isSimple": false,
+          "dependencies": [],
+          "category": "线条配置"
+        },
+        {
+          "name": "lineCap",
+          "type": "\"butt\" | \"round\" | \"square\"",
+          "required": false,
+          "description": "线条端点样式",
+          "expandedType": "\"butt\" | \"round\" | \"square\"",
+          "resolvedType": "\"butt\" | \"round\" | \"square\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "线条配置"
+        },
+        {
+          "name": "lineJoin",
+          "type": "\"miter\" | \"round\" | \"bevel\"",
+          "required": false,
+          "description": "线条连接样式",
+          "expandedType": "\"miter\" | \"round\" | \"bevel\"",
+          "resolvedType": "\"miter\" | \"round\" | \"bevel\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "线条配置"
+        }
+      ],
+      "note": "包含 6 个属性，类型已完全展开",
+      "usageNote": "ILineStyle 的完整类型定义，所有子类型已展开便于大模型理解"
+    },
+    "ITextStyle": {
+      "description": "文本样式配置",
+      "typescriptCode": "interface ITextStyle {\n  /** 字体大小 */\n  fontSize?: number;\n  /** 字体家族 */\n  fontFamily?: string;\n  /** 字体粗细 */\n  fontWeight?: string | number;\n  /** 字体样式 */\n  fontStyle?: \"normal\" | \"italic\" | \"oblique\";\n  /** 文本颜色 */\n  fill?: string;\n  /** 文本描边颜色 */\n  stroke?: string;\n  /** 描边宽度 */\n  lineWidth?: number;\n  /** 水平对齐 */\n  textAlign?: \"left\" | \"center\" | \"right\";\n  /** 垂直对齐 */\n  textBaseline?: \"top\" | \"middle\" | \"bottom\";\n  /** 行高 */\n  lineHeight?: number;\n}",
+      "properties": [
+        {
+          "name": "fontSize",
+          "type": "number",
+          "required": false,
+          "description": "字体大小",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "字体配置"
+        },
+        {
+          "name": "fontFamily",
+          "type": "string",
+          "required": false,
+          "description": "字体家族",
+          "expandedType": "string",
+          "resolvedType": "string",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "字体配置"
+        },
+        {
+          "name": "fontWeight",
+          "type": "string | number",
+          "required": false,
+          "description": "字体粗细",
+          "expandedType": "string | number",
+          "resolvedType": "string | number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "字体配置"
+        },
+        {
+          "name": "fontStyle",
+          "type": "\"normal\" | \"italic\" | \"oblique\"",
+          "required": false,
+          "description": "字体样式",
+          "expandedType": "\"normal\" | \"italic\" | \"oblique\"",
+          "resolvedType": "\"normal\" | \"italic\" | \"oblique\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "字体配置"
+        },
+        {
+          "name": "fill",
+          "type": "string",
+          "required": false,
+          "description": "文本颜色",
+          "expandedType": "string",
+          "resolvedType": "string",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "颜色配置"
+        },
+        {
+          "name": "stroke",
+          "type": "string",
+          "required": false,
+          "description": "文本描边颜色",
+          "expandedType": "string",
+          "resolvedType": "string",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "颜色配置"
+        },
+        {
+          "name": "lineWidth",
+          "type": "number",
+          "required": false,
+          "description": "描边宽度",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "描边配置"
+        },
+        {
+          "name": "textAlign",
+          "type": "\"left\" | \"center\" | \"right\"",
+          "required": false,
+          "description": "水平对齐",
+          "expandedType": "\"left\" | \"center\" | \"right\"",
+          "resolvedType": "\"left\" | \"center\" | \"right\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "对齐配置"
+        },
+        {
+          "name": "textBaseline",
+          "type": "\"top\" | \"middle\" | \"bottom\"",
+          "required": false,
+          "description": "垂直对齐",
+          "expandedType": "\"top\" | \"middle\" | \"bottom\"",
+          "resolvedType": "\"top\" | \"middle\" | \"bottom\"",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "对齐配置"
+        },
+        {
+          "name": "lineHeight",
+          "type": "number",
+          "required": false,
+          "description": "行高",
+          "expandedType": "number",
+          "resolvedType": "number",
+          "isSimple": true,
+          "dependencies": [],
+          "category": "排版配置"
+        }
+      ],
+      "note": "包含 10 个属性，类型已完全展开",
+      "usageNote": "ITextStyle 的完整类型定义，所有子类型已展开便于大模型理解"
+    }
+  },
+  "usageGuide": {
+    "description": "ICartesianAxisSpec 是一个联合类型，包含5种不同的坐标轴类型",
+    "axisTypeSelection": {
+      "linear": "用于连续数值数据，如销售额、温度等",
+      "band": "用于离散分类数据，如类别、产品名称等",
+      "time": "用于时间序列数据，如日期、时间戳等",
+      "log": "用于对数刻度的数值数据，适合跨度很大的数值",
+      "symlog": "用于包含正负值和零值的数据，结合了线性和对数的特点"
+    },
+    "commonProperties": [
+      "orient: 必需属性，指定轴的位置（left/right/top/bottom）",
+      "visible: 控制轴的显示/隐藏",
+      "label: 配置轴标签的显示和样式",
+      "title: 配置轴标题",
+      "grid: 配置网格线",
+      "tick: 配置刻度线",
+      "domainLine: 配置轴线样式"
+    ],
+    "codeGenerationTips": [
+      "可以直接使用 typescriptCode 中的接口定义",
+      "注意必需属性和可选属性的区别",
+      "参考 defaultValue 设置合理的默认值",
+      "使用 expandedType 了解复杂类型的完整结构"
+    ]
+  },
+  "statistics": {
+    "totalAxisTypes": 3,
+    "totalProperties": 46,
+    "totalComplexTypes": 9,
+    "generatedAt": "2025-08-04T03:06:40.644Z"
+  }
+}
