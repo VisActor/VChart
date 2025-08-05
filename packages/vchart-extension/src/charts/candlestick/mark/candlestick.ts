@@ -1,6 +1,12 @@
 import { registerLine, registerRect } from '@visactor/vrender-kits';
 import { GlyphMark, registerGlyphMark, IMarkRaw, IMarkStyle } from '@visactor/vchart';
-import { createLine, createRect, type IGlyph, type ILineGraphicAttribute } from '@visactor/vrender-core';
+import {
+  createLine,
+  createRect,
+  type IGlyph,
+  type ILineGraphicAttribute,
+  IRectGraphicAttribute
+} from '@visactor/vrender-core';
 import { Factory, Datum } from '@visactor/vchart';
 import type { ICandlestickMarkSpec } from './interface';
 
@@ -45,7 +51,8 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
         x: x - boxWidth / 2,
         x1: x + boxWidth / 2,
         y: Math.min(open, close),
-        y1: Math.max(open, close)
+        y1: Math.max(open, close),
+        drawStrokeWhenZeroWH: true
       };
       return attributes;
     };
@@ -65,6 +72,6 @@ export const registerCandlestickMark = () => {
   registerLine();
   registerRect();
   Factory.registerGraphicComponent('line', (attrs: ILineGraphicAttribute) => createLine(attrs));
-  Factory.registerGraphicComponent('rect', (attrs: ILineGraphicAttribute) => createRect(attrs));
+  Factory.registerGraphicComponent('rect', (attrs: IRectGraphicAttribute) => createRect(attrs));
   Factory.registerMark(CandlestickMark.type, CandlestickMark);
 };
