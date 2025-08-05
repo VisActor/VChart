@@ -1,9 +1,6 @@
 import { BaseComponent } from '../base/base-component';
 import { ComponentTypeEnum } from '../interface/type';
-import type { IRegion } from '../../region/interface';
-import type { IModelRenderOption } from '../../model/interface';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
-import type { IGraphic } from '@visactor/vrender-core';
 import type { IModelMarkAttributeContext } from '../../compile/mark/interface';
 export declare class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     static type: ComponentTypeEnum;
@@ -28,9 +25,6 @@ export declare class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMark
         reSize: boolean;
         reCompile: boolean;
     };
-    changeRegions(regions: IRegion[]): void;
-    protected _getNeedClearVRenderComponents(): IGraphic[];
-    onRender(ctx: IModelRenderOption): void;
     private _getMarkAttributeContext;
     private _getLayoutRect;
     getBoundsInRect(rect: ILayoutRect): {

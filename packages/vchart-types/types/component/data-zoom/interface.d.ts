@@ -11,6 +11,8 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
     field?: string;
     axisId?: string;
     axisIndex?: number;
+    linkedAxisId?: string;
+    linkedAxisIndex?: number;
     regionIndex?: number | number[];
     start?: number;
     end?: number;
@@ -37,6 +39,7 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
 export interface IRoamDragSpec extends IRoamSpec {
     reverse?: boolean;
     filter?: (delta: [number, number], e?: BaseEventParams['event']) => boolean;
+    autoVisible?: boolean;
 }
 export interface IRoamScrollSpec extends IRoamSpec {
     reverse?: boolean;

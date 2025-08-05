@@ -12,6 +12,9 @@ export declare class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> ext
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        line: import("../mixin/interface").ILineLikeSeriesTheme;
+    };
     static readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
     readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
     protected _sortDataByAxis: boolean;
@@ -20,7 +23,7 @@ export declare class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> ext
     protected initTooltip(): void;
     initMarkStyle(): void;
     initAnimation(): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     getSeriesStyle(datum: Datum): (attribute: string) => unknown;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];

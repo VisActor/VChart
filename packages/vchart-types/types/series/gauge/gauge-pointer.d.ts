@@ -10,6 +10,9 @@ export declare class GaugePointerSeries<T extends IGaugePointerSeriesSpec = IGau
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        gaugePointer: import("./interface").IGaugePointerSeriesTheme;
+    };
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof GaugePointerSeriesSpecTransformer;
     private _pinMark;
@@ -32,7 +35,10 @@ export declare class GaugePointerSeries<T extends IGaugePointerSeriesSpec = IGau
     };
     private initPinBackgroundMarkStyle;
     private initPinMarkStyle;
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     initAnimation(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];

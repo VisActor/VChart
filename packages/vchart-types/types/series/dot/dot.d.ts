@@ -10,6 +10,9 @@ export declare class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extend
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        dot: import("./interface").IDotSeriesTheme;
+    };
     private _xDimensionStatisticsDomain;
     protected _seriesGroupField?: string;
     getSeriesGroupField(): string;
@@ -29,6 +32,7 @@ export declare class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extend
     protected _gridBackground?: IFillMarkSpec;
     setGridBackground(gridBackground: IFillMarkSpec): void;
     initData(): void;
+    protected _statisticViewData(): void;
     getStatisticFields(): {
         key: string;
         operations: Array<'max' | 'min' | 'values'>;
@@ -49,7 +53,7 @@ export declare class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extend
     dataToGridBackgroundPositionY1(datum: Datum): number;
     dataToOpacity(datum: Datum): number;
     dataToGridBackgroundOpacity(datum: Datum): VisualType<number>;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     getDefaultColorDomain(): any;
     getColorAttribute(): {
         scale: any;
@@ -63,7 +67,7 @@ export declare class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extend
     protected initTooltip(): void;
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
     protected onMarkTreePositionUpdate(marks: IMark[]): void;
-    getDotData(): import("../../compile/mark").IMarkData;
+    getDotData(): import("../../compile/data").ICompilableData;
     protected _getDataIdKey(): any;
     getStackValueField(): string;
     getActiveMarks(): IMark[];

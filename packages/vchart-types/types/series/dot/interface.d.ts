@@ -23,6 +23,7 @@ export interface IDotSeriesSpec extends ICartesianSeriesSpec {
     subTitleField?: string;
     highLightSeriesGroup?: string;
     name: string;
+    linearMode?: boolean;
     [SeriesMarkNameEnum.dot]?: IMarkSpec<ISymbolMarkSpec>;
     [SeriesMarkNameEnum.title]?: ISequenceLabel;
     [SeriesMarkNameEnum.symbol]?: IMarkSpec<ISymbolMarkSpec>;

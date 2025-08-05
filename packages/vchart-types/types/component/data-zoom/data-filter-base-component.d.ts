@@ -22,6 +22,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _dataUpdating: boolean;
     protected _stateScale: IBaseScale;
     protected _relatedAxisComponent: IComponent;
+    protected _linkedAxisComponent: IComponent;
     protected _originalStateFields: Record<number, string | number>;
     protected _seriesUserId?: StringOrNumber[];
     protected _seriesIndex?: number[];
@@ -87,7 +88,6 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _initStateScale(): void;
     init(option: IModelInitOption): void;
     protected _addTransformToSeries(): void;
-    onRender(ctx: any): void;
     _compareSpec(spec: AdaptiveSpec<T, 'width' | 'height'>, prevSpec: AdaptiveSpec<T, 'width' | 'height'>): {
         change: boolean;
         reMake: boolean;
@@ -96,9 +96,6 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
         reCompile: boolean;
     };
     reInit(spec?: AdaptiveSpec<T, 'width' | 'height'>): void;
-    changeRegions(): void;
-    protected update(ctx: IComponentOption): void;
-    protected resize(ctx: IComponentOption): void;
     protected _parseDomainFromState(startValue: number | string, endValue: number | string): any;
     protected _handleStateChange: (startValue: number, endValue: number, tag?: string) => boolean;
     protected _handleChartZoom: (params: {
@@ -115,8 +112,8 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _initCommonEvent(): void;
     updateLayoutAttribute(): void;
     protected _autoVisible(isShown: boolean): void;
-    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
+    onLayoutEnd(): void;
     getBoundsInRect(rect: ILayoutRect): IBoundsLike;
     hide(): void;
     show(): void;

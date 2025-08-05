@@ -10,6 +10,9 @@ export declare class PolarMarkArea extends BaseMarkArea {
     name: string;
     static coordinateType: string;
     coordinateType: CoordinateType;
+    static readonly builtInTheme: {
+        polarMarkArea: import("./interface").IMarkAreaTheme;
+    };
     protected _markerComponent: MarkArcAreaComponent;
     protected _newMarkAreaComponent(attr: MarkArcAreaAttrs | MarkAreaAttrs): MarkArcAreaComponent | MarkAreaComponent;
     protected _computePointsAttr(): {

@@ -1,6 +1,5 @@
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
-import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorSpec } from './interface';
 import type { Maybe } from '../../typings';
 import type { IModelSpecInfo } from '../../model/interface';
@@ -10,6 +9,9 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    static readonly builtInTheme: {
+        indicator: import("./interface").IIndicatorTheme;
+    };
     static specKey: string;
     specKey: string;
     layoutType: 'none';
@@ -25,8 +27,6 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     created(): void;
     setAttrFromSpec(): void;
-    onRender(ctx: any): void;
-    changeRegions(regions: IRegion[]): void;
     protected initEvent(): void;
     updateDatum(datum: any): void;
     private initData;

@@ -1,6 +1,6 @@
 import type { EasingType } from '@visactor/vrender-core';
 import type { IPointLike } from '@visactor/vutils';
-import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender-core';
+import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender-animate';
 export declare class PolarPointUpdate extends ACustomAnimate<{
     x: number;
     y: number;
@@ -30,9 +30,7 @@ export declare class PolarTagPointsUpdate extends TagPointsUpdate {
     private interpolatePoints;
     private _center;
     private _prevCenter;
-    constructor(from: any, to: any, duration: number, easing: EasingType, params?: {
-        newPointAnimateType?: 'grow' | 'appear';
-    });
+    onBind(): void;
     onUpdate(end: boolean, ratio: number, out: Record<string, any>): void;
     private _interpolationSinglePoint;
     private polarPointInterpolation;

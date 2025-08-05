@@ -1,12 +1,12 @@
 import type { ISeriesOption } from '../interface/common';
 import type { ISeries } from '../interface/series';
-import type { ICompileMarkConfig, IMark, IMarkProgressiveConfig, ILabelMark, ILineMark, ISymbolMark, ITextMark } from '../../mark/interface';
+import type { ICompileMarkConfig, IMark, ILabelMark, ILineMark, ISymbolMark, ITextMark } from '../../mark/interface';
 import type { DirectionType, IInvalidType, InterpolateType, Maybe, Datum, ILayoutRect } from '../../typings';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
 import type { DimensionEventParams } from '../../event/events/dimension';
 import type { IRegion } from '../../region/interface';
-import type { SeriesData } from '../base/series-data';
 import type { ILineLikeSeriesTheme } from './interface';
+import type { ICompilableData } from '../../compile/data';
 export interface LineLikeSeriesMixin extends ISeries {
     _spec: any;
     _option: ISeriesOption;
@@ -16,7 +16,7 @@ export interface LineLikeSeriesMixin extends ISeries {
     _invalidType: IInvalidType;
     _region: IRegion;
     _direction: DirectionType;
-    _data: SeriesData;
+    _data: ICompilableData;
     _lineMark: ILineMark;
     _symbolMark: ISymbolMark;
     _symbolActiveMark: ISymbolMark;
@@ -33,11 +33,11 @@ export declare class LineLikeSeriesMixin {
     addSamplingCompile(): void;
     addOverlapCompile(): void;
     reCompileSampling(): void;
-    initLineMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean): ILineMark;
+    initLineMark(isSeriesMark?: boolean): ILineMark;
     initLineMarkStyle(direction?: DirectionType, areaCurveType?: InterpolateType): ILineMark;
     protected _getEventElement(params: DimensionEventParams, reverse?: boolean): Datum[];
     protected _dimensionTrigger(params: DimensionEventParams): void;
-    initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean): ISymbolMark;
+    initSymbolMark(isSeriesMark?: boolean): ISymbolMark;
     initSymbolMarkStyle(): ISymbolMark;
     private _initSymbolMark;
     private _initSymbolActiveMarkAlone;

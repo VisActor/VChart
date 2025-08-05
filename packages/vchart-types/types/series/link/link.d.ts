@@ -3,12 +3,16 @@ import type { Datum } from '../../typings';
 import type { IMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IDotSeriesSpec } from '../dot/interface';
-import type { ILinkSeriesSpec } from './interface';
+import { type ILinkSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
 export declare class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        link: import("./interface").ILinkSeriesTheme;
+    };
+    private _curveLinkCountMap;
     protected _fromField?: string;
     getFromField(): string;
     setFromField(field: string): void;
@@ -28,6 +32,7 @@ export declare class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> ext
     private _containerMark;
     private _linkMark;
     private _arrowMark;
+    private _imageLabelMark;
     initMark(): void;
     initMarkStyle(): void;
     afterInitMark(): void;
@@ -44,10 +49,13 @@ export declare class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> ext
         scale: any;
         field: string;
     };
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     protected initTooltip(): void;
     protected onMarkTreePositionUpdate(marks: IMark[]): void;
-    getDotInfoData(): import("../../compile/mark").IMarkData;
+    getDotInfoData(): import("../../compile/data").ICompilableData;
     getActiveMarks(): IMark[];
 }
 export declare const registerLinkSeries: () => void;

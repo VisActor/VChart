@@ -4,7 +4,7 @@ export declare abstract class CompilableBase implements ICompilable {
     getOption(): ICompilableInitOption;
     getCompiler: () => ICompiler;
     constructor(option: ICompilableInitOption);
-    getVGrammarView(): import("@visactor/vgrammar-core").IView;
     abstract compile(): void;
+    getStage(): import("@visactor/vrender-core").IStage;
     release(): void;
 }

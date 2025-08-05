@@ -1,18 +1,26 @@
-import type { InteractionSpec, IView } from '@visactor/vgrammar-core';
-import type { CompilerListenerParameters, ICompiler, ICompilerModel, IGrammarItem, IRenderContainer, IRenderOption } from './interface';
+import type { CompilerListenerParameters, ICompiler, IRenderContainer, IRenderOption } from './interface';
+import { LayoutState } from './interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import type { IColor, IStage } from '@visactor/vrender-core';
+import type { IColor, IGroup, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
-import type { IVChart } from '../core/interface';
+import type { IVChart, IVChartRenderOption } from '../core/interface';
+import { type IMark } from '../mark/interface';
+import type { Gesture } from '@visactor/vrender-kits';
 type EventListener = {
     type: string;
     callback: (...args: any[]) => void;
 };
 export declare class Compiler implements ICompiler {
-    protected _view: IView;
-    getVGrammarView(): IView;
+    private _count;
+    private _cachedMarks;
+    private _progressiveMarks?;
+    private _progressiveRafId?;
+    protected _rootMarks: IMark[];
+    protected _stage: IStage;
+    protected _rootGroup: IGroup;
+    getRootGroup(): IGroup;
     protected _viewListeners: Map<(...args: any[]) => any, EventListener>;
     protected _windowListeners: Map<(...args: any[]) => any, EventListener>;
     protected _canvasListeners: Map<(...args: any[]) => any, EventListener>;
@@ -23,31 +31,34 @@ export declare class Compiler implements ICompiler {
     protected _container: IRenderContainer;
     protected _option: IRenderOption;
     private _released;
-    protected _model: ICompilerModel;
-    protected _interactions: (InteractionSpec & {
-        seriesId?: number;
-        regionId?: number;
-    })[];
-    getModel(): ICompilerModel;
+    private _layoutState?;
     private _compileChart;
     constructor(container: IRenderContainer, option: IRenderOption);
-    getRenderer(): import("@visactor/vgrammar-core").IRenderer;
     getCanvas(): HTMLCanvasElement | undefined;
+    _gestureController?: Gesture;
     getStage(): IStage | undefined;
     initView(): void;
+    getLayoutState(): LayoutState;
+    updateLayoutTag(): void;
+    protected handleLayoutEnd: () => void;
     protected handleStageRender: () => void;
     private _setCanvasStyle;
-    protected compileInteractions(): void;
     compile(ctx: {
         chart: IChart;
         vChart: IVChart;
-    }, option: any): void;
+    }, option?: IVChartRenderOption): void;
     protected clearNextRender(): boolean;
     clear(ctx: {
         chart: IChart;
         vChart: IVChart;
-    }, removeGraphicItems?: boolean): void;
+    }): void;
     renderNextTick(morphConfig?: IMorphConfig): void;
+    protected _commitedAll(): boolean;
+    protected _hasCommitedMark(): boolean;
+    private _handleAfterNextRender;
+    private _doRender;
+    renderMarks(): void;
+    reuseOrMorphing(morphConfig?: IMorphConfig): void;
     render(morphConfig?: IMorphConfig): void;
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean): void;
     resize(width: number, height: number, reRender?: boolean): void;
@@ -59,15 +70,14 @@ export declare class Compiler implements ICompiler {
     protected releaseEvent(): void;
     release(): void;
     releaseGrammar(removeGraphicItems?: boolean): void;
-    protected _releaseModel(): void;
-    addGrammarItem(grammarItem: IGrammarItem): void;
-    removeGrammarItem(grammarItem: IGrammarItem, reserveVGrammarModel?: boolean): void;
-    addInteraction(interaction: InteractionSpec & {
-        seriesId?: number;
-        regionId?: number;
-    }): void;
-    removeInteraction(seriesId: number): void;
-    updateDepend(items?: IGrammarItem[]): boolean;
+    addRootMark(mark: IMark): void;
+    getRootMarks(): IMark[];
+    removeRootMark(mark: IMark): boolean;
     private _getGlobalThis;
+    private _combineIncrementalLayers;
+    private findProgressiveMarks;
+    private doPreProgressive;
+    private handleProgressiveFrame;
+    private clearProgressive;
 }
 export {};

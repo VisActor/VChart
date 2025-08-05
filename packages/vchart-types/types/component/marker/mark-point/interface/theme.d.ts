@@ -1,15 +1,18 @@
 import type { IImageGraphicAttribute, IRichTextGraphicAttribute, IGroupGraphicAttribute } from '@visactor/vrender-core';
 import type { IMarkPointItemPosition } from '@visactor/vrender-components';
 import type { ILineMarkSpec, ISymbolMarkSpec } from '../../../../typings';
-import type { IMarkerLabelSpec, IMarkerRef, IMarkerState, IMarkerSymbol } from '../../interface';
+import type { IMarkerLabelSpec, IMarkerRef, IMarkerState, IMarkerSymbol, MarkerStateCallback, MarkerStateValue, MarkerStyleCallback } from '../../interface';
 import type { IRegion } from '../../../../region/interface';
 export type IOffsetCallback = (region: IRegion) => number;
+export type IItemContentStyle = ISymbolMarkSpec | IImageGraphicAttribute | IGroupGraphicAttribute;
 export interface IItemContent extends IMarkerRef {
-    type?: 'symbol' | 'text' | 'image' | 'richText';
     position?: keyof typeof IMarkPointItemPosition;
     offsetX?: number | 'regionRight' | 'regionLeft' | IOffsetCallback;
     offsetY?: number | 'regionTop' | 'regionBottom' | IOffsetCallback;
     confine?: boolean;
+    type?: 'symbol' | 'text' | 'image' | 'custom';
+    style?: IItemContentStyle | MarkerStyleCallback<IItemContentStyle> | IMarkerLabelSpec;
+    state?: Record<MarkerStateValue, IItemContentStyle | MarkerStateCallback<IItemContentStyle>>;
     symbol?: Partial<IMarkerState<ISymbolMarkSpec>>;
     image?: Partial<IMarkerState<IImageGraphicAttribute>>;
     text?: IMarkerLabelSpec;
