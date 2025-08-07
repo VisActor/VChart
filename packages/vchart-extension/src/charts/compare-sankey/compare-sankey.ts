@@ -323,12 +323,19 @@ export class CompareSankeySeries extends SankeySeries<ICompareSankeySeriesSpecBa
 
     // 同时需要清除 hover
     const allNodeElements = this._nodeMark.getGraphics();
-    if (!allNodeElements || !allNodeElements.length) {
-      return;
+    if (allNodeElements || !allNodeElements.length) {
+      allNodeElements.forEach(el => {
+        el.removeState(STATE_VALUE_ENUM.STATE_HOVER);
+      });
     }
-    allNodeElements.forEach(el => {
-      el.removeState(STATE_VALUE_ENUM.STATE_HOVER);
-    });
+
+    // 同时需要清除 hover
+    const allLinkElements = this._linkMark.getGraphics();
+    if (allLinkElements || !allLinkElements.length) {
+      allLinkElements.forEach(el => {
+        el.removeState(STATE_VALUE_ENUM.STATE_HOVER);
+      });
+    }
   }
 }
 
