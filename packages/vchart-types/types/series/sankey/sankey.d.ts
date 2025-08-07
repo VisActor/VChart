@@ -5,7 +5,7 @@ import type { Datum, StringOrNumber } from '../../typings';
 import { DataView } from '@visactor/vdataset';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
-import type { IMark, IMarkGraphic, ITextMark } from '../../mark/interface';
+import type { ILinkPathMark, IMark, IMarkGraphic, IRectMark, ITextMark } from '../../mark/interface';
 import { SankeySeriesSpecTransformer } from './sankey-transformer';
 import type { ILabelSpec } from '../../component';
 export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
@@ -17,8 +17,8 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     static readonly builtInTheme: {
         sankey: import("./interface").ISankeySeriesTheme;
     };
-    private _nodeMark;
-    private _linkMark;
+    protected _nodeMark: IRectMark;
+    protected _linkMark: ILinkPathMark;
     private _nodeLayoutZIndex;
     private _labelLayoutZIndex;
     protected _nodesSeriesData?: DataView;
@@ -27,7 +27,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     protected _categoryField: string;
     private _colorScale;
     private _nodeList;
-    private _needClear;
+    protected _needClear: boolean;
     get direction(): "horizontal" | "vertical";
     getCategoryField(): string;
     setCategoryField(f: string): string;
@@ -55,12 +55,12 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     private nodesSeriesDataUpdate;
     private linksSeriesDataUpdate;
     protected _handleEmphasisElement: (params: ExtendEventParam) => void;
-    protected _handleClearEmpty: () => void;
-    protected _handleNodeAdjacencyClick: (graphic: IMarkGraphic) => void;
-    protected _handleLinkAdjacencyClick: (graphic: IMarkGraphic) => void;
-    protected _handleNodeRelatedClick: (graphic: IMarkGraphic) => void;
-    protected _handleLinkRelatedClick: (graphic: IMarkGraphic) => void;
-    protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: string[]): void;
+    protected _handleClearEmpty(): void;
+    protected _handleNodeAdjacencyClick(graphic: IMarkGraphic): void;
+    protected _handleLinkAdjacencyClick(graphic: IMarkGraphic): void;
+    protected _handleNodeRelatedClick(graphic: IMarkGraphic): void;
+    protected _handleLinkRelatedClick(graphic: IMarkGraphic): void;
+    protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: (string | number)[]): void;
     protected initTooltip(): void;
     _setNodeOrdinalColorScale(): void;
     getNodeList(): any;
