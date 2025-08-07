@@ -1,4 +1,3 @@
-import { DEFAULT_DATA_KEY } from './../../../../vchart/src/constant/data';
 import type { SankeyLinkElement } from '@visactor/vlayouts/es/sankey';
 import type { ICompareSankeyChartSpecBase, ICompareSankeySeriesSpecBase } from './interface';
 import type { Datum, ILinkPathMarkSpec, IRectMarkSpec } from '@visactor/vchart';
@@ -11,7 +10,8 @@ import {
   STATE_VALUE_ENUM,
   AttributeLevel,
   getDatumOfGraphic,
-  DEFAULT_DATA_INDEX
+  DEFAULT_DATA_INDEX,
+  DEFAULT_DATA_KEY
 } from '@visactor/vchart';
 import { DataView } from '@visactor/vdataset';
 import { CompareSankeyChartSpecTransformer } from './compare-sankey-transformer';
