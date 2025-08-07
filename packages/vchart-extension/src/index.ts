@@ -15,6 +15,7 @@ export * from './charts/range-column-3d';
 export { register3DPlugin } from './charts/3d/plugin';
 export * from './charts/pictogram';
 export * from './charts/image-cloud';
+export * from './charts/compare-sankey';
 
 export * from './components/series-break';
 export * from './components/bar-link';
