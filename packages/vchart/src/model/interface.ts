@@ -176,7 +176,7 @@ export interface IModelOption extends ICompilableInitOption {
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
 
   globalScale: IGlobalScale;
-  animation: boolean;
+  animation?: boolean;
   /**
    * 错误消息回调函数
    */
