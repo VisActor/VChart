@@ -1,6 +1,5 @@
-import { vglobal } from '../../index';
 import { AStageAnimate } from '@visactor/vrender-animate';
-import { EasingType } from '@visactor/vrender-core';
+import { vglobal, EasingType } from '@visactor/vrender-core';
 
 // 模糊效果配置接口
 export interface BlurConfig {
