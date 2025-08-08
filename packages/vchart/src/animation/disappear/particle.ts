@@ -1,6 +1,5 @@
-import { vglobal } from '../../index';
 import { AStageAnimate } from '@visactor/vrender-animate';
-import { EasingType } from '@visactor/vrender-core';
+import { vglobal, EasingType } from '@visactor/vrender-core';
 
 // 粒子效果配置接口
 export interface ParticleConfig {
@@ -108,19 +107,19 @@ export class ParticleDisintegration extends AStageAnimate<any> {
         attribute vec2 a_position;
         attribute vec4 a_color;
         attribute float a_size;
-        
+
         uniform vec2 u_resolution;
         uniform float u_time;
         uniform float u_forceStrength;
         uniform int u_effectType;
-        
+
         varying vec4 v_color;
-        
+
         void main() {
           // 将像素坐标转换为剪辑空间坐标
           vec2 clipSpace = ((a_position / u_resolution) * 2.0) - 1.0;
           clipSpace.y = -clipSpace.y; // 翻转Y轴
-          
+
           gl_Position = vec4(clipSpace, 0.0, 1.0);
           gl_PointSize = a_size;
           v_color = a_color;
@@ -131,19 +130,19 @@ export class ParticleDisintegration extends AStageAnimate<any> {
       const fragmentShaderSource = `
         precision mediump float;
         varying vec4 v_color;
-        
+
         void main() {
           // 创建圆形粒子
           vec2 coord = gl_PointCoord - vec2(0.5);
           float distance = length(coord);
-          
+
           if (distance > 0.5) {
             discard;
           }
-          
+
           // 保持原始颜色，只调整透明度渐变
           float alpha = v_color.a;
-          
+
           // 使用原始颜色，不进行亮度增强
           gl_FragColor = vec4(v_color.rgb, alpha);
         }

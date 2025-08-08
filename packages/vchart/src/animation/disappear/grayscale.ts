@@ -1,6 +1,5 @@
-import { vglobal } from '../../index';
 import { AStageAnimate } from '@visactor/vrender-animate';
-import { EasingType } from '@visactor/vrender-core';
+import { vglobal, EasingType } from '@visactor/vrender-core';
 
 // 颜色效果配置接口
 export interface ColorEffectConfig {
@@ -98,7 +97,7 @@ export class Grayscale extends AStageAnimate<any> {
         attribute vec2 a_position;
         attribute vec2 a_texCoord;
         varying vec2 v_texCoord;
-        
+
         void main() {
           gl_Position = vec4(a_position, 0.0, 1.0);
           v_texCoord = a_texCoord;
@@ -114,12 +113,12 @@ export class Grayscale extends AStageAnimate<any> {
           uniform int u_effectType;
           uniform vec2 u_resolution;
           varying vec2 v_texCoord;
-          
+
           // 灰度转换函数 - 使用标准亮度公式
           float luminance(vec3 color) {
             return dot(color, vec3(0.299, 0.587, 0.114));
           }
-          
+
           // 褐色调函数
           vec3 sepia(vec3 color) {
             float r = color.r * 0.393 + color.g * 0.769 + color.b * 0.189;
@@ -130,7 +129,7 @@ export class Grayscale extends AStageAnimate<any> {
           vec2 uv = v_texCoord;
           vec4 originalColor = texture2D(u_texture, uv);
           vec3 color = originalColor.rgb;
-          
+
           if (u_effectType == 0) {
             // 灰度效果 - 线性增长的动态强度
             float gray = luminance(color);
@@ -143,7 +142,7 @@ export class Grayscale extends AStageAnimate<any> {
             float dynamicStrength = u_strength * (u_time / 6.28318531); // 时间范围0-2π，标准化到0-1
             color = mix(color, sepiaColor, dynamicStrength);
           }
-          
+
           gl_FragColor = vec4(color, originalColor.a);
         }
       `;
