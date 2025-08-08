@@ -1,6 +1,15 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 02 Jul 2025 11:21:17 GMT and should not be manually modified.
+This log was last generated on Fri, 08 Aug 2025 11:02:04 GMT and should not be manually modified.
+
+## 1.13.14
+Fri, 08 Aug 2025 11:02:04 GMT
+
+### Updates
+
+- fix: fix bug of resize by spec
+
+
 
 ## 1.13.13
 Wed, 02 Jul 2025 11:21:17 GMT
