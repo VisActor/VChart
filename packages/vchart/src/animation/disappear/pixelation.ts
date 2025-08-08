@@ -1,6 +1,5 @@
-import { vglobal } from '../../index';
 import { AStageAnimate } from '@visactor/vrender-animate';
-import { EasingType } from '@visactor/vrender-core';
+import { vglobal, EasingType } from '@visactor/vrender-core';
 
 // 像素化效果配置接口
 export interface PixelationConfig {
@@ -272,7 +271,7 @@ export class Pixelation extends AStageAnimate<any> {
       attribute vec2 a_position;
       attribute vec2 a_texCoord;
       varying vec2 v_texCoord;
-      
+
       void main() {
         gl_Position = vec4(a_position, 0.0, 1.0);
         v_texCoord = a_texCoord;
@@ -282,19 +281,19 @@ export class Pixelation extends AStageAnimate<any> {
     // 片段着色器源码 - 实现像素化效果（优化版本）
     const fragmentShaderSource = `
       precision mediump float;
-      
+
       uniform sampler2D u_texture;
       uniform float u_pixelSize;
       uniform vec2 u_resolution;
       varying vec2 v_texCoord;
-      
+
       void main() {
         // 直接使用纹理坐标进行像素化计算
         vec2 uv = v_texCoord;
-        
+
         // 计算像素化后的纹理坐标
         vec2 pixelatedUV = floor(uv * u_resolution / u_pixelSize) * u_pixelSize / u_resolution;
-        
+
         // 采样像素化后的纹理
         gl_FragColor = texture2D(u_texture, pixelatedUV);
       }

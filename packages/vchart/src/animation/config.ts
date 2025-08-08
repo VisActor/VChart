@@ -35,7 +35,7 @@ import {
   FromTo
 } from '@visactor/vrender-animate';
 
-// import { Distortion, ParticleDisintegration, Pixelation, GaussianBlur, Glitch, Grayscale } from './disappear';
+import { Distortion, ParticleDisintegration, Pixelation, GaussianBlur, Glitch, Grayscale } from './disappear';
 
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
@@ -203,11 +203,11 @@ export const registerPolygonAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('growPointsOut', GrowPointsOut);
 };
 
-// export const registerDisappearAnimation = () => {
-//   AnimateExecutor.registerBuiltInAnimate('distortion', Distortion);
-//   AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegration);
-//   AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
-//   AnimateExecutor.registerBuiltInAnimate('gaussianBlur', GaussianBlur);
-//   AnimateExecutor.registerBuiltInAnimate('glitch', Glitch);
-//   AnimateExecutor.registerBuiltInAnimate('grayscale', Grayscale);
-// };
+export const registerDisappearAnimation = () => {
+  AnimateExecutor.registerBuiltInAnimate('distortion', Distortion);
+  AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegration);
+  AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
+  AnimateExecutor.registerBuiltInAnimate('gaussianBlur', GaussianBlur);
+  AnimateExecutor.registerBuiltInAnimate('glitch', Glitch);
+  AnimateExecutor.registerBuiltInAnimate('grayscale', Grayscale);
+};
