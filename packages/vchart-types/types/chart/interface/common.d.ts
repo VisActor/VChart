@@ -5,7 +5,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { ISeriesSpecInfo } from '../../series/interface';
 import type { IRegionSpecInfo } from '../../region/interface';
 import type { IPerformanceHook } from '../../typings';
-export interface IChartOption extends Omit<IModelOption, 'getChartViewRect' | 'getChartLayoutRect' | 'globalScale' | 'getChart' | 'getSeriesData'> {
+export interface IChartOption extends Omit<IModelOption, 'getChartViewRect' | 'getChartLayoutRect' | 'globalScale' | 'getChart' | 'getSeriesData' | 'animation'> {
     container: HTMLElement | null;
     canvas?: HTMLCanvasElement | OffscreenCanvas | string;
     modeParams?: IRenderOption['modeParams'];

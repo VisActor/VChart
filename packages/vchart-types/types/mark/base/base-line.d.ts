@@ -15,7 +15,7 @@ export declare abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLi
     setStyle<T>(style: Partial<ConvertToMarkStyleSpec<T>> | Partial<IMarkStyle<T>>, state?: StateValueType, level?: number): void;
     _isValidPointChannel: (channel: string) => boolean;
     _getLineSegments(items: any[], points: IPointLike[]): any[];
-    _getPrevPoints(g: ILine): IPointLike[];
+    _getPrevPoints(g: ILine): IPointLike[] | null;
     _runPointsEncoder(newStyles: Record<string, (datum: Datum) => any>, g: IMarkGraphic, attrs?: any): any;
     _runEncoderOfGraphic(newStyles: Record<string, (datum: Datum) => any>, g: IMarkGraphic, attrs?: any): any;
     protected _getDataByKey(data: Datum[]): import("../interface").GroupedData<Datum>;

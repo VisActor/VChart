@@ -208,6 +208,7 @@ export declare class VChart implements IVChart {
     private _chartPluginApply;
     protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "tt" | "harmony" | "desktop-miniApp" | "lynx";
     protected getTheme: (...keys: string[]) => any;
+    isAnimationEnable(): boolean;
     protected _getChartOption(type: string): IChartOption;
 }
 export declare const registerVChartCore: () => void;

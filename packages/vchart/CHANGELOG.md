@@ -1,6 +1,22 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 24 Jul 2025 02:07:41 GMT and should not be manually modified.
+This log was last generated on Fri, 08 Aug 2025 09:24:12 GMT and should not be manually modified.
+
+## 2.0.2
+Fri, 08 Aug 2025 09:24:12 GMT
+
+### Updates
+
+- fix: fix bug of vchart onError will be overwritten by undefined
+
+
+- fix: animtion should be run after `spec.animation` is updated, fix #4104
+
+
+- fix: fix issue with normal after no-animate enter state
+- fix: fix height of tooltip element when set transform of container, fix #4109
+
+
 
 ## 2.0.1
 Thu, 24 Jul 2025 02:07:41 GMT

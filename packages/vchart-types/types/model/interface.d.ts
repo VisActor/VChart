@@ -117,7 +117,7 @@ export interface IModelOption extends ICompilableInitOption {
     getChart: () => IChart;
     getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
     globalScale: IGlobalScale;
-    animation: boolean;
+    animation?: boolean;
     onError: (...args: any[]) => void;
     disableTriggerEvent?: boolean;
     getDimensionInfo?: (chart: IChart | undefined, pos: ILayoutPoint, isTooltip?: boolean) => IDimensionInfo[] | null;
