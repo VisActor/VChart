@@ -22,7 +22,6 @@ import { GlobalScale } from '../../scale/global-scale';
 import type { ILayoutModelState, IModel, IModelOption, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
 import type {
   IChart,
-  IChartRenderOption,
   IChartOption,
   IChartEvaluateOption,
   DimensionIndexOption,
@@ -1307,7 +1306,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
               if (isCollect) {
                 graphics.filter(e => {
-                  const elDatum = getDatumOfElement(e, m, s, r);
+                  const elDatum = getDatumOfElement(e, m, s, r) as Datum[];
                   const isPick =
                     // eslint-disable-next-line max-nested-callbacks, eqeqeq
                     elDatum && (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
@@ -1323,7 +1322,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                   const datumTemp = (datum as Datum[]).slice();
 
                   graphics.forEach(e => {
-                    const elDatum = getDatumOfElement(e, m, s, r);
+                    const elDatum = getDatumOfElement(e, m, s, r) as Datum;
                     // eslint-disable-next-line max-nested-callbacks, eqeqeq
                     const index = elDatum && datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
                     if (index >= 0) {
@@ -1336,7 +1335,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                   });
                 } else {
                   const el = graphics.find(e => {
-                    const elDatum = getDatumOfElement(e, m, s, r);
+                    const elDatum = getDatumOfElement(e, m, s, r) as Datum;
                     // eslint-disable-next-line eqeqeq
                     return elDatum && keys.every(k => (datum as Datum[])[0][k] == elDatum[k]);
                   });

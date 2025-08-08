@@ -125,7 +125,7 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
     return null;
   }
 
-  _getPrevPoints(g: ILine) {
+  _getPrevPoints(g: ILine): IPointLike[] | null {
     const { points, segments } = g.attribute;
 
     return (
