@@ -20,7 +20,6 @@ export class Distortion extends AStageAnimate<any> {
   constructor(from: null, to: null, duration: number, easing: any, params: any) {
     super(from, to, duration, easing, params);
 
-    // 初始化扭曲配置，使用传入的参数或默认值
     this.distortionConfig = {
       distortionType: params?.options?.distortionType || 'wave',
       strength: params?.options?.strength || 0.3,
@@ -28,7 +27,7 @@ export class Distortion extends AStageAnimate<any> {
     };
   }
 
-  // WebGL 着色器实现 (性能最佳)
+  // WebGL 着色器实现
   private initWebGL(canvas: HTMLCanvasElement): boolean {
     try {
       // 创建一个WebGL专用的canvas，尺寸和设备像素比与传入canvas一致
@@ -111,8 +110,11 @@ export class Distortion extends AStageAnimate<any> {
           vec2 center = vec2(0.5, 0.5);
           vec2 delta = uv - center;
           float dist = length(delta);
-          float angle = atan(delta.y, delta.x) + dist * strength * 2.0 + time * 0.5;
-          return center + dist * vec2(cos(angle), sin(angle));
+          float originalAngle = atan(delta.y, delta.x);
+          // 旋转角度随时间和强度增长，从0开始
+          float rotationAngle = dist * strength * time * 2.0;
+          float finalAngle = originalAngle + rotationAngle;
+          return center + dist * vec2(cos(finalAngle), sin(finalAngle));
         }
 
         void main() {
@@ -376,10 +378,13 @@ export class Distortion extends AStageAnimate<any> {
         const dx = x - centerX;
         const dy = y - centerY;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const angle = Math.atan2(dy, dx) + distance * strength * 0.02 + time * 0.5;
+        const originalAngle = Math.atan2(dy, dx);
+        // 旋转角度随时间和强度增长，从0开始
+        const rotationAngle = distance * strength * time * 0.02;
+        const finalAngle = originalAngle + rotationAngle;
 
-        const sourceX = Math.round(centerX + distance * Math.cos(angle));
-        const sourceY = Math.round(centerY + distance * Math.sin(angle));
+        const sourceX = Math.round(centerX + distance * Math.cos(finalAngle));
+        const sourceY = Math.round(centerY + distance * Math.sin(finalAngle));
 
         const targetIndex = (y * width + x) * 4;
 
@@ -456,6 +461,7 @@ export class Distortion extends AStageAnimate<any> {
       ctx.putImageData(distortedImageData, 0, 0);
       result = c;
     }
+
     return result;
   }
 }
