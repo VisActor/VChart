@@ -2,6 +2,27 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.3",
+      "tag": "@visactor/vchart_v2.0.3",
+      "date": "Fri, 08 Aug 2025 09:24:12 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix bug of vchart onError will be overwritten by undefined\n\n"
+          },
+          {
+            "comment": "fix: animtion should be run after `spec.animation` is updated, fix #4104\n\n"
+          },
+          {
+            "comment": "fix: fix issue with normal after no-animate enter state"
+          },
+          {
+            "comment": "fix: fix height of tooltip element when set transform of container, fix #4109\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.2",
       "tag": "@visactor/vchart_v2.0.2",
       "date": "Mon, 28 Jul 2025 08:19:21 GMT",

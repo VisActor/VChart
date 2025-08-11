@@ -277,7 +277,7 @@ export function isAnimationEnabledForSeries(series: ISeries) {
     return false;
   }
 
-  if (series.getChart()?.getOption()?.animation === false) {
+  if (series.getOption()?.globalInstance?.isAnimationEnable() === false) {
     return false;
   }
 

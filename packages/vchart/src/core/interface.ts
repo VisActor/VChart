@@ -518,7 +518,11 @@ export interface IVChart {
    * @since 1.11.10
    */
   geoZoomById: (regionId: string | number, zoom: number, center?: { x: number; y: number }) => void;
-
+  /**
+   * @since 2.0.3
+   * 当前图表是否开启了动画功能
+   */
+  isAnimationEnable: () => boolean;
   /** 停止正在进行的所有动画 */
   stopAnimation: () => void;
 

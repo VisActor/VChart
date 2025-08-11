@@ -52,7 +52,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     if (!this._spec) {
       return;
     }
-    const hasAnimation = this._option.animation !== false;
 
     let parentMark: IGroupMark | null = null;
     if (this._spec.parent) {
@@ -63,17 +62,14 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
         parentMark = mark;
       }
     }
-    this._createExtensionMark(this._spec, parentMark, `${PREFIX}_series_${this.id}_extensionMark`, 0, {
-      hasAnimation
-    });
+    this._createExtensionMark(this._spec, parentMark, `${PREFIX}_series_${this.id}_extensionMark`, 0);
   }
 
   private _createExtensionMark(
     spec: ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec,
     parentMark: null | IGroupMark,
     namePrefix: string,
-    index: number = 0,
-    options: { hasAnimation?: boolean }
+    index: number = 0
   ) {
     const mark = this._createMark(
       {
@@ -96,7 +92,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
       mark.setUserId(spec.id);
     }
 
-    if (options.hasAnimation && spec.animation) {
+    if (this._option.globalInstance?.isAnimationEnable() && spec.animation) {
       // 自定义图元默认不添加动画
       const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
       mark.setAnimationConfig(config);
@@ -112,7 +108,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;
       spec.children?.forEach((s, i) => {
-        this._createExtensionMark(s as any, mark, namePrefix, i, options);
+        this._createExtensionMark(s as any, mark, namePrefix, i);
       });
     }
 

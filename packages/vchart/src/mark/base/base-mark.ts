@@ -1269,13 +1269,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         // });
         const stateArray = [state];
 
-        if (state === 'enter' && animationConfig.normal) {
-          shouldRunNormal = true;
-        }
         g.applyAnimationState(stateArray, [configList.length === 1 ? configList[0] : configList]);
         // configList.forEach((item: any) => {
         //   item.animation.customParameters = null;
         // });
+      }
+      if (state === 'enter' && animationConfig.normal) {
+        shouldRunNormal = true;
       }
     });
 
