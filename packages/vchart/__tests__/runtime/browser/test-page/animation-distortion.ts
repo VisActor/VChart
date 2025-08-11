@@ -86,7 +86,7 @@ class TestStageAnimate extends AStageAnimate<any> {
         attribute vec2 a_position;
         attribute vec2 a_texCoord;
         varying vec2 v_texCoord;
-        
+
         void main() {
           gl_Position = vec4(a_position, 0.0, 1.0);
           v_texCoord = a_texCoord;
@@ -102,14 +102,14 @@ class TestStageAnimate extends AStageAnimate<any> {
         uniform int u_distortionType;
         uniform vec2 u_resolution;
         varying vec2 v_texCoord;
-        
+
         // 波浪扭曲函数，根据时间和强度计算纹理坐标偏移
         vec2 wave(vec2 uv, float time, float strength) {
           float waveX = sin(uv.y * 10.0 + time * 3.0) * strength * 0.1;
           float waveY = sin(uv.x * 10.0 + time * 2.0) * strength * 0.1;
           return uv + vec2(waveX, waveY);
         }
-        
+
         // 涟漪扭曲函数，基于中心点和距离计算波纹偏移
         vec2 ripple(vec2 uv, float time, float strength) {
           vec2 center = vec2(0.5, 0.5);
@@ -118,20 +118,23 @@ class TestStageAnimate extends AStageAnimate<any> {
           vec2 direction = normalize(uv - center);
           return uv + direction * ripple;
         }
-        
+
         // 漩涡扭曲函数，基于距离和角度计算旋转偏移
         vec2 swirl(vec2 uv, float time, float strength) {
           vec2 center = vec2(0.5, 0.5);
           vec2 delta = uv - center;
           float dist = length(delta);
-          float angle = atan(delta.y, delta.x) + dist * strength * 2.0 + time * 0.5;
-          return center + dist * vec2(cos(angle), sin(angle));
+          float originalAngle = atan(delta.y, delta.x);
+          // 旋转角度随时间和强度增长，从0开始
+          float rotationAngle = dist * strength * time * 2.0;
+          float finalAngle = originalAngle + rotationAngle;
+          return center + dist * vec2(cos(finalAngle), sin(finalAngle));
         }
-        
+
         void main() {
           // 使用原始纹理坐标，不需要Y轴翻转
           vec2 uv = v_texCoord;
-          
+
           // 根据传入的扭曲类型选择对应的扭曲函数
           if (u_distortionType == 0) {
             uv = wave(uv, u_time, u_strength);
@@ -140,7 +143,7 @@ class TestStageAnimate extends AStageAnimate<any> {
           } else if (u_distortionType == 2) {
             uv = swirl(uv, u_time, u_strength);
           }
-          
+
           // 边界检查，超出纹理坐标范围则输出透明色
           if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
             gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
@@ -389,10 +392,13 @@ class TestStageAnimate extends AStageAnimate<any> {
         const dx = x - centerX;
         const dy = y - centerY;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const angle = Math.atan2(dy, dx) + distance * strength * 0.02 + time * 0.5;
+        const originalAngle = Math.atan2(dy, dx);
+        // 旋转角度随时间和强度增长，从0开始
+        const rotationAngle = distance * strength * time * 0.02;
+        const finalAngle = originalAngle + rotationAngle;
 
-        const sourceX = Math.round(centerX + distance * Math.cos(angle));
-        const sourceY = Math.round(centerY + distance * Math.sin(angle));
+        const sourceX = Math.round(centerX + distance * Math.cos(finalAngle));
+        const sourceY = Math.round(centerY + distance * Math.sin(finalAngle));
 
         const targetIndex = (y * width + x) * 4;
 
@@ -588,7 +594,7 @@ let spec = {
       duration: 3000,
       easing: 'linear',
       options: {
-        distortionType: 'ripple', // 可选值：'wave', 'ripple', 'swirl'
+        distortionType: 'wave', // 可选值：'wave', 'ripple', 'swirl'
         strength: 0.3,
         useWebGL: true
       }
