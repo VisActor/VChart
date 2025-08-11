@@ -2,8 +2,8 @@
   "name": "@visactor/vchart",
   "entries": [
     {
-      "version": "2.0.2",
-      "tag": "@visactor/vchart_v2.0.2",
+      "version": "2.0.3",
+      "tag": "@visactor/vchart_v2.0.3",
       "date": "Fri, 08 Aug 2025 09:24:12 GMT",
       "comments": {
         "none": [
@@ -21,6 +21,12 @@
           }
         ]
       }
+    },
+    {
+      "version": "2.0.2",
+      "tag": "@visactor/vchart_v2.0.2",
+      "date": "Mon, 28 Jul 2025 08:19:21 GMT",
+      "comments": {}
     },
     {
       "version": "2.0.1",
