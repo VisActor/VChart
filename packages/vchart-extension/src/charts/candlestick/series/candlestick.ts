@@ -22,16 +22,15 @@ import type { ICandlestickSeriesSpec } from './interface';
 import { registerCandlestickScaleAnimation } from './animation';
 import { CANDLESTICK_SERIES_TYPE, CandlestickSeriesMark } from './constant';
 import { CandlestickSeriesTooltipHelper } from './tooltip-helper';
+import { candlestick } from './theme';
 
 const DEFAULT_STROKE_WIDTH = 2;
 export const DEFAULT_STROKE_COLOR = '#000';
-export const DEFAULT_RISE_COLOR = '#FF0000';
-export const DEFAULT_FALL_COLOR = '#00AA00';
-
 export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = CANDLESTICK_SERIES_TYPE;
   type = CANDLESTICK_SERIES_TYPE;
 
+  static readonly builtInTheme = { candlestick };
   static readonly mark = CandlestickSeriesMark;
   protected _openField: string;
   getOpenField(): string {
@@ -51,41 +50,59 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
   }
   protected _lineWidth: number;
   protected _boxWidth: number;
-  protected _boxFillColor: string | ((datum: Datum) => string);
-  getBoxFillColor(): string | ((datum: Datum) => string) {
-    return this._boxFillColor;
+  protected _boxFill: string | ((datum: Datum) => string);
+  getBoxFill(): string | ((datum: Datum) => string) {
+    return this._boxFill;
   }
   protected _strokeColor: string;
   getStrokeColor(): string {
     return this._strokeColor;
   }
-  protected _riseColor: string;
-  getRiseColor(): string {
-    return this._riseColor;
+  protected _riseFill: string;
+  getRiseFill(): string {
+    return this._riseFill;
   }
-  protected _fallColor: string;
-  getFallColor(): string {
-    return this._fallColor;
+  protected _riseStroke: string;
+  getRiseStroke(): string {
+    return this._riseStroke;
   }
-  protected _dojiColor: string;
-  getDojiColor(): string {
-    return this._dojiColor;
+  protected _fallFill: string;
+  getFallFill(): string {
+    return this._fallFill;
+  }
+  protected _fallStroke: string;
+  getFallStroke(): string {
+    return this._fallStroke;
+  }
+  protected _dojiFill: string;
+  getDojiFill(): string {
+    return this._dojiFill;
+  }
+  protected _dojiStroke: string;
+  getDojiStroke(): string {
+    return this._dojiStroke;
   }
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
     const spec = this._spec;
     const CandlestickStyle: any = spec.candlestick?.style ?? {};
+    const risingStyle: any = spec.rising?.style ?? {};
+    const fallingStyle: any = spec.falling?.style ?? {};
+    const dojiStyle: any = spec.doji?.style ?? {};
     this._openField = spec.openField;
     this._highField = spec.highField;
     this._lowField = spec.lowField;
     this._closeField = spec.closeField;
-    this._riseColor = spec.candlestickColor?.rising ?? DEFAULT_RISE_COLOR;
-    this._fallColor = spec.candlestickColor?.falling ?? DEFAULT_FALL_COLOR;
-    this._dojiColor = spec.candlestickColor?.doji ?? DEFAULT_STROKE_COLOR;
     this._lineWidth = CandlestickStyle.lineWidth ?? DEFAULT_STROKE_WIDTH;
     this._boxWidth = CandlestickStyle.boxWidth;
-    this._boxFillColor = CandlestickStyle.boxFill;
+    this._boxFill = CandlestickStyle.boxFill;
+    this._riseFill = risingStyle.boxFill;
+    this._riseStroke = risingStyle.stroke;
+    this._fallFill = fallingStyle.boxFill;
+    this._fallStroke = fallingStyle.stroke;
+    this._dojiFill = dojiStyle.boxFill;
+    this._dojiStroke = dojiStyle.stroke;
     this._strokeColor = CandlestickStyle.strokeColor;
   }
 
@@ -103,7 +120,7 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     if (candlestickMark) {
       const CandlestickStyles = {
         boxWidth: this._boxWidth,
-        fill: this._boxFillColor ?? this.getCandlestickColorAttribute.bind(this),
+        fill: this._boxFill ?? this.getCandlestickColorAttribute.bind(this),
         stroke: this._strokeColor ?? this.getCandlestickColorAttribute.bind(this),
         x: this.dataToPositionX.bind(this)
       };
@@ -197,9 +214,9 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     const open = openArr[0];
     const close = closeArr[0];
     if (open < close) {
-      return this._riseColor;
+      return this._riseFill;
     } else if (open > close) {
-      return this._fallColor;
+      return this._fallFill;
     }
     return this._strokeColor ?? DEFAULT_STROKE_COLOR;
   }

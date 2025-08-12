@@ -8,21 +8,6 @@ import type {
 } from '@visactor/vchart';
 import type { ICandlestickMarkSpec } from '../mark/interface';
 
-export type candlestickColorConfig = {
-  /**
-   * 上涨蜡烛图颜色
-   */
-  rising: string;
-  /**
-   * 下跌蜡烛图颜色
-   */
-  falling: string;
-  /**
-   * 平盘蜡烛图颜色
-   */
-  doji?: string;
-};
-
 export interface ICandlestickSeriesSpec
   extends Omit<ICartesianSeriesSpec, 'xField' | 'yField' | 'direction'>,
     IAnimationSpec<SeriesMarkNameEnum.boxPlot, string> {
@@ -48,9 +33,17 @@ export interface ICandlestickSeriesSpec
    */
   closeField?: string;
   /**
-   * 蜡烛图颜色配置
+   * 上涨蜡烛图颜色
    */
-  candlestickColor?: candlestickColorConfig;
+  rising?: IMarkSpec<ICandlestickMarkSpec>;
+  /**
+   * 下跌蜡烛图颜色
+   */
+  falling?: IMarkSpec<ICandlestickMarkSpec>;
+  /**
+   * 平盘蜡烛图颜色
+   */
+  doji?: IMarkSpec<ICandlestickMarkSpec>;
   /**
    * 蜡烛图标记配置
    */
@@ -59,4 +52,7 @@ export interface ICandlestickSeriesSpec
 
 export interface ICandlestickSeriesTheme extends ICartesianSeriesTheme {
   candlestick?: Partial<IMarkTheme<ICandlestickMarkSpec>>;
+  rising?: Partial<IMarkTheme<ICandlestickMarkSpec>>;
+  falling?: Partial<IMarkTheme<ICandlestickMarkSpec>>;
+  doji?: Partial<IMarkTheme<ICandlestickMarkSpec>>;
 }

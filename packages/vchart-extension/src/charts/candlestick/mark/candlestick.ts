@@ -52,6 +52,7 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
         x1: x + boxWidth / 2,
         y: Math.min(open, close),
         y1: Math.max(open, close),
+        // 开盘收盘相同时绘制水平线
         drawStrokeWhenZeroWH: true
       };
       return attributes;
