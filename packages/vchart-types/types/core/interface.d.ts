@@ -102,6 +102,7 @@ export interface IVChart {
         x: number;
         y: number;
     }) => void;
+    isAnimationEnable: () => boolean;
     stopAnimation: () => void;
     pauseAnimation: () => void;
     resumeAnimation: () => void;
