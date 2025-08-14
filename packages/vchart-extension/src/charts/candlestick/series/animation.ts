@@ -1,4 +1,4 @@
-import type { EasingType, ILineAttribute, IRectAttribute } from '@visactor/vrender-core';
+import type { EasingType } from '@visactor/vrender-core';
 import type { IGlyph } from '@visactor/vrender-core';
 import type { IAnimationParameters } from '@visactor/vchart';
 import { isValidNumber } from '@visactor/vutils';
@@ -14,15 +14,9 @@ type TypeAnimation = (
   animationParameters: IAnimationParameters
 ) => { from?: { [channel: string]: any }; to?: { [channel: string]: any } };
 
-const scaleIn = (
-  computeCenter: (graphic: IGlyph, options: ICandlestickScaleAnimationOptions) => number
-): TypeAnimation => {
-  return (graphic: IGlyph, options: ICandlestickScaleAnimationOptions, animationParameters: IAnimationParameters) => {
+const scaleIn = (): TypeAnimation => {
+  return (graphic: IGlyph) => {
     const finalAttribute = graphic.getFinalAttribute();
-    const center = computeCenter(graphic, options);
-    if (!isValidNumber(center)) {
-      return {};
-    }
     const { x, y, open, high, low, close } = finalAttribute;
     const animateAttributes: any = { from: { x, y }, to: { x, y } };
     if (isValidNumber(open) && isValidNumber(close)) {
@@ -50,15 +44,9 @@ const scaleIn = (
   };
 };
 
-const scaleOut = (
-  computeCenter: (mark: IGlyph, options: ICandlestickScaleAnimationOptions) => number
-): TypeAnimation => {
-  return (graphic: IGlyph, options: ICandlestickScaleAnimationOptions, animationParameters: IAnimationParameters) => {
+const scaleOut = (): TypeAnimation => {
+  return (graphic: IGlyph) => {
     const finalAttribute = graphic.getFinalAttribute();
-    const center = computeCenter(graphic, options);
-    if (!isValidNumber(center)) {
-      return {};
-    }
     const { x, y, open, high, low, close } = finalAttribute;
 
     const animateAttributes: any = { from: { x, y }, to: { x, y } };
@@ -86,31 +74,6 @@ const scaleOut = (
     return animateAttributes;
   };
 };
-const getGlyphChildByName = (mark: IGlyph, name: string) => {
-  return mark.getSubGraphic().find(child => child.name === name);
-};
-
-const computeCandlestickCenter = (glyphMark: IGlyph, options: ICandlestickScaleAnimationOptions) => {
-  if (options && isValidNumber(options.center)) {
-    return options.center;
-  }
-  const lineAttr = getGlyphChildByName(glyphMark, 'line')?.attribute as ILineAttribute | undefined;
-  const boxAttr = getGlyphChildByName(glyphMark, 'box')?.attribute as IRectAttribute | undefined;
-
-  if (boxAttr && isValidNumber(boxAttr.y1) && isValidNumber(boxAttr.height)) {
-    const y0 = boxAttr.y1 - boxAttr.height;
-    const y1 = boxAttr.y1;
-    return (y0 + y1) / 2;
-  }
-
-  if (lineAttr?.points?.length === 2) {
-    const y0 = lineAttr.points[0].y;
-    const y1 = lineAttr.points[1].y;
-    return (y0 + y1) / 2;
-  }
-
-  return NaN;
-};
 
 export class CandlestickScaleIn extends ACustomAnimate<Record<string, number>> {
   constructor(from: null, to: null, duration: number, easing: EasingType, params?: ICandlestickScaleAnimationOptions) {
@@ -132,7 +95,7 @@ export class CandlestickScaleIn extends ACustomAnimate<Record<string, number>> {
   }
 
   computeAttribute() {
-    const attr = scaleIn(computeCandlestickCenter)(this.target as IGlyph, this.params, this.params.options);
+    const attr = scaleIn()(this.target as IGlyph, this.params, this.params.options);
     return attr;
   }
 
@@ -163,7 +126,7 @@ export class CandlestickScaleOut extends ACustomAnimate<Record<string, number>> 
   }
 
   computeAttribute() {
-    const attr = scaleOut(computeCandlestickCenter)(this.target as IGlyph, this.params, this.params.options);
+    const attr = scaleOut()(this.target as IGlyph, this.params, this.params.options);
     return attr;
   }
 

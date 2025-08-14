@@ -82,6 +82,7 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
   getDojiStroke(): string {
     return this._dojiStroke;
   }
+  private _autoBoxWidth: number;
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -119,9 +120,9 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     const candlestickMark = this._candlestickMark;
     if (candlestickMark) {
       const CandlestickStyles = {
-        boxWidth: this._boxWidth,
         fill: this._boxFill ?? this.getCandlestickColorAttribute.bind(this),
         stroke: this._strokeColor ?? this.getCandlestickColorAttribute.bind(this),
+        boxWidth: this._boxWidth ?? this._getMarkWidth.bind(this),
         x: this.dataToPositionX.bind(this)
       };
       (candlestickMark as IGlyphMark).setGlyphConfig({});
@@ -219,6 +220,26 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
       return this._fallFill;
     }
     return this._strokeColor ?? DEFAULT_STROKE_COLOR;
+  }
+
+  private _getMarkWidth() {
+    if (this._autoBoxWidth) {
+      return this._autoBoxWidth;
+    }
+    //获取自适应的图元宽度
+    const bandAxisHelper = this._xAxisHelper;
+    const xField = this._fieldX;
+
+    const innerBandWidth = bandAxisHelper.getBandwidth(xField.length - 1);
+    const autoBoxWidth = innerBandWidth / xField.length;
+    this._autoBoxWidth = autoBoxWidth;
+
+    return this._autoBoxWidth;
+  }
+
+  onLayoutEnd() {
+    super.onLayoutEnd();
+    this._autoBoxWidth = null;
   }
 
   getActiveMarks(): IMark[] {

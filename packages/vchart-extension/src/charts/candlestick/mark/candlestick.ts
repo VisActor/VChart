@@ -61,8 +61,7 @@ export class CandlestickMark extends GlyphMark<ICandlestickMarkSpec> implements 
 
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<ICandlestickMarkSpec> = {
-      ...super._getDefaultStyle(),
-      boxWidth: 40
+      ...super._getDefaultStyle()
     };
     return defaultStyle;
   }

@@ -12,7 +12,9 @@ export class CandlestickChartSpecTransformer<
       'highField',
       'lowField',
       'closeField',
-      'candlestickColor'
+      'rising',
+      'falling',
+      'doji'
     ]);
     seriesSpec.yField = dataFields;
     return seriesSpec;
