@@ -88,7 +88,10 @@ export function transformIndicatorStyle(style: any, datum: any) {
 
 export function transformToGraphic(style: any) {
   if (style?.angle) {
-    style.angle = degreeToRadian(style.angle);
+    return {
+      ...style,
+      angle: degreeToRadian(style.angle)
+    };
   }
 
   return style;
