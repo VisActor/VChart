@@ -48,8 +48,6 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
         enable: boolean;
         trigger?: 'click' | 'hover';
         effect: 'self' | 'adjacency' | 'related';
-        highlightState?: string;
-        blurState?: string;
     };
     [SeriesMarkNameEnum.label]?: ISankeyLabelSpec | ISankeyLabelSpec[];
     overflow?: 'scroll' | 'hidden' | 'scroll-x' | 'scroll-y';

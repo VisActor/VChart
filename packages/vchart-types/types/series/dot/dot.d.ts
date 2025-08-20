@@ -63,7 +63,7 @@ export declare class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extend
     protected initTooltip(): void;
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
     protected onMarkTreePositionUpdate(marks: IMark[]): void;
-    getDotData(): import("../..").IMarkData;
+    getDotData(): import("../../compile/mark").IMarkData;
     protected _getDataIdKey(): any;
     getStackValueField(): string;
     getActiveMarks(): IMark[];
