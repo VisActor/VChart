@@ -202,6 +202,7 @@ export abstract class DisappearAnimateBase<T = any> extends AStageAnimate<T> {
     }
 
     const texture = this.gl.createTexture();
+    this.gl.activeTexture(this.gl.TEXTURE0); // 激活纹理单元0
     this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
     this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, canvas);
     this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
@@ -282,6 +283,34 @@ export abstract class DisappearAnimateBase<T = any> extends AStageAnimate<T> {
     // 通过尝试调用来检查是否有实现
     // 这里通过检查方法是否被重写来判断
     return this.applyCanvas2DEffect !== DisappearAnimateBase.prototype.applyCanvas2DEffect;
+  }
+
+  /**
+   * 释放WebGL资源
+   */
+  release(): void {
+    super.release();
+
+    // 清理WebGL资源
+    if (this.gl) {
+      // 删除着色器程序
+      if (this.program) {
+        this.gl.deleteProgram(this.program);
+        this.program = null;
+      }
+
+      // WebGL上下文会在canvas被垃圾回收时自动清理
+      this.gl = null;
+    }
+
+    // 清理WebGL canvas
+    if (this.webglCanvas) {
+      this.webglCanvas = null;
+    }
+
+    // 重置动画状态
+    this.currentAnimationRatio = 0;
+    this.animationTime = 0;
   }
 
   protected afterStageRender(stage: any, canvas: HTMLCanvasElement): HTMLCanvasElement | void | null | false {

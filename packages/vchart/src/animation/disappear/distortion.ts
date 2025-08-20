@@ -2,7 +2,7 @@ import { AStageAnimate } from '@visactor/vrender-animate';
 import { vglobal, EasingType } from '@visactor/vrender-core';
 
 // 扭曲效果配置接口
-export interface DistortionConfig {
+interface DistortionConfig {
   distortionType?: 'wave' | 'ripple' | 'swirl'; // 扭曲效果类型
   strength?: number; // 扭曲强度
   useWebGL?: boolean; // 是否使用WebGL实现

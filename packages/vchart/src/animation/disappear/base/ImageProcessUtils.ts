@@ -1,7 +1,7 @@
 import { vglobal } from '@visactor/vrender-core';
 
 /**
- * 图像处理工具类，提取公共的图像处理逻辑
+ * 图像处理工具类，公共的图像处理逻辑
  */
 export class ImageProcessUtils {
   /**
@@ -204,11 +204,6 @@ export class ShaderLibrary {
       return a * (1.0 - t) + b * t;
     }
 
-    // 平滑步进函数
-    float smoothstep(float edge0, float edge1, float x) {
-      float t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0);
-      return t * t * (3.0 - 2.0 * t);
-    }
 
     // 简单噪声函数
     float pixelNoise(vec2 coord, float pixelSize) {
