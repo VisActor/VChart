@@ -70,6 +70,7 @@ const spec = {
       type: 'candlestick',
       dataIndex: 0,
       xField: 'time',
+      yField: ['open', 'close', 'high', 'low'],
       openField: 'open',
       closeField: 'close',
       highField: 'high',
@@ -79,14 +80,21 @@ const spec = {
       type: 'line',
       id: 'line',
       dataIndex: 1,
-      label: { visible: true },
       xField: 'time',
       yField: 'ma',
-      stack: false
+      line: {
+        style: {
+          stroke: 'rgb(229, 193, 160)',
+          lineWidth: 2
+        }
+      },
+      point: {
+        visible: false
+      }
     }
   ],
   axes: [
-    { orient: 'left', seriesIndex: [1] },
+    { orient: 'left', seriesIndex: [0, 1] },
     { orient: 'bottom', label: { visible: true }, type: 'band' }
   ]
 };

@@ -45,7 +45,7 @@ const data = [
 
 const spec = {
   type: 'common',
-  data: [{ data }],
+  data: [{ values: data }],
   layout: {
     type: 'grid',
     col: 2,
@@ -58,10 +58,7 @@ const spec = {
       { modelId: 'axis-y-volume', col: 0, row: 2 }
     ]
   },
-  region: [
-    { id: 'region-k', height: '70%' },
-    { id: 'region-volume', height: '30%' }
-  ],
+  region: [{ id: 'region-k', height: 0.7 }, { id: 'region-volume' }],
   padding: {
     top: 10
   },
@@ -70,6 +67,7 @@ const spec = {
       regionId: 'region-k',
       type: 'candlestick',
       xField: 'time',
+      yField: ['open', 'close', 'high', 'low'],
       openField: 'open',
       closeField: 'close',
       highField: 'high',
@@ -84,13 +82,13 @@ const spec = {
       data: { values: data },
       bar: {
         style: {
-          fill: datum => {
+          fill: (datum: Datum) => {
             if (datum.open < datum.close) {
-              return '#FF0000'; // 涨
+              return '#FF0000';
             } else if (datum.open > datum.close) {
-              return '#00AA00'; // 跌
+              return '#00AA00';
             } else {
-              return '#999999'; // 平
+              return '#000000';
             }
           }
         }
@@ -110,7 +108,7 @@ const spec = {
     },
     {
       id: 'axis-x',
-      regionId: 'region-volume',
+      regionId: ['region-volume', 'region-k'],
       orient: 'bottom'
     }
   ]
