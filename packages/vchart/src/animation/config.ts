@@ -35,7 +35,15 @@ import {
   FromTo
 } from '@visactor/vrender-animate';
 
-import { Distortion, ParticleDisintegration, Pixelation, GaussianBlur, Glitch, Grayscale, Dissolve } from './disappear';
+import {
+  Pixelation,
+  GaussianBlur,
+  ParticleDisintegrationRefactor,
+  DistortionDisintegrationRefactor,
+  GlitchDisintegrationRefactor,
+  GrayscaleDisintegrationRefactor,
+  DissolveRefactor
+} from './disappear';
 
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
@@ -204,11 +212,12 @@ export const registerPolygonAnimation = () => {
 };
 
 export const registerDisappearAnimation = () => {
-  AnimateExecutor.registerBuiltInAnimate('distortion', Distortion);
-  AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegration);
+  AnimateExecutor.registerBuiltInAnimate('distortion', DistortionDisintegrationRefactor);
+  // AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegration);
   AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
   AnimateExecutor.registerBuiltInAnimate('gaussianBlur', GaussianBlur);
-  AnimateExecutor.registerBuiltInAnimate('glitch', Glitch);
-  AnimateExecutor.registerBuiltInAnimate('grayscale', Grayscale);
-  AnimateExecutor.registerBuiltInAnimate('dissolve', Dissolve);
+  AnimateExecutor.registerBuiltInAnimate('glitch', GlitchDisintegrationRefactor);
+  AnimateExecutor.registerBuiltInAnimate('grayscale', GrayscaleDisintegrationRefactor);
+  AnimateExecutor.registerBuiltInAnimate('dissolve', DissolveRefactor);
+  AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegrationRefactor);
 };

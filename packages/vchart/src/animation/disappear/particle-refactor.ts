@@ -1,8 +1,13 @@
 import { EasingType } from '@visactor/vrender-core';
 import { HybridEffectBase } from './base/CustomEffectBase';
-import { ParticleEffectConfig, EffectConfigFactory, EffectType } from './base/DisappearEffectConfig';
 import { ImageProcessUtils } from './base/ImageProcessUtils';
 
+export interface ParticleConfig {
+  effectType?: 'explode' | 'vortex' | 'gravity'; // 粒子效果类型
+  count?: number; // 粒子数量
+  size?: number; // 粒子大小
+  strength?: number; // 力场强度
+}
 // 粒子数据结构
 export interface ParticleData {
   x: number;
@@ -27,16 +32,17 @@ export class ParticleDisintegrationRefactor extends HybridEffectBase {
   private particles: ParticleData[] = [];
   private positionBuffer: WebGLBuffer | null = null;
   private colorBuffer: WebGLBuffer | null = null;
-  private particleConfig: ParticleEffectConfig;
+  private particleConfig: ParticleConfig;
 
   constructor(from: null, to: null, duration: number, easing: EasingType, params: any) {
     super(from, to, duration, easing, params);
 
-    // 使用配置工厂初始化粒子配置
-    this.particleConfig = EffectConfigFactory.getDefaultConfig(
-      EffectType.PARTICLE,
-      params?.options
-    ) as ParticleEffectConfig;
+    this.particleConfig = {
+      effectType: params?.options?.effectType || 'gravity', //'explode' | 'vortex' | 'gravity'; // 粒子效果类型
+      count: params?.options?.count || 4000,
+      size: params?.options?.size || 20,
+      strength: params?.options?.strength || 1.5
+    };
   }
 
   // WebGL实现 - 高性能版本

@@ -19,7 +19,6 @@ export class Grayscale extends AStageAnimate<any> {
   private colorConfig: ColorEffectConfig;
 
   constructor(from: null, to: null, duration: number, easing: EasingType, params: any) {
-    // 调用父类构造函数，传递必要的参数
     super(from, to, duration, easing, params);
 
     // 初始化颜色效果配置，使用传入的参数或默认值
@@ -32,10 +31,7 @@ export class Grayscale extends AStageAnimate<any> {
 
   // 重写onUpdate方法，接收动画进度
   onUpdate(end: boolean, ratio: number, out: any): void {
-    // 调用父类的onUpdate
     super.onUpdate(end, ratio, out);
-
-    // 更新当前动画进度
     this.currentAnimationRatio = ratio;
 
     // 根据动画进度计算时间值，用于动态效果
@@ -43,7 +39,7 @@ export class Grayscale extends AStageAnimate<any> {
     this.animationTime = ratio * Math.PI * 2; // 转换为0-2π范围，适合三角函数
   }
 
-  // 获取基于父类动画系统的时间
+  // 获取动画系统的时间
   private getAnimationTime(): number {
     // 优先使用基于动画进度的时间
     if (this.currentAnimationRatio > 0) {
@@ -51,11 +47,6 @@ export class Grayscale extends AStageAnimate<any> {
     }
     // 如果动画未运行，返回连续时间作为后备
     return Date.now() / 1000.0;
-  }
-
-  // 获取父类的duration配置
-  getDurationFromParent(): number {
-    return this.duration || 1000;
   }
 
   // WebGL 着色器实现 (性能最佳)
