@@ -8,9 +8,6 @@ export interface GlitchConfig {
 }
 
 export class Glitch extends AStageAnimate<any> {
-  private frameCount = 0; // 帧计数器，用于动态效果
-
-  // 故障效果配置
   private glitchConfig: Required<GlitchConfig>;
 
   constructor(from: null, to: null, duration: number, easing: EasingType, params: any) {
@@ -23,7 +20,7 @@ export class Glitch extends AStageAnimate<any> {
     };
   }
 
-  // RGB通道偏移故障效果
+  // 1: RGB通道偏移故障效果
   private applyRGBShiftGlitch(canvas: HTMLCanvasElement, intensity: number): HTMLCanvasElement {
     const c = vglobal.createCanvas({
       width: canvas.width,
@@ -115,7 +112,7 @@ export class Glitch extends AStageAnimate<any> {
     return new ImageData(channelData, width, height);
   }
 
-  // 优化版本2: 数字扭曲故障效果
+  // 2: 数字扭曲故障效果
   private applyDigitalDistortionGlitch(imageData: ImageData, intensity: number): ImageData {
     const { data, width, height } = imageData;
     const result = new Uint8ClampedArray(data);
@@ -181,7 +178,7 @@ export class Glitch extends AStageAnimate<any> {
     }
   }
 
-  // 优化版本3: 扫描线故障效果 (TOP3)
+  // 3: 扫描线故障效果
   private applyScanLineGlitch(canvas: HTMLCanvasElement, intensity: number): HTMLCanvasElement {
     const c = vglobal.createCanvas({
       width: canvas.width,
@@ -221,7 +218,7 @@ export class Glitch extends AStageAnimate<any> {
     return c;
   }
 
-  // 优化版本5: 数据损坏故障效果 (TOP5)
+  // 4: 数据损坏故障效果
   private applyDataCorruptionGlitch(imageData: ImageData, intensity: number): ImageData {
     const { data, width, height } = imageData;
     const result = new Uint8ClampedArray(data);
@@ -282,8 +279,6 @@ export class Glitch extends AStageAnimate<any> {
   }
 
   protected afterStageRender(stage: any, canvas: HTMLCanvasElement): HTMLCanvasElement | void | null | false {
-    this.frameCount++;
-
     // 如果强度为0，直接返回原图
     if (this.glitchConfig.intensity <= 0) {
       return canvas;

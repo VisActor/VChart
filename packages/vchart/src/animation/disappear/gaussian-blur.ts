@@ -14,7 +14,6 @@ export class GaussianBlur extends AStageAnimate<any> {
   constructor(from: null, to: null, duration: number, easing: EasingType, params: any) {
     super(from, to, duration, easing, params);
 
-    // 初始化模糊配置，使用传入的参数或默认值
     this.blurConfig = {
       blurRadius: params?.options?.blurRadius || 8,
       useOptimizedBlur: params?.options?.useOptimizedBlur !== undefined ? params.options.useOptimizedBlur : true

@@ -1,28 +1,21 @@
-import { AStageAnimate } from '@visactor/vrender-animate';
 import { vglobal, EasingType } from '@visactor/vrender-core';
+import { DisappearAnimateBase } from './base/DisappearAnimateBase';
 
 export interface PixelationConfig {
   maxPixelSize?: number; // 最大像素化强度
-  method?: 'out' | 'in'; // 像素化方法：out为增强效果，in为减弱效果
+  method?: 'out' | 'in'; // 像素化方法：out为出场效果，in为入场效果
 }
 
-export class Pixelation extends AStageAnimate<any> {
-  private currentAnimationRatio: number = 0;
+export class Pixelation extends DisappearAnimateBase<any> {
   private pixelationConfig: Required<PixelationConfig>;
 
   constructor(from: null, to: null, duration: number, easing: EasingType, params: any) {
     super(from, to, duration, easing, params);
 
-    // 初始化像素化配置，使用传入的参数或默认值
     this.pixelationConfig = {
       maxPixelSize: params?.options?.maxPixelSize || 20,
       method: params?.options?.method || 'out'
     };
-  }
-
-  onUpdate(end: boolean, ratio: number, out: any): void {
-    super.onUpdate(end, ratio, out);
-    this.currentAnimationRatio = ratio; // ratio已经经过easing函数处理
   }
 
   // Canvas 2D 降采样像素化
@@ -71,10 +64,8 @@ export class Pixelation extends AStageAnimate<any> {
     return outputCanvas;
   }
 
-  // 更新动画进度，直接使用框架提供的ratio
   private updateAnimationProgress(): number {
     // 直接根据动画进度计算像素化强度
-    // ratio已经经过easing函数处理，无需额外的缓动计算
 
     if (this.pixelationConfig.method === 'in') {
       // 入场效果：从最大值逐渐减小到1
