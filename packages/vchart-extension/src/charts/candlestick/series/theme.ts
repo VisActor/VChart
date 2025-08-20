@@ -1,6 +1,6 @@
 import type { ICandlestickSeriesTheme } from '../series/interface';
 
-export const getCandlestickTheme = (is3d?: boolean): ICandlestickSeriesTheme => {
+export const getCandlestickTheme = (): ICandlestickSeriesTheme => {
   const res: ICandlestickSeriesTheme = {
     rising: {
       style: {
@@ -16,8 +16,13 @@ export const getCandlestickTheme = (is3d?: boolean): ICandlestickSeriesTheme => 
     },
     doji: {
       style: {
-        boxFill: '#0000FF',
-        stroke: '#0000FF'
+        boxFill: '#000000',
+        stroke: '#000000'
+      }
+    },
+    candlestick: {
+      style: {
+        lineWidth: 1
       }
     }
   };

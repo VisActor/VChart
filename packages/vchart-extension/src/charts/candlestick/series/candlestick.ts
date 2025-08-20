@@ -24,7 +24,6 @@ import { CANDLESTICK_SERIES_TYPE, CandlestickSeriesMark } from './constant';
 import { CandlestickSeriesTooltipHelper } from './tooltip-helper';
 import { candlestick } from './theme';
 
-const DEFAULT_STROKE_WIDTH = 2;
 export const DEFAULT_STROKE_COLOR = '#000';
 export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = CANDLESTICK_SERIES_TYPE;
@@ -48,7 +47,6 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
   getCloseField(): string {
     return this._closeField;
   }
-  protected _lineWidth: number;
   protected _boxWidth: number;
   protected _boxFill: string | ((datum: Datum) => string);
   getBoxFill(): string | ((datum: Datum) => string) {
@@ -58,53 +56,30 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
   getStrokeColor(): string {
     return this._strokeColor;
   }
-  protected _riseFill: string;
-  getRiseFill(): string {
-    return this._riseFill;
-  }
-  protected _riseStroke: string;
-  getRiseStroke(): string {
-    return this._riseStroke;
-  }
-  protected _fallFill: string;
-  getFallFill(): string {
-    return this._fallFill;
-  }
-  protected _fallStroke: string;
-  getFallStroke(): string {
-    return this._fallStroke;
-  }
-  protected _dojiFill: string;
-  getDojiFill(): string {
-    return this._dojiFill;
-  }
-  protected _dojiStroke: string;
-  getDojiStroke(): string {
-    return this._dojiStroke;
-  }
   private _autoBoxWidth: number;
+  private _mergedStyles: { rising: any; falling: any; doji: any } = {
+    rising: {},
+    falling: {},
+    doji: {}
+  };
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
     const spec = this._spec;
     const CandlestickStyle: any = spec.candlestick?.style ?? {};
-    const risingStyle: any = spec.rising?.style ?? {};
-    const fallingStyle: any = spec.falling?.style ?? {};
-    const dojiStyle: any = spec.doji?.style ?? {};
     this._openField = spec.openField;
     this._highField = spec.highField;
     this._lowField = spec.lowField;
     this._closeField = spec.closeField;
-    this._lineWidth = CandlestickStyle.lineWidth ?? DEFAULT_STROKE_WIDTH;
     this._boxWidth = CandlestickStyle.boxWidth;
     this._boxFill = CandlestickStyle.boxFill;
-    this._riseFill = risingStyle.boxFill;
-    this._riseStroke = risingStyle.stroke;
-    this._fallFill = fallingStyle.boxFill;
-    this._fallStroke = fallingStyle.stroke;
-    this._dojiFill = dojiStyle.boxFill;
-    this._dojiStroke = dojiStyle.stroke;
     this._strokeColor = CandlestickStyle.strokeColor;
+    this._buildMergedStyles(
+      CandlestickStyle,
+      spec.rising?.style ?? {},
+      spec.falling?.style ?? {},
+      spec.doji?.style ?? {}
+    );
   }
 
   private _candlestickMark?: ICandlestickMark;
@@ -120,8 +95,18 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     const candlestickMark = this._candlestickMark;
     if (candlestickMark) {
       const CandlestickStyles = {
-        fill: this._boxFill ?? this.getCandlestickColorAttribute.bind(this),
-        stroke: this._strokeColor ?? this.getCandlestickColorAttribute.bind(this),
+        fill: (datum: Datum) => {
+          const boxFill = this.mergeStyle(datum).boxFill;
+          return boxFill;
+        },
+        stroke: (datum: Datum) => {
+          const strokeColor = this.mergeStyle(datum).stroke;
+          return strokeColor;
+        },
+        lineWidth: (datum: Datum) => {
+          const lineWidth = this.mergeStyle(datum).lineWidth;
+          return lineWidth;
+        },
         boxWidth: this._boxWidth ?? this._getMarkWidth.bind(this),
         x: this.dataToPositionX.bind(this)
       };
@@ -209,17 +194,22 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
     this._candlestickMark && this._tooltipHelper.activeTriggerSet.mark.add(this._candlestickMark);
   }
 
-  getCandlestickColorAttribute(datum: Datum): string {
-    const openArr = this.getDatumPositionValues(datum, this._openField);
-    const closeArr = this.getDatumPositionValues(datum, this._closeField);
-    const open = openArr[0];
-    const close = closeArr[0];
+  private _buildMergedStyles(baseStyle: any, risingStyle: any, fallingStyle: any, dojiStyle: any) {
+    this._mergedStyles.rising = merge({}, baseStyle, risingStyle);
+    this._mergedStyles.falling = merge({}, baseStyle, fallingStyle);
+    this._mergedStyles.doji = merge({}, baseStyle, dojiStyle);
+  }
+
+  protected mergeStyle(datum: Datum): any {
+    const open = this.getDatumPositionValues(datum, this._openField)[0];
+    const close = this.getDatumPositionValues(datum, this._closeField)[0];
     if (open < close) {
-      return this._riseFill;
+      return this._mergedStyles.rising;
     } else if (open > close) {
-      return this._fallFill;
+      return this._mergedStyles.falling;
+    } else {
+      return this._mergedStyles.doji;
     }
-    return this._strokeColor ?? DEFAULT_STROKE_COLOR;
   }
 
   private _getMarkWidth() {

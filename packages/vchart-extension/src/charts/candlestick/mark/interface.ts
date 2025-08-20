@@ -2,10 +2,6 @@ import type { Datum, ICommonSpec } from '@visactor/vchart';
 
 export interface ICandlestickMarkSpec extends ICommonSpec {
   /**
-   * box描边宽度
-   */
-  lineWidth?: number;
-  /**
    * box宽度
    */
   boxWidth?: number;
