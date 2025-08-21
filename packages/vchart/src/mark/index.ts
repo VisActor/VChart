@@ -14,7 +14,6 @@ import { ComponentMark, registerComponentMark } from './component';
 import { LinkPathMark, registerLinkPathMark } from './link-path';
 import { RippleMark, registerRippleMark } from './ripple';
 import { CellMark, registerCellMark } from './cell';
-import { GlyphMark, registerGlyphMark } from './glyph';
 import { BaseMark } from './base';
 import { PolygonMark, registerPolygonMark } from './polygon/polygon';
 import { ImageMark, registerImageMark } from './image';
@@ -46,7 +45,7 @@ export type {
 } from '../typings/visual';
 
 export type { IMarkRaw, IMark, IMarkStyle } from './interface/common';
-export type { ITextMark, ILabelMark, IRectMark, IRuleMark, IImageMark, IGroupMark, IGlyphMark } from './interface/mark';
+export type { ITextMark, ILabelMark, IRectMark, IRuleMark, IImageMark, IGroupMark } from './interface/mark';
 
 export {
   MarkTypeEnum,
@@ -58,7 +57,6 @@ export {
   AreaMark,
   RectMark,
   PathMark,
-  GlyphMark,
   BaseArcMark,
   ArcMark,
   ComponentMark,
@@ -80,7 +78,6 @@ export {
   registerPathMark,
   registerArcMark,
   registerPolygonMark,
-  registerGlyphMark,
   registerRippleMark,
   registerImageMark,
   registerComponentMark,

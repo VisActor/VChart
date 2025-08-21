@@ -2002,36 +2002,6 @@
       ]
     },
     {
-      "path": "candlestick-chart",
-      "title": {
-        "zh": "k线图",
-        "en": "candlestick-chart"
-      },
-      "children": [
-        {
-          "path": "candlestick-basic",
-          "title": {
-            "zh": "基础K线图",
-            "en": "Basic Candlestick Chart"
-          }
-        },
-        {
-          "path": "candlestick-with-volume",
-          "title": {
-            "zh": "K线图与成交量",
-            "en": "Candlestick Chart with Volume"
-          }
-        },
-        {
-          "path": "candlestick-with-MA",
-          "title": {
-            "zh": "K线图与日均线",
-            "en": "Candlestick Chart with MA"
-          }
-        }
-      ]
-    },
-    {
       "path": "chart-3d",
       "title": {
         "zh": "chart-3d",
