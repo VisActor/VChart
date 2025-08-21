@@ -5,9 +5,8 @@ export {
   registerPolygonAnimation,
   registerRectAnimation,
   registerArcAnimation,
-  registerScaleInOutAnimation,
   DEFAULT_ANIMATION_CONFIG
 } from './config';
 export { animationConfig, userAnimationConfig, shouldMarkDoMorph } from './utils';
 export type { IAnimationSpec } from './spec';
-export type { IAnimationTypeConfig, IAnimationConfig, IAnimationParameters } from './interface';
+export type { IAnimationTypeConfig, IAnimationConfig } from './interface';

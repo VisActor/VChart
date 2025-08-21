@@ -27,7 +27,6 @@ export * from './util/data';
 export * from './util/spec/transform';
 export * from './util/mark';
 export * from './util/region';
-export * from './util/scale';
 
 // base component model for extension
 export * from './component/base';
