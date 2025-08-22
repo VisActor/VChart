@@ -176,3 +176,5 @@ export type {
   IVennChartSpec,
   IMosaicChartSpec
 };
+
+export { setDefaultCrosshairForCartesianChart } from './util';
