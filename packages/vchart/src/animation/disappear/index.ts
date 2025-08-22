@@ -1,5 +1,5 @@
 // 原有特效类
-// export * from './particle';
+export * from './particle';
 // export * from './distortion';
 export * from './pixelation';
 export * from './gaussian-blur';
@@ -24,7 +24,7 @@ export * from './base/ImageProcessUtils';
 // } from './base/DisappearEffectConfig';
 
 // 重构后的特效类示例
-export * from './particle-refactor';
+export { ParticleDisintegrationRefactor } from './particle-refactor';
 export * from './distortion-refactor';
 export * from './glitch-refactor';
 export * from './grayscale-refactor';

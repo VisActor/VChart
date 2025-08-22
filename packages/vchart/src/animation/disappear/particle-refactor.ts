@@ -2,14 +2,15 @@ import { EasingType } from '@visactor/vrender-core';
 import { HybridEffectBase } from './base/CustomEffectBase';
 import { ImageProcessUtils } from './base/ImageProcessUtils';
 
-export interface ParticleConfig {
-  effectType?: 'explode' | 'vortex' | 'gravity'; // 粒子效果类型
-  count?: number; // 粒子数量
-  size?: number; // 粒子大小
-  strength?: number; // 力场强度
+interface ParticleConfig {
+  effectType: 'explode' | 'vortex' | 'gravity'; // 粒子效果类型
+  count: number; // 粒子数量
+  size: number; // 粒子大小
+  strength: number; // 力场强度
+  useWebGL: boolean; // 是否使用WebGL实现
 }
 // 粒子数据结构
-export interface ParticleData {
+interface ParticleData {
   x: number;
   y: number;
   originX: number;
@@ -41,7 +42,8 @@ export class ParticleDisintegrationRefactor extends HybridEffectBase {
       effectType: params?.options?.effectType || 'gravity', //'explode' | 'vortex' | 'gravity'; // 粒子效果类型
       count: params?.options?.count || 4000,
       size: params?.options?.size || 20,
-      strength: params?.options?.strength || 1.5
+      strength: params?.options?.strength || 1.5,
+      useWebGL: params?.options?.useWebGL !== undefined ? params.options.useWebGL : true // 是否使用WebGL实现
     };
   }
 
@@ -92,7 +94,18 @@ export class ParticleDisintegrationRefactor extends HybridEffectBase {
   }
 
   protected applyWebGLEffect(canvas: HTMLCanvasElement): HTMLCanvasElement | null {
+    // 确保WebGL已初始化
+    if (!this.gl && !this.initWebGL(canvas)) {
+      console.warn('WebGL初始化失败');
+      return null;
+    }
+
     if (!this.gl || !this.program || !this.webglCanvas) {
+      console.warn('WebGL components not ready', {
+        gl: !!this.gl,
+        program: !!this.program,
+        webglCanvas: !!this.webglCanvas
+      });
       return null;
     }
 
@@ -129,6 +142,11 @@ export class ParticleDisintegrationRefactor extends HybridEffectBase {
     }
 
     const { canvas: outputCanvas, ctx } = output;
+
+    // 如果没有粒子，提取粒子数据（Canvas 2D回退也需要粒子数据）
+    if (this.particles.length === 0) {
+      this.extractParticles(canvas);
+    }
 
     // 简化的粒子效果：使用透明度和简单变换模拟粒子消散
     const progress = this.currentAnimationRatio;
@@ -175,7 +193,7 @@ export class ParticleDisintegrationRefactor extends HybridEffectBase {
     // 计算采样步长
     const step = Math.max(
       1,
-      Math.floor(Math.sqrt((tempCanvas.width * tempCanvas.height) / (this.particleConfig.count! * 1.5)))
+      Math.floor(Math.sqrt((tempCanvas.width * tempCanvas.height) / (this.particleConfig.count * 1.5)))
     );
 
     for (let y = 0; y < tempCanvas.height; y += step) {
