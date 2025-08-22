@@ -74,6 +74,11 @@ export abstract class DisappearAnimateBase<T = any> extends AStageAnimate<T> {
       }
 
       const shaders = this.getShaderSources();
+      if (!shaders) {
+        console.warn('No shader sources provided');
+        return false;
+      }
+
       this.program = this.createShaderProgram(shaders.vertex, shaders.fragment);
       return this.program !== null;
     } catch (error) {

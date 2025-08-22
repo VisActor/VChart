@@ -79,15 +79,9 @@ let spec = {
   },
   animationAppear: {
     stage: {
-      type: 'dissolve',
+      type: 'particleRe',
       duration: 3000,
-      easing: 'linear',
-      options: {
-        dissolveType: 'outward',
-        useWebGL: true,
-        noiseScale: 0,
-        fadeEdge: false
-      }
+      easing: 'linear'
     }
   },
   animationUpdate: {

@@ -32,17 +32,25 @@ import {
   GrowPointsYOut,
   ClipIn,
   ClipOut,
-  FromTo
+  FromTo,
+  Dissolve,
+  Grayscale,
+  Distortion,
+  Particle,
+  Glitch,
+  GaussianBlur,
+  Pixelation
 } from '@visactor/vrender-animate';
 
 import {
-  Pixelation,
-  GaussianBlur,
-  ParticleDisintegrationRefactor,
-  DistortionDisintegrationRefactor,
-  GlitchDisintegrationRefactor,
-  GrayscaleDisintegrationRefactor,
-  DissolveRefactor
+  //   Pixelation,
+  //   GaussianBlur,
+  ParticleDisintegration,
+  ParticleDisintegrationRefactor
+  //   DistortionDisintegrationRefactor,
+  //   GlitchDisintegrationRefactor,
+  //   GrayscaleDisintegrationRefactor,
+  //   DissolveRefactor
 } from './disappear';
 
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
@@ -211,13 +219,25 @@ export const registerPolygonAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('growPointsOut', GrowPointsOut);
 };
 
+// export const registerDisappearAnimation = () => {
+//   AnimateExecutor.registerBuiltInAnimate('distortion', DistortionDisintegrationRefactor);
+//   // AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegration);
+//   AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
+//   AnimateExecutor.registerBuiltInAnimate('gaussianBlur', GaussianBlur);
+//   AnimateExecutor.registerBuiltInAnimate('glitch', GlitchDisintegrationRefactor);
+//   AnimateExecutor.registerBuiltInAnimate('grayscale', GrayscaleDisintegrationRefactor);
+//   AnimateExecutor.registerBuiltInAnimate('dissolve', DissolveRefactor);
+//   AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegrationRefactor);
+// };
+
 export const registerDisappearAnimation = () => {
-  AnimateExecutor.registerBuiltInAnimate('distortion', DistortionDisintegrationRefactor);
-  // AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegration);
+  AnimateExecutor.registerBuiltInAnimate('distortion', Distortion);
+  AnimateExecutor.registerBuiltInAnimate('particle', Particle);
   AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
   AnimateExecutor.registerBuiltInAnimate('gaussianBlur', GaussianBlur);
-  AnimateExecutor.registerBuiltInAnimate('glitch', GlitchDisintegrationRefactor);
-  AnimateExecutor.registerBuiltInAnimate('grayscale', GrayscaleDisintegrationRefactor);
-  AnimateExecutor.registerBuiltInAnimate('dissolve', DissolveRefactor);
-  AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegrationRefactor);
+  AnimateExecutor.registerBuiltInAnimate('glitch', Glitch);
+  AnimateExecutor.registerBuiltInAnimate('grayscale', Grayscale);
+  AnimateExecutor.registerBuiltInAnimate('dissolve', Dissolve);
+  AnimateExecutor.registerBuiltInAnimate('particleRe', ParticleDisintegrationRefactor);
+  AnimateExecutor.registerBuiltInAnimate('particleY', ParticleDisintegration);
 };
