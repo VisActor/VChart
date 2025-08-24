@@ -21,7 +21,7 @@
     "@visactor/vutils": "~0.19.7",
     "@visactor/vrender": "0.22.17",
     "@visactor/vrender-kits": "0.22.17",
-    "@visactor/vgrammar": "0.16.12",
+    "@visactor/vgrammar": "0.16.13",
     "@visactor/vtable": "1.12.0",
     "@visactor/vtable-editors": "1.12.0",
     "@visactor/vtable-gantt": "1.12.0",
