@@ -94557,6 +94557,9 @@
         "hideOnHit": {
           "type": "boolean"
         },
+        "hideOnOverflow": {
+          "type": "boolean"
+        },
         "overlapPadding": {
           "type": "number"
         },
