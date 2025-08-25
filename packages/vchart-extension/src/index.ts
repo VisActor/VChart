@@ -9,6 +9,7 @@ export * from './charts/bar-3d';
 export * from './charts/funnel-3d';
 export * from './charts/histogram-3d';
 export * from './charts/pie-3d';
+export * from './charts/combination-candlestick';
 export * from './charts/word-cloud-3d';
 export * from './charts/axis-3d';
 export * from './charts/range-column-3d';

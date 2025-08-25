@@ -9,6 +9,7 @@ export * from './chart';
 export * from './chart/base';
 export * from './chart/cartesian';
 export * from './chart/common';
+export * from './chart/stack';
 export * from './series';
 export * from './mark';
 export * from './component';
