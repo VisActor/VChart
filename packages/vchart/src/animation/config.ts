@@ -42,17 +42,6 @@ import {
   Pixelation
 } from '@visactor/vrender-animate';
 
-import {
-  //   Pixelation,
-  //   GaussianBlur,
-  ParticleDisintegration,
-  ParticleDisintegrationRefactor
-  //   DistortionDisintegrationRefactor,
-  //   GlitchDisintegrationRefactor,
-  //   GrayscaleDisintegrationRefactor,
-  //   DissolveRefactor
-} from './disappear';
-
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
@@ -219,17 +208,6 @@ export const registerPolygonAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('growPointsOut', GrowPointsOut);
 };
 
-// export const registerDisappearAnimation = () => {
-//   AnimateExecutor.registerBuiltInAnimate('distortion', DistortionDisintegrationRefactor);
-//   // AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegration);
-//   AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
-//   AnimateExecutor.registerBuiltInAnimate('gaussianBlur', GaussianBlur);
-//   AnimateExecutor.registerBuiltInAnimate('glitch', GlitchDisintegrationRefactor);
-//   AnimateExecutor.registerBuiltInAnimate('grayscale', GrayscaleDisintegrationRefactor);
-//   AnimateExecutor.registerBuiltInAnimate('dissolve', DissolveRefactor);
-//   AnimateExecutor.registerBuiltInAnimate('particle', ParticleDisintegrationRefactor);
-// };
-
 export const registerDisappearAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('distortion', Distortion);
   AnimateExecutor.registerBuiltInAnimate('particle', Particle);
@@ -238,6 +216,4 @@ export const registerDisappearAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('glitch', Glitch);
   AnimateExecutor.registerBuiltInAnimate('grayscale', Grayscale);
   AnimateExecutor.registerBuiltInAnimate('dissolve', Dissolve);
-  AnimateExecutor.registerBuiltInAnimate('particleRe', ParticleDisintegrationRefactor);
-  AnimateExecutor.registerBuiltInAnimate('particleY', ParticleDisintegration);
 };
