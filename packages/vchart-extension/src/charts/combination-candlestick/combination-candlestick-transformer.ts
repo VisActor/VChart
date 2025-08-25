@@ -36,6 +36,10 @@ export class CombinationCandlestickChartSpecTransformer<
   transformSeriesSpec(spec: T): void {
     // 单独的系列转换
     spec.series = spec.series ?? [];
+    spec.series.forEach(s => {
+      this._transformSeriesData(spec, s);
+      s.regionIndex = 0;
+    });
     const tempCandlestickSeries = spec.series.find(s => s.id === spec.candlestickSeries.id) as ICandlestickSeriesSpec;
     let candlestickSpec;
     if (tempCandlestickSeries) {
@@ -240,26 +244,7 @@ export class CombinationCandlestickChartSpecTransformer<
           return;
         }
         hasLayout[axis.orient] = true;
-        const axisLayout = this._layoutOrientItem(
-          layout,
-          axis as { orient: IOrientType },
-          temp,
-          { specKey: 'axes', index },
-          'one'
-        );
-        if (axis?.visible === false) {
-          if (axis.orient === 'left' || axis.orient === 'right') {
-            layout.colWidth.push({
-              index: axisLayout.col,
-              size: 0
-            });
-          } else {
-            layout.rowHeight.push({
-              index: axisLayout.row,
-              size: 0
-            });
-          }
-        }
+        this._layoutOrientItem(layout, axis as { orient: IOrientType }, temp, { specKey: 'axes', index }, 'one');
       });
     }
     // region
@@ -289,15 +274,6 @@ export class CombinationCandlestickChartSpecTransformer<
           modelIndex: previewAxesIndex
         };
         layout.elements.push(previewAxesLayout);
-      }
-      if (spec.previewAxes.visible === false) {
-        const colSize = layout.colWidth.find(c => c.index === regionLayout.col - 1);
-        if (!colSize) {
-          layout.colWidth.push({
-            index: regionLayout.col - 1,
-            size: 0
-          });
-        }
       }
       if (spec.previewHeight) {
         if (typeof spec.previewHeight === 'string') {
