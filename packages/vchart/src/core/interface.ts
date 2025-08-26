@@ -555,6 +555,12 @@ export interface IVChart {
 
   /** 获取当前容器宽高 */
   getCurrentSize: () => IContainerSize;
+
+  /** 旋转图表 需要注册插件 */
+  rotate90WithTransform?: (rotateDom: HTMLElement) => void;
+
+  /** 取消图表旋转 */
+  cancelTransform?: (rotateDom: HTMLElement) => void;
 }
 
 export interface IGlobalConfig {
