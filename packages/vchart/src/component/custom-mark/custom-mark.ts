@@ -201,7 +201,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
           checkFunc(child as IMark);
         });
       } else if (m.type === MarkTypeEnum.component) {
-        const comp = m?.getProduct()?.getGroupGraphicItem();
+        const comp = m?.getProduct();
 
         if (comp) {
           comps.push(comp);
