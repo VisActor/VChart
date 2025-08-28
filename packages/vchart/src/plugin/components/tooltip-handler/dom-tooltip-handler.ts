@@ -111,8 +111,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       maxWidth: '100wh',
       maxHeight: '100vh',
       visibility: 'hidden',
-      ...this._domStyle.panel
+      ...this._domStyle.panel,
+      transitionDuration: '0s'
     } as CSSStyleDeclaration);
+    // 初次有动画时间可能导致tooltip展示时从不期望的位置飘过来
+    isValid(this._domStyle.panel.transitionDuration) &&
+      setTimeout(() => {
+        tooltipElement.style.transitionDuration = this._domStyle.panel.transitionDuration ?? '0s';
+      }, 0);
     tooltipElement.classList.add(tooltipSpec.className);
     tooltipElement.setAttribute('vchart-tooltip-id', `${this.id}`);
     this._container.appendChild(tooltipElement);
