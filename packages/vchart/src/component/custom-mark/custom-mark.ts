@@ -1,16 +1,13 @@
 import { BaseComponent } from '../base/base-component';
 import { ComponentTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
-import type { IRegion } from '../../region/interface';
-import type { IModelRenderOption } from '../../model/interface';
 import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { PREFIX } from '../../constant/base';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
-import { MarkTypeEnum, type IGroupMark, type IMark } from '../../mark/interface';
+import { IComponentMark, MarkTypeEnum, type IGroupMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { Bounds, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import type { IGraphic } from '@visactor/vrender-core';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IModelMarkAttributeContext } from '../../compile/mark/interface';
 
@@ -195,13 +192,13 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
 
   getVRenderComponents() {
     const comps: any[] = [];
-    const checkFunc = (m: IMark) => {
+    const checkFunc = (m: IComponentMark) => {
       if (m && m.type === MarkTypeEnum.group) {
         m.getMarks().forEach(child => {
-          checkFunc(child as IMark);
+          checkFunc(child as IComponentMark);
         });
       } else if (m.type === MarkTypeEnum.component) {
-        const comp = m?.getProduct()?.getGroupGraphicItem();
+        const comp = m?.getComponent();
 
         if (comp) {
           comps.push(comp);
@@ -210,7 +207,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     };
 
     this.getMarks().forEach(m => {
-      checkFunc(m);
+      checkFunc(m as IComponentMark);
     });
 
     return comps;
