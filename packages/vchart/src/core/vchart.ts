@@ -115,6 +115,8 @@ import type { IGeoCoordinate } from '../component/geo';
 import { registerGesturePlugin } from '../plugin/other';
 import { registerElementHighlight } from '../interaction/triggers/element-highlight';
 import { registerElementSelect } from '../interaction/triggers/element-select';
+import type { IVChartPluginService } from '../plugin/vchart/interface';
+import { VChartPluginService } from '../plugin/vchart/plugin-service';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -357,6 +359,8 @@ export class VChart implements IVChart {
   private _isReleased: boolean;
 
   private _chartPlugin?: IChartPluginService;
+  private _vChartPlugin?: IVChartPluginService;
+
   private _onResize?: () => void;
 
   constructor(spec: ISpec, options: IInitOption) {
@@ -2147,6 +2151,14 @@ export class VChart implements IVChart {
       this._chartPlugin.load(pluginList.map(p => new p()));
       // 插件生命周期
       this._chartPluginApply('onInit', this._spec);
+    }
+
+    const vChartPluginList = Factory.getVChartPlugins();
+    if (vChartPluginList.length > 0) {
+      this._vChartPlugin = new VChartPluginService(this);
+      this._vChartPlugin.load(vChartPluginList.map(p => new p()));
+      // 插件生命周期
+      this._vChartPlugin.onInit();
     }
   }
 
