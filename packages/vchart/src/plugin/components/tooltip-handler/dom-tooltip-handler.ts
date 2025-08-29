@@ -93,7 +93,6 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     const tooltipSpec = this._component.getSpec() as ITooltipSpec;
     const tooltipElement = document.createElement('div');
     const themeFontFamily = this._chartOption?.getTheme('fontFamily');
-
     setStyleToDom(tooltipElement, {
       left: '0',
       top: '0',
@@ -156,35 +155,33 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       if (!params.changePositionOnly) {
         this._tooltipActual = activeTooltipSpec;
       }
-      const currentVisible = this.getVisibility();
-
       // 位置
       const el = this._rootDom;
       if (el) {
         const { x = 0, y = 0 } = activeTooltipSpec.position ?? {};
+        let position = { x, y };
+        const currentVisible = this.getVisibility();
         if (tooltipSpec.updateElement) {
           // 此处先设定一次位置，防止页面暂时出现滚动条（优先设置上次的位置）
           this._updatePosition(this._cacheCustomTooltipPosition ?? { x, y });
           // 更新 tooltip dom
           tooltipSpec.updateElement(el, activeTooltipSpec, params);
           // 重新计算 tooltip 位置
-          const position = this._getActualTooltipPosition(activeTooltipSpec, params, {
+          position = this._getActualTooltipPosition(activeTooltipSpec, params, {
             width: el.offsetWidth,
             height: el.offsetHeight
           });
-          // 更新位置
-          this._updatePosition(position);
           // 更新缓存
           this._cacheCustomTooltipPosition = position;
-        } else {
-          if (!currentVisible) {
-            // 当从隐藏切换到显示的时候，需要先设置一次 transition 为 0ms，防止出现从一个非常远的初始位置进行动画
-            this._rootDom.style.transitionDuration = '0ms';
-          } else {
-            this._rootDom.style.transitionDuration = this._domStyle.panel.transitionDuration ?? 'initial';
-          }
-          this._updatePosition({ x, y });
         }
+        // 首次从false展示需要先设置一次位置，防止出现从一个非常远的初始位置进行动画
+        if (!currentVisible && visible) {
+          this._rootDom.style.transition = 'none';
+          this._updatePosition(position, false);
+          this._rootDom.getBoundingClientRect();
+        }
+        // 更新位置
+        this._updatePosition(position);
       }
       this.setVisibility(visible);
     }
@@ -417,10 +414,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     }
   }
 
-  protected _updatePosition({ x, y }: ITooltipPositionActual) {
+  protected _updatePosition({ x, y }: ITooltipPositionActual, resetTransition = true) {
     if (this._rootDom) {
       // translate3d 性能较好：https://stackoverflow.com/questions/22111256/translate3d-vs-translate-performance
       this._rootDom.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      if (resetTransition && this._rootDom.style.transition !== '') {
+        this._rootDom.style.transition = '';
+        Object.assign(this._rootDom.style, this._domStyle.panel);
+      }
     }
   }
 }

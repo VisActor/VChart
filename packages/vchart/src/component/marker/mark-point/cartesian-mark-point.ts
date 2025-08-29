@@ -33,7 +33,7 @@ export class CartesianMarkPoint extends BaseMarkPoint {
     let point: IPoint;
 
     if (isXYLayout) {
-      point = xyLayout(data, relativeSeries, relativeSeries, relativeSeries, autoRange)[0][0];
+      point = xyLayout(data, relativeSeries, relativeSeries, relativeSeries, autoRange)?.[0]?.[0];
     } else if (isCoordinateLayout) {
       point = cartesianCoordinateLayout(
         data,
