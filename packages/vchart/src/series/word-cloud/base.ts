@@ -383,6 +383,11 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
             }
           : this._maskShape,
       onUpdateMaskCanvas: this.handleMaskCanvasUpdate,
+      onLayoutFinished: () =>
+        this._option.globalInstance
+          .getChart()
+          .getOption()
+          .performanceHook?.afterWordcloudShapeDraw?.(this._option.globalInstance),
       dataIndexKey: DEFAULT_DATA_KEY,
       text: wordSpec.formatMethod
         ? (datum: Datum) => {

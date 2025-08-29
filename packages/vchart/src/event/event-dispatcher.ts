@@ -279,23 +279,6 @@ export class EventDispatcher implements IEventDispatcher {
     return true;
   }
 
-  private _prepareParams<Evt extends EventType>(
-    filter: EventFilter,
-    params: EventParamsDefinition[Evt]
-  ): EventParamsDefinition[Evt] {
-    // 如果针对于 mark 做了筛选，则事件参数转为筛选器制定的父级 mark
-    if (filter.markName && params.mark) {
-      const markGraphic = params.mark.getGraphics?.()?.[0];
-
-      return {
-        ...params,
-        item: markGraphic,
-        datum: getDatumOfGraphic(markGraphic)
-      };
-    }
-    return { ...params };
-  }
-
   /**
    * 代理语法层事件的监听回调
    */
@@ -360,7 +343,7 @@ export class EventDispatcher implements IEventDispatcher {
       const filter = handler.filter as EventFilter;
       if (!handler.prevented && (!handler.query || this._filter(filter, type, params))) {
         const callback = handler.wrappedCallback || handler.callback;
-        const stopBubble = callback.call(null, this._prepareParams(filter, params));
+        const stopBubble = callback.call(null, { ...params });
         const doStopBubble = stopBubble ?? handler.query?.consume;
         if (doStopBubble) {
           (params as BaseEventParams).event?.stopPropagation();

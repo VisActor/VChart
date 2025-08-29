@@ -308,6 +308,7 @@ export class Compiler implements ICompiler {
         vchart: this._compileChart.getOption()?.globalInstance
       });
     }
+    this._option.performanceHook?.afterVRenderDraw?.(this._compileChart.getOption().globalInstance);
   };
 
   private _doRender(immediately: boolean) {
@@ -329,12 +330,15 @@ export class Compiler implements ICompiler {
         );
       });
 
+      this._option.performanceHook?.beforeVRenderDraw?.(this._compileChart.getOption().globalInstance);
       // 全量渲染的时候先关闭dirty bounds 提升性能
       this._stage.disableDirtyBounds();
       this._stage.afterNextRender(this._handleAfterNextRender);
 
       if (immediately) {
         this._stage.render();
+
+        this._option.performanceHook?.afterVRenderDraw?.(this._compileChart.getOption().globalInstance);
       }
     }
   }
