@@ -15,6 +15,7 @@ import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/in
 import type { IComposedEventConstructor } from '../index-harmony-simple';
 import type { ITooltipProcessorConstructor } from '../component/tooltip/processor/interface';
 import type { ITooltip } from '../component';
+import type { IVChartPluginConstructor } from '../plugin/vchart';
 export declare class Factory {
     private static _charts;
     private static _series;
@@ -25,6 +26,7 @@ export declare class Factory {
     private static _animations;
     private static _implements;
     private static _chartPlugin;
+    private static _vChartPlugin;
     private static _componentPlugin;
     private static _formatter;
     static transforms: {
@@ -51,6 +53,7 @@ export declare class Factory {
     static registerAnimation(key: string, animation: (params?: any, preset?: any) => MarkAnimationSpec): void;
     static registerImplement(key: string, implement: (...args: any) => void): void;
     static registerChartPlugin(key: string, plugin: IChartPluginConstructor): void;
+    static registerVChartPlugin(key: string, plugin: IVChartPluginConstructor): void;
     static registerComponentPlugin(key: string, plugin: IComponentPluginConstructor): void;
     static createChart(chartType: string, spec: any, options: IChartOption): IChart | null;
     static getChart(chartType: string): IChartConstructor;
@@ -77,6 +80,7 @@ export declare class Factory {
     static getSeriesBuiltInTheme(themeKey: string): Record<string, any>;
     static getComponentBuiltInTheme(themeKey: string): Record<string, any>;
     static getChartPlugins(): IChartPluginConstructor[];
+    static getVChartPlugins(): IVChartPluginConstructor[];
     static getComponentPlugins(): IComponentPluginConstructor[];
     static getComponentPluginInType(type: string): IComponentPluginConstructor;
     static registerFormatter(func: typeof Factory['_formatter']): void;

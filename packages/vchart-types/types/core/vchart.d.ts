@@ -77,6 +77,7 @@ export declare class VChart implements IVChart {
     private _context;
     private _isReleased;
     private _chartPlugin?;
+    private _vChartPlugin?;
     private _onResize?;
     constructor(spec: ISpec, options: IInitOption);
     private _setNewSpec;
