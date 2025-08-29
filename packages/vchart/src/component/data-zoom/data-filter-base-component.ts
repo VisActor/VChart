@@ -65,6 +65,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _orient: IOrientType = 'left';
   protected _isHorizontal: boolean;
 
+  protected _throttledHide: () => void;
+
   // 是否为自动模式
   protected _auto?: boolean;
   protected _fixedBandSize?: number;
@@ -904,9 +906,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     if ((this._spec.roamDrag as IRoamDragSpec)?.autoVisible) {
       const dragEnd = 'panend';
-      const _throttledHide = throttle(() => this.hide(), 300);
+      this._throttledHide = throttle(() => this.hide(), 300);
       this.event.on(dragEnd, () => {
-        _throttledHide();
+        this._throttledHide();
       });
     }
   }
@@ -1048,6 +1050,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
+  }
+
+  clear(): void {
+    this._throttledHide = null;
   }
 }
 
