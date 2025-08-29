@@ -22,7 +22,6 @@ export declare class EventDispatcher implements IEventDispatcher {
     clear(): void;
     release(): void;
     private _filter;
-    private _prepareParams;
     private _onDelegate;
     private _onDelegateInteractionEvent;
     private _invoke;
