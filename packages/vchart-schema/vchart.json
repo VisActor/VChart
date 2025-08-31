@@ -62002,6 +62002,11 @@
     },
     "IRoamDragSpec": {
       "properties": {
+        "autoVisible": {
+          "description": "仅在画布交互展示组件",
+          "since": "2.0.3",
+          "type": "boolean"
+        },
         "enable": {
           "default": true,
           "description": "是否开启 缩放 / 拖拽 / 滚动",
@@ -68095,6 +68100,9 @@
         "release": {
           "typeof": "function"
         },
+        "removeAfterRender": {
+          "typeof": "function"
+        },
         "removeAllChild": {
           "typeof": "function"
         },
@@ -68107,6 +68115,9 @@
               "typeof": "function"
             }
           ]
+        },
+        "removeBeforeRender": {
+          "typeof": "function"
         },
         "removeChild": {
           "typeof": "function"
@@ -68319,8 +68330,10 @@
         "pick",
         "pluginService",
         "release",
+        "removeAfterRender",
         "removeAllChild",
         "removeAllListeners",
+        "removeBeforeRender",
         "removeChild",
         "removeEventListener",
         "removeLayer",
@@ -78999,7 +79012,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         },
         "size": {
@@ -79007,14 +79020,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12766",
+        "__@toStringTag@12821",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         },
         "size": {
@@ -79022,14 +79035,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12766",
+        "__@toStringTag@12821",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         },
         "size": {
@@ -79037,14 +79050,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12766",
+        "__@toStringTag@12821",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         },
         "size": {
@@ -79052,14 +79065,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12766",
+        "__@toStringTag@12821",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         },
         "size": {
@@ -79067,14 +79080,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12766",
+        "__@toStringTag@12821",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         },
         "size": {
@@ -79082,14 +79095,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12766",
+        "__@toStringTag@12821",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         },
         "size": {
@@ -79097,7 +79110,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12766",
+        "__@toStringTag@12821",
         "size"
       ],
       "type": "object"
@@ -84945,6 +84958,9 @@
           "type": "boolean"
         },
         "hideOnHit": {
+          "type": "boolean"
+        },
+        "hideOnOverflow": {
           "type": "boolean"
         },
         "overlapPadding": {
@@ -93167,6 +93183,9 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "drawStrokeWhenZeroWH": {
+          "type": "boolean"
+        },
         "dx": {
           "type": "number"
         },
@@ -97299,6 +97318,9 @@
         "customShape": {
           "typeof": "function"
         },
+        "drawStrokeWhenZeroWH": {
+          "type": "boolean"
+        },
         "dx": {
           "type": "number"
         },
@@ -100581,34 +100603,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12766"
+        "__@toStringTag@12821"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12766"
+        "__@toStringTag@12821"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12766": {
+        "__@toStringTag@12821": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12766"
+        "__@toStringTag@12821"
       ],
       "type": "object"
     },
@@ -107282,6 +107304,9 @@
         "customPickShape": {
           "typeof": "function"
         },
+        "drawStrokeWhenZeroWH": {
+          "type": "boolean"
+        },
         "dx": {
           "type": "number"
         },
@@ -107638,6 +107663,7 @@
         "cornerType",
         "cursor",
         "customPickShape",
+        "drawStrokeWhenZeroWH",
         "dx",
         "dy",
         "dz",

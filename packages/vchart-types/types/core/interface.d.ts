@@ -114,6 +114,8 @@ export interface IVChart {
     setRuntimeSpec: (spec: any) => void;
     getSpec: () => any;
     getCurrentSize: () => IContainerSize;
+    rotate90WithTransform?: (rotateDom: HTMLElement) => void;
+    cancelTransform?: (rotateDom: HTMLElement) => void;
 }
 export interface IGlobalConfig {
     uniqueTooltip?: boolean;
