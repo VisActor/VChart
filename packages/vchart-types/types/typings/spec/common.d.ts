@@ -255,6 +255,7 @@ export interface IPerformanceHook {
     beforeDoRender?: (vchart?: IVChart) => void;
     beforeVRenderDraw?: (vchart?: IVChart) => void;
     afterVRenderDraw?: (vchart?: IVChart) => void;
+    afterWordcloudShapeDraw?: (vchart?: IVChart) => void;
 }
 export type IBuildinMarkSpec = {
     group: IGroupMarkSpec;

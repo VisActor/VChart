@@ -25,6 +25,7 @@ import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/in
 import type { IComposedEventConstructor } from '../index-harmony-simple';
 import type { ITooltipProcessorConstructor } from '../component/tooltip/processor/interface';
 import type { ITooltip } from '../component';
+import type { IVChartPluginConstructor } from '../plugin/vchart';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
@@ -42,6 +43,7 @@ export class Factory {
   private static _animations: { [key: string]: (params?: any, preset?: any) => MarkAnimationSpec } = {};
   private static _implements: { [key: string]: (...args: any) => void } = {};
   private static _chartPlugin: { [key: string]: IChartPluginConstructor } = {};
+  private static _vChartPlugin: { [key: string]: IVChartPluginConstructor } = {};
   private static _componentPlugin: { [key: string]: IComponentPluginConstructor } = {};
   private static _formatter: (
     text: string | number | string[] | number[],
@@ -116,6 +118,9 @@ export class Factory {
   }
   static registerChartPlugin(key: string, plugin: IChartPluginConstructor) {
     Factory._chartPlugin[key] = plugin;
+  }
+  static registerVChartPlugin(key: string, plugin: IVChartPluginConstructor) {
+    Factory._vChartPlugin[key] = plugin;
   }
   static registerComponentPlugin(key: string, plugin: IComponentPluginConstructor) {
     Factory._componentPlugin[key] = plugin;
@@ -267,6 +272,10 @@ export class Factory {
 
   static getChartPlugins() {
     return Object.values(Factory._chartPlugin);
+  }
+
+  static getVChartPlugins() {
+    return Object.values(Factory._vChartPlugin);
   }
 
   static getComponentPlugins() {

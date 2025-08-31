@@ -479,7 +479,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     });
     [this._labelMark, this._nonLeafLabelMark].forEach(m => {
       if (m && m.getComponent()) {
-        m.getComponent().getProduct().getGroupGraphicItem().enableAnimation();
+        m.getComponent().getProduct().enableAnimation();
       }
     });
     // 在所有动画执行之后关闭动画
@@ -492,7 +492,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     });
     [this._labelMark, this._nonLeafLabelMark].forEach(m => {
       if (m && m.getComponent()) {
-        m.getComponent().getProduct().getGroupGraphicItem().disableAnimation();
+        m.getComponent().getProduct().disableAnimation();
       }
     });
   }

@@ -15,6 +15,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _component: AbstractComponent;
     protected _orient: IOrientType;
     protected _isHorizontal: boolean;
+    protected _throttledHide: () => void;
     protected _auto?: boolean;
     protected _fixedBandSize?: number;
     protected _cacheRect?: ILayoutRect;
@@ -123,4 +124,5 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     };
     protected _autoUpdate(rect?: ILayoutRect): boolean;
     protected _getNeedClearVRenderComponents(): IGraphic[];
+    clear(): void;
 }

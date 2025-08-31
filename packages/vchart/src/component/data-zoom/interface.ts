@@ -169,6 +169,11 @@ export interface IRoamDragSpec extends IRoamSpec {
    * @returns
    */
   filter?: (delta: [number, number], e?: BaseEventParams['event']) => boolean;
+  /**
+   * 仅在画布交互展示组件
+   * @since 2.0.3
+   */
+  autoVisible?: boolean;
 }
 
 export interface IRoamScrollSpec extends IRoamSpec {

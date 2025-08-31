@@ -192,7 +192,12 @@ export class ImageCloudSeries<T extends IImageCloudSeriesSpec> extends BaseSerie
         if (maskImage && (this._spec.layoutConfig as GridLayoutConfig)?.placement === 'masked') {
           this._rootMark.getProduct().setAttribute('background', maskImage);
         }
-      }).bind(this)
+      }).bind(this),
+      onLayoutFinished: () =>
+        this._option.globalInstance
+          .getChart()
+          .getOption()
+          .performanceHook?.afterWordcloudShapeDraw?.(this._option.globalInstance)
     };
   }
 

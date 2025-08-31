@@ -702,6 +702,9 @@ export interface IPerformanceHook {
   // VRender Draw 时间
   beforeVRenderDraw?: (vchart?: IVChart) => void;
   afterVRenderDraw?: (vchart?: IVChart) => void;
+
+  // 词云
+  afterWordcloudShapeDraw?: (vchart?: IVChart) => void;
 }
 
 export type IBuildinMarkSpec = {
