@@ -3,12 +3,12 @@ import { registerHtmlAttributePlugin, registerReactAttributePlugin } from '@visa
 import { registerAnimate as registerVRenderAnimate } from '@visactor/vrender-animate';
 import { DragNDrop, Gesture } from '@visactor/vrender-kits';
 import { Factory } from '../core/factory';
-import { registerBuiltInAnimation, registerDisappearAnimation } from '../animation/config';
+import { registerBuiltInAnimation, registerStageAnimation } from '../animation/config';
 
 export const registerAnimate = () => {
   registerVRenderAnimate();
   registerBuiltInAnimation();
-  registerDisappearAnimation();
+  registerStageAnimation();
 };
 
 export const registerDragPlugin = () => {

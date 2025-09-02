@@ -1,35 +1,34 @@
 ---
 category: examples
 group: storytelling
-title: 退场动画特效配置
+title: 故障退场动画特效配置
 keywords: animation,disappear,particle,distortion,blur,glitch,pixelation,dissolve,stage
 order: 42-20
 cover:
 option: commonChart#animationDisappear
 ---
 
-# 退场动画特效配置
+# 故障退场动画特效配置
 
-VRender 提供了丰富的退场动画特效，包括粒子分解、扭曲变形、模糊效果、故障艺术、像素化、颜色效果和溶解效果等。这些动画可以通过 `animationDisappear` 配置来应用（也可以尝试应用在`animationAppear`）。
+VRender 提供了丰富的阶段动画特效，包括粒子分解、扭曲变形、模糊效果、故障艺术、像素化、颜色效果和溶解效果等。这些动画可以通过 `animationDisappear.stage` 配置来应用（也可以尝试应用在`animationAppear.stage`等动画阶段）。
+
+其中，故障效果支持 'rgb-shift'、'digital-distortion'、'scan-lines'、'data-corruption' 四种类型
 
 ## 关键配置
 
 - `animationDisappear.stage` 用于配置舞台级别的退场动画特效
-  - `type`: 动画类型，可选值为
-    - `dissolve`: 溶解,
-    - `distortion`: 扭曲变形,
-    - `gaussianBlur`: 高斯模糊,
+  - `type`: 动画类型
     - `glitch`: 故障,
-    - `pixelation`: 像素化,
-    - `grayscale`: 褪色,
-    - `particle`: 粒子
   - `duration`: 动画时长（毫秒）
   - `easing`: 缓动函数
   - `options`: 特效配置参数
+    - `effectType`: 特效类型，默认值为 `rgb-shift`
+      - `rgb-shift`: RGB 偏移,
+      - `digital-distortion`: 数字失真,
+      - `scan-lines`: 扫描线,
+      - `data-corruption`: 数据损坏,
+    - `intensity`: 特效强度，范围为 0 到 1，默认值为 0.5
 
-## 故障效果
-
-将图表分解为支持 'rgb-shift'、'digital-distortion'、'scan-lines'、'data-corruption' 四种效果
 
 ### 代码演示
 
