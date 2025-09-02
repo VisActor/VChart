@@ -32,8 +32,16 @@ import {
   GrowPointsYOut,
   ClipIn,
   ClipOut,
-  FromTo
+  FromTo,
+  Dissolve,
+  Grayscale,
+  Distortion,
+  Particle,
+  Glitch,
+  GaussianBlur,
+  Pixelation
 } from '@visactor/vrender-animate';
+
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
@@ -198,4 +206,14 @@ export const registerLineOrAreaAnimation = () => {
 
 export const registerPolygonAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('growPointsOut', GrowPointsOut);
+};
+
+export const registerStageAnimation = () => {
+  AnimateExecutor.registerBuiltInAnimate('distortion', Distortion);
+  AnimateExecutor.registerBuiltInAnimate('particle', Particle);
+  AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
+  AnimateExecutor.registerBuiltInAnimate('gaussianBlur', GaussianBlur);
+  AnimateExecutor.registerBuiltInAnimate('glitch', Glitch);
+  AnimateExecutor.registerBuiltInAnimate('grayscale', Grayscale);
+  AnimateExecutor.registerBuiltInAnimate('dissolve', Dissolve);
 };

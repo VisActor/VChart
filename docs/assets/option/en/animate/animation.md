@@ -135,6 +135,36 @@ ${markName} mark animation config.
 
 {{ /for }}
 
+##${prefix} type='IStageAnimateSpec'(object)
+Stage effect animation configuration. Provides various cool exit animation effects, including particle disintegration, distortion, blur effects, glitch art, pixelation, color effects, and dissolve effects.
+
+###${prefix} stage(object)
+Stage animation configuration.
+
+####${prefix} type(string)
+Animation effect type. Available values:
+
+- `'particle'`: Particle disintegration effect
+- `'distortion'`: Distortion effect
+- `'gaussianBlur'`: Gaussian blur effect
+- `'glitch'`: Glitch art effect
+- `'pixelation'`: Pixelation effect
+- `'grayscale'`: Color effect
+- `'dissolve'`: Dissolve effect
+
+####${prefix} duration(number) = 2000
+Animation duration in milliseconds.
+
+####${prefix} easing(string) = 'linear'
+Animation easing effect. Supported values: 'linear', 'quadIn', 'quadOut', 'quadInOut', 'cubicIn', 'cubicOut', 'cubicInOut', 'quartIn', 'quartOut', 'quartInOut', 'quintIn', 'quintOut', 'quintInOut', 'backIn', 'backOut', 'backInOut', 'circIn', 'circOut', 'circInOut', 'bounceOut', 'bounceIn', 'bounceInOut', 'elasticIn', 'elasticOut', 'elasticInOut'.
+
+####${prefix} options(object)
+Specific effect configuration parameters, which vary based on different `type` values.
+
+{{ use: animate-stage-options( prefix = '####' + ${prefix} ) }}
+
+{{ /for }}
+
 #${prefix} animationState(boolean|object)
 
 Animation effect when the graphic state changes. Supported after version `1.12.0`.
