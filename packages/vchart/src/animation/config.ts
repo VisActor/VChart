@@ -208,7 +208,7 @@ export const registerPolygonAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('growPointsOut', GrowPointsOut);
 };
 
-export const registerDisappearAnimation = () => {
+export const registerStageAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('distortion', Distortion);
   AnimateExecutor.registerBuiltInAnimate('particle', Particle);
   AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
