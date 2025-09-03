@@ -41,6 +41,7 @@ import type { ITransformSpec } from '../../compile/interface';
 import { vglobal, getTextBounds, createImage } from '@visactor/vrender-core';
 import { wordCloud } from '../../theme/builtin/common/series/word-cloud';
 import { LayoutZIndex } from '../../constant/layout';
+import { ChartEvent } from '../../core';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -383,11 +384,27 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
             }
           : this._maskShape,
       onUpdateMaskCanvas: this.handleMaskCanvasUpdate,
-      onLayoutFinished: () =>
-        this._option.globalInstance
-          .getChart()
-          .getOption()
-          .performanceHook?.afterWordcloudShapeDraw?.(this._option.globalInstance),
+      onLayoutFinished: () => {
+        const afterWordcloudShapeDraw = () => {
+          // 需要等到真正渲染完成
+          this._option.globalInstance.getStage().hooks.afterRender.taps = this._option.globalInstance
+            .getStage()
+            .hooks.afterRender.taps.filter(tap => tap.fn !== afterWordcloudShapeDraw);
+
+          this._option.dispatchEvent?.(ChartEvent.afterWordcloudShapeDraw, {
+            instance: this._option.globalInstance
+          });
+          this._option.globalInstance
+            .getChart()
+            .getOption()
+            .performanceHook?.afterWordcloudShapeDraw?.(this._option.globalInstance);
+        };
+        this._option.globalInstance.getStage().hooks.afterRender.taps.push({
+          type: 'sync',
+          name: 'afterWordcloudShapeDraw',
+          fn: afterWordcloudShapeDraw
+        });
+      },
       dataIndexKey: DEFAULT_DATA_KEY,
       text: wordSpec.formatMethod
         ? (datum: Datum) => {
