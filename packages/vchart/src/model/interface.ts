@@ -189,6 +189,8 @@ export interface IModelOption extends ICompilableInitOption {
   getDimensionInfo?: (chart: IChart | undefined, pos: ILayoutPoint, isTooltip?: boolean) => IDimensionInfo[] | null;
   getDimensionInfoByValue?: (axis: IAxis, value: any) => IDimensionInfo | null;
   getRectByDimensionData?: (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => any;
+
+  dispatchEvent?: (key: string, params?: any) => void;
 }
 
 export interface IModelSpecInfo<T extends Record<string, unknown> = any> {

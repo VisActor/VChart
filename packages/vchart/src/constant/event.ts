@@ -184,7 +184,9 @@ export enum ChartEvent {
   afterRender = 'afterRender',
   // layout
   afterLayout = 'afterLayout',
-  afterMarkLayoutEnd = 'afterMarkLayoutEnd'
+  afterMarkLayoutEnd = 'afterMarkLayoutEnd',
+  // wordcloud
+  afterWordcloudShapeDraw = 'afterWordcloudShapeDraw'
 }
 
 export enum Event_Source_Type {
