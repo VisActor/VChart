@@ -1,7 +1,7 @@
 import { escapeHTML } from './common';
 // eslint-disable-next-line no-duplicate-imports
-import type { CustomSymbolClass, IGradientColor, ILinearGradient } from '@visactor/vrender-core';
-import { Symbol } from '@visactor/vrender-core';
+import type { CustomSymbolClass, IColor, IGradientColor, ILinearGradient } from '@visactor/vrender-core';
+import { Symbol, GradientParser } from '@visactor/vrender-core';
 import { Bounds, isObject, isString } from '@visactor/vutils';
 import type { ITooltipShapeActual } from '../../../../typings';
 
@@ -11,7 +11,8 @@ export function getSvgHtml(option: ITooltipShapeActual | undefined, gradientId?:
   }
 
   const styleString = `style="display:inline-block;vertical-align:middle;"`;
-  const { shapeType, shapeFill, shapeStroke, shapeHollow = false } = option;
+  const { shapeType, shapeStroke, shapeHollow = false } = option;
+  let shapeFill: IColor = option.shapeFill;
   const size = option.shapeSize ?? 8;
   const lineWidth = option.shapeLineWidth ? escapeHTML(option.shapeLineWidth) + 'px' : '0px';
   let fillString: string = 'currentColor';
@@ -49,7 +50,7 @@ export function getSvgHtml(option: ITooltipShapeActual | undefined, gradientId?:
     viewBox = `${x - lw / 2} ${y - lw / 2} ${w + lw} ${h + lw}`;
   }
 
-  if (!shapeFill || isString(shapeFill) || shapeHollow) {
+  if (!shapeFill || (isString(shapeFill) && !GradientParser.IsGradientStr(shapeFill)) || shapeHollow) {
     fillString = shapeHollow ? 'none' : shapeFill ? escapeHTML(shapeFill) : 'currentColor';
     return `
     <svg ${styleString} width="${size}" height="${size}" viewBox="${viewBox}">
@@ -60,6 +61,11 @@ export function getSvgHtml(option: ITooltipShapeActual | undefined, gradientId?:
       </path>
     </svg>`;
   }
+
+  if (isString(shapeFill) && GradientParser.IsGradientStr(shapeFill)) {
+    shapeFill = GradientParser.Parse(shapeFill);
+  }
+
   if (isObject(shapeFill)) {
     fillString = 'gradientColor' + (gradientId ?? '');
     let gradient = '';
