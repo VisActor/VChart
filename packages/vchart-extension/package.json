@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-extension",
-  "version": "2.0.4",
+  "version": "2.0.5-alpha.2",
   "description": "vchart extension package, including extension plugins and components",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -28,7 +28,7 @@
     "@visactor/vutils": "~1.0.6",
     "@visactor/vdataset": "~1.0.6",
     "@visactor/vlayouts": "~1.0.6",
-    "@visactor/vchart": "workspace:2.0.4"
+    "@visactor/vchart": "workspace:2.0.5-alpha.2"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
