@@ -54,17 +54,19 @@ export class CombinationCandlestickChartSpecTransformer<
     candlestickSpec.regionIndex = 0;
 
     if (spec.previewSeries) {
-      const tempPreviewSeries = spec.series.find(s => s.id === spec.previewSeries.id);
-      let previewSeriesSpec;
-      if (tempPreviewSeries) {
-        merge(tempPreviewSeries, spec.previewSeries);
-        previewSeriesSpec = tempPreviewSeries;
-      } else {
-        spec.series.push(spec.previewSeries);
-        previewSeriesSpec = spec.previewSeries;
-      }
-      previewSeriesSpec.regionIndex = 1;
-      this._transformSeriesData(spec, previewSeriesSpec);
+      array(spec.previewSeries).forEach(previewSeries => {
+        const tempPreviewSeries = spec.series.find(s => s.id === previewSeries.id);
+        let previewSeriesSpec;
+        if (tempPreviewSeries) {
+          merge(tempPreviewSeries, previewSeries);
+          previewSeriesSpec = tempPreviewSeries;
+        } else {
+          spec.series.push(previewSeries);
+          previewSeriesSpec = previewSeries;
+        }
+        previewSeriesSpec.regionIndex = 1;
+        this._transformSeriesData(spec, previewSeriesSpec);
+      });
     }
   }
 
