@@ -185,11 +185,13 @@ export function xyLayout(
   const lines: IPoint[][] = [];
   const dataPoints =
     data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-  const xDomain = (relativeSeries as ICartesianSeries).getXAxisHelper().getScale(0).domain();
-  const yDomain = (relativeSeries as ICartesianSeries).getYAxisHelper().getScale(0).domain();
 
   const xAxisHelper = (relativeSeries as ICartesianSeries).getXAxisHelper();
   const yAxisHelper = (relativeSeries as ICartesianSeries).getXAxisHelper();
+
+  const xDomain = xAxisHelper.getScale(0).domain();
+  const yDomain = yAxisHelper.getScale(0).domain();
+
   const isXExpand = includeFullBand && !xAxisHelper.isContinuous && !!xAxisHelper.getBandwidth;
   const isyExpand = includeFullBand && !yAxisHelper.isContinuous && !!yAxisHelper.getBandwidth;
   const xTemp: FullBandTemp = { min: null, max: null };
@@ -255,20 +257,23 @@ function setTempToLines(
   xTemp: FullBandTemp,
   yTemp: FullBandTemp
 ) {
-  const xBandSize = xAxisHelper.getBandwidth(0) * (1 + (xAxisHelper.getScale(0) as BandScale).paddingInner());
-  const yBandSize = yAxisHelper.getBandwidth(0) * (1 + (yAxisHelper.getScale(0) as BandScale).paddingInner());
-
-  if (xTemp.min) {
-    lines[xTemp.min.index].forEach(p => (p.x -= xBandSize / 2));
+  if (xTemp.min || xTemp.max) {
+    const xBandSize = xAxisHelper.getBandwidth(0) * (1 + (xAxisHelper.getScale(0) as BandScale).paddingInner());
+    if (xTemp.min) {
+      lines[xTemp.min.index].forEach(p => (p.x -= xBandSize / 2));
+    }
+    if (xTemp.max) {
+      lines[xTemp.max.index].forEach(p => (p.x += xBandSize / 2));
+    }
   }
-  if (xTemp.max) {
-    lines[xTemp.max.index].forEach(p => (p.x += xBandSize / 2));
-  }
-  if (yTemp.min) {
-    lines[yTemp.min.index].forEach(p => (p.y -= yBandSize / 2));
-  }
-  if (yTemp.max) {
-    lines[yTemp.max.index].forEach(p => (p.y += yBandSize / 2));
+  if (yTemp.min || yTemp.max) {
+    const yBandSize = yAxisHelper.getBandwidth(0) * (1 + (yAxisHelper.getScale(0) as BandScale).paddingInner());
+    if (yTemp.min) {
+      lines[yTemp.min.index].forEach(p => (p.y -= yBandSize / 2));
+    }
+    if (yTemp.max) {
+      lines[yTemp.max.index].forEach(p => (p.y += yBandSize / 2));
+    }
   }
 }
 
