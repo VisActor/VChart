@@ -28,7 +28,19 @@ import type { IRegion } from '../../region/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { OffsetPoint } from './interface';
 import type { IAxisHelper, IPolarAxisHelper } from '../axis';
+import type { BandScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
+
+type FullBandTemp = {
+  min: {
+    value: number;
+    index: number;
+  };
+  max: {
+    value: number;
+    index: number;
+  };
+};
 
 function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean) {
   if (!autoRange) {
@@ -141,7 +153,8 @@ export function xyLayout(
   startRelativeSeries: IMarkerSupportSeries,
   endRelativeSeries: IMarkerSupportSeries,
   relativeSeries: IMarkerSupportSeries,
-  autoRange: boolean
+  autoRange: boolean,
+  includeFullBand: boolean = false
 ) {
   const regionStart = startRelativeSeries.getRegion();
   const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
@@ -174,20 +187,33 @@ export function xyLayout(
     data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   const xDomain = (relativeSeries as ICartesianSeries).getXAxisHelper().getScale(0).domain();
   const yDomain = (relativeSeries as ICartesianSeries).getYAxisHelper().getScale(0).domain();
+
+  const xAxisHelper = (relativeSeries as ICartesianSeries).getXAxisHelper();
+  const yAxisHelper = (relativeSeries as ICartesianSeries).getXAxisHelper();
+  const isXExpand = includeFullBand && !xAxisHelper.isContinuous && !!xAxisHelper.getBandwidth;
+  const isyExpand = includeFullBand && !yAxisHelper.isContinuous && !!yAxisHelper.getBandwidth;
+  const xTemp: FullBandTemp = { min: null, max: null };
+  const yTemp: FullBandTemp = { min: null, max: null };
+
   dataPoints.forEach((datum: IPoint) => {
     const isValidX = isValid(datum.x);
     const isValidY = isValid(datum.y);
+    let x;
+    let y;
     if (isValidX && isValidY) {
-      const x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
-      const y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
+      x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
+      y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
+      setTempWithValid(x, isXExpand, xTemp, lines.length);
+      setTempWithValid(y, isyExpand, yTemp, lines.length);
       lines.push([{ x, y }]);
     } else if (isValidX) {
-      const x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
-      const y = Math.max(
+      x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
+      y = Math.max(
         regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
         regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
       );
       const y1 = Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y);
+      setTempWithValid(x, isXExpand, xTemp, lines.length);
       lines.push([
         {
           x: x,
@@ -199,12 +225,13 @@ export function xyLayout(
         }
       ]);
     } else if (isValidY) {
-      const x = Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x);
-      const y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
+      x = Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x);
+      y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
       const x1 = Math.max(
         regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
         regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
       );
+      setTempWithValid(y, isyExpand, yTemp, lines.length);
       lines.push([
         {
           x: x,
@@ -217,8 +244,50 @@ export function xyLayout(
       ]);
     }
   });
-
+  setTempToLines(lines, xAxisHelper, yAxisHelper, xTemp, yTemp);
   return lines;
+}
+
+function setTempToLines(
+  lines: IPoint[][],
+  xAxisHelper: IAxisHelper | IPolarAxisHelper,
+  yAxisHelper: IAxisHelper | IPolarAxisHelper,
+  xTemp: FullBandTemp,
+  yTemp: FullBandTemp
+) {
+  const xBandSize = xAxisHelper.getBandwidth(0) * (1 + (xAxisHelper.getScale(0) as BandScale).paddingInner());
+  const yBandSize = yAxisHelper.getBandwidth(0) * (1 + (yAxisHelper.getScale(0) as BandScale).paddingInner());
+
+  if (xTemp.min) {
+    lines[xTemp.min.index].forEach(p => (p.x -= xBandSize / 2));
+  }
+  if (xTemp.max) {
+    lines[xTemp.max.index].forEach(p => (p.x += xBandSize / 2));
+  }
+  if (yTemp.min) {
+    lines[yTemp.min.index].forEach(p => (p.y -= yBandSize / 2));
+  }
+  if (yTemp.max) {
+    lines[yTemp.max.index].forEach(p => (p.y += yBandSize / 2));
+  }
+}
+
+function setTempWithValid(v: number, isExpand: boolean, temp: FullBandTemp, index: number): number {
+  if (isExpand) {
+    if (temp.min === null || temp.min.value > v) {
+      temp.min = {
+        value: v,
+        index
+      };
+    }
+    if (temp.max === null || temp.max.value < v) {
+      temp.max = {
+        value: v,
+        index
+      };
+    }
+  }
+  return v;
 }
 
 export function polarLayout(
