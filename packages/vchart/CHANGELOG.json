@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.14",
+      "tag": "@visactor/vchart_v1.13.14",
+      "date": "Wed, 10 Sep 2025 02:47:47 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: upgrade vrender vgrammar for hideOnOverflow & wordcloud\n\n"
+          },
+          {
+            "comment": "fix: fix bug of resize by spec\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.13",
       "tag": "@visactor/vchart_v1.13.13",
       "date": "Wed, 02 Jul 2025 11:21:17 GMT",

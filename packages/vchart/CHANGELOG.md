@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 02 Jul 2025 11:21:17 GMT and should not be manually modified.
+This log was last generated on Wed, 10 Sep 2025 02:47:47 GMT and should not be manually modified.
+
+## 1.13.14
+Wed, 10 Sep 2025 02:47:47 GMT
+
+### Updates
+
+- feat: upgrade vrender vgrammar for hideOnOverflow & wordcloud
+
+
+- fix: fix bug of resize by spec
+
+
 
 ## 1.13.13
 Wed, 02 Jul 2025 11:21:17 GMT
