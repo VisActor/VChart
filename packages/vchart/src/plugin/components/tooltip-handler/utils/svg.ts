@@ -11,8 +11,7 @@ export function getSvgHtml(option: ITooltipShapeActual | undefined, gradientId?:
   }
 
   const styleString = `style="display:inline-block;vertical-align:middle;"`;
-  const { shapeType, shapeStroke, shapeHollow = false } = option;
-  let shapeFill: IColor = option.shapeFill;
+  const { shapeType, shapeStroke, shapeHollow = false, shapeFill } = option;
   const size = option.shapeSize ?? 8;
   const lineWidth = option.shapeLineWidth ? escapeHTML(option.shapeLineWidth) + 'px' : '0px';
   let fillString: string = 'currentColor';
@@ -50,7 +49,9 @@ export function getSvgHtml(option: ITooltipShapeActual | undefined, gradientId?:
     viewBox = `${x - lw / 2} ${y - lw / 2} ${w + lw} ${h + lw}`;
   }
 
-  if (!shapeFill || (isString(shapeFill) && !GradientParser.IsGradientStr(shapeFill)) || shapeHollow) {
+  const isFillGradientStr = GradientParser.IsGradientStr(shapeFill);
+
+  if (!shapeFill || (isString(shapeFill) && !isFillGradientStr) || shapeHollow) {
     fillString = shapeHollow ? 'none' : shapeFill ? escapeHTML(shapeFill) : 'currentColor';
     return `
     <svg ${styleString} width="${size}" height="${size}" viewBox="${viewBox}">
@@ -62,26 +63,24 @@ export function getSvgHtml(option: ITooltipShapeActual | undefined, gradientId?:
     </svg>`;
   }
 
-  if (isString(shapeFill) && GradientParser.IsGradientStr(shapeFill)) {
-    shapeFill = GradientParser.Parse(shapeFill);
-  }
+  const shapeFillObject = isFillGradientStr ? GradientParser.Parse(shapeFill) : isObject(shapeFill) ? shapeFill : null;
 
-  if (isObject(shapeFill)) {
+  if (shapeFillObject) {
     fillString = 'gradientColor' + (gradientId ?? '');
     let gradient = '';
-    const stops = ((shapeFill as IGradientColor).stops ?? [])
+    const stops = ((shapeFillObject as IGradientColor).stops ?? [])
       .map(s => `<stop offset="${escapeHTML(s.offset.toString())}" stop-color="${escapeHTML(s.color)}"/>`)
       .join('');
-    if ((shapeFill as IGradientColor).gradient === 'radial') {
+    if ((shapeFillObject as IGradientColor).gradient === 'radial') {
       gradient = `<radialGradient id="${fillString}" cx="50%" cy="50%" r="50%" fx="0%" fy="0%">
       ${stops}
       </radialGradient>`;
-    } else if ((shapeFill as IGradientColor).gradient === 'linear') {
+    } else if ((shapeFillObject as IGradientColor).gradient === 'linear') {
       gradient = `<linearGradient id="${fillString}" x1="${
-        (((shapeFill as ILinearGradient).x0 as number) ?? 0) * 100
-      }%" y1="${(((shapeFill as ILinearGradient).y0 as number) ?? 0) * 100}%" x2="${
-        (((shapeFill as ILinearGradient).x1 as number) ?? 0) * 100
-      }%" y2="${(((shapeFill as ILinearGradient).y1 as number) ?? 0) * 100}%">
+        (((shapeFillObject as ILinearGradient).x0 as number) ?? 0) * 100
+      }%" y1="${(((shapeFillObject as ILinearGradient).y0 as number) ?? 0) * 100}%" x2="${
+        (((shapeFillObject as ILinearGradient).x1 as number) ?? 0) * 100
+      }%" y2="${(((shapeFillObject as ILinearGradient).y1 as number) ?? 0) * 100}%">
       ${stops}
       </linearGradient>`;
     }
