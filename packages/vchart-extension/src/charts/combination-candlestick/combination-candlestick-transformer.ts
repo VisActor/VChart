@@ -137,7 +137,7 @@ export class CombinationCandlestickChartSpecTransformer<
     let totalCol = 0;
     // 先获取总计的行和列
     // 如果有 title
-    if (spec.title?.visible !== false) {
+    if (spec.title && spec.title?.visible !== false) {
       totalRow++;
     }
     // 图例
@@ -201,7 +201,7 @@ export class CombinationCandlestickChartSpecTransformer<
       right: 0
     };
     // 开始布局
-    if (spec.title?.visible !== false) {
+    if (spec.title && spec.title?.visible !== false) {
       this._layoutOrientItem(layout, spec.title, temp, { specKey: 'title', index: 0 }, 'total');
     }
     // 图例
