@@ -5,7 +5,7 @@ import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
 import { type DimensionIndexOption, type IChart, type IChartConstructor, type IChartOption, type IChartSpecInfo } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
-import type { EventCallback, EventQuery, EventType, ExtendEventParam } from '../event/interface';
+import type { EventCallback, EventQuery, EventType, ExtendEventParam, IEvent } from '../event/interface';
 import type { IParserOptions, Transform } from '@visactor/vdataset';
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IStage } from '@visactor/vrender-core';
@@ -59,6 +59,7 @@ export declare class VChart implements IVChart {
     private _chartSpecTransformer;
     private _compiler;
     private _event;
+    get event(): IEvent;
     private _userEvents;
     private _eventDispatcher;
     private _dataSet;
