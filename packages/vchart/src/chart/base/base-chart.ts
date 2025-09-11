@@ -971,7 +971,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._layoutRect.y = this.padding.top;
 
     this._event.emit(ChartEvent.layoutRectUpdate, { chart: this });
-    this._option.chartPluginApply('onLayoutRectUpdate', { chart: this });
+    this._option?.chartPluginApply?.('onLayoutRectUpdate', { chart: this });
   }
 
   /** 设置当前全局主题 */
