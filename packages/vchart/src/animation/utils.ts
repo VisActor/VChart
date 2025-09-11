@@ -181,8 +181,8 @@ function produceOneByOne(
     const userDelayAfter = isFunction(delayAfter)
       ? delayAfter(datum, g, params)
       : isValidNumber(delayAfter)
-      ? delayAfter
-      : 0;
+        ? delayAfter
+        : 0;
     let oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, g, params) : oneByOne;
     if (oneByOneTime === false) {
       return userDelayAfter;
@@ -260,7 +260,8 @@ function traverseSpec(spec: any, transform: (node: any, key: string | number) =>
       spec[index] = transform(spec[index], index);
       traverseSpec(spec[index], transform, excludeKeys);
     });
-  } else if (isObject(spec)) {
+  } else if (isObject(spec) && typeof spec !== 'function') {
+    // spec如果是函数, 无需遍历; 一个bad case: 线上环境在function的prototype上挂载了某个属性导致这里遍历的时候出现了死循环
     for (const key in spec) {
       if (!excludeKeys.includes(key)) {
         spec[key] = transform(spec[key], key);
