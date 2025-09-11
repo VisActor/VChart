@@ -46,6 +46,18 @@ export class ChartPluginService<T extends IChartPlugin = IChartPlugin>
     });
   }
 
+  onLayoutRectUpdate() {
+    this._plugins.forEach(plugin => {
+      plugin.onLayoutRectUpdate && plugin.onLayoutRectUpdate(this);
+    });
+  }
+
+  onAfterRender() {
+    this._plugins.forEach(plugin => {
+      plugin.onAfterRender && plugin.onAfterRender(this);
+    });
+  }
+
   releaseAll(): void {
     super.releaseAll();
     this.globalInstance = null;

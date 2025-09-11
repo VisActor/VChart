@@ -783,6 +783,7 @@ export class VChart implements IVChart {
       return false;
     }
     this._updateAnimateState();
+    this._chartPluginApply('onAfterRender', this._spec);
     this._event.emit(ChartEvent.rendered, {
       chart: this._chart,
       vchart: this
@@ -2189,7 +2190,9 @@ export class VChart implements IVChart {
 
       layout: this._option.layout,
       onError: this._onError,
-      disableTriggerEvent: this._option.disableTriggerEvent === true
+      disableTriggerEvent: this._option.disableTriggerEvent === true,
+      chartPluginApply: (funcName: keyof IChartPluginService, ...args: any[]) =>
+        this._chartPluginApply(funcName, ...args)
     };
   }
 }
