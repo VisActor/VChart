@@ -74,8 +74,10 @@ export interface IGeoRegionSpec extends IRegionSpec {
    * 是否可以拖拽
    * @default false
    * @since 1.12.8 支持 blank 配置，在 region 空白区域也能触发拖拽
+   * @since 2.0.5 支持 zoom 、drag 配置，单独开启 zoom 或 drag 功能
+   * roam为对象时，默认为 { zoom: true, drag: true, blank: false }
    */
-  roam?: boolean | { blank?: boolean };
+  roam?: boolean | { zoom?: boolean; drag?: boolean; blank?: boolean };
   /**
    * 数据中的经度字段名
    */

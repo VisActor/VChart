@@ -17,7 +17,7 @@ import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam }
 import type { StringOrNumber } from '../../typings';
 import type { IZoomable, ZoomEventParams } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
-import { isValid, mixin, isNil, Matrix, isEqual } from '@visactor/vutils';
+import { isValid, mixin, isNil, Matrix, isEqual, isBoolean } from '@visactor/vutils';
 import type { Maybe } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 import { Factory } from '../../core/factory';
@@ -171,12 +171,16 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
 
     const { roam } = this._spec;
     if (roam) {
-      (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom);
-      (this as unknown as IZoomable).initDragEventOfRegions(
-        this._regions,
-        (roam as any).blank ? null : () => true,
-        this.pan
-      );
+      let zoom = true;
+      let drag = true;
+      let blank = false;
+      if (roam !== true) {
+        zoom = roam.zoom ?? true;
+        drag = roam.drag ?? true;
+        blank = roam.blank ?? false;
+      }
+      zoom && (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom);
+      drag && (this as unknown as IZoomable).initDragEventOfRegions(this._regions, blank ? null : () => true, this.pan);
 
       this._regions.forEach(r => {
         r.getSeries().forEach(s => {
