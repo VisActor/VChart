@@ -4,6 +4,8 @@ import type { IRectMarkSpec, ILinkPathMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILabelSpec } from '../../component/label/interface';
+import type { SankeyLayout } from '@visactor/vgrammar-sankey';
+import type { ISankeyOpt } from '../../data/transforms/sankey';
 
 export type SankeyMark = 'node' | 'link' | 'label';
 
@@ -200,6 +202,16 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
   //   /** 是否开启进度条 */
   //   enable: boolean;
   // };
+
+  /**
+   * 自定义布局
+   * @since 1.13.19
+   */
+  customLayout?: (
+    layout: SankeyLayout,
+    originalData: SankeyData,
+    view: ReturnType<ISankeyOpt['view']>
+  ) => ReturnType<SankeyLayout['layout']>;
 }
 
 export interface SankeyLinkDatum {
