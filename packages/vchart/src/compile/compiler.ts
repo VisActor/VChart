@@ -312,6 +312,7 @@ export class Compiler implements ICompiler {
   };
 
   private _doRender(immediately: boolean) {
+    this._option.performanceHook?.beforeDoRender?.(this._compileChart.getOption().globalInstance);
     if (this._stage) {
       this._rootMarks.forEach(g => {
         traverseGroupMark(
