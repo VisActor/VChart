@@ -6,6 +6,7 @@ import { registerChartPlugin } from '../register';
 import type { IScrollPlugin, IScrollPluginSpec } from './interface';
 import { ScrollBar as ScrollBarComponent } from '@visactor/vrender-components';
 import { Event } from '../../../event/event';
+import type { ExtendEventParam } from '../../../event/interface';
 
 // 由vrender透出, 接入新版本后需修改
 const SCROLLBAR_EVENT = 'scrollDrag';
@@ -131,7 +132,7 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
       eventResult.y = y;
     }
 
-    this._event.emit('chartScroll', eventResult as any);
+    this._event.emit('chartScroll', eventResult as ExtendEventParam);
   };
 
   private _computeFinalScrollY(y: number) {
@@ -198,7 +199,7 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
         const { percent, y } = this._computeFinalScrollY(-value[0] * this._scrollLimit.y.size) ?? {};
         if (percent !== undefined && y !== undefined) {
           this._updateScrollY(this.getRootMark(), y, percent);
-          this._event.emit('chartScroll', { y });
+          this._event.emit('chartScroll', { y } as ExtendEventParam);
         }
       });
       this._yScrollComponent.addEventListener(SCROLLBAR_END_EVENT, (e: any) => {
@@ -206,7 +207,7 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
         const { percent, y } = this._computeFinalScrollY(-value[0] * this._scrollLimit.y.size) ?? {};
         if (percent !== undefined && y !== undefined) {
           this._updateScrollY(this.getRootMark(), y, percent);
-          this._event.emit('chartScroll', { y });
+          this._event.emit('chartScroll', { y } as ExtendEventParam);
         }
       });
       this.getRootMark().parent?.addChild(this._yScrollComponent);
@@ -247,7 +248,7 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
         const { percent, x } = this._computeFinalScrollX(-value[0] * this._scrollLimit.x.size) ?? {};
         if (percent !== undefined && x !== undefined) {
           this._updateScrollX(this.getRootMark(), x, percent);
-          this._event.emit('chartScroll', { x });
+          this._event.emit('chartScroll', { x } as ExtendEventParam);
         }
       });
       this._xScrollComponent.addEventListener(SCROLLBAR_END_EVENT, (e: any) => {
@@ -255,7 +256,7 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
         const { percent, x } = this._computeFinalScrollX(-value[0] * this._scrollLimit.x.size) ?? {};
         if (percent !== undefined && x !== undefined) {
           this._updateScrollX(this.getRootMark(), x, percent);
-          this._event.emit('chartScroll', { x });
+          this._event.emit('chartScroll', { x } as ExtendEventParam);
         }
       });
       this.getRootMark().parent?.addChild(this._xScrollComponent);
