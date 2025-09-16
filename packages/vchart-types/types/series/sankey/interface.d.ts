@@ -4,6 +4,8 @@ import type { IRectMarkSpec, ILinkPathMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILabelSpec } from '../../component/label/interface';
+import type { SankeyLayout } from '@visactor/vgrammar-sankey';
+import type { ISankeyOpt } from '../../data/transforms/sankey';
 export type SankeyMark = 'node' | 'link' | 'label';
 export type SankeyAppearPreset = 'growIn' | 'fadeIn';
 export interface ISankeyAnimationParams {
@@ -48,9 +50,12 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
         enable: boolean;
         trigger?: 'click' | 'hover';
         effect: 'self' | 'adjacency' | 'related';
+        highlightState?: string;
+        blurState?: string;
     };
     [SeriesMarkNameEnum.label]?: ISankeyLabelSpec | ISankeyLabelSpec[];
     overflow?: 'scroll' | 'hidden' | 'scroll-x' | 'scroll-y';
+    customLayout?: (layout: SankeyLayout, originalData: SankeyData, view: ReturnType<ISankeyOpt['view']>) => ReturnType<SankeyLayout['layout']>;
 }
 export interface SankeyLinkDatum {
     source: string | number;

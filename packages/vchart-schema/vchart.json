@@ -70922,6 +70922,9 @@
           ],
           "description": "十字辅助线配置"
         },
+        "customLayout": {
+          "typeof": "function"
+        },
         "customMark": {
           "description": "自定义mark",
           "items": {
@@ -71497,6 +71500,9 @@
           ],
           "since": "1.12.4",
           "type": "string"
+        },
+        "customLayout": {
+          "typeof": "function"
         },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
@@ -87462,7 +87468,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13615": {
           "type": "string"
         },
         "size": {
@@ -87470,14 +87476,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13615",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13615": {
           "type": "string"
         },
         "size": {
@@ -87485,14 +87491,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13615",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13615": {
           "type": "string"
         },
         "size": {
@@ -87500,14 +87506,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13615",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13615": {
           "type": "string"
         },
         "size": {
@@ -87515,14 +87521,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13615",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13615": {
           "type": "string"
         },
         "size": {
@@ -87530,14 +87536,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13615",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13615": {
           "type": "string"
         },
         "size": {
@@ -87545,7 +87551,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13615",
         "size"
       ],
       "type": "object"
@@ -94555,6 +94561,9 @@
           "type": "boolean"
         },
         "hideOnHit": {
+          "type": "boolean"
+        },
+        "hideOnOverflow": {
           "type": "boolean"
         },
         "overlapPadding": {
@@ -110220,34 +110229,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13615": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13613"
+        "__@toStringTag@13615"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13615": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13613"
+        "__@toStringTag@13615"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13615": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13613"
+        "__@toStringTag@13615"
       ],
       "type": "object"
     },
