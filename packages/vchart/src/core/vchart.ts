@@ -367,6 +367,9 @@ export class VChart implements IVChart {
   private _isReleased: boolean;
 
   private _chartPlugin?: IChartPluginService;
+  get chartPlugin() {
+    return this._chartPlugin;
+  }
   private _onResize?: () => void;
 
   constructor(spec: ISpec, options: IInitOption) {

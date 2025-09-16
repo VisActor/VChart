@@ -1,15 +1,25 @@
-import type { IGroup } from '@visactor/vrender-core';
+import { isValidNumber, merge } from '@visactor/vutils';
+import type { IGroup, IRectGraphicAttribute } from '@visactor/vrender-core';
 import { BasePlugin } from '../../base/base-plugin';
 import type { IChartPluginService } from '../interface';
 import { registerChartPlugin } from '../register';
 import type { IScrollPlugin, IScrollPluginSpec } from './interface';
 import { ScrollBar as ScrollBarComponent } from '@visactor/vrender-components';
-
-const scrollBarSize = 10;
+import { Event } from '../../../event/event';
 
 // 由vrender透出, 接入新版本后需修改
 const SCROLLBAR_EVENT = 'scrollDrag';
 const SCROLLBAR_END_EVENT = 'scrollUp';
+
+const DefaultTheme: {
+  size?: number;
+  railStyle?: Omit<IRectGraphicAttribute, 'width' | 'height'>;
+  sliderStyle?: Omit<IRectGraphicAttribute, 'width' | 'height'>;
+} = {
+  size: 10,
+  railStyle: undefined,
+  sliderStyle: undefined
+};
 /**
  * ScrollPlugin 类
  * @since 1.0.0
@@ -18,10 +28,13 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
   static readonly pluginType: 'chart' = 'chart';
   static readonly type: string = 'chartScroll';
   readonly type: string = 'chartScroll';
+  readonly name: string = ScrollPlugin.type;
 
   private _service: IChartPluginService;
 
   private _spec: IScrollPluginSpec;
+  private _lastScrollX = 0;
+  private _lastScrollY = 0;
 
   private _scrollLimit = {
     x: {
@@ -40,6 +53,7 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
 
   private _xScrollComponent: ScrollBarComponent;
   private _yScrollComponent: ScrollBarComponent;
+  private _event: Event;
 
   constructor() {
     super(ScrollPlugin.type);
@@ -65,16 +79,20 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
     this._scrollLimit.y.min = Math.min(canvasSize.height - viewBoxSize.height, 0);
     this._scrollLimit.y.percent = Math.abs(canvasSize.height / viewBoxSize.height);
     this._scrollLimit.y.size = viewBoxSize.height;
+
+    if (!this._event) {
+      this._event = new Event(this._service.globalInstance.getChart().getOption().eventDispatcher, null);
+    }
   }
 
   onAfterRender() {
     const rootMark = this.getRootMark();
     if (rootMark) {
       if (!this._xScrollComponent) {
-        this._updateScrollX(rootMark, 0);
+        this._updateScrollX(rootMark, 0, 0);
       }
       if (!this._yScrollComponent) {
-        this._updateScrollY(rootMark, 0);
+        this._updateScrollY(rootMark, 0, 0);
       }
     }
   }
@@ -101,20 +119,57 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
     if (!rootMark) {
       return;
     }
-    this._updateScrollX(rootMark, rootMark.attribute.x - scrollX);
-    this._updateScrollY(rootMark, rootMark.attribute.y - scrollY);
+    const { percent: yPercent, y } = this._computeFinalScrollY(rootMark.attribute.y - scrollY) ?? {};
+    const { percent: xPercent, x } = this._computeFinalScrollX(rootMark.attribute.x - scrollX) ?? {};
+    const eventResult: { x?: number; y?: number } = {};
+    if (isValidNumber(x)) {
+      this._updateScrollX(rootMark, x, xPercent);
+      eventResult.x = x;
+    }
+    if (isValidNumber(y)) {
+      this._updateScrollY(rootMark, y, yPercent);
+      eventResult.y = y;
+    }
+
+    this._event.emit('chartScroll', eventResult as any);
   };
 
-  private _updateScrollY(rootMark: IGroup, y: number) {
+  private _computeFinalScrollY(y: number) {
+    if (this._lastScrollY === y) {
+      return null;
+    }
+    this._lastScrollY = y;
     if (this._spec.y?.enable === false) {
-      return;
+      return null;
     }
     const finalY = Math.max(this._scrollLimit.y.min, Math.min(y, this._scrollLimit.y.max));
     const percent = Math.abs(finalY / this._scrollLimit.y.size);
+    return {
+      y: finalY,
+      percent
+    };
+  }
+  private _computeFinalScrollX(x: number) {
+    if (this._lastScrollX === x) {
+      return null;
+    }
+    this._lastScrollX = x;
+    if (this._spec.x?.enable === false) {
+      return null;
+    }
+    const finalX = Math.max(this._scrollLimit.x.min, Math.min(x, this._scrollLimit.x.max));
+    const percent = Math.abs(finalX / this._scrollLimit.x.size);
+    return {
+      x: finalX,
+      percent
+    };
+  }
+
+  private _updateScrollY(rootMark: IGroup, y: number, percent: number) {
     const yScrollComponent = this._getYScrollComponent();
     yScrollComponent.setAttribute('range', [percent, percent + this._scrollLimit.y.percent]);
     rootMark.setAttributes({
-      y: finalY
+      y: y
     });
   }
 
@@ -126,41 +181,44 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
       this._yScrollComponent = new ScrollBarComponent({
         ...rest,
         zIndex: 9999,
-        x: canvasSize.width - scrollBarSize,
+        x: canvasSize.width - DefaultTheme.size,
         y: 0,
-        width: scrollBarSize,
+        width: DefaultTheme.size,
         height: canvasSize.height,
         range: [0, canvasSize.height / viewSize.height],
         direction: 'vertical',
         delayTime: rest?.delayTime ?? 30,
         realTime: rest?.realTime ?? true,
-        sliderStyle: { fill: 'rgba(0,0,0,0.3)' }
+        railStyle: DefaultTheme.railStyle,
+        sliderStyle: DefaultTheme.sliderStyle
       });
       // 绑定事件，防抖，防止频繁触发
       this._yScrollComponent.addEventListener(SCROLLBAR_EVENT, (e: any) => {
         const value = e.detail.value;
-        this._updateScrollY(this.getRootMark(), -value[0] * this._scrollLimit.y.size);
+        const { percent, y } = this._computeFinalScrollY(-value[0] * this._scrollLimit.y.size) ?? {};
+        if (percent !== undefined && y !== undefined) {
+          this._updateScrollY(this.getRootMark(), y, percent);
+          this._event.emit('chartScroll', { y });
+        }
       });
       this._yScrollComponent.addEventListener(SCROLLBAR_END_EVENT, (e: any) => {
         const value = e.detail.value;
-        this._updateScrollY(this.getRootMark(), -value[0] * this._scrollLimit.y.size);
+        const { percent, y } = this._computeFinalScrollY(-value[0] * this._scrollLimit.y.size) ?? {};
+        if (percent !== undefined && y !== undefined) {
+          this._updateScrollY(this.getRootMark(), y, percent);
+          this._event.emit('chartScroll', { y });
+        }
       });
       this.getRootMark().parent?.addChild(this._yScrollComponent);
     }
     return this._yScrollComponent;
   }
 
-  private _updateScrollX(rootMark: IGroup, x: number) {
-    if (this._spec.x?.enable === false) {
-      return;
-    }
-    const finalX = Math.max(this._scrollLimit.x.min, Math.min(x, this._scrollLimit.x.max));
-    const percent = Math.abs(finalX / this._scrollLimit.x.size);
+  private _updateScrollX(rootMark: IGroup, x: number, percent: number) {
     const xScrollComponent = this._getXScrollComponent();
     xScrollComponent.setAttribute('range', [percent, percent + this._scrollLimit.x.percent]);
-
     rootMark.setAttributes({
-      x: finalX
+      x: x
     });
   }
 
@@ -173,26 +231,57 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
         ...rest,
         zIndex: 9999,
         x: 0,
-        y: canvasSize.height - scrollBarSize,
+        y: canvasSize.height - DefaultTheme.size,
         width: canvasSize.width,
-        height: scrollBarSize,
+        height: DefaultTheme.size,
         range: [0, canvasSize.width / viewSize.width],
         direction: 'horizontal',
         delayTime: rest?.delayTime ?? 30,
-        realTime: rest?.realTime ?? true
+        realTime: rest?.realTime ?? true,
+        sliderStyle: DefaultTheme.sliderStyle,
+        railStyle: DefaultTheme.railStyle
       });
       // 绑定事件，防抖，防止频繁触发
       this._xScrollComponent.addEventListener(SCROLLBAR_EVENT, (e: any) => {
         const value = e.detail.value;
-        this._updateScrollX(this.getRootMark(), -value[0] * this._scrollLimit.x.size);
+        const { percent, x } = this._computeFinalScrollX(-value[0] * this._scrollLimit.x.size) ?? {};
+        if (percent !== undefined && x !== undefined) {
+          this._updateScrollX(this.getRootMark(), x, percent);
+          this._event.emit('chartScroll', { x });
+        }
       });
       this._xScrollComponent.addEventListener(SCROLLBAR_END_EVENT, (e: any) => {
         const value = e.detail.value;
-        this._updateScrollX(this.getRootMark(), -value[0] * this._scrollLimit.x.size);
+        const { percent, x } = this._computeFinalScrollX(-value[0] * this._scrollLimit.x.size) ?? {};
+        if (percent !== undefined && x !== undefined) {
+          this._updateScrollX(this.getRootMark(), x, percent);
+          this._event.emit('chartScroll', { x });
+        }
       });
       this.getRootMark().parent?.addChild(this._xScrollComponent);
     }
     return this._xScrollComponent;
+  }
+
+  /**
+   * api
+   */
+  scrollTo({ x, y }: { x?: number; y?: number }) {
+    const rootMark = this.getRootMark();
+    if (rootMark) {
+      if (x !== undefined) {
+        const { x: finalX, percent } = this._computeFinalScrollX(x) ?? {};
+        if (finalX !== undefined && percent !== undefined) {
+          this._updateScrollX(rootMark, finalX, percent);
+        }
+      }
+      if (y !== undefined) {
+        const { y: finalY, percent } = this._computeFinalScrollY(y) ?? {};
+        if (finalY !== undefined && percent !== undefined) {
+          this._updateScrollY(rootMark, finalY, percent);
+        }
+      }
+    }
   }
 }
 
@@ -200,6 +289,13 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
  * 注册 ScrollPlugin
  * @since 1.0.0
  */
-export const registerScrollPlugin = () => {
+export const registerScrollPlugin = (theme?: {
+  size?: number;
+  railStyle?: Omit<IRectGraphicAttribute, 'width' | 'height'>;
+  sliderStyle?: Omit<IRectGraphicAttribute, 'width' | 'height'>;
+}) => {
+  DefaultTheme.size = theme?.size ?? DefaultTheme.size;
+  DefaultTheme.railStyle = merge({}, DefaultTheme.railStyle ?? {}, theme?.railStyle ?? {});
+  DefaultTheme.sliderStyle = merge({}, DefaultTheme.sliderStyle ?? {}, theme?.sliderStyle ?? {});
   registerChartPlugin(ScrollPlugin);
 };
