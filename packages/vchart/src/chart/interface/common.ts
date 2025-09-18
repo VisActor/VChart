@@ -5,6 +5,7 @@ import type { IView } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ISeriesSpecInfo } from '../../series/interface';
 import type { IRegionSpecInfo } from '../../region/interface';
+import type { IChartPluginService } from '../../plugin/chart/interface';
 
 export interface ILayoutParams {
   srView?: IView;
@@ -36,6 +37,11 @@ export interface IChartOption
    * 是否关闭交互效果
    */
   disableTriggerEvent?: boolean;
+
+  /**
+   * 图表插件应用方法
+   */
+  chartPluginApply?: (funcName: keyof IChartPluginService, ...args: any[]) => any;
 }
 
 export interface IChartSpecTransformerOption extends Partial<IChartOption> {
