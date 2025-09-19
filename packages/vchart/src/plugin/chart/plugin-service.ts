@@ -15,6 +15,10 @@ export class ChartPluginService<T extends IChartPlugin = IChartPlugin>
     this.globalInstance = globalInstance;
   }
 
+  getPlugin(name: string): T | undefined {
+    return this._plugins.find(plugin => plugin.name === name);
+  }
+
   onInit(chartSpec: any) {
     this._plugins.forEach(plugin => {
       plugin.onInit && plugin.onInit(this, chartSpec);

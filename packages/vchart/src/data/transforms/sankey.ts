@@ -7,6 +7,12 @@ export interface ISankeyOpt extends SankeyOptions {
   sourceField: string;
   valueField: string;
   view: () => { x0: number; x1: number; y0: number; y1: number };
+  customLayout?: (
+    layout: SankeyLayout,
+    originalData: SankeyData,
+    view: ReturnType<ISankeyOpt['view']>,
+    option: ISankeyOpt
+  ) => ReturnType<SankeyLayout['layout']>;
 }
 
 export const collectHierarchyField = (set: Set<any>, data: any[], field: string) => {
@@ -99,7 +105,11 @@ export const sankeyLayout = (data: SankeyData[], op: ISankeyOpt) => {
 
   const result = [];
 
-  result.push(layout.layout(originalData, view));
+  if (op.customLayout) {
+    result.push(op.customLayout(layout, originalData, view, op));
+  } else {
+    result.push(layout.layout(originalData, view));
+  }
 
   return result;
 };

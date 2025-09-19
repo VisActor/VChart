@@ -36,7 +36,8 @@ export class SankeyChartSpecTransformer<
       'link',
       'emphasis',
       'inverse',
-      'overflow'
+      'overflow',
+      'customLayout'
     ]);
 
     return series;
