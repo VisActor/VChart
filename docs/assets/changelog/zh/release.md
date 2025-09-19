@@ -1,3 +1,11 @@
+# v2.0.5
+
+2025-09-19
+
+
+
+[更多详情请查看 v2.0.5](https://github.com/VisActor/VChart/releases/tag/v2.0.5)
+
 # v2.0.2
 
 2025-07-28
