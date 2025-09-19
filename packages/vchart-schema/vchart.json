@@ -36843,7 +36843,7 @@
           ],
           "default": false,
           "description": "是否可以拖拽",
-          "since": "1.12.8 支持 blank 配置，在 region 空白区域也能触发拖拽"
+          "since": "2.0.5 支持 zoom 、drag 配置，单独开启 zoom 或 drag 功能\nroam为对象时，默认为 { zoom: true, drag: true, blank: false }"
         },
         "stackInverse": {
           "default": false,
@@ -79012,7 +79012,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         },
         "size": {
@@ -79020,14 +79020,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12821",
+        "__@toStringTag@12825",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         },
         "size": {
@@ -79035,14 +79035,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12821",
+        "__@toStringTag@12825",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         },
         "size": {
@@ -79050,14 +79050,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12821",
+        "__@toStringTag@12825",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         },
         "size": {
@@ -79065,14 +79065,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12821",
+        "__@toStringTag@12825",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         },
         "size": {
@@ -79080,14 +79080,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12821",
+        "__@toStringTag@12825",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         },
         "size": {
@@ -79095,14 +79095,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12821",
+        "__@toStringTag@12825",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         },
         "size": {
@@ -79110,7 +79110,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12821",
+        "__@toStringTag@12825",
         "size"
       ],
       "type": "object"
@@ -100603,34 +100603,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12821"
+        "__@toStringTag@12825"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12821"
+        "__@toStringTag@12825"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12821": {
+        "__@toStringTag@12825": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12821"
+        "__@toStringTag@12825"
       ],
       "type": "object"
     },
