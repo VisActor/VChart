@@ -340,6 +340,13 @@ export type IMarkerSpec = IComponentSpec & {
    * @since 1.11.0
    */
   coordinateType?: string;
+
+  /**
+   * 在band轴下标注组件是否包含全band
+   * @default false
+   * @since 2.0.5
+   */
+  includeFullBand?: boolean;
 };
 
 export type IMarkerSymbol = IMarkerRef & {

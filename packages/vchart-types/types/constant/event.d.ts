@@ -95,7 +95,8 @@ export declare enum ChartEvent {
     afterResize = "afterResize",
     afterRender = "afterRender",
     afterLayout = "afterLayout",
-    afterMarkLayoutEnd = "afterMarkLayoutEnd"
+    afterMarkLayoutEnd = "afterMarkLayoutEnd",
+    afterWordcloudShapeDraw = "afterWordcloudShapeDraw"
 }
 export declare enum Event_Source_Type {
     chart = "chart",

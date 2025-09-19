@@ -38,11 +38,12 @@ export class CartesianMarkArea extends BaseMarkArea {
 
     const isPositionLayout = isValid(spec.positions);
     const autoRange = spec.autoRange ?? false;
+    const includeFullBand = spec.includeFullBand ?? false;
 
     let points: IPoint[] = [];
     let lines: IPoint[][] = [];
     if (doXYProcess) {
-      lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
+      lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange, includeFullBand);
       // 格式为 [[{x, y}], [{x, y}]]
       // 顺序为左下角开始逆时针绘制
       const [start, end] = lines;
@@ -61,7 +62,7 @@ export class CartesianMarkArea extends BaseMarkArea {
         ];
       }
     } else if (doXProcess || doYProcess) {
-      lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
+      lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange, includeFullBand);
       const [start, end] = lines;
       if (start && start.length && end && end.length) {
         points = [...start, end[1], end[0]];

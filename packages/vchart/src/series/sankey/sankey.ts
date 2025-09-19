@@ -1014,7 +1014,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       // no validate domain
       colorDomain = this.getNodeList();
 
-      if (colorDomain.length > 10) {
+      if (colorDomain && colorDomain.length > 10) {
         colorRange = (this._getDataScheme()[1] as any)?.scheme;
       }
     }
