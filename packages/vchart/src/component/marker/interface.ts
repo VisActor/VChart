@@ -241,13 +241,13 @@ export type IMarkerLabelWithoutRefSpec = {
    */
   confine?: boolean;
   /**
-   * 水平方向的偏移
+   * 水平方向的偏移，可以是具体的像素值或返回偏移量的函数
    */
-  dx?: number;
+  dx?: number | ((data: any[], seriesData: any[]) => number);
   /**
-   * 垂直方向的偏移
+   * 垂直方向的偏移，可以是具体的像素值或返回偏移量的函数
    */
-  dy?: number;
+  dy?: number | ((data: any[], seriesData: any[]) => number);
 } & Partial<IMarkerState<Omit<IComposedTextMarkSpec, 'visible'>>>; // label文本 - 文本样式
 
 export type IMarkerLabelSpec = IMarkerLabelWithoutRefSpec & IMarkerRef;
