@@ -191,9 +191,8 @@ export const zeroAlign = (targetAxis: CartesianAxis, currentAxis: CartesianAxis)
     return;
   }
 
-  const domain1 = (targetAxis as any).getDomainAfterSpec?.() ?? [0, 1];
-  const domain2 = (currentAxis as any).getDomainAfterSpec?.() ?? [0, 1];
-
+  const domain1 = [...((targetAxis as any).getDomainAfterSpec?.() ?? [0, 1])];
+  const domain2 = [...((currentAxis as any).getDomainAfterSpec?.() ?? [0, 1])];
   if (!domain1 || !domain2 || !isValidAlignDomain(domain1) || !isValidAlignDomain(domain2)) {
     return;
   }
@@ -263,6 +262,8 @@ export const zeroAlign = (targetAxis: CartesianAxis, currentAxis: CartesianAxis)
         }
         domain1[0] = 0;
       } else {
+        s1.domain(domain1);
+        s2.domain(domain2);
         return;
       }
     }
@@ -282,6 +283,8 @@ export const zeroAlign = (targetAxis: CartesianAxis, currentAxis: CartesianAxis)
         }
         domain1[1] = 0;
       } else {
+        s1.domain(domain1);
+        s2.domain(domain2);
         return;
       }
     }
