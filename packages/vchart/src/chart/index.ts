@@ -44,7 +44,7 @@ import {
 import type { IRoseChartSpec } from './rose';
 import { RoseChart, registerRoseChart } from './rose';
 import type { ISankeyChartSpec } from './sankey';
-import { SankeyChart, registerSankeyChart } from './sankey';
+import { SankeyChart, registerSankeyChart, SankeyChartSpecTransformer } from './sankey';
 import type { IScatterChartSpec } from './scatter';
 import { ScatterChart, registerScatterChart } from './scatter';
 import type { ISequenceChartSpec } from './sequence';
@@ -101,6 +101,7 @@ export {
   RangeAreaChart,
   RoseChart,
   SankeyChart,
+  SankeyChartSpecTransformer,
   ScatterChart,
   SunburstChart,
   SequenceChart,

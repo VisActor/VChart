@@ -22,6 +22,8 @@ import { Pyramid3dMark, registerPyramid3dMark } from './polygon/pyramid-3d';
 import { ImageMark, registerImageMark } from './image';
 import { LiquidMark, registerLiquidMark } from './liquid';
 import { BoxPlotMark, registerBoxPlotMark } from './box-plot';
+import { BasePolygonMark } from './polygon/base-polygon';
+import { MarkTypeEnum } from './interface/type';
 
 export type {
   IBoxPlotMarkSpec,
@@ -63,7 +65,8 @@ export {
   Pyramid3dMark,
   RippleMark,
   ImageMark,
-  BaseMark
+  BaseMark,
+  LinkPathMark
 };
 
 export {
@@ -82,7 +85,8 @@ export {
   registerPyramid3dMark,
   registerRippleMark,
   registerImageMark,
-  registerComponentMark
+  registerComponentMark,
+  registerLinkPathMark
 };
 
 export const registerAllMarks = () => {

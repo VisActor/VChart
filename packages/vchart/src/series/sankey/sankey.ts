@@ -50,8 +50,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   static readonly mark: SeriesMarkMap = sankeySeriesMark;
 
-  private _nodeMark: IRectMark;
-  private _linkMark: ILinkPathMark;
+  protected _nodeMark: IRectMark;
+  protected _linkMark: ILinkPathMark;
 
   private _nodeLayoutZIndex = LayoutZIndex.Node;
   private _labelLayoutZIndex = LayoutZIndex.Label;
@@ -64,7 +64,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   protected _categoryField!: string;
   private _colorScale: IBaseScale;
   private _nodeList: (string | number)[];
-  private _needClear: boolean;
+  protected _needClear: boolean;
 
   get direction() {
     return this._spec?.direction ?? 'horizontal';
@@ -517,7 +517,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
   };
 
-  protected _handleClearEmpty = (highlightState: string, blurState: string) => {
+  protected _handleClearEmpty(highlightState: string, blurState: string) {
     if (!this._needClear) {
       return;
     }
@@ -544,7 +544,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     });
 
     this._needClear = false;
-  };
+  }
 
   protected _handleNodeAdjacencyClick = (element: IElement, highlightState: string, blurState: string) => {
     const nodeDatum = element.getDatum();
@@ -617,7 +617,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._needClear = true;
   };
 
-  protected _handleNodeRelatedClick = (element: IElement, highlightState: string, blurState: string) => {
+  protected _handleNodeRelatedClick(element: IElement, highlightState: string, blurState: string) {
     const nodeDatum = element.getDatum();
     const allNodeElements = this._nodeMark.getProductElements();
 
@@ -832,9 +832,9 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     this._needClear = true;
-  };
+  }
 
-  protected _handleLinkRelatedClick = (element: IGlyphElement, highlightState: string, blurState: string) => {
+  protected _handleLinkRelatedClick(element: IGlyphElement, highlightState: string, blurState: string) {
     const allNodeElements = this._nodeMark.getProductElements();
 
     if (!allNodeElements || !allNodeElements.length) {
@@ -965,7 +965,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     this._needClear = true;
-  };
+  }
 
   protected _highLightElements(
     vGrammarElements: IVgrammarMark['elements'],
