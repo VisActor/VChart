@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.4",
+      "tag": "@visactor/vchart_v2.0.4",
+      "date": "Fri, 19 Sep 2025 07:45:43 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support vchart rotate plugin\n\n"
+          },
+          {
+            "comment": "feat: scrollbar support auto visible. close #3972"
+          },
+          {
+            "comment": "feat: support includFullBand api in markArea\n\n"
+          },
+          {
+            "comment": "fix: fix bug of the rangeArea chart line and point config\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of className miss in react-vchart\n\n"
+          },
+          {
+            "comment": "fix: when color is gradient string, tooltip icon should show correctly\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.3",
       "tag": "@visactor/vchart_v2.0.3",
       "date": "Fri, 08 Aug 2025 09:24:12 GMT",

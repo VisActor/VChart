@@ -49,6 +49,8 @@ export interface IRegionSpec extends ILayoutItemSpec {
 export interface IGeoRegionSpec extends IRegionSpec {
     coordinate?: 'geo';
     roam?: boolean | {
+        zoom?: boolean;
+        drag?: boolean;
         blank?: boolean;
     };
     longitudeField?: string;

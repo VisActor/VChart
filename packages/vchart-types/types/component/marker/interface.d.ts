@@ -92,6 +92,7 @@ export type IMarkerSpec = IComponentSpec & {
     clip?: boolean;
     name?: string;
     coordinateType?: string;
+    includeFullBand?: boolean;
 };
 export type IMarkerSymbol = IMarkerRef & {
     visible: boolean;
