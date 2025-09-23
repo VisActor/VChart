@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: reset group of mark when release, fix #4208\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
