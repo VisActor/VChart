@@ -510,6 +510,17 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     // if (this._product && this._product.parent) {
     //   this._product.parent.removeChild(this._product);
     // }
+    if (this._product) {
+      const attrs = { ...this._product.attribute };
+
+      ['clip', 'path', 'overflow', 'zIndex'].forEach(k => {
+        if (!isNil((attrs as any)[k])) {
+          delete attrs.clip;
+        }
+      });
+
+      this._product.initAttributes(attrs); // reset group attributes
+    }
 
     this.state.release();
     super.release();
