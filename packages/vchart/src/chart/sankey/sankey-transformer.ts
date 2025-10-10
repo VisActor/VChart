@@ -29,6 +29,7 @@ export class SankeyChartSpecTransformer<
       'linkOverlap',
       'iterations',
       'nodeKey',
+      'depthKey',
       'linkSortBy',
       'nodeSortBy',
       'setNodeLayer',
