@@ -137,6 +137,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           maxLinkHeight: this._spec.maxLinkHeight,
           iterations: this._spec.iterations,
           nodeKey: this._spec.nodeKey,
+          depthKey: this._spec.depthKey,
           linkSortBy: this._spec.linkSortBy,
           nodeSortBy: this._spec.nodeSortBy,
           setNodeLayer: this._spec.setNodeLayer,

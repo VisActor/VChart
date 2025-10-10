@@ -121,6 +121,8 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
   iterations?: number;
   /** 解析node的key，defaultValue */
   nodeKey?: string | number | ((datum: SankeyNodeDatum) => string | number);
+  /** 自定义node的depth */
+  depthKey?: string | number | ((datum: SankeyNodeDatum) => string | number);
   /** 按此funtion排序link */
   linkSortBy?: (a: SankeyLinkElement, b: SankeyLinkElement) => number;
   /** 按此funtion排序node */
