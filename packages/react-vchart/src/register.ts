@@ -73,3 +73,6 @@ export {
   registerMosaicChart,
   registerPictogramChart
 } from '@visactor/vchart';
+
+// plugin
+export { registerScrollPlugin, registerFormatPlugin, registerMediaQuery } from '@visactor/vchart';
