@@ -34,7 +34,7 @@ export declare class DomTooltipHandler extends BaseTooltipHandler {
     protected _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;
     protected _initStyle(): void;
     protected _updateDomStringByCol(actualTooltip?: ITooltipActual): void;
-    protected _updateDomStyle(sizeKey?: 'width' | 'height'): void;
+    protected _updateDomStyle(sizeKey: 'width' | 'height', refreshSize: boolean): void;
     protected _getParentElement(spec: ITooltipSpec): HTMLElement;
     isTooltipShown(): boolean;
     reInit(): void;
