@@ -103,6 +103,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
             seriesField: this.getSeriesField(),
             seriesFieldName: this._theme.seriesFieldName,
             total: this._spec.total,
+            calculationMode: this._spec.calculationMode ?? 'increase',
             stackInverse: this.getRegion().getStackInverse()
           }
         },
@@ -126,6 +127,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
           startAs: STACK_FIELD_START,
           endAs: STACK_FIELD_END,
           total: this._spec.total,
+          calculationMode: this._spec.calculationMode ?? 'increase',
           groupData: () => this.getGroups().groupData,
           stackInverse: this.getRegion().getStackInverse()
         }
@@ -301,6 +303,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
   initMarkStyle(): void {
     super.initMarkStyle();
+    const isDecrease = this._spec.calculationMode === 'decrease';
     if (this._leaderLineMark) {
       if (this._direction === Direction.horizontal) {
         this.setMarkStyle(
@@ -313,9 +316,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
               if (!datum.lastIndex) {
                 return 0;
               }
-              return this.totalPositionY(datum, 'lastIndex', 1);
+              return this.totalPositionY(datum, 'lastIndex', isDecrease ? 0 : 1);
             },
-            y1: (datum: Datum) => this.totalPositionY(datum, 'index', 0)
+            y1: (datum: Datum) => this.totalPositionY(datum, 'index', isDecrease ? 1 : 0)
           },
           'normal',
           AttributeLevel.Series
@@ -329,9 +332,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
               if (!datum.lastIndex) {
                 return 0;
               }
-              return this.totalPositionX(datum, 'lastIndex', 1);
+              return this.totalPositionX(datum, 'lastIndex', isDecrease ? 0 : 1);
             },
-            x1: (datum: Datum) => this.totalPositionX(datum, 'index', 0),
+            x1: (datum: Datum) => this.totalPositionX(datum, 'index', isDecrease ? 1 : 0),
             y: (datum: Datum) => this.totalPositionY(datum, 'lastEnd', 0),
             y1: (datum: Datum) => this.totalPositionY(datum, datum.isTotal ? 'end' : 'start', 0)
           },

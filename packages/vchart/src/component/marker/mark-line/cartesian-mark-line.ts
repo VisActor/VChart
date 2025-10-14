@@ -111,6 +111,10 @@ export class CartesianMarkLine extends BaseMarkLine {
         expandDistanceValue = expandDistance as number;
       }
       const { points, limitRect } = updateAttrs;
+      if (!points || points.length < 2) {
+        this._markerComponent?.setAttributes(updateAttrs);
+        return;
+      }
 
       const joinPoints = getInsertPoints(
         (points as IPoint[])[0],

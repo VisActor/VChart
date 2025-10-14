@@ -26,6 +26,7 @@ export class WaterfallChartSpecTransformer<
     series.stackLabel = spec.stackLabel;
     series.leaderLine = spec.leaderLine;
     series.total = spec.total;
+    series.calculationMode = spec.calculationMode;
 
     return series;
   }

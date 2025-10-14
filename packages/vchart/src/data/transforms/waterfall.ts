@@ -29,6 +29,8 @@ export interface IWaterfallOpt {
   startAs: string;
   endAs: string;
   total: IWaterfallSeriesSpec['total'];
+  calculationMode: 'increase' | 'decrease';
+
   seriesFieldName: {
     total: string;
     increase: string;
@@ -42,7 +44,7 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
   if (!lastData || lastData.length === 0) {
     return lastData;
   }
-  const { indexField, total: totalSpec, groupData } = op;
+  const { indexField, total: totalSpec, groupData, calculationMode } = op;
   const totalData: {
     start: number;
     end: number;
@@ -57,7 +59,10 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
     dimensionValues: { [key in string]: Set<string> };
     dimensionData: { [key in string]: Datum[] };
   };
-  const indexValues = Array.from(dimensionValues[indexField]);
+  let indexValues = Array.from(dimensionValues[indexField]);
+  if (calculationMode === 'decrease') {
+    indexValues = indexValues.reverse();
+  }
   // 上一次的计算结果
   let temp: { start: number; end: number; lastIndex: string; positive: number; negative: number } = {
     start: 0,
@@ -320,13 +325,14 @@ export interface IWaterfallFillEndOpt {
   valueField: string;
   seriesField?: string;
   total: IWaterfallSeriesSpec['total'];
+  calculationMode: IWaterfallSeriesSpec['calculationMode'];
 }
 
 export const waterfallFillTotal = (data: Array<Datum>, op: IWaterfallFillEndOpt) => {
   if (!data) {
     return data;
   }
-  const { indexField, valueField, total, seriesField } = op;
+  const { indexField, valueField, total, seriesField, calculationMode } = op;
   const totalData = {
     [indexField]: total?.text || 'total',
     [valueField]: data.reduce((pre, cur) => precisionAdd(pre, +cur[valueField]), 0)
@@ -334,6 +340,10 @@ export const waterfallFillTotal = (data: Array<Datum>, op: IWaterfallFillEndOpt)
   if (seriesField) {
     totalData[seriesField] = 'total';
   }
-  data.push(totalData);
+  if (calculationMode === 'decrease') {
+    data.unshift(totalData);
+  } else {
+    data.push(totalData);
+  }
   return data;
 };
