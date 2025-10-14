@@ -2,19 +2,18 @@
 
 2025-10-14
 
+**🆕 新增功能**
 
-**What's Changed**
+- **@visactor/vchart**：`formatter` 新增计算功能，关联 [#4211](https://github.com/VisActor/VChart/pull/4211)
+- **@visactor/vchart**：更新缺陷报告方法，关联 [#4221](https://github.com/VisActor/VChart/pull/4221)
+- **@visactor/vchart**：升级 `vrender` 版本以修复动画问题，关联 [#4222](https://github.com/VisActor/VChart/pull/4222)
+- **@visactor/vchart**：瀑布图新增 `waterfallType` 配置，关联 [#4220](https://github.com/VisActor/VChart/pull/4220)
+- **@visactor/vchart**：变更 `vrender` 依赖项，关联 [#4224](https://github.com/VisActor/VChart/pull/4224)
 
-* fix: fix the issue of legend pager by @xuefei1313 in https://github.com/VisActor/VChart/pull/4212
-* Feat/support calc in formatter by @xuefei1313 in https://github.com/VisActor/VChart/pull/4211
-* Fix/fix error of markline when series no data by @xuefei1313 in https://github.com/VisActor/VChart/pull/4216
-* feat: update bugreport metthod by @xuanhun in https://github.com/VisActor/VChart/pull/4221
-* feat: upgrade vrender to fix animation bug by @xuefei1313 in https://github.com/VisActor/VChart/pull/4222
-* feat: support waterfallType in waterfall chart by @xuefei1313 in https://github.com/VisActor/VChart/pull/4220
-* feat: change vrender dependencies by @xuefei1313 in https://github.com/VisActor/VChart/pull/4224
+**🐛 功能修复**
 
-
-**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.5...v2.0.6
+- **@visactor/vchart**：修复图例翻页器的问题，修复 [#4212](https://github.com/VisActor/VChart/pull/4212)
+- **@visactor/vchart**：修复当系列没有数据时 `markline` 的报错问题，修复 [#4216](https://github.com/VisActor/VChart/pull/4216)
 
 [更多详情请查看 v2.0.6](https://github.com/VisActor/VChart/releases/tag/v2.0.6)
 
@@ -61,3 +60,4 @@
 - **@visactor/vchart**：修复 `tooltip.style.titleLabel` 的 `textAlign` 不生效问题，修复 [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [更多详情请查看 v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
+
