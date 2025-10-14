@@ -1,3 +1,23 @@
+# v2.0.6
+
+2025-10-14
+
+
+**What's Changed**
+
+* fix: fix the issue of legend pager by @xuefei1313 in https://github.com/VisActor/VChart/pull/4212
+* Feat/support calc in formatter by @xuefei1313 in https://github.com/VisActor/VChart/pull/4211
+* Fix/fix error of markline when series no data by @xuefei1313 in https://github.com/VisActor/VChart/pull/4216
+* feat: update bugreport metthod by @xuanhun in https://github.com/VisActor/VChart/pull/4221
+* feat: upgrade vrender to fix animation bug by @xuefei1313 in https://github.com/VisActor/VChart/pull/4222
+* feat: support waterfallType in waterfall chart by @xuefei1313 in https://github.com/VisActor/VChart/pull/4220
+* feat: change vrender dependencies by @xuefei1313 in https://github.com/VisActor/VChart/pull/4224
+
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.5...v2.0.6
+
+[更多详情请查看 v2.0.6](https://github.com/VisActor/VChart/releases/tag/v2.0.6)
+
 # v2.0.5
 
 2025-09-19
