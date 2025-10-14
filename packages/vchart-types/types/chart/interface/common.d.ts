@@ -5,6 +5,7 @@ import type { IView } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ISeriesSpecInfo } from '../../series/interface';
 import type { IRegionSpecInfo } from '../../region/interface';
+import type { IChartPluginService } from '../../plugin/chart/interface';
 export interface ILayoutParams {
     srView?: IView;
     group?: any;
@@ -20,6 +21,7 @@ export interface IChartOption extends Omit<IModelOption, 'getChartViewRect' | 'g
     viewBox?: IBoundsLike;
     layout?: LayoutCallBack;
     disableTriggerEvent?: boolean;
+    chartPluginApply?: (funcName: keyof IChartPluginService, ...args: any[]) => any;
 }
 export interface IChartSpecTransformerOption extends Partial<IChartOption> {
     seriesType?: string;
