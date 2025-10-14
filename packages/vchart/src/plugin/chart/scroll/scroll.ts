@@ -35,7 +35,13 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
 
   private _spec: IScrollPluginSpec;
   private _lastScrollX = 0;
+  get lastScrollX() {
+    return this._lastScrollX;
+  }
   private _lastScrollY = 0;
+  get lastScrollY() {
+    return this._lastScrollY;
+  }
 
   private _scrollLimit = {
     x: {
@@ -84,6 +90,28 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
     if (!this._event) {
       this._event = new Event(this._service.globalInstance.getChart().getOption().eventDispatcher, null);
     }
+
+    // 重新设置滚动条位置
+    if (this._xScrollComponent) {
+      this._xScrollComponent.setAttributes({
+        width: canvasSize.width,
+        y: canvasSize.height - DefaultTheme.size
+      });
+      this._xScrollComponent.setAttributes({
+        visible: this._scrollLimit.x.percent < 1
+      });
+    }
+    if (this._yScrollComponent) {
+      this._yScrollComponent.setAttributes({
+        height: canvasSize.height,
+        x: canvasSize.width - DefaultTheme.size
+      });
+
+      this._yScrollComponent.setAttributes({
+        visible: this._scrollLimit.y.percent < 1
+      });
+    }
+    this.scrollTo({ x: 0, y: 0 });
   }
 
   onAfterRender() {
@@ -114,6 +142,8 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
   }
 
   protected onWheel = (e: WheelEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     const scrollX = e.deltaX;
     const scrollY = e.deltaY;
     const rootMark = this.getRootMark();
@@ -191,7 +221,8 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
         delayTime: rest?.delayTime ?? 30,
         realTime: rest?.realTime ?? true,
         railStyle: DefaultTheme.railStyle,
-        sliderStyle: DefaultTheme.sliderStyle
+        sliderStyle: DefaultTheme.sliderStyle,
+        visible: canvasSize.height < viewSize.height
       });
       // 绑定事件，防抖，防止频繁触发
       this._yScrollComponent.addEventListener(SCROLLBAR_EVENT, (e: any) => {
@@ -240,7 +271,8 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
         delayTime: rest?.delayTime ?? 30,
         realTime: rest?.realTime ?? true,
         sliderStyle: DefaultTheme.sliderStyle,
-        railStyle: DefaultTheme.railStyle
+        railStyle: DefaultTheme.railStyle,
+        visible: canvasSize.width < viewSize.width
       });
       // 绑定事件，防抖，防止频繁触发
       this._xScrollComponent.addEventListener(SCROLLBAR_EVENT, (e: any) => {
