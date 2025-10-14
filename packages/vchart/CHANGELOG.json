@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.5",
+      "tag": "@visactor/vchart_v2.0.5",
+      "date": "Tue, 14 Oct 2025 07:08:54 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support calc in formatter\n\n"
+          },
+          {
+            "comment": "fix: fix issue of markline will report an error when series has no data\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.4",
       "tag": "@visactor/vchart_v2.0.4",
       "date": "Fri, 19 Sep 2025 07:45:43 GMT",
