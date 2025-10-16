@@ -24,6 +24,7 @@ type Datum = any;
 export class CompareSankeyChart extends SankeyChart<ICompareSankeyChartSpecBase> {
   type = 'compareSankey';
   static type = 'compareSankey';
+  readonly seriesType = CompareSankeySeries.type;
 
   declare _spec: ICompareSankeyChartSpecBase;
 
@@ -32,6 +33,10 @@ export class CompareSankeyChart extends SankeyChart<ICompareSankeyChartSpecBase>
 }
 
 export class CompareSankeySeries extends SankeySeries<ICompareSankeySeriesSpecBase> {
+  // @ts-ignore
+  type = 'compareSankey';
+  static type = 'compareSankey';
+
   protected _arrowData?: DataView;
 
   private _subData: DataView;
