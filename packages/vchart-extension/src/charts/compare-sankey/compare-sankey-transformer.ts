@@ -2,6 +2,7 @@ import type { ICompareSankeyChartSpecBase } from './interface';
 import { SankeyChartSpecTransformer } from '@visactor/vchart';
 
 export class CompareSankeyChartSpecTransformer extends SankeyChartSpecTransformer<ICompareSankeyChartSpecBase> {
+  seriesType = 'compareSankey';
   transformSpec(spec: ICompareSankeyChartSpecBase): void {
     super.transformSpec(spec);
   }
