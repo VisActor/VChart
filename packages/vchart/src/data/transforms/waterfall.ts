@@ -144,9 +144,11 @@ function computeTotalWithMultipleData(
   // 先将数据分为总计数据与常规数据
   const _normalTemp: Datum[] = [];
   const _totalTemp: Datum[] = [];
-  indexData.forEach(d => {
+  // 将总计数据与常规数据进行分离
+  indexData.forEach((d, index) => {
     if (isTotalCheck(d)) {
-      _totalTemp.push(d);
+      // 总计数据后续要重新按照顺序计算 start end 信息，所以需要记录下当前的 index
+      _totalTemp.push({ ...d, [`_vchart_waterfall_waterfall_temp`]: index });
     } else {
       _normalTemp.push(d);
     }
@@ -167,6 +169,7 @@ function computeTotalWithMultipleData(
   // 先获取当前的起始值/结束值应当是多少
   // 按照第一个总计数据的配置来决定
   const totalConfigData = _totalTemp[0];
+  // 获取配置中的总计结果
   // eslint-disable-next-line prefer-const
   let { start, end } = getTotalStartEnd(totalConfigData, total, totalData, temp, totalSpec);
   total.start = start;
@@ -175,7 +178,18 @@ function computeTotalWithMultipleData(
   let navigate = start;
   // 当前剩余的总计值
   let valueTemp = end - start;
-  // 将非总计数据进行堆叠
+  const tempTotalValue = _normalTemp.reduce((pre, cur) => precisionSub(pre, +cur[valueField]), valueTemp);
+  // 模拟一组临时总计数据，用来堆叠
+  _totalTemp.forEach(d => {
+    const tempTotalData = {
+      [startAs]: start,
+      [endAs]: end,
+      [valueField]: tempTotalValue
+    };
+    // 将临时总计插入 `_vchart_waterfall_waterfall_temp_${index}` 中
+    _normalTemp.splice(d._vchart_waterfall_waterfall_temp, 0, tempTotalData);
+  });
+  // 将全部数据进行堆叠
   _normalTemp.forEach(d => {
     const value = +d[valueField];
     if (value >= 0) {
@@ -189,11 +203,16 @@ function computeTotalWithMultipleData(
     start = precisionAdd(start, value);
     valueTemp = precisionSub(valueTemp, value);
   });
-  // 现在的start end 就是 total 的
-  _totalTemp.forEach(d => {
-    d[startAs] = +start;
-    d[endAs] = precisionAdd(d[startAs], valueTemp);
-    d[valueField] = valueTemp;
+  // 设置数据中的总计数据
+  _totalTemp.forEach(_d => {
+    const index = _d._vchart_waterfall_waterfall_temp;
+    // 数据的堆积计算结果
+    _d = _normalTemp[index];
+    // 原始数据
+    const d = indexData[index];
+    d[startAs] = _d[startAs];
+    d[endAs] = _d[endAs];
+    d[valueField] = _d[valueField];
   });
   return { ...total, lastIndex: key };
 }
