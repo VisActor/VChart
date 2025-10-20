@@ -8,6 +8,7 @@ export interface IWaterfallOpt {
     startAs: string;
     endAs: string;
     total: IWaterfallSeriesSpec['total'];
+    calculationMode: 'increase' | 'decrease';
     seriesFieldName: {
         total: string;
         increase: string;
@@ -22,5 +23,6 @@ export interface IWaterfallFillEndOpt {
     valueField: string;
     seriesField?: string;
     total: IWaterfallSeriesSpec['total'];
+    calculationMode: IWaterfallSeriesSpec['calculationMode'];
 }
 export declare const waterfallFillTotal: (data: Array<Datum>, op: IWaterfallFillEndOpt) => Datum[];
