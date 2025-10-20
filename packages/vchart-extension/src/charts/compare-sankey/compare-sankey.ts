@@ -194,7 +194,7 @@ export class CompareSankeySeries extends SankeySeries<ICompareSankeySeriesSpecBa
     // 层级型数据
     const highlightLinksData: any[] = [];
     // 高亮节点key
-    const highlightNodeKeys: (string | number)[] = [];
+    const highlightNodeKeys: (string | number)[] = pickNodeDatums.map(d => d.key);
 
     // 上游路径始终只选取第一个
     this._activeTargetLink(
@@ -351,6 +351,10 @@ export class CompareSankeySeries extends SankeySeries<ICompareSankeySeriesSpecBa
         el.removeState(STATE_VALUE_ENUM.STATE_HOVER);
       });
     }
+  }
+
+  public getSubNodeDatum(filter: (n: Datum) => boolean) {
+    return this._nodeMark.getProductElements().filter((n: Datum) => filter(n.data[0]));
   }
 }
 
