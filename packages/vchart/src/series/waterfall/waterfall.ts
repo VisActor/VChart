@@ -34,6 +34,8 @@ import type { IBarAnimationParams } from '../bar/interface';
 import type { ILabelInfo } from '../../component/label/interface';
 import { CompilableData, type ICompilableData } from '../../compile/data';
 import { waterfall as waterfallTheme } from '../../theme/builtin/common/series/waterfall';
+import type { IStackCacheNode } from '../../util';
+import { getRegionStackGroup, stackTotal } from '../../util';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -134,7 +136,14 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       },
       false
     );
+    totalData.target.addListener('change', this._reStackTotal);
   }
+
+  protected _reStackTotal = () => {
+    const stackData = this.getStackData();
+    const stackValueField = this.getStackValueField();
+    stackTotal(stackData as IStackCacheNode, stackValueField);
+  };
 
   compileData() {
     super.compileData();
