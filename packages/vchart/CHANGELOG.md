@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 19 Sep 2025 07:45:43 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Oct 2025 07:08:54 GMT and should not be manually modified.
+
+## 2.0.5
+Tue, 14 Oct 2025 07:08:54 GMT
+
+### Updates
+
+- feat: support calc in formatter
+
+
+- fix: fix issue of markline will report an error when series has no data
+
+
 
 ## 2.0.4
 Fri, 19 Sep 2025 07:45:43 GMT
