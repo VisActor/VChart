@@ -745,6 +745,7 @@ export class VChart implements IVChart {
     if (!this._chart || !this._compiler) {
       return false;
     }
+    this._chartPluginApply('onAfterInitChart', this._spec, actionSource);
 
     // compile
     this._option.performanceHook?.beforeCompileToVGrammar?.(this);
