@@ -926,6 +926,13 @@
                 "zh": "地图标签组件",
                 "en": "Map Label"
               }
+            },
+            {
+              "path": "regression_line",
+              "title": {
+                "zh": "回归线组件",
+                "en": "Regression Line"
+              }
             }
           ]
         }

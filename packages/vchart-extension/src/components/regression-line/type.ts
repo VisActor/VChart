@@ -1,4 +1,9 @@
-import type { IAreaGraphicAttribute, IGroupGraphicAttribute, ILineGraphicAttribute } from '@visactor/vrender-core';
+import type {
+  IAreaGraphicAttribute,
+  IGroupGraphicAttribute,
+  ILineGraphicAttribute,
+  ITextGraphicAttribute
+} from '@visactor/vrender-core';
 
 export interface RegressionLineData {
   line: { x: number; y: number }[];
@@ -6,6 +11,10 @@ export interface RegressionLineData {
 }
 
 export interface RegressionLineAttrs extends IGroupGraphicAttribute {
+  /**
+   * 用于区分的名称
+   */
+  name?: string;
   /**
    * 颜色值
    */
@@ -28,7 +37,18 @@ export interface RegressionLineAttrs extends IGroupGraphicAttribute {
    * 回归线公式标签
    */
   label?: {
+    /**
+     * 是否显示标签
+     */
     visible?: boolean;
+    /**
+     * 标签文本
+     */
+    text: string;
+    /**
+     * 标签样式
+     */
+    style?: ITextGraphicAttribute;
   };
   /**
    * 置信区间

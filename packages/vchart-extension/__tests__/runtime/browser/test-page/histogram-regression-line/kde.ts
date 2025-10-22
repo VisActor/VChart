@@ -1,7 +1,5 @@
-import {
-  registerHistogramRegressionLine,
-  appendHistogramRegressionLineConfig
-} from './../../../../../src/components/histogram-regression-line';
+import { registerRegressionLine } from '../../../../../src/components/regression-line/regression-line';
+import { appendHistogramRegressionLineConfig } from './../../../../../src/components/histogram-regression-line';
 import { default as VChart } from '@visactor/vchart';
 
 // expose vchart on window for debugging in tests
@@ -107,7 +105,7 @@ const spec = {
 };
 
 const run = () => {
-  registerHistogramRegressionLine();
+  registerRegressionLine();
   appendHistogramRegressionLineConfig(spec, {
     type: 'kde',
     line: {

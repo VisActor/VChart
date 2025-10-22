@@ -1,6 +1,32 @@
-import { registerRegressionLine } from '../../../../../src/components/regression-line/regression-line';
-import { appendScatterRegressionLineConfig } from './../../../../../src/components/scatter-regression-line';
-import { default as VChart } from '@visactor/vchart';
+---
+category: examples
+group: extension chart
+title: 时序散点图-支持kde背景
+keywords: regression-line, scatterChart
+order:
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/scatter-chart/scatter-regression-line.png
+option: scatterChart
+---
+
+# 散点图支持回归线
+
+## 关键配置
+
+- 通过 `registerRegressionLine()` 注册回归线扩展
+- 使用 `appendScatterRegressionLineConfig(spec, [...])` 配置多条回归线（如多项式回归、线性回归等）
+- 可设置回归线类型（`type: 'linear' | 'logisitc' | 'lowess' | 'polynomial'`）、颜色、阶数（多项式）、置信区间样式和标签等
+
+## 代码演示
+
+```javascript livedemo
+/** --在业务中使用时请添加以下代码-- */
+// 在业务中使用时, 请额外依赖 @visactor/vchart-extension，包版本保持和vchart一致
+// import { registerRegressionLine, appendScatterRegressionLineConfig } from '@visactor/vchart-extension';
+/** --在业务中使用时请添加以上代码-- */
+
+/** --在业务中使用时请删除以下代码-- */
+const { registerRegressionLine, appendScatterRegressionLineConfig } = VChartExtension;
+/** --在业务中使用时请删除以上代码-- */
 
 const data = [
   { name: 'chevrolet chevelle malibu', milesPerGallon: 18, cylinders: 8, horsepower: 130 },
@@ -495,60 +521,37 @@ const spec = {
     }
   ]
 };
-
-const run = () => {
-  registerRegressionLine();
-  appendScatterRegressionLineConfig(spec, [
-    {
-      type: 'lowess',
-      polynomialDegree: 3,
-      line: {
-        style: {
-          stroke: 'red',
-          lineWidth: 2
-        }
-      },
-      confidenceInterval: {
-        style: {
-          fill: 'red',
-          fillOpacity: 0.2
-        }
-      },
-      label: {
-        text: 'lowess'
+registerRegressionLine();
+appendScatterRegressionLineConfig(spec, [
+  {
+    type: 'polynomial', // 支持4中类型 'linear' | 'logisitc' | 'lowess' | 'polynomial'
+    polynomialDegree: 3,
+    color: 'red',
+    line: {
+      style: {
+        lineWidth: 2
       }
     },
-    {
-      type: 'linear',
-      polynomialDegree: 3,
-      line: {
-        style: {
-          stroke: 'green',
-          lineWidth: 2
-        }
-      },
-      confidenceInterval: {
-        style: {
-          fill: 'green',
-          fillOpacity: 0.2
-        }
-      },
-      label: {
-        text: '线性回归'
+    confidenceInterval: {
+      style: {
+        fillOpacity: 0.2
       }
+    },
+    label: {
+      text: '3次多项式回归'
     }
-  ]);
-
-  const cs = new VChart(spec, {
-    dom: document.getElementById('chart') as HTMLElement,
-    //theme: 'dark',
-    onError: err => {
-      console.error(err);
+  },
+  {
+    type: 'linear',
+    color: 'green',
+    label: {
+      text: '线性回归'
     }
-  });
+  }
+]);
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
 
-  cs.renderSync();
-
-  window['vchart'] = cs;
-};
-run();
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```

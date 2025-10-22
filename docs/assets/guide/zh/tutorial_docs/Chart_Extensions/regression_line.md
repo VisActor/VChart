@@ -1,6 +1,429 @@
-import { registerRegressionLine } from '../../../../../src/components/regression-line/regression-line';
-import { appendScatterRegressionLineConfig } from './../../../../../src/components/scatter-regression-line';
-import { default as VChart } from '@visactor/vchart';
+# 回归线扩展指南
+
+回归线在统计场景下经常出现，vchart-extensions 支持回归线的扩展功能，支持常用回归线（多项式回归、核密度估计 KDE、经验累积分布 ECDF 等）的计算和显示
+
+## 注册扩展
+
+回归线组件位于扩展包中，使用前需先注册组件：
+
+```js
+import VChart from '@visactor/vchart';
+import {
+  registerRegressionLine,
+  appendBarRegressionLineConfig,
+  appendHistogramRegressionLineConfig,
+  appendScatterRegressionLineConfig
+} from '@visactor/vchart-extension';
+
+registerRegressionLine();
+```
+
+如果使用 CDN 打包的全局变量 `VChartExtension`，请调用 `VChartExtension.registerRegressionLine()`。
+
+## API 概览
+
+- `registerRegressionLine()` — 注册回归线组件并启用附加配置方法
+- `appendBarRegressionLineConfig(spec, config)` — 在柱图配置中增加回归线配置，注意现在仅简单柱图（即没有分组、堆积等计算）中支持回归线，仅支持多项式回归线
+- `appendHistogramRegressionLineConfig(spec, config)` — 在直方图上附加回归叠加（支持 `kde` 和 `ecdf`）
+- `appendScatterRegressionLineConfig(spec, config)` — 在散点图上附加回归线
+
+## 柱图回归线
+
+### 示例
+
+使用 `appendBarRegressionLineConfig` 为柱图添加回归线：
+
+```javascript livedemo
+/** --在业务中使用时请添加以下代码-- */
+// 在业务中使用时, 请额外依赖 @visactor/vchart-extension，包版本保持和vchart一致
+// import { appendBarRegressionLineConfig, registerRegressionLine } from '@visactor/vchart-extension';
+/** --在业务中使用时请添加以上代码-- */
+
+/** --在业务中使用时请删除以下代码-- */
+const { appendBarRegressionLineConfig, registerRegressionLine } = VChartExtension;
+/** --在业务中使用时请删除以上代码-- */
+
+const spec = {
+  type: 'bar',
+  data: [
+    {
+      id: 'barData',
+      values: [
+        {
+          name: 'Apple',
+          value: 214480
+        },
+        {
+          name: 'Google',
+          value: 155506
+        },
+        {
+          name: 'Amazon',
+          value: 100764
+        },
+        {
+          name: 'Microsoft',
+          value: 92715
+        },
+        {
+          name: 'Coca-Cola',
+          value: 66341
+        },
+        {
+          name: 'Samsung',
+          value: 59890
+        },
+        {
+          name: 'Toyota',
+          value: 53404
+        },
+        {
+          name: 'Mercedes-Benz',
+          value: 48601
+        },
+        {
+          name: 'Facebook',
+          value: 45168
+        },
+        {
+          name: "McDonald's",
+          value: 43417
+        },
+        {
+          name: 'Intel',
+          value: 43293
+        },
+        {
+          name: 'IBM',
+          value: 42972
+        },
+        {
+          name: 'BMW',
+          value: 41006
+        },
+        {
+          name: 'Disney',
+          value: 39874
+        },
+        {
+          name: 'Cisco',
+          value: 34575
+        },
+        {
+          name: 'GE',
+          value: 32757
+        },
+        {
+          name: 'Nike',
+          value: 30120
+        },
+        {
+          name: 'Louis Vuitton',
+          value: 28152
+        },
+        {
+          name: 'Oracle',
+          value: 26133
+        },
+        {
+          name: 'Honda',
+          value: 23682
+        }
+      ]
+    }
+  ],
+  xField: 'name',
+  yField: 'value'
+};
+
+registerRegressionLine();
+appendBarRegressionLineConfig(spec, [
+  {
+    degree: 2,
+    color: 'red',
+    line: {
+      style: {
+        lineWidth: 2
+      }
+    },
+    confidenceInterval: {
+      visible: false
+    },
+    label: {
+      text: '2次多项式拟合'
+    }
+  },
+  {
+    degree: 3,
+    color: 'green',
+    line: {
+      style: {
+        lineWidth: 2
+      }
+    },
+    confidenceInterval: {
+      style: {
+        fillOpacity: 0.2
+      }
+    },
+    label: {
+      text: '3次多项式拟合'
+    }
+  }
+]);
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+### 配置类型定义
+
+其中回归线配置的类型定义如下：
+
+```ts
+{
+  /**
+   * 多项式的阶数
+   */
+  degree?: number;
+  /**
+   * 颜色值
+   */
+  color?: string;
+  /**
+   * 回归线配置
+   */
+  line?: {
+    /**
+     * 是否显示系列标签
+     * @default true
+     */
+    visible?: boolean;
+    /**
+     * 线样式
+     */
+    style?: ILineGraphicAttribute;
+  };
+  /**
+   * 回归线公式标签
+   */
+  label?: {
+    /**
+     * 是否显示标签
+     */
+    visible?: boolean;
+    /**
+     * 标签文本
+     */
+    text: string;
+    /**
+     * 标签样式
+     */
+    style?: ITextGraphicAttribute;
+  };
+  /**
+   * 置信区间
+   */
+  confidenceInterval?: {
+    visible?: boolean;
+    style?: IAreaGraphicAttribute;
+  };
+}
+```
+
+## 直方图示例（KDE / ECDF）
+
+### 示例
+
+直方图回归支持在直方图上叠加 KDE 或 ECDF 曲线。请确保数据经过 `bin` 变换，且正确配置 `xField/x2Field/yField`。
+
+```javascript livedemo
+/** --在业务中使用时请添加以下代码-- */
+// 在业务中使用时, 请额外依赖 @visactor/vchart-extension，包版本保持和vchart一致
+// import { registerRegressionLine, appendHistogramRegressionLineConfig } from '@visactor/vchart-extension';
+/** --在业务中使用时请添加以上代码-- */
+
+/** --在业务中使用时请删除以下代码-- */
+const { registerRegressionLine, appendHistogramRegressionLineConfig } = VChartExtension;
+/** --在业务中使用时请删除以上代码-- */
+
+function boxMullerRandom() {
+  let u = 0;
+  let v = 0;
+  while (u === 0) {
+    u = Math.random();
+  }
+  while (v === 0) {
+    v = Math.random();
+  }
+  return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
+function generateGaussian(count, mean = 0, sd = 1) {
+  const out = [];
+  for (let i = 0; i < count; i++) {
+    out.push(mean + boxMullerRandom() * sd);
+  }
+  return out;
+}
+
+function generateMixtureGaussianSamples() {
+  const a = generateGaussian(160, 5, 4, 1); // cluster A
+  // const b = generateGaussian(80, 2.3, 0.08, 2); // cluster B
+  // const c = generateGaussian(140, 9.3, 0.35, 3); // cluster C
+  const outliers = [5.0, 6.2, 3.5, 12.0, 0.5];
+  const arr = [...a, ...outliers];
+  return arr.map(v => ({ value: v }));
+}
+
+const spec = {
+  data: [
+    {
+      name: 'data1',
+      transforms: [
+        {
+          type: 'bin',
+          options: {
+            step: 2,
+            field: 'value',
+            outputNames: { x0: 'x0', x1: 'x1', count: 'frequency' }
+          }
+        }
+      ],
+      values: generateMixtureGaussianSamples()
+    }
+  ],
+  type: 'histogram',
+  xField: 'x0',
+  x2Field: 'x1',
+  yField: 'frequency',
+  bar: {
+    style: {
+      stroke: 'white',
+      lineWidth: 1
+    }
+  },
+  title: {
+    text: 'Histogram of Gaussian data'
+  },
+  tooltip: {
+    visible: true,
+    mark: {
+      title: {
+        key: 'title',
+        value: 'frequency'
+      },
+      content: [
+        {
+          key: datum => datum['x0'] + '～' + datum['x1'],
+          value: datum => datum['frequency']
+        }
+      ]
+    }
+  }
+};
+
+registerRegressionLine();
+appendHistogramRegressionLineConfig(spec, [
+  {
+    type: 'kde', // 支持 'kde' 和 'ecdf'
+    line: {
+      style: {
+        stroke: 'red',
+        lineWidth: 2
+      }
+    },
+    label: {
+      text: 'KDE核密度估计'
+    }
+  },
+  {
+    type: 'ecdf', // 支持 'kde' 和 'ecdf'
+    line: {
+      style: {
+        stroke: 'green',
+        lineWidth: 2
+      }
+    },
+    label: {
+      text: '经验累积分布函数（ECDF）'
+    }
+  }
+]);
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
+
+### 配置类型定义
+
+其中回归线配置的类型定义如下：
+
+```ts
+{
+  /**
+   * 回归线的类型
+   */
+  type: 'kde' | 'ecdf';
+  /**
+   * 颜色值
+   */
+  color?: string;
+  /**
+   * 回归线配置
+   */
+  line?: {
+    /**
+     * 是否显示系列标签
+     * @default true
+     */
+    visible?: boolean;
+    /**
+     * 线样式
+     */
+    style?: ILineGraphicAttribute;
+  };
+  /**
+   * 回归线公式标签
+   */
+  label?: {
+    /**
+     * 是否显示标签
+     */
+    visible?: boolean;
+    /**
+     * 标签文本
+     */
+    text: string;
+    /**
+     * 标签样式
+     */
+    style?: ITextGraphicAttribute;
+  };
+}
+```
+
+## 散点图/序列示例
+
+### 示例
+
+使用 `appendScatterRegressionLineConfig` 为散点图添加回归叠加，可配置 `degree`、`type`、样式等：
+
+```javascript livedemo
+/** --在业务中使用时请添加以下代码-- */
+// 在业务中使用时, 请额外依赖 @visactor/vchart-extension，包版本保持和vchart一致
+// import { registerRegressionLine, appendScatterRegressionLineConfig } from '@visactor/vchart-extension';
+/** --在业务中使用时请添加以上代码-- */
+
+/** --在业务中使用时请删除以下代码-- */
+const { registerRegressionLine, appendScatterRegressionLineConfig } = VChartExtension;
+/** --在业务中使用时请删除以上代码-- */
 
 const data = [
   { name: 'chevrolet chevelle malibu', milesPerGallon: 18, cylinders: 8, horsepower: 130 },
@@ -495,60 +918,102 @@ const spec = {
     }
   ]
 };
-
-const run = () => {
-  registerRegressionLine();
-  appendScatterRegressionLineConfig(spec, [
-    {
-      type: 'lowess',
-      polynomialDegree: 3,
-      line: {
-        style: {
-          stroke: 'red',
-          lineWidth: 2
-        }
-      },
-      confidenceInterval: {
-        style: {
-          fill: 'red',
-          fillOpacity: 0.2
-        }
-      },
-      label: {
-        text: 'lowess'
+registerRegressionLine();
+appendScatterRegressionLineConfig(spec, [
+  {
+    type: 'polynomial', // 支持4中类型 'linear' | 'logisitc' | 'lowess' | 'polynomial'
+    polynomialDegree: 3,
+    color: 'red',
+    line: {
+      style: {
+        lineWidth: 2
       }
     },
-    {
-      type: 'linear',
-      polynomialDegree: 3,
-      line: {
-        style: {
-          stroke: 'green',
-          lineWidth: 2
-        }
-      },
-      confidenceInterval: {
-        style: {
-          fill: 'green',
-          fillOpacity: 0.2
-        }
-      },
-      label: {
-        text: '线性回归'
+    confidenceInterval: {
+      style: {
+        fillOpacity: 0.2
       }
+    },
+    label: {
+      text: '3次多项式回归'
     }
-  ]);
-
-  const cs = new VChart(spec, {
-    dom: document.getElementById('chart') as HTMLElement,
-    //theme: 'dark',
-    onError: err => {
-      console.error(err);
+  },
+  {
+    type: 'linear',
+    color: 'green',
+    label: {
+      text: '线性回归'
     }
-  });
+  }
+]);
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
 
-  cs.renderSync();
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
 
-  window['vchart'] = cs;
-};
-run();
+### 配置类型定义
+
+其中回归线配置的类型定义如下：
+
+```ts
+{
+  /**
+   * 回归线的类型
+   */
+  type: 'linear' | 'logisitc' | 'lowess' | 'polynomial';
+  /**
+   * 多项式回归的阶数，仅当 type 为 polynomial 时有效
+   */
+  polynomialDegree?: number;
+  /**
+   * 颜色值
+   */
+  color?: string;
+  /**
+   * 回归线配置
+   */
+  line?: {
+    /**
+     * 是否显示系列标签
+     * @default true
+     */
+    visible?: boolean;
+    /**
+     * 线样式
+     */
+    style?: ILineGraphicAttribute;
+  };
+  /**
+   * 回归线公式标签
+   */
+  label?: {
+    /**
+     * 是否显示标签
+     */
+    visible?: boolean;
+    /**
+     * 标签文本
+     */
+    text: string;
+    /**
+     * 标签样式
+     */
+    style?: ITextGraphicAttribute;
+  };
+  /**
+   * 置信区间
+   */
+  confidenceInterval?: {
+    visible?: boolean;
+    style?: IAreaGraphicAttribute;
+  };
+}
+```
+
+## 注意事项与建议
+
+- 直方图回归依赖 bin 输出字段（例如 `x0/x1/count`），确保 `transforms` 中 `bin` 的 `outputNames` 与回归组件期望一致。
+- 置信区间计算会带来额外开销，大数据集或交互更新时建议关闭。
+- `append*` 方法会直接修改传入的 `spec`，如需保留原始 spec，请先深拷贝后再操作。

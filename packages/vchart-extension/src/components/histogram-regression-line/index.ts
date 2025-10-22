@@ -3,53 +3,20 @@
  * @author zhangweixing
  */
 
-import { AbstractComponent } from '@visactor/vrender-components';
-import { array, get, isEmpty, kde, ecdf, last } from '@visactor/vutils';
+import { array, get, kde, ecdf, last } from '@visactor/vutils';
 import type { Datum, ICartesianSeries, ISpec } from '@visactor/vchart';
-import { Factory, SeriesTypeEnum } from '@visactor/vchart';
-import { type IGraphic, type IText, createText, createLine, createArea } from '@visactor/vrender-core';
-import type { HistogramRegressionLineAttrs, HistogramRegressionLineSpec } from './type';
+import { SeriesTypeEnum } from '@visactor/vchart';
+import type { HistogramRegressionLineSpec } from './type';
 import type { RegressionLineData } from '../regression-line/type';
+import { REGRESSION_LINE } from '../regression-line/regression-line';
 
-export const HISTOGRAM_REGRESSION_LINE = 'histogramRegressionLine';
-
-export const getRegressionByType = (type: 'kde' | 'ecdf', data: number[], kdeOptions?: any) => {
+const getRegressionByType = (type: 'kde' | 'ecdf', data: number[], kdeOptions?: any) => {
   switch (type) {
     case 'kde':
       return kde(data, kdeOptions);
     case 'ecdf':
       return ecdf(data);
   }
-};
-
-export class HistogramRegressionLine extends AbstractComponent<Required<HistogramRegressionLineAttrs>> {
-  name = HISTOGRAM_REGRESSION_LINE;
-  protected render() {
-    this.removeAllChild();
-    const { data, line = {} } = this.attribute as HistogramRegressionLineAttrs;
-    if (isEmpty(data)) {
-      return;
-    }
-
-    data.forEach(d => {
-      if (line.visible !== false) {
-        const lineShape = createLine({
-          points: d.line,
-          lineWidth: 1,
-          ...line.style
-        });
-        lineShape.name = 'histogram-regression-line';
-        this.add(lineShape);
-      }
-    });
-  }
-}
-
-export const registerHistogramRegressionLine = () => {
-  Factory.registerGraphicComponent(
-    HISTOGRAM_REGRESSION_LINE,
-    (attrs: Required<HistogramRegressionLineAttrs>) => new HistogramRegressionLine(attrs) as unknown as IGraphic
-  );
 };
 
 /**
@@ -62,10 +29,10 @@ export function getHistogramRegressionLineConfig(
   type: 'kde' | 'ecdf',
   config: Omit<HistogramRegressionLineSpec, 'visible' | 'type'>
 ) {
-  const { line } = config;
+  const { line, label, color } = config;
   return {
     type: 'component',
-    componentType: HISTOGRAM_REGRESSION_LINE,
+    componentType: REGRESSION_LINE,
     interactive: false,
     zIndex: 500, // 高于柱子
     style: {
@@ -130,27 +97,34 @@ export function getHistogramRegressionLineConfig(
 
         return regressionData;
       },
-      line
+      color,
+      line,
+      label
     }
   };
 }
 
-export function appendHistogramRegressionLineConfig(chartSpec: ISpec, spec?: HistogramRegressionLineSpec) {
-  (chartSpec as any).customMark = array((chartSpec as any).customMark).filter(
-    (obj: any) => obj.componentType !== HISTOGRAM_REGRESSION_LINE
-  );
-
+export function appendHistogramRegressionLineConfig(
+  chartSpec: ISpec,
+  spec?: HistogramRegressionLineSpec | HistogramRegressionLineSpec[]
+) {
   if (!spec) {
     spec =
-      get(chartSpec, HISTOGRAM_REGRESSION_LINE) ??
+      get(chartSpec, REGRESSION_LINE) ??
       get(
         chartSpec.series?.find(s => s.type === SeriesTypeEnum.bar),
-        HISTOGRAM_REGRESSION_LINE
-      ) ??
-      {};
+        REGRESSION_LINE
+      );
   }
-  if (spec.visible !== false) {
-    const { type, ...rest } = spec;
-    (chartSpec as any).customMark.push(getHistogramRegressionLineConfig(type, rest));
-  }
+  const specs = array(spec);
+
+  specs.forEach((s: HistogramRegressionLineSpec) => {
+    if (s.visible !== false) {
+      if (!(chartSpec as any).customMark) {
+        (chartSpec as any).customMark = [];
+      }
+      const { type, ...rest } = s;
+      (chartSpec as any).customMark.push(getHistogramRegressionLineConfig(type, rest));
+    }
+  });
 }

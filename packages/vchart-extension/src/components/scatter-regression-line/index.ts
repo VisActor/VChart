@@ -14,14 +14,12 @@ import {
   regressionPolynomial
 } from '@visactor/vutils';
 import type { Datum, ICartesianSeries, ISpec } from '@visactor/vchart';
-import { Factory, SeriesTypeEnum } from '@visactor/vchart';
-import { type IGraphic, type IText, createText, createLine, createArea } from '@visactor/vrender-core';
-import type { ScatterRegressionLineAttrs, ScatterRegressionLineSpec } from './type';
+import { SeriesTypeEnum } from '@visactor/vchart';
+import type { ScatterRegressionLineSpec } from './type';
 import type { RegressionLineData } from '../regression-line/type';
+import { REGRESSION_LINE } from '../regression-line/regression-line';
 
-export const SCATTER_REGRESSION_LINE = 'scatterRegressionLine';
-
-export const getRegressionByType = (
+const getRegressionByType = (
   type: 'linear' | 'logisitc' | 'lowess' | 'polynomial',
   data: any[],
   x: (d: any) => number = d => d.x,
@@ -40,45 +38,6 @@ export const getRegressionByType = (
   }
 };
 
-export class ScatterRegressionLine extends AbstractComponent<Required<ScatterRegressionLineAttrs>> {
-  name = SCATTER_REGRESSION_LINE;
-  protected render() {
-    this.removeAllChild();
-    const { data, label, line = {}, confidenceInterval = {} } = this.attribute as ScatterRegressionLineAttrs;
-    if (isEmpty(data)) {
-      return;
-    }
-
-    data.forEach(d => {
-      if (line.visible !== false) {
-        const lineShape = createLine({
-          points: d.line,
-          lineWidth: 1,
-          ...line.style
-        });
-        lineShape.name = 'scatter-regression-line';
-        this.add(lineShape);
-      }
-
-      if (confidenceInterval.visible !== false) {
-        const areaShape = createArea({
-          points: d.area,
-          ...confidenceInterval.style
-        });
-        areaShape.name = 'scatter-regression-area';
-        this.add(areaShape);
-      }
-    });
-  }
-}
-
-export const registerScatterRegressionLine = () => {
-  Factory.registerGraphicComponent(
-    SCATTER_REGRESSION_LINE,
-    (attrs: Required<ScatterRegressionLineAttrs>) => new ScatterRegressionLine(attrs) as unknown as IGraphic
-  );
-};
-
 /**
  * 获取系列标签的 spec 配置
  * @param position 显示位置
@@ -89,10 +48,10 @@ export function getScatterRegressionLineConfig(
   type: 'linear' | 'logisitc' | 'lowess' | 'polynomial',
   config: Omit<ScatterRegressionLineSpec, 'visible' | 'type'>
 ) {
-  const { color, line, confidenceInterval } = config;
+  const { color, line, confidenceInterval, label } = config;
   return {
     type: 'component',
-    componentType: SCATTER_REGRESSION_LINE,
+    componentType: REGRESSION_LINE,
     interactive: false,
     style: {
       data: (datum: any, ctx: any) => {
@@ -146,41 +105,37 @@ export function getScatterRegressionLineConfig(
 
         return regressionData;
       },
-      line: {
-        ...line,
-        style: {
-          stroke: color,
-          ...line?.style
-        }
-      },
-      confidenceInterval: {
-        ...confidenceInterval,
-        style: {
-          fill: color,
-          fillOpacity: 0.2,
-          ...confidenceInterval?.style
-        }
-      }
+      line,
+      confidenceInterval,
+      label,
+      color
     }
   };
 }
 
-export function appendScatterRegressionLineConfig(chartSpec: ISpec, spec?: ScatterRegressionLineSpec) {
-  (chartSpec as any).customMark = array((chartSpec as any).customMark).filter(
-    (obj: any) => obj.componentType !== SCATTER_REGRESSION_LINE
-  );
-
+export function appendScatterRegressionLineConfig(
+  chartSpec: ISpec,
+  spec?: ScatterRegressionLineSpec | ScatterRegressionLineSpec[]
+) {
   if (!spec) {
     spec =
-      get(chartSpec, SCATTER_REGRESSION_LINE) ??
+      get(chartSpec, REGRESSION_LINE) ??
       get(
         chartSpec.series?.find(s => s.type === SeriesTypeEnum.scatter),
-        SCATTER_REGRESSION_LINE
-      ) ??
-      {};
+        REGRESSION_LINE
+      );
   }
-  if (spec.visible !== false) {
-    const { type, ...rest } = spec;
-    (chartSpec as any).customMark.push(getScatterRegressionLineConfig(type, rest));
-  }
+
+  const specs = array(spec);
+
+  specs.forEach((s: ScatterRegressionLineSpec) => {
+    if (s.visible !== false) {
+      if (!(chartSpec as any).customMark) {
+        (chartSpec as any).customMark = [];
+      }
+
+      const { type, ...rest } = s;
+      (chartSpec as any).customMark.push(getScatterRegressionLineConfig(type, rest));
+    }
+  });
 }

@@ -1,7 +1,5 @@
-import {
-  registerBarRegressionLine,
-  appendBarRegressionLineConfig
-} from './../../../../../src/components/bar-regression-line';
+import { registerRegressionLine } from '../../../../../src/components/regression-line/regression-line';
+import { appendBarRegressionLineConfig } from './../../../../../src/components/bar-regression-line';
 import { default as VChart } from '@visactor/vchart';
 
 const spec = {
@@ -23,7 +21,7 @@ const spec = {
 };
 
 const run = () => {
-  registerBarRegressionLine();
+  registerRegressionLine();
   appendBarRegressionLineConfig(spec, {
     degree: 3,
     line: {
