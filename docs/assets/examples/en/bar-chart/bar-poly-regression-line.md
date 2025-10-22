@@ -32,135 +32,134 @@ By passing different configuration items to the `appendBarRegressionLineConfig` 
 /** --Remove the following code when using in your project-- */
 const { appendBarRegressionLineConfig, registerRegressionLine } = VChartExtension;
 /** --Remove the above code when using in your project-- */
-```
 
 const spec = {
-type: 'bar',
-data: [
-{
-id: 'barData',
-values: [
-{
-name: 'Apple',
-value: 214480
-},
-{
-name: 'Google',
-value: 155506
-},
-{
-name: 'Amazon',
-value: 100764
-},
-{
-name: 'Microsoft',
-value: 92715
-},
-{
-name: 'Coca-Cola',
-value: 66341
-},
-{
-name: 'Samsung',
-value: 59890
-},
-{
-name: 'Toyota',
-value: 53404
-},
-{
-name: 'Mercedes-Benz',
-value: 48601
-},
-{
-name: 'Facebook',
-value: 45168
-},
-{
-name: "McDonald's",
-value: 43417
-},
-{
-name: 'Intel',
-value: 43293
-},
-{
-name: 'IBM',
-value: 42972
-},
-{
-name: 'BMW',
-value: 41006
-},
-{
-name: 'Disney',
-value: 39874
-},
-{
-name: 'Cisco',
-value: 34575
-},
-{
-name: 'GE',
-value: 32757
-},
-{
-name: 'Nike',
-value: 30120
-},
-{
-name: 'Louis Vuitton',
-value: 28152
-},
-{
-name: 'Oracle',
-value: 26133
-},
-{
-name: 'Honda',
-value: 23682
-}
-]
-}
-],
-xField: 'name',
-yField: 'value'
+  type: 'bar',
+  data: [
+    {
+      id: 'barData',
+      values: [
+        {
+          name: 'Apple',
+          value: 214480
+        },
+        {
+          name: 'Google',
+          value: 155506
+        },
+        {
+          name: 'Amazon',
+          value: 100764
+        },
+        {
+          name: 'Microsoft',
+          value: 92715
+        },
+        {
+          name: 'Coca-Cola',
+          value: 66341
+        },
+        {
+          name: 'Samsung',
+          value: 59890
+        },
+        {
+          name: 'Toyota',
+          value: 53404
+        },
+        {
+          name: 'Mercedes-Benz',
+          value: 48601
+        },
+        {
+          name: 'Facebook',
+          value: 45168
+        },
+        {
+          name: "McDonald's",
+          value: 43417
+        },
+        {
+          name: 'Intel',
+          value: 43293
+        },
+        {
+          name: 'IBM',
+          value: 42972
+        },
+        {
+          name: 'BMW',
+          value: 41006
+        },
+        {
+          name: 'Disney',
+          value: 39874
+        },
+        {
+          name: 'Cisco',
+          value: 34575
+        },
+        {
+          name: 'GE',
+          value: 32757
+        },
+        {
+          name: 'Nike',
+          value: 30120
+        },
+        {
+          name: 'Louis Vuitton',
+          value: 28152
+        },
+        {
+          name: 'Oracle',
+          value: 26133
+        },
+        {
+          name: 'Honda',
+          value: 23682
+        }
+      ]
+    }
+  ],
+  xField: 'name',
+  yField: 'value'
 };
 
 registerRegressionLine();
 appendBarRegressionLineConfig(spec, [
-{
-degree: 2,
-color: 'red',
-line: {
-style: {
-lineWidth: 2
-}
-},
-confidenceInterval: {
-visible: false
-},
-label: {
-text: '2 次多项式拟合'
-}
-},
-{
-degree: 3,
-color: 'green',
-line: {
-style: {
-lineWidth: 2
-}
-},
-confidenceInterval: {
-style: {
-fillOpacity: 0.2
-}
-},
-label: {
-text: '3 次多项式拟合'
-}
-}
+  {
+    degree: 2,
+    color: 'red',
+    line: {
+      style: {
+        lineWidth: 2
+      }
+    },
+    confidenceInterval: {
+      visible: false
+    },
+    label: {
+      text: '2 次多项式拟合'
+    }
+  },
+  {
+    degree: 3,
+    color: 'green',
+    line: {
+      style: {
+        lineWidth: 2
+      }
+    },
+    confidenceInterval: {
+      style: {
+        fillOpacity: 0.2
+      }
+    },
+    label: {
+      text: '3 次多项式拟合'
+    }
+  }
 ]);
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -168,6 +167,7 @@ vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
+```
 
 ```
 
