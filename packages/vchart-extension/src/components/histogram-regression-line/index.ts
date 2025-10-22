@@ -13,10 +13,10 @@ import type { RegressionLineData } from '../regression-line/type';
 
 export const HISTOGRAM_REGRESSION_LINE = 'histogramRegressionLine';
 
-export const getRegressionByType = (type: 'kde' | 'ecdf', data: number[]) => {
+export const getRegressionByType = (type: 'kde' | 'ecdf', data: number[], kdeOptions?: any) => {
   switch (type) {
     case 'kde':
-      return kde(data);
+      return kde(data, kdeOptions);
     case 'ecdf':
       return ecdf(data);
   }
@@ -82,28 +82,46 @@ export function getHistogramRegressionLineConfig(
 
             const rawData = (s as any)._rawData;
             const data = rawData?.rawData;
-            const binTransform = rawData.transformsArr?.find((t: any) => t.type === 'bin');
+            const binTransformOptions = rawData.transformsArr?.find((t: any) => t.type === 'bin')?.options;
             const fieldX = s.fieldX?.[0];
             const scaleY = s.getYAxisHelper().getScale(0);
+            const viewData = s.getViewData().latestData;
 
-            if (!data || !data.length || !binTransform || !binTransform.options?.field || !scaleY) {
+            if (!data || !data.length || !binTransformOptions?.field || !scaleY || !viewData || !viewData.length) {
               return;
             }
-            const simpleData = data.map((entry: Datum) => entry[binTransform.options.field]);
-            const { evaluateGrid } = getRegressionByType(type, simpleData);
-            const N = Math.min(3, Math.floor(simpleData.length / 4));
-            const lineData = evaluateGrid(N);
+            const simpleData = data.map((entry: Datum) => entry[binTransformOptions.field]);
+            const res = getRegressionByType(
+              type,
+              simpleData,
+              type === 'kde'
+                ? {
+                    bandwidth:
+                      viewData[0][binTransformOptions.outputNames?.x1 ?? 'x1'] -
+                      viewData[0][binTransformOptions.outputNames?.x0 ?? 'x0']
+                  }
+                : null
+            );
+            const N = Math.max(3, Math.floor(simpleData.length / 4));
+            const lineData = res.evaluateGrid(N);
             const yRange = scaleY.range();
             const y0 = yRange[0];
             const y1 = last(yRange);
-            const getY = (r: number) => y0 + (y1 - y0) * r;
+            const scaleR =
+              type === 'kde'
+                ? (k: number) => {
+                    return scaleY.scale(k * data.length * res.bandwidth);
+                  }
+                : (e: number) => {
+                    return y0 + (y1 - y0) * e;
+                  };
 
             regressionData.push({
               line: lineData.map((ld: Datum) => {
                 const d = { [fieldX]: ld.x };
                 return {
                   x: s.dataToPositionX(d) + region.x,
-                  y: getY(ld.y) + region.y
+                  y: scaleR(ld.y) + region.y
                 };
               })
             });

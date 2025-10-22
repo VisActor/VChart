@@ -43,11 +43,11 @@ function generateGaussian(count: number, mean = 0, sd = 1, seed?: number) {
 }
 
 function generateMixtureGaussianSamples() {
-  const a = generateGaussian(120, 2.0, 0.12, 1); // cluster A
-  const b = generateGaussian(80, 2.3, 0.08, 2); // cluster B
-  const c = generateGaussian(140, 9.3, 0.35, 3); // cluster C
+  const a = generateGaussian(160, 5, 4, 1); // cluster A
+  // const b = generateGaussian(80, 2.3, 0.08, 2); // cluster B
+  // const c = generateGaussian(140, 9.3, 0.35, 3); // cluster C
   const outliers = [5.0, 6.2, 3.5, 12.0, 0.5];
-  const arr = [...a, ...b, ...c, ...outliers];
+  const arr = [...a, ...outliers];
   return arr.map(v => ({ value: v }));
 }
 
