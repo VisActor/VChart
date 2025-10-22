@@ -6,6 +6,10 @@ export interface ICompareSankeySpec {
    */
   subNodeGap?: number;
   /**
+   * 子节点最小高度
+   */
+  subNodeMinSize?: number;
+  /**
    * 对比节点颜色
    */
   compareNodeColor?: { [key: string]: string };

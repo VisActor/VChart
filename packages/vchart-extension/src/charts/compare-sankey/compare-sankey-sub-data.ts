@@ -6,6 +6,7 @@ export interface ICompareSankeyLayoutOpt {
   rawData: () => DataView;
   nodeKey: string;
   subNodeGap: number;
+  subNodeMinSize?: number;
 }
 
 export const calculateNodeValue = (subTree: HierarchyNodeDatum[]) => {
@@ -145,6 +146,7 @@ export const compareSankeySubData = (data: Array<DataView>, opt: ICompareSankeyL
   if (!viewData.latestData?.length) {
     return {};
   }
+  const subNodeMinSize = opt.subNodeMinSize ?? 0;
   // 读取参数
   const rawDataTree = opt.rawData().latestData[0];
   const subNodeGap = opt.subNodeGap;
@@ -175,16 +177,17 @@ export const compareSankeySubData = (data: Array<DataView>, opt: ICompareSankeyL
       if (!subNode) {
         return;
       }
-      const percent = subNode.value / totalValue;
+      const percent = totalValue === 0 ? 0 : subNode.value / totalValue;
+      const dis = Math.max(subNodeMinSize, totalSize * percent);
       subNode.x0 = n.x0;
       subNode.x1 = n.x1;
       subNode.y0 = currentY;
-      subNode.y1 = currentY + totalSize * percent;
+      subNode.y1 = currentY + dis;
       // @ts-ignore
       subNode.type = sunGroup.type;
       // @ts-ignore
       subNode.sourceNode = n;
-      currentY += totalSize * percent + subNodeGap;
+      currentY += dis + subNodeGap;
       subNodes.push(subNode);
     });
   });

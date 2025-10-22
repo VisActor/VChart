@@ -70,7 +70,8 @@ export class CompareSankeySeries extends SankeySeries<ICompareSankeySeriesSpecBa
         rawData: () => this.getRawData(),
         valueField: this._valueField,
         nodeKey: this._spec.nodeKey,
-        subNodeGap: this._spec.subNodeGap ?? 2
+        subNodeGap: this._spec.subNodeGap ?? 2,
+        subNodeMinSize: this._spec.subNodeMinSize ?? 0
       }
     });
     registerDataSetInstanceTransform(this._dataSet, 'compareSankeySubNodes', compareSankeySubNodes);
