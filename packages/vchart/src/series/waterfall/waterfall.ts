@@ -142,7 +142,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   protected _reStackTotal = () => {
     const stackData = this.getStackData();
     const stackValueField = this.getStackValueField();
-    stackTotal(stackData as IStackCacheNode, stackValueField);
+    if (stackData) {
+      stackTotal(stackData as IStackCacheNode, stackValueField);
+    }
   };
 
   compileData() {
