@@ -12,6 +12,7 @@ import { getCartesianCrosshairRect } from '../../component/crosshair/utils/carte
 import { registerDimensionTooltipProcessor } from '../../component/tooltip/processor/dimension-tooltip';
 import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 import { registerGroupTooltipProcessor } from '../../component/tooltip/processor/group-tooltip';
+import { bin } from '@visactor/vdataset';
 
 export class HistogramChart<T extends IHistogramChartSpec = IHistogramChartSpec> extends BaseHistogramChart<T> {
   static readonly type: string = ChartTypeEnum.histogram;
@@ -35,5 +36,6 @@ export const registerHistogramChart = () => {
   registerDimensionEvents();
   registerDimensionHover();
   registerBarSeries();
+  Factory.registerTransform('bin', bin);
   Factory.registerChart(HistogramChart.type, HistogramChart);
 };

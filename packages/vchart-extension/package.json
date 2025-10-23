@@ -25,10 +25,10 @@
     "@visactor/vrender-kits": "~1.0.18",
     "@visactor/vrender-components": "~1.0.18",
     "@visactor/vrender-animate": "~1.0.18",
-    "@visactor/vutils": "~1.0.6",
-    "@visactor/vdataset": "~1.0.6",
-    "@visactor/vlayouts": "~1.0.6",
-    "@visactor/vchart": "workspace:2.0.6"
+    "@visactor/vchart": "workspace:2.0.6",
+    "@visactor/vutils": "~1.0.11",
+    "@visactor/vdataset": "~1.0.11",
+    "@visactor/vlayouts": "~1.0.11"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
