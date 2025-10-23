@@ -64,7 +64,8 @@ export function getScatterRegressionLineConfig(
         if (series && series.length) {
           series.forEach(s => {
             const region = s.getRegion().getLayoutStartPoint();
-
+            const colorAttrOptions = s.getColorAttribute();
+            const groups = s.getSeriesKeys();
             const data = s.getViewData().latestData;
             const fieldX = s.fieldX?.[0];
             const fieldY = s.fieldY?.[0];
@@ -72,33 +73,42 @@ export function getScatterRegressionLineConfig(
             if (!fieldX || !fieldY || !data || data.length <= 2) {
               return;
             }
-            const { evaluateGrid, confidenceInterval } = getRegressionByType(
-              type,
-              data,
-              (datum: Datum) => datum?.[fieldX],
-              (datum: Datum) => datum?.[fieldY],
-              config.polynomialDegree
-            );
-            const N = Math.min(3, Math.floor(data.length / 4));
-            const lineData = evaluateGrid(N);
-            const confidenceData = confidenceInterval(N);
 
-            regressionData.push({
-              line: lineData.map((ld: Datum) => {
-                const d = { [fieldX]: ld.x, [fieldY]: ld.y };
-                return {
-                  x: s.dataToPositionX(d) + region.x,
-                  y: s.dataToPositionY(d) + region.y
-                };
-              }),
-              area: confidenceData.map((c: Datum) => {
-                const d = { [fieldX]: c.x, [fieldY]: c.lower };
-                return {
-                  x: s.dataToPositionX(d) + region.x,
-                  y: s.dataToPositionY(d) + region.y,
-                  y1: s.dataToPositionY({ [fieldY]: c.upper }) + region.y
-                };
-              })
+            groups.forEach(group => {
+              const groupData = data.filter((d: Datum) => d[colorAttrOptions?.field] === group);
+
+              if (!groupData.length) {
+                return;
+              }
+              const { evaluateGrid, confidenceInterval } = getRegressionByType(
+                type,
+                groupData,
+                (datum: Datum) => datum?.[fieldX],
+                (datum: Datum) => datum?.[fieldY],
+                config.polynomialDegree
+              );
+              const N = Math.max(3, Math.floor(groupData.length / 4));
+              const lineData = evaluateGrid(N);
+              const confidenceData = confidenceInterval(N);
+
+              regressionData.push({
+                color: color ?? colorAttrOptions?.scale?.scale(group),
+                line: lineData.map((ld: Datum) => {
+                  const d = { [fieldX]: ld.x, [fieldY]: ld.y };
+                  return {
+                    x: s.dataToPositionX(d) + region.x,
+                    y: s.dataToPositionY(d) + region.y
+                  };
+                }),
+                area: confidenceData.map((c: Datum) => {
+                  const d = { [fieldX]: c.x, [fieldY]: c.lower };
+                  return {
+                    x: s.dataToPositionX(d) + region.x,
+                    y: s.dataToPositionY(d) + region.y,
+                    y1: s.dataToPositionY({ [fieldY]: c.upper }) + region.y
+                  };
+                })
+              });
             });
           });
         }
@@ -107,8 +117,7 @@ export function getScatterRegressionLineConfig(
       },
       line,
       confidenceInterval,
-      label,
-      color
+      label
     }
   };
 }

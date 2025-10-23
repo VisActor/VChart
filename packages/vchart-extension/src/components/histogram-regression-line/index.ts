@@ -3,6 +3,7 @@
  * @author zhangweixing
  */
 
+import type { KDEEvaluator } from '@visactor/vutils';
 import { array, get, kde, ecdf, last } from '@visactor/vutils';
 import type { Datum, ICartesianSeries, ISpec } from '@visactor/vchart';
 import { SeriesTypeEnum } from '@visactor/vchart';
@@ -42,7 +43,7 @@ export function getHistogramRegressionLineConfig(
         const series = chart.getAllSeries().filter((s: any) => s.type === SeriesTypeEnum.bar) as ICartesianSeries[];
         const regressionData: RegressionLineData[] = [];
 
-        // 必须存在散点图系列
+        // 直方图使用的是bar系列
         if (series && series.length) {
           series.forEach(s => {
             const region = s.getRegion().getLayoutStartPoint();
@@ -77,13 +78,14 @@ export function getHistogramRegressionLineConfig(
             const scaleR =
               type === 'kde'
                 ? (k: number) => {
-                    return scaleY.scale(k * data.length * res.bandwidth);
+                    return scaleY.scale(k * data.length * (res as KDEEvaluator).bandwidth);
                   }
                 : (e: number) => {
                     return y0 + (y1 - y0) * e;
                   };
 
             regressionData.push({
+              color: color ?? s.getOption().globalScale.getScale('color')?.scale(s.getSeriesKeys()[0]),
               line: lineData.map((ld: Datum) => {
                 const d = { [fieldX]: ld.x };
                 return {
@@ -97,7 +99,6 @@ export function getHistogramRegressionLineConfig(
 
         return regressionData;
       },
-      color,
       line,
       label
     }
