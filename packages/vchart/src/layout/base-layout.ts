@@ -91,6 +91,7 @@ export class Layout implements IBaseLayout {
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
     // 布局初始化
     this._layoutInit(_chart, items, chartLayoutRect, chartViewBox);
+    const secondLayoutLeftRight = _chart?.getSpec()?.layout?.secondLayoutLeftRight ?? false;
     // 先布局 normal 类型的元素
     this._layoutNormalItems(items);
     // 开始布局 region 相关元素
@@ -105,9 +106,17 @@ export class Layout implements IBaseLayout {
     // 有元素开启了自动缩进
     // TODO:目前只有普通占位布局下的 region-relative 元素支持
     // 主要考虑常规元素超出画布一般为用户个性设置，而且可以设置padding规避裁剪,不需要使用自动缩进
-    this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems);
+    this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems, secondLayoutLeftRight);
     // 缩进
-    this._processAutoIndent(regionItems, relativeItems, relativeOverlapItems, overlapItems, allRelatives, layoutTemp);
+    this._processAutoIndent(
+      regionItems,
+      relativeItems,
+      relativeOverlapItems,
+      overlapItems,
+      allRelatives,
+      layoutTemp,
+      secondLayoutLeftRight
+    );
 
     this.layoutAbsoluteItems(items.filter(x => x.layoutType === 'absolute'));
   }
@@ -126,7 +135,8 @@ export class Layout implements IBaseLayout {
       z: { items: [], rect: { width: 0, height: 0 } }
     },
     allRelatives: ILayoutItem[],
-    layoutTemp: LayoutSideType
+    layoutTemp: LayoutSideType,
+    secondLayoutLeftRight: boolean = false
   ): void {
     // 如果有缩进
     if (allRelatives.some(i => i.autoIndent)) {
@@ -140,7 +150,7 @@ export class Layout implements IBaseLayout {
         this.leftCurrent = layoutTemp.left + left;
         this.rightCurrent = layoutTemp.right - right;
         // reLayout
-        this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems);
+        this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems, secondLayoutLeftRight);
       }
     }
   }
@@ -323,8 +333,12 @@ export class Layout implements IBaseLayout {
       top: { items: [], rect: { width: 0, height: 0 } },
       bottom: { items: [], rect: { width: 0, height: 0 } },
       z: { items: [], rect: { width: 0, height: 0 } }
-    }
+    },
+    secondLayoutLeftRight: boolean = false
   ): void {
+    const leftBeforeLayout = this.leftCurrent;
+    const rightBeforeLayout = this.rightCurrent;
+
     let regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
     let regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
 
@@ -350,6 +364,21 @@ export class Layout implements IBaseLayout {
 
     // 此时得到height
     regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
+
+    if (secondLayoutLeftRight) {
+      /** 多次布局保证不被裁减 */
+      // 使用高度再次布局一次
+      this.leftCurrent = leftBeforeLayout;
+      this.rightCurrent = rightBeforeLayout;
+      regionRelativeItems
+        .filter(x => x.layoutOrient === 'left' || x.layoutOrient === 'right')
+        .forEach(item => {
+          this._layoutRelativeItem(item, this.getItemComputeLayoutRect(item));
+        });
+
+      // 此时得到宽度
+      regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
+    }
 
     // region 处理
     const { regionWidth, regionHeight } = this._layoutRegionItem(
