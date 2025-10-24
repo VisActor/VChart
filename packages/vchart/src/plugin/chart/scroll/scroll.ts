@@ -111,19 +111,19 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
         visible: this._scrollLimit.y.percent < 1
       });
     }
-    this.scrollTo({ x: 0, y: 0 });
+    // this.scrollTo({ x: 0, y: 0 });
   }
 
   onAfterRender() {
-    const rootMark = this.getRootMark();
-    if (rootMark) {
-      if (!this._xScrollComponent) {
-        this._updateScrollX(rootMark, 0, 0);
-      }
-      if (!this._yScrollComponent) {
-        this._updateScrollY(rootMark, 0, 0);
-      }
-    }
+    // const rootMark = this.getRootMark();
+    // if (rootMark) {
+    //   if (!this._xScrollComponent) {
+    //     this._updateScrollX(rootMark, 0, 0);
+    //   }
+    //   if (!this._yScrollComponent) {
+    //     this._updateScrollY(rootMark, 0, 0);
+    //   }
+    // }
   }
 
   /**
