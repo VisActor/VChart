@@ -8,6 +8,12 @@ import type { IChartPlugin } from '../interface';
 export type IScrollPlugin = IChartPlugin;
 
 export interface IScrollPluginSpec {
+  /**
+   * 是否阻止事件冒泡
+   * default: true
+   */
+  preventDefault?: boolean;
+
   x?: {
     /**
      * 是否支持水平滚动
