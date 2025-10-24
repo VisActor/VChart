@@ -1,5 +1,5 @@
 import { registerRegressionLine } from '../../../../../src/components/regression-line/regression-line';
-import { appendScatterRegressionLineConfig } from './../../../../../src/components/scatter-regression-line';
+import { appendScatterRegressionLineConfig } from '../../../../../src/components/scatter-regression-line';
 import { default as VChart } from '@visactor/vchart';
 
 const data = [
@@ -409,7 +409,10 @@ const data = [
   { name: 'dodge rampage', milesPerGallon: 32, cylinders: 4, horsepower: 84 },
   { name: 'ford ranger', milesPerGallon: 28, cylinders: 4, horsepower: 79 },
   { name: 'chevy s-10', milesPerGallon: 31, cylinders: 4, horsepower: 82 }
-];
+].filter(entry => {
+  const delta = entry.horsepower - entry.milesPerGallon;
+  return delta > 100 || delta < 20;
+});
 
 // 图表配置
 const spec = {
@@ -500,39 +503,10 @@ const run = () => {
   registerRegressionLine();
   appendScatterRegressionLineConfig(spec, [
     {
-      type: 'lowess',
-      polynomialDegree: 3,
-      line: {
-        style: {
-          stroke: 'red',
-          lineWidth: 2
-        }
-      },
-      confidenceInterval: {
-        style: {
-          fill: 'red',
-          fillOpacity: 0.2
-        }
-      },
+      type: 'logisitc',
+      color: 'red',
       label: {
-        text: 'lowess'
-      }
-    },
-    {
-      type: 'linear',
-      polynomialDegree: 3,
-      line: {
-        style: {
-          lineWidth: 2
-        }
-      },
-      confidenceInterval: {
-        style: {
-          fillOpacity: 0.2
-        }
-      },
-      label: {
-        text: '线性回归'
+        text: 'logisitc'
       }
     }
   ]);

@@ -5,8 +5,21 @@ import type {
   ITextGraphicAttribute
 } from '@visactor/vrender-core';
 
+/**
+ * 回归线数据格式
+ */
 export interface RegressionLineData {
+  /**
+   * 颜色值
+   */
+  color?: string;
+  /**
+   * 回归线数据点
+   */
   line: { x: number; y: number }[];
+  /**
+   * 置信区间数据点
+   */
   area?: { x: number; y: number; y1: number }[];
 }
 
@@ -15,10 +28,6 @@ export interface RegressionLineAttrs extends IGroupGraphicAttribute {
    * 用于区分的名称
    */
   name?: string;
-  /**
-   * 颜色值
-   */
-  color?: string;
   /**
    * 回归线配置
    */

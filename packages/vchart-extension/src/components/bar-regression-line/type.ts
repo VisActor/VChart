@@ -8,6 +8,13 @@ export interface BarRegressionLineAttrs extends RegressionLineAttrs {
 }
 
 export interface BarRegressionLineSpec
-  extends Partial<Pick<BarRegressionLineAttrs, 'line' | 'label' | 'confidenceInterval' | 'color' | 'degree'>> {
+  extends Partial<Pick<BarRegressionLineAttrs, 'line' | 'label' | 'confidenceInterval' | 'degree'>> {
+  /**
+   * 是否显示回归线
+   */
   visible?: boolean;
+  /**
+   * 主色，可以不设置，默认取散点图系列颜色
+   */
+  color?: string;
 }

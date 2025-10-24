@@ -55,6 +55,7 @@ export function getBarRegressionLineConfig(config: Omit<BarRegressionLineSpec, '
             const halfBandWidth = s.getXAxisHelper().getBandwidth(0) / 2;
 
             regressionData.push({
+              color: color ?? s.getOption().globalScale.getScale('color')?.scale(s.getSeriesKeys()[0]),
               line: lineData.map((ld: Datum) => {
                 const d = { [fieldX]: groups[ld.x], [fieldY]: ld.y };
                 return {
@@ -76,7 +77,6 @@ export function getBarRegressionLineConfig(config: Omit<BarRegressionLineSpec, '
 
         return regressionData;
       },
-      color,
       line,
       confidenceInterval,
       label

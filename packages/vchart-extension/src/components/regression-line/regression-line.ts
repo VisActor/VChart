@@ -15,14 +15,14 @@ export class RegressionLine extends AbstractComponent<Required<RegressionLineAtt
       line = {},
       label,
       name = 'regression-line',
-      confidenceInterval,
-      color
+      confidenceInterval
     } = this.attribute as RegressionLineAttrs;
     if (isEmpty(data)) {
       return;
     }
 
     data.forEach(d => {
+      const { color } = d;
       if (d.area && confidenceInterval?.visible !== false) {
         const areaShape = createArea({
           points: d.area,
