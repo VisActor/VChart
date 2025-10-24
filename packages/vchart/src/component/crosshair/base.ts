@@ -341,8 +341,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       return;
     }
     this.clearOutEvent();
-
-    this.hide();
+    this.hideCrosshair();
   };
 
   private _getTriggerEvent() {
