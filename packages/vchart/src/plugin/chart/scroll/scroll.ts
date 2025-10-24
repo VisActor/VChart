@@ -142,8 +142,10 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
   }
 
   protected onWheel = (e: WheelEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+    if (this._spec.preventDefault !== false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     const scrollX = e.deltaX;
     const scrollY = e.deltaY;
     const rootMark = this.getRootMark();
