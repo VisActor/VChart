@@ -24629,6 +24629,10 @@
     },
     "IBaseLayoutSpec": {
       "properties": {
+        "secondLayoutLeftRight": {
+          "description": "是否进行第二次左到右布局",
+          "type": "boolean"
+        },
         "type": {
           "const": "base",
           "description": "设置布局类型为默认布局",
@@ -70922,6 +70926,9 @@
           ],
           "description": "十字辅助线配置"
         },
+        "customLayout": {
+          "typeof": "function"
+        },
         "customMark": {
           "description": "自定义mark",
           "items": {
@@ -70959,6 +70966,20 @@
             }
           ],
           "description": "缩略轴配置"
+        },
+        "depthKey": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "自定义node的depth"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType_1",
@@ -71498,6 +71519,9 @@
           "since": "1.12.4",
           "type": "string"
         },
+        "customLayout": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "系列关联的数据id"
@@ -71510,6 +71534,20 @@
         "dataKey": {
           "$ref": "#/definitions/DataKeyType",
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
+        },
+        "depthKey": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "自定义node的depth"
         },
         "direction": {
           "$ref": "#/definitions/DirectionType_1",
@@ -87462,7 +87500,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13616": {
           "type": "string"
         },
         "size": {
@@ -87470,14 +87508,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13616",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13616": {
           "type": "string"
         },
         "size": {
@@ -87485,14 +87523,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13616",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13616": {
           "type": "string"
         },
         "size": {
@@ -87500,14 +87538,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13616",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13616": {
           "type": "string"
         },
         "size": {
@@ -87515,14 +87553,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13616",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13616": {
           "type": "string"
         },
         "size": {
@@ -87530,14 +87568,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13616",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13616": {
           "type": "string"
         },
         "size": {
@@ -87545,7 +87583,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13613",
+        "__@toStringTag@13616",
         "size"
       ],
       "type": "object"
@@ -94555,6 +94593,9 @@
           "type": "boolean"
         },
         "hideOnHit": {
+          "type": "boolean"
+        },
+        "hideOnOverflow": {
           "type": "boolean"
         },
         "overlapPadding": {
@@ -110220,34 +110261,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13616": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13613"
+        "__@toStringTag@13616"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13616": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13613"
+        "__@toStringTag@13616"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13613": {
+        "__@toStringTag@13616": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13613"
+        "__@toStringTag@13616"
       ],
       "type": "object"
     },
