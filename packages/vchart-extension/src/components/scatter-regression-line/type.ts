@@ -6,10 +6,6 @@ export interface ScatterRegressionLineAttrs extends RegressionLineAttrs {
    * 多项式回归的阶数，仅当 type 为 polynomial 时有效
    */
   polynomialDegree?: number;
-  /**
-   * logisitc 回归时，打标字段对应的数据字段名称
-   */
-  logisiticLabelField?: string;
 }
 
 export interface ScatterRegressionLineSpec

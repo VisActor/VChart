@@ -2,7 +2,7 @@
  * @description vchart 自定义组件，用于实现柱图、线图以及面积图的系列标签
  * @author zhangweixing
  */
-import { array, get, regressionPolynomial } from '@visactor/vutils';
+import { array, clamper, get, regressionPolynomial } from '@visactor/vutils';
 import type { Datum, ICartesianSeries, ISpec } from '@visactor/vchart';
 import { Direction, SeriesTypeEnum } from '@visactor/vchart';
 import type { BarRegressionLineSpec } from './type';
@@ -33,6 +33,9 @@ export function getBarRegressionLineConfig(config: Omit<BarRegressionLineSpec, '
         if (series && series.length) {
           series.forEach(s => {
             const region = s.getRegion().getLayoutStartPoint();
+            const start = s.getRegion().getLayoutStartPoint();
+            const rect = s.getRegion().getLayoutRect();
+            const yClamper = clamper(start.y, start.y + rect.height);
 
             const data = s.getViewData().latestData;
             const fieldX = s.fieldX?.[0];
@@ -60,15 +63,15 @@ export function getBarRegressionLineConfig(config: Omit<BarRegressionLineSpec, '
                 const d = { [fieldX]: groups[ld.x], [fieldY]: ld.y };
                 return {
                   x: s.dataToPositionX(d) + region.x + halfBandWidth,
-                  y: s.dataToPositionY(d) + region.y
+                  y: yClamper(s.dataToPositionY(d) + region.y)
                 };
               }),
               area: confidenceData.map((c: Datum) => {
                 const d = { [fieldX]: groups[c.x], [fieldY]: c.lower };
                 return {
                   x: s.dataToPositionX(d) + region.x + halfBandWidth,
-                  y: s.dataToPositionY(d) + region.y,
-                  y1: s.dataToPositionY({ [fieldY]: c.upper }) + region.y
+                  y: yClamper(s.dataToPositionY(d) + region.y),
+                  y1: yClamper(s.dataToPositionY({ [fieldY]: c.upper }) + region.y)
                 };
               })
             });
