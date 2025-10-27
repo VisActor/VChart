@@ -33,6 +33,11 @@ export function getBarRegressionLineConfig(config: Omit<BarRegressionLineSpec, '
         if (series && series.length) {
           series.forEach(s => {
             const region = s.getRegion().getLayoutStartPoint();
+            const start = s.getRegion().getLayoutStartPoint();
+            const rect = s.getRegion().getLayoutRect();
+            const yClamper = (y: number) => {
+              return y > start.y + rect.height ? start.y + rect.height : y < start.y ? start.y : y;
+            };
 
             const data = s.getViewData().latestData;
             const fieldX = s.fieldX?.[0];
@@ -60,15 +65,15 @@ export function getBarRegressionLineConfig(config: Omit<BarRegressionLineSpec, '
                 const d = { [fieldX]: groups[ld.x], [fieldY]: ld.y };
                 return {
                   x: s.dataToPositionX(d) + region.x + halfBandWidth,
-                  y: s.dataToPositionY(d) + region.y
+                  y: yClamper(s.dataToPositionY(d) + region.y)
                 };
               }),
               area: confidenceData.map((c: Datum) => {
                 const d = { [fieldX]: groups[c.x], [fieldY]: c.lower };
                 return {
                   x: s.dataToPositionX(d) + region.x + halfBandWidth,
-                  y: s.dataToPositionY(d) + region.y,
-                  y1: s.dataToPositionY({ [fieldY]: c.upper }) + region.y
+                  y: yClamper(s.dataToPositionY(d) + region.y),
+                  y1: yClamper(s.dataToPositionY({ [fieldY]: c.upper }) + region.y)
                 };
               })
             });

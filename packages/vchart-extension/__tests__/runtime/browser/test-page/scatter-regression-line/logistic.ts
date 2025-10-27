@@ -409,9 +409,13 @@ const data = [
   { name: 'dodge rampage', milesPerGallon: 32, cylinders: 4, horsepower: 84 },
   { name: 'ford ranger', milesPerGallon: 28, cylinders: 4, horsepower: 79 },
   { name: 'chevy s-10', milesPerGallon: 31, cylinders: 4, horsepower: 82 }
-].filter(entry => {
+].map(entry => {
   const delta = entry.horsepower - entry.milesPerGallon;
-  return delta > 100 || delta < 20;
+
+  return {
+    ...entry,
+    tag: delta >= 80 || delta < -50 ? 0 : 1
+  };
 });
 
 // 图表配置
@@ -421,7 +425,7 @@ const spec = {
     {
       type: 'scatter',
       xField: 'milesPerGallon',
-      yField: 'horsepower',
+      yField: 'tag',
       point: {
         state: {
           hover: {
@@ -479,7 +483,9 @@ const spec = {
       },
       orient: 'left',
       range: { min: 0 },
-      type: 'linear'
+      type: 'linear',
+      min: 0,
+      max: 1
     },
     {
       title: {

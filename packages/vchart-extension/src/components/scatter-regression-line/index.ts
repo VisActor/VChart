@@ -1,13 +1,10 @@
 /**
- * @description vchart 自定义组件，用于实现柱图、线图以及面积图的系列标签
- * @author zhangweixing
+ * @description 散点图回归线组件
+ * @author kangxiaoting
  */
-
-import { AbstractComponent } from '@visactor/vrender-components';
 import {
   array,
   get,
-  isEmpty,
   regressionLinear,
   regressionLogistic,
   regressionLowess,
@@ -63,7 +60,11 @@ export function getScatterRegressionLineConfig(
         // 必须存在散点图系列
         if (series && series.length) {
           series.forEach(s => {
-            const region = s.getRegion().getLayoutStartPoint();
+            const start = s.getRegion().getLayoutStartPoint();
+            const rect = s.getRegion().getLayoutRect();
+            const yClamper = (y: number) => {
+              return y > start.y + rect.height ? start.y + rect.height : y < start.y ? start.y : y;
+            };
             const colorAttrOptions = s.getColorAttribute();
             const groups = s.getSeriesKeys();
             const data = s.getViewData().latestData;
@@ -96,16 +97,18 @@ export function getScatterRegressionLineConfig(
                 line: lineData.map((ld: Datum) => {
                   const d = { [fieldX]: ld.x, [fieldY]: ld.y };
                   return {
-                    x: s.dataToPositionX(d) + region.x,
-                    y: s.dataToPositionY(d) + region.y
+                    x: s.dataToPositionX(d) + start.x,
+                    y: yClamper(
+                      type === 'logisitc' ? start.y + rect.height * (1 - ld.y) : s.dataToPositionY(d) + start.y
+                    )
                   };
                 }),
                 area: confidenceData.map((c: Datum) => {
                   const d = { [fieldX]: c.x, [fieldY]: c.lower };
                   return {
-                    x: s.dataToPositionX(d) + region.x,
-                    y: s.dataToPositionY(d) + region.y,
-                    y1: s.dataToPositionY({ [fieldY]: c.upper }) + region.y
+                    x: s.dataToPositionX(d) + start.x,
+                    y: yClamper(s.dataToPositionY(d) + start.y),
+                    y1: yClamper(s.dataToPositionY({ [fieldY]: c.upper }) + start.y)
                   };
                 })
               });
