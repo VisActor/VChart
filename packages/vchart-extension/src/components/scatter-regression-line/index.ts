@@ -4,6 +4,7 @@
  */
 import {
   array,
+  clamper,
   get,
   regressionLinear,
   regressionLogistic,
@@ -62,9 +63,7 @@ export function getScatterRegressionLineConfig(
           series.forEach(s => {
             const start = s.getRegion().getLayoutStartPoint();
             const rect = s.getRegion().getLayoutRect();
-            const yClamper = (y: number) => {
-              return y > start.y + rect.height ? start.y + rect.height : y < start.y ? start.y : y;
-            };
+            const yClamper = clamper(start.y, start.y + rect.height);
             const colorAttrOptions = s.getColorAttribute();
             const groups = s.getSeriesKeys();
             const data = s.getViewData().latestData;
