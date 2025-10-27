@@ -16,7 +16,7 @@ jobs:
     
     steps:
       - name: Auto Translate
-        uses: dromara/issues-translate-action@v1.2.3 
+        uses: usthe/issues-translate-action@v2.7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           label-name: 'auto-translated'
