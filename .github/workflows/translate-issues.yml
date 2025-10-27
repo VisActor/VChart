@@ -16,7 +16,8 @@ jobs:
     
     steps:
       - name: Auto Translate
-        uses: usthe/issues-translate-action@v2.7
+      - uses: usthe/issues-translate-action@v2.7
         with:
+          IS_MODIFY_TITLE: false
           token: ${{ secrets.GITHUB_TOKEN }}
           label-name: 'auto-translated'
