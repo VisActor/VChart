@@ -1,0 +1,17 @@
+name: Auto Translate Issues & PRs
+
+on:
+  issues:
+    types: [opened, edited] # 当 Issue 被创建或编辑时触发
+  pull_request:
+    types: [opened, edited] # 当 Pull Request 被创建或编辑时触发
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto Translate
+        uses: dromara/issues-translate-action@v1.2.3 
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          label-name: 'auto-translated'
