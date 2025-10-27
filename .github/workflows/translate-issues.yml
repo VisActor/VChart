@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: usthe/issues-translate-action@v2.7
+      - uses: dromara/issues-translate-action@v2.7
         with:
           IS_MODIFY_TITLE: false
 
