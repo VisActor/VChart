@@ -1,23 +1,16 @@
-name: Auto Translate Issues & PRs
+name: Auto Translate Issues
 
-on:
-  issues:
-    types: [opened, edited] # 当 Issue 被创建或编辑时触发
-  pull_request:
-    types: [opened, edited] # 当 Pull Request 被创建或编辑时触发
+on: 
+  issue_comment: 
+    types: [created]
+  issues: 
+    types: [opened]
 
 jobs:
-  translate:
+  build:
     runs-on: ubuntu-latest
-
-    permissions:
-      issues: write         # 允许 Action 在 Issues 上发表评论和添加标签
-      pull-requests: write  # 允许 Action 在 Pull Requests 上发表评论和添加标签
-    
     steps:
-      - name: Auto Translate
       - uses: usthe/issues-translate-action@v2.7
         with:
           IS_MODIFY_TITLE: false
-          token: ${{ secrets.GITHUB_TOKEN }}
-          label-name: 'auto-translated'
+
