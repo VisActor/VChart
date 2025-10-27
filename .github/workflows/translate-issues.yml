@@ -9,6 +9,11 @@ on:
 jobs:
   translate:
     runs-on: ubuntu-latest
+
+    permissions:
+      issues: write         # 允许 Action 在 Issues 上发表评论和添加标签
+      pull-requests: write  # 允许 Action 在 Pull Requests 上发表评论和添加标签
+    
     steps:
       - name: Auto Translate
         uses: dromara/issues-translate-action@v1.2.3 
