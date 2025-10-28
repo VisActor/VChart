@@ -11,6 +11,7 @@ import { getCartesianDimensionInfo, getDimensionInfoByValue } from '../../event/
 import { getCartesianCrosshairRect } from '../../component/crosshair/utils/cartesian';
 import { registerDimensionTooltipProcessor } from '../../component/tooltip/processor/dimension-tooltip';
 import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
+import { boxplot } from '@visactor/vdataset';
 
 export class BoxPlotChart<T extends IBoxPlotChartSpec = IBoxPlotChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.boxPlot;
@@ -33,5 +34,6 @@ export const registerBoxplotChart = () => {
   registerDimensionEvents();
   registerDimensionHover();
   registerBoxplotSeries();
+  Factory.registerTransform('boxplot', boxplot);
   Factory.registerChart(BoxPlotChart.type, BoxPlotChart);
 };
