@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { isEmpty, isValid } from '@visactor/vutils';
+import { cloneDeep, isEmpty, isValid } from '@visactor/vutils';
 import { isPercent } from '../../../util/space';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
@@ -9,12 +9,10 @@ import type { ILayoutRect } from '../../../typings/layout';
 
 export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect) {
   const {
-    // 需要进行样式转换的属性
-    title = {},
-    item = {},
-    pager = {},
-    background = {},
-
+    title: titleSpec = {},
+    item: itemSpec = {},
+    pager: pagerSpec = {},
+    background: backgroundSpec = {},
     // 以下不属于 legend 需要的属性，单独拿出来以免污染传递给组件的属性
     type,
     id,
@@ -31,6 +29,19 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
 
     ...restSpec
   } = spec;
+
+  let {
+    // 需要进行样式转换的属性
+    title = {},
+    item = {},
+    pager = {},
+    background = {}
+  } = spec;
+  // 需要进行深拷贝，否则会影响到 spec 中的原始数据
+  title = cloneDeep(title);
+  item = cloneDeep(item);
+  pager = cloneDeep(pager);
+  background = cloneDeep(background);
 
   const attrs: any = restSpec;
 
