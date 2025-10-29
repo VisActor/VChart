@@ -18,6 +18,7 @@ export interface IChartPlugin<T extends IChartPluginService = any> extends IBase
     actionSource: VChartRenderActionSource
   ) => MaybePromise<void>;
   onBeforeInitChart?: (service: T, chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
+  onAfterInitChart?: (service: T, chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
 }
 
 export interface IChartPluginConstructor {
@@ -38,4 +39,5 @@ export interface IChartPluginService<T extends IChartPlugin = any> extends IBase
     actionSource: VChartRenderActionSource
   ) => MaybePromise<void>;
   onBeforeInitChart?: (chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
+  onAfterInitChart?: (chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
 }

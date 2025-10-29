@@ -399,7 +399,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     const result = super._compareSpec(spec, prevSpec);
     if (!result.reMake) {
       result.reMake = ['roam', 'longitudeField', 'latitudeField', 'projection', 'zoomLimit'].some(k => {
-        return !isEqual(prevSpec?.[k], spec[k]);
+        return !isEqual(prevSpec?.[k as keyof IGeoRegionSpec], spec[k as keyof IGeoRegionSpec]);
       });
     }
 
