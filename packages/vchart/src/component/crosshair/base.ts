@@ -158,6 +158,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _showDefaultCrosshairBySpec() {
+    let hasDefaultCrosshair = false;
     Object.keys(this._stateByField).forEach(field => {
       const fieldSpec = (this._spec as any)[field];
 
@@ -166,11 +167,14 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         const axis = this._option.getComponentsByKey('axes').find(c => c.getSpecIndex() === axisIndex) as IAxis;
 
         if (axis) {
+          hasDefaultCrosshair = true;
           this._stateByField[field].currentValue.clear();
           this._stateByField[field].currentValue.set(axisIndex, { axis, datum });
         }
       }
     });
+
+    return hasDefaultCrosshair;
   }
 
   protected _updateVisibleCrosshair() {
@@ -193,8 +197,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   protected _showDefaultCrosshair() {
     if (this.showDefault) {
-      this._showDefaultCrosshairBySpec();
-      this.layoutByValue(false);
+      const hasDefault = this._showDefaultCrosshairBySpec();
+      hasDefault && this.layoutByValue(false);
     } else {
       this._updateVisibleCrosshair();
     }
@@ -337,8 +341,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       return;
     }
     this.clearOutEvent();
-
-    this.hide();
+    this.hideCrosshair();
   };
 
   private _getTriggerEvent() {
@@ -405,7 +408,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   private _handleTooltipHideOrRelease = () => {
     this.clearOutEvent();
 
-    this.hide();
+    this.hideCrosshair();
   };
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
