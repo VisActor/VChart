@@ -54,9 +54,43 @@ export {
   createArea,
   createRect,
   createLine,
-  createSymbol
+  createSymbol,
+  createImage,
+  createPath,
+  createArc3d,
+  createPyramid3d,
+  createRect3d,
+  registerDirectionalLight,
+  registerOrthoCamera,
+  registerViewTransform3dPlugin,
+  graphicCreator,
+  type IGraphic,
+  type IGlyph,
+  type IGroup,
+  type IText,
+  type ILine,
+  type IArea,
+  type IRect,
+  type INode,
+  type IStage,
+  type EasingType,
+  type ILineGraphicAttribute,
+  type ITextGraphicAttribute,
+  type IRectGraphicAttribute,
+  type IGroupGraphicAttribute,
+  type TextAlignType,
+  type TextBaselineType,
+  type GraphicEventType,
+  type IAreaGraphicAttribute,
+  type ISymbolGraphicAttribute
 } from '@visactor/vrender-core';
-export { ManualTicker, StreamLight } from '@visactor/vrender-animate';
+export {
+  ManualTicker,
+  StreamLight,
+  ACustomAnimate,
+  AnimateExecutor,
+  RotateBySphereAnimate
+} from '@visactor/vrender-animate';
 
 // utils
 export * from '../util/space';
@@ -66,3 +100,33 @@ export { registerDataSetInstanceParser, registerDataSetInstanceTransform } from 
 export { lookup } from '../data/transforms/lookup';
 export { warn } from '../util/debug';
 export { measureText } from '../util/text';
+
+// vrender-components
+export {
+  AbstractComponent,
+  Segment,
+  MarkPoint,
+  type SegmentAttributes,
+  type Point
+} from '@visactor/vrender-components';
+
+// vrender-kits
+export {
+  registerLine,
+  registerRect,
+  registerArc3d,
+  registerPyramid3d,
+  registerRect3d,
+  registerShadowRoot
+} from '@visactor/vrender-kits';
+
+// vlayouts
+export * from '@visactor/vlayouts';
+
+// vdataset
+export { DataView, DataSet, svgParser } from '@visactor/vdataset';
+export type { SVGParsedElement, SVGParserResult, ISVGSourceOption } from '@visactor/vdataset';
+
+// vutils
+// @ts-ignore
+export * from '@visactor/vutils';

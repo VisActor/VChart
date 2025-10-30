@@ -10,7 +10,7 @@ import {
   regressionLogistic,
   regressionLowess,
   regressionPolynomial
-} from '@visactor/vutils';
+} from '@visactor/vchart';
 import type { Datum, ICartesianSeries, ISpec } from '@visactor/vchart';
 import { SeriesTypeEnum } from '@visactor/vchart';
 import type { ScatterRegressionLineSpec } from './type';

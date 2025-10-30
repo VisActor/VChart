@@ -3,8 +3,8 @@
  * @author zhangweixing
  */
 
-import type { KDEEvaluator } from '@visactor/vutils';
-import { array, get, kde, ecdf, last } from '@visactor/vutils';
+import type { KDEEvaluator } from '@visactor/vchart';
+import { array, get, kde, ecdf, last } from '@visactor/vchart';
 import type { Datum, ICartesianSeries, ISpec } from '@visactor/vchart';
 import { SeriesTypeEnum } from '@visactor/vchart';
 import type { HistogramRegressionLineSpec } from './type';

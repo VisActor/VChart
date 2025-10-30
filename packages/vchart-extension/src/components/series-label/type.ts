@@ -1,11 +1,11 @@
 import type {
-  IGroupGraphicAttribute,
-  ILineGraphicAttribute,
   ITextGraphicAttribute,
   TextAlignType,
-  TextBaselineType
-} from '@visactor/vrender-core';
-import type { ICartesianSeries } from '@visactor/vchart';
+  TextBaselineType,
+  ICartesianSeries,
+  IGroupGraphicAttribute,
+  ILineGraphicAttribute
+} from '@visactor/vchart';
 
 export type SeriesLabelData = {
   /**

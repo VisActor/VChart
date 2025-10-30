@@ -4,10 +4,9 @@
 import type { ILinearAxisBreakSpec, ILinearAxisSpec } from '@visactor/vchart/esm/component/axis';
 import type { ICartesianSeries, IMarkGraphic, ISpec } from '@visactor/vchart';
 import type { SeriesBreakData } from './type';
-import type { IPointLike } from '@visactor/vutils';
-import { array, getIntersectPoint, isValid, PointService } from '@visactor/vutils';
-import type { Point } from '@visactor/vrender-components';
-import type { IArea, ILine } from '@visactor/vrender-core';
+import type { IPointLike } from '@visactor/vchart';
+import { array, getIntersectPoint, isValid, PointService } from '@visactor/vchart';
+import type { IArea, ILine, Point } from '@visactor/vchart';
 import { getAllRegionBounds } from '../../utils/element';
 import { isNumberEqual } from '../../utils/math';
 import { SERIES_BREAK } from './constant';

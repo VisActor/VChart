@@ -1,7 +1,6 @@
-import { AbstractComponent } from '@visactor/vrender-components';
-import { isEmpty, isValid, last } from '@visactor/vutils';
+import { AbstractComponent, type IGraphic, createText, createLine, createArea } from '@visactor/vchart';
+import { isEmpty, isValid, last } from '@visactor/vchart';
 import { Factory } from '@visactor/vchart';
-import { type IGraphic, createText, createLine, createArea } from '@visactor/vrender-core';
 import type { RegressionLineAttrs } from '../regression-line/type';
 
 export const REGRESSION_LINE = 'regressionLine';
