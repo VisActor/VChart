@@ -2,6 +2,39 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.6",
+      "tag": "@visactor/vchart_v2.0.6",
+      "date": "Fri, 31 Oct 2025 03:26:00 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: boxplot support transform\n\n"
+          },
+          {
+            "comment": "feat: support resize zoom chart plugin\n\n"
+          },
+          {
+            "comment": "fix: crosshair should hide when mouseleave chart\n\n"
+          },
+          {
+            "comment": "fix: fix the vchart-extension packaged artifacts contained an extra vrender\n\n"
+          },
+          {
+            "comment": "fix: fix issue of legends label layout when resize\n\n"
+          },
+          {
+            "comment": "fix: update demo about regression line\n\n"
+          },
+          {
+            "comment": "fix: upgrade-vutil to 1.0.12\n\n"
+          },
+          {
+            "comment": "fix: fix issue of waterfall compute total on `field` totalType\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.5",
       "tag": "@visactor/vchart_v2.0.5",
       "date": "Tue, 14 Oct 2025 07:08:54 GMT",

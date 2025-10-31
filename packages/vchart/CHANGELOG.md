@@ -1,6 +1,36 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 14 Oct 2025 07:08:54 GMT and should not be manually modified.
+This log was last generated on Fri, 31 Oct 2025 03:26:00 GMT and should not be manually modified.
+
+## 2.0.6
+Fri, 31 Oct 2025 03:26:00 GMT
+
+### Updates
+
+- feat: boxplot support transform
+
+
+- feat: support resize zoom chart plugin
+
+
+- fix: crosshair should hide when mouseleave chart
+
+
+- fix: fix the vchart-extension packaged artifacts contained an extra vrender
+
+
+- fix: fix issue of legends label layout when resize
+
+
+- fix: update demo about regression line
+
+
+- fix: upgrade-vutil to 1.0.12
+
+
+- fix: fix issue of waterfall compute total on `field` totalType
+
+
 
 ## 2.0.5
 Tue, 14 Oct 2025 07:08:54 GMT
