@@ -1,6 +1,6 @@
-import type { IPointLike } from '@visactor/vutils';
+import type { IPointLike } from '@visactor/vchart';
 import type { IConversionFunnelSpec, Arrow } from './interface';
-import { isValid, isValidNumber, maxInArray } from '@visactor/vutils';
+import { isValid, isValidNumber, maxInArray } from '@visactor/vchart';
 import { isArrowCross, isSameArrow } from './util';
 
 export interface ParsedArrow extends Arrow {
@@ -138,6 +138,7 @@ function computeArrows(arrows: ParsedArrow[]) {
 
       let level = maxLevelArrow?.layout.level ?? 0;
       while (level >= 0) {
+        // eslint-disable-next-line no-loop-func
         if (arrowsIsLayout.some(arr => arr.layout.level === level && isArrowCross(arr, arrow))) {
           level += 1;
           break;

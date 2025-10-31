@@ -1,6 +1,5 @@
 import { registerDataSetInstanceParser, warn } from '@visactor/vchart';
-import { DataSet, DataView, svgParser } from '@visactor/vdataset';
-import type { ISVGSourceOption } from '@visactor/vdataset';
+import { DataSet, DataView, svgParser, type ISVGSourceOption } from '@visactor/vchart';
 
 export const svgSourceMap = new Map<string, DataView>();
 

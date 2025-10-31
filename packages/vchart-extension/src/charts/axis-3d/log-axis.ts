@@ -1,6 +1,6 @@
 import { CartesianLogAxis, Factory, registerCartesianLogAxis } from '@visactor/vchart';
 import { axisZ } from './theme';
-import { mixin } from '@visactor/vutils';
+import { mixin } from '@visactor/vchart';
 import { Axis3dMixin } from './axis-3d-mixin';
 
 export const registerCartesianLogAxis3d = () => {

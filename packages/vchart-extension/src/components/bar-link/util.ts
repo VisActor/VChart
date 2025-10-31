@@ -1,8 +1,8 @@
-import type { Dict, IPointLike } from '@visactor/vutils';
+import type { Dict, IPointLike } from '@visactor/vchart';
 import type { BarLinkAttrs, BarLinkDatum } from './type';
 import type { Datum, ICartesianSeries, IMarkGraphic, ISpec } from '@visactor/vchart';
 import { getDatumOfGraphic, STACK_FIELD_END } from '@visactor/vchart';
-import { array } from '@visactor/vutils';
+import { array } from '@visactor/vchart';
 import { BAR_LINK } from './constant';
 
 export function groupBarsByFields(elements: IMarkGraphic[], groupFields: string[]) {

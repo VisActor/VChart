@@ -2,7 +2,7 @@
  * @description vchart 自定义组件，用于实现柱图、线图以及面积图的系列标签
  * @author zhangweixing
  */
-import { array, clamper, get, regressionPolynomial } from '@visactor/vutils';
+import { array, clamper, get, regressionPolynomial } from '@visactor/vchart';
 import type { Datum, ICartesianSeries, ISpec } from '@visactor/vchart';
 import { Direction, SeriesTypeEnum } from '@visactor/vchart';
 import type { BarRegressionLineSpec } from './type';

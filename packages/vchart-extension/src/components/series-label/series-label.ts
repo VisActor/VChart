@@ -3,12 +3,11 @@
  * @author zhangweixing
  */
 
-import { AbstractComponent } from '@visactor/vrender-components';
-import type { Dict } from '@visactor/vutils';
-import { isEmpty } from '@visactor/vutils';
+import { AbstractComponent, type IGraphic, type IText, createText, createLine } from '@visactor/vchart';
+import type { Dict } from '@visactor/vchart';
+import { isEmpty } from '@visactor/vchart';
 import { Factory } from '@visactor/vchart';
-import { type IGraphic, type IText, createText, createLine } from '@visactor/vrender-core';
-import { SeriesLabelAttrs, SeriesLabelData } from './type';
+import type { SeriesLabelAttrs, SeriesLabelData } from './type';
 import { dodge, dodgeHorizontal } from './util';
 import { SERIES_LABEL } from './constant';
 

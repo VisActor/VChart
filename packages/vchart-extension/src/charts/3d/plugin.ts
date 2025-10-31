@@ -1,4 +1,4 @@
-import { registerDirectionalLight, registerOrthoCamera, registerViewTransform3dPlugin } from '@visactor/vrender-core';
+import { registerDirectionalLight, registerOrthoCamera, registerViewTransform3dPlugin } from '@visactor/vchart';
 import type { IChartPlugin, IChartPluginService, VChartRenderActionSource } from '@visactor/vchart';
 import { BasePlugin, registerChartPlugin } from '@visactor/vchart';
 import { is3DAxisChart, is3DChart } from './util';

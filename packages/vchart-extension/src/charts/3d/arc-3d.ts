@@ -1,5 +1,4 @@
-import { registerArc3d, registerShadowRoot } from '@visactor/vrender-kits';
-import { createArc3d } from '@visactor/vrender-core';
+import { registerArc3d, registerShadowRoot, createArc3d } from '@visactor/vchart';
 import { BaseArcMark, Factory, registerArcAnimation } from '@visactor/vchart';
 import { MarkType3dEnum } from './enum';
 import type { IArc3dMark, IArc3dMarkSpec } from './interface';

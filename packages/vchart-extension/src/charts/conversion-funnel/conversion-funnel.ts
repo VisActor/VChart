@@ -1,7 +1,7 @@
 import type { IConversionFunnelChartSpecBase, IConversionFunnelSeriesSpecBase } from './interface';
 import type { GroupMark } from '@visactor/vchart';
 import { VChart, FunnelChart, PREFIX, FunnelSeries, registerMarkFilterTransform } from '@visactor/vchart';
-import { DataView } from '@visactor/vdataset';
+import { DataView } from '@visactor/vchart';
 import { ConversionFunnelChartSpecTransformer } from './conversion-funnel-transformer';
 import { conversionArrowTransform } from './arrow-data-transform';
 

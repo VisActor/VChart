@@ -1,5 +1,5 @@
 import { CandlestickChartSpecTransformer } from './candlestick-transformer';
-import { ICandlestickChartSpec } from './interface';
+import type { ICandlestickChartSpec } from './interface';
 import { registerCandlestickSeries } from './series/candlestick';
 import {
   BaseChart,

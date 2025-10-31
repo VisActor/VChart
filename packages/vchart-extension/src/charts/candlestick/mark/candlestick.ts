@@ -1,13 +1,16 @@
-import { registerLine, registerRect } from '@visactor/vrender-kits';
-import { GlyphMark, registerGlyphMark, IMarkRaw, IMarkStyle } from '@visactor/vchart';
+import type { IRectGraphicAttribute, IMarkRaw, IMarkStyle } from '@visactor/vchart';
 import {
+  registerLine,
+  registerRect,
   createLine,
   createRect,
   type IGlyph,
   type ILineGraphicAttribute,
-  IRectGraphicAttribute
-} from '@visactor/vrender-core';
-import { Factory, Datum } from '@visactor/vchart';
+  GlyphMark,
+  registerGlyphMark
+} from '@visactor/vchart';
+import type { Datum } from '@visactor/vchart';
+import { Factory } from '@visactor/vchart';
 import type { ICandlestickMarkSpec } from './interface';
 
 export type ICandlestickMark = IMarkRaw<ICandlestickMarkSpec>;

@@ -4,13 +4,7 @@ import type {
   ILineGraphicAttribute,
   ITextGraphicAttribute
 } from '@visactor/vrender-core';
-import type { SegmentAttributes } from '@visactor/vrender-components';
-import type { Dict, IPointLike } from '@visactor/vutils';
-
-export type Point = {
-  x: number;
-  y: number;
-};
+import type { Dict, IPointLike, SegmentAttributes } from '@visactor/vchart';
 
 export type BarLinkDatum = {
   /**

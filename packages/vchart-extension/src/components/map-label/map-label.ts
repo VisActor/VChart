@@ -1,9 +1,14 @@
-import { DataView } from '@visactor/vdataset';
-import type { IGraphic, IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender-core';
-import { graphicCreator } from '@visactor/vrender-core';
-import type { Maybe } from '@visactor/vutils';
-import { isValid } from '@visactor/vutils';
-import { MarkPoint } from '@visactor/vrender-components';
+import { DataView } from '@visactor/vchart';
+import {
+  type IGraphic,
+  type IGroup,
+  type INode,
+  type IRect as IRectGraphic,
+  graphicCreator,
+  MarkPoint
+} from '@visactor/vchart';
+import type { Maybe } from '@visactor/vchart';
+import { isValid } from '@visactor/vchart';
 import {
   LayoutZIndex,
   normalizeLayoutPaddingSpec,

@@ -11,7 +11,7 @@ import type { ICombinationCandlestickChartSpec } from './interface';
 import { CombinationCandlestickChart_TYPE } from './constant';
 import { registerCandlestickSeries } from '../candlestick';
 import { CombinationCandlestickChartSpecTransformer } from './combination-candlestick-transformer';
-import { mixin } from '@visactor/vutils';
+import { mixin } from '@visactor/vchart';
 
 /**
  * @description 组合蜡烛图

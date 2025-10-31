@@ -3,7 +3,7 @@ import type {
   IGroupGraphicAttribute,
   ILineGraphicAttribute,
   ITextGraphicAttribute
-} from '@visactor/vrender-core';
+} from '@visactor/vchart';
 
 /**
  * 回归线数据格式

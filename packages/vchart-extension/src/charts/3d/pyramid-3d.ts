@@ -1,5 +1,4 @@
-import { registerPyramid3d, registerShadowRoot } from '@visactor/vrender-kits';
-import { createPyramid3d } from '@visactor/vrender-core';
+import { registerPyramid3d, registerShadowRoot, createPyramid3d } from '@visactor/vchart';
 import type { IPyramid3dMark, IPyramid3dMarkSpec } from './interface';
 import { MarkType3dEnum } from './enum';
 import { BasePolygonMark, Factory, registerPolygonAnimation } from '@visactor/vchart';

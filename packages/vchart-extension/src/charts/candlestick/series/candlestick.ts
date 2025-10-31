@@ -1,23 +1,22 @@
-import { registerCandlestickMark, ICandlestickMark } from '../mark/candlestick';
+import type { ICandlestickMark } from '../mark/candlestick';
+import { registerCandlestickMark } from '../mark/candlestick';
+import type { IMark, Datum, IModelInitOption } from '@visactor/vchart';
 import {
   registerSymbolMark,
   registerScaleInOutAnimation,
   registerCartesianBandAxis,
   registerCartesianLinearAxis,
   CartesianSeries,
-  IMark,
   Factory,
   STATE_VALUE_ENUM,
   AttributeLevel,
-  Datum,
-  IModelInitOption,
   getGroupAnimationParams,
   animationConfig,
   userAnimationConfig
 } from '@visactor/vchart';
 import { valueInScaleRange } from '@visactor/vchart';
-import { IGlyphMark } from '@visactor/vchart';
-import { merge } from '@visactor/vutils';
+import type { IGlyphMark } from '@visactor/vchart';
+import { merge } from '@visactor/vchart';
 import type { ICandlestickSeriesSpec } from './interface';
 import { registerCandlestickScaleAnimation } from './animation';
 import { CANDLESTICK_SERIES_TYPE, CandlestickSeriesMark } from './constant';
@@ -207,9 +206,8 @@ export class CandlestickSeries<T extends ICandlestickSeriesSpec = ICandlestickSe
       return this._mergedStyles.rising;
     } else if (open > close) {
       return this._mergedStyles.falling;
-    } else {
-      return this._mergedStyles.doji;
     }
+    return this._mergedStyles.doji;
   }
 
   private _getMarkWidth() {
