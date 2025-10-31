@@ -11,5 +11,6 @@ export declare class ChartPluginService<T extends IChartPlugin = IChartPlugin> e
     onAfterChartSpecTransform(chartSpec: any, actionSource: VChartRenderActionSource): void;
     onAfterModelSpecTransform(chartSpec: any, chartSpecInfo: IChartSpecInfo, actionSource: VChartRenderActionSource): void;
     onBeforeInitChart(chartSpec: any, actionSource: VChartRenderActionSource): void;
+    onAfterInitChart(chartSpec: any, actionSource: VChartRenderActionSource): void;
     releaseAll(): void;
 }
