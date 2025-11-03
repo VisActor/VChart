@@ -1,3 +1,30 @@
+# v2.0.7
+
+2025-11-03
+
+🆕 New Features
+
+@visactor/vchart: Support resize zoom chart plugin by @xuefei1313 in https://github.com/VisActor/VChart/pull/4241
+@visactor/vchart: Register transform boxplot by @xile611 in https://github.com/VisActor/VChart/pull/4268
+@visactor/vchart: Add translate-issues workflow configuration by @xuefei1313 in https://github.com/VisActor/VChart/pull/4264
+@visactor/vchart: Add regression-lines in vchart-extension by @xile611 in https://github.com/VisActor/VChart/pull/4245
+@visactor/vchart: Change vrender dependencies, see https://github.com/VisActor/VChart/pull/4224
+
+🐛 Bug Fixes
+
+@visactor/vchart: Fix crosshair not hide by @xile611 in https://github.com/VisActor/VChart/pull/4252
+@visactor/vchart: Fix issue of layout by @xuefei1313 in https://github.com/VisActor/VChart/pull/4249
+@visactor/vchart: Fix logistic regression line by @xile611 in https://github.com/VisActor/VChart/pull/4263
+@visactor/vchart: Fix support regression line for grouped scatter by @xile611 in https://github.com/VisActor/VChart/pull/4248
+@visactor/vchart: Fix check if stackData is empty by @kkxxkk2019 in https://github.com/VisActor/VChart/pull/4244
+@visactor/vchart: Fix issue of waterfall stack total by @xuefei1313 in https://github.com/VisActor/VChart/pull/4243
+
+
+
+
+
+[更多详情请查看 v2.0.7](https://github.com/VisActor/VChart/releases/tag/v2.0.7)
+
 # v2.0.6
 
 2025-10-14
