@@ -2,26 +2,22 @@
 
 2025-11-03
 
-🆕 New Features
+**🆕 新增功能**
 
-@visactor/vchart: Support resize zoom chart plugin by @xuefei1313 in https://github.com/VisActor/VChart/pull/4241
-@visactor/vchart: Register transform boxplot by @xile611 in https://github.com/VisActor/VChart/pull/4268
-@visactor/vchart: Add translate-issues workflow configuration by @xuefei1313 in https://github.com/VisActor/VChart/pull/4264
-@visactor/vchart: Add regression-lines in vchart-extension by @xile611 in https://github.com/VisActor/VChart/pull/4245
-@visactor/vchart: Change vrender dependencies, see https://github.com/VisActor/VChart/pull/4224
+* **@visactor/vchart**：支持 resize zoom 图表插件，关联 [#4241](https://github.com/VisActor/VChart/pull/4241)
+* **@visactor/vchart**：注册 boxplot transform，关联 [#4268](https://github.com/VisActor/VChart/pull/4268)
+* **@visactor/vchart**：新增 translate-issues 工作流配置，关联 [#4264](https://github.com/VisActor/VChart/pull/4264)
+* **@visactor/vchart**：在 vchart-extension 中新增回归线 (regression-lines)，关联 [#4245](https://github.com/VisActor/VChart/pull/4245)
+* **@visactor/vchart**：变更 vrender 依赖项，关联 [#4224](https://github.com/VisActor/VChart/pull/4224)
 
-🐛 Bug Fixes
+**🐛 功能修复**
 
-@visactor/vchart: Fix crosshair not hide by @xile611 in https://github.com/VisActor/VChart/pull/4252
-@visactor/vchart: Fix issue of layout by @xuefei1313 in https://github.com/VisActor/VChart/pull/4249
-@visactor/vchart: Fix logistic regression line by @xile611 in https://github.com/VisActor/VChart/pull/4263
-@visactor/vchart: Fix support regression line for grouped scatter by @xile611 in https://github.com/VisActor/VChart/pull/4248
-@visactor/vchart: Fix check if stackData is empty by @kkxxkk2019 in https://github.com/VisActor/VChart/pull/4244
-@visactor/vchart: Fix issue of waterfall stack total by @xuefei1313 in https://github.com/VisActor/VChart/pull/4243
-
-
-
-
+* **@visactor/vchart**：修复十字准星 (crosshair) 未隐藏的问题，修复 [#4252](https://github.com/VisActor/VChart/pull/4252)
+* **@visactor/vchart**：修复布局 (layout) 的问题，修复 [#4249](https://github.com/VisActor/VChart/pull/4249)
+* **@visactor/vchart**：修复逻辑回归线 (logistic regression line) 的问题，修复 [#4263](https://github.com/VisActor/VChart/pull/4263)
+* **@visactor/vchart**：修复分组散点图 (grouped scatter) 的回归线支持问题，修复 [#4248](https://github.com/VisActor/VChart/pull/4248)
+* **@visactor/vchart**：修复堆叠数据 (stackData) 为空时的检查问题，修复 [#4244](https://github.com/VisActor/VChart/pull/4244)
+* **@visactor/vchart**：修复瀑布图堆叠总计 (waterfall stack total) 的问题，修复 [#4243](https://github.com/VisActor/VChart/pull/4243)
 
 [更多详情请查看 v2.0.7](https://github.com/VisActor/VChart/releases/tag/v2.0.7)
 
@@ -87,4 +83,5 @@
 - **@visactor/vchart**：修复 `tooltip.style.titleLabel` 的 `textAlign` 不生效问题，修复 [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [更多详情请查看 v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
+
 
