@@ -1,5 +1,5 @@
-import { isValid, merge } from '@visactor/vutils';
-import type { DataView, SVGParserResult } from '@visactor/vdataset';
+import { isValid, merge } from '@visactor/vchart';
+import type { DataView, SVGParserResult } from '@visactor/vchart';
 import { DEFAULT_DATA_INDEX, measureText } from '@visactor/vchart';
 
 function isValidStrokeOrFill(attr: any) {

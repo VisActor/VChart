@@ -652,6 +652,13 @@
             "zh": "轴截断柱图",
             "en": "Axis Break Column Chart"
           }
+        },
+        {
+          "path": "bar-poly-regression-line",
+          "title": {
+            "zh": "多项式回归柱状图",
+            "en": "Bar Chart with Polynomial Regression Line"
+          }
         }
       ]
     },
@@ -688,6 +695,20 @@
           "title": {
             "zh": "水平堆叠直方图",
             "en": "Horizontal Stacked Histogram"
+          }
+        },
+        {
+          "path": "histogram-bin",
+          "title": {
+            "zh": "使用bin获得分箱数据",
+            "en": "Obtain binned data using bin"
+          }
+        },
+        {
+          "path": "histogram-regression-line",
+          "title": {
+            "zh": "直方图和回归线",
+            "en": "Histogram with Regression Line"
           }
         }
       ]
@@ -980,6 +1001,13 @@
           "title": {
             "zh": "各种形状的散点图",
             "en": "Scatter Chart of different shape"
+          }
+        },
+        {
+          "path": "scatter-regression-line",
+          "title": {
+            "zh": "散点图回归线",
+            "en": "Scatter Chart Regression Line"
           }
         }
       ]

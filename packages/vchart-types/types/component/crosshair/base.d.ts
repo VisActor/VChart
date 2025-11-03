@@ -36,7 +36,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
         value: string | number;
     }[]): void;
     protected _getLimitBounds(): IBoundsLike;
-    protected _showDefaultCrosshairBySpec(): void;
+    protected _showDefaultCrosshairBySpec(): boolean;
     protected _updateVisibleCrosshair(): void;
     protected _showDefaultCrosshair(): void;
     setAttrFromSpec(): void;

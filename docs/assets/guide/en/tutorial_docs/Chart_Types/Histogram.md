@@ -865,6 +865,130 @@ vchart.renderSync();
 window['vchart'] = vchart;
 ```
 
+### Generating Histogram Data Using the `bin` Transform
+
+Since version `2.0.7`, histograms support the `bin` transform. When your data is in a detailed (raw) format, you can use this transform to generate standard histogram data.
+
+```javascript livedemo
+const spec = {
+  data: [
+    {
+      name: 'data1',
+      transforms: [
+        {
+          type: 'bin',
+          options: {
+            bins: 10,
+            field: 'value'
+          }
+        }
+      ],
+      values: [
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 }
+      ]
+    }
+  ],
+  type: 'histogram',
+  xField: 'x0',
+  x2Field: 'x1',
+  yField: 'count',
+  bar: {
+    style: {
+      stroke: 'white',
+      lineWidth: 1
+    }
+  },
+  title: {
+    text: 'Arrival Time Histogram'
+  },
+  tooltip: {
+    visible: true,
+    mark: {
+      title: {
+        key: 'title',
+        value: 'count'
+      },
+      content: [
+        {
+          key: datum => datum['x0'] + '～' + datum['x1'],
+          value: datum => datum['count']
+        }
+      ]
+    }
+  }
+};
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+
+// For debugging purposes only, do not copy
+window['vchart'] = vchart;
+```
+
+The `bin` transform supports the following configuration options:
+
+```ts
+interface IBinOptions {
+  /**
+   * The numeric field to be binned
+   */
+  field: string;
+  /**
+   * Number of bins (default is 10)
+   */
+  bins?: number;
+  /**
+   * Explicitly specified array of bin boundaries
+   */
+  thresholds?: number[];
+  /**
+   * Fixed bin width (interval step); overrides bins if set
+   */
+  step?: number;
+  /**
+   * Specify the minimum and maximum values for binning [min, max]; otherwise, calculated automatically from the data
+   */
+  extent?: [number, number];
+  /**
+   * Whether to retain original data items in each bin
+   */
+  includeValues?: boolean;
+  /**
+   * Field name mapping for the output data
+   */
+  outputNames?: { x0?: string; x1?: string; count?: string; values?: string };
+}
+```
+
 ## Chart Layout
 
 ### Stacked Histogram

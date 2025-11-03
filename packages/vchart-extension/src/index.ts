@@ -22,3 +22,7 @@ export * from './components/series-break';
 export * from './components/bar-link';
 export * from './components/series-label';
 export * from './components/map-label';
+export * from './components/regression-line';
+export * from './components/scatter-regression-line';
+export * from './components/bar-regression-line';
+export * from './components/histogram-regression-line';

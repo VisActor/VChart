@@ -1,8 +1,7 @@
-import type { EasingType } from '@visactor/vrender-core';
-import type { IGlyph } from '@visactor/vrender-core';
+import type { EasingType, IGlyph } from '@visactor/vchart';
 import type { IAnimationParameters } from '@visactor/vchart';
-import { isValidNumber } from '@visactor/vutils';
-import { ACustomAnimate, AnimateExecutor } from '@visactor/vrender-animate';
+import { isValidNumber } from '@visactor/vchart';
+import { ACustomAnimate, AnimateExecutor } from '@visactor/vchart';
 
 export interface ICandlestickScaleAnimationOptions {
   center?: number;

@@ -1,9 +1,9 @@
-import type { IPointLike } from '@visactor/vutils';
+import type { IPointLike } from '@visactor/vchart';
 import type { IExtensionGroupMarkSpec, IExtensionMarkSpec } from '@visactor/vchart';
 import type { IConversionFunnelSpec, IConversionFunnelChartSpecBase, Arrow } from './interface';
 import type { ParsedArrow } from './arrow-data-transform';
 import { LayoutZIndex, FunnelChartSpecTransformer } from '@visactor/vchart';
-import { isFunction } from '@visactor/vutils';
+import { isFunction } from '@visactor/vchart';
 import {
   DEFAULT_ARROW_MARK_STYLE,
   DEFAULT_ARROW_SYMBOL_MARK_STYLE,

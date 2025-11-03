@@ -2,7 +2,7 @@ import type { Datum } from '@visactor/vchart/src/typings';
 import type { IRankingListSpec } from './interface';
 import type { IMarkGraphic } from '@visactor/vchart';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
-import { cloneDeep, TextMeasure } from '@visactor/vutils';
+import { cloneDeep, TextMeasure } from '@visactor/vchart';
 import { defaultSpec } from './constant';
 import { applyVisible, computeDataRange, mergeObjects } from './utils';
 

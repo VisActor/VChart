@@ -71,7 +71,7 @@ import type { IMosaicSeriesSpec } from './mosaic/interface';
 import { MosaicSeries, registerMosaicSeries } from './mosaic/mosaic';
 
 import type { ISeries, ICartesianSeries, IPolarSeries, IGeoSeries } from './interface';
-import { barGrowIn, barGrowOut, barPresetAnimation } from './bar/animation';
+import { barGrowIn, barGrowOut, barPresetAnimation, registerBarAnimation } from './bar/animation';
 import { BaseWordCloudSeries } from './word-cloud/base';
 import { RangeColumnSeriesSpecTransformer } from './range-column/range-column-transformer';
 import { pieDisappear, pieEnter, pieExit, piePresetAnimation } from './pie/animation/animation';
@@ -143,6 +143,7 @@ export {
 export {
   registerAreaSeries,
   registerBarSeries,
+  registerBarAnimation,
   registerBoxplotSeries,
   registerCirclePackingSeries,
   registerCircularProgressSeries,

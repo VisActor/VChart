@@ -1,5 +1,4 @@
-import { registerRect3d, registerShadowRoot } from '@visactor/vrender-kits';
-import { createRect3d } from '@visactor/vrender-core';
+import { registerRect3d, registerShadowRoot, createRect3d } from '@visactor/vchart';
 import type { IMarkStyle } from '@visactor/vchart';
 import { BaseMark, Factory, registerRectAnimation } from '@visactor/vchart';
 import type { IRect3dMark, IRect3dMarkSpec } from './interface';

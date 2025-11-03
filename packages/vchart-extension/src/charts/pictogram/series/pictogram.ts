@@ -1,5 +1,4 @@
-import { DataView } from '@visactor/vdataset';
-import type { SVGParsedElement, SVGParserResult } from '@visactor/vdataset';
+import { DataView, type SVGParsedElement, type SVGParserResult } from '@visactor/vchart';
 import type { IPictogramSeriesSpec } from './interface';
 import {
   ELEMENT_HIGHLIGHT_BY_GRPHIC_NAME,
@@ -9,9 +8,9 @@ import {
 } from './constant';
 import { getSVGSource, registerSVGSource, svgSourceMap, unregisterSVGSource } from './svg-source';
 import { PictogramSeriesSpecTransformer } from './pictogram-transformer';
-import type { IMatrix, IPoint, IPointLike } from '@visactor/vutils';
-import { Bounds, Matrix, isValid, merge } from '@visactor/vutils';
-import { createRect } from '@visactor/vrender-core';
+import type { IMatrix, IPoint, IPointLike, GraphicEventType } from '@visactor/vchart';
+import { Bounds, Matrix, isValid, merge } from '@visactor/vchart';
+import { createRect, type IGroup } from '@visactor/vchart';
 import { PictogramSeriesTooltipHelper } from './tooltip-helper';
 import type {
   Datum,
@@ -38,7 +37,6 @@ import {
 import { registerElementHighlightByGraphicName } from '../element-highlight-by-graphic-name';
 import { registerElementSelectByGraphicName } from '../element-select-by-graphic-name';
 import { graphicAttributeTransform, pictogram } from './transform';
-import type { IGroup, GraphicEventType } from '@visactor/vrender-core';
 
 export interface SVGParsedElementExtend extends SVGParsedElement {
   _finalAttributes: Record<string, any>;

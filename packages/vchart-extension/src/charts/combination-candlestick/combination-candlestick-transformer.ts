@@ -1,7 +1,7 @@
 import type { ICommonChartSpec, ICartesianSeriesSpec, IDataType, IGridLayoutSpec, IOrientType } from '@visactor/vchart';
 import { CartesianChartSpecTransformer, isPercent } from '@visactor/vchart';
 import type { ICombinationCandlestickChartSpec } from './interface';
-import { merge, array } from '@visactor/vutils';
+import { merge, array } from '@visactor/vchart';
 import { transformCandlestickSeriesSpec } from '../candlestick';
 import type { ICandlestickSeriesSpec } from '../candlestick/series/interface';
 

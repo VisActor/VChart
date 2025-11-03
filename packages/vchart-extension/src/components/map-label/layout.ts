@@ -1,5 +1,5 @@
-import type { Feature } from '@visactor/vutils';
-import { isPointInPolygon, destination, getAABBFromPoints } from '@visactor/vutils';
+import type { Feature } from '@visactor/vchart';
+import { isPointInPolygon, destination, getAABBFromPoints } from '@visactor/vchart';
 import type { IRect, IOrientType, IPoint } from '@visactor/vchart';
 
 type IBound = {
