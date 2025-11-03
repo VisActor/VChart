@@ -1,8 +1,6 @@
 import type { IRankingBarSpec } from './interface';
-import type { ICartesianAxisSpec, ICommonChartSpec, ILabelSpec } from '@visactor/vchart';
-import type { ITextGraphicAttribute } from '@visactor/vchart';
-import { BaseChartSpecTransformer } from '@visactor/vchart';
-import { isValid } from '@visactor/vchart';
+import type { ICartesianAxisSpec, ICommonChartSpec, ILabelSpec, ITextGraphicAttribute } from '@visactor/vchart';
+import { BaseChartSpecTransformer, isValid } from '@visactor/vchart';
 
 export class RankingBarChartSpecTransformer<T extends ICommonChartSpec> extends BaseChartSpecTransformer<any> {
   transformSpec(spec: T): void {
