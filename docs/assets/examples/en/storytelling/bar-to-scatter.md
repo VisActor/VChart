@@ -26,8 +26,10 @@ Global animation enhances the observer's tracking of data changes in certain sce
  * import { registerMorph } from '@visactor/vchart';
  *
  * registerMorph();
+ *
+ * 自2.0.0开始，全局形变动画默认开启，不再需要手动注册
  */
-VCHART_MODULE.registerMorph();
+VCHART_MODULE.registerMorph && VCHART_MODULE.registerMorph();
 function calculateAverage(data, dim) {
   let total = 0;
   for (let i = 0; i < data.length; i++) {
