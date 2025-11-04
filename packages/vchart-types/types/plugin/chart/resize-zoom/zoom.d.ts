@@ -12,6 +12,7 @@ export declare class ChartResizeZoomPlugin extends BasePlugin<IChartPluginServic
     protected _maxZoom?: number;
     protected _zoom: number;
     protected _rate?: number;
+    protected _beforeWheel?: (e: WheelEvent) => boolean;
     constructor();
     onAfterInitChart(service: IChartPluginService, chartSpec: any): void;
     protected _onWheel: (e: WheelEvent) => void;
