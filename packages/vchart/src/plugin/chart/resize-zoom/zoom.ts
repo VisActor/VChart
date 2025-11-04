@@ -19,6 +19,7 @@ export class ChartResizeZoomPlugin extends BasePlugin<IChartPluginService> imple
   protected _maxZoom?: number;
   protected _zoom: number = 1;
   protected _rate?: number;
+  protected _beforeWheel?: (e: WheelEvent) => boolean;
 
   constructor() {
     super(ChartResizeZoomPlugin.type);
@@ -33,6 +34,7 @@ export class ChartResizeZoomPlugin extends BasePlugin<IChartPluginService> imple
     this._minZoom = spec.min ?? MIN_ZOOM;
     this._maxZoom = spec.max ?? MAX_ZOOM;
     this._rate = spec.rate ?? 0.1;
+    this._beforeWheel = spec.beforeWheel;
     this._container = chart.getContainer();
     this._triggerEvent = getDefaultTriggerEventByMode(service.globalInstance.getChart().getOption().mode).zoom;
     if (this._container && this._triggerEvent) {
@@ -41,6 +43,13 @@ export class ChartResizeZoomPlugin extends BasePlugin<IChartPluginService> imple
   }
 
   protected _onWheel = (e: WheelEvent) => {
+    // 先执行 beforeWheel 回调函数
+    if (this._beforeWheel) {
+      // 如果 beforeWheel 回调函数返回 false，则阻止默认行为
+      if (!this._beforeWheel(e) === false) {
+        return;
+      }
+    }
     e.preventDefault();
     e.stopImmediatePropagation();
 
