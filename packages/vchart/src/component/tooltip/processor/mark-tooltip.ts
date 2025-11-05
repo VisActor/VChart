@@ -70,6 +70,61 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
     return this._showTooltipByHandler(tooltipData, newParams);
   }
 
+  getTooltipContent(info: MarkTooltipInfo, params: BaseEventParams, changePositionOnly: boolean) {
+    const { datum, series } = info;
+    const tooltipSpec = this.component.getSpec();
+    const tooltipData = [{ datum: [datum], series }];
+    const helper = series.tooltipHelper;
+    const seriesSpec = series.getSpec()?.tooltip as ITooltipSpec;
+    const seriesCheckOverlap = seriesSpec?.mark?.checkOverlap;
+    let checkOverlap = false;
+
+    if (seriesCheckOverlap === true || (tooltipSpec.mark?.checkOverlap === true && seriesCheckOverlap !== false)) {
+      const activeTriggers = helper?.activeTriggerSet.mark;
+
+      if (activeTriggers) {
+        checkOverlap = true;
+        const chart = this.component.getChart();
+        // compute layer offset
+        const layer = chart.getCompiler().getStage().getLayer(undefined);
+        const point = { x: params.event.viewX, y: params.event.viewY };
+        layer.globalTransMatrix.transformPoint({ x: params.event.viewX, y: params.event.viewY }, point);
+
+        activeTriggers.forEach(mark => {
+          mark.getGraphics().forEach(g => {
+            if (
+              g !== params.node &&
+              g &&
+              g.containsPoint(point.x, point.y, IContainPointMode.GLOBAL, g.stage.getPickerService())
+            ) {
+              tooltipData[0].datum.push(getDatumOfGraphic(g));
+            }
+          });
+        });
+      }
+    }
+
+    const newParams: TooltipHandlerParams = {
+      ...(params as any),
+      model: series, // 在 label 支持 mark tooltip 后，eventParam.model 可能是 label 组件，而 tooltip 中需要的是 series
+      changePositionOnly,
+      tooltip: this.component
+    };
+    if (changePositionOnly && checkOverlap) {
+      const cacheData = this._cacheActiveSpec && this._cacheActiveSpec.data;
+
+      if (
+        !cacheData ||
+        (cacheData as IDimensionData[])[0].series !== tooltipData[0].series ||
+        (cacheData as IDimensionData[])[0].datum.length !== tooltipData[0].datum.length ||
+        (cacheData as IDimensionData[])[0].datum.some((d, index) => d !== tooltipData[0].datum[index])
+      ) {
+        newParams.changePositionOnly = false;
+      }
+    }
+    return this._getTooltipContent(tooltipData, newParams);
+  }
+
   /** 获取触发 tooltip 需要的信息 */
   getMouseEventData(params: BaseEventParams): MouseEventData {
     let info: MarkTooltipInfo | undefined;

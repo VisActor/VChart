@@ -11,6 +11,7 @@ import type { Tooltip } from '../tooltip';
 import type { IComponentOption } from '../../interface';
 import { isDiscrete } from '@visactor/vscale';
 import type { TooltipHandlerParams } from '../interface/common';
+import type { DimensionTooltipInfo, MarkTooltipInfo } from '../processor';
 
 const getDataArrayFromFieldArray = (fields: string[], datum?: Datum) =>
   isValid(datum) ? fields.map(f => datum[f]) : undefined;
@@ -43,7 +44,38 @@ type MarkInfo = {
   dimType?: string;
 };
 
-export function showTooltip(datum: Datum, options: IShowTooltipOption, component: Tooltip): TooltipActiveType | 'none' {
+export function showTooltip(datum: Datum, options: IShowTooltipOption, component: Tooltip): TooltipActiveType | null {
+  const mockInfo = getTooltipMockInfo(datum, options, component);
+  if (mockInfo === null) {
+    return null;
+  }
+  const componentOptions = component.getOption() as IComponentOption;
+  const { info, params, activeType } = mockInfo;
+
+  if (activeType === 'dimension') {
+    component.processor.dimension.showTooltip(info as DimensionTooltipInfo, params, false);
+  } else if (activeType === 'mark') {
+    component.processor.mark.showTooltip(info as MarkTooltipInfo, params, false);
+  }
+
+  // 全局唯一 tooltip
+  const vchart = componentOptions.globalInstance;
+  if (VChart.globalConfig.uniqueTooltip) {
+    VChart.hideTooltip(vchart.id);
+  }
+
+  return activeType;
+}
+
+export function getTooltipMockInfo(
+  datum: Datum,
+  options: IShowTooltipOption,
+  component: Tooltip
+): {
+  info: DimensionTooltipInfo | MarkTooltipInfo;
+  params: TooltipHandlerParams;
+  activeType: TooltipActiveType;
+} | null {
   const opt: IShowTooltipOption = {
     regionIndex: 0,
     ...options
@@ -56,7 +88,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
     isValid(opt.regionIndex) ? [opt.regionIndex] : undefined
   )[0];
   if (!region) {
-    return 'none';
+    return null;
   }
 
   // 查询图元信息
@@ -99,11 +131,11 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
     };
   };
 
-  // 显示tooltip
+  // 获取 tooltip 内容
   if (activeType === 'dimension') {
     const firstInfo = markInfoList[0];
     if (!firstInfo) {
-      return 'none';
+      return null;
     }
 
     // 将markInfoList按系列分组
@@ -128,7 +160,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
     ];
 
     if (isValid(firstInfo.dimType)) {
-      mockDimensionInfo[0].position = firstInfo.pos[firstInfo.dimType];
+      mockDimensionInfo[0].position = firstInfo.pos[firstInfo.dimType as keyof IPoint];
       mockDimensionInfo[0].dimType = firstInfo.dimType;
     }
 
@@ -147,20 +179,15 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
       }),
       item: undefined
     };
-
-    component.processor.dimension.showTooltip(mockDimensionInfo, mockParams, false);
-
-    // 全局唯一 tooltip
-    const vchart = componentOptions.globalInstance;
-    if (VChart.globalConfig.uniqueTooltip) {
-      VChart.hideTooltip(vchart.id);
-    }
-
-    return activeType;
+    return {
+      info: mockDimensionInfo,
+      params: mockParams,
+      activeType
+    };
   } else if (activeType === 'mark') {
     const info = markInfoList[0];
     if (!info) {
-      return 'none';
+      return null;
     }
     const mockDatum = {
       ...getOriginDatum(info),
@@ -191,24 +218,35 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
       item: undefined
     } as any;
 
-    component.processor.mark.showTooltip(
-      {
+    return {
+      info: {
         datum: mockDatum,
         mark: null,
         series: info.series
       },
-      mockParams,
-      false
-    );
-
-    // 全局唯一 tooltip
-    const vchart = componentOptions.globalInstance;
-    if (VChart.globalConfig.uniqueTooltip) {
-      VChart.hideTooltip(vchart.id);
-    }
-    return activeType;
+      params: mockParams,
+      activeType
+    };
   }
-  return 'none';
+  return null;
+}
+
+export function getTooltipContent(datum: Datum, options: IShowTooltipOption, component: Tooltip) {
+  const mockInfo = getTooltipMockInfo(datum, options, component);
+  if (mockInfo === null) {
+    return null;
+  }
+  const { info, params, activeType } = mockInfo;
+
+  // 需要初始化 tooltip processor
+  // @ts-ignore
+  component._initProcessor();
+  if (activeType === 'dimension') {
+    return component.processor.dimension.getTooltipContent(info as DimensionTooltipInfo, params, false);
+  } else if (activeType === 'mark') {
+    return component.processor.mark.getTooltipContent(info as MarkTooltipInfo, params, false);
+  }
+  return null;
 }
 
 export const getMarkInfoList = (datum: Datum, region: IRegion) => {

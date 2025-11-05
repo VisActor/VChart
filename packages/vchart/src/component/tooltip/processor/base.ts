@@ -76,6 +76,18 @@ export abstract class BaseTooltipProcessor {
     return TooltipResult.failed;
   };
 
+  protected _getTooltipContent = (data: TooltipData | undefined, params: TooltipHandlerParams): ITooltipActual => {
+    if (isNil(data)) {
+      return null;
+    }
+
+    this.clearCache();
+
+    // 更新 this._cacheActiveSpec
+    this._updateViewSpec(data, params);
+    return this._cacheActiveSpec;
+  };
+
   protected _preprocessDimensionInfo(dimensionInfo?: IDimensionInfo[]): IDimensionInfo[] | undefined {
     const newDimensionInfo: IDimensionInfo[] = [];
     dimensionInfo?.forEach(info => {

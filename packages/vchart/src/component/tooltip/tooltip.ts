@@ -611,10 +611,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     }
 
     const result = showTooltip(datum, options, this);
-    if (result !== 'none') {
+    if (result !== null) {
       this._alwaysShow = !!options?.alwaysShow;
     }
-    return result;
+    return result === null ? 'none' : result;
   }
 
   /** 手动隐藏 tooltip，返回是否成功 */
