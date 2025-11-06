@@ -143,7 +143,8 @@ describe('register function test', () => {
 
     chart = new VChart(spec as unknown as IBarChartSpec, {
       renderCanvas: canvasDom,
-      onError: () => {}
+      onError: () => {},
+      animation: false
     });
 
     chart.renderSync();
@@ -167,7 +168,8 @@ describe('register function test', () => {
   test('instance function register', () => {
     chart2 = new VChart(spec2 as unknown as IBarChartSpec, {
       renderCanvas: canvasDom,
-      onError: () => {}
+      onError: () => {},
+      animation: false
     });
 
     // 实例注册函数

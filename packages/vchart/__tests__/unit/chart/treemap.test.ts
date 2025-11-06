@@ -96,7 +96,8 @@ describe('treemap chart test', () => {
   test('treemap compiler', async () => {
     const cs = new VChart(spec, {
       mode: 'desktop-browser',
-      renderCanvas: canvasDom
+      renderCanvas: canvasDom,
+      animation: false
     });
     await cs.renderAsync();
     const series: TreemapSeries = cs.getChart().getAllSeries()[0] as TreemapSeries;
@@ -128,7 +129,8 @@ describe('treemap chart test', () => {
       },
       {
         mode: 'desktop-browser',
-        renderCanvas: canvasDom
+        renderCanvas: canvasDom,
+        animation: false
       }
     );
     await vchart.renderAsync();

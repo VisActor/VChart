@@ -66,7 +66,8 @@ describe('vchart updateSpec test', () => {
       markLine: []
     } as any;
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
   });
@@ -991,7 +992,8 @@ describe('vchart updateSpec of same spec', () => {
       hash: '3136c561bad4328a39917f23d8606675'
     } as unknown as IBarChartSpec;
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(spec, false);
@@ -1045,7 +1047,8 @@ describe('vchart updateSpec of same spec', () => {
       ]
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(spec, false);
@@ -1094,7 +1097,8 @@ describe('vchart updateSpec of same spec', () => {
       ]
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(spec, false);
@@ -1186,7 +1190,8 @@ describe('vchart updateSpec of same spec', () => {
     };
 
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(spec, false);
@@ -1261,7 +1266,8 @@ describe('vchart updateSpec of different about label', () => {
       ]
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -1326,7 +1332,8 @@ describe('vchart updateSpec of different about label', () => {
       ]
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -1395,7 +1402,8 @@ describe('vchart updateSpec of different about label', () => {
       ]
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -1473,7 +1481,8 @@ describe('vchart updateSpec of different about label', () => {
       ]
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -1559,7 +1568,8 @@ describe('vchart updateSpec of different about label', () => {
       }
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -1634,7 +1644,8 @@ describe('vchart updateSpec of different about label', () => {
       }
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -1739,7 +1750,8 @@ describe('vchart updateSpec should not throw error', () => {
       ]
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -1856,7 +1868,8 @@ describe('vchart updateSpec of totalLabel', () => {
       }
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -1978,7 +1991,8 @@ describe('vchart updateSpec of width, height', () => {
       }
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -2085,7 +2099,8 @@ describe('vchart updateSpec of different axes', () => {
     };
 
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -2165,7 +2180,8 @@ describe('vchart updateSpec of different title', () => {
       seriesField: 'from'
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -2221,7 +2237,8 @@ describe('vchart updateSpec of different title', () => {
       seriesField: 'from'
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -2315,7 +2332,8 @@ describe('vchart updateSpec of different indicator', () => {
       }
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
@@ -2389,7 +2407,8 @@ describe('vchart updateSpec of different indicator', () => {
       }
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
     const updateRes = (vchart as any)._updateSpec(
