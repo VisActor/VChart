@@ -187,7 +187,7 @@ export function xyLayout(
     data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
 
   const xAxisHelper = (relativeSeries as ICartesianSeries).getXAxisHelper();
-  const yAxisHelper = (relativeSeries as ICartesianSeries).getXAxisHelper();
+  const yAxisHelper = (relativeSeries as ICartesianSeries).getYAxisHelper();
 
   const xDomain = xAxisHelper.getScale(0).domain();
   const yDomain = yAxisHelper.getScale(0).domain();
