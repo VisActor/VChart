@@ -1395,7 +1395,14 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       }
     });
     const isUnableValue =
-      isNil(value) || !dimensionInfo || dimensionInfo.every(d => isDiscrete(d.axis.getScale().type) && isNil(d.index));
+      // 如果是 nil 值 那么认为数据不可用
+      isNil(value) ||
+      // 如果没有 dimensionInfo 那么也认为数据不可用
+      !dimensionInfo ||
+      // 如果是离散轴，并且没有这一项，或者数据为空 那么也认为数据不可用
+      dimensionInfo.every(
+        d => isDiscrete(d.axis.getScale().type) && (isNil(d.index) || d.data.every(_data => _data.datum.length === 0))
+      );
     // tooltip
     if (opt.tooltip !== false) {
       const tooltip = this.getComponentsByType(ComponentTypeEnum.tooltip)[0] as unknown as ITooltip;
