@@ -1437,6 +1437,27 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
+  showCrosshair(cb: (axis: IAxis) => false | string | number) {
+    const crosshair =
+      this.getComponentsByType(ComponentTypeEnum.cartesianCrosshair)[0] ??
+      this.getComponentsByType(ComponentTypeEnum.polarCrosshair)[0];
+    if (!crosshair) {
+      return;
+    }
+    const axes = this.getComponentsByKey('axes') as IAxis[];
+    const dimInfo: { axis: IAxis; value: string | number }[] = [];
+    axes.forEach(axis => {
+      const value = cb(axis);
+      if (value !== false) {
+        dimInfo.push({
+          axis,
+          value
+        });
+      }
+    });
+    (crosshair as ICrossHair).showCrosshair(dimInfo);
+  }
+
   getColorScheme() {
     return this._option.getTheme?.('colorScheme');
   }
