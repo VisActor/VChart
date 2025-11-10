@@ -15,6 +15,7 @@ import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike, Maybe } from '@visactor/vutils';
 import { CompilableBase } from '../../compile/compilable-base';
 import type { IGlobalScale } from '../../scale/interface';
+import type { IAxis } from '../../component/axis/interface/common';
 import type { IMorphConfig } from '../../animation/spec';
 import type { IInteraction } from '../../interaction/interface/common';
 export declare class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
@@ -161,5 +162,6 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     }): IMarkGraphic[];
     protected _setStateInDatum(stateKey: string, d: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
     setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption): void;
+    showCrosshair(cb: (axis: IAxis) => false | string | number): void;
     getColorScheme(): any;
 }

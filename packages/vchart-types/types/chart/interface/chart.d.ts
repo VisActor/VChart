@@ -14,6 +14,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../../scale/interface';
 import type { IMorphConfig } from '../../animation/spec';
 import type { IMarkGraphic } from '../../mark/interface/common';
+import type { IAxis } from '../../component/axis/interface';
 export type DimensionIndexOption = {
     filter?: (cmp: IComponent) => boolean;
     tooltip?: boolean;
@@ -95,6 +96,7 @@ export interface IChart extends ICompilable {
     setCurrentTheme: () => void;
     getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
     setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
+    showCrosshair: (cb: (axis: IAxis) => false | string | number) => void;
     filterGraphicsByDatum: (datum: MaybeArray<Datum> | null, opt?: {
         filter?: (series: ISeries, mark: IMark) => boolean;
         region?: IRegionQuerier;
