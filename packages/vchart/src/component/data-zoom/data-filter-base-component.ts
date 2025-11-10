@@ -169,7 +169,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _initEvent() {
     this._dataFilterEvent.initZoomEvent();
 
-    this._relatedAxisComponent.event.on(ChartEvent.scaleRawDomainUpdate, ({ model }) => {
+    this._relatedAxisComponent?.event.on(ChartEvent.scaleRawDomainUpdate, ({ model }) => {
       // eslint-disable-next-line no-console
       console.log('scaleRawDomainUpdate', (model as unknown as { getRawDomain: () => any }).getRawDomain());
     });
@@ -327,6 +327,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._setRegionsFromSpec();
     this._initEvent();
     this._initData();
+    this._initStateScale();
+    this._setStateFromSpec();
   }
 
   initLayout(): void {
@@ -386,7 +388,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (this._visible) {
       if (!this._hasInitStateScale) {
         this._initStateScale();
-        this._setStateFromSpec();
+        this._setStateFromAxis();
       }
     }
     // 布局结束后, start和end会发生变化, 因此需要再次更新visible
@@ -682,6 +684,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _setStateFromSpec() {
     this._auto = !!this._spec.auto;
+
     let start;
     let end;
     if (this._spec.rangeMode) {
@@ -710,11 +713,17 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
         : 1;
     }
-    const axis = this._relatedAxisComponent as CartesianAxis<any>;
-    this._startValue = statePointToData(start, this._stateScale, isReverse(axis, this._isHorizontal));
-    this._endValue = statePointToData(end, this._stateScale, isReverse(axis, this._isHorizontal));
     this._start = start;
     this._end = end;
+  }
+  protected _setStateFromAxis() {
+    const axis = this._relatedAxisComponent as CartesianAxis<any>;
+    if (!axis) {
+      return;
+    }
+
+    this._startValue = statePointToData(this._start, this._stateScale, isReverse(axis, this._isHorizontal));
+    this._endValue = statePointToData(this._end, this._stateScale, isReverse(axis, this._isHorizontal));
     this._minSpan = this._spec.minSpan ?? 0;
     this._maxSpan = this._spec.maxSpan ?? 1;
     if (isContinuous(this._stateScale.type) && this._stateScale.domain()[0] !== last(this._stateScale.domain())) {
