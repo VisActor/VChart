@@ -27,6 +27,7 @@ import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from 
 import { BandScale, isContinuous, isDiscrete, type IBandLikeScale, type IBaseScale } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
+import type { IAxis } from '../axis';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
 import {
   mixin,
@@ -395,6 +396,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const isShown = !(this._start === 0 && this._end === 1);
     this._autoVisible(isShown);
     super.onLayoutEnd();
+    // 这里修改了轴的scaleRange, 因此需要更新轴的视图
+    (this._relatedAxisComponent as IAxis)?.updateScaleRange();
   }
 
   /**
