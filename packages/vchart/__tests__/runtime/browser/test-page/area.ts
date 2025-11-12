@@ -6,11 +6,37 @@ import {
   registerMediaQuery,
   registerAnimate,
   registerCustomAnimate,
-  registerStateTransition
+  registerStateTransition,
+  vglobal
 } from '../../../../src/index';
+import { AnimateExecutor, AStageAnimate } from '@visactor/vrender-animate';
 registerAnimate();
 registerCustomAnimate();
 registerStateTransition();
+
+class TestStageAnimate extends AStageAnimate<any> {
+  // 原版代码
+  protected afterStageRender(stage: any, canvas: HTMLCanvasElement): HTMLCanvasElement | void | null | false {
+    const c = vglobal.createCanvas({
+      width: canvas.width,
+      height: canvas.height,
+      dpr: vglobal.devicePixelRatio
+    });
+    const ctx = c.getContext('2d');
+    if (!ctx) {
+      return false;
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(canvas, 0, 0);
+    ctx.fillStyle = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(
+      Math.random() * 255
+    )}, 0.2)`;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    return c;
+  }
+}
+
+AnimateExecutor.registerBuiltInAnimate('stageTest', TestStageAnimate);
 
 let dataArray = [
   { type: 'Nail polish', country: 'Africa', value: 4229 },
@@ -69,14 +95,21 @@ let spec = {
   xField: direction === 'horizontal' ? 'value' : 'type',
   yField: direction === 'horizontal' ? 'type' : 'value',
   seriesField: 'country',
-  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+  legends: [{ visible: true, position: 'middle' as const, orient: 'bottom' as const }],
   crosshair: {
     followTooltip: true,
     xField: { visible: true, label: { visible: true } },
     yField: { visible: true, label: { visible: true } }
   },
+  // animationAppear: {
+  //   duration: 300
+  // },
   animationAppear: {
-    duration: 300
+    stage: {
+      type: 'stageTest',
+      duration: 1000,
+      easing: 'linear'
+    }
   },
   animationUpdate: {
     duration: 300
@@ -85,7 +118,7 @@ let spec = {
     duration: 300
   },
   animationExit: {
-    duration: 300,
+    duration: 2000,
     type: 'fadeOut'
   },
   animationNormal: {
@@ -239,17 +272,102 @@ const run = () => {
     spec = nextSpec;
     cs.updateSpec(spec as any);
   });
-  // document.body.appendChild(button5);
-  // const button6 = document.createElement('button');
-  // button6.innerHTML = 'direction';
-  // button6.addEventListener('click', () => {
-  //   const nextSpec: any = { ...spec };
-  //   nextSpec.direction = nextSpec.direction === 'horizontal' ? 'vertical' : 'horizontal';
-  //   [nextSpec.xField, nextSpec.yField] = [nextSpec.yField, nextSpec.xField];
-  //   spec = nextSpec;
-  //   cs.updateSpec(spec as any);
-  // });
-  // document.body.appendChild(button6);
+  document.body.appendChild(button5);
+
+  const button6 = document.createElement('button');
+  button6.innerHTML = 'direction';
+  button6.addEventListener('click', () => {
+    const nextSpec: any = { ...spec };
+    nextSpec.direction = nextSpec.direction === 'horizontal' ? 'vertical' : 'horizontal';
+    [nextSpec.xField, nextSpec.yField] = [nextSpec.yField, nextSpec.xField];
+    spec = nextSpec;
+    cs.updateSpec(spec as any);
+  });
+  document.body.appendChild(button6);
+
+  // 添加退场动画按钮
+  const button7 = document.createElement('button');
+  button7.innerHTML = '触发退场动画';
+  button7.addEventListener('click', () => {
+    console.log('触发退场动画...');
+
+    // 方法1: 通过移除数据来触发退场动画
+    // 先保存原始数据
+    const originalData = [...dataArray];
+
+    // 清空数据，这会触发所有元素的退场动画
+    cs.updateData('data0', []);
+
+    // 3秒后恢复数据，重新显示图表
+    setTimeout(() => {
+      console.log('恢复数据，重新显示图表...');
+      cs.updateData('data0', originalData);
+    }, 3000);
+  });
+  document.body.appendChild(button7);
+
+  // 添加第三种退场动画按钮 - 通过更新spec来触发
+  const button9 = document.createElement('button');
+  button9.innerHTML = 'Spec退场动画';
+  button9.addEventListener('click', () => {
+    console.log('通过更新spec触发退场动画...');
+
+    // 保存原始spec
+    const originalSpec = { ...spec };
+
+    // 创建一个空的spec来触发退场动画
+    const emptySpec = {
+      ...spec,
+      data: {
+        id: 'data0',
+        values: [] // 空数据
+      }
+    };
+
+    // 更新spec，这会触发退场动画
+    cs.updateSpec(emptySpec as any);
+
+    // 3秒后恢复原始spec
+    setTimeout(() => {
+      console.log('恢复原始spec...');
+      cs.updateSpec(originalSpec as any);
+    }, 3000);
+  });
+  document.body.appendChild(button9);
+
+  // 添加自定义退场动画按钮
+  const button10 = document.createElement('button');
+  button10.innerHTML = '自定义退场动画';
+  button10.addEventListener('click', () => {
+    console.log('触发自定义退场动画...');
+
+    // 保存原始spec
+    const originalSpec = { ...spec };
+
+    // 创建带有自定义退场动画的spec
+    const customExitSpec = {
+      ...spec,
+      animationExit: {
+        duration: 1000, // 1秒退场动画
+        type: 'fadeOut', // 淡出效果
+        easing: 'easeInOut' // 缓动函数
+      },
+      data: {
+        id: 'data0',
+        values: [] // 空数据触发退场
+      }
+    };
+
+    // 更新spec，触发自定义退场动画
+    cs.updateSpec(customExitSpec as any);
+
+    // 2秒后恢复原始spec
+    setTimeout(() => {
+      console.log('恢复原始spec...');
+      cs.updateSpec(originalSpec as any);
+    }, 2000);
+  });
+  document.body.appendChild(button10);
 
   window['vchart'] = cs;
   console.log(cs);
