@@ -1,25 +1,25 @@
 ---
 category: examples
 group: candlestick chart
-title: K 线图与成交量组合
+title: Candlestick Chart with Volume
 keywords: candlestick
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/candlestick/candlestick-with-volume.png
 option: candlestickChart
 ---
 
-# K 线图
+# Candlestick Chart with Volume
 
-K 线图与成交量组合用法
+Candlestick chart basic usage.
 
-## 关键配置
+## Key Configurations
 
 - `type: 'candlestick'`
-- `openField`, `closeField`, `highField`, `lowField`
+- `openField`, `closeField`, `highField`, `lowField`, `volumeField`
 
-## 代码演示
+## Code demo
 
 ```javascript livedemo
-//  K 线图需要从 @visactor/vchart-extension 引入
+// The Candlestick chart needs to be imported from @visactor/vchart-extension.
 // import VChartExtension from '@visactor/vchart-extension';
 if (VChartExtension.registerCandlestickChart) {
   VChartExtension.registerCandlestickChart();
