@@ -3,7 +3,7 @@ category: examples
 group: candlestick chart
 title: 基础k线图
 keywords: candlestick
-order: 19-0
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/candlestick/candlestick-basic.png
 option: candlestickChart
 ---
 
