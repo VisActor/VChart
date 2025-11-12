@@ -2904,6 +2904,34 @@
             "zh": "使用 MarkLine 绘制趋势线",
             "en": "Draw trend line using MarkLine"
           }
+        },
+        {
+          "path": "bar-poly-regression-line",
+          "title": {
+            "zh": "多项式回归柱状图",
+            "en": "Bar Chart with Polynomial Regression Line"
+          }
+        },
+        {
+          "path": "histogram-regression-line",
+          "title": {
+            "zh": "直方图和回归线",
+            "en": "Histogram with Regression Line"
+          }
+        },
+        {
+          "path": "scatter-regression-line",
+          "title": {
+            "zh": "散点图回归线",
+            "en": "Scatter Chart Regression Line"
+          }
+        },
+        {
+          "path": "mark-line-part-regression",
+          "title": {
+            "zh": "markLine 指定数据点并计算线性回归",
+            "en": "markLine Specifying Data Points and Calculating Linear Regression"
+          }
         }
       ]
     },
