@@ -3,7 +3,7 @@ category: examples
 group: candlestick chart
 title: k线图组合显示
 keywords: candlestick MA
-order: 19-0
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/candlestick/candlestick-with-MA.png
 option: candlestickChart
 ---
 

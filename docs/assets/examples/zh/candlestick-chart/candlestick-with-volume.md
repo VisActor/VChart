@@ -3,7 +3,7 @@ category: examples
 group: candlestick chart
 title: 基础k线图
 keywords: candlestick
-order: 19-0
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/candlestick/candlestick-with-volume.png
 option: candlestickChart
 ---
 
@@ -82,7 +82,7 @@ const spec = {
       data: { values: data },
       bar: {
         style: {
-          fill: (datum: Datum) => {
+          fill: datum => {
             if (datum.open < datum.close) {
               return '#FF0000';
             } else if (datum.open > datum.close) {
