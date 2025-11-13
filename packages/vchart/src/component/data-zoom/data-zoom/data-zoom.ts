@@ -75,10 +75,13 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       } else {
         const axis = this._relatedAxisComponent as CartesianAxis<any>;
 
-        this._start = start;
-        this._end = end;
         const startValue = statePointToData(start, this._stateScale, isReverse(axis, this._isHorizontal));
         const endValue = statePointToData(end, this._stateScale, isReverse(axis, this._isHorizontal));
+        if (!isValid(startValue) || !isValid(endValue)) {
+          return;
+        }
+        this._start = start;
+        this._end = end;
         const hasChange = isFunction(this._spec.updateDataAfterChange)
           ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
           : this._handleStateChange(startValue, endValue, tag);
@@ -376,7 +379,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
       delayType: spec.delayType,
-      delayTime: isValid(spec.delayType) ? (spec.delayTime ?? 30) : 0,
+      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
       realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,

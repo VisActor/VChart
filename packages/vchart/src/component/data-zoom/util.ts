@@ -192,7 +192,7 @@ export const dataToStatePoint = (data: number | string, scale: IBaseScale, isHor
     range = range.slice().reverse();
   }
 
-  return (pos - range[0]) / (last(range) - range[0]);
+  return Math.max(0, Math.min(1, (pos - range[0]) / (last(range) - range[0])));
 };
 
 export const isReverse = (axisComponent: CartesianAxis<any>, isHorizontal: boolean) => {
