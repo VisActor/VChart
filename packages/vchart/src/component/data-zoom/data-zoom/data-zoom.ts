@@ -397,6 +397,19 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     } as DataZoomAttributes;
   }
 
+  private _getLayoutAttrs() {
+    return {
+      position: {
+        x: this.getLayoutStartPoint().x,
+        y: this.getLayoutStartPoint().y
+      },
+      size: {
+        width: this._computeWidth(),
+        height: this._computeHeight()
+      }
+    };
+  }
+
   protected _createOrUpdateComponent(changeData?: boolean) {
     if (this._visible) {
       const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
@@ -408,7 +421,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
 
       if (this._component) {
-        this._component.setAttributes(attrs);
+        this._component.setAttributes(this._getLayoutAttrs());
         if (changeData) {
           this._component.setPreviewData(this._data.getDataView().latestData);
           if (isNeedPreview) {
