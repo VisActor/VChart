@@ -183,20 +183,24 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
+    // 用户配置, 如:80  -> 给各个部分赋予默认值 back 80, handler 80 -> 根据实际值computeSize -> 作为组件属性输入 -> 组件根据实际高度给背景分配默认高度
+    // 用户不配置 -> 各部分给默认定值 -> ...(同上)
+    const componentSize = this._isHorizontal ? Number(this._spec.height) : Number(this._spec.width);
+
     // size相关
     this._backgroundSize = this._spec.background?.size ?? 30;
     this._middleHandlerSize = this._computeMiddleHandlerSize();
     // startHandler和endHandler size如果没有配置，则默认跟随background宽 or 高
     if (isNil(this._spec?.startHandler?.style?.size)) {
-      this._spec.startHandler.style.size = this._backgroundSize;
+      this._spec.startHandler.style.size = isNaN(componentSize) ? 30 : componentSize - this._middleHandlerSize;
     }
     if (isNil(this._spec?.endHandler?.style?.size)) {
-      this._spec.endHandler.style.size = this._backgroundSize;
+      this._spec.endHandler.style.size = isNaN(componentSize) ? 30 : componentSize - this._middleHandlerSize;
     }
-    const startHandlerVisble = this._spec.startHandler.style.visible ?? true;
-    const endHandlerVisble = this._spec.endHandler.style.visible ?? true;
-    this._startHandlerSize = startHandlerVisble ? this._spec.startHandler.style.size : 0;
-    this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
+    const startHandlerVisible = this._spec.startHandler.style.visible ?? true;
+    const endHandlerVisible = this._spec.endHandler.style.visible ?? true;
+    this._startHandlerSize = startHandlerVisible ? this._spec.startHandler.style.size : 0;
+    this._endHandlerSize = endHandlerVisible ? this._spec.endHandler.style.size : 0;
     this._width = this._computeWidth();
     this._height = this._computeHeight();
   }
@@ -379,7 +383,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
       delayType: spec.delayType,
-      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
+      delayTime: isValid(spec.delayType) ? (spec.delayTime ?? 30) : 0,
       realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,
