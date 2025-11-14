@@ -719,8 +719,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
         : 1;
     }
-    this._start = start;
-    this._end = end;
+    this._start = Math.max(0, Math.min(1, start));
+    this._end = Math.max(0, Math.min(1, end));
   }
   protected _setStateFromAxis() {
     // 此时 state scale 进行了更新，stateFromSpec 中补分逻辑需要使用scale计算，重新获取一遍
