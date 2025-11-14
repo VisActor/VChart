@@ -192,10 +192,14 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     this._middleHandlerSize = this._computeMiddleHandlerSize();
     // startHandler和endHandler size如果没有配置，则默认跟随background宽 or 高
     if (isNil(this._spec?.startHandler?.style?.size)) {
-      this._spec.startHandler.style.size = isNaN(componentSize) ? 30 : componentSize - this._middleHandlerSize;
+      this._spec.startHandler.style.size = isNaN(componentSize)
+        ? this._backgroundSize
+        : componentSize - this._middleHandlerSize;
     }
     if (isNil(this._spec?.endHandler?.style?.size)) {
-      this._spec.endHandler.style.size = isNaN(componentSize) ? 30 : componentSize - this._middleHandlerSize;
+      this._spec.endHandler.style.size = isNaN(componentSize)
+        ? this._backgroundSize
+        : componentSize - this._middleHandlerSize;
     }
     const startHandlerVisible = this._spec.startHandler.style.visible ?? true;
     const endHandlerVisible = this._spec.endHandler.style.visible ?? true;
