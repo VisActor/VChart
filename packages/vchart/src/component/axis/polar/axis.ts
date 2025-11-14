@@ -230,7 +230,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     } as IPolarTickDataOpt;
   }
 
-  protected updateScaleRange() {
+  updateScaleRange() {
     const prevRange = this._scale.range();
     let newRange: [number, number];
 

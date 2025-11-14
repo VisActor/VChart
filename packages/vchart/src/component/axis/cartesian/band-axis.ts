@@ -44,7 +44,7 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
     return this.computeBandDomain(data);
   }
 
-  protected updateScaleRange() {
+  updateScaleRange() {
     const isChanged = super.updateScaleRange();
     this.updateGroupScaleRange();
 
