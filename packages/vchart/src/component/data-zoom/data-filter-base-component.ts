@@ -506,7 +506,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const dataCollection: any[] = [];
     const stateFields: string[] = [];
     const valueFields: string[] = [];
-
+    let isCategoryState;
     if (this._relatedAxisComponent) {
       const originalStateFields = {};
       eachSeries(
@@ -559,8 +559,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
 
           if (isValidateStateAxis) {
+            isCategoryState = false;
             stateFields.push(originalStateFields[s.id]);
           } else {
+            isCategoryState = true;
             stateFields.push(originalStateFields[s.id][0]);
           }
 
@@ -606,7 +608,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           input: {
             dataCollection: dataCollection,
             stateFields,
-            valueFields
+            valueFields,
+            isCategoryState
           },
           output: {
             stateField: this._stateField,
@@ -720,11 +723,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._end = end;
   }
   protected _setStateFromAxis() {
+    // 此时 state scale 进行了更新，stateFromSpec 中补分逻辑需要使用scale计算，重新获取一遍
+    this._setStateFromSpec();
     const axis = this._relatedAxisComponent as CartesianAxis<any>;
-    if (!axis) {
-      return;
-    }
-
     this._startValue = statePointToData(this._start, this._stateScale, isReverse(axis, this._isHorizontal));
     this._endValue = statePointToData(this._end, this._stateScale, isReverse(axis, this._isHorizontal));
     this._minSpan = this._spec.minSpan ?? 0;
@@ -739,7 +740,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     this._minSpan = Math.max(0, this._minSpan);
     this._maxSpan = Math.min(this._maxSpan, 1);
-
+    if (!axis) {
+      return;
+    }
     // eslint-disable-next-line max-len
     if ((!axis || this._filterMode !== 'axis') && (this._start !== 0 || this._end !== 1)) {
       this._newDomain = parseDomainFromState(this._startValue, this._endValue, this._stateScale);
