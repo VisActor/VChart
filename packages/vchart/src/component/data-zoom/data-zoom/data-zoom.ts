@@ -421,7 +421,16 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
 
       if (this._component) {
-        this._component.setAttributes(this._getLayoutAttrs());
+        const newLayoutAttrs = this._getLayoutAttrs();
+        const currentLayoutAttrs = this._component.attribute;
+        if (
+          newLayoutAttrs.position.x !== currentLayoutAttrs.position.x ||
+          newLayoutAttrs.position.y !== currentLayoutAttrs.position.y ||
+          newLayoutAttrs.size.width !== currentLayoutAttrs.size.width ||
+          newLayoutAttrs.size.height !== currentLayoutAttrs.size.height
+        ) {
+          this._component.setAttributes(newLayoutAttrs);
+        }
         if (changeData) {
           this._component.setPreviewData(this._data.getDataView().latestData);
           if (isNeedPreview) {
