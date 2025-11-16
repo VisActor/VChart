@@ -108,6 +108,7 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
   const { stateFields, valueFields, dataCollection, isCategoryState } = op.input;
   const { stateField, valueField } = op.output;
   const resultObj: any = {};
+  const resultKeys: any[] = [];
   const resultData: any[] = [];
   const stateValues: any[] = [];
   let hasLockDomain = false;
@@ -124,6 +125,7 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
         if (isNil(resultObj[d])) {
           stateValues.push(d);
           resultObj[d] = 0;
+          resultKeys.push(d);
         }
       });
     }
@@ -134,6 +136,7 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
           if (isNil(resultObj[d[state]])) {
             stateValues.push(d[state]);
             resultObj[d[state]] = 0;
+            resultKeys.push(d[state]);
           }
           if (!isNil(valueFields[i])) {
             // 传进来的d[yFields[i]]可能是stringnumber
@@ -149,7 +152,7 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
     ? stateValues
     : isCategoryState === false
     ? stateValues.sort((a, b) => a - b)
-    : Object.keys(resultObj);
+    : resultKeys;
 
   sortedStateValues.forEach(state => {
     const res = { [stateField]: state };

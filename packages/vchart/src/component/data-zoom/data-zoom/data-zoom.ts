@@ -162,10 +162,14 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const startHandlerScaleYSize = this._startHandlerSize * (this._spec.startHandler.style.scaleY ?? 1);
     const endHandlerScaleXSize = this._endHandlerSize * (this._spec.endHandler.style.scaleX ?? 1);
     const endHandlerScaleYSize = this._endHandlerSize * (this._spec.endHandler.style.scaleY ?? 1);
-    const extendWidth = this._isHorizontal
+    const extendWidth = !this._visible
+      ? 0
+      : this._isHorizontal
       ? (startHandlerScaleXSize - this._startHandlerSize) / 2 + (endHandlerScaleXSize - this._endHandlerSize) / 2
       : (Math.max(startHandlerScaleXSize, endHandlerScaleXSize) - this._width) / 2;
-    const extendHeight = this._isHorizontal
+    const extendHeight = !this._visible
+      ? 0
+      : this._isHorizontal
       ? (Math.max(startHandlerScaleYSize, endHandlerScaleYSize) - this._height) / 2
       : (startHandlerScaleYSize - this._startHandlerSize) / 2 + (endHandlerScaleYSize - this._endHandlerSize) / 2;
     if (this._isHorizontal) {
@@ -421,16 +425,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
 
       if (this._component) {
-        const newLayoutAttrs = this._getLayoutAttrs();
-        const currentLayoutAttrs = this._component.attribute;
-        if (
-          newLayoutAttrs.position.x !== currentLayoutAttrs.position.x ||
-          newLayoutAttrs.position.y !== currentLayoutAttrs.position.y ||
-          newLayoutAttrs.size.width !== currentLayoutAttrs.size.width ||
-          newLayoutAttrs.size.height !== currentLayoutAttrs.size.height
-        ) {
-          this._component.setAttributes(newLayoutAttrs);
-        }
+        this._component.setAttributes(attrs);
         if (changeData) {
           this._component.setPreviewData(this._data.getDataView().latestData);
           if (isNeedPreview) {
