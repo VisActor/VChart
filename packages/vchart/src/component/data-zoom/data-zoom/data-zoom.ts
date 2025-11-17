@@ -412,6 +412,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       previewPointsX: isNeedPreview && this._dataToPositionX,
       previewPointsY: isNeedPreview && this._dataToPositionY,
       tolerance: this._spec.tolerance,
+      isReverse: isReverse(this._relatedAxisComponent as CartesianAxis<any>, this._isHorizontal),
       ...(this._getComponentAttrs(isNeedPreview) as any)
     } as DataZoomAttributes;
   }
