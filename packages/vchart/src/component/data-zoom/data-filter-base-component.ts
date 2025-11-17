@@ -44,7 +44,7 @@ import type { IDataFilterComponent, IDataFilterComponentSpec, IFilterMode } from
 import { dataViewParser, DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { Zoomable } from '../../interaction/zoom/zoomable';
-import type { AbstractComponent } from '@visactor/vrender-components';
+import type { AbstractComponent, DataZoom } from '@visactor/vrender-components';
 import { TransformLevel } from '../../data/initialize';
 import type { IDataZoomSpec } from './data-zoom/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
@@ -261,8 +261,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
         this._updateRangeFactor(tag);
         if (this._auto) {
-          // tag
-          this._handleChange(this._start, this._end, true);
+          (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
         }
 
         // 强制更新视图, 不管/component/axis/base-axis.ts computeData中的tickData判断
