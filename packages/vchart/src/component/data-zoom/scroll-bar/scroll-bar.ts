@@ -90,8 +90,21 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   /*** start: component lifecycle ***/
   onLayoutEnd(): void {
+    // 1. 初始化stateScale
+    if (this._visible) {
+      if (!this._hasInitStateScale) {
+        this._initStateScale();
+        this._setStateFromAxis();
+      }
+    }
+    // 2. 范围矫正
     this._updateScaleRange();
     this.effect.onZoomChange?.();
+    // 3. 可见性处理
+    // 布局结束后, start和end会发生变化, 因此需要再次更新visible
+    const isShown = !(this._start === 0 && this._end === 1);
+    this._autoVisible(isShown);
+    // 4. 触发上层layoutEnd事件, 更新轴
     super.onLayoutEnd();
   }
   /*** end: component lifecycle ***/

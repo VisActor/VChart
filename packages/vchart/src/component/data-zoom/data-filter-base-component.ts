@@ -386,15 +386,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   onLayoutEnd(): void {
-    if (this._visible) {
-      if (!this._hasInitStateScale) {
-        this._initStateScale();
-        this._setStateFromAxis();
-      }
-    }
-    // 布局结束后, start和end会发生变化, 因此需要再次更新visible
-    const isShown = !(this._start === 0 && this._end === 1);
-    this._autoVisible(isShown);
     super.onLayoutEnd();
     // 这里修改了轴的scaleRange, 因此需要更新轴的视图
     (this._relatedAxisComponent as IAxis)?.updateScaleRange();
@@ -517,14 +508,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getXAxisHelper()
               : s.coordinate === 'polar'
-              ? (s as IPolarSeries).angleAxisHelper
-              : null;
+                ? (s as IPolarSeries).angleAxisHelper
+                : null;
           const yAxisHelper =
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getYAxisHelper()
               : s.coordinate === 'polar'
-              ? (s as IPolarSeries).radiusAxisHelper
-              : null;
+                ? (s as IPolarSeries).radiusAxisHelper
+                : null;
           if (!xAxisHelper || !yAxisHelper) {
             return;
           }
@@ -532,10 +523,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             xAxisHelper.getAxisId() === this._relatedAxisComponent.id
               ? xAxisHelper
               : yAxisHelper.getAxisId() === this._relatedAxisComponent.id
-              ? yAxisHelper
-              : this._isHorizontal
-              ? xAxisHelper
-              : yAxisHelper;
+                ? yAxisHelper
+                : this._isHorizontal
+                  ? xAxisHelper
+                  : yAxisHelper;
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
           const isValidateValueAxis = isContinuous(valueAxisHelper.getScale(0).type);
           const isValidateStateAxis = isContinuous(stateAxisHelper.getScale(0).type);
@@ -711,13 +702,13 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       start = this._spec.start
         ? this._spec.start
         : this._spec.startValue
-        ? dataToStatePoint(this._spec.startValue, this._stateScale, this._isHorizontal)
-        : 0;
+          ? dataToStatePoint(this._spec.startValue, this._stateScale, this._isHorizontal)
+          : 0;
       end = this._spec.end
         ? this._spec.end
         : this._spec.endValue
-        ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
-        : 1;
+          ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
+          : 1;
     }
     this._start = Math.max(0, Math.min(1, start));
     this._end = Math.max(0, Math.min(1, end));
