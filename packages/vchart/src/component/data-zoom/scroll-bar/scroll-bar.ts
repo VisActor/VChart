@@ -89,15 +89,25 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   /*** end: init event and event dispatch ***/
 
   /*** start: component lifecycle ***/
-  onLayoutEnd(): void {
-    this._updateScaleRange();
+
+  protected _beforeLayoutEnd() {
+    super._beforeLayoutEnd();
     this.effect.onZoomChange?.();
+  }
+
+  onLayoutEnd(): void {
+    // 保证自己的宽高正确
+    this._updateComponentBounds();
     super.onLayoutEnd();
   }
   /*** end: component lifecycle ***/
 
   /*** start: scale ***/
   protected _updateScaleRange() {
+    // do nothing
+  }
+
+  protected _updateComponentBounds() {
     if (this._component) {
       this._component.setAttributes({
         x: this.getLayoutStartPoint().x,
@@ -107,6 +117,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       });
     }
   }
+
   /*** end: scale ***/
 
   /** start: component layout attr ***/
@@ -147,7 +158,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       range: [this._start, this._end],
       direction: this._isHorizontal ? 'horizontal' : 'vertical',
       delayType: this._spec?.delayType,
-      delayTime: isValid(this._spec?.delayType) ? (this._spec?.delayTime ?? 30) : 0,
+      delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
       realTime: this._spec?.realTime ?? true,
       ...this._getComponentAttrs()
     } as ScrollBarAttributes;

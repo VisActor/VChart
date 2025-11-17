@@ -46,7 +46,7 @@ import type { IDataFilterComponent, IDataFilterComponentSpec, IFilterMode } from
 import { dataViewParser, DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { Zoomable } from '../../interaction/zoom/zoomable';
-import type { AbstractComponent } from '@visactor/vrender-components';
+import type { AbstractComponent, DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { TransformLevel } from '../../data/initialize';
 import type { IDataZoomSpec } from './data-zoom/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
@@ -264,7 +264,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         this._updateRangeFactor(tag);
         if (this._auto) {
           // tag
-          this._handleChange(this._start, this._end, true);
+          (this._component as DataZoomComponent)?.setStartAndEnd?.(this._start, this._end);
         }
 
         // 强制更新视图, 不管/component/axis/base-axis.ts computeData中的tickData判断
@@ -373,16 +373,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   updateLayoutAttribute(): void {
     if (this._visible) {
-      this._updateScaleRange();
       this._createOrUpdateComponent();
 
       // 第一次渲染, 根据配置强制触发start和end变更
       if (!this._hasInitStateScale) {
         if (this._start !== 0 || this._end !== 1) {
           this._newDomain = parseDomainFromStateAndValue(
-            this._start,
+            this._spec.start,
             this._startValue,
-            this._end,
+            this._spec.end,
             this._endValue,
             this._stateScale
           );
@@ -393,16 +392,33 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
   }
 
-  onLayoutEnd(): void {
-    if (this._visible) {
-      if (!this._hasInitStateScale) {
-        this._initStateScale();
-        this._setStateFromAxis();
-      }
+  protected _initAfterLayout() {
+    if (!this._visible) {
+      return;
     }
+    // clear stateScale, 避免在_initStateScale中使用到旧的scale domain
+    this._stateScale = null;
+    this._initStateScale();
+    // 这时轴的 scale range 是对的
+    this._updateScaleRange();
+    this._setStateFromAxis();
+  }
+
+  protected _beforeLayoutEnd() {
+    if (!this._hasInitStateScale) {
+      this._initAfterLayout();
+    }
+  }
+
+  onLayoutEnd(): void {
+    this._beforeLayoutEnd();
     // 布局结束后, start和end会发生变化, 因此需要再次更新visible
     const isShown = !(this._start === 0 && this._end === 1);
     this._autoVisible(isShown);
+    // onLayoutEnd 做的事情
+    // updateLayoutAttribute
+    // 更新 _newDomain
+    // 创建 更新vrender组件属性
     super.onLayoutEnd();
     // 这里修改了轴的scaleRange, 因此需要更新轴的视图
     (this._relatedAxisComponent as IAxis)?.updateScaleRange();
