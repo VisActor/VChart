@@ -11,6 +11,7 @@ import {
   isReverse,
   lockStatisticsFilter,
   modeCheck,
+  parseDomainFromStateAndValue,
   parseDomainFromState,
   statePointToData
 } from './util';
@@ -378,7 +379,13 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       // 第一次渲染, 根据配置强制触发start和end变更
       if (!this._hasInitStateScale) {
         if (this._start !== 0 || this._end !== 1) {
-          this._newDomain = parseDomainFromState(this._startValue, this._endValue, this._stateScale);
+          this._newDomain = parseDomainFromStateAndValue(
+            this._start,
+            this._startValue,
+            this._end,
+            this._endValue,
+            this._stateScale
+          );
           this.effect.onZoomChange();
         }
         this._hasInitStateScale = true;

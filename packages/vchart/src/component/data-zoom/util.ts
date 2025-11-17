@@ -233,3 +233,24 @@ export const parseDomainFromState = (startValue: number | string, endValue: numb
   const endIndex = allDomain.indexOf(endValue);
   return allDomain.slice(Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
 };
+
+export const parseDomainFromStateAndValue = (
+  start: number,
+  startValue: number | string,
+  end: number,
+  endValue: number | string,
+  scale: IBaseScale
+) => {
+  if (isContinuous(scale.type)) {
+    const domain = scale.domain();
+    const min = domain[0];
+    const total = last(domain) - min;
+    const resultStart = isValid(start) ? min + total * start : +startValue;
+    const resultEnd = isValid(end) ? min + total * end : +endValue;
+    return [Math.min(resultEnd, resultStart), Math.max(resultEnd, resultStart)];
+  }
+  const allDomain = scale.domain();
+  const startIndex = isValid(start) ? Math.floor(allDomain.length * start) : allDomain.indexOf(startValue);
+  const endIndex = isValid(end) ? Math.floor(allDomain.length * end) : allDomain.indexOf(endValue);
+  return allDomain.slice(Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
+};
