@@ -24,6 +24,7 @@ import type {
   StringOrNumber
 } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
+import type { IContinuousScale } from '@visactor/vscale';
 import { BandScale, isContinuous, isDiscrete, type IBandLikeScale, type IBaseScale } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
@@ -751,8 +752,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _initStateScale() {
     const defaultRange = [0, 1];
     if (this._relatedAxisComponent) {
-      const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
-      this._stateScale = scale.clone().range(defaultRange);
+      const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale().clone() as
+        | IContinuousScale
+        | IBandLikeScale;
+      // 需要清除rangeFactor 缓存，否则会导致计算错误
+      this._stateScale = scale;
+      (scale as IBandLikeScale).maxBandwidth?.('auto', true);
+      (scale as IBandLikeScale).minBandwidth?.('auto', true);
+      (scale as IBandLikeScale).bandwidth?.('auto', true);
+      scale.rangeFactor(defaultRange as [number, number], true).range(defaultRange, true);
     } else {
       this._stateScale = new BandScale();
       this._stateScale.domain(this._computeDomainOfStateScale(), true).range(defaultRange);

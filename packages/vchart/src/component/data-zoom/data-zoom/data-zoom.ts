@@ -26,6 +26,7 @@ import { DataZoomSpecTransformer } from './data-zoom-transformer';
 import { getFormatFunction } from '../../util';
 import { dataZoom } from '../../../theme/builtin/common/component/data-zoom';
 import { isReverse, statePointToData } from '../util';
+import { LayoutModel } from '../../../model/layout-model';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -57,6 +58,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _isReverseCache: boolean = false;
 
   protected _cacheRect?: ILayoutRect;
+
+  protected _previewStateScale: IBaseScale;
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
@@ -287,8 +290,20 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     return true;
   }
 
+  protected _getXScale() {
+    const bindScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
+    if (bindScale.type === this.stateScale.type && this._isHorizontal) {
+      return this.stateScale;
+    }
+    return this._isHorizontal ? this._stateScale : this._valueScale;
+  }
+
+  protected _getYScale() {
+    return this._isHorizontal ? this._valueScale : this._stateScale;
+  }
+
   protected _dataToPositionX = (datum: Datum): number => {
-    const offsetLeft = this._orient === 'left' ? this._middleHandlerSize : 0;
+    const offsetLeft = !this._isHorizontal ? this._middleHandlerSize : 0;
     const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
     const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
     const xField = this._isHorizontal ? this._stateField : this._valueField;
@@ -296,7 +311,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   };
 
   protected _dataToPositionX2 = (datum: Datum): number => {
-    const offsetLeft = this._orient === 'left' ? this._middleHandlerSize : 0;
+    const offsetLeft = !this._isHorizontal ? this._middleHandlerSize : 0;
     const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
     const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
     const min = xScale.domain()[0];
@@ -306,7 +321,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _dataToPositionY = (datum: Datum): number => {
     const offsetTop = this._isHorizontal ? this._middleHandlerSize : 0;
     const offsetHandler = this._isHorizontal ? 0 : this._startHandlerSize / 2;
-    const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
+    const yScale = this._isHorizontal ? this._valueScale : this._getPreviewStateScale();
     const yField = this._isHorizontal ? this._valueField : this._stateField;
     return yScale.scale(datum[yField]) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
   };
@@ -314,7 +329,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _dataToPositionY2 = (datum: Datum): number => {
     const offsetTop = this._isHorizontal ? this._middleHandlerSize : 0;
     const offsetHandler = this._isHorizontal ? 0 : this._startHandlerSize / 2;
-    const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
+    const yScale = this._isHorizontal ? this._valueScale : this._getPreviewStateScale();
     const min = yScale.domain()[0];
     return yScale.scale(min) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
   };
@@ -537,6 +552,27 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
+  }
+
+  onDataUpdate() {
+    super.onDataUpdate();
+    // 预览scale
+    if (this._previewStateScale !== this._stateScale) {
+      this._previewStateScale = null;
+    }
+  }
+
+  protected _getPreviewStateScale() {
+    if (!this._previewStateScale) {
+      // 当轴inverse时，需要反转预览scale
+      if (isReverse(this._relatedAxisComponent as CartesianAxis<any>, this._isHorizontal)) {
+        this._previewStateScale = this._stateScale.clone();
+        this._previewStateScale.range(this._stateScale.range().reverse());
+      } else {
+        this._previewStateScale = this._stateScale;
+      }
+    }
+    return this._previewStateScale;
   }
 }
 
