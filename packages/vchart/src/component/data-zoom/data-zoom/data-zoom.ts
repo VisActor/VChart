@@ -178,10 +178,14 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const startHandlerScaleYSize = this._startHandlerSize * (this._spec.startHandler.style.scaleY ?? 1);
     const endHandlerScaleXSize = this._endHandlerSize * (this._spec.endHandler.style.scaleX ?? 1);
     const endHandlerScaleYSize = this._endHandlerSize * (this._spec.endHandler.style.scaleY ?? 1);
-    const extendWidth = this._isHorizontal
+    const extendWidth = !this._visible
+      ? 0
+      : this._isHorizontal
       ? (startHandlerScaleXSize - this._startHandlerSize) / 2 + (endHandlerScaleXSize - this._endHandlerSize) / 2
       : (Math.max(startHandlerScaleXSize, endHandlerScaleXSize) - this._width) / 2;
-    const extendHeight = this._isHorizontal
+    const extendHeight = !this._visible
+      ? 0
+      : this._isHorizontal
       ? (Math.max(startHandlerScaleYSize, endHandlerScaleYSize) - this._height) / 2
       : (startHandlerScaleYSize - this._startHandlerSize) / 2 + (endHandlerScaleYSize - this._endHandlerSize) / 2;
     if (this._isHorizontal) {
@@ -403,7 +407,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
       delayType: spec.delayType,
-      delayTime: isValid(spec.delayType) ? (spec.delayTime ?? 30) : 0,
+      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
       realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,
@@ -411,6 +415,19 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       tolerance: this._spec.tolerance,
       ...(this._getComponentAttrs(isNeedPreview) as any)
     } as DataZoomAttributes;
+  }
+
+  private _getLayoutAttrs() {
+    return {
+      position: {
+        x: this.getLayoutStartPoint().x,
+        y: this.getLayoutStartPoint().y
+      },
+      size: {
+        width: this._computeWidth(),
+        height: this._computeHeight()
+      }
+    };
   }
 
   protected _createOrUpdateComponent(changeData?: boolean) {
@@ -424,7 +441,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
 
       if (this._component) {
-        // this._component.setAttributes(attrs);
+        this._component.setAttributes(attrs);
         if (changeData) {
           this._component.setPreviewData(this._data.getDataView().latestData);
           if (isNeedPreview) {

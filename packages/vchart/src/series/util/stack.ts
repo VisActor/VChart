@@ -1,6 +1,6 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IStackCacheNode } from '../../util/data';
-import { valueInScaleRange } from '../../util/scale';
+import { isValueInScaleDomain, valueInScaleRange } from '../../util/scale';
 import type { ISeries } from '../interface/series';
 
 export function stackWithMinHeight(
@@ -83,7 +83,7 @@ function computeOneDatumY(
   }
 
   let height = Math.abs(y1 - y);
-  if (height <= 0) {
+  if (height <= 0 && !isValueInScaleDomain(obj[s.getStackValueField()], seriesScale)) {
     height = 0;
   } else if (height < barMinHeight) {
     height = barMinHeight;
