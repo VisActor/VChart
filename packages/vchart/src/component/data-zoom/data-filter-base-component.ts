@@ -767,7 +767,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       (scale as IBandLikeScale).maxBandwidth?.('auto', true);
       (scale as IBandLikeScale).minBandwidth?.('auto', true);
       (scale as IBandLikeScale).bandwidth?.('auto', true);
-      scale.rangeFactor(defaultRange as [number, number], true).range(defaultRange, true);
+      scale.rangeFactor(defaultRange as [number, number], true).range(defaultRange);
     } else {
       this._stateScale = new BandScale();
       this._stateScale.domain(this._computeDomainOfStateScale(), true).range(defaultRange);

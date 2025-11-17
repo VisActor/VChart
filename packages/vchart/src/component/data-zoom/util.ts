@@ -250,7 +250,13 @@ export const parseDomainFromStateAndValue = (
     return [Math.min(resultEnd, resultStart), Math.max(resultEnd, resultStart)];
   }
   const allDomain = scale.domain();
-  const startIndex = isValid(start) ? Math.floor(allDomain.length * start) : allDomain.indexOf(startValue);
-  const endIndex = isValid(end) ? Math.floor(allDomain.length * end) : allDomain.indexOf(endValue);
+  const range = scale.range();
+  const rangeSize = range[range.length - 1] - range[0];
+  const startIndex = isValid(start)
+    ? allDomain.indexOf(scale.invert(rangeSize * start + range[0]))
+    : allDomain.indexOf(startValue);
+  const endIndex = isValid(end)
+    ? allDomain.indexOf(scale.invert(rangeSize * end + range[0]))
+    : allDomain.indexOf(endValue);
   return allDomain.slice(Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
 };
