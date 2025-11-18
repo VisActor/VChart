@@ -119,9 +119,11 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
       return;
     }
     const series = seriesCollection[i];
-    const statistics = series.getRawDataStatisticsByField(stateFields[i]);
-    if (isValid(statistics?.max) && isValid(statistics?.min)) {
-      isAllLinearValue = true;
+    if (series) {
+      const statistics = series.getRawDataStatisticsByField(stateFields[i]);
+      if (isValid(statistics?.max) && isValid(statistics?.min)) {
+        isAllLinearValue = true;
+      }
     }
     // 按照用户指定的domain进行排序(这里不通过getRawDataStatistics来取是因为时机不对，此时getRawDataStatistics还没有正确结果)
     const stateFieldInfo = dv.getFields()?.[stateFields[i]];
