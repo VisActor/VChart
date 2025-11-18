@@ -116,6 +116,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._valueScale = new LinearScale();
       }
       this._valueScale.domain(domain);
+      this._updateValueScaleRange();
       if (this._component) {
         this._createOrUpdateComponent(true);
       }
@@ -229,8 +230,13 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   }
 
   protected _updateScaleRange() {
+    this._updateStateScaleRange();
+    this._updateValueScaleRange();
+  }
+
+  protected _updateStateScaleRange() {
     const handlerSize = this._startHandlerSize + this._endHandlerSize;
-    if (!this._stateScale || !this._valueScale) {
+    if (!this._stateScale) {
       return;
     }
 
@@ -253,14 +259,25 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         ? [this._startHandlerSize / 2, compWidth - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
       this._stateScale.range(stateScaleRange);
-      this._valueScale.range([compHeight - this._middleHandlerSize, 0]);
     } else {
       stateScaleRange = this._visible
         ? [this._startHandlerSize / 2, compHeight - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
 
       this._stateScale.range(stateScaleRange);
+    }
+  }
 
+  protected _updateValueScaleRange() {
+    if (!this._valueScale) {
+      return;
+    }
+    const compWidth = this._computeWidth();
+    const compHeight = this._computeHeight();
+
+    if (this._isHorizontal) {
+      this._valueScale.range([compHeight - this._middleHandlerSize, 0]);
+    } else {
       if (this.layoutOrient === 'left') {
         this._valueScale.range([compWidth - this._middleHandlerSize, 0]);
       } else {
