@@ -66,6 +66,7 @@ export declare enum ChartEvent {
     markDeltaYUpdate = "markDeltaYUpdate",
     viewDataLabelUpdate = "viewDataLabelUpdate",
     scaleDomainUpdate = "scaleDomainUpdate",
+    scaleRawDomainUpdate = "scaleRawDomainUpdate",
     scaleUpdate = "scaleUpdate",
     dataZoomChange = "dataZoomChange",
     drill = "drill",

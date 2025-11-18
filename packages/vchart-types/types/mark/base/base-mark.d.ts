@@ -9,7 +9,7 @@ import type { IGroupGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender
 import { GrammarItem } from '../../compile/grammar-item';
 import type { IModel } from '../../model/interface';
 import type { ICompilableData } from '../../compile/data/interface';
-import { type MarkAnimationSpec } from '../../animation/interface';
+import { AnimationStateEnum, type MarkAnimationSpec } from '../../animation/interface';
 export type ExChannelCall = (key: string | number | symbol, datum: Datum, states: StateValueType, baseValue: unknown) => unknown;
 export declare class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMarkRaw<T> {
     readonly type: MarkType;
@@ -139,6 +139,7 @@ export declare class BaseMark<T extends ICommonSpec> extends GrammarItem impleme
     getGraphics(): IMarkGraphic[];
     protected _createGraphic(attrs?: any): IGraphic;
     protected _runGroupData(data: Datum[]): void;
+    getAnimationState(): AnimationStateEnum.appear | AnimationStateEnum.disappear | AnimationStateEnum.none | AnimationStateValues;
     protected createAnimationStateList(type: string, animationConfig: Partial<MarkAnimationSpec>): any;
     protected tryRunMorphing(graphics: IMarkGraphic[]): boolean;
     protected _runStateAnimation(graphics: IMarkGraphic[]): void;

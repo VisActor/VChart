@@ -1,6 +1,24 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 31 Oct 2025 03:26:00 GMT and should not be manually modified.
+This log was last generated on Tue, 18 Nov 2025 11:36:57 GMT and should not be manually modified.
+
+## 2.0.7
+Tue, 18 Nov 2025 11:36:57 GMT
+
+### Updates
+
+- support stage animation and add various exit animation effects based on stage
+- fix: fix the issue of markline autoRange
+
+
+- fix: bar always display when set bar minHeight. fix#3284
+- fix: dot series display bug. fix #3283
+- fix: brush range not correct. fix #3091
+- fix: datazoom layout when set scale. fix #2574 & #2424
+- fix: domain will follow axis. fix #2770
+- fix: update perview when update data. fix #3331
+- fix: bind right axis when swtich orient. fix#3373
+- performance: enhance datazoom and scrollbar performance. close#2525 & #2781
 
 ## 2.0.6
 Fri, 31 Oct 2025 03:26:00 GMT

@@ -1,10 +1,10 @@
-import type { IComponentOption } from '../../interface';
-import { ComponentTypeEnum } from '../../interface/type';
+import { type IBoundsLike } from '@visactor/vutils';
+import { ComponentTypeEnum, type IComponentOption } from '../../interface';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import type { IRectGraphicAttribute, ISymbolGraphicAttribute, IGraphic } from '@visactor/vrender-core';
-import type { Datum, ILayoutType } from '../../../typings';
-import type { ILinearScale, IBaseScale } from '@visactor/vscale';
+import type { Datum, ILayoutRect, ILayoutType } from '../../../typings';
+import { type ILinearScale, type IBaseScale } from '@visactor/vscale';
 import type { IDataZoomSpec } from './interface';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
 export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
@@ -28,25 +28,35 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     protected _startHandlerSize: number;
     protected _endHandlerSize: number;
     protected _isReverseCache: boolean;
+    protected _cacheRect?: ILayoutRect;
+    protected _previewStateScale: IBaseScale;
     constructor(spec: T, options: IComponentOption);
+    protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string): void;
+    protected _handleDataCollectionChange(): void;
     created(): void;
+    updateLayoutAttribute(): void;
+    protected _beforeLayoutEnd(): void;
+    clear(): void;
+    getBoundsInRect(rect: ILayoutRect): IBoundsLike;
     setAttrFromSpec(): void;
-    onLayoutEnd(): void;
     protected _initValueScale(): void;
     protected _updateScaleRange(): void;
+    protected _updateStateScaleRange(): void;
+    protected _updateValueScaleRange(): void;
     protected _computeDomainOfValueScale(): unknown[];
-    protected _computeMiddleHandlerSize(): number;
-    protected _computeWidth(): number;
-    protected _computeHeight(): number;
     protected _isScaleValid(scale: IBaseScale | ILinearScale): boolean;
+    protected _getXScale(): IBaseScale | ILinearScale;
+    protected _getYScale(): IBaseScale | ILinearScale;
     protected _dataToPositionX: (datum: Datum) => number;
     protected _dataToPositionX2: (datum: Datum) => number;
     protected _dataToPositionY: (datum: Datum) => number;
     protected _dataToPositionY2: (datum: Datum) => number;
+    protected _computeMiddleHandlerSize(): number;
+    protected _computeWidth(): number;
+    protected _computeHeight(): number;
     private _getAttrs;
-    protected _createOrUpdateComponent(): void;
-    protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string): void;
-    protected _handleDataCollectionChange(): void;
+    private _getLayoutAttrs;
+    protected _createOrUpdateComponent(changeData?: boolean): void;
     protected _getComponentAttrs(isNeedPreview: boolean): {
         backgroundStyle: IRectGraphicAttribute;
         startHandlerStyle: ISymbolGraphicAttribute;
@@ -76,6 +86,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     };
     protected _getHandlerTextFormatMethod(spec: IDataZoomSpec['startText']): (text: any) => any;
     protected _getNeedClearVRenderComponents(): IGraphic[];
-    clear(): void;
+    onDataUpdate(): void;
+    protected _getPreviewStateScale(): IBaseScale;
 }
 export declare const registerDataZoom: () => void;
