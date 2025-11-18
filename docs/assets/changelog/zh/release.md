@@ -1,3 +1,33 @@
+# v2.0.9
+
+2025-11-18
+
+
+**🆕 New Features**
+
+
+* @visactor/react-vchart: Add export for registerChartResizeZoomPlugin by @xuefei1313 in https://github.com/VisActor/VChart/pull/4286
+* @visactor/vchart: Support effect animation by @purpose233 in https://github.com/VisActor/VChart/pull/4299
+* @visactor/vchart: Enhance datazoom and fix bugs by @skie1997 in https://github.com/VisActor/VChart/pull/4065
+
+
+**🐛 Bug Fixes**
+
+
+* @visactor/vchart-extension: Fix the vchart-extension packaged artifacts contained an extra version by @xuefei1313 in https://github.com/VisActor/VChart/pull/4277
+* @visactor/vchart: Fix markline auto range by @xuefei1313 in https://github.com/VisActor/VChart/pull/4290
+
+
+**📖 Documentation**
+
+
+* @visactor/vchart: Fix registerMorph error in example by @xuefei1313 in https://github.com/VisActor/VChart/pull/4285
+* @visactor/vchart: Add candlestick demo by @xuefei1313 in https://github.com/VisActor/VChart/pull/4297
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.7...v2.0.9
+
+[更多详情请查看 v2.0.9](https://github.com/VisActor/VChart/releases/tag/v2.0.9)
+
 # v2.0.7
 
 2025-11-03
