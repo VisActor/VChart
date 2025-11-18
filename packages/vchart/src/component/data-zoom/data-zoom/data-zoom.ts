@@ -141,7 +141,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const axis = this._relatedAxisComponent as CartesianAxis<any>;
     // 初始时reverse判断并不准确，导致start和end颠倒, 保险起见在layoutend之后触发该逻辑
     // FIXME: 牺牲了一定性能，有待优化
-    if (isReverse(axis, this._isHorizontal) && !this._isReverseCache) {
+    if ((isReverse(axis, this._isHorizontal) && !this._isReverseCache) || this._auto) {
+      // auto则代表需要根据bandsize同步更新范围
       this._isReverseCache = isReverse(axis, this._isHorizontal);
       this.effect.onZoomChange();
     }
@@ -169,13 +170,13 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const extendWidth = !this._visible
       ? 0
       : this._isHorizontal
-      ? (startHandlerScaleXSize - this._startHandlerSize) / 2 + (endHandlerScaleXSize - this._endHandlerSize) / 2
-      : (Math.max(startHandlerScaleXSize, endHandlerScaleXSize) - this._width) / 2;
+        ? (startHandlerScaleXSize - this._startHandlerSize) / 2 + (endHandlerScaleXSize - this._endHandlerSize) / 2
+        : (Math.max(startHandlerScaleXSize, endHandlerScaleXSize) - this._width) / 2;
     const extendHeight = !this._visible
       ? 0
       : this._isHorizontal
-      ? (Math.max(startHandlerScaleYSize, endHandlerScaleYSize) - this._height) / 2
-      : (startHandlerScaleYSize - this._startHandlerSize) / 2 + (endHandlerScaleYSize - this._endHandlerSize) / 2;
+        ? (Math.max(startHandlerScaleYSize, endHandlerScaleYSize) - this._height) / 2
+        : (startHandlerScaleYSize - this._startHandlerSize) / 2 + (endHandlerScaleYSize - this._endHandlerSize) / 2;
     if (this._isHorizontal) {
       result.y2 = result.y1 + this._height + extendHeight;
       result.x2 = result.x1 + rect.width + extendWidth;
@@ -426,7 +427,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
       delayType: spec.delayType,
-      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
+      delayTime: isValid(spec.delayType) ? (spec.delayTime ?? 30) : 0,
       realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,
