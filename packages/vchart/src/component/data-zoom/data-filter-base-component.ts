@@ -350,6 +350,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   init(option: IModelInitOption): void {
     super.init(option);
     this._addTransformToSeries();
+    // 初始化轴的 domain 这样在轴初次布局时，能正确的获取展示标签
+    if (this._start !== 0 || this._end !== 1) {
+      this.effect.onZoomChange();
+    }
   }
 
   _compareSpec(spec: AdaptiveSpec<T, 'width' | 'height'>, prevSpec: AdaptiveSpec<T, 'width' | 'height'>) {
