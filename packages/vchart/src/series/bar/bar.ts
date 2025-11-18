@@ -14,7 +14,7 @@ import {
 } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
 import type { Datum, DirectionType } from '../../typings';
-import { valueInScaleRange } from '../../util/scale';
+import { isValueInScaleDomain, valueInScaleRange } from '../../util/scale';
 import { getRegionStackGroup } from '../../util/data';
 import { getActualNumValue } from '../../util/space';
 import { registerBarAnimation } from './animation';
@@ -332,9 +332,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const barMinHeight = this._spec.barMinHeight;
     const y1 = valueInScaleRange(this[startMethod](datum), seriesScale, useWholeRange);
     const y = valueInScaleRange(this[endMethod](datum), seriesScale, useWholeRange);
-
     let height = Math.abs(y1 - y);
-    if (height < barMinHeight) {
+    if (height <= 0 && !isValueInScaleDomain(datum[this.getStackValueField()], seriesScale)) {
+      height = 0;
+    } else if (height < barMinHeight) {
       height = barMinHeight;
     }
 

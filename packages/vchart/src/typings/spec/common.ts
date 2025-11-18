@@ -35,7 +35,6 @@ import type {
   ITextMarkSpec,
   IVisualSpecScale
 } from '../visual';
-import type { StateValue } from '../../compile/mark/interface';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
 import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';

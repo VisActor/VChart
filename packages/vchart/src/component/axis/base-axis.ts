@@ -115,7 +115,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected abstract updateSeriesScale(): void;
   protected abstract collectSeriesField(depth: number, series: ISeries): string | string[];
   abstract transformScaleDomain(): void;
-  protected abstract updateScaleRange(): boolean;
+  abstract updateScaleRange(): boolean;
   protected abstract getDefaultInteractive(): boolean;
 
   protected _dataFieldText: string;
@@ -266,7 +266,13 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           const viewData = s.getViewData();
           if (rawData) {
             field.forEach(f => {
-              data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
+              data.push(
+                s.getRawDataStatisticsByField(f, !!isContinuous(this._scale.type)) as {
+                  min: number;
+                  max: number;
+                  values: any[];
+                }
+              );
             });
           } else if (viewData && viewData.latestData && viewData.latestData.length) {
             const seriesData = s.getViewDataStatistics?.();

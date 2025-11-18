@@ -163,7 +163,8 @@ describe('VChart', () => {
       vchart = new VChart(spec, {
         renderCanvas: canvasDom,
         background: 'yellow',
-        autoFit: true
+        autoFit: true,
+        animation: false
       });
 
       expect((vchart as any)._currentSize).toEqual({
@@ -221,7 +222,8 @@ describe('VChart', () => {
       ];
       vchart = new VChart(spec, {
         renderCanvas: canvasDom,
-        background: 'yellow'
+        background: 'yellow',
+        animation: false
       });
       vchart.updateData('areaData', data);
       vchart.renderSync();
@@ -271,7 +273,8 @@ describe('VChart', () => {
       ];
       vchart = new VChart(spec, {
         renderCanvas: canvasDom,
-        background: 'yellow'
+        background: 'yellow',
+        animation: false
       });
       vchart.renderSync();
 
@@ -686,7 +689,8 @@ describe('VChart', () => {
         ]
       };
       vchart = new VChart(spec as any, {
-        dom
+        dom,
+        animation: false
       });
       vchart.renderSync();
     });

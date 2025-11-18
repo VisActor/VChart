@@ -108,7 +108,8 @@ describe('wordCloud chart test', () => {
   test('wordCloud compiler', async () => {
     const cs = new VChart(spec, {
       mode: 'desktop-browser',
-      renderCanvas: canvasDom
+      renderCanvas: canvasDom,
+      animation: false
     });
     await cs.renderAsync();
     const series: WordCloudSeries = cs.getChart().getAllSeries()[0] as WordCloudSeries;
@@ -178,7 +179,8 @@ describe('wordCloud chart test', () => {
       },
       {
         mode: 'desktop-browser',
-        renderCanvas: canvasDom
+        renderCanvas: canvasDom,
+        animation: false
       }
     );
     await cs.renderAsync();

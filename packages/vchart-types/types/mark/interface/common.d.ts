@@ -95,6 +95,7 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     renderProgressive: () => void;
     canAnimateAfterProgressive: () => boolean;
     runAnimation: () => void;
+    getAnimationState: () => AnimationStateValues;
     needClear?: boolean;
     disableAnimationByState: (state: string | string[]) => void;
     enableAnimationByState: (state: string | string[]) => void;

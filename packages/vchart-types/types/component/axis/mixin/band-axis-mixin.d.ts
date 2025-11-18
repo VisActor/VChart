@@ -42,6 +42,8 @@ export declare class BandAxisMixin {
     protected _rawDomainIndex: {
         [key: string | number | symbol]: number;
     }[];
+    protected _rawDomain: StringOrNumber[][];
+    getRawDomain(): StringOrNumber[][];
     dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
     valueToPosition(value: any): number;
     updateGroupScaleRange(): void;

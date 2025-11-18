@@ -63,3 +63,4 @@ export declare const registerRectAnimation: () => void;
 export declare const registerArcAnimation: () => void;
 export declare const registerLineOrAreaAnimation: () => void;
 export declare const registerPolygonAnimation: () => void;
+export declare const registerStageAnimation: () => void;

@@ -18,6 +18,7 @@ export interface IAxis extends IComponent {
     getCoordinateType: () => CoordinateType;
     visible: boolean;
     directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
+    updateScaleRange?: () => void;
 }
 export interface IAxisItem<T> {
     visible?: boolean;

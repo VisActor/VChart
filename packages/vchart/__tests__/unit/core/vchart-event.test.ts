@@ -96,7 +96,8 @@ describe('vchart event test', () => {
       }
     };
     vchart = new VChart(spec, {
-      dom
+      dom,
+      animation: false
     });
     vchart.renderSync();
   });

@@ -77,3 +77,6 @@ export {
   registerVennChart,
   registerMosaicChart
 } from '@visactor/vchart';
+
+// Plugins
+export { registerChartResizeZoomPlugin } from '@visactor/vchart';

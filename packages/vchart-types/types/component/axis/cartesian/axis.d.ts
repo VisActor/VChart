@@ -64,7 +64,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     }[]): StringOrNumber[];
     abstract valueToPosition(value: any): number;
     protected getNewScaleRange(): number[];
-    protected updateScaleRange(): boolean;
+    updateScaleRange(): boolean;
     init(option: IModelInitOption): void;
     setAttrFromSpec(): void;
     onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;

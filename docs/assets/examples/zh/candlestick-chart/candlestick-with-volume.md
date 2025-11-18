@@ -1,25 +1,26 @@
 ---
 category: examples
 group: candlestick chart
-title: 基础k线图
+title: K 线图与成交量组合
 keywords: candlestick
-order: 19-0
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/candlestick/candlestick-with-volume.png
 option: candlestickChart
 ---
 
 # K 线图
 
-K 线图基本用法
+K 线图与成交量组合用法
 
 ## 关键配置
 
 - `type: 'candlestick'`
-- `xField`, `openField`, `closeField`, `highField`, `lowField`
-- `data`
+- `openField`, `closeField`, `highField`, `lowField`
 
 ## 代码演示
 
 ```javascript livedemo
+//  K 线图需要从 @visactor/vchart-extension 引入
+// import VChartExtension from '@visactor/vchart-extension';
 if (VChartExtension.registerCandlestickChart) {
   VChartExtension.registerCandlestickChart();
 }
@@ -82,7 +83,7 @@ const spec = {
       data: { values: data },
       bar: {
         style: {
-          fill: (datum: Datum) => {
+          fill: datum => {
             if (datum.open < datum.close) {
               return '#FF0000';
             } else if (datum.open > datum.close) {

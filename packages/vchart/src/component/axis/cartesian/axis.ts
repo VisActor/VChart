@@ -273,7 +273,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return newRange;
   }
 
-  protected updateScaleRange() {
+  updateScaleRange() {
     let isScaleChange = false;
 
     const newRange = this.getNewScaleRange();

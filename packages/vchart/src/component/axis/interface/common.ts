@@ -20,6 +20,8 @@ export interface IAxis extends IComponent {
   visible: boolean;
   // 标记轴的方向，左到右，右到左，上到下，下到上
   directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
+  // 更新轴的 scaleRange
+  updateScaleRange?: () => void;
 }
 
 export interface IAxisItem<T> {

@@ -1496,7 +1496,8 @@ describe('VChart', () => {
       };
       vchart = new VChart(spec, {
         renderCanvas: canvasDom,
-        autoFit: true
+        autoFit: true,
+        animation: false
       });
 
       vchart.renderSync();
@@ -2993,7 +2994,8 @@ describe('VChart', () => {
       };
       vchart = new VChart(spec, {
         renderCanvas: canvasDom,
-        autoFit: true
+        autoFit: true,
+        animation: false
       });
 
       vchart.renderSync();

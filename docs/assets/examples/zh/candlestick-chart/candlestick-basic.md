@@ -3,7 +3,7 @@ category: examples
 group: candlestick chart
 title: 基础k线图
 keywords: candlestick
-order: 19-0
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/candlestick/candlestick-basic.png
 option: candlestickChart
 ---
 
@@ -13,9 +13,14 @@ K 线图基本用法
 
 ## 关键配置
 
+- `type: 'candlestick'`
+- `openField`, `closeField`, `highField`, `lowField`
+
 ## 代码演示
 
 ```javascript livedemo
+//  K 线图需要从 @visactor/vchart-extension 引入
+// import VChartExtension from '@visactor/vchart-extension';
 if (VChartExtension.registerCandlestickChart) {
   VChartExtension.registerCandlestickChart();
 }

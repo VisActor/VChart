@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-extension",
-  "version": "2.0.7",
+  "version": "2.0.9",
   "description": "vchart extension package, including extension plugins and components",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -21,11 +21,11 @@
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser"
   },
   "dependencies": {
-    "@visactor/vrender-core": "~1.0.21",
-    "@visactor/vrender-kits": "~1.0.21",
-    "@visactor/vrender-components": "~1.0.21",
-    "@visactor/vrender-animate": "~1.0.21",
-    "@visactor/vchart": "workspace:2.0.7",
+    "@visactor/vrender-core": "~1.0.26",
+    "@visactor/vrender-kits": "~1.0.26",
+    "@visactor/vrender-components": "~1.0.26",
+    "@visactor/vrender-animate": "~1.0.26",
+    "@visactor/vchart": "workspace:2.0.9",
     "@visactor/vutils": "~1.0.12",
     "@visactor/vdataset": "~1.0.12",
     "@visactor/vlayouts": "~1.0.12"
