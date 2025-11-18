@@ -3,28 +3,22 @@
 2025-11-18
 
 
-**🆕 New Features**
+## 🆕 新特性
 
+* @visactor/react-vchart: 新增 registerChartResizeZoomPlugin 导出 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4286
+* @visactor/vchart: 支持特效动画 by @purpose233 in https://github.com/VisActor/VChart/pull/4299
+* @visactor/vchart: 增强 DataZoom 组件功能并修复相关问题 by @skie1997 in https://github.com/VisActor/VChart/pull/4065
 
-* @visactor/react-vchart: Add export for registerChartResizeZoomPlugin by @xuefei1313 in https://github.com/VisActor/VChart/pull/4286
-* @visactor/vchart: Support effect animation by @purpose233 in https://github.com/VisActor/VChart/pull/4299
-* @visactor/vchart: Enhance datazoom and fix bugs by @skie1997 in https://github.com/VisActor/VChart/pull/4065
+## 🐛 问题修复
 
+* @visactor/vchart-extension: 修复 vchart-extension 打包产物中包含额外版本的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4277
+* @visactor/vchart: 修复标线 (MarkLine) 自动范围计算的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4290
 
-**🐛 Bug Fixes**
+## 📖 文档更新
 
+* @visactor/vchart: 修复示例中 registerMorph 的错误 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4285
+* @visactor/vchart: 新增 K 线图 (Candlestick) 示例 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4297
 
-* @visactor/vchart-extension: Fix the vchart-extension packaged artifacts contained an extra version by @xuefei1313 in https://github.com/VisActor/VChart/pull/4277
-* @visactor/vchart: Fix markline auto range by @xuefei1313 in https://github.com/VisActor/VChart/pull/4290
-
-
-**📖 Documentation**
-
-
-* @visactor/vchart: Fix registerMorph error in example by @xuefei1313 in https://github.com/VisActor/VChart/pull/4285
-* @visactor/vchart: Add candlestick demo by @xuefei1313 in https://github.com/VisActor/VChart/pull/4297
-
-**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.7...v2.0.9
 
 [更多详情请查看 v2.0.9](https://github.com/VisActor/VChart/releases/tag/v2.0.9)
 
@@ -113,5 +107,6 @@
 - **@visactor/vchart**：修复 `tooltip.style.titleLabel` 的 `textAlign` 不生效问题，修复 [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [更多详情请查看 v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
+
 
 
