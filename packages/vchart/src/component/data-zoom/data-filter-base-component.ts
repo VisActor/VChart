@@ -380,30 +380,25 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   updateLayoutAttribute(): void {
-    if (this._visible) {
-      this._createOrUpdateComponent();
+    this._createOrUpdateComponent();
 
-      // 第一次渲染, 根据配置强制触发start和end变更
-      if (!this._hasInitStateScale) {
-        if (this._start !== 0 || this._end !== 1) {
-          this._newDomain = parseDomainFromStateAndValue(
-            this._spec.start,
-            this._startValue,
-            this._spec.end,
-            this._endValue,
-            this._stateScale
-          );
-          this.effect.onZoomChange();
-        }
-        this._hasInitStateScale = true;
+    // 第一次渲染, 根据配置强制触发start和end变更
+    if (!this._hasInitStateScale) {
+      if (this._start !== 0 || this._end !== 1) {
+        this._newDomain = parseDomainFromStateAndValue(
+          this._spec.start,
+          this._startValue,
+          this._spec.end,
+          this._endValue,
+          this._stateScale
+        );
+        this.effect.onZoomChange();
       }
+      this._hasInitStateScale = true;
     }
   }
 
   protected _initAfterLayout() {
-    if (!this._visible) {
-      return;
-    }
     // clear stateScale, 避免在_initStateScale中使用到旧的scale domain
     this._stateScale = null;
     this._initStateScale();
