@@ -122,6 +122,9 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   /** start: component layout attr ***/
   protected _computeWidth(): number {
+    if (this._visible === false) {
+      return 0;
+    }
     if (isNumber(this._spec.width)) {
       return this._spec.width;
     }
@@ -134,6 +137,9 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   }
 
   protected _computeHeight(): number {
+    if (this._visible === false) {
+      return 0;
+    }
     if (isNumber(this._spec.height)) {
       return this._spec.height;
     }
@@ -158,7 +164,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       range: [this._start, this._end],
       direction: this._isHorizontal ? 'horizontal' : 'vertical',
       delayType: this._spec?.delayType,
-      delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
+      delayTime: isValid(this._spec?.delayType) ? (this._spec?.delayTime ?? 30) : 0,
       realTime: this._spec?.realTime ?? true,
       ...this._getComponentAttrs()
     } as ScrollBarAttributes;
