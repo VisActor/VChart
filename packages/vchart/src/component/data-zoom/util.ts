@@ -96,6 +96,7 @@ export interface IDataFilterComputeDomainOption {
     stateFields: string[];
     valueFields: string[];
     isCategoryState?: boolean;
+    seriesCollection: any[];
     method: 'sum'; // todo: 也许可以提供多种数据统计方法 @chensiji
   };
   output: {
@@ -105,17 +106,22 @@ export interface IDataFilterComputeDomainOption {
 }
 
 export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterComputeDomainOption) => {
-  const { stateFields, valueFields, dataCollection, isCategoryState } = op.input;
+  const { stateFields, valueFields, dataCollection, isCategoryState, seriesCollection } = op.input;
   const { stateField, valueField } = op.output;
   const resultObj: any = {};
   const resultKeys: any[] = [];
   const resultData: any[] = [];
   const stateValues: any[] = [];
   let hasLockDomain = false;
-
+  let isAllLinearValue = false;
   dataCollection.forEach((dv: DataView, i) => {
     if (isNil(stateFields[i])) {
       return;
+    }
+    const series = seriesCollection[i];
+    const statistics = series.getRawDataStatisticsByField(stateFields[i]);
+    if (isValid(statistics?.max) && isValid(statistics?.min)) {
+      isAllLinearValue = true;
     }
     // 按照用户指定的domain进行排序(这里不通过getRawDataStatistics来取是因为时机不对，此时getRawDataStatistics还没有正确结果)
     const stateFieldInfo = dv.getFields()?.[stateFields[i]];
@@ -150,7 +156,7 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
 
   const sortedStateValues = hasLockDomain
     ? stateValues
-    : isCategoryState === false
+    : isCategoryState === false || isAllLinearValue
     ? stateValues.sort((a, b) => a - b)
     : resultKeys;
 

@@ -26,7 +26,14 @@ import type {
 } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import type { IContinuousScale } from '@visactor/vscale';
-import { BandScale, isContinuous, isDiscrete, type IBandLikeScale, type IBaseScale } from '@visactor/vscale';
+import {
+  BandScale,
+  isContinuous,
+  isDiscrete,
+  LinearScale,
+  type IBandLikeScale,
+  type IBaseScale
+} from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 import type { IAxis } from '../axis';
@@ -40,7 +47,8 @@ import {
   minInArray,
   maxInArray,
   last,
-  type IBoundsLike
+  type IBoundsLike,
+  isValidNumber
 } from '@visactor/vutils';
 import type { IDataFilterComponent, IDataFilterComponentSpec, IFilterMode } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
@@ -407,6 +415,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _beforeLayoutEnd() {
     if (!this._hasInitStateScale) {
       this._initAfterLayout();
+    } else {
+      this._updateScaleRange();
     }
   }
 
@@ -528,9 +538,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   /*** start: data change and reset view  ***/
   protected _initData() {
     const dataCollection: any[] = [];
+    const seriesCollection: any[] = [];
     const stateFields: string[] = [];
     const valueFields: string[] = [];
-    let isCategoryState;
+    let isCategoryState: boolean;
     if (this._relatedAxisComponent) {
       const originalStateFields = {};
       eachSeries(
@@ -609,6 +620,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         this._regions,
         s => {
           dataCollection.push(s.getRawData());
+          seriesCollection.push(s);
 
           stateFields.push(this._field);
           if (this._valueField) {
@@ -631,6 +643,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         options: {
           input: {
             dataCollection: dataCollection,
+            seriesCollection,
             stateFields,
             valueFields,
             isCategoryState
@@ -785,8 +798,25 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       (scale as IBandLikeScale).bandwidth?.('auto', true);
       scale.rangeFactor(defaultRange as [number, number], true).range(defaultRange);
     } else {
-      this._stateScale = new BandScale();
-      this._stateScale.domain(this._computeDomainOfStateScale(), true).range(defaultRange);
+      let fieldLinear = true;
+      if (this._field) {
+        eachSeries(
+          this._regions,
+          s => {
+            const stats = s.getRawDataStatisticsByField(this._field);
+            if (!isValidNumber(stats?.min) || !isValidNumber(stats?.max)) {
+              fieldLinear = false;
+            }
+          },
+          {
+            userId: this._seriesUserId,
+            specIndex: this._seriesIndex
+          }
+        );
+      }
+
+      this._stateScale = fieldLinear ? new LinearScale() : new BandScale();
+      this._stateScale.domain(this._computeDomainOfStateScale(fieldLinear), true).range(defaultRange);
     }
   }
 
