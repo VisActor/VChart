@@ -92,10 +92,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   protected _beforeLayoutEnd() {
     super._beforeLayoutEnd();
-    // auto则代表需要根据bandsize同步更新范围
-    if (this._auto) {
-      this.effect.onZoomChange?.();
-    }
+    this.effect.onZoomChange?.();
   }
 
   onLayoutEnd(): void {
