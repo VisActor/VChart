@@ -1,4 +1,4 @@
-import { isBoolean, isEmpty, isFunction, isNil, isNumber, isValid } from '@visactor/vutils';
+import { isEmpty, isFunction, isNil, isNumber, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -13,10 +13,10 @@ import { ChartEvent } from '../../../constant/event';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
 import { Factory } from '../../../core/factory';
-import type { IZoomable } from '../../../interaction/zoom';
 import type { ILayoutType } from '../../../typings/layout';
 import { isClose } from '../../../util';
 import { scrollBar } from '../../../theme/builtin/common/component/scroll-bar';
+import { statePointToData } from '../util';
 // import { SCROLLBAR_EVENT, SCROLLBAR_END_EVENT } from '@visactor/vrender-components/es/constant';
 
 // 由vrender透出, 接入新版本后需修改
@@ -38,7 +38,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   layoutLevel: number = LayoutLevel.DataZoom;
   layoutType: ILayoutType = 'region-relative';
 
-  // datazoom组件
+  // scrollbar组件
   protected _component!: ScrollBarComponent;
 
   constructor(spec: T, options: IComponentOption) {
@@ -46,27 +46,68 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     this._filterMode = spec.filterMode ?? 'axis';
   }
 
-  setAttrFromSpec() {
-    super.setAttrFromSpec();
-    // roam兼容逻辑
-    if (isBoolean((this._spec as any).roam)) {
-      this._zoomAttr.enable = false; // 对于之前的逻辑而言，只要配置了roam，zoom始终不打开
-      this._dragAttr.enable = (this._spec as any).roam;
-      this._scrollAttr.enable = (this._spec as any).roam;
-    }
-    if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
-      (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
+  /*** start: init event and event dispatch ***/
+  protected _handleChange(start: number, end: number, updateComponent?: boolean) {
+    super._handleChange(start, end, updateComponent);
+    // filter out scroll event with same scroll value
+    const isSameScrollValue = isClose(this._start, start) && isClose(this._end, end);
+    // realTime为false时，start和end始终没有变化过, 但是需要触发change事件
+    if (this._shouldChange && (!isSameScrollValue || this._spec.realTime === false)) {
+      if (updateComponent && this._component) {
+        this._component.setAttribute('range', [start, end]);
+      }
+
+      this._start = start;
+      this._end = end;
+      const startValue = statePointToData(start, this._stateScale, false);
+      const endValue = statePointToData(end, this._stateScale, false);
+      const hasChange = isFunction(this._spec.updateDataAfterChange)
+        ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
+        : this._handleStateChange(startValue, endValue);
+      if (hasChange) {
+        this.event.emit(ChartEvent.scrollBarChange, {
+          model: this,
+          value: {
+            filterData: this._filterMode !== 'axis',
+            start: this._start,
+            end: this._end,
+            startValue: this._startValue,
+            endValue: this._endValue,
+            newDomain: this._newDomain
+          }
+        });
+      }
     }
   }
 
-  /** LifeCycle API**/
-  onLayoutEnd(): void {
-    this._updateScaleRange();
+  protected _handleDataCollectionChange() {
+    if (this._spec.auto) {
+      const data = this._data.getDataView();
+      data.reRunAllTransform();
+    }
+  }
+  /*** end: init event and event dispatch ***/
+
+  /*** start: component lifecycle ***/
+
+  protected _beforeLayoutEnd() {
+    super._beforeLayoutEnd();
     this.effect.onZoomChange?.();
+  }
+
+  onLayoutEnd(): void {
+    // 保证自己的宽高正确
+    this._updateComponentBounds();
     super.onLayoutEnd();
   }
+  /*** end: component lifecycle ***/
 
+  /*** start: scale ***/
   protected _updateScaleRange() {
+    // do nothing
+  }
+
+  protected _updateComponentBounds() {
     if (this._component) {
       this._component.setAttributes({
         x: this.getLayoutStartPoint().x,
@@ -77,7 +118,13 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     }
   }
 
+  /*** end: scale ***/
+
+  /** start: component layout attr ***/
   protected _computeWidth(): number {
+    if (this._visible === false) {
+      return 0;
+    }
     if (isNumber(this._spec.width)) {
       return this._spec.width;
     }
@@ -90,6 +137,9 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   }
 
   protected _computeHeight(): number {
+    if (this._visible === false) {
+      return 0;
+    }
     if (isNumber(this._spec.height)) {
       return this._spec.height;
     }
@@ -101,7 +151,9 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
     return SCROLL_BAR_DEFAULT_SIZE;
   }
+  /** end: component layout attr ***/
 
+  /** start: scrollbar component attr ***/
   private _getAttrs() {
     return {
       zIndex: this.layoutZIndex,
@@ -112,7 +164,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       range: [this._start, this._end],
       direction: this._isHorizontal ? 'horizontal' : 'vertical',
       delayType: this._spec?.delayType,
-      delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
+      delayTime: isValid(this._spec?.delayType) ? (this._spec?.delayTime ?? 30) : 0,
       realTime: this._spec?.realTime ?? true,
       ...this._getComponentAttrs()
     } as ScrollBarAttributes;
@@ -138,46 +190,6 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     }
   }
 
-  protected _handleChange(start: number, end: number, updateComponent?: boolean) {
-    super._handleChange(start, end, updateComponent);
-    // filter out scroll event with same scroll value
-    const isSameScrollValue = isClose(this._start, start) && isClose(this._end, end);
-    // realTime为false时，start和end始终没有变化过, 但是需要触发change事件
-    if (this._shouldChange && (!isSameScrollValue || this._spec.realTime === false)) {
-      if (updateComponent && this._component) {
-        this._component.setAttribute('range', [start, end]);
-      }
-
-      this._start = start;
-      this._end = end;
-      const startValue = this.statePointToData(start);
-      const endValue = this.statePointToData(end);
-      const hasChange = isFunction(this._spec.updateDataAfterChange)
-        ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
-        : this._handleStateChange(this.statePointToData(start), this.statePointToData(end));
-      if (hasChange) {
-        this.event.emit(ChartEvent.scrollBarChange, {
-          model: this,
-          value: {
-            filterData: this._filterMode !== 'axis',
-            start: this._start,
-            end: this._end,
-            startValue: this._startValue,
-            endValue: this._endValue,
-            newDomain: this._newDomain
-          }
-        });
-      }
-    }
-  }
-
-  protected _handleDataCollectionChange() {
-    if (this._spec.auto) {
-      const data = this._data.getDataView();
-      data.reRunAllTransform();
-    }
-  }
-
   protected _getComponentAttrs() {
     const { rail, slider, innerPadding } = this._spec;
     const attrs: Partial<ScrollBarAttributes> = {};
@@ -195,6 +207,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     attrs.disableTriggerEvent = this._option.disableTriggerEvent;
     return attrs;
   }
+  /** end: scrollbar component attr ***/
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];

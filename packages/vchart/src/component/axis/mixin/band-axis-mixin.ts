@@ -99,6 +99,10 @@ export class BandAxisMixin {
   }
 
   protected _rawDomainIndex: { [key: string | number | symbol]: number }[] = [];
+  protected _rawDomain: StringOrNumber[][] = [];
+  getRawDomain() {
+    return this._rawDomain;
+  }
 
   dataToPosition(values: any[], cfg: IAxisLocationCfg = {}): number {
     if (values.length === 0 || this._scales.length === 0) {
@@ -255,6 +259,7 @@ export class BandAxisMixin {
   protected _updateRawDomain() {
     // 默认值设置了无效？
     this._rawDomainIndex = [];
+    this._rawDomain = [];
 
     const userDomain = this._spec.domain;
     for (let i = 0; i < this._scales.length; i++) {
@@ -265,12 +270,15 @@ export class BandAxisMixin {
         const data = this.collectData(i, true);
         const domain = this.computeBandDomain(data);
         this._rawDomainIndex[i] = {};
+        this._rawDomain[i] = domain;
         domain.forEach((d, _i) => (this._rawDomainIndex[i][d] = _i));
       }
     }
+    this.event.emit(ChartEvent.scaleRawDomainUpdate, { model: this as unknown as IModel });
   }
 
   protected _clearRawDomain() {
     this._rawDomainIndex = [];
+    this._rawDomain = [];
   }
 }

@@ -49,7 +49,7 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
     return this.computeBandDomain(data);
   }
 
-  protected updateScaleRange() {
+  updateScaleRange() {
     const isChanged = super.updateScaleRange();
     this.updateGroupScaleRange();
 

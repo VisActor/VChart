@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: bind right axis when swtich orient. fix#3373",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

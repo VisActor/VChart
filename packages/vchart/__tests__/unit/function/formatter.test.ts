@@ -48,7 +48,8 @@ describe('formatter calc function test', () => {
 
     const chart = new VChart(spec as unknown as IBarChartSpec, {
       renderCanvas: canvasDom,
-      onError: () => {}
+      onError: () => {},
+      animation: false
     });
 
     chart.renderSync();

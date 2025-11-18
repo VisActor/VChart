@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-duplicate-imports
 import {
-  isBoolean,
   isFunction,
   isNil,
   isNumber,
@@ -8,32 +6,27 @@ import {
   last,
   maxInArray,
   minInArray,
-  uniqArray
+  uniqArray,
+  type IBoundsLike
 } from '@visactor/vutils';
 import { mergeSpec } from '@visactor/vutils-extension';
-import type { IComponentOption } from '../../interface';
-// eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface/type';
+import { ComponentTypeEnum, type IComponentOption } from '../../interface';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
-// eslint-disable-next-line no-duplicate-imports
-import type { DataZoomAttributes } from '@visactor/vrender-components';
-// eslint-disable-next-line no-duplicate-imports
-import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
+import { DataZoom as DataZoomComponent, type DataZoomAttributes } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
-import type { Datum, ILayoutType } from '../../../typings';
-import type { ILinearScale, IBaseScale } from '@visactor/vscale';
-// eslint-disable-next-line no-duplicate-imports
-import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
+import type { Datum, ILayoutRect, ILayoutType } from '../../../typings';
+import { LinearScale, isContinuous, isDiscrete, type ILinearScale, type IBaseScale } from '@visactor/vscale';
 import { LayoutLevel, LayoutZIndex } from '../../../constant/layout';
 import { ChartEvent } from '../../../constant/event';
 import type { IDataZoomSpec } from './interface';
 import { Factory } from '../../../core/factory';
-import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
 import { getFormatFunction } from '../../util';
 import { dataZoom } from '../../../theme/builtin/common/component/data-zoom';
+import { isReverse, statePointToData } from '../util';
+import { LayoutModel } from '../../../model/layout-model';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -64,6 +57,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   protected _isReverseCache: boolean = false;
 
+  protected _cacheRect?: ILayoutRect;
+
+  protected _previewStateScale: IBaseScale;
+
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
 
@@ -71,60 +68,158 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     this._filterMode = spec.filterMode ?? 'filter';
   }
 
+  /*** start: init event and event dispatch ***/
+  protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string) {
+    super._handleChange(start, end, updateComponent);
+
+    if (this._shouldChange) {
+      if (updateComponent && this._component) {
+        this._component.setStartAndEnd(start, end);
+      } else {
+        const axis = this._relatedAxisComponent as CartesianAxis<any>;
+
+        const startValue = statePointToData(start, this._stateScale, isReverse(axis, this._isHorizontal));
+        const endValue = statePointToData(end, this._stateScale, isReverse(axis, this._isHorizontal));
+        if (!isValid(startValue) || !isValid(endValue)) {
+          return;
+        }
+        this._start = start;
+        this._end = end;
+        const hasChange = isFunction(this._spec.updateDataAfterChange)
+          ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
+          : this._handleStateChange(startValue, endValue, tag);
+        if (hasChange) {
+          this.event.emit(ChartEvent.dataZoomChange, {
+            model: this,
+            value: {
+              filterData: this._filterMode !== 'axis',
+              start,
+              end,
+              startValue: this._startValue,
+              endValue: this._endValue,
+              newDomain: this._newDomain
+            }
+          });
+        }
+      }
+    }
+  }
+
+  protected _handleDataCollectionChange() {
+    const data = this._data.getDataView();
+    data.reRunAllTransform();
+
+    const domain = this._computeDomainOfValueScale();
+
+    if (domain) {
+      if (!this._valueScale) {
+        this._valueScale = new LinearScale();
+      }
+      this._valueScale.domain(domain);
+      this._updateValueScaleRange();
+      if (this._component) {
+        this._createOrUpdateComponent(true);
+      }
+    }
+  }
+  /*** end: init event and event dispatch ***/
+
+  /*** start: component lifecycle ***/
   created() {
     super.created();
     this._initValueScale();
   }
 
+  updateLayoutAttribute(): void {
+    if (this._cacheVisibility !== false) {
+      super.updateLayoutAttribute();
+    }
+  }
+
+  protected _beforeLayoutEnd() {
+    super._beforeLayoutEnd();
+    const axis = this._relatedAxisComponent as CartesianAxis<any>;
+    // 初始时reverse判断并不准确，导致start和end颠倒, 保险起见在layoutend之后触发该逻辑
+    // FIXME: 牺牲了一定性能，有待优化
+    if ((isReverse(axis, this._isHorizontal) && !this._isReverseCache) || this._auto) {
+      // auto则代表需要根据bandsize同步更新范围
+      this._isReverseCache = isReverse(axis, this._isHorizontal);
+      this.effect.onZoomChange();
+    }
+  }
+
+  clear(): void {
+    if (this._component) {
+      const container = this.getContainer();
+      this._component.removeAllChild();
+      if (container) {
+        container.removeChild(this._component as unknown as INode);
+      }
+
+      this._component = null;
+    }
+    super.clear();
+  }
+
+  getBoundsInRect(rect: ILayoutRect): IBoundsLike {
+    const result: IBoundsLike = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
+    const startHandlerScaleXSize = this._startHandlerSize * (this._spec.startHandler.style.scaleX ?? 1);
+    const startHandlerScaleYSize = this._startHandlerSize * (this._spec.startHandler.style.scaleY ?? 1);
+    const endHandlerScaleXSize = this._endHandlerSize * (this._spec.endHandler.style.scaleX ?? 1);
+    const endHandlerScaleYSize = this._endHandlerSize * (this._spec.endHandler.style.scaleY ?? 1);
+    const extendWidth = !this._visible
+      ? 0
+      : this._isHorizontal
+        ? (startHandlerScaleXSize - this._startHandlerSize) / 2 + (endHandlerScaleXSize - this._endHandlerSize) / 2
+        : (Math.max(startHandlerScaleXSize, endHandlerScaleXSize) - this._width) / 2;
+    const extendHeight = !this._visible
+      ? 0
+      : this._isHorizontal
+        ? (Math.max(startHandlerScaleYSize, endHandlerScaleYSize) - this._height) / 2
+        : (startHandlerScaleYSize - this._startHandlerSize) / 2 + (endHandlerScaleYSize - this._endHandlerSize) / 2;
+    if (this._isHorizontal) {
+      result.y2 = result.y1 + this._height + extendHeight;
+      result.x2 = result.x1 + rect.width + extendWidth;
+    } else {
+      result.x2 = result.x1 + this._width + extendWidth;
+      result.y2 = result.y1 + rect.height + extendHeight;
+    }
+    return result;
+  }
+  /*** end: component lifecycle ***/
+
+  /*** start: set attributes & bind related axis and region ***/
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    if (isBoolean((this._spec as any).roam)) {
-      this._zoomAttr.enable = (this._spec as any).roam;
-      this._dragAttr.enable = (this._spec as any).roam;
-      this._scrollAttr.enable = (this._spec as any).roam;
-    }
-
-    if (this._zoomAttr.enable || this._dragAttr.enable || this._scrollAttr.enable) {
-      (this as unknown as IZoomable).initZoomable(this.event, this._option.mode);
-    }
+    // 用户配置, 如:80  -> 给各个部分赋予默认值 back 80, handler 80 -> 根据实际值computeSize -> 作为组件属性输入 -> 组件根据实际高度给背景分配默认高度
+    // 用户不配置 -> 各部分给默认定值 -> ...(同上)
+    const componentSize = this._isHorizontal ? Number(this._spec.height) : Number(this._spec.width);
 
     // size相关
     this._backgroundSize = this._spec.background?.size ?? 30;
     this._middleHandlerSize = this._computeMiddleHandlerSize();
-    this._width = this._computeWidth();
-    this._height = this._computeHeight();
     // startHandler和endHandler size如果没有配置，则默认跟随background宽 or 高
     if (isNil(this._spec?.startHandler?.style?.size)) {
-      this._spec.startHandler.style.size = this._isHorizontal
-        ? this._height - this._middleHandlerSize
-        : this._width - this._middleHandlerSize;
+      this._spec.startHandler.style.size = isNaN(componentSize)
+        ? this._backgroundSize
+        : componentSize - this._middleHandlerSize;
     }
     if (isNil(this._spec?.endHandler?.style?.size)) {
-      this._spec.endHandler.style.size = this._isHorizontal
-        ? this._height - this._middleHandlerSize
-        : this._width - this._middleHandlerSize;
+      this._spec.endHandler.style.size = isNaN(componentSize)
+        ? this._backgroundSize
+        : componentSize - this._middleHandlerSize;
     }
-    const startHandlerVisble = this._spec.startHandler.style.visible ?? true;
-    const endHandlerVisble = this._spec.endHandler.style.visible ?? true;
-    this._startHandlerSize = startHandlerVisble ? this._spec.startHandler.style.size : 0;
-    this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
+    const startHandlerVisible = this._spec.startHandler.style.visible ?? true;
+    const endHandlerVisible = this._spec.endHandler.style.visible ?? true;
+    this._startHandlerSize = startHandlerVisible ? this._spec.startHandler.style.size : 0;
+    this._endHandlerSize = endHandlerVisible ? this._spec.endHandler.style.size : 0;
+    this._width = this._computeWidth();
+    this._height = this._computeHeight();
   }
+  /*** end: set attributes & bind related axis and region ***/
 
-  /** LifeCycle API**/
-  onLayoutEnd(): void {
-    this._updateScaleRange();
-    // 初始时reverse判断并不准确，导致start和end颠倒, 保险起见在layoutend之后触发该逻辑
-    // FIXME: 牺牲了一定性能，有待优化
-    if (this._isReverse() && !this._isReverseCache) {
-      this._isReverseCache = this._isReverse();
-      this.effect.onZoomChange();
-    }
-    if (this._cacheVisibility !== false) {
-      super.onLayoutEnd();
-    }
-  }
-
+  /*** start: scale of background chart ***/
   protected _initValueScale() {
     const domain = this._computeDomainOfValueScale();
 
@@ -136,8 +231,13 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   }
 
   protected _updateScaleRange() {
+    this._updateStateScaleRange();
+    this._updateValueScaleRange();
+  }
+
+  protected _updateStateScaleRange() {
     const handlerSize = this._startHandlerSize + this._endHandlerSize;
-    if (!this._stateScale || !this._valueScale) {
+    if (!this._stateScale) {
       return;
     }
 
@@ -159,32 +259,34 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       stateScaleRange = this._visible
         ? [this._startHandlerSize / 2, compWidth - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
-      this._stateScale.range(stateScaleRange);
-      this._valueScale.range([compHeight - this._middleHandlerSize, 0]);
     } else {
       stateScaleRange = this._visible
         ? [this._startHandlerSize / 2, compHeight - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
+    }
+    this._stateScale.range(stateScaleRange);
+    this._previewStateScale?.range(
+      isReverse(this._relatedAxisComponent as CartesianAxis<any>, this._isHorizontal)
+        ? stateScaleRange.reverse()
+        : stateScaleRange
+    );
+  }
 
-      this._stateScale.range(stateScaleRange);
+  protected _updateValueScaleRange() {
+    if (!this._valueScale) {
+      return;
+    }
+    const compWidth = this._computeWidth();
+    const compHeight = this._computeHeight();
 
+    if (this._isHorizontal) {
+      this._valueScale.range([compHeight - this._middleHandlerSize, 0]);
+    } else {
       if (this.layoutOrient === 'left') {
         this._valueScale.range([compWidth - this._middleHandlerSize, 0]);
       } else {
         this._valueScale.range([0, compWidth - this._middleHandlerSize]);
       }
-    }
-    if (this._component && this._cacheVisibility !== false) {
-      this._component.setAttributes({
-        size: {
-          width: compWidth,
-          height: compHeight
-        },
-        position: {
-          x: this.getLayoutStartPoint().x,
-          y: this.getLayoutStartPoint().y
-        }
-      });
     }
   }
 
@@ -195,6 +297,66 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     return domain.length ? [minInArray(domainNum), maxInArray(domainNum)] : null;
   }
 
+  protected _isScaleValid(scale: IBaseScale | ILinearScale) {
+    if (!scale || !scale.domain()) {
+      return false;
+    }
+    const domain = scale.domain();
+    if (isContinuous(scale.type) && domain[0] === last(domain)) {
+      return false;
+    }
+    if (isDiscrete(scale.type) && uniqArray(domain).length === 1) {
+      return false;
+    }
+    return true;
+  }
+
+  protected _getXScale() {
+    const bindScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale();
+    if (bindScale.type === this.stateScale.type && this._isHorizontal) {
+      return this.stateScale;
+    }
+    return this._isHorizontal ? this._stateScale : this._valueScale;
+  }
+
+  protected _getYScale() {
+    return this._isHorizontal ? this._valueScale : this._stateScale;
+  }
+
+  protected _dataToPositionX = (datum: Datum): number => {
+    const offsetLeft = !this._isHorizontal ? this._middleHandlerSize : 0;
+    const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
+    const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
+    const xField = this._isHorizontal ? this._stateField : this._valueField;
+    return xScale.scale(datum[xField]) + this.getLayoutStartPoint().x + offsetLeft + offsetHandler;
+  };
+
+  protected _dataToPositionX2 = (datum: Datum): number => {
+    const offsetLeft = !this._isHorizontal ? this._middleHandlerSize : 0;
+    const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
+    const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
+    const min = xScale.domain()[0];
+    return xScale.scale(min) + this.getLayoutStartPoint().x + offsetLeft + offsetHandler;
+  };
+
+  protected _dataToPositionY = (datum: Datum): number => {
+    const offsetTop = this._isHorizontal ? this._middleHandlerSize : 0;
+    const offsetHandler = this._isHorizontal ? 0 : this._startHandlerSize / 2;
+    const yScale = this._isHorizontal ? this._valueScale : this._getPreviewStateScale();
+    const yField = this._isHorizontal ? this._valueField : this._stateField;
+    return yScale.scale(datum[yField]) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
+  };
+
+  protected _dataToPositionY2 = (datum: Datum): number => {
+    const offsetTop = this._isHorizontal ? this._middleHandlerSize : 0;
+    const offsetHandler = this._isHorizontal ? 0 : this._startHandlerSize / 2;
+    const yScale = this._isHorizontal ? this._valueScale : this._getPreviewStateScale();
+    const min = yScale.domain()[0];
+    return yScale.scale(min) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
+  };
+  /*** end: scale of background chart ***/
+
+  /** start: component layout attr ***/
   protected _computeMiddleHandlerSize(): number {
     let size = 0;
     if (this._spec?.middleHandler?.visible) {
@@ -218,7 +380,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       return this.getLayoutRect().width;
     }
 
-    return this._backgroundSize + this._middleHandlerSize;
+    return (
+      Math.max(this._startHandlerSize || 0, this._endHandlerSize || 0, this._backgroundSize || 0) +
+      this._middleHandlerSize
+    );
   }
 
   protected _computeHeight(): number {
@@ -231,57 +396,16 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     }
 
     if (this._isHorizontal) {
-      return this._backgroundSize + this._middleHandlerSize;
+      return (
+        Math.max(this._startHandlerSize || 0, this._endHandlerSize || 0, this._backgroundSize || 0) +
+        this._middleHandlerSize
+      );
     }
     return this.getLayoutRect().height;
   }
+  /** end: component layout attr ***/
 
-  protected _isScaleValid(scale: IBaseScale | ILinearScale) {
-    if (!scale || !scale.domain()) {
-      return false;
-    }
-    const domain = scale.domain();
-    if (isContinuous(scale.type) && domain[0] === last(domain)) {
-      return false;
-    }
-    if (isDiscrete(scale.type) && uniqArray(domain).length === 1) {
-      return false;
-    }
-    return true;
-  }
-
-  protected _dataToPositionX = (datum: Datum): number => {
-    const offsetLeft = this._orient === 'left' ? this._middleHandlerSize : 0;
-    const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
-    const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
-    const xField = this._isHorizontal ? this._stateField : this._valueField;
-    return xScale.scale(datum[xField]) + this.getLayoutStartPoint().x + offsetLeft + offsetHandler;
-  };
-
-  protected _dataToPositionX2 = (datum: Datum): number => {
-    const offsetLeft = this._orient === 'left' ? this._middleHandlerSize : 0;
-    const offsetHandler = this._isHorizontal ? this._startHandlerSize / 2 : 0;
-    const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
-    const min = xScale.domain()[0];
-    return xScale.scale(min) + this.getLayoutStartPoint().x + offsetLeft + offsetHandler;
-  };
-
-  protected _dataToPositionY = (datum: Datum): number => {
-    const offsetTop = this._isHorizontal ? this._middleHandlerSize : 0;
-    const offsetHandler = this._isHorizontal ? 0 : this._startHandlerSize / 2;
-    const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
-    const yField = this._isHorizontal ? this._valueField : this._stateField;
-    return yScale.scale(datum[yField]) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
-  };
-
-  protected _dataToPositionY2 = (datum: Datum): number => {
-    const offsetTop = this._isHorizontal ? this._middleHandlerSize : 0;
-    const offsetHandler = this._isHorizontal ? 0 : this._startHandlerSize / 2;
-    const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
-    const min = yScale.domain()[0];
-    return yScale.scale(min) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
-  };
-
+  /** start: datazoom component attr ***/
   private _getAttrs(isNeedPreview: boolean) {
     const spec = this._spec ?? ({} as T);
     return {
@@ -303,17 +427,31 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
       delayType: spec.delayType,
-      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
+      delayTime: isValid(spec.delayType) ? (spec.delayTime ?? 30) : 0,
       realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,
       previewPointsY: isNeedPreview && this._dataToPositionY,
       tolerance: this._spec.tolerance,
+      isReverse: isReverse(this._relatedAxisComponent as CartesianAxis<any>, this._isHorizontal),
       ...(this._getComponentAttrs(isNeedPreview) as any)
     } as DataZoomAttributes;
   }
 
-  protected _createOrUpdateComponent() {
+  private _getLayoutAttrs() {
+    return {
+      position: {
+        x: this.getLayoutStartPoint().x,
+        y: this.getLayoutStartPoint().y
+      },
+      size: {
+        width: this._computeWidth(),
+        height: this._computeHeight()
+      }
+    };
+  }
+
+  protected _createOrUpdateComponent(changeData?: boolean) {
     if (this._visible) {
       const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
       const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
@@ -321,71 +459,42 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._isScaleValid(xScale) && this._isScaleValid(yScale) && this._spec.showBackgroundChart !== false;
       const attrs = this._getAttrs(isNeedPreview);
 
+      const axis = this._relatedAxisComponent as CartesianAxis<any>;
+
       if (this._component) {
         this._component.setAttributes(attrs);
+        if (changeData) {
+          this._component.setPreviewData(this._data.getDataView().latestData);
+          if (isNeedPreview) {
+            if (this._isHorizontal) {
+              this._component.setPreviewPointsY1(this._dataToPositionY2);
+            } else {
+              this._component.setPreviewPointsX1(this._dataToPositionX2);
+            }
+            this._component.setStatePointToData((state: number) =>
+              statePointToData(state, this._stateScale, isReverse(axis, this._isHorizontal))
+            );
+          }
+        }
       } else {
         const container = this.getContainer();
         this._component = new DataZoomComponent(attrs);
+        this._component.setPreviewData(this._data.getDataView().latestData);
 
         if (this._isHorizontal) {
           isNeedPreview && this._component.setPreviewPointsY1(this._dataToPositionY2);
         } else {
           isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
         }
-        this._component.setStatePointToData((state: number) => this.statePointToData(state));
+        this._component.setStatePointToData((state: number) =>
+          statePointToData(state, this._stateScale, isReverse(axis, this._isHorizontal))
+        );
 
-        this._component.addEventListener('change', (e: any) => {
+        this._component.addEventListener('dataZoomChange', (e: any) => {
           const { start, end, tag } = e.detail;
           this._handleChange(start, end, undefined, tag);
         });
         container.add(this._component as unknown as INode);
-
-        this._updateScaleRange();
-      }
-    }
-  }
-
-  protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string) {
-    super._handleChange(start, end, updateComponent);
-
-    if (this._shouldChange) {
-      if (updateComponent && this._component) {
-        this._component.setStartAndEnd(start, end);
-      }
-
-      this._start = start;
-      this._end = end;
-      const startValue = this.statePointToData(start);
-      const endValue = this.statePointToData(end);
-      const hasChange = isFunction(this._spec.updateDataAfterChange)
-        ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
-        : this._handleStateChange(startValue, endValue, tag);
-      if (hasChange) {
-        this.event.emit(ChartEvent.dataZoomChange, {
-          model: this,
-          value: {
-            filterData: this._filterMode !== 'axis',
-            start,
-            end,
-            startValue: this._startValue,
-            endValue: this._endValue,
-            newDomain: this._newDomain
-          }
-        });
-      }
-    }
-  }
-
-  protected _handleDataCollectionChange() {
-    const data = this._data.getDataView();
-    data.reRunAllTransform();
-    this._component?.setPreviewData(data.latestData);
-
-    if (this._valueScale) {
-      const domain = this._computeDomainOfValueScale();
-
-      if (domain) {
-        this._valueScale.domain(domain);
       }
     }
   }
@@ -461,22 +570,31 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const { formatFunc } = getFormatFunction(formatMethod, formatter);
     return formatFunc ? (text: any) => formatFunc(text, { label: text }, formatter) : undefined;
   }
+  /** end: datazoom component attr ***/
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
   }
 
-  clear(): void {
-    if (this._component) {
-      const container = this.getContainer();
-      this._component.removeAllChild();
-      if (container) {
-        container.removeChild(this._component as unknown as INode);
-      }
-
-      this._component = null;
+  onDataUpdate() {
+    super.onDataUpdate();
+    // 预览scale
+    if (this._previewStateScale !== this._stateScale) {
+      this._previewStateScale = null;
     }
-    super.clear();
+  }
+
+  protected _getPreviewStateScale() {
+    if (!this._previewStateScale) {
+      // 当轴inverse时，需要反转预览scale
+      if (isReverse(this._relatedAxisComponent as CartesianAxis<any>, this._isHorizontal)) {
+        this._previewStateScale = this._stateScale.clone();
+        this._previewStateScale.range(this._stateScale.range().reverse());
+      } else {
+        this._previewStateScale = this._stateScale;
+      }
+    }
+    return this._previewStateScale;
   }
 }
 
