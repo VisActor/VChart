@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: dot series display bug. fix #3283",
+      "comment": "performance: enhance datazoom and scrollbar performance. close#2525 & #2781",
       "type": "none"
     }
   ],

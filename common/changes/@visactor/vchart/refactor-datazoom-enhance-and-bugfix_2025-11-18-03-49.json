@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: dot series display bug. fix #3283",
+      "comment": "fix: bind right axis when swtich orient. fix#3373",
       "type": "none"
     }
   ],

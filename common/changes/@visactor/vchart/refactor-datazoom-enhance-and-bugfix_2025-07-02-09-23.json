@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: datazoom layout when set scale. fix #2574 & #2535",
+      "comment": "fix: datazoom layout when set scale. fix #2574 & #2424",
       "type": "none"
     }
   ],
