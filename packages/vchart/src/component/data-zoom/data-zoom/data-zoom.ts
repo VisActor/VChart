@@ -258,14 +258,17 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       stateScaleRange = this._visible
         ? [this._startHandlerSize / 2, compWidth - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
-      this._stateScale.range(stateScaleRange);
     } else {
       stateScaleRange = this._visible
         ? [this._startHandlerSize / 2, compHeight - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
-
-      this._stateScale.range(stateScaleRange);
     }
+    this._stateScale.range(stateScaleRange);
+    this._previewStateScale?.range(
+      isReverse(this._relatedAxisComponent as CartesianAxis<any>, this._isHorizontal)
+        ? stateScaleRange.reverse()
+        : stateScaleRange
+    );
   }
 
   protected _updateValueScaleRange() {
