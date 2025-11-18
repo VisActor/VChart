@@ -23,7 +23,7 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
         max: number;
         values: any[];
     }[]): StringOrNumber[];
-    protected updateScaleRange(): boolean;
+    updateScaleRange(): boolean;
     protected initScales(): void;
     protected axisHelper(): {
         isContinuous: boolean;

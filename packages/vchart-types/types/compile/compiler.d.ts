@@ -8,6 +8,7 @@ import type { IMorphConfig } from '../animation/spec';
 import type { IVChart, IVChartRenderOption } from '../core/interface';
 import { type IMark } from '../mark/interface';
 import type { Gesture } from '@visactor/vrender-kits';
+import type { MarkAnimationSpec } from '../animation/interface';
 type EventListener = {
     type: string;
     callback: (...args: any[]) => void;
@@ -19,6 +20,7 @@ export declare class Compiler implements ICompiler {
     private _progressiveRafId?;
     protected _rootMarks: IMark[];
     protected _stage: IStage;
+    protected _stateAnimationConfig: Partial<MarkAnimationSpec>;
     protected _rootGroup: IGroup;
     getRootGroup(): IGroup;
     protected _viewListeners: Map<(...args: any[]) => any, EventListener>;
@@ -61,6 +63,9 @@ export declare class Compiler implements ICompiler {
     renderMarks(): void;
     reuseOrMorphing(morphConfig?: IMorphConfig): void;
     render(morphConfig?: IMorphConfig): void;
+    setStageAnimationConfig(config: Partial<MarkAnimationSpec>): void;
+    updateStateAnimation(): void;
+    runStageAnimation(): void;
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean): void;
     resize(width: number, height: number, reRender?: boolean): void;
     setBackground(color: IColor): void;
