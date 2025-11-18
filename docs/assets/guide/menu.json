@@ -933,6 +933,13 @@
                 "zh": "回归线组件",
                 "en": "Regression Line"
               }
+            },
+            {
+              "path": "candlestick",
+              "title": {
+                "zh": "蜡烛图",
+                "en": "Candlestick"
+              }
             }
           ]
         }
