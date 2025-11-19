@@ -26,6 +26,20 @@
 代码演示
 
 ```javascript livedemo
+/**
+ * 自2.0.0版本后，3d图表从vchart-extension中引入
+ *
+ * import { registerWordCloud3dChart } from '@visactor/vchart-extension';
+ *
+ * registerWordCloud3dChart();
+ */
+
+/** --Remove the following code when using in business-- */
+if (VChartExtension.registerWordCloud3dChart) {
+  VChartExtension.registerWordCloud3dChart();
+}
+/** --Remove the above code when using in business-- */
+
 const spec = {
   type: 'wordCloud3d',
   maskShape: `https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/log.jpeg`,
