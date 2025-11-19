@@ -470,6 +470,13 @@
                 "zh": "3d 漏斗图",
                 "en": "3D Funnel Chart"
               }
+            },
+            {
+              "path": "Candlestick",
+              "title": {
+                "zh": "蜡烛图",
+                "en": "Candlestick Chart"
+              }
             }
           ]
         },

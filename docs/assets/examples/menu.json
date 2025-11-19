@@ -16,20 +16,6 @@
           }
         },
         {
-          "path": "disappear-animation-dissolve-config",
-          "title": {
-            "zh": "溶解效果退场动画配置",
-            "en": "Disappear Dissolve Animation Config"
-          }
-        },
-        {
-          "path": "disappear-animation-glitch-config",
-          "title": {
-            "zh": "故障效果退场动画配置",
-            "en": "Disappear Glitch Animation Config"
-          }
-        },
-        {
           "path": "bar-oneByOne-group",
           "title": {
             "zh": "柱状图按分组依次入场动画",
