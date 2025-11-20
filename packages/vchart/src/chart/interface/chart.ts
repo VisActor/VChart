@@ -32,6 +32,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../../scale/interface';
 import type { IMorphConfig } from '../../animation/spec';
 import type { IMarkGraphic } from '../../mark/interface/common';
+import type { IAxis } from '../../component/axis/interface';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -217,6 +218,12 @@ export interface IChart extends ICompilable {
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   // setDimensionIndex
   setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
+  /**
+   * 显示交叉线
+   * @since 2.0.9
+   */
+  showCrosshair: (cb: (axis: IAxis) => false | string | number) => void;
+
   /**
    * 根据数据筛选图元
    * @since 1.13.9
