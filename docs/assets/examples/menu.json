@@ -2911,13 +2911,6 @@
             "zh": "散点图回归线",
             "en": "Scatter Chart Regression Line"
           }
-        },
-        {
-          "path": "mark-line-part-regression",
-          "title": {
-            "zh": "markLine 指定数据点并计算线性回归",
-            "en": "markLine Specifying Data Points and Calculating Linear Regression"
-          }
         }
       ]
     },
