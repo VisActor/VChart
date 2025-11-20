@@ -90,6 +90,16 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
     return targetDimensionInfo;
   }
 
+  getTooltipContent(info: DimensionTooltipInfo, params: BaseEventParams, changePositionOnly: boolean) {
+    const newParams: TooltipHandlerParams = {
+      ...(params as TooltipHandlerParams),
+      dimensionInfo: this._preprocessDimensionInfo(info),
+      changePositionOnly,
+      tooltip: this.component
+    };
+    return this._getTooltipContent(info, newParams);
+  }
+
   /** 获取触发 tooltip 需要的信息 */
   getMouseEventData(params: BaseEventParams): MouseEventData {
     return {

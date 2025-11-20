@@ -4,6 +4,7 @@ import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 import type { Datum } from '../../../typings/common';
 import type { BaseEventParams } from '../../../event/interface';
 import type { ITooltip, TooltipResult } from '../interface/common';
+import type { ITooltipActual } from '../../../typings';
 
 export type DimensionTooltipInfo = IDimensionInfo[];
 
@@ -29,6 +30,7 @@ export interface ITooltipProcessor<T> {
   clearCache: () => void;
   showTooltip: (info: T, params: BaseEventParams, changePositionOnly: boolean) => TooltipResult;
   getMouseEventData: (params: BaseEventParams) => MouseEventData;
+  getTooltipContent: (info: T, params: BaseEventParams, changePositionOnly: boolean) => ITooltipActual;
 }
 
 export interface ITooltipProcessorConstructor {

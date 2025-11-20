@@ -51,7 +51,7 @@ import type { IMark, IMarkGraphic, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';
 import { copyDataView } from '../data/transforms/copy-data-view';
-import type { ITooltipHandler } from '../typings/tooltip';
+import type { ITooltipActual, ITooltipHandler } from '../typings/tooltip';
 import type { Tooltip } from '../component/tooltip';
 import type {
   Datum,
@@ -117,6 +117,7 @@ import { registerElementHighlight } from '../interaction/triggers/element-highli
 import { registerElementSelect } from '../interaction/triggers/element-select';
 import type { IVChartPluginService } from '../plugin/vchart/interface';
 import { VChartPluginService } from '../plugin/vchart/plugin-service';
+import { getTooltipContent } from '../component/tooltip/utils/show-tooltip';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -1640,6 +1641,17 @@ export class VChart implements IVChart {
   showTooltip(datum: Datum, options: IShowTooltipOption): boolean {
     const tooltip = this._getTooltipComponent();
     return (isValid(datum) && tooltip?.showTooltip(datum, options) !== 'none') ?? false;
+  }
+
+  /**
+   * 获取 tooltip 内容
+   * @param datum 原始数据
+   * @param options
+   * @returns
+   */
+  getTooltipContent(datum: Datum, options: IShowTooltipOption): ITooltipActual | null {
+    const tooltip = this._getTooltipComponent();
+    return getTooltipContent(datum, options, tooltip);
   }
 
   /**
