@@ -148,7 +148,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
       item: undefined
     };
 
-    component.processor.dimension.showTooltip(mockDimensionInfo, mockParams, false);
+    component.processor?.dimension?.showTooltip?.(mockDimensionInfo, mockParams, false);
 
     // 全局唯一 tooltip
     const vchart = componentOptions.globalInstance;
