@@ -654,7 +654,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected _getGridAttributes() {
     const spec = this._spec;
     return {
-      alternateColor: spec.grid.alternateColor,
+      alternateColor: isFunction(spec.grid.alternateColor) ? spec.grid.alternateColor() : spec.grid.alternateColor,
       alignWithLabel: spec.grid.alignWithLabel,
       style: isFunction(spec.grid.style)
         ? (datum: Datum, index: number) => {
@@ -668,7 +668,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           : {
               type: 'line',
               visible: spec.subGrid.visible,
-              alternateColor: spec.subGrid.alternateColor,
+              alternateColor: isFunction(spec.subGrid.alternateColor)
+                ? spec.subGrid.alternateColor()
+                : spec.subGrid.alternateColor,
               style: transformToGraphic(spec.subGrid.style)
             }
     };
