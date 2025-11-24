@@ -116,7 +116,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
       if (dataview) {
         mark.setDataView(dataview);
         dataview.target.addListener('change', () => {
-          mark.commit();
+          mark.getData().updateData();
         });
       }
     }
