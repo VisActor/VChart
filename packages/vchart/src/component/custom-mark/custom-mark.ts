@@ -4,7 +4,8 @@ import { ComponentTypeEnum } from '../interface/type';
 import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { PREFIX } from '../../constant/base';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
-import { IComponentMark, MarkTypeEnum, type IGroupMark } from '../../mark/interface';
+import type { IComponentMark } from '../../mark/interface';
+import { MarkTypeEnum, type IGroupMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { Bounds, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
@@ -111,11 +112,12 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
 
     if (isValid(spec.dataId) || isValidNumber(spec.dataIndex)) {
       const dataview = this.getChart().getSeriesData(spec.dataId, spec.dataIndex);
+
       if (dataview) {
-        dataview.target.addListener('change', () => {
-          mark.getData().updateData();
-        });
         mark.setDataView(dataview);
+        dataview.target.addListener('change', () => {
+          mark.commit();
+        });
       }
     }
   }
