@@ -55,6 +55,36 @@ export interface IBoxPlotSeriesSpec
    * 异常值样式配置
    */
   outliersStyle?: IOutlierMarkSpec;
+
+  /**
+   * 宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）
+   * 1. number 类型，表示像素值
+   * 2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比
+   * @since 2.0.10
+   */
+  boxWidth?: number | string;
+  /**
+   * 最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）
+   * 1. number 类型，表示像素值
+   * 2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比
+   * @since 2.0.10
+   */
+  boxMinWidth?: number | string;
+  /**
+   * 最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）
+   * 1. number 类型，表示像素值
+   * 2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比
+   * @since 2.0.10
+   */
+  boxMaxWidth?: number | string;
+
+  /**
+   * 分组箱线图中各个分组内的间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。
+   * 1. number 类型，表示像素值
+   * 2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比
+   * @since 2.0.10
+   */
+  boxGapInGroup?: number | string | (number | string)[];
 }
 
 export interface IBoxPlotSeriesTheme extends ICartesianSeriesTheme {

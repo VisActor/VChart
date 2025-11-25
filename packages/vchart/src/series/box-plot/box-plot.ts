@@ -3,7 +3,7 @@ import { AttributeLevel } from '../../constant/attribute';
 import { DEFAULT_DATA_INDEX } from '../../constant/data';
 import { PREFIX } from '../../constant/base';
 import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
-import type { BoxPlotShaftShape, IOutlierMarkSpec, Datum } from '../../typings';
+import type { BoxPlotShaftShape, IOutlierMarkSpec, Datum, DirectionType } from '../../typings';
 import { Direction } from '../../typings/space';
 import { valueInScaleRange } from '../../util/scale';
 import { CartesianSeries } from '../cartesian/cartesian';
@@ -26,13 +26,15 @@ import { registerSymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IBoxPlotMark, IGlyphMark, IMark, ISymbolMark } from '../../mark/interface';
-import { merge, isNumber } from '@visactor/vutils';
+import { merge, isNumber, isValid, isNil, array, last } from '@visactor/vutils';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
 import { registeBoxPlotScaleAnimation } from './animation';
 import { boxPlot } from '../../theme/builtin/common/series/box-plot';
+import { getActualNumValue } from '../../util/space';
+import { isContinuous } from '@visactor/vscale';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -49,6 +51,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   static readonly builtInTheme = { boxPlot };
   static readonly mark: SeriesMarkMap = boxPlotSeriesMark;
 
+  protected _bandPosition = 0;
   protected _minField: string;
   getMinField() {
     return this._minField;
@@ -158,7 +161,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       const boxPlotMarkStyles =
         this._direction === Direction.horizontal
           ? {
-              y: this.dataToPositionY.bind(this),
+              y: (datum: Datum) => this._getPosition(this.direction, datum),
               ...commonBoxplotStyles,
               boxHeight: () => this._boxWidth ?? this._getMarkWidth(),
               ruleHeight: () => this._shaftWidth ?? this._getMarkWidth(),
@@ -166,7 +169,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
               minMaxHeight: () => this._shaftWidth ?? this._getMarkWidth()
             }
           : {
-              x: this.dataToPositionX.bind(this),
+              x: (datum: Datum) => this._getPosition(this.direction, datum),
               ...commonBoxplotStyles,
               boxWidth: () => this._boxWidth ?? this._getMarkWidth(),
               ruleWidth: () => this._shaftWidth ?? this._getMarkWidth(),
@@ -247,7 +250,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       const outlierMarkPositionChannel =
         this._direction === Direction.horizontal
           ? {
-              y: this.dataToPositionY.bind(this),
+              y: (datum: Datum) => this._getPosition(this.direction, datum),
               x: (datum: Datum) =>
                 valueInScaleRange(
                   dataToPosition(this.getDatumPositionValues(datum, BOX_PLOT_OUTLIER_VALUE_FIELD), {
@@ -257,7 +260,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
                 )
             }
           : {
-              x: this.dataToPositionX.bind(this),
+              x: (datum: Datum) => this._getPosition(this.direction, datum),
               y: (datum: Datum) =>
                 valueInScaleRange(
                   dataToPosition(this.getDatumPositionValues(datum, BOX_PLOT_OUTLIER_VALUE_FIELD), {
@@ -323,13 +326,77 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     }
     //获取自适应的图元宽度
     const bandAxisHelper = this._direction === Direction.horizontal ? this._yAxisHelper : this._xAxisHelper;
-    const xField = this._direction === Direction.horizontal ? this._fieldY : this._fieldX;
+    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const bandWidth = bandAxisHelper.getBandwidth?.(depthFromSpec - 1);
 
-    const innerBandWidth = bandAxisHelper.getBandwidth(xField.length - 1);
-    const autoBoxWidth = innerBandWidth / xField.length;
-    this._autoBoxWidth = autoBoxWidth;
+    let width = bandWidth;
+    if (isValid(this._spec.boxWidth)) {
+      width = getActualNumValue(this._spec.boxWidth, bandWidth);
+    }
+    if (isValid(this._spec.boxMinWidth)) {
+      width = Math.max(width, getActualNumValue(this._spec.boxMinWidth, bandWidth));
+    }
+    if (isValid(this._spec.boxMaxWidth)) {
+      width = Math.min(width, getActualNumValue(this._spec.boxMaxWidth, bandWidth));
+    }
+
+    this._autoBoxWidth = width;
 
     return this._autoBoxWidth;
+  }
+
+  protected _getPosition(direction: DirectionType, datum: Datum) {
+    let axisHelper;
+    let sizeAttribute;
+    let dataToPosition;
+    if (direction === Direction.horizontal) {
+      axisHelper = this.getYAxisHelper();
+      sizeAttribute = 'boxHeight';
+      dataToPosition = this.dataToPositionY.bind(this);
+    } else {
+      axisHelper = this.getXAxisHelper();
+      sizeAttribute = 'boxWidth';
+      dataToPosition = this.dataToPositionX.bind(this);
+    }
+    const scale = axisHelper.getScale(0);
+
+    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const depth = depthFromSpec;
+
+    const bandWidth = axisHelper.getBandwidth?.(depth - 1);
+    const size = this._boxPlotMark.getAttribute(sizeAttribute, datum) as number;
+
+    if (depth > 1 && isValid(this._spec.boxGapInGroup)) {
+      // 自里向外计算，沿着第一层分组的中心点进行位置调整
+      const groupFields = this._groups.fields;
+      const boxGapInGroup = array(this._spec.boxGapInGroup);
+      let totalWidth: number = 0;
+      let offSet: number = 0;
+
+      for (let index = groupFields.length - 1; index >= 1; index--) {
+        const groupField = groupFields[index];
+        // const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
+        const groupValues = axisHelper.getScale(index)?.domain() ?? [];
+        const groupCount = groupValues.length;
+        const gap = getActualNumValue(boxGapInGroup[index - 1] ?? last(boxGapInGroup), bandWidth);
+        const i = groupValues.indexOf(datum[groupField]);
+        if (index === groupFields.length - 1) {
+          totalWidth += groupCount * size + (groupCount - 1) * gap;
+          offSet += i * (size + gap);
+        } else {
+          offSet += i * (totalWidth + gap);
+          totalWidth += totalWidth + (groupCount - 1) * gap;
+        }
+      }
+
+      const center = scale.scale(datum[groupFields[0]]) + axisHelper.getBandwidth(0) / 2;
+      return center - totalWidth / 2 + offSet + size / 2;
+    }
+
+    const continuous = isContinuous(scale.type || 'band');
+    const pos = dataToPosition(datum);
+
+    return pos + bandWidth * 0.5 + (continuous ? -bandWidth / 2 : 0);
   }
 
   onLayoutEnd() {

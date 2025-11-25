@@ -1,3 +1,4 @@
+import { ICartesianBandAxisSpec } from '../../component/axis/cartesian/interface/spec';
 import { Direction } from '../../typings';
 import { CartesianChartSpecTransformer } from '../cartesian';
 import { setDefaultCrosshairForCartesianChart } from '../util';
@@ -16,7 +17,12 @@ export class BoxPlotChartSpecTransformer<
       'medianField',
       'q3Field',
       'outliersField',
-      'outliersStyle'
+      'outliersStyle',
+
+      'boxWidth',
+      'boxMaxWidth',
+      'boxMinWidth',
+      'boxGapInGroup'
     ]);
     seriesSpec.direction = spec.direction ?? Direction.vertical;
     seriesSpec[seriesSpec.direction === Direction.horizontal ? 'xField' : 'yField'] = dataFields;
