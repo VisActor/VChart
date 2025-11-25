@@ -544,11 +544,11 @@ export interface IBoxPlotMarkSpec extends ICommonSpec {
   /**
    * box宽度
    */
-  boxWidth?: number;
+  boxWidth?: number | string;
   /**
    * 最大最小值宽度
    */
-  shaftWidth?: number;
+  shaftWidth?: number | string;
   /**
    * 中轴线类型
    */
@@ -912,7 +912,7 @@ export type IGradient = IGradientLinear | IGradientRadial | IGradientConical;
 export type LineStrokeCap = 'butt' | 'round' | 'square';
 export type LineStrokeJoin = 'arcs' | 'bevel' | 'miter' | 'miter-clip' | 'round';
 
-export type BoxPlotShaftShape = 'line' | 'bar';
+export type BoxPlotShaftShape = 'line' | 'bar' | 'filled-line';
 /**
  *  threshold
  */

@@ -148,9 +148,9 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     if (boxPlotMark) {
       const commonBoxplotStyles = {
         lineWidth: this._lineWidth,
-        fill: this._boxFillColor ?? (this._shaftShape === 'line' ? DEFAULT_FILL_COLOR : this.getColorAttribute()),
+        fill: this._boxFillColor ?? (this._shaftShape !== 'line' ? this.getColorAttribute() : DEFAULT_FILL_COLOR),
         minMaxFillOpacity: this._shaftFillOpacity,
-        stroke: this._strokeColor ?? (this._shaftShape === 'line' ? this.getColorAttribute() : DEFAULT_STROKE_COLOR)
+        stroke: this._strokeColor ?? (this._shaftShape !== 'line' ? DEFAULT_STROKE_COLOR : this.getColorAttribute())
       };
 
       (boxPlotMark as IGlyphMark).setGlyphConfig({
@@ -163,18 +163,18 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
           ? {
               y: (datum: Datum) => this._getPosition(this.direction, datum),
               ...commonBoxplotStyles,
-              boxHeight: () => this._boxWidth ?? this._getMarkWidth(),
-              ruleHeight: () => this._shaftWidth ?? this._getMarkWidth(),
-              q1q3Height: () => this._boxWidth ?? this._getMarkWidth(),
-              minMaxHeight: () => this._shaftWidth ?? this._getMarkWidth()
+              boxHeight: () => getActualNumValue(this._boxWidth ?? '100%', this._getMarkWidth()),
+              ruleHeight: () => getActualNumValue(this._shaftWidth ?? '100%', this._getMarkWidth()),
+              q1q3Height: () => getActualNumValue(this._boxWidth ?? '100%', this._getMarkWidth()),
+              minMaxHeight: () => getActualNumValue(this._shaftWidth ?? '100%', this._getMarkWidth())
             }
           : {
               x: (datum: Datum) => this._getPosition(this.direction, datum),
               ...commonBoxplotStyles,
-              boxWidth: () => this._boxWidth ?? this._getMarkWidth(),
-              ruleWidth: () => this._shaftWidth ?? this._getMarkWidth(),
-              q1q3Width: () => this._boxWidth ?? this._getMarkWidth(),
-              minMaxWidth: () => this._shaftWidth ?? this._getMarkWidth()
+              boxWidth: () => getActualNumValue(this._boxWidth ?? '100%', this._getMarkWidth()),
+              ruleWidth: () => getActualNumValue(this._shaftWidth ?? '100%', this._getMarkWidth()),
+              q1q3Width: () => getActualNumValue(this._boxWidth ?? '100%', this._getMarkWidth()),
+              minMaxWidth: () => getActualNumValue(this._shaftWidth ?? '100%', this._getMarkWidth())
             };
       this.setMarkStyle(boxPlotMark, boxPlotMarkStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
     }
@@ -410,9 +410,9 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     const newConfig = merge({}, config);
     ['appear', 'enter', 'update', 'exit', 'disappear'].forEach(state => {
       if (newConfig[state] && newConfig[state].type === 'scaleIn') {
-        newConfig[state].type = this._shaftShape === 'line' ? 'boxplotScaleIn' : 'barBoxplotScaleIn';
+        newConfig[state].type = this._shaftShape === 'bar' ? 'barBoxplotScaleIn' : 'boxplotScaleIn';
       } else if (newConfig[state] && newConfig[state].type === 'scaleOut') {
-        newConfig[state].type = this._shaftShape === 'line' ? 'boxplotScaleOut' : 'barBoxplotScaleOut';
+        newConfig[state].type = this._shaftShape === 'bar' ? 'barBoxplotScaleOut' : 'boxplotScaleOut';
       }
     });
     return newConfig;
