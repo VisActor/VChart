@@ -122,7 +122,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     this._shaftFillOpacity =
       this._shaftShape === 'bar' ? boxPlotStyle.shaftFillOpacity ?? DEFAULT_SHAFT_FILL_OPACITY : undefined;
 
-    this._outliersStyle = this._spec.outliersStyle;
+    this._outliersStyle = (this._spec.outliersStyle ?? this._spec.outlier?.style) as IOutlierMarkSpec;
   }
 
   private _boxPlotMark?: IBoxPlotMark;
@@ -185,8 +185,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         outlierMark,
         {
           fill: this._outliersStyle?.fill ?? this.getColorAttribute(),
-          size: isNumber(this._outliersStyle?.size) ? this._outliersStyle.size : DEFAULT_OUTLIER_SIZE,
-          symbolType: 'circle'
+          size: isNumber(this._outliersStyle?.size) ? this._outliersStyle.size : DEFAULT_OUTLIER_SIZE
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
         AttributeLevel.Series

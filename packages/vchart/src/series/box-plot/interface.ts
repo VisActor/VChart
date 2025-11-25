@@ -1,6 +1,13 @@
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
-import type { DirectionType, IBoxPlotMarkSpec, IOutlierMarkSpec, IMarkSpec, IMarkTheme } from '../../typings';
+import type {
+  DirectionType,
+  IBoxPlotMarkSpec,
+  IOutlierMarkSpec,
+  IMarkSpec,
+  IMarkTheme,
+  ISymbolMarkSpec
+} from '../../typings';
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 
@@ -41,18 +48,21 @@ export interface IBoxPlotSeriesSpec
    */
   q3Field?: string;
   /**
-   *异常值字段
+   * 异常值字段
    */
+  outliersField?: string;
   /**
    * 图元配置
    */
   [SeriesMarkNameEnum.boxPlot]?: IMarkSpec<IBoxPlotMarkSpec>;
   /**
-   * 异常值字段
+   * 异常值图元配置
+   * @since 2.0.10
    */
-  outliersField?: string;
+  [SeriesMarkNameEnum.outlier]?: IMarkSpec<ISymbolMarkSpec>;
   /**
    * 异常值样式配置
+   * @todo 将在未来版本中废弃，请使用 outlier 配置项代替
    */
   outliersStyle?: IOutlierMarkSpec;
 

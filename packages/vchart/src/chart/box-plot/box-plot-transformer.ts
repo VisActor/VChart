@@ -1,4 +1,3 @@
-import { ICartesianBandAxisSpec } from '../../component/axis/cartesian/interface/spec';
 import { Direction } from '../../typings';
 import { CartesianChartSpecTransformer } from '../cartesian';
 import { setDefaultCrosshairForCartesianChart } from '../util';
@@ -11,6 +10,7 @@ export class BoxPlotChartSpecTransformer<
     const dataFields = [spec.maxField, spec.medianField, spec.q1Field, spec.q3Field, spec.minField, spec.outliersField];
     const seriesSpec = super._getDefaultSeriesSpec(spec, [
       'boxPlot',
+      'outlier',
       'minField',
       'maxField',
       'q1Field',
