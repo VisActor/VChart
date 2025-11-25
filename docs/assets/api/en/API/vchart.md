@@ -763,7 +763,9 @@ getCurrentThemeName: () => string;
 
 ### setCurrentTheme
 
-**asynchronous method**, set the current Theme.
+**Asynchronous method**, set the current Theme.
+
+**Note: If the `theme` property is configured in the chart spec, the `spec.theme` has higher priority.**
 
 ```ts
 /**
@@ -773,6 +775,66 @@ getCurrentThemeName: () => string;
  */
 setCurrentTheme: (name: string) => Promise<IVChart>;
 ```
+
+Usage example:
+
+```javascript livedemo
+// Define custom theme
+const customTheme = {
+  colorScheme: {
+    default: [
+      '#FF6B6B',
+      '#4ECDC4',
+      '#45B7D1',
+      '#FFA07A',
+      '#98D8C8',
+      '#F7DC6F',
+      '#BB8FCE',
+      '#85C1E2'
+    ]
+  },
+  series: {
+    bar: {
+      barMaxWidth: 20,
+      label: {
+        visible: true,
+        position: 'top'
+      }
+    }
+  }
+};
+
+// Register theme
+VChart.ThemeManager.registerTheme('myCustomTheme', customTheme);
+
+const spec = {
+  type: 'bar',
+  data: [
+    {
+      id: 'barData',
+      values: [
+        { type: 'A', value: 120 },
+        { type: 'B', value: 200 },
+        { type: 'C', value: 150 },
+        { type: 'D', value: 80 }
+      ]
+    }
+  ],
+  xField: 'type',
+  yField: 'value'
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+
+// Set theme through instance method
+vchart.setCurrentTheme('myCustomTheme');
+```
+
+**Note**:
+- Before using the `setCurrentTheme` method, you need to register the theme first through `VChart.ThemeManager.registerTheme()`
+- This method is asynchronous and returns a Promise, you can use `await` or `.then()` to handle it
+- If the `theme` property is configured in the chart spec, the theme in the spec has higher priority
 
 ### setTooltipHandler
 
