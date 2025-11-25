@@ -162,7 +162,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         this._direction === Direction.horizontal
           ? {
               y: (datum: Datum) => this._getPosition(this.direction, datum),
-              ...commonBoxplotStyles,
               boxHeight: () => getActualNumValue(this._boxWidth ?? '100%', this._getMarkWidth()),
               ruleHeight: () => getActualNumValue(this._shaftWidth ?? '100%', this._getMarkWidth()),
               q1q3Height: () => getActualNumValue(this._boxWidth ?? '100%', this._getMarkWidth()),
@@ -170,13 +169,14 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
             }
           : {
               x: (datum: Datum) => this._getPosition(this.direction, datum),
-              ...commonBoxplotStyles,
               boxWidth: () => getActualNumValue(this._boxWidth ?? '100%', this._getMarkWidth()),
               ruleWidth: () => getActualNumValue(this._shaftWidth ?? '100%', this._getMarkWidth()),
               q1q3Width: () => getActualNumValue(this._boxWidth ?? '100%', this._getMarkWidth()),
               minMaxWidth: () => getActualNumValue(this._shaftWidth ?? '100%', this._getMarkWidth())
             };
-      this.setMarkStyle(boxPlotMark, boxPlotMarkStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
+
+      this.setMarkStyle(boxPlotMark, commonBoxplotStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
+      this.setMarkStyle(boxPlotMark, boxPlotMarkStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Built_In);
     }
 
     const outlierMark = this._outlierMark;
