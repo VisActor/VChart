@@ -154,7 +154,7 @@ export declare class BaseMark<T extends ICommonSpec> extends GrammarItem impleme
     };
     protected _getEncoderOfStyle: (stateName: string, style: Partial<IAttrs<T>>) => Record<string, (datum: Datum) => any>;
     protected _setGraphicFromMarkConfig: (g: IMarkGraphic) => void;
-    protected _setStateOfGraphic: (g: IMarkGraphic) => void;
+    protected _setStateOfGraphic: (g: IMarkGraphic, hasAnimation?: boolean) => void;
     protected _addProgressiveGraphic(parent: IGroup, g: IMarkGraphic): void;
     protected _runEncoder(graphics: IMarkGraphic[], noGroupEncode?: boolean): void;
     protected _runApplyGraphic(graphics: IMarkGraphic[]): void;
