@@ -1532,7 +1532,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   };
 
-  protected _setStateOfGraphic = (g: IMarkGraphic) => {
+  protected _setStateOfGraphic = (g: IMarkGraphic, hasAnimation?: boolean) => {
     g.clearStates();
     g.stateProxy = null;
 
@@ -1541,7 +1541,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         return this._runEncoderOfGraphic(this._encoderOfState?.[stateName], g);
       };
 
-      g.context.states && g.useStates(g.context.states);
+      g.context.states && g.useStates(g.context.states, hasAnimation);
     }
   };
 
@@ -1625,7 +1625,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         }
       }
 
-      this._setStateOfGraphic(g);
+      this._setStateOfGraphic(g, hasStateAnimation);
       this._setGraphicFromMarkConfig(g);
     });
   }
