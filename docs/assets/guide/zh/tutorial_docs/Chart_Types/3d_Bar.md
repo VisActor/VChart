@@ -34,6 +34,20 @@
 ## 快速上手
 
 ```javascript livedemo
+/**
+ * 自2.0.0版本后，3d图表从vchart-extension中引入
+ *
+ * import { registerBar3dChart } from '@visactor/vchart-extension';
+ *
+ * registerBar3dChart();
+ */
+
+/** --Remove the following code when using in business-- */
+if (VChartExtension.registerBar3dChart) {
+  VChartExtension.registerBar3dChart();
+}
+/** --Remove the above code when using in business-- */
+
 const spec = {
   type: 'bar3d',
   data: [
@@ -76,6 +90,9 @@ const vchart = new VChart(spec, {
   }
 });
 vchart.renderSync();
+
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
 ```
 
 其他配置参考[柱状图]()

@@ -470,6 +470,13 @@
                 "zh": "3d 漏斗图",
                 "en": "3D Funnel Chart"
               }
+            },
+            {
+              "path": "Candlestick",
+              "title": {
+                "zh": "蜡烛图",
+                "en": "Candlestick Chart"
+              }
             }
           ]
         },
@@ -593,6 +600,13 @@
             "en": "Theme"
           },
           "children": [
+            {
+              "path": "Apply_Theme",
+              "title": {
+                "zh": "主题应用指南",
+                "en": "Theme Application Guide"
+              }
+            },
             {
               "path": "Theme_Concept_and_Design_Rules",
               "title": {
@@ -932,6 +946,13 @@
               "title": {
                 "zh": "回归线组件",
                 "en": "Regression Line"
+              }
+            },
+            {
+              "path": "candlestick",
+              "title": {
+                "zh": "蜡烛图",
+                "en": "Candlestick"
               }
             }
           ]

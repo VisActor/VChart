@@ -1396,12 +1396,18 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     });
     const isUnableValue =
       isNil(value) || !dimensionInfo || dimensionInfo.every(d => isDiscrete(d.axis.getScale().type) && isNil(d.index));
+
+    const isUnableTooltip =
+      // 如果数据本身不可用
+      isUnableValue ||
+      // 或者数据为空
+      dimensionInfo.every(d => isDiscrete(d.axis.getScale().type) && d.data.every(_data => _data.datum.length === 0));
     // tooltip
     if (opt.tooltip !== false) {
       const tooltip = this.getComponentsByType(ComponentTypeEnum.tooltip)[0] as unknown as ITooltip;
 
       if (tooltip?.getVisible()) {
-        if (isUnableValue) {
+        if (isUnableValue || isUnableTooltip) {
           (<any>tooltip).hideTooltip?.();
         } else {
           const dataFilter: { [key: string]: any } = {};
@@ -1429,6 +1435,27 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         }
       }
     }
+  }
+
+  showCrosshair(cb: (axis: IAxis) => false | string | number) {
+    const crosshair =
+      this.getComponentsByType(ComponentTypeEnum.cartesianCrosshair)[0] ??
+      this.getComponentsByType(ComponentTypeEnum.polarCrosshair)[0];
+    if (!crosshair) {
+      return;
+    }
+    const axes = this.getComponentsByKey('axes') as IAxis[];
+    const dimInfo: { axis: IAxis; value: string | number }[] = [];
+    axes.forEach(axis => {
+      const value = cb(axis);
+      if (value !== false) {
+        dimInfo.push({
+          axis,
+          value
+        });
+      }
+    });
+    (crosshair as ICrossHair).showCrosshair(dimInfo);
   }
 
   getColorScheme() {

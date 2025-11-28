@@ -34,6 +34,20 @@
 ## 快速上手
 
 ```javascript livedemo
+/**
+ * 自2.0.0版本后，3d图表从vchart-extension中引入
+ *
+ * import { registerFunnel3dChart } from '@visactor/vchart-extension';
+ *
+ * registerFunnel3dChart();
+ */
+
+/** --Remove the following code when using in business-- */
+if (VChartExtension.registerFunnel3dChart) {
+  VChartExtension.registerFunnel3dChart();
+}
+/** --Remove the above code when using in business-- */
+
 const spec = {
   padding: {
     top: 30
@@ -68,19 +82,9 @@ const spec = {
       ]
     }
   ],
-  funnel3d: {
-    style: {
-      // stroke: 'red',
-      // strokeWidth: 1,
-      face: [false, false, true, false, true, false]
-    }
-  },
   label: {
     visible: true,
     support3d: true
-    // style: {
-    //   stroke: false
-    // }
   },
   maxSize: 400,
   minSize: 50,
@@ -94,10 +98,17 @@ const vchart = new VChart(spec, {
   dom: CONTAINER_ID,
   disableDirtyBounds: true,
   options3d: {
-    enable: true
+    enable: true,
+    center: {
+      dx: 100,
+      dy: 100
+    }
   }
 });
 vchart.renderSync();
+
+// Just for the convenience of console debugging, do not copy
+window['vchart'] = vchart;
 ```
 
 其他配置参考[漏斗图]()

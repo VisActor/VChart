@@ -725,7 +725,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.setUserId(spec.id);
     }
 
-    if (options.hasAnimation) {
+    if (options.hasAnimation && spec.animation !== false) {
       // 自定义图元默认不添加动画
       const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
       mark.setAnimationConfig(config);
@@ -736,7 +736,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       spec.children?.forEach((s, i) => {
         this._createExtensionMark(s as any, mark, namePrefix, i, options);
       });
-    } else if (!parentMark && (!isNil(spec.dataId) || !isNil(spec.dataIndex))) {
+    }
+
+    if (!isNil(spec.dataId) || !isNil(spec.dataIndex)) {
       const dataView = this._option.getSeriesData(spec.dataId, spec.dataIndex);
 
       if (dataView === this._rawData) {

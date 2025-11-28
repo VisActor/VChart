@@ -2,6 +2,27 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.9",
+      "tag": "@visactor/vchart_v2.0.9",
+      "date": "Fri, 28 Nov 2025 03:44:56 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add `outlier` to boxplot, close #4301\n\n"
+          },
+          {
+            "comment": "feat: upgrade vrender to 1.0.30\n\n"
+          },
+          {
+            "comment": "fix: extensionMark can remove animation\n\n"
+          },
+          {
+            "comment": "fix: fix issue of font family\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.7",
       "tag": "@visactor/vchart_v2.0.7",
       "date": "Tue, 18 Nov 2025 11:36:57 GMT",

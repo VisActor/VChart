@@ -131,11 +131,36 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
 vchart.renderSync();
 ```
 
+### rewind
+
+In Geographic Information System (GIS) and map visualization development, **Rewind** is a key operation used to **correct the vertex order (Winding Order) of polygons**.
+
+In simple terms, its function is to ensure that the "outer rings" and "inner rings (holes)" of polygons are arranged in the standard specified direction (clockwise or counterclockwise), preventing serious visual errors from occurring in the rendering engine during drawing.
+
+Generally speaking, if there are no errors in the incoming map data and the mapping configuration is correct, but the drawing effect does not meet expectations, it may be that the vertex order (Winding Order) of the map data does not conform to expectations, causing the rendering engine to draw incorrectly.
+
+In this case, it is necessary to perform a Rewind operation on the map data to ensure that the "outer rings" and "inner rings (holes)" of polygons are arranged in the standard specified direction (clockwise or counterclockwise). VChart provides a `rewind` option in the parameter values for registering maps, which defaults to false.
+
+```
+// Enable rewind option for topojson data
+VChart.registerMap('south-america', topojson, {
+  type: 'topojson',
+  object: 'south-america',
+  rewind: true
+});
+
+// Enable rewind option for geojson data
+VChart.registerMap('world', world_geojson, {
+  type: 'geojson',
+  rewind: true
+});
+```
+
 2.  Meta map data
 
-- one`地理维度`Field specifying the Region to be colored on the base map
-- one`数值`Field used to map the specified visual channel such as shading depth
-  Note: If the Region name in the incoming Geographic Dimension field does not correspond to the base map data, you need to pass`mapChart.nameMap`Specify.
+- One **geographic dimension** field specifying the region to be colored on the base map
+- One **numeric** field used to map the specified visual channel such as shading depth
+  Note: If the region name in the incoming geographic dimension field does not correspond to the base map data, you need to use `mapChart.nameMap` to specify the mapping.
 
 ### Specify nameMap
 
@@ -338,6 +363,8 @@ vchart.renderSync();
 ```
 
 # Get Map Data
+
+Note: Please ensure that the map data complies with the standard `right-hand rule`, otherwise it may cause rendering issues. If the data does not comply with the standard, you need to use the **rewind** option to process it.
 
 ## China Map Data
 

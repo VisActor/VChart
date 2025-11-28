@@ -131,6 +131,31 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
 vchart.renderSync();
 ```
 
+### rewind
+
+在地理信息系统（GIS）和地图可视化开发中，**Rewind**（重绕/回绕）是一个用于**修正多边形（Polygon）顶点顺序（Winding Order）**的关键操作。
+
+简单来说，它的作用是确保多边形的“外环”和“内环（洞）”按照标准规定的方向（顺时针或逆时针）排列，以防止渲染引擎在绘图时出现严重的视觉错误。
+
+一般来说，如果传入地图数据没有报错，映射也配置正确，但是绘图效果不符合预期时，那就有可能是地图数据的顶点顺序（Winding Order）不符合预期，导致渲染引擎绘制错误。
+
+在这种情况下，就需要对地图数据进行 Rewind 操作，确保多边形的“外环”和“内环（洞）”按照标准规定的方向（顺时针或逆时针）排列。vchart 在注册地图的参数值中有提供 rewin 选项，默认为 false。
+
+```
+// topojson 数据开启 rewind 选项
+VChart.registerMap('south-america', topojson, {
+  type: 'topojson',
+  object: 'south-america',
+  rewind: true
+});
+
+// geojson 数据开启 rewind 选项
+VChart.registerMap('world', world_geojson, {
+  type: 'geojson',
+  rewind: true
+});
+```
+
 2. 图元映射数据
 
 - 一个`地理维度`字段，用于指定需要在底图上着色的区域
@@ -338,6 +363,8 @@ vchart.renderSync();
 ```
 
 # 免费获取地图数据
+
+注意：请确定地图数据是否符合标准的`右手规则`，否则可能会导致渲染不符合预期。如果不符合标准，需要使用上面提到的 **rewind** 选项来处理。
 
 ## 中国地图数据
 

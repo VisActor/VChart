@@ -1908,6 +1908,10 @@ export class VChart implements IVChart {
     return this._chart?.setDimensionIndex(value, opt);
   }
 
+  showCrosshair(cb: (axis: IAxis) => false | string | number) {
+    this._chart?.showCrosshair(cb);
+  }
+
   /** 停止正在进行的所有动画 */
   stopAnimation() {
     (this.getStage() as any)?.stopAnimation(true);
