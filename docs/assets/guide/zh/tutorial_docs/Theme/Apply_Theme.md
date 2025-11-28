@@ -8,13 +8,13 @@ VChart 支持两种主题应用范围：
 
 ### 1. 全局应用
 
-通过 `ThemeManager.setCurrentTheme()` ( <https://www.visactor.com/vchart/api/API/theme> )  方法可以设置全局主题，该方法会影响页面上所有已创建的图表实例以及后续创建的图表实例。
+通过 `ThemeManager.setCurrentTheme()` ( <https://www.visactor.com/vchart/api/API/theme> ) 方法可以设置全局主题，该方法会影响页面上所有已创建的图表实例以及后续创建的图表实例。
 
 ### 2. 图表实例应用
 
 通过图表 spec 的 `theme` 配置项或通过构造函数( <https://www.visactor.com/vchart/api/API/vchart> )，可以为单个图表实例应用特定的主题，不会影响其他图表。
 
-也可以通过 setCurrentTheme 实例方法，对当前图表进行动态更新，前提是该主题通过 VChart.ThemeManager.registerTheme  注册过。
+也可以通过 setCurrentTheme 实例方法，对当前图表进行动态更新，前提是该主题通过 VChart.ThemeManager.registerTheme 注册过。
 
 ```js
 vchart.setCurrentTheme('userTheme');
@@ -85,7 +85,6 @@ vchart.renderSync();
 
 <https://www.visactor.com/vchart/guide/tutorial_docs/Theme/Customize_Theme>
 
-
 #### 全局应用自定义主题
 
 ```javascript livedemo
@@ -93,16 +92,7 @@ vchart.renderSync();
 const customTheme = {
   name: 'myCustomTheme',
   colorScheme: {
-    default: [
-      '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#FFA07A',
-      '#98D8C8',
-      '#F7DC6F',
-      '#BB8FCE',
-      '#85C1E2'
-    ]
+    default: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2']
   },
   series: {
     bar: {
@@ -162,16 +152,7 @@ vchart.renderSync();
 // 定义自定义主题对象
 const customTheme = {
   colorScheme: {
-    default: [
-      '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#FFA07A',
-      '#98D8C8',
-      '#F7DC6F',
-      '#BB8FCE',
-      '#85C1E2'
-    ]
+    default: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2']
   },
   series: {
     bar: {
@@ -213,16 +194,7 @@ vchart.renderSync();
 // 定义并注册自定义主题
 const customTheme = {
   colorScheme: {
-    default: [
-      '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#FFA07A',
-      '#98D8C8',
-      '#F7DC6F',
-      '#BB8FCE',
-      '#85C1E2'
-    ]
+    default: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2']
   },
   series: {
     bar: {
@@ -278,11 +250,13 @@ yarn add @visactor/vchart-theme
 
 ```javascript livedemo
 // 导入扩展主题包
-import { allThemeMap } from '@visactor/vchart-theme';
-import VChart from '@visactor/vchart';
+// Import extension theme package
+// import { allThemeMap } from '@visactor/vchart-theme';
+
+// The VChartTheme object is already mounted on the window object in the editor environment
 
 // 注册所有扩展主题
-allThemeMap.forEach((theme, name) => {
+VChartTheme.allThemeMap.forEach((theme, name) => {
   VChart.ThemeManager.registerTheme(name, theme);
 });
 
@@ -314,8 +288,8 @@ vchart.renderSync();
 
 ```javascript livedemo
 // 导入特定主题
-import vScreenVolcanoBlue from '@visactor/vchart-theme/public/vScreenVolcanoBlue.json';
-import VChart from '@visactor/vchart';
+const response = await fetch('https://www.unpkg.com/@visactor/vchart-theme@latest/public/vScreenVolcanoBlue.json');
+const vScreenVolcanoBlue = await response.json();
 
 // 注册扩展主题
 VChart.ThemeManager.registerTheme('vScreenVolcanoBlue', vScreenVolcanoBlue);
@@ -357,16 +331,7 @@ const defaultTheme = VChart.ThemeManager.getDefaultTheme();
 const extendedTheme = {
   ...defaultTheme,
   colorScheme: {
-    default: [
-      '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#FFA07A',
-      '#98D8C8',
-      '#F7DC6F',
-      '#BB8FCE',
-      '#85C1E2'
-    ]
+    default: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2']
   },
   series: {
     ...defaultTheme.series,
@@ -418,6 +383,8 @@ vchart.renderSync();
 // 导入扩展主题(以下两行代码在开发环境中需要使用，vchart playground 中不需要)
 //import vScreenVolcanoBlue from '@visactor/vchart-theme/public/vScreenVolcanoBlue.json';
 //import VChart from '@visactor/vchart';
+const response = await fetch('https://www.unpkg.com/@visactor/vchart-theme@latest/public/vScreenVolcanoBlue.json');
+const vScreenVolcanoBlue = await response.json();
 
 // 注册原始主题
 VChart.ThemeManager.registerTheme('vScreenVolcanoBlue', vScreenVolcanoBlue);
@@ -570,17 +537,17 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
 ```
 
-
-
 ## 总结
 
 本文介绍了 VChart 主题应用的完整指南：
 
 1. **主题应用范围**：
+
    - 全局应用：通过 `ThemeManager.setCurrentTheme()` 影响所有图表
    - 图表实例应用：通过 spec 的 `theme` 配置项或实例的 `setCurrentTheme()` 方法
 
 2. **主题类型**：
+
    - **默认主题**：VChart 内置的 `light` 和 `dark` 主题，无需注册即可使用
    - **自定义主题**：用户自己定义的主题配置对象
    - **扩展包主题**：通过 `@visactor/vchart-theme` 包提供的丰富主题
@@ -592,4 +559,3 @@ vchart.renderSync();
    - 对于需要基于现有主题进行微调的场景，使用主题扩展
 
 通过灵活运用这些主题应用方式，您可以轻松实现图表的个性化定制和统一管理。
-
