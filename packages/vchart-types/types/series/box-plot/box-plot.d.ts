@@ -1,5 +1,5 @@
 import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
-import type { BoxPlotShaftShape, IOutlierMarkSpec } from '../../typings';
+import type { BoxPlotShaftShape, IOutlierMarkSpec, Datum, DirectionType } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
@@ -15,6 +15,7 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
         boxPlot: import("./interface").IBoxPlotSeriesTheme;
     };
     static readonly mark: SeriesMarkMap;
+    protected _bandPosition: number;
     protected _minField: string;
     getMinField(): string;
     protected _maxField: string;
@@ -51,6 +52,7 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
     compileData(): void;
     init(option: IModelInitOption): void;
     private _getMarkWidth;
+    protected _getPosition(direction: DirectionType, datum: Datum): number;
     onLayoutEnd(): void;
     private _initAnimationSpec;
     initAnimation(): void;

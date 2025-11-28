@@ -22,6 +22,7 @@ import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart, IVChartRenderOption } from './interface';
 import { InstanceManager } from './instance-manager';
+import type { IAxis } from '../component/axis';
 export declare class VChart implements IVChart {
     readonly id: number;
     static useRegisters(comps: (() => void)[]): void;
@@ -180,6 +181,7 @@ export declare class VChart implements IVChart {
     getComponents(): import("../component/interface").IComponent[];
     getScale(scaleId: string): import("@visactor/vscale").IBaseScale;
     setDimensionIndex(value: StringOrNumber, opt?: DimensionIndexOption): void;
+    showCrosshair(cb: (axis: IAxis) => false | string | number): void;
     stopAnimation(): void;
     reRunNormalAnimation(): void;
     pauseAnimation(): void;

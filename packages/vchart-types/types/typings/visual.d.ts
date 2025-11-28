@@ -159,8 +159,8 @@ export interface IRectMarkSpec extends IFillMarkSpec {
 }
 export interface IBoxPlotMarkSpec extends ICommonSpec {
     lineWidth?: number;
-    boxWidth?: number;
-    shaftWidth?: number;
+    boxWidth?: number | string;
+    shaftWidth?: number | string;
     shaftShape?: BoxPlotShaftShape;
     boxFill?: string;
     shaftFillOpacity?: number;
@@ -271,7 +271,7 @@ export type GradientType = 'linear' | 'radial' | 'conical';
 export type IGradient = IGradientLinear | IGradientRadial | IGradientConical;
 export type LineStrokeCap = 'butt' | 'round' | 'square';
 export type LineStrokeJoin = 'arcs' | 'bevel' | 'miter' | 'miter-clip' | 'round';
-export type BoxPlotShaftShape = 'line' | 'bar';
+export type BoxPlotShaftShape = 'line' | 'bar' | 'filled-line';
 export interface IThresholdStyle extends IVisualSpecStyle<number, string> {
     domain: number[];
     field: string;
