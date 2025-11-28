@@ -1,1 +1,9 @@
-[{"definitionName":"lockStepVersion","policyName":"vchartMain","version":"2.0.7","mainProject":"@visactor/vchart","nextBump":"patch"}]
+[
+  {
+    "definitionName": "lockStepVersion",
+    "policyName": "vchartMain",
+    "version": "2.0.8",
+    "mainProject": "@visactor/vchart",
+    "nextBump": "patch"
+  }
+]
