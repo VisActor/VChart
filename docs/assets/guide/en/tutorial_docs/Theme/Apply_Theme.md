@@ -92,16 +92,7 @@ Custom themes are theme configuration objects defined by users. For custom conte
 const customTheme = {
   name: 'myCustomTheme',
   colorScheme: {
-    default: [
-      '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#FFA07A',
-      '#98D8C8',
-      '#F7DC6F',
-      '#BB8FCE',
-      '#85C1E2'
-    ]
+    default: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2']
   },
   series: {
     bar: {
@@ -161,16 +152,7 @@ There are two ways:
 // Define custom theme object
 const customTheme = {
   colorScheme: {
-    default: [
-      '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#FFA07A',
-      '#98D8C8',
-      '#F7DC6F',
-      '#BB8FCE',
-      '#85C1E2'
-    ]
+    default: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2']
   },
   series: {
     bar: {
@@ -212,16 +194,7 @@ vchart.renderSync();
 // Define and register custom theme
 const customTheme = {
   colorScheme: {
-    default: [
-      '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#FFA07A',
-      '#98D8C8',
-      '#F7DC6F',
-      '#BB8FCE',
-      '#85C1E2'
-    ]
+    default: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2']
   },
   series: {
     bar: {
@@ -277,11 +250,12 @@ yarn add @visactor/vchart-theme
 
 ```javascript livedemo
 // Import extension theme package
-import { allThemeMap } from '@visactor/vchart-theme';
-import VChart from '@visactor/vchart';
+// import { allThemeMap } from '@visactor/vchart-theme';
+
+// The VChartTheme object is already mounted on the window object in the editor environment
 
 // Register all extension themes
-allThemeMap.forEach((theme, name) => {
+VChartTheme.allThemeMap.forEach((theme, name) => {
   VChart.ThemeManager.registerTheme(name, theme);
 });
 
@@ -313,8 +287,8 @@ vchart.renderSync();
 
 ```javascript livedemo
 // Import specific theme
-import vScreenVolcanoBlue from '@visactor/vchart-theme/public/vScreenVolcanoBlue.json';
-import VChart from '@visactor/vchart';
+const response = await fetch('https://www.unpkg.com/@visactor/vchart-theme@latest/public/vScreenVolcanoBlue.json');
+const vScreenVolcanoBlue = await response.json();
 
 // Register extension theme
 VChart.ThemeManager.registerTheme('vScreenVolcanoBlue', vScreenVolcanoBlue);
@@ -356,16 +330,7 @@ const defaultTheme = VChart.ThemeManager.getDefaultTheme();
 const extendedTheme = {
   ...defaultTheme,
   colorScheme: {
-    default: [
-      '#FF6B6B',
-      '#4ECDC4',
-      '#45B7D1',
-      '#FFA07A',
-      '#98D8C8',
-      '#F7DC6F',
-      '#BB8FCE',
-      '#85C1E2'
-    ]
+    default: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2']
   },
   series: {
     ...defaultTheme.series,
@@ -417,6 +382,8 @@ vchart.renderSync();
 // Import extension theme (the following two lines are needed in development environment, not needed in vchart playground)
 //import vScreenVolcanoBlue from '@visactor/vchart-theme/public/vScreenVolcanoBlue.json';
 //import VChart from '@visactor/vchart';
+const response = await fetch('https://www.unpkg.com/@visactor/vchart-theme@latest/public/vScreenVolcanoBlue.json');
+const vScreenVolcanoBlue = await response.json();
 
 // Register original theme
 VChart.ThemeManager.registerTheme('vScreenVolcanoBlue', vScreenVolcanoBlue);
@@ -569,17 +536,17 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
 ```
 
-
-
 ## Summary
 
 This article introduced a complete guide to VChart theme application:
 
 1. **Theme Application Scope**:
+
    - Global application: Affects all charts through `ThemeManager.setCurrentTheme()`
    - Chart instance application: Through the `theme` configuration item in spec or the instance's `setCurrentTheme()` method
 
 2. **Theme Types**:
+
    - **Default themes**: VChart's built-in `light` and `dark` themes that can be used without registration
    - **Custom themes**: Theme configuration objects defined by users
    - **Extension package themes**: Rich themes provided through the `@visactor/vchart-theme` package
@@ -591,5 +558,3 @@ This article introduced a complete guide to VChart theme application:
    - Use theme extension for scenarios that need fine-tuning based on existing themes
 
 By flexibly using these theme application methods, you can easily achieve personalized customization and unified management of charts.
-
-
