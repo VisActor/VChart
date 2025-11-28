@@ -2,33 +2,25 @@
 
 2025-11-28
 
+## 🆕 新特性
 
-**🆕 New Features**
+* @visactor/vchart: 箱型图 (Boxplot) 功能增强 by @xile611 in https://github.com/VisActor/VChart/pull/4323
 
+## 🐛 问题修复
 
-* @visactor/vchart: Enhance boxplot features by @xile611 in https://github.com/VisActor/VChart/pull/4323
+* @visactor/vchart: 升级 vrender 依赖以修复玫瑰图 (Rose Chart) 的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4315
+* @visactor/vchart: 升级 vrender 依赖以修复动画相关问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4325
+* @visactor/vchart: 修复扩展标记 (Extension Mark) 的更新逻辑 by @xile611 in https://github.com/VisActor/VChart/pull/4318
+* @visactor/vchart: 修复字体系列 (Font Family) 设置的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4324
+* @visactor/vchart: 修复 setDimensionIndex 方法的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4291
 
+## 📖 文档更新
 
-**🐛 Bug Fixes**
-
-
-* @visactor/vchart: Upgrade vrender dependency to fix rose chart issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4315
-* @visactor/vchart: Upgrade vrender dependency to fix animation issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4325
-* @visactor/vchart: Fix extension mark update logic by @xile611 in https://github.com/VisActor/VChart/pull/4318
-* @visactor/vchart: Fix font family setting issue by @xuefei1313 in https://github.com/VisActor/VChart/pull/4324
-* @visactor/vchart: Fix issue with setDimensionIndex by @xuefei1313 in https://github.com/VisActor/VChart/pull/4291
-
-
-**📖 Documentation**
-
-
-* @visactor/vchart: Add candlestick chart guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4310
-* @visactor/vchart: Add theme development guide by @xuanhun in https://github.com/VisActor/VChart/pull/4322
-* @visactor/vchart: Add map rewind guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4326
-* @visactor/vchart: Add 3D registration content to guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4312
-* @visactor/vchart: Fix documentation for common chart option labelLayout by @xuefei1313 in https://github.com/VisActor/VChart/pull/4316
-
-**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.9...v2.0.10
+* @visactor/vchart: 新增 K 线图 (Candlestick) 开发指南 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4310
+* @visactor/vchart: 新增主题 (Theme) 开发指南 by @xuanhun in https://github.com/VisActor/VChart/pull/4322
+* @visactor/vchart: 新增地图卷绕 (Map Rewind) 指南 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4326
+* @visactor/vchart: 在指南中补充 3D 注册相关内容 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4312
+* @visactor/vchart: 修正通用图表配置 labelLayout 的文档说明 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4316
 
 [更多详情请查看 v2.0.10](https://github.com/VisActor/VChart/releases/tag/v2.0.10)
 
@@ -141,6 +133,7 @@
 - **@visactor/vchart**：修复 `tooltip.style.titleLabel` 的 `textAlign` 不生效问题，修复 [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [更多详情请查看 v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
+
 
 
 
