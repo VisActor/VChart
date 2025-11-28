@@ -601,6 +601,13 @@
           },
           "children": [
             {
+              "path": "Apply_Theme",
+              "title": {
+                "zh": "主题应用指南",
+                "en": "Theme Application Guide"
+              }
+            },
+            {
               "path": "Theme_Concept_and_Design_Rules",
               "title": {
                 "zh": "主题概念和设计规范",
