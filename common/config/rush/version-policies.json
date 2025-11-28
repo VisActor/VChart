@@ -2,7 +2,7 @@
   {
     "definitionName": "lockStepVersion",
     "policyName": "vchartMain",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "mainProject": "@visactor/vchart",
     "nextBump": "patch"
   }

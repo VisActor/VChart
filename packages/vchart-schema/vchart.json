@@ -335,6 +335,7 @@
     "BoxPlotShaftShape": {
       "enum": [
         "bar",
+        "filled-line",
         "line"
       ],
       "type": "string"
@@ -1839,7 +1840,7 @@
           "description": "盒子填充颜色，为空则不填充"
         },
         "boxWidth": {
-          "$ref": "#/definitions/VisualType<number>",
+          "$ref": "#/definitions/VisualType<string|number>",
           "description": "box宽度"
         },
         "cursor": {
@@ -1927,7 +1928,7 @@
           "description": "中轴线类型"
         },
         "shaftWidth": {
-          "$ref": "#/definitions/VisualType<number>",
+          "$ref": "#/definitions/VisualType<string|number>",
           "description": "最大最小值宽度"
         },
         "stroke": {
@@ -2009,7 +2010,7 @@
           "description": "盒子填充颜色，为空则不填充"
         },
         "boxWidth": {
-          "$ref": "#/definitions/VisualType<number>",
+          "$ref": "#/definitions/VisualType<string|number>",
           "description": "box宽度"
         },
         "cursor": {
@@ -2097,7 +2098,7 @@
           "description": "中轴线类型"
         },
         "shaftWidth": {
-          "$ref": "#/definitions/VisualType<number>",
+          "$ref": "#/definitions/VisualType<string|number>",
           "description": "最大最小值宽度"
         },
         "stroke": {
@@ -22238,9 +22239,54 @@
           "$ref": "#/definitions/IBackgroundSpec",
           "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
         },
+        "boxGapInGroup": {
+          "anyOf": [
+            {
+              "items": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "分组箱线图中各个分组内的间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比",
+          "since": "2.0.10"
+        },
+        "boxMaxWidth": {
+          "description": "最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比",
+          "since": "2.0.10",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "boxMinWidth": {
+          "description": "最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比",
+          "since": "2.0.10",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
         "boxPlot": {
           "$ref": "#/definitions/IMarkSpec<IBoxPlotMarkSpec>",
           "description": "图元配置"
+        },
+        "boxWidth": {
+          "description": "宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比",
+          "since": "2.0.10",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "brush": {
           "$ref": "#/definitions/IBrushSpec",
@@ -22970,6 +23016,11 @@
           "description": "系列名称",
           "type": "string"
         },
+        "outlier": {
+          "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
+          "description": "异常值图元配置",
+          "since": "2.0.10"
+        },
         "outliersField": {
           "description": "异常值字段",
           "type": "string"
@@ -23251,7 +23302,10 @@
         },
         "boxWidth": {
           "description": "box宽度",
-          "type": "number"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "cursor": {
           "$ref": "#/definitions/Cursor_1",
@@ -23358,7 +23412,10 @@
         },
         "shaftWidth": {
           "description": "最大最小值宽度",
-          "type": "number"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "stroke": {
           "anyOf": [
@@ -23533,9 +23590,54 @@
           ],
           "description": "数据更新 - 数据更新动画"
         },
+        "boxGapInGroup": {
+          "anyOf": [
+            {
+              "items": {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "分组箱线图中各个分组内的间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比",
+          "since": "2.0.10"
+        },
+        "boxMaxWidth": {
+          "description": "最大宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比",
+          "since": "2.0.10",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "boxMinWidth": {
+          "description": "最小宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比",
+          "since": "2.0.10",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
         "boxPlot": {
           "$ref": "#/definitions/IMarkSpec<IBoxPlotMarkSpec>",
           "description": "图元配置"
+        },
+        "boxWidth": {
+          "description": "宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）\n1. number 类型，表示像素值\n2. string 类型，百分比用法，如 '10%'，该值为对应最后一个分组字段对应的 scale 的 bandWidth 占比",
+          "since": "2.0.10",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -23625,6 +23727,11 @@
         "name": {
           "description": "系列名称",
           "type": "string"
+        },
+        "outlier": {
+          "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
+          "description": "异常值图元配置",
+          "since": "2.0.10"
         },
         "outliersField": {
           "description": "异常值字段",
@@ -75770,6 +75877,48 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,string|number>": {
+      "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "description": "指定映射对应的数据字段",
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "type": [
+              "string",
+              "number"
+            ]
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,string|number|ITokenKey<any>>": {
       "properties": {
         "clamp": {
@@ -79035,7 +79184,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         },
         "size": {
@@ -79043,14 +79192,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12877",
+        "__@toStringTag@12886",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         },
         "size": {
@@ -79058,14 +79207,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12877",
+        "__@toStringTag@12886",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         },
         "size": {
@@ -79073,14 +79222,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12877",
+        "__@toStringTag@12886",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         },
         "size": {
@@ -79088,14 +79237,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12877",
+        "__@toStringTag@12886",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         },
         "size": {
@@ -79103,14 +79252,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12877",
+        "__@toStringTag@12886",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         },
         "size": {
@@ -79118,14 +79267,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12877",
+        "__@toStringTag@12886",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         },
         "size": {
@@ -79133,7 +79282,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12877",
+        "__@toStringTag@12886",
         "size"
       ],
       "type": "object"
@@ -100629,34 +100778,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12877"
+        "__@toStringTag@12886"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12877"
+        "__@toStringTag@12886"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12877": {
+        "__@toStringTag@12886": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12877"
+        "__@toStringTag@12886"
       ],
       "type": "object"
     },
@@ -115644,6 +115793,7 @@
         {
           "enum": [
             "bar",
+            "filled-line",
             "line"
           ],
           "type": "string"
@@ -116422,6 +116572,25 @@
         },
         {
           "type": "string"
+        }
+      ]
+    },
+    "VisualType<string|number>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,string|number>"
+        },
+        {
+          "type": [
+            "string",
+            "number"
+          ]
         }
       ]
     },
