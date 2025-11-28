@@ -2,31 +2,25 @@
 
 2025-11-28
 
-
 **🆕 New Features**
 
-
-* @visactor/vchart: Enhance boxplot features by @xile611 in https://github.com/VisActor/VChart/pull/4323
-
+- **@visactor/vchart**: Enhance boxplot features by @xile611 in https://github.com/VisActor/VChart/pull/4323
 
 **🐛 Bug Fixes**
 
-
-* @visactor/vchart: Upgrade vrender dependency to fix rose chart issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4315
-* @visactor/vchart: Upgrade vrender dependency to fix animation issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4325
-* @visactor/vchart: Fix extension mark update logic by @xile611 in https://github.com/VisActor/VChart/pull/4318
-* @visactor/vchart: Fix font family setting issue by @xuefei1313 in https://github.com/VisActor/VChart/pull/4324
-* @visactor/vchart: Fix issue with setDimensionIndex by @xuefei1313 in https://github.com/VisActor/VChart/pull/4291
-
+- **@visactor/vchart**: Upgrade vrender dependency to fix rose chart issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4315
+- **@visactor/vchart**: Upgrade vrender dependency to fix animation issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4325
+- **@visactor/vchart**: Fix extension mark update logic by @xile611 in https://github.com/VisActor/VChart/pull/4318
+- **@visactor/vchart**: Fix font family setting issue by @xuefei1313 in https://github.com/VisActor/VChart/pull/4324
+- **@visactor/vchart**: Fix issue with setDimensionIndex by @xuefei1313 in https://github.com/VisActor/VChart/pull/4291
 
 **📖 Documentation**
 
-
-* @visactor/vchart: Add candlestick chart guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4310
-* @visactor/vchart: Add theme development guide by @xuanhun in https://github.com/VisActor/VChart/pull/4322
-* @visactor/vchart: Add map rewind guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4326
-* @visactor/vchart: Add 3D registration content to guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4312
-* @visactor/vchart: Fix documentation for common chart option labelLayout by @xuefei1313 in https://github.com/VisActor/VChart/pull/4316
+- **@visactor/vchart**: Add candlestick chart guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4310
+- **@visactor/vchart**: Add theme development guide by @xuanhun in https://github.com/VisActor/VChart/pull/4322
+- **@visactor/vchart**: Add map rewind guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4326
+- **@visactor/vchart**: Add 3D registration content to guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4312
+- **@visactor/vchart**: Fix documentation for common chart option labelLayout by @xuefei1313 in https://github.com/VisActor/VChart/pull/4316
 
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.9...v2.0.10
 
@@ -36,27 +30,21 @@
 
 2025-11-18
 
-
 **🆕 New Features**
 
-
-* @visactor/react-vchart: Add export for registerChartResizeZoomPlugin by @xuefei1313 in https://github.com/VisActor/VChart/pull/4286
-* @visactor/vchart: Support effect animation by @purpose233 in https://github.com/VisActor/VChart/pull/4299
-* @visactor/vchart: Enhance datazoom and fix bugs by @skie1997 in https://github.com/VisActor/VChart/pull/4065
-
+- **@visactor/react-vchart**: Add export for registerChartResizeZoomPlugin by @xuefei1313 in https://github.com/VisActor/VChart/pull/4286
+- **@visactor/vchart**: Support effect animation by @purpose233 in https://github.com/VisActor/VChart/pull/4299
+- **@visactor/vchart**: Enhance datazoom and fix bugs by @skie1997 in https://github.com/VisActor/VChart/pull/4065
 
 **🐛 Bug Fixes**
 
-
-* @visactor/vchart-extension: Fix the vchart-extension packaged artifacts contained an extra version by @xuefei1313 in https://github.com/VisActor/VChart/pull/4277
-* @visactor/vchart: Fix markline auto range by @xuefei1313 in https://github.com/VisActor/VChart/pull/4290
-
+- **@visactor/vchart-extension**: Fix the vchart-extension packaged artifacts contained an extra version by @xuefei1313 in https://github.com/VisActor/VChart/pull/4277
+- **@visactor/vchart**: Fix markline auto range by @xuefei1313 in https://github.com/VisActor/VChart/pull/4290
 
 **📖 Documentation**
 
-
-* @visactor/vchart: Fix registerMorph error in example by @xuefei1313 in https://github.com/VisActor/VChart/pull/4285
-* @visactor/vchart: Add candlestick demo by @xuefei1313 in https://github.com/VisActor/VChart/pull/4297
+- **@visactor/vchart**: Fix registerMorph error in example by @xuefei1313 in https://github.com/VisActor/VChart/pull/4285
+- **@visactor/vchart**: Add candlestick demo by @xuefei1313 in https://github.com/VisActor/VChart/pull/4297
 
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.7...v2.0.9
 
@@ -83,27 +71,21 @@
 @visactor/vchart: Fix check if stackData is empty by @kkxxkk2019 in https://github.com/VisActor/VChart/pull/4244
 @visactor/vchart: Fix issue of waterfall stack total by @xuefei1313 in https://github.com/VisActor/VChart/pull/4243
 
-
-
-
-
 [more detail about v2.0.7](https://github.com/VisActor/VChart/releases/tag/v2.0.7)
 
 # v2.0.6
 
 2025-10-14
 
-
 **What's Changed**
 
-* fix: fix the issue of legend pager by @xuefei1313 in https://github.com/VisActor/VChart/pull/4212
-* Feat/support calc in formatter by @xuefei1313 in https://github.com/VisActor/VChart/pull/4211
-* Fix/fix error of markline when series no data by @xuefei1313 in https://github.com/VisActor/VChart/pull/4216
-* feat: update bugreport metthod by @xuanhun in https://github.com/VisActor/VChart/pull/4221
-* feat: upgrade vrender to fix animation bug by @xuefei1313 in https://github.com/VisActor/VChart/pull/4222
-* feat: support waterfallType in waterfall chart by @xuefei1313 in https://github.com/VisActor/VChart/pull/4220
-* feat: change vrender dependencies by @xuefei1313 in https://github.com/VisActor/VChart/pull/4224
-
+- fix: fix the issue of legend pager by @xuefei1313 in https://github.com/VisActor/VChart/pull/4212
+- Feat/support calc in formatter by @xuefei1313 in https://github.com/VisActor/VChart/pull/4211
+- Fix/fix error of markline when series no data by @xuefei1313 in https://github.com/VisActor/VChart/pull/4216
+- feat: update bugreport metthod by @xuanhun in https://github.com/VisActor/VChart/pull/4221
+- feat: upgrade vrender to fix animation bug by @xuefei1313 in https://github.com/VisActor/VChart/pull/4222
+- feat: support waterfallType in waterfall chart by @xuefei1313 in https://github.com/VisActor/VChart/pull/4220
+- feat: change vrender dependencies by @xuefei1313 in https://github.com/VisActor/VChart/pull/4224
 
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.5...v2.0.6
 
@@ -113,14 +95,11 @@
 
 2025-09-19
 
-
-
 [more detail about v2.0.5](https://github.com/VisActor/VChart/releases/tag/v2.0.5)
 
 # v2.0.2
 
 2025-07-28
-
 
 **🆕 New feature**
 
@@ -133,7 +112,6 @@
 # v2.0.1
 
 2025-07-24
-
 
 **🆕 New feature**
 
@@ -152,7 +130,4 @@
 - **@visactor/vchart**: fix tooltip throw error when some tooltip processor is undefined, fix [#4044](https://github.com/VisActor/VChart/issues/4044)
 - **@visactor/vchart**: fix `textAlign` not works in tooltip.style.titleLabel, fix [#4043](https://github.com/VisActor/VChart/issues/4043)
 
-
-
 [more detail about v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
-
