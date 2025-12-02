@@ -186,6 +186,21 @@ export interface IModelOption extends ICompilableInitOption {
    * 是否关闭交互效果
    */
   disableTriggerEvent?: boolean;
+
+  /**
+   * 组件内容展示配置
+   * @since 2.0.11
+   */
+  componentShowContent?: {
+    /**
+     * tooltip 是否关闭内容展示
+     * @default false
+     */
+    tooltip?: boolean | Partial<Record<TooltipActiveType, boolean>>;
+    // crosshair 组件是否展示
+    crosshair?: boolean;
+  };
+
   getDimensionInfo?: (chart: IChart | undefined, pos: ILayoutPoint, isTooltip?: boolean) => IDimensionInfo[] | null;
   getDimensionInfoByValue?: (axis: IAxis, value: any) => IDimensionInfo | null;
   getRectByDimensionData?: (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => any;

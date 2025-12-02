@@ -488,6 +488,20 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     isClick: boolean,
     useCache?: boolean
   ): boolean => {
+    if (this._option?.componentShowContent) {
+      // 全局关闭 tooltip
+      if (this._option.componentShowContent.tooltip === false) {
+        return false;
+      }
+      // 单独关闭 tooltip
+      if (
+        isObject(this._option.componentShowContent.tooltip) &&
+        this._option.componentShowContent.tooltip[activeType] === false
+      ) {
+        return false;
+      }
+    }
+
     const processor = this.processor[activeType];
     // 判断是否应该触发 tooltip
     if (!processor.shouldHandleTooltip(params, mouseEventData.tooltipInfo[activeType])) {
