@@ -454,7 +454,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
       if (res === 'unShowByOption') {
         success[type] = 'unShowByOption';
-      } else {
+      } else if (res) {
         success[type] = true;
         break;
       }
@@ -472,14 +472,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     }
 
     /* 如果还是不应该显示tooltip，则隐藏上一次tooltip */
-    if (!success.mark && !success.group && (!success.dimension || isNil(dimensionInfo))) {
+    if (success.mark !== true && success.group !== true && (success.dimension !== true || isNil(dimensionInfo))) {
       // 如果 tooltip 类型都不是 'unShowByOption'，则隐藏上一次 tooltip
       // 否则，不隐藏上一次 tooltip ，tooltip 不展示属于 'unShowByOption' 类型的情况
-      if (
-        success.mark !== 'unShowByOption' &&
-        success.dimension !== 'unShowByOption' &&
-        success.group !== 'unShowByOption'
-      ) {
+      if (!this._cacheActiveType || success[this._cacheActiveType as TooltipActiveType] !== 'unShowByOption') {
         this._handleChartMouseOut(params);
       }
     } else {
@@ -648,6 +644,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const result = showTooltip(datum, options, this);
     if (result !== 'none') {
       this._alwaysShow = !!options?.alwaysShow;
+      this._cacheActiveType = result;
     }
     return result;
   }
