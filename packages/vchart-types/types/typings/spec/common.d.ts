@@ -27,6 +27,7 @@ import type { IColor, ICustomPath2D, IGraphic, IRichTextCharacter } from '@visac
 import type { ICommonAxisSpec } from '../../component/axis/interface';
 import type { IMediaQuerySpec } from './media-query';
 import type { IModelSpec } from '../../model/interface';
+import type { TooltipActiveType } from '../tooltip/handler';
 export type IChartPadding = ILayoutOrientPadding | number;
 export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     dom?: string | HTMLElement;
@@ -39,6 +40,10 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     onError?: (...args: any[]) => void;
     theme?: string | ITheme;
     disableTriggerEvent?: boolean;
+    componentShowContent?: {
+        tooltip?: boolean | Partial<Record<TooltipActiveType, boolean>>;
+        crosshair?: boolean;
+    };
     resizeDelay?: number;
 }
 export declare enum RenderModeEnum {
