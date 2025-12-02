@@ -436,7 +436,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     } = mouseEventData;
 
     /** tooltip 是否显示成功 */
-    const success: ITooltipActiveTypeAsKeys<boolean, boolean, boolean> = {
+    const success: ITooltipActiveTypeAsKeys<
+      boolean | 'unShowByOption',
+      boolean | 'unShowByOption',
+      boolean | 'unShowByOption'
+    > = {
       mark: false,
       dimension: false,
       group: false
@@ -448,7 +452,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       const type = supportedTooltip[i];
       const res = this.processor[type] ? this._showTooltipByMouseEvent(type, mouseEventData, params, isClick) : false;
 
-      if (res) {
+      if (res === 'unShowByOption') {
+        success[type] = 'unShowByOption';
+      } else {
         success[type] = true;
         break;
       }
@@ -467,11 +473,36 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     /* 如果还是不应该显示tooltip，则隐藏上一次tooltip */
     if (!success.mark && !success.group && (!success.dimension || isNil(dimensionInfo))) {
-      this._handleChartMouseOut(params);
+      // 如果 tooltip 类型都不是 'unShowByOption'，则隐藏上一次 tooltip
+      // 否则，不隐藏上一次 tooltip ，tooltip 不展示属于 'unShowByOption' 类型的情况
+      if (
+        success.mark !== 'unShowByOption' &&
+        success.dimension !== 'unShowByOption' &&
+        success.group !== 'unShowByOption'
+      ) {
+        this._handleChartMouseOut(params);
+      }
     } else {
       this._initEventOfTooltipContent();
     }
   };
+
+  protected _showContentByEvent(activeType: TooltipActiveType) {
+    if (this._option?.componentShowContent) {
+      // 全局关闭 tooltip
+      if (this._option.componentShowContent.tooltip === false) {
+        return false;
+      }
+      // 单独关闭 tooltip
+      if (
+        isObject(this._option.componentShowContent.tooltip) &&
+        this._option.componentShowContent.tooltip[activeType] === false
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   /**
    * 通过鼠标事件触发 tooltip，返回是否成功
@@ -487,19 +518,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     params: BaseEventParams,
     isClick: boolean,
     useCache?: boolean
-  ): boolean => {
-    if (this._option?.componentShowContent) {
-      // 全局关闭 tooltip
-      if (this._option.componentShowContent.tooltip === false) {
-        return false;
-      }
-      // 单独关闭 tooltip
-      if (
-        isObject(this._option.componentShowContent.tooltip) &&
-        this._option.componentShowContent.tooltip[activeType] === false
-      ) {
-        return false;
-      }
+  ): boolean | 'unShowByOption' => {
+    if (!this._showContentByEvent(activeType)) {
+      return 'unShowByOption';
     }
 
     const processor = this.processor[activeType];

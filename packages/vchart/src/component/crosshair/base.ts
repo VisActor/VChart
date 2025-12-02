@@ -247,8 +247,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   private _registerEvent(eventName: EventType | EventType[], isOut?: boolean, click?: boolean) {
-    // 关闭还是正常关闭
-    if (!isOut && this._option.componentShowContent?.crosshair === false) {
+    if (this._option.componentShowContent?.crosshair === false) {
       return;
     }
 
