@@ -247,6 +247,11 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   private _registerEvent(eventName: EventType | EventType[], isOut?: boolean, click?: boolean) {
+    // 关闭还是正常关闭
+    if (!isOut && this._option.componentShowContent?.crosshair === false) {
+      return;
+    }
+
     const handler = isOut ? this._handleOutEvent : click ? this._handleClickInEvent : this._handleHoverInEvent;
     const cfg = isOut ? { level: Event_Bubble_Level.chart } : { source: Event_Source_Type.chart };
 

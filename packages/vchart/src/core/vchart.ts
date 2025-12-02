@@ -2247,7 +2247,8 @@ export class VChart implements IVChart {
 
       layout: this._option.layout,
       onError: this._onError,
-      disableTriggerEvent: this._option.disableTriggerEvent === true
+      disableTriggerEvent: this._option.disableTriggerEvent === true,
+      componentShowContent: this._option.componentShowContent
     };
   }
 }
