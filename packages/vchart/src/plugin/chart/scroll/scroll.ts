@@ -142,10 +142,6 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
   }
 
   protected onWheel = (e: WheelEvent) => {
-    if (this._spec.preventDefault !== false) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
     const scrollX = e.deltaX;
     const scrollY = e.deltaY;
     const rootMark = this.getRootMark();
@@ -155,13 +151,28 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
     const { percent: yPercent, y } = this._computeFinalScrollY(rootMark.attribute.y - scrollY) ?? {};
     const { percent: xPercent, x } = this._computeFinalScrollX(rootMark.attribute.x - scrollX) ?? {};
     const eventResult: { x?: number; y?: number } = {};
+    let isScroll = false;
     if (isValidNumber(x)) {
+      if (e.deltaMode !== 0 && this._lastScrollX !== x) {
+        isScroll = true;
+      }
       this._updateScrollX(rootMark, x, xPercent);
       eventResult.x = x;
     }
     if (isValidNumber(y)) {
+      if (e.deltaMode !== 0 && this._lastScrollY !== y) {
+        isScroll = true;
+      }
       this._updateScrollY(rootMark, y, yPercent);
       eventResult.y = y;
+    }
+
+    // 如果有触发滚动
+    if (isScroll) {
+      if (this._spec.preventDefault !== false) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
     }
 
     this._event.emit('chartScroll', eventResult as ExtendEventParam);
