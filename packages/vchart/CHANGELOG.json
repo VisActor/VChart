@@ -11,7 +11,7 @@
             "comment": "feat: add `outlier` to boxplot, close #4301\n\n"
           },
           {
-            "comment": "feat: upgrade vrender to 1.0.30\n\n"
+            "comment": "feat: upgrade vrender to 1.0.31\n\n"
           },
           {
             "comment": "fix: extensionMark can remove animation\n\n"
