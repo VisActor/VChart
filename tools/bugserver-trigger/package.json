@@ -8,8 +8,8 @@
     "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:2.0.10",
-    "@visactor/vchart-extension": "workspace:2.0.10"
+    "@visactor/vchart": "workspace:2.0.11-alpha.4",
+    "@visactor/vchart-extension": "workspace:2.0.11-alpha.4"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "~1.1.4",
