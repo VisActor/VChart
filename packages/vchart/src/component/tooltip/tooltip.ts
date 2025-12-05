@@ -361,6 +361,13 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   };
 
   protected _handleChartMouseOut = (params?: BaseEventParams) => {
+    if (
+      this._cacheActiveType &&
+      isObject(this._option.componentShowContent.tooltip) &&
+      this._option.componentShowContent.tooltip[this._cacheActiveType] === false
+    ) {
+      return;
+    }
     if (this._alwaysShow || this._isReleased || this._isEnterTooltip) {
       return;
     }
@@ -599,7 +606,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     // 隐藏 tooltip
     const handler = this._spec.handler ?? this.tooltipHandler;
-
     if (handler.hideTooltip) {
       const result = handler.hideTooltip.call(handler, params);
       if (!result) {
