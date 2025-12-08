@@ -19,10 +19,9 @@ import type { IZoomable, ZoomEventParams } from '../../interaction/zoom/zoomable
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin, isNil, Matrix, isEqual, isBoolean } from '@visactor/vutils';
 import type { Maybe } from '@visactor/vutils';
-import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 import { Factory } from '../../core/factory';
-import type { IGraphic } from '@visactor/vrender-core';
 import type { MapSeries } from '../../series';
+import { DEFAULT_MAP_LOOK_UP_KEY } from '../../constant/data';
 
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;
