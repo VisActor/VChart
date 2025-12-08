@@ -163,7 +163,7 @@ export type IStageAnimationCallback = (stage: IStage, canvas: HTMLCanvasElement,
 
 export interface MarkAnimationSpec {
   disappear?: IStateAnimationConfig & {
-    callBack: IStageAnimationCallback | AStageAnimate<any>;
+    callBack?: IStageAnimationCallback | AStageAnimate<any>;
   };
   appear?: IAnimationConfig | IAnimationConfig[];
   enter?: IAnimationConfig | IAnimationConfig[];
