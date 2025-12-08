@@ -120,6 +120,10 @@ export interface IModelOption extends ICompilableInitOption {
     animation?: boolean;
     onError: (...args: any[]) => void;
     disableTriggerEvent?: boolean;
+    componentShowContent?: {
+        tooltip?: boolean | Partial<Record<TooltipActiveType, boolean>>;
+        crosshair?: boolean;
+    };
     getDimensionInfo?: (chart: IChart | undefined, pos: ILayoutPoint, isTooltip?: boolean) => IDimensionInfo[] | null;
     getDimensionInfoByValue?: (axis: IAxis, value: any) => IDimensionInfo | null;
     getRectByDimensionData?: (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => any;
