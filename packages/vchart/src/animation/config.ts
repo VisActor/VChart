@@ -74,15 +74,13 @@ export const DEFAULT_ANIMATION_CONFIG = {
 export const ScaleInOutAnimation = {
   appear: { type: 'scaleIn' },
   enter: { type: 'scaleIn' },
-  exit: { type: 'scaleOut' },
-  disappear: { type: 'scaleOut' }
+  exit: { type: 'scaleOut' }
 };
 
 export const FadeInOutAnimation = {
   appear: { type: 'fadeIn' },
   enter: { type: 'fadeIn' },
-  exit: { type: 'fadeOut' },
-  disappear: { type: 'fadeOut' }
+  exit: { type: 'fadeOut' }
 };
 
 export const registerScaleInOutAnimation = () => {
@@ -101,19 +99,6 @@ export const registerCartesianGroupClipAnimation = () => {
         customParameters: (datum: any, g: IGraphic) => {
           return {
             animationType: 'in',
-            group: g,
-            direction: params.direction(),
-            width: params.width(),
-            height: params.height(),
-            orient: params.orient()
-          };
-        }
-      },
-      disappear: {
-        custom: ClipDirectionAnimate,
-        customParameters: (datum: any, g: IGraphic) => {
-          return {
-            animationType: 'out',
             group: g,
             direction: params.direction(),
             width: params.width(),
