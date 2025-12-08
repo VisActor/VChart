@@ -145,8 +145,7 @@ const lineOrAreaAnimation = (params: ILineAnimationParams, preset: LineAppearPre
           clipRangeByDimension: params.direction === Direction.horizontal ? 'y' : 'x'
         }
       }
-    ],
-    disappear: { type: 'clipOut' }
+    ]
   } as MarkAnimationSpec;
 };
 
