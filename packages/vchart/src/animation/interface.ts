@@ -1,5 +1,5 @@
-import type { ACustomAnimate } from '@visactor/vrender-animate';
-import type { IGraphic, EasingType } from '@visactor/vrender-core';
+import type { ACustomAnimate, AStageAnimate } from '@visactor/vrender-animate';
+import type { IGraphic, EasingType, IStage } from '@visactor/vrender-core';
 import type { IMark, IMarkGraphic } from '../mark/interface/common';
 import type { BaseMark } from '../mark';
 
@@ -159,8 +159,12 @@ export interface IAnimationTimeline {
 
 export type IAnimationConfig = IAnimationTimeline | IAnimationTypeConfig;
 
+export type IStageAnimationCallback = (stage: IStage, canvas: HTMLCanvasElement, ratio: number, time: number) => void;
+
 export interface MarkAnimationSpec {
-  disappear?: IAnimationConfig | IAnimationConfig[];
+  disappear?: IStateAnimationConfig & {
+    callBack: IStageAnimationCallback | AStageAnimate<any>;
+  };
   appear?: IAnimationConfig | IAnimationConfig[];
   enter?: IAnimationConfig | IAnimationConfig[];
   exit?: IAnimationConfig | IAnimationConfig[];

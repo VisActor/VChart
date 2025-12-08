@@ -32,14 +32,7 @@ import {
   GrowPointsYOut,
   ClipIn,
   ClipOut,
-  FromTo,
-  Dissolve,
-  Grayscale,
-  Distortion,
-  Particle,
-  Glitch,
-  GaussianBlur,
-  Pixelation
+  FromTo
 } from '@visactor/vrender-animate';
 
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
@@ -47,6 +40,8 @@ import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
 import { Factory } from '../core/factory';
 import { Direction } from '../typings/space';
+import { CallbackDisappearAnimate } from './callback-disappear';
+import { BuiltIn_DISAPPEAR_ANIMATE_NAME } from '../constant/animate';
 
 export const DEFAULT_ANIMATION_CONFIG = {
   appear: {
@@ -209,11 +204,5 @@ export const registerPolygonAnimation = () => {
 };
 
 export const registerStageAnimation = () => {
-  AnimateExecutor.registerBuiltInAnimate('distortion', Distortion);
-  AnimateExecutor.registerBuiltInAnimate('particle', Particle);
-  AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
-  AnimateExecutor.registerBuiltInAnimate('gaussianBlur', GaussianBlur);
-  AnimateExecutor.registerBuiltInAnimate('glitch', Glitch);
-  AnimateExecutor.registerBuiltInAnimate('grayscale', Grayscale);
-  AnimateExecutor.registerBuiltInAnimate('dissolve', Dissolve);
+  AnimateExecutor.registerBuiltInAnimate(BuiltIn_DISAPPEAR_ANIMATE_NAME, CallbackDisappearAnimate);
 };
