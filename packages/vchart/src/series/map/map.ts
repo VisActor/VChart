@@ -4,11 +4,11 @@ import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-sour
 import { lookup } from '../../data/transforms/lookup';
 import type { Datum, StringOrNumber } from '../../typings';
 import { GeoSeries } from '../geo/geo';
-import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
+import { map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
-import { DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX } from '../../constant/data';
+import { DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX, DEFAULT_MAP_LOOK_UP_KEY } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';

@@ -1,4 +1,4 @@
-import { DEFAULT_DATA_INDEX } from '../../constant/data';
+import { DEFAULT_DATA_INDEX, DEFAULT_MAP_LOOK_UP_KEY } from '../../constant/data';
 import { PREFIX } from '../../constant/base';
 import type { GeoSourceType } from '../../typings/geo';
 
@@ -6,8 +6,6 @@ export interface IMapOpt {
   nameMap: Record<string, string>;
   nameProperty: string;
 }
-
-export const DEFAULT_MAP_LOOK_UP_KEY = `${PREFIX}_MAP_LOOK_UP_KEY`;
 
 export const map = (data: GeoSourceType, opt: IMapOpt) => {
   if (data.features) {
