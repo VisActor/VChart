@@ -473,7 +473,7 @@ export function boxPlotLabel(labelInfo: ILabelInfo) {
         const text = texts[i];
         const textData = labels[i];
         if (!text || !textData) {
-          return;
+          continue;
         }
 
         const baseBoxPlot = getRelatedGraphic(textData) as IGlyph;
