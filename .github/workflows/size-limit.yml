@@ -6,7 +6,7 @@ on:
 
 jobs:
   size:
-    runs-on: macos-13
+    runs-on: macos-latest
     strategy:
       matrix:
         node-version: [18.x]
