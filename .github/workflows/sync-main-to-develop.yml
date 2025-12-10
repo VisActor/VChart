@@ -34,6 +34,20 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
 
+      - name: Install Python distutils (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install setuptools
+
+      - name: Install Python distutils (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-distutils
+          python3 -m pip install --upgrade pip
+          python3 -m pip install setuptools
+
       - name: Install native deps for node-canvas (macOS)
         if: runner.os == 'macOS'
         run: |
