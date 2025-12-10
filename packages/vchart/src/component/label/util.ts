@@ -4,6 +4,7 @@ import { Direction } from '../../typings/space';
 import type { BaseLabelAttrs, LabelItem, OverlapAttrs, Strategy } from '@visactor/vrender-components';
 import { SeriesTypeEnum, type ICartesianSeries } from '../../series/interface';
 import { isBoolean, isFunction, isObject, isString } from '@visactor/vutils';
+import type { IGlyph, IGraphic, IText } from '@visactor/vrender-core';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelInfo, ILabelSpec } from './interface';
@@ -22,7 +23,8 @@ export const labelRuleMap = {
   rect3d: barLabel,
   arc3d: pieLabel,
   treemap: treemapLabel,
-  venn: vennLabel
+  venn: vennLabel,
+  boxPlot: boxPlotLabel
 };
 
 export function defaultLabelConfig(rule: string, labelInfo: ILabelInfo) {
@@ -462,4 +464,45 @@ function sankeyLabelOverlapStrategy(series: ICartesianSeries) {
   ];
 
   return strategy;
+}
+
+export function boxPlotLabel(labelInfo: ILabelInfo) {
+  return {
+    customLayoutFunc: (labels: LabelItem[], texts: IText[], getRelatedGraphic: (item: LabelItem) => IGraphic) => {
+      for (let i = 0; i < texts.length; i++) {
+        const text = texts[i];
+        const textData = labels[i];
+        if (!text || !textData) {
+          return;
+        }
+
+        const baseBoxPlot = getRelatedGraphic(textData) as IGlyph;
+        const meadianLineIndex = baseBoxPlot.getSubGraphic().findIndex(sub => sub.name === 'median');
+
+        if (meadianLineIndex !== -1) {
+          const bbox = baseBoxPlot.getSubGraphic()[meadianLineIndex].AABBBounds;
+
+          if ((labelInfo.series as ICartesianSeries).direction === 'horizontal') {
+            text.setAttributes({
+              x: bbox.x2 + text.AABBBounds.width() / 2,
+              y: (bbox.y1 + bbox.y2) / 2
+            });
+          } else {
+            text.setAttributes({
+              x: (bbox.x1 + bbox.x2) / 2,
+              y: bbox.y2 + text.AABBBounds.height() / 2
+            });
+          }
+        } else {
+          const bbox = baseBoxPlot.AABBBounds;
+          text.setAttributes({
+            x: (bbox.x1 + bbox.x2) / 2,
+            y: (bbox.y1 + bbox.y2) / 2
+          });
+        }
+      }
+
+      return texts;
+    }
+  };
 }

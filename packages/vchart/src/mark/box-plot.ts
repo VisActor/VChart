@@ -317,6 +317,10 @@ export class BoxPlotMark
     }
   }
 
+  setDataLabelType() {
+    return 'symbol';
+  }
+
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<IBoxPlotMarkSpec> = {
       ...super._getDefaultStyle(),
