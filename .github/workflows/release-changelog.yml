@@ -7,7 +7,7 @@ on:
 jobs:
   update-changelog-after-publish-a-release:
     name: GitHub Actions Test
-    runs-on: macos-13
+    runs-on: macos-latest
 
     strategy:
       matrix:
