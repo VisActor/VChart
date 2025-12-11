@@ -42,6 +42,9 @@ jobs:
           python3 -m pip install --upgrade pip --break-system-packages
           python3 -m pip install setuptools --break-system-packages
 
+      - name: Install latest pnpm
+        run: npm install -g pnpm@10.7.0
+
       - name: Install native deps for node-canvas (macOS)
         if: runner.os == 'macOS'
         run: |
@@ -88,8 +91,8 @@ jobs:
       - name: Push branch
         run: |
           git add .
-          git commit -m "docs: generate changelog of release ${{  github.event.release.tag_name }}" -n
-          git push origin docs/generate-changelog-${{  github.event.release.tag_name }}
+          git commit -m "docs: generate changelog of release ${{  github.event.release.tag_name }} [skip ci]" -n
+          git push --no-verify origin docs/generate-changelog-${{  github.event.release.tag_name }}
 
       - name: Create Pull Request
         uses: dustinirving/create-pr@v1.0.2
