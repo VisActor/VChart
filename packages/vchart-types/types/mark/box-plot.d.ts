@@ -13,6 +13,7 @@ export declare class BoxPlotMark extends GlyphMark<IBoxPlotMarkSpec, {
         direction?: 'horizontal' | 'vertical';
         shaftShape?: BoxPlotShaftShape;
     }): void;
+    setDataLabelType(): string;
     protected _getDefaultStyle(): IMarkStyle<IBoxPlotMarkSpec>;
 }
 export declare const registerBoxPlotMark: () => void;

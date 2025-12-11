@@ -1,6 +1,19 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 28 Nov 2025 03:44:56 GMT and should not be manually modified.
+This log was last generated on Thu, 11 Dec 2025 11:05:38 GMT and should not be manually modified.
+
+## 2.0.10
+Thu, 11 Dec 2025 11:05:38 GMT
+
+### Updates
+
+- feat: support label of boxPlot
+- feat: support componentShowContent in initOption
+
+
+- fix: update outlier data handling in BoxPlotSeries, fix #4317
+
+
 
 ## 2.0.9
 Fri, 28 Nov 2025 03:44:56 GMT
@@ -10,7 +23,7 @@ Fri, 28 Nov 2025 03:44:56 GMT
 - feat: add `outlier` to boxplot, close #4301
 
 
-- feat: upgrade vrender to 1.0.30
+- feat: upgrade vrender to 1.0.32
 
 
 - fix: extensionMark can remove animation

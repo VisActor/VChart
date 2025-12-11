@@ -23,6 +23,7 @@ export * from './util/spec/transform';
 export * from './util/mark';
 export * from './util/region';
 export * from './util/scale';
+export * from './constant/data';
 export * from './component/base';
 export * from './compile/data/compilable-data';
 export * from './animation';
