@@ -31,8 +31,8 @@
     "@visactor/vchart": "workspace:2.0.10",
     "@visactor/vchart-extension": "workspace:2.0.10",
     "@visactor/vutils": "~1.0.12",
-    "@visactor/vrender-core": "~1.0.31",
-    "@visactor/vrender-kits": "~1.0.31",
+    "@visactor/vrender-core": "~1.0.32",
+    "@visactor/vrender-kits": "~1.0.32",
     "react-is": "^18.2.0"
   },
   "devDependencies": {
@@ -71,7 +71,7 @@
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VisActor/VChart.git",
+    "url": "https://github.com/VisActor/VChart",
     "directory": "packages/react-vchart"
   },
   "author": {

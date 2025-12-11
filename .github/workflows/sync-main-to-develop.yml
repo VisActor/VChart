@@ -60,6 +60,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev pkg-config
 
+      - name: Install latest pnpm
+        run: npm install -g pnpm@10.7.0
+
         # Install rush
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
@@ -74,7 +77,7 @@ jobs:
         run: |
           git status
           git checkout -b sync/main-${{ steps.package-version.outputs.current_version }}
-          git push origin sync/main-${{ steps.package-version.outputs.current_version }}
+          git push --no-verify origin sync/main-${{ steps.package-version.outputs.current_version }}
 
       - name: Create Pull Request
         uses: dustinirving/create-pr@v1.0.2

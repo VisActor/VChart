@@ -21,10 +21,10 @@
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser"
   },
   "dependencies": {
-    "@visactor/vrender-core": "~1.0.31",
-    "@visactor/vrender-kits": "~1.0.31",
-    "@visactor/vrender-components": "~1.0.31",
-    "@visactor/vrender-animate": "~1.0.31",
+    "@visactor/vrender-core": "~1.0.32",
+    "@visactor/vrender-kits": "~1.0.32",
+    "@visactor/vrender-components": "~1.0.32",
+    "@visactor/vrender-animate": "~1.0.32",
     "@visactor/vchart": "workspace:2.0.10",
     "@visactor/vutils": "~1.0.12",
     "@visactor/vdataset": "~1.0.12",
@@ -59,6 +59,11 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VisActor/VChart",
+    "directory": "packages/vchart-extension"
   },
   "license": "MIT"
 }

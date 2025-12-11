@@ -83,6 +83,7 @@
    * PNPM documentation: https://pnpm.io/package_json#pnpmoverrides
    */
   "globalOverrides": {
+    "@types/node": "18.19.0"
     // "@visactor/vutils": "1.0.6",
     // "@visactor/vlayouts": "1.0.6",
     // "@visactor/vdataset": "1.0.6",
