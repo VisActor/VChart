@@ -280,5 +280,5 @@ jobs:
         if: startsWith(github.ref_name, 'pre-release/')
         run: |
           git add .
-          git commit -m 'build: prelease version ${{ steps.package_version_prerelease.outputs.current_version }} [skip ci]' -n
+          git commit -m 'build: prerelease version ${{ steps.package_version_prerelease.outputs.current_version }} [skip ci]' -n
           git push --no-verify origin ${{ github.ref_name }}
