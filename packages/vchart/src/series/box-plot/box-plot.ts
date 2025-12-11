@@ -25,7 +25,7 @@ import { registerBoxPlotMark } from '../../mark/box-plot';
 import { registerSymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import type { IBoxPlotMark, IGlyphMark, IMark, ISymbolMark } from '../../mark/interface';
+import type { IBoxPlotMark, IGlyphMark, IMark, ISymbolMark, ITextMark } from '../../mark/interface';
 import { merge, isNumber, isValid, isNil, array, last } from '@visactor/vutils';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
@@ -35,6 +35,7 @@ import { registeBoxPlotScaleAnimation } from './animation';
 import { boxPlot } from '../../theme/builtin/common/series/box-plot';
 import { getActualNumValue } from '../../util/space';
 import { isContinuous } from '@visactor/vscale';
+import { BoxPlotSeriesSpecTransformer } from './box-plot-transformer';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -50,6 +51,9 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   static readonly builtInTheme = { boxPlot };
   static readonly mark: SeriesMarkMap = boxPlotSeriesMark;
+
+  static readonly transformerConstructor = BoxPlotSeriesSpecTransformer as any;
+  readonly transformerConstructor = BoxPlotSeriesSpecTransformer;
 
   protected _bandPosition = 0;
   protected _minField: string;
@@ -96,7 +100,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   getOutliersStyle() {
     return this._outliersStyle;
   }
-  protected _outlierDataView: ICompilableData;
+  protected _outlierData: ICompilableData;
 
   private _autoBoxWidth: number;
 
@@ -136,10 +140,10 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     if (this._outliersField) {
       this._outlierMark = this._createMark(BoxPlotSeries.mark.outlier, {
         key: DEFAULT_DATA_INDEX,
-        groupKey: this._seriesField,
-        dataView: this._outlierDataView.getDataView(),
-        dataProductId: this._outlierDataView.getProductId()
+        groupKey: this._seriesField
       }) as ISymbolMark;
+
+      this._outlierMark.setData(this._outlierData);
     }
   }
 
@@ -184,7 +188,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       this.setMarkStyle(
         outlierMark,
         {
-          fill: this._outliersStyle?.fill ?? this.getColorAttribute(),
+          fill: this._outliersStyle?.fill ?? this._boxFillColor ?? this.getColorAttribute(),
+          stroke: this.getColorAttribute(),
           size: isNumber(this._outliersStyle?.size) ? this._outliersStyle.size : DEFAULT_OUTLIER_SIZE
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
@@ -272,6 +277,19 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     }
   }
 
+  initLabelMarkStyle(textMark: ITextMark) {
+    if (!textMark) {
+      return;
+    }
+    this.setMarkStyle(textMark, {
+      fill: this.getColorAttribute(),
+      text: (datum: Datum) => {
+        return datum[this.getMedianField()];
+      },
+      z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
+    });
+  }
+
   initData(): void {
     super.initData();
     if (!this._data) {
@@ -290,7 +308,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       type: 'foldOutlierData',
       options: {
         dimensionField: this._direction === Direction.horizontal ? this._fieldY : this._fieldX,
-        outliersField: this._outliersField
+        outliersField: this._outliersField,
+        seriesField: this._seriesField
       }
     });
 
@@ -305,12 +324,17 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       false
     );
 
-    this._outlierDataView = new CompilableData(this._option, outlierDataView);
+    this._outlierData = new CompilableData(this._option, outlierDataView);
   }
 
   compileData() {
     super.compileData();
-    this._outlierDataView?.compile();
+    this._outlierData?.compile();
+  }
+
+  viewDataUpdate(d: DataView): void {
+    super.viewDataUpdate(d);
+    this._outlierData?.updateData();
   }
 
   init(option: IModelInitOption): void {
@@ -455,12 +479,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       outliersField.operations = ['array-min', 'array-max'];
     }
     return fields;
-  }
-
-  onEvaluateEnd(ctx: IModelEvaluateOption): void {
-    //初次编译时，会传入空数据；待所有计算完成后，需要重新执行updateData更新数据
-    super.onEvaluateEnd(ctx);
-    this._outlierDataView.updateData();
   }
 
   getDefaultShapeType(): string {

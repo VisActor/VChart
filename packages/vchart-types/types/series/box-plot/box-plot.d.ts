@@ -1,11 +1,13 @@
-import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
+import type { IModelInitOption } from '../../model/interface';
 import type { BoxPlotShaftShape, IOutlierMarkSpec, Datum, DirectionType } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IBoxPlotSeriesSpec } from './interface';
-import type { IMark } from '../../mark/interface';
+import { DataView } from '@visactor/vdataset';
+import type { IMark, ITextMark } from '../../mark/interface';
 import type { ICompilableData } from '../../compile/data';
+import { BoxPlotSeriesSpecTransformer } from './box-plot-transformer';
 export declare const DEFAULT_FILL_COLOR = "#FFF";
 export declare const DEFAULT_STROKE_COLOR = "#000";
 export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> extends CartesianSeries<T> {
@@ -15,6 +17,8 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
         boxPlot: import("./interface").IBoxPlotSeriesTheme;
     };
     static readonly mark: SeriesMarkMap;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof BoxPlotSeriesSpecTransformer;
     protected _bandPosition: number;
     protected _minField: string;
     getMinField(): string;
@@ -40,7 +44,7 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
     protected _shaftFillOpacity: number;
     protected _outliersStyle: IOutlierMarkSpec;
     getOutliersStyle(): IOutlierMarkSpec;
-    protected _outlierDataView: ICompilableData;
+    protected _outlierData: ICompilableData;
     private _autoBoxWidth;
     setAttrFromSpec(): void;
     private _boxPlotMark?;
@@ -48,8 +52,10 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
     initMark(): void;
     initMarkStyle(): void;
     initBoxPlotMarkStyle(): void;
+    initLabelMarkStyle(textMark: ITextMark): void;
     initData(): void;
     compileData(): void;
+    viewDataUpdate(d: DataView): void;
     init(option: IModelInitOption): void;
     private _getMarkWidth;
     protected _getPosition(direction: DirectionType, datum: Datum): number;
@@ -61,7 +67,6 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
         key: string;
         operations: import("../../data/transforms/interface").StatisticOperations;
     }[];
-    onEvaluateEnd(ctx: IModelEvaluateOption): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];
 }

@@ -1,6 +1,6 @@
 {
   "name": "@visactor/taro-vchart",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Taro VChart 图表组件",
   "sideEffects": false,
   "main": "esm/index.js",
@@ -34,7 +34,7 @@
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "GitHub - VisActor/VChart: The chart library for web and multi-platform",
+    "url": "https://github.com/VisActor/VChart",
     "directory": "packages/taro-vchart"
   },
   "author": {
@@ -43,8 +43,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@visactor/vchart": "workspace:2.0.10",
-    "@visactor/vchart-extension": "workspace:2.0.10"
+    "@visactor/vchart": "workspace:2.0.11",
+    "@visactor/vchart-extension": "workspace:2.0.11"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -64,7 +64,7 @@
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VisActor/VChart.git",
+    "url": "https://github.com/VisActor/VChart",
     "directory": "packages/vchart"
   },
   "author": {
@@ -122,11 +122,11 @@
     "@visactor/vdataset": "~1.0.12",
     "@visactor/vscale": "~1.0.12",
     "@visactor/vlayouts": "~1.0.12",
-    "@visactor/vrender-core": "~1.0.30",
-    "@visactor/vrender-kits": "~1.0.30",
-    "@visactor/vrender-components": "~1.0.30",
-    "@visactor/vrender-animate": "~1.0.30",
-    "@visactor/vutils-extension": "workspace:2.0.10"
+    "@visactor/vrender-core": "~1.0.32",
+    "@visactor/vrender-kits": "~1.0.32",
+    "@visactor/vrender-components": "~1.0.32",
+    "@visactor/vrender-animate": "~1.0.32",
+    "@visactor/vutils-extension": "workspace:2.0.11"
   },
   "publishConfig": {
     "access": "public",

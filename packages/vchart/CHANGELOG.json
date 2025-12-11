@@ -2,6 +2,24 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.10",
+      "tag": "@visactor/vchart_v2.0.10",
+      "date": "Thu, 11 Dec 2025 11:05:38 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support label of boxPlot"
+          },
+          {
+            "comment": "feat: support componentShowContent in initOption\n\n"
+          },
+          {
+            "comment": "fix: update outlier data handling in BoxPlotSeries, fix #4317\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.9",
       "tag": "@visactor/vchart_v2.0.9",
       "date": "Fri, 28 Nov 2025 03:44:56 GMT",
@@ -11,7 +29,7 @@
             "comment": "feat: add `outlier` to boxplot, close #4301\n\n"
           },
           {
-            "comment": "feat: upgrade vrender to 1.0.30\n\n"
+            "comment": "feat: upgrade vrender to 1.0.32\n\n"
           },
           {
             "comment": "fix: extensionMark can remove animation\n\n"

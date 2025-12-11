@@ -220,6 +220,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       globalScale: this._globalScale,
       onError: this._option?.onError,
       disableTriggerEvent: this._option?.disableTriggerEvent === true,
+      componentShowContent: this._option?.componentShowContent,
       getSeriesData: this._chartData.getSeriesData.bind(this._chartData),
       // @ts-ignore
       dispatchEvent: (eType, params) => this._option.globalInstance.event.emit(eType, params)

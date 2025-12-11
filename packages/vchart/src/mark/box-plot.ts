@@ -171,7 +171,11 @@ export class BoxPlotMark
         median: { type: 'line', defaultAttributes: { x: 0, y: 0 } }
       };
       this._positionChannels = BOX_PLOT_CHANNELS;
-      this._channelEncoder = null;
+      this._channelEncoder = {
+        boxStroke: (val: string) => ({ box: { stroke: val } }),
+        medianStroke: (val: string) => ({ median: { stroke: val } }),
+        boxCornerRadius: (val: number) => ({ box: { cornerRadius: val } })
+      };
       this._positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
         const {
           x = g.attribute.x,
@@ -315,6 +319,10 @@ export class BoxPlotMark
         return attributes;
       };
     }
+  }
+
+  setDataLabelType() {
+    return 'symbol';
   }
 
   protected _getDefaultStyle() {

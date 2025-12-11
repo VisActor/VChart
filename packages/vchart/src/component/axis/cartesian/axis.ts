@@ -116,6 +116,9 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     left: 0,
     right: 0
   };
+  getInnerOffset() {
+    return this._innerOffset;
+  }
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);

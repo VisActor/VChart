@@ -54,6 +54,7 @@ import type { IColor, ICustomPath2D, IGraphic, IOption3D, IRichTextCharacter } f
 import type { ICommonAxisSpec } from '../../component/axis/interface';
 import type { IMediaQuerySpec } from './media-query';
 import type { IModelSpec } from '../../model/interface';
+import type { TooltipActiveType } from '../tooltip/handler';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -107,6 +108,21 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @default false
    */
   disableTriggerEvent?: boolean;
+
+  /**
+   * 组件内容展示配置
+   * @since 2.0.11
+   */
+  componentShowContent?: {
+    /**
+     * tooltip 是否关闭内容展示
+     * @default false
+     */
+    tooltip?: boolean | Partial<Record<TooltipActiveType, boolean>>;
+    // crosshair 组件是否展示
+    crosshair?: boolean;
+  };
+
   /**
    * 当自动响应容器resize 事件时，触发resize 的间隔时长，单位毫秒
    * @since 1.12.5

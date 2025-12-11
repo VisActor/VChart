@@ -1,3 +1,37 @@
+# v2.0.10
+
+2025-11-28
+
+
+**🆕 New Features**
+
+
+* @visactor/vchart: Enhance boxplot features by @xile611 in https://github.com/VisActor/VChart/pull/4323
+
+
+**🐛 Bug Fixes**
+
+
+* @visactor/vchart: Upgrade vrender dependency to fix rose chart issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4315
+* @visactor/vchart: Upgrade vrender dependency to fix animation issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4325
+* @visactor/vchart: Fix extension mark update logic by @xile611 in https://github.com/VisActor/VChart/pull/4318
+* @visactor/vchart: Fix font family setting issue by @xuefei1313 in https://github.com/VisActor/VChart/pull/4324
+* @visactor/vchart: Fix issue with setDimensionIndex by @xuefei1313 in https://github.com/VisActor/VChart/pull/4291
+
+
+**📖 Documentation**
+
+
+* @visactor/vchart: Add candlestick chart guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4310
+* @visactor/vchart: Add theme development guide by @xuanhun in https://github.com/VisActor/VChart/pull/4322
+* @visactor/vchart: Add map rewind guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4326
+* @visactor/vchart: Add 3D registration content to guide by @xuefei1313 in https://github.com/VisActor/VChart/pull/4312
+* @visactor/vchart: Fix documentation for common chart option labelLayout by @xuefei1313 in https://github.com/VisActor/VChart/pull/4316
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.9...v2.0.10
+
+[more detail about v2.0.10](https://github.com/VisActor/VChart/releases/tag/v2.0.10)
+
 # v2.0.9
 
 2025-11-18

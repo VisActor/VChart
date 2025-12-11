@@ -1,24 +1,48 @@
+# v2.0.10
+
+2025-11-28
+
+**🆕 新特性**
+
+- **@visactor/vchart**: 箱型图 (Boxplot) 功能增强 by @xile611 in https://github.com/VisActor/VChart/pull/4323
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: 升级 vrender 依赖以修复玫瑰图 (Rose Chart) 的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4315
+- **@visactor/vchart**: 升级 vrender 依赖以修复动画相关问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4325
+- **@visactor/vchart**: 修复扩展标记 (Extension Mark) 的更新逻辑 by @xile611 in https://github.com/VisActor/VChart/pull/4318
+- **@visactor/vchart**: 修复字体系列 (Font Family) 设置的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4324
+- **@visactor/vchart**: 修复 setDimensionIndex 方法的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4291
+
+**📖 文档更新**
+
+- **@visactor/vchart**: 新增 K 线图 (Candlestick) 开发指南 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4310
+- **@visactor/vchart**: 新增主题 (Theme) 开发指南 by @xuanhun in https://github.com/VisActor/VChart/pull/4322
+- **@visactor/vchart**: 新增地图卷绕 (Map Rewind) 指南 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4326
+- **@visactor/vchart**: 在指南中补充 3D 注册相关内容 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4312
+- **@visactor/vchart**: 修正通用图表配置 labelLayout 的文档说明 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4316
+
+[更多详情请查看 v2.0.10](https://github.com/VisActor/VChart/releases/tag/v2.0.10)
+
 # v2.0.9
 
 2025-11-18
 
+**🆕 新特性**
 
-## 🆕 新特性
+- **@visactor/react-vchart**: 新增 registerChartResizeZoomPlugin 导出 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4286
+- **@visactor/vchart**: 支持特效动画 by @purpose233 in https://github.com/VisActor/VChart/pull/4299
+- **@visactor/vchart**: 增强 DataZoom 组件功能并修复相关问题 by @skie1997 in https://github.com/VisActor/VChart/pull/4065
 
-* @visactor/react-vchart: 新增 registerChartResizeZoomPlugin 导出 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4286
-* @visactor/vchart: 支持特效动画 by @purpose233 in https://github.com/VisActor/VChart/pull/4299
-* @visactor/vchart: 增强 DataZoom 组件功能并修复相关问题 by @skie1997 in https://github.com/VisActor/VChart/pull/4065
+**🐛 问题修复**
 
-## 🐛 问题修复
+- **@visactor/vchart-extension**: 修复 vchart-extension 打包产物中包含额外版本的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4277
+- **@visactor/vchart**: 修复标线 (MarkLine) 自动范围计算的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4290
 
-* @visactor/vchart-extension: 修复 vchart-extension 打包产物中包含额外版本的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4277
-* @visactor/vchart: 修复标线 (MarkLine) 自动范围计算的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4290
+**📖 文档更新**
 
-## 📖 文档更新
-
-* @visactor/vchart: 修复示例中 registerMorph 的错误 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4285
-* @visactor/vchart: 新增 K 线图 (Candlestick) 示例 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4297
-
+- **@visactor/vchart**: 修复示例中 registerMorph 的错误 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4285
+- **@visactor/vchart**: 新增 K 线图 (Candlestick) 示例 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4297
 
 [更多详情请查看 v2.0.9](https://github.com/VisActor/VChart/releases/tag/v2.0.9)
 
@@ -28,20 +52,20 @@
 
 **🆕 新增功能**
 
-* **@visactor/vchart**：支持 resize zoom 图表插件，关联 [#4241](https://github.com/VisActor/VChart/pull/4241)
-* **@visactor/vchart**：注册 boxplot transform，关联 [#4268](https://github.com/VisActor/VChart/pull/4268)
-* **@visactor/vchart**：新增 translate-issues 工作流配置，关联 [#4264](https://github.com/VisActor/VChart/pull/4264)
-* **@visactor/vchart**：在 vchart-extension 中新增回归线 (regression-lines)，关联 [#4245](https://github.com/VisActor/VChart/pull/4245)
-* **@visactor/vchart**：变更 vrender 依赖项，关联 [#4224](https://github.com/VisActor/VChart/pull/4224)
+- **@visactor/vchart**：支持 resize zoom 图表插件，关联 [#4241](https://github.com/VisActor/VChart/pull/4241)
+- **@visactor/vchart**：注册 boxplot transform，关联 [#4268](https://github.com/VisActor/VChart/pull/4268)
+- **@visactor/vchart**：新增 translate-issues 工作流配置，关联 [#4264](https://github.com/VisActor/VChart/pull/4264)
+- **@visactor/vchart**：在 vchart-extension 中新增回归线 (regression-lines)，关联 [#4245](https://github.com/VisActor/VChart/pull/4245)
+- **@visactor/vchart**：变更 vrender 依赖项，关联 [#4224](https://github.com/VisActor/VChart/pull/4224)
 
 **🐛 功能修复**
 
-* **@visactor/vchart**：修复十字准星 (crosshair) 未隐藏的问题，修复 [#4252](https://github.com/VisActor/VChart/pull/4252)
-* **@visactor/vchart**：修复布局 (layout) 的问题，修复 [#4249](https://github.com/VisActor/VChart/pull/4249)
-* **@visactor/vchart**：修复逻辑回归线 (logistic regression line) 的问题，修复 [#4263](https://github.com/VisActor/VChart/pull/4263)
-* **@visactor/vchart**：修复分组散点图 (grouped scatter) 的回归线支持问题，修复 [#4248](https://github.com/VisActor/VChart/pull/4248)
-* **@visactor/vchart**：修复堆叠数据 (stackData) 为空时的检查问题，修复 [#4244](https://github.com/VisActor/VChart/pull/4244)
-* **@visactor/vchart**：修复瀑布图堆叠总计 (waterfall stack total) 的问题，修复 [#4243](https://github.com/VisActor/VChart/pull/4243)
+- **@visactor/vchart**：修复十字准星 (crosshair) 未隐藏的问题，修复 [#4252](https://github.com/VisActor/VChart/pull/4252)
+- **@visactor/vchart**：修复布局 (layout) 的问题，修复 [#4249](https://github.com/VisActor/VChart/pull/4249)
+- **@visactor/vchart**：修复逻辑回归线 (logistic regression line) 的问题，修复 [#4263](https://github.com/VisActor/VChart/pull/4263)
+- **@visactor/vchart**：修复分组散点图 (grouped scatter) 的回归线支持问题，修复 [#4248](https://github.com/VisActor/VChart/pull/4248)
+- **@visactor/vchart**：修复堆叠数据 (stackData) 为空时的检查问题，修复 [#4244](https://github.com/VisActor/VChart/pull/4244)
+- **@visactor/vchart**：修复瀑布图堆叠总计 (waterfall stack total) 的问题，修复 [#4243](https://github.com/VisActor/VChart/pull/4243)
 
 [更多详情请查看 v2.0.7](https://github.com/VisActor/VChart/releases/tag/v2.0.7)
 
@@ -68,14 +92,11 @@
 
 2025-09-19
 
-
-
 [更多详情请查看 v2.0.5](https://github.com/VisActor/VChart/releases/tag/v2.0.5)
 
 # v2.0.2
 
 2025-07-28
-
 
 **🆕 新增功能**
 
@@ -107,6 +128,3 @@
 - **@visactor/vchart**：修复 `tooltip.style.titleLabel` 的 `textAlign` 不生效问题，修复 [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [更多详情请查看 v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
-
-
-

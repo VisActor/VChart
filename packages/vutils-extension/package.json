@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vutils-extension",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "The extension module for VUtil from VisActor",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -59,7 +59,7 @@
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VisActor/VChart.git",
+    "url": "https://github.com/VisActor/VChart",
     "directory": "packages/vutils-extension"
   },
   "author": {
