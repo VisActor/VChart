@@ -3,32 +3,41 @@ name: Release CI
 on:
   push:
     branches:
-      - 'release/[0-9]+.[0-9]+.[0-9]+'
+      - 'release/[0-9]+\.[0-9]+\.[0-9]+'
+      - 'hotfix/[0-9]+\.[0-9]+\.[0-9]+'
+      - 'pre-release/[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+'
+      - 'pre-release/[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+'
+      - 'pre-release/[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+'
+      - 'pre-release/[0-9]+\.[0-9]+\.[0-9]+-hotfix\.[0-9]+'
 
 jobs:
   build:
     runs-on: macos-latest
     permissions:
+      id-token: write
       contents: write
       pull-requests: write
 
     strategy:
       matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           git config user.name ${{ github.actor }}
           git config user.email ${{ github.actor }}@users.noreply.github.com
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
+
+      - name: Update npm
+        run: npm install -g npm@latest
 
       - name: Install Python distutils (macOS)
         if: runner.os == 'macOS'
@@ -56,43 +65,41 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev pkg-config
 
-          # Install rush
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
 
-      - name: Parse semver version from branch name
-        id: semver_parser
+      # Release flow
+      - name: Parse semver (release)
+        if: startsWith(github.ref_name, 'release/')
+        id: semver_release
         uses: xile611/read-package-version-action@main
         with:
           path: packages/vchart
           semver_string: ${{ github.ref_name }}
-          semver_pattern: '^release/(.*)$' # ^v?(.*)$ by default
+          semver_pattern: '^release/(.*)$'
 
-      - name: update nextBump of version policies
+      - name: update nextBump (release)
+        if: startsWith(github.ref_name, 'release/')
         uses: xile611/set-next-bump-of-rush@main
         with:
-          release_version: ${{ steps.semver_parser.outputs.full }}
+          release_version: ${{ steps.semver_release.outputs.full }}
           write_next_bump: true
 
-      - name: Generate changelog by rush version
+      - name: Generate changelog (release)
+        if: startsWith(github.ref_name, 'release/')
         run: node common/scripts/install-run-rush.js version --bump
 
-      - name: Update version
-        run: node common/scripts/apply-release-version.js 'none'  ${{ steps.semver_parser.outputs.main }}
+      - name: Update version (release)
+        if: startsWith(github.ref_name, 'release/')
+        run: node common/scripts/apply-release-version.js 'none'  ${{ steps.semver_release.outputs.main }}
 
       - name: Build vutils-extension && vchart
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --to @visactor/vchart
 
-      # run bugserver after the build of main packages
-      # - name: Run Bugserver
-      #   working-directory: ./packages/vchart
-      #   env:
-      #     BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
-      #   run: node ../../common/scripts/install-run-rushx.js ci
-
       - name: Build vchart-extension
+        if: startsWith(github.ref_name, 'release/') || startsWith(github.ref_name, 'pre-release/')
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/vchart-extension
@@ -122,54 +129,153 @@ jobs:
           NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/wx-vchart
 
-      - name: Publish to npm
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          NPM_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publish to npm (release)
+        if: startsWith(github.ref_name, 'release/')
         run: node common/scripts/install-run-rush.js publish --publish --include-all --tag latest
 
       - name: Update shrinkwrap
         run: node common/scripts/install-run-rush.js update
 
-      - name: Get npm version
-        id: package-version
+      - name: Get npm version (release)
+        if: startsWith(github.ref_name, 'release/')
+        id: package_version_release
         uses: xile611/read-package-version-action@main
         with:
           path: packages/vchart
 
-      - name: Commit & Push changes
+      - name: Commit & Push changes (release)
+        if: startsWith(github.ref_name, 'release/')
         run: |
           git add .
-          git commit -m 'build: release version ${{ steps.package-version.outputs.current_version }}' -n
-          git push origin ${{ github.ref_name }}
+          git commit -m 'build: release version ${{ steps.package_version_release.outputs.current_version }} [skip ci]' -n
+          git push --no-verify origin ${{ github.ref_name }}
 
-      - name: Collect changelog of rush
+      - name: Collect changelog of rush (release)
+        if: startsWith(github.ref_name, 'release/')
         uses: xile611/collect-rush-changlog@main
-        id: changelog
+        id: changelog_release
         with:
-          version: ${{ steps.package-version.outputs.current_version }}
+          version: ${{ steps.package_version_release.outputs.current_version }}
 
-      - name: Create Release for Tag
-        id: release_tag
+      - name: Create Release for Tag (release)
+        if: startsWith(github.ref_name, 'release/')
+        id: release_tag_release
         uses: ncipollo/release-action@v1.12.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag: v${{ steps.package-version.outputs.current_version }}
+          tag: v${{ steps.package_version_release.outputs.current_version }}
           commit: main
           prerelease: false
           body: |
-            ${{ steps.changelog.outputs.markdown }}
-          draft: true #
+            ${{ steps.changelog_release.outputs.markdown }}
+          draft: true
 
-      - name: Create Pull Request
+      - name: Create Pull Request (release)
+        if: startsWith(github.ref_name, 'release/')
         uses: dustinirving/create-pr@v1.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: '[Auto release] release ${{ steps.package-version.outputs.current_version }}'
+          title: '[Auto release] release ${{ steps.package_version_release.outputs.current_version }}'
           base: main
           head: ${{ github.ref_name }}
-          labels: release # default labels, the action will throw error if not specified
-          reviewers: kkxxkk2019 # default reviewers, the action will throw error if not specified
+          labels: release
+          reviewers: kkxxkk2019
           body: |
-            ${{ steps.changelog.outputs.markdown }}
+            ${{ steps.changelog_release.outputs.markdown }}
+
+      # Hotfix flow
+      - name: Parse semver (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        id: semver_hotfix
+        uses: xile611/read-package-version-action@main
+        with:
+          path: packages/vchart
+          semver_string: ${{ github.ref_name }}
+          semver_pattern: '^hotfix/(.*)$'
+
+      - name: update nextBump (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        uses: xile611/set-next-bump-of-rush@main
+        with:
+          release_version: ${{ steps.semver_hotfix.outputs.full }}
+          write_next_bump: true
+
+      - name: Generate changelog (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        run: node common/scripts/install-run-rush.js version --bump
+
+      - name: Update version (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        run: node common/scripts/apply-release-version.js 'none'  ${{ steps.semver_hotfix.outputs.main }}
+
+      - name: Publish to npm (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        run: node common/scripts/install-run-rush.js publish --publish --include-all --tag hotfix
+
+      - name: Get npm version (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        id: package_version_hotfix
+        uses: xile611/read-package-version-action@main
+        with:
+          path: packages/vchart
+
+      - name: Commit & Push changes (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        run: |
+          git add .
+          git commit -m 'build: prelease version ${{ steps.package_version_hotfix.outputs.current_version }} [skip ci]' -n
+          git push --no-verify origin ${{ github.ref_name }}
+
+      - name: Collect changelog of rush (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        uses: xile611/collect-rush-changlog@main
+        id: changelog_hotfix
+        with:
+          version: ${{ steps.package_version_hotfix.outputs.current_version }}
+
+      - name: Create Release for Tag (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        id: release_tag_hotfix
+        uses: ncipollo/release-action@v1.12.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag: v${{ steps.package_version_hotfix.outputs.current_version }}
+          commit: ${{ github.ref_name }}
+          prerelease: false
+          body: |
+            ${{ steps.changelog_hotfix.outputs.markdown }}
+          draft: true
+
+      # Pre-release flow
+      - name: Parse semver (pre-release)
+        if: startsWith(github.ref_name, 'pre-release/')
+        id: semver_prerelease
+        uses: xile611/read-package-version-action@main
+        with:
+          path: packages/vchart
+          semver_string: ${{ github.ref_name }}
+          semver_pattern: '^pre-release/(.*)$'
+
+      - name: Apply prereleaseName (pre-release)
+        if: startsWith(github.ref_name, 'pre-release/')
+        run: node common/scripts/apply-release-version.js ${{ steps.semver_prerelease.outputs.pre_release_name }} ${{ steps.semver_prerelease.outputs.main }}
+
+      - name: Publish to npm (pre-release)
+        if: startsWith(github.ref_name, 'pre-release/')
+        run: node common/scripts/install-run-rush.js publish --publish --include-all --tag ${{ steps.semver_prerelease.outputs.pre_release_type }}
+
+      - name: Get npm version (pre-release)
+        if: startsWith(github.ref_name, 'pre-release/')
+        id: package_version_prerelease
+        uses: xile611/read-package-version-action@main
+        with:
+          path: packages/vchart
+
+      - name: Commit & Push changes (pre-release)
+        if: startsWith(github.ref_name, 'pre-release/')
+        run: |
+          git add .
+          git commit -m 'build: prelease version ${{ steps.package_version_prerelease.outputs.current_version }} [skip ci]' -n
+          git push --no-verify origin ${{ github.ref_name }}
