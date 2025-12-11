@@ -440,19 +440,21 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     let x2 = -Infinity;
     let y2 = -Infinity;
     const { x: sx, y: sy } = this.getLayoutStartPoint();
+
     bindingAxesIndex.forEach(idx => {
       (x1 = Infinity), (y1 = Infinity), (x2 = -Infinity), (y2 = -Infinity);
       const axis = axesComponents.find(axis => axis.getSpecIndex() === idx);
       if (!axis) {
         return;
       }
+      const innerOffset = (axis as any).getInnerOffset?.() || { left: 0, right: 0, top: 0, bottom: 0 };
       const regions = axis.getRegions();
       regions.forEach(r => {
         const { x: regionStartX, y: regionStartY } = r.getLayoutStartPoint();
-        x1 = Math.min(x1, regionStartX - sx);
-        y1 = Math.min(y1, regionStartY - sy);
-        x2 = Math.max(x2, regionStartX + r.getLayoutRect().width - sx);
-        y2 = Math.max(y2, regionStartY + r.getLayoutRect().height - sy);
+        x1 = Math.min(x1, regionStartX - sx + innerOffset.left);
+        y1 = Math.min(y1, regionStartY - sy + innerOffset.top);
+        x2 = Math.max(x2, regionStartX + r.getLayoutRect().width - sx - innerOffset.right);
+        y2 = Math.max(y2, regionStartY + r.getLayoutRect().height - sy - innerOffset.bottom);
       });
       map.set(idx, { x1, y1, x2, y2, axis: axis as unknown as T });
     });
