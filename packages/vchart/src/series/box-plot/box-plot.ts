@@ -188,7 +188,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       this.setMarkStyle(
         outlierMark,
         {
-          fill: this._outliersStyle?.fill ?? this.getColorAttribute(),
+          fill: this._outliersStyle?.fill ?? this._boxFillColor ?? this.getColorAttribute(),
+          stroke: this.getColorAttribute(),
           size: isNumber(this._outliersStyle?.size) ? this._outliersStyle.size : DEFAULT_OUTLIER_SIZE
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
@@ -307,7 +308,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       type: 'foldOutlierData',
       options: {
         dimensionField: this._direction === Direction.horizontal ? this._fieldY : this._fieldX,
-        outliersField: this._outliersField
+        outliersField: this._outliersField,
+        seriesField: this._seriesField
       }
     });
 

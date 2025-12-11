@@ -537,54 +537,127 @@ export interface IRectMarkSpec extends IFillMarkSpec {
 }
 
 export interface IBoxPlotMarkSpec extends ICommonSpec {
+  // ============ 数据统计值配置 ============
   /**
-   * box描边宽度
-   */
-  lineWidth?: number;
-  /**
-   * box宽度
-   */
-  boxWidth?: number | string;
-  /**
-   * 最大最小值宽度
-   */
-  shaftWidth?: number | string;
-  /**
-   * 中轴线类型
-   */
-  shaftShape?: BoxPlotShaftShape;
-  /**
-   * 盒子填充颜色，为空则不填充
-   */
-  boxFill?: string;
-  // /**
-  //  * 描边颜色
-  //  */
-  // stroke?: string;
-  /**
-   * 中轴线透明度，仅当shaftType=bar时生效
-   */
-  shaftFillOpacity?: number;
-  /**
-   * 最小值
+   * 最小值（箱线图的下限）
+   * 用于计算箱线图的下端须线位置
    */
   min?: (datum: Datum) => number;
   /**
-   * 25%分位数
+   * 第一四分位数（Q1，25%分位数）
+   * 用于确定箱体的下边界
    */
   q1?: (datum: Datum) => number;
   /**
-   * 中位数
+   * 中位数（Q2，50%分位数）
+   * 在箱体中绘制中位数线
    */
   median?: (datum: Datum) => number;
   /**
-   * 75%分位数
+   * 第三四分位数（Q3，75%分位数）
+   * 用于确定箱体的上边界
    */
   q3?: (datum: Datum) => number;
   /**
-   * 最大值
+   * 最大值（箱线图的上限）
+   * 用于计算箱线图的上端须线位置
    */
   max?: (datum: Datum) => number;
+
+  // ============ 样式形态配置 ============
+  /**
+   * 中轴线（须线）的绘制形状
+   * - 'line': 标准线条形式，绘制 shaft（连接线）、box（箱体）、max/min/median（线条）五个子图元
+   * - 'bar': 柱状形式，绘制 minMaxBox（最小-最大值矩形）、q1q3Box（Q1-Q3矩形）、median（中位数线）三个子图元
+   * - 'filled-line': 填充线条形式
+   * @default 'line'
+   */
+  shaftShape?: BoxPlotShaftShape;
+
+  // ============ 尺寸配置（shaftShape = 'line' / 'filled-line' 模式）============
+  /**
+   * 箱体的宽度（垂直箱线图）或高度（水平箱线图）
+   * 在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的尺寸
+   * 支持像素值或百分比字符串（相对于分组宽度）
+   * @default 30
+   */
+  boxWidth?: number | string;
+  /**
+   * 箱体的高度（垂直箱线图）或宽度（水平箱线图）
+   * 在 shaftShape = 'line' / 'filled-line' 模式下使用
+   */
+  boxHeight?: number | string;
+  /**
+   * 最大/最小值须线的宽度（垂直箱线图）或高度（水平箱线图）
+   * 在 shaftShape = 'line' / 'filled-line' 模式下，控制 max/min 子图元的线条长度
+   * 支持像素值或百分比字符串
+   * @default 20
+   */
+  shaftWidth?: number | string;
+  /**
+   * 最大/最小值须线端点的宽度（垂直箱线图）或高度（水平箱线图）
+   * 在 shaftShape = 'line' / 'filled-line' 模式下使用
+   */
+  ruleWidth?: number | string;
+  /**
+   * 最大/最小值须线端点的高度（垂直箱线图）或宽度（水平箱线图）
+   * 在 shaftShape = 'line' / 'filled-line' 模式下使用
+   */
+  ruleHeight?: number | string;
+
+  // ============ 尺寸配置（shaftShape = 'bar' 模式）============
+  /**
+   * 最小-最大值矩形的宽度（垂直箱线图）或高度（水平箱线图）
+   * 在 shaftShape = 'bar' 模式下，控制 minMaxBox 子图元的尺寸
+   */
+  minMaxWidth?: number | string;
+  /**
+   * 最小-最大值矩形的高度（垂直箱线图）或宽度（水平箱线图）
+   * 在 shaftShape = 'bar' 模式下使用
+   */
+  minMaxHeight?: number | string;
+  /**
+   * Q1-Q3 四分位数矩形的宽度（垂直箱线图）或高度（水平箱线图）
+   * 在 shaftShape = 'bar' 模式下，控制 q1q3Box 子图元的尺寸
+   */
+  q1q3Width?: number | string;
+  /**
+   * Q1-Q3 四分位数矩形的高度（垂直箱线图）或宽度（水平箱线图）
+   * 在 shaftShape = 'bar' 模式下使用
+   */
+  q1q3Height?: number | string;
+
+  // ============ 样式配置 ============
+  /**
+   * 箱线图的描边宽度
+   * 在 shaftShape = 'line' / 'filled-line' 模式下影响所有线条的宽度
+   * 在 shaftShape = 'bar' 模式下，minMaxBox 和 q1q3Box 的 lineWidth 会被强制设为 0
+   * @default 2
+   */
+  lineWidth?: number;
+  /**
+   * 最小-最大值矩形的填充透明度
+   * 仅在 shaftShape = 'bar' 模式下生效，控制 minMaxBox 子图元的 fillOpacity
+   */
+  minMaxFillOpacity?: number;
+  /**
+   * 箱体的描边颜色
+   * 在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 stroke 属性
+   * @since 2.0.11
+   */
+  boxStroke?: string;
+  /**
+   * 中位数线的描边颜色
+   * 在 shaftShape = 'line' / 'filled-line' 模式下，控制 median 子图元的 stroke 属性
+   * @since 2.0.11
+   */
+  medianStroke?: string;
+  /**
+   * 箱体的圆角半径
+   * 在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 cornerRadius 属性
+   * @since 2.0.11
+   */
+  boxCornerRadius?: number;
 }
 
 export interface IRippleMarkSpec extends ICommonSpec {
