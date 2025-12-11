@@ -2,28 +2,22 @@
 
 2025-12-11
 
-# v2.0.11
+**🆕 新增功能**
 
-2025-12-11
+- **@visactor/vchart**: 在 `initOption` 中支持 `componentShowContent` 配置 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4334
+- **@visactor/vchart**: 增强箱形图（Boxplot）标签功能 by @xile611 in https://github.com/VisActor/VChart/pull/4346
+- **@visactor/vchart**: 导出数据常量定义 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4339
 
-**🆕 New Features**
+**🐛 问题修复**
 
-- **@visactor/vchart**: Support `componentShowContent` in `initOption` by @xuefei1313 in https://github.com/VisActor/VChart/pull/4334
-- **@visactor/vchart**: Support boxplot label by @xile611 in https://github.com/VisActor/VChart/pull/4346
-- **@visactor/vchart**: Export data constant by @xuefei1313 in https://github.com/VisActor/VChart/pull/4339
-
-**🐛 Bug Fixes**
-
-- **@visactor/vchart**: Fix crosshair behavior when having inner offset by @xile611 in https://github.com/VisActor/VChart/pull/4340
-- **@visactor/vchart**: Fix outlier color in boxplot by @xile611 in https://github.com/VisActor/VChart/pull/4347
-- **@visactor/vchart**: Fix boxplot outlier style by @xile611 in https://github.com/VisActor/VChart/pull/4350
-
+- **@visactor/vchart**: 修复存在内部偏移（inner offset）时的十字准星（crosshair）显示问题 by @xile611 in https://github.com/VisActor/VChart/pull/4340
+- **@visactor/vchart**: 修复十字准星在特定内部偏移下的定位逻辑 (fix #4338) by @xile611 in https://github.com/VisActor/VChart/pull/4343
+- **@visactor/vchart**: 修复箱形图异常值的颜色显示问题 by @xile611 in https://github.com/VisActor/VChart/pull/4347
+- **@visactor/vchart**: 修复箱形图异常值的样式问题 by @xile611 in https://github.com/VisActor/VChart/pull/4350
 
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.10...v2.0.11
 
 [more detail about v2.0.11](https://github.com/VisActor/VChart/releases/tag/v2.0.11)
-
-[更多详情请查看 v2.0.11](https://github.com/VisActor/VChart/releases/tag/v2.0.11)
 
 # v2.0.10
 
