@@ -4,8 +4,9 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IBoxPlotSeriesSpec } from './interface';
-import type { IMark } from '../../mark/interface';
+import type { IMark, ITextMark } from '../../mark/interface';
 import type { ICompilableData } from '../../compile/data';
+import { BoxPlotSeriesSpecTransformer } from './box-plot-transformer';
 export declare const DEFAULT_FILL_COLOR = "#FFF";
 export declare const DEFAULT_STROKE_COLOR = "#000";
 export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> extends CartesianSeries<T> {
@@ -15,6 +16,8 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
         boxPlot: import("./interface").IBoxPlotSeriesTheme;
     };
     static readonly mark: SeriesMarkMap;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof BoxPlotSeriesSpecTransformer;
     protected _bandPosition: number;
     protected _minField: string;
     getMinField(): string;
@@ -48,6 +51,7 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
     initMark(): void;
     initMarkStyle(): void;
     initBoxPlotMarkStyle(): void;
+    initLabelMarkStyle(textMark: ITextMark): void;
     initData(): void;
     compileData(): void;
     init(option: IModelInitOption): void;

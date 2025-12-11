@@ -57,7 +57,8 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _handleChartMouseOut: (params?: BaseEventParams) => void;
     protected _getMouseMoveHandler: (isClick: boolean) => (params: BaseEventParams) => void;
     protected _handleChartMouseMove: (params: BaseEventParams, isClick: boolean) => void;
-    protected _showTooltipByMouseEvent: (activeType: TooltipActiveType, mouseEventData: TotalMouseEventData, params: BaseEventParams, isClick: boolean, useCache?: boolean) => boolean;
+    protected _showContentByEvent(activeType: TooltipActiveType): boolean;
+    protected _showTooltipByMouseEvent: (activeType: TooltipActiveType, mouseEventData: TotalMouseEventData, params: BaseEventParams, isClick: boolean, useCache?: boolean) => boolean | 'unShowByOption';
     protected _getMouseEventData: (params: BaseEventParams) => TotalMouseEventData;
     protected _hideTooltipByHandler: (params: TooltipHandlerParams) => TooltipResult;
     reInit(spec?: any): void;
