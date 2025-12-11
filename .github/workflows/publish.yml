@@ -44,6 +44,9 @@ jobs:
           python3 -m pip install --upgrade pip --break-system-packages
           python3 -m pip install setuptools --break-system-packages
 
+      - name: Install latest pnpm
+        run: npm install -g pnpm@10.7.0
+
       - name: Install native deps for node-canvas (macOS)
         if: runner.os == 'macOS'
         run: |

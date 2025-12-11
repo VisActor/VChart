@@ -39,6 +39,9 @@ jobs:
       - name: Update npm
         run: npm install -g npm@latest
 
+      - name: Install latest pnpm
+        run: npm install -g pnpm@10.7.0
+
       - name: Install Python distutils (macOS)
         if: runner.os == 'macOS'
         run: |
