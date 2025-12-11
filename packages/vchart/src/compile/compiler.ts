@@ -3,7 +3,7 @@ import type { CompilerListenerParameters, ICompiler, IRenderContainer, IRenderOp
 // eslint-disable-next-line no-duplicate-imports
 import { LayoutState } from './interface';
 import { isMobileLikeMode, isTrueBrowser } from '../util/env';
-import { isString } from '../util/type';
+import { isClass, isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isArray, isObject, isValid } from '@visactor/vutils';
@@ -22,6 +22,7 @@ import { diffMarks, findSimpleMarks, toRenderMode, traverseGroupMark } from './u
 import { log } from '../util/debug';
 import type { MarkAnimationSpec, TypeAnimationConfig } from '../animation/interface';
 import { AnimationStateEnum } from '../animation/interface';
+import { BuiltIn_DISAPPEAR_ANIMATE_NAME } from '../constant/animate';
 
 type EventListener = {
   type: string;
@@ -47,6 +48,9 @@ export class Compiler implements ICompiler {
   protected _stage: IStage;
 
   protected _stateAnimationConfig: Partial<MarkAnimationSpec>;
+  get stateAnimationConfig() {
+    return this._stateAnimationConfig;
+  }
 
   protected _rootGroup: IGroup;
 
@@ -312,7 +316,6 @@ export class Compiler implements ICompiler {
   private _doRender(immediately: boolean) {
     this._option.performanceHook?.beforeDoRender?.(this._compileChart.getOption().globalInstance);
     if (this._stage) {
-      this.runStageAnimation();
       this._rootMarks.forEach(g => {
         traverseGroupMark(
           g,
@@ -444,19 +447,37 @@ export class Compiler implements ICompiler {
     Object.keys(config).forEach(key => {
       const value = (config as any)[key];
       if (isArray(value)) {
-        (animationConfig as any)[key] = value.map(item => {
-          const options = item!.options ?? {};
-
-          return {
-            ...item,
-            options: (...args: any[]) => {
-              const _options = typeof options === 'function' ? options(...args) : options;
+        if (key === 'disappear') {
+          (animationConfig as any)[key] = value.map(item => {
+            if (isClass(item.callBack)) {
               return {
-                ..._options
+                ...item,
+                custom: item.callBack
               };
             }
-          };
-        });
+            return {
+              ...item,
+              type: BuiltIn_DISAPPEAR_ANIMATE_NAME,
+              customParameters: {
+                callBack: item.callBack
+              }
+            };
+          });
+        } else {
+          (animationConfig as any)[key] = value.map(item => {
+            const options = item!.options ?? {};
+
+            return {
+              ...item,
+              options: (...args: any[]) => {
+                const _options = typeof options === 'function' ? options(...args) : options;
+                return {
+                  ..._options
+                };
+              }
+            };
+          });
+        }
       } else {
         (animationConfig as any)[key] = {
           ...(config as any)[key]
@@ -483,35 +504,6 @@ export class Compiler implements ICompiler {
       this._stage.context = {};
     }
     this._stage.context.animationState = animationState;
-  }
-
-  runStageAnimation() {
-    const animationState: AnimationStateValues = this._stage.context?.animationState;
-    if (!this._stateAnimationConfig || animationState === AnimationStateEnum.none) {
-      return;
-    }
-    const animationConfigs = array(this._stateAnimationConfig[animationState]).filter(
-      config => (config as TypeAnimationConfig).type
-    );
-    if (!animationConfigs.length) {
-      return;
-    }
-    // clear last animation
-    if (animationState === AnimationStateEnum.appear) {
-      this._stage.stopAnimationState(AnimationStateEnum.disappear);
-    } else if (animationState === AnimationStateEnum.disappear) {
-      this._stage.stopAnimationState(AnimationStateEnum.appear);
-    }
-    // apply current animation
-    this._stage.applyAnimationState(
-      [animationState],
-      [
-        {
-          name: animationState,
-          animation: animationConfigs
-        }
-      ]
-    );
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {

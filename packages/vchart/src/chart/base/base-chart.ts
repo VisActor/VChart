@@ -79,6 +79,7 @@ import type { IMorphConfig } from '../../animation/spec';
 import { Interaction } from '../../interaction/interaction';
 import type { IInteraction } from '../../interaction/interface/common';
 import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
+import { animationConfig, userAnimationConfig } from '../../animation/utils';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -313,6 +314,22 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this.reDataFlow();
 
     this._initInteractions();
+
+    this.initStageAnimation();
+  }
+
+  initStageAnimation() {
+    const compiler = this._option.getCompiler();
+    if (!compiler?.setStageAnimationConfig) {
+      return;
+    }
+    compiler.setStageAnimationConfig(
+      animationConfig(
+        {}, // Factory.getAnimationInKey('stage')?.({}, null),
+        userAnimationConfig('stage', this._spec as any, {}),
+        null
+      )
+    );
   }
 
   reDataFlow() {

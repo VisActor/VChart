@@ -292,7 +292,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this.initMarkState();
     if (hasAnimation) {
       this.initAnimation();
-      this.initStageAnimation();
     }
 
     this.afterInitMark();
@@ -883,20 +882,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   initAnimation() {
     // do nothing
-  }
-
-  initStageAnimation() {
-    const compiler = this._option.getCompiler();
-    if (!compiler?.setStageAnimationConfig) {
-      return;
-    }
-    compiler.setStageAnimationConfig(
-      animationConfig(
-        {}, // Factory.getAnimationInKey('stage')?.({}, null),
-        userAnimationConfig('stage', this._spec as any, this._markAttributeContext),
-        null
-      )
-    );
   }
 
   initMarkState() {

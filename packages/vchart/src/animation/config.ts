@@ -32,14 +32,7 @@ import {
   GrowPointsYOut,
   ClipIn,
   ClipOut,
-  FromTo,
-  Dissolve,
-  Grayscale,
-  Distortion,
-  Particle,
-  Glitch,
-  GaussianBlur,
-  Pixelation
+  FromTo
 } from '@visactor/vrender-animate';
 
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
@@ -47,6 +40,8 @@ import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
 import { Factory } from '../core/factory';
 import { Direction } from '../typings/space';
+import { CallbackDisappearAnimate } from './callback-disappear';
+import { BuiltIn_DISAPPEAR_ANIMATE_NAME } from '../constant/animate';
 
 export const DEFAULT_ANIMATION_CONFIG = {
   appear: {
@@ -79,15 +74,13 @@ export const DEFAULT_ANIMATION_CONFIG = {
 export const ScaleInOutAnimation = {
   appear: { type: 'scaleIn' },
   enter: { type: 'scaleIn' },
-  exit: { type: 'scaleOut' },
-  disappear: { type: 'scaleOut' }
+  exit: { type: 'scaleOut' }
 };
 
 export const FadeInOutAnimation = {
   appear: { type: 'fadeIn' },
   enter: { type: 'fadeIn' },
-  exit: { type: 'fadeOut' },
-  disappear: { type: 'fadeOut' }
+  exit: { type: 'fadeOut' }
 };
 
 export const registerScaleInOutAnimation = () => {
@@ -106,19 +99,6 @@ export const registerCartesianGroupClipAnimation = () => {
         customParameters: (datum: any, g: IGraphic) => {
           return {
             animationType: 'in',
-            group: g,
-            direction: params.direction(),
-            width: params.width(),
-            height: params.height(),
-            orient: params.orient()
-          };
-        }
-      },
-      disappear: {
-        custom: ClipDirectionAnimate,
-        customParameters: (datum: any, g: IGraphic) => {
-          return {
-            animationType: 'out',
             group: g,
             direction: params.direction(),
             width: params.width(),
@@ -150,8 +130,7 @@ const lineOrAreaAnimation = (params: ILineAnimationParams, preset: LineAppearPre
           clipRangeByDimension: params.direction === Direction.horizontal ? 'y' : 'x'
         }
       }
-    ],
-    disappear: { type: 'clipOut' }
+    ]
   } as MarkAnimationSpec;
 };
 
@@ -209,11 +188,5 @@ export const registerPolygonAnimation = () => {
 };
 
 export const registerStageAnimation = () => {
-  AnimateExecutor.registerBuiltInAnimate('distortion', Distortion);
-  AnimateExecutor.registerBuiltInAnimate('particle', Particle);
-  AnimateExecutor.registerBuiltInAnimate('pixelation', Pixelation);
-  AnimateExecutor.registerBuiltInAnimate('gaussianBlur', GaussianBlur);
-  AnimateExecutor.registerBuiltInAnimate('glitch', Glitch);
-  AnimateExecutor.registerBuiltInAnimate('grayscale', Grayscale);
-  AnimateExecutor.registerBuiltInAnimate('dissolve', Dissolve);
+  AnimateExecutor.registerBuiltInAnimate(BuiltIn_DISAPPEAR_ANIMATE_NAME, CallbackDisappearAnimate);
 };
