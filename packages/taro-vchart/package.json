@@ -34,7 +34,7 @@
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "GitHub - VisActor/VChart: The chart library for web and multi-platform",
+    "url": "https://github.com/VisActor/VChart",
     "directory": "packages/taro-vchart"
   },
   "author": {
