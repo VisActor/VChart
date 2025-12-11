@@ -100,7 +100,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   getOutliersStyle() {
     return this._outliersStyle;
   }
-  protected _outlierDataView: ICompilableData;
+  protected _outlierData: ICompilableData;
 
   private _autoBoxWidth: number;
 
@@ -140,10 +140,10 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     if (this._outliersField) {
       this._outlierMark = this._createMark(BoxPlotSeries.mark.outlier, {
         key: DEFAULT_DATA_INDEX,
-        groupKey: this._seriesField,
-        dataView: this._outlierDataView.getDataView(),
-        dataProductId: this._outlierDataView.getProductId()
+        groupKey: this._seriesField
       }) as ISymbolMark;
+
+      this._outlierMark.setData(this._outlierData);
     }
   }
 
@@ -324,12 +324,17 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       false
     );
 
-    this._outlierDataView = new CompilableData(this._option, outlierDataView);
+    this._outlierData = new CompilableData(this._option, outlierDataView);
   }
 
   compileData() {
     super.compileData();
-    this._outlierDataView?.compile();
+    this._outlierData?.compile();
+  }
+
+  viewDataUpdate(d: DataView): void {
+    super.viewDataUpdate(d);
+    this._outlierData?.updateData();
   }
 
   init(option: IModelInitOption): void {
@@ -474,12 +479,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       outliersField.operations = ['array-min', 'array-max'];
     }
     return fields;
-  }
-
-  onEvaluateEnd(ctx: IModelEvaluateOption): void {
-    //初次编译时，会传入空数据；待所有计算完成后，需要重新执行updateData更新数据
-    super.onEvaluateEnd(ctx);
-    this._outlierDataView.updateData();
   }
 
   getDefaultShapeType(): string {
