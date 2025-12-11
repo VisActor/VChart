@@ -1835,13 +1835,24 @@
           "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
           "description": "bounds的计算模式"
         },
-        "boxFill": {
+        "boxCornerRadius": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "箱体的圆角半径\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 cornerRadius 属性",
+          "since": "2.0.11"
+        },
+        "boxHeight": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "箱体的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用"
+        },
+        "boxStroke": {
           "$ref": "#/definitions/VisualType<string>",
-          "description": "盒子填充颜色，为空则不填充"
+          "description": "箱体的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 stroke 属性",
+          "since": "2.0.11"
         },
         "boxWidth": {
           "$ref": "#/definitions/VisualType<string|number>",
-          "description": "box宽度"
+          "default": 30,
+          "description": "箱体的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的尺寸\n支持像素值或百分比字符串（相对于分组宽度）"
         },
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>",
@@ -1866,19 +1877,37 @@
         },
         "lineWidth": {
           "$ref": "#/definitions/VisualType<number>",
-          "description": "box描边宽度"
+          "default": 2,
+          "description": "箱线图的描边宽度\n在 shaftShape = 'line' / 'filled-line' 模式下影响所有线条的宽度\n在 shaftShape = 'bar' 模式下，minMaxBox 和 q1q3Box 的 lineWidth 会被强制设为 0"
         },
         "max": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_4",
-          "description": "最大值"
+          "description": "最大值（箱线图的上限）\n用于计算箱线图的上端须线位置"
         },
         "median": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_2",
-          "description": "中位数"
+          "description": "中位数（Q2，50%分位数）\n在箱体中绘制中位数线"
+        },
+        "medianStroke": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "中位数线的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 median 子图元的 stroke 属性",
+          "since": "2.0.11"
         },
         "min": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>",
-          "description": "最小值"
+          "description": "最小值（箱线图的下限）\n用于计算箱线图的下端须线位置"
+        },
+        "minMaxFillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "最小-最大值矩形的填充透明度\n仅在 shaftShape = 'bar' 模式下生效，控制 minMaxBox 子图元的 fillOpacity"
+        },
+        "minMaxHeight": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最小-最大值矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用"
+        },
+        "minMaxWidth": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最小-最大值矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 minMaxBox 子图元的尺寸"
         },
         "opacity": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1900,11 +1929,27 @@
         },
         "q1": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_1",
-          "description": "25%分位数"
+          "description": "第一四分位数（Q1，25%分位数）\n用于确定箱体的下边界"
+        },
+        "q1q3Height": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "Q1-Q3 四分位数矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用"
+        },
+        "q1q3Width": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "Q1-Q3 四分位数矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 q1q3Box 子图元的尺寸"
         },
         "q3": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_3",
-          "description": "75%分位数"
+          "description": "第三四分位数（Q3，75%分位数）\n用于确定箱体的上边界"
+        },
+        "ruleHeight": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最大/最小值须线端点的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用"
+        },
+        "ruleWidth": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最大/最小值须线端点的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -1919,17 +1964,15 @@
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
         },
-        "shaftFillOpacity": {
-          "$ref": "#/definitions/VisualType<number>",
-          "description": "中轴线透明度，仅当shaftType=bar时生效"
-        },
         "shaftShape": {
           "$ref": "#/definitions/VisualType<BoxPlotShaftShape>",
-          "description": "中轴线类型"
+          "default": "'line'",
+          "description": "中轴线（须线）的绘制形状\n- 'line': 标准线条形式，绘制 shaft（连接线）、box（箱体）、max/min/median（线条）五个子图元\n- 'bar': 柱状形式，绘制 minMaxBox（最小-最大值矩形）、q1q3Box（Q1-Q3矩形）、median（中位数线）三个子图元\n- 'filled-line': 填充线条形式"
         },
         "shaftWidth": {
           "$ref": "#/definitions/VisualType<string|number>",
-          "description": "最大最小值宽度"
+          "default": 20,
+          "description": "最大/最小值须线的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 max/min 子图元的线条长度\n支持像素值或百分比字符串"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -2005,13 +2048,24 @@
           "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
           "description": "bounds的计算模式"
         },
-        "boxFill": {
+        "boxCornerRadius": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "箱体的圆角半径\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 cornerRadius 属性",
+          "since": "2.0.11"
+        },
+        "boxHeight": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "箱体的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用"
+        },
+        "boxStroke": {
           "$ref": "#/definitions/VisualType<string>",
-          "description": "盒子填充颜色，为空则不填充"
+          "description": "箱体的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 stroke 属性",
+          "since": "2.0.11"
         },
         "boxWidth": {
           "$ref": "#/definitions/VisualType<string|number>",
-          "description": "box宽度"
+          "default": 30,
+          "description": "箱体的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的尺寸\n支持像素值或百分比字符串（相对于分组宽度）"
         },
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>",
@@ -2036,19 +2090,37 @@
         },
         "lineWidth": {
           "$ref": "#/definitions/VisualType<number>",
-          "description": "box描边宽度"
+          "default": 2,
+          "description": "箱线图的描边宽度\n在 shaftShape = 'line' / 'filled-line' 模式下影响所有线条的宽度\n在 shaftShape = 'bar' 模式下，minMaxBox 和 q1q3Box 的 lineWidth 会被强制设为 0"
         },
         "max": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_4",
-          "description": "最大值"
+          "description": "最大值（箱线图的上限）\n用于计算箱线图的上端须线位置"
         },
         "median": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_2",
-          "description": "中位数"
+          "description": "中位数（Q2，50%分位数）\n在箱体中绘制中位数线"
+        },
+        "medianStroke": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "中位数线的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 median 子图元的 stroke 属性",
+          "since": "2.0.11"
         },
         "min": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>",
-          "description": "最小值"
+          "description": "最小值（箱线图的下限）\n用于计算箱线图的下端须线位置"
+        },
+        "minMaxFillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "最小-最大值矩形的填充透明度\n仅在 shaftShape = 'bar' 模式下生效，控制 minMaxBox 子图元的 fillOpacity"
+        },
+        "minMaxHeight": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最小-最大值矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用"
+        },
+        "minMaxWidth": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最小-最大值矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 minMaxBox 子图元的尺寸"
         },
         "opacity": {
           "$ref": "#/definitions/VisualType<number>",
@@ -2070,11 +2142,27 @@
         },
         "q1": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_1",
-          "description": "25%分位数"
+          "description": "第一四分位数（Q1，25%分位数）\n用于确定箱体的下边界"
+        },
+        "q1q3Height": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "Q1-Q3 四分位数矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用"
+        },
+        "q1q3Width": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "Q1-Q3 四分位数矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 q1q3Box 子图元的尺寸"
         },
         "q3": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_3",
-          "description": "75%分位数"
+          "description": "第三四分位数（Q3，75%分位数）\n用于确定箱体的上边界"
+        },
+        "ruleHeight": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最大/最小值须线端点的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用"
+        },
+        "ruleWidth": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最大/最小值须线端点的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -2089,17 +2177,15 @@
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
         },
-        "shaftFillOpacity": {
-          "$ref": "#/definitions/VisualType<number>",
-          "description": "中轴线透明度，仅当shaftType=bar时生效"
-        },
         "shaftShape": {
           "$ref": "#/definitions/VisualType<BoxPlotShaftShape>",
-          "description": "中轴线类型"
+          "default": "'line'",
+          "description": "中轴线（须线）的绘制形状\n- 'line': 标准线条形式，绘制 shaft（连接线）、box（箱体）、max/min/median（线条）五个子图元\n- 'bar': 柱状形式，绘制 minMaxBox（最小-最大值矩形）、q1q3Box（Q1-Q3矩形）、median（中位数线）三个子图元\n- 'filled-line': 填充线条形式"
         },
         "shaftWidth": {
           "$ref": "#/definitions/VisualType<string|number>",
-          "description": "最大最小值宽度"
+          "default": 20,
+          "description": "最大/最小值须线的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 max/min 子图元的线条长度\n支持像素值或百分比字符串"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -23296,12 +23382,26 @@
           ],
           "type": "string"
         },
-        "boxFill": {
-          "description": "盒子填充颜色，为空则不填充",
+        "boxCornerRadius": {
+          "description": "箱体的圆角半径\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 cornerRadius 属性",
+          "since": "2.0.11",
+          "type": "number"
+        },
+        "boxHeight": {
+          "description": "箱体的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "boxStroke": {
+          "description": "箱体的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 stroke 属性",
+          "since": "2.0.11",
           "type": "string"
         },
         "boxWidth": {
-          "description": "box宽度",
+          "default": 30,
+          "description": "箱体的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的尺寸\n支持像素值或百分比字符串（相对于分组宽度）",
           "type": [
             "string",
             "number"
@@ -23332,7 +23432,8 @@
           "type": "number"
         },
         "lineWidth": {
-          "description": "box描边宽度",
+          "default": 2,
+          "description": "箱线图的描边宽度\n在 shaftShape = 'line' / 'filled-line' 模式下影响所有线条的宽度\n在 shaftShape = 'bar' 模式下，minMaxBox 和 q1q3Box 的 lineWidth 会被强制设为 0",
           "type": "number"
         },
         "max": {
@@ -23341,8 +23442,31 @@
         "median": {
           "typeof": "function"
         },
+        "medianStroke": {
+          "description": "中位数线的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 median 子图元的 stroke 属性",
+          "since": "2.0.11",
+          "type": "string"
+        },
         "min": {
           "typeof": "function"
+        },
+        "minMaxFillOpacity": {
+          "description": "最小-最大值矩形的填充透明度\n仅在 shaftShape = 'bar' 模式下生效，控制 minMaxBox 子图元的 fillOpacity",
+          "type": "number"
+        },
+        "minMaxHeight": {
+          "description": "最小-最大值矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "minMaxWidth": {
+          "description": "最小-最大值矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 minMaxBox 子图元的尺寸",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "opacity": {
           "description": "图形的透明度，既影响描边也影响填充",
@@ -23370,8 +23494,36 @@
         "q1": {
           "typeof": "function"
         },
+        "q1q3Height": {
+          "description": "Q1-Q3 四分位数矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "q1q3Width": {
+          "description": "Q1-Q3 四分位数矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 q1q3Box 子图元的尺寸",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
         "q3": {
           "typeof": "function"
+        },
+        "ruleHeight": {
+          "description": "最大/最小值须线端点的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "ruleWidth": {
+          "description": "最大/最小值须线端点的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用",
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "scaleCenter": {
           "description": "图形缩放中心",
@@ -23402,16 +23554,14 @@
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
           "type": "number"
         },
-        "shaftFillOpacity": {
-          "description": "中轴线透明度，仅当shaftType=bar时生效",
-          "type": "number"
-        },
         "shaftShape": {
           "$ref": "#/definitions/BoxPlotShaftShape",
-          "description": "中轴线类型"
+          "default": "'line'",
+          "description": "中轴线（须线）的绘制形状\n- 'line': 标准线条形式，绘制 shaft（连接线）、box（箱体）、max/min/median（线条）五个子图元\n- 'bar': 柱状形式，绘制 minMaxBox（最小-最大值矩形）、q1q3Box（Q1-Q3矩形）、median（中位数线）三个子图元\n- 'filled-line': 填充线条形式"
         },
         "shaftWidth": {
-          "description": "最大最小值宽度",
+          "default": 20,
+          "description": "最大/最小值须线的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 max/min 子图元的线条长度\n支持像素值或百分比字符串",
           "type": [
             "string",
             "number"
@@ -79184,7 +79334,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         },
         "size": {
@@ -79192,14 +79342,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12886",
+        "__@toStringTag@12484",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         },
         "size": {
@@ -79207,14 +79357,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12886",
+        "__@toStringTag@12484",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         },
         "size": {
@@ -79222,14 +79372,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12886",
+        "__@toStringTag@12484",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         },
         "size": {
@@ -79237,14 +79387,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12886",
+        "__@toStringTag@12484",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         },
         "size": {
@@ -79252,14 +79402,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12886",
+        "__@toStringTag@12484",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         },
         "size": {
@@ -79267,14 +79417,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12886",
+        "__@toStringTag@12484",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         },
         "size": {
@@ -79282,7 +79432,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12886",
+        "__@toStringTag@12484",
         "size"
       ],
       "type": "object"
@@ -100778,34 +100928,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12886"
+        "__@toStringTag@12484"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12886"
+        "__@toStringTag@12484"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12886": {
+        "__@toStringTag@12484": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12886"
+        "__@toStringTag@12484"
       ],
       "type": "object"
     },

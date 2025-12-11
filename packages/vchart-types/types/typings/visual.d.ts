@@ -158,17 +158,26 @@ export interface IRectMarkSpec extends IFillMarkSpec {
     y1?: number;
 }
 export interface IBoxPlotMarkSpec extends ICommonSpec {
-    lineWidth?: number;
-    boxWidth?: number | string;
-    shaftWidth?: number | string;
-    shaftShape?: BoxPlotShaftShape;
-    boxFill?: string;
-    shaftFillOpacity?: number;
     min?: (datum: Datum) => number;
     q1?: (datum: Datum) => number;
     median?: (datum: Datum) => number;
     q3?: (datum: Datum) => number;
     max?: (datum: Datum) => number;
+    shaftShape?: BoxPlotShaftShape;
+    boxWidth?: number | string;
+    boxHeight?: number | string;
+    shaftWidth?: number | string;
+    ruleWidth?: number | string;
+    ruleHeight?: number | string;
+    minMaxWidth?: number | string;
+    minMaxHeight?: number | string;
+    q1q3Width?: number | string;
+    q1q3Height?: number | string;
+    lineWidth?: number;
+    minMaxFillOpacity?: number;
+    boxStroke?: string;
+    medianStroke?: string;
+    boxCornerRadius?: number;
 }
 export interface IRippleMarkSpec extends ICommonSpec {
     ripple?: number;
