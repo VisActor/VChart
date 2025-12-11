@@ -25,7 +25,7 @@ import { registerBoxPlotMark } from '../../mark/box-plot';
 import { registerSymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
-import type { IBoxPlotMark, IGlyphMark, IMark, ISymbolMark } from '../../mark/interface';
+import type { IBoxPlotMark, IGlyphMark, IMark, ISymbolMark, ITextMark } from '../../mark/interface';
 import { merge, isNumber, isValid, isNil, array, last } from '@visactor/vutils';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
@@ -35,6 +35,7 @@ import { registeBoxPlotScaleAnimation } from './animation';
 import { boxPlot } from '../../theme/builtin/common/series/box-plot';
 import { getActualNumValue } from '../../util/space';
 import { isContinuous } from '@visactor/vscale';
+import { BoxPlotSeriesSpecTransformer } from './box-plot-transformer';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -50,6 +51,9 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   static readonly builtInTheme = { boxPlot };
   static readonly mark: SeriesMarkMap = boxPlotSeriesMark;
+
+  static readonly transformerConstructor = BoxPlotSeriesSpecTransformer as any;
+  readonly transformerConstructor = BoxPlotSeriesSpecTransformer;
 
   protected _bandPosition = 0;
   protected _minField: string;
@@ -270,6 +274,19 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
             };
       this.setMarkStyle(outlierMark, outlierMarkPositionChannel, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
     }
+  }
+
+  initLabelMarkStyle(textMark: ITextMark) {
+    if (!textMark) {
+      return;
+    }
+    this.setMarkStyle(textMark, {
+      fill: this.getColorAttribute(),
+      text: (datum: Datum) => {
+        return datum[this.getMedianField()];
+      },
+      z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
+    });
   }
 
   initData(): void {
