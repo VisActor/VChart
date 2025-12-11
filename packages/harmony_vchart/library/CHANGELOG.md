@@ -1,3 +1,30 @@
+# v2.0.11
+
+2025-12-11
+
+# v2.0.11
+
+2025-12-11
+
+**🆕 New Features**
+
+- **@visactor/vchart**: Support `componentShowContent` in `initOption` by @xuefei1313 in https://github.com/VisActor/VChart/pull/4334
+- **@visactor/vchart**: Support boxplot label by @xile611 in https://github.com/VisActor/VChart/pull/4346
+- **@visactor/vchart**: Export data constant by @xuefei1313 in https://github.com/VisActor/VChart/pull/4339
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: Fix crosshair behavior when having inner offset by @xile611 in https://github.com/VisActor/VChart/pull/4340
+- **@visactor/vchart**: Fix outlier color in boxplot by @xile611 in https://github.com/VisActor/VChart/pull/4347
+- **@visactor/vchart**: Fix boxplot outlier style by @xile611 in https://github.com/VisActor/VChart/pull/4350
+
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.10...v2.0.11
+
+[more detail about v2.0.11](https://github.com/VisActor/VChart/releases/tag/v2.0.11)
+
+[more detail about v2.0.11](https://github.com/VisActor/VChart/releases/tag/v2.0.11)
+
 # v2.0.10
 
 2025-11-28
