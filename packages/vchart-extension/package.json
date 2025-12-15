@@ -24,8 +24,8 @@
     "@visactor/vrender-core": "0.22.19",
     "@visactor/vrender-kits": "0.22.19",
     "@visactor/vrender-components": "0.22.19",
-    "@visactor/vgrammar-core": "0.16.15",
-    "@visactor/vgrammar-sankey": "0.16.15",
+    "@visactor/vgrammar-core": "0.16.16",
+    "@visactor/vgrammar-sankey": "0.16.16",
     "@visactor/vutils": "~0.19.7",
     "@visactor/vdataset": "~0.19.7",
     "@visactor/vchart": "workspace:1.13.13"
