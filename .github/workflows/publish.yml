@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-13
+    runs-on: macos-latest
     permissions:
       contents: write
       pull-requests: write
@@ -29,6 +29,35 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
+
+      - name: Install Python distutils (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          python3 -m pip install --upgrade pip --break-system-packages
+          python3 -m pip install setuptools --break-system-packages
+
+      - name: Install Python distutils (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-distutils
+          python3 -m pip install --upgrade pip --break-system-packages
+          python3 -m pip install setuptools --break-system-packages
+
+      - name: Install latest pnpm
+        run: npm install -g pnpm@10.7.0
+
+      - name: Install native deps for node-canvas (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install pkg-config cairo pango libpng jpeg giflib librsvg
+
+      - name: Install native deps for node-canvas (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev pkg-config
 
           # Install rush
       - name: Install rush
@@ -109,8 +138,8 @@ jobs:
       - name: Commit & Push changes
         run: |
           git add .
-          git commit -m 'build: prelease version ${{ steps.package-version.outputs.current_version }}' -n
-          git push origin ${{ github.ref_name }}
+          git commit -m 'build: prelease version ${{ steps.package-version.outputs.current_version }} [skip ci]' -n
+          git push --no-verify origin ${{ github.ref_name }}
 
       - name: Collect changelog of rush
         uses: xile611/collect-rush-changlog@main
