@@ -15,7 +15,13 @@ export type IPolarAxisLabel = ILabel &
   Pick<
     AxisLabelOverlap,
     'autoHide' | 'autoHideMethod' | 'autoHideSeparation' | 'autoLimit' | 'limitEllipsis' | 'layoutFunc' | 'autoWrap'
-  >;
+  > & {
+    /**
+     * 自动标签最大宽度
+     * @since 1.13.22
+     */
+    autoLabelMaxWidth?: boolean;
+  };
 
 export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
   /**

@@ -7,7 +7,7 @@ on:
 jobs:
   update-changelog-after-publish-a-release:
     name: GitHub Actions Test
-    runs-on: macos-13
+    runs-on: macos-latest
 
     strategy:
       matrix:
@@ -27,6 +27,35 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
+
+      - name: Install Python distutils (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          python3 -m pip install --upgrade pip --break-system-packages
+          python3 -m pip install setuptools --break-system-packages
+
+      - name: Install Python distutils (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-distutils
+          python3 -m pip install --upgrade pip --break-system-packages
+          python3 -m pip install setuptools --break-system-packages
+
+      - name: Install latest pnpm
+        run: npm install -g pnpm@10.7.0
+
+      - name: Install native deps for node-canvas (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install pkg-config cairo pango libpng jpeg giflib librsvg
+
+      - name: Install native deps for node-canvas (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev pkg-config
 
           # Install rush
       - name: Install rush
@@ -62,8 +91,8 @@ jobs:
       - name: Push branch
         run: |
           git add .
-          git commit -m "docs: generate changelog of release ${{  github.event.release.tag_name }}" -n
-          git push origin docs/generate-changelog-${{  github.event.release.tag_name }}
+          git commit -m "docs: generate changelog of release ${{  github.event.release.tag_name }} [skip ci]" -n
+          git push --no-verify origin docs/generate-changelog-${{  github.event.release.tag_name }}
 
       - name: Create Pull Request
         uses: dustinirving/create-pr@v1.0.2
