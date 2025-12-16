@@ -442,6 +442,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       innerRadius,
       startAngle: this._startAngle,
       endAngle: this._endAngle,
+      layoutRect: this.getRefLayoutRect(),
+      autoLabelMaxWidth: this._spec.label?.autoLabelMaxWidth ?? false,
       sides: this._getRelatedAxis((this._option as any).radiusAxisIndex)?.getSpec()?.grid?.smooth
         ? undefined
         : this.getScale().domain().length
