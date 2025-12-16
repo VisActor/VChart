@@ -20,9 +20,12 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "watch": false,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["ES2020"],
+    "types": ["node"],
+    "skipLibCheck": true
   },
-  "include": ["**/*.ts", "node_modules/@types/**/*.d.ts"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"],
   "compileOnSave": true,
   "buildOnSave": false
