@@ -170,6 +170,17 @@ $ rush update
 | [OMI](https://omi.cdn-go.cn/home/latest)                                                                         | Web Components Framework                                                                                                    |
 | [A vercel template built with vchart and Next.js](https://vercel.com/templates/next.js/visactor-nextjs-template) | A modern dashboard template built with vchart and Next.js, featuring a beautiful UI and rich data visualization components. |
 
+## Star History
+
+<a href="https://gitdata.xuanhun520.com/#visactor/vchart&Date">
+<picture >
+
+  <img style="width: 800px; height: 533px;" alt="Star History Chart" src="https://gitdata.xuanhun520.com/api/starimg?repos=visactor/vchart&type=Date&theme=dark" />
+</picture>
+</a>
+
+
+
 ## 💖 Thanks
 
 <div>
