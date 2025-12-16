@@ -81,6 +81,6 @@ export function run() {
   });
 }
 
-if (typeof window === 'undefined' && require.main === module) {
+if (require.main === module) {
   run();
 }
