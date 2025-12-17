@@ -18,7 +18,7 @@ import type { ILinkPathMark } from '@visactor/vchart/src/mark/interface';
 import { compareSankeySubData } from './compare-sankey-sub-data';
 import type { IElement } from '@visactor/vgrammar-core';
 import { getDatumOfGraphic } from '../../utils/mark';
-import { traverseTree } from './utils';
+import { getNodeDatumInSubTree, getNodeDatumInTree, getSubNodeDatum } from './utils';
 
 type Datum = any;
 
@@ -37,8 +37,6 @@ export class CompareSankeySeries extends SankeySeries<ICompareSankeySeriesSpecBa
   // @ts-ignore
   type = 'compareSankey';
   static type = 'compareSankey';
-
-  protected _arrowData?: DataView;
 
   private _subData: DataView;
 
@@ -356,41 +354,15 @@ export class CompareSankeySeries extends SankeySeries<ICompareSankeySeriesSpecBa
   }
 
   public getSubNodeDatum(filter: (n: Datum) => boolean) {
-    return this._nodeMark.getProductElements().filter((n: Datum) => filter(n.data[0]));
+    return getSubNodeDatum(this._nodeMark.getProductElements(), filter);
   }
 
   public getNodeDatumInTree(filter: (n: any) => boolean) {
-    const result: Datum[] = [];
-    const nodes = this._rawData.latestData[0].nodes;
-
-    nodes.forEach((node: any) => {
-      traverseTree([node], (node: any) => {
-        if (filter(node)) {
-          result.push(node);
-        }
-      });
-    });
-    return result;
+    return getNodeDatumInTree(this._rawData.latestData[0].nodes, filter);
   }
 
   public getNodeDatumInSubTree(filter: (n: any) => boolean) {
-    const list: {
-      type: string;
-      datum: Datum[];
-      [key: string]: any;
-    }[] = [];
-    const subNodes = this._rawData.latestData[0].subNode;
-    subNodes.forEach((subNode: any) => {
-      const { nodes, ...result } = subNode;
-      result.datum = [];
-      nodes.forEach((node: any) => {
-        if (filter(node)) {
-          result.datum.push(node);
-        }
-      });
-      list.push(result);
-    });
-    return list;
+    return getNodeDatumInSubTree(this._rawData.latestData[0].subNode, filter);
   }
 }
 

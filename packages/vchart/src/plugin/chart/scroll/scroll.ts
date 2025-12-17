@@ -142,19 +142,17 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
   }
 
   protected onWheel = (e: WheelEvent) => {
-    if (this._spec.preventDefault !== false) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
     const scrollX = e.deltaX;
     const scrollY = e.deltaY;
     const rootMark = this.getRootMark();
     if (!rootMark) {
       return;
     }
+
     const { percent: yPercent, y } = this._computeFinalScrollY(rootMark.attribute.y - scrollY) ?? {};
     const { percent: xPercent, x } = this._computeFinalScrollX(rootMark.attribute.x - scrollX) ?? {};
     const eventResult: { x?: number; y?: number } = {};
+    const isScroll = isValidNumber(x) || isValidNumber(y);
     if (isValidNumber(x)) {
       this._updateScrollX(rootMark, x, xPercent);
       eventResult.x = x;
@@ -164,10 +162,19 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
       eventResult.y = y;
     }
 
+    // 如果有触发滚动
+    if (isScroll) {
+      if (this._spec.preventDefault !== false) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }
+
     this._event.emit('chartScroll', eventResult as ExtendEventParam);
   };
 
   private _computeFinalScrollY(y: number) {
+    y = Math.max(this._scrollLimit.y.min, Math.min(y, this._scrollLimit.y.max));
     if (this._lastScrollY === y) {
       return null;
     }
@@ -175,14 +182,14 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
     if (this._spec.y?.enable === false) {
       return null;
     }
-    const finalY = Math.max(this._scrollLimit.y.min, Math.min(y, this._scrollLimit.y.max));
-    const percent = Math.abs(finalY / this._scrollLimit.y.size);
+    const percent = Math.abs(y / this._scrollLimit.y.size);
     return {
-      y: finalY,
+      y,
       percent
     };
   }
   private _computeFinalScrollX(x: number) {
+    x = Math.max(this._scrollLimit.x.min, Math.min(x, this._scrollLimit.x.max));
     if (this._lastScrollX === x) {
       return null;
     }
@@ -190,10 +197,9 @@ export class ScrollPlugin extends BasePlugin implements IScrollPlugin {
     if (this._spec.x?.enable === false) {
       return null;
     }
-    const finalX = Math.max(this._scrollLimit.x.min, Math.min(x, this._scrollLimit.x.max));
-    const percent = Math.abs(finalX / this._scrollLimit.x.size);
+    const percent = Math.abs(x / this._scrollLimit.x.size);
     return {
-      x: finalX,
+      x,
       percent
     };
   }
