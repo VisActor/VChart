@@ -67,7 +67,7 @@
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VisActor/VChart.git",
+    "url": "https://github.com/VisActor/VChart",
     "directory": "packages/openinula-vchart"
   },
   "author": {
