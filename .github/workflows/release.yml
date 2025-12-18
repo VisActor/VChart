@@ -59,7 +59,9 @@ jobs:
       - name: Install native deps for node-canvas (macOS)
         if: runner.os == 'macOS'
         run: |
-          brew update
+          export HOMEBREW_NO_AUTO_UPDATE=1
+          export HOMEBREW_NO_ANALYTICS=1
+          brew tap --repair || true
           brew install pkg-config cairo pango libpng jpeg giflib librsvg
 
       - name: Install native deps for node-canvas (Linux)
