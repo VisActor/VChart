@@ -17,7 +17,7 @@ export type IPolarAxisLabel = ILabel &
     'autoHide' | 'autoHideMethod' | 'autoHideSeparation' | 'autoLimit' | 'limitEllipsis' | 'layoutFunc' | 'autoWrap'
   > & {
     /**
-     * 标签最大宽度
+     * 是否自动限制标签最大宽度（开启基于布局的宽度控制）
      * @since 2.0.12
      */
     autoLabelMaxWidth?: boolean;

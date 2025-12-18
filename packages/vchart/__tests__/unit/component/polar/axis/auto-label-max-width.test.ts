@@ -61,7 +61,7 @@ test('autogen:polar/axis:autoLabelMaxWidth 应传递到组件属性', () => {
 
   const spec = {
     orient: 'angle',
-    label: { visible: true, autoLabelMaxWidth: 80 },
+    label: { visible: true, autoLabelMaxWidth: true },
     grid: { visible: false },
     subGrid: { visible: false },
     title: { visible: false },
@@ -79,6 +79,6 @@ test('autogen:polar/axis:autoLabelMaxWidth 应传递到组件属性', () => {
 
   expect(updateSpy).toHaveBeenCalled();
   const callArgs = updateSpy.mock.calls[0][0] as any;
-  expect(callArgs.autoLabelMaxWidth).toBe(80);
+  expect(callArgs.autoLabelMaxWidth).toBe(true);
   expect(callArgs.layoutRect).toEqual(layoutRect);
 });
