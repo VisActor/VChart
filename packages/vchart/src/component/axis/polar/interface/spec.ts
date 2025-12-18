@@ -20,7 +20,7 @@ export type IPolarAxisLabel = ILabel &
      * 标签最大宽度
      * @since 2.0.12
      */
-    autoLabelMaxWidth?: number;
+    autoLabelMaxWidth?: boolean;
   };
 
 export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
