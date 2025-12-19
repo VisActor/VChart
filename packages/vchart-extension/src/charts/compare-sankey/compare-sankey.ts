@@ -353,6 +353,18 @@ export class CompareSankeySeries extends SankeySeries<ICompareSankeySeriesSpecBa
     }
   }
 
+  protected _handlePointerOutElement() {
+    this._activeLinkData.parseNewData([]);
+  }
+
+  /**
+   * 清空所有选中与 hover 相关状态（包含旧模式与单选模式的全部状态位）。
+   */
+  protected _clearAllSelectedState() {
+    super._clearAllSelectedState();
+    this._activeLinkData.parseNewData([]);
+  }
+
   public getSubNodeDatum(filter: (n: Datum) => boolean) {
     return getSubNodeDatum(this._nodeMark.getProductElements(), filter);
   }
