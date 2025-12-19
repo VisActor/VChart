@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-extension",
-  "version": "2.0.11",
+  "version": "2.0.12-alpha.4",
   "description": "vchart extension package, including extension plugins and components",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -25,7 +25,7 @@
     "@visactor/vrender-kits": "1.0.33-alpha.1",
     "@visactor/vrender-components": "1.0.33-alpha.1",
     "@visactor/vrender-animate": "1.0.33-alpha.1",
-    "@visactor/vchart": "workspace:2.0.11",
+    "@visactor/vchart": "workspace:2.0.12-alpha.4",
     "@visactor/vutils": "~1.0.12",
     "@visactor/vdataset": "~1.0.12",
     "@visactor/vlayouts": "~1.0.12"
