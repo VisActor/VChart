@@ -3,10 +3,11 @@
 #${prefix} visible(boolean)
 
 标签是否可见。
-
+{{ if: !${noAutoRotate} }}
 #${prefix} autoRotate(boolean)
 
 标签整体 - 是否自动旋转。
+{{ /if }}
 
 {{ if: !${noMarkerRef} }}
 {{ use: component-marker-ref(
