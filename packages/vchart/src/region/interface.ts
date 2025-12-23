@@ -103,6 +103,11 @@ export interface IGeoRegionSpec extends IRegionSpec {
      */
     max?: number;
   };
+  /**
+   * 缩放速率（比例因子），用于加速或减缓缩放
+   * @default 1
+   */
+  zoomRate?: number;
 }
 
 export type RegionSpec = IRegionSpec | IGeoRegionSpec;

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "docs: chore(trae): add Trae jobs: auto-flow, smart changelog, PR pipeline",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
