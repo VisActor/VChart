@@ -12,11 +12,11 @@ parameters:
   onlyNew: false
   reportFormat: md
   applyManualOverrides: true
-  replaceAutogen: false
+  replaceAutogen: true
   dryRun: false
   preview: false
   stopOnError: true
-  focusChangedOnly: true
+  focusChangedOnly: false
   snapshotStrategy: combined
   tempReportPath: .trae/jobs/autotest.report.local.md
   mockDefaults:
