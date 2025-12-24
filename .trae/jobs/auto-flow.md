@@ -58,9 +58,9 @@ success_criteria:
 
 2. 运行差异驱动单测
 
-- 执行 Job：`.trae/jobs/autotest.md`
+- 执行 Job：`.trae/jobs/auto-test.md`
 - 传参：`sinceBranch={{baseBranch}}`（其余沿用默认）
-- 接收输出：`autotest_report=.trae/jobs/autotest.report.local.md`
+- 接收输出：`autotest_report=.trae/output/autotest.report.local.md`
 - 人工检查点：打开临时报告，确认新增/更新测试与覆盖率
 
 3. 生成 Rush 变更日志

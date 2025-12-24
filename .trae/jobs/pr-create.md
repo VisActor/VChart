@@ -23,7 +23,7 @@ parameters:
 required_parameters:
   - title
 inputs:
-  autotestReport: .trae/jobs/autotest.report.local.md
+  autotestReport: .trae/output/autotest.report.local.md
   rushChangesDir: common/changes
   bumpType: ''
   message: ''

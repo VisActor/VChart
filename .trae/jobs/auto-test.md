@@ -18,7 +18,7 @@ parameters:
   stopOnError: true
   focusChangedOnly: false
   snapshotStrategy: combined
-  tempReportPath: .trae/jobs/autotest.report.local.md
+  tempReportPath: .trae/output/autotest.report.local.md
   mockDefaults:
     time: fixed(2020-01-01T00:00:00Z)
     random: seed(42)
@@ -39,7 +39,7 @@ success_criteria:
 manual_overrides: []
 ---
 
-# Autotest Job（差异驱动单元测试自动生成）
+# Auto Test Job（差异驱动单元测试自动生成）
 
 ## 步骤
 
@@ -131,7 +131,7 @@ manual_overrides:
 
 ## 执行（Solo 模式）
 
-- 最简用法（使用默认参数）：在聊天中发起“执行 Autotest Job（.trae/jobs/autotest.md）”。
+- 最简用法（使用默认参数）：在聊天中发起“执行 Auto Test Job（.trae/jobs/auto-test.md）”。
 - 可选覆盖参数示例：`project=@visactor/vchart-theme`、`reportFormat=json`、`replaceAutogen=true`。
 - 我将按上述步骤顺序执行，并返回报告与人工节点处理结果。
-- 临时报告路径可通过 `tempReportPath` 覆盖，默认：`.trae/jobs/autotest.report.local.md`。
+- 临时报告路径可通过 `tempReportPath` 覆盖，默认：`.trae/output/autotest.report.local.md`。

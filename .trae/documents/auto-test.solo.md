@@ -1,6 +1,6 @@
 # Autotest（差异驱动单元测试生成）Solo 使用说明
 
-- 入口文件：`./.trae/jobs/autotest.md`
+- 入口文件：`./.trae/jobs/auto-test.md`
 - 作用：根据 `develop...HEAD` 的代码差异，自动生成/更新测试用例与快照，并运行覆盖率与报告
 
 ## 参数
@@ -17,11 +17,11 @@
 - `stopOnError`：遇错停止，默认 `true`
 - `focusChangedOnly`：仅聚焦变更，默认 `true`
 - `snapshotStrategy`：`combined`（默认）
-- `tempReportPath`：默认 `./.trae/jobs/autotest.report.local.md`
+- `tempReportPath`：默认 `./.trae/output/autotest.report.local.md`
 - `mockDefaults`：默认 `time=fixed(2020-01-01T00:00:00Z)`、`random=seed(42)`
 
 ## 使用（Solo）
-- 最简：在聊天中发起“执行 Autotest Job（.trae/jobs/autotest.md）”
+- 最简：在聊天中发起“执行 Auto Test Job（.trae/jobs/auto-test.md）”
 - 指定包：`project: '@visactor/vchart'`
 - 指定输出格式：`reportFormat: 'json'`
 
@@ -30,7 +30,7 @@
 - `snapshots`：快照文件
 - `coverage_report`：覆盖率摘要
 - `manual_nodes`：需人工处理的用例占位
-- `temp_markdown_report`：临时报告（默认写入 `./.trae/jobs/autotest.report.local.md`）
+- `temp_markdown_report`：临时报告（默认写入 `./.trae/output/autotest.report.local.md`）
 
 ## 成功标准
 - `tests_generated_for_changed_exports`
@@ -57,4 +57,4 @@ manual_overrides:
 
 ## 注意事项
 - 若差异范围为空，建议指定 `project` 以运行目标包测试
-- 对低覆盖模块，建议补充手动测试并复跑 Autotest 以提升覆盖率
+- 对低覆盖模块，建议补充手动测试并复跑 Auto Test 以提升覆盖率
