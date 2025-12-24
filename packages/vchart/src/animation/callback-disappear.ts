@@ -29,6 +29,6 @@ export class CallbackDisappearAnimate extends AStageAnimate<any> {
   }
 
   protected afterStageRender(stage: any, canvas: HTMLCanvasElement): void {
-    this.params?.callBack?.(stage, canvas, this.currentAnimationRatio, this.animationTime);
+    return this.params?.callBack?.(stage, canvas, this.currentAnimationRatio, this.animationTime);
   }
 }

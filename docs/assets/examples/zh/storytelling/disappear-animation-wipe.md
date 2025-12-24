@@ -1,16 +1,26 @@
-import { isMobile } from 'react-device-detect';
-// eslint-disable-next-line no-duplicate-imports
-import {
-  default as VChart,
-  registerMediaQuery,
-  registerAnimate,
-  registerCustomAnimate,
-  registerStateTransition,
-  vglobal
-} from '../../../../src/index';
-registerAnimate();
-registerCustomAnimate();
-registerStateTransition();
+---
+category: examples
+group: storytelling
+title: Disappear Animation Wipe
+keywords: animation,morphing,bar,pie,barChart,pieChart,comparison
+order: 42-0
+cover: /vchart/preview/disappear-animation-wipe-2.0.11.gif
+option: lineChart#animationAppear
+---
+
+# 退场动画擦除效果
+
+在自定义动画效果中可以通过 `afterStageRender` 方法实现擦除动画效果。
+
+## 关键配置
+
+- callBack: 退场动画的自定义回调函数/动画实现类，用于执行用户自定义的退场效果。
+
+### 代码演示
+
+```javascript livedemo
+// import { vglobal } from '@visactor/vchart';
+const vglobal = VCHART_MODULE.vglobal;
 
 function wipeAnimate(canvas, ratio) {
   // 创建临时画布
@@ -98,42 +108,10 @@ const spec = {
   }
 };
 
-const run = () => {
-  const container = document.getElementById('chart');
-  if (container) {
-    container.style.width = '640px';
-    container.style.height = '480px';
-    container.style.border = '1px solid #eee';
-  }
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderAsync();
 
-  registerMediaQuery();
-  // VChart.ThemeManager.setCurrentTheme('dark');
-  const cs = new VChart(spec, {
-    dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    //theme: 'dark',
-    onError: err => {
-      console.error(err);
-    }
-  });
-  console.time('renderTime');
-
-  cs.renderAsync().then(() => {
-    console.timeEnd('renderTime');
-  });
-
-  const button = document.createElement('button');
-  button.innerHTML = '退场动画';
-  button.addEventListener('click', () => {
-    cs.runDisappearAnimation();
-  });
-  // document.body.appendChild(button);
-
-  // setInterval(() => {
-  //   cs.runDisappearAnimation();
-  // }, 2000);
-
-  (window as any)['vchart'] = cs;
-  console.log(cs);
-};
-run();
+setInterval(() => {
+  vchart.runDisappearAnimation();
+}, 3000);
+```
