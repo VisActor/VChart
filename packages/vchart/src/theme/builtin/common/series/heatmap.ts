@@ -3,7 +3,7 @@ import type { IHeatmapSeriesTheme } from '../../../../series/heatmap/interface';
 export const heatmap: IHeatmapSeriesTheme = {
   cell: {
     style: {
-      shape: 'square',
+      shape: 'rect',
       fillOpacity: 1
     }
   },
