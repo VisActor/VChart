@@ -1,6 +1,7 @@
 import type { IAnimationTypeConfig } from '../../animation/interface';
 import { Factory } from '../../core/factory';
 import type { IRangeColumnAnimationParams, RangeColumnAppearPreset } from './interface';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 
 export const rangeColumnGrowIn = (params: IRangeColumnAnimationParams): IAnimationTypeConfig => {
   return {
@@ -42,6 +43,6 @@ export const registerRangeColumnAnimation = () => {
     appear: rangeColumnPresetAnimation(params, preset),
     enter: rangeColumnGrowIn(params),
     exit: rangeColumnGrowOut(params),
-    disappear: rangeColumnGrowOut(params)
+    disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
   }));
 };
