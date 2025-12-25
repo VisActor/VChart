@@ -1,3 +1,23 @@
+# v2.0.12
+
+2025-12-25
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 极坐标轴（CircleAxis）支持 `autoLabelMaxWidth` 配置 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4357
+- **@visactor/vchart**: 新增图表消失（Disappear）状态支持 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4341
+- **@visactor/vchart**: 优化热力图（Heatmap）形状渲染逻辑 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4377
+- **@visactor/vchart**: 优化地图（Map）zoom交互，增加 `zoomRate` 配置 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4373
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: 修复坐标轴标题（Axes Title）的布局问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4371
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.11...v2.0.12
+
+[more detail about v2.0.12](https://github.com/VisActor/VChart/releases/tag/v2.0.12)
+
+
 # v2.0.11
 
 2025-12-11
@@ -1099,3 +1119,4 @@
 
 # 1.11.0-alpha.1
 - VChart支持HarmonyOS的StageTS架构
+

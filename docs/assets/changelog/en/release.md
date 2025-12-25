@@ -1,3 +1,23 @@
+# v2.0.12
+
+2025-12-25
+
+**🆕 New Features**
+
+- **@visactor/vchart**: Support `autoLabelMaxWidth` configuration in `CircleAxis` by @xuefei1313 in https://github.com/VisActor/VChart/pull/4357
+- **@visactor/vchart**: Add support for chart disappear state by @xuefei1313 in https://github.com/VisActor/VChart/pull/4341
+- **@visactor/vchart**: Optimize heatmap shape rendering logic by @xuefei1313 in https://github.com/VisActor/VChart/pull/4377
+- **@visactor/vchart**: Optimize map zoom interaction and add `zoomRate` configuration by @xuefei1313 in https://github.com/VisActor/VChart/pull/4373
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: Fix axis title layout issue by @xuefei1313 in https://github.com/VisActor/VChart/pull/4371
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.11...v2.0.12
+
+[more detail about v2.0.12](https://github.com/VisActor/VChart/releases/tag/v2.0.12)
+
+
 # v2.0.11
 
 2025-12-11
@@ -20,6 +40,7 @@
 
 
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.10...v2.0.11
+
 
 [more detail about v2.0.11](https://github.com/VisActor/VChart/releases/tag/v2.0.11)
 
