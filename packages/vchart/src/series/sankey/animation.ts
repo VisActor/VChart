@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import { Factory } from '../../core/factory';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { FadeInOutAnimation } from '../../animation/config';
 import type { ISankeyAnimationParams, SankeyAppearPreset } from './interface';
 import type { IAnimationTypeConfig, IAnimationParameters } from '../../animation/interface';
@@ -226,7 +227,7 @@ export const registerSankeyAnimation = () => {
     appear: sankeyLinkPresetAnimation(preset),
     enter: { type: 'linkPathGrowIn' },
     exit: { type: 'linkPathGrowOut' },
-    disappear: { type: 'linkPathGrowOut' }
+    disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
   }));
   AnimateExecutor.registerBuiltInAnimate('linkPathGrowOut', LinkPathGrowOut);
   AnimateExecutor.registerBuiltInAnimate('linkPathGrowIn', LinkPathGrowIn);

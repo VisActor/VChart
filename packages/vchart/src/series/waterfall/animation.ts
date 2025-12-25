@@ -3,6 +3,7 @@ import { barGrowIn, barGrowOut } from '../bar/animation';
 import { Factory } from '../../core/factory';
 import type { WaterfallAppearPreset } from './interface';
 import type { IAnimationTypeConfig } from '../../animation/interface';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 
 const Appear_FadeIn: IAnimationTypeConfig = {
   type: 'fadeIn'
@@ -32,7 +33,7 @@ export const registerWaterfallAnimation = () => {
       appear: waterfallPresetAnimation(params, preset),
       enter: barGrowIn(params, false),
       exit: barGrowOut(params, false),
-      disappear: barGrowOut(params, false)
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     };
   });
 };
