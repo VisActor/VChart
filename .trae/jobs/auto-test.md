@@ -19,6 +19,7 @@ parameters:
   focusChangedOnly: false
   snapshotStrategy: combined
   tempReportPath: .trae/output/autotest.report.local.md
+  interactive: true
   mockDefaults:
     time: fixed(2020-01-01T00:00:00Z)
     random: seed(42)
@@ -41,7 +42,7 @@ manual_overrides: []
 
 # Auto Test Job（差异驱动单元测试自动生成）
 
-## 步骤
+## 步骤（交互说明）
 
 1. 差异采集
 
@@ -80,6 +81,7 @@ manual_overrides: []
 - TypeScript 诊断：收集编译错误并在报告中标注阻断项
 - 报告输出（`{{reportFormat}}`）：列出变更文件 → 新增/更新测试 → 通过/失败 → 覆盖率增量 → 人工节点清单
 - 临时报告写入：将本次执行结果以 Markdown 形式写入 `{{tempReportPath}}`
+- 当 `interactive==true`：生成报告后暂停，等待人工确认覆盖率与失败项（如有）再继续下游流程
 
   - 必含内容：
     - 变更摘要（文件列表与关键行级片段定位）

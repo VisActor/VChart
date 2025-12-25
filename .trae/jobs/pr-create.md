@@ -12,14 +12,15 @@ parameters:
   labels: []
   draft: false
   useGhCli: true
-  mode: auto # auto|gh|rest|browser
-  localBodyFile: false
+  mode: browser # auto|gh|rest|browser（交互默认 browser ）
+  localBodyFile: true
   openBrowser: true
   commitBeforeCreate: false
   commitMessage: ''
   commitAllowEmpty: false
   pushAfterCommit: true
   commitMessageStrategy: auto # auto|topic|manual
+  interactive: true
 required_parameters:
   - title
 inputs:
@@ -43,7 +44,7 @@ success_criteria:
 - 必填参数：`title`
 - 分支参数 `head` 可选：若未提供，将在执行阶段通过 `git rev-parse --abbrev-ref HEAD` 推导当前分支
 
-## 步骤
+## 步骤（交互默认）
 
 1. 提交未提交的变更并推送（可选）
 
@@ -130,6 +131,7 @@ success_criteria:
   ```
 
 - 若 `localBodyFile=true`：以完整代码块形式写入 `./.trae/output/pr.body.local.md`（被忽略提交）
+- 当 `interactive==true`：强制 `mode=browser` 并写入本地正文，暂停等待人工在页面完成提交
 
 4. 人工检查点
 
@@ -145,13 +147,7 @@ success_criteria:
   - `browser`：生成 compare URL，打开浏览器页面手动确认
 
 - 检测与执行：
-  - 若未提供 `head`：先运行 `git rev-parse --abbrev-ref HEAD` 以推导当前分支
-  - 检测 `gh`：`command -v gh` 成功则执行：
-    - `gh pr create --base {{base}} --title "{{title}}" --body "{{message}}" --head {{head}} {{#labels}}--label {{labels}}{{/labels}} {{#draft}}--draft{{/draft}}`
-  - 若无 `gh` 而存在 `GITHUB_TOKEN`：使用 REST API `POST /repos/{owner}/{repo}/pulls`，body 使用 `{{message}}`
-  - 否则生成 compare URL：
-    - `compare_url = https://github.com/VisActor/VChart/compare/{{base}}...{{head}}?expand=1`
-    - 输出 `generated_title` 与以完整 Markdown 代码块格式的 `generated_body_preview`，便于直接复制到 PR 页面；若 `openBrowser=true` 在 macOS 运行 `open {{compare_url}}`
+  - 当 `interactive==true`：跳过 `gh` 与 REST，直接生成 `compare_url`，并打开浏览器；输出 `generated_title` 与本地正文预览供复制
 
 6. 结果
 

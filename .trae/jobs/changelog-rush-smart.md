@@ -10,6 +10,7 @@ parameters:
   bumpType: auto
   notCommit: true
   githubToken: ''
+  interactive: true
 required_parameters: []
 outputs:
   - rush_change_entries
@@ -28,7 +29,7 @@ manual_overrides: []
 - 无必填参数，均有默认值
 - 如需“关联 Issue 标题”自动聚合，请提供 `githubToken`
 
-## 步骤
+## 步骤（交互说明）
 
 1. 采集差异与提交
 
@@ -61,6 +62,7 @@ manual_overrides: []
 
 - 执行 `rush change --bulk --bump-type '{{computed_bump_type}}' --message '{{final_message}}'`
 - 输出文件位于 `common/changes/**`，收集为 `rush_change_entries`
+- 当 `interactive==true`：生成条目后暂停，展示条目路径、包名、bumpType 与摘要，待人工确认后再继续
 
 6. 可选提交
 
