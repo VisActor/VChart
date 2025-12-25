@@ -158,7 +158,6 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
         marks: IMark[];
     }[];
     initAnimation(): void;
-    initStageAnimation(): void;
     initMarkState(): void;
     initSeriesStyleState(): void;
     afterInitMark(): void;

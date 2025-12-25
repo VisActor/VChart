@@ -129,8 +129,14 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     // this.rescaleMark();
   }
 
+  /**
+   * 处理图表缩放事件，按 zoomRate 调整缩放强度
+   * 使用幂次映射保持缩放因子始终为正：scale' = (zoomDelta)^zoomRate
+   */
   private _handleChartZoom = (params: ZoomEventParams, event?: BaseEventParams['event']) => {
-    let scale = params.zoomDelta;
+    const rate = isValid(this._spec.zoomRate) ? Math.max(0, this._spec.zoomRate as number) : 1;
+    const delta = Math.max(params.zoomDelta, 1e-6);
+    let scale = Math.pow(delta, rate);
     // check if the next scale will outrange
     const _lastActualScale = this._actualScale;
     this._actualScale *= scale;
@@ -397,7 +403,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   _compareSpec(spec: IGeoRegionSpec, prevSpec: IGeoRegionSpec) {
     const result = super._compareSpec(spec, prevSpec);
     if (!result.reMake) {
-      result.reMake = ['roam', 'longitudeField', 'latitudeField', 'projection', 'zoomLimit'].some(k => {
+      result.reMake = ['roam', 'longitudeField', 'latitudeField', 'projection', 'zoomLimit', 'zoomRate'].some(k => {
         return !isEqual(prevSpec?.[k as keyof IGeoRegionSpec], spec[k as keyof IGeoRegionSpec]);
       });
     }

@@ -117,6 +117,7 @@ import { registerElementHighlight } from '../interaction/triggers/element-highli
 import { registerElementSelect } from '../interaction/triggers/element-select';
 import type { IVChartPluginService } from '../plugin/vchart/interface';
 import { VChartPluginService } from '../plugin/vchart/plugin-service';
+import { RenderStateEnum } from '../constant/animate';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -365,6 +366,8 @@ export class VChart implements IVChart {
   private _vChartPlugin?: IVChartPluginService;
 
   private _onResize?: () => void;
+
+  private _renderState: RenderStateEnum = RenderStateEnum.render;
 
   constructor(spec: ISpec, options: IInitOption) {
     removeUndefined(options);
@@ -940,6 +943,7 @@ export class VChart implements IVChart {
     parserOptions?: IParserOptions,
     userUpdateOptions?: IUpdateDataResult
   ) {
+    this._reSetRenderState();
     if (isNil(this._dataSet)) {
       return this as unknown as IVChart;
     }
@@ -971,6 +975,7 @@ export class VChart implements IVChart {
     reRender: boolean = true,
     userUpdateOptions?: IUpdateSpecResult
   ) {
+    this._reSetRenderState();
     if (this._chart) {
       this._chart.updateFullData(data);
       if (reRender) {
@@ -1087,6 +1092,8 @@ export class VChart implements IVChart {
     forceMerge: boolean = false,
     userUpdateOptions?: IUpdateSpecResult
   ): IUpdateSpecResult | undefined => {
+    this._reSetRenderState();
+
     const lastSpec = this._spec;
 
     const result: IUpdateSpecResult = {
@@ -2250,6 +2257,25 @@ export class VChart implements IVChart {
       disableTriggerEvent: this._option.disableTriggerEvent === true,
       componentShowContent: this._option.componentShowContent
     };
+  }
+
+  public runDisappearAnimation() {
+    this._renderState = RenderStateEnum.disappear;
+    this.getStage().eventSystem.pauseTriggerEvent();
+    this.getStage().applyAnimationState(
+      ['disappear'],
+      [
+        {
+          name: 'disappear',
+          animation: this._compiler.stateAnimationConfig.disappear
+        }
+      ]
+    );
+  }
+
+  private _reSetRenderState() {
+    this._renderState = RenderStateEnum.render;
+    this.getStage().eventSystem.resumeTriggerEvent();
   }
 }
 

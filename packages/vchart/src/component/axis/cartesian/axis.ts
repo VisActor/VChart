@@ -716,7 +716,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       gridLength = regionWidth;
       axisLength = height;
     }
-
     const items = this.getLabelItems(axisLength);
     const attrs: any = {
       start: { x: 0, y: 0 },
@@ -726,7 +725,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         maxWidth: this._getTitleLimit(isX)
       },
       items,
-      scale: this._scale.clone()
+      scale: this._scale.clone(),
+      maxWidth: this._layout.maxWidth,
+      minWidth: this._layout.minWidth,
+      width: this._spec.width ? this.getLayoutRect().width : undefined
     };
     if (!ignoreGrid) {
       attrs.grid = {

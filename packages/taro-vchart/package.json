@@ -1,6 +1,6 @@
 {
   "name": "@visactor/taro-vchart",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "Taro VChart 图表组件",
   "sideEffects": false,
   "main": "esm/index.js",
@@ -43,8 +43,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@visactor/vchart": "workspace:2.0.11",
-    "@visactor/vchart-extension": "workspace:2.0.11"
+    "@visactor/vchart": "workspace:2.0.12",
+    "@visactor/vchart-extension": "workspace:2.0.12"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

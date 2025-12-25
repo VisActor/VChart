@@ -19,16 +19,16 @@ importers:
         specifier: 2.46.1
         version: 2.46.1(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@visactor/openinula-vchart':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../packages/openinula-vchart
       '@visactor/react-vchart':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../packages/react-vchart
       '@visactor/vchart':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../packages/vchart
       '@visactor/vchart-extension':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../packages/vchart-extension
       '@visactor/vchart-theme':
         specifier: ~1.6.6
@@ -37,11 +37,11 @@ importers:
         specifier: 1.2.4-alpha.5
         version: 1.2.4-alpha.5
       '@visactor/vrender':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-kits':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vtable':
         specifier: 1.19.0-alpha.0
         version: 1.19.0-alpha.0
@@ -200,14 +200,14 @@ importers:
   ../../packages/openinula-vchart:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../vchart
       '@visactor/vrender-core':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-kits':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vutils':
         specifier: ~1.0.12
         version: 1.0.21
@@ -288,17 +288,17 @@ importers:
   ../../packages/react-vchart:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../vchart
       '@visactor/vchart-extension':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../vchart-extension
       '@visactor/vrender-core':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-kits':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vutils':
         specifier: ~1.0.12
         version: 1.0.21
@@ -388,10 +388,10 @@ importers:
   ../../packages/taro-vchart:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../vchart
       '@visactor/vchart-extension':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../vchart-extension
     devDependencies:
       '@babel/core':
@@ -529,17 +529,17 @@ importers:
         specifier: ~1.0.12
         version: 1.0.21
       '@visactor/vrender-animate':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-components':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-core':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-kits':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vscale':
         specifier: ~1.0.12
         version: 1.0.21
@@ -547,7 +547,7 @@ importers:
         specifier: ~1.0.12
         version: 1.0.21
       '@visactor/vutils-extension':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../vutils-extension
     devDependencies:
       '@esbuild-plugins/node-globals-polyfill':
@@ -683,7 +683,7 @@ importers:
   ../../packages/vchart-extension:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../vchart
       '@visactor/vdataset':
         specifier: ~1.0.12
@@ -692,17 +692,17 @@ importers:
         specifier: ~1.0.12
         version: 1.0.21
       '@visactor/vrender-animate':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-components':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-core':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-kits':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vutils':
         specifier: ~1.0.12
         version: 1.0.21
@@ -991,10 +991,10 @@ importers:
   ../../tools/bugserver-trigger:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../../packages/vchart
       '@visactor/vchart-extension':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../../packages/vchart-extension
     devDependencies:
       '@internal/bundler':
@@ -1257,17 +1257,17 @@ importers:
   ../../tools/story-player:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.0.11
+        specifier: workspace:2.0.12
         version: link:../../packages/vchart
       '@visactor/vrender':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-core':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vrender-kits':
-        specifier: ~1.0.32
-        version: 1.0.32
+        specifier: ~1.0.36
+        version: 1.0.36
       '@visactor/vutils':
         specifier: ~1.0.12
         version: 1.0.21
@@ -3073,29 +3073,29 @@ packages:
   '@visactor/vrender-animate@1.0.0-alpha.18':
     resolution: {integrity: sha512-9kTtvp1ef+1t+AtUiza6A7qBQP7SmvOu3/ILGrqs/HGdZVj1XGjbYvD/X/zwKJ3LEb7gGV5fa8x95e4czTvRSA==}
 
-  '@visactor/vrender-animate@1.0.32':
-    resolution: {integrity: sha512-zRHJgT2V0OdyPcjPl2Ix6mktIM9AAMyyXaeCwbtoZqMkmYgjRZDpfPwpLy+nQqOI+L/rOvOv6NLepQbwKirP1w==}
+  '@visactor/vrender-animate@1.0.36':
+    resolution: {integrity: sha512-AmWLsUG8Srha93ASrCdU4UhZkbq6bhrnen7CimQ5wV6Y8b6deAPopBi0F+FrChzi4bIVL4MdAE4DV8cX/BIYxw==}
 
   '@visactor/vrender-components@1.0.0-alpha.18':
     resolution: {integrity: sha512-7Euq+ZfswL74n2pgkaqZSsPxoSa5SPIGyXatN1eUrdzM2Z0kX6U0RcJg01fctvRs4op6WhcecRLqGvnHcBeb9Q==}
 
-  '@visactor/vrender-components@1.0.32':
-    resolution: {integrity: sha512-nH2criP27xdUIGYK6YjE1vQ6dXZUQ63or3ssDXJpiuNteQw4x9RfiUT8YYSmDAm8zLplTH7eUdGOolk0+8qLXg==}
+  '@visactor/vrender-components@1.0.36':
+    resolution: {integrity: sha512-z4MNfjwGwekKkwjjfci5A5c7+mOOjBKcA6cZtS0wDxiKY8R48fjPpd2QZlpVSOoLSeaYSbMBGCbTRXWpzLBQVg==}
 
   '@visactor/vrender-core@1.0.0-alpha.18':
     resolution: {integrity: sha512-0ihtNvCyNkOsWPFgRqowHzq0IcQgS2Wl/nPpKbVtxWKveenwlhA+ZKoQvam6VJyBY7jeNe1pROy0mJMDyVAJQw==}
 
-  '@visactor/vrender-core@1.0.32':
-    resolution: {integrity: sha512-Z7gliAn/YNFMgByow9xJCZjvrsC4wgYI+kqSrz26eGP2X9eGqo4J5FaDppc8gUlwm7sXv+73bXhY8L35Umow0w==}
+  '@visactor/vrender-core@1.0.36':
+    resolution: {integrity: sha512-u/JprSGz0rNt/Oul/Y9h8/4qcAu9Xki+zX5fww2uePJREwhvQNnAAOubsUP7tG0jlHq5v9HIaJN+COUlKIZTyw==}
 
   '@visactor/vrender-kits@1.0.0-alpha.18':
     resolution: {integrity: sha512-Tvolkq+4G8qiPFZo0Aj8M//Yr6jR2h8FNkFEyWM9gbQbEiTkjpmHAJOYnoSsaPtPrcMSlG4EhJSFDk6ymANHVg==}
 
-  '@visactor/vrender-kits@1.0.32':
-    resolution: {integrity: sha512-58PHHHBRCy+q5YYAmkFi6FMrqBHURPkYBaTkF3V1+IyUVElo/xHQ076DyiHylIq+pQCnx1L5M+iL2pQG5PSLYg==}
+  '@visactor/vrender-kits@1.0.36':
+    resolution: {integrity: sha512-+gQayxykuqCDo2ncCH8u1jaVWyXzyTfqu9PFLmXusHeJF0zp4FvvEEsOy540b24mf0kKFimSpmWk6Duqb+0utw==}
 
-  '@visactor/vrender@1.0.32':
-    resolution: {integrity: sha512-s1B9X2wi7eSSJ/vSouymISl2/GG7XYqpbguaTi/wskU/JthShjDSbukRW5B3RUTIRqaaOrLWP+dFRTl8D7sQ6w==}
+  '@visactor/vrender@1.0.36':
+    resolution: {integrity: sha512-6VgL2vvlVvI1BnW0GKUiVDxPYUUJJLaliqR6hjmwKrZqRvdfib5iXlJf/ohQy6v/36jjZxxV5tTpF8jlu2DQLg==}
 
   '@visactor/vscale@0.18.18':
     resolution: {integrity: sha512-iRG4kv+5Fv4KX3AxEfV95XU3I6OmF0QizyAhqHxKa7L1MaT+MRvDDk5zHWf1E8gialLbL2xDe3GnT6g/4u5jhA==}
@@ -4047,8 +4047,8 @@ packages:
     resolution: {integrity: sha512-5T6P4xPgpp0YDFvSWwEZ4NoE3aM4QBQXDzmVbraCkFj8zHM+mba8SyqB5DbZWyR7mYHo6Y7BdQo3MoA4m0TeQg==}
     engines: {node: '>=0.10.0'}
 
-  baseline-browser-mapping@2.9.6:
-    resolution: {integrity: sha512-v9BVVpOTLB59C9E7aSnmIF8h7qRsFpx+A2nugVMTszEOMcfjlZMsXRm4LF23I3Z9AJxc8ANpIvzbzONoX9VJlg==}
+  baseline-browser-mapping@2.9.8:
+    resolution: {integrity: sha512-Y1fOuNDowLfgKOypdc9SPABfoWXuZHBOyCS4cD52IeZBhr4Md6CLLs6atcxVrzRmQ06E7hSlm5bHHApPKR/byA==}
     hasBin: true
 
   batch@0.6.1:
@@ -5517,8 +5517,8 @@ packages:
   error-stack-parser@2.1.4:
     resolution: {integrity: sha512-Sk5V6wVazPhq5MhpO+AUxJn5x7XSXGl1R93Vn7i+zS15KDVxQijejNCrz8340/2bgLBjR9GtEG8ZVKONDjcqGQ==}
 
-  es-abstract@1.24.0:
-    resolution: {integrity: sha512-WSzPgsdLtTcQwm4CROfS5ju2Wa1QQcVeT37jFjYzdFz1r9ahadC8B8/a4qxJxM+09F18iumCdRmlr96ZYkQvEg==}
+  es-abstract@1.24.1:
+    resolution: {integrity: sha512-zHXBLhP+QehSSbsS9Pt23Gg964240DPd6QCf8WpkqEXxQ7fhdZzYsocOr5u7apWonsS5EjZDmTF+/slGMyasvw==}
     engines: {node: '>= 0.4'}
 
   es-array-method-boxes-properly@1.0.0:
@@ -6940,10 +6940,6 @@ packages:
   http-errors@1.6.3:
     resolution: {integrity: sha512-lks+lVC8dgGyh97jxvxeYTWQFvh4uw4yC12gVl63Cg30sjPX4wuGcdkICVXDAESr6OJGjqGA8Iz5mkeN6zlD7A==}
     engines: {node: '>= 0.6'}
-
-  http-errors@2.0.0:
-    resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}
-    engines: {node: '>= 0.8'}
 
   http-errors@2.0.1:
     resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
@@ -10546,12 +10542,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  send@0.19.0:
-    resolution: {integrity: sha512-dW41u5VfLXu8SJh5bwRmyYUbAoSB3c9uQh6L8h/KtsFREPWpbX1lrljJo186Jc4nmci/sGUZ9a0a0J2zgfq2hw==}
-    engines: {node: '>= 0.8.0'}
-
-  send@0.19.1:
-    resolution: {integrity: sha512-p4rRk4f23ynFEfcD9LA0xRYngj+IyGiEYyqqOak8kaN0TvNmuxC2dcVeBn62GpCeR2CpWqyHCNScTP91QbAVFg==}
+  send@0.19.2:
+    resolution: {integrity: sha512-VMbMxbDeehAxpOtWJXlcUS5E8iXh6QmN+BkRX1GARS3wRaXEEgzCcB10gTQazO42tpNIya8xIyNx8fll1OFPrg==}
     engines: {node: '>= 0.8.0'}
 
   serialize-error@7.0.1:
@@ -10574,8 +10566,8 @@ packages:
     resolution: {integrity: sha512-pXHfKNP4qujrtteMrSBb0rc8HJ9Ms/GrXwcUtUtD5s4ewDJI8bT3Cz2zTVRMKtri49pLx2e0Ya8ziP5Ya2pZZw==}
     engines: {node: '>= 0.8.0'}
 
-  serve-static@1.16.2:
-    resolution: {integrity: sha512-VqpjJZKadQB/PEbEwvFdO43Ax5dFBZ2UECszz8bQ7pi7wt//PWe1P6MN7eCnjsatYtBT6EuiClbjSWP2WrIoTw==}
+  serve-static@1.16.3:
+    resolution: {integrity: sha512-x0RTqQel6g5SY7Lg6ZreMmsOzncHFU7nhnRWkKgWuMTu5NN0DR5oruckMqRvacAN9d5w6ARnRBXl9xhDCgfMeA==}
     engines: {node: '>= 0.8.0'}
 
   set-blocking@2.0.0:
@@ -10902,10 +10894,6 @@ packages:
   statuses@1.5.0:
     resolution: {integrity: sha512-OpZ3zP+jT1PI7I8nemJX4AKmAX070ZkYPVWV/AaKTJl+tXCTGyVdC1a4SL8RUQYEwk/f34ZX8UTykN68FwrqAA==}
     engines: {node: '>= 0.6'}
-
-  statuses@2.0.1:
-    resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
-    engines: {node: '>= 0.8'}
 
   statuses@2.0.2:
     resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
@@ -11798,8 +11786,8 @@ packages:
     resolution: {integrity: sha512-aZwGpamFO61g3OlfT7OQCHqhGnW43ieH9WZeP7QxN/G/jS4jfqUkZxoryvJgVPEcrl5NL/ggHsSmLMHuH64Lhg==}
     engines: {node: '>=4'}
 
-  update-browserslist-db@1.2.2:
-    resolution: {integrity: sha512-E85pfNzMQ9jpKkA7+TJAi4TJN+tBCuWh5rUcS/sv6cFi+1q9LYDwDI5dpUL0u/73EElyQ8d3TEaeW4sPedBqYA==}
+  update-browserslist-db@1.2.3:
+    resolution: {integrity: sha512-Js0m9cx+qOgDxo0eMiFGEueWztz+d4+M3rGlmKPT+T4IS/jP4ylw3Nwpu6cpTTP8R1MAC1kF4VbdLt3ARf209w==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
@@ -15038,9 +15026,9 @@ snapshots:
       '@visactor/vrender-core': 1.0.0-alpha.18
       '@visactor/vutils': 1.0.4
 
-  '@visactor/vrender-animate@1.0.32':
+  '@visactor/vrender-animate@1.0.36':
     dependencies:
-      '@visactor/vrender-core': 1.0.32
+      '@visactor/vrender-core': 1.0.36
       '@visactor/vutils': 1.0.21
 
   '@visactor/vrender-components@1.0.0-alpha.18':
@@ -15051,11 +15039,11 @@ snapshots:
       '@visactor/vscale': 1.0.4
       '@visactor/vutils': 1.0.4
 
-  '@visactor/vrender-components@1.0.32':
+  '@visactor/vrender-components@1.0.36':
     dependencies:
-      '@visactor/vrender-animate': 1.0.32
-      '@visactor/vrender-core': 1.0.32
-      '@visactor/vrender-kits': 1.0.32
+      '@visactor/vrender-animate': 1.0.36
+      '@visactor/vrender-core': 1.0.36
+      '@visactor/vrender-kits': 1.0.36
       '@visactor/vscale': 1.0.21
       '@visactor/vutils': 1.0.21
 
@@ -15064,7 +15052,7 @@ snapshots:
       '@visactor/vutils': 1.0.4
       color-convert: 2.0.1
 
-  '@visactor/vrender-core@1.0.32':
+  '@visactor/vrender-core@1.0.36':
     dependencies:
       '@visactor/vutils': 1.0.21
       color-convert: 2.0.1
@@ -15078,21 +15066,21 @@ snapshots:
       lottie-web: 5.13.0
       roughjs: 4.5.2
 
-  '@visactor/vrender-kits@1.0.32':
+  '@visactor/vrender-kits@1.0.36':
     dependencies:
       '@resvg/resvg-js': 2.4.1
-      '@visactor/vrender-core': 1.0.32
+      '@visactor/vrender-core': 1.0.36
       '@visactor/vutils': 1.0.21
       gifuct-js: 2.1.2
       lottie-web: 5.13.0
       roughjs: 4.6.6
 
-  '@visactor/vrender@1.0.32':
+  '@visactor/vrender@1.0.36':
     dependencies:
-      '@visactor/vrender-animate': 1.0.32
-      '@visactor/vrender-components': 1.0.32
-      '@visactor/vrender-core': 1.0.32
-      '@visactor/vrender-kits': 1.0.32
+      '@visactor/vrender-animate': 1.0.36
+      '@visactor/vrender-components': 1.0.36
+      '@visactor/vrender-core': 1.0.36
+      '@visactor/vrender-kits': 1.0.36
 
   '@visactor/vscale@0.18.18':
     dependencies:
@@ -15735,7 +15723,7 @@ snapshots:
       call-bind: 1.0.8
       call-bound: 1.0.4
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-object-atoms: 1.1.1
       get-intrinsic: 1.3.0
       is-string: 1.1.1
@@ -15779,7 +15767,7 @@ snapshots:
       call-bind: 1.0.8
       call-bound: 1.0.4
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-errors: 1.3.0
       es-object-atoms: 1.1.1
       es-shim-unscopables: 1.1.0
@@ -15788,14 +15776,14 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-shim-unscopables: 1.1.0
 
   array.prototype.flatmap@1.3.3:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-shim-unscopables: 1.1.0
 
   array.prototype.reduce@1.0.8:
@@ -15803,7 +15791,7 @@ snapshots:
       call-bind: 1.0.8
       call-bound: 1.0.4
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-array-method-boxes-properly: 1.0.0
       es-errors: 1.3.0
       es-object-atoms: 1.1.1
@@ -15814,7 +15802,7 @@ snapshots:
       array-buffer-byte-length: 1.0.2
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-errors: 1.3.0
       get-intrinsic: 1.3.0
       is-array-buffer: 3.0.5
@@ -16389,7 +16377,7 @@ snapshots:
       mixin-deep: 1.3.2
       pascalcase: 0.1.1
 
-  baseline-browser-mapping@2.9.6: {}
+  baseline-browser-mapping@2.9.8: {}
 
   batch@0.6.1: {}
 
@@ -16587,11 +16575,11 @@ snapshots:
 
   browserslist@4.28.1:
     dependencies:
-      baseline-browser-mapping: 2.9.6
+      baseline-browser-mapping: 2.9.8
       caniuse-lite: 1.0.30001760
       electron-to-chromium: 1.5.267
       node-releases: 2.0.27
-      update-browserslist-db: 1.2.2(browserslist@4.28.1)
+      update-browserslist-db: 1.2.3(browserslist@4.28.1)
 
   bs-logger@0.2.6:
     dependencies:
@@ -18111,7 +18099,8 @@ snapshots:
 
   emojis-list@3.0.0: {}
 
-  encodeurl@1.0.2: {}
+  encodeurl@1.0.2:
+    optional: true
 
   encodeurl@2.0.0: {}
 
@@ -18157,7 +18146,7 @@ snapshots:
     dependencies:
       stackframe: 1.3.4
 
-  es-abstract@1.24.0:
+  es-abstract@1.24.1:
     dependencies:
       array-buffer-byte-length: 1.0.2
       arraybuffer.prototype.slice: 1.0.4
@@ -18938,8 +18927,8 @@ snapshots:
       qs: 6.14.0
       range-parser: 1.2.1
       safe-buffer: 5.2.1
-      send: 0.19.1
-      serve-static: 1.16.2
+      send: 0.19.2
+      serve-static: 1.16.3
       setprototypeof: 1.2.0
       statuses: 2.0.2
       type-is: 1.6.18
@@ -20132,14 +20121,6 @@ snapshots:
       inherits: 2.0.3
       setprototypeof: 1.1.0
       statuses: 1.5.0
-
-  http-errors@2.0.0:
-    dependencies:
-      depd: 2.0.0
-      inherits: 2.0.4
-      setprototypeof: 1.2.0
-      statuses: 2.0.1
-      toidentifier: 1.0.1
 
   http-errors@2.0.1:
     dependencies:
@@ -22955,7 +22936,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-object-atoms: 1.1.1
 
   object.getownpropertydescriptors@2.1.9:
@@ -22963,7 +22944,7 @@ snapshots:
       array.prototype.reduce: 1.0.8
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-object-atoms: 1.1.1
       gopd: 1.2.0
       safe-array-concat: 1.1.3
@@ -22972,12 +22953,12 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
 
   object.hasown@1.1.4:
     dependencies:
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-object-atoms: 1.1.1
 
   object.map@1.0.1:
@@ -24101,7 +24082,7 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-errors: 1.3.0
       es-object-atoms: 1.1.1
       get-intrinsic: 1.3.0
@@ -24750,23 +24731,7 @@ snapshots:
 
   semver@7.7.3: {}
 
-  send@0.19.0:
-    dependencies:
-      debug: 2.6.9
-      depd: 2.0.0
-      destroy: 1.2.0
-      encodeurl: 1.0.2
-      escape-html: 1.0.3
-      etag: 1.8.1
-      fresh: 0.5.2
-      http-errors: 2.0.0
-      mime: 1.6.0
-      ms: 2.1.3
-      on-finished: 2.4.1
-      range-parser: 1.2.1
-      statuses: 2.0.1
-
-  send@0.19.1:
+  send@0.19.2:
     dependencies:
       debug: 2.6.9
       depd: 2.0.0
@@ -24775,12 +24740,12 @@ snapshots:
       escape-html: 1.0.3
       etag: 1.8.1
       fresh: 0.5.2
-      http-errors: 2.0.0
+      http-errors: 2.0.1
       mime: 1.6.0
       ms: 2.1.3
       on-finished: 2.4.1
       range-parser: 1.2.1
-      statuses: 2.0.1
+      statuses: 2.0.2
 
   serialize-error@7.0.1:
     dependencies:
@@ -24811,12 +24776,12 @@ snapshots:
       mime-types: 2.1.35
       parseurl: 1.3.3
 
-  serve-static@1.16.2:
+  serve-static@1.16.3:
     dependencies:
       encodeurl: 2.0.0
       escape-html: 1.0.3
       parseurl: 1.3.3
-      send: 0.19.0
+      send: 0.19.2
 
   set-blocking@2.0.0: {}
 
@@ -25186,8 +25151,6 @@ snapshots:
 
   statuses@1.5.0: {}
 
-  statuses@2.0.1: {}
-
   statuses@2.0.2: {}
 
   std-env@3.10.0: {}
@@ -25269,14 +25232,14 @@ snapshots:
     dependencies:
       call-bind: 1.0.8
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
 
   string.prototype.matchall@4.0.12:
     dependencies:
       call-bind: 1.0.8
       call-bound: 1.0.4
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-errors: 1.3.0
       es-object-atoms: 1.1.1
       get-intrinsic: 1.3.0
@@ -25293,7 +25256,7 @@ snapshots:
       call-bound: 1.0.4
       define-data-property: 1.1.4
       define-properties: 1.2.1
-      es-abstract: 1.24.0
+      es-abstract: 1.24.1
       es-object-atoms: 1.1.1
       has-property-descriptors: 1.0.2
 
@@ -26305,7 +26268,7 @@ snapshots:
 
   upath@1.2.0: {}
 
-  update-browserslist-db@1.2.2(browserslist@4.28.1):
+  update-browserslist-db@1.2.3(browserslist@4.28.1):
     dependencies:
       browserslist: 4.28.1
       escalade: 3.2.0

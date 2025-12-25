@@ -129,12 +129,15 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     );
   }
 
-  // 通用的默认颜色映射 用户设置优先级比这个高，会在setStyle中处理
+  /**
+   * 获取默认颜色映射配置
+   * 修复字段访问为 this.getFieldValue()[0]
+   */
   getColorAttribute() {
     return {
       // TODO: 为热力图实现默认线性颜色 scale
       scale: this._option.globalScale.getScale('color') ?? this._getDefaultColorScale(),
-      field: this.getFieldValue[0]
+      field: this.getFieldValue()[0]
     };
   }
 
@@ -164,8 +167,12 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     this._cellMark && this._tooltipHelper.activeTriggerSet.mark.add(this._cellMark);
   }
 
+  /**
+   * 获取系列默认图元形状类型
+   * 改为返回 'rect'，以与主题保持一致并支持非等宽高的热力图单元
+   */
   getDefaultShapeType(): string {
-    return 'square';
+    return 'rect';
   }
 
   getDimensionField(): string[] {

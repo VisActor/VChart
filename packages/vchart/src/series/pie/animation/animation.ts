@@ -4,6 +4,7 @@ import type { Datum } from '../../../typings';
 import { Factory } from '../../../core/factory';
 import type { IPieAnimationParams, PieAppearPreset } from '../interface';
 import type { IMarkGraphic } from '../../../core';
+import { DEFAULT_ANIMATION_CONFIG } from '../../../animation/config';
 
 /**
  * grow生长option
@@ -91,7 +92,7 @@ export const registerPieAnimation = () => {
       appear: piePresetAnimation(params, preset),
       enter: pieEnter(params),
       exit: pieExit(params),
-      disappear: pieDisappear(params)
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     };
   });
 };

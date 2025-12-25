@@ -1,5 +1,6 @@
 import type { IAnimationTypeConfig } from '../../animation/interface';
 import { Factory } from '../../core';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 
 export type ProgressLikeAppearPreset = 'grow' | 'fadeIn';
 
@@ -36,7 +37,7 @@ export const registerGaugePointerAnimation = () => {
       return {
         appear: animation,
         enter: animation,
-        disappear: { type: 'fadeOut' }
+        disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
       };
     }
   );

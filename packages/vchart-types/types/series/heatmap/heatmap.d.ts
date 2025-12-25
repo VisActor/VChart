@@ -28,7 +28,7 @@ export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeries
     initCellBackgroundMarkStyle(): void;
     getColorAttribute(): {
         scale: any;
-        field: any;
+        field: string;
     };
     getInteractionTriggers(): {
         trigger: Partial<import("../../interaction/interface/trigger").IBaseTriggerOptions>;

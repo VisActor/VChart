@@ -37136,6 +37136,11 @@
         },
         "zoomLimit": {
           "typeof": "function"
+        },
+        "zoomRate": {
+          "default": 1,
+          "description": "缩放速率（比例因子），用于加速或减缓缩放",
+          "type": "number"
         }
       },
       "type": "object"
@@ -79334,7 +79339,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         },
         "size": {
@@ -79342,14 +79347,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12484",
+        "__@toStringTag@12495",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         },
         "size": {
@@ -79357,14 +79362,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12484",
+        "__@toStringTag@12495",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         },
         "size": {
@@ -79372,14 +79377,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12484",
+        "__@toStringTag@12495",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         },
         "size": {
@@ -79387,14 +79392,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12484",
+        "__@toStringTag@12495",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         },
         "size": {
@@ -79402,14 +79407,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12484",
+        "__@toStringTag@12495",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         },
         "size": {
@@ -79417,14 +79422,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12484",
+        "__@toStringTag@12495",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         },
         "size": {
@@ -79432,7 +79437,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12484",
+        "__@toStringTag@12495",
         "size"
       ],
       "type": "object"
@@ -100928,34 +100933,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12484"
+        "__@toStringTag@12495"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12484"
+        "__@toStringTag@12495"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12484": {
+        "__@toStringTag@12495": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12484"
+        "__@toStringTag@12495"
       ],
       "type": "object"
     },
