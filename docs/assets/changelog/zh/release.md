@@ -2,10 +2,6 @@
 
 2025-12-25
 
-# v2.0.12
-
-2025-12-25
-
 **🆕 新增功能**
 
 - **@visactor/vchart**: 极坐标轴（CircleAxis）支持 `autoLabelMaxWidth` 配置 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4357
@@ -18,8 +14,6 @@
 - **@visactor/vchart**: 修复坐标轴标题（Axes Title）的布局问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4371
 
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.11...v2.0.12
-
-[more detail about v2.0.12](https://github.com/VisActor/VChart/releases/tag/v2.0.12)
 
 [更多详情请查看 v2.0.12](https://github.com/VisActor/VChart/releases/tag/v2.0.12)
 
@@ -174,3 +168,4 @@
 - **@visactor/vchart**：修复 `tooltip.style.titleLabel` 的 `textAlign` 不生效问题，修复 [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [更多详情请查看 v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
+
