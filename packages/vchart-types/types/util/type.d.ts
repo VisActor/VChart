@@ -5,3 +5,4 @@ export declare function couldBeValidNumber(v: any): boolean;
 export declare function toValidNumber(v: any): number;
 export declare function isNumeric(value: string): boolean;
 export declare function isDataDomainSpec(domain: any): domain is IDataDomainSpec[];
+export declare function isClass(obj: any): boolean;

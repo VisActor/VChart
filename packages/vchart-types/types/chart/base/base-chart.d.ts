@@ -62,6 +62,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     created(transformer: Maybe<IChartSpecTransformer>): void;
     _initInteractions(): void;
     init(): void;
+    initStageAnimation(): void;
     reDataFlow(): void;
     onResize(width: number, height: number, reRender?: boolean): void;
     updateViewBox(viewBox: IBoundsLike, reLayout: boolean): void;

@@ -21,6 +21,7 @@ export declare class Compiler implements ICompiler {
     protected _rootMarks: IMark[];
     protected _stage: IStage;
     protected _stateAnimationConfig: Partial<MarkAnimationSpec>;
+    get stateAnimationConfig(): Partial<MarkAnimationSpec>;
     protected _rootGroup: IGroup;
     getRootGroup(): IGroup;
     protected _viewListeners: Map<(...args: any[]) => any, EventListener>;
@@ -65,7 +66,6 @@ export declare class Compiler implements ICompiler {
     render(morphConfig?: IMorphConfig): void;
     setStageAnimationConfig(config: Partial<MarkAnimationSpec>): void;
     updateStateAnimation(): void;
-    runStageAnimation(): void;
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean): void;
     resize(width: number, height: number, reRender?: boolean): void;
     setBackground(color: IColor): void;

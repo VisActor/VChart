@@ -81,6 +81,7 @@ export declare class VChart implements IVChart {
     private _chartPlugin?;
     private _vChartPlugin?;
     private _onResize?;
+    private _renderState;
     constructor(spec: ISpec, options: IInitOption);
     private _setNewSpec;
     private _getSpecFromOriginalSpec;
@@ -214,5 +215,7 @@ export declare class VChart implements IVChart {
     protected getTheme: (...keys: string[]) => any;
     isAnimationEnable(): boolean;
     protected _getChartOption(type: string): IChartOption;
+    runDisappearAnimation(): void;
+    private _reSetRenderState;
 }
 export declare const registerVChartCore: () => void;

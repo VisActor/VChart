@@ -1,6 +1,13 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 11 Dec 2025 11:05:38 GMT and should not be manually modified.
+This log was last generated on Thu, 25 Dec 2025 10:15:24 GMT and should not be manually modified.
+
+## 2.0.11
+Thu, 25 Dec 2025 10:15:24 GMT
+
+### Updates
+
+- chore(vchart): 热力图矩形单元支持非等宽高；默认形状统一为 rect；修复颜色映射字段访问；新增单测与浏览器示例
 
 ## 2.0.10
 Thu, 11 Dec 2025 11:05:38 GMT
