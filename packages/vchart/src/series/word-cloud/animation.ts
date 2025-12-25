@@ -46,6 +46,6 @@ export const registerWordCloudAnimation = () => {
     appear: wordcloudPresetAnimation(params, preset),
     enter: { type: 'fadeIn' },
     exit: { type: 'fadeOut' },
-    disappear: { type: 'fadeOut' }
+    disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
   }));
 };

@@ -1,5 +1,6 @@
 import type { IAnimationTypeConfig } from '../../animation/interface';
 import { Factory } from '../../core/factory';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import type { CirclePackingAppearPreset } from './interface';
 
 export const circlePackingPresetAnimation = (preset: CirclePackingAppearPreset): IAnimationTypeConfig => {
@@ -23,6 +24,6 @@ export const registerCirclePackingAnimation = () => {
     appear: circlePackingPresetAnimation(preset),
     enter: { type: 'growRadiusIn' },
     exit: { type: 'growRadiusOut' },
-    disappear: { type: 'growRadiusOut' }
+    disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
   }));
 };

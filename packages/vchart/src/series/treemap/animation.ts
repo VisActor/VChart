@@ -1,5 +1,6 @@
 import type { IAnimationTypeConfig } from '../../animation/interface';
 import { Factory } from '../../core/factory';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import type { TreemapAppearPreset } from './interface';
 
 export const treemapPresetAnimation = (preset: TreemapAppearPreset): IAnimationTypeConfig => {
@@ -27,7 +28,7 @@ export const registerTreemapAnimation = () => {
       appear: treemapPresetAnimation(preset),
       enter: { type: 'growCenterIn' },
       exit: { type: 'growCenterOut' },
-      disappear: { type: 'growCenterOut' }
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     };
   });
 };
