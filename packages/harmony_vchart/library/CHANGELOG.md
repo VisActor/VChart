@@ -2,10 +2,6 @@
 
 2025-12-25
 
-# v2.0.12
-
-2025-12-25
-
 **🆕 新增功能**
 
 - **@visactor/vchart**: 极坐标轴（CircleAxis）支持 `autoLabelMaxWidth` 配置 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4357
@@ -21,7 +17,6 @@
 
 [more detail about v2.0.12](https://github.com/VisActor/VChart/releases/tag/v2.0.12)
 
-[more detail about v2.0.12](https://github.com/VisActor/VChart/releases/tag/v2.0.12)
 
 # v2.0.11
 
@@ -1124,3 +1119,4 @@
 
 # 1.11.0-alpha.1
 - VChart支持HarmonyOS的StageTS架构
+
