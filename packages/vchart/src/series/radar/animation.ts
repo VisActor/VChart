@@ -95,7 +95,7 @@ export const registerRadarAnimation = () => {
       appear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'in'),
       enter: radarPresetAnimation(params, preset, 'in'),
       exit: radarPresetAnimation(params, preset, 'out'),
-      disappear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'out'),
+      disappear: preset === 'clipIn' ? undefined : { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration },
       update: [
         {
           channel: ['points', 'center'],
@@ -118,7 +118,7 @@ export const registerRadarAnimation = () => {
         appear: preset === 'clipIn' ? undefined : radarSymbolPresetAnimation(params, preset, 'in'),
         enter: { type: 'scaleIn' },
         exit: { type: 'scaleOut' },
-        disappear: preset === 'clipIn' ? undefined : radarSymbolPresetAnimation(params, preset, 'out'),
+        disappear: preset === 'clipIn' ? undefined : { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration },
         update: [
           {
             options: { excludeChannels: ['x', 'y', 'center'] }
@@ -136,7 +136,7 @@ export const registerRadarAnimation = () => {
   Factory.registerAnimation('radarGroup', (params: IRadarAnimationParams, preset: RadarAppearPreset) => {
     return {
       appear: radarGroupClipAnimation(params, 'in'),
-      disappear: radarGroupClipAnimation(params, 'out')
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     };
   });
   registerArc(); // clipAngle animation will use arc graphic

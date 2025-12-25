@@ -1,6 +1,7 @@
 import { Factory } from '../../core/factory';
 import type { IRoseAnimationParams, RoseAppearPreset } from './interface';
 import type { IAnimationTypeConfig } from '../../animation/interface';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 
 function growInType(growField: string) {
   return growField === 'angle' ? 'growAngleIn' : 'growRadiusIn';
@@ -66,7 +67,7 @@ export const registerRoseAnimation = () => {
       appear: rosePresetAnimation(params, preset),
       enter: roseEnter(params),
       exit: roseExit(params),
-      disappear: roseDisappear(params)
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     };
   });
 };
