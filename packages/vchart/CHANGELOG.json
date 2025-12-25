@@ -2,6 +2,18 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.11",
+      "tag": "@visactor/vchart_v2.0.11",
+      "date": "Thu, 25 Dec 2025 10:15:24 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "chore(vchart): 热力图矩形单元支持非等宽高；默认形状统一为 rect；修复颜色映射字段访问；新增单测与浏览器示例"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.10",
       "tag": "@visactor/vchart_v2.0.10",
       "date": "Thu, 11 Dec 2025 11:05:38 GMT",

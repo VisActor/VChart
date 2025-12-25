@@ -60,6 +60,7 @@ export interface IGeoRegionSpec extends IRegionSpec {
         min?: number;
         max?: number;
     };
+    zoomRate?: number;
 }
 export type RegionSpec = IRegionSpec | IGeoRegionSpec;
 export interface IRegionSpecInfo<T extends RegionSpec = IRegionSpec> extends IModelSpecInfo {

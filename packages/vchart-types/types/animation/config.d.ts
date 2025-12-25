@@ -35,9 +35,6 @@ export declare const ScaleInOutAnimation: {
     exit: {
         type: string;
     };
-    disappear: {
-        type: string;
-    };
 };
 export declare const FadeInOutAnimation: {
     appear: {
@@ -47,9 +44,6 @@ export declare const FadeInOutAnimation: {
         type: string;
     };
     exit: {
-        type: string;
-    };
-    disappear: {
         type: string;
     };
 };
