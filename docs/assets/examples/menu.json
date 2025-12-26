@@ -126,6 +126,27 @@
             "zh": "柱状图、散点图间切换的全局动画",
             "en": "Global animation for switching between bar charts and scatter plots"
           }
+        },
+        {
+          "path": "disappear-animation",
+          "title": {
+            "zh": "退场动画",
+            "en": "Disappear Animation"
+          }
+        },
+        {
+          "path": "disappear-animation-gaussion-blur",
+          "title": {
+            "zh": "退场动画高斯模糊效果",
+            "en": "Disappear Animation Gaussian Blur Effect"
+          }
+        },
+        {
+          "path": "disappear-animation-wipe",
+          "title": {
+            "zh": "退场动画擦除效果",
+            "en": "Disappear Animation Wipe Effect"
+          }
         }
       ]
     },
