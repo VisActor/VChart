@@ -73,7 +73,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       return;
     }
     this.setMarkStyle(textMark, {
-      fill: this.getColorAttribute(),
+      fill: this._spec.cell?.style?.fill ?? this.getColorAttribute(),
       text: (datum: Datum) => {
         return datum[this.getMeasureField()[0]];
       }
