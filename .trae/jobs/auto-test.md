@@ -12,13 +12,14 @@ parameters:
   onlyNew: false
   reportFormat: md
   applyManualOverrides: true
-  replaceAutogen: true
+  replaceAutogen: false
   dryRun: false
   preview: false
   stopOnError: true
   focusChangedOnly: false
   snapshotStrategy: combined
   tempReportPath: .trae/output/autotest.report.local.md
+  includeWorkingTree: true
   mockDefaults:
     time: fixed(2020-01-01T00:00:00Z)
     random: seed(42)
@@ -43,11 +44,15 @@ manual_overrides: []
 
 ## 步骤
 
-1. 差异采集
+1. 差异采集（含未提交内容，当 `includeWorkingTree==true`）
 
 - 运行 `git fetch --all --prune`
-- 运行 `git diff --name-status --diff-filter=AMR {{sinceBranch}}...HEAD`
-- 对每个变更文件，运行 `git diff --unified=0 {{sinceBranch}}...HEAD <file>` 获取行级差异
+- 收集已提交差异：`git diff --name-status --diff-filter=AMR {{sinceBranch}}...HEAD`
+- 收集工作树差异：`git status --porcelain`
+- 行级差异：
+  - 已提交：`git diff --unified=0 {{sinceBranch}}...HEAD <file>`
+  - 暂存未提交：`git diff --cached --unified=0 -- <file>`
+  - 未暂存：`git diff --unified=0 -- <file>`
 
 2. 影响分析
 

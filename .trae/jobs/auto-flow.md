@@ -15,66 +15,64 @@ parameters:
   bumpType: auto
   notCommit: true
   head: ''
-  mode: auto
-  commitBeforeFlow: true
+  mode: browser
   commitAllowEmpty: false
   pushAfterCommit: true
   commitMessageStrategy: auto
-  enforceCommit: true
-  commitRetry: 1
+  flowStep: 1
 required_parameters: []
 outputs:
   - autotest_report
   - rush_change_entries
-  - pr_url
+  - commit_message
+  - pushed_branch
+  - compare_url
+  - next_step_hint
 success_criteria:
-  - flow_completed
+  - flow_step_completed
 ---
 
-# Auto Flow Job（分支 → 单测 → 变更日志 →PR 串行编排）
+# Auto Flow Job（单步执行：单测 → 变更日志 → 提交 → PR）
 
 ## 参数检查
 
 - 分支参数 `head` 可选：若未提供，将通过 `git rev-parse --abbrev-ref HEAD` 推导当前分支
 - 建议提供 `topic` 以优化 PR 标题；未提供时将回退为当前分支名
 
+## 单步模式说明
+
+- 本 Job 每次仅执行一个步骤，由 `parameters.flowStep` 指定（取值：`1|2|3|4`）。
+- 步骤完成后进入人工暂停，返回 `next_step_hint` 提示你在对话中输入“执行下一步”推进到下一步。
+
 ## 步骤
 
-1. 分支预检查
-
-- 运行 `git rev-parse --abbrev-ref HEAD` 获取当前分支作为 `head`
-- 确认当前分支不是 `main`/`develop`，且工作树状态符合提交规范
-- 人工检查点：如不在开发分支，请先自行创建并切换到正确分支
-
-  1.1 自动提交未提交变更（当 `commitBeforeFlow==true`）
-
-- 检查工作树：`git status --porcelain`
-- 若存在未提交变更：
-  - `git add --all`
-  - 生成提交信息（按 `commitMessageStrategy`）：
-    - `auto`：类型 `chore`；作用域为顶层或包名（如 `vchart`）；主题为 `sync changes before Auto Flow`
-    - 最终示例：`chore(vchart): sync changes before Auto Flow`
-  - 运行 `git commit {{#commitAllowEmpty}}--allow-empty{{/commitAllowEmpty}} -m "<auto_message>"`
-  - 若 `pushAfterCommit==true`：`git push -u origin {{head}}`
-  - 提交后校验（当 `enforceCommit==true`）：
-    - 运行 `git status --porcelain`，若非空则视为失败；进行最多 `commitRetry` 次重试（`git add --all && git commit -m '<auto_message>'`），仍失败则中止流程并提示处理
-- 若 `commitBeforeFlow==false` 且存在未提交变更：直接失败并提示先完成提交
-
-2. 运行差异驱动单测
+1. 差异驱动单测（flowStep=1）
 
 - 执行 Job：`.trae/jobs/auto-test.md`
-- 传参：`sinceBranch={{baseBranch}}`（其余沿用默认）
+- 传参：`sinceBranch={{baseBranch}}`、`includeWorkingTree=true`、`replaceAutogen=false`
 - 接收输出：`autotest_report=.trae/output/autotest.report.local.md`
-- 人工检查点：打开临时报告，确认新增/更新测试与覆盖率
+- 人工检查点：打开临时报告，确认新增/更新测试与覆盖率是否合理
 
-3. 生成 Rush 变更日志
+2. 生成 Rush 变更日志（flowStep=2）
 
 - 执行 Job：`.trae/jobs/changelog-rush-smart.md`
 - 传参：`sinceBranch={{baseBranch}}`、`message={{message}}`、`bumpType={{bumpType}}`、`notCommit={{notCommit}}`
-- 接收输出：`rush_change_entries`
-- 人工检查点：检查 `common/changes/**` 条目与摘要
+- 接收输出：`rush_change_entries`、`computed_bump_type`、`final_message`
+- 人工检查点：检查 `common/changes/**` 条目与摘要是否合理
 
-4. 创建 PR
+3. 智能提交（flowStep=3）
+
+- 执行 Job：`.trae/jobs/commit-smart.md`
+- 传参：
+  - `head={{head || (git rev-parse --abbrev-ref HEAD)}}`
+  - `commitAllowEmpty={{commitAllowEmpty}}`
+  - `pushAfterCommit={{pushAfterCommit}}`
+  - `commitMessageStrategy={{commitMessageStrategy}}`
+  - `message={{message}}`（为空时使用步骤 2 的 `final_message`）
+- 接收输出：`commit_message`、`pushed_branch`
+- 人工检查点：确认提交信息与推送分支是否正确
+
+4. 创建 PR（flowStep=4）
 
 - 执行 Job：`.trae/jobs/pr-create.md`
 - 传参：
@@ -85,11 +83,11 @@ success_criteria:
   - `labels={{labels}}`
   - `message={{message}}`（用于正文摘要）
   - `bumpType={{bumpType}}`
-  - `mode={{mode}}`（auto 优先 gh → token → 浏览器 URL）
-  - `commitBeforeCreate=false`（已在 1.1 阶段完成自动提交）
-- 接收输出：`pr_url`
-- 人工检查点：最终确认并提交
+  - `mode={{mode}}`（交互默认 `browser`，生成 Compare URL 与本地正文）
+  - `localBodyFile=true`
+- 接收输出：`compare_url`、`generated_body_preview`
+- 人工检查点：在浏览器页面完成最终提交
 
 5. 完成
 
-- 标记 `flow_completed`，返回 `autotest_report`、`rush_change_entries` 与 `pr_url`
+- 标记 `flow_step_completed`，返回本步骤对应输出与 `next_step_hint`
