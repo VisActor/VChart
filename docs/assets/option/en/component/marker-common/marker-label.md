@@ -4,9 +4,12 @@
 
 Label visibility.
 
+{{ if: !${noAutoRotate} }}
 #${prefix} autoRotate(boolean)
 
 Label as a whole - whether to auto-rotate.
+
+{{ /if }}
 
 {{ if: !${noMarkerRef} }}
 {{ use: component-marker-ref(

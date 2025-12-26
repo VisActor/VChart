@@ -3,6 +3,7 @@
 #${prefix} state(Object)
 Supported since `1.11.0` version, annotate the interaction state configuration of components.
 The label line currently has the following four states. You can configure the line style after these interactive states are triggered.
+
 - `'hover'`: hover state
 - `'hover_reverse'`: non-hover state
 - `'selected'`: selected state
@@ -11,59 +12,65 @@ The label line currently has the following four states. You can configure the li
 ##${prefix} hover(Object)
 hover state。
 
-###${prefix} style(Object|Array)
-
-{{ use: component-marker-style-callback(
-  description = 'hover state of annotation style supports callback'
-) }}
-
 {{ if: ${graphicType} === 'line' }}
 {{ use: graphic-line(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'polygon' }}
 {{ use: graphic-polygon(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'symbol' }}
 {{ use: graphic-symbol(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'image' }}
 {{ use: graphic-image(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'richText' }}
 {{ use: graphic-rich-text(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'rect' }}
 {{ use: graphic-rect(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'text' }}
 {{ use: graphic-text(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
+{{ if: ${graphicType} === 'all' }}
+{{ use: graphic-text(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-rich-text(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-image(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-symbol(
+  prefix = '##' + ${prefix}
+) }}
+{{ /if }}
 
 ##${prefix} hover_reverse(Object)
 非 hover state。
-
-###${prefix} style(Object|Array)
 
 {{ use: component-marker-style-callback(
   description = 'unHover state of annotation style supports callback'
@@ -71,52 +78,62 @@ hover state。
 
 {{ if: ${graphicType} === 'line' }}
 {{ use: graphic-line(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'polygon' }}
 {{ use: graphic-polygon(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'symbol' }}
 {{ use: graphic-symbol(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'image' }}
 {{ use: graphic-image(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'richText' }}
 {{ use: graphic-rich-text(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'rect' }}
 {{ use: graphic-rect(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'text' }}
 {{ use: graphic-text(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
+) }}
+{{ /if }}
+{{ if: ${graphicType} === 'all' }}
+{{ use: graphic-text(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-rich-text(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-image(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-symbol(
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
-
-
 ##${prefix} selected(Object)
 selected state
-
-###${prefix} style(Object|Array)
 
 {{ use: component-marker-style-callback(
   description = 'selected state of annotation style supports callback'
@@ -124,51 +141,63 @@ selected state
 
 {{ if: ${graphicType} === 'line' }}
 {{ use: graphic-line(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'polygon' }}
 {{ use: graphic-polygon(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'symbol' }}
 {{ use: graphic-symbol(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'image' }}
 {{ use: graphic-image(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'richText' }}
 {{ use: graphic-rich-text(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'rect' }}
 {{ use: graphic-rect(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'text' }}
 {{ use: graphic-text(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
+{{ if: ${graphicType} === 'all' }}
+{{ use: graphic-text(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-rich-text(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-image(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-symbol(
+  prefix = '##' + ${prefix}
+) }}
+{{ /if }}
 
 ##${prefix} selected_reverse(Object)
 unSelected state
-
-###${prefix} style(Object|Array)
 
 {{ use: component-marker-style-callback(
   description = 'unSelected state of annotation style supports callback'
@@ -176,44 +205,56 @@ unSelected state
 
 {{ if: ${graphicType} === 'line' }}
 {{ use: graphic-line(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'polygon' }}
 {{ use: graphic-polygon(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'symbol' }}
 {{ use: graphic-symbol(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'image' }}
 {{ use: graphic-image(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'richText' }}
 {{ use: graphic-rich-text(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'rect' }}
 {{ use: graphic-rect(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
 
 {{ if: ${graphicType} === 'text' }}
 {{ use: graphic-text(
-  prefix = '###' + ${prefix}
+  prefix = '##' + ${prefix}
 ) }}
 {{ /if }}
-
-
+{{ if: ${graphicType} === 'all' }}
+{{ use: graphic-text(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-rich-text(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-image(
+  prefix = '##' + ${prefix}
+) }}
+{{ use: graphic-symbol(
+  prefix = '##' + ${prefix}
+) }}
+{{ /if }}

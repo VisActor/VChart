@@ -122,13 +122,11 @@ const spec = {
         offsetY: 0,
         type: 'image',
         autoRotate: false,
-        image: {
-          style: {
-            dx: -55,
-            width: 30,
-            height: 30,
-            image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/%E7%AE%AD%E5%A4%B4%20%E4%B8%8B%E9%99%8D.png'
-          }
+        style: {
+          dx: -55,
+          width: 30,
+          height: 30,
+          image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/%E7%AE%AD%E5%A4%B4%20%E4%B8%8B%E9%99%8D.png'
         }
       }
     },
@@ -144,13 +142,11 @@ const spec = {
         type: 'image',
         offsetY: 0,
         autoRotate: false,
-        image: {
-          style: {
-            dx: -50,
-            width: 30,
-            height: 30,
-            image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/%E4%B8%8A%E5%8D%87.png'
-          }
+        style: {
+          dx: -50,
+          width: 30,
+          height: 30,
+          image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/%E4%B8%8A%E5%8D%87.png'
         }
       }
     }
