@@ -528,6 +528,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
     hair.visible = visible;
     hair.type = line.type || 'line';
+    hair.smooth = line.smooth;
 
     if (line.visible === false) {
       hair.style = { visible: false };
@@ -614,7 +615,6 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     } else {
       hair.label = { visible: false };
     }
-
     return hair;
   }
 
