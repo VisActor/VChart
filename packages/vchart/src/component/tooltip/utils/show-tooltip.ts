@@ -87,10 +87,16 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
     });
     return originDatum;
   };
+  const transform = region.getOption().globalInstance.getStage().window.getViewBoxTransform().getInverse();
+
   const getMockEvent = (originPos: IPoint): any => {
     const pos = bound(originPos);
-    const canvasX = opt.x ?? regionPos.x + pos.x;
-    const canvasY = opt.y ?? regionPos.y + pos.y;
+    const tempX = opt.x ?? regionPos.x + pos.x;
+    const tempY = opt.y ?? regionPos.y + pos.y;
+
+    const canvasPoint = { x: 0, y: 0 };
+    transform.transformPoint({ x: tempX, y: tempY }, canvasPoint);
+    const { x: canvasX, y: canvasY } = canvasPoint;
     return {
       canvasX,
       canvasY,
