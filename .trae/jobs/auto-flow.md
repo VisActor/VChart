@@ -20,7 +20,7 @@ parameters:
   pushAfterCommit: true
   commitMessageStrategy: auto
   flowStep: 1
-  autoNext: true
+  autoNext: false
 required_parameters: []
 outputs:
   - autotest_report
