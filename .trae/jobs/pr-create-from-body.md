@@ -12,7 +12,7 @@ parameters:
   labels: []
   draft: false
   useGhCli: true
-  mode: auto
+  mode: gh
   localBodyFile: true
   bodyFile: ''
   commitBeforeCreate: false
@@ -52,7 +52,7 @@ success_criteria:
 
 3. 创建 PR（模式）
 
-- `auto`：优先 `GITHUB_TOKEN` 的 REST；其次 `gh`（本机已安装并登录）；否则失败并提示令牌或 CLI 不可用
+- `auto`：优先 `gh`（本机已安装并登录）；其次 `GITHUB_TOKEN` 的 REST；否则失败并提示令牌或 CLI 不可用
 - `gh`：`gh pr create --base {{base}} --title "{{title}}" --head {{head}} {{#labels}}--label {{labels}}{{/labels}} {{#draft}}--draft{{/draft}}`；正文优先 `--body-file {{bodyFile}}`，若不支持则读取文件内容传 `--body "..."`
 - `rest`：`POST /repos/{owner}/{repo}/pulls`，body 使用正文文本
   
