@@ -1,4 +1,4 @@
-import type { SymbolType } from '@visactor/vrender-core';
+import type { FederatedPointerEvent, SymbolType } from '@visactor/vrender-core';
 import type { IPolygonMarkSpec } from '../../typings';
 import type { IComponent } from '../interface';
 import type { IDelayType } from '../../typings/event';
@@ -65,6 +65,11 @@ interface IBrushDataBindSpec {
    * 2) 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象
    */
   axisRangeExpand?: number;
+  /**
+   * 框选前触发事件
+   * 返回false, 则阻止后续逻辑
+   */
+  beforeBrushChange?: (e: FederatedPointerEvent) => void | boolean;
 }
 
 export interface IBrushTheme {

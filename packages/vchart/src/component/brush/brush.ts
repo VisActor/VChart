@@ -257,6 +257,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       ...interactiveAttr,
       ...this._spec,
       disableTriggerEvent: this._option.disableTriggerEvent
+      // beforeBrushChange: this._spec.beforeBrushChange
     });
     brush.id = this._spec.id ?? `brush-${this.id}`;
     this.getContainer().add(brush as unknown as INode);
@@ -265,35 +266,35 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     brush.addEventListener(BrushEvent.brushActive, (e: any) => {
       this._initMarkBrushState(componentIndex, OUT_BRUSH_STATE);
-      this._emitEvent(ChartEvent.brushActive, region);
+      this._emitEvent(ChartEvent.brushActive, region, e);
     });
 
     brush.addEventListener(BrushEvent.drawStart, (e: any) => {
       this._setRegionMarkPickable(region, true);
-      this._emitEvent(ChartEvent.brushStart, region);
+      this._emitEvent(ChartEvent.brushStart, region, e);
     });
 
     brush.addEventListener(BrushEvent.moveStart, (e: any) => {
       this._setRegionMarkPickable(region, true);
-      this._emitEvent(ChartEvent.brushStart, region);
+      this._emitEvent(ChartEvent.brushStart, region, e);
     });
 
     brush.addEventListener(BrushEvent.drawing, (e: any) => {
       this._setRegionMarkPickable(region, false);
       this._handleBrushChange(region, e);
-      this._emitEvent(ChartEvent.brushChange, region);
+      this._emitEvent(ChartEvent.brushChange, region, e);
     });
 
     brush.addEventListener(BrushEvent.moving, (e: any) => {
       this._setRegionMarkPickable(region, false);
       this._handleBrushChange(region, e);
-      this._emitEvent(ChartEvent.brushChange, region);
+      this._emitEvent(ChartEvent.brushChange, region, e);
     });
 
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
       this._setRegionMarkPickable(region, true);
       this._initMarkBrushState(componentIndex, '');
-      this._emitEvent(ChartEvent.brushClear, region);
+      this._emitEvent(ChartEvent.brushClear, region, e);
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
@@ -305,17 +306,17 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         if (this._spec.onBrushEnd(e) === true) {
           this.clearGraphic();
           this._initMarkBrushState(componentIndex, '');
-          this._emitEvent(ChartEvent.brushClear, region);
+          this._emitEvent(ChartEvent.brushClear, region, e);
         } else {
           this._spec.onBrushEnd(e);
-          this._emitEvent(ChartEvent.brushEnd, region);
+          this._emitEvent(ChartEvent.brushEnd, region, e);
         }
       } else {
         const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
         if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || !updateElementsState) {
           this._setAxisAndDataZoom(operateMask, region);
         }
-        this._emitEvent(ChartEvent.brushEnd, region);
+        this._emitEvent(ChartEvent.brushEnd, region, e);
       }
     });
 
@@ -327,7 +328,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || updateElementsState) {
         this._setAxisAndDataZoom(operateMask, region);
       }
-      this._emitEvent(ChartEvent.brushEnd, region);
+      this._emitEvent(ChartEvent.brushEnd, region, e);
     });
   }
 
@@ -403,7 +404,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return data;
   }
 
-  private _emitEvent(eventType: string, region: IRegion) {
+  private _emitEvent(eventType: string, region: IRegion, e: any) {
     this.event.emit(eventType, {
       model: this,
       value: {
@@ -430,7 +431,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         // 缩放记录
         zoomRecord: this._zoomRecord
       },
-      vchart: this._option?.globalInstance
+      vchart: this._option?.globalInstance,
+      event: e
     });
   }
   /*** end: event dispatch ***/
