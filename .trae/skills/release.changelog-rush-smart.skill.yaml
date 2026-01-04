@@ -1,0 +1,92 @@
+id: release.changelog-rush-smart
+version: v1
+description: 根据差异与提交生成 Rush 变更条目并构建消息
+domain: release
+runner: orchestrator
+dependencies:
+  - git-cli
+  - rush-cli
+  - shell
+  - github-rest
+env:
+  GITHUB_TOKEN: optional
+parameters:
+  - name: sinceBranch
+    type: string
+    default: develop
+    required: false
+  - name: message
+    type: string
+    default: ''
+    required: false
+  - name: bumpType
+    type: enum
+    values: [auto, major, minor, patch]
+    default: auto
+    required: false
+  - name: notCommit
+    type: boolean
+    default: true
+    required: false
+  - name: githubToken
+    type: string
+    default: ''
+    required: false
+outputs:
+  - name: rush_change_entries
+  - name: computed_bump_type
+  - name: final_message
+success_criteria:
+  - rush_changes_generated
+  - commitlint_passed
+steps:
+  - name: diff-files
+    type: command
+    uses: git-cli
+    with:
+      command: "git diff --name-only ${parameters.sinceBranch}...HEAD"
+    save_as: changedFiles
+  - name: log-subjects
+    type: command
+    uses: git-cli
+    with:
+      command: "git log --pretty=%H:::%s ${parameters.sinceBranch}...HEAD"
+    save_as: commitSubjects
+  - name: compute-bump
+    type: composite
+    with:
+      strategy: "auto-from-commits"
+      override: "${parameters.bumpType}"
+    save_as: computed_bump_type
+  - name: build-message
+    type: composite
+    with:
+      base_message: "${parameters.message}"
+      commits: commitSubjects
+      use_github: "${env.GITHUB_TOKEN != '' || parameters.githubToken != ''}"
+    save_as: final_message
+  - name: commitlint
+    type: command
+    uses: shell
+    with:
+      command: "echo \"${final_message}\" | commitlint --config common/autoinstallers/lint/commitlint.config.js"
+  - name: rush-change
+    type: command
+    uses: rush-cli
+    with:
+      command: "rush change --bulk --bump-type '${computed_bump_type}' --message '${final_message}'"
+    save_as: rush_change_entries
+  - name: optional-commit
+    type: composite
+    with:
+      condition: "parameters.notCommit != true"
+      sequence:
+        - type: command
+          uses: git-cli
+          with:
+            command: git add --all
+        - type: command
+          uses: git-cli
+          with:
+            command: "git commit -m 'docs: update changlog of rush'"
+

@@ -1,0 +1,140 @@
+id: pipeline.release-prep
+version: v1
+description: 单步/串行编排 Autotest→Changelog→Commit→PR 的发布准备流程
+domain: pipeline
+runner: orchestrator
+dependencies:
+  - skill
+env: {}
+parameters:
+  - name: baseBranch
+    type: string
+    default: develop
+    required: false
+  - name: lang
+    type: enum
+    values: [zh, en]
+    default: zh
+    required: false
+  - name: labels
+    type: array
+    default: [changelog, test]
+    required: false
+  - name: topic
+    type: string
+    default: ''
+    required: false
+  - name: message
+    type: string
+    default: ''
+    required: false
+  - name: bumpType
+    type: enum
+    values: [auto, major, minor, patch]
+    default: auto
+    required: false
+  - name: notCommit
+    type: boolean
+    default: true
+    required: false
+  - name: head
+    type: string
+    default: ''
+    required: false
+  - name: commitAllowEmpty
+    type: boolean
+    default: false
+    required: false
+  - name: pushAfterCommit
+    type: boolean
+    default: true
+    required: false
+  - name: commitMessageStrategy
+    type: enum
+    values: [auto, manual]
+    default: auto
+    required: false
+  - name: flowStep
+    type: integer
+    default: 1
+    required: false
+  - name: autoNext
+    type: boolean
+    default: false
+    required: false
+outputs:
+  - name: autotest_report
+  - name: rush_change_entries
+  - name: commit_message
+  - name: pushed_branch
+  - name: pr_url
+  - name: next_step_hint
+success_criteria:
+  - flow_step_completed
+steps:
+  - name: step-1-autotest
+    type: composite
+    with:
+      call: test.autogen-from-diff
+      params:
+        tempReportPath: ./.trae/output/autotest.report.local.md
+        focusChangedOnly: false
+    save_as: autotest_report
+    when: "(parameters.autoNext == true && parameters.flowStep <= 1) || (parameters.autoNext != true && parameters.flowStep == 1)"
+  - name: step-2-changelog
+    type: composite
+    with:
+      call: release.changelog-rush-smart
+      params:
+        sinceBranch: "${parameters.baseBranch}"
+        message: "${parameters.message}"
+        bumpType: "${parameters.bumpType}"
+        notCommit: "${parameters.notCommit}"
+    save_as: rush_change_entries
+    when: "(parameters.autoNext == true && parameters.flowStep <= 2) || (parameters.autoNext != true && parameters.flowStep == 2)"
+  - name: step-3-commit
+    type: composite
+    with:
+      call: git.commit-push-smart
+      params:
+        head: "${parameters.head}"
+        commitAllowEmpty: "${parameters.commitAllowEmpty}"
+        pushAfterCommit: "${parameters.pushAfterCommit}"
+        commitMessageStrategy: "${parameters.commitMessageStrategy}"
+        message: "${parameters.message}"
+    save_as: commit_message
+    when: "(parameters.autoNext == true && parameters.flowStep <= 3) || (parameters.autoNext != true && parameters.flowStep == 3)"
+  - name: step-4-body
+    type: composite
+    with:
+      call: github.pr-body-generate
+      params:
+        title: "[Auto] ${parameters.topic != '' ? parameters.topic : parameters.head}"
+        head: "${parameters.head}"
+        lang: "${parameters.lang}"
+        labels: "${parameters.labels}"
+        rushChangesDir: common/changes
+        localBodyFile: true
+    save_as: generated_body_file
+    when: "(parameters.autoNext == true && parameters.flowStep <= 4) || (parameters.autoNext != true && parameters.flowStep == 4)"
+  - name: step-5-pr
+    type: composite
+    with:
+      call: github.create-pr-from-file
+      params:
+        base: "${parameters.baseBranch}"
+        head: "${parameters.head}"
+        title: "[Auto] ${parameters.topic != '' ? parameters.topic : parameters.head}"
+        lang: "${parameters.lang}"
+        labels: "${parameters.labels}"
+        mode: auto
+        localBodyFile: true
+        bodyFile: ./.trae/output/pr.body.local.md
+    save_as: pr_url
+    when: "(parameters.autoNext == true && parameters.flowStep <= 5) || (parameters.autoNext != true && parameters.flowStep == 5)"
+  - name: next-step-hint
+    type: composite
+    with:
+      condition: "parameters.autoNext != true && parameters.flowStep < 5"
+      value: "在单步模式，下一步：flowStep=${parameters.flowStep + 1}"
+    save_as: next_step_hint

@@ -1,0 +1,132 @@
+id: github.create-pr-from-file
+version: v1
+description: 使用本地或指定正文文件创建 GitHub PR
+domain: github
+runner: orchestrator
+dependencies:
+  - gh-cli
+  - github-rest
+env:
+  GITHUB_TOKEN: optional
+parameters:
+  - name: base
+    type: string
+    default: develop
+    required: false
+  - name: head
+    type: string
+    default: ''
+    required: false
+  - name: title
+    type: string
+    required: true
+  - name: labels
+    type: array
+    default: []
+    required: false
+  - name: draft
+    type: boolean
+    default: false
+    required: false
+  - name: mode
+    type: enum
+    values: [auto, gh, rest]
+    default: auto
+    required: false
+  - name: localBodyFile
+    type: boolean
+    default: true
+    required: false
+  - name: bodyFile
+    type: string
+    default: ./.trae/output/pr.body.local.md
+    required: false
+  - name: commitBeforeCreate
+    type: boolean
+    default: false
+    required: false
+  - name: commitMessage
+    type: string
+    default: ''
+    required: false
+  - name: commitAllowEmpty
+    type: boolean
+    default: false
+    required: false
+  - name: pushAfterCommit
+    type: boolean
+    default: true
+    required: false
+  - name: commitMessageStrategy
+    type: enum
+    values: [auto, manual]
+    default: auto
+    required: false
+inputs:
+  - name: body_file
+    type: file
+    default: ./.trae/output/pr.body.local.md
+outputs:
+  - name: pr_url
+success_criteria:
+  - pr_created
+steps:
+  - name: resolve-head
+    type: command
+    uses: git-cli
+    with:
+      command: git rev-parse --abbrev-ref HEAD
+    when: "parameters.head == ''"
+    save_as: head
+  - name: read-body
+    type: command
+    uses: shell
+    with:
+      command: "cat ${parameters.bodyFile}"
+    save_as: prBody
+  - name: fail-if-empty-body
+    type: composite
+    with:
+      condition: "prBody == ''"
+      error: "PR 正文为空或文件不存在"
+  - name: optional-commit
+    type: composite
+    with:
+      condition: "parameters.commitBeforeCreate == true"
+      sequence:
+        - type: command
+          uses: git-cli
+          with:
+            command: git status --porcelain
+          save_as: workingTree
+        - type: command
+          uses: git-cli
+          with:
+            command: "git add --all && git commit ${parameters.commitAllowEmpty ? '--allow-empty ' : ''}-m \"${parameters.commitMessage != '' ? parameters.commitMessage : 'sync changes before PR'}\""
+          when: "workingTree != ''"
+        - type: command
+          uses: git-cli
+          with:
+            command: "git push -u origin ${head}"
+          when: "parameters.pushAfterCommit == true"
+  - name: create-pr-gh
+    type: command
+    uses: gh-cli
+    with:
+      command: "gh pr create --base ${parameters.base} --title \"${parameters.title}\" --head ${head} ${parameters.draft ? '--draft' : ''} --body-file ${parameters.bodyFile}"
+    when: "parameters.mode in ['auto','gh'] && tools.gh_cli_available == true"
+    save_as: pr_url
+  - name: create-pr-rest
+    type: tool
+    uses: github-rest
+    with:
+      endpoint: create-pull-request
+      base: "${parameters.base}"
+      head: "${head}"
+      title: "${parameters.title}"
+      body: "${prBody}"
+      labels: "${parameters.labels}"
+      draft: "${parameters.draft}"
+    when: "(parameters.mode == 'rest') || (parameters.mode == 'auto' && tools.gh_cli_available == false && env.GITHUB_TOKEN != '')"
+    save_as: pr_url
+

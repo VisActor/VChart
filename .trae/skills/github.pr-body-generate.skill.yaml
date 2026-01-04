@@ -1,0 +1,85 @@
+id: github.pr-body-generate
+version: v1
+description: 生成 PR 正文与标题建议并写入本地文件
+domain: github
+runner: orchestrator
+dependencies:
+  - git-cli
+  - shell
+env: {}
+parameters:
+  - name: lang
+    type: enum
+    values: [zh, en]
+    default: zh
+    required: false
+  - name: title
+    type: string
+    default: ''
+    required: false
+  - name: head
+    type: string
+    default: ''
+    required: false
+  - name: labels
+    type: array
+    default: []
+    required: false
+  - name: rushChangesDir
+    type: string
+    default: common/changes
+    required: false
+  - name: localBodyFile
+    type: boolean
+    default: true
+    required: false
+  - name: openEditor
+    type: boolean
+    default: false
+    required: false
+inputs:
+  - name: autotestReport
+    type: file
+    default: ./.trae/output/autotest.report.local.md
+outputs:
+  - name: generated_title
+  - name: generated_body_preview
+  - name: generated_body_file
+success_criteria:
+  - body_generated
+steps:
+  - name: resolve-head
+    type: command
+    uses: git-cli
+    with:
+      command: git rev-parse --abbrev-ref HEAD
+    when: "parameters.head == ''"
+    save_as: head
+  - name: select-template
+    type: composite
+    with:
+      path: "${parameters.lang == 'zh' ? '.github/PULL_REQUEST_TEMPLATE/pr_cn.md' : '.github/PULL_REQUEST_TEMPLATE.md'}"
+    save_as: templatePath
+  - name: build-body
+    type: composite
+    with:
+      head: head
+      rush_dir: "${parameters.rushChangesDir}"
+      autotest_report: inputs.autotestReport
+      labels: "${parameters.labels}"
+      lang: "${parameters.lang}"
+      title_hint: "${parameters.title}"
+    save_as: generated_body_preview
+  - name: gen-title
+    type: composite
+    with:
+      rule: "[Auto] ${parameters.title != '' ? parameters.title : head}"
+    save_as: generated_title
+  - name: write-file
+    type: command
+    uses: shell
+    with:
+      command: "echo \"${generated_body_preview}\" > ./.trae/output/pr.body.local.md"
+    when: "parameters.localBodyFile == true"
+    save_as: generated_body_file
+
