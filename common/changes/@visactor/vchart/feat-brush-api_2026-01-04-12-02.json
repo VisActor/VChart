@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add brush api before change",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
