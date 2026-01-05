@@ -71,6 +71,9 @@ export class Compiler implements ICompiler {
 
   protected _container: IRenderContainer;
   protected _option: IRenderOption;
+  getOption() {
+    return this._option;
+  }
   // 已释放标记
   private _released: boolean = false;
 
@@ -498,8 +501,8 @@ export class Compiler implements ICompiler {
     const animationState = markAnimationStates.every(state => state === AnimationStateEnum.appear)
       ? AnimationStateEnum.appear
       : markAnimationStates.every(state => state === AnimationStateEnum.disappear)
-      ? AnimationStateEnum.disappear
-      : AnimationStateEnum.none;
+        ? AnimationStateEnum.disappear
+        : AnimationStateEnum.none;
     if (!this._stage.context) {
       this._stage.context = {};
     }

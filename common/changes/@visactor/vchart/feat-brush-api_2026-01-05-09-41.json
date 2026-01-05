@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "git commit -m 'feat: add interactive api",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
