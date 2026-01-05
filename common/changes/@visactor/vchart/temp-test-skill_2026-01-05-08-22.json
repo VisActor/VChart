@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "chore(auto-flow): 自动生成变更",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
