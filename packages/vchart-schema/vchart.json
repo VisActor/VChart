@@ -24094,6 +24094,9 @@
           "since": "1.10.0\n原因:\n1) 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致）\n2) 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象",
           "type": "number"
         },
+        "beforeBrushChange": {
+          "typeof": "function"
+        },
         "brushLinkSeriesId": {
           "anyOf": [
             {
