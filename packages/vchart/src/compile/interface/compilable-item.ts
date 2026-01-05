@@ -34,6 +34,7 @@ export interface IGrammarItemMap<T extends IGrammarItem> {
 export type ICompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
 
 export interface ICompiler {
+  getOption: () => IVChartRenderOption;
   isInited?: boolean;
   readonly stateAnimationConfig?: MarkAnimationSpec;
   getCanvas: () => HTMLCanvasElement | undefined;
