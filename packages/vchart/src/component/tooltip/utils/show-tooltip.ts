@@ -273,7 +273,9 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
     };
 
     const parseMarkInfoOfGeoSeries = () => {
+      // 地图需要特殊处理，需要根据properties属性来匹配数据
       const originDatum = series
+        // @ts-ignore
         .getMapViewData?.()
         ?.latestData.find((datum: Datum) =>
           dimensionFields.every((key, i) => datum.properties[key] === dimensionData?.[i])
