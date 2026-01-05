@@ -8,7 +8,7 @@ import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/v
 import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, polygonIntersectPolygon, isValid, last } from '@visactor/vutils';
-import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic, IGroup, INode, IPolygon } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
@@ -24,6 +24,7 @@ import { getSpecInfo } from '../util';
 import { brush } from '../../theme/builtin/common/component/brush';
 import { isReverse, statePointToData } from '../data-zoom/util';
 import type { CartesianAxis } from '../axis/cartesian';
+import type { IRenderOption } from '../../compile/interface';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -46,6 +47,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   protected _brushComponents!: BrushComponent[];
   protected _relativeRegions!: IRegion[];
   protected _linkedSeries: ISeries[] = [];
+
+  protected _operateMask: IPolygon;
 
   private _itemMap: { [regionId: string | number]: IMark[] } = {};
   private _linkedItemMap: { [seriesId: string | number]: IMark[] } = {};
@@ -249,6 +252,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     brushComponent.children[0].removeAllChild();
   }
 
+  protected _shouldEnableInteractive() {
+    return (this.getOption().getCompiler().getOption() as IRenderOption).interactive !== false;
+  }
+
   protected _createBrushComponent(region: IRegion, componentIndex: number) {
     const interactiveAttr = this._getBrushInteractiveAttr(region);
     const brush = new BrushComponent({
@@ -257,7 +264,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       ...interactiveAttr,
       ...this._spec,
       disableTriggerEvent: this._option.disableTriggerEvent
-      // beforeBrushChange: this._spec.beforeBrushChange
     });
     brush.id = this._spec.id ?? `brush-${this.id}`;
     this.getContainer().add(brush as unknown as INode);
@@ -347,7 +353,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         maxX: seriesRegionEndX
       },
       xRange: [seriesRegionStartX, seriesRegionEndX],
-      yRange: [seriesRegionStartY, seriesRegionEndY]
+      yRange: [seriesRegionStartY, seriesRegionEndY],
+      interactive: this._shouldEnableInteractive()
     } as BrushInteractiveRangeAttr;
   }
 
@@ -375,6 +382,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   /*** start: event dispatch ***/
   private _handleBrushChange(region: IRegion, e: any) {
     const { operateMask } = e.detail as any;
+    this._operateMask = operateMask;
     const { updateElementsState = true } = this._spec;
     if (updateElementsState) {
       this._reconfigItem(operateMask, region);
