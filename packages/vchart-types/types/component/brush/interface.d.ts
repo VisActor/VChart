@@ -1,4 +1,4 @@
-import type { SymbolType } from '@visactor/vrender-core';
+import type { FederatedPointerEvent, SymbolType } from '@visactor/vrender-core';
 import type { IPolygonMarkSpec } from '../../typings';
 import type { IComponent } from '../interface';
 import type { IDelayType } from '../../typings/event';
@@ -15,6 +15,7 @@ interface IBrushDataBindSpec {
     axisId?: string | string[];
     axisIndex?: number | number[];
     axisRangeExpand?: number;
+    beforeBrushChange?: (e: FederatedPointerEvent) => void | boolean;
 }
 export interface IBrushTheme {
     style?: Partial<IPolygonMarkSpec>;
