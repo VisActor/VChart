@@ -4,7 +4,7 @@ import { Brush as BrushComponent } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
 import type { IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic, IPolygon } from '@visactor/vrender-core';
 import type { ISeries } from '../../series/interface';
 import type { IMark, IMarkGraphic } from '../../mark/interface';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec } from './interface';
@@ -22,6 +22,7 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     protected _brushComponents: BrushComponent[];
     protected _relativeRegions: IRegion[];
     protected _linkedSeries: ISeries[];
+    protected _operateMask: IPolygon;
     private _itemMap;
     private _linkedItemMap;
     protected _inBrushElementsMap: {
@@ -63,6 +64,7 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     };
     onLayoutEnd(): void;
     protected _updateBrushComponent(region: IRegion, componentIndex: number): void;
+    protected _shouldEnableInteractive(): boolean;
     protected _createBrushComponent(region: IRegion, componentIndex: number): void;
     protected _getBrushInteractiveAttr(region: IRegion): BrushInteractiveRangeAttr;
     private _transformBrushedMarkAttr;
@@ -89,5 +91,8 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     protected _getNeedClearVRenderComponents(): IGraphic[];
     clearGraphic(): void;
     clear(): void;
+    disableDimensionHover(): void;
+    enableDimensionHover(): void;
+    clearBrushStateAndMask(): void;
 }
 export declare const registerBrush: () => void;

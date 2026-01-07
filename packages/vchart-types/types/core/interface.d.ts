@@ -2,7 +2,7 @@ import type { DataSet, IParserOptions } from '@visactor/vdataset';
 import type { Datum, IDataValues, IInitOption, IMarkStateSpec, IPoint, IRegionQuerier, IShowTooltipOption, ISpec, ITooltipHandler, Maybe, MaybeArray, StringOrNumber } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { EventCallback, EventQuery, EventType, ExtendEventParam } from '../event/interface';
+import type { EventCallback, EventParamsDefinition, EventQuery, EventType, ExtendEventParam } from '../event/interface';
 import type { IMark, IMarkDataTransform } from '../mark/interface';
 import type { ISeries } from '../series/interface/series';
 import type { ITheme } from '../theme/interface';
@@ -139,4 +139,9 @@ export interface GrammarTransformOption {
     canProgressive?: boolean;
     transform: IMarkDataTransform;
     runType?: 'beforeJoin' | 'afterEncode';
+}
+export interface UserEvent {
+    eType: EventType;
+    query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
+    handler?: EventCallback<EventParamsDefinition[EventType]>;
 }

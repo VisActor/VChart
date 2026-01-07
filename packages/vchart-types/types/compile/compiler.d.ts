@@ -33,6 +33,7 @@ export declare class Compiler implements ICompiler {
     protected _height: number;
     protected _container: IRenderContainer;
     protected _option: IRenderOption;
+    getOption(): IRenderOption;
     private _released;
     private _layoutState?;
     private _compileChart;
