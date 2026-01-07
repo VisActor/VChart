@@ -151,6 +151,9 @@ export abstract class BaseTooltipProcessor {
 
   /** 判断是否应该触发 tooltip */
   shouldHandleTooltip(params: BaseEventParams, info: TooltipInfo): boolean {
+    if (!this.component.enable) {
+      return false;
+    }
     if (isNil(info)) {
       return false;
     }

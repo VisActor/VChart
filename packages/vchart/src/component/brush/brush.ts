@@ -25,8 +25,6 @@ import { brush } from '../../theme/builtin/common/component/brush';
 import { isReverse, statePointToData } from '../data-zoom/util';
 import type { CartesianAxis } from '../axis/cartesian';
 import type { IRenderOption } from '../../compile/interface';
-import { DimensionHoverEvent } from '../../event';
-import type { ICrossHair } from '../crosshair';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -279,7 +277,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     brush.addEventListener(BrushEvent.drawStart, (e: any) => {
       if (this._spec.disableDimensionHoverWhenBrushing) {
-        this.disableDimensionHover();
+        this._option.globalInstance.disableDimensionHoverEvent(true);
       }
       this._setRegionMarkPickable(region, true);
       this._emitEvent(ChartEvent.brushStart, region, e);
@@ -287,7 +285,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     brush.addEventListener(BrushEvent.moveStart, (e: any) => {
       if (this._spec.disableDimensionHoverWhenBrushing) {
-        this.disableDimensionHover();
+        this._option.globalInstance.disableDimensionHoverEvent(true);
       }
       this._setRegionMarkPickable(region, true);
       this._emitEvent(ChartEvent.brushStart, region, e);
@@ -307,7 +305,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
       if (this._spec.disableDimensionHoverWhenBrushing) {
-        this.enableDimensionHover();
+        this._option.globalInstance.disableDimensionHoverEvent(false);
       }
       this._setRegionMarkPickable(region, true);
       this._initMarkBrushState(componentIndex, '');
@@ -315,7 +313,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
-      this.enableDimensionHover();
+      if (this._spec.disableDimensionHoverWhenBrushing) {
+        this._option.globalInstance.disableDimensionHoverEvent(false);
+      }
       this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       const { updateElementsState = true } = this._spec;
@@ -339,7 +339,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     });
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
-      this.enableDimensionHover();
+      if (this._spec.disableDimensionHoverWhenBrushing) {
+        this._option.globalInstance.disableDimensionHoverEvent(false);
+      }
       this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       const { updateElementsState = true } = this._spec;
@@ -790,36 +792,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._brushComponents = null;
     }
   }
-
-  disableDimensionHover() {
-    // dimension hover event
-    DimensionHoverEvent.disableDimensionEvent(true);
-
-    // crosshair
-    this._option
-      .getChart()
-      .getComponentsByKey('crosshair')
-      .forEach(crosshair => ((crosshair as ICrossHair).enable = false));
-
-    // tooltip
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    this._option.globalInstance.setTooltipHandler((() => {}) as any);
-  }
-
-  enableDimensionHover() {
-    // dimension hover event
-    DimensionHoverEvent.disableDimensionEvent(false);
-
-    // crosshair
-    this._option
-      .getChart()
-      .getComponentsByKey('crosshair')
-      .forEach(crosshair => ((crosshair as ICrossHair).enable = true));
-
-    // tooltip
-    this._option.globalInstance.setTooltipHandler(undefined);
-  }
-
   clearBrushStateAndMask() {
     this._relativeRegions.forEach((region: IRegion, componentIndex: number) => {
       this._initMarkBrushState(componentIndex, '');
