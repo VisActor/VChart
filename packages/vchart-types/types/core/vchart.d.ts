@@ -182,6 +182,9 @@ export declare class VChart implements IVChart {
     getComponents(): import("../component/interface").IComponent[];
     getScale(scaleId: string): import("@visactor/vscale").IBaseScale;
     setDimensionIndex(value: StringOrNumber, opt?: DimensionIndexOption): void;
+    disableDimensionHoverEvent(value?: boolean): void;
+    disableCrossHair(value?: boolean): void;
+    disableTooltip(value?: boolean): void;
     showCrosshair(cb: (axis: IAxis) => false | string | number): void;
     stopAnimation(): void;
     reRunNormalAnimation(): void;
