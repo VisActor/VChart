@@ -19,7 +19,6 @@ import type { IComponentConstructor } from '../component/interface';
 import { ComponentTypeEnum } from '../component/interface/type';
 import type {
   EventCallback,
-  EventParamsDefinition,
   EventQuery,
   EventType,
   ExtendEventParam,
@@ -93,6 +92,7 @@ import type {
   IGlobalConfig,
   IVChart,
   IVChartRenderOption,
+  UserEvent,
   VChartRenderActionSource
 } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -324,11 +324,7 @@ export class VChart implements IVChart {
   get event() {
     return this._event;
   }
-  private _userEvents: {
-    eType: EventType;
-    query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
-    handler?: EventCallback<EventParamsDefinition[EventType]>;
-  }[] = [];
+  private _userEvents: UserEvent[] = [];
   private _eventDispatcher: Maybe<IEventDispatcher>;
   private _dataSet!: Maybe<DataSet>;
   getDataSet() {
@@ -454,7 +450,7 @@ export class VChart implements IVChart {
     // 设置全局字体
     this._setFontFamilyTheme(this.getTheme('fontFamily') as string);
     this._initDataSet(this._option.dataSet);
-    this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
+    this._autoSize = isTrueBrowseEnv ? (spec.autoFit ?? this._option.autoFit ?? true) : false;
     this._bindResizeEvent();
     this._bindViewEvent();
     this._initChartPlugin();
@@ -1521,7 +1517,7 @@ export class VChart implements IVChart {
     }
 
     const lasAutoSize = this._autoSize;
-    this._autoSize = isTrueBrowser(this._option.mode) ? this._spec.autoFit ?? this._option.autoFit ?? true : false;
+    this._autoSize = isTrueBrowser(this._option.mode) ? (this._spec.autoFit ?? this._option.autoFit ?? true) : false;
     if (this._autoSize !== lasAutoSize) {
       resize = true;
     }
@@ -2259,7 +2255,7 @@ export class VChart implements IVChart {
     };
   }
 
-  public runDisappearAnimation() {
+  runDisappearAnimation() {
     this._renderState = RenderStateEnum.disappear;
     this.getStage().eventSystem.pauseTriggerEvent();
     this.getStage().applyAnimationState(

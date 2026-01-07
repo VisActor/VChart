@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add brush clear api and disable dimension hover config. close#4400",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
