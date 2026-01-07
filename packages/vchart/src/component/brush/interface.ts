@@ -70,6 +70,11 @@ interface IBrushDataBindSpec {
    * 返回false, 则阻止后续逻辑
    */
   beforeBrushChange?: (e: FederatedPointerEvent) => void | boolean;
+  /**
+   * 是否在框选时禁用维度 hover 事件
+   * @default false
+   */
+  disableDimensionHoverWhenBrushing?: boolean;
 }
 
 export interface IBrushTheme {

@@ -6,6 +6,11 @@ import { Event_Source_Type } from '../../../constant/event';
 import type { IDimensionInfo } from './interface';
 
 export class DimensionHoverEvent extends DimensionEvent {
+  static _disableDimensionEvent: boolean = false;
+  static disableDimensionEvent(value: boolean) {
+    this._disableDimensionEvent = value;
+  }
+
   private _cacheDimensionInfo: IDimensionInfo[] | null = null;
 
   register<Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) {
@@ -46,7 +51,7 @@ export class DimensionHoverEvent extends DimensionEvent {
   }
 
   private onMouseMove = (params: BaseEventParams) => {
-    if (!params) {
+    if (!params || DimensionHoverEvent._disableDimensionEvent) {
       return;
     }
     const x = (params.event as any).viewX;
@@ -84,7 +89,7 @@ export class DimensionHoverEvent extends DimensionEvent {
   };
 
   private onMouseOut = (params: BaseEventParams) => {
-    if (!params) {
+    if (!params || DimensionHoverEvent._disableDimensionEvent) {
       return;
     }
     // 鼠标移出某维度

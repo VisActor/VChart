@@ -49,7 +49,7 @@ export class Event implements IEvent {
     if (ComposedEventCtor) {
       const composedEvent = new ComposedEventCtor(this._eventDispatcher, this._mode) as IComposedEvent;
       composedEvent.register(eType, handler);
-      this._composedEventMap.set(callback as EventCallback<EventParamsDefinition[Evt]>, {
+      this._composedEventMap.set(handler.callback as EventCallback<EventParamsDefinition[Evt]>, {
         eventType: eType,
         event: composedEvent
       });
