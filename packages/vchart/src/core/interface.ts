@@ -451,6 +451,21 @@ export interface IVChart {
    */
   setDimensionIndex: (value: StringOrNumber, options?: DimensionIndexOption) => void;
 
+  /**
+   * 禁用/开启 dimension 交互事件
+   */
+  disableDimensionHoverEvent: (disabled: boolean) => void;
+
+  /**
+   * 禁用/开启 crosshair
+   */
+  disableCrossHair: (disabled: boolean) => void;
+
+  /**
+   * 禁用/开启 tooltip
+   */
+  disableTooltip: (disabled: boolean) => void;
+
   // 数据转换相关的 api
   /**
    * Convert the data to coordinate position

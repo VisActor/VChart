@@ -51,7 +51,7 @@ import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from 
 import { dataToDataView } from '../data/initialize';
 import { copyDataView } from '../data/transforms/copy-data-view';
 import type { ITooltipHandler } from '../typings/tooltip';
-import type { Tooltip } from '../component/tooltip';
+import type { ITooltip, Tooltip } from '../component/tooltip';
 import type {
   Datum,
   IPoint,
@@ -118,6 +118,8 @@ import { registerElementSelect } from '../interaction/triggers/element-select';
 import type { IVChartPluginService } from '../plugin/vchart/interface';
 import { VChartPluginService } from '../plugin/vchart/plugin-service';
 import { RenderStateEnum } from '../constant/animate';
+import { DimensionHoverEvent } from '../event';
+import type { ICrossHair } from '../component/crosshair';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -1909,6 +1911,20 @@ export class VChart implements IVChart {
    */
   setDimensionIndex(value: StringOrNumber, opt: DimensionIndexOption = {}) {
     return this._chart?.setDimensionIndex(value, opt);
+  }
+
+  disableDimensionHoverEvent(value: boolean = true) {
+    DimensionHoverEvent.disableDimensionEvent(value);
+  }
+  disableCrossHair(value: boolean = true) {
+    this.getChart()
+      .getComponentsByKey('crosshair')
+      .forEach(crosshair => ((crosshair as ICrossHair).enable = !value));
+  }
+  disableTooltip(value: boolean = true) {
+    this.getChart()
+      .getComponentsByKey('tooltip')
+      .forEach(tooltip => ((tooltip as ITooltip).enable = !value));
   }
 
   showCrosshair(cb: (axis: IAxis) => false | string | number) {
