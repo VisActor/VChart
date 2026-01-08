@@ -35,3 +35,46 @@
 - **凭证**: 执行前，必须确保 `GITHUB_TOKEN` 环境变量已设置，或 `gh` CLI 已安装并登录。请参阅本技能目录下的 `docs/GITHUB_TOKEN.md` 和 `docs/GH_CLI.md`。
 - **分支推送**: 在创建 PR 之前，请务必确保你的本地分支 (`head`) 已经推送到 GitHub 远程仓库，否则 GitHub 无法找到该分支。
 - **正文文件**: 确认 `bodyFile` 指向的文件存在且内容正确。
+- **常见失败的排查清单**（特别是 `mode: auto`）：
+  - 使用 `gh auth status` 检查 CLI 登录状态以及是否已为目标组织完成 SSO 授权；
+  - 在仓库根目录运行 `git remote -v` 与 `gh repo view`，确认当前目录映射到 GitHub 上的 `VisActor/VChart` 仓库；
+  - 若使用 REST 模式或自动回退到 REST，确认 `GITHUB_TOKEN` 已设置且权限正确（可用 `curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user` 做快速验证）。
+
+## Quick Actions（一键命令示例）
+
+### 路径一：gh CLI
+
+在 VChart 仓库根目录执行：
+
+```bash
+# 登录（如尚未登录）
+gh auth login
+
+# 使用本地正文文件创建 PR
+gh pr create \
+  -B develop \
+  -H <your-branch> \
+  -t "<your-title>" \
+  -F ./.trae/output/pr.body.local.md \
+  --label changelog \
+  --label test
+```
+
+### 路径二：GITHUB_TOKEN + REST
+
+```bash
+export GITHUB_TOKEN="your_token_here"
+
+curl -X POST \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/repos/VisActor/VChart/pulls \
+  -d '{
+    "title": "<your-title>",
+    "head": "<your-branch>",
+    "base": "develop",
+    "body": "从 .trae/output/pr.body.local.md 复制正文内容到此处"
+  }'
+```
+
+> 提示：在技能中使用 `mode: auto` 时，会优先走“路径一”（`gh` 创建 PR），当 `gh` 不可用时自动回退到“路径二”（REST + `GITHUB_TOKEN`）。

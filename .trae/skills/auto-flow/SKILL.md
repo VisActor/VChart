@@ -44,6 +44,7 @@ description: 'Orchestrates a complete, standardized workflow for preparing a pul
 1.  **差异驱动单测**
     - **执行**: `auto-test` 技能。
     - **目的**: 为代码变更生成并运行单元测试。
+    - **报告输出**: 默认总是将报告写入 `./.trae/output/autotest.report.local.md`（即 `auto-test` 的 `tempReportPath`），即便本次没有生成新的测试用例也会包含“无新增自动化测试 (No new tests generated)”等说明。
     - **检查点**: Agent 会返回测试报告路径。**你需要检查报告中的测试覆盖率和结果，确认无误后指示 Agent 继续。**
 
 2.  **生成 Rush 变更日志**
@@ -59,12 +60,53 @@ description: 'Orchestrates a complete, standardized workflow for preparing a pul
 4.  **生成 PR 正文**
     - **执行**: `pr-body-generate` 技能。
     - **目的**: 自动填充 PR 模板，生成包含所有上下文信息的 PR 正文。
+    - **输入输出约定**: 默认会从 `./.trae/output/autotest.report.local.md` 读取 auto-test 生成的报告摘要，并将生成的正文写入 `./.trae/output/pr.body.local.md`。即使缺少 changelog 或自动化测试报告，也会生成一个结构完整的最小正文，并在相应小节中标注“暂无 changelog”或“尚未提供自动化测试报告”等说明。
     - **检查点**: Agent 会返回生成的 PR 正文预览和本地文件路径。**你应审阅正文内容，确保其完整和准确（可在此步之后手动修改文件），然后指示 Agent 继续。**
 
 5.  **创建 PR**
     - **执行**: `pr-create-from-body` 技能。
     - **目的**: 使用上一步生成的正文文件，在 GitHub 上创建 Pull Request。
+    - **执行方式**: 在默认的 `mode: auto` 下，技能会优先尝试使用本机已登录的 `gh` CLI 创建 PR；仅当 `gh` 不可用时，才会回退到使用 `GITHUB_TOKEN` 的 REST API。
     - **检查点**: Agent 会返回最终的 PR 链接。**你需要访问链接确认 PR 是否按预期创建。**
+
+## Quick Fixes（PR 创建失败时）
+
+在第 5 步调用 `pr-create-from-body` 时，如果因为 GitHub 认证问题导致 PR 创建失败，可以快速尝试以下两条“人工兜底”路径：
+
+### 路径一：使用 gh CLI 直接创建 PR（推荐）
+
+```bash
+# 1. 通过 gh 登录 GitHub（如尚未登录）
+gh auth login
+
+# 2. 在 VChart 仓库根目录，使用本地正文文件创建 PR
+gh pr create \
+  -B develop \
+  -H <your-branch> \
+  -t "<your-title>" \
+  -F ./.trae/output/pr.body.local.md \
+  --label changelog \
+  --label test
+```
+
+### 路径二：使用 GITHUB_TOKEN + REST API
+
+```bash
+export GITHUB_TOKEN="your_token_here"
+
+curl -X POST \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/repos/VisActor/VChart/pulls \
+  -d '{
+    "title": "<your-title>",
+    "head": "<your-branch>",
+    "base": "develop",
+    "body": "从 .trae/output/pr.body.local.md 复制正文内容到此处，或改用 pr-create-from-body(mode: rest) 自动填充"
+  }'
+```
+
+> 提醒：在正常情况下，`auto-flow` 的第 5 步会通过 `pr-create-from-body` 以 `mode: auto` 方式优先使用 `gh` 创建 PR，仅在 `gh` 不可用时回退到 REST（`GITHUB_TOKEN`）。上述命令仅作为认证异常时的应急方案。
 
 ## 何时使用 / 边界
 

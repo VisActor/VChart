@@ -34,7 +34,7 @@ description: 'Automates unit testing for incremental code changes in the VChart 
     - `snapshots`: 生成或更新的快照文件。
     - `coverage_report`: 覆盖率报告摘要。
     - `manual_nodes`: 提示需要人工介入的测试点。
-    - `temp_markdown_report`: 本地生成的 Markdown 格式临时报告。
+    - `temp_markdown_report`: 本地生成的 Markdown 格式临时报告，其路径通常与 `tempReportPath` 一致（默认 `./.trae/output/autotest.report.local.md`）。**无论本次是否实际生成了新的测试用例，此报告都会写入，用于解释执行结果。**
 - **成功标准**:
     - `tests_generated_for_changed_exports`: 已为所有变更的导出项生成测试。
     - `compile_without_errors`: 生成的测试代码编译无误。
@@ -52,7 +52,58 @@ description: 'Automates unit testing for incremental code changes in the VChart 
     - 根据 `project` 参数，运行 `rush run test` 和 `rush run test-cov` 命令。
     - 收集测试结果和覆盖率数据。
 5.  **报告生成**:
-    - 将所有变更、测试生成情况、运行结果、覆盖率变化及潜在风险点汇总成一份报告，并保存到 `{{tempReportPath}}`。
+    - 将所有变更、测试生成情况、运行结果、覆盖率变化及潜在风险点汇总成一份报告，并保存到 `{{tempReportPath}}`（默认 `./.trae/output/autotest.report.local.md`）。
+    - 报告结构至少包含：变更摘要、新增/更新测试列表、运行结果、覆盖率摘要（整体与关键文件）、覆盖率变化，以及风险与改进建议等板块。
+    - **当本次执行没有生成任何新的自动化测试时，报告中必须包含一个明确的“无新增自动化测试 (No new tests generated)”小节，说明原因（例如仅文档变更、仅样式调整或变更被过滤等）以及当前测试覆盖情况。**
+
+## 命令示例（本地等价操作）
+
+如果需要在不依赖技能的情况下手动完成一次最小化的测试与覆盖率检查，可以在 VChart 仓库根目录执行：
+
+```bash
+# 1. 运行单元测试
+rush run -p <project> -s test
+
+# 2. 运行覆盖率
+rush run -p <project> -s test-cov
+
+# 3. 将结果整理成临时报告（与 Skill 输出路径保持一致）
+mkdir -p ./.trae/output
+cat > ./.trae/output/autotest.report.local.md << 'EOF'
+# Auto Test Report
+
+## Summary
+- Project: <project>
+- Base: develop
+
+## Test Result
+- Test Suites: ...
+- Tests: ...
+
+## Coverage Summary
+- Lines: ...
+- Statements: ...
+- Functions: ...
+- Branches: ...
+
+## Notes
+- No new tests generated
+EOF
+```
+
+> 实际技能会根据差异自动生成/更新测试文件，并将完整报告写入 `tempReportPath`（默认 `./.trae/output/autotest.report.local.md`），包括“无新增自动化测试 (No new tests generated)” 小节。
+
+## 覆盖率提升建议
+
+在阅读 auto-test 报告中的覆盖率摘要时，如果发现新增或关键文件的覆盖率偏低，可以优先考虑补充如下类型的用例：
+
+- **边界场景**：空数据、单元素、大量数据、极端配置等；
+- **错误与异常路径**：非法参数、抛错分支、网络/IO 失败等；
+- **组合与分支**：不同配置组合、开关量 on/off、不同枚举值；
+- **回滚与降级逻辑**：fallback 分支、默认值逻辑；
+- **与外部依赖的交互**：mock 出第三方服务异常、超时或返回空结果。
+
+你可以在补充这些用例后再次执行 `auto-test`，观察报告中覆盖率摘要与“风险与建议”板块是否有所改善。
 
 ## 何时使用 / 边界
 

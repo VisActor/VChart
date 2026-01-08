@@ -11,8 +11,8 @@
 
 本技能是一个带有“门禁”的流水线，每一步完成后都会暂停，等待你的确认：
 
-1.  **自动测试**: 技能首先为你的代码变更生成并运行测试。
-    *   **你需要**: 检查测试报告，确认覆盖率和测试结果符合预期。
+1.  **自动测试**: 技能首先为你的代码变更生成并运行测试，并将结果写入 `./.trae/output/autotest.report.local.md`（即使没有新增测试也会包含“无新增自动化测试 (No new tests generated)” 说明）。
+    *   **你需要**: 打开该报告，检查覆盖率和测试结果是否符合预期。
 
 2.  **生成变更日志**: 接着，它会为你的提交创建 `changelog` 文件。
     *   **你需要**: 检查 `common/changes/` 目录下生成的文件内容是否准确。
@@ -20,11 +20,11 @@
 3.  **智能提交**: 然后，所有变更会被打包成一个规范的 Git 提交并推送。
     *   **你需要**: 确认自动生成的提交信息是正确的。
 
-4.  **生成 PR 正文**: 技能会自动填充 PR 模板。
+4.  **生成 PR 正文**: 技能会自动填充 PR 模板，从 `./.trae/output/autotest.report.local.md` 和 `common/changes` 中汇总信息，并将正文写入 `./.trae/output/pr.body.local.md`。
     *   **你需要**: 审阅生成的 PR 正文，可选择在本地修改 `.md` 文件。
 
 5.  **创建 PR**: 最后，使用准备好的正文创建 PR。
-    *   **你需要**: 访问返回的 PR 链接，做最终确认。
+    *   **你需要**: 访问返回的 PR 链接，做最终确认；如失败，优先检查 `gh auth status`、`git remote -v` 与 `GITHUB_TOKEN` 配置是否正确。
 
 ## 示例对话
 
@@ -48,6 +48,43 @@
 
 ## 注意事项
 
-- **凭证**: 确保 `GITHUB_TOKEN` 或 `gh` CLI 已正确配置，否则最后一步会失败。
+- **凭证**: 确保 `gh` CLI 已安装并通过 `gh auth status` 登录成功；同时建议配置好 `GITHUB_TOKEN` 作为备用。`pr-create-from-body` 在 `mode: auto` 下会优先使用 `gh` 创建 PR，`gh` 不可用时才回退到 REST。
 - **顺序固定**: 本技能的五个步骤是固定的，不能跳过或重排。
 - **失败中断**: 流程中任何一步失败都会导致整个流程中断。
+
+## Quick Fixes（PR 创建失败时）
+
+当流程执行到第 5 步“创建 PR”时，如果因为权限或认证问题导致失败，可以直接在终端执行以下命令完成创建：
+
+### 路径一：gh CLI
+
+```bash
+gh auth login
+
+gh pr create \
+  -B develop \
+  -H <your-branch> \
+  -t "<your-title>" \
+  -F ./.trae/output/pr.body.local.md \
+  --label changelog \
+  --label test
+```
+
+### 路径二：GITHUB_TOKEN + REST
+
+```bash
+export GITHUB_TOKEN="your_token_here"
+
+curl -X POST \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/repos/VisActor/VChart/pulls \
+  -d '{
+    "title": "<your-title>",
+    "head": "<your-branch>",
+    "base": "develop",
+    "body": "从 .trae/output/pr.body.local.md 复制正文内容到此处，或改用 pr-create-from-body(mode: rest) 自动填充"
+  }'
+```
+
+> 自动流程中 `pr-create-from-body` 默认使用 `mode: auto`，即“gh 优先，其次 REST”。Quick Fixes 主要用于你需要手动接管 PR 创建时的快速路径。

@@ -31,3 +31,18 @@
 
 - **危险区域**: 此技能会使用 `git add --all` 命令，将工作目录中 **所有** 未被 `.gitignore` 忽略的变更添加到提交中。请在执行前仔细检查你的工作区，确保没有不想提交的临时文件或改动。
 - 执行前请确保当前分支没有合并冲突，且远程分支已存在。
+
+## 安全命令示例
+
+```bash
+# 提交前检查暂存状态
+git status
+
+# 如发现 .trae/skills 被加入暂存区，撤销暂存：
+git restore --staged .trae/skills
+
+# 需要更精细控制时，可以只对代码目录执行 add：
+git add packages/vchart src tests
+```
+
+> 建议在调用 `commit-smart` 前先清理暂存区中不需要的文件（尤其是 `.trae/skills` 等环境文档），以免被自动提交。

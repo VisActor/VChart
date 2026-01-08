@@ -28,8 +28,18 @@
 - `message`: 手动指定的变更摘要。如果留空，将根据提交记录自动生成。
 - `githubToken`: （可选）提供 GitHub 个人访问令牌，以便自动拉取并聚合关联 Issue 的标题。
 
+## 命令示例
+
+```bash
+# 在 VChart 仓库根目录，基于 develop...HEAD 的变更批量生成 changelog 条目
+rush change --bulk
+```
+
+在交互过程中选择合适的变更类型（major/minor/patch）并填写简明的 message，生成的文件会位于 `common/changes/**`。
+
 ## 注意事项
 
 - 自动生成的消息质量高度依赖于规范、清晰的 Git 提交历史。
 - 本技能仅生成 `common/changes/**` 下的文件，不执行 `rush version` 或 `rush publish`。
 - 如果需要自动关联 Issue 标题，请确保 `GITHUB_TOKEN` 已在环境中正确配置。
+- 如果 `common/changes/**` 中已经存在覆盖当前提交的条目（例如之前已经为某次修复创建过记录），可以只复核这些文件，不必重复生成新的条目。

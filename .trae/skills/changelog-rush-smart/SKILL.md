@@ -46,6 +46,17 @@ description: 'Generates standardized changelog entries for a Rush-based monorepo
     - Agent 会执行 `rush change` 命令，使用上一步确定的 `bumpType` 和消息，为每个受影响的包生成对应的变更文件。
 5.  **（可选）提交变更**: 如果 `notCommit` 未设置为 `true`，Agent 会将新生成的变更文件添加到 Git 暂存区并创建一个提交。
 
+## 命令示例（本地等价操作）
+
+在 VChart 仓库根目录，你可以用 `rush change --bulk` 近似完成此技能的核心步骤：
+
+```bash
+# 基于 develop...HEAD 的变更，为所有受影响的包批量生成变更条目
+rush change --bulk
+```
+
+在运行前，建议先检查 `common/changes/**` 中是否已经存在覆盖当前提交集的条目；若已有合适的记录，可以跳过本次执行，避免重复生成。
+
 ## 何时使用 / 边界
 
 - **使用时机**:
@@ -54,3 +65,4 @@ description: 'Generates standardized changelog entries for a Rush-based monorepo
 - **边界**:
     - 此技能只负责生成 `common/changes/**` 下的变更文件，它本身不执行版本发布 (`rush publish`)。
     - 自动生成的消息质量依赖于良好、规范的 Git 提交历史。
+    - 如果 `common/changes/**` 中已经存在覆盖当前提交集的条目，可以只复核既有文件，无需强行生成新的变更记录，以避免重复。

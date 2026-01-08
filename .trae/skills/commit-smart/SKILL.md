@@ -48,6 +48,23 @@ description: 'Creates a well-formed, intelligent Git commit for all pending chan
     - 然后使用生成的提交信息执行 `git commit`。
     - 如果 `pushAfterCommit` 为 `true`，它会接着执行 `git push -u origin {{head}}` 将提交推送到远程仓库。
 
+## 安全命令示例（避免提交环境文档）
+
+为了避免将 `.trae/skills` 等环境/文档目录意外提交到远程，可以在使用本技能前或之后配合以下命令：
+
+```bash
+# 查看当前暂存内容
+git status
+
+# 如果发现 .trae/skills 被错误地加入暂存区，可以将其移除：
+git restore --staged .trae/skills
+
+# 如需手动提交时缩小范围，可使用路径前缀而不是 add --all：
+git add packages/vchart src tests
+```
+
+> 提示：`commit-smart` 在内部会使用 `git add --all` 聚合变更，执行前请先用 `git status` 确认没有不希望提交的目录（如 `.trae/skills`），必要时可先执行 `git restore --staged .trae/skills` 清理暂存区。
+
 ## 何时使用 / 边界
 
 - **使用时机**:

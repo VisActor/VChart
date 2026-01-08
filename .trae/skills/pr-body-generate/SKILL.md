@@ -37,16 +37,50 @@ description: 'Generates a well-formed Pull Request body for the VChart project b
 
 ## 执行步骤
 
-1.  **选择模板**: 根据 `lang` 参数，Agent 会选择对应的 PR 模板文件（例如 `.github/PULL_REQUEST_TEMPLATE/pr_cn.md`）。
+1.  **选择模板**: 根据 `lang` 参数，Agent 会选择对应的 PR 模板文件（例如中文：`.github/PULL_REQUEST_TEMPLATE/pr_cn.md`，英文：`.github/PULL_REQUEST_TEMPLATE.md`）。
 2.  **填充内容**: Agent 会自动执行以下填充操作：
     - **Changelog**: 解析 `{{rushChangesDir}}` 目录下的变更条目，并填充到正文的 Changelog 部分。
-    - **自测项**: 如果 `autotestReport` 文件存在，会将其中的测试摘要信息填充到自测/走查部分。
+    - **自测项**: 如果 `autotestReport` 文件存在（默认路径为 `./.trae/output/autotest.report.local.md`），会将其中的测试摘要信息（包括“无新增自动化测试”说明）填充到自测/走查部分；若文件不存在，则在正文中保留空白或占位说明，提示尚未提供自动化测试报告。
     - **背景与方案**: 基于 `message` 参数（如果提供）和提交历史，生成简要的背景与方案描述。
+    - **缺失数据的占位处理**: 当未找到 `{{rushChangesDir}}` 下的 changelog 或未提供 `autotestReport` 时，正文仍会生成对应的小节，并使用“暂无 changelog”或“尚未提供自动化测试报告”等最小占位文案，确保结构完整而不会报错。
     - **元信息**: 填充分支、标签等信息。
 3.  **输出与保存**:
     - Agent 会生成一个建议的 PR 标题。
     - 将完整的 PR 正文以 Markdown 预览形式展示。
-    - 如果 `localBodyFile` 为 `true`，会将纯净的 Markdown 正文内容保存到 `.trae/output/pr.body.local.md` 文件中，以便后续步骤使用或人工修改。
+    - 当 `localBodyFile` 为 `true`（默认行为）时，**无论是否存在 changelog 或自动化测试报告，都会**将纯净的 Markdown 正文内容保存到 `.trae/output/pr.body.local.md` 文件中，作为后续创建 PR 的唯一来源。缺失的信息会以清晰的占位或“暂无数据”文案体现，而不是让文件缺失。
+4.  **验证 (Validation)**:
+    - 生成完成后，请打开 `.trae/output/pr.body.local.md`，检查至少以下几点：
+        - 标题、背景与方案是否准确概括本次变更。
+        - Changelog 小节是否与 `common/changes` 中的内容一致；如没有 changelog，正文中是否有明确的“暂无 changelog”说明。
+        - 自测/走查小节是否正确引用了 auto-test 报告；当没有新增测试时，应能看到“无新增自动化测试 (No new tests generated)” 等说明。
+        - Summary / Walkthrough 等收尾小节是否存在，整体结构是否完整。
+    - 如发现缺失或需要补充的信息，可直接编辑该 Markdown 文件后再执行 `pr-create-from-body`。
+
+## 命令示例（本地等价操作）
+
+如果希望在不依赖技能的情况下，用命令行完成一个最小可用的 PR 正文生成流程，可以在 VChart 仓库根目录参考以下步骤：
+
+```bash
+# 1. 确定当前分支（head）
+head="$(git rev-parse --abbrev-ref HEAD)"
+
+# 2. 选择 PR 模板文件
+# 中文模板：
+template=".github/PULL_REQUEST_TEMPLATE/pr_cn.md"
+# 英文模板：
+# template=".github/PULL_REQUEST_TEMPLATE.md"
+
+# 3. 确保输出目录存在
+mkdir -p ./.trae/output
+
+# 4. 将模板内容写入本地临时 PR 正文文件
+cp "$template" ./.trae/output/pr.body.local.md
+
+# 5. 在编辑器中打开并补充变更摘要、自测结果与覆盖率信息
+${EDITOR:-vim} ./.trae/output/pr.body.local.md
+```
+
+> 说明：`pr-body-generate` 在内部会在此基础上自动整合 `common/changes` 与 `./.trae/output/autotest.report.local.md` 中的信息，但无论数据是否齐全，都会按照 `localBodyFile: true` 的默认行为写出 `.trae/output/pr.body.local.md` 文件。
 
 ## 何时使用 / 边界
 

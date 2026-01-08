@@ -45,9 +45,83 @@ description: 'Creates a GitHub Pull Request for the VChart project using a local
 3.  **创建 PR**:
     - **gh 模式**: Agent 会使用 `gh pr create` 命令，并通过 `--body-file` 参数直接传入正文文件。
     - **rest 模式**: Agent 会读取 `bodyFile` 的内容，然后通过调用 GitHub REST API (`POST /repos/{owner}/{repo}/pulls`) 来创建 PR。
-    - **auto 模式**: 自动选择可用的最佳方式。
+    - **auto 模式（推荐）**: 首先尝试使用已登录且指向正确远程仓库的 `gh` CLI 创建 PR；只有在 `gh` 不可用（未安装、未登录或无法识别当前仓库）时，才会回退到使用 `GITHUB_TOKEN` 的 REST API。若两种方式都不可用或调用失败，技能会返回清晰的错误信息和排查建议。
 
 4.  **输出结果**: 如果 PR 创建成功，Agent 会返回该 PR 的 URL。如果失败，则会返回详细的错误信息。
+
+## Quick Actions（快速操作示例）
+
+### 路径一：使用 gh CLI 一键创建 PR（推荐）
+
+在 VChart 仓库根目录：
+
+```bash
+# 1. 确认 gh 已登录
+gh auth login
+
+# 2. 使用本地正文文件创建 PR（以 develop 为 base）
+gh pr create \
+  -B develop \
+  -H <your-branch> \
+  -t "<your-title>" \
+  -F ./.trae/output/pr.body.local.md \
+  --label changelog \
+  --label test
+```
+
+> 说明：当 `mode: auto` 时，`pr-create-from-body` 会在内部执行与上述命令等价的 `gh pr create`，仅在 `gh` 不可用时才回退到 REST。
+
+### 路径二：使用 GITHUB_TOKEN + REST API
+
+在终端中先配置 Token：
+
+```bash
+export GITHUB_TOKEN="your_token_here"
+```
+
+然后可以直接调用 GitHub PR 接口（示例）：
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "Accept: application/vnd.github+json" \
+  https://api.github.com/repos/VisActor/VChart/pulls \
+  -d '{
+    "title": "<your-title>",
+    "head": "<your-branch>",
+    "base": "develop",
+    "body": "请将 .trae/output/pr.body.local.md 中的内容粘贴到这里，或改用 pr-create-from-body 技能自动填充"
+  }'
+```
+
+> 建议优先通过技能并设置 `mode: rest` 来使用 REST 路径：在对话中明确 base/head/title，技能会自动读取 `.trae/output/pr.body.local.md` 并调用同一个接口。
+
+## 错误处理与排查
+
+当在 `mode: auto` 或 `mode: gh` 下创建 PR 失败时，可以按以下顺序排查：
+
+1. **检查 gh 安装与登录状态**
+   - 运行 `gh --version` 确认命令可用。
+   - 运行 `gh auth status` 确认已登录 `github.com`，并具备访问 `VisActor/VChart` 的权限。
+
+2. **确认仓库远程指向正确**
+   - 在仓库根目录执行 `git remote -v`，确认 `origin` 指向 GitHub 上的 `VisActor/VChart`。
+   - 执行 `gh repo view` 验证 `gh` 能识别当前目录对应的仓库。
+
+3. **处理组织 SSO 授权问题**
+   - 如果组织启用了 SSO，按 `gh auth status` 提示完成 SSO 授权，或在浏览器中重新授权访问 `VisActor` 组织。
+
+当在 `mode: rest` 或自动回退到 REST 时失败，可继续检查：
+
+4. **验证 GITHUB_TOKEN 是否配置正确**
+   - 确认环境变量 `GITHUB_TOKEN` 已设置且非空。
+   - 使用 `curl` 测试：`curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user`，确保返回 200。
+
+5. **检查 Token 权限与 SSO**
+   - 确认 Token 至少拥有 `Pull requests: Read and write` 与 `Contents: Read` 权限。
+   - 若为组织仓库，确保已在 GitHub 的 Token 管理页面为 `VisActor` 组织完成 SSO 授权。
+
+若以上步骤均正常但仍报错，建议记录错误信息（HTTP 状态码与提示内容），并根据提示进一步排查或联系仓库维护者。
 
 ## 何时使用 / 边界
 

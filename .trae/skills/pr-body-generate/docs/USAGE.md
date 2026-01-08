@@ -32,5 +32,31 @@
 ## 注意事项
 
 - **仅生成不创建**: 此技能只负责生成 PR 正文的 `.md` 文件，**不会** 在 GitHub 上创建 PR。创建操作由 `pr-create-from-body` 技能完成。
-- **依赖前序产出**: 生成的正文内容的完整性依赖于之前步骤的产出，例如 `common/changes` 目录下的 `changelog` 文件和 `auto-test` 生成的测试报告。
-- **人工审查**: 自动生成的内容是草稿，强烈建议在执行下一步前，打开本地生成的 `.md` 文件进行审查和必要的修改。
+- **依赖前序产出**: 正文内容的丰富程度依赖于之前步骤的产出，例如 `common/changes` 目录下的 `changelog` 文件，以及 `auto-test` 在 `./.trae/output/autotest.report.local.md` 写入的测试报告。若这些信息缺失，技能仍会生成一个结构完整但内容较为精简的正文，并在相应小节中标注“暂无 changelog”或“尚未提供自动化测试报告”等提示。
+- **人工审查与验证**: 自动生成的内容是草稿，强烈建议在执行下一步前打开 `./.trae/output/pr.body.local.md`，至少检查：标题是否准确、Changelog 是否匹配实际变更、自测小节是否正确引用 auto-test 报告（或在无新增测试时包含“无新增自动化测试 (No new tests generated)” 说明）、总体结构是否完整。如有需要可直接编辑该文件后再执行 `pr-create-from-body`。
+
+## 命令示例（本地等价操作）
+
+在 VChart 仓库根目录，你可以用下面的命令快速生成一个基于模板的本地 PR 正文文件：
+
+```bash
+# 1. 获取当前分支名
+head="$(git rev-parse --abbrev-ref HEAD)"
+
+# 2. 选择 PR 模板路径
+# 中文模板：
+template=".github/PULL_REQUEST_TEMPLATE/pr_cn.md"
+# 英文模板：
+# template=".github/PULL_REQUEST_TEMPLATE.md"
+
+# 3. 准备输出目录
+mkdir -p ./.trae/output
+
+# 4. 将模板复制为临时 PR 正文文件
+cp "$template" ./.trae/output/pr.body.local.md
+
+# 5. 在编辑器中补充本次修改的摘要、自测结果和风险说明
+${EDITOR:-vim} ./.trae/output/pr.body.local.md
+```
+
+> 提示：`pr-body-generate` 会在此基础上自动整合 `common/changes` 与 `./.trae/output/autotest.report.local.md` 中的信息，并始终按 `localBodyFile: true` 的默认设置写出 `.trae/output/pr.body.local.md` 文件。
