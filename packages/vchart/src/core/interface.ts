@@ -452,9 +452,10 @@ export interface IVChart {
   setDimensionIndex: (value: StringOrNumber, options?: DimensionIndexOption) => void;
 
   /**
-   * 禁用/开启 dimension 交互事件
+   * 如果传入参数, 则禁用/开启 dimension 交互事件
+   * 如果不传入参数, 获取当前是否禁用 dimension 交互事件
    */
-  disableDimensionHoverEvent: (disabled: boolean) => void;
+  disableDimensionHoverEvent: (disabled?: boolean) => void;
 
   /**
    * 禁用/开启 crosshair
