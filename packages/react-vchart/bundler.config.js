@@ -12,8 +12,11 @@ module.exports = {
   umdOutputFilename: 'index',
   noEmitOnError: false,
   globals: {
-    '@visactor/vchart': 'VChart',
-    '@visactor/vutils': 'VUtils'
+    'react': 'React',
+    'react-dom': 'ReactDOM'
   },
-  external: ['@visactor/vchart', '@visactor/vutils']
+  external: ['react', 'react-dom'],
+  envs: {
+    'process.env.NODE_ENV': JSON.stringify('production')
+  }
 };

@@ -20,7 +20,7 @@
   "files": [
     "esm",
     "cjs",
-    "dist"
+    "build"
   ],
   "scripts": {
     "compile": "tsc --noEmit",
