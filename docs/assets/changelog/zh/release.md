@@ -2,28 +2,22 @@
 
 2026-01-08
 
-# v2.0.13
+**🐛 问题修复**
 
-2026-01-08
+- **@visactor/vchart**: 修复场景（Stage）发生变换后 Tooltip 显示异常的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4393
+- **@visactor/vchart**: 修复地图（Map）Tooltip 的相关问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4396
+- **@visactor/vchart**: 修复动画状态（Animation State）的逻辑问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4398
 
-**🐛 Bug Fixes**
+**🔨 维护与杂项**
 
-- **@visactor/vchart**: Fix tooltip display issue when stage is transformed by @xuefei1313 in https://github.com/VisActor/VChart/pull/4393
-- **@visactor/vchart**: Fix map tooltip issue by @xuefei1313 in https://github.com/VisActor/VChart/pull/4396
-- **@visactor/vchart**: Fix animation state issue by @xuefei1313 in https://github.com/VisActor/VChart/pull/4398
+- **@visactor/vchart**: 将基础 Node.js 版本依赖升级至 20+ by @xile611 in https://github.com/VisActor/VChart/pull/4402
 
-**🔨 Chores**
+**📖 文档更新**
 
-- **@visactor/vchart**: Update base Node.js version to 20+ by @xile611 in https://github.com/VisActor/VChart/pull/4402
-
-**📖 Documentation**
-
-- **@visactor/vchart**: Update marker point style and state documentation by @skie1997 in https://github.com/VisActor/VChart/pull/4369
-- **@visactor/vchart**: Add exit animation demo by @purpose233 in https://github.com/VisActor/VChart/pull/4374
+- **@visactor/vchart**: 更新标注点（Marker Point）样式与状态的文档 by @skie1997 in https://github.com/VisActor/VChart/pull/4369
+- **@visactor/vchart**: 新增退场动画（Exit Animation）示例 by @purpose233 in https://github.com/VisActor/VChart/pull/4374
 
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.12...v2.0.13
-
-[more detail about v2.0.13](https://github.com/VisActor/VChart/releases/tag/v2.0.13)
 
 [更多详情请查看 v2.0.13](https://github.com/VisActor/VChart/releases/tag/v2.0.13)
 
@@ -197,4 +191,5 @@
 - **@visactor/vchart**：修复 `tooltip.style.titleLabel` 的 `textAlign` 不生效问题，修复 [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [更多详情请查看 v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
+
 
