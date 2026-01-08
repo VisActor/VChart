@@ -84,7 +84,7 @@ export class DimensionHoverEvent extends DimensionEvent {
   };
 
   private onMouseOut = (params: BaseEventParams) => {
-    if (!params || DimensionHoverEvent._disableDimensionEvent) {
+    if (!params || params.chart?.getOption()?.globalInstance?.disableDimensionHoverEvent?.()) {
       return;
     }
     // 鼠标移出某维度
