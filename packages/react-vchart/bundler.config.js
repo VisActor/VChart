@@ -15,5 +15,8 @@ module.exports = {
     'react': 'React',
     'react-dom': 'ReactDOM'
   },
-  external: ['react', 'react-dom']
+  external: ['react', 'react-dom'],
+  envs: {
+    'process.env.NODE_ENV': JSON.stringify('production')
+  }
 };
