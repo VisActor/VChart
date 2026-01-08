@@ -6,11 +6,6 @@ import { Event_Source_Type } from '../../../constant/event';
 import type { IDimensionInfo } from './interface';
 
 export class DimensionHoverEvent extends DimensionEvent {
-  static _disableDimensionEvent: boolean = false;
-  static disableDimensionEvent(value: boolean) {
-    this._disableDimensionEvent = value;
-  }
-
   private _cacheDimensionInfo: IDimensionInfo[] | null = null;
 
   register<Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) {
@@ -51,7 +46,7 @@ export class DimensionHoverEvent extends DimensionEvent {
   }
 
   private onMouseMove = (params: BaseEventParams) => {
-    if (!params || DimensionHoverEvent._disableDimensionEvent) {
+    if (!params || params.chart?.getOption()?.globalInstance?.disableDimensionHoverEvent?.()) {
       return;
     }
     const x = (params.event as any).viewX;

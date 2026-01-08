@@ -118,7 +118,6 @@ import { registerElementSelect } from '../interaction/triggers/element-select';
 import type { IVChartPluginService } from '../plugin/vchart/interface';
 import { VChartPluginService } from '../plugin/vchart/plugin-service';
 import { RenderStateEnum } from '../constant/animate';
-import { DimensionHoverEvent } from '../event';
 import type { ICrossHair } from '../component/crosshair';
 
 export class VChart implements IVChart {
@@ -366,6 +365,8 @@ export class VChart implements IVChart {
   private _onResize?: () => void;
 
   private _renderState: RenderStateEnum = RenderStateEnum.render;
+
+  protected _disableDimensionHoverEvent: boolean = false;
 
   constructor(spec: ISpec, options: IInitOption) {
     removeUndefined(options);
@@ -1913,8 +1914,11 @@ export class VChart implements IVChart {
     return this._chart?.setDimensionIndex(value, opt);
   }
 
-  disableDimensionHoverEvent(value: boolean = true) {
-    DimensionHoverEvent.disableDimensionEvent(value);
+  disableDimensionHoverEvent(value?: boolean) {
+    if (value !== undefined) {
+      this._disableDimensionHoverEvent = value;
+    }
+    return this._disableDimensionHoverEvent;
   }
   disableCrossHair(value: boolean = true) {
     this.getChart()
