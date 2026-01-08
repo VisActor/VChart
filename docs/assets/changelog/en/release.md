@@ -2,10 +2,6 @@
 
 2026-01-08
 
-# v2.0.13
-
-2026-01-08
-
 **🐛 Bug Fixes**
 
 - **@visactor/vchart**: Fix tooltip display issue when stage is transformed by @xuefei1313 in https://github.com/VisActor/VChart/pull/4393
@@ -25,7 +21,6 @@
 
 [more detail about v2.0.13](https://github.com/VisActor/VChart/releases/tag/v2.0.13)
 
-[more detail about v2.0.13](https://github.com/VisActor/VChart/releases/tag/v2.0.13)
 
 # v2.0.12
 
@@ -208,3 +203,4 @@
 - **@visactor/vchart**: fix `textAlign` not works in tooltip.style.titleLabel, fix [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [more detail about v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
+
