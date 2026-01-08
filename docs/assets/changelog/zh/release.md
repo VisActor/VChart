@@ -1,3 +1,32 @@
+# v2.0.13
+
+2026-01-08
+
+# v2.0.13
+
+2026-01-08
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: Fix tooltip display issue when stage is transformed by @xuefei1313 in https://github.com/VisActor/VChart/pull/4393
+- **@visactor/vchart**: Fix map tooltip issue by @xuefei1313 in https://github.com/VisActor/VChart/pull/4396
+- **@visactor/vchart**: Fix animation state issue by @xuefei1313 in https://github.com/VisActor/VChart/pull/4398
+
+**🔨 Chores**
+
+- **@visactor/vchart**: Update base Node.js version to 20+ by @xile611 in https://github.com/VisActor/VChart/pull/4402
+
+**📖 Documentation**
+
+- **@visactor/vchart**: Update marker point style and state documentation by @skie1997 in https://github.com/VisActor/VChart/pull/4369
+- **@visactor/vchart**: Add exit animation demo by @purpose233 in https://github.com/VisActor/VChart/pull/4374
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.12...v2.0.13
+
+[more detail about v2.0.13](https://github.com/VisActor/VChart/releases/tag/v2.0.13)
+
+[更多详情请查看 v2.0.13](https://github.com/VisActor/VChart/releases/tag/v2.0.13)
+
 # v2.0.12
 
 2025-12-25
