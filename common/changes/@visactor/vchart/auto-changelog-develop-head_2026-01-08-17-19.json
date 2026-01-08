@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: optimiz pr body skill; add skills; remove jobs; revert skills; auto-flow upgrades; optimiz trae flow; upgrade auto flow\nfix: fix default lineWidth for heatmap label; fix style of heatmap label\ndocs/chore: update changlog of rush; sync changes before PR (3 files)",
+      "type": "minor",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
