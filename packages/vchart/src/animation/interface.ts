@@ -162,7 +162,7 @@ export type IAnimationConfig = IAnimationTimeline | IAnimationTypeConfig;
 export type IStageAnimationCallback = (stage: IStage, canvas: HTMLCanvasElement, ratio: number, time: number) => void;
 
 export interface MarkAnimationSpec {
-  disappear?: IStateAnimationConfig & {
+  disappear?: IAnimationConfig & {
     callBack?: IStageAnimationCallback | AStageAnimate<any>;
   };
   appear?: IAnimationConfig | IAnimationConfig[];

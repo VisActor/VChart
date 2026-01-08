@@ -97,15 +97,13 @@ const spec = {
       itemContent: {
         type: 'text',
         autoRotate: false,
-        text: {
+        style: {
           text: 'BALANCE AGAINST',
-          style: {
-            fontSize: 14,
-            fontWeight: 'bold',
-            fill: 'rgba(0,0,0,0.45)',
-            textAlign: 'center',
-            textBaseline: 'middle'
-          }
+          fontSize: 14,
+          fontWeight: 'bold',
+          fill: 'rgba(0,0,0,0.45)',
+          textAlign: 'center',
+          textBaseline: 'middle'
         }
       },
       itemLine: {
@@ -121,15 +119,13 @@ const spec = {
         offsetX: -40,
         type: 'text',
         autoRotate: false,
-        text: {
+        style: {
           text: ['BALANCE in', 'FAVOUR of ENGLAND'],
-          style: {
-            fontSize: 14,
-            fontWeight: 'bold',
-            fill: 'rgba(0,0,0,0.45)',
-            textAlign: 'left',
-            textBaseline: 'middle'
-          }
+          fontSize: 14,
+          fontWeight: 'bold',
+          fill: 'rgba(0,0,0,0.45)',
+          textAlign: 'left',
+          textBaseline: 'middle'
         }
       },
       itemLine: {

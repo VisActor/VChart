@@ -1446,6 +1446,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     allGraphics.forEach((g, index) => {
       g.context.graphicCount = graphicCount;
       g.context.graphicIndex = index;
+      g.stateSort = this._stateSort;
     });
     this._dataByKey = newGroupedData;
     this._graphics = allGraphics;
@@ -1551,9 +1552,16 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _runEncoder(graphics: IMarkGraphic[], noGroupEncode?: boolean) {
     const attrsByGroup = noGroupEncode ? null : this._runGroupEncoder(this._encoderOfState?.group);
-
     graphics.forEach((g, index) => {
-      const attrs = this._runEncoderOfGraphic(this._encoderOfState?.update, g);
+      let attrs = this._runEncoderOfGraphic(this._encoderOfState?.update, g);
+      // 此时需要将最终的正确的样式设置给graphic，这样后续的动画目标属性才会正确，否则会动画样式只有默认状态的样式
+      g.currentStates?.forEach((_state: string) => {
+        const stateAttr = this._runEncoderOfGraphic(this._encoderOfState?.[_state], g);
+        attrs = {
+          ...attrs,
+          ...stateAttr
+        };
+      });
 
       // 配置的优先级高于encoder
       if (!isNil(this._markConfig.interactive)) {
@@ -1585,6 +1593,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         }
         g.context = mockGraphic.context;
         g.context.diffAttrs = finalAttrs;
+        g.stateSort = this._stateSort;
 
         const gIndex = this._graphics === graphics ? index : index + this._graphics.length - graphics.length;
         if (gIndex >= 0) {

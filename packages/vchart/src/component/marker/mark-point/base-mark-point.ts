@@ -16,7 +16,7 @@ import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant/layout';
 import type { IGroup } from '@visactor/vrender-core';
-import type { IMarkerLabelSpec } from '../interface';
+import type { IMarkerLabelSpec, IMarkerLabelWithoutRefSpec } from '../interface';
 
 export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
   static specKey = 'markPoint';
@@ -72,7 +72,10 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         dy: 0
       };
       itemContentStyle = transformLabelAttributes(
-        merge(defaultStyle, label ?? textStyle ?? (style as IMarkerLabelSpec)),
+        {
+          ...label,
+          style: merge(defaultStyle, label?.textStyle ?? textStyle ?? (style as Pick<IMarkerLabelSpec, 'style'>))
+        },
         this._markerData,
         this._markAttributeContext
       );
