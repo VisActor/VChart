@@ -24094,6 +24094,9 @@
           "since": "1.10.0\n原因:\n1) 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致）\n2) 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象",
           "type": "number"
         },
+        "beforeBrushChange": {
+          "typeof": "function"
+        },
         "brushLinkSeriesId": {
           "anyOf": [
             {
@@ -24146,6 +24149,11 @@
           "$ref": "#/definitions/IDelayType",
           "default": "'throttle'",
           "description": "事件触发延迟类型"
+        },
+        "disableDimensionHoverWhenBrushing": {
+          "default": false,
+          "description": "是否在框选时禁用维度 hover 事件",
+          "type": "boolean"
         },
         "id": {
           "description": "组件 id",
@@ -79339,7 +79347,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         },
         "size": {
@@ -79347,14 +79355,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12495",
+        "__@toStringTag@12496",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         },
         "size": {
@@ -79362,14 +79370,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12495",
+        "__@toStringTag@12496",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         },
         "size": {
@@ -79377,14 +79385,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12495",
+        "__@toStringTag@12496",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         },
         "size": {
@@ -79392,14 +79400,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12495",
+        "__@toStringTag@12496",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         },
         "size": {
@@ -79407,14 +79415,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12495",
+        "__@toStringTag@12496",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         },
         "size": {
@@ -79422,14 +79430,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12495",
+        "__@toStringTag@12496",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         },
         "size": {
@@ -79437,7 +79445,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12495",
+        "__@toStringTag@12496",
         "size"
       ],
       "type": "object"
@@ -100933,34 +100941,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12495"
+        "__@toStringTag@12496"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12495"
+        "__@toStringTag@12496"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12495": {
+        "__@toStringTag@12496": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12495"
+        "__@toStringTag@12496"
       ],
       "type": "object"
     },
