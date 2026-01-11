@@ -246,7 +246,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       if (mark) {
         const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;
         const params = {
-          animationConfig: () => mark.getAnimationConfig()?.appear?.[0]
+          animationConfig: () => {
+            const config = mark.getAnimationConfig()?.appear;
+            return Array.isArray(config) ? config[0] : config;
+          }
         };
         mark.setAnimationConfig(
           animationConfig(
@@ -448,6 +451,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       shrink: this._wordCloudConfig.zoomToFit.shrink,
       enlarge: this._wordCloudConfig.zoomToFit.enlarge,
       minFontSize: this._wordCloudConfig.zoomToFit.fontSizeLimitMin,
+      maxFontSize: this._wordCloudConfig.zoomToFit.fontSizeLimitMax,
       progressiveTime: this._wordCloudConfig.progressiveTime,
       progressiveStep: this._wordCloudConfig.progressiveStep,
       repeatFill: this._wordCloudConfig.zoomToFit.repeat
