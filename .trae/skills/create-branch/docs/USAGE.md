@@ -26,3 +26,16 @@
 
 - **干净的工作区**: 建议在执行此技能前，先提交或储藏你的本地变更，因为 `git checkout` 操作可能会覆盖未提交的改动。
 - 本技能只负责创建和切换分支，不处理任何代码的提交或合并。
+
+## 命名规范与推送建议
+
+- 推荐前缀：`feat/`、`fix/`、`docs/`、`perf/`、`refactor/`、`chore/trae-<topic>-<YYYYMMDD-HHmm>`
+- 建议在创建后立即推送以建立远程跟踪关系：
+  ```bash
+  git push -u origin <new-branch>
+  ```
+- 如需调整远程地址或默认分支，使用：
+  ```bash
+  git remote -v
+  git remote set-url origin https://github.com/VisActor/VChart.git
+  ```

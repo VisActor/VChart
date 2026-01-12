@@ -43,3 +43,10 @@ rush change --bulk
 - 本技能仅生成 `common/changes/**` 下的文件，不执行 `rush version` 或 `rush publish`。
 - 如果需要自动关联 Issue 标题，请确保 `GITHUB_TOKEN` 已在环境中正确配置。
 - 如果 `common/changes/**` 中已经存在覆盖当前提交的条目（例如之前已经为某次修复创建过记录），可以只复核这些文件，不必重复生成新的条目。
+
+## 故障排查
+
+- **未生成条目**: 检查 `develop...HEAD` 是否存在差异；确认当前仓库根目录执行命令
+- **类型判断不准确**: 显式提供 `bumpType`；保证提交信息遵循 Conventional Commits（如 `feat:`、`fix:`、`docs:`）
+- **重复记录**: 检查现有 `common/changes/**` 是否已覆盖当前提交；避免重复生成
+- **关联 Issue 标题失败**: 验证 `GITHUB_TOKEN` 权限并在终端导出环境变量；尝试使用 Fine-grained Token 授权到组织资源

@@ -37,6 +37,7 @@
 - **常见失败的排查清单**：
   - 使用 `gh auth status` 检查 CLI 登录状态以及是否已为目标组织完成 SSO 授权；
   - 在仓库根目录运行 `git remote -v` 与 `gh repo view`，确认当前目录映射到 GitHub 上的 `VisActor/VChart` 仓库；
+  - 确认分支已推送（`git push -u origin <your-branch>`），并确保不存在重复的 `head→base` 打开 PR
 
 ## Quick Actions（一键命令示例）
 
@@ -56,4 +57,8 @@ gh pr create \
   -F ./.trae/output/pr.body.local.md \
   --label changelog \
   --label test
+  # 可选：更多参数
+  # --draft
+  # --assignee your-username
+  # --reviewer reviewer-1 --reviewer reviewer-2
 ```

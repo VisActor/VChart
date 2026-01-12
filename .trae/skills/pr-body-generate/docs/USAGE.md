@@ -35,6 +35,13 @@
 - **依赖前序产出**: 正文内容的丰富程度依赖于之前步骤的产出，例如 `common/changes` 目录下的 `changelog` 文件，以及 `auto-test` 在 `./.trae/output/autotest.report.local.md` 写入的测试报告。若这些信息缺失，技能仍会生成一个结构完整但内容较为精简的正文，并在相应小节中标注“暂无 changelog”或“尚未提供自动化测试报告”等提示。
 - **人工审查与验证**: 自动生成的内容是草稿，强烈建议在执行下一步前打开 `./.trae/output/pr.body.local.md`，至少检查：标题是否准确、Changelog 是否匹配实际变更、自测小节是否正确引用 auto-test 报告（或在无新增测试时包含“无新增自动化测试 (No new tests generated)” 说明）、总体结构是否完整。如有需要可直接编辑该文件后再执行 `pr-create-from-body`。
 
+## 进阶用法与排查
+
+- **自动勾选分支类型**: 若设置 `autoCheckType: true`（默认），技能会依据分支前缀/最近提交类型/标签来判断“这个分支是...”，如 `feat/`→新功能、`docs/`→网站/文档更新、`chore/auto-flow-...`→Workflow 等
+- **缺失数据占位**: 当缺少 `changelog` 或 `autotestReport` 时，生成文档会在相应小节插入占位说明，避免结构破坏
+- **模板语言选择错误**: 请确保 `lang` 与团队评审习惯一致；中文模板路径为 `.github/PULL_REQUEST_TEMPLATE/pr_cn.md`，英文模板为 `.github/PULL_REQUEST_TEMPLATE.md`
+- **正文未覆盖关键信息**: 在保存到 `./.trae/output/pr.body.local.md` 后可直接编辑补充：关联 issue、背景与方案、风险与兼容性、验证说明等
+
 ## 命令示例（本地等价操作）
 
 在 VChart 仓库根目录，你可以用下面的命令快速生成一个基于模板的本地 PR 正文文件：

@@ -11,8 +11,10 @@ description: 'Orchestrates a complete, standardized workflow for preparing a pul
 
 ## 前置条件
 
-- **环境**: 必须在配置了 Rush、Git 的有效工作区中执行。
-- **依赖与凭证**: 所有被编排的子技能所需的前置条件都必须满足，特别是 `pr-create-from-body` 技能需要的 `GITHUB_TOKEN` 或 `gh` CLI。
+- **环境**: 必须在配置了 Rush、Git 的有效工作区中执行（已安装 Node、pnpm 与 Rush）。
+- **凭证**: 需要本机已安装并登录的 GitHub CLI (`gh`)，用于最终创建 PR。你可以通过 `gh auth status` 验证登录状态。
+- **仓库状态**: 确保当前目录映射到 GitHub 上的 `VisActor/VChart` 仓库（`git remote -v` 与 `gh repo view` 均正常）。
+- **分支推送**: 开发分支需已推送到远程，否则无法创建 PR（`git push -u origin <branch>`）。
 
 ## 输入参数
 
@@ -66,20 +68,38 @@ description: 'Orchestrates a complete, standardized workflow for preparing a pul
 5.  **创建 PR**
     - **执行**: `pr-create-from-body` 技能。
     - **目的**: 使用上一步生成的正文文件，在 GitHub 上创建 Pull Request。
-    - **执行方式**: 在默认的 `mode: auto` 下，技能会优先尝试使用本机已登录的 `gh` CLI 创建 PR；仅当 `gh` 不可用时，才会回退到使用 `GITHUB_TOKEN` 的 REST API。
+    - **执行方式**: 技能使用已登录的 `gh` CLI 创建 PR（gh-only）。确保分支已推送、标题与正文文件路径正确。
     - **检查点**: Agent 会返回最终的 PR 链接。**你需要访问链接确认 PR 是否按预期创建。**
 
-## Quick Fixes（PR 创建失败时）
+## 故障排查（分步）
 
-在第 5 步调用 `pr-create-from-body` 时，如果因为 GitHub 认证问题导致 PR 创建失败，可以快速尝试以下两条“人工兜底”路径：
+- **Step 1: auto-test**
+  - 常见问题：依赖未安装、测试命令失败、覆盖率采集异常
+  - 处理建议：在仓库根目录执行 `rush install`，针对项目执行 `rush run -p <project> -s test` 与 `test-cov`；检查 `./.trae/output/autotest.report.local.md`
 
-### 路径一：使用 gh CLI 直接创建 PR（推荐）
+- **Step 2: changelog-rush-smart**
+  - 常见问题：`rush change` 未生成条目、重复条目
+  - 处理建议：确认 `develop...HEAD` 的变更存在；已有覆盖当前提交的条目时无需重复生成
+
+- **Step 3: commit-smart**
+  - 常见问题：误提交 `.trae/skills` 等环境目录、远程不存在
+  - 处理建议：执行前 `git status` 检查；必要时 `git restore --staged .trae/skills`；确保远程分支存在并可推送
+
+- **Step 4: pr-body-generate**
+  - 常见问题：模板选择错误、正文未包含必要信息
+  - 处理建议：确认语言模板（中文/英文）；检查 `Changelog` 与 `自测` 小节；必要时手动编辑 `.trae/output/pr.body.local.md`
+
+- **Step 5: pr-create-from-body**
+  - 常见问题：`gh` 未登录、分支未推送、SSO 授权缺失
+  - 处理建议：`gh auth status`、`git remote -v`、`gh repo view`；确保 `git push -u origin <branch>`；参考 `docs/GH_CLI.md` 的详细安装与使用指南
+
+## Quick Actions（PR 创建失败时的人工兜底）
 
 ```bash
-# 1. 通过 gh 登录 GitHub（如尚未登录）
+# 1) 登录 gh（如尚未登录）
 gh auth login
 
-# 2. 在 VChart 仓库根目录，使用本地正文文件创建 PR
+# 2) 使用本地正文文件创建 PR（仓库根目录）
 gh pr create \
   -B develop \
   -H <your-branch> \
@@ -88,25 +108,6 @@ gh pr create \
   --label changelog \
   --label test
 ```
-
-### 路径二：使用 GITHUB_TOKEN + REST API
-
-```bash
-export GITHUB_TOKEN="your_token_here"
-
-curl -X POST \
-  -H "Authorization: Bearer $GITHUB_TOKEN" \
-  -H "Accept: application/vnd.github+json" \
-  https://api.github.com/repos/VisActor/VChart/pulls \
-  -d '{
-    "title": "<your-title>",
-    "head": "<your-branch>",
-    "base": "develop",
-    "body": "从 .trae/output/pr.body.local.md 复制正文内容到此处，或改用 pr-create-from-body(mode: rest) 自动填充"
-  }'
-```
-
-> 提醒：在正常情况下，`auto-flow` 的第 5 步会通过 `pr-create-from-body` 以 `mode: auto` 方式优先使用 `gh` 创建 PR，仅在 `gh` 不可用时回退到 REST（`GITHUB_TOKEN`）。上述命令仅作为认证异常时的应急方案。
 
 ## 何时使用 / 边界
 

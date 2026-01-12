@@ -32,6 +32,13 @@
 - **危险区域**: 此技能会使用 `git add --all` 命令，将工作目录中 **所有** 未被 `.gitignore` 忽略的变更添加到提交中。请在执行前仔细检查你的工作区，确保没有不想提交的临时文件或改动。
 - 执行前请确保当前分支没有合并冲突，且远程分支已存在。
 
+## 故障排查
+
+- **误加环境文件**: 执行 `git status` 检查并 `git restore --staged .trae/skills` 取消暂存
+- **提交信息不规范**: 确保提交信息遵循 Conventional Commits；必要时通过 `message` 指定主题
+- **无法推送**: 确认当前分支存在于远程或执行 `git push -u origin <branch>` 建立跟踪
+- **空提交被跳过**: 如需空提交，设置 `commitAllowEmpty: true`；否则将安全跳过
+
 ## 安全命令示例
 
 ```bash

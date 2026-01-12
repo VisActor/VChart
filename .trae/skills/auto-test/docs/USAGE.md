@@ -36,6 +36,13 @@
 - 执行前请确保 `rush` 依赖已正确安装。
 - 每次执行都会在 `tempReportPath`（默认 `./.trae/output/autotest.report.local.md`）写入一份临时报告；**即使没有生成新的测试用例，也会包含“无新增自动化测试 (No new tests generated)”说明小节，解释原因与执行结果。**
 
+## 故障排查
+
+- **依赖缺失**: 在根目录执行 `rush install`；必要时运行 `pnpm -v` 确认 pnpm 可用
+- **测试执行失败**: 针对项目执行 `rush run -p <project> -s test`；查看错误日志并在 `__tests__` 中补充/修复用例
+- **覆盖率报告为空**: 确认测试命令包含覆盖率脚本（如 `test-cov`）；手动执行 `rush run -p <project> -s test-cov`
+- **报告未写出**: 检查输出目录存在 `mkdir -p ./.trae/output`；确认 `tempReportPath` 配置正确
+
 ## 命令示例（本地运行）
 
 ```bash

@@ -24,7 +24,7 @@
     *   **你需要**: 审阅生成的 PR 正文，可选择在本地修改 `.md` 文件。
 
 5.  **创建 PR**: 最后，使用准备好的正文创建 PR。
-    *   **你需要**: 访问返回的 PR 链接，做最终确认；如失败，优先检查 `gh auth status`、`git remote -v` 与 `GITHUB_TOKEN` 配置是否正确。
+    *   **你需要**: 访问返回的 PR 链接，做最终确认；如失败，优先检查 `gh auth status`、`git remote -v` 与分支是否已推送。
 
 ## 示例对话
 
@@ -48,15 +48,15 @@
 
 ## 注意事项
 
-- **凭证**: 确保 `gh` CLI 已安装并通过 `gh auth status` 登录成功；同时建议配置好 `GITHUB_TOKEN` 作为备用。`pr-create-from-body` 在 `mode: auto` 下会优先使用 `gh` 创建 PR，`gh` 不可用时才回退到 REST。
+- **凭证**: 确保 `gh` CLI 已安装并通过 `gh auth status` 登录成功（本流程的 PR 创建为 gh-only，不再回退 REST）。
 - **顺序固定**: 本技能的五个步骤是固定的，不能跳过或重排。
 - **失败中断**: 流程中任何一步失败都会导致整个流程中断。
 
-## Quick Fixes（PR 创建失败时）
+## 故障排查与 Quick Actions（PR 创建失败时）
 
-当流程执行到第 5 步“创建 PR”时，如果因为权限或认证问题导致失败，可以直接在终端执行以下命令完成创建：
+当流程执行到第 5 步“创建 PR”时，如因权限或认证问题失败，可在终端直接使用 `gh pr create` 完成创建：
 
-### 路径一：gh CLI
+### gh CLI
 
 ```bash
 gh auth login
@@ -69,22 +69,4 @@ gh pr create \
   --label changelog \
   --label test
 ```
-
-### 路径二：GITHUB_TOKEN + REST
-
-```bash
-export GITHUB_TOKEN="your_token_here"
-
-curl -X POST \
-  -H "Authorization: Bearer $GITHUB_TOKEN" \
-  -H "Accept: application/vnd.github+json" \
-  https://api.github.com/repos/VisActor/VChart/pulls \
-  -d '{
-    "title": "<your-title>",
-    "head": "<your-branch>",
-    "base": "develop",
-    "body": "从 .trae/output/pr.body.local.md 复制正文内容到此处，或改用 pr-create-from-body(mode: rest) 自动填充"
-  }'
-```
-
-> 自动流程中 `pr-create-from-body` 默认使用 `mode: auto`，即“gh 优先，其次 REST”。Quick Fixes 主要用于你需要手动接管 PR 创建时的快速路径。
+> 提示：如仍失败，检查 `gh auth status`、`gh repo view`、`git remote -v` 与 `git push -u origin <branch>` 是否正常；详见 [GH_CLI.md](file:///Users/bytedance/Documents/GitHub/VChart/.trae/skills/pr-create-from-body/docs/GH_CLI.md) 的常见问题与处理。
