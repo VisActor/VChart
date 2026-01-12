@@ -1,6 +1,6 @@
 # GitHub CLI (gh) 核心指南
 
-GitHub CLI (`gh`) 是与 GitHub 交互（尤其是创建 Pull Request）的首选执行器。在 `mode: auto` 下，`pr-create-from-body` 等技能会优先使用 `gh` 来创建 PR；只有在 `gh` 不可用时才回退到使用 `GITHUB_TOKEN` 的 REST API。
+GitHub CLI (`gh`) 是与 GitHub 交互（尤其是创建 Pull Request）的唯一支持方式。`pr-create-from-body` 技能仅通过 `gh` 来创建 PR。
 
 ## 安装与登录
 
@@ -22,7 +22,7 @@ GitHub CLI (`gh`) 是与 GitHub 交互（尤其是创建 Pull Request）的首�
 
 ## 使用
 
-`pr-create-from-body` 技能在 `mode: auto` 时，会优先使用本机已登录的 `gh` 命令来创建 PR；只有在 `gh` 未安装或未登录时，才会回退到使用 `GITHUB_TOKEN` 的 REST API。
+`pr-create-from-body` 技能会使用本机已登录的 `gh` 命令来创建 PR。
 
 **示例命令 (由技能在内部执行):**
 ```bash
