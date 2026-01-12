@@ -11,7 +11,7 @@ description: 'Creates a GitHub Pull Request for the VChart project using a local
 
 ## 前置条件
 
-- **GitHub CLI**: 必须已安装并登录 `gh` CLI，且能访问目标仓库。
+- **GitHub CLI**: 必须已安装并登录 `gh` CLI，且能访问目标仓库。此技能在执行 `gh` 时会显式忽略环境中的 `GITHUB_TOKEN`，仅使用本地凭证（浏览器 OAuth/Keychain）进行认证。
 - **PR 正文文件**: 必须存在一个包含 PR 正文的本地 Markdown 文件。通常由 `pr-body-generate` 技能生成。
 - **分支已推送**: 源分支必须已经推送到远程仓库。
 
@@ -38,11 +38,13 @@ description: 'Creates a GitHub Pull Request for the VChart project using a local
     - 确认 `head` 分支，如果未提供则自动检测当前分支。
     - 检查 `bodyFile` 指定的文件是否存在且内容不为空。
     - 检查 `gh` CLI 是否已安装并已登录，且当前目录映射到正确的 GitHub 仓库。
+    - 若当前会话存在 `GITHUB_TOKEN`，在后续调用中将通过清理该变量来避免其参与认证。
 
 2.  **（可选）提交变更**: 如果 `commitBeforeCreate` 设置为 `true` 且有未提交的变更，Agent 会先执行一次智能提交（类似于 `commit-smart` 技能）。
 
 3.  **创建 PR**:
     - 使用 `gh pr create` 命令，并通过 `--body-file` 参数直接传入正文文件；按需设置 `--base`、`--head`、`--title`、`--draft`、`--label` 等参数。
+    - 为确保仅使用 gh 本地凭证，调用时显式清除环境变量：`env -u GITHUB_TOKEN gh pr create ...`。
 
 4.  **输出结果**: 如果 PR 创建成功，Agent 会返回该 PR 的 URL。如果失败，则会返回详细的错误信息。
 
@@ -73,8 +75,9 @@ gh pr create \
 当创建 PR 失败时，可以按以下顺序排查：
 
 1. **检查 gh 安装与登录状态**
-   - 运行 `gh --version` 确认命令可用。
-   - 运行 `gh auth status` 确认已登录 `github.com`，并具备访问 `VisActor/VChart` 的权限。
+    - 运行 `gh --version` 确认命令可用。
+    - 运行 `gh auth status` 确认已登录 `github.com`，并具备访问 `VisActor/VChart` 的权限。
+    - 如提示正在使用 `GITHUB_TOKEN`，请执行 `env -u GITHUB_TOKEN gh auth login` 完成浏览器登录以建立本地凭证。
 
 2. **确认仓库远程指向正确**
    - 在仓库根目录执行 `git remote -v`，确认 `origin` 指向 GitHub 上的 `VisActor/VChart`。
