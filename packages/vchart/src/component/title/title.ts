@@ -116,7 +116,10 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
   }
 
   private _getTitleAttrs() {
-    // 当 width 小于 0 时，设置为 0，负数场景容易引起不可预知的问题
+    /**
+     * 生成标题组件的渲染属性，统一计算宽高与对齐参数，
+     * 并在仅副标题场景下避免主标题宽度影响副标题布局。
+     */
     if (this._spec.visible === false) {
       return { visible: false };
     }
@@ -124,13 +127,15 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
     const titleWidth = calcLayoutNumber(this._spec.width, layoutRect.width, null, layoutRect.width);
     const titleMaxWidth = calcLayoutNumber(this._spec.maxWidth, layoutRect.width, null, layoutRect.width);
     const maxWidth = Math.max(Math.min(titleWidth, titleMaxWidth, layoutRect.width), 0);
+    const hasText = isValid(this._spec.text) && this._spec.text !== '';
+    const hasSubtext = isValid(this._spec.subtext) && this._spec.subtext !== '';
 
     const attrs = {
       ...(pickWithout(this._spec, ['padding']) as any),
       textType: this._spec.textType ?? 'text',
-      text: this._spec.text ?? '',
+      text: hasText ? this._spec.text : undefined,
       subtextType: this._spec.subtextType ?? 'text',
-      subtext: this._spec.subtext ?? '',
+      subtext: hasSubtext ? this._spec.subtext : undefined,
       x: this._spec.x ?? 0,
       y: this._spec.y ?? 0,
       height: this._spec.height,
@@ -142,7 +147,6 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
       align: this._spec.align ?? 'left',
       verticalAlign: this._spec.verticalAlign ?? 'top',
       textStyle: {
-        width: maxWidth,
         maxLineWidth: maxWidth,
         ...this._spec.textStyle
       },
@@ -152,9 +156,25 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
       }
     } as TitleAttrs;
 
+    // 仅在对应文本存在时设置 width，避免空主标题影响副标题的对齐与宽度计算
+    if (hasText) {
+      (attrs.textStyle as any).width = maxWidth;
+    }
+    if (hasSubtext) {
+      (attrs.subtextStyle as any).width = maxWidth;
+    }
+
     if (isValid(this._spec.width)) {
-      attrs.textStyle.width = Math.max(titleWidth, layoutRect.width);
-      attrs.subtextStyle.width = attrs.textStyle.width;
+      const clampedWidth = Math.max(Math.min(titleWidth, layoutRect.width), 0);
+      if (hasText) {
+        (attrs.textStyle as any).width = clampedWidth;
+      } else {
+        // 主标题不存在时，不设置其 width
+        delete (attrs.textStyle as any).width;
+      }
+      if (hasSubtext) {
+        (attrs.subtextStyle as any).width = clampedWidth;
+      }
     }
     return attrs;
   }
