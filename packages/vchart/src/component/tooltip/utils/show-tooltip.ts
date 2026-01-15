@@ -276,12 +276,23 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
       console.log('parseMarkInfoOfGeoSeries');
       let originDatum = series.getViewData()?.latestData.find(datumContainsArray(dimensionFields, dimensionData));
       // 地图需要特殊处理，需要根据properties属性来匹配数据
+      // @ts-ignore
+      const nameMap = series.getNameMap();
+
       const originMapDatum = series
         // @ts-ignore
         .getMapViewData?.()
         ?.latestData.find((datum: Datum) =>
-          dimensionFields.every((key, i) => datum.properties[key] === dimensionData?.[i])
+          dimensionFields.every((key, i) => {
+            if (key === 'name') {
+              return nameMap[datum.properties[key]] === dimensionData?.[i];
+            }
+            return datum.properties[key] === dimensionData?.[i];
+          })
         );
+      if (!originMapDatum) {
+        return;
+      }
       let markInfoMeasureData = measureData;
       if (originMapDatum && !originDatum) {
         originDatum = { ...datum };
@@ -293,13 +304,12 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
         if (!hasData(measureData) && !originDatum) {
           return;
         }
-        measureData = [null];
+        if (!hasData(measureData)) {
+          measureData = [null];
+        }
       }
 
-      const pos =
-        series.type === SeriesTypeEnum.pie
-          ? (series as PieSeries).dataToCentralPosition(originMapDatum.properties)
-          : series.dataToPosition(originMapDatum.properties);
+      const pos = series.dataToPosition(originDatum);
       if (isNil(pos) || isNaN(pos.x) || isNaN(pos.y)) {
         return;
       }
