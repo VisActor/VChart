@@ -273,28 +273,33 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
     };
 
     const parseMarkInfoOfGeoSeries = () => {
+      console.log('parseMarkInfoOfGeoSeries');
+      let originDatum = series.getViewData()?.latestData.find(datumContainsArray(dimensionFields, dimensionData));
       // 地图需要特殊处理，需要根据properties属性来匹配数据
-      const originDatum = series
+      const originMapDatum = series
         // @ts-ignore
         .getMapViewData?.()
         ?.latestData.find((datum: Datum) =>
           dimensionFields.every((key, i) => datum.properties[key] === dimensionData?.[i])
         );
       let markInfoMeasureData = measureData;
+      if (originMapDatum && !originDatum) {
+        originDatum = { ...datum };
+      }
       if (!hasMeasureData) {
-        // 如果只有单个数据组且用户没有给y轴数据，则补全y轴数据
+        // 如果只有地图数据，则补全
         measureData = getDataArrayFromFieldArray(measureFields, originDatum);
         markInfoMeasureData = measureData;
         if (!hasData(measureData) && !originDatum) {
           return;
         }
-        measureData = { ...originDatum.properties };
+        measureData = [null];
       }
 
       const pos =
         series.type === SeriesTypeEnum.pie
-          ? (series as PieSeries).dataToCentralPosition(originDatum.properties)
-          : series.dataToPosition(originDatum.properties);
+          ? (series as PieSeries).dataToCentralPosition(originMapDatum.properties)
+          : series.dataToPosition(originMapDatum.properties);
       if (isNil(pos) || isNaN(pos.x) || isNaN(pos.y)) {
         return;
       }
