@@ -1,6 +1,7 @@
 import type { IBaseTriggerOptions, ITrigger, ITriggerEventHandler } from '../interface/trigger';
 import type { IMark, IMarkGraphic } from '../../mark/interface/common';
 import { MarkSet } from '../../mark/mark-set';
+import type { BaseEventParams } from '../../core';
 export declare abstract class BaseTrigger<T extends IBaseTriggerOptions> implements ITrigger<T> {
     options: T;
     type: string;
@@ -22,7 +23,7 @@ export declare abstract class BaseTrigger<T extends IBaseTriggerOptions> impleme
     getResetState(): string;
     init(): void;
     release(): void;
-    start(g: IMarkGraphic | string): void;
-    reset(g?: IMarkGraphic): void;
+    start(g: IMarkGraphic | string, e?: BaseEventParams): void;
+    reset(g?: IMarkGraphic, e?: BaseEventParams): void;
     protected dispatchEvent(type: 'start' | 'reset' | 'update' | 'end', params: any): void;
 }

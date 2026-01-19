@@ -6,7 +6,7 @@ import type { IMorphConfig } from '../../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType, EventType } from '../../event/interface';
 import type { IMark, IMarkGraphic } from '../../mark/interface';
-import type { LayoutState } from '../interface/compiler';
+import type { IRenderOption, LayoutState } from '../interface/compiler';
 import type { MarkAnimationSpec } from '../../animation/interface';
 export type CompilerListenerParameters = {
     type: EventType;
@@ -27,6 +27,7 @@ export interface IGrammarItemMap<T extends IGrammarItem> {
 }
 export type ICompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
 export interface ICompiler {
+    getOption: () => IRenderOption;
     isInited?: boolean;
     readonly stateAnimationConfig?: MarkAnimationSpec;
     getCanvas: () => HTMLCanvasElement | undefined;
