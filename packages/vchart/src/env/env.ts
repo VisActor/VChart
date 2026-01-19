@@ -1,28 +1,27 @@
 import {
-  initAllEnv,
+  loadAllEnv,
   loadBrowserEnv,
   loadFeishuEnv,
   loadLynxEnv,
   loadNodeEnv,
   loadTaroEnv,
   loadWxEnv,
-  loadTTEnv,
+  loadTtEnv,
   loadHarmonyEnv
 } from '@visactor/vrender-kits';
-import { container } from '@visactor/vrender-core';
 
 /**
  * 加载所有环境兼容代码
  */
 export const registerAllEnv = () => {
-  initAllEnv();
+  loadAllEnv();
 };
 
 /**
  * 加载浏览器环境代码
  */
 export const registerBrowserEnv = () => {
-  loadBrowserEnv(container);
+  loadBrowserEnv();
 };
 
 /**
@@ -30,45 +29,45 @@ export const registerBrowserEnv = () => {
  */
 export const registerLarkEnv = () => {
   // TODO: 后续统一为 loadLarkEnv
-  loadFeishuEnv(container);
+  loadFeishuEnv();
 };
 
 /**
  * 加载 Lynx 环境代码
  */
 export const registerLynxEnv = () => {
-  loadLynxEnv(container);
+  loadLynxEnv();
 };
 
 /**
  * 加载 Node 环境代码
  */
 export const registerNodeEnv = () => {
-  loadNodeEnv(container);
+  loadNodeEnv();
 };
 
 /**
  * 加载 Taro 环境代码
  */
 export const registerTaroEnv = () => {
-  loadTaroEnv(container);
+  loadTaroEnv();
 };
 
 /**
  * 加载微信小程序环境代码
  */
 export const registerWXEnv = () => {
-  loadWxEnv(container);
+  loadWxEnv();
 };
 /**
  * 加载TT小程序环境代码
  */
 export const registerTTEnv = () => {
-  loadTTEnv(container);
+  loadTtEnv();
 };
 /**
  * 加载Harmony环境代码
  */
 export const registerHarmonyEnv = () => {
-  loadHarmonyEnv(container);
+  loadHarmonyEnv();
 };
