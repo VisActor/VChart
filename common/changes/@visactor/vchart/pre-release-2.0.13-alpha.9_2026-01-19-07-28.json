@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: interactive params add event. feat #4421",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
