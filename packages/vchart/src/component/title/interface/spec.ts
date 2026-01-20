@@ -158,7 +158,7 @@ export type ITitleTextSpec =
       /**
        * 主标题文本配置
        */
-      text: string | number | string[] | number[];
+      text?: string | number | string[] | number[];
     }
   | {
       /**
@@ -168,7 +168,7 @@ export type ITitleTextSpec =
       /**
        * 主标题富文本内容
        */
-      text: IRichTextCharacter[];
+      text?: IRichTextCharacter[];
     };
 
 export type ISubTitleTextSpec =
