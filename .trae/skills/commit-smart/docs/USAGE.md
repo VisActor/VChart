@@ -1,0 +1,55 @@
+# 使用说明：commit-smart
+
+本技能用于将所有待处理的变更创建为一个符合规范的 Git 提交，并推送到远程仓库。
+
+## 何时使用
+
+- **PR 准备**: 在生成了测试和变更日志后，使用此技能将所有相关文件（源代码、测试文件、`changelog` 条目）捆绑成一个原子提交。
+- **快速同步**: 当你想快速将本地所有工作同步到远程分支时，此技能提供了一键式的 `add`, `commit`, 和 `push` 操作。
+
+## 示例对话
+
+**场景一: 自动提交**
+
+> **你**: “代码、测试和 changelog 都好了，帮我提交所有变更。”
+>
+> **Agent**: (执行技能) “好的。已生成提交信息 'feat(vchart): add new interactive features' 并成功推送到 `origin/your-branch`。”
+
+**场景二: 使用自定义消息**
+
+> **你**: "执行 `commit-smart`，并使用 'refactor(core): 优化图表渲染性能' 作为提交信息。"
+>
+> **Agent**: (使用指定消息执行) “提交已创建并推送，提交信息为 'refactor(core): 优化图表渲染性能'。”
+
+## 关键参数
+
+- `head`: 要推送的分支名。如果留空，将自动使用当前分支。
+- `message`: 手动指定的提交信息。若提供，将作为提交主题。否则，将根据 `common/changes/` 内容或文件变更自动生成。
+- `pushAfterCommit`: 是否在提交后自动推送，默认为 `true`。
+
+## 注意事项
+
+- **危险区域**: 此技能会使用 `git add --all` 命令，将工作目录中 **所有** 未被 `.gitignore` 忽略的变更添加到提交中。请在执行前仔细检查你的工作区，确保没有不想提交的临时文件或改动。
+- 执行前请确保当前分支没有合并冲突，且远程分支已存在。
+
+## 故障排查
+
+- **误加环境文件**: 执行 `git status` 检查并 `git restore --staged .trae/skills` 取消暂存
+- **提交信息不规范**: 确保提交信息遵循 Conventional Commits；必要时通过 `message` 指定主题
+- **无法推送**: 确认当前分支存在于远程或执行 `git push -u origin <branch>` 建立跟踪
+- **空提交被跳过**: 如需空提交，设置 `commitAllowEmpty: true`；否则将安全跳过
+
+## 安全命令示例
+
+```bash
+# 提交前检查暂存状态
+git status
+
+# 如发现 .trae/skills 被加入暂存区，撤销暂存：
+git restore --staged .trae/skills
+
+# 需要更精细控制时，可以只对代码目录执行 add：
+git add packages/vchart src tests
+```
+
+> 建议在调用 `commit-smart` 前先清理暂存区中不需要的文件（尤其是 `.trae/skills` 等环境文档），以免被自动提交。
