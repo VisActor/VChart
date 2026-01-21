@@ -68,7 +68,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
    * 是否正在浏览tooltip内容
    */
   private _isEnterTooltip: boolean;
-  protected declare _spec: ITooltipSpec;
+  declare protected _spec: ITooltipSpec;
 
   tooltipHandler?: ITooltipHandler;
 
@@ -175,7 +175,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
-    const container = this.tooltipHandler.getRootDom?.();
+    const container = this.tooltipHandler?.getRootDom?.();
 
     if (container) {
       container.addEventListener('pointerenter', () => {
@@ -608,7 +608,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     // 隐藏 tooltip
     const handler = this._spec.handler ?? this.tooltipHandler;
-    if (handler.hideTooltip) {
+    if (handler?.hideTooltip) {
       const result = handler.hideTooltip.call(handler, params);
       if (!result) {
         this._isTooltipShown = false;
@@ -630,7 +630,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       }
       this._enterable = newEnterable;
 
-      this.tooltipHandler.reInit?.();
+      this.tooltipHandler?.reInit?.();
     } else {
       this._initHandler();
     }
