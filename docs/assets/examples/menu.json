@@ -2514,6 +2514,13 @@
             "zh": "离散图例指定scale",
             "en": "specify scale of discrete legend"
           }
+        },
+        {
+          "path": "metric-panel-legend",
+          "title": {
+            "zh": "指标面板图例",
+            "en": "Metric Panel Legend"
+          }
         }
       ]
     },
