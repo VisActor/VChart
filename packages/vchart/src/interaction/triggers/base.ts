@@ -3,6 +3,7 @@ import type { IBaseTriggerOptions, ITrigger, ITriggerEventHandler } from '../int
 import type { IMark, IMarkGraphic } from '../../mark/interface/common';
 import { MarkSet } from '../../mark/mark-set';
 import { groupMarksByState } from './util';
+import type { BaseEventParams } from '../../core';
 
 export abstract class BaseTrigger<T extends IBaseTriggerOptions> implements ITrigger<T> {
   options: T;
@@ -111,11 +112,11 @@ export abstract class BaseTrigger<T extends IBaseTriggerOptions> implements ITri
     }
   }
 
-  start(g: IMarkGraphic | string) {
+  start(g: IMarkGraphic | string, e?: BaseEventParams) {
     // do nothing
   }
 
-  reset(g?: IMarkGraphic) {
+  reset(g?: IMarkGraphic, e?: BaseEventParams) {
     // do nothing
   }
 

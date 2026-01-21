@@ -65,13 +65,13 @@ export class ElementHighlight
     return events;
   }
 
-  resetAll = () => {
+  resetAll = (e?: BaseEventParams) => {
     const { highlightState, blurState, interaction } = this.options;
 
     if (this._lastGraphic) {
       interaction.clearAllStatesOfTrigger(this, highlightState, blurState);
 
-      this.dispatchEvent('reset', { graphics: [this._lastGraphic], options: this.options });
+      this.dispatchEvent('reset', { graphics: [this._lastGraphic], options: this.options, ...e });
 
       this._lastGraphic = null;
 
@@ -80,7 +80,7 @@ export class ElementHighlight
   };
 
   handleStart = (e: BaseEventParams) => {
-    this.start(e.item);
+    this.start(e.item, e);
   };
 
   handleReset = (e: BaseEventParams) => {
@@ -94,13 +94,13 @@ export class ElementHighlight
     const hasActiveElement = markGraphic && this._markSet.getMarkInId(markGraphic.context.markId);
 
     if (this._resetType.includes('view') && !hasActiveElement) {
-      this.resetAll();
+      this.resetAll(e);
     } else if (this._resetType.includes('self') && hasActiveElement) {
-      this.resetAll();
+      this.resetAll(e);
     }
   };
 
-  start(markGraphic: IMarkGraphic) {
+  start(markGraphic: IMarkGraphic, e?: BaseEventParams) {
     if (markGraphic && this._markSet.getMarkInId(markGraphic.context.markId)) {
       const { highlightState, blurState, interaction } = this.options;
 
@@ -119,19 +119,19 @@ export class ElementHighlight
 
       this._lastGraphic = markGraphic;
 
-      this.dispatchEvent('start', { graphics: newStatedGraphics, options: this.options });
+      this.dispatchEvent('start', { graphics: newStatedGraphics, options: this.options, ...e });
     } else if (this._lastGraphic && this._resetType === 'view') {
-      this.resetAll();
+      this.resetAll(e);
     }
   }
 
-  reset(markGraphic: IMarkGraphic) {
+  reset(markGraphic: IMarkGraphic, e?: BaseEventParams) {
     if (markGraphic) {
       if (this._markSet.getMarkInId(markGraphic.context.markId)) {
         markGraphic.removeState([this.options.highlightState, this.options.blurState]);
       }
     } else {
-      this.resetAll();
+      this.resetAll(e);
     }
   }
 }

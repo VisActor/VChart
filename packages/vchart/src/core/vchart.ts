@@ -19,7 +19,6 @@ import type { IComponentConstructor } from '../component/interface';
 import { ComponentTypeEnum } from '../component/interface/type';
 import type {
   EventCallback,
-  EventParamsDefinition,
   EventQuery,
   EventType,
   ExtendEventParam,
@@ -52,7 +51,7 @@ import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from 
 import { dataToDataView } from '../data/initialize';
 import { copyDataView } from '../data/transforms/copy-data-view';
 import type { ITooltipHandler } from '../typings/tooltip';
-import type { Tooltip } from '../component/tooltip';
+import type { ITooltip, Tooltip } from '../component/tooltip';
 import type {
   Datum,
   IPoint,
@@ -93,6 +92,7 @@ import type {
   IGlobalConfig,
   IVChart,
   IVChartRenderOption,
+  UserEvent,
   VChartRenderActionSource
 } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -118,6 +118,7 @@ import { registerElementSelect } from '../interaction/triggers/element-select';
 import type { IVChartPluginService } from '../plugin/vchart/interface';
 import { VChartPluginService } from '../plugin/vchart/plugin-service';
 import { RenderStateEnum } from '../constant/animate';
+import type { ICrossHair } from '../component/crosshair';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -324,11 +325,7 @@ export class VChart implements IVChart {
   get event() {
     return this._event;
   }
-  private _userEvents: {
-    eType: EventType;
-    query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
-    handler?: EventCallback<EventParamsDefinition[EventType]>;
-  }[] = [];
+  private _userEvents: UserEvent[] = [];
   private _eventDispatcher: Maybe<IEventDispatcher>;
   private _dataSet!: Maybe<DataSet>;
   getDataSet() {
@@ -368,6 +365,8 @@ export class VChart implements IVChart {
   private _onResize?: () => void;
 
   private _renderState: RenderStateEnum = RenderStateEnum.render;
+
+  protected _disableDimensionHoverEvent: boolean = false;
 
   constructor(spec: ISpec, options: IInitOption) {
     removeUndefined(options);
@@ -454,7 +453,7 @@ export class VChart implements IVChart {
     // 设置全局字体
     this._setFontFamilyTheme(this.getTheme('fontFamily') as string);
     this._initDataSet(this._option.dataSet);
-    this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
+    this._autoSize = isTrueBrowseEnv ? (spec.autoFit ?? this._option.autoFit ?? true) : false;
     this._bindResizeEvent();
     this._bindViewEvent();
     this._initChartPlugin();
@@ -1521,7 +1520,7 @@ export class VChart implements IVChart {
     }
 
     const lasAutoSize = this._autoSize;
-    this._autoSize = isTrueBrowser(this._option.mode) ? this._spec.autoFit ?? this._option.autoFit ?? true : false;
+    this._autoSize = isTrueBrowser(this._option.mode) ? (this._spec.autoFit ?? this._option.autoFit ?? true) : false;
     if (this._autoSize !== lasAutoSize) {
       resize = true;
     }
@@ -1915,6 +1914,23 @@ export class VChart implements IVChart {
     return this._chart?.setDimensionIndex(value, opt);
   }
 
+  disableDimensionHoverEvent(value?: boolean) {
+    if (value !== undefined) {
+      this._disableDimensionHoverEvent = value;
+    }
+    return this._disableDimensionHoverEvent;
+  }
+  disableCrossHair(value: boolean = true) {
+    this.getChart()
+      .getComponentsByKey('crosshair')
+      .forEach(crosshair => ((crosshair as ICrossHair).enable = !value));
+  }
+  disableTooltip(value: boolean = true) {
+    this.getChart()
+      .getComponentsByKey('tooltip')
+      .forEach(tooltip => ((tooltip as ITooltip).enable = !value));
+  }
+
   showCrosshair(cb: (axis: IAxis) => false | string | number) {
     this._chart?.showCrosshair(cb);
   }
@@ -2259,7 +2275,7 @@ export class VChart implements IVChart {
     };
   }
 
-  public runDisappearAnimation() {
+  runDisappearAnimation() {
     this._renderState = RenderStateEnum.disappear;
     this.getStage().eventSystem.pauseTriggerEvent();
     this.getStage().applyAnimationState(

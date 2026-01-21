@@ -8,7 +8,7 @@ import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/v
 import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, polygonIntersectPolygon, isValid, last } from '@visactor/vutils';
-import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+import type { IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic, IGroup, INode, IPolygon } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
@@ -24,6 +24,7 @@ import { getSpecInfo } from '../util';
 import { brush } from '../../theme/builtin/common/component/brush';
 import { isReverse, statePointToData } from '../data-zoom/util';
 import type { CartesianAxis } from '../axis/cartesian';
+import type { IRenderOption } from '../../compile/interface';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -46,6 +47,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   protected _brushComponents!: BrushComponent[];
   protected _relativeRegions!: IRegion[];
   protected _linkedSeries: ISeries[] = [];
+
+  protected _operateMask: IPolygon;
 
   private _itemMap: { [regionId: string | number]: IMark[] } = {};
   private _linkedItemMap: { [seriesId: string | number]: IMark[] } = {};
@@ -249,6 +252,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     brushComponent.children[0].removeAllChild();
   }
 
+  protected _shouldEnableInteractive() {
+    return (this.getOption().getCompiler().getOption() as IRenderOption).interactive !== false;
+  }
+
   protected _createBrushComponent(region: IRegion, componentIndex: number) {
     const interactiveAttr = this._getBrushInteractiveAttr(region);
     const brush = new BrushComponent({
@@ -265,38 +272,50 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
     brush.addEventListener(BrushEvent.brushActive, (e: any) => {
       this._initMarkBrushState(componentIndex, OUT_BRUSH_STATE);
-      this._emitEvent(ChartEvent.brushActive, region);
+      this._emitEvent(ChartEvent.brushActive, region, e);
     });
 
     brush.addEventListener(BrushEvent.drawStart, (e: any) => {
+      if (this._spec.disableDimensionHoverWhenBrushing) {
+        this._option.globalInstance.disableDimensionHoverEvent(true);
+      }
       this._setRegionMarkPickable(region, true);
-      this._emitEvent(ChartEvent.brushStart, region);
+      this._emitEvent(ChartEvent.brushStart, region, e);
     });
 
     brush.addEventListener(BrushEvent.moveStart, (e: any) => {
+      if (this._spec.disableDimensionHoverWhenBrushing) {
+        this._option.globalInstance.disableDimensionHoverEvent(true);
+      }
       this._setRegionMarkPickable(region, true);
-      this._emitEvent(ChartEvent.brushStart, region);
+      this._emitEvent(ChartEvent.brushStart, region, e);
     });
 
     brush.addEventListener(BrushEvent.drawing, (e: any) => {
       this._setRegionMarkPickable(region, false);
       this._handleBrushChange(region, e);
-      this._emitEvent(ChartEvent.brushChange, region);
+      this._emitEvent(ChartEvent.brushChange, region, e);
     });
 
     brush.addEventListener(BrushEvent.moving, (e: any) => {
       this._setRegionMarkPickable(region, false);
       this._handleBrushChange(region, e);
-      this._emitEvent(ChartEvent.brushChange, region);
+      this._emitEvent(ChartEvent.brushChange, region, e);
     });
 
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
+      if (this._spec.disableDimensionHoverWhenBrushing) {
+        this._option.globalInstance.disableDimensionHoverEvent(false);
+      }
       this._setRegionMarkPickable(region, true);
       this._initMarkBrushState(componentIndex, '');
-      this._emitEvent(ChartEvent.brushClear, region);
+      this._emitEvent(ChartEvent.brushClear, region, e);
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
+      if (this._spec.disableDimensionHoverWhenBrushing) {
+        this._option.globalInstance.disableDimensionHoverEvent(false);
+      }
       this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       const { updateElementsState = true } = this._spec;
@@ -305,21 +324,24 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         if (this._spec.onBrushEnd(e) === true) {
           this.clearGraphic();
           this._initMarkBrushState(componentIndex, '');
-          this._emitEvent(ChartEvent.brushClear, region);
+          this._emitEvent(ChartEvent.brushClear, region, e);
         } else {
           this._spec.onBrushEnd(e);
-          this._emitEvent(ChartEvent.brushEnd, region);
+          this._emitEvent(ChartEvent.brushEnd, region, e);
         }
       } else {
         const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
         if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || !updateElementsState) {
           this._setAxisAndDataZoom(operateMask, region);
         }
-        this._emitEvent(ChartEvent.brushEnd, region);
+        this._emitEvent(ChartEvent.brushEnd, region, e);
       }
     });
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
+      if (this._spec.disableDimensionHoverWhenBrushing) {
+        this._option.globalInstance.disableDimensionHoverEvent(false);
+      }
       this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       const { updateElementsState = true } = this._spec;
@@ -327,7 +349,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || updateElementsState) {
         this._setAxisAndDataZoom(operateMask, region);
       }
-      this._emitEvent(ChartEvent.brushEnd, region);
+      this._emitEvent(ChartEvent.brushEnd, region, e);
     });
   }
 
@@ -346,7 +368,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         maxX: seriesRegionEndX
       },
       xRange: [seriesRegionStartX, seriesRegionEndX],
-      yRange: [seriesRegionStartY, seriesRegionEndY]
+      yRange: [seriesRegionStartY, seriesRegionEndY],
+      interactive: this._shouldEnableInteractive()
     } as BrushInteractiveRangeAttr;
   }
 
@@ -374,6 +397,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   /*** start: event dispatch ***/
   private _handleBrushChange(region: IRegion, e: any) {
     const { operateMask } = e.detail as any;
+    this._operateMask = operateMask;
     const { updateElementsState = true } = this._spec;
     if (updateElementsState) {
       this._reconfigItem(operateMask, region);
@@ -403,7 +427,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return data;
   }
 
-  private _emitEvent(eventType: string, region: IRegion) {
+  private _emitEvent(eventType: string, region: IRegion, e: any) {
     this.event.emit(eventType, {
       model: this,
       value: {
@@ -430,7 +454,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         // 缩放记录
         zoomRecord: this._zoomRecord
       },
-      vchart: this._option?.globalInstance
+      vchart: this._option?.globalInstance,
+      event: e
     });
   }
   /*** end: event dispatch ***/
@@ -766,6 +791,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       });
       this._brushComponents = null;
     }
+  }
+  clearBrushStateAndMask() {
+    this._relativeRegions.forEach((region: IRegion, componentIndex: number) => {
+      this._initMarkBrushState(componentIndex, '');
+      this._brushComponents[componentIndex].children[0].removeAllChild();
+    });
   }
 }
 
