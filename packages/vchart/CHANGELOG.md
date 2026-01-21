@@ -1,6 +1,27 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 25 Dec 2025 10:15:24 GMT and should not be manually modified.
+This log was last generated on Wed, 21 Jan 2026 12:36:39 GMT and should not be manually modified.
+
+## 2.0.13
+Wed, 21 Jan 2026 12:36:39 GMT
+
+### Minor changes
+
+- feat: support fixed pixel step scrolling on wheel event and minimum scrollbar slider height
+
+### Updates
+
+- chore(auto-flow): optimize auto flow
+- fix(react-vchart): fix default registers of CommonChart
+
+
+- feat: add brush api before change
+- git commit -m 'feat: add interactive api
+- feat: add brush clear api and disable dimension hover config. close#4400
+- fix: fix issue of wordCloud
+
+
+- feat: interactive params add event. feat #4421
 
 ## 2.0.11
 Thu, 25 Dec 2025 10:15:24 GMT

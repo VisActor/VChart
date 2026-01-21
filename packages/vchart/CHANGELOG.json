@@ -2,6 +2,41 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.13",
+      "tag": "@visactor/vchart_v2.0.13",
+      "date": "Wed, 21 Jan 2026 12:36:39 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "feat: support fixed pixel step scrolling on wheel event and minimum scrollbar slider height"
+          }
+        ],
+        "none": [
+          {
+            "comment": "chore(auto-flow): optimize auto flow"
+          },
+          {
+            "comment": "fix(react-vchart): fix default registers of CommonChart\n\n"
+          },
+          {
+            "comment": "feat: add brush api before change"
+          },
+          {
+            "comment": "git commit -m 'feat: add interactive api"
+          },
+          {
+            "comment": "feat: add brush clear api and disable dimension hover config. close#4400"
+          },
+          {
+            "comment": "fix: fix issue of wordCloud\n\n"
+          },
+          {
+            "comment": "feat: interactive params add event. feat #4421"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.11",
       "tag": "@visactor/vchart_v2.0.11",
       "date": "Thu, 25 Dec 2025 10:15:24 GMT",
