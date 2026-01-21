@@ -164,8 +164,9 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       range: [this._start, this._end],
       direction: this._isHorizontal ? 'horizontal' : 'vertical',
       delayType: this._spec?.delayType,
-      delayTime: isValid(this._spec?.delayType) ? (this._spec?.delayTime ?? 30) : 0,
+      delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
       realTime: this._spec?.realTime ?? true,
+      minSliderSize: this._spec?.minSliderSize,
       ...this._getComponentAttrs()
     } as ScrollBarAttributes;
   }
