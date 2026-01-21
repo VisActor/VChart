@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: solve ciclePacking valueField field not work",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
