@@ -164,6 +164,12 @@ export interface ILinearAxisSpec {
    * @since 1.12.4
    */
   breaks?: ILinearAxisBreakSpec[];
+  /**
+   * 筛选 dimension 数据， 返回值为筛选后的 dimension 数据
+   * 本选项会影响到 Tooltip， 以及数据选中状态等， 且比 tooltipFilterRange 优先
+   * @since 2..0
+   */
+  dimensionDataFilter?: (datums: Datum[], dimensionFields: string[], value: unknown) => Datum[];
 }
 
 export interface IBandAxisSpec {
