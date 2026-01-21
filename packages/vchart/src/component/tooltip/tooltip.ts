@@ -175,7 +175,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
-    const container = this.tooltipHandler.getRootDom?.();
+    const container = this.tooltipHandler?.getRootDom?.();
 
     if (container) {
       container.addEventListener('pointerenter', () => {
@@ -608,7 +608,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     // 隐藏 tooltip
     const handler = this._spec.handler ?? this.tooltipHandler;
-    if (handler.hideTooltip) {
+    // 防止用户自定义 handler 时，未实现 hideTooltip 方法
+    if (handler?.hideTooltip) {
       const result = handler.hideTooltip.call(handler, params);
       if (!result) {
         this._isTooltipShown = false;
@@ -630,7 +631,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       }
       this._enterable = newEnterable;
 
-      this.tooltipHandler.reInit?.();
+      this.tooltipHandler?.reInit?.();
     } else {
       this._initHandler();
     }
