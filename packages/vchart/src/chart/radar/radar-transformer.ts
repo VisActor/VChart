@@ -2,6 +2,7 @@ import { array } from '../../util';
 import { RoseLikeChartSpecTransformer } from '../polar';
 import type { IRoseChartSpec } from '../rose';
 import { mergeSpec } from '@visactor/vutils-extension';
+import type { IPolarAxisCommonTheme } from '../../component/axis/polar/interface/theme';
 
 export class RadarChartSpecTransformer<
   T extends IRoseChartSpec = IRoseChartSpec
@@ -28,12 +29,17 @@ export class RadarChartSpecTransformer<
 
   transformSpec(spec: T) {
     super.transformSpec(spec);
-    //默认不显示轴的domainLine和Tick
+    // 默认不显示轴的 domainLine 和 Tick, 优先使用 theme 中的配置
     (spec.axes ?? []).forEach((axis: any) => {
       if (axis.orient === 'radius') {
         ['domainLine', 'label', 'tick'].forEach(configName => {
           if (!axis[configName]) {
-            axis[configName] = { visible: false };
+            // 获取 theme 中的配置
+            const theme = this._option.getTheme?.();
+            const themeConfig = theme?.component?.axisRadius;
+            // 如果 theme 中设置了 visible,则使用 theme 的值,否则默认为 false
+            const themeVisible = themeConfig?.[configName as keyof IPolarAxisCommonTheme]?.visible ?? false;
+            axis[configName] = { visible: themeVisible };
           }
         });
         if (!axis.grid) {
