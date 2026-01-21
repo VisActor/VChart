@@ -1,10 +1,10 @@
 # VChart3 Development Guidelines
 
-Auto-generated from all feature plans. Last updated: 2026-01-13
+Auto-generated from all feature plans. Last updated: 2026-01-15
 
 ## Active Technologies
 
-- TypeScript 4.x (001-fix-subtitle-layout-bug)
+- TypeScript 4.9.5 + @visactor/vchart, @visactor/vrender-components (~1.0.37), @visactor/vutils (001-scrollbar-wheel-step)
 
 ## Project Structure
 
@@ -19,11 +19,11 @@ npm test && npm run lint
 
 ## Code Style
 
-TypeScript 4.x: Follow standard conventions
+TypeScript 4.9.5: Follow standard conventions
 
 ## Recent Changes
 
-- 001-fix-subtitle-layout-bug: Added TypeScript 4.x
+- 001-scrollbar-wheel-step: Added TypeScript 4.9.5 + @visactor/vchart, @visactor/vrender-components (~1.0.37), @visactor/vutils
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->
