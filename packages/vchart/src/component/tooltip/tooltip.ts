@@ -608,6 +608,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     // 隐藏 tooltip
     const handler = this._spec.handler ?? this.tooltipHandler;
+    // 防止用户自定义 handler 时，未实现 hideTooltip 方法
     if (handler?.hideTooltip) {
       const result = handler.hideTooltip.call(handler, params);
       if (!result) {
