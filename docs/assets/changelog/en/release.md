@@ -23,8 +23,6 @@
 
 [more detail about v2.0.14](https://github.com/VisActor/VChart/releases/tag/v2.0.14)
 
-[more detail about v2.0.14](https://github.com/VisActor/VChart/releases/tag/v2.0.14)
-
 # v2.0.13
 
 2026-01-08
@@ -230,4 +228,5 @@
 - **@visactor/vchart**: fix `textAlign` not works in tooltip.style.titleLabel, fix [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [more detail about v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
+
 
