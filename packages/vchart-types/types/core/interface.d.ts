@@ -2,7 +2,7 @@ import type { DataSet, IParserOptions } from '@visactor/vdataset';
 import type { Datum, IDataValues, IInitOption, IMarkStateSpec, IPoint, IRegionQuerier, IShowTooltipOption, ISpec, ITooltipHandler, Maybe, MaybeArray, StringOrNumber } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { EventCallback, EventQuery, EventType, ExtendEventParam } from '../event/interface';
+import type { EventCallback, EventParamsDefinition, EventQuery, EventType, ExtendEventParam } from '../event/interface';
 import type { IMark, IMarkDataTransform } from '../mark/interface';
 import type { ISeries } from '../series/interface/series';
 import type { ITheme } from '../theme/interface';
@@ -90,6 +90,9 @@ export interface IVChart {
     getDataSet: () => Maybe<DataSet>;
     getScale: (scaleId: string) => IBaseScale | null;
     setDimensionIndex: (value: StringOrNumber, options?: DimensionIndexOption) => void;
+    disableDimensionHoverEvent: (disabled?: boolean) => void;
+    disableCrossHair: (disabled: boolean) => void;
+    disableTooltip: (disabled: boolean) => void;
     convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean, checkInViewData?: boolean) => IPoint | null;
     convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isRelativeToCanvas?: boolean) => number | null) & ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean) => IPoint | null);
     updateIndicatorDataById: (id: string, datum?: Datum) => void;
@@ -139,4 +142,9 @@ export interface GrammarTransformOption {
     canProgressive?: boolean;
     transform: IMarkDataTransform;
     runType?: 'beforeJoin' | 'afterEncode';
+}
+export interface UserEvent {
+    eType: EventType;
+    query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
+    handler?: EventCallback<EventParamsDefinition[EventType]>;
 }

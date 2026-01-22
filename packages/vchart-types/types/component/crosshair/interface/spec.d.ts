@@ -4,6 +4,7 @@ import type { IAxis } from '../../axis/interface';
 import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
 export interface ICrossHair extends IComponent {
+    enable: boolean;
     clearAxisValue: () => void;
     setAxisValue: (v: StringOrNumber, axis: IAxis) => void;
     layoutByValue: (enableRemain?: boolean) => void;

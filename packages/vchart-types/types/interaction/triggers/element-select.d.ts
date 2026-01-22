@@ -15,10 +15,10 @@ export declare class ElementSelect extends BaseTrigger<IElementSelectOptions> im
         type: import("@visactor/vrender-core").GraphicEventType | import("@visactor/vrender-core").GraphicEventType[];
         handler: (e: BaseEventParams) => void;
     }[];
-    resetAll: () => void;
+    resetAll: (e?: BaseEventParams) => void;
     handleStart: (e: BaseEventParams) => void;
     handleReset: (e: BaseEventParams) => void;
-    start(markGraphic: IMarkGraphic): void;
-    reset(markGraphic: IMarkGraphic): void;
+    start(markGraphic: IMarkGraphic, e?: BaseEventParams): void;
+    reset(markGraphic: IMarkGraphic, e?: BaseEventParams): void;
 }
 export declare const registerElementSelect: () => void;

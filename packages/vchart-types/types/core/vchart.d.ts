@@ -82,6 +82,7 @@ export declare class VChart implements IVChart {
     private _vChartPlugin?;
     private _onResize?;
     private _renderState;
+    protected _disableDimensionHoverEvent: boolean;
     constructor(spec: ISpec, options: IInitOption);
     private _setNewSpec;
     private _getSpecFromOriginalSpec;
@@ -182,6 +183,9 @@ export declare class VChart implements IVChart {
     getComponents(): import("../component/interface").IComponent[];
     getScale(scaleId: string): import("@visactor/vscale").IBaseScale;
     setDimensionIndex(value: StringOrNumber, opt?: DimensionIndexOption): void;
+    disableDimensionHoverEvent(value?: boolean): boolean;
+    disableCrossHair(value?: boolean): void;
+    disableTooltip(value?: boolean): void;
     showCrosshair(cb: (axis: IAxis) => false | string | number): void;
     stopAnimation(): void;
     reRunNormalAnimation(): void;

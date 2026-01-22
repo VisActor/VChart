@@ -41,10 +41,10 @@ interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
 }
 export type ITitleTextSpec = {
     textType?: 'text';
-    text: string | number | string[] | number[];
+    text?: string | number | string[] | number[];
 } | {
     textType: 'rich';
-    text: IRichTextCharacter[];
+    text?: IRichTextCharacter[];
 };
 export type ISubTitleTextSpec = {
     subtextType?: 'text';
