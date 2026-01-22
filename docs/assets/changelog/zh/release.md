@@ -1,3 +1,30 @@
+# v2.0.14
+
+2026-01-22
+
+**🆕 New Features**
+
+- **@visactor/vchart**: Support Brush API and Interactive API by @skie1997 in https://github.com/VisActor/VChart/pull/4408
+- **@visactor/vchart**: Support fixed pixel step scrolling on wheel event and minimum scrollbar slider height by @xuefei1313 in https://github.com/VisActor/VChart/pull/4423
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: Fix React VChart component registration logic by @xile611 in https://github.com/VisActor/VChart/pull/4419
+- **@visactor/vchart**: Upgrade `vrender` dependency to fix Word Cloud chart issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4422
+- **@visactor/vchart**: Fix tooltip display issue in Map charts by @xuefei1313 in https://github.com/VisActor/VChart/pull/4417
+- **@visactor/vchart**: Fix subtitle layout bug by @xuefei1313 in https://github.com/VisActor/VChart/pull/4415
+- **@visactor/vchart**: Add protection code for tooltip handler to prevent errors by @skie1997 in https://github.com/VisActor/VChart/pull/4424
+
+**🔨 Chores**
+
+- **@visactor/vchart**: Update GH CLI and usage documentation by @xuefei1313 in https://github.com/VisActor/VChart/pull/4409
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.13...v2.0.14
+
+[more detail about v2.0.14](https://github.com/VisActor/VChart/releases/tag/v2.0.14)
+
+[更多详情请查看 v2.0.14](https://github.com/VisActor/VChart/releases/tag/v2.0.14)
+
 # v2.0.13
 
 2026-01-08
