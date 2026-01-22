@@ -35,6 +35,14 @@ export interface IScrollBarSpec extends IDataFilterComponentSpec, IScrollBarStyl
    * 滑块限制的滚动范围，数值为 0 - 1
    */
   limitRange?: [number, number];
+  /**
+   * 鼠标滚轮滚动的像素距离
+   */
+  scrollStep?: number;
+  /**
+   * 滑块最小尺寸
+   */
+  minSliderSize?: number;
 }
 
 export type IScrollBarCommonTheme = ILayoutItemSpec &

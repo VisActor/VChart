@@ -15,7 +15,7 @@ import type {
 } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { EventCallback, EventQuery, EventType, ExtendEventParam } from '../event/interface';
+import type { EventCallback, EventParamsDefinition, EventQuery, EventType, ExtendEventParam } from '../event/interface';
 import type { IMark, IMarkDataTransform } from '../mark/interface';
 import type { ISeries } from '../series/interface/series';
 import type { ITheme } from '../theme/interface';
@@ -451,6 +451,22 @@ export interface IVChart {
    */
   setDimensionIndex: (value: StringOrNumber, options?: DimensionIndexOption) => void;
 
+  /**
+   * 如果传入参数, 则禁用/开启 dimension 交互事件
+   * 如果不传入参数, 获取当前是否禁用 dimension 交互事件
+   */
+  disableDimensionHoverEvent: (disabled?: boolean) => void;
+
+  /**
+   * 禁用/开启 crosshair
+   */
+  disableCrossHair: (disabled: boolean) => void;
+
+  /**
+   * 禁用/开启 tooltip
+   */
+  disableTooltip: (disabled: boolean) => void;
+
   // 数据转换相关的 api
   /**
    * Convert the data to coordinate position
@@ -592,7 +608,10 @@ export interface VRenderComponentOptions {
 }
 
 export interface IStageEventPlugin<T> {
-  new (taget: IEventTarget, cfg?: T): {
+  new (
+    taget: IEventTarget,
+    cfg?: T
+  ): {
     release: () => void;
   };
 }
@@ -602,4 +621,10 @@ export interface GrammarTransformOption {
   canProgressive?: boolean;
   transform: IMarkDataTransform;
   runType?: 'beforeJoin' | 'afterEncode';
+}
+
+export interface UserEvent {
+  eType: EventType;
+  query: EventQuery | EventCallback<EventParamsDefinition[EventType]>;
+  handler?: EventCallback<EventParamsDefinition[EventType]>;
 }

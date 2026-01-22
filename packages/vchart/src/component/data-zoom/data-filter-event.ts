@@ -1,4 +1,4 @@
-import { clamp, abs, merge, mixin, isValid, isBoolean } from '@visactor/vutils';
+import { clamp, abs, merge, mixin, isValid, isBoolean, isValidNumber } from '@visactor/vutils';
 import type { IRoamDragSpec, IRoamScrollSpec, IRoamZoomSpec } from './interface';
 import type { BaseEventParams, IEvent } from '../../event/interface';
 import type { IDataZoomSpec } from './data-zoom/interface';
@@ -118,7 +118,7 @@ export class DataFilterEvent {
 
   initZoomEvent = () => {
     const delayType: IDelayType = this._spec?.delayType ?? 'throttle';
-    const delayTime = isValid(this._spec?.delayType) ? (this._spec?.delayTime ?? 30) : 0;
+    const delayTime = isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0;
     const realTime = this._spec?.realTime ?? true;
     const option = { delayType, delayTime, realTime, allowComponentZoom: true };
     if (this._zoomAttr.enable) {
@@ -180,6 +180,12 @@ export class DataFilterEvent {
     }
 
     if (active) {
+      const scrollStep = (this._spec as any).scrollStep;
+      if (isValidNumber(scrollStep)) {
+        const sign = value > 0 ? 1 : -1;
+        const scrollStepPercent = (scrollStep * (this.getState().end - this.getState().start)) / 1;
+        value = sign * scrollStepPercent;
+      }
       this.handleChartMove(value, this._scrollAttr.rate ?? 1);
     }
 

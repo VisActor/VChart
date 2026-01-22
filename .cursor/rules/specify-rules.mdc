@@ -1,0 +1,29 @@
+# VChart3 Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2026-01-15
+
+## Active Technologies
+
+- TypeScript 4.9.5 + @visactor/vchart, @visactor/vrender-components (~1.0.37), @visactor/vutils (001-scrollbar-wheel-step)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+npm test && npm run lint
+
+## Code Style
+
+TypeScript 4.9.5: Follow standard conventions
+
+## Recent Changes
+
+- 001-scrollbar-wheel-step: Added TypeScript 4.9.5 + @visactor/vchart, @visactor/vrender-components (~1.0.37), @visactor/vutils
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
