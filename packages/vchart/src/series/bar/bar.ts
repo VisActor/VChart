@@ -775,6 +775,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
 
     const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
+    const barWidth = this._getBarWidth(axisHelper, depth);
     const size = depth === depthFromSpec ? (this._barMark.getAttribute(sizeAttribute, datum) as number) : bandWidth;
 
     if (depth > 1 && isValid(this._spec.barGapInGroup)) {
@@ -789,7 +790,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         // const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
         const groupValues = axisHelper.getScale(index)?.domain() ?? [];
         const groupCount = groupValues.length;
-        const gap = getActualNumValue(barInGroup[index - 1] ?? last(barInGroup), bandWidth);
+        const gap = getActualNumValue(barInGroup[index - 1] ?? last(barInGroup), barWidth);
         const i = groupValues.indexOf(datum[groupField]);
         if (index === groupFields.length - 1) {
           totalWidth += groupCount * size + (groupCount - 1) * gap;
