@@ -69,9 +69,6 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
     item.background = transformComponentStyle(item.background);
   }
 
-  if (isPercent(item.maxWidth)) {
-    item.maxWidth = (Number(item.maxWidth.substring(0, item.maxWidth.length - 1)) * rect.width) / 100;
-  }
   if (isPercent(item.width)) {
     item.width = (Number(item.width.substring(0, item.width.length - 1)) * rect.width) / 100;
   }

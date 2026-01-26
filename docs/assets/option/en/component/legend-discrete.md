@@ -96,7 +96,23 @@ Line spacing for legend items, vertical spacing.
 
 #### maxWidth(number|string)
 
-The maximum width of the legend item, defaults to null. a percentage can be used to indicate the percentage of the width of the display area.
+The maximum width of the legend item, defaults to null. A percentage can be used to indicate the percentage of the legend content area width (excluding pager width).
+
+Example:
+
+```ts
+legends: [
+  {
+    type: 'discrete',
+    item: {
+      maxWidth: '50%'
+    },
+    pager: {
+      handler: {}
+    }
+  }
+]
+```
 
 #### width(number|string)
 

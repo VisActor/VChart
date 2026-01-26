@@ -3,6 +3,7 @@
 Auto-generated from all feature plans. Last updated: 2026-01-15
 
 ## Active Technologies
+- TypeScript 4.9+ + `@visactor/vchart` (internal), `@visactor/vrender-components` (002-legend-item-maxwidth)
 
 - TypeScript 4.9.5 + @visactor/vchart, @visactor/vrender-components (~1.0.37), @visactor/vutils (001-scrollbar-wheel-step)
 
@@ -22,6 +23,7 @@ npm test && npm run lint
 TypeScript 4.9.5: Follow standard conventions
 
 ## Recent Changes
+- 002-legend-item-maxwidth: Added TypeScript 4.9+ + `@visactor/vchart` (internal), `@visactor/vrender-components`
 
 - 001-scrollbar-wheel-step: Added TypeScript 4.9.5 + @visactor/vchart, @visactor/vrender-components (~1.0.37), @visactor/vutils
 

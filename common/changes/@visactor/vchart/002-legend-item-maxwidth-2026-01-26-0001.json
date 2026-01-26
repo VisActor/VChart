@@ -1,0 +1,9 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: resolve legend item maxWidth percentage relative to content area",
+      "type": "patch"
+    }
+  ]
+}

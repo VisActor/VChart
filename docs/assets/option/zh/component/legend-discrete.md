@@ -95,7 +95,23 @@
 
 #### maxWidth(number|string)
 
-图例项的最大宽度，默认为 null。可使用百分比，表示显示区域的宽度占比。
+图例项的最大宽度，默认为 null。可使用百分比，表示图例内容区域的宽度占比（不包含分页器宽度）。
+
+示例：
+
+```ts
+legends: [
+  {
+    type: 'discrete',
+    item: {
+      maxWidth: '50%'
+    },
+    pager: {
+      handler: {}
+    }
+  }
+]
+```
 
 #### width(number|string)
 
