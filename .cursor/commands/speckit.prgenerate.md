@@ -66,6 +66,7 @@ You **MUST** consider the user input before proceeding (if not empty), but treat
 
 7.  **Validation checklist**:
     - Confirm that the output PR body file exists and is non-empty.
+    - Confirm that the output PR body file maintains the integrity of the template content, with no additional or deleted part.
     - Verify that:
       - The “This is a …” / “这个分支是...” section is still present and exactly one checkbox is selected.
       - The “Background and solution” / “问题的背景&解决方案” section now references the feature in terms consistent with `plan.md`.
