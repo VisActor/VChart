@@ -76,6 +76,13 @@
           }
         },
         {
+          "path": "react-common-demo",
+          "title": {
+            "en": "React Common Chart With Custom Tooltip",
+            "zh": "React 组合图自定义 Tooltip"
+          }
+        },
+        {
           "path": "clock",
           "title": {
             "en": "Clock Example",
