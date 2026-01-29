@@ -3,6 +3,7 @@
 Auto-generated from all feature plans. Last updated: 2026-01-15
 
 ## Active Technologies
+- TypeScript/React 18 + @visactor/react-vchart, @visactor/vchar (001-react-vchart-demo)
 
 - TypeScript 4.9.5 + @visactor/vchart, @visactor/vrender-components (~1.0.37), @visactor/vutils (001-scrollbar-wheel-step)
 
@@ -22,6 +23,8 @@ npm test && npm run lint
 TypeScript 4.9.5: Follow standard conventions
 
 ## Recent Changes
+- 001-react-vchart-demo: Added TypeScript/React 18 + @visactor/react-vchart, @visactor/vchar
+- 001-react-vchart-demo: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
 - 001-scrollbar-wheel-step: Added TypeScript 4.9.5 + @visactor/vchart, @visactor/vrender-components (~1.0.37), @visactor/vutils
 

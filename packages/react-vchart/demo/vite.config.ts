@@ -1,4 +1,5 @@
-import { UserConfig, defineConfig } from 'vite';
+import type { UserConfig } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
@@ -26,6 +27,7 @@ export default defineConfig({
     alias: {
       '@visactor/vchart': path.resolve(__dirname, '../../vchart/src/index.ts'),
       '@visactor/vutils-extension': path.resolve(__dirname, '../../vutils-extension/src/index.ts'),
+      '@visactor/vchart-extension': path.resolve(__dirname, '../../vchart-extension/src/index.ts'),
       ...localConf.resolve?.alias
     }
   }
