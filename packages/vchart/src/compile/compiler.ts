@@ -501,8 +501,8 @@ export class Compiler implements ICompiler {
     const animationState = markAnimationStates.every(state => state === AnimationStateEnum.appear)
       ? AnimationStateEnum.appear
       : markAnimationStates.every(state => state === AnimationStateEnum.disappear)
-        ? AnimationStateEnum.disappear
-        : AnimationStateEnum.none;
+      ? AnimationStateEnum.disappear
+      : AnimationStateEnum.none;
     if (!this._stage.context) {
       this._stage.context = {};
     }
@@ -811,6 +811,7 @@ export class Compiler implements ICompiler {
     } else if (this._progressiveMarks && this._progressiveMarks.every(mark => mark.canAnimateAfterProgressive())) {
       this._progressiveMarks.forEach(mark => {
         mark.runAnimation();
+        mark.clearExitGraphics();
       });
     } else if (this._progressiveMarks) {
       this._progressiveMarks = null;
