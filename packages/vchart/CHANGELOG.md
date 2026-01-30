@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 21 Jan 2026 12:36:39 GMT and should not be manually modified.
+This log was last generated on Fri, 30 Jan 2026 03:53:56 GMT and should not be manually modified.
+
+## 2.0.14
+Fri, 30 Jan 2026 03:53:56 GMT
+
+### Updates
+
+- fix: fix issue of wordCloud
+
+
+- fix: fix style of react-vchart tooltip render
+
+
 
 ## 2.0.13
 Wed, 21 Jan 2026 12:36:39 GMT
