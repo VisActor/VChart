@@ -1,4 +1,4 @@
-import { ISequenceScatterKDESpec } from './interface';
+import type { ISequenceScatterKDESpec } from './interface';
 import { VChart, BaseChart, ScatterChart } from '@visactor/vchart';
 import { SequenceScatterKDEChartSpecTransformer } from './sequence-scatter-kde-transformer';
 

@@ -1,5 +1,5 @@
 import { BaseComponentSpecTransformer } from '@visactor/vchart';
-import { IMapLabelSpec, IMapLabelStyleSpec } from './type';
+import type { IMapLabelSpec, IMapLabelStyleSpec } from './type';
 import { mapLabel } from './theme';
 
 export class MapLabelSpecTransformer<

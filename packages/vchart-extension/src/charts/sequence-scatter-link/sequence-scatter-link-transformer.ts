@@ -1,4 +1,4 @@
-import { Datum } from '@visactor/vchart/src/typings';
+import type { Datum } from '@visactor/vchart/src/typings';
 import type { ISequenceScatterLinkSpec } from './interface';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
 
@@ -11,7 +11,7 @@ export class SequenceScatterLinkChartSpecTransformer extends CommonChartSpecTran
   transformSpec(spec: any): void {
     super.transformSpec(spec);
     const dataSpecs = processSequenceData(spec as unknown as ISequenceScatterLinkSpec);
-    const showTooltip = spec.taskType === 'neighborhood' ? false : true;
+    const showTooltip = spec.taskType !== 'neighborhood';
 
     spec.type = 'common';
 
@@ -76,9 +76,8 @@ export class SequenceScatterLinkChartSpecTransformer extends CommonChartSpecTran
             lineDash: (datum: { type: string }) => {
               if (datum.type === 'same_type') {
                 return [0, 0];
-              } else {
-                return [3, 2];
               }
+              return [3, 2];
             },
             lineWidth: 0.8,
             strokeOpacity: 0.6
@@ -122,7 +121,7 @@ export class SequenceScatterLinkChartSpecTransformer extends CommonChartSpecTran
           visible: true,
           style: {
             visible: () => {
-              return spec.taskType == 'neighborhood';
+              return spec.taskType === 'neighborhood';
             },
             type: 'text',
             fontFamily: 'Console',
