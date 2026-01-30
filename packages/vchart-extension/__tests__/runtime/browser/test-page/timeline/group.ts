@@ -64,7 +64,7 @@ const getDatumString = (datum: Datum | undefined, key: string) => {
 const spec: ITimelineChartSpec = {
   type: 'timeline',
   name: 'timeline-group',
-  layoutType: 'horizontal',
+  direction: 'horizontal',
   padding: {
     left: 80,
     right: 40,

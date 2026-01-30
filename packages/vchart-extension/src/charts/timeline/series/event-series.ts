@@ -1,8 +1,7 @@
 import type { StringOrNumber } from '@visactor/vchart';
 import {
   AttributeLevel,
-  BaseSeries,
-  DEFAULT_DATA_KEY,
+  CartesianSeries,
   Factory,
   MarkTypeEnum,
   SeriesMarkNameEnum,
@@ -19,20 +18,14 @@ import {
 } from '@visactor/vchart';
 import { EVENT_SERIES_TYPE } from './constant';
 import type { IEventSeriesSpec, LabelPosition } from './interface';
+import { event } from './theme';
 
 type AxisHelper = {
   isContinuous?: boolean;
   getSpec?: () => { type?: string };
-  dataToPosition?: (values: any[], cfg?: { bandPosition?: number }) => number;
-  valueToPosition?: (value: any) => number;
+  dataToPosition?: (values: unknown[], cfg?: { bandPosition?: number }) => number;
+  valueToPosition?: (value: unknown) => number;
 };
-
-/** 默认 title 字体大小 */
-const DEFAULT_TITLE_FONT_SIZE = 14;
-/** 默认 dot 和 label 之间的间距 */
-const DEFAULT_DOT_LABEL_GAP = 6;
-/** 默认 title 和 subTitle 之间的间距 */
-const DEFAULT_TITLE_SUBTITLE_GAP = 4;
 
 const eventSeriesMark: SeriesMarkMap = {
   ...baseSeriesMark,
@@ -42,13 +35,16 @@ const eventSeriesMark: SeriesMarkMap = {
   [SeriesMarkNameEnum.subTitle]: { name: SeriesMarkNameEnum.subTitle, type: MarkTypeEnum.text }
 };
 
-export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends BaseSeries<T> {
+export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = EVENT_SERIES_TYPE;
   type = EVENT_SERIES_TYPE as any;
 
   static readonly mark: SeriesMarkMap = eventSeriesMark;
+  static readonly builtInTheme = { event };
   static readonly transformerConstructor = BaseSeriesSpecTransformer as any;
   readonly transformerConstructor = BaseSeriesSpecTransformer as any;
+
+  readonly coordinate: 'cartesian' = 'cartesian';
 
   protected declare _spec: T;
 
@@ -60,12 +56,9 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   private _timeField?: string;
   private _eventField?: string;
   private _subTitleField?: string;
-  private _layoutType?: T['layoutType'];
   private _labelPosition?: LabelPosition;
-  private _xAxisHelper?: AxisHelper;
-  private _yAxisHelper?: AxisHelper;
-  private _scaleX?: unknown;
-  private _scaleY?: unknown;
+  private _dotLabelGap?: number;
+  private _titleSubTitleGap?: number;
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
@@ -73,8 +66,9 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     this._timeField = this._spec.timeField as string | undefined;
     this._eventField = this._spec.eventField;
     this._subTitleField = this._spec.subTitleField;
-    this._layoutType = this._spec.layoutType;
     this._labelPosition = this._spec.labelPosition;
+    this._dotLabelGap = this._spec.dotLabelGap ?? 6;
+    this._titleSubTitleGap = this._spec.titleSubTitleGap ?? 4;
   }
 
   getDimensionField(): string[] {
@@ -127,10 +121,10 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     const subTitleStyle = this._spec.subTitle?.style ?? {};
 
     // 获取 title 字体大小，用于计算 subTitle 的位置
-    const titleFontSize = typeof titleStyle.fontSize === 'number' ? titleStyle.fontSize : DEFAULT_TITLE_FONT_SIZE;
+    const titleFontSize = typeof titleStyle.fontSize === 'number' ? titleStyle.fontSize : 14;
 
     // dot 和 label 之间的间距
-    const labelOffset = dotSize / 2 + DEFAULT_DOT_LABEL_GAP;
+    const labelOffset = dotSize / 2 + (this._dotLabelGap ?? 6);
 
     if (this._dotMark) {
       this.setMarkStyle(
@@ -150,12 +144,12 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
       this.setMarkStyle(
         this._titleMark,
         {
-          fontSize: DEFAULT_TITLE_FONT_SIZE,
+          fontSize: 14,
           ...titleStyle,
           x: (datum: Datum) => this._getTitlePosition(datum, labelOffset).x,
           y: (datum: Datum) => this._getTitlePosition(datum, labelOffset).y,
           textAlign: (datum: Datum) => this._getLabelTextAlign(datum),
-          textBaseline: (datum: Datum) => this._getLabelTextBaseline(datum),
+          textBaseline: (datum: Datum) => this._getLabelTextBaseline(datum, true),
           text: (datum: Datum) => this._getDatumString(datum, this._eventField)
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
@@ -164,17 +158,14 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     }
 
     if (this._subTitleMark) {
-      // subTitle 位置 = title 位置 + title 字体大小 + 间距
-      const subTitleOffset = labelOffset + titleFontSize + DEFAULT_TITLE_SUBTITLE_GAP;
-
       this.setMarkStyle(
         this._subTitleMark,
         {
           ...subTitleStyle,
-          x: (datum: Datum) => this._getSubTitlePosition(datum, subTitleOffset).x,
-          y: (datum: Datum) => this._getSubTitlePosition(datum, subTitleOffset).y,
+          x: (datum: Datum) => this._getSubTitlePosition(datum, labelOffset, titleFontSize).x,
+          y: (datum: Datum) => this._getSubTitlePosition(datum, labelOffset, titleFontSize).y,
           textAlign: (datum: Datum) => this._getLabelTextAlign(datum),
-          textBaseline: (datum: Datum) => this._getLabelTextBaseline(datum),
+          textBaseline: (datum: Datum) => this._getLabelTextBaseline(datum, false),
           text: (datum: Datum) => this._getDatumString(datum, this._subTitleField)
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
@@ -192,7 +183,7 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     const index = data.indexOf(datum);
     const position = this._labelPosition;
 
-    if (this._layoutType === 'vertical') {
+    if (this.direction === 'vertical') {
       // vertical 布局: left/right
       switch (position) {
         case 'left':
@@ -227,7 +218,7 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
    * 获取标签的文本对齐方式
    */
   private _getLabelTextAlign(datum: Datum): 'left' | 'right' | 'center' {
-    if (this._layoutType === 'vertical') {
+    if (this.direction === 'vertical') {
       const side = this._getLabelSide(datum);
       return side === 'primary' ? 'right' : 'left';
     }
@@ -237,9 +228,10 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   /**
    * 获取标签的文本基线
    */
-  private _getLabelTextBaseline(datum: Datum): 'top' | 'bottom' | 'middle' {
-    if (this._layoutType === 'vertical') {
-      return 'middle';
+  private _getLabelTextBaseline(datum: Datum, isTitle: boolean): 'top' | 'bottom' | 'middle' {
+    if (this.direction === 'vertical') {
+      // vertical 布局时：title 用 top，subTitle 用 top
+      return 'top';
     }
     const side = this._getLabelSide(datum);
     return side === 'primary' ? 'bottom' : 'top';
@@ -252,8 +244,8 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     const point = this._getPoint(datum);
     const side = this._getLabelSide(datum);
 
-    if (this._layoutType === 'vertical') {
-      // vertical: left/right
+    if (this.direction === 'vertical') {
+      // vertical: left/right，标签垂直排列
       return {
         x: side === 'primary' ? point.x - offset : point.x + offset,
         y: point.y
@@ -269,21 +261,28 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   /**
    * 获取 subTitle 的位置
    */
-  private _getSubTitlePosition(datum: Datum, offset: number): IPoint {
+  private _getSubTitlePosition(datum: Datum, offset: number, titleFontSize: number): IPoint {
     const point = this._getPoint(datum);
     const side = this._getLabelSide(datum);
 
-    if (this._layoutType === 'vertical') {
-      // vertical: left/right
+    if (this.direction === 'vertical') {
+      // vertical: left/right，subTitle 在 title 下方
+      // offset 是 title 的偏移，subTitle 需要在 title 基础上再向下偏移
+      const titleStyle = this._spec.title?.style ?? {};
+      const titleLineHeight = typeof titleStyle.lineHeight === 'number' ? titleStyle.lineHeight : titleFontSize * 1.2;
+
       return {
         x: side === 'primary' ? point.x - offset : point.x + offset,
-        y: point.y
+        y: point.y + titleLineHeight + this._titleSubTitleGap
       };
     }
     // horizontal: top/bottom
     return {
       x: point.x,
-      y: side === 'primary' ? point.y - offset : point.y + offset
+      y:
+        side === 'primary'
+          ? point.y - (offset + titleFontSize + this._titleSubTitleGap)
+          : point.y + (offset + titleFontSize + this._titleSubTitleGap)
     };
   }
 
@@ -292,81 +291,92 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   }
 
   private _getPoint(datum: Datum): IPoint {
+    if (this.direction === 'vertical') {
+      // vertical 布局：x 轴是分类方向（seriesField），y 轴是时间方向（timeField）
+      const x = this._getPositionFromAxis(datum, this.getXAxisHelper(), this._seriesField);
+      const y = this._getPositionFromAxis(datum, this.getYAxisHelper(), this._timeField);
+      return { x, y };
+    }
+
+    // horizontal 布局：x 轴是时间方向（timeField），y 轴是分类方向（seriesField）
+    const x = this._getPositionFromAxis(datum, this.getXAxisHelper(), this._timeField);
+    const y = this._getPositionFromAxis(datum, this.getYAxisHelper(), this._seriesField);
+    return { x, y };
+  }
+
+  /**
+   * 根据轴的类型计算位置
+   * @param datum 数据项
+   * @param axisHelper 轴助手
+   * @param field 字段名
+   * @returns 位置值
+   */
+  private _getPositionFromAxis(datum: Datum, axisHelper: AxisHelper | undefined, field?: string): number {
+    if (!axisHelper) {
+      // 如果没有轴助手，使用默认的中间位置
+      return this._getDefaultPosition(field);
+    }
+
+    if (!field || !(field in datum)) {
+      // 如果没有字段或数据中没有该字段，使用默认位置
+      return this._getDefaultPosition(field);
+    }
+
+    const value = (datum as Record<string, unknown>)[field];
+    const axisType = axisHelper.getSpec?.()?.type;
+
+    // 根据轴类型选择不同的计算方式
+    if (axisType === 'band' || !axisHelper.isContinuous) {
+      // band 轴：使用 dataToPosition，传入值数组
+      return axisHelper.dataToPosition?.([value], { bandPosition: 0.5 }) ?? this._getDefaultPosition(field);
+    }
+
+    // linear/time 轴：使用 valueToPosition，直接传入值
+    return axisHelper.valueToPosition?.(value) ?? this._getDefaultPosition(field);
+  }
+
+  onXAxisHelperUpdate(): void {
+    super.onXAxisHelperUpdate?.();
+    this.onMarkPositionUpdate();
+  }
+
+  onYAxisHelperUpdate(): void {
+    super.onYAxisHelperUpdate?.();
+    this.onMarkPositionUpdate();
+  }
+
+  /**
+   * 获取默认位置（当没有轴或字段时使用）
+   */
+  private _getDefaultPosition(field?: string): number {
     const rect = this._region.getLayoutRect();
-    const data = this._getViewDataList();
-    const index = data.indexOf(datum);
-    const count = Math.max(1, data.length);
 
-    // 计算时间方向的位置 (水平布局时是 x，垂直布局时是 y)
-    let timePercent: number;
-    if (this._timeField && datum) {
-      const timeValue = (datum as Record<string, unknown>)[this._timeField];
-      if (typeof timeValue === 'number') {
-        // 获取所有时间值来计算范围
-        const timeValues = data
-          .map(d => (d as Record<string, unknown>)[this._timeField!] as number)
-          .filter(v => typeof v === 'number');
-        const minTime = Math.min(...timeValues);
-        const maxTime = Math.max(...timeValues);
-
-        if (maxTime !== minTime) {
-          timePercent = (timeValue - minTime) / (maxTime - minTime);
-        } else {
-          timePercent = 0.5;
-        }
-      } else {
-        timePercent = (index + 0.5) / count;
-      }
-    } else {
-      timePercent = (index + 0.5) / count;
+    // 如果没有 seriesField，说明没有分类轴，返回中心位置
+    if (!this._seriesField || field === this._seriesField) {
+      const isHorizontal = this.direction !== 'vertical';
+      // horizontal 布局：返回垂直中心（y方向）
+      // vertical 布局：返回水平中心（x方向）
+      return isHorizontal ? rect.height * 0.5 : rect.width * 0.5;
     }
 
-    // 计算分类方向的位置（如果有 seriesField）
-    let categoryPercent = 0.5;
-    if (this._seriesField && datum) {
-      const categoryValue = (datum as Record<string, unknown>)[this._seriesField];
-      const uniqueCategories = Array.from(new Set(data.map(d => (d as Record<string, unknown>)[this._seriesField!])));
-      const categoryIndex = uniqueCategories.indexOf(categoryValue);
-      const categoryCount = Math.max(1, uniqueCategories.length);
-      categoryPercent = (categoryIndex + 0.5) / categoryCount;
-    }
-
-    if (this._layoutType === 'vertical') {
-      return {
-        x: rect.width * categoryPercent,
-        y: rect.height * timePercent
-      };
-    }
-
-    return {
-      x: rect.width * timePercent,
-      y: rect.height * categoryPercent
-    };
+    // 对于时间轴，返回区域起点
+    return 0;
   }
 
   private _getAxisPoints(datum: Datum): IPoint[] {
     const rect = this._region.getLayoutRect();
-    const data = this._getViewDataList();
 
-    // 计算分类方向的位置
-    let categoryPercent = 0.5;
-    if (this._seriesField && datum) {
-      const categoryValue = (datum as Record<string, unknown>)[this._seriesField];
-      const uniqueCategories = Array.from(new Set(data.map(d => (d as Record<string, unknown>)[this._seriesField!])));
-      const categoryIndex = uniqueCategories.indexOf(categoryValue);
-      const categoryCount = Math.max(1, uniqueCategories.length);
-      categoryPercent = (categoryIndex + 0.5) / categoryCount;
-    }
-
-    if (this._layoutType === 'vertical') {
-      const x = rect.width * categoryPercent;
+    if (this.direction === 'vertical') {
+      // vertical 布局：轴是垂直的，x 位置根据 seriesField 计算
+      const x = this._getPositionFromAxis(datum, this.getXAxisHelper(), this._seriesField);
       return [
         { x, y: 0 },
         { x, y: rect.height }
       ];
     }
 
-    const y = rect.height * categoryPercent;
+    // horizontal 布局：轴是水平的，y 位置根据 seriesField 计算
+    const y = this._getPositionFromAxis(datum, this.getYAxisHelper(), this._seriesField);
     return [
       { x: 0, y },
       { x: rect.width, y }
@@ -383,7 +393,9 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     const categoryValue = (datum as Record<string, unknown>)[this._seriesField];
 
     // 找到该分类中的第一条数据
-    const firstInGroup = data.find(d => (d as Record<string, unknown>)[this._seriesField!] === categoryValue);
+    const firstInGroup = data.find(
+      d => this._seriesField && (d as Record<string, unknown>)[this._seriesField] === categoryValue
+    );
     return datum === firstInGroup;
   }
 
@@ -393,70 +405,6 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     }
     const value = (datum as Record<string, unknown>)[field];
     return typeof value === 'string' ? value : value == null ? '' : String(value);
-  }
-
-  getStatisticFields(): { key: string; operations: Array<'max' | 'min' | 'values'>; customize?: any[] }[] {
-    const fields: { key: string; operations: Array<'max' | 'min' | 'values'>; customize?: any[] }[] = [];
-
-    if (this._timeField) {
-      fields.push({ key: this._timeField, operations: ['max', 'min', 'values'] });
-    }
-
-    if (this._seriesField) {
-      fields.push({ key: this._seriesField, operations: ['values'] });
-    }
-
-    return fields;
-  }
-
-  getGroupFields(): string[] {
-    return this._seriesField ? [this._seriesField] : [];
-  }
-
-  getXAxisHelper(): AxisHelper | undefined {
-    return this._xAxisHelper;
-  }
-
-  setXAxisHelper(h: AxisHelper) {
-    this._xAxisHelper = h;
-    this.onMarkPositionUpdate();
-  }
-
-  get scaleX(): unknown {
-    return this._scaleX;
-  }
-
-  setScaleX(s: unknown) {
-    this._scaleX = s;
-  }
-
-  getYAxisHelper(): AxisHelper | undefined {
-    return this._yAxisHelper;
-  }
-
-  setYAxisHelper(h: AxisHelper) {
-    this._yAxisHelper = h;
-    this.onMarkPositionUpdate();
-  }
-
-  get scaleY(): unknown {
-    return this._scaleY;
-  }
-
-  setScaleY(s: unknown) {
-    this._scaleY = s;
-  }
-
-  dataToPosition(data: Datum): IPoint {
-    return this._getPoint(data);
-  }
-
-  dataToPositionX(data: Datum): number {
-    return this._getPoint(data).x;
-  }
-
-  dataToPositionY(data: Datum): number {
-    return this._getPoint(data).y;
   }
 
   valueToPosition(timeValue: StringOrNumber, eventValue?: StringOrNumber): IPoint {
@@ -472,14 +420,6 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
       mockDatum[this._eventField] = eventValue;
     }
     return this._getPoint(mockDatum as Datum);
-  }
-
-  getStackGroupFields(): string[] {
-    return [];
-  }
-
-  getStackValueField(): string | undefined {
-    return undefined;
   }
 
   getActiveMarks(): IMark[] {

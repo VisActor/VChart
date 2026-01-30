@@ -70,7 +70,7 @@ const getDatumString = (datum: Datum | undefined, key: string) => {
 const spec: ITimelineChartSpec = {
   type: 'timeline',
   name: 'timeline-vertical',
-  layoutType: 'vertical',
+  direction: 'vertical',
   data: [
     {
       id: 'timeline-data',
