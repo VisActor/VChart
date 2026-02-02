@@ -80,7 +80,14 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   }
 
   getMeasureField(): string[] {
-    return [];
+    const fields: string[] = [];
+    if (this._eventField) {
+      fields.push(this._eventField);
+    }
+    if (this._subTitleField) {
+      fields.push(this._subTitleField);
+    }
+    return fields;
   }
 
   initMark(): void {
@@ -104,6 +111,17 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     this._titleMark = this._createMark(EventSeries.mark.title);
 
     this._subTitleMark = this._createMark(EventSeries.mark.subTitle);
+  }
+
+  protected initTooltip() {
+    super.initTooltip();
+
+    // 将 dot、icon 和 arrow mark 添加到 tooltip 触发器集合中
+    this._dotMark && this._tooltipHelper.activeTriggerSet.mark.add(this._dotMark);
+    this._titleMark && this._tooltipHelper.activeTriggerSet.mark.add(this._titleMark);
+    this._subTitleMark && this._tooltipHelper.activeTriggerSet.mark.add(this._subTitleMark);
+    this._iconMark && this._tooltipHelper.activeTriggerSet.mark.add(this._iconMark);
+    this._arrowMark && this._tooltipHelper.activeTriggerSet.mark.add(this._arrowMark);
   }
 
   initMarkStyle(): void {
