@@ -64,6 +64,12 @@ export class TimelineChartSpecTransformer<
           visible: false
         }
       },
+      orientNormalized === 'left' || orientNormalized === 'right'
+        ? {
+            inverse: true
+          }
+        : {},
+      typeNormalized === 'band' ? { paddingInner: 0, paddingOuter: 0 } : {},
       {
         ...((rawAxis ?? {}) as ICartesianAxisSpec),
         orient: orientNormalized,

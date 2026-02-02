@@ -9,6 +9,7 @@ import {
   registerSymbolMark,
   registerTextMark,
   registerLineMark,
+  registerPathMark,
   STATE_VALUE_ENUM,
   type Datum,
   type IMark,
@@ -32,7 +33,8 @@ const eventSeriesMark: SeriesMarkMap = {
   [SeriesMarkNameEnum.line]: { name: SeriesMarkNameEnum.line, type: MarkTypeEnum.line },
   [SeriesMarkNameEnum.dot]: { name: SeriesMarkNameEnum.dot, type: MarkTypeEnum.symbol },
   [SeriesMarkNameEnum.title]: { name: SeriesMarkNameEnum.title, type: MarkTypeEnum.text },
-  [SeriesMarkNameEnum.subTitle]: { name: SeriesMarkNameEnum.subTitle, type: MarkTypeEnum.text }
+  [SeriesMarkNameEnum.subTitle]: { name: SeriesMarkNameEnum.subTitle, type: MarkTypeEnum.text },
+  arrow: { name: 'arrow', type: MarkTypeEnum.path }
 };
 
 export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends CartesianSeries<T> {
@@ -52,6 +54,7 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   private _titleMark?: IMark;
   private _subTitleMark?: IMark;
   private _axisLineMark?: IMark;
+  private _arrowMark?: IMark;
 
   private _timeField?: string;
   private _eventField?: string;
@@ -86,6 +89,10 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     });
 
     this._dotMark = this._createMark(EventSeries.mark.dot, {
+      isSeriesMark: true
+    });
+
+    this._arrowMark = this._createMark(EventSeries.mark.arrow, {
       isSeriesMark: true
     });
 
@@ -133,6 +140,18 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
           x: (datum: Datum) => this._getPoint(datum).x,
           y: (datum: Datum) => this._getPoint(datum).y,
           size: dotSize,
+          fill: dotSpec?.style?.fill ?? this.getColorAttribute()
+        },
+        STATE_VALUE_ENUM.STATE_NORMAL,
+        AttributeLevel.Series
+      );
+    }
+
+    if (this._arrowMark) {
+      this.setMarkStyle(
+        this._arrowMark,
+        {
+          path: (datum: Datum) => this._getArrowPath(datum),
           fill: dotSpec?.style?.fill ?? this.getColorAttribute()
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
@@ -231,7 +250,7 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   private _getLabelTextBaseline(datum: Datum, isTitle: boolean): 'top' | 'bottom' | 'middle' {
     if (this.direction === 'vertical') {
       // vertical 布局时：title 用 top，subTitle 用 top
-      return 'top';
+      return 'middle';
     }
     const side = this._getLabelSide(datum);
     return side === 'primary' ? 'bottom' : 'top';
@@ -399,6 +418,119 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     return datum === firstInGroup;
   }
 
+  private _getNextDatum(datum: Datum): Datum | null {
+    const data = this._getViewDataList();
+    const currentIndex = data.indexOf(datum);
+
+    if (currentIndex === -1 || currentIndex === data.length - 1) {
+      return null;
+    }
+
+    if (!this._seriesField) {
+      return data[currentIndex + 1];
+    }
+
+    const categoryValue = (datum as Record<string, unknown>)[this._seriesField];
+
+    // 在同一分组中找到下一个数据
+    for (let i = currentIndex + 1; i < data.length; i++) {
+      const nextDatum = data[i];
+      if ((nextDatum as Record<string, unknown>)[this._seriesField] === categoryValue) {
+        return nextDatum;
+      }
+    }
+
+    return null;
+  }
+
+  private _getPreviousDatum(datum: Datum): Datum | null {
+    const data = this._getViewDataList();
+    const currentIndex = data.indexOf(datum);
+
+    if (currentIndex === -1 || currentIndex === 0) {
+      return null;
+    }
+
+    if (!this._seriesField) {
+      return data[currentIndex - 1];
+    }
+
+    const categoryValue = (datum as Record<string, unknown>)[this._seriesField];
+
+    // 在同一分组中找到上一个数据
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      const prevDatum = data[i];
+      if ((prevDatum as Record<string, unknown>)[this._seriesField] === categoryValue) {
+        return prevDatum;
+      }
+    }
+
+    return null;
+  }
+
+  private _getArrowPath(datum: Datum): string {
+    const point = this._getPoint(datum);
+    const nextDatum = this._getNextDatum(datum);
+    const prevDatum = this._getPreviousDatum(datum);
+
+    const arrowThickness = this._spec.arrow?.thickness ?? 16;
+    const rect = this._region.getLayoutRect();
+
+    if (this.direction === 'vertical') {
+      const axisHelper = this.getYAxisHelper();
+      const inverse = axisHelper.isInverse();
+      const startPoint = prevDatum
+        ? {
+            x: point.x,
+            y: (this._getPoint(prevDatum).y + point.y) / 2
+          }
+        : { x: point.x, y: inverse ? 0 : rect.height };
+      const endPoint = nextDatum
+        ? {
+            x: point.x,
+            y: (this._getPoint(nextDatum).y + point.y) / 2
+          }
+        : { x: point.x, y: inverse ? rect.height : 0 };
+      const tag = inverse ? 1 : -1;
+
+      const arrowHeight = arrowThickness / 3;
+      const arrowWidth = arrowThickness / 2;
+
+      return `M ${startPoint.x - arrowWidth} ${startPoint.y} L ${startPoint.x} ${startPoint.y + tag * arrowHeight} L ${
+        startPoint.x + arrowWidth
+      } ${startPoint.y} 
+      L ${endPoint.x + arrowWidth} ${endPoint.y - tag * arrowHeight} 
+      L ${endPoint.x} ${endPoint.y}
+      L ${endPoint.x - arrowWidth} ${endPoint.y - tag * arrowHeight} Z`;
+    }
+
+    const axisHelper = this.getXAxisHelper();
+    const inverse = axisHelper.isInverse();
+    const startPoint = prevDatum
+      ? {
+          x: (this._getPoint(prevDatum).x + point.x) / 2,
+          y: point.y
+        }
+      : { x: inverse ? rect.width : 0, y: point.y };
+    const endPoint = nextDatum
+      ? {
+          x: (this._getPoint(nextDatum).x + point.x) / 2,
+          y: point.y
+        }
+      : { x: inverse ? 0 : rect.width, y: point.y };
+    const tag = inverse ? -1 : 1;
+
+    const arrowHeight = arrowThickness / 2;
+    const arrowWidth = arrowThickness / 3;
+
+    return `M ${startPoint.x} ${startPoint.y - arrowHeight} L ${startPoint.x + tag * arrowWidth} ${startPoint.y} L ${
+      startPoint.x
+    } ${startPoint.y + arrowHeight} 
+      L ${endPoint.x - tag * arrowWidth} ${endPoint.y + arrowHeight} 
+      L ${endPoint.x} ${endPoint.y} 
+      L ${endPoint.x - tag * arrowWidth} ${endPoint.y - arrowHeight} Z`;
+  }
+
   private _getDatumString(datum: Datum | undefined, field?: string): string {
     if (!datum || !field) {
       return '';
@@ -423,7 +555,9 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   }
 
   getActiveMarks(): IMark[] {
-    return [this._axisLineMark, this._dotMark, this._titleMark, this._subTitleMark].filter(Boolean) as IMark[];
+    return [this._axisLineMark, this._dotMark, this._arrowMark, this._titleMark, this._subTitleMark].filter(
+      Boolean
+    ) as IMark[];
   }
 }
 
@@ -431,5 +565,6 @@ export const registerEventSeries = () => {
   registerSymbolMark();
   registerTextMark();
   registerLineMark();
+  registerPathMark();
   Factory.registerSeries(EventSeries.type, EventSeries);
 };

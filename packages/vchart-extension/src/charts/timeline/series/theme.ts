@@ -26,5 +26,9 @@ export const event: IEventSeriesTheme = {
     style: {
       fontSize: 12
     }
+  },
+  arrow: {
+    visible: false,
+    thickness: 16
   }
 };
