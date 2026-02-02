@@ -31,7 +31,7 @@ jobs:
       - name: Install Python distutils (macOS)
         if: runner.os == 'macOS'
         run: |
-          python3 -m pip install setuptools --break-system-packages
+          brew upgrade pip || brew install pip
 
       - name: Install Python distutils (Linux)
         if: runner.os == 'Linux'
