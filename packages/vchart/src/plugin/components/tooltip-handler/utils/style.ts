@@ -145,7 +145,7 @@ export const getPanelStyle = (
     panelStyle.borderRadius = isValidNumber(radius) ? `${radius}px` : `${radius}`;
   }
 
-  if (padding) {
+  if (isValid(padding)) {
     panelPadding = normalizePadding(padding);
     panelStyle.padding = getPixelPropertyStr(panelPadding);
   }

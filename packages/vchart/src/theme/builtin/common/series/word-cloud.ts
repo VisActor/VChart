@@ -6,7 +6,9 @@ const getWordCloudTheme = (): IWordCloudSeriesTheme => {
       padding: 1,
       style: {
         textAlign: 'center',
-        textBaseline: 'alphabetic'
+        textBaseline: 'alphabetic',
+        scaleX: 1,
+        scaleY: 1
       }
     }
   };

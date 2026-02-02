@@ -1,5 +1,10 @@
 ---
 description: Execute the implementation plan by processing and executing all tasks defined in tasks.md
+handoffs:
+  - label: Generate Changelog
+    agent: speckit.changelog
+    prompt: Generate Rush changes entries from current work
+    send: true
 ---
 
 ## User Input

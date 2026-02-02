@@ -950,7 +950,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         this.model.getColorScheme(),
         this.model.modelType === 'series' ? this.model.getSpec?.() : undefined
       ),
-      (this.model as unknown as ISeries).getDefaultColorDomain()
+      (this.model as unknown as ISeries)?.getDefaultColorDomain?.() ?? []
     );
     // 默认配置处理
     const mergedStyle = {
