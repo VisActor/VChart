@@ -154,6 +154,18 @@ export class LinearAxisMixin {
   computeLinearDomain(data: { min: number; max: number; values: any[] }[]): number[] {
     let domain: number[] = [];
 
+    // handle customDistribution
+    if ((this._spec as any).customDistribution?.length) {
+      const customDistribution = (this._spec as any).customDistribution;
+      const domainSet = new Set<number>();
+      customDistribution.forEach((item: any) => {
+        domainSet.add(item.domain[0]);
+        domainSet.add(item.domain[1]);
+      });
+      domain = Array.from(domainSet).sort((a, b) => a - b);
+      return domain;
+    }
+
     if (data.length) {
       const userSetBreaks = this._spec.breaks && this._spec.breaks.length;
       let values: any[] = [];
@@ -241,9 +253,15 @@ export class LinearAxisMixin {
 
   protected niceDomain(domain: number[]) {
     const { min: userMin, max: userMax } = getLinearAxisSpecDomain(this._spec);
-    if (isValid(userMin) || isValid(userMax) || this._spec.type !== 'linear') {
+    if (
+      isValid(userMin) ||
+      isValid(userMax) ||
+      this._spec.type !== 'linear' ||
+      (this._spec as any).customDistribution
+    ) {
       // 如果用户设置了 min 或者 max 则按照用户设置的为准
       // 如果是非 linear 类型也不处理
+      // 如果有 customDistribution 也不处理
       return domain;
     }
     if (Math.abs(minInArr(domain) - maxInArr(domain)) <= 1e-12) {

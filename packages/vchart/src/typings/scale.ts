@@ -45,6 +45,11 @@ export interface ILinearScaleSpec extends INumericScaleSpec {
   type: 'linear';
 }
 
+export interface IIntervalRatio {
+  domain: [number, number];
+  ratio: number;
+}
+
 export interface IPointScaleSpec extends IBaseBandScaleSpec {
   type: 'point';
 }

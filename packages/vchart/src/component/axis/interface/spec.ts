@@ -9,7 +9,8 @@ import type {
   IRuleMarkSpec,
   ISymbolMarkSpec,
   ITextMarkSpec,
-  StringOrNumber
+  StringOrNumber,
+  IIntervalRatio
 } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, IBandAxisLayer, ITickCalculationCfg, StyleCallback } from './common';
@@ -164,6 +165,11 @@ export interface ILinearAxisSpec {
    * @since 1.12.4
    */
   breaks?: ILinearAxisBreakSpec[];
+  /**
+   * 自定义区间分布配置
+   * @since 2.0.16
+   */
+  customDistribution?: IIntervalRatio[];
 }
 
 export interface IBandAxisSpec {
