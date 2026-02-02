@@ -95,6 +95,9 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
       isSeriesMark: true,
       groupKey: this._seriesField
     });
+    this._arrowMark = this._createMark((EventSeries.mark as any).arrow, {
+      isSeriesMark: true
+    });
 
     this._dotMark = this._createMark(EventSeries.mark.dot, {
       isSeriesMark: true
@@ -103,11 +106,6 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     this._iconMark = this._createMark((EventSeries.mark as any).icon, {
       isSeriesMark: true
     });
-
-    this._arrowMark = this._createMark((EventSeries.mark as any).arrow, {
-      isSeriesMark: true
-    });
-
     this._titleMark = this._createMark(EventSeries.mark.title);
 
     this._subTitleMark = this._createMark(EventSeries.mark.subTitle);

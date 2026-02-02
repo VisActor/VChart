@@ -1,6 +1,7 @@
-import { BaseChartSpecTransformer, merge } from '@visactor/vchart';
+import { BaseChartSpecTransformer } from '@visactor/vchart';
 import type { ICartesianAxisSpec, ICartesianLinearAxisSpec } from '@visactor/vchart';
 import type { ITimelineChartSpec } from './interface';
+import { isNil, get, merge, isObject } from '@visactor/vutils';
 
 export class TimelineChartSpecTransformer<
   T extends ITimelineChartSpec = ITimelineChartSpec
@@ -10,122 +11,110 @@ export class TimelineChartSpecTransformer<
       'timeField',
       'eventField',
       'seriesField',
-      'dotTypeField',
       'titleField',
       'subTitleField',
+      'iconField',
       'dot',
       'title',
       'subTitle',
-      'symbol'
+      'icon',
+      'line',
+      'arrow',
+      'labelPosition',
+      'sortDataByAxis'
     ]);
+  }
+
+  protected _setDefaultXAxisSpec(spec: T): ICartesianAxisSpec {
+    return {
+      type: 'band',
+      orient: 'bottom',
+      label: {
+        visible: false
+      },
+      tick: {
+        visible: false
+      },
+      grid: {
+        visible: false
+      },
+      domainLine: {
+        visible: false
+      },
+      paddingInner: 0,
+      paddingOuter: 0
+    } as ICartesianAxisSpec;
+  }
+
+  protected _setDefaultYAxisSpec(spec: T): ICartesianAxisSpec {
+    return {
+      type: 'band',
+      inverse: true,
+      orient: 'left',
+      label: {
+        visible: false
+      },
+      tick: {
+        visible: false
+      },
+      grid: {
+        visible: false
+      },
+      domainLine: {
+        visible: false
+      },
+      paddingInner: 0,
+      paddingOuter: 0
+    } as ICartesianAxisSpec;
+  }
+
+  protected _transformAxisSpec(spec: T) {
+    if (!spec.axes) {
+      spec.axes = [];
+    }
+
+    const haxAxes = { x: false, y: false };
+    spec.axes.forEach((axis: ICartesianAxisSpec) => {
+      const { orient } = axis;
+      let defaultSpec: Partial<ICartesianAxisSpec> = null;
+      if (orient === 'top' || orient === 'bottom') {
+        haxAxes.x = true;
+
+        defaultSpec = this._setDefaultXAxisSpec(spec);
+      }
+      if (orient === 'left' || orient === 'right') {
+        haxAxes.y = true;
+
+        defaultSpec = this._setDefaultYAxisSpec(spec);
+      }
+
+      if (defaultSpec) {
+        Object.keys(defaultSpec).forEach(key => {
+          (axis as any)[key] = isObject((axis as any)[key])
+            ? merge((defaultSpec as any)[key], (axis as any)[key])
+            : isNil((axis as any)[key])
+            ? (defaultSpec as any)[key]
+            : (axis as any)[key];
+        });
+      }
+    });
+    if (!haxAxes.x) {
+      spec.axes.push(this._setDefaultXAxisSpec(spec));
+    }
+    if (!haxAxes.y) {
+      spec.axes.push(this._setDefaultYAxisSpec(spec));
+    }
   }
 
   transformSpec(spec: T): void {
     super.transformSpec(spec);
     this.transformSeriesSpec(spec);
+    this._transformAxisSpec(spec);
 
-    // 确定 direction（通过轴方向推断）
-    const rawAxis = spec.axes?.[0];
-    const axisOrient = rawAxis?.orient;
-
-    // 默认为 horizontal
-    let direction: 'horizontal' | 'vertical' = 'horizontal';
-    if (axisOrient === 'left' || axisOrient === 'right') {
-      direction = 'vertical';
-    } else if (axisOrient === 'bottom' || axisOrient === 'top') {
-      direction = 'horizontal';
-    }
-
-    // 确定默认的轴方向和类型
-    const defaultOrient = direction === 'vertical' ? 'left' : 'bottom';
-    const allowedOrients = direction === 'vertical' ? ['left', 'right'] : ['bottom', 'top'];
-    const orientNormalized: ICartesianAxisSpec['orient'] = allowedOrients.includes(axisOrient ?? '')
-      ? (axisOrient as ICartesianAxisSpec['orient'])
-      : (defaultOrient as ICartesianAxisSpec['orient']);
-
-    // 确定轴类型，默认为 band
-    const axisType = rawAxis?.type ?? 'band';
-    const typeNormalized: ICartesianAxisSpec['type'] =
-      axisType === 'linear' || axisType === 'time' || axisType === 'band' ? (axisType as any) : 'band';
-
-    // 构建轴配置
-    const baseAxis: ICartesianAxisSpec = merge(
-      {
-        label: {
-          visible: false
-        },
-        tick: {
-          visible: false
-        },
-        grid: {
-          visible: false
-        },
-        domainLine: {
-          visible: false
-        }
-      },
-      orientNormalized === 'left' || orientNormalized === 'right'
-        ? {
-            inverse: true
-          }
-        : {},
-      typeNormalized === 'band' ? { paddingInner: 0, paddingOuter: 0 } : {},
-      {
-        ...((rawAxis ?? {}) as ICartesianAxisSpec),
-        orient: orientNormalized,
-        type: typeNormalized
-      }
-    );
-
-    // 检查是否有 seriesField，如果有则需要创建第二个分类轴
-    const hasSeriesField = spec.series?.some(s => s.seriesField);
-
-    if (baseAxis.type === 'linear') {
-      const linearAxis: ICartesianLinearAxisSpec = {
-        ...(baseAxis as ICartesianLinearAxisSpec),
-        zero: (rawAxis as ICartesianLinearAxisSpec)?.zero ?? false
-      };
-      spec.axes = [linearAxis];
-    } else {
-      spec.axes = [baseAxis];
-    }
-
-    // 如果有 seriesField，需要创建第二个分类轴
-    if (hasSeriesField) {
-      const categoryAxisOrient = direction === 'vertical' ? 'bottom' : 'left';
-      const categoryAxis: ICartesianAxisSpec = {
-        orient: categoryAxisOrient,
-        type: 'band',
-        label: {
-          visible: false
-        },
-        tick: {
-          visible: false
-        },
-        grid: {
-          visible: false
-        },
-        domainLine: {
-          visible: false
-        }
-      };
-
-      // 将分类轴添加到轴列表中
-      if (direction === 'vertical') {
-        // vertical: 时间轴在前，分类轴在后
-        spec.axes = [spec.axes[0], categoryAxis];
-      } else {
-        // horizontal: 时间轴在前，分类轴在后
-        spec.axes = [spec.axes[0], categoryAxis];
-      }
-    }
+    const direction = spec.direction ?? 'horizontal';
 
     // 将 direction 传递给 series，并设置 xField/yField 以便轴系统收集数据
     spec.series?.forEach(seriesSpec => {
-      if (!seriesSpec.direction) {
-        seriesSpec.direction = direction;
-      }
-
       // 根据 direction 将 timeField 映射到 xField 或 yField
       // 这样轴系统才能正确收集数据
       if (direction === 'vertical') {
