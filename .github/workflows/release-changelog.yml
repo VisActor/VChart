@@ -31,7 +31,6 @@ jobs:
       - name: Install Python distutils (macOS)
         if: runner.os == 'macOS'
         run: |
-          python3 -m pip install --upgrade pip --break-system-packages
           python3 -m pip install setuptools --break-system-packages
 
       - name: Install Python distutils (Linux)
