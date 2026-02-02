@@ -1,9 +1,9 @@
 ---
 description: Automatically execute the four core phases of the Spec-Driven Development (SDD) pipeline: specify → plan → tasks → implement, in strict sequential order.
 handoffs:
-  - label: Generate Changelog
-    agent: speckit.changelog
-    prompt: Generate Rush changes entries from current work
+  - label: Execute After-Code Pipeline
+    agent: speckit.aftercode
+    prompt: Execute the after-code pipeline.
     send: true
 ---
 
