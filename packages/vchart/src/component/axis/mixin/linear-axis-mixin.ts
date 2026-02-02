@@ -163,10 +163,7 @@ export class LinearAxisMixin {
         domainSet.add(item.domain[1]);
       });
       domain = Array.from(domainSet).sort((a, b) => a - b);
-      return domain;
-    }
-
-    if (data.length) {
+    } else if (data.length) {
       const userSetBreaks = this._spec.breaks && this._spec.breaks.length;
       let values: any[] = [];
       let minDomain: number;
