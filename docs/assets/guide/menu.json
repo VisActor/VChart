@@ -954,6 +954,13 @@
                 "zh": "蜡烛图",
                 "en": "Candlestick"
               }
+            },
+            {
+              "path": "timeline",
+              "title": {
+                "zh": "时间线图组件",
+                "en": "Timeline"
+              }
             }
           ]
         }
