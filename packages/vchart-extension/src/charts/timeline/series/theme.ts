@@ -1,11 +1,15 @@
 import type { IEventSeriesTheme } from './interface';
 
 export const event: IEventSeriesTheme = {
-  dotLabelGap: 6,
-  titleSubTitleGap: 4,
   dot: {
     style: {
       size: 8
+    }
+  },
+  icon: {
+    visible: false,
+    style: {
+      size: 20
     }
   },
   line: {
@@ -17,6 +21,8 @@ export const event: IEventSeriesTheme = {
   },
   title: {
     visible: true,
+    offset: 6,
+    subTitleGap: 4,
     style: {
       fontSize: 14
     }

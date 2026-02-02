@@ -20,6 +20,7 @@ import {
 import { EVENT_SERIES_TYPE } from './constant';
 import type { IEventSeriesSpec, LabelPosition } from './interface';
 import { event } from './theme';
+import { isValid } from '@visactor/vutils';
 
 type AxisHelper = {
   isContinuous?: boolean;
@@ -28,14 +29,15 @@ type AxisHelper = {
   valueToPosition?: (value: unknown) => number;
 };
 
-const eventSeriesMark: SeriesMarkMap = {
+const eventSeriesMark = {
   ...baseSeriesMark,
   [SeriesMarkNameEnum.line]: { name: SeriesMarkNameEnum.line, type: MarkTypeEnum.line },
   [SeriesMarkNameEnum.dot]: { name: SeriesMarkNameEnum.dot, type: MarkTypeEnum.symbol },
+  icon: { name: 'icon', type: MarkTypeEnum.symbol },
   [SeriesMarkNameEnum.title]: { name: SeriesMarkNameEnum.title, type: MarkTypeEnum.text },
   [SeriesMarkNameEnum.subTitle]: { name: SeriesMarkNameEnum.subTitle, type: MarkTypeEnum.text },
   arrow: { name: 'arrow', type: MarkTypeEnum.path }
-};
+} as any;
 
 export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = EVENT_SERIES_TYPE;
@@ -51,6 +53,7 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   protected declare _spec: T;
 
   private _dotMark?: IMark;
+  private _iconMark?: IMark;
   private _titleMark?: IMark;
   private _subTitleMark?: IMark;
   private _axisLineMark?: IMark;
@@ -59,9 +62,8 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   private _timeField?: string;
   private _eventField?: string;
   private _subTitleField?: string;
+  private _iconField?: string;
   private _labelPosition?: LabelPosition;
-  private _dotLabelGap?: number;
-  private _titleSubTitleGap?: number;
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
@@ -69,9 +71,8 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
     this._timeField = this._spec.timeField as string | undefined;
     this._eventField = this._spec.eventField;
     this._subTitleField = this._spec.subTitleField;
+    this._iconField = this._spec.iconField;
     this._labelPosition = this._spec.labelPosition;
-    this._dotLabelGap = this._spec.dotLabelGap ?? 6;
-    this._titleSubTitleGap = this._spec.titleSubTitleGap ?? 4;
   }
 
   getDimensionField(): string[] {
@@ -92,7 +93,11 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
       isSeriesMark: true
     });
 
-    this._arrowMark = this._createMark(EventSeries.mark.arrow, {
+    this._iconMark = this._createMark((EventSeries.mark as any).icon, {
+      isSeriesMark: true
+    });
+
+    this._arrowMark = this._createMark((EventSeries.mark as any).arrow, {
       isSeriesMark: true
     });
 
@@ -116,22 +121,19 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
       );
     }
 
-    const dotSpec = this._spec.dot as { size?: number; style?: { size?: number; fill?: unknown } } | undefined;
-    const dotSize =
-      typeof dotSpec?.style?.size === 'number'
-        ? dotSpec.style.size
-        : typeof dotSpec?.size === 'number'
-        ? dotSpec.size
-        : 8;
+    const dotSpec = this._spec.dot as { style?: { size?: number; fill?: unknown } } | undefined;
+    const dotSize = typeof dotSpec?.style?.size === 'number' ? dotSpec.style.size : 8;
 
-    const titleStyle = this._spec.title?.style ?? {};
-    const subTitleStyle = this._spec.subTitle?.style ?? {};
+    const titleSpec = this._spec.title;
+    const titleStyle = titleSpec?.style ?? {};
+    const subTitleSpec = this._spec.subTitle;
+    const subTitleStyle = subTitleSpec?.style ?? {};
 
     // 获取 title 字体大小，用于计算 subTitle 的位置
     const titleFontSize = typeof titleStyle.fontSize === 'number' ? titleStyle.fontSize : 14;
 
     // dot 和 label 之间的间距
-    const labelOffset = dotSize / 2 + (this._dotLabelGap ?? 6);
+    const labelOffset = dotSize / 2 + (titleSpec?.offset ?? 6);
 
     if (this._dotMark) {
       this.setMarkStyle(
@@ -186,6 +188,27 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
           textAlign: (datum: Datum) => this._getLabelTextAlign(datum),
           textBaseline: (datum: Datum) => this._getLabelTextBaseline(datum, false),
           text: (datum: Datum) => this._getDatumString(datum, this._subTitleField)
+        },
+        STATE_VALUE_ENUM.STATE_NORMAL,
+        AttributeLevel.Series
+      );
+    }
+
+    // icon 和 line 之间的间距
+
+    const iconSpec = this._spec.icon as { offset?: number; style?: { size?: number; fill?: unknown } } | undefined;
+    const iconSize = typeof iconSpec?.style?.size === 'number' ? iconSpec.style.size : 20;
+    const iconOffset = (isValid(iconSpec?.offset) ? iconSpec.offset + dotSize / 2 : labelOffset) + iconSize / 2;
+
+    if (this._iconMark) {
+      this.setMarkStyle(
+        this._iconMark,
+        {
+          x: (datum: Datum) => this._getIconPosition(datum, iconOffset).x,
+          y: (datum: Datum) => this._getIconPosition(datum, iconOffset).y,
+          size: iconSize,
+          fill: iconSpec?.style?.fill ?? this.getColorAttribute(),
+          shape: (datum: Datum) => this._getDatumString(datum, this._iconField) || 'circle'
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
         AttributeLevel.Series
@@ -283,6 +306,7 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   private _getSubTitlePosition(datum: Datum, offset: number, titleFontSize: number): IPoint {
     const point = this._getPoint(datum);
     const side = this._getLabelSide(datum);
+    const gap = this._spec.title?.subTitleGap ?? 4;
 
     if (this.direction === 'vertical') {
       // vertical: left/right，subTitle 在 title 下方
@@ -292,16 +316,35 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
 
       return {
         x: side === 'primary' ? point.x - offset : point.x + offset,
-        y: point.y + titleLineHeight + this._titleSubTitleGap
+        y: point.y + titleLineHeight + gap
       };
     }
     // horizontal: top/bottom
     return {
       x: point.x,
-      y:
-        side === 'primary'
-          ? point.y - (offset + titleFontSize + this._titleSubTitleGap)
-          : point.y + (offset + titleFontSize + this._titleSubTitleGap)
+      y: side === 'primary' ? point.y - (offset + titleFontSize + gap) : point.y + (offset + titleFontSize + gap)
+    };
+  }
+
+  /**
+   * 获取 icon 的位置
+   * icon 与 title 关于 lineMark 对称
+   */
+  private _getIconPosition(datum: Datum, offset: number): IPoint {
+    const point = this._getPoint(datum);
+    const side = this._getLabelSide(datum);
+
+    if (this.direction === 'vertical') {
+      // vertical: 当 title 在 right 时，icon 在 left；当 title 在 left 时，icon 在 right
+      return {
+        x: side === 'primary' ? point.x + offset : point.x - offset,
+        y: point.y
+      };
+    }
+    // horizontal: 当 title 在 top 时，icon 在 bottom；当 title 在 bottom 时，icon 在 top
+    return {
+      x: point.x,
+      y: side === 'primary' ? point.y + offset : point.y - offset
     };
   }
 
@@ -555,9 +598,14 @@ export class EventSeries<T extends IEventSeriesSpec = IEventSeriesSpec> extends 
   }
 
   getActiveMarks(): IMark[] {
-    return [this._axisLineMark, this._dotMark, this._arrowMark, this._titleMark, this._subTitleMark].filter(
-      Boolean
-    ) as IMark[];
+    return [
+      this._axisLineMark,
+      this._dotMark,
+      this._iconMark,
+      this._arrowMark,
+      this._titleMark,
+      this._subTitleMark
+    ].filter(Boolean) as IMark[];
   }
 }
 

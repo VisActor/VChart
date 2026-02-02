@@ -22,22 +22,17 @@ export interface IEventSeriesSpec extends ICartesianSeriesSpec, IEventSeriesThem
   eventField?: string;
   subTitleField?: string;
   seriesField?: string;
+  /** icon 字段名，用于显示图标或图片 */
+  iconField?: string;
   /** 标题和副标题的位置 */
   labelPosition?: LabelPosition;
-  /** dot 和 label 之间的间距 */
-  dotLabelGap?: number;
-  /** title 和 subTitle 之间的间距 */
-  titleSubTitleGap?: number;
 }
 
 export interface IEventSeriesTheme {
-  /** dot 和 label 之间的间距 */
-  dotLabelGap?: number;
-  /** title 和 subTitle 之间的间距 */
-  titleSubTitleGap?: number;
   dot?: IMarkSpec<ISymbolMarkSpec>;
-  title?: IMarkSpec<ITextMarkSpec>;
-  subTitle?: IMarkSpec<ITextMarkSpec>;
+  icon?: IMarkSpec<ISymbolMarkSpec> & { offset?: number };
+  title?: IMarkSpec<ITextMarkSpec> & { subTitleGap?: number; offset?: number };
+  subTitle?: IMarkSpec<ITextMarkSpec> & { offset?: number };
   line?: IMarkSpec<ILineMarkSpec>;
   arrow?: IMarkSpec<IPathMarkSpec> & { thickness?: number };
 }
