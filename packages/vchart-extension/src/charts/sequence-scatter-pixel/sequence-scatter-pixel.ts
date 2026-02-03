@@ -1,4 +1,4 @@
-import { ISequenceScatterPixelSpec } from './interface';
+import type { ISequenceScatterPixelSpec } from './interface';
 import { VChart, BaseChart, ScatterChart } from '@visactor/vchart';
 import { SequenceScatterPixelChartSpecTransformer } from './sequence-scatter-pixel-transformer';
 

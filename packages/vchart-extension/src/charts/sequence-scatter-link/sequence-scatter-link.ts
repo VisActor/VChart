@@ -1,4 +1,4 @@
-import { ISequenceScatterLinkSpec } from './interface';
+import type { ISequenceScatterLinkSpec } from './interface';
 import { VChart, BaseChart, ScatterChart } from '@visactor/vchart';
 import { SequenceScatterLinkChartSpecTransformer } from './sequence-scatter-link-transformer';
 
