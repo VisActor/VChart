@@ -15,10 +15,28 @@
     "build": "npm run clear && rollup -c --configPlugin typescript --bundleConfigAsCjs",
     "clear": "rimraf index.js"
   },
-  "keywords": [],
-  "author": "",
-  "dependencies": {},
-  "license": "MIT",
+  "keywords": [
+    "lark",
+    "charts",
+    "visualization",
+    "VChart",
+    "animation",
+    "storytelling",
+    "VisActor",
+    "graphics",
+    "interaction"
+  ],
+  "homepage": "https://www.visactor.io/vchart",
+  "bugs": "https://github.com/VisActor/VChart/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VisActor/VChart.git",
+    "directory": "packages/wx-vchart"
+  },
+  "author": {
+    "name": "VisActor",
+    "url": "https://www.visactor.io/"
+  },
   "devDependencies": {
     "@babel/core": "7.20.12",
     "@babel/preset-env": "7.20.2",

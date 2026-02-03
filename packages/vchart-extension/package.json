@@ -20,6 +20,28 @@
     "build:cjs": "bundle --clean -f  cjs",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser"
   },
+  "keywords": [
+    "lark",
+    "charts",
+    "visualization",
+    "VChart",
+    "animation",
+    "storytelling",
+    "VisActor",
+    "graphics",
+    "interaction"
+  ],
+  "homepage": "https://www.visactor.io/vchart",
+  "bugs": "https://github.com/VisActor/VChart/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VisActor/VChart.git",
+    "directory": "packages/vchart-extension"
+  },
+  "author": {
+    "name": "VisActor",
+    "url": "https://www.visactor.io/"
+  },
   "dependencies": {
     "@visactor/vrender-core": "0.21.12-alpha.4",
     "@visactor/vrender-kits": "0.21.12-alpha.4",
