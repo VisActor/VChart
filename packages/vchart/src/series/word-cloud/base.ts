@@ -25,6 +25,7 @@ import type {
   WordCloudShapeConfigType,
   WordCloudShapeType
 } from './interface';
+import { WordMeasureCache } from './measure-cache';
 import type { Datum, IMarkSpec, IPoint, ITextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { WORD_CLOUD_TEXT } from '../../constant/word-cloud';
@@ -73,6 +74,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   protected _wordCloudConfig?: WordCloudConfigType;
   protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
+
+  private _wordMeasureCache?: WordMeasureCache;
 
   protected _padding?: IPadding;
   protected _defaultFontFamily: string;
@@ -127,6 +130,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       !SHAPE_TYPE.includes(this._maskShape as string) &&
       !['fast', 'grid', 'cloud'].includes(this._wordCloudConfig.layoutMode);
     this._defaultFontFamily = this._option.getTheme().fontFamily as string;
+
+    if (!this._wordMeasureCache) {
+      this._wordMeasureCache = new WordMeasureCache(1000);
+    }
   }
 
   /**
@@ -136,6 +143,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     super.initData();
     // data改变时, 需要重新编译, 重新布局
     this.getViewData()?.target?.addListener('change', () => {
+      this._wordMeasureCache?.clear();
       this._dataChange = true;
       this.compile();
     });
@@ -433,6 +441,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     return {
       ...wordCloudShapeConfig,
       ...this._getCommonTransformOptions(),
+      measureCache: this._wordMeasureCache,
 
       rotateList: this._rotateAngles,
       fillingRotateList: wordCloudShapeConfig.fillingRotateAngles,
@@ -509,5 +518,13 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     if (this._fillingColorCallback) {
       this._fillingColorCallback = null;
     }
+
+    this._wordMeasureCache?.clear();
+  }
+
+  release() {
+    super.release();
+    this._wordMeasureCache?.clear();
+    this._wordMeasureCache = undefined;
   }
 }
