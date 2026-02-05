@@ -1,5 +1,5 @@
 ---
-name: vchart-development-skill
+name: vchart-development-assistant
 description: VChart图表库专家助手，支持问题诊断、配置生成、图片/Figma设计稿还原等场景，基于结构化知识库提供精确的图表开发解决方案
 ---
 
