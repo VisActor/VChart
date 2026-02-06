@@ -2,6 +2,23 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.15",
+      "tag": "@visactor/vchart_v2.0.15",
+      "date": "Fri, 06 Feb 2026 12:13:39 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: optimiz word-cloud-shape"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: markPoint.itemContent.text.style.fontSize setting invalid"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.14",
       "tag": "@visactor/vchart_v2.0.14",
       "date": "Fri, 30 Jan 2026 03:53:56 GMT",
