@@ -302,19 +302,19 @@ export interface IFillMarkSpec extends ICommonSpec {
   /**
    * 图形模糊效果程度
    */
-  shadowBlur: number;
+  shadowBlur?: number;
   /**
    * 图形的阴影颜色
    */
-  shadowColor: string;
+  shadowColor?: string;
   /**
    * 阴影水平偏移距离
    */
-  shadowOffsetX: number;
+  shadowOffsetX?: number;
   /**
    * 阴影垂直偏移距离
    */
-  shadowOffsetY: number;
+  shadowOffsetY?: number;
   /**
    * 填充的透明度
    */
@@ -327,39 +327,39 @@ export interface IFillMarkSpec extends ICommonSpec {
   /**
    * 背景填充模式（与具体图元有关）
    */
-  backgroundMode: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
+  backgroundMode?: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
   /**
    * 是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效
    */
-  backgroundFit: boolean;
+  backgroundFit?: boolean;
   /**
    * 是否保持背景图的宽高比
    */
-  backgroundKeepAspectRatio: boolean;
+  backgroundKeepAspectRatio?: boolean;
   /**
    * 背景图缩放，只在no-repeat的时候生效
    */
-  backgroundScale: number;
+  backgroundScale?: number;
   /**
    * 背景图偏移，只在no-repeat的时候生效
    */
-  backgroundOffsetX: number;
+  backgroundOffsetX?: number;
   /**
    * 背景图偏移，只在no-repeat的时候生效
    */
-  backgroundOffsetY: number;
+  backgroundOffsetY?: number;
   /**
    * 背景图是否裁切，是否调用clip避免绘制到图元外部
    */
-  backgroundClip: boolean;
+  backgroundClip?: boolean;
   /**
    * 背景圆角半径
    */
-  backgroundCornerRadius: number | number[];
+  backgroundCornerRadius?: number | number[];
   /**
    * 背景透明度
    */
-  backgroundOpacity: number;
+  backgroundOpacity?: number;
 }
 
 export type IMarkHtmlSpec = Partial<IGraphicStyle['html']>;
