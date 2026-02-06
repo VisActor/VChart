@@ -298,9 +298,27 @@ interface ILineLikeMarkSpec extends IFillMarkSpec {
 }
 
 interface IFillMarkSpec extends ICommonSpec {
+  // Shadow effects
+  shadowBlur?: number; // Shadow blur radius
+  shadowColor?: string; // Shadow color
+  shadowOffsetX?: number; // Shadow X offset
+  shadowOffsetY?: number; // Shadow Y offset
+
+  // Fill properties
   fill?: VisualType<string> | IGradient | false | IColorKey; // Fill color
   fillOpacity?: number; // Fill opacity
-  background?: IColor | HTMLImageElement | HTMLCanvasElement | null; // Background
+
+  // Background properties
+  background?: IColor | HTMLImageElement | HTMLCanvasElement | null; // Background fill
+  backgroundMode?: 'repeat' | 'repeatX' | 'repeatY' | 'noRepeat'; // Background repeat mode @default 'repeat'
+  backgroundFit?: 'contain' | 'cover' | 'fill'; // Background fit mode @default 'cover'
+  backgroundKeepAspectRatio?: boolean; // Maintain background aspect ratio @default false
+  backgroundScale?: number; // Background scale factor @default 1
+  backgroundOffsetX?: number; // Background X offset @default 0
+  backgroundOffsetY?: number; // Background Y offset @default 0
+  backgroundClip?: boolean; // Enable background clipping @default true
+  backgroundCornerRadius?: number; // Background corner radius @default 0
+  backgroundOpacity?: number; // Background opacity @default 1
 }
 ```
 

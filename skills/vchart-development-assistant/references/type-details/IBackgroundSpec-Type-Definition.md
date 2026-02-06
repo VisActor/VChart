@@ -76,12 +76,27 @@ export interface IGroupMarkSpec extends IFillMarkSpec {
 ### IFillMarkSpec 填充样式
 ```typescript
 export interface IFillMarkSpec extends ICommonSpec {
-  /**
-   * 图形的填充颜色
-   */
-  fill?: VisualType<string> | IGradient | false | IColorKey;
-  /** 填充的透明度 */
-  fillOpacity?: number;
+  // 阴影效果
+  shadowBlur?: number; // 阴影模糊半径
+  shadowColor?: string; // 阴影颜色
+  shadowOffsetX?: number; // 阴影 X 偏移
+  shadowOffsetY?: number; // 阴影 Y 偏移
+
+  // 填充属性
+  fill?: VisualType<string> | IGradient | false | IColorKey; // 图形的填充颜色
+  fillOpacity?: number; // 填充的透明度
+
+  // 背景属性
+  background?: IColor | HTMLImageElement | HTMLCanvasElement | null; // 背景填充
+  backgroundMode?: 'repeat' | 'repeatX' | 'repeatY' | 'noRepeat'; // 背景重复模式 @default 'repeat'
+  backgroundFit?: 'contain' | 'cover' | 'fill'; // 背景适应模式 @default 'cover'
+  backgroundKeepAspectRatio?: boolean; // 保持背景宽高比 @default false
+  backgroundScale?: number; // 背景缩放因子 @default 1
+  backgroundOffsetX?: number; // 背景 X 偏移 @default 0
+  backgroundOffsetY?: number; // 背景 Y 偏移 @default 0
+  backgroundClip?: boolean; // 启用背景裁剪 @default true
+  backgroundCornerRadius?: number; // 背景圆角半径 @default 0
+  backgroundOpacity?: number; // 背景透明度 @default 1
   /**
    * 图形的背景色，支持纯色、image元素、canvas元素
    */
