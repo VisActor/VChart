@@ -1,3 +1,25 @@
+# v2.0.15
+
+2026-02-02
+
+**🆕 New Features**
+
+- **@visactor/vchart**: Support Brush API and Interactive API by @skie1997 in https://github.com/VisActor/VChart/pull/4408
+- **@visactor/vchart**: Support fixed pixel step scrolling on wheel event and minimum scrollbar slider height by @xuefei1313 in https://github.com/VisActor/VChart/pull/4423
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: Fix React VChart component registration logic by @xile611 in https://github.com/VisActor/VChart/pull/4419
+- **@visactor/vchart**: Upgrade `vrender` dependency to fix Word Cloud chart issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4422
+
+**🔨 Chores**
+
+- **@visactor/vchart**: Add `spec-kit` and project constitution by @xuefei1313 in https://github.com/VisActor/VChart/pull/4412
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.14...v2.0.15
+
+[more detail about v2.0.15](https://github.com/VisActor/VChart/releases/tag/v2.0.15)
+
 # v2.0.14
 
 2026-01-22
@@ -498,7 +520,7 @@
 - **@visactor/vchart**: compilier should add dpr to vrender
 - **@visactor/vchart**: fix invisible region blocking mark events, [#3638](https://github.com/VisActor/VChart/issues/3638)
 - **@visactor/vchart**: undefined points shoulde not show when dimension hover, fix [#3610](https://github.com/VisActor/VChart/issues/3610)
-- **@visactor/vchart**: fix layout error of title component, fix [#3614](https://github.com/VisActor/VChart/issues/3614) 
+- **@visactor/vchart**: fix layout error of title component, fix [#3614](https://github.com/VisActor/VChart/issues/3614)
 
 
 
@@ -522,9 +544,9 @@
 - **@visactor/vchart**: `othersLine` of tooltip can be hidden by `visible: false`, related to [#3572](https://github.com/VisActor/VChart/issues/3572)
 - **@visactor/vchart**: fix position of tooltip, related to [#3590](https://github.com/VisActor/VChart/issues/3590)
 - **@visactor/vchart**: page should not crash when `tickStep` is too small, fix  [#3591](https://github.com/VisActor/VChart/issues/3591)
-- **@visactor/vchart**: fix updating of customized DOM when has interactive layer, fix  [#3587](https://github.com/VisActor/VChart/issues/3587) 
-- **@visactor/vchart**: fix axis breaks when set `tickStep`, fix  [#3560](https://github.com/VisActor/VChart/issues/3560) 
- 
+- **@visactor/vchart**: fix updating of customized DOM when has interactive layer, fix  [#3587](https://github.com/VisActor/VChart/issues/3587)
+- **@visactor/vchart**: fix axis breaks when set `tickStep`, fix  [#3560](https://github.com/VisActor/VChart/issues/3560)
+
 
 
 [more detail about v1.13.2](https://github.com/VisActor/VChart/releases/tag/v1.13.2)
@@ -564,8 +586,8 @@
 
 **🆕 New feature**
 
-- **@visactor/vchart**: add pictogram chart 
-- **@visactor/vchart**: support auto generated scrollbar in sankey, close [#2838](https://github.com/VisActor/VChart/issues/2838) 
+- **@visactor/vchart**: add pictogram chart
+- **@visactor/vchart**: support auto generated scrollbar in sankey, close [#2838](https://github.com/VisActor/VChart/issues/2838)
 - **@visactor/vchart**: react vchart support event filter, close [#3461](https://github.com/VisActor/VChart/issues/3461)
 - **@visactor/vchart**: tooltip key/content support config by field, close [#2576](https://github.com/VisActor/VChart/issues/2576)
 - **@visactor/vchart**: support max height of tooltip, by percent value , close [#2675](https://github.com/VisActor/VChart/issues/2675)
@@ -574,14 +596,14 @@
 **🐛 Refactor**
 
 
-- **@visactor/vchart**: [Break Change] refactor the implement of html tooltip, fix [#3137](https://github.com/VisActor/VChart/issues/3137), close [#2924](https://github.com/VisActor/VChart/issues/2924), close [#2591](https://github.com/VisActor/VChart/issues/2591) 
+- **@visactor/vchart**: [Break Change] refactor the implement of html tooltip, fix [#3137](https://github.com/VisActor/VChart/issues/3137), close [#2924](https://github.com/VisActor/VChart/issues/2924), close [#2591](https://github.com/VisActor/VChart/issues/2591)
 - **@visactor/vchart**: [Break Change] support label overlap for inside arc labels by default
 
 
 **⚡ Performance optimization**
 
 
-- **@visactor/vchart**: [Break Change] vrender optimize the bounds of text, which will change the display of all text 
+- **@visactor/vchart**: [Break Change] vrender optimize the bounds of text, which will change the display of all text
 
 
 
@@ -623,8 +645,8 @@
 - **@visactor/vchart**: fix `adjacency` in sankey, fix [#3460](https://github.com/VisActor/VChart/issues/3460)
 - **@visactor/vchart**: not update layout when scrollbar domain is the same as before. fix[#3452](https://github.com/VisActor/VChart/issues/3452)
 - **@visactor/vchart**: value in scale range should consider about whole range. fix[#3446](https://github.com/VisActor/VChart/issues/3446)
-- **@visactor/vchart**:  when the `invalidType` of line is  `"link"`, line should be connected rightly. fix [#3436](https://github.com/VisActor/VChart/issues/3436), fix [#3238](https://github.com/VisActor/VChart/issues/3238) 
-- **@visactor/vchart**:  richtext should work when set state, fix [#3465](https://github.com/VisActor/VChart/issues/3465) 
+- **@visactor/vchart**:  when the `invalidType` of line is  `"link"`, line should be connected rightly. fix [#3436](https://github.com/VisActor/VChart/issues/3436), fix [#3238](https://github.com/VisActor/VChart/issues/3238)
+- **@visactor/vchart**:  richtext should work when set state, fix [#3465](https://github.com/VisActor/VChart/issues/3465)
 
 
 
@@ -941,19 +963,19 @@
   - **@visactor/vchart**: enable `supportNegative` option to treat negative values as absolute values
   - **@visactor/vchart**: support theme config by chart type
   - **@visactor/vchart**: support text shape of word-cloud
-  - **@visactor/vchart**: add new chart mosaic chart 
+  - **@visactor/vchart**: add new chart mosaic chart
   - **@visactor/vchart**: support customized tick function of linear axis
   - **@visactor/vchart**: add emptyPlaceholder and emptyCircle for pie chart
 
-  ## 🐛 fix 
+  ## 🐛 fix
   - **@visactor/vchart**: y-axis is reverted after brush zoomin. fix [#3089](https://github.com/VisActor/VChart/issues/3089)
   - **@visactor/vchart**: mark-point position type error fix
-  ## 🔨 refactor 
+  ## 🔨 refactor
   - **@visactor/vchart**: refactor the graphics in linear-progress chart
   - **@visactor/vchart**: use label component to refactor sankey label
   - **@visactor/vchart**: stack can be required by need
-  ## 🔖 other 
-  - **@visactor/vchart**: sequence support bottom axes. fix [#2927](https://github.com/VisActor/VChart/issues/2927) 
+  ## 🔖 other
+  - **@visactor/vchart**: sequence support bottom axes. fix [#2927](https://github.com/VisActor/VChart/issues/2927)
 
 
 
@@ -1023,14 +1045,14 @@
 
 **🆕 New feature**
 
-- **@visactor/vchart**: liquid support reverse and target mark. close [#2977](https://github.com/VisActor/VChart/issues/2977)  & close [#2978](https://github.com/VisActor/VChart/issues/2978) 
+- **@visactor/vchart**: liquid support reverse and target mark. close [#2977](https://github.com/VisActor/VChart/issues/2977)  & close [#2978](https://github.com/VisActor/VChart/issues/2978)
 - **@visactor/vchart**: add `totalScale` params in geo zoom event
-- **@visactor/vchart**: support `geoZoomByIndex`/`geoZoomById` API, close [#2925](https://github.com/VisActor/VChart/issues/2925) 
+- **@visactor/vchart**: support `geoZoomByIndex`/`geoZoomById` API, close [#2925](https://github.com/VisActor/VChart/issues/2925)
 - **@visactor/vchart**: marker label background support  custom path. close [#2959](https://github.com/VisActor/VChart/issues/2959)
 
 **🐛 Bug fix**
 
-- **@visactor/vchart**: prevent issue with ios bug while pointEvent is configed 
+- **@visactor/vchart**: prevent issue with ios bug while pointEvent is configed
 - **@visactor/vchart**: liquid gradient not work after reverse
 - **@visactor/vchart**: prevent trigger original event in zoomEnd composite event [#2931](https://github.com/VisActor/VChart/issues/2931)
 - **@visactor/vchart**: fix error of setDimentionIndex when dimension axis is linear
@@ -1057,7 +1079,7 @@
 **🐛 Bug fix**
 
 
-* @visactor/vchart: fix statistics confict of linear and discrete field, close [#2926](https://github.com/VisActor/VChart/issues/2926) 
+* @visactor/vchart: fix statistics confict of linear and discrete field, close [#2926](https://github.com/VisActor/VChart/issues/2926)
 * @visactor/vchart: fix theme error of update spec
 * @visactor/vchart: fix update of label when udpate spec
 * @visactor/vchart: fix bug of polar point update aniamtion
@@ -1121,7 +1143,7 @@
 **🆕 New feature**
 
 - **@visactor/vchart**: add option `style.align` of Tooltip, support RTL tooltip
-- 
+-
 
 **🐛 Bug fix**
 
@@ -1136,7 +1158,7 @@
 
 # 1.11.4
 
-## 🐛 fix 
+## 🐛 fix
   - **@visactor/vchart**: fix bug of `updateSpec` when has `scales`, close #2744
   - **@visactor/vchart**: gauge chart might throw error when the value is close to its maximum, fix #2783
   - **@visactor/vchart**: fix the behavior of the gauge pointer when it exceeds the axis range, fix #2780

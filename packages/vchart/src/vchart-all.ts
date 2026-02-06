@@ -94,6 +94,7 @@ VChart.useRegisters([
   registerSequenceChart,
   registerCorrelationChart,
   // 优化vchart-all体积, 默认不注册
+  // registerTimelineChart,
   // registerLiquidChart,
   // registerVennChart,
   registerCommonChart,

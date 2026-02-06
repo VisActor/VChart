@@ -23,7 +23,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
   specKey = 'markPoint';
 
   layoutZIndex: number = LayoutZIndex.MarkPoint;
-  declare protected _markerComponent: MarkPointComponent;
+  protected declare _markerComponent: MarkPointComponent;
 
   protected abstract _computePointsAttr(): any;
 
@@ -74,7 +74,10 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       itemContentStyle = transformLabelAttributes(
         {
           ...label,
-          style: merge(defaultStyle, label?.textStyle ?? textStyle ?? (style as Pick<IMarkerLabelSpec, 'style'>))
+          style: merge(
+            defaultStyle,
+            label?.style ?? label?.textStyle ?? textStyle ?? (style as Pick<IMarkerLabelSpec, 'style'>)
+          )
         },
         this._markerData,
         this._markAttributeContext

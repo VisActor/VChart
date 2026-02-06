@@ -1,6 +1,17 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 30 Jan 2026 03:53:56 GMT and should not be manually modified.
+This log was last generated on Fri, 06 Feb 2026 12:13:39 GMT and should not be manually modified.
+
+## 2.0.15
+Fri, 06 Feb 2026 12:13:39 GMT
+
+### Patches
+
+- fix: markPoint.itemContent.text.style.fontSize setting invalid
+
+### Updates
+
+- feat: optimiz word-cloud-shape
 
 ## 2.0.14
 Fri, 30 Jan 2026 03:53:56 GMT

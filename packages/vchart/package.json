@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -118,15 +118,15 @@
     "cross-env": "^7.0.3"
   },
   "dependencies": {
-    "@visactor/vutils": "~1.0.12",
-    "@visactor/vdataset": "~1.0.12",
-    "@visactor/vscale": "~1.0.12",
-    "@visactor/vlayouts": "~1.0.12",
+    "@visactor/vutils": "~1.0.22",
+    "@visactor/vdataset": "~1.0.22",
+    "@visactor/vscale": "~1.0.22",
+    "@visactor/vlayouts": "~1.0.22",
     "@visactor/vrender-core": "~1.0.40",
     "@visactor/vrender-kits": "~1.0.40",
     "@visactor/vrender-components": "~1.0.40",
     "@visactor/vrender-animate": "~1.0.40",
-    "@visactor/vutils-extension": "workspace:2.0.15"
+    "@visactor/vutils-extension": "workspace:2.0.16"
   },
   "publishConfig": {
     "access": "public",

@@ -2028,6 +2028,41 @@
       },
       "children": [
         {
+          "path": "timeline-basic",
+          "title": {
+            "zh": "基础时间轴图",
+            "en": "Basic Timeline Chart"
+          }
+        },
+        {
+          "path": "timeline-with-icon",
+          "title": {
+            "zh": "带图标的时间轴图",
+            "en": "Timeline Chart with Icons"
+          }
+        },
+        {
+          "path": "timeline-vertical",
+          "title": {
+            "zh": "垂直布局时间轴图",
+            "en": "Vertical Timeline Chart"
+          }
+        },
+        {
+          "path": "timeline-group",
+          "title": {
+            "zh": "分组时间轴图",
+            "en": "Grouped Timeline Chart"
+          }
+        },
+        {
+          "path": "timeline-arrow",
+          "title": {
+            "zh": "带箭头的时间轴图",
+            "en": "Timeline Chart with Arrows"
+          }
+        },
+        {
           "path": "sequence-scatter-link-classification",
           "title": {
             "zh": "时序散点关系图-支持分类背景",

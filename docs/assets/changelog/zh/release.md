@@ -1,3 +1,25 @@
+# v2.0.15
+
+2026-02-02
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 支持 Brush API 及交互（Interactive）API by @skie1997 in https://github.com/VisActor/VChart/pull/4408
+- **@visactor/vchart**: 支持鼠标滚轮固定像素步进滚动，并支持设置滚动条滑块的最小高度 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4423
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: 修复 React VChart 组件的注册逻辑 by @xile611 in https://github.com/VisActor/VChart/pull/4419
+- **@visactor/vchart**: 升级 `vrender` 依赖以修复词云图（Word Cloud）相关问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4422
+
+**🔨 维护与杂项**
+
+- **@visactor/vchart**: 新增 `spec-kit` 工具包及项目章程（Constitution） by @xuefei1313 in https://github.com/VisActor/VChart/pull/4412
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.14...v2.0.15
+
+[more detail about v2.0.15](https://github.com/VisActor/VChart/releases/tag/v2.0.15)
+
 # v2.0.14
 
 2026-01-22
@@ -216,6 +238,3 @@
 - **@visactor/vchart**：修复 `tooltip.style.titleLabel` 的 `textAlign` 不生效问题，修复 [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [更多详情请查看 v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
-
-
-

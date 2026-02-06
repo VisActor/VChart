@@ -1,3 +1,25 @@
+# v2.0.15
+
+2026-02-02
+
+**🆕 New Features**
+
+- **@visactor/vchart**: Support Brush API and Interactive API by @skie1997 in https://github.com/VisActor/VChart/pull/4408
+- **@visactor/vchart**: Support fixed pixel step scrolling on wheel event and minimum scrollbar slider height by @xuefei1313 in https://github.com/VisActor/VChart/pull/4423
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: Fix React VChart component registration logic by @xile611 in https://github.com/VisActor/VChart/pull/4419
+- **@visactor/vchart**: Upgrade `vrender` dependency to fix Word Cloud chart issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4422
+
+**🔨 Chores**
+
+- **@visactor/vchart**: Add `spec-kit` and project constitution by @xuefei1313 in https://github.com/VisActor/VChart/pull/4412
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.14...v2.0.15
+
+[more detail about v2.0.15](https://github.com/VisActor/VChart/releases/tag/v2.0.15)
+
 # v2.0.14
 
 2026-01-22
@@ -46,7 +68,6 @@
 
 [more detail about v2.0.13](https://github.com/VisActor/VChart/releases/tag/v2.0.13)
 
-
 # v2.0.12
 
 2025-12-25
@@ -65,7 +86,6 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.11...v2.0.12
 
 [more detail about v2.0.12](https://github.com/VisActor/VChart/releases/tag/v2.0.12)
-
 
 # v2.0.11
 
@@ -87,9 +107,7 @@
 - **@visactor/vchart**: Fix outlier color in boxplot by @xile611 in https://github.com/VisActor/VChart/pull/4347
 - **@visactor/vchart**: Fix boxplot outlier style by @xile611 in https://github.com/VisActor/VChart/pull/4350
 
-
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.10...v2.0.11
-
 
 [more detail about v2.0.11](https://github.com/VisActor/VChart/releases/tag/v2.0.11)
 
@@ -228,5 +246,3 @@
 - **@visactor/vchart**: fix `textAlign` not works in tooltip.style.titleLabel, fix [#4043](https://github.com/VisActor/VChart/issues/4043)
 
 [more detail about v2.0.1](https://github.com/VisActor/VChart/releases/tag/v2.0.1)
-
-

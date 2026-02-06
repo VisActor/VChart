@@ -27,6 +27,7 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     protected _isWordCloudShape: boolean;
     protected _wordCloudConfig?: WordCloudConfigType;
     protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
+    private _wordMeasureCache?;
     protected _padding?: IPadding;
     protected _defaultFontFamily: string;
     protected _keyWordColorCallback: (datum: Datum) => string;
@@ -64,4 +65,5 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     onLayoutEnd(): void;
     getActiveMarks(): IMark[];
     reInit(): void;
+    release(): void;
 }

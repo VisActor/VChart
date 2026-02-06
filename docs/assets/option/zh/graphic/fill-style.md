@@ -39,8 +39,9 @@
 
 阴影垂直方向上的偏移距离。
 
-#${prefix} background(string|HtmlImageElement)
-自`1.2.0`版本开始支持，背景配置， 可以配置为颜色字符串或者图片地址
+#${prefix} background(string|HtmlImageElement|HtmlCanvasElement)
+
+自`1.2.0`版本开始支持，图形的背景配置，可以配置为纯色、图片元素或canvas元素。
 
 > 注意配置为图片地址时，透明度受 `fillOpacity` 影响，请务必配置 `fillOpacity`
 
@@ -76,3 +77,47 @@ const spec = {
 }
 
 ```
+
+#${prefix} backgroundMode(string)
+
+背景填充模式，与具体图元有关。可选值：
+
+- `'repeat'`: 平铺背景
+- `'repeat-x'`: 水平方向平铺
+- `'repeat-y'`: 垂直方向平铺
+- `'no-repeat'`: 不平铺
+
+#${prefix} backgroundFit(boolean)
+
+是否正好填充背景，只在 `repeat-x`、`repeat-y` 或 `no-repeat` 模式下生效。
+
+#${prefix} backgroundKeepAspectRatio(boolean)
+
+是否保持背景图的宽高比。
+
+#${prefix} backgroundScale(number)
+
+背景图缩放比例，只在 `no-repeat` 模式下生效。
+
+#${prefix} backgroundOffsetX(number)
+
+背景图水平方向偏移，只在 `no-repeat` 模式下生效。
+
+#${prefix} backgroundOffsetY(number)
+
+背景图垂直方向偏移，只在 `no-repeat` 模式下生效。
+
+#${prefix} backgroundClip(boolean)
+
+背景图是否裁切，是否调用 clip 避免绘制到图元外部。
+
+#${prefix} backgroundCornerRadius(number|Array<number>)
+
+背景圆角半径。可以配置为：
+
+- 数值：统一设置四个角的圆角
+- 数组：分别设置 [左上, 右上, 右下, 左下] 四个角的圆角
+
+#${prefix} backgroundOpacity(number)
+
+背景透明度，取值范围 0-1。

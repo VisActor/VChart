@@ -1,4 +1,4 @@
-import { Datum } from '@visactor/vchart/src/typings';
+import type { Datum } from '@visactor/vchart/src/typings';
 import type { ISequenceScatterPixelSpec } from './interface';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
 import { processSequenceData } from './utils';
@@ -71,7 +71,7 @@ export class SequenceScatterPixelChartSpecTransformer extends CommonChartSpecTra
         type: 'text',
         dataIndex: 1,
         style: {
-          text: (datum: Datum) => datum['inter'],
+          text: (datum: Datum) => datum.inter,
           x: 50,
           y: () => 10,
           textBaseline: 'top',
