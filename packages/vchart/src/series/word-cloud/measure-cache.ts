@@ -1,5 +1,5 @@
 export type CachedWordMeasure = {
-  sprite: number[]; // 保持与 vgrammar 侧一致
+  sprite: number[];
   bounds: { dTop: number; dBottom: number; dLeft: number; dRight: number };
   wordSize: [number, number];
 };
