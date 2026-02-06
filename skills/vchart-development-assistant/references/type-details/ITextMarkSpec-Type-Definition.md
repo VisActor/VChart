@@ -36,9 +36,25 @@ interface ITextMarkSpec extends IFillMarkSpec {
   poptip?: PopTipAttributes; // PopTip configuration
 
   // Inherited from IFillMarkSpec
-  fill?: VisualType<string> | IGradient | false | IColorKey;
-  fillOpacity?: number;
-  background?: IColor | HTMLImageElement | HTMLCanvasElement | null;
+  // Shadow effects
+  shadowBlur?: number; // Shadow blur radius
+  shadowColor?: string; // Shadow color
+  shadowOffsetX?: number; // Shadow X offset
+  shadowOffsetY?: number; // Shadow Y offset
+  // Fill properties
+  fill?: VisualType<string> | IGradient | false | IColorKey; // Fill color
+  fillOpacity?: number; // Fill opacity
+  // Background properties
+  background?: IColor | HTMLImageElement | HTMLCanvasElement | null; // Background fill
+  backgroundMode?: 'repeat' | 'repeatX' | 'repeatY' | 'noRepeat'; // Background repeat mode @default 'repeat'
+  backgroundFit?: 'contain' | 'cover' | 'fill'; // Background fit mode @default 'cover'
+  backgroundKeepAspectRatio?: boolean; // Maintain background aspect ratio @default false
+  backgroundScale?: number; // Background scale factor @default 1
+  backgroundOffsetX?: number; // Background X offset @default 0
+  backgroundOffsetY?: number; // Background Y offset @default 0
+  backgroundClip?: boolean; // Enable background clipping @default true
+  backgroundCornerRadius?: number; // Background corner radius @default 0
+  backgroundOpacity?: number; // Background opacity @default 1
 
   // Inherited from ICommonSpec
   visible?: boolean; // Visibility
@@ -206,14 +222,16 @@ type FontWeight = 'normal' | 'bold' | 'lighter' | 'bolder' | 100 | 200 | 300 | 4
 ```
 
 **TextAlignType 文字水平对齐：**
+
 - `'left'`: 左对齐
-- `'center'`: 居中对齐  
+- `'center'`: 居中对齐
 - `'right'`: 右对齐
 - `'start'`: 起始对齐（在LTR中等同于左对齐，在RTL中等同于右对齐）
 - `'end'`: 结束对齐（在LTR中等同于右对齐，在RTL中等同于左对齐）
 - `'justify'`: 两端对齐
 
 **TextBaselineType 文字垂直对齐：**
+
 - `'top'`: 顶部对齐
 - `'bottom'`: 底部对齐
 - `'middle'`: 中心对齐
