@@ -462,11 +462,85 @@ const spec = {
 
 ---
 
-## 输出可运行 HTML
+## 输出诊断结果
 
-React-VChart 问题必须使用 `assets/template/diagnosis-react.html` 模板输出。
+根据用户需求和对话上下文，灵活选择输出格式：
 
-### 模板特点
+### 输出格式选择
+
+**判断依据**：
+
+```
+if (用户明确要求"可运行的demo" || "能直接打开的文件" || "完整的HTML") {
+  → 输出完整 HTML 文件（使用 Python 脚本生成）
+} else if (用户询问"配置怎么写" || "代码示例" || 在讨论具体配置) {
+  → 输出 React 组件代码
+} else {
+  → 默认输出 React 组件代码（更简洁、易于集成）
+}
+```
+
+### 格式一：输出 React 组件代码（推荐）
+
+直接输出可用的 React-VChart 组件代码，便于用户复制到项目中。
+
+**输出示例**：
+
+````markdown
+## 问题诊断
+
+**问题**：图表 Y 轴没有数据显示
+
+**原因**：yField 属性值为 'values'，但数据字段名为 'value'
+
+**修复建议**：确保字段名与数据一致
+
+## 用户原始代码
+
+```jsx
+import React from 'react';
+import { BarChart, Bar } from '@visactor/react-vchart';
+
+const ChartComponent = () => {
+  const chartData = [
+    { category: 'A', value: 10 },
+    { category: 'B', value: 20 }
+  ];
+
+  return (
+    <BarChart data={[{ id: 'data', values: chartData }]}>
+      <Bar xField="category" yField="values" /> {/* ❌ 错误 */}
+    </BarChart>
+  );
+};
+```
+
+## 修复方案
+
+```jsx
+import React from 'react';
+import { BarChart, Bar } from '@visactor/react-vchart';
+
+const ChartComponent = () => {
+  const chartData = [
+    { category: 'A', value: 10 },
+    { category: 'B', value: 20 }
+  ];
+
+  return (
+    <BarChart data={[{ id: 'data', values: chartData }]}>
+      <Bar xField="category" yField="value" /> {/* ✅ 修正 */}
+    </BarChart>
+  );
+};
+```
+````
+
+### 格式二：输出完整 HTML（按需）
+
+当用户需要完整的可运行演示时，使用 `template/diagnosis-react.html` 模板，通过 Python 脚本生成诊断 HTML。
+
+#### 模板特点
 
 - ✅ 已引入 React 18、ReactDOM、Babel
 - ✅ 已引入 React-VChart 库
@@ -474,7 +548,7 @@ React-VChart 问题必须使用 `assets/template/diagnosis-react.html` 模板输
 - ✅ 支持 Monaco Editor 代码编辑
 - ✅ 实际渲染 React 组件
 
-### 使用 Python 脚本生成诊断 HTML
+#### 使用 Python 脚本生成诊断 HTML
 
 推荐使用 `scripts/generate_diagnosis_react_html.py` 脚本，通过命令行参数生成诊断 HTML。
 
@@ -655,7 +729,7 @@ config_block = generate_config_block(
 )
 
 # 读取模板并替换
-template = Path("assets/template/diagnosis-react.html").read_text()
+template = Path("template/diagnosis-react.html").read_text()
 html = re.sub(
     r"// ====== CONFIG_START ======.*?// ====== CONFIG_END ======",
     config_block,
@@ -758,43 +832,12 @@ const exportImage = useCallback(() => {
 
 ## React 脚本故障排除
 
-### 常见问题
+### 使用 Python 脚本注意事项
 
-#### Q1: `❌ 模板不存在: assets/template/diagnosis-react.html`
-
-**原因**：脚本运行位置不正确
-
-**解决步骤**：
-
-1. 确认当前工作目录：`pwd`
-2. 进入 `vchart-development-assistant` 目录：`cd vchart-development-assistant`
-3. 确认 `assets/template/diagnosis-react.html` 文件存在：`ls assets/template/diagnosis-react.html`
-4. 重新运行脚本
-
-## React 脚本故障排除
-
-遇到 React 诊断脚本问题？请参考：**[Python 脚本常见问题排除指南](../references/SCRIPTS_TROUBLESHOOTING.md)**
-
-### 快速链接
-
-常见问题包括：
-
-- ❌ [模板不存在错误](../references/SCRIPTS_TROUBLESHOOTING.md#-模板不存在错误)（运行位置不正确）
-- ❌ [特殊字符转义问题](../references/SCRIPTS_TROUBLESHOOTING.md#-特殊字符转义问题)（代码中包含双引号等特殊字符）
-- ❌ [代码显示不完整](../references/SCRIPTS_TROUBLESHOOTING.md#-特殊字符转义问题)（转义符问题）
-- ❌ [多方案参数错误](../references/SCRIPTS_TROUBLESHOOTING.md#-多方案参数错误)（方案编号或参数格式不正确）
-
-### React 专项提示
-
-1. **JSX 代码转义**：命令行中传递 JSX 代码时，使用单引号包裹或转义双引号
-2. **代码简化**：避免在命令行中传递超过 10 行的复杂代码
+1. **JSX 代码转义**：命令行中传递 JSX 代码时，使用单引号包裹整个代码块，内部使用转义的双引号
+2. **代码长度**：避免在命令行中传递超过 10 行的复杂代码，考虑使用配置文件方式
 3. **方案编号**：确保方案编号连续（1, 2, 3...），不要跳号
-4. **调试技巧**：使用浏览器开发者工具检查生成的 JavaScript 是否正确
-
-### 其他资源
-
-- [文件命名约定](../references/FILE_NAMING_CONVENTIONS.md) - React 脚本使用命令行参数，无需输入文件
-- [脚本参数参考](../references/SCRIPT_PARAMS_REFERENCE.md) - 查看所有可用参数
+4. **路径问题**：在 `vchart-development-assistant` 目录下运行脚本，确保模板文件路径正确
 
 ---
 

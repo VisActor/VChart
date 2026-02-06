@@ -11,7 +11,7 @@ VChart 示例 HTML 生成脚本
     --spec-file spec.js \\
     --output output/demo.html
 
-更多信息请查看: references/workflows/scenario-2-generation.md
+更多信息请查看: workflows/scenario-2-generation.md
 """
 
 from pathlib import Path
@@ -25,7 +25,7 @@ def escape_js_string(s: str) -> str:
     return s
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate demo HTML from assets/template/demo.html")
+    parser = argparse.ArgumentParser(description="Generate demo HTML from template/demo.html")
     parser.add_argument("--title", default="VChart 图表示例", help="页面标题")
     parser.add_argument("--desc", default="基于需求生成的可运行图表配置", help="页面描述")
     parser.add_argument("--feature", default="补充主要功能说明", help="主要功能说明")
@@ -34,7 +34,7 @@ def main():
     parser.add_argument("--output", default="output/demo.html", help="输出 HTML 文件路径")
     args = parser.parse_args()
 
-    template_path = Path("assets/template/demo.html")
+    template_path = Path("template/demo.html")
     if not template_path.exists():
         raise FileNotFoundError(f"❌ 模板不存在: {template_path}\n💡 请确保在项目根目录运行脚本")
 

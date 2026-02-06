@@ -9,21 +9,21 @@ VChart 诊断 HTML 生成脚本
     --config-file config.js \\
     --output output/diagnosis.html
 
-更多信息请查看: references/workflows/scenario-1-diagnosis.md
+更多信息请查看: workflows/scenario-1-diagnosis.md
 """
 
 from pathlib import Path
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate diagnosis HTML from assets/template/diagnosis.html")
+    parser = argparse.ArgumentParser(description="Generate diagnosis HTML from template/diagnosis.html")
     parser.add_argument("--title", default="VChart 问题诊断报告", help="报告标题")
     parser.add_argument("--desc", default="基于用户配置的诊断与修复结果", help="报告描述")
     parser.add_argument("--config-file", help="包含 problemReview/diagnosis/solutions 的 JS 代码块文件路径")
     parser.add_argument("--output", default="output/diagnosis.html", help="输出 HTML 文件路径")
     args = parser.parse_args()
 
-    template_path = Path("assets/template/diagnosis.html")
+    template_path = Path("template/diagnosis.html")
     if not template_path.exists():
         raise FileNotFoundError(f"❌ 模板不存在: {template_path}\n💡 请确保在项目根目录运行脚本")
 
@@ -83,7 +83,7 @@ const solutions = [
 ];"""
 
     if "{{CONFIG_BLOCK}}" not in html:
-      raise ValueError("❌ 模板中未找到 {{CONFIG_BLOCK}} 占位符\n💡 请检查模板文件: assets/template/diagnosis.html")
+      raise ValueError("❌ 模板中未找到 {{CONFIG_BLOCK}} 占位符\n💡 请检查模板文件: template/diagnosis.html")
 
     filled = html.replace("{{CONFIG_BLOCK}}", config_block)
 

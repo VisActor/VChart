@@ -7,9 +7,9 @@
 **错误信息示例**：
 
 ```
-❌ 模板不存在: assets/template/diagnosis.html
-❌ 模板不存在: assets/template/demo.html
-❌ 模板不存在: assets/template/diagnosis-react.html
+❌ 模板不存在: template/diagnosis.html
+❌ 模板不存在: template/demo.html
+❌ 模板不存在: template/diagnosis-react.html
 ```
 
 **原因**：脚本运行位置不正确，未在项目根目录执行
@@ -31,9 +31,9 @@
 3. 验证模板文件存在：
 
    ```bash
-   ls assets/template/diagnosis.html
-   ls assets/template/demo.html
-   ls assets/template/diagnosis-react.html
+   ls template/diagnosis.html
+   ls template/demo.html
+   ls template/diagnosis-react.html
    ```
 
 4. 重新运行脚本
@@ -97,21 +97,21 @@
 
    ```bash
    # 检查 diagnosis.html
-   cat assets/template/diagnosis.html | grep "{{CONFIG_BLOCK}}"
+   cat template/diagnosis.html | grep "{{CONFIG_BLOCK}}"
 
    # 检查 demo.html
-   cat assets/template/demo.html | grep "{{SPEC_CODE}}"
+   cat template/demo.html | grep "{{SPEC_CODE}}"
 
    # 检查 diagnosis-react.html
-   cat assets/template/diagnosis-react.html | grep "{{CONFIG_BLOCK}}"
+   cat template/diagnosis-react.html | grep "{{CONFIG_BLOCK}}"
    ```
 
 2. 如果标记缺失，从版本控制恢复原始模板：
 
    ```bash
-   git checkout assets/template/diagnosis.html
-   git checkout assets/template/demo.html
-   git checkout assets/template/diagnosis-react.html
+   git checkout template/diagnosis.html
+   git checkout template/demo.html
+   git checkout template/diagnosis-react.html
    ```
 
 3. 确保没有手动编辑过模板文件
@@ -163,7 +163,7 @@
      problem: "图表显示问题",
      cause: "配置项错误"
    };
-      cat assets/template/demo.html | grep "{{SPEC_CODE}}"
+      cat template/demo.html | grep "{{SPEC_CODE}}"
 
    const solutions = [
      {
@@ -453,7 +453,7 @@ python3 -m http.server 8000
 
 ### ❌ 避免的做法
 
-1. 手动编辑模板文件（assets/template/\*.html）
+1. 手动编辑模板文件（template/\*.html）
 2. 在命令行中传递超过 10 行的代码
 3. 在非项目根目录运行脚本
 4. 使用包含空格的输出路径（未加引号）
@@ -472,9 +472,9 @@ python3 scripts/generate_diagnosis_react_html.py --help
 
 ### 相关文档
 
-- **诊断场景**：[scenario-1-diagnosis.md](workflows/scenario-1-diagnosis.md)
-- **生成场景**：[scenario-2-generation.md](workflows/scenario-2-generation.md)
-- **图片还原场景**：[scenario-3-image-replication.md](workflows/scenario-3-image-replication.md)
-- **React 诊断场景**：[scenario-1-react.md](workflows/scenario-1-react.md)
+- **诊断场景**：[scenario-1-diagnosis.md](../workflows/scenario-1-diagnosis.md)
+- **生成场景**：[scenario-2-generation.md](../workflows/scenario-2-generation.md)
+- **图片还原场景**：[scenario-3-image-replication.md](../workflows/scenario-3-image-replication.md)
+- **React 诊断场景**：[scenario-1-react.md](../workflows/scenario-1-react.md)
 - **文件命名约定**：[FILE_NAMING_CONVENTIONS.md](FILE_NAMING_CONVENTIONS.md)
 - **脚本参数参考**：[SCRIPT_PARAMS_REFERENCE.md](SCRIPT_PARAMS_REFERENCE.md)

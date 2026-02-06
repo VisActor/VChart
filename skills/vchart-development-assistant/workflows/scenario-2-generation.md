@@ -105,18 +105,27 @@ const vchart = new VChart(spec, { dom: 'container' });
 vchart.renderSync();
 ```
 
-### 步骤 2a-4：输出可运行 HTML（强制）
+### 步骤 2a-4：输出配置结果
 
-使用 `assets/template/demo.html` 输出完整可运行 HTML，禁止只输出 spec 片段。
+根据用户需求和对话上下文，灵活选择输出格式：
 
-**操作清单**：
+#### 输出格式选择
 
-1. 复制 `assets/template/demo.html` 结构
-2. 替换标题/描述占位：`<h1>📊 (填入合适的图表名称)</h1>`、`<p>(填入合理的图表描述)</p>`
-3. 替换 `{{SPEC_CODE}}` 占位符为完整 spec（含 mock 数据）
-4. 用 ```html 代码块包裹完整 HTML，保证可直接保存运行
+```
+if (用户明确要求"可运行的demo" || "能直接打开的文件" || "完整的HTML") {
+  → 输出完整 HTML 文件（使用 Python 脚本生成）
+} else if (用户询问"配置怎么写" || "代码示例" || 在讨论具体配置) {
+  → 输出 JavaScript spec 代码
+} else {
+  → 默认输出 JavaScript spec 代码（更简洁、易于集成）
+}
+```
 
-**输出格式**：
+#### 格式一：输出 JavaScript 代码（推荐）
+
+直接输出可用的 VChart spec 配置代码。
+
+**输出示例**：
 
 ````markdown
 ## 图表生成结果
@@ -127,14 +136,34 @@ vchart.renderSync();
 
 - [关键配置点说明]
 
-**可运行示例**：
+**完整代码**：
 
-将以下内容保存为 `.html`，直接在浏览器打开：
+```javascript
+const spec = {
+  type: 'bar',
+  data: {
+    values: [
+      { category: 'A', value: 10 },
+      { category: 'B', value: 20 },
+      { category: 'C', value: 15 }
+    ]
+  },
+  xField: 'category',
+  yField: 'value',
+  label: {
+    visible: true,
+    position: 'top'
+  }
+};
 
-```html
-[使用 assets/template/demo.html 填充后的完整 HTML]
+const vchart = new VChart(spec, { dom: 'chart' });
+vchart.renderAsync();
 ```
 ````
+
+#### 格式二：输出完整 HTML（按需）
+
+当用户需要完整的可运行演示时，使用 `template/demo.html` + Python 脚本生成。
 
 ````
 
@@ -167,22 +196,24 @@ vchart.renderSync();
 // 获取完整的 ILabelSpec 接口定义
 ```
 
-### 步骤 2b-3：输出可运行 HTML（强制）
+### 步骤 2b-3：输出配置结果
 
-无论用户是否提供了完整 spec，都必须输出可运行的 HTML 文件。
+根据用户需求和对话上下文，灵活选择输出格式（同完整生成模式）。
 
 **情况 A：用户提供了完整 spec**
 
-- 将增量配置整合到用户 spec 中
-- 使用 `assets/template/demo.html` + Python 脚本输出完整可运行 HTML
+- 输出增量配置的代码片段
+- 或输出整合后的完整 spec（按需使用 HTML 格式）
 
 **情况 B：用户只描述功能需求，未提供 spec**
 
 - **Mock 数据**：构建合理的模拟数据（至少 5 条）
 - **完整 spec**：生成包含该功能的完整图表配置
-- 使用 `assets/template/demo.html` + Python 脚本输出完整可运行 HTML
+- 默认输出 JavaScript 代码，按需输出 HTML
 
-### 使用 Python 脚本生成示例 HTML
+#### 使用 Python 脚本生成示例 HTML（按需）
+
+当用户需要完整的可运行演示时：
 
 推荐使用 `scripts/generate_demo_html.py` 脚本，通过 spec 文件生成可运行 HTML。
 
@@ -296,7 +327,7 @@ python3 scripts/generate_demo_html.py \
 将以下内容保存为 `.html`，直接在浏览器打开：
 
 ```html
-[使用 assets/template/demo.html 填充后的完整 HTML]
+[使用 template/demo.html 填充后的完整 HTML]
 ```
 ````
 
@@ -318,37 +349,14 @@ python3 scripts/generate_demo_html.py \
 
 ## React 场景补充
 
-- 若用户明确使用 React-VChart，输出时应提供 React 代码或指向 `assets/template/diagnosis-react.html` 的可运行 HTML，说明依赖安装（`npm i @visactor/react-vchart @visactor/vchart`）。
+- 若用户明确使用 React-VChart，输出时应提供 React 代码或指向 `template/diagnosis-react.html` 的可运行 HTML，说明依赖安装（`npm i @visactor/react-vchart @visactor/vchart`）。
 - 如用户不接受纯 JS 示例，可同时给出 React 版本与 JS 版本，标注差异。
-
-## 不合格输出示例（禁止）
-
-- 只返回 `const spec = {...}`，未给 HTML 头/脚/CDN。
-- 未替换模板占位（标题/描述、`{{SPEC_CODE}}`）。
-- 截断的 HTML（缺少 `<html>` 或 `<script>` 部分）。
 
 ---
 
-## 脚本故障排除
+## 相关资源
 
-## 脚本故障排除
-
-遇到脚本执行问题？请参考：**[Python 脚本常见问题排除指南](../references/SCRIPTS_TROUBLESHOOTING.md)**
-
-### 快速链接
-
-常见问题包括：
-
-- ❌ [模板不存在错误](../references/SCRIPTS_TROUBLESHOOTING.md#-模板不存在错误)（运行位置不正确）
-- ❌ [Spec 文件不存在](../references/SCRIPTS_TROUBLESHOOTING.md#-spec-文件不存在specjs)（`spec.js` 路径错误）
-- ❌ [模板标记缺失](../references/SCRIPTS_TROUBLESHOOTING.md#-模板标记缺失错误)（模板文件被修改）
-- ❌ [HTML 无法运行](../references/SCRIPTS_TROUBLESHOOTING.md#生成的-html-无法运行或显示空白)（Spec 语法或数据格式错误）
-
-### 其他资源
-
-- [文件命名约定](../references/FILE_NAMING_CONVENTIONS.md) - 了解 `spec.js` 的格式要求
-- [脚本参数参考](../references/SCRIPT_PARAMS_REFERENCE.md) - 查看所有可用参数
-
-```
-
-```
+- [配置项索引](../references/topkey/) - 快速查找配置项
+- [示例库](../references/examples/) - 常用图表完整示例
+- [类型详情](../references/type-details/) - 详细的类型定义
+- [图表类型指南](../references/chart/chart-type-guide.md) - 各类图表特性参考

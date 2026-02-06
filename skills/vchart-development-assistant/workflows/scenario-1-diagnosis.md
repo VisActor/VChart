@@ -67,37 +67,136 @@ if (用户提供了现有 spec 配置) {
 
 ---
 
-## 输出可运行 HTML（强制）
+## 输出诊断结果
 
-使用 `assets/template/diagnosis.html` 模板，通过 Python 脚本产出完整 HTML。
+根据用户需求和对话上下文，灵活选择输出格式：
 
-### 配置诊断模式输出
+### 输出格式选择
 
-- **诊断结果**：基于用户配置的分析结论
-- **方案 spec**：基于用户原配置修复后的完整配置
+**判断依据**：
 
-### 描述诊断模式输出
-
-- **诊断结果**：问题现象解读 + 解决思路
-- **方案 spec**：使用 Mock 数据构建的完整配置，体现解决方案
-
-### 使用 Python 脚本生成诊断 HTML
-
-推荐使用 `scripts/generate_diagnosis_html.py` 脚本，通过配置文件生成诊断 HTML。
-
-> 💡 **参数详情**：参见 [脚本参数参考](../references/SCRIPT_PARAMS_REFERENCE.md#generate_diagnosis_htmlpy)
-
-#### 脚本使用示例
-
-**最小示例**（使用默认参数）：
-
-```bash
-python3 scripts/generate_diagnosis_html.py --config-file config.js
+```
+if (用户明确要求"可运行的demo" || "能直接打开的文件" || "完整的HTML") {
+  → 输出完整 HTML 文件
+} else if (用户询问"配置怎么写" || "代码示例" || 在讨论具体配置) {
+  → 输出 JavaScript spec 代码
+} else {
+  → 默认输出 JavaScript spec 代码（更简洁、易于集成）
+}
 ```
 
-**完整示例**（自定义所有参数）：
+### 格式一：输出 JavaScript 代码（推荐）
+
+直接输出可用的 VChart spec 配置代码，便于用户复制到项目中。
+
+**配置诊断模式输出示例**：
+
+````markdown
+## 问题诊断
+
+**问题**：图表 Y 轴没有数据显示，柱状图高度为 0
+
+**原因**：yField 配置值为 "values"，但数据字段名为 "value"，字段名不匹配
+
+**修复建议**：确保 xField/yField 与数据字段名严格一致
+
+## 用户原始代码
+
+```javascript
+const spec = {
+  type: 'bar',
+  data: {
+    values: [
+      { category: 'A', value: 10 },
+      { category: 'B', value: 20 }
+    ]
+  },
+  xField: 'category',
+  yField: 'values', // ❌ 错误：字段名不匹配
+  label: {
+    visible: true
+  }
+};
+
+const vchart = new VChart(spec, { dom: 'chart' });
+vchart.renderAsync();
+```
+
+## 修复方案
+
+```javascript
+const spec = {
+  type: 'bar',
+  data: {
+    values: [
+      { category: 'A', value: 10 },
+      { category: 'B', value: 20 }
+    ]
+  },
+  xField: 'category',
+  yField: 'value', // ✅ 修正：与数据字段名一致
+  label: {
+    visible: true
+  }
+};
+
+const vchart = new VChart(spec, { dom: 'chart' });
+vchart.renderAsync();
+```
+````
+
+**描述诊断模式输出示例**：
+
+````markdown
+## 问题诊断
+
+**问题**：需要在柱状图上显示数据标签
+
+**解决方案**：通过配置 `label` 属性实现数据标签显示
+
+## 完整代码示例
+
+```javascript
+const spec = {
+  type: 'bar',
+  data: {
+    values: [
+      { category: 'A', value: 10 },
+      { category: 'B', value: 20 },
+      { category: 'C', value: 15 }
+    ]
+  },
+  xField: 'category',
+  yField: 'value',
+  label: {
+    visible: true,
+    position: 'top',
+    style: {
+      fill: '#333'
+    }
+  }
+};
+
+const vchart = new VChart(spec, { dom: 'chart' });
+vchart.renderAsync();
+```
+````
+
+### 格式二：输出完整 HTML（按需）
+
+当用户需要完整的可运行演示时，使用 `template/diagnosis.html` 模板，通过 Python 脚本生成诊断 HTML。
+
+#### 使用 Python 脚本生成诊断 HTML
+
+推荐使用 `scripts/generate_diagnosis_html.py` 脚本，通过配置文件生成交互式诊断 HTML。
+
+**脚本使用示例**：
 
 ```bash
+# 最小示例
+python3 scripts/generate_diagnosis_html.py --config-file config.js
+
+# 完整示例
 python3 scripts/generate_diagnosis_html.py \
   --title "VChart 问题诊断报告" \
   --desc "基于用户配置的诊断与修复结果" \
@@ -105,7 +204,7 @@ python3 scripts/generate_diagnosis_html.py \
   --output output/diagnosis.html
 ```
 
-#### 主要参数
+**主要参数**：
 
 - `--config-file`：包含 `problemReview`/`diagnosis`/`solutions` 的 JS 配置文件
 - `--title`：诊断报告标题（可选）
@@ -164,7 +263,7 @@ const problemReview = {
     ]
   },
   xField: "category",
-  yField: "values",
+  yField: "values",  // 问题行
   label: {
     visible: true,
     formatter: (d) => d.value + "%"
@@ -192,7 +291,7 @@ const solutions = [
     ]
   },
   xField: "category",
-  yField: "value",
+  yField: "value",  // 修复后
   label: { visible: true }
 };`
   }
@@ -206,22 +305,65 @@ python3 scripts/generate_diagnosis_html.py \
   --title "字段映射错误诊断" \
   --desc "柱状图 Y 轴数据显示问题分析" \
   --config-file config.js \
-  --output output/diagnosis.html
+  --output my_diagnosis.html
 ```
 
 **步骤 3：查看生成结果**
 
-在浏览器中打开 `output/diagnosis.html` 查看交互式诊断报告。
+在浏览器中打开生成的 HTML 文件，可以看到包含问题回顾、诊断分析和可编辑的解决方案的交互式页面。
 
-### 输出格式
+#### 直接输出 HTML 代码（备选）
+
+如果无法使用脚本，也可以直接输出完整的 HTML 代码：
 
 ````markdown
 ## 诊断方案（可运行）
 
-将以下内容保存为 `.html` 文件，在浏览器中打开：
+将以下内容保存为 `.html` 文件，在浏览器中打开即可查看：
 
 ```html
-[使用模板填充后的完整 HTML]
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>VChart 诊断示例</title>
+    <script src="https://unpkg.com/@visactor/vchart/build/index.min.js"></script>
+  </head>
+  <body>
+    <div id="chart" style="width: 600px; height: 400px;"></div>
+
+    <script>
+      // 问题代码示例
+      const problemSpec = {
+        type: 'bar',
+        data: {
+          values: [
+            { category: 'A', value: 10 },
+            { category: 'B', value: 20 }
+          ]
+        },
+        xField: 'category',
+        yField: 'values' // 问题：字段名错误
+      };
+
+      // 修复后的代码
+      const spec = {
+        type: 'bar',
+        data: {
+          values: [
+            { category: 'A', value: 10 },
+            { category: 'B', value: 20 }
+          ]
+        },
+        xField: 'category',
+        yField: 'value' // 修复：字段名正确
+      };
+
+      const vchart = new VChart.default(spec, { dom: 'chart' });
+      vchart.renderAsync();
+    </script>
+  </body>
+</html>
 ```
 ````
 
@@ -249,20 +391,9 @@ python3 scripts/generate_diagnosis_html.py \
 
 ---
 
-## 脚本故障排除
+## 相关资源
 
-遇到脚本执行问题？请参考：**[Python 脚本常见问题排除指南](../references/SCRIPTS_TROUBLESHOOTING.md)**
-
-### 快速链接
-
-常见问题包括：
-
-- ❌ [模板不存在错误](../references/SCRIPTS_TROUBLESHOOTING.md#-模板不存在错误)（运行位置不正确）
-- ❌ [配置文件不存在](../references/SCRIPTS_TROUBLESHOOTING.md#-配置文件不存在configjs)（`config.js` 路径错误）
-- ❌ [模板标记缺失](../references/SCRIPTS_TROUBLESHOOTING.md#-模板标记缺失错误)（模板文件被修改）
-- ❌ [HTML 文件无法打开](../references/SCRIPTS_TROUBLESHOOTING.md#-输出目录问题)（输出目录或权限问题）
-
-### 其他资源
-
-- [文件命名约定](../references/FILE_NAMING_CONVENTIONS.md) - 了解 `config.js` 的格式要求
-- [脚本参数参考](../references/SCRIPT_PARAMS_REFERENCE.md) - 查看所有可用参数
+- [配置项索引](../references/topkey/) - 快速查找配置项
+- [示例库](../references/examples/) - 常用图表完整示例
+- [类型详情](../references/type-details/) - 详细的类型定义
+- [图表类型指南](../references/chart/chart-type-guide.md) - 各类图表特性参考

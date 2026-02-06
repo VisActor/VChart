@@ -39,14 +39,6 @@ interface ITextMarkSpec extends IFillMarkSpec {
   fill?: VisualType<string> | IGradient | false | IColorKey;
   fillOpacity?: number;
   background?: IColor | HTMLImageElement | HTMLCanvasElement | null;
-  /**
-   * 背景圆角半径
-   */
-  backgroundCornerRadius: number | number[];
-  /**
-   * 背景透明度
-   */
-  backgroundOpacity: number;
 
   // Inherited from ICommonSpec
   visible?: boolean; // Visibility
@@ -214,16 +206,14 @@ type FontWeight = 'normal' | 'bold' | 'lighter' | 'bolder' | 100 | 200 | 300 | 4
 ```
 
 **TextAlignType 文字水平对齐：**
-
 - `'left'`: 左对齐
-- `'center'`: 居中对齐
+- `'center'`: 居中对齐  
 - `'right'`: 右对齐
 - `'start'`: 起始对齐（在LTR中等同于左对齐，在RTL中等同于右对齐）
 - `'end'`: 结束对齐（在LTR中等同于右对齐，在RTL中等同于左对齐）
 - `'justify'`: 两端对齐
 
 **TextBaselineType 文字垂直对齐：**
-
 - `'top'`: 顶部对齐
 - `'bottom'`: 底部对齐
 - `'middle'`: 中心对齐

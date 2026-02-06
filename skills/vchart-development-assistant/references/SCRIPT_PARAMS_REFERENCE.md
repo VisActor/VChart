@@ -8,7 +8,7 @@
 
 **用途**：生成 VChart 配置问题诊断 HTML 报告
 
-**适用场景**：[scenario-1-diagnosis.md](workflows/scenario-1-diagnosis.md)
+**适用场景**：[scenario-1-diagnosis.md](../workflows/scenario-1-diagnosis.md)
 
 ### 参数列表
 
@@ -27,24 +27,24 @@
 // 1. 问题回顾
 const problemReview = {
   highlightLines: [11], // 可选：高亮行号数组
-  specCode: `[用户原始代码]` // 必需：完整代码字符串
+  specCode: `[用户原始代码]`, // 必需：完整代码字符串
 };
 
 // 2. 诊断分析
 const diagnosis = {
-  problem: '[问题简述]', // 必需
-  cause: '[原因分析]', // 必需
-  suggestion: '[修复建议]' // 可选
+  problem: "[问题简述]", // 必需
+  cause: "[原因分析]", // 必需
+  suggestion: "[修复建议]", // 可选
 };
 
 // 3. 解决方案数组
 const solutions = [
   {
-    title: '[方案标题]', // 必需
-    description: '[方案描述]', // 必需
+    title: "[方案标题]", // 必需
+    description: "[方案描述]", // 必需
     highlightLines: [11], // 可选
-    specCode: `[修复代码]` // 必需
-  }
+    specCode: `[修复代码]`, // 必需
+  },
 ];
 ```
 
@@ -83,8 +83,8 @@ python3 scripts/generate_diagnosis_html.py \
 
 **适用场景**：
 
-- [scenario-2-generation.md](workflows/scenario-2-generation.md)（配置生成）
-- [scenario-3-image-replication.md](workflows/scenario-3-image-replication.md)（图片还原）
+- [scenario-2-generation.md](../workflows/scenario-2-generation.md)（配置生成）
+- [scenario-3-image-replication.md](../workflows/scenario-3-image-replication.md)（图片还原）
 
 ### 参数列表
 
@@ -103,19 +103,19 @@ python3 scripts/generate_diagnosis_html.py \
 
 ```javascript
 const spec = {
-  type: 'bar', // 必需：图表类型
+  type: "bar", // 必需：图表类型
   data: {
     // 必需：数据源
     values: [
-      { category: 'A', value: 10 },
-      { category: 'B', value: 20 }
-    ]
+      { category: "A", value: 10 },
+      { category: "B", value: 20 },
+    ],
   },
-  xField: 'category', // 必需：X 轴字段映射
-  yField: 'value', // 必需：Y 轴字段映射
+  xField: "category", // 必需：X 轴字段映射
+  yField: "value", // 必需：Y 轴字段映射
   // 其他可选配置...
   label: { visible: true },
-  tooltip: { visible: true }
+  tooltip: { visible: true },
 };
 ```
 
@@ -166,7 +166,7 @@ python3 scripts/generate_demo_html.py \
 
 **用途**：生成 React-VChart 组件问题诊断 HTML 报告
 
-**适用场景**：[scenario-1-react.md](workflows/scenario-1-react.md)
+**适用场景**：[scenario-1-react.md](../workflows/scenario-1-react.md)
 
 ### 参数列表
 
@@ -344,7 +344,7 @@ python3 scripts/generate_demo_html.py \
 
 - **故障排除**：[SCRIPTS_TROUBLESHOOTING.md](SCRIPTS_TROUBLESHOOTING.md) - 常见问题解决方案
 - **文件命名**：[FILE_NAMING_CONVENTIONS.md](FILE_NAMING_CONVENTIONS.md) - 输入文件格式和命名约定
-- **诊断场景**：[scenario-1-diagnosis.md](workflows/scenario-1-diagnosis.md)
-- **生成场景**：[scenario-2-generation.md](workflows/scenario-2-generation.md)
-- **图片还原**：[scenario-3-image-replication.md](workflows/scenario-3-image-replication.md)
-- **React 诊断**：[scenario-1-react.md](workflows/scenario-1-react.md)
+- **诊断场景**：[scenario-1-diagnosis.md](../workflows/scenario-1-diagnosis.md)
+- **生成场景**：[scenario-2-generation.md](../workflows/scenario-2-generation.md)
+- **图片还原**：[scenario-3-image-replication.md](../workflows/scenario-3-image-replication.md)
+- **React 诊断**：[scenario-1-react.md](../workflows/scenario-1-react.md)

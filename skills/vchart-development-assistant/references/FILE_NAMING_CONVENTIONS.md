@@ -20,24 +20,24 @@
 // 1. 问题回顾对象
 const problemReview = {
   highlightLines: [11], // 可选：高亮行号数组
-  specCode: `[用户原始代码]` // 必需：完整 JS 代码字符串
+  specCode: `[用户原始代码]`, // 必需：完整 JS 代码字符串
 };
 
 // 2. 诊断分析对象
 const diagnosis = {
-  problem: '[问题简述]', // 必需
-  cause: '[原因分析]', // 必需
-  suggestion: '[修复建议]' // 可选
+  problem: "[问题简述]", // 必需
+  cause: "[原因分析]", // 必需
+  suggestion: "[修复建议]", // 可选
 };
 
 // 3. 解决方案数组
 const solutions = [
   {
-    title: '[方案标题]', // 必需
-    description: '[方案描述]', // 必需
+    title: "[方案标题]", // 必需
+    description: "[方案描述]", // 必需
     highlightLines: [11], // 可选
-    specCode: `[修复代码]` // 必需
-  }
+    specCode: `[修复代码]`, // 必需
+  },
   // 可添加更多方案...
 ];
 ```
@@ -54,7 +54,7 @@ python3 scripts/generate_diagnosis_html.py \
 
 **适用场景**：
 
-- [scenario-1-diagnosis.md](workflows/scenario-1-diagnosis.md)（VChart 问题诊断）
+- [scenario-1-diagnosis.md](../workflows/scenario-1-diagnosis.md)（VChart 问题诊断）
 
 ---
 
@@ -68,15 +68,15 @@ python3 scripts/generate_diagnosis_html.py \
 
 ```javascript
 const spec = {
-  type: 'bar', // 图表类型
+  type: "bar", // 图表类型
   data: {
     values: [
-      { category: 'A', value: 10 },
-      { category: 'B', value: 20 }
-    ]
+      { category: "A", value: 10 },
+      { category: "B", value: 20 },
+    ],
   },
-  xField: 'category',
-  yField: 'value'
+  xField: "category",
+  yField: "value",
   // 其他 VChart 配置...
 };
 ```
@@ -95,8 +95,8 @@ python3 scripts/generate_demo_html.py \
 
 **适用场景**：
 
-- [scenario-2-generation.md](workflows/scenario-2-generation.md)（配置生成）
-- [scenario-3-image-replication.md](workflows/scenario-3-image-replication.md)（图片还原）
+- [scenario-2-generation.md](../workflows/scenario-2-generation.md)（配置生成）
+- [scenario-3-image-replication.md](../workflows/scenario-3-image-replication.md)（图片还原）
 
 ---
 
@@ -132,7 +132,7 @@ python3 scripts/generate_diagnosis_react_html.py \
 
 **适用场景**：
 
-- [scenario-1-react.md](workflows/scenario-1-react.md)（React-VChart 诊断）
+- [scenario-1-react.md](../workflows/scenario-1-react.md)（React-VChart 诊断）
 
 ---
 

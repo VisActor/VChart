@@ -88,24 +88,82 @@
    - 坐标轴：配置 `axes` 的 `label`、`grid`、`title`
    - 图例：配置 `legends` 的 `position`、`orient`
 
-### 步骤 4：输出可运行 HTML（强制）
+### 步骤 4：输出还原结果
 
-使用 `assets/template/demo.html` + Python 脚本输出完整可运行 HTML，禁止只输出 spec 片段。
+根据用户需求和对话上下文，灵活选择输出格式：
+
+#### 输出格式选择
+
+```
+if (用户明确要求"可运行的demo" || "能直接打开的文件" || "完整的HTML") {
+  → 输出完整 HTML 文件（使用 Python 脚本生成）
+} else if (用户询问"配置怎么写" || "代码示例" || 在讨论具体配置) {
+  → 输出 JavaScript spec 代码
+} else {
+  → 默认输出 JavaScript spec 代码（更简洁、易于集成）
+}
+```
+
+#### 格式一：输出 JavaScript 代码（推荐）
+
+直接输出基于图片分析的 VChart spec 配置代码。
+
+**输出示例**：
+
+````markdown
+## 图表还原结果
+
+基于图片分析，生成了以下配置。
+
+**还原说明**：
+
+- ✅ 已还原：[列出已还原的特征]
+- ⚠️ 需调整：[列出需要用户确认或调整的部分]
+
+**完整代码**：
+
+```javascript
+const spec = {
+  type: 'line',
+  data: {
+    values: [
+      { x: 'Mon', y: 12 },
+      { x: 'Tue', y: 18 },
+      { x: 'Wed', y: 9 },
+      { x: 'Thu', y: 22 },
+      { x: 'Fri', y: 16 }
+    ]
+  },
+  xField: 'x',
+  yField: 'y',
+  color: ['#1890FF'], // 从图片提取的颜色
+  label: {
+    visible: true,
+    position: 'top'
+  },
+  legends: {
+    visible: true,
+    position: 'right'
+  }
+};
+
+const vchart = new VChart(spec, { dom: 'chart' });
+vchart.renderAsync();
+```
+````
+
+#### 格式二：输出完整 HTML（按需）
+
+当用户需要完整的可运行演示时，使用 `template/demo.html` + Python 脚本生成视觉还原结果。
+
+**数据准备**：
 
 1. **Mock 数据**：根据图片中的数据点构建模拟数据
    - 尽量从坐标轴/标签中读取真实数值
    - 确保数据点数量与图片一致
    - 保持数据趋势特征
-2. **填充模板**：
-   - 替换标题/描述占位：`{{REPORT_TITLE}}`、`{{REPORT_DESC}}`
-   - `主要功能说明`：填充 `{{FEATURE_DESC}}`（描述图片中实现的核心视觉/业务要点，如占比、趋势、堆叠、渐变、标签位置）
-   - `编辑提示`：填充 `{{EDIT_TIPS}}`（标注可调节的关键配置，如 color/gradient、label、legend、axes、markLine/markArea）
 
-- 替换 `{{SPEC_CODE}}` 占位符（完整 JS 代码字符串，可包含函数）
-
-3. **输出格式**：用 ```html 代码块包裹完整 HTML，确保可直接保存运行
-
-### 使用 Python 脚本生成还原 HTML
+#### 使用 Python 脚本生成还原 HTML
 
 推荐使用 `scripts/generate_demo_html.py` 脚本，通过 spec 文件生成视觉还原结果 HTML。
 
@@ -223,7 +281,7 @@ python3 scripts/generate_demo_html.py \
 将以下内容保存为 `.html`，直接在浏览器打开：
 
 ```html
-[使用 assets/template/demo.html 填充后的完整 HTML]
+[使用 template/demo.html 填充后的完整 HTML]
 ```
 ````
 
@@ -496,31 +554,26 @@ const spec = {
 
 ---
 
-## 脚本故障排除
+## 还原最佳实践
 
-遇到脚本执行问题？请参考：**[Python 脚本常见问题排除指南](../references/SCRIPTS_TROUBLESHOOTING.md)**
-
-### 快速链接
-
-常见问题包括：
-
-- ❌ [模板不存在错误](../references/SCRIPTS_TROUBLESHOOTING.md#-模板不存在错误)（运行位置不正确）
-- ❌ [Spec 文件不存在](../references/SCRIPTS_TROUBLESHOOTING.md#-spec-文件不存在specjs)（`spec.js` 路径错误）
-- ⚠️ [样式还原不符](../references/SCRIPTS_TROUBLESHOOTING.md#generate_demo_htmlpy)（需要调整配置参数）
-- ❌ [HTML 文件无法打开](../references/SCRIPTS_TROUBLESHOOTING.md#-输出目录问题)（输出目录或数据格式问题）
-
-### 图片还原专项提示
+### 图片还原技巧
 
 1. **颜色提取**：使用浏览器开发者工具或取色器精确获取原图颜色值
 2. **数据点对齐**：确保 mock 数据点数量与原图一致，保持趋势特征
 3. **样式迭代**：生成初版后，对比原图逐步调整 `color`、`label`、`axes`、`legend` 等配置
-4. **本地预览**：使用 `python3 -m http.server 8000` 快速预览调整效果
+4. **精确度权衡**：平衡像素级精确度与开发成本，聚焦核心视觉特征
 
-### 其他资源
+### Figma 还原优势
 
-- [文件命名约定](../references/FILE_NAMING_CONVENTIONS.md) - 了解 `spec.js` 的格式要求
-- [脚本参数参考](../references/SCRIPT_PARAMS_REFERENCE.md) - 查看所有可用参数
+- **精确度高**：可获取精确的颜色值、字号、间距等设计参数
+- **效率提升**：减少反复调整的迭代次数
+- **设计一致性**：确保实现与设计稿高度一致
 
-```
+---
 
-```
+## 相关资源
+
+- [图表类型指南](../references/chart/chart-type-guide.md) - 各类图表特性参考
+- [示例库](../references/examples/) - 常用图表完整示例
+- [组件参考](../references/components/) - 组件配置速查
+- [类型详情](../references/type-details/) - 详细的类型定义

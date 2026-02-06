@@ -127,7 +127,7 @@ def main():
                 solutions[sol_num][sol_type] = unknown[i + 1]
     
     # 检查模板文件
-    template_path = Path("assets/template/diagnosis-react.html")
+    template_path = Path("template/diagnosis-react.html")
     if not template_path.exists():
         raise FileNotFoundError(f"❌ 模板不存在: {template_path}\n💡 请确保在项目根目录运行脚本")
     
@@ -155,7 +155,7 @@ def main():
     )
     
     if "{{CONFIG_BLOCK}}" not in html:
-        raise ValueError("❌ 模板中未找到 {{CONFIG_BLOCK}} 占位符\n💡 请检查模板文件: assets/template/diagnosis-react.html")
+        raise ValueError("❌ 模板中未找到 {{CONFIG_BLOCK}} 占位符\n💡 请检查模板文件: template/diagnosis-react.html")
 
     # 替换模板中的配置块
     html = html.replace("{{CONFIG_BLOCK}}", new_config)
