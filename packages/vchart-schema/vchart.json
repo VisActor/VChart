@@ -953,6 +953,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -1060,6 +1096,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1139,6 +1191,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -1246,6 +1334,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1325,6 +1429,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -1433,6 +1573,22 @@
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
         },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
         "startAngle": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "圆弧的开始角度"
@@ -1506,6 +1662,42 @@
         "background": {
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1590,6 +1782,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -1669,6 +1877,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -1752,6 +1996,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -2270,6 +2530,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -2353,6 +2649,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -2428,6 +2740,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -2512,6 +2860,22 @@
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
         },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
           "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
@@ -2585,6 +2949,42 @@
         "background": {
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
@@ -2677,6 +3077,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -2752,6 +3168,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -2844,6 +3296,22 @@
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
         },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
           "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
@@ -2917,6 +3385,42 @@
         "background": {
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3009,6 +3513,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -3084,6 +3604,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -3175,6 +3731,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -3253,6 +3825,42 @@
         "background": {
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
         },
         "backgroundStyle": {
           "description": "背景线的样式，主要用于部分高亮的场景"
@@ -3352,6 +3960,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "startArrow": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -3451,6 +4075,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "backgroundStyle": {
           "description": "背景线的样式，主要用于部分高亮的场景"
         },
@@ -3550,6 +4210,22 @@
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
         },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
         "startArrow": {
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "是否展示起点的箭头"
@@ -3644,6 +4320,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -3718,6 +4430,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "smoothScale": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -3793,6 +4521,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -3868,6 +4632,22 @@
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
         },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
         "smoothScale": {
           "$ref": "#/definitions/VisualType<boolean>",
           "description": "平滑缩放，不然会发生跳变，在地图交互场景需要配置为true；常规path缩放不需要"
@@ -3942,6 +4722,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -4021,6 +4837,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -4092,6 +4924,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -4172,6 +5040,22 @@
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
         },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
           "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
@@ -4241,6 +5125,42 @@
         "background": {
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4321,6 +5241,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -4404,6 +5340,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -4483,6 +5455,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -4566,6 +5554,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -4645,6 +5669,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -4730,6 +5770,42 @@
         "background": {
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4826,6 +5902,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "singleLine": {
           "$ref": "#/definitions/VisualType<boolean>"
@@ -5223,6 +6315,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -5314,6 +6442,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -5397,6 +6541,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -5488,6 +6668,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -5689,6 +6885,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -5768,6 +7000,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "shape": {
           "$ref": "#/definitions/VisualType<string>",
@@ -5851,6 +7099,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -5930,6 +7214,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "shape": {
           "$ref": "#/definitions/VisualType<string>",
@@ -6012,6 +7312,42 @@
         "background": {
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
         },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
@@ -6142,6 +7478,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -6250,6 +7602,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -6379,6 +7767,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -6487,6 +7891,42 @@
           "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
+          "description": "背景填充模式（与具体图元有关）"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
         "beta": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的旋转角度"
@@ -6616,6 +8056,22 @@
         "scaleY": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
         },
         "stroke": {
           "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
@@ -17976,6 +19432,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -18156,6 +19664,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "startAngle": {
@@ -19410,6 +20934,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -19553,6 +21129,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "stroke": {
@@ -45856,6 +47448,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -46003,6 +47647,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "stroke": {
@@ -54371,6 +56031,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -54501,6 +56213,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "smoothScale": {
@@ -56455,6 +58183,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -56603,6 +58383,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "stroke": {
@@ -61762,6 +63558,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -61907,6 +63755,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "stroke": {
@@ -63335,6 +65199,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -63482,6 +65398,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "stroke": {
@@ -70346,6 +72278,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -70481,6 +72465,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "shape": {
@@ -70641,6 +72641,58 @@
             }
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
         },
         "beta": {
           "description": "y方向的旋转角度",
@@ -70848,6 +72900,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "stroke": {
@@ -74217,6 +76285,51 @@
               "line",
               "polyline",
               "smooth"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">": {
+      "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "description": "指定映射对应的数据字段",
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "enum": [
+              "no-repeat",
+              "repeat",
+              "repeat-x",
+              "repeat-y"
             ],
             "type": "string"
           },
@@ -79355,7 +81468,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         },
         "size": {
@@ -79363,14 +81476,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12574",
+        "__@toStringTag@12595",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         },
         "size": {
@@ -79378,14 +81491,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12574",
+        "__@toStringTag@12595",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         },
         "size": {
@@ -79393,14 +81506,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12574",
+        "__@toStringTag@12595",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         },
         "size": {
@@ -79408,14 +81521,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12574",
+        "__@toStringTag@12595",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         },
         "size": {
@@ -79423,14 +81536,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12574",
+        "__@toStringTag@12595",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         },
         "size": {
@@ -79438,14 +81551,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12574",
+        "__@toStringTag@12595",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         },
         "size": {
@@ -79453,7 +81566,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12574",
+        "__@toStringTag@12595",
         "size"
       ],
       "type": "object"
@@ -93091,6 +95204,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -93239,6 +95404,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "stroke": {
@@ -93926,6 +96107,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -94071,6 +96304,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "stroke": {
@@ -96155,6 +98404,58 @@
           ],
           "description": "图形的背景色，支持纯色、image元素、canvas元素"
         },
+        "backgroundClip": {
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
+          "type": "boolean"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
+          "type": "boolean"
+        },
+        "backgroundKeepAspectRatio": {
+          "description": "是否保持背景图的宽高比",
+          "type": "boolean"
+        },
+        "backgroundMode": {
+          "description": "背景填充模式（与具体图元有关）",
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        },
+        "backgroundOffsetX": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOffsetY": {
+          "description": "背景图偏移，只在no-repeat的时候生效",
+          "type": "number"
+        },
+        "backgroundOpacity": {
+          "description": "背景透明度",
+          "type": "number"
+        },
+        "backgroundScale": {
+          "description": "背景图缩放，只在no-repeat的时候生效",
+          "type": "number"
+        },
         "beta": {
           "description": "y方向的旋转角度",
           "type": "number"
@@ -96361,6 +98662,22 @@
         },
         "scaleY": {
           "description": "y方向的缩放比例，默认为1，即不进行缩放",
+          "type": "number"
+        },
+        "shadowBlur": {
+          "description": "图形模糊效果程度",
+          "type": "number"
+        },
+        "shadowColor": {
+          "description": "图形的阴影颜色",
+          "type": "string"
+        },
+        "shadowOffsetX": {
+          "description": "阴影水平偏移距离",
+          "type": "number"
+        },
+        "shadowOffsetY": {
+          "description": "阴影垂直偏移距离",
           "type": "number"
         },
         "stroke": {
@@ -100952,34 +103269,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12574"
+        "__@toStringTag@12595"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12574"
+        "__@toStringTag@12595"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12574": {
+        "__@toStringTag@12595": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12574"
+        "__@toStringTag@12595"
       ],
       "type": "object"
     },
@@ -115806,6 +118123,28 @@
             "line",
             "polyline",
             "smooth"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">"
+        },
+        {
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
           ],
           "type": "string"
         }

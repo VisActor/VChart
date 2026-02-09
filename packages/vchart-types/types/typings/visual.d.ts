@@ -87,8 +87,21 @@ export interface ICommonSpec {
 }
 export interface IFillMarkSpec extends ICommonSpec {
     fill?: VisualType<string> | IGradient | false | IColorKey;
+    shadowBlur?: number;
+    shadowColor?: string;
+    shadowOffsetX?: number;
+    shadowOffsetY?: number;
     fillOpacity?: number;
     background?: IColor | HTMLImageElement | HTMLCanvasElement | null;
+    backgroundMode?: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
+    backgroundFit?: boolean;
+    backgroundKeepAspectRatio?: boolean;
+    backgroundScale?: number;
+    backgroundOffsetX?: number;
+    backgroundOffsetY?: number;
+    backgroundClip?: boolean;
+    backgroundCornerRadius?: number | number[];
+    backgroundOpacity?: number;
 }
 export type IMarkHtmlSpec = Partial<IGraphicStyle['html']>;
 export interface ISymbolMarkSpec extends IFillMarkSpec {
