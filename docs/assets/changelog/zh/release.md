@@ -1,3 +1,34 @@
+# v2.0.16
+
+2026-02-13
+
+
+**What's Changed**
+
+* sync Main to develop by @xuefei1313 in https://github.com/VisActor/VChart/pull/4427
+* [Auto changelog] changlog of v2.0.14 by @github-actions[bot] in https://github.com/VisActor/VChart/pull/4428
+* feat: move skill to spec kit by @xuefei1313 in https://github.com/VisActor/VChart/pull/4429
+* Fear/upgrade vrender to fix wordcloud by @xuefei1313 in https://github.com/VisActor/VChart/pull/4432
+* fix: fix style of react-vchart tooltip render by @xile611 in https://github.com/VisActor/VChart/pull/4430
+* [Auto release] release 2.0.15 by @github-actions[bot] in https://github.com/VisActor/VChart/pull/4433
+* Main by @xuefei1313 in https://github.com/VisActor/VChart/pull/4436
+* Update release-changelog.yml by @xuefei1313 in https://github.com/VisActor/VChart/pull/4437
+* Update release-changelog.yml by @xuefei1313 in https://github.com/VisActor/VChart/pull/4438
+* fix: fix changelog action by @xuefei1313 in https://github.com/VisActor/VChart/pull/4439
+* Feat/optimazition speckit commands by @xuefei1313 in https://github.com/VisActor/VChart/pull/4442
+* 001 add timeline chart by @xile611 in https://github.com/VisActor/VChart/pull/4440
+* Feat/skills by @xile611 in https://github.com/VisActor/VChart/pull/4447
+* fix: update type of visual and update docs by @xile611 in https://github.com/VisActor/VChart/pull/4451
+* fix: markPoint.itemContent.text.style.fontSize setting invalid by @xuefei1313 in https://github.com/VisActor/VChart/pull/4453
+* feat(vchart): optimize word cloud shape algorithm for better performance and layout by @xuefei1313 in https://github.com/VisActor/VChart/pull/4452
+* fix: fix type of fill graphic by @xuefei1313 in https://github.com/VisActor/VChart/pull/4454
+* [Auto release] release 2.0.16 by @github-actions[bot] in https://github.com/VisActor/VChart/pull/4455
+
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.14...v2.0.16
+
+[更多详情请查看 v2.0.16](https://github.com/VisActor/VChart/releases/tag/v2.0.16)
+
 # v2.0.15
 
 2026-02-02
