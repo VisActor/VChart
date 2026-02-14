@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2026-01-15
 
 ## Active Technologies
+- TypeScript 4.x+ (Project uses TS) + `@visactor/vchart` (Core logic), `@visactor/react-vchart` (React wrapper) (007-fix-datazoom-react)
+- N/A (In-memory chart state) (007-fix-datazoom-react)
 
 - TypeScript/React 18 + @visactor/react-vchart, @visactor/vchar (001-react-vchart-demo)
 
@@ -24,11 +26,11 @@ npm test && npm run lint
 TypeScript 4.9.5: Follow standard conventions
 
 ## Recent Changes
+- 007-fix-datazoom-react: Added TypeScript 4.x+ (Project uses TS) + `@visactor/vchart` (Core logic), `@visactor/react-vchart` (React wrapper)
+- 007-fix-datazoom-react: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
 - 001-react-vchart-demo: Added TypeScript/React 18 + @visactor/react-vchart, @visactor/vchar
-- 001-react-vchart-demo: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
-- 001-scrollbar-wheel-step: Added TypeScript 4.9.5 + @visactor/vchart, @visactor/vrender-components (~1.0.37), @visactor/vutils
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->
