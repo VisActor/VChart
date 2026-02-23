@@ -1,30 +1,3 @@
-# v2.0.16
-
-2026-02-13
-
-**🆕 New Features**
-
-- **@visactor/vchart**: Add Timeline chart by @xile611 in https://github.com/VisActor/VChart/pull/4440
-- **@visactor/vchart**: Optimize Word Cloud shape algorithm for better performance and layout by @xuefei1313 in https://github.com/VisActor/VChart/pull/4452
-- **@visactor/vchart**: Add skills feature support by @xile611 in https://github.com/VisActor/VChart/pull/4447
-
-**🐛 Bug Fixes**
-
-- **@visactor/vchart**: Upgrade `vrender` dependency to fix Word Cloud chart issues by @xuefei1313 in https://github.com/VisActor/VChart/pull/4432
-- **@visactor/vchart**: Fix React VChart tooltip render style by @xile611 in https://github.com/VisActor/VChart/pull/4430
-- **@visactor/vchart**: Fix invalid `fontSize` setting in `markPoint.itemContent.text.style` by @xuefei1313 in https://github.com/VisActor/VChart/pull/4453
-- **@visactor/vchart**: Fix fill graphic type definition by @xuefei1313 in https://github.com/VisActor/VChart/pull/4454
-- **@visactor/vchart**: Update `visual` type definition and related documentation by @xile611 in https://github.com/VisActor/VChart/pull/4451
-
-**🔨 Chores**
-
-- **@visactor/vchart**: Optimize `spec-kit` commands by @xuefei1313 in https://github.com/VisActor/VChart/pull/4442
-- **@visactor/vchart**: Update and fix release changelog GitHub Action workflow by @xuefei1313 in https://github.com/VisActor/VChart/pull/4439
-
-**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.14...v2.0.16
-
-[more detail about v2.0.16](https://github.com/VisActor/VChart/releases/tag/v2.0.16)
-
 # v2.0.15
 
 2026-02-02

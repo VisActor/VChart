@@ -1,30 +1,3 @@
-# v2.0.16
-
-2026-02-13
-
-**🆕 新增功能**
-
-- **@visactor/vchart**: 新增时间线（Timeline）图表 by @xile611 in https://github.com/VisActor/VChart/pull/4440
-- **@visactor/vchart**: 优化词云图（Word Cloud）形状算法，提升性能与布局效果 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4452
-- **@visactor/vchart**: 新增 skills 特性支持 by @xile611 in https://github.com/VisActor/VChart/pull/4447
-
-**🐛 问题修复**
-
-- **@visactor/vchart**: 升级 `vrender` 依赖以修复词云图相关问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4432
-- **@visactor/vchart**: 修复 React VChart 中 Tooltip 的渲染样式问题 by @xile611 in https://github.com/VisActor/VChart/pull/4430
-- **@visactor/vchart**: 修复 `markPoint.itemContent.text.style.fontSize` 设置无效的问题 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4453
-- **@visactor/vchart**: 修复填充图形（fill graphic）的类型定义 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4454
-- **@visactor/vchart**: 更新 `visual` 类型定义并完善相关文档 by @xile611 in https://github.com/VisActor/VChart/pull/4451
-
-**🔨 维护与杂项**
-
-- **@visactor/vchart**: 优化 `spec-kit` 命令行工具 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4442
-- **@visactor/vchart**: 更新并修复 Release Changelog 的 GitHub Action 工作流 by @xuefei1313 in https://github.com/VisActor/VChart/pull/4439
-
-**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.14...v2.0.16
-
-[more detail about v2.0.16](https://github.com/VisActor/VChart/releases/tag/v2.0.16)
-
 # v2.0.15
 
 2026-02-02
