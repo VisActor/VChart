@@ -1,4 +1,4 @@
-name: Post release after develop synced (Scheme A)
+name: Post release after develop synced
 
 on:
   repository_dispatch:
@@ -121,6 +121,18 @@ jobs:
             echo "has_body=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Create Tag
+        id: release_tag
+        uses: ncipollo/release-action@v1.12.0
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag: v${{ env.VERSION }}
+          commit: main
+          prerelease: false
+          draft: true #
+
       - name: Create tag and GitHub Release
         if: steps.meta.outputs.skip != 'true' && steps.exist.outputs.skip != 'true' && steps.body.outputs.has_body == 'true'
         env:
@@ -132,10 +144,6 @@ jobs:
 
           git fetch origin main:refs/remotes/origin/main --depth=1
           MAIN_SHA="$(git rev-parse origin/main)"
-
-          echo "Creating tag ${TAG} at ${MAIN_SHA}"
-          git tag "${TAG}" "${MAIN_SHA}"
-          git push origin "${TAG}"
 
           echo "Creating GitHub Release ${TAG}"
           gh release create "${TAG}" \
