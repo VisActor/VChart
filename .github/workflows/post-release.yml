@@ -1,4 +1,4 @@
-name: Post release after develop synced (Scheme A)
+name: Post release after develop synced
 
 on:
   repository_dispatch:
@@ -33,6 +33,16 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure git remote to use PAT
+        if: steps.meta.outputs.skip != 'true'
+        env:
+          GH_PAT: ${{ secrets.CREATE_TAG_RELEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+          git remote set-url origin "https://x-access-token:${GH_PAT}@github.com/${GITHUB_REPOSITORY}.git"
+          git remote -v
 
       - name: Fetch tags
         if: steps.meta.outputs.skip != 'true'
@@ -45,7 +55,7 @@ jobs:
         if: steps.meta.outputs.skip != 'true'
         env:
           VERSION: ${{ steps.meta.outputs.version }}
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.CREATE_TAG_RELEASE_TOKEN }}
         run: |
           set -euo pipefail
           TAG="v${VERSION}"
@@ -121,11 +131,41 @@ jobs:
             echo "has_body=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Verify gh identity
+        if: steps.meta.outputs.skip != 'true' && steps.exist.outputs.skip != 'true' && steps.body.outputs.has_body == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.CREATE_TAG_RELEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh api user -q '.login'
+
+      - name: Diagnose PAT repository permission
+        if: steps.meta.outputs.skip != 'true' && steps.exist.outputs.skip != 'true' && steps.body.outputs.has_body == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.CREATE_TAG_RELEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+          LOGIN=$(gh api user -q '.login')
+          echo "PAT user: $LOGIN"
+          OWNER=${GITHUB_REPOSITORY%%/*}
+          REPO=${GITHUB_REPOSITORY#*/}
+          RESP=$(gh api "/repos/$OWNER/$REPO/collaborators/$LOGIN/permission" 2>&1 || true)
+          echo "$RESP"
+          if echo "$RESP" | grep -q '404'; then
+            echo "Not a collaborator (404), repository access may be restricted or PAT not authorized to org"
+          elif echo "$RESP" | grep -q '"permission":"write"'; then
+            echo "permission ok: write"
+          elif echo "$RESP" | grep -q '"permission":"admin"'; then
+            echo "permission ok: admin"
+          else
+            echo "permission insufficient: $RESP"
+          fi
+
       - name: Create tag and GitHub Release
         if: steps.meta.outputs.skip != 'true' && steps.exist.outputs.skip != 'true' && steps.body.outputs.has_body == 'true'
         env:
           VERSION: ${{ steps.meta.outputs.version }}
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.CREATE_TAG_RELEASE_TOKEN }}
         run: |
           set -euo pipefail
           TAG="v${VERSION}"
