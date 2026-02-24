@@ -45,7 +45,7 @@ jobs:
         if: steps.meta.outputs.skip != 'true'
         env:
           VERSION: ${{ steps.meta.outputs.version }}
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           TAG="v${VERSION}"
@@ -125,7 +125,7 @@ jobs:
         if: steps.meta.outputs.skip != 'true' && steps.exist.outputs.skip != 'true' && steps.body.outputs.has_body == 'true'
         env:
           VERSION: ${{ steps.meta.outputs.version }}
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           TAG="v${VERSION}"
