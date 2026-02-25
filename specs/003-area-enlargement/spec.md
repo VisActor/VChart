@@ -60,6 +60,53 @@ As a user, I want to define multiple custom intervals with different visual weig
 - **LinearIntervalScale**: A new or extended scale class that handles the piecewise linear mapping.
 - **ScaleSpec**: The configuration interface extending the standard linear scale spec.
 
+## Configuration Specification (New)
+
+The `customDistribution` configuration adopts a segmented approach to eliminate ambiguity and overlapping issues.
+
+```typescript
+interface ICustomDistribution {
+  /**
+   * The cut points defining the segments.
+   * e.g. [50] defines two segments: (-inf, 50] and (50, +inf).
+   */
+  domain: number[];
+  /**
+   * The visual ratio for each segment.
+   * ratio[i] corresponds to the segment ending at domain[i] (or extending to infinity for the last one).
+   * - ratio[0]: Proportion for range [min, domain[0]]
+   * - ratio[k]: Proportion for range [domain[k-1], domain[k]]
+   * - ratio[last]: Proportion for range [domain[last], max]
+   */
+  ratio: number[];
+}
+```
+
+### Logic Rules
+
+1. **Dynamic Domain Integration**:
+   - The configured `domain` points are combined with the current scale's `min` and `max` (derived from data or user spec).
+   - Points outside `(min, max)` are ignored unless `min/max` are explicitly extended.
+   - The final scale domain is constructed as: `[min, ...valid_cut_points, max]`.
+
+2. **Ratio Allocation**:
+   - Ratios are assigned to the segments defined by the cut points.
+   - If a segment is fully or partially outside the current `[min, max]`, its visual space is reallocated or removed.
+   - The system normalizes the ratios of the *active* segments to ensure the full axis range is utilized.
+
+3. **Example**:
+   - Config: `domain: [50]`, `ratio: [0.2, 0.8]`
+   - Data Range: `[0, 100]`
+   - Result:
+     - Segment 1 `[0, 50]`: 20% visual space.
+     - Segment 2 `[50, 100]`: 80% visual space.
+
+   - Data Range: `[25, 75]`
+   - Result:
+     - Segment 1 `[25, 50]`: Inherits ratio weight from `ratio[0]` (0.2).
+     - Segment 2 `[50, 75]`: Inherits ratio weight from `ratio[1]` (0.8).
+     - Visual Ratio: `0.2 / (0.2 + 0.8)` vs `0.8 / (0.2 + 0.8)` -> Still 20% vs 80% relative to each other.
+
 ## Success Criteria
 
 ### Measurable Outcomes

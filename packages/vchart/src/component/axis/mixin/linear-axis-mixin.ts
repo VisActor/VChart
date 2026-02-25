@@ -153,21 +153,14 @@ export class LinearAxisMixin {
 
   computeLinearDomain(data: { min: number; max: number; values: any[] }[]): number[] {
     let domain: number[] = [];
+    let minDomain: number;
+    let maxDomain: number;
 
-    // handle customDistribution
-    if ((this._spec as any).customDistribution?.length) {
-      const customDistribution = (this._spec as any).customDistribution;
-      const domainSet = new Set<number>();
-      customDistribution.forEach((item: any) => {
-        domainSet.add(item.domain[0]);
-        domainSet.add(item.domain[1]);
-      });
-      domain = Array.from(domainSet).sort((a, b) => a - b);
-    } else if (data.length) {
-      const userSetBreaks = this._spec.breaks && this._spec.breaks.length;
-      let values: any[] = [];
-      let minDomain: number;
-      let maxDomain: number;
+    const userSetBreaks = this._spec.breaks && this._spec.breaks.length;
+    let values: any[] = [];
+
+    // Calculate data min/max first
+    if (data.length) {
       data.forEach(d => {
         const { min, max } = d;
         minDomain = minDomain === undefined ? min : Math.min(minDomain, min as number);
@@ -176,49 +169,72 @@ export class LinearAxisMixin {
           values = values.concat(d.values);
         }
       });
+    } else {
+      minDomain = 0;
+      maxDomain = 0;
+    }
 
-      if (userSetBreaks) {
-        const breakRanges = [];
-        const breaks = [];
-        // 如果用户手动的手指了max，可以将break的最大值限制在用户设置的最大值范围内
-        const breakMaxLimit = isNil(this._domain.max) ? maxDomain : this._domain.max;
-        for (let index = 0; index < this._spec.breaks.length; index++) {
-          const { range } = this._spec.breaks[index];
-          if (range[0] <= range[1] && range[1] <= breakMaxLimit) {
-            breakRanges.push(range);
-            breaks.push(this._spec.breaks[index]);
-          }
+    if (userSetBreaks) {
+      const breakRanges = [];
+      const breaks = [];
+      // 如果用户手动的手指了max，可以将break的最大值限制在用户设置的最大值范围内
+      const breakMaxLimit = isNil(this._domain.max) ? maxDomain : this._domain.max;
+      for (let index = 0; index < this._spec.breaks.length; index++) {
+        const { range } = this._spec.breaks[index];
+        if (range[0] <= range[1] && range[1] <= breakMaxLimit) {
+          breakRanges.push(range);
+          breaks.push(this._spec.breaks[index]);
         }
-        breakRanges.sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
-        if (breakRanges.length) {
-          const { domain: breakDomains, scope: breakScopes } = breakData(
-            values,
-            combineDomains(breakRanges),
-            this._spec.breaks[0].scopeType
-          );
+      }
+      breakRanges.sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
+      if (breakRanges.length) {
+        const { domain: breakDomains, scope: breakScopes } = breakData(
+          values,
+          combineDomains(breakRanges),
+          this._spec.breaks[0].scopeType
+        );
 
-          domain = combineDomains(breakDomains);
-          this._break = {
-            domain: breakDomains,
-            scope: breakScopes,
-            breakDomains: breakRanges,
-            breaks
-          };
-        } else {
-          domain = [minDomain, maxDomain];
-        }
+        domain = combineDomains(breakDomains);
+        this._break = {
+          domain: breakDomains,
+          scope: breakScopes,
+          breakDomains: breakRanges,
+          breaks
+        };
       } else {
         domain = [minDomain, maxDomain];
       }
     } else {
-      // default value for linear axis
-      domain[0] = 0;
-      domain[1] = 0;
+      domain = [minDomain, maxDomain];
     }
     this.setSoftDomainMinMax(domain);
     this.expandDomain(domain);
     this.includeZero(domain);
     this.setDomainMinMax(domain);
+    let min = domain[0];
+    let max = domain[0];
+    domain.forEach(val => {
+      if (val < min) {
+        min = val;
+      }
+      if (val > max) {
+        max = val;
+      }
+    });
+
+    if ((this._spec as any).customDistribution?.domain?.length) {
+      // handle customDistribution
+      const customDistribution = (this._spec as any).customDistribution;
+      const domainSet = new Set<number>();
+      domain.forEach(val => domainSet.add(val));
+
+      customDistribution.domain.forEach((val: number) => {
+        if (val > min && val < max) {
+          domainSet.add(val);
+        }
+      });
+      domain = Array.from(domainSet).sort((a, b) => a - b);
+    }
     return domain;
   }
 

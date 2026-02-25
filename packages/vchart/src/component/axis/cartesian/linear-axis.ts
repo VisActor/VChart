@@ -131,11 +131,11 @@ export class CartesianLinearAxis<
       newRange = combineDomains(this._break.scope).map(val => newRange[0] + (last(newRange) - newRange[0]) * val);
     }
 
-    if ((this._spec as any).customDistribution?.length && this._scale) {
+    if ((this._spec as any).customDistribution?.domain?.length && this._scale) {
       const customDistribution = (this._spec as any).customDistribution as {
-        domain: [number, number];
-        ratio: number;
-      }[];
+        domain: number[];
+        ratio: number[];
+      };
       const domain = this._scale.domain();
       if (domain.length > 2) {
         const start = newRange[0];
@@ -144,51 +144,18 @@ export class CartesianLinearAxis<
         const resultRange = [start];
         let currentPos = start;
 
-        // Calculate total defined ratio and identify gaps
-        let totalDefinedRatio = 0;
-        customDistribution.forEach(item => (totalDefinedRatio += item.ratio));
-        const remainingRatio = 1 - totalDefinedRatio;
+        const segmentWeights: number[] = customDistribution.ratio;
+        const totalWeight = segmentWeights.reduce((acc, cur) => acc + cur, 0);
 
-        // Calculate total domain length of gaps (segments not covered by customDistribution)
-        let totalGapDomain = 0;
-        for (let i = 0; i < domain.length - 1; i++) {
-          const dStart = domain[i];
-          const dEnd = domain[i + 1];
-          const mid = (dStart + dEnd) / 2;
-          const covered = customDistribution.some(item => mid >= item.domain[0] && mid <= item.domain[1]);
-          if (!covered) {
-            totalGapDomain += Math.abs(dEnd - dStart);
+        if (totalWeight > 0) {
+          for (let i = 0; i < segmentWeights.length; i++) {
+            const weight = segmentWeights[i];
+            const segmentLen = totalRange * (weight / totalWeight);
+            currentPos += segmentLen;
+            resultRange.push(currentPos);
           }
         }
 
-        for (let i = 0; i < domain.length - 1; i++) {
-          const dStart = domain[i];
-          const dEnd = domain[i + 1];
-          const dSpan = dEnd - dStart; // Can be negative if domain is reversed? Usually domain is sorted.
-          // LinearAxisMixin.computeLinearDomain sorts it.
-
-          // Find matching config
-          // We check intersection or containment.
-          // Since domain points are derived from config endpoints, dStart/dEnd should align with config or be sub-segments.
-          const mid = (dStart + dEnd) / 2;
-          const config = customDistribution.find(item => mid >= item.domain[0] && mid <= item.domain[1]);
-
-          let segmentRatio = 0;
-          if (config) {
-            const configSpan = config.domain[1] - config.domain[0];
-            if (configSpan !== 0) {
-              segmentRatio = config.ratio * (Math.abs(dSpan) / Math.abs(configSpan));
-            }
-          } else {
-            // Gap
-            if (totalGapDomain > 0) {
-              segmentRatio = remainingRatio * (Math.abs(dSpan) / totalGapDomain);
-            }
-          }
-
-          currentPos += segmentRatio * totalRange;
-          resultRange.push(currentPos);
-        }
         // Ensure last point is exactly end to avoid float errors
         resultRange[resultRange.length - 1] = end;
         newRange = resultRange;
