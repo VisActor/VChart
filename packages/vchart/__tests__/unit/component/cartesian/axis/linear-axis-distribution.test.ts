@@ -70,10 +70,10 @@ describe('LinearAxis customDistribution', () => {
 
     let spec = getAxisSpec({
       orient: 'left',
-      customDistribution: [
-        { domain: [0, 5], ratio: 0.8 },
-        { domain: [5, 10], ratio: 0.2 }
-      ]
+      customDistribution: {
+        domain: [0, 5, 10],
+        ratio: [0.8, 0.2]
+      }
     });
 
     const transformer = new CartesianAxis.transformerConstructor({
@@ -111,11 +111,10 @@ describe('LinearAxis customDistribution', () => {
   test('should handle gaps in customDistribution', () => {
     let spec = getAxisSpec({
       orient: 'left',
-      customDistribution: [
-        { domain: [0, 5], ratio: 0.4 },
-        // Gap 5-8
-        { domain: [8, 10], ratio: 0.4 }
-      ]
+      customDistribution: {
+        domain: [0, 5, 8, 10],
+        ratio: [0.4, 0.4]
+      }
     });
 
     const transformer = new CartesianAxis.transformerConstructor({

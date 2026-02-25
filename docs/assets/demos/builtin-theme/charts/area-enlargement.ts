@@ -23,11 +23,10 @@ const spec = {
     {
       orient: 'left',
       type: 'linear',
-      customDistribution: [
-        { domain: [0, 7], ratio: 0.2 },
-        { domain: [7, 9], ratio: 0.6 },
-        { domain: [9, 10], ratio: 0.2 }
-      ]
+      customDistribution: {
+        domain: [0, 7, 9, 10],
+        ratio: [0.2, 0.6, 0.2]
+      }
     }
   ]
 };

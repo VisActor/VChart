@@ -9,8 +9,7 @@ import type {
   IRuleMarkSpec,
   ISymbolMarkSpec,
   ITextMarkSpec,
-  StringOrNumber,
-  IIntervalRatio
+  StringOrNumber
 } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, IBandAxisLayer, ITickCalculationCfg, StyleCallback } from './common';
@@ -169,7 +168,10 @@ export interface ILinearAxisSpec {
    * 自定义区间分布配置
    * @since 2.0.16
    */
-  customDistribution?: IIntervalRatio[];
+  customDistribution?: {
+    domain: number[];
+    ratio: number[];
+  };
 }
 
 export interface IBandAxisSpec {
