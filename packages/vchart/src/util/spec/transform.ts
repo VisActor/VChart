@@ -1,4 +1,4 @@
-import { isArray, isPlainObject, isString } from '@visactor/vutils';
+import { isArray, isFunction, isPlainObject, isString } from '@visactor/vutils';
 import type { ISeriesSpec } from '../../typings';
 
 // todo 以目前的场景来看，并没有递归的需要。
@@ -65,4 +65,11 @@ export function functionTransform(spec: ISeriesSpec, VChart: any): any {
     return (spec as ISeriesSpec[]).map((s: ISeriesSpec) => functionTransform(s, VChart));
   }
   return spec;
+}
+
+export function transformFunctionAttribute(att: unknown, ...args: unknown[]) {
+  if (isFunction(att)) {
+    return att(...args);
+  }
+  return att;
 }
