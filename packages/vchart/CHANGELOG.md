@@ -1,6 +1,13 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 06 Feb 2026 12:13:39 GMT and should not be manually modified.
+This log was last generated on Thu, 26 Feb 2026 08:40:19 GMT and should not be manually modified.
+
+## 2.0.16
+Thu, 26 Feb 2026 08:40:19 GMT
+
+### Updates
+
+- fix: support functional alternateColor in axis grid configuration
 
 ## 2.0.15
 Fri, 06 Feb 2026 12:13:39 GMT

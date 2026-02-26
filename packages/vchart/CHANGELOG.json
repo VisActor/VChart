@@ -2,6 +2,18 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.16",
+      "tag": "@visactor/vchart_v2.0.16",
+      "date": "Thu, 26 Feb 2026 08:40:19 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: support functional alternateColor in axis grid configuration"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.15",
       "tag": "@visactor/vchart_v2.0.15",
       "date": "Fri, 06 Feb 2026 12:13:39 GMT",
