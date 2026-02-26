@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "Merge pull request #4482 from VisActor/xuefei1313-patch-1\n\nRefactor release workflow to simplify NODE_OPTIONS\n",
+      "comment": "fix: support functional alternateColor in axis grid configuration",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
