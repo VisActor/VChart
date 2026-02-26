@@ -11,9 +11,7 @@ import type {
   Datum,
   StringOrNumber,
   IGroup as ISeriesGroup,
-  CoordinateType,
-  IRect,
-  ILayoutRect
+  CoordinateType
 } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
@@ -57,6 +55,7 @@ import { getFormatFunction } from '../util';
 import type { IComponentMark } from '../../mark/interface/mark';
 import type { ICompilableMark } from '../../compile/mark';
 import type { ICompilableData } from './../../compile/data/interface';
+import { transformFunctionAttribute } from '../../util/spec/transform';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -654,7 +653,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected _getGridAttributes() {
     const spec = this._spec;
     return {
-      alternateColor: spec.grid.alternateColor,
+      alternateColor: transformFunctionAttribute(spec.grid.alternateColor),
       alignWithLabel: spec.grid.alignWithLabel,
       style: isFunction(spec.grid.style)
         ? (datum: Datum, index: number) => {
@@ -668,7 +667,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           : {
               type: 'line',
               visible: spec.subGrid.visible,
-              alternateColor: spec.subGrid.alternateColor,
+              alternateColor: transformFunctionAttribute(spec.subGrid.alternateColor),
               style: transformToGraphic(spec.subGrid.style)
             }
     };
