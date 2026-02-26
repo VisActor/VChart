@@ -1,4 +1,4 @@
-name: Release CI (scheme A - changelog-first)
+name: Release CI
 
 on:
   push:
@@ -25,9 +25,6 @@ jobs:
     concurrency:
       group: vchart-release-${{ github.ref_name }}
       cancel-in-progress: false
-
-    env:
-      RUSH_NODE_OPTIONS: '--max_old_space_size=4096'
 
     steps:
       - name: Checkout
@@ -297,38 +294,38 @@ jobs:
 
       - name: Build vutils-extension && vchart
         env:
-          NODE_OPTIONS: ${{ env.RUSH_NODE_OPTIONS }}
+          NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --to @visactor/vchart
 
       - name: Build vchart-extension
         if: startsWith(github.ref_name, 'release/') || startsWith(github.ref_name, 'pre-release/')
         env:
-          NODE_OPTIONS: ${{ env.RUSH_NODE_OPTIONS }}
+          NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/vchart-extension
 
       - name: Build react-vchart
         env:
-          NODE_OPTIONS: ${{ env.RUSH_NODE_OPTIONS }}
+          NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/react-vchart
 
       - name: Build openinula-vchart
         env:
-          NODE_OPTIONS: ${{ env.RUSH_NODE_OPTIONS }}
+          NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/openinula-vchart
 
       - name: Build taro-vchart
         env:
-          NODE_OPTIONS: ${{ env.RUSH_NODE_OPTIONS }}
+          NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/taro-vchart
 
       - name: Build lark-vchart
         env:
-          NODE_OPTIONS: ${{ env.RUSH_NODE_OPTIONS }}
+          NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/lark-vchart
 
       - name: Build wx-vchart
         env:
-          NODE_OPTIONS: ${{ env.RUSH_NODE_OPTIONS }}
+          NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/wx-vchart
 
       - name: Publish to npm (release)
