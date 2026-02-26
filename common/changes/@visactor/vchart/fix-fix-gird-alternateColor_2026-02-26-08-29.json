@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: support functional alternateColor in axis grid configuration",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
