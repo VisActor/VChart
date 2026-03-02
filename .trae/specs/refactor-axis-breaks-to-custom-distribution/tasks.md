@@ -1,0 +1,11 @@
+# Tasks
+- [ ] Task 1: 重构 `linear-axis-mixin.ts` 中的 `computeLinearDomain` 方法
+  - [ ] SubTask 1.1: 优先判断 `customDistribution`，若存在则跳过 `breaks` 处理
+  - [ ] SubTask 1.2: 仅在无 `customDistribution` 且有 `breaks` 时，计算断点数据
+  - [ ] SubTask 1.3: 将 `breaks` 的计算结果（`breakDomains` 和 `breakScopes`）转换为 `customDistribution` 的 `domain` 和 `ratio`
+- [ ] Task 2: 重构 `linear-axis.ts` 中的 `getNewScaleRange` 方法
+  - [ ] SubTask 2.1: 移除 `getNewScaleRange` 中对 `breaks` 的独立判断逻辑
+  - [ ] SubTask 2.2: 确保 `customDistribution` 逻辑能正确处理从 `breaks` 转换来的配置（包含间隙）
+- [ ] Task 3: 验证修改
+  - [ ] SubTask 3.1: 验证 `breaks` 独立配置是否正常工作
+  - [ ] SubTask 3.2: 验证 `customDistribution` 优先级是否高于 `breaks`

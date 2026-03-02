@@ -70,8 +70,10 @@ function breakScope(data: number[], points: number[], scopeType: 'count' | 'leng
     } else {
       const length = scopeType === 'count' ? bin.count : bin.max - bin.min;
       const b0 = res[resIndex - 1] ? res[resIndex - 1][1] : 0;
-      const b1 = i === bins.length - 1 ? 1 : Math.min((acc + length) / totalLength, 1);
-
+      let b1 = i === bins.length - 1 ? 1 : Math.min((acc + length) / totalLength, 1);
+      if (b1 !== 1) {
+        b1 = b1 * 0.7 + 0.15;
+      }
       if (b0 === b1 && (b0 === 0 || b0 === 1)) {
       } else {
         resIndex += 1;

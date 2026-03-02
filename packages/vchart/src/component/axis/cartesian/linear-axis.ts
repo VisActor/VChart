@@ -12,7 +12,7 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
 import { continuousTicks, LineAxis, LineAxisGrid } from '@visactor/vrender-components';
 import { isXAxis, isZAxis } from './util';
-import { combineDomains, isPercent } from '../../../util';
+import { isPercent } from '../../../util';
 import type { VRenderComponentOptions } from '../../../core/interface';
 import type { IGroup } from '@visactor/vrender-core';
 import { AxisEnum, GridEnum } from '../interface';
@@ -31,6 +31,7 @@ export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICarte
       | 'transformScaleDomain'
       | 'setExtendDomain'
       | '_break'
+      | 'parseNewScaleRange'
     >,
     CartesianAxis<T> {}
 
@@ -54,6 +55,8 @@ export class CartesianLinearAxis<
 
   protected _scale: LinearScale | LogScale = new LinearScale();
   protected declare _scales: LinearScale[] | LogScale[];
+
+  protected _finalCustomDistribution: { domain: number[]; ratio: number[] };
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
@@ -125,44 +128,7 @@ export class CartesianLinearAxis<
   }
 
   protected getNewScaleRange() {
-    let newRange = super.getNewScaleRange();
-    if (this._spec.breaks?.length && this._break?.scope) {
-      // get axis breaks
-      newRange = combineDomains(this._break.scope).map(val => newRange[0] + (last(newRange) - newRange[0]) * val);
-    }
-
-    if ((this._spec as any).customDistribution?.domain?.length && this._scale) {
-      const customDistribution = (this._spec as any).customDistribution as {
-        domain: number[];
-        ratio: number[];
-      };
-      const domain = this._scale.domain();
-      if (domain.length > 2) {
-        const start = newRange[0];
-        const end = last(newRange);
-        const totalRange = end - start;
-        const resultRange = [start];
-        let currentPos = start;
-
-        const segmentWeights: number[] = customDistribution.ratio;
-        const totalWeight = segmentWeights.reduce((acc, cur) => acc + cur, 0);
-
-        if (totalWeight > 0) {
-          for (let i = 0; i < segmentWeights.length; i++) {
-            const weight = segmentWeights[i];
-            const segmentLen = totalRange * (weight / totalWeight);
-            currentPos += segmentLen;
-            resultRange.push(currentPos);
-          }
-        }
-
-        // Ensure last point is exactly end to avoid float errors
-        resultRange[resultRange.length - 1] = end;
-        newRange = resultRange;
-      }
-    }
-
-    return newRange;
+    return this.parseNewScaleRange(super.getNewScaleRange());
   }
 
   protected computeDomain(data: { min: number; max: number; values: any[] }[]): number[] {

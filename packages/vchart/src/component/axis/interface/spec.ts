@@ -168,7 +168,7 @@ export interface ILinearAxisSpec {
    * 自定义区间分布配置
    * @since 2.0.16
    */
-  customDistribution?: {
+  piecewise?: {
     domain: number[];
     ratio: number[];
   };

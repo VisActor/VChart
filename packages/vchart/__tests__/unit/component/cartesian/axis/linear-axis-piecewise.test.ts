@@ -55,7 +55,7 @@ const getAxisSpec = (spec: any) => ({
   ...spec
 });
 
-describe('LinearAxis customDistribution', () => {
+describe('LinearAxis piecewise', () => {
   beforeAll(() => {
     // @ts-ignore
     jest.spyOn(CartesianAxis.prototype, 'collectData').mockImplementation(() => {
@@ -63,14 +63,14 @@ describe('LinearAxis customDistribution', () => {
     });
   });
 
-  test('should create piecewise domain and range from customDistribution', () => {
+  test('should create piecewise domain and range from piecewise', () => {
     // Mock getNewScaleRange to return [0, 100]
     // @ts-ignore
     jest.spyOn(CartesianAxis.prototype, 'getNewScaleRange').mockReturnValue([0, 100]);
 
     let spec = getAxisSpec({
       orient: 'left',
-      customDistribution: {
+      piecewise: {
         domain: [0, 5, 10],
         ratio: [0.8, 0.2]
       }
@@ -108,10 +108,10 @@ describe('LinearAxis customDistribution', () => {
     expect(newRange).toEqual([0, 80, 100]);
   });
 
-  test('should handle gaps in customDistribution', () => {
+  test('should handle gaps in piecewise', () => {
     let spec = getAxisSpec({
       orient: 'left',
-      customDistribution: {
+      piecewise: {
         domain: [0, 5, 8, 10],
         ratio: [0.4, 0.4]
       }
