@@ -249,7 +249,14 @@ export class LinearAxisMixin {
         max = val;
       }
     });
+    // 如果是 breaks，需要统一nice后的
+    if (userSetBreaks && piecewise?.domain) {
+      piecewise.domain[0] = domain[0];
+      this._break.domain[0][0] = domain[0];
 
+      this._break.domain[this._break.domain.length - 1][1] = domain[domain.length - 1];
+      piecewise.domain[piecewise.domain.length - 1] = domain[domain.length - 1];
+    }
     if (piecewise?.domain?.length) {
       // handle piecewise
       const domainSet = new Set<number>();
